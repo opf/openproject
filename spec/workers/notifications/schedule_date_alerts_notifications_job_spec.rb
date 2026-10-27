@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,7 +31,6 @@ require "spec_helper"
 
 RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob,
                type: :job,
-               with_ee: %i[date_alerts],
                with_good_job_batches: [Notifications::CreateDateAlertsNotificationsJob] do
   shared_let(:project) { create(:project, name: "main") }
   # Paris and Berlin are both UTC+01:00 (CET) or UTC+02:00 (CEST)
@@ -170,14 +168,6 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob,
         let(:cron_at) { "1:00" }
         let(:local_time) { "1:04" }
         let(:user) { user_kathmandu }
-      end
-    end
-
-    context "without enterprise token", with_ee: false do
-      it_behaves_like "job execution creates no date alerts creation job" do
-        let(:timezone) { timezone_paris }
-        let(:cron_at) { "1:00" }
-        let(:local_time) { "1:04" }
       end
     end
 

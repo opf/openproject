@@ -22,33 +22,27 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module WorkPackage::PDFExport::Wp::Attributes
-  include WorkPackage::Exports::Attributes
-
   def write_attributes!(work_package)
-    work_package
-      .type_variant.attribute_groups
-      .each do |group|
-      if group.is_a?(Type::AttributeGroup)
+    form_configuration(work_package).groups.each do |group|
+      case group
+      when WorkPackage::Exports::FormConfiguration::AttributeGroup
         write_attributes_group(group, work_package)
-      elsif group.is_a?(Type::QueryGroup)
-        write_query_group(group, work_package)
+      when WorkPackage::Exports::FormConfiguration::QueryGroup
+        write_query_group(group)
       end
     end
   end
 
   private
 
-  def write_long_text_field!(work_package, field_id)
-    custom_value = work_package.custom_field_values
-                               .find { |cv| cv.custom_field.id == field_id && cv.custom_field.formattable? }
-    write_long_text_custom_field!(work_package, custom_value.value || "", custom_value.custom_field.name)
+  def form_configuration(work_package)
+    @form_configuration ||= WorkPackage::Exports::FormConfiguration.new(work_package)
   end
 
   def write_long_text_custom_field!(work_package, markdown, label)
@@ -64,10 +58,10 @@ module WorkPackage::PDFExport::Wp::Attributes
     end
   end
 
-  def write_query_group(group, work_package)
-    return write_query_group_as_table(group, work_package) if query_group_as_table?(group)
+  def write_query_group(group)
+    return write_query_group_as_table(group) if query_group_as_table?(group)
 
-    write_query_group_as_attributes(group, work_package)
+    write_query_group_as_attributes(group)
   end
 
   # to be overridden in subclasses
@@ -75,17 +69,15 @@ module WorkPackage::PDFExport::Wp::Attributes
     true
   end
 
-  def write_query_group_as_attributes(group, work_package)
-    prepare_query_group(group, work_package)
-    related_work_packages = group.query.results.work_packages
+  def write_query_group_as_attributes(group)
     write_group_title(group)
-    if related_work_packages.empty?
+    if group.work_packages.empty?
       write_inline_hint("[No work packages]")
       return
     end
 
     column_entries = query_group_column_entries(group.query)
-    related_work_packages.each do |related_work_package|
+    group.work_packages.each do |related_work_package|
       write_related_work_package_attributes(related_work_package, column_entries)
     end
   end
@@ -112,14 +104,12 @@ module WorkPackage::PDFExport::Wp::Attributes
     end
   end
 
-  def write_query_group_as_table(group, work_package)
-    prepare_query_group(group, work_package)
-    related_work_packages = group.query.results.work_packages
+  def write_query_group_as_table(group)
     write_group_title(group)
-    if related_work_packages.empty?
+    if group.work_packages.empty?
       write_inline_hint("[No work packages]")
     else
-      write_work_packages_table!(related_work_packages, group.query)
+      write_work_packages_table!(group.work_packages, group.query)
     end
   rescue Prawn::Errors::CannotFit
     write_inline_error("[#{I18n.t('export.errors.embedded_table_with_too_many_columns')}]")
@@ -139,31 +129,22 @@ module WorkPackage::PDFExport::Wp::Attributes
     end
   end
 
-  def prepare_query_group(group, work_package)
-    # QueryGroup are relative to our work package, so we need to adjust the filter
-    group.query.filters.each do |filter|
-      if filter.respond_to?(:has_templated_value?) && filter.has_templated_value?
-        filter.values = [work_package.id]
-      end
-    end
-  end
-
   def write_attributes_group(group, work_package)
     write_group_title(group)
-    group_parts = group_attributes_group_parts(group, work_package)
-    group_parts.each do |part|
-      if part[:type] == :attribute
-        write_attributes_group_table(part[:list], work_package)
-      else
-        part[:list].each do |cf|
-          write_long_text_field!(work_package, cf.id)
-        end
+    group.parts.each do |part|
+      case part
+      when WorkPackage::Exports::FormConfiguration::AttributesPart
+        write_attributes_table(form_config_group_to_column_entries_rows(attribute_entries_with_values(part, work_package)))
+      when WorkPackage::Exports::FormConfiguration::LongTextPart
+        write_long_text_custom_field!(work_package, part.markdown, part.label)
       end
     end
   end
 
-  def write_attributes_group_table(list, work_package)
-    write_attributes_table(attributes_to_rows(list, work_package))
+  def attribute_entries_with_values(part, work_package)
+    part.entries.map do |entry|
+      { label: entry.label, name: entry.name, value: get_column_value_cell(work_package, entry.name) }
+    end
   end
 
   def write_attributes_table(rows)
@@ -178,60 +159,11 @@ module WorkPackage::PDFExport::Wp::Attributes
     end
   end
 
-  def attributes_to_rows(list, work_package)
-    list = attributes_to_column_entries(list, work_package)
-             .map { |entry| entry.merge({ value: get_column_value_cell(work_package, entry[:name]) }) }
-    form_config_group_to_column_entries_rows(list)
-  end
-
-  def attributes_to_column_entries(list, work_package)
-    list.map do |form_key|
-      form_key_to_column_entries(form_key.to_sym, work_package)
-    end.flatten
-  end
-
-  def group_attributes_group_parts(group, work_package)
-    current_part = { type: :attribute, list: [] }
-    parts = [current_part]
-    group.attributes.each do |form_key|
-      next unless show_attribute?(form_key, work_package)
-
-      if allowed_long_text_custom_field?(form_key, work_package)
-        cf = form_key_to_custom_field(form_key)
-        if current_part[:type] == :long_text
-          current_part[:list] << cf
-        else
-          current_part = { type: :long_text, list: [cf] }
-          parts << current_part
-        end
-      elsif current_part[:type] != :attribute
-        current_part = { type: :attribute, list: [form_key] }
-        parts << current_part
-      else
-        current_part[:list] << form_key
-      end
-    end
-    parts
-  end
-
-  def show_attribute?(form_key, work_package)
-    CustomField.custom_field_attribute?(form_key) || allowed_to_view_attribute?(work_package, form_key)
-  end
-
-  def allowed_long_text_custom_field?(form_key, work_package)
-    return false unless CustomField.custom_field_attribute? form_key
-
-    cf = form_key_to_custom_field(form_key)
-    return false if cf.nil?
-
-    cf.formattable? && custom_field_allowed?(cf, work_package)
-  end
-
   def write_group_title(group, with_hr: true)
     write_optional_page_break
     with_margin(styles.wp_attributes_group_label_margins) do
       style = styles.wp_attributes_group_label
-      pdf.formatted_text([style.merge({ text: group.translated_key })], style)
+      pdf.formatted_text([style.merge({ text: group.title })], style)
       write_group_title_hr if with_hr
     end
   end
@@ -256,47 +188,6 @@ module WorkPackage::PDFExport::Wp::Attributes
     widths = widths * (page_orientation_landscape? ? 4 : 2)
     ratio = pdf.bounds.width / widths.sum
     widths.map { |w| w * ratio }
-  end
-
-  def form_key_to_custom_field(form_key)
-    id = form_key.to_s.sub("custom_field_", "").to_i
-    CustomField.find_by(id:)
-  end
-
-  def custom_field_allowed?(custom_field, work_package)
-    custom_field.is_for_all? || work_package.project.work_package_custom_field_ids.include?(custom_field.id)
-  end
-
-  def form_key_custom_field_to_column_entries(form_key, work_package)
-    cf = form_key_to_custom_field(form_key)
-    return [] if cf.nil? || cf.formattable? || !custom_field_allowed?(cf, work_package)
-
-    [{ label: cf.name || form_key, name: form_key.to_s.sub("custom_field_", "cf_") }]
-  end
-
-  def form_key_to_column_entries(form_key, work_package)
-    return [] if form_key == :bcf_thumbnail
-
-    if CustomField.custom_field_attribute? form_key
-      return form_key_custom_field_to_column_entries(form_key, work_package)
-    end
-
-    column_name = ::API::Utilities::PropertyNameConverter.to_ar_name(form_key, context: work_package)
-    [column_entry(column_name)]
-  end
-
-  def column_entries(column_names)
-    column_names.map { |key| column_entry(key) }
-  end
-
-  def column_entry(column_name)
-    { label: WorkPackage.human_attribute_name(column_label_attribute(column_name)), name: column_name }
-  end
-
-  def column_label_attribute(column_name)
-    return "version" if column_name == "target_versions" && !Setting::WorkPackageMultipleVersions.active?
-
-    column_name
   end
 
   def build_columns_table_cells(attribute_data)

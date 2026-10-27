@@ -106,7 +106,7 @@ el:
     not_recommended: δεν συνιστάται
     recommended: προτεινόμενο
     x_bcf_issues:
-      one: Ένα BCF ζήτημα
+      one: "%{count} BCF issue"
       other: "%{count} BCF ζητήματα"
       zero: Δεν υπάρχουν ζητήματα BCF
   bim:

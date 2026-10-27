@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,6 +43,8 @@ RSpec.describe CustomFields::UpdateContract do
                     is_required: custom_field_is_required,
                     max_length: custom_field_max_length,
                     min_length: custom_field_min_length,
+                    max_value: custom_field_max_value,
+                    min_value: custom_field_min_value,
                     possible_values: custom_field_possible_values,
                     regexp: custom_field_regexp,
                     formula: custom_field_formula,
@@ -53,7 +54,8 @@ RSpec.describe CustomFields::UpdateContract do
                     multi_value: custom_field_multi_value,
                     content_right_to_left: custom_field_right_to_left,
                     custom_field_section_id: custom_field_custom_field_section_id,
-                    allow_non_open_versions: custom_field_allow_non_open_versions)
+                    allow_non_open_versions: custom_field_allow_non_open_versions,
+                    project_specific_value_restriction: custom_field_project_specific_value_restriction)
     end
 
     subject(:contract) { described_class.new(custom_field, current_user) }
@@ -73,6 +75,19 @@ RSpec.describe CustomFields::UpdateContract do
 
         it_behaves_like "contract is invalid", base: :previous_custom_field_recalculation_unprocessed
       end
+    end
+
+    context "for a field that already has project-specific values when the enterprise plan does not include them" do
+      let(:custom_field_type) { "WorkPackageCustomField" }
+      let(:custom_field_field_format) { "list" }
+      let(:custom_field_possible_values) { %w[A B] }
+      let(:custom_field_project_specific_value_restriction) { "allow" }
+
+      before do
+        custom_field.clear_changes_information
+      end
+
+      it_behaves_like "contract is valid"
     end
   end
 end

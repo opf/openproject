@@ -20,13 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { User } from '@blocknote/core/comments';
+import { User } from '@blocknote/core';
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import { useEffect, useRef } from 'react';
 import * as Y from 'yjs';
@@ -40,6 +39,7 @@ export interface OpBlockNoteContainerProps {
   openProjectUrl:string;
   attachmentsUploadUrl:string;
   attachmentsCollectionKey:string;
+  projectId:string;
   captureExternalLinks:boolean;
   hocuspocusProvider:HocuspocusProvider;
 }
@@ -50,6 +50,7 @@ export default function OpBlockNoteContainer({
   openProjectUrl,
   attachmentsUploadUrl,
   attachmentsCollectionKey,
+  projectId,
   captureExternalLinks,
   hocuspocusProvider,
 }:OpBlockNoteContainerProps) {
@@ -84,6 +85,7 @@ export default function OpBlockNoteContainer({
       openProjectUrl={openProjectUrl}
       attachmentsUploadUrl={attachmentsUploadUrl}
       attachmentsCollectionKey={attachmentsCollectionKey}
+      projectId={projectId}
       captureExternalLinks={captureExternalLinks}
       hocuspocusProvider={hocuspocusProvider}
       doc={doc}

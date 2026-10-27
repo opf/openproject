@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,6 +43,10 @@ module CarrierWave
         credentials[:provider] = "AWS"
       end
 
+      # make sure larger attachments are uploaded via multi-part to support
+      # files bigger than 4GB (most likely backups) being uploaded from workers
+      credentials = { max_put_chunk_size: 100.megabytes }.merge(credentials)
+
       CarrierWave.configure do |config|
         config.fog_credentials = credentials
         config.fog_directory   = directory
@@ -60,6 +63,14 @@ end
 CarrierWave.configure do |config|
   config.cache_storage = :file
 end
+
+# Keep CarrierWave's workfile staging dir on the same filesystem as FileUploader.cache_dir
+# (Dir.tmpdir/op_uploaded_files) and as tempfiles created elsewhere (e.g. BackupJob), so that
+# moving a freshly created large file into the cache (see FogFileUploader#move_to_cache) is a
+# fast rename instead of a full copy across filesystems.
+CarrierWave.tmp_path = File.join(Dir.tmpdir, "carrierwave")
+
+Rails.application.executor.to_complete { FogFileUploader.discard_downloads }
 
 unless OpenProject::Configuration.fog_credentials.empty?
   CarrierWave::Configuration.configure_fog!

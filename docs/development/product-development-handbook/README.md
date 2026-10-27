@@ -153,7 +153,7 @@ For internal or customer requirements requirements may directly be created, eval
 |----------------------------------------------------------------------------|:---------------------------------------------------------------------|
 | - Product Manager <br/> - UX Researcher <br/> - Developer <br/> - Designer | Specified feature (status “Specified”) in Product Backlog or version |
 
-Based on the Product Managers judgement (taking among other things the RICE score and customer backing into account) validated and prioritized features (status: “In specification”) are specified in more detail:
+Based on the Product Managers judgment (taking among other things the RICE score and customer backing into account) validated and prioritized features (status: “In specification”) are specified in more detail:
 
 1. PM specifies the solution and creates mockups (e.g. PowerPoint, Google Docs, …).
 
@@ -161,7 +161,7 @@ Based on the Product Managers judgement (taking among other things the RICE scor
 
 3. PM and Developer validate solution (technical feasibility / solution).
 
-   _If this solution touches security relevant components of the application, a Security Engineer is involved to identity and model the associated risks and impacts (thread modelling) according to the documented risks in the [Secure Coding Guidelines](../../development/concepts/secure-coding/#secure-coding-guidelines)._
+   _If this solution touches security relevant components of the application, a Security Engineer is involved to identity and model the associated risks and impacts (thread modeling) according to the documented risks in the [Secure Coding Guidelines](../../development/concepts/secure-coding/#secure-coding-guidelines)._
 
 4. PM / UX Researcher validates the solution through user interviews. (optional)
 
@@ -261,7 +261,7 @@ When all features, bugs have been tested successfully, regression testing was pe
 1. PM tests features to see if requirements are met, discusses necessary changes with developer (acceptance test) (status: “closed”).
 1. If external stakeholders are involved and depending on any additional agreements between OpenProject and the external stakeholders, an additional presentation or feature presentation is performed as part of the acceptance testing. The result of this test may result in additional iterations of the steps Building phase 1 - 3.
 
-If required changes are identified or predefined acceptance criteria is not met, the acceptance test is failed, the respective work packages are returned ot the developers/product team for additional changes or specification work
+If required changes are identified or predefined acceptance criteria is not met, the acceptance test is failed, the respective work packages are returned to the developers/product team for additional changes or specification work
 
 ### 3.2.4 Building phase 4: Documentation
 
@@ -438,7 +438,3 @@ The Learning Goals space is closely related to the Learning section. It includes
 The Opportunity Canvas is intended to quickly validate or invalidate ideas and to identify possible issues early on. As such invalidating an idea through the opportunity canvas is just as valuable as validating an idea (if not even more so).
 
 An Opportunity Canvas may not always be required - especially when a problem is well understood or small in scope.
-
-**References:**
-
-- [Opportunity Canvas Template](https://docs.google.com/document/d/1sgNrEx_PRCwewI9-46mN0qnyzz2AWq_SwFc6gLOcrbI/edit)

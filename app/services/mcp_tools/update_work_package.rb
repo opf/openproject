@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,8 +40,8 @@ module McpTools
       required: %w[id data],
       properties: {
         id: {
-          type: :number,
-          description: "The ID of the work package that shall be updated."
+          type: %w[string number],
+          description: "The identifier of the work package that shall be updated."
         },
         data: {
           type: %w[object],
@@ -66,7 +65,7 @@ module McpTools
     )
 
     def call(id:, data:)
-      work_package = WorkPackage.visible(current_user).find_by(id:)
+      work_package = WorkPackage.visible(current_user).find_by_display_id(id)
       return Failure("The given work package could not be found.") if work_package.nil?
 
       attributes = parse_work_package(data).on_failure { |result| return Failure(result.message) }.result

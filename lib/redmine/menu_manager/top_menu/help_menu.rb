@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,7 +39,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
         render(Primer::Beta::IconButton.new(icon: item.icon,
                                             tag: :a,
                                             href: url_for(item.url),
-                                            classes: "op-app-header--primer-button hidden-for-mobile",
+                                            classes: "op-app-header--primer-button",
                                             scheme: :invisible,
                                             pl: 1,
                                             test_selector: "header-help-button",
@@ -64,7 +63,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                                          anchor_align: :end) do |menu|
       menu.with_show_button(icon: :question,
                             scheme: :invisible,
-                            classes: "op-app-header--primer-button hidden-for-mobile",
+                            classes: "op-app-header--primer-button",
                             test_selector: "header-help-button",
                             "aria-label": I18n.t(:label_help))
 

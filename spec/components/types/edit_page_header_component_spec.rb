@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,8 @@ require "rails_helper"
 
 RSpec.describe Types::EditPageHeaderComponent, type: :component do
   include Rails.application.routes.url_helpers
+
+  include_context "with variant scope"
 
   shared_let(:project) { create(:project, name: "Apollo") }
   shared_let(:type) { create(:type, name: "Bug") }
@@ -56,7 +57,7 @@ RSpec.describe Types::EditPageHeaderComponent, type: :component do
 
     # An administrator may open the type's own configuration, so its name is a way in.
     it "links the parent type" do
-      expect(page).to have_link("Bug", href: edit_type_details_path(type_id: type.id))
+      expect(page).to have_link("Bug", href: type_settings_path(type_id: type.id))
     end
 
     it "names the variant being configured" do
@@ -65,11 +66,9 @@ RSpec.describe Types::EditPageHeaderComponent, type: :component do
   end
 
   context "when the screen is reached from a project's settings" do
-    before do
-      # What the controller sets, and what the trail keys off.
-      vc_test_controller.instance_variable_set(:@project, project)
-      render_header
-    end
+    let(:variant_scope_project) { project }
+
+    before { render_header }
 
     it "leads back through the project, not administration" do
       expect(page).to have_link("Apollo", href: project_overview_path(project.id))
@@ -94,11 +93,57 @@ RSpec.describe Types::EditPageHeaderComponent, type: :component do
     end
 
     it "offers no way into the type's own configuration" do
-      expect(page).to have_no_link(href: edit_type_details_path(type_id: type.id))
+      expect(page).to have_no_link(href: type_settings_path(type_id: type.id))
     end
 
     it "still names the variant being configured" do
       expect(page).to have_text("Internal")
+    end
+  end
+
+  describe "the variant kind in the title" do
+    it "marks a global variant as a plain variant" do
+      render_header
+
+      expect(page).to have_text("(Variant)")
+    end
+
+    context "when a project owns the variant" do
+      shared_let(:owned) { create(:project_owned_type_variant, type:, project:, variant_name: "Ours") }
+
+      it "marks it as project-specific" do
+        render_inline(described_class.new(type:, variant: owned))
+
+        expect(page).to have_text("(Project-specific variant)")
+      end
+    end
+  end
+
+  describe "the convert-to-global action" do
+    shared_let(:owned) { create(:project_owned_type_variant, type:, project:, variant_name: "Ours") }
+
+    it "lets an admin convert a project-specific variant to global" do
+      render_inline(described_class.new(type:, variant: owned))
+
+      expect(page).to have_selector :menuitem, text: I18n.t("types.index.convert_to_global") do |item|
+        expect(item[:href]).to eq convert_to_global_dialog_type_variant_path(type_id: type.id, id: owned.id)
+      end
+    end
+
+    it "does not offer converting a global variant" do
+      render_header
+
+      expect(page).to have_no_selector :menuitem, text: I18n.t("types.index.convert_to_global")
+    end
+
+    context "without administration rights" do
+      current_user { create(:user) }
+
+      it "is hidden" do
+        render_inline(described_class.new(type:, variant: owned))
+
+        expect(page).to have_no_selector :menuitem, text: I18n.t("types.index.convert_to_global")
+      end
     end
   end
 end

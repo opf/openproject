@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -125,14 +124,24 @@ RSpec.describe "Project Custom Field Mappings", :js do
       end
     end
 
+    it_behaves_like "a fill-in project autocompleter searchable by identifier" do
+      let(:target_project) { create(:project, name: "Alpha Initiative", identifier: "zulu-target") }
+      let(:control_project) { create(:project, name: "Beta Initiative", identifier: "yankee-other") }
+
+      before do
+        click_on "Add projects"
+      end
+    end
+
     it "allows unlinking a project from a custom field", with_settings: { per_page_options: "2,5" } do
       projects = create_list(:project, 4)
       projects.each { |project| create(:project_custom_field_project_mapping, project_custom_field:, project:) }
 
       current_page = 3
       visit project_mappings_admin_settings_project_custom_field_path(project_custom_field, page: current_page)
+      project_custom_field_mappings_page.expect_current_page_number(current_page)
 
-      project = project_custom_field_mappings_page.project_in_first_row
+      project = project_custom_field_mappings_page.project_in_first_actionable_row
       project_custom_field_mappings_page.click_menu_item_of("Remove from project", project)
 
       expect(page).to have_no_text(project.name)

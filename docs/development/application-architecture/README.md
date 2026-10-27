@@ -44,7 +44,7 @@ flowchart TD
 
   openproject <-->|"TCP requests"| services
   openproject -->|"HTTPS requests"| integrations
-  loadbalancer <-->|"HTTPS requsts"| integrations
+  loadbalancer <-->|"HTTPS requests"| integrations
   
   subgraph localclients[Local Client / User device]
   direction TB
@@ -81,7 +81,7 @@ flowchart TD
 
 OpenProject is developed as a GPLv3 licensed, open-source software. The software core is developed and maintained using [GitHub](https://github.com/opf/openproject/). OpenProject is available as several versions:
 
-- [Community Edition](https://www.openproject.org/community-edition/)
+- [Community edition](https://www.openproject.org/community-edition/)
 - [Enterprise on-premises and Enterprise cloud](https://www.openproject.org/enterprise-edition/)
 
 ## Environments
@@ -96,7 +96,7 @@ OpenProject is continuously tested, developed, and distributed using the followi
 | Production<br>(Docker images) | [Official public OpenProject docker images](https://hub.docker.com/r/openproject/openproject/)<br>Continuous delivery for development versions using `dev-*`tags.<br>Stable releases through major, minor, or patch level tags.                            | Development (`dev`, `dev-slim` tag)<br>Stable releases (`X`, `X.Y`, `X.Y.Z`, `X-slim`, `X.Y-slim`, `X.Y.Z-slim`)                                                 | Automatically on new releases of the OpenProject application                                                                     |
 | Production<br>(Packages)      | [Official public OpenProject Linux packages](../../installation-and-operations/installation/packaged/) <br><br>Stable releases for supported distributions                                                                                                 | Stable releases                                                                                                                                                  | Automatically on new releases of the OpenProject application                                                                     |
 | Production<br>(Helm chart)    | [Official public OpenProject Helm charts](../../installation-and-operations/installation/helm-chart/)<br>Stable releases                                                                                                                                   | Stable releases (configurable through container tags)                                                                                                            | Updates to Helm chart are manual, underlying deployment uses OpenProject docker images                                           |
-| PullPreview                   | Temporary instances for development of features scope to a pull request.                                                                                                                                                                                   | Feature branches                                                                                                                                                 | Automatically deployed when developers/QA request a pull preview instance by labelling pull requests with the `PullPreview` tag. |
+| PullPreview                   | Temporary instances for development of features scope to a pull request.                                                                                                                                                                                   | Feature branches                                                                                                                                                 | Automatically deployed when developers/QA request a pull preview instance by labeling pull requests with the `PullPreview` tag.  |
 
 ## Patch and change management
 
@@ -209,7 +209,7 @@ This approach has the significant disadvantage to go through the entire Rails st
 
 #### Exemplary Rails view request augmented by Angular
 
-A response that is fully controlled by Rails but extended by some Angular components in the frontend might look as follows. Let's take a look at the request to [edit a type's form configuration](../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on) `/types/1/edit/form_configuration`:
+A response that is fully controlled by Rails but extended by some Angular components in the frontend might look as follows. Let's take a look at the request to [edit a type's form configuration](../../system-admin-guide/manage-work-packages/work-package-types/form-configuration/) `/types/1/edit/form_configuration`:
 
 1. Rails receives the request and according to its [`config/routes.rb`](https://github.com/opf/openproject/blob/dev/config/routes.rb#L257), will handle the request with the [TypesController#edit action](https://github.com/opf/openproject/blob/dev/app/controllers/types_controller.rb#L71-L82) with its tab set to `form_configuration`.
 

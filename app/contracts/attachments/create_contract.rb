@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -47,8 +46,15 @@ module Attachments
     validate :validate_container_addable
     validate :validate_author
     validate :validate_content_type
+    validate :filesize_below_allowed_maximum, if: -> { !model.internal_container? }
 
     private
+
+    def filesize_below_allowed_maximum
+      if filesize.to_i > Setting.attachment_max_size.to_i.kilobytes
+        errors.add(:file, :file_too_large, count: Setting.attachment_max_size.to_i.kilobytes)
+      end
+    end
 
     def validate_attachments_addable
       return if model.container

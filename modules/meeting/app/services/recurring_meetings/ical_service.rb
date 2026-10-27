@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -51,6 +50,23 @@ module RecurringMeetings
       end
     rescue StandardError => e
       Rails.logger.error("Failed to generate ICS for meeting series #{series.id}: #{e.message}")
+      ServiceResult.failure(message: e.message)
+    end
+
+    # The historic series event that is now being changed.
+    # We need to send this as a separate mail to comply with RFC 5546 3.2.2.
+    def generate_historic_schedule # rubocop:disable Metrics/AbcSize
+      return ServiceResult.failure(message: "The series has no historic schedule") if series.last_historic_schedule.nil?
+
+      User.execute_as(user) do
+        calendar = Meetings::IcalendarBuilder.new(timezone: Time.zone || Time.zone_default, user:)
+        calendar.historic_schedule_event(recurring_meeting: series)
+        calendar.update_calendar_status(cancelled: false)
+
+        ServiceResult.success(result: calendar.to_ical)
+      end
+    rescue StandardError => e
+      Rails.logger.error("Failed to generate historic schedule ICS for meeting series #{series.id}: #{e.message}")
       ServiceResult.failure(message: e.message)
     end
 

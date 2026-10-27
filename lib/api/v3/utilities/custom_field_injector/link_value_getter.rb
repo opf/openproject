@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,7 +36,7 @@ module API
 
               # we can't use the generated accessor (e.g. represented.send :custom_field_1) here,
               # because we need to generate a link even if the id does not belong to an existing
-              # object (that behaviour is only required for form payloads)
+              # object (that behavior is only required for form payloads)
               values = Methods.link_value_getter_values represented, custom_field
 
               if custom_field.multi_value?
@@ -59,15 +58,18 @@ module API
             def link_value_getter_values(represented, custom_field)
               Array(represented.custom_value_for(custom_field)).flat_map do |custom_value|
                 if custom_value && custom_value.value.present?
-                  title = link_value_title(custom_value, custom_field)
-
-                  [{
-                    title:,
-                    href: link_value_href(custom_field, custom_value)
-                  }]
+                  [link_value(custom_value, custom_field)]
                 else
                   []
                 end
+              end
+            end
+
+            def link_value(custom_value, custom_field)
+              if custom_value.available_in_project?
+                { title: link_value_title(custom_value, custom_field), href: link_value_href(custom_field, custom_value) }
+              else
+                { title: I18n.t(:label_custom_value_no_longer_available), href: API::V3::URN_UNDISCLOSED }
               end
             end
 

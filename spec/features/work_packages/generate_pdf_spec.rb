@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -88,6 +87,7 @@ RSpec.describe "work package generate PDF dialog", :js do
   def open_generate_pdf_dialog!
     click_link_or_button "More"
     click_link_or_button "Generate PDF"
+    wait_for_size_animation_completion("##{WorkPackages::Exports::Generate::ModalDialogComponent::MODAL_ID}")
   end
 
   def generate!
@@ -153,7 +153,8 @@ RSpec.describe "work package generate PDF dialog", :js do
     end
 
     it "downloads with options" do
-      check("Hyphenation")
+      check "Hyphenation"
+      expect(page).to have_checked_field("Hyphenation")
       select "Deutsch", from: "hyphenation_language"
       fill_in "footer_text", with: "Custom Footer Text"
       generate!
@@ -225,8 +226,69 @@ RSpec.describe "work package generate PDF dialog", :js do
     end
 
     it "pre-fills the checkbox unchecked and downloads with it off" do
-      select "PMflex Artefact", from: "template"
+      select "PMflex Artifact", from: "template"
       expect(page).to have_unchecked_field("Table of contents")
+      generate!
+    end
+  end
+
+  context "with artifact template and the lifecycle checkboxes enabled" do
+    let(:expected_params) do
+      {
+        template: "artefact",
+        toc: "true",
+        include_lifecycle: "true"
+      }
+    end
+
+    it "downloads with lifecycle section included" do
+      select "PMflex Artifact", from: "template"
+      expect(page).to have_checked_field("Project lifecycle")
+      check("Project lifecycle")
+      generate!
+    end
+  end
+
+  context "with artifact template and the lifecycle/budget checkboxes enabled" do
+    let(:expected_params) do
+      {
+        template: "artefact",
+        toc: "true",
+        include_lifecycle: "true",
+        include_budget: "true"
+      }
+    end
+
+    it "downloads with both sections included" do
+      select "PMflex Artifact", from: "template"
+      expect(page).to have_checked_field("Project lifecycle")
+      expect(page).to have_checked_field("Project budgets")
+      generate!
+    end
+  end
+
+  context "when the type has a stored default enabling the lifecycle and budget sections" do
+    let(:work_package) do
+      build(:work_package, project:, id: 666, assigned_to: user, responsible: user).tap do |wp|
+        variant = wp.type_variant
+        variant.pdf_export_templates.update_settings(
+          "artefact", "include_lifecycle" => "true", "include_budget" => "true"
+        )
+        variant.save!
+      end
+    end
+    let(:expected_params) do
+      {
+        template: "artefact",
+        include_lifecycle: "true",
+        include_budget: "true"
+      }
+    end
+
+    it "pre-fills both checkboxes checked and downloads with them on" do
+      select "PMflex Artifact", from: "template"
+      expect(page).to have_checked_field("Project lifecycle")
+      expect(page).to have_checked_field("Project budgets")
       generate!
     end
   end

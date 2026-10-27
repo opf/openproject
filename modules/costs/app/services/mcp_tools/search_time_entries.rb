@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,7 +41,9 @@ module McpTools
 
     filter :id
     filter :user_id
-    filter :work_package_id, filter_proc: ->(entries, v) { entries.where(entity_type: "WorkPackage", entity_id: v) }
+    filter :work_package_id, filter_proc: ->(entries, v) {
+      entries.where(entity_type: "WorkPackage", entity_id: WorkPackage.where_display_id_in(v))
+    }
     filter :spent_since, filter_proc: ->(entries, v) { entries.where(spent_on: v..) }
     filter :spent_until, filter_proc: ->(entries, v) { entries.where(spent_on: ..v) }
 
@@ -51,7 +52,10 @@ module McpTools
       properties: {
         id: { type: "number", description: "The ID of the time entry." },
         user_id: { type: "number", description: "The ID of the user that the time entry tracks expenditures for." },
-        work_package_id: { type: "number", description: "The ID of the work package that the time entry is created on." },
+        work_package_id: {
+          type: %w[string number],
+          description: "The identifier of the work package that the time entry is created on."
+        },
         spent_since: {
           type: :string,
           format: :date,

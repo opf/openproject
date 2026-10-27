@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -45,8 +44,6 @@ class Attachment < ApplicationRecord
   validates :author, :content_type, :filesize, :status, presence: true
   validates :description, length: { maximum: 255 }
 
-  validate :filesize_below_allowed_maximum,
-           if: -> { !internal_container? }
   validate :container_changed_more_than_once
 
   has_paper_trail
@@ -73,6 +70,7 @@ class Attachment < ApplicationRecord
   mount_uploader :file, OpenProject::Configuration.file_uploader
 
   after_commit :enqueue_jobs, on: :create, if: -> { !internal_container? }
+  after_commit :delete_staged_direct_upload, on: :destroy, if: :prepared?
 
   scope :pending_direct_upload, -> { status_prepared }
   scope :not_pending_direct_upload, -> { not_status_prepared }
@@ -122,7 +120,7 @@ class Attachment < ApplicationRecord
   end
 
   # Returns the Content-Type to use when serving this file inline in a browser.
-  # Text files are normalised to text/plain (prevents script execution) with an
+  # Text files are normalized to text/plain (prevents script execution) with an
   # explicit charset. Non-inlineable files get application/octet-stream so the
   # browser is forced to download them.
   def served_content_type
@@ -138,7 +136,7 @@ class Attachment < ApplicationRecord
   # Returns the content type to use when serving the file to a browser.
   # For text files, ensures a charset is always present so browsers don't
   # fall back to ISO-8859-1. Preserves the real MIME subtype (e.g. text/x-ruby)
-  # unlike served_content_type which normalises to text/plain for security.
+  # unlike served_content_type which normalizes to text/plain for security.
   def serving_content_type
     return content_type unless is_text?
 
@@ -171,7 +169,7 @@ class Attachment < ApplicationRecord
     is_text? || is_image? || is_movie? || is_pdf?
   end
 
-  # rubocop:disable Naming/PredicateName
+  # rubocop:disable Naming/PredicatePrefix
   def is_plain_text?
     OpenProject::MimeType.plain_text?(content_type)
   end
@@ -202,7 +200,7 @@ class Attachment < ApplicationRecord
   def is_diff?
     is_text? && filename =~ /\.(patch|diff)\z/i
   end
-  # rubocop:enable Naming/PredicateName
+  # rubocop:enable Naming/PredicatePrefix
 
   # Returns true if the file is readable
   delegate :readable?, to: :file
@@ -237,15 +235,13 @@ class Attachment < ApplicationRecord
   end
 
   def file=(file)
-    super.tap do
-      set_file_size file
+    # Take size, type, digest from source before CarrierWave caches it in super.
+    # FogFileUploader may move the source into the cache (MovableSource), after which +file.path+ no longer exists.
+    set_file_size file
+    set_content_type file
+    set_digest file if File.readable?(file.path)
 
-      set_content_type file
-
-      if File.readable? file.path
-        set_digest file
-      end
-    end
+    super
   end
 
   def set_file_size(file)
@@ -349,17 +345,31 @@ class Attachment < ApplicationRecord
   end
 
   ##
-  # Deletes locally cached files. This is mostly relevant for remote attachments
-  # but would also apply for local attachments if things such as carrierwave
-  # filters were used.
+  # Deletes locally cached files and CarrierWave workfiles staged under CarrierWave.tmp_path.
+  # This is mostly relevant for remote attachments but would also apply for local attachments
+  # if things such as carrierwave filters were used.
   #
   # @param age_in_seconds [Integer] Delete all cached files older than this many seconds.
-  def self.clean_cached_files!(age_in_seconds: 60 * 60 * 24)
+  def self.clean_cached_files!(age_in_seconds: Setting.attachments_cleanup_period_hours.to_i.hours.to_i)
     uploader = OpenProject::Configuration.file_uploader
     cache_storage = uploader.cache_storage
 
     cache_storage.new(uploader.new).clean_cache! age_in_seconds
+    clean_carrierwave_tmp!(age_in_seconds)
   end
+
+  def self.clean_carrierwave_tmp!(age_in_seconds)
+    cutoff = age_in_seconds.seconds.ago
+
+    Dir.glob(File.join(CarrierWave.tmp_path, "*")).each do |path|
+      match = File.basename(path).match(/\A(\d+)-\d+-\d+(?:-\d+)?\z/)
+      next unless match
+
+      FileUtils.rm_rf(path) if Time.zone.at(match[1].to_i).before?(cutoff)
+    end
+  end
+
+  private_class_method :clean_carrierwave_tmp!
 
   def pending_direct_upload?
     digest == "" && downloads == -1
@@ -370,6 +380,10 @@ class Attachment < ApplicationRecord
   end
 
   private
+
+  def delete_staged_direct_upload
+    DirectFogUploader.delete_staged_upload(self)
+  end
 
   def filesize_below_allowed_maximum
     if filesize.to_i > Setting.attachment_max_size.to_i.kilobytes

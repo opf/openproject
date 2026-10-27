@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,6 +38,12 @@ RSpec.describe Queries::WorkPackages::Filter::TargetVersionsFilter do
   let(:user) { create(:user, member_with_roles: { actual_project => role }) }
 
   before { login_as(user) }
+
+  describe ".stored_key" do
+    it "is nil" do
+      expect(described_class.stored_key).to be_nil
+    end
+  end
 
   it_behaves_like "basic query filter" do
     let(:project) { actual_project }
@@ -108,25 +113,7 @@ RSpec.describe Queries::WorkPackages::Filter::TargetVersionsFilter do
       end
     end
 
-    describe "#allowed_values" do
-      context "within a project" do
-        it "returns the project's shared versions" do
-          expect(instance.allowed_values)
-            .to contain_exactly([version.id.to_s, version.id.to_s])
-        end
-      end
-
-      context "without a project" do
-        let(:project) { nil }
-
-        it "returns only versions visible to the current user" do
-          other_project_version
-
-          expect(instance.allowed_values)
-            .to contain_exactly([version.id.to_s, version.id.to_s])
-        end
-      end
-    end
+    it_behaves_like "version filter options"
 
     describe "#value_objects" do
       let!(:other_version) { create(:version, project: actual_project) }

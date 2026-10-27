@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,7 +43,9 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     validate_custom_fields = attributes.delete(:validate_custom_fields)
 
     set_attachments_attributes(attributes)
+    claim_attachments_referenced_in_description(attributes)
     set_versions_attributes(attributes)
+    set_labels_attributes(attributes)
     set_static_attributes(attributes)
 
     model.change_by_system do
@@ -65,12 +66,28 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     end
   end
 
+  def claim_attachments_referenced_in_description(attributes)
+    return unless model.new_record? && attributes.key?(:description)
+
+    claimable_ids = Attachments::ClaimableIdsFromText.call(attributes[:description], user:)
+    return if claimable_ids.empty?
+
+    explicit_ids = model.attachments_replacements&.ids || []
+    model.attachments_replacements = Attachment.where(id: explicit_ids | claimable_ids)
+  end
+
   def set_versions_attributes(attributes)
     target_ids = attributes.delete(:target_version_ids)
     observed_in_ids = attributes.delete(:observed_in_version_ids)
 
     model.target_version_ids_replacements = Array(target_ids).map(&:to_i) if target_ids
     model.observed_in_version_ids_replacements = Array(observed_in_ids).map(&:to_i) if observed_in_ids
+  end
+
+  def set_labels_attributes(attributes)
+    label_ids = attributes.delete(:label_ids)
+
+    model.label_id_replacements = label_ids if label_ids
   end
 
   def set_static_attributes(attributes)
@@ -159,7 +176,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     work_package.values_at(*fields).one?(&:present?)
   end
 
-  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable-next Metrics/AbcSize
   def update_derivable_date_attribute
     case derivable_date_attribute
     when :duration
@@ -179,7 +196,6 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
       work_package.start_date = days.start_date(work_package.due_date, work_package.duration)
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   def invalid_duration?
     return false if work_package.duration.nil?
@@ -247,7 +263,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     TypeVariant
       .pluck(:default_work_package_description)
       .compact
-      .map(&method(:normalize_whitespace))
+      .map { |desc| normalize_whitespace(desc) }
       .include?(normalize_whitespace(work_package.description))
   end
 
@@ -260,7 +276,22 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
       CustomField.custom_field_attribute?(key) && work_package.respond_to?(key)
     end
 
-    work_package.attributes = assignable_attributes
+    work_package.attributes = assignable_attributes.to_h do |key, value|
+      [key, retain_undisclosed_custom_values(key, value)]
+    end
+  end
+
+  # Values of a multi value custom field coming from the API carry the undisclosed URN in place
+  # of the stored values that are no longer available in the project.
+  def retain_undisclosed_custom_values(key, values)
+    return values unless Array(values).include?(API::V3::URN_UNDISCLOSED)
+
+    custom_field = work_package.all_available_custom_fields.find { it.attribute_name == key.to_s }
+    undisclosed_values = Array(work_package.custom_value_for(custom_field))
+                           .reject(&:available_in_project?)
+                           .map(&:value)
+
+    values - [API::V3::URN_UNDISCLOSED] + undisclosed_values
   end
 
   def custom_field_context_changed?
@@ -381,7 +412,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     attr = :"#{kind}_version_ids_replacements"
     current_replacements = work_package.send(attr)
 
-    current_ids = current_replacements || persisted_version_ids(kind)
+    current_ids = current_replacements || work_package.assigned_version_ids(kind)
     filtered_ids = current_ids & assignable_ids
 
     return if filtered_ids.sort == current_ids.sort
@@ -394,12 +425,6 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # is marked as such and exempted from that permission. A user-requested
     # set that merely got filtered stays attributed to the user.
     work_package.mark_system_version_override(kind) if current_replacements.nil?
-  end
-
-  def persisted_version_ids(kind)
-    return [] unless work_package.persisted?
-
-    work_package.work_package_versions.where(kind:).pluck(:version_id)
   end
 
   def set_parent_to_nil

@@ -20,13 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Controller } from '@hotwired/stimulus';
+import * as Turbo from '@hotwired/turbo';
 import { FetchRequestError, post, ValidationError } from 'core-stimulus/helpers/request-helpers';
 import dragula from 'dragula';
 import jQuery from 'jquery';
@@ -76,8 +76,6 @@ interface IControls {
   clear_query:(e:Event) => void;
   observe_click:(elementId:string, callback:(e:Event) => void) => void;
   update_result_table:(response:string) => void;
-  toggle_delete_form:(e:Event) => void;
-  toggle_save_as_form:(e:Event) => void;
 }
 
 interface IRestoreQuery {
@@ -91,6 +89,9 @@ export default class PageController extends Controller {
   private controls!:IControls;
   private restoreQueryModule!:IRestoreQuery;
 
+  static targets = ['table'];
+  declare readonly tableTarget:HTMLTableElement;
+
   connect() {
     this.initializeReportingEngine();
     this.initializeFilters();
@@ -102,6 +103,24 @@ export default class PageController extends Controller {
 
   disconnect() {
     // Clean up event handlers if needed
+  }
+
+  tableTargetConnected(table:HTMLTableElement) {
+    jQuery(table)
+      .tablesorter({
+        sortList: [[0, 0]],
+        widgets: ['saveSort'],
+        widgetOptions: {
+          storage_storageType: 's',
+        },
+        textExtraction(node:HTMLElement) {
+          return node.getAttribute('raw-data');
+        },
+      });
+  }
+
+  tableTargetDisconnected(table:HTMLTableElement) {
+    jQuery(table).trigger('destroy', [false]);
   }
 
   // Called from data-action
@@ -206,7 +225,6 @@ export default class PageController extends Controller {
     jQuery.metadata = undefined;
 
     // Override the default texts to enable translations
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     jQuery.tablesorter.language = {
       sortAsc: I18n.t('js.sort.sorted_asc'),
       sortDesc: I18n.t('js.sort.sorted_dsc'),
@@ -216,20 +234,6 @@ export default class PageController extends Controller {
       nextDesc: I18n.t('js.sort.activate_dsc'),
       nextNone: I18n.t('js.sort.activate_no'),
     };
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    jQuery('#sortable-table')
-      .not('.tablesorter')
-      .tablesorter({
-        sortList: [[0, 0]],
-        widgets: ['saveSort'],
-        widgetOptions: {
-          storage_storageType: 's',
-        },
-        textExtraction(node:HTMLElement) {
-          return node.getAttribute('raw-data');
-        },
-      });
   }
 
   private flash(string:string, type = 'error') {
@@ -680,45 +684,25 @@ export default class PageController extends Controller {
         jQuery('#result-table').html(response);
         this.initTableSorter();
       },
-
-      toggle_delete_form: (e:Event) => {
-        e.preventDefault();
-        const offset = jQuery('#query-icon-delete').offset()?.left ?? 0;
-        jQuery('#delete_form').css('left', `${offset}px`).toggle();
-      },
-
-      toggle_save_as_form: (e:Event) => {
-        e.preventDefault();
-        const offset = jQuery('#query-icon-save-as').offset()?.left ?? 0;
-        jQuery('#save_as_form').css('left', `${offset}px`).toggle();
-      },
     };
 
     // Bind control events
     if (jQuery('#query_saved_name').length) {
       if (jQuery('#query_saved_name').attr('data-is_new')) {
-        if (jQuery('#query-icon-delete').length) {
-          this.controls.observe_click('query-icon-delete', this.controls.toggle_delete_form);
-          this.controls.observe_click('query-icon-delete-cancel', this.controls.toggle_delete_form);
-          jQuery('#delete_form').hide();
-        }
-
         if (jQuery('#query-breadcrumb-save').length) {
           this.controls.attach_settings_callback(jQuery('#query-breadcrumb-save'), this.controls.update_result_table);
         }
       }
     }
 
-    this.controls.observe_click('query-icon-save-as', this.controls.toggle_save_as_form);
-    this.controls.observe_click('query-icon-save-as-cancel', this.controls.toggle_save_as_form);
-
-    jQuery('#save_as_form').hide();
-
     this.controls.attach_settings_callback(jQuery('#query-icon-save-button'), (newLocation:string) => {
       document.location.href = newLocation;
     });
 
-    this.controls.attach_settings_callback(jQuery('#query-icon-apply-button'), this.controls.update_result_table);
+    this.controls.observe_click('query-icon-apply-button', (e:Event) => {
+      e.preventDefault();
+      this.applyToUrl();
+    });
 
     this.controls.observe_click('query-link-clear', this.controls.clear_query);
   }
@@ -740,11 +724,91 @@ export default class PageController extends Controller {
     });
   }
 
+  // The filters, group bys and unit make up the report being looked at, so they
+  // belong in the url rather than in the session. Only the result table is
+  // fetched; the filter form keeps its own state, autocompleters included.
+  private applyToUrl() {
+    const url = `${window.location.pathname}?${this.compactQueryParams().toString()}`;
+
+    Turbo.visit(url, { frame: 'result-table', action: 'advance' });
+  }
+
+  // Saving posts the same configuration the url carries, so the server only ever
+  // has to understand one shape. The name and publicity come from the save form.
+  private compactSettingsBody():FormData {
+    const body = new FormData();
+
+    this.compactQueryParams().forEach((value, key) => body.append(key, value));
+
+    const queryForm = document.querySelector<HTMLFormElement>('#query_form');
+    ['authenticity_token', 'query_name', 'query_is_public'].forEach((name) => {
+      const value = queryForm ? new FormData(queryForm).get(name) : null;
+
+      if (typeof value === 'string') {
+        body.append(name, value);
+      }
+    });
+
+    return body;
+  }
+
+  // The same compact syntax the other query based lists use, e.g.
+  // `filters=spent_on >d "2026-01-01" & user_id = "me"`.
+  private compactQueryParams():URLSearchParams {
+    const formData = this.serializeSettingsForm();
+    const params = new URLSearchParams();
+
+    // Always set, even when empty: it tells the server the url says what to show
+    // rather than falling back to the defaults.
+    params.set('filters', this.compactFilters(formData).join(' & '));
+
+    ['rows', 'columns'].forEach((axis) => {
+      const dimensions = this.stringValues(formData, `groups[${axis}][]`);
+
+      if (dimensions.length > 0) {
+        params.set(axis, dimensions.join(','));
+      }
+    });
+
+    const unit = formData.get('unit');
+    if (typeof unit === 'string' && unit !== '') {
+      params.set('unit', unit);
+    }
+
+    return params;
+  }
+
+  private compactFilters(formData:FormData):string[] {
+    return this.stringValues(formData, 'fields[]').map((field) => {
+      const operator = formData.get(`operators[${field}]`);
+      const values = [
+        ...this.stringValues(formData, `values[${field}][]`),
+        ...this.stringValues(formData, `values[${field}]`),
+      ].filter((value) => value !== '');
+
+      return `${field} ${typeof operator === 'string' ? operator : ''} ${this.compactValues(values)}`.trim();
+    });
+  }
+
+  private compactValues(values:string[]):string {
+    const quoted = values.map((value) => `"${value.replace(/["\\]/g, '\\$&')}"`);
+
+    if (quoted.length <= 1) {
+      return quoted.join('');
+    }
+
+    return `[${quoted.join(',')}]`;
+  }
+
+  private stringValues(formData:FormData, key:string):string[] {
+    return formData.getAll(key).filter((value):value is string => typeof value === 'string');
+  }
+
   private sendSettingsData(targetUrl:string, callback:(_result:string) => void, failureCallback?:(_error:unknown) => void) {
     const errorCallback = failureCallback ?? this.defaultFailureCallback;
     this.clearFlash();
 
-    void post(targetUrl, { body: this.serializeSettingsForm() })
+    void post(targetUrl, { body: this.compactSettingsBody() })
       .then((response) => {
         if (response.unprocessableEntity) {
           return response.text.then((errorText) => { throw new ValidationError(errorText); });

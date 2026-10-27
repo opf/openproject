@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,6 +35,13 @@ module OpenProject
         @query = ProjectQuery.new
         render(::Projects::ProjectsFiltersComponent.new(query: @query,
                                                         initially_expanded: true))
+        render_with_template(locals: { query: ProjectQuery.new })
+      end
+
+      # @label Full width
+      # `full_width: true` lifts the default cap so the inputs stretch to the container.
+      # Widen the preview pane to see it diverge from the default.
+      def full_width
         render_with_template(locals: { query: ProjectQuery.new })
       end
     end

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -37,6 +36,7 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { WorkPackageSchemaProxy } from 'core-app/features/hal/schemas/work-package-schema-proxy';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export const fallbackSchemaId = '__fallback';
 
@@ -82,8 +82,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
   }
 
   public getSchemaHref(resource:HalResource):string|undefined {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    return resource.$links.schema?.href as string|undefined;
+    return (resource.$links.schema as CallableHalLink|undefined)?.href as string|undefined;
   }
 
   /**
@@ -129,7 +128,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
       );
   }
 
-  protected loadAll(hrefs:string[]):Promise<unknown|undefined> {
+  protected loadAll(hrefs:string[]):Promise<unknown> {
     return Promise.all(hrefs.map((href) => this.load(href)));
   }
 

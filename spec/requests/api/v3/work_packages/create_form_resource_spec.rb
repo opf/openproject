@@ -22,10 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
 
 require "spec_helper"
 require "rack/test"
@@ -149,6 +149,29 @@ RSpec.describe "POST api/v3/workspaces/:id/work_packages/form" do
     end
   end
 
+  describe "with empty version links and no project (as sent back by the global creation form)" do
+    let(:parameters) do
+      {
+        _links: {
+          type: {
+            href: api_v3_paths.type(type.id)
+          },
+          targetVersions: [],
+          observedInVersions: []
+        },
+        subject: "lorem ipsum"
+      }
+    end
+
+    it "has 1 validation error" do
+      expect(subject.body).to have_json_size(1).at_path("_embedded/validationErrors")
+    end
+
+    it "has a validation error on project" do
+      expect(subject.body).to have_json_path("_embedded/validationErrors/project")
+    end
+  end
+
   describe "custom fields" do
     context "when the custom field is required" do
       shared_let(:required_custom_field) do
@@ -156,7 +179,6 @@ RSpec.describe "POST api/v3/workspaces/:id/work_packages/form" do
                field_format: "string",
                name: "Department",
                is_required: true,
-               projects: [project],
                types: [type])
       end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -61,6 +60,34 @@ RSpec.describe ResourcePlanners::TogglePublicContract do
     let(:current_user) { create(:user) }
 
     it_behaves_like "contract user is unauthorized"
+  end
+
+  context "with a global planner" do
+    let(:resource_planner) { build_stubbed(:resource_planner, :global, principal: owner) }
+
+    context "when user has manage_public_global_resource_planners" do
+      let(:current_user) do
+        create(:user, global_permissions: %i[view_global_resource_planners
+                                             manage_public_global_resource_planners])
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "when user only has the project-level manage permission" do
+      let(:current_user) do
+        create(:user, member_with_permissions: { project => %i[view_resource_planners
+                                                               manage_public_resource_planners] })
+      end
+
+      it_behaves_like "contract user is unauthorized"
+    end
+
+    context "when user has no permissions" do
+      let(:current_user) { create(:user) }
+
+      it_behaves_like "contract user is unauthorized"
+    end
   end
 
   describe "writable attributes" do

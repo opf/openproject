@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,8 +32,10 @@ module ResourceAllocations
   # avatar and name (or an anonymous placeholder when the principal is not
   # visible to the current user) and the allocated hours.
   class ListItemComponent < ApplicationComponent
+    include ResourceManagement::PlannerRoutes
     include OpPrimer::ComponentHelpers
     include AvatarHelper
+    include ResourceManagement::PlannerRoutes
 
     AVATAR_SIZE = 24
 
@@ -56,7 +57,7 @@ module ResourceAllocations
     attr_reader :allocation, :project
 
     def visible?
-      @visible
+      @visible || deleted_user?
     end
 
     def overbooked?
@@ -65,6 +66,10 @@ module ResourceAllocations
 
     def menu?
       @editable && visible?
+    end
+
+    def deleted_user?
+      allocation.principal.is_a?(DeletedUser)
     end
 
     def context_menu
@@ -82,7 +87,7 @@ module ResourceAllocations
       menu.with_item(
         label: I18n.t(:button_edit),
         tag: :a,
-        href: helpers.edit_project_resource_allocation_path(project, allocation),
+        href: edit_allocation_path(project, allocation),
         content_arguments: { data: { controller: "async-dialog" } }
       ) do |item|
         item.with_leading_visual_icon(icon: :pencil)
@@ -93,7 +98,7 @@ module ResourceAllocations
       menu.with_item(
         label: I18n.t(:button_delete),
         scheme: :danger,
-        href: helpers.project_resource_allocation_path(project, allocation),
+        href: allocation_path(project, allocation),
         form_arguments: {
           method: :delete,
           data: {
@@ -110,7 +115,7 @@ module ResourceAllocations
       if allocation.principal
         visible? ? allocation.principal.name : hidden_label
       else
-        allocation.filter_name.presence || unassigned_label
+        allocation.placeholder_user&.name.presence || unassigned_label
       end
     end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -57,7 +56,7 @@ RSpec.describe McpTools::ListWorkPackageRelations do
   let(:call_args) { { work_package_id: work_package.id } }
   let(:parsed_results) { JSON.parse(last_response.body).fetch("result") }
 
-  let!(:work_package) { create(:work_package, project: allowed_project) }
+  let!(:work_package) { create(:work_package, identifier: "PROJ-123", project: allowed_project) }
   let!(:relations) do
     [
       create(:relates_relation, from: work_package),
@@ -98,6 +97,15 @@ RSpec.describe McpTools::ListWorkPackageRelations do
       let(:call_args) { {} }
 
       it_behaves_like "MCP tool execution error response"
+    end
+
+    context "when passing a semantic identifier as work_package_id" do
+      let(:call_args) { { work_package_id: work_package.identifier } }
+
+      it "finds all relations of the work package" do
+        mcp_request
+        expect(parsed_results.dig("structuredContent", "items").size).to eq(relations.size)
+      end
     end
 
     context "when not allowed to see the source work package" do

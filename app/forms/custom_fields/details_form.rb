@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -60,7 +59,7 @@ module CustomFields
         end
       end
 
-      if show_min_max_field?
+      if show_min_max_length_field?
         details_form.text_field(
           name: :min_length,
           type: :number,
@@ -74,6 +73,28 @@ module CustomFields
           type: :number,
           label: label(:max_length),
           caption: instructions(:min_max),
+          input_width: :small
+        )
+      end
+
+      if show_min_max_value_field?
+        details_form.text_field(
+          name: :min_value,
+          type: :number,
+          step: bound_step,
+          value: model.min_bound,
+          label: label(:min_value),
+          caption: instructions(:min_max_value),
+          input_width: :small
+        )
+
+        details_form.text_field(
+          name: :max_value,
+          type: :number,
+          step: bound_step,
+          value: model.max_bound,
+          label: label(:max_value),
+          caption: instructions(:min_max_value),
           input_width: :small
         )
       end
@@ -176,6 +197,37 @@ module CustomFields
         )
       end
 
+      if show_project_specific_value_restriction_field?
+        # The upsell banner belongs between the headline and the options, where a radio button group has no slot.
+        details_form.html_content do
+          render(Primer::Beta::Text.new(tag: :p, font_weight: :semibold, mb: 2)) do
+            label(:project_specific_value_restriction)
+          end +
+            render(EnterpriseEdition::BannerComponent.new(:project_specific_list_values))
+        end
+
+        details_form.radio_button_group(
+          name: :project_specific_value_restriction,
+          label: label(:project_specific_value_restriction),
+          visually_hide_label: true
+        ) do |group|
+          group.radio_button(
+            value: "",
+            checked: model.project_specific_value_restriction.nil?,
+            label: I18n.t("custom_fields.project_specific_values.all.label"),
+            caption: I18n.t("custom_fields.project_specific_values.all.caption"),
+            data: { input_confirmation_target: "input" }
+          )
+          group.radio_button(
+            value: "allow",
+            checked: model.project_specific_value_restriction_allow?,
+            disabled: !project_specific_values_enterprise? && !model.project_specific_value_restriction_allow?,
+            label: I18n.t("custom_fields.project_specific_values.allow.label"),
+            caption: I18n.t("custom_fields.project_specific_values.allow.caption")
+          )
+        end
+      end
+
       if show_right_to_left_field?
         details_form.check_box(
           name: :content_right_to_left,
@@ -207,7 +259,7 @@ module CustomFields
         )
       end
 
-      details_form.submit(name: :submit, label: I18n.t(:button_save), scheme: :default)
+      details_form.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
     end
 
     def label(field)
@@ -237,7 +289,7 @@ module CustomFields
     end
 
     def show_default_text_field?
-      %w[list bool date text user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
+      %w[list bool date datetime text user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
     end
 
     def show_default_rich_text_field?
@@ -252,12 +304,20 @@ module CustomFields
       %w[calculated_value bool].exclude?(model.field_format)
     end
 
-    def show_min_max_field?
-      %w[list bool date user version link hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
+    def show_min_max_length_field?
+      model.length_limits_possible?
+    end
+
+    def show_min_max_value_field?
+      model.numeric_bounds_possible?
+    end
+
+    def bound_step
+      model.field_format == "int" ? 1 : "any"
     end
 
     def show_regex_field?
-      %w[list bool date user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
+      %w[list bool date datetime user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
     end
 
     def show_right_to_left_field?
@@ -273,16 +333,24 @@ module CustomFields
     end
 
     def show_is_for_all_field?
-      model.is_a?(WorkPackageCustomField) || model.is_a?(ProjectCustomField)
+      model.is_a?(ProjectCustomField)
     end
 
     def show_is_filter_field?
       model.is_a?(WorkPackageCustomField)
     end
 
+    def show_project_specific_value_restriction_field?
+      model.is_a?(WorkPackageCustomField) && %w[list hierarchy weighted_item_list].include?(model.field_format)
+    end
+
+    def project_specific_values_enterprise?
+      EnterpriseToken.allows_to?(:project_specific_list_values)
+    end
+
     def show_is_searchable_field?
       (model.is_a?(WorkPackageCustomField) || model.is_a?(ProjectCustomField)) &&
-        %w[bool date float int user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
+        %w[bool date datetime float int user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
     end
 
     def show_non_open_versions_field?

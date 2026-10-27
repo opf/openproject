@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -41,6 +40,7 @@ import { IanCenterService } from 'core-app/features/in-app-notifications/center/
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 
 @Component({
   selector: 'op-in-app-notification-entry',
@@ -172,6 +172,10 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
 
   isMobile():boolean {
     return this.deviceService.isMobile;
+  }
+
+  typeHighlightingClass(workPackage:WorkPackageResource):string {
+    return Highlighting.typeClass(workPackage.type.id!);
   }
 
   private buildTranslatedReason() {

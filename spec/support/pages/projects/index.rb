@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,9 +54,9 @@ module Pages
         projects.each do |project|
           case project
           when Project
-            expect(page).to have_no_css("#project-table", text: project.name)
+            expect(page).to have_no_css("#project-table", text: project.name, wait: 20)
           when String
-            expect(page).to have_no_css("#project-table", text: project)
+            expect(page).to have_no_css("#project-table", text: project, wait: 20)
           else
             raise ArgumentError, "#{project.inspect} is not a Project or a String"
           end
@@ -245,7 +244,7 @@ module Pages
 
         # Classify the row before apply_operator re-renders it. Skipped when
         # there is nothing to set.
-        kind = filter_kind(name) if values.any?
+        kind = values.any? ? filter_kind(name) : nil
 
         within(filter_selector(name)) do
           apply_operator(name, human_operator)
@@ -253,15 +252,15 @@ module Pages
 
         return unless values.any?
 
+        return set_autocomplete_filter(values, filter_name: name) if kind == :autocomplete
+
         # Re-find again as apply_operator may have triggered further DOM updates
         within(filter_selector(name)) do
           if boolean_filter?(name)
             set_toggle_filter(values)
-          elsif kind == :autocomplete
-            set_autocomplete_filter(values)
           elsif %i[date datetime_past].include?(kind)
             wait_for_network_idle
-            set_datetime_filter(name, human_operator, values, send_keys:)
+            set_datetime_filter(name, human_operator, values, send_keys:, kind:)
           end
         end
       end
@@ -295,6 +294,7 @@ module Pages
         end
 
         wait_for_network_idle
+        expect_columns(*(["Name"] + columns).uniq)
       end
 
       def expect_no_config_columns(*columns)
@@ -427,7 +427,9 @@ module Pages
       def move_column_via_action_menu(column_name, direction:)
         raise ArgumentError, "direction should be :left or :right" unless %i[left right].include?(direction)
 
-        find(".generic-table--sort-header a[data-test-selector='#{column_name.downcase}-move-col-#{direction}']").click
+        wait_for_turbo_stream do
+          find(".generic-table--sort-header a[data-test-selector='#{column_name.downcase}-move-col-#{direction}']").click
+        end
       end
 
       def remove_column_via_action_menu(column_name)
@@ -527,7 +529,7 @@ module Pages
       end
 
       def within_sort_row(index, &)
-        field_component = page.all("[data-test-selector='sort-by-field']")[index]
+        field_component = page.all("[data-test-selector='sort-by-field']", minimum: index + 1)[index]
         within(field_component, &)
       end
 

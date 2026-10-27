@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -107,24 +106,14 @@ RSpec.describe API::V3::UserPreferences::NotificationSettingRepresenter, "render
       end
     end
 
-    context "without enterprise" do
-      it "does not have the date alert settings in the resulting json" do
-        expect(subject).not_to have_json_path("startDate")
-        expect(subject).not_to have_json_path("dueDate")
-        expect(subject).not_to have_json_path("overdue")
-      end
+    it_behaves_like "property", :startDate do
+      let(:value) { "P1D" }
     end
-
-    context "with enterprise", with_ee: %i[date_alerts] do
-      it_behaves_like "property", :startDate do
-        let(:value) { "P1D" }
-      end
-      it_behaves_like "property", :dueDate do
-        let(:value) { "P1D" }
-      end
-      it_behaves_like "property", :overdue do
-        let(:value) { "P3D" }
-      end
+    it_behaves_like "property", :dueDate do
+      let(:value) { "P1D" }
+    end
+    it_behaves_like "property", :overdue do
+      let(:value) { "P3D" }
     end
   end
 
@@ -142,10 +131,14 @@ RSpec.describe API::V3::UserPreferences::NotificationSettingRepresenter, "render
       build_stubbed(:notification_setting, project: workspace, start_date: nil, due_date: nil, overdue: nil)
     end
 
-    it "does not represent them in the resulting json" do
-      expect(subject).not_to have_json_path("startDate")
-      expect(subject).not_to have_json_path("dueDate")
-      expect(subject).not_to have_json_path("overdue")
+    it_behaves_like "property", :startDate do
+      let(:value) { nil }
+    end
+    it_behaves_like "property", :dueDate do
+      let(:value) { nil }
+    end
+    it_behaves_like "property", :overdue do
+      let(:value) { nil }
     end
   end
 end

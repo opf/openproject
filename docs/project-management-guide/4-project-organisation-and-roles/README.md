@@ -1,29 +1,29 @@
 ---
 sidebar_navigation:
-  title: 4 Project organisation and roles 
+  title: 4 Project organization and roles 
   priority: 800
 description: Describes the PM² governance model in detail, including the main project roles and responsibilities for example the Project Steering Committee, Project Owner, Business Manager, Project Manager, and Project Core Team. It explains reporting lines, decision-making, and escalation mechanisms.
-keywords: project stakeholders, project organisations, appropriate governance body, project steering committee, PSC, project owner, business manager, project manager, business implementation group, project core team, project support team, ram
+keywords: project stakeholders, project organizations, appropriate governance body, project steering committee, PSC, project owner, business manager, project manager, business implementation group, project core team, project support team, ram
 ---
 
-# 4 Project Organisation and Roles 
+# 4 Project Organization and Roles 
 
 ## 4.1 Project Stakeholders
 
-Project stakeholders are people (or groups) who can affect, be affected by, or believe to be affected by the activities carried out during a project's lifecycle and/or by its output(s) and outcome(s). Stakeholders can be directly involved in a project's work, members of other internal organisations or external to the organisation (e.g. contractors, suppliers, users or the general public).
+Project stakeholders are people (or groups) who can affect, be affected by, or believe to be affected by the activities carried out during a project's lifecycle and/or by its output(s) and outcome(s). Stakeholders can be directly involved in a project's work, members of other internal organizations or external to the organization (e.g. contractors, suppliers, users or the general public).
 
 The number of stakeholders depends on the complexity and scope of a project. However, the more people the project has an impact on, the more likely it is that it will affect people who have some power or influence over the project. Given that stakeholders can be useful supporters of the project or may choose to block it, the effective management and involvement of them is crucial for its success.
 
-## 4.2 Project Organisation: Layers and Roles
+## 4.2 Project Organization: Layers and Roles
 
-The diagram below provides an overview of the layers and main roles in project organisation from a project management point of view.
-![Fig 4.1 Project organisation](04.01.png)
+The diagram below provides an overview of the layers and main roles in project organization from a project management point of view.
+![Fig 4.1 Project organization](04.01.png)
 
 Note that there is only one project team, which is composed of the people assuming the roles defined in the Performing, Managing and Directing layers. For the project to succeed, these people need to work together as a team.
 
 **Business Governing Layer**
 
-The Business Governing Layer determines the vision and strategy for the organisation as a whole. It consists of one or more management committees operating at a high or the highest management level. It is here that priorities are defined, investment decisions are made, and resources are allocated.
+The Business Governing Layer determines the vision and strategy for the organization as a whole. It consists of one or more management committees operating at a high or the highest management level. It is here that priorities are defined, investment decisions are made, and resources are allocated.
 
 **Steering Layer**
 
@@ -31,15 +31,15 @@ The Steering Layer provides general project direction and guidance. It keeps the
 
 **Directing Layer**
 
-The Directing Layer champions the project and owns its Business Case. It mobilises the necessary resources and monitors the project's performance in order to realise the project's objectives. The Directing Layer comprises the roles of Project Owner (PO) and Solution Provider (SP).
+The Directing Layer champions the project and owns its Business Case. It mobilizes the necessary resources and monitors the project's performance in order to realize the project's objectives. The Directing Layer comprises the roles of Project Owner (PO) and Solution Provider (SP).
 
 **Managing Layer** 
 
-The Managing Layer focuses on day-to-day project management. It organises, monitors and controls work to produce the intended deliverables and implement them in the business organisation. Members of the Managing Layer report to the Directing Layer. The Managing Layer comprises the roles of Business Manager (BM) and Project Manager (PM). It is of utmost importance for the success of the project that there is close collaboration and good communication between these two roles.
+The Managing Layer focuses on day-to-day project management. It organizes, monitors and controls work to produce the intended deliverables and implement them in the business organization. Members of the Managing Layer report to the Directing Layer. The Managing Layer comprises the roles of Business Manager (BM) and Project Manager (PM). It is of utmost importance for the success of the project that there is close collaboration and good communication between these two roles.
 
 **Performing Layer**
 
-The Performing Layer carries out the project work. It produces the deliverables and implements them in the business organisation. Members of the Performing Layer report to the Managing Layer. The Performing Layer comprises the roles of the Business Implementation Group (BIG) and the Project Core Team (PCT).
+The Performing Layer carries out the project work. It produces the deliverables and implements them in the business organization. Members of the Performing Layer report to the Managing Layer. The Performing Layer comprises the roles of the Business Implementation Group (BIG) and the Project Core Team (PCT).
 
 ## 4.3 Appropriate Governance Body (AGB)
 
@@ -49,9 +49,9 @@ The Appropriate Governance Body (AGB) is the entity responsible for the strategi
 
 - Defines the corporate and business domain strategy.
 - Agrees to and implements a portfolio management framework to achieve the strategic objectives.
-- Identifies, evaluates and authorises programmes and projects for implementation.
+- Identifies, evaluates and authorizes programmes and projects for implementation.
 - Monitors and controls portfolio delivery performance.
-- Optimises and manages portfolio resources and benefits.
+- Optimizes and manages portfolio resources and benefits.
 
 ## 4.4 Project Steering Committee (PSC)
 
@@ -64,12 +64,12 @@ The Project Steering Committee (PSC) is chaired by the Project Owner (PO) and is
 
 - Champions the project and raises awareness of it at a senior level.
 - Guides and promotes the successful execution of the project at a strategic level, keeping the project focused on its objectives.
-- Ensures adherence to the organisation's policies and rules (e.g. IT governance, data protection, information security, document management, etc.).
+- Ensures adherence to the organization's policies and rules (e.g. IT governance, data protection, information security, document management, etc.).
 - Provides high-level monitoring and control of the project.
-- Authorises transition between Phases unless this is performed by the Appropriate Governance Body (AGB).
-- Authorises deviations and scope changes with a high project impact and has the final say on decisions.
+- Authorizes transition between Phases unless this is performed by the Appropriate Governance Body (AGB).
+- Authorizes deviations and scope changes with a high project impact and has the final say on decisions.
 - Deals with escalated issues and conflicts.
-- Approves key project artefacts (e.g. Project Charter, Project Work Plan).
+- Approves key project artifacts (e.g. Project Charter, Project Work Plan).
 
 **Optional Project Steering Committee (PSC) members:**
 
@@ -97,36 +97,36 @@ The Project Owner (PO) is the client of the project, and as such sets the busine
 - Provides leadership and strategic direction to the Business Manager (BM) and Project Manager (PM).
 - Sets the business objectives and accepts the Business Case for the project.
 - Owns the business risks and ensures that project outcomes are in line with business objectives and priorities.
-- Mobilises the resources necessary for the project, in accordance with the agreed budget.
+- Mobilizes the resources necessary for the project, in accordance with the agreed budget.
 - Regularly monitors project progress.
 - Coordinates the resolution of escalated issues and conflicts.
-- Drives organisational change and monitors proper evolution and change implementation.
-- Approves key project artefacts (Business Case, Project Charter, Project Handbook, Work Plan, Deliverables Acceptance Plan, Transition Plan, Business Implementation Plan).
+- Drives organizational change and monitors proper evolution and change implementation.
+- Approves key project artifacts (Business Case, Project Charter, Project Handbook, Work Plan, Deliverables Acceptance Plan, Transition Plan, Business Implementation Plan).
 
 4.6 Solution Provider (SP)
 
 The Solution Provider (SP) assumes overall accountability for project deliverables and represents the interests of those who design, manage and implement (or outsource) the project's deliverables.
 
-As the key Directing Layer role from the provider side, the Solution Provider (SP) usually has a management position in the functional hierarchy of the organisation undertaking the project, and therefore often works with the Project Owner (PO) in defining the project's business objectives.
+As the key Directing Layer role from the provider side, the Solution Provider (SP) usually has a management position in the functional hierarchy of the organization undertaking the project, and therefore often works with the Project Owner (PO) in defining the project's business objectives.
 
 **Responsibilities:** 
 
 - Assumes overall accountability for the project deliverables and services requested by the Project Owner (PO).
-- Mobilises the required resources from the provider side and appoints the Project Manager (PM).
+- Mobilizes the required resources from the provider side and appoints the Project Manager (PM).
 - Approves the objectives of any outsourced activities and deliverables and becomes accountable for the contractor's performance.
 
 ## 4.7 Business Manager (BM)
 
-The Business Manager (BM) represents the Project Owner (PO) on a daily basis within the project and helps in defining the project's business objectives via the Project Initiation Request, Business Case and Business Implementation Plan. The Business Manager (BM) collaborates closely with the Project Manager (PM) and coordinates client-side activities and roles (e.g. user and business representatives), ensuring that the project's deliverables fulfil the business and user needs.
+The Business Manager (BM) represents the Project Owner (PO) on a daily basis within the project and helps in defining the project's business objectives via the Project Initiation Request, Business Case and Business Implementation Plan. The Business Manager (BM) collaborates closely with the Project Manager (PM) and coordinates client-side activities and roles (e.g. user and business representatives), ensuring that the project's deliverables fulfill the business and user needs.
 
 **Responsibilities**:
 
 - Guarantees cooperation and an efficient communication channel with the Project Manager (PM).
-- Coordinates the Business Implementation Group (BIG) and acts as a liaison between the User Representatives (URs) and the provider organisation.
-- Ensures that the products delivered by the project fulfil the user's needs.
+- Coordinates the Business Implementation Group (BIG) and acts as a liaison between the User Representatives (URs) and the provider organization.
+- Ensures that the products delivered by the project fulfill the user's needs.
 - Manages the activities on the business side of the project and ensures that the required business resources are made available.
 - Decides on the best way to introduce business change or re-engineering actions, when needed.
-- Ensures that the business organisation is ready to accommodate the project's deliverables when they are made available by the Solution Provider (SP).
+- Ensures that the business organization is ready to accommodate the project's deliverables when they are made available by the Solution Provider (SP).
 - Leads the implementation of the business changes within the user community.
 - Coordinates the schedule and delivery of any user training (and production of related material).
 
@@ -140,7 +140,7 @@ The Project Manager (PM) oversees the project on a daily basis and is responsibl
 - Coordinates the Project Core Team (PCT), ensuring the effective use of the allocated resources.
 - Ensures that project objectives are achieved within the identified constraints, taking preventive or corrective measures where necessary.
 - Manages stakeholder expectations.
-- Oversees the creation of all management artefacts (except the Project Initiation Request, Business Case and Business Implementation Plan) and secures approval from the Project Owner (PO) or the Project Steering Committee (PSC).
+- Oversees the creation of all management artifacts (except the Project Initiation Request, Business Case and Business Implementation Plan) and secures approval from the Project Owner (PO) or the Project Steering Committee (PSC).
 - Ensures the controlled evolution, of products delivered, through proper change management.
 - Performs risk management activities for project-related risks.
 - Monitors project status and reports to the Project Steering Committee (PSC) on project progress at regular predefined intervals.
@@ -149,15 +149,15 @@ The Project Manager (PM) oversees the project on a daily basis and is responsibl
 
 ## 4.9 Business Implementation Group (BIG) 
 
-The Business Implementation Group (BIG) sits on the requestor side and consists of representatives of business and user groups. Coordinated by the Business Manager (BM), it is responsible for planning and implementing the business changes that need to be made for the organisation to effectively integrate the project deliverables into its everyday work.
+The Business Implementation Group (BIG) sits on the requestor side and consists of representatives of business and user groups. Coordinated by the Business Manager (BM), it is responsible for planning and implementing the business changes that need to be made for the organization to effectively integrate the project deliverables into its everyday work.
 
 **Responsibilities**:
 
-- Analyses the impact of the project's implementation on ongoing operations, existing business processes, staff and organisational culture.
+- Analyses the impact of the project's implementation on ongoing operations, existing business processes, staff and organizational culture.
 - Participates in the design and updating of affected business processes.
 - Prepares the affected business area for the upcoming change.
-- Advises the Business Manager (BM) on the organisation's readiness for change.
-- Embeds the project deliverables into business operations and implements the organisational change activities that fall within the project's scope.
+- Advises the Business Manager (BM) on the organization's readiness for change.
+- Embeds the project deliverables into business operations and implements the organizational change activities that fall within the project's scope.
 
 **User Representatives (URs)**
 
@@ -168,7 +168,7 @@ User Representatives (URs) represent the interests of the project's end-users an
 - Help define the business needs and requirements.
 - Ensure that the project specifications and deliverables meet the needs of all users.
 - Review the project specification and acceptance criteria on behalf of the users.
-- Communicate and prioritise user opinions in the Project Steering Committee (PSC) and ensure that these opinions are taken into consideration when decisions are made whether or not to implement a proposed change.
+- Communicate and prioritize user opinions in the Project Steering Committee (PSC) and ensure that these opinions are taken into consideration when decisions are made whether or not to implement a proposed change.
 - Participate in demonstrations and pilot phases as needed.
 - Perform user acceptance tests.
 - Sign off on user-related documents (requirements document, deliverable acceptance testing, etc.).
@@ -214,11 +214,11 @@ The Project Support Team (PST) is an optional role that consists of the people r
 
 **Project Support Office (PSO)**
 
-The Project Support Office (PSO), also called Project Management Office or Project Office, is an optional structure that can provide services to project teams such as the application of the methodology and use of the artefacts, information systems, governance, logistics and various support.
+The Project Support Office (PSO), also called Project Management Office or Project Office, is an optional structure that can provide services to project teams such as the application of the methodology and use of the artifacts, information systems, governance, logistics and various support.
 
 **Project Quality Assurance (PQA)**
 
-Assigned by the Project Steering Committee (PSC) and working independently of the Project Manager (PM), the Project Quality Assurance (PQA) ensures the high quality of the project and its deliverables, by reviewing processes and artefacts, identifying non-conformities with the set quality standards and recommending corrective actions. This is an optional role in an organisation, reporting directly to the Project Steering Committee (PSC), and may take the form of either a group or individual staff member.
+Assigned by the Project Steering Committee (PSC) and working independently of the Project Manager (PM), the Project Quality Assurance (PQA) ensures the high quality of the project and its deliverables, by reviewing processes and artifacts, identifying non-conformities with the set quality standards and recommending corrective actions. This is an optional role in an organization, reporting directly to the Project Steering Committee (PSC), and may take the form of either a group or individual staff member.
 
 **Other**
 
@@ -236,7 +236,7 @@ The Responsibility Assignment Matrix (RAM) is a way of representing and clarifyi
 | **C** | Consulted | Those whose opinions are requested and with whom there is two-way <br> communication. The consulted role does not help complete the task. |
 | **I** | Informed | Those who are kept informed of progress. |
 
-Stakeholders should be reminded of their roles and responsibilities during the project. This Open PM² guide includes a RAM (RASCI) table for each artefact in the Initiating, Planning and Closing Phases and for each of the activities in the Executing Phase and in Monitor \& Control (see Appendix E).
+Stakeholders should be reminded of their roles and responsibilities during the project. This Open PM² guide includes a RAM (RASCI) table for each artifact in the Initiating, Planning and Closing Phases and for each of the activities in the Executing Phase and in Monitor \& Control (see Appendix E).
 
 Example: The RAM for the Standard PM² roles involved in creating the Business Case document.
 

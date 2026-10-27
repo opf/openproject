@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,9 +37,10 @@ module Users
       @user = current_user
     end
 
-    def call!(clear_invitation_tokens: true)
+    def call!(clear_invitation_tokens: true, clear_autologin_tokens: false)
       invalidate_recovery_tokens
       invalidate_invitation_tokens if clear_invitation_tokens
+      invalidate_autologin_tokens if clear_autologin_tokens
     end
 
     private
@@ -51,6 +51,10 @@ module Users
 
     def invalidate_invitation_tokens
       Token::Invitation.where(user:).delete_all
+    end
+
+    def invalidate_autologin_tokens
+      Token::AutoLogin.where(user:).delete_all
     end
   end
 end

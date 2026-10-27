@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -48,7 +47,7 @@ RSpec.describe "Project creation wizard from a template",
   end
 
   # Role for the assignee user - assigned via the user custom field role assignment
-  # This role gives work_package_assigned permission needed for artefact WP creation
+  # This role gives work_package_assigned permission needed for artifact WP creation
   shared_let(:assignee_role) do
     create(:project_role, permissions: %i[work_package_assigned view_work_packages])
   end
@@ -130,7 +129,7 @@ RSpec.describe "Project creation wizard from a template",
   end
 
   it "creates a project from template and completes the wizard, " \
-     "creating an artefact work package despite lacking add_work_packages permission" do
+     "creating an artifact work package despite lacking add_work_packages permission" do
     # Verify user does NOT have add_work_packages permission through their role
     expect(new_project_role.permissions).not_to include(:add_work_packages)
 
@@ -181,13 +180,13 @@ RSpec.describe "Project creation wizard from a template",
                         results_selector: "body",
                         query: user_assignee.name
 
-    # Complete the wizard - this should create the artefact work package
+    # Complete the wizard - this should create the artifact work package
     # via User.execute_as_admin despite lacking add_work_packages permission
-    click_button "Complete"
+    wait_for_turbo(wait: 20) { click_button "Complete" }
 
-    expect(page).to have_text("Project attributes saved and artefact work package created successfully.")
+    expect(page.document).to have_text("Project attributes saved and artifact work package created successfully.")
 
-    # Verify we're redirected to the artefact work package
+    # Verify we're redirected to the artifact work package
     project.reload
     expect(project.project_creation_wizard_artifact_work_package_id).to be_present
     artefact_wp = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
@@ -211,9 +210,9 @@ RSpec.describe "Project creation wizard from a template",
 
     expect(Attachment.count)
       .to be 1
-    artefact = artefact_wp.attachments.first
+    artifact = artefact_wp.attachments.first
     pdf_timestamp = artefact_wp.updated_at.strftime("%Y-%m-%d_%H-%M")
-    expect(artefact.filename)
+    expect(artifact.filename)
       .to eq("#{project.identifier}_Project_creation_wizard_#{status_new.name}_#{pdf_timestamp}.pdf")
   end
 end

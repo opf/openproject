@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,10 @@ require "spec_helper"
 
 RSpec.describe WorkPackageSemanticAlias do
   let(:work_package) { create(:work_package) }
+
+  describe "database indexes" do
+    it { is_expected.to have_db_index("lower((identifier)::text) text_pattern_ops") }
+  end
 
   describe "validations" do
     it "is valid with an identifier and work_package" do

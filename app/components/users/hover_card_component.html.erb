@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -34,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
     end
 
     flex.with_row do
-      flex_layout(classes: "op-user-hover-card--info") do |f|
+      flex_layout(classes: "op-user-hover-card--item") do |f|
         f.with_column(classes: "op-user-hover-card--name") do
           render(Primer::Beta::Text.new(font_weight: :semibold, data: { test_selector: "user-hover-card-name" })) do
             @user.name
@@ -70,31 +69,51 @@ See COPYRIGHT and LICENSE files for more details.
       end
     end
 
-    if @user.department
-      flex.with_row do
-        flex_layout(classes: "op-user-hover-card--department") do |f|
-          f.with_column do
-            render(Primer::Beta::Octicon.new(icon: :briefcase, color: :muted))
-          end
+    flex.with_row do
+      flex_layout do |fl|
+        if @user.job_title
+          fl.with_row do
+            flex_layout(classes: "op-user-hover-card--item") do |f|
+              f.with_column do
+                render(Primer::Beta::Octicon.new(icon: :person, color: :muted))
+              end
 
-          f.with_column do
-            render(Primer::Beta::Text.new(data: { test_selector: "user-hover-card-department" })) do
-              @user.department.name
+              f.with_column do
+                render(Primer::Beta::Text.new(data: { test_selector: "user-hover-card-job-title" })) do
+                  @user.job_title
+                end
+              end
             end
           end
         end
-      end
-    end
 
-    flex.with_row do
-      flex_layout(classes: "op-user-hover-card--group-list") do |f|
-        f.with_column do
-          render(Primer::Beta::Octicon.new(icon: :people, color: :muted))
+        if @user.department
+          fl.with_row do
+            flex_layout(classes: "op-user-hover-card--item") do |f|
+              f.with_column do
+                render(Primer::Beta::Octicon.new(icon: :briefcase, color: :muted))
+              end
+
+              f.with_column do
+                render(Primer::Beta::Text.new(data: { test_selector: "user-hover-card-department" })) do
+                  @user.department.name
+                end
+              end
+            end
+          end
         end
 
-        f.with_column do
-          render(Primer::Beta::Text.new(data: { test_selector: "user-hover-card-groups" })) do
-            group_membership_summary
+        fl.with_row do
+          flex_layout(classes: "op-user-hover-card--item") do |f|
+            f.with_column do
+              render(Primer::Beta::Octicon.new(icon: :people, color: :muted))
+            end
+
+            f.with_column do
+              render(Primer::Beta::Text.new(data: { test_selector: "user-hover-card-groups" })) do
+                group_membership_summary
+              end
+            end
           end
         end
       end

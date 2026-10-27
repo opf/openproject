@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -117,6 +116,47 @@ RSpec.describe Import::JiraFetchUsersJob do
     end
   end
 
+  describe "#collect_markup_mentions" do
+    let(:mention_usernames) { Set.new }
+
+    def mentions_in(markup)
+      job.send(:collect_markup_mentions, markup, mention_usernames)
+      mention_usernames
+    end
+
+    it "collects a mention from a paragraph" do
+      expect(mentions_in("hello [~jdoe]")).to contain_exactly("jdoe")
+    end
+
+    it "collects mentions from header and data cells of a table" do
+      expect(mentions_in("||[~alice]||B||\n|[~bob]|2|")).to contain_exactly("alice", "bob")
+    end
+
+    it "collects a mention from a headerless table" do
+      expect(mentions_in("|[~jdoe]|2|")).to contain_exactly("jdoe")
+    end
+
+    it "collects a mention nested in markup inside a cell" do
+      expect(mentions_in("|*see [~jdoe]*|b|")).to contain_exactly("jdoe")
+    end
+
+    it "collects mentions from every line of a multi-line quote" do
+      expect(mentions_in("{quote}\n[~alice]\nand [~bob]\n{quote}")).to contain_exactly("alice", "bob")
+    end
+
+    it "collects a mention nested in markup inside a quote" do
+      expect(mentions_in("{quote}\n*see [~jdoe]*\n{quote}")).to contain_exactly("jdoe")
+    end
+
+    it "collects a mention from a panel body" do
+      expect(mentions_in("{panel:title=T}\n[~jdoe]\n{panel}")).to contain_exactly("jdoe")
+    end
+
+    it "collects a mention from a panel inside a table cell" do
+      expect(mentions_in("|{panel}[~jdoe]{panel}|b|")).to contain_exactly("jdoe")
+    end
+  end
+
   describe "#resolve_mention_user_keys" do
     context "when all mentioned users exist" do
       before do
@@ -131,7 +171,7 @@ RSpec.describe Import::JiraFetchUsersJob do
     end
 
     context "when a mentioned user does not exist in Jira" do
-      let(:api_error) { Import::JiraClient::ApiError.new("User not found", status: 404) }
+      let(:api_error) { Import::JiraClient::ApiError.new("User not found", status: 404, response_body: "", response_headers: {}) }
 
       before do
         allow(jira_client).to receive(:user_by_username).with(username: "alice").and_return({ "key" => "JIRAUSER100" })
@@ -147,15 +187,15 @@ RSpec.describe Import::JiraFetchUsersJob do
         expect(user_keys).to contain_exactly("JIRAUSER100")
       end
 
-      it "logs the error" do
-        allow(Rails.logger).to receive(:info)
+      it "logs a warning" do
+        allow(Rails.logger).to receive(:warn)
         job.send(:resolve_mention_user_keys, %w[alice ghost], user_keys, jira_client)
-        expect(Rails.logger).to have_received(:info).with(a_string_including("ghost"))
+        expect(Rails.logger).to have_received(:warn).with(a_string_including("ghost"))
       end
     end
 
     context "when resolving a mentioned user fails with a non-404 error" do
-      let(:api_error) { Import::JiraClient::ApiError.new("Boom", status: 500) }
+      let(:api_error) { Import::JiraClient::ApiError.new("Boom", status: 500, response_body: "", response_headers: {}) }
 
       before do
         allow(jira_client).to receive(:user_by_username).with(username: "alice").and_raise(api_error)
@@ -163,7 +203,7 @@ RSpec.describe Import::JiraFetchUsersJob do
 
       it "raises an error" do
         expect { job.send(:resolve_mention_user_keys, %w[alice], user_keys, jira_client) }
-          .to raise_error("Could not resolve mentioned user 'alice': Boom")
+          .to raise_error(/Could not resolve mentioned user 'alice': Boom/)
       end
     end
   end

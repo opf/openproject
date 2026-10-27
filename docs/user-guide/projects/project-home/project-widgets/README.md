@@ -133,6 +133,14 @@ The subitems widget lists all subitems of the respective entity:
 
 The _Subitems_ widget under the _Overview_ tab allows adding subitems directly within the widget (click the **Plus** icon in the top right corner of the widget and select _Project_). That same widget under that _Dashboard_ tab lists all subitems of a project, but offers no option to add subitems directly. 
 
+> [!NOTE]
+>
+> The **Subitem** widget behaves differently depending on the page type:
+>
+> **Project homepage:** The widget is hidden when the project has no subitems.  Users with the required permissions can add subitems (subprojects) from the **More** (three dots) menu at the top of the page.
+>
+> **Portfolio or Program homepage:** The widget is always shown, even when there are no subitems.
+
 ![Subprojects widget displayed on a project home page in OpenProject](openproject_user_guide_project_overview_project_subitems_widget.png)
 
 The widget only links the first subproject hierarchy and not the children of a subproject.

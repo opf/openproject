@@ -47,25 +47,27 @@ zh-TW:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget:
-        other: Budgets
+        other: 預算
       labor_budget_item:
-        other: Planned labor costs
+        other: 規劃人工成本
       material_budget_item:
-        other: Units
+        other: 單位
   activity:
     filter:
       budget: 預算
   attributes:
     budget: 預算
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: 未列出每小時費率 %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
-          description: Get an overview of your budgets and costs to efficiently track the health status of your project
-          heading: Start project controlling
+          description: 掌握預算與成本的整體概況，以有效追蹤專案的執行狀況
+          heading: 啟動專案管控
         blankslate_zero:
-          description: Add details about your planned budget to see data here
-          heading: Budget details missing
+          description: 請在此處新增您預定預算的詳細資訊，以查看相關數據
+          heading: 預算細節缺失
         count_caption:
           one: Data aggregated from %{count} budget
           other: Data aggregated from %{count} budgets
@@ -83,14 +85,14 @@ zh-TW:
             one: Data aggregated from %{count} budget included in this project and its subitems.
             other: Data aggregated from %{count} budgets included in this project and its subitems.
             zero: No budget data.
-        title: Budget by cost type
-        view_details: View budget details
+        title: 按成本類別劃分的預算
+        view_details: 查看預算詳情
       budget_totals:
-        remaining_budget: Remaining budget
-        spent_budget: Spent budget
-        title: Budget totals
-        total_actual_costs: Total actual costs
-        total_planned_budget: Total planned budget
+        remaining_budget: 剩餘預算
+        spent_budget: 已動用預算
+        title: 預算總額
+        total_actual_costs: 實際總成本
+        total_planned_budget: 計畫總預算
   budgets_title: 預算
   button_add_budget: 新增預算
   button_add_budget_item: 新增計畫費用
@@ -103,7 +105,7 @@ zh-TW:
   events:
     budget: 預算已編輯
   help_click_to_edit: 點擊這裡編輯
-  help_currency_format: 已顯示的貨幣值的格式。%n 替換為貨幣值，%u 替換為貨幣單位。
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: 在此輸入一個值以覆蓋預設費率。
   label_budget_available: 可用預算
   label_budget_details: 預算細節

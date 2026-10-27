@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module WorkPackages::Scopes
   module AllowedTo
@@ -62,76 +61,29 @@ module WorkPackages::Scopes
       end
 
       def logged_in_non_admin_allowed_to(user, permissions)
-        # Get all projects a user has the permissions in.
-        # Permissions can come from project memberships as well as entity/work_package memberships, in addition
-        # to (UNION) potentially the non-member permissions.
-        # This comes back with the columns
-        # * id (of the project) - this column will always be set regardless of whether the membership is entity-specific or not.
-        # * entity_id (of the work package) - this column can be null in case it is a project-wide membership.
-        allowed_via_project_or_work_package_membership = Project
-                                                           .unscoped
-                                                           .allowed_to_member_union(user,
-                                                                                    permissions,
-                                                                                    entity_types: [WorkPackage.name])
+        project_ids, work_package_ids = member_project_and_work_package_ids(user, permissions)
 
-        # Split the member projects into two distinct sets
-        # for easier reference.
-        entity_member_projects = Arel.sql(<<~SQL.squish)
-          SELECT *
-          FROM member_projects
-          WHERE entity_id IS NOT NULL
-        SQL
+        where(arel_table[:project_id].in(project_ids).or(arel_table[:id].in(work_package_ids)))
+      end
 
-        project_member_projects = Arel.sql(<<~SQL.squish)
-          SELECT *
-          FROM member_projects
-          WHERE entity_id IS NULL
-        SQL
+      def member_project_and_work_package_ids(user, permissions)
+        member_projects = Project
+                            .unscoped
+                            .allowed_to_member_union(user, permissions, entity_types: [nil, WorkPackage.name])
 
-        # Take all work packages allowed by either project-wide or entity-specific membership.
-        # PostgreSQL however sometimes turns to a sequential scan with the query above.
-        #
-        # It is currently unclear if index scans can still happen in the combination of the CTE with the check
-        # outside of the CTEs for the existence of any record.
-        # This happened in the past, before changing this CTE to a UNION, in case AR.exists? is used which adds a LIMIT 1
-        # to the query. In this case, there is a known shortcoming that PostgreSQL's query planner
-        # will make poor choices
-        # (https://www.postgresql.org/message-id/flat/CA%2BU5nMLbXfUT9cWDHJ3tpxjC3bTWqizBKqTwDgzebCB5bAGCgg%40mail.gmail.com).
-        #
-        # Once AR supports adding materialization hints (https://github.com/rails/rails/pull/54322), the inner
-        # `allowed` CTE can be abandoned as it is only used for being able to provide such a hint.
-        # Having the inner materialized CTE has no known negative side effects which is why it is kept.
-        allowed_by_projects_and_work_packages = Arel.sql(<<~SQL.squish)
-          WITH allowed AS MATERIALIZED (
-            SELECT
-              work_packages.id
-            FROM
-              work_packages
-            JOIN project_member_projects ON project_member_projects.id	= work_packages.project_id
+        # Plucking the ids is deliberate here.
+        # We were confused by it ourselves, but with a subquery, PostgreSQL does not always optimize the query,
+        # so the second roundtrip is almost always faster.
+        # Please see the following PR for references
+        # https://github.com/opf/openproject/pull/26131#issuecomment-6270068603
+        project_rows, work_package_rows = Project
+                                            .unscoped
+                                            .from(Arel::Nodes::TableAlias.new(Arel::Nodes::Grouping.new(member_projects),
+                                                                              "member_projects"))
+                                            .pluck("member_projects.id", "member_projects.entity_id")
+                                            .partition { |_, entity_id| entity_id.nil? }
 
-            UNION
-
-            SELECT
-              work_packages.id
-            FROM
-              work_packages
-            JOIN entity_member_projects ON entity_member_projects.entity_id = work_packages.id
-          )
-
-          SELECT * from allowed
-        SQL
-
-        with(member_projects: Arel.sql(allowed_via_project_or_work_package_membership.to_sql),
-             entity_member_projects:,
-             project_member_projects:,
-             allowed_by_projects_and_work_packages:)
-          .where(<<~SQL.squish)
-            EXISTS (
-              SELECT 1
-              FROM allowed_by_projects_and_work_packages
-              WHERE work_packages.id = allowed_by_projects_and_work_packages.id
-            )
-          SQL
+        [project_rows.map(&:first).uniq, work_package_rows.map(&:last).uniq]
       end
 
       def allowed_to_admin_relation(permissions)

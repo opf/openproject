@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -73,8 +72,8 @@ RSpec.describe Sprints::Scopes::OrderByActivity do
   it "orders active first, then in_planning, then completed" do
     expected_order = [
       active_sprint,
-      in_planning_sprint_later,
       in_planning_sprint_earlier,
+      in_planning_sprint_later,
       in_planning_sprint_no_dates,
       completed_sprint_a,
       completed_sprint_b
@@ -83,10 +82,10 @@ RSpec.describe Sprints::Scopes::OrderByActivity do
     expect(Sprint.order_by_activity).to eq(expected_order)
   end
 
-  it "orders sprints with the same status by start_date descending" do
+  it "orders sprints with the same status by start_date ascending" do
     expected_order = [
-      in_planning_sprint_later,
       in_planning_sprint_earlier,
+      in_planning_sprint_later,
       in_planning_sprint_no_dates
     ]
 
@@ -99,6 +98,19 @@ RSpec.describe Sprints::Scopes::OrderByActivity do
 
   it "breaks ties within the same status and dates by name ascending" do
     expect(Sprint.order_by_activity.completed).to eq([completed_sprint_a, completed_sprint_b])
+  end
+
+  it "breaks ties by name with numbers naturally" do
+    sprint10 = create(:sprint, project:, status: :completed,
+                               name: "Sprint 10",
+                               start_date: Date.new(2025, 8, 1),
+                               finish_date: Date.new(2025, 8, 31))
+    sprint2 = create(:sprint, project:, status: :completed,
+                              name: "Sprint 2",
+                              start_date: Date.new(2025, 8, 1),
+                              finish_date: Date.new(2025, 8, 31))
+
+    expect(Sprint.order_by_activity.completed.where(id: [sprint10, sprint2])).to eq([sprint2, sprint10])
   end
 
   it "breaks ties within the same status, dates, and name by id ascending" do

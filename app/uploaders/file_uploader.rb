@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,6 +48,18 @@ module FileUploader
 
   def local_file
     file.to_file
+  end
+
+  ##
+  # Streams this file's content into +output+ in chunks. Storage backends that don't already
+  # expose a local path (e.g. remote/S3 storage) should override this to stream directly from
+  # the remote source instead of first caching the whole file locally.
+  #
+  # @param output [IO] Stream to copy the file to
+  def stream_to(output)
+    File.open(local_file.path, "rb") do |file|
+      IO.copy_stream file, output
+    end
   end
 
   def download_url(_options = {})

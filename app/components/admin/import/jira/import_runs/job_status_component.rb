@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,29 +36,39 @@ module Admin::Import::Jira::ImportRuns
       super()
       @job = job
       @active_job = job.active_job
+      @progressable = @active_job.respond_to?(:progress)
+      if @progressable
+        progress = @active_job.progress
+        @current = progress[:current]
+        @total = progress[:total]
+        @percentage = progress[:percentage]
+      end
     end
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def call
       flex_layout(style: "gap: 8px;") do |flex|
         flex.with_row do
           render(Primer::Box.new(display: :flex, align_items: :center, justify_content: :space_between)) do
             concat(render(Primer::Box.new(display: :flex, align_items: :center, style: "gap: 8px;")) do
               concat(render(Primer::Beta::Text.new(font_weight: :bold)) { @active_job.text })
-              # concat(render(Primer::Beta::Text.new) { "(36/45)" })
+              if @progressable && @total.to_i > 0
+                concat(render(Primer::Beta::Text.new(color: :muted)) do
+                  "(#{@current}/#{@total})"
+                end)
+              end
             end)
             concat(render(Primer::Box.new(display: :flex, align_items: :center, style: "gap: 8px;")) do
-              concat(render(Primer::Beta::Octicon.new(**job_status_icon(@job.status))))
+              concat(
+                if @job.status == :running
+                  render(OpPrimer::SpinnerIconComponent.new)
+                else
+                  render(Primer::Beta::Octicon.new(**job_status_icon(@job.status)))
+                end
+              )
               concat(
                 render(Primer::Beta::ProgressBar.new(size: :default, style: "min-width: 300px;")) do |c|
-                  percentage = if @job.status == :succeeded
-                                 100
-                               elsif @active_job.respond_to?(:percentage)
-                                 @active_job.percentage
-                               else
-                                 0
-                               end
-                  c.with_item(percentage:)
+                  c.with_item(percentage: @job.status == :succeeded ? 100 : @percentage)
                 end
               )
             end)
@@ -67,6 +76,5 @@ module Admin::Import::Jira::ImportRuns
         end
       end
     end
-    # rubocop:enable Metrics/AbcSize
   end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 require_relative "../support/pages/calendar"
@@ -83,6 +82,19 @@ RSpec.describe "Calendar",
         expect(page).to have_current_path(project_calendar_path(project, Query.last), ignore_query: true)
         expect(page).to have_text("Batman's Itinerary")
       end
+    end
+
+    it_behaves_like "a project picker searchable by identifier" do
+      let(:target_project) { project }
+      let(:control_project) do
+        create(:project,
+               name: "Unrelated Control Project",
+               identifier: "unrelated-control-project",
+               enabled_module_names: %w[work_package_tracking calendar_view],
+               member_with_permissions: { user => %w[view_calendar manage_calendars] })
+      end
+
+      delegate :search_project, to: :calendars_page
     end
 
     context "when missing a required field" do

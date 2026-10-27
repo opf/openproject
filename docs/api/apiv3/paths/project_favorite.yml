@@ -53,6 +53,7 @@ delete:
     This endpoint is deprecated and replaced by [`/api/v3/workspaces/{id}/favorite`](https://www.openproject.org/docs/api/endpoints/workspaces/#unfavorite-workspace)
   operationId: Unfavorite_Project
   summary: Unfavorite Project
+  deprecated: true
 post:
   parameters:
   - description: Project id
@@ -106,3 +107,4 @@ post:
     This endpoint is deprecated and replaced by [`/api/v3/workspaces/{id}/favorite`](https://www.openproject.org/docs/api/endpoints/workspaces/#favorite-workspace)
   operationId: Favorite_Project
   summary: Favorite Project
+  deprecated: true

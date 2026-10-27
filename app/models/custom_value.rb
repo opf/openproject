@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,11 +37,11 @@ class CustomValue < ApplicationRecord
   validate :validate_format_of_value
   validate :validate_type_of_value
   validate :validate_length_of_value
+  validate :validate_range_of_value
 
   after_create :activate_custom_field_in_customized_project, if: -> { customized.is_a?(Project) }
 
   delegate :typed_value,
-           :formatted_value,
            to: :strategy
 
   delegate :editable?,
@@ -51,6 +50,10 @@ class CustomValue < ApplicationRecord
            :is_for_all?,
            :max_length,
            :min_length,
+           :max_bound,
+           :min_bound,
+           :numeric_bounds_possible?,
+           :length_limits_possible?,
            :calculated_value?,
            to: :custom_field
 
@@ -72,6 +75,19 @@ class CustomValue < ApplicationRecord
   def default?
     value_is_included_in_multi_value_default? \
       || value_is_same_as_default?
+  end
+
+  def formatted_value
+    return I18n.t(:label_custom_value_no_longer_available) unless available_in_project?
+
+    strategy.formatted_value
+  end
+
+  def available_in_project?
+    return true if custom_field.nil? || custom_field.project_specific_value_restriction.nil?
+    return true if customized.nil? || value.blank?
+
+    custom_field.usable_value_id?(customized.project, value)
   end
 
   def activate_custom_field_in_customized_project
@@ -98,7 +114,20 @@ class CustomValue < ApplicationRecord
   end
 
   def validate_presence_of_required_value
-    errors.add(:value, :blank) if custom_field.required? && !strategy.value_present?
+    errors.add(:value, :blank) if value_required? && !strategy.value_present?
+  end
+
+  ##
+  # Custom fields can be required for two reasons:
+  # 1. They are globally required by an admin in the custom field itself
+  # 2. The customized object allows defining required state somewhere else
+  #    (e.g., work packages use required attributes in the type/variant form configuration)
+  def value_required?
+    if customized
+      customized.custom_field_required?(custom_field)
+    else
+      custom_field.required?
+    end
   end
 
   def validate_format_of_value
@@ -120,10 +149,20 @@ class CustomValue < ApplicationRecord
   end
 
   def validate_length_of_value
+    return unless length_limits_possible?
+
     if value.present? && (min_length.present? || max_length.present?)
       validate_min_length_of_value
       validate_max_length_of_value
     end
+  end
+
+  def validate_range_of_value
+    return unless numeric_bounds_possible?
+    return if value.blank? || errors.include?(:value)
+
+    validate_min_bound_of_value
+    validate_max_bound_of_value
   end
 
   private
@@ -134,5 +173,13 @@ class CustomValue < ApplicationRecord
 
   def validate_max_length_of_value
     errors.add(:value, :too_long, count: max_length) if max_length > 0 && value.length > max_length
+  end
+
+  def validate_min_bound_of_value
+    errors.add(:value, :greater_than_or_equal_to, count: min_bound) if min_bound && typed_value < min_bound
+  end
+
+  def validate_max_bound_of_value
+    errors.add(:value, :less_than_or_equal_to, count: max_bound) if max_bound && typed_value > max_bound
   end
 end

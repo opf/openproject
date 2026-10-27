@@ -18,12 +18,10 @@ he:
       grids/grid:
         one: Grid
         two: Grids
-        many: Grids
         other: Grids
       grids/widget:
         one: Widget
         two: Widgets
-        many: Widgets
         other: Widgets
   grids:
     label_widget_in_grid: התוסף מופיע באזור %{grid_name}
@@ -35,9 +33,8 @@ he:
         title: Members
         view_all_members: הצגת כל החברים
         x_more:
-          one: and one more member.
+          one: and %{count} more member.
           two: and %{count} more members.
-          many: and %{count} more members.
           other: and %{count} more members.
       news:
         no_results: Nothing new to report.

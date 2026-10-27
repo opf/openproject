@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,7 +37,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
   let(:status) { create(:status, name: "In progress", is_default: true) }
   let(:project) do
     create(:project,
-           name: "Artefact project",
+           name: "Artifact project",
            types: [type],
            public: true,
            active: true)
@@ -54,7 +53,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
            project:,
            type:,
            status:,
-           subject: "The artefact subject",
+           subject: "The artifact subject",
            description: "A **rich** text description")
   end
   let(:export_time) { DateTime.new(2023, 6, 30, 23, 59) }
@@ -67,6 +66,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
 
   subject(:pdf_strings) do
     content = export_pdf.content
+    # File.binwrite("artifact-test-preview.pdf", content)
     PDF::Inspector::Text.analyze(content).strings
   end
 
@@ -93,13 +93,13 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     let(:section_b) { create(:project_custom_field_section, name: "Section B") }
     let!(:string_cf) do
       create(:string_project_custom_field,
-             name: "Artefact string field",
+             name: "Artifact string field",
              projects: [project],
              project_custom_field_section: section_a)
     end
     let!(:bool_cf) do
       create(:boolean_project_custom_field,
-             name: "Artefact bool field",
+             name: "Artifact bool field",
              projects: [project],
              project_custom_field_section: section_b)
     end
@@ -114,13 +114,13 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     before do
       type.default_variant.project_custom_fields << string_cf
       type.default_variant.project_custom_fields << bool_cf
-      project.update!(custom_field_values: { string_cf.id => "Artefact value", bool_cf.id => true })
+      project.update!(custom_field_values: { string_cf.id => "Artifact value", bool_cf.id => true })
     end
 
     it "renders the sections and their project attributes grouped by section" do
       joined = pdf_strings.join(" ")
       expect(joined).to include("Section A", "Section B")
-      expect(joined).to include(string_cf.name, "Artefact value")
+      expect(joined).to include(string_cf.name, "Artifact value")
       expect(joined).to include(bool_cf.name, "Yes")
     end
 
@@ -139,7 +139,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
              project:,
              type:,
              status:,
-             subject: "The artefact subject",
+             subject: "The artifact subject",
              description: "A **rich** text description",
              custom_values: { wp_text_cf.id => "The long text value" })
     end
@@ -227,6 +227,300 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     end
   end
 
+  describe "project lifecycle" do
+    let(:options) { { include_lifecycle: "true" } }
+    let(:user) do
+      create(:user,
+             member_with_permissions: {
+               project => %w[view_work_packages export_work_packages view_project_attributes view_project_phases]
+             })
+    end
+    let(:color) { create(:color, name: "Phase color", hexcode: "#123456") }
+    let(:definition) do
+      create(:project_phase_definition, :with_start_gate,
+             name: "Initiation", color:, start_gate_name: "Kickoff approved")
+    end
+    let!(:phase) do
+      create(:project_phase,
+             project:,
+             definition:,
+             start_date: Date.new(2026, 2, 1),
+             finish_date: Date.new(2026, 2, 15))
+    end
+
+    it "renders the section title, phase name, formatted date range and gate name" do
+      joined = pdf_strings.join(" ")
+      expect(joined).to include(I18n.t("pdf_generator.dialog.include_lifecycle.label"))
+      expect(joined).to include("Initiation")
+      expect(joined).to include(format_date(phase.start_date))
+      expect(joined).to include(format_date(phase.finish_date))
+      expect(joined).to include("Kickoff approved")
+    end
+
+    it "adds a table of contents entry for the lifecycle section" do
+      expect(pdf_strings.join(" ")).to include(I18n.t(:label_table_of_contents))
+    end
+
+    context "when the option is disabled" do
+      let(:options) { { include_lifecycle: "false" } }
+
+      it "does not render the section" do
+        expect(pdf_strings.join(" ")).not_to include(I18n.t("pdf_generator.dialog.include_lifecycle.label"))
+      end
+    end
+
+    context "when the project has no phases with a date range or set gate" do
+      let!(:phase) { nil }
+
+      it "does not render the section" do
+        expect(pdf_strings.join(" ")).not_to include(I18n.t("pdf_generator.dialog.include_lifecycle.label"))
+      end
+    end
+
+    context "when the user cannot view project phases" do
+      let(:user) do
+        create(:user, member_with_permissions: { project => %w[view_work_packages export_work_packages] })
+      end
+
+      it "does not render the section" do
+        expect(pdf_strings.join(" ")).not_to include(I18n.t("pdf_generator.dialog.include_lifecycle.label"))
+      end
+    end
+  end
+
+  describe "project budgets" do
+    let(:project) do
+      create(:project,
+             name: "Artifact project",
+             types: [type],
+             public: true,
+             active: true,
+             enabled_module_names: %w[budgets costs])
+    end
+    let(:permissions) do
+      %w[view_work_packages export_work_packages view_project_attributes
+         view_budgets view_cost_rates view_hourly_rates]
+    end
+    let(:user) { create(:user, member_with_permissions: { project => permissions }) }
+    let(:options) { { include_budget: "true" } }
+    let(:cost_type) { create(:cost_type, name: "API Development") }
+    let!(:cost_rate) { create(:cost_rate, cost_type:, rate: 1000.0, valid_from: 1.year.ago.to_date) }
+    let(:labor_user) { create(:user, firstname: "Alice", lastname: "Anderson") }
+    let!(:hourly_rate) do
+      create(:hourly_rate, user: labor_user, project:, rate: 400.0, valid_from: 1.year.ago.to_date)
+    end
+    let(:budget) { create(:budget, project:, subject: "Phase 1 rollout", fixed_date: Date.current) }
+    let!(:material_item) { create(:material_budget_item, budget:, cost_type:, units: 2.0) }
+    let!(:labor_item) { create(:labor_budget_item, budget:, principal: labor_user, hours: 15.0) }
+
+    let(:budgets_section) do
+      strings = pdf_strings
+      section = strings[strings.rindex(I18n.t("pdf_generator.dialog.include_budget.label"))..]
+      section[..section.index(I18n.t("pdf_generator.budgets_table.total"))].join(" ")
+    end
+
+    it "renders the section title and the column headers" do
+      joined = pdf_strings.join(" ")
+      expect(joined).to include(I18n.t("pdf_generator.dialog.include_budget.label"))
+      expect(joined).to include(MaterialBudgetItem.human_attribute_name(:units))
+      expect(joined).to include(I18n.t("pdf_generator.budgets_table.description"))
+      expect(joined).to include(I18n.t("pdf_generator.budgets_table.cost_per_unit"))
+      expect(joined).to include(I18n.t("pdf_generator.budgets_table.sum"))
+    end
+
+    it "renders the budget heading with its total" do
+      joined = pdf_strings.join(" ")
+      expect(joined).to include("#{budget.id} Phase 1 rollout")
+      expect(joined).to include("8,000.00")
+    end
+
+    it "renders both cost groups with their line items and subtotals" do
+      joined = budgets_section
+      expect(joined).to include("Unit costs")
+      expect(joined).to include("2.00")
+      expect(joined).to include("API Development")
+      expect(joined).to include("1,000.00")
+      expect(joined).to include("2,000.00")
+
+      expect(joined).to include("Labor costs")
+      expect(joined).to include("15h")
+      expect(joined).to include(labor_user.name)
+      expect(joined).to include("400.00")
+      expect(joined).to include("6,000.00")
+    end
+
+    it "renders labor quantities as abbreviated hours even with the days_and_hours duration format" do
+      allow(Setting).to receive(:duration_format).and_return("days_and_hours")
+      joined = pdf_strings.join(" ")
+      expect(joined).to include("15h")
+      expect(joined).not_to include("1d 7h")
+    end
+
+    it "adds a table of contents entry for the budgets section" do
+      expect(pdf_strings.join(" ")).to include(I18n.t(:label_table_of_contents))
+    end
+
+    context "with a second budget" do
+      let!(:other_budget) { create(:budget, project:, subject: "Phase 2 rollout", fixed_date: Date.current) }
+      let!(:other_material_item) { create(:material_budget_item, budget: other_budget, cost_type:, units: 3.0) }
+
+      it "renders both budgets and a total across them" do
+        joined = pdf_strings.join(" ")
+        expect(joined).to include("#{budget.id} Phase 1 rollout")
+        expect(joined).to include("#{other_budget.id} Phase 2 rollout")
+        expect(joined).to include(I18n.t("pdf_generator.budgets_table.total"))
+        expect(joined).to include("11,000.00")
+      end
+    end
+
+    context "when a budget has no unit cost items" do
+      let!(:material_item) { nil }
+
+      it "omits the unit costs group" do
+        joined = budgets_section
+        expect(joined).not_to include("Unit costs")
+        expect(joined).to include("Labor costs")
+      end
+    end
+
+    context "when an item overrides its calculated costs with a manual amount" do
+      let!(:material_item) { create(:material_budget_item, budget:, cost_type:, units: 2.0, amount: 500.0) }
+
+      it "uses the manual amount for the line sum and derives the cost per unit from it" do
+        joined = pdf_strings.join(" ")
+        expect(joined).to include("500.00")
+        expect(joined).to include("250.00")
+        expect(joined).not_to include("2,000.00")
+      end
+    end
+
+    context "when an item has a zero quantity" do
+      let!(:material_item) { create(:material_budget_item, budget:, cost_type:, units: 0.0) }
+
+      it "renders the item without a cost per unit" do
+        joined = pdf_strings.join(" ")
+        expect(joined).to include("API Development")
+        expect(joined).not_to include("1,000.00")
+      end
+    end
+
+    context "when a budget has a base amount" do
+      let(:budget) do
+        create(:budget, :with_base_amount, project:, subject: "Phase 1 rollout", fixed_date: Date.current)
+      end
+
+      it "renders a base amount row so the groups reconcile with the budget total" do
+        joined = pdf_strings.join(" ")
+        expect(joined).to include(Budget.human_attribute_name(:base_amount))
+        expect(joined).to include("250,000.00")
+        expect(joined).to include("258,000.00")
+      end
+    end
+
+    context "when the user cannot view cost rates" do
+      let(:permissions) do
+        %w[view_work_packages export_work_packages view_project_attributes view_budgets view_hourly_rates]
+      end
+
+      it "lists the unit cost items but blanks their amounts and subtotal" do
+        joined = pdf_strings.join(" ")
+        expect(joined).to include("API Development")
+        expect(joined).not_to include("2,000.00")
+        expect(joined).to include("6,000.00")
+      end
+    end
+
+    context "when the user may only view their own hourly rate" do
+      let(:permissions) do
+        %w[view_work_packages export_work_packages view_project_attributes
+           view_budgets view_own_hourly_rate work_package_assigned]
+      end
+      let(:labor_user) { user }
+
+      it "shows the amount of their own labor cost item" do
+        expect(pdf_strings.join(" ")).to include("6,000.00")
+      end
+    end
+
+    context "when the option is disabled" do
+      let(:options) { { include_budget: "false" } }
+
+      it "does not render the section" do
+        expect(pdf_strings.join(" ")).not_to include(I18n.t("pdf_generator.dialog.include_budget.label"))
+      end
+    end
+
+    context "when the project has no budgets" do
+      let(:budget) { nil }
+      let!(:material_item) { nil }
+      let!(:labor_item) { nil }
+
+      it "does not render the section" do
+        expect(pdf_strings.join(" ")).not_to include(I18n.t("pdf_generator.dialog.include_budget.label"))
+      end
+    end
+
+    context "when the budgets module is disabled" do
+      let(:project) do
+        create(:project,
+               name: "Artifact project",
+               types: [type],
+               public: true,
+               active: true,
+               enabled_module_names: %w[costs])
+      end
+
+      it "does not render the section" do
+        expect(pdf_strings.join(" ")).not_to include(I18n.t("pdf_generator.dialog.include_budget.label"))
+      end
+    end
+
+    context "when the user cannot view budgets" do
+      let(:permissions) { %w[view_work_packages export_work_packages] }
+
+      it "does not render the section" do
+        expect(pdf_strings.join(" ")).not_to include(I18n.t("pdf_generator.dialog.include_budget.label"))
+      end
+    end
+  end
+
+  describe "work package budget attribute" do
+    let(:project) do
+      create(:project,
+             name: "Artifact project",
+             types: [type],
+             public: true,
+             active: true,
+             enabled_module_names: %w[budgets costs])
+    end
+    let(:permissions) do
+      %w[view_work_packages export_work_packages view_project_attributes view_budgets]
+    end
+    let(:user) { create(:user, member_with_permissions: { project => permissions }) }
+    let(:budget) { create(:budget, project:, subject: "Phase 1 rollout", fixed_date: Date.current) }
+    let(:work_package) do
+      create(:work_package, project:, type:, status:, subject: "The artifact subject", budget:)
+    end
+    # the budgets section renders the same subject, so it is excluded here
+    let(:options) { { include_budget: "false" } }
+
+    it "renders the budget the work package is assigned to" do
+      joined = pdf_strings.join(" ")
+      expect(joined).to include(WorkPackage.human_attribute_name(:budget))
+      expect(joined).to include("Phase 1 rollout")
+    end
+
+    context "when the user cannot view budgets" do
+      let(:permissions) { %w[view_work_packages export_work_packages view_project_attributes] }
+
+      it "omits the attribute" do
+        joined = pdf_strings.join(" ")
+        expect(joined).not_to include(WorkPackage.human_attribute_name(:budget))
+        expect(joined).not_to include("Phase 1 rollout")
+      end
+    end
+  end
+
   describe "table of contents" do
     let(:section) { create(:project_custom_field_section, name: "TOC Section") }
     let!(:string_cf) do
@@ -262,34 +556,49 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
         expect(pdf_strings.join(" ")).not_to include(I18n.t(:label_table_of_contents))
       end
     end
+
+    context "with a group whose attributes are all hidden" do
+      let(:type) do
+        type = create(:type_bug)
+        variant = type.default_variant
+        default_groups = variant.default_attribute_groups.map { |key, attributes| [key, attributes - %w(project_phase)] }
+        variant.attribute_groups = default_groups + [["Phases", %w(project_phase)]]
+        variant.save!
+        type
+      end
+
+      it "lists no contents entry for a group with only hidden attributes" do
+        expect(pdf_strings).not_to include("Phases")
+      end
+    end
   end
 
-  describe "linked form configuration", with_flag: { type_variants: true } do
-    let(:source_type) do
+  describe "inherited form configuration" do
+    let(:type) do
       create(:type_bug).tap do |t|
         variant = t.default_variant
         variant.attribute_groups = variant.default_attribute_groups + [["borrowed_group", %w(assignee)]]
         variant.save!
       end
     end
-    # type_bug is looked up by name (see the factory's initialize_with), so a second
-    # plain create(:type_bug) here would resolve to the SAME row as source_type and
-    # make link! reject itself as a cycle. A distinct name keeps it a separate type.
-    let(:type) do
-      create(:type_bug, name: "Bug (linked)").tap do |t|
-        link_configuration(t, source: source_type, aspect: TypeVariant::FORM_CONFIGURATION)
+    let(:variant) do
+      create(:type_variant, type:, variant_name: "Bug variant").tap do |v|
+        link_configuration(v, aspect: TypeVariant::FORM_CONFIGURATION)
       end
     end
+    let(:project) do
+      create(:project, name: "Artifact project", types: [variant], public: true, active: true)
+    end
 
-    it "renders the source type's groups for the linked type's work package" do
+    it "renders the base's groups for the inheriting variant's work package" do
       joined = pdf_strings.join(" ")
-      expect(joined).to include(source_type.default_variant.attribute_groups.find { |g|
+      expect(joined).to include(type.default_variant.attribute_groups.find { |g|
         g.key == "borrowed_group"
       }.translated_key)
     end
   end
 
-  describe "form configuration when the project resolves a variant", with_flag: { type_variants: true } do
+  describe "form configuration when the project resolves a variant" do
     let(:type) do
       create(:type_bug).tap do |t|
         variant = t.default_variant
@@ -306,7 +615,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     end
     let(:project) do
       create(:project,
-             name: "Artefact project",
+             name: "Artifact project",
              types: [variant],
              public: true,
              active: true)

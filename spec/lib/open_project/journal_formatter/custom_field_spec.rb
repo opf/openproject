@@ -22,13 +22,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
+require_relative "shared_permission_granted_examples"
 
 RSpec.describe OpenProject::JournalFormatter::CustomField do
   include CustomFieldsHelper
@@ -489,68 +489,59 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
     end
   end
 
-  context "with a Proc-based :view_permission option" do
-    let(:values) { [nil, "1"] }
-
-    context "when the proc, receiving the resolved custom field, allows" do
-      let(:options) do
-        expected_custom_field = custom_field
-        { view_permission: ->(field) { field == expected_custom_field } }
-      end
-
-      let(:expected) do
-        I18n.t(:text_journal_set_to,
-               label: custom_field.name,
-               value: format_value(values.last, custom_field))
-      end
-
-      it "renders normally" do
-        expect(rendered).to eq(expected)
-      end
-    end
-
-    context "when the proc, receiving the resolved custom field, denies" do
-      let(:options) do
-        expected_custom_field = custom_field
-        { view_permission: ->(field) { field != expected_custom_field } }
-      end
-
-      it "renders the permission denied message" do
-        expect(rendered).to eq("_#{I18n.t(:text_journal_permission_denied)}_")
-      end
-    end
-  end
-
-  context "with a named (Symbol) :view_permission option" do
-    let(:values) { [nil, "1"] }
-    let(:options) { { view_permission: :view_project } }
-    let(:project) { build_stubbed(:project) }
+  context "with project-specific values" do
+    let(:project) { create(:project) }
     let(:journal) { instance_double(Journal, id:, project:) }
-    let(:expected_journal_set_to_message) do
-      I18n.t(:text_journal_set_to,
-             label: custom_field.name,
-             value: format_value(values.last, custom_field))
-    end
+    let(:options) { { html: false } }
+    let(:placeholder) { I18n.t(:label_custom_value_no_longer_available) }
 
-    context "when the current user has the permission in the project" do
-      before do
-        allow(User.current).to receive(:allowed_in_project?).with(:view_project, project).and_return(true)
-      end
+    shared_examples "hiding hierarchical items no longer available" do |factory|
+      let(:custom_field) { create(factory, :project_specific_allowlist) }
+      let(:item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Acme") }
+      let(:values) { [nil, item.id.to_s] }
 
-      it "renders normally" do
-        expect(rendered).to eq(expected_journal_set_to_message)
+      it "shows the placeholder instead of the item" do
+        expect(rendered).to eq(I18n.t(:text_journal_set_to, label: custom_field.name, value: placeholder))
       end
     end
 
-    context "when the current user lacks the permission in the project" do
+    context "for a multi list custom field" do
+      let(:custom_field) do
+        create(:list_wp_custom_field, :project_specific_allowlist, multi_value: true, possible_values: %w[A B])
+      end
+      let(:option_a) { custom_field.custom_options.find_by!(value: "A") }
+      let(:option_b) { custom_field.custom_options.find_by!(value: "B") }
+
       before do
-        allow(User.current).to receive(:allowed_in_project?).with(:view_project, project).and_return(false)
+        create(:project_specific_value_restriction, project:, custom_option: option_a)
       end
 
-      it "renders the permission denied message" do
-        expect(rendered).to include(I18n.t(:text_journal_permission_denied))
-        expect(rendered).not_to include(expected_journal_set_to_message)
+      describe "with an available and an unavailable option" do
+        let(:values) { [nil, "#{option_a.id},#{option_b.id}"] }
+
+        it "shows the placeholder for the unavailable option only" do
+          expect(rendered).to eq(I18n.t(:text_journal_set_to, label: custom_field.name, value: "A, #{placeholder}"))
+        end
       end
+
+      describe "with an unavailable option being replaced" do
+        let(:values) { [option_b.id.to_s, option_a.id.to_s] }
+
+        it "shows the placeholder as the old value" do
+          expect(rendered).to eq(I18n.t(:text_journal_changed_plain,
+                                        label: custom_field.name, linebreak: "", old: placeholder, new: "A"))
+        end
+      end
+    end
+
+    context "for a hierarchy custom field", with_ee: [:custom_field_hierarchies] do
+      it_behaves_like "hiding hierarchical items no longer available", :hierarchy_wp_custom_field
+    end
+
+    context "for a weighted item list custom field", with_ee: [:weighted_item_lists] do
+      it_behaves_like "hiding hierarchical items no longer available", :weighted_item_list_wp_custom_field
     end
   end
+
+  it_behaves_like "has a permission_granted? check for rendering details"
 end

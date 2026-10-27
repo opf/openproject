@@ -15,6 +15,8 @@ get:
     integer will return the number of children levels specified by this value.
 
     This endpoint only returns, if the custom field is of type `hierarchy`.
+  tags:
+    - Custom Fields
   parameters:
     - name: id
       description: The custom field's unique identifier

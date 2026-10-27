@@ -84,7 +84,7 @@ Furthermore, with 11.2 we have implemented various UI and UX  improvements for O
 - Fixed: Role "Create and edit users" can see GDPR and billing although not allowed to \[[#36298](https://community.openproject.org/wp/36298)\]
 - Fixed: Role "Create and edit users" can not change user name \[[#36299](https://community.openproject.org/wp/36299)\]
 - Fixed: Internal error when accessing project work package page after deleting placeholder user \[[#36300](https://community.openproject.org/wp/36300)\]
-- Fixed: Translation missing for placeholder Enterprise Edition page \[[#36302](https://community.openproject.org/wp/36302)\]
+- Fixed: Translation missing for placeholder Enterprise edition page \[[#36302](https://community.openproject.org/wp/36302)\]
 - Fixed: Logged hours not visible in widget on My page for languages other than English \[[#36304](https://community.openproject.org/wp/36304)\]
 - Fixed: Grouping by assignee through settings menu does not work \[[#36318](https://community.openproject.org/wp/36318)\]
 - Fixed: Work package alignment incorrect when updating work package values / opening details view \[[#36330](https://community.openproject.org/wp/36330)\]

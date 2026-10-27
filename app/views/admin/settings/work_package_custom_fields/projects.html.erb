@@ -1,0 +1,122 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title t(:label_administration), "#{CustomField.model_name.human} #{h @custom_field.name}", t(:label_project_plural) %>
+
+<%=
+  render(
+    Admin::CustomFields::EditFormHeaderComponent.new(
+      custom_field: @custom_field,
+      selected: :projects,
+      section_label:,
+      page_title: custom_field_page_title
+    )
+  )
+%>
+
+<% frame_id = Admin::CustomFields::Projects::TableComponent::FRAME_ID %>
+<% clear_button_id = "custom-field-projects-filter-clear" %>
+
+<%= turbo_frame_tag(frame_id, target: "_top") do %>
+  <%= render(
+        Primer::OpenProject::SubHeader.new(
+          data: {
+            controller: "filter--filters-form",
+            "filter--filters-form-output-format-value": "json",
+            "filter--filters-form-turbo-frame-request-value": frame_id,
+            "filter--filters-form-clear-button-id-value": clear_button_id,
+            "filter--filters-form-current-filters-value": OpPrimer::QuickFilter.serialize(@query.filters).to_json
+          }
+        )
+      ) do |subheader| %>
+    <% subheader.with_filter_input(
+         name: "name_and_identifier",
+         id: "custom-field-projects-filter-name",
+         label: t("custom_fields.admin.projects.filter"),
+         value: @query.find_active_filter(:name_and_identifier)&.values&.first,
+         placeholder: t("custom_fields.admin.projects.filter"),
+         leading_visual: { icon: :search, size: :small },
+         show_clear_button: true,
+         clear_button_id:,
+         data: {
+           turbo_permanent: true,
+           "filter-name": "name_and_identifier",
+           "filter-type": "string",
+           "filter-operator": "~",
+           "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue"
+         }
+       ) %>
+
+    <% if @custom_field.project_specific_value_restriction.present? %>
+      <% subheader.with_quick_filter do %>
+        <%= render(
+              OpPrimer::QuickFilter::SegmentedControlComponent.new(
+                name: t(:label_filter_plural),
+                query: @query,
+                filter_key: :project_specific_values,
+                path_args: [:projects, :admin, :settings, @custom_field]
+              )
+            ) do |control| %>
+          <% control.with_item(label: t("custom_fields.admin.projects.quick_filter.all"), value: nil) %>
+          <% control.with_item(
+               label: t("custom_fields.admin.projects.quick_filter.with_project_specific_values"),
+               value: @custom_field.id.to_s
+             ) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= render(OpPrimer::InsetBoxComponent.new(mb: 3)) do |box| %>
+    <% box.with_title_icon(icon: :info) %>
+    <% box.with_title(tag: :h3) { t("custom_fields.admin.projects.changes_heading") } %>
+    <% box.with_action_button(
+         tag: :a,
+         href: OpenProject::Static::Links.url_for(:sysadmin_docs, :form_configuration),
+         target: "_blank",
+         rel: "noopener",
+         data: { allow_external_link: true }
+       ) do |button|
+         button.with_trailing_visual_icon(icon: :"link-external")
+         t(:label_learn_more)
+       end %>
+
+    <%= render(Primer::Beta::Text.new(tag: :p, mb: 0)) { t("custom_fields.admin.projects.changes_text") } %>
+  <% end %>
+
+  <%=
+    render(
+      Admin::CustomFields::Projects::TableComponent.new(
+        rows: @projects,
+        custom_field: @custom_field,
+        type_ids_by_project_id: @type_ids_by_project_id,
+        filtered: @filtered
+      )
+    )
+  %>
+<% end %>

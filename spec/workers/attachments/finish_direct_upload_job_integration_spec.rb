@@ -22,15 +22,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe Attachments::FinishDirectUploadJob, "integration", type: :job do
+RSpec.describe Attachments::FinishDirectUploadJob, "integration", :with_direct_uploads, type: :job do
+  include DirectUploadHelpers
+
   shared_let(:user) { create(:admin) }
 
   let!(:pending_attachment) do
@@ -42,6 +43,14 @@ RSpec.describe Attachments::FinishDirectUploadJob, "integration", type: :job do
   end
 
   let(:job) { described_class.new }
+
+  before do
+    stage_direct_upload(pending_attachment)
+  end
+
+  def stored_content
+    File.read(Attachment.find(pending_attachment.id).diskfile.path)
+  end
 
   shared_examples_for "completing direct upload of attachment" do |expect_extract_fulltext_job: true|
     it "turns the pending attachment into a standard attachment" do
@@ -145,6 +154,75 @@ RSpec.describe Attachments::FinishDirectUploadJob, "integration", type: :job do
         .to be 0
     end
 
+    it "deletes the staged upload" do
+      job.perform(pending_attachment.id)
+
+      expect(staged_direct_upload(pending_attachment)).to be_nil
+    end
+
+    context "with an isolated upload cache" do
+      let(:cache_dir) { Dir.mktmpdir }
+
+      before { allow(FogFileUploader).to receive(:cache_dir).and_return(cache_dir) }
+      after { FileUtils.rm_rf(cache_dir) }
+
+      it "leaves no copy of the upload in the cache" do
+        Rails.application.executor.wrap { job.perform(pending_attachment.id) }
+
+        expect(Dir.children(cache_dir)).to be_empty
+      end
+    end
+
+    context "without a staged upload" do
+      before do
+        staged_direct_upload(pending_attachment).destroy
+      end
+
+      it "removes the pending attachment" do
+        allow(OpenProject.logger).to receive(:error)
+
+        job.perform(pending_attachment.id)
+
+        expect { pending_attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context "when the signed upload form is replayed after completion" do
+      it "keeps the completed content" do
+        job.perform(pending_attachment.id)
+        stage_direct_upload(pending_attachment, content: "replayed content")
+        job.perform(pending_attachment.id)
+
+        expect(stored_content).to eq "test content"
+        expect(Attachment.find(pending_attachment.id).digest)
+          .to eql("9473fdd0d880a43c21b7778d34872157")
+      end
+    end
+
+    context "when another completion finished first" do
+      it "does not complete the upload again" do
+        stale_attachment = Attachment.find(pending_attachment.id)
+        job.perform(pending_attachment.id)
+        stage_direct_upload(pending_attachment, content: "replayed content")
+
+        result = Attachments::FinishDirectUploadService.new(user:, model: stale_attachment).call
+
+        expect(result).to be_failure
+        expect(stored_content).to eq "test content"
+      end
+
+      it "keeps the completed attachment when a concurrent job loses the race" do
+        job.perform(pending_attachment.id)
+        allow(Attachment)
+          .to receive(:pending_direct_upload)
+          .and_return(Attachment.where(id: pending_attachment.id))
+
+        job.perform(pending_attachment.id)
+
+        expect(Attachment.find(pending_attachment.id)).to be_status_uploaded
+      end
+    end
+
     describe "attachment created event" do
       let(:attachment_ids) { [] }
 
@@ -208,6 +286,14 @@ RSpec.describe Attachments::FinishDirectUploadJob, "integration", type: :job do
 
       expect(container.attachments).to be_empty
       expect { pending_attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it "removes the staged upload together with the attachment" do
+      allow(OpenProject.logger).to receive(:error)
+
+      job.perform(pending_attachment.id)
+
+      expect(staged_direct_upload(pending_attachment)).to be_nil
     end
 
     context "when the job is getting a allowlist override" do

@@ -106,7 +106,7 @@ si:
     not_recommended: නිර්දේශ කර නැත
     recommended: නිර්දේශ
     x_bcf_issues:
-      one: එක් BCF ප්රශ්නයක්
+      one: "%{count} BCF issue"
       other: "%{count} BCF ගැටළු"
       zero: BCF ගැටළු නොමැත
   bim:

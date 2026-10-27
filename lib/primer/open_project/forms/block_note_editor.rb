@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,13 +42,15 @@ module Primer
                     :active_user,
                     :attachments_upload_url,
                     :attachments_collection_key,
+                    :project_id,
                     :blocknote_stylesheet_url,
                     :shadow_dom_stylesheet_url,
                     :collaboration_enabled
 
         delegate :name, to: :@input
 
-        def initialize(input:, value:, readonly:, attachments_upload_url: "", attachments_collection_key: "")
+        def initialize(input:, value:, readonly:, attachments_upload_url: "", attachments_collection_key: "",
+                       project_id: nil)
           super()
           @input = input
           @value = value
@@ -60,6 +61,7 @@ module Primer
           }
           @attachments_upload_url = attachments_upload_url
           @attachments_collection_key = attachments_collection_key
+          @project_id = project_id
           @blocknote_stylesheet_url = raw_variable_asset_path("blocknote.css")
           @shadow_dom_stylesheet_url = raw_variable_asset_path("styles.css")
 

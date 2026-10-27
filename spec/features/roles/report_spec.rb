@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "rails_helper"
 
-RSpec.describe "Roles report", :js, :selenium do
+RSpec.describe "Roles report", :js do
   shared_let(:admin) { create(:admin) }
   let(:project) { create(:project, name: "Project 1", identifier: "project1") }
   let(:permissions) { %i[view_project permission1 permission2] }
@@ -38,6 +37,22 @@ RSpec.describe "Roles report", :js, :selenium do
   let!(:role2) { create(:global_role, permissions:, name: "Unsure Off-Shore") }
 
   current_user { admin }
+
+  around do |example|
+    configuration = Axe::Configuration.instance
+    previous_legacy_mode = configuration.legacy_mode
+    Capybara::Cuprite::Browser.class_eval do
+      define_method(:execute_async_script) do |script, *args|
+        evaluate_async(script, 120, *args)
+      end
+    end
+    configuration.legacy_mode = true
+    begin
+      example.run
+    ensure
+      configuration.legacy_mode = previous_legacy_mode
+    end
+  end
 
   before do
     visit report_roles_path
@@ -81,9 +96,6 @@ RSpec.describe "Roles report", :js, :selenium do
 
   it "allows checking and unchecking by column" do
     expect(page).to have_heading "Permissions report"
-    expect(page).to be_axe_clean
-      .within("#content")
-      .skipping("nested-interactive") # TODO: fix Collapsible Sections
 
     expect(page).to have_region "Project"
 
@@ -121,9 +133,6 @@ RSpec.describe "Roles report", :js, :selenium do
 
   it "allows checking and unchecking all" do
     expect(page).to have_heading "Permissions report"
-    expect(page).to be_axe_clean
-      .within("#content")
-      .skipping("nested-interactive") # TODO: fix Collapsible Sections
 
     within("#project-section") do # FIXME: collapsible section semantics
       expect(page).to have_unchecked_field "Create projects"

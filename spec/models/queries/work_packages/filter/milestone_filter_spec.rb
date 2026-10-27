@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -93,7 +92,7 @@ RSpec.describe Queries::WorkPackages::Filter::MilestoneFilter do
           let(:operator) { "=" }
 
           it "is the same as handwriting the query" do
-            expected = 'type_id IN (SELECT "types"."id" FROM "types" WHERE "types"."is_milestone" = TRUE)'
+            expected = 'work_packages.type_id IN (SELECT "types"."id" FROM "types" WHERE "types"."is_milestone" = TRUE)'
 
             expect(instance.where).to eql expected
           end
@@ -103,7 +102,7 @@ RSpec.describe Queries::WorkPackages::Filter::MilestoneFilter do
           let(:operator) { "!" }
 
           it "is the same as handwriting the query" do
-            expected = 'type_id NOT IN (SELECT "types"."id" FROM "types" WHERE "types"."is_milestone" = TRUE)'
+            expected = 'work_packages.type_id NOT IN (SELECT "types"."id" FROM "types" WHERE "types"."is_milestone" = TRUE)'
 
             expect(instance.where).to eql expected
           end
@@ -117,7 +116,7 @@ RSpec.describe Queries::WorkPackages::Filter::MilestoneFilter do
           let(:operator) { "=" }
 
           it "is the same as handwriting the query" do
-            expected = 'type_id NOT IN (SELECT "types"."id" FROM "types" WHERE "types"."is_milestone" = TRUE)'
+            expected = 'work_packages.type_id NOT IN (SELECT "types"."id" FROM "types" WHERE "types"."is_milestone" = TRUE)'
 
             expect(instance.where).to eql expected
           end
@@ -127,7 +126,7 @@ RSpec.describe Queries::WorkPackages::Filter::MilestoneFilter do
           let(:operator) { "!" }
 
           it "is the same as handwriting the query" do
-            expected = 'type_id IN (SELECT "types"."id" FROM "types" WHERE "types"."is_milestone" = TRUE)'
+            expected = 'work_packages.type_id IN (SELECT "types"."id" FROM "types" WHERE "types"."is_milestone" = TRUE)'
 
             expect(instance.where).to eql expected
           end

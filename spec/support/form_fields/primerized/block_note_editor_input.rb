@@ -1,9 +1,41 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 module FormFields
   module Primerized
     class BlockNoteEditorInput
       include Capybara::DSL
+
+      # Since op-blocknote-extensions 0.3.1 the work package search is portalled into
+      # BlockNote's `.bn-container`, a sibling of the contenteditable - so it is no longer
+      # part of `element`.
+      SEARCH_POPOVER = ".op-bn-search"
 
       def open_command_dialog
         send_keys_to_editor("/")
@@ -17,6 +49,46 @@ module FormFields
       def open_add_work_package_dialog
         send_keys_to_editor("/work package")
         send_keys(:enter)
+      end
+
+      def open_create_work_package_dialog
+        send_keys_to_editor("/create")
+        send_keys(:enter)
+      end
+
+      def click_formatting_toolbar_button(label)
+        shadow_root.find("button[aria-label='#{label}']").click
+      end
+
+      def insert_table
+        send_keys_to_editor("/table")
+        send_keys(:enter)
+      end
+
+      def open_table_row_menu
+        shadow_root.first("table td, table th").hover
+        shadow_root.find(".bn-table-handle:not([style*='rotate'])").click
+      end
+
+      def open_table_cell_menu(cell)
+        cell.hover
+        shadow_root.find(".bn-table-cell-handle").click
+      end
+
+      # The colors menu lists the text colors first, then the background colors, with the same names.
+      def pick_table_cell_color(name, background: false)
+        click_table_menu_item("Colors", hover: true)
+        shadow_root.all("[role='menuitem']", text: /#{name}\z/, minimum: 2)[background ? 1 : 0].click
+        send_keys(:escape)
+      end
+
+      def click_table_menu_item(text, hover: false)
+        item = shadow_root.find(".bn-menu-item", exact_text: text)
+        hover ? item.hover : item.click
+      end
+
+      def create_work_package_form
+        page.find("[data-testid='create-wp-modal']")
       end
 
       def fill_in(content)
@@ -40,6 +112,19 @@ module FormFields
           #{fill_in_work_package_search_input(search_term)}
           #{select_from_work_package_dropdown(subject)}
         JS
+      end
+
+      # The subjects the search dropdown currently offers, in the order it lists them.
+      def search_results
+        page.evaluate_script(<<~JS)
+          Array.prototype.slice
+            .call(#{shadow_root_query}.querySelectorAll("#{SEARCH_POPOVER} [role='option'] .op-bn-work-package--title"))
+            .map(function(title) { return title.textContent.trim(); });
+        JS
+      end
+
+      def search_popover_open?
+        page.evaluate_script(%(!!#{shadow_root_query}.querySelector("#{SEARCH_POPOVER}")))
       end
 
       # Unfortunately, op-blocknote-extensions search input is removed
@@ -149,6 +234,28 @@ module FormFields
         heading_font_size.to_f / paragraph_font_size.to_i
       end
 
+      def heading_block_id(text)
+        page.evaluate_script(<<~JS, text)
+          Array.from(#{shadow_root_query}.querySelectorAll('[data-content-type="heading"]'))
+            .find((heading) => heading.textContent.trim() === arguments[0])
+            .parentElement.dataset.id
+        JS
+      end
+
+      # IntersectionObserver also accounts for the scrolling panel clipping the heading.
+      def heading_in_viewport?(block_id)
+        page.evaluate_async_script(<<~JS, block_id)
+          const [blockId, done] = arguments;
+          const heading = #{shadow_root_query}.querySelector(`[data-id="${blockId}"] > [data-content-type="heading"]`);
+          if (!heading) return done(null);
+
+          new IntersectionObserver((entries, observer) => {
+            observer.disconnect();
+            done(entries[0].intersectionRatio > 0.99);
+          }).observe(heading);
+        JS
+      end
+
       private
 
       # Attention: This only works with selenium, not with cuprite,
@@ -189,10 +296,10 @@ module FormFields
             shadowRootWaitFor(shadowRoot, function() {
               var input = shadowRoot.querySelector("input[placeholder='Search by work package ID or subject']");
               if (!input) return false;
-              var valueSetter = Object.getOwnPropertyDescriptor(input, 'value').set;
               var prototype = Object.getPrototypeOf(input);
               var prototypeValueSetter = Object.getOwnPropertyDescriptor(prototype, 'value').set;
               prototypeValueSetter.call(input, value);
+              input.dispatchEvent(new Event('input', { bubbles: true }));
               input.dispatchEvent(new Event('change', { bubbles: true }));
               return true;
             });
@@ -211,11 +318,15 @@ module FormFields
             #{shadow_root_observe_js}
 
             shadowRootWaitFor(shadowRoot, function() {
-              var titles = Array.prototype.slice.call(shadowRoot.querySelectorAll(".op-bn-work-package--title"));
+              var titles = Array.prototype.slice
+                .call(shadowRoot.querySelectorAll("#{SEARCH_POPOVER} .op-bn-work-package--title"));
               var span = titles.find(function(s) { return s.textContent.trim() === textToClick; });
               var element = span && span.closest("[role='option']");
               if (element) {
-                element.dispatchEvent(new Event("mousedown", { bubbles: true }));
+                // Since op-blocknote-extensions 0.3.1 an option activates on click;
+                // its mousedown only keeps the focus in the search input.
+                element.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
+                element.dispatchEvent(new MouseEvent("click", { bubbles: true }));
                 return true;
               }
               return false;

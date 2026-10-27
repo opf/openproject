@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -401,10 +400,7 @@ class AccountController < ApplicationController
 
   def direct_login(user)
     if !flash_message_pending?
-      ps = {}
-      ps[:origin] = params[:back_url] if params[:back_url]
-
-      redirect_to direct_login_provider_url(ps)
+      redirect_to omniauth_login_path(direct_login_provider, omniauth_login_path_options)
     elsif Setting.login_required?
       # I'm not sure why it is considered an error if we don't have the anonymous user here.
       # Before the line read `user.active? || flash[:error]` but since a recent
@@ -452,7 +448,7 @@ class AccountController < ApplicationController
         render status: :unprocessable_entity
       else
         # incorrect password
-        flash_and_log_invalid_credentials
+        flash_and_log_invalid_credentials(sso_hint: true)
         render status: :unprocessable_entity
       end
     elsif user.new_record?
@@ -465,7 +461,7 @@ class AccountController < ApplicationController
 
   def invited_account_not_activated(_user)
     flash_error_message(log_reason: "invited, NOT ACTIVATED", flash_now: false) do
-      "account.error_inactive_activation_by_mail"
+      I18n.t("account.error_inactive_activation_by_mail")
     end
   end
 

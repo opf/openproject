@@ -20,14 +20,14 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Injector } from '@angular/core';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
@@ -52,7 +52,7 @@ export class RowsTransformer {
       .initialized
       .values$()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
+        takeUntilDestroyed(table.destroyRef),
       )
       .subscribe(() => {
         let rows:WorkPackageResource[];
@@ -69,13 +69,13 @@ export class RowsTransformer {
     // Refresh a single row if it exists
     this.states.workPackages.observeChange()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions.asObservable()),
+        takeUntilDestroyed(table.destroyRef),
         filter(() => {
           const rendered = this.querySpace.tableRendered.getValueOr([]);
           return rendered && rendered.length > 0;
         }),
       )
-      .subscribe(([changedId, wp]) => {
+      .subscribe(([, wp]) => {
         if (wp === undefined) {
           return;
         }

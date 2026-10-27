@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,29 @@ module Import
   class JiraCreateProjectJob
     module JiraImportCustomFields
       JIRA_IMPORT_GROUP_KEY = "Jira import"
+      SYSTEM_FIELD_CUSTOM_FIELDS = {
+        "resolutiondate" => { name: "Resolution Date", field_format: "datetime" }
+      }.freeze
+
+      def create_system_field_custom_fields
+        SYSTEM_FIELD_CUSTOM_FIELDS.each do |field, options|
+          next if exclude_system_field?(field)
+          next unless Import::JiraIssue.where(jira_import_id: @jira_import.id).with_field_set(field).any?
+
+          OpenProject::Mutex.with_advisory_lock(@jira_import, lock_key) do
+            find_or_create_system_field_custom_field(field, **options)
+          end
+        end
+      end
+
+      def exclude_system_field?(field)
+        field == "resolutiondate" && @jira_import.exclude_resolution_fields?
+      end
+
+      def system_field_custom_field(field_key)
+        id = @jira_import.system_field_custom_fields[field_key]
+        WorkPackageCustomField.find(id) if id
+      end
 
       def collect_custom_field_attributes(custom_field_registry, jira_issue)
         custom_field_registry.each_with_object({}) do |entry, attrs|
@@ -56,9 +78,16 @@ module Import
         end.uniq
       end
 
-      # Builds one OP custom field per (Jira field, context group) combination, before any
-      # per-project import begins. Context groups describe which (project_key, issuetype_id)
-      # tuples share an allowedValues set.
+      def custom_fields_for_project(custom_field_registry, jira_project)
+        custom_field_registry.flat_map do |entry|
+          issue_scopes(entry[:jira_field]).filter_map do |project_key, jira_project_id, issuetype_id|
+            next unless jira_project_id == jira_project.id
+
+            find_context(entry, project_key, issuetype_id)&.dig(:custom_field)
+          end
+        end.uniq
+      end
+
       def build_custom_field_registry
         jira_field_ids = collect_used_jira_field_ids
         return [] if jira_field_ids.empty?
@@ -158,12 +187,6 @@ module Import
         [{ jira_field:, contexts: }]
       end
 
-      def all_jira_import_project_ids
-        @all_jira_import_project_ids ||= Import::JiraProject
-                                           .where(jira_import_id: @jira_import.id, origin_id: @jira_import.project_ids)
-                                           .pluck(:id)
-      end
-
       def build_contexts_for_field(jira_field)
         groups = augmented_context_groups(jira_field)
         if groups.present?
@@ -182,7 +205,7 @@ module Import
         return groups if issue_options.empty?
 
         groups << global_context_group if groups.empty?
-        issue_options.each { |option, *scope| add_option_to_context_group(groups, option, scope) }
+        issue_options.each { |option, scopes| add_option_to_context_groups(groups, option, scopes) }
         groups
       end
 
@@ -196,9 +219,17 @@ module Import
         { "projects" => [], "issuetypes" => [], "allowedValues" => [] }
       end
 
-      def add_option_to_context_group(groups, option, scope)
-        group = groups[matching_context_group_index(groups, *scope)]
-        group["allowedValues"] = merge_allowed_value(group["allowedValues"], option)
+      def add_option_to_context_groups(groups, option, scopes)
+        context_group_indexes(groups, scopes).each do |index|
+          group = groups[index]
+          group["allowedValues"] = merge_allowed_value(group["allowedValues"], option)
+        end
+      end
+
+      def context_group_indexes(groups, scopes)
+        scopes.map do |project_key, _jira_project_id, issuetype_id|
+          matching_context_group_index(groups, project_key, issuetype_id)
+        end.uniq
       end
 
       def merge_allowed_value(allowed_values, option)
@@ -235,66 +266,20 @@ module Import
       end
 
       def issue_option_values(jira_field)
-        issue_field_values_index[:options][jira_field.origin_id].values
+        issue_field_values_index[:options].fetch(jira_field.origin_id, [])
       end
 
       def issue_string_values(jira_field)
-        issue_field_values_index[:strings][jira_field.origin_id].to_a.sort
+        issue_field_values_index[:strings].fetch(jira_field.origin_id, [])
+      end
+
+      def issue_scopes(jira_field)
+        issue_field_values_index[:scopes].fetch(jira_field.origin_id, [])
       end
 
       def issue_field_values_index
-        @issue_field_values_index ||= build_issue_field_values_index
-      end
-
-      def new_issue_field_values_index
-        { used_keys: Set.new, options: Hash.new { |h, k| h[k] = {} }, strings: Hash.new { |h, k| h[k] = Set.new } }
-      end
-
-      def build_issue_field_values_index
-        index = new_issue_field_values_index
-        Import::JiraIssue
-          .where(jira_import_id: @jira_import.id,
-                 jira_project_id: all_jira_import_project_ids)
-          .find_each do |issue|
-          scope = issue_context_scope(issue)
-          used_custom_field_values(issue).each { |field_key, raw| record_issue_field_values(index, field_key, raw, scope) }
-        end
-        index
-      end
-
-      def issue_context_scope(issue)
-        [issue.payload.dig("fields", "project", "key"), issue.payload.dig("fields", "issuetype", "id")]
-      end
-
-      def used_custom_field_values(issue)
-        issue.payload["fields"].select { |field_key, raw| field_key.start_with?("customfield_") && raw.present? }
-      end
-
-      def record_issue_field_values(index, field_key, raw, scope)
-        index[:used_keys] << field_key
-        Array.wrap(raw).each do |value|
-          if value.is_a?(Hash)
-            record_issue_option_value(index[:options][field_key], value, scope)
-          elsif raw.is_a?(Array) && value.is_a?(String)
-            index[:strings][field_key] << value.strip if value.strip.present?
-          end
-        end
-      end
-
-      def record_issue_option_value(field_options, option, scope)
-        return if option["value"].blank?
-
-        field_options[scope + [option_chain_signature(option)]] ||= [option, *scope]
-      end
-
-      def option_chain_signature(option)
-        labels = []
-        node = option
-        while node.is_a?(Hash) && node["value"].present?
-          labels << node["value"].to_s.strip
-          node = node["child"]
-        end
-        labels.join(" / ")
+        @issue_field_values_index ||= Import::JiraCustomField::IssueValueIndex.load(@jira_import) ||
+                                      Import::JiraCustomField::IssueValueIndex.scan(@jira_import)
       end
 
       def build_context_entry(jira_field, context_group, option_value: nil, needs_disambiguation: false)
@@ -303,15 +288,12 @@ module Import
           context_group:,
           option_value:,
           needs_disambiguation:,
-          jira_import: @jira_import,
-          context_index: next_context_index(jira_field)
+          jira_import: @jira_import
         )
 
-        jira_import = jira_field.jira_import
-        lock_key = "jira_import_#{jira_import.id}_find_or_create_custom_field"
-        custom_field = OpenProject::Mutex.with_advisory_lock(jira_import, lock_key) do
-          find_or_create_custom_field(jira_field, builder)
-        end
+        custom_field = mapped_custom_field(jira_field, context_group) ||
+                       locked_find_or_create_custom_field(jira_field, builder)
+        record_custom_field_mapping(jira_field, context_group, custom_field)
         {
           projects: Array(context_group&.dig("projects")),
           issuetypes: Array(context_group&.dig("issuetypes")),
@@ -320,24 +302,64 @@ module Import
         }
       end
 
-      def run_custom_field_ids
-        @run_custom_field_ids ||= Set.new
+      def mapped_custom_field(jira_field, context_group)
+        id = stored_custom_field_mapping(jira_field)[context_signature_key(context_group)]
+        return if id.blank?
+
+        custom_field = WorkPackageCustomField.find_by(id:)
+        run_custom_field_ids << custom_field.id if custom_field
+        custom_field
       end
 
-      # Position of a context group among all context groups built for a Jira field, in the order
-      # build_registry_entries_for_field produces them. Identifies which of the custom fields
-      # already created for that Jira field belongs to this context group.
-      def next_context_index(jira_field)
-        @context_indexes ||= Hash.new(0)
-        index = @context_indexes[jira_field.id]
-        @context_indexes[jira_field.id] = index + 1
-        index
+      # Custom fields are created once per run by JiraCreateCustomFieldsJob, which records the
+      # mapping the per-project jobs read instead of creating anything themselves. A per-project
+      # job only gets here when that mapping is missing, eg. Jira < 9.3, and those jobs run concurrently,
+      # so creation still has to be serialized.
+      def locked_find_or_create_custom_field(jira_field, builder)
+        jira_import = jira_field.jira_import
+        OpenProject::Mutex.with_advisory_lock(jira_import, lock_key) do
+          find_or_create_custom_field(jira_field, builder)
+        end
+      end
+
+      def stored_custom_field_mapping(jira_field)
+        (jira_field.issue_values || {})["custom_fields"] || {}
+      end
+
+      def context_signature_key(context_group)
+        JiraCustomField::ContextSignature.key(Array(context_group&.dig("allowedValues")))
+      end
+
+      def record_custom_field_mapping(jira_field, context_group, custom_field)
+        custom_field_mapping[jira_field.origin_id][context_signature_key(context_group)] = custom_field.id
+      end
+
+      def custom_field_mapping
+        @custom_field_mapping ||= Hash.new { |hash, key| hash[key] = {} }
+      end
+
+      def store_custom_field_mapping
+        return if custom_field_mapping.empty?
+
+        jira_fields = Import::JiraField
+                        .where(jira_import_id: @jira_import.id, origin_id: custom_field_mapping.keys)
+                        .index_by(&:origin_id)
+        Import::JiraField.transaction do
+          custom_field_mapping.each do |origin_id, mapping|
+            jira_field = jira_fields[origin_id]
+            jira_field&.update!(issue_values: (jira_field.issue_values || {}).merge("custom_fields" => mapping))
+          end
+        end
+      end
+
+      def run_custom_field_ids
+        @run_custom_field_ids ||= Set.new
       end
 
       def find_or_create_custom_field(jira_field, builder)
         existing_cf = builder.find_existing_custom_field(run_custom_field_ids:)
         custom_field = if existing_cf
-                         reuse_custom_field(existing_cf, jira_field, builder)
+                         reuse_custom_field(existing_cf, jira_field)
                        else
                          create_custom_field(jira_field, builder)
                        end
@@ -345,49 +367,70 @@ module Import
         custom_field
       end
 
-      def reuse_custom_field(custom_field, jira_field, builder)
+      def reuse_custom_field(custom_field, jira_field)
+        Rails.logger.tagged("jira_object_type:customField", "jira_object_id_or_name:#{custom_field.name}") do
+          Rails.logger.debug "Reusing custom field"
+        end
         unless Import::JiraOpenProjectReference.exists?(op_entity_id: custom_field.id,
                                                         op_entity_class: custom_field.class.to_s,
                                                         jira_import_id: @jira_import.id)
           create_reference!(op_leg: custom_field, jira_leg: jira_field, jira_import: @jira_import, uses_existing: true)
         end
-        builder.apply_pending_value_extension(custom_field, user: @system_user)
         custom_field
       end
 
       def create_custom_field(jira_field, builder)
         name, field_format = builder.custom_field_settings
-        params = {
-          type: "WorkPackageCustomField",
+        custom_field = create_work_package_custom_field(
           name:,
           field_format:,
-          is_required: false,
-          is_for_all: false,
+          error_name: jira_field.payload["name"],
           **builder.custom_field_parameters
-        }
-        service_call = CustomFields::CreateService.new(user: @system_user).call(**params)
-        unless service_call.success?
-          raise I18n.t(
-            "admin.jira.errors.custom_field_creation_failed",
-            name: jira_field.payload["name"],
-            message: service_call.message
-          )
-        end
-
-        custom_field = service_call.result
+        )
         create_reference!(op_leg: custom_field, jira_leg: jira_field, jira_import: @jira_import, uses_existing: false)
         builder.custom_field_post_processing(custom_field)
         custom_field
       end
 
-      # Picks the context entry whose (projects, issuetypes) match the issue's project key and
-      # issue type id. Falls back to the first context if none matches - which can happen when
-      # editmeta did not see the field for this (project, issuetype) pair but the issue still
-      # carries a value for it (e.g. the field was removed from the screen after the value was
-      # set). Falling back keeps the value rather than dropping it silently.
+      def create_work_package_custom_field(error_name:, **params)
+        Rails.logger.tagged("jira_object_type:customField", "jira_object_id_or_name:#{params[:name]}") do
+          Rails.logger.debug "Creating custom field"
+          service_call = CustomFields::CreateService
+            .new(user: @system_user)
+            .call(type: "WorkPackageCustomField", is_required: false, is_for_all: false, **params)
+          return service_call.result if service_call.success?
+
+          message = I18n.t("admin.jira.errors.custom_field_creation_failed", name: error_name, message: service_call.message)
+          Rails.logger.error message
+          raise message
+        end
+      end
+
+      def find_or_create_system_field_custom_field(field, name:, field_format:)
+        existing_cf = CustomFieldNames.candidates(name).find { it.field_format == field_format }
+        custom_field = existing_cf ? reuse_custom_field(existing_cf, nil) : create_system_field_custom_field(name:, field_format:)
+        @jira_import.update!(
+          system_field_custom_fields: @jira_import.system_field_custom_fields.merge(field => custom_field.id)
+        )
+      end
+
+      def create_system_field_custom_field(name:, field_format:)
+        custom_field = create_work_package_custom_field(
+          name: CustomFieldNames.unique_name(name),
+          field_format:,
+          error_name: name
+        )
+        create_reference!(op_leg: custom_field, jira_leg: nil, jira_import: @jira_import, uses_existing: false)
+        custom_field
+      end
+
       def find_context_for_issue(entry, jira_issue)
-        project_key = jira_issue.payload.dig("fields", "project", "key")
-        issuetype_id = jira_issue.payload.dig("fields", "issuetype", "id")
+        find_context(entry,
+                     jira_issue.payload.dig("fields", "project", "key"),
+                     jira_issue.payload.dig("fields", "issuetype", "id"))
+      end
+
+      def find_context(entry, project_key, issuetype_id)
         entry[:contexts].find do |ctx|
           context_applies_to_project?(ctx, project_key) && context_applies_to_issuetype?(ctx, issuetype_id)
         end || entry[:contexts].first
@@ -405,6 +448,10 @@ module Import
       def scope_applies?(scope, value)
         scope = Array(scope)
         scope.empty? || scope.include?(value)
+      end
+
+      def lock_key
+        "jira_import_#{@jira_import.id}_find_or_create_custom_field"
       end
     end
   end

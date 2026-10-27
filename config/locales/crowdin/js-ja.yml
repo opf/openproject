@@ -61,6 +61,7 @@ ja:
         single: '"%{name}" を選択'
       remove: "%{name} を削除"
     autocompleter:
+      create_label: Create label
       notFoundText: 見つかりませんでした
       placeholder: 検索キーワードを入力
       project:
@@ -162,6 +163,7 @@ ja:
     button_stop_timer: タイマー停止
     button_uncheck_all: 全てを選択解除
     button_update: 更新
+    button_view_markdown: View Markdown
     caption_rate_history: 単価設定(予算とコスト)
     card:
       add_new: 新規カード追加
@@ -202,6 +204,7 @@ ja:
     description_subwork_package: 'ワークパッケージの子 #%{id}'
     editor:
       ckeditor_error: CKEditor内でエラーが発生しました
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: '次のエラーで文書を保存するのに失敗しました: %{error}'
       macro:
         attribute_reference:
@@ -358,8 +361,8 @@ ja:
     ical_sharing_modal:
       copy_url_label: URLをコピー
       description: URL(iCalendar)を使用して、外部クライアントでこのカレンダーを購読し、そこから最新のワークパッケージ情報を表示することができます。
-      ical_generation_error_text: カレンダーのURL生成時にエラーが発生しました。
-      inital_setup_error_message: データ取得中にエラーが発生しました。
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL "%{name}" がクリップボードにコピーされました。カレンダークライアントに貼り付けて購読を完了してください。
       title: カレンダーを購読する
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -551,6 +554,8 @@ ja:
     label_reset: リセット
     label_resize_project_menu: Resize project menu
     label_save_as: 名前をつけて保存
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: 列を検索する
     label_select_watcher: ウォッチャーを選択...
     label_selected_filter_list: 選択されたフィルタ
@@ -623,7 +628,7 @@ ja:
     notifications:
       center:
         and_more_users:
-          other: と %{count} その他
+          other: and %{count} others
         empty_state:
           no_notification: もう追いついたようだね。
           no_notification_for_filter: どうやら、このフィルターにすべて引っかかったようだ。
@@ -719,6 +724,7 @@ ja:
     placeholders:
       default: "-"
       description: 説明クリックして編集...
+      description_double_click: 'Description: Double click to edit...'
       relation_description: クリックしてこの関係に説明を追加
       selection: 選択してください
       subject: ここにタイトルを入力します
@@ -805,12 +811,30 @@ ja:
       sorting_disabled: 並べ替えは無効です
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: モーダルを閉じる
@@ -824,9 +848,7 @@ ja:
     text_user_wrote: "%{value} が書き込みました："
     text_work_packages_destroy_confirmation: 選択したワークパッケージを削除してもよろしいですか？
     time_entry:
-      stop: ストップ
       title: 時間を記録
-      tracking: 作業時間の記録
       work_package_required: 最初にワークパッケージを選択する必要があります。
     timer:
       button_stop: 現在のタイマーを停止する
@@ -861,13 +883,13 @@ ja:
       label_two_factor_authentication: 2要素認証
     units:
       child_work_packages:
-        other: "%{count} の子ワークパッケージ"
+        other: "%{count} work package children"
       day:
-        one: 1日
+        one: "%{count} day"
         other: "%{count} 日間"
         zero: 0日
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"

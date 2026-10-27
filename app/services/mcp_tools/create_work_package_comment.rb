@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,8 +40,8 @@ module McpTools
       required: %i[work_package_id comment],
       properties: {
         work_package_id: {
-          type: :number,
-          description: "The ID of the work package to which a comment shall be added."
+          type: %w[string number],
+          description: "The identifier of the work package to which a comment shall be added."
         },
         comment: {
           type: :string,
@@ -57,7 +56,7 @@ module McpTools
     )
 
     def call(work_package_id:, comment:, internal: false)
-      work_package = WorkPackage.visible(current_user).find_by(id: work_package_id)
+      work_package = WorkPackage.visible(current_user).find_by_display_id(work_package_id)
       return Failure("The given work package could not be found.") if work_package.nil?
 
       result = AddWorkPackageNoteService.new(user: current_user, work_package:).call(comment, send_notifications: true, internal:)

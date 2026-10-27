@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Notifications
   class Menu < Submenu
-    ENTERPRISE_REASONS = %w[shared date_alert].freeze
+    ENTERPRISE_REASONS = %w[shared].freeze
 
     include Rails.application.routes.url_helpers
 
@@ -71,7 +70,7 @@ module Notifications
                   icon_key: reason,
                   count: count == 0 ? nil : count,
                   query_params: query_params("reason", reason),
-                  show_enterprise_icon: show_enterprise_icon?(reason))
+                  show_enterprise_icon: lacking_ee_permission?(reason))
       end
     end
 
@@ -114,11 +113,7 @@ module Notifications
     end
 
     def query_path(query_params)
-      if query_params[:name] == "shared" && show_enterprise_icon?("shared")
-        return notifications_share_upsell_path(query_params)
-      elsif query_params[:name] == "dateAlert" && show_enterprise_icon?("dateAlert")
-        return notifications_date_alert_upsell_path(query_params)
-      end
+      return notifications_share_upsell_path(query_params) if lacking_ee_permission?(query_params[:name])
 
       notifications_center_path(query_params)
     end
@@ -135,14 +130,8 @@ module Notifications
       }
     end
 
-    def show_enterprise_icon?(reason)
-      if reason == "shared"
-        !EnterpriseToken.allows_to?(:work_package_sharing)
-      elsif reason == "dateAlert"
-        !EnterpriseToken.allows_to?(:date_alerts)
-      else
-        false
-      end
+    def lacking_ee_permission?(reason)
+      reason == "shared" && !EnterpriseToken.allows_to?(:work_package_sharing)
     end
   end
 end

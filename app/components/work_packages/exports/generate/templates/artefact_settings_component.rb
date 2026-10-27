@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module WorkPackages
   module Exports
@@ -36,11 +35,19 @@ module WorkPackages
           TEMPLATE_ID = "artefact"
 
           def self.fields
-            %w[toc hyphenation hyphenation_language]
+            %w[toc include_lifecycle include_budget hyphenation hyphenation_language]
           end
 
           def toc
             boolean_setting(:toc, WorkPackage::PDFExport::Artefact::DEFAULT_TOC)
+          end
+
+          def include_lifecycle
+            boolean_setting(:include_lifecycle, WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_LIFECYCLE)
+          end
+
+          def include_budget
+            boolean_setting(:include_budget, WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_BUDGET)
           end
         end
       end

@@ -1,0 +1,4 @@
+---
+description: |-
+  The custom fields endpoints return information about custom fields and — in the case of hierarchy custom fields — their items.
+name: Custom Fields

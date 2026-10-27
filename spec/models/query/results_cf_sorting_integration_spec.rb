@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,8 +39,7 @@ RSpec.describe Query::Results, "Sorting by custom field" do
   let(:type) { create(:type_task, custom_fields: [custom_field]) }
   let(:project) do
     create(:project,
-           types: [type],
-           work_package_custom_fields: [custom_field])
+           types: [type])
   end
 
   let(:query) do
@@ -161,6 +159,21 @@ RSpec.describe Query::Results, "Sorting by custom field" do
           wp_with_cf_value("2024-01-01"),
           wp_with_cf_value("2030-01-01"),
           wp_with_cf_value("999-01-01") # TODO: should be at index 1
+        ]
+      end
+    end
+  end
+
+  context "for datetime format" do
+    include_examples "it sorts" do
+      let(:custom_field) { create(:wp_custom_field, :datetime) }
+
+      let(:work_packages) do
+        [
+          wp_without_cf_value,
+          wp_with_cf_value("2026-01-01T10:30:00+02:00"),
+          wp_with_cf_value("2026-01-01T09:00:00Z"),
+          wp_with_cf_value("2026-06-15T00:00:00Z")
         ]
       end
     end

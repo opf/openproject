@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -45,6 +44,37 @@ class FogFileUploader < CarrierWave::Uploader::Base
     attachment.file = local_file
   end
 
+  ##
+  # Marker callers can `extend` onto a local File/Tempfile before assigning it to this
+  # uploader, to opt that specific file into being moved (rather than copied) into the
+  # cache (see #move_to_cache below) — e.g. BackupJob does this for the backup archive
+  # it just wrote, to avoid briefly holding two copies of a large file on disk while
+  # caching it ahead of the upload to S3.
+  #
+  # Only extend a file with this if you don't need it afterwards and control it
+  # exclusively (e.g. a freshly written, disposable tempfile) — the source file is
+  # deleted from its original location once moved. Regular attachments never opt in,
+  # so their source file (e.g. a fixture, a seeded asset) is always left untouched.
+  module MovableSource
+  end
+
+  def cache!(new_file = file)
+    @move_new_file_to_cache = new_file.is_a?(MovableSource)
+    super
+  end
+
+  ##
+  # Moves a freshly assigned local file into the cache instead of copying it, if the
+  # caller explicitly opted in via MovableSource (see above).
+  #
+  # This only affects genuinely local, path-backed sources (e.g. a Tempfile just
+  # written to disk). Re-caching an already-remote file (e.g. Attachment#copy's
+  # `attachment.file = diskfile`) never takes this path, since that source isn't
+  # a local path but a remote file reference, so the original stored file is safe.
+  def move_to_cache
+    @move_new_file_to_cache
+  end
+
   def store_dir
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
@@ -53,10 +83,37 @@ class FogFileUploader < CarrierWave::Uploader::Base
     @remote_file || file
   end
 
+  DOWNLOADS_KEY = :fog_file_uploader_downloads
+
+  def self.discard_downloads
+    ActiveSupport::IsolatedExecutionState.delete(DOWNLOADS_KEY)&.each(&:discard_download)
+  end
+
   def local_file
     @remote_file ||= file
+    downloading = !cached?
     cache_stored_file!
+    remember_download if downloading
     super
+  end
+
+  def discard_download
+    return unless cached? && cache_id == @download_cache_id
+
+    FileUtils.rm_rf(cache_path(nil))
+    @file = @remote_file
+    @cache_id = @download_cache_id = nil
+    self.staged = false
+  end
+
+  ##
+  # Streams this remote file's content into +output+ in chunks.
+  #
+  # @param output [IO] Stream to copy the file to
+  def stream_to(output)
+    fog_directory_files.get(remote_file.path) do |chunk, _remaining_bytes, _total_bytes|
+      output.write(chunk)
+    end
   end
 
   ##
@@ -103,6 +160,17 @@ class FogFileUploader < CarrierWave::Uploader::Base
   end
 
   private
+
+  def remember_download
+    @download_cache_id = cache_id
+    return unless Rails.application.executor.active?
+
+    (ActiveSupport::IsolatedExecutionState[DOWNLOADS_KEY] ||= []) << self
+  end
+
+  def fog_directory_files
+    storage.connection.directories.new(key: fog_directory, public: fog_public).files
+  end
 
   def set_content_disposition!(url_options, options:)
     return if options[:content_disposition].blank?

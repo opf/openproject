@@ -1,8 +1,34 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 RSpec.shared_examples "notification settings workflow" do
-  describe "with another project the user can see",
-           with_ee: %i[date_alerts] do
+  describe "with another project the user can see" do
     shared_let(:project) { create(:project) }
     shared_let(:project_alt) { create(:project) }
     shared_let(:role) { create(:project_role, permissions: %i[view_project]) }
@@ -123,6 +149,28 @@ RSpec.shared_examples "notification settings workflow" do
       expect(page).to have_no_css(".ng-option", text: project.name)
     end
 
+    it_behaves_like "a project picker searchable by identifier" do
+      # Membership is required for the autocompleter to offer these projects at
+      # all when the logged-in user is not an admin (as in "as a regular user").
+      let(:target_project) do
+        create(:project, name: "Alpha Initiative", identifier: "zulu-target", members: { user => role })
+      end
+      # A project without notification settings of its own, so that it is
+      # offered by the autocompleter unless the search filters it out.
+      let(:control_project) do
+        create(:project, name: "Beta Initiative", identifier: "yankee-other", members: { user => role })
+      end
+
+      before do
+        click_link "Add project-specific notifications"
+      end
+
+      def search_project(query)
+        container = page.find('[data-test-selector="my-notifications-project-autocompleter"] ng-select')
+        settings_page.search_autocomplete container, query:, results_selector: "body"
+      end
+    end
+
     it "deletes project-specific notification settings without a routing error" do
       create(:notification_setting, user:, project:)
       settings_page.visit!
@@ -152,25 +200,6 @@ RSpec.shared_examples "notification settings workflow" do
         mail_settings_page.visit!
         mail_settings_page.save_daily_reminders_form
         mail_settings_page.expect_and_dismiss_flash
-      end
-    end
-
-    context "without enterprise", with_ee: false do
-      it "does not render the date alerts" do
-        # Expect default settings
-        settings_page.expect_represented
-
-        # Expect no date alert fields
-        settings_page.expect_no_date_alert_setting("start_date")
-        settings_page.expect_no_date_alert_setting("due_date")
-        settings_page.expect_no_date_alert_setting("overdue")
-
-        # Add projects columns
-        settings_page.add_project project
-
-        settings_page.expect_no_project_date_alert_setting("start_date")
-        settings_page.expect_no_project_date_alert_setting("due_date")
-        settings_page.expect_no_project_date_alert_setting("overdue")
       end
     end
   end

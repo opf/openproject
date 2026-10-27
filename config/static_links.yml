@@ -30,7 +30,7 @@ data_privacy:
   href: https://www.openproject.org/legal/privacy/
   label: :label_privacy_policy
 date_format_settings_documentation:
-  href: https://www.openproject.org/docs/system-admin-guide/calendars-and-dates/#date-format
+  href: https://www.openproject.org/docs/system-admin-guide/calendars-and-dates/#date-and-time-formats
 digital_accessibility:
   href: https://www.openproject.org/de/rechtliches/erklaerung-zur-digitalen-barrierefreiheit/
   label: :label_digital_accessibility
@@ -41,6 +41,8 @@ docker_installation:
   label: Docker installation
 documents_docs:
   href: https://www.openproject.org/docs/user-guide/documents/
+embeddings_explanation:
+  href: https://huggingface.co/blog/getting-started-with-embeddings
 enterprise_features:
   board_view:
     href: https://www.openproject.org/docs/user-guide/agile-boards/#action-boards-enterprise-add-on
@@ -64,6 +66,8 @@ enterprise_features:
     href: https://www.openproject.org/docs/user-guide/activity/#internal-comments-enterprise-add-on
   nextcloud_sso:
     href: https://www.openproject.org/docs/system-admin-guide/integrations/nextcloud/oidc-sso
+  project_specific_list_values:
+    href: https://www.openproject.org/docs/system-admin-guide/custom-fields/
   readonly_work_packages:
     href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-status/#create-a-new-work-package-status
   work_package_subject_generation:
@@ -90,6 +94,8 @@ glossary:
   label: homescreen.links.glossary
 github:
   href: https://github.com/opf/openproject
+gravatar:
+    href: https://gravatar.com
 hocuspocus_server_docs:
   href: https://github.com/opf/openproject/tree/dev/extensions/op-blocknote-hocuspocus
 ical_docs:
@@ -104,6 +110,8 @@ ldap_encryption_documentation:
 manual_installation:
   href: https://www.openproject.org/docs/installation-and-operations/installation/manual/
   label: Manual installation
+mobile_app_play_store:
+  href: https://play.google.com/store/apps/details?id=org.openproject.app
 multiple_versions_documentation:
   href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/versions-and-categories/#multiple-target-versions
 newsletter:
@@ -144,9 +152,13 @@ release_notes:
 release_notes_14_0_1:
   href: https://www.openproject.org/docs/release-notes/14/14-0-1/
   label: Release notes for OpenProject 14.0.1
+release_videos:
+  href: https://www.openproject.org/release-videos/{MAJOR}-{MINOR}
 report_bug:
   href: https://www.openproject.org/docs/development/report-a-bug/
   label: :label_report_bug
+restore_cloud_backup_documentation:
+  href: https://www.openproject.org/docs/installation-and-operations/operation/restoring/#changing-the-database-schema-from-cloud-to-on-premises
 roadmap:
   href: https://www.openproject.org/roadmap/
   label: :label_development_roadmap
@@ -186,6 +198,8 @@ storage_docs:
 sysadmin_docs:
   roles_and_permissions:
     href: https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions
+  form_configuration:
+    href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-types/form-configuration/
   ldap:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/ldap-connections/
   ldap_group_sync:
@@ -214,6 +228,8 @@ sysadmin_docs:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/scim/#c-jwt-from-identity-provider
   ssrf_protection:
     href: https://www.openproject.org/docs/installation-and-operations/configuration/ssrf-protection/
+  types:
+    href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-types/
 terms_of_service:
   href: https://www.openproject.org/terms-of-service/
 text_formatting:
@@ -247,6 +263,10 @@ user_guide:
   calendar:
     subscribe:
       href: https://www.openproject.org/docs/user-guide/calendar/#subscribe-to-a-calendar
+  work_packages:
+    import:
+      columns:
+        href: https://www.openproject.org/docs/user-guide/work-packages/importing/#column-reference
 webinar_videos:
   href: https://www.youtube.com/watch?v=un6zCm8_FT4
 website:

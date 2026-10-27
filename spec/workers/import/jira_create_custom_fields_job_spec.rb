@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,6 +34,26 @@ RSpec.describe Import::JiraCreateCustomFieldsJob do
 
   def create_custom_fields
     described_class.perform_now(jira_import.id)
+  end
+
+  def store_index
+    Import::JiraFetchCustomFieldJob.new.send(:prepare_jira_import_ivars, jira_import.id)
+    index = Import::JiraCustomField::IssueValueIndex.scan(jira_import)
+    Import::JiraCustomField::IssueValueIndex.serialize(index).each do |origin_id, issue_values|
+      Import::JiraField.where(jira_import:, origin_id:).update_all(issue_values:)
+    end
+    Import::JiraField.where(jira_import:).where(issue_values: nil).update_all(issue_values: { "used" => false })
+  end
+
+  def jira_issue_reads(&)
+    reads = 0
+    subscriber = ActiveSupport::Notifications.subscribe("sql.active_record") do |*, payload|
+      reads += 1 if payload[:sql].include?("jira_issues") && payload[:name] != "SCHEMA"
+    end
+    yield
+    reads
+  ensure
+    ActiveSupport::Notifications.unsubscribe(subscriber)
   end
 
   let(:global_context) { { "projects" => [], "issuetypes" => [] } }
@@ -108,7 +127,7 @@ RSpec.describe Import::JiraCreateCustomFieldsJob do
     end
 
     # Every per-project job rebuilds the registry, so building it repeatedly has to resolve the
-    # existing custom fields rather than create another copy of each list and hierarchy field.
+    # custom fields of an earlier build rather than create another copy.
     it "is idempotent" do
       create_custom_fields
 
@@ -132,6 +151,187 @@ RSpec.describe Import::JiraCreateCustomFieldsJob do
       create_custom_fields
 
       expect(WorkPackageCustomField.find_by(name: "CF Unused")).to be_nil
+    end
+
+    it "aborts with an error when a custom field cannot be created" do
+      create_service = CustomFields::CreateService
+      service = instance_double(create_service, call: ServiceResult.failure(message: "boom"))
+      allow(create_service).to receive(:new).and_return(service)
+
+      expect { create_custom_fields }.to raise_error(/Failed to create custom field/)
+    end
+  end
+
+  describe "when the import uses Jira's resolution date field" do
+    let(:custom_field) { WorkPackageCustomField.find_by(name: "Resolution Date") }
+    let(:reference) do
+      Import::JiraOpenProjectReference.find_by(jira_import:, op_entity_id: custom_field.id,
+                                               op_entity_class: "WorkPackageCustomField")
+    end
+    let(:resolution_date) { "2025-10-20T12:18:05.123+0000" }
+    let(:payload) { { "key" => "#{jira_project_key}-2", "fields" => { "resolutiondate" => resolution_date } } }
+
+    before { create(:jira_issue, jira_import:, jira_project:, payload:) }
+
+    it "creates a resolutiondate custom field" do
+      expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(3)
+      expect(custom_field.field_format).to eq("datetime")
+      expect(jira_import.reload.system_field_custom_fields).to eq("resolutiondate" => custom_field.id)
+      expect(reference).to have_attributes(jira_entity_class: nil, uses_existing: false)
+    end
+
+    it "is idempotent" do
+      create_custom_fields
+      expect { create_custom_fields }.not_to change(WorkPackageCustomField, :count)
+      expect(reference).to have_attributes(uses_existing: false)
+    end
+
+    context "with an existing resolutiondate custom field" do
+      before { create(:work_package_custom_field, name: "Resolution Date", field_format: "datetime") }
+
+      it "uses the existing field and does not create a new custom field" do
+        expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(2)
+        expect(jira_import.reload.system_field_custom_fields).to eq("resolutiondate" => custom_field.id)
+        expect(reference).to have_attributes(jira_entity_class: nil, uses_existing: true)
+      end
+    end
+
+    context "with an existing resolutiondate custom field with a different field format" do
+      let(:custom_field) { WorkPackageCustomField.find_by(name: "Resolution Date (2)") }
+
+      before { create(:work_package_custom_field, name: "Resolution Date", field_format: "date") }
+
+      it "creates a new custom field" do
+        expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(3)
+        expect(custom_field.field_format).to eq("datetime")
+        expect(jira_import.reload.system_field_custom_fields).to eq("resolutiondate" => custom_field.id)
+        expect(reference).to have_attributes(jira_entity_class: nil, uses_existing: false)
+      end
+    end
+
+    context "when no issue has a resolutiondate" do
+      let(:resolution_date) { nil }
+
+      it "creates no field" do
+        expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(2)
+        expect(custom_field).to be_nil
+        expect(jira_import.reload.system_field_custom_fields).to be_empty
+      end
+    end
+
+    context "when the import is configured to exclude resolution fields" do
+      let(:jira) { create(:jira, exclude_resolution_fields: true) }
+
+      it "creates no field" do
+        expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(2)
+        expect(custom_field).to be_nil
+        expect(jira_import.reload.system_field_custom_fields).to be_empty
+      end
+    end
+  end
+
+  describe "with the issue value index stored by stage 3" do
+    it "reads issues only to check the system fields" do
+      number_of_fields = Import::JiraCreateProjectJob::JiraImportCustomFields::SYSTEM_FIELD_CUSTOM_FIELDS.size
+      store_index
+
+      expect(jira_issue_reads { create_custom_fields }).to eq(number_of_fields)
+    end
+
+    it "creates the same custom fields as a scan would" do
+      store_index
+      create_custom_fields
+
+      expect(WorkPackageCustomField.pluck(:name, :field_format))
+        .to contain_exactly(["CF List", "list"], ["CF String", "string"])
+      expect(WorkPackageCustomField.find_by!(name: "CF List").custom_options.pluck(:value)).to eq(%w[Cat Mouse])
+    end
+
+    # A field carrying neither options nor strings is stored used with empty buckets; read as
+    # unused it would drop out of the registry entirely.
+    it "keeps a plain text field in the registry" do
+      store_index
+      create_custom_fields
+
+      expect(WorkPackageCustomField.find_by(name: "CF String")).to be_present
+    end
+
+    it "falls back to scanning when a single field has no stored index" do
+      store_index
+      Import::JiraField.where(id: list_field.id).update_all(issue_values: nil)
+
+      expect(jira_issue_reads { create_custom_fields }).to be > 0
+      expect(WorkPackageCustomField.pluck(:name)).to contain_exactly("CF List", "CF String")
+    end
+
+    it "records the custom field of every context group on the field" do
+      store_index
+      create_custom_fields
+
+      mapping = list_field.reload.issue_values["custom_fields"]
+      signature = Import::JiraCustomField::ContextSignature.key(list_field.payload["contextGroups"].first["allowedValues"])
+      expect(mapping).to eq(signature => WorkPackageCustomField.find_by!(name: "CF List").id)
+    end
+
+    it "resolves an existing mapping without matching or locking" do
+      store_index
+      create_custom_fields
+      allow(OpenProject::Mutex).to receive(:with_advisory_lock).and_call_original
+
+      expect { create_custom_fields }.not_to change(WorkPackageCustomField, :count)
+      expect(OpenProject::Mutex).not_to have_received(:with_advisory_lock)
+    end
+
+    it "creates the field again when the mapped one is gone" do
+      store_index
+      create_custom_fields
+      WorkPackageCustomField.find_by!(name: "CF List").destroy
+
+      expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(1)
+      expect(WorkPackageCustomField.where(name: "CF List")).to exist
+    end
+  end
+
+  describe "multicheckbox fields whose shape follows the option count" do
+    let!(:multicheckbox_field) do
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10300",
+                          payload: {
+                            "id" => "customfield_10300",
+                            "name" => "CF Checks",
+                            "schema" => {
+                              "type" => "array",
+                              "items" => "option",
+                              "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:multicheckboxes",
+                              "customId" => 10300
+                            },
+                            "contextGroups" => [global_context.merge("allowedValues" => [{ "value" => "Only" }])]
+                          })
+    end
+
+    let!(:multicheckbox_issue) do
+      create(:jira_issue, jira_import:,
+                          origin_id: "10300",
+                          jira_project:,
+                          payload: { "key" => "#{jira_project_key}-2",
+                                     "fields" => { "project" => { "id" => jira_project_id, "key" => jira_project_key },
+                                                   "issuetype" => { "id" => "10100" },
+                                                   "customfield_10300" => [{ "value" => "Only" }] } })
+    end
+
+    # One option gained or lost across the round trip flips the format and renames the field, so
+    # the stored index has to reproduce the option set exactly.
+    it "keeps the boolean split and the field name across a store-and-load round trip" do
+      create_custom_fields
+      scanned = WorkPackageCustomField.pluck(:name, :field_format)
+      WorkPackageCustomField.destroy_all
+      Import::JiraField.where(jira_import:).update_all(issue_values: nil)
+      store_index
+
+      create_custom_fields
+
+      expect(WorkPackageCustomField.pluck(:name, :field_format)).to match_array(scanned)
+      expect(WorkPackageCustomField.find_by(name: "CF Checks - Only")).to have_attributes(field_format: "bool")
     end
   end
 end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -60,8 +59,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   shared_let(:project) do
     create(:project,
            name: "Foo Bla. Report No. 4/2021 with/for Case 42",
-           types:,
-           work_package_custom_fields: [list_custom_field, text_custom_field_a, text_custom_field_b, link_custom_field])
+           types:)
   end
   shared_let(:user) do
     create(:user,
@@ -344,7 +342,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     describe "grouped by a hierarchy custom field", with_ee: %i[custom_field_hierarchies] do
       let!(:hierarchy_custom_field) do
-        create(:hierarchy_wp_custom_field, name: "Location", types: [type_task, type_bug], projects: [project])
+        create(:hierarchy_wp_custom_field, name: "Location", types: [type_task, type_bug])
       end
       let!(:hierarchy_items) do
         service = CustomFields::Hierarchy::HierarchicalItemService.new
@@ -399,7 +397,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     describe "grouped by a multi value hierarchy custom field with sums", with_ee: %i[custom_field_hierarchies] do
       let!(:multi_hierarchy_custom_field) do
-        create(:multi_hierarchy_wp_custom_field, name: "Locations", types: [type_task, type_bug], projects: [project])
+        create(:multi_hierarchy_wp_custom_field, name: "Locations", types: [type_task, type_bug])
       end
       let!(:multi_hierarchy_items) do
         service = CustomFields::Hierarchy::HierarchicalItemService.new
@@ -455,6 +453,32 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
           *work_package_details(work_package_parent, "1", long_text_fields),
           *work_package_details(work_package_child, "2", long_text_fields)
         ].join(" ")
+      end
+    end
+
+    describe "with hyphenation" do
+      let(:options) do
+        { pdf_export_type: "report", long_text_fields: "description", hyphenation: "1", hyphenation_language: }
+      end
+
+      before { allow(Hyphen).to receive(:new).and_call_original }
+
+      context "with a supported language" do
+        let(:hyphenation_language) { "de" }
+
+        it "hyphenates with that language" do
+          export_pdf
+          expect(Hyphen).to have_received(:new).with("de", true).at_least(:once)
+        end
+      end
+
+      context "with an unsupported language" do
+        let(:hyphenation_language) { "not-a-language" }
+
+        it "exports without hyphenation" do
+          export_pdf
+          expect(Hyphen).not_to have_received(:new)
+        end
       end
     end
 

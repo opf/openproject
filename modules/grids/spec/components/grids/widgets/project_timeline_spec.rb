@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,15 +22,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "rails_helper"
 
 RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
+  include Rails.application.routes.url_helpers
+
   let(:project) { create(:project) }
   let(:user) { create(:user) }
   let(:phases_role) { create(:project_role, permissions: [:view_project_phases]) }
@@ -240,7 +241,10 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
   describe "#sprints_data" do
     let!(:sprint) { create(:sprint, project:, start_date: Time.zone.today, finish_date: Time.zone.today + 14.days) }
 
-    subject(:data) { JSON.parse(component.sprints_data) }
+    subject(:data) do
+      render_inline(component)
+      JSON.parse(component.sprints_data)
+    end
 
     context "without view_sprints permission" do
       it { expect(data).to eq([]) }
@@ -265,7 +269,8 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
           "startDate" => sprint.start_date.iso8601,
           "endDate" => sprint.finish_date.iso8601,
           "status" => sprint.status,
-          "row" => 0
+          "row" => 0,
+          "href" => project_backlogs_backlog_path(project, sprint_ids: [sprint.id.to_s].to_json)
         )
       end
 

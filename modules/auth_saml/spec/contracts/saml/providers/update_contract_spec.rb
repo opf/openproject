@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,6 +34,23 @@ RSpec.describe Saml::Providers::UpdateContract do
   let(:provider) { build_stubbed(:saml_provider) }
 
   include_context "as saml provider contract"
+
+  context "when admin" do
+    let(:current_user) { build_stubbed(:admin) }
+
+    describe "additional_form_action_urls" do
+      let(:provider) { build_stubbed(:saml_provider, additional_form_action_urls: urls) }
+      let(:urls) { ["https://idp.example.com/login", "http://broker.example.com:8080"] }
+
+      it_behaves_like "contract is valid"
+
+      context "with an entry that is not an absolute HTTP(S) URL" do
+        let(:urls) { ["https://idp.example.com/login", "idp.example.com", "ftp://idp.example.com"] }
+
+        it_behaves_like "contract is invalid", additional_form_action_urls: :url_list_invalid
+      end
+    end
+  end
 
   describe "allowed_clock_drift persisted out of bounds" do
     let(:current_user) { build_stubbed(:admin) }

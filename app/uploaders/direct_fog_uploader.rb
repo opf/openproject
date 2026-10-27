@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,25 +35,32 @@ class DirectFogUploader < FogFileUploader
   ##
   # This needs to be true so that the necessary condition is included
   # in S3 upload policy (only relevant for direct uploads).
-  def will_include_content_type
+  def will_include_content_type # rubocop:disable Naming/PredicateMethod
     true
+  end
+
+  def upload_expiration
+    OpenProject::Configuration.fog_direct_upload_expires_in
+  end
+
+  # The signed policy restricts the key via `starts-with`, so this must never be a prefix
+  # of the final store_dir the attachment is served from.
+  def store_dir
+    "uploads/direct_uploads/attachment/#{model.id}"
   end
 
   class << self
     def for_attachment(attachment)
-      for_uploader attachment.file
+      new(attachment).tap do |uploader|
+        uploader.retrieve_from_store!(attachment[:file])
+        uploader.key = uploader.file.path
+      end
     end
 
-    def for_uploader(fog_file_uploader)
-      raise ArgumentError, "FogFileUploader expected" unless fog_file_uploader.is_a? FogFileUploader
-
-      uploader = new
-
-      uploader.instance_variable_set :@file, fog_file_uploader.file
-      uploader.instance_variable_set :@key, fog_file_uploader.path
-      uploader.instance_variable_set :@model, fog_file_uploader.model
-
-      uploader
+    def delete_staged_upload(attachment)
+      for_attachment(attachment).remote_file.delete
+    rescue StandardError => e
+      OpenProject.logger.error("Failed to delete staged upload of attachment #{attachment.id}: #{e.message}")
     end
 
     ##
