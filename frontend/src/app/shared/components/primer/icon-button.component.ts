@@ -33,10 +33,10 @@ import { IconModule } from '../icon/icon.module';
 import { AbstractBaseButtonDirective } from './abstract-base-button.directive';
 import { PrimerBaseButtonDirective } from './base-button.directive';
 import { DynamicIconDirective } from './dynamic-icon.directive';
+import { TooltipDirection } from './tooltip-direction';
 
 type Scheme = 'default' | 'primary' | 'secondary' | 'danger' | 'invisible';
 type Size = 'small' | 'medium' | 'large';
-type TooltipDirection = 's' | 'n' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw';
 
 @Component({
   selector: 'primer-icon-button',
