@@ -39,12 +39,17 @@ module WorkPackages
           work_package.resolve_pending_label_names(call.result)
           ServiceResult.success(result: work_package)
         else
-          work_package.errors.add(:labels, call.errors.symbols_for(:name).first || :invalid)
+          add_label_error(work_package, call.errors)
           ServiceResult.failure(result: work_package, errors: work_package.errors)
         end
       end
 
       private
+
+      def add_label_error(work_package, label_errors)
+        detail = label_errors.details[:name].first || { error: :invalid }
+        work_package.errors.add(:labels, detail[:error], **detail.except(:error))
+      end
 
       def find_or_create_labels(names)
         service = Labels::FindOrCreateService.new(user:)

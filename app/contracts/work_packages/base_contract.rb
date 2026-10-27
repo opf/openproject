@@ -438,10 +438,10 @@ module WorkPackages
         return
       end
 
-      pending_label_error_symbols.each { errors.add(:labels, it) }
+      pending_label_error_details.each { errors.add(:labels, it[:error], **it.except(:error)) }
     end
 
-    def pending_label_error_symbols
+    def pending_label_error_details
       new_names = new_pending_label_names
       return [] if new_names.empty?
 
@@ -457,13 +457,13 @@ module WorkPackages
     def label_creation_authorization_errors(name)
       contract = Labels::CreateContract.new(Label.new(name:), user)
       contract.validate
-      contract.errors.symbols_for(:base)
+      contract.errors.details[:base]
     end
 
     def label_name_errors(name)
       label = Label.new(name:)
       label.valid?
-      label.errors.symbols_for(:name)
+      label.errors.details[:name]
     end
 
     def validate_observed_in_versions_are_assignable

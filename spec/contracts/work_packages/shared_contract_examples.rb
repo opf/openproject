@@ -292,6 +292,13 @@ RSpec.shared_examples "work package contract" do
         end
 
         it_behaves_like "contract is invalid", labels: :too_long
+
+        it "renders the length limit in the message" do
+          contract.validate
+
+          expect(contract.errors.full_messages_for(:labels))
+            .to contain_exactly("Labels is too long (maximum is 255 characters).")
+        end
       end
 
       context "with more pending names than allowed" do
