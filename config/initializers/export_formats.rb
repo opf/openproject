@@ -50,6 +50,7 @@ Rails.application.configure do |application|
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Date
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Days
       formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::DoneRatio
+      formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::Duration
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Hours
       formatter WorkPackage, WorkPackage::Exports::Formatters::Id
       formatter WorkPackage, WorkPackage::Exports::Formatters::Labels

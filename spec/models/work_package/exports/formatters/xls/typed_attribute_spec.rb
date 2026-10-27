@@ -40,7 +40,8 @@ RSpec.describe WorkPackage::Exports::Formatters::XLS::TypedAttribute do
         remaining_hours: WorkPackage::Exports::Formatters::XLS::Hours,
         derived_remaining_hours: WorkPackage::Exports::Formatters::XLS::Hours,
         done_ratio: WorkPackage::Exports::Formatters::XLS::DoneRatio,
-        derived_done_ratio: WorkPackage::Exports::Formatters::XLS::DoneRatio
+        derived_done_ratio: WorkPackage::Exports::Formatters::XLS::DoneRatio,
+        duration: WorkPackage::Exports::Formatters::XLS::Duration
       }
 
       expected.each do |attribute, formatter|
@@ -121,7 +122,7 @@ RSpec.describe WorkPackage::Exports::Formatters::XLS::TypedAttribute do
     end
 
     it "formats integers without decimals" do
-      expect(described_class.new(:duration).format_options).to eq({ number_format: "0" })
+      expect(described_class.new(:story_points).format_options).to eq({ number_format: "0" })
     end
 
     it "formats floats with two decimals" do

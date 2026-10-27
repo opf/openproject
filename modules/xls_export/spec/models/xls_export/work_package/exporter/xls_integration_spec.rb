@@ -400,7 +400,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     let(:work_packages) { [work_package] }
 
     let(:column_names) do
-      %w[id start_date due_date created_at] + custom_fields.map(&:column_name)
+      %w[id start_date due_date created_at duration] + custom_fields.map(&:column_name)
     end
 
     let(:values) { sheet.rows[1].to_a }
@@ -411,20 +411,21 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       expect(values[1]).to eq(Date.new(2026, 8, 24))
       expect(values[2]).to eq(Date.new(2026, 9, 1))
       expect(values[3]).to be_a(DateTime)
-      expect(values[4]).to eq(42)
-      expect(values[5]).to eq(1234.5)
-      expect(values[6]).to eq(Date.new(2026, 10, 5))
+      expect(values[4]).to eq(work_package.duration)
+      expect(values[5]).to eq(42)
+      expect(values[6]).to eq(1234.5)
+      expect(values[7]).to eq(Date.new(2026, 10, 5))
     end
 
     it "sets a matching cell format on every typed column" do
       expect(number_formats)
-        .to eq(["0", "YYYY-MM-DD", "YYYY-MM-DD", "YYYY-MM-DD HH:MM", "0", "0.00", "YYYY-MM-DD"])
+        .to eq(["0", "YYYY-MM-DD", "YYYY-MM-DD", "YYYY-MM-DD HH:MM", '0 "d"', "0", "0.00", "YYYY-MM-DD"])
     end
 
     context "with a localised date format",
             with_settings: { date_format: "%d.%m.%Y", time_format: "%H:%M" } do
       it "keeps the same cell format" do
-        expect(number_formats.values_at(1, 2, 6)).to all(eq("YYYY-MM-DD"))
+        expect(number_formats.values_at(1, 2, 7)).to all(eq("YYYY-MM-DD"))
         expect(number_formats[3]).to eq("YYYY-MM-DD HH:MM")
       end
     end
