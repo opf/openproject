@@ -74,24 +74,6 @@ RSpec.describe ITSM::MailServer::Connection do
     end
   end
 
-  context "with an IPv4 address as host" do
-    let(:host) { "192.168.1.10" }
-
-    it { is_expected.not_to be_valid }
-  end
-
-  context "with an IPv6 address as host" do
-    let(:host) { "::1" }
-
-    it { is_expected.not_to be_valid }
-  end
-
-  context "with a host that is not a hostname" do
-    let(:host) { "imap.mailbox.org/inbox" }
-
-    it { is_expected.not_to be_valid }
-  end
-
   context "without a host" do
     let(:host) { "" }
 
@@ -120,16 +102,6 @@ RSpec.describe ITSM::MailServer::Connection do
     it "cannot be destroyed" do
       expect(connection.destroy).to be(false)
       expect(described_class).to exist(connection.id)
-    end
-  end
-
-  context "when it has health reports" do
-    let!(:health_report) { HealthReport.create!(subject: connection) }
-
-    it "deletes them together with the connection" do
-      connection.destroy
-
-      expect(HealthReport).not_to exist(health_report.id)
     end
   end
 end

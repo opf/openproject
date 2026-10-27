@@ -48,6 +48,6 @@ module ITSM
     normalizes :to_addresses, :cc_addresses, with: EmailAddress::NORMALIZE_ALL
 
     validates :message_id, presence: true, length: { maximum: 255 }, uniqueness: { scope: :thread_id }
-    validates :from_address, presence: true, email: { allow_blank: true }
+    validates :from_address, presence: true
   end
 end

@@ -39,23 +39,13 @@ module ITSM
       normalizes :username, with: ->(username) { username.strip }
 
       validate :connection_uses_its_protocol, if: :connection
-      # Community edition limit: more mailboxes per project need the Enterprise edition (ITSM-21).
-      validate :project_has_no_other_mailbox, if: :project
       validates :username, :password, presence: true
     end
-
-    def credentials = Credentials.new(username:, password:)
 
     private
 
     def connection_uses_its_protocol
       errors.add(:connection, :invalid) unless connection.protocol == self.class::PROTOCOL
     end
-
-    def project_has_no_other_mailbox
-      errors.add(:project, :mailbox_limit_reached) if other_mailboxes.exists?(project_id:)
-    end
-
-    def other_mailboxes = self.class.where.not(id:)
   end
 end

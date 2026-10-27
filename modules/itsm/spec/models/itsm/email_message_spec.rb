@@ -51,12 +51,6 @@ RSpec.describe ITSM::EmailMessage do
     it { is_expected.not_to be_valid }
   end
 
-  context "with a sender that is not an email address" do
-    subject(:message) { build(:itsm_email_message, from_address: "not an address at all") }
-
-    it { is_expected.not_to be_valid }
-  end
-
   context "with addresses in mixed case, surrounding whitespace and duplicates" do
     subject(:message) do
       build(:itsm_email_message,

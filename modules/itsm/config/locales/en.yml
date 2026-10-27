@@ -40,20 +40,6 @@ en:
         sender_email: Sender email
         sender_name: Sender name
         username: Username
-    errors:
-      models:
-        itsm/incoming_mailbox:
-          attributes:
-            project:
-              mailbox_limit_reached: "already has an incoming mailbox."
-        itsm/mail_server:
-          attributes:
-            base:
-              mail_server_limit_reached: "Only one mail server can be set up."
-        itsm/outgoing_mailbox:
-          attributes:
-            project:
-              mailbox_limit_reached: "already has an outgoing mailbox."
     models:
       itsm/email_message:
         one: Email message

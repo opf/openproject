@@ -35,28 +35,10 @@ module ITSM
 
     belongs_to :connection, class_name: "ITSM::MailServer::Connection", inverse_of: :incoming_mailboxes, optional: false
 
-    scope :with_any_alias, ->(addresses) { where(arel_table[:aliases].overlaps(addresses)) }
-
     normalizes :email, with: EmailAddress::NORMALIZE
     normalizes :aliases, with: EmailAddress::NORMALIZE_ALL
 
     validates :username, uniqueness: { scope: :connection_id, case_sensitive: false }
-    validates :email, presence: true, uniqueness: true, email: { allow_blank: true }
-    validates :aliases, email_list: true
-    validate :email_is_not_an_alias_of_another_mailbox, if: -> { email.present? }
-    validate :aliases_are_not_used_by_other_mailboxes, if: -> { aliases.any? }
-
-    def known_addresses = [email, *aliases].compact_blank.uniq
-
-    private
-
-    def email_is_not_an_alias_of_another_mailbox
-      errors.add(:email, :taken) if other_mailboxes.with_any_alias([email]).exists?
-    end
-
-    def aliases_are_not_used_by_other_mailboxes
-      taken = other_mailboxes.where(email: aliases).or(other_mailboxes.with_any_alias(aliases))
-      errors.add(:aliases, :taken) if taken.exists?
-    end
+    validates :email, presence: true, uniqueness: true
   end
 end

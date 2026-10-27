@@ -37,6 +37,6 @@ module ITSM
 
     normalizes :sender_email, with: EmailAddress::NORMALIZE
 
-    validates :sender_email, presence: true, email: { allow_blank: true }
+    validates :sender_email, presence: true
   end
 end

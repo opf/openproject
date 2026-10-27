@@ -54,16 +54,6 @@ RSpec.describe ITSM::IncomingMailbox do
     expect(mailbox.inspect).not_to include("imap-password")
   end
 
-  it "exposes its credentials" do
-    expect(mailbox.credentials).to have_attributes(username: "support@example.com", password: "imap-password")
-  end
-
-  it "hides the password when the credentials are printed" do
-    credentials = mailbox.credentials
-
-    expect([credentials.inspect, credentials.to_s, credentials.pretty_inspect].join).not_to include("imap-password")
-  end
-
   context "without a username" do
     let(:username) { "" }
 
@@ -105,46 +95,6 @@ RSpec.describe ITSM::IncomingMailbox do
     it "normalizes them" do
       expect(mailbox.aliases).to eq(%w[help@example.com billing@example.com])
     end
-
-    it "knows all of its addresses" do
-      expect(mailbox.known_addresses).to eq(%w[support@example.com help@example.com billing@example.com])
-    end
-  end
-
-  context "with an invalid alias" do
-    let(:aliases) { ["not-an-email"] }
-
-    it { is_expected.not_to be_valid }
-  end
-
-  context "when an alias is another mailbox's email" do
-    let!(:existing) { create(:itsm_incoming_mailbox, email: "help@example.com") }
-    let(:aliases) { ["help@example.com"] }
-
-    it { is_expected.not_to be_valid }
-  end
-
-  context "when an alias is another mailbox's alias" do
-    let!(:existing) { create(:itsm_incoming_mailbox, aliases: ["help@example.com"]) }
-    let(:aliases) { ["help@example.com"] }
-
-    it { is_expected.not_to be_valid }
-  end
-
-  context "when the email is another mailbox's alias" do
-    let!(:existing) { create(:itsm_incoming_mailbox, aliases: ["support@example.com"]) }
-
-    it { is_expected.not_to be_valid }
-  end
-
-  context "when the mailbox is saved again with its own aliases" do
-    let(:aliases) { ["help@example.com"] }
-
-    it "does not conflict with itself" do
-      mailbox.save!
-
-      expect(mailbox.reload).to be_valid
-    end
   end
 
   context "with surrounding whitespace and upper case letters" do
@@ -153,12 +103,6 @@ RSpec.describe ITSM::IncomingMailbox do
     it "normalizes the email" do
       expect(mailbox.email).to eq("support@example.com")
     end
-  end
-
-  context "with an invalid email" do
-    let(:email) { "not-an-email" }
-
-    it { is_expected.not_to be_valid }
   end
 
   context "when another mailbox uses the same email in a different case" do
@@ -179,7 +123,7 @@ RSpec.describe ITSM::IncomingMailbox do
   end
 
   context "when another mailbox uses the same username on a different server" do
-    let!(:existing) { create(:itsm_incoming_mailbox, username:, mail_server: create(:itsm_mail_server, :additional)) }
+    let!(:existing) { create(:itsm_incoming_mailbox, username:, mail_server: create(:itsm_mail_server)) }
     let(:email) { "support+demo@example.com" }
 
     it { is_expected.to be_valid }
@@ -189,27 +133,6 @@ RSpec.describe ITSM::IncomingMailbox do
     let(:project) { nil }
 
     it { is_expected.not_to be_valid }
-  end
-
-  context "when the project already has an incoming mailbox" do
-    let!(:existing) { create(:itsm_incoming_mailbox, project:) }
-    let(:email) { "support+demo@example.com" }
-    let(:username) { "support+demo@example.com" }
-
-    it "is not valid" do
-      expect(mailbox).not_to be_valid
-      expect(mailbox.errors.symbols_for(:project)).to include(:mailbox_limit_reached)
-    end
-
-    it "keeps the existing mailbox valid" do
-      expect(existing).to be_valid
-    end
-  end
-
-  context "when the project has an outgoing mailbox" do
-    before { create(:itsm_outgoing_mailbox, project:) }
-
-    it { is_expected.to be_valid }
   end
 
   context "when its project is deleted" do

@@ -36,6 +36,6 @@ module ITSM
     normalizes :recipients, with: EmailAddress::NORMALIZE_ALL
 
     validates :work_package, uniqueness: true
-    validates :requester_email, presence: true, email: { allow_blank: true }
+    validates :requester_email, presence: true
   end
 end

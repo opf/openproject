@@ -32,10 +32,5 @@ FactoryBot.define do
     sequence(:name) { |n| "Mail server #{n}" }
     imap_connection { association :itsm_mail_server_connection, :imap, strategy: :build, mail_server: instance }
     smtp_connection { association :itsm_mail_server_connection, :smtp, strategy: :build, mail_server: instance }
-
-    # Skips the 18.0 limit of a single mail server for specs that need a second one.
-    trait :additional do
-      to_create { it.save!(validate: false) }
-    end
   end
 end

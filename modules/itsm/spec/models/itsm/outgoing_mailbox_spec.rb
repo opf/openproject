@@ -53,10 +53,6 @@ RSpec.describe ITSM::OutgoingMailbox do
     expect(mailbox.inspect).not_to include("smtp-password")
   end
 
-  it "exposes its credentials" do
-    expect(mailbox.credentials).to have_attributes(username: "relay-user", password: "smtp-password")
-  end
-
   context "without a username" do
     let(:username) { "" }
 
@@ -84,12 +80,6 @@ RSpec.describe ITSM::OutgoingMailbox do
     it { is_expected.not_to be_valid }
   end
 
-  context "with an invalid sender email" do
-    let(:sender_email) { "not-an-email" }
-
-    it { is_expected.not_to be_valid }
-  end
-
   context "with a sender email in mixed case and surrounding whitespace" do
     let(:sender_email) { " Support@Example.COM " }
 
@@ -103,15 +93,6 @@ RSpec.describe ITSM::OutgoingMailbox do
 
     it "is valid, as projects can share a relay account" do
       expect(mailbox).to be_valid
-    end
-  end
-
-  context "when the project already has an outgoing mailbox" do
-    let!(:existing) { create(:itsm_outgoing_mailbox, project:) }
-
-    it "is not valid" do
-      expect(mailbox).not_to be_valid
-      expect(mailbox.errors.symbols_for(:project)).to include(:mailbox_limit_reached)
     end
   end
 

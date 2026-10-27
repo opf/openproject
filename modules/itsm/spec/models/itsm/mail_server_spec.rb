@@ -56,7 +56,7 @@ RSpec.describe ITSM::MailServer do
   end
 
   context "with an invalid connection" do
-    before { mail_server.imap_connection.host = "192.168.1.10" }
+    before { mail_server.imap_connection.host = "" }
 
     it { is_expected.not_to be_valid }
   end
@@ -65,19 +65,6 @@ RSpec.describe ITSM::MailServer do
     let(:name) { "a" * 256 }
 
     it { is_expected.not_to be_valid }
-  end
-
-  context "when a mail server already exists" do
-    let!(:existing) { create(:itsm_mail_server) }
-
-    it "is not valid" do
-      expect(mail_server).not_to be_valid
-      expect(mail_server.errors.symbols_for(:base)).to include(:mail_server_limit_reached)
-    end
-
-    it "keeps the existing server valid" do
-      expect(existing).to be_valid
-    end
   end
 
   context "when another server uses the same name in a different case" do

@@ -39,16 +39,10 @@ module ITSM
 
     validates :name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 255 }
     validates :imap_connection, :smtp_connection, presence: true
-    # Community edition limit: more mail servers need the Enterprise edition (ITSM-21).
-    validate :no_other_mail_server, on: :create
 
     def in_use? = IncomingMailbox.exists?(connection: connections) || OutgoingMailbox.exists?(connection: connections)
 
     private
-
-    def no_other_mail_server
-      errors.add(:base, :mail_server_limit_reached) if self.class.exists?
-    end
 
     def ensure_no_mailbox_uses_it
       return unless in_use?

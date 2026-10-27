@@ -35,7 +35,6 @@ module ITSM
                                     dependent: :restrict_with_error
       has_many :outgoing_mailboxes, class_name: "ITSM::OutgoingMailbox", inverse_of: :connection,
                                     dependent: :restrict_with_error
-      has_many :health_reports, as: :subject, dependent: :delete_all
 
       attr_readonly :protocol
 
@@ -45,7 +44,7 @@ module ITSM
       normalizes :host, with: ->(host) { host.strip.downcase.delete_suffix(".") }
 
       validates :protocol, uniqueness: { scope: :mail_server_id }
-      validates :host, presence: true, hostname: true
+      validates :host, presence: true
       validates :port, numericality: { only_integer: true, in: 1..65_535 }
     end
   end

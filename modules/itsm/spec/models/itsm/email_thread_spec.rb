@@ -57,12 +57,6 @@ RSpec.describe ITSM::EmailThread do
     it { is_expected.not_to be_valid }
   end
 
-  context "with an invalid requester email" do
-    let(:requester_email) { "not-an-email" }
-
-    it { is_expected.not_to be_valid }
-  end
-
   context "when the work package already has a thread" do
     let!(:existing) { create(:itsm_email_thread, work_package:) }
 
