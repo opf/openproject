@@ -361,8 +361,8 @@ fr:
     ical_sharing_modal:
       copy_url_label: Copier l'URL
       description: Vous pouvez utiliser l'URL (iCalendar) pour vous abonner à ce calendrier dans un client externe et afficher les informations mises à jour du lot de travaux à partir de là.
-      ical_generation_error_text: Une erreur s'est produite lors de la génération de l'URL du calendrier.
-      inital_setup_error_message: Une erreur est survenue lors de la récupération des données.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: L'adresse URL « %{name} » a été copiée avec succès dans votre presse-papiers. Collez-la dans votre client de calendrier pour compléter l'abonnement.
       title: S'abonner au calendrier
       token_name_description_text: Si vous vous abonnez à ce calendrier à partir de plusieurs appareils, ce nom vous permettra de les distinguer dans votre liste de <a href="%{myAccessTokensUrl}" target="_blank">jetons d'accès</a>.
@@ -554,6 +554,8 @@ fr:
     label_reset: Réinitialiser
     label_resize_project_menu: Redimensionner le menu du projet
     label_save_as: Enregistrer sous
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Rechercher une colonne
     label_select_watcher: Sélectionner un observateur...
     label_selected_filter_list: Filtres sélectionnés

@@ -30,7 +30,7 @@
 module WorkPackages
   module ActivitiesTab
     # Builds and runs the service behind a comment write, resolving the note body
-    # (mentions are sanitised only for internal comments) and coercing the request
+    # (mentions are sanitized only for internal comments) and coercing the request
     # flags. Callers handle the returned ServiceResult; this owns how a comment is
     # written.
     class CommentService

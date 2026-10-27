@@ -15,14 +15,19 @@
           end
         end
 
-        content.with_row do
-          settings_primer_form_with(
-            model:,
-            scope: :custom_field,
-            id: "custom_field_form",
-            url: form_url,
-            method: form_method
-          ) { |form| render CustomFields::DetailsForm.new(form) }
+        content.with_row(**form_row_arguments) do
+          safe_join(
+            [
+              settings_primer_form_with(
+                model:,
+                scope: :custom_field,
+                id: "custom_field_form",
+                url: form_url,
+                method: form_method
+              ) { |form| render CustomFields::DetailsForm.new(form) },
+              (disable_project_specific_values_dialog if confirm_disabling_project_specific_values?)
+            ]
+          )
         end
       end
     end

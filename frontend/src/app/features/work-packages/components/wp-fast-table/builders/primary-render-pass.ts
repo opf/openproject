@@ -236,20 +236,20 @@ workPackage:WorkPackageResource,
   /**
    * Append a non-work package row to both containers
    * @param row HTMLElement to append
-   * @param classIdentifer a unique identifier for the two rows (one each in table/timeline).
+   * @param classIdentifier a unique identifier for the two rows (one each in table/timeline).
    * @param hidden whether the row was rendered hidden
    */
   protected appendNonWorkPackageRow(
     key:OccurrenceKey,
     row:HTMLTableRowElement,
-    classIdentifer:string,
+    classIdentifier:string,
     additionalClasses:string[] = [],
     hidden = false,
   ) {
-    row.classList.add(classIdentifer);
+    row.classList.add(classIdentifier);
     this.registerAppended(row, {
       key,
-      classIdentifier: classIdentifer,
+      classIdentifier,
       additionalClasses,
       workPackage: null,
       workPackageId: null,

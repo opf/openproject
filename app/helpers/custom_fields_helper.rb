@@ -37,7 +37,8 @@ module CustomFieldsHelper
                 class: "form--label"
   end
 
-  def custom_field_tag_for_bulk_edit(name, custom_field, project = nil, value = nil) # rubocop:disable Metrics/AbcSize
+  # Only values usable in all projects of usable_in are offered for custom fields with project-specific values.
+  def custom_field_tag_for_bulk_edit(name, custom_field, project = nil, value = nil, usable_in: Array(project)) # rubocop:disable Metrics/AbcSize
     field_name = name.present? ? "#{name}[custom_field_values][#{custom_field.id}]" : "custom_field_values[#{custom_field.id}]"
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
     field_format = OpenProject::CustomFieldFormat.find_by(name: custom_field.field_format)
@@ -72,7 +73,7 @@ module CustomFieldsHelper
                         include_blank: I18n.t(:label_no_change_option))
     when "list"
       styled_select_tag(field_name,
-                        options_for_list(custom_field, project, value),
+                        options_for_list(custom_field, project, value, usable_in:),
                         id: field_id,
                         multiple: custom_field.multi_value?,
                         include_blank: I18n.t(:label_no_change_option))
@@ -84,6 +85,7 @@ module CustomFieldsHelper
           ->(items) { items },
           ->(_) { [] }
         )
+        .select { |item| usable_in_all?(custom_field, usable_in, item.id) }
       options = base_options + result.map do |item|
         label = item.short.present? ? "#{item.label} (#{item.short})" : item.label
         [label, item.id]
@@ -117,14 +119,14 @@ module CustomFieldsHelper
     format.label.is_a?(Proc) ? format.label.call : I18n.t(format.label)
   end
 
-  def options_for_list(custom_field, project, selected = nil)
+  def options_for_list(custom_field, project, selected = nil, usable_in: Array(project))
     base_options = []
     unless custom_field.required?
       unset_label = custom_field.field_format == "user" ? :label_nobody : :label_none
       base_options << [I18n.t(unset_label), "none"]
     end
 
-    possible_values = custom_field.possible_values_options(project)
+    possible_values = usable_possible_values_options(custom_field, project, usable_in)
     options = if custom_field.version?
                 grouped_options_for_select(possible_values.group_by(&:last).to_a, selected)
               else
@@ -132,5 +134,18 @@ module CustomFieldsHelper
               end
 
     options_for_select(base_options, selected) + options
+  end
+
+  def usable_possible_values_options(custom_field, project, usable_in)
+    possible_values = custom_field.possible_values_options(project)
+    return possible_values unless custom_field.list?
+
+    possible_values.select { |_label, id| usable_in_all?(custom_field, usable_in, id) }
+  end
+
+  def usable_in_all?(custom_field, projects, value_id)
+    return true if custom_field.project_specific_value_restriction.nil?
+
+    projects.present? && projects.all? { |project| custom_field.usable_value_id?(project, value_id) }
   end
 end

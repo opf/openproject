@@ -228,7 +228,7 @@ RSpec.describe UserPreference do
       end
     end
 
-    context "with neiter a time zone configured nor a default one", with_settings: { user_default_timezone: "" } do
+    context "with neither a time zone configured nor a default one", with_settings: { user_default_timezone: "" } do
       it "returns UTC" do
         expect(preference.time_zone).to eql "Etc/UTC"
       end
@@ -250,7 +250,7 @@ RSpec.describe UserPreference do
       end
     end
 
-    context "with neiter a time zone configured nor a default one", with_settings: { user_default_timezone: "" } do
+    context "with neither a time zone configured nor a default one", with_settings: { user_default_timezone: "" } do
       it "is false" do
         expect(preference).not_to be_time_zone
       end

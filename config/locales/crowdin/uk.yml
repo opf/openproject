@@ -120,8 +120,10 @@ uk:
         caption: Заголовок
         help_text: Довідковий текст
       auth_provider:
-        additional_form_action_urls: Additional allowed login redirect URLs
+        additional_form_action_urls: Додаткові дозволені URL-адреси для перенаправлення після входу в систему
         scim_clients: Клієнти SCIM
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: Користувацький ідентифікатор
         customized_type: Користувацький тип
@@ -132,8 +134,6 @@ uk:
         repository: Репозиторій
       comment:
         commented: Прокоментовано
-      custom_action:
-        actions: Дії
       custom_field:
         admin_only: Тільки для адміністраторів
         allow_non_open_versions: Дозволити невідкриті версії
@@ -152,10 +152,13 @@ uk:
         min_value: Мінімальне значення
         multi_value: Дозволити вибір
         possible_values: Можливі значення
+        project_specific_value_restriction: Project-specific values
         regexp: Регулярний вираз
         searchable: Доступно для пошуку
         semantic_key: Семантичне значення
         visible_on_user_card: Показати на картці користувача
+      custom_field/project_specific_value_restriction:
+        restriction: Restriction
       custom_value:
         value: Значення
       design_color:
@@ -219,6 +222,9 @@ uk:
         organizational_unit: Організаційний підрозділ
         parent: Батьківська група
       import/jira:
+        auth_method: Auth method
+        basic_auth_password: Basic auth password
+        basic_auth_username: Basic auth username
         name: Назва екземпляра Jira
         personal_access_token: Персональний маркер доступу
         url: URL-адреса екземпляра Jira
@@ -291,6 +297,7 @@ uk:
         project_creation_wizard_status_when_submitted: Статус на момент подання
         project_creation_wizard_work_package_comment: Коментар до пакета робіт
         project_creation_wizard_work_package_type: Тип пакета робіт
+        project_specific_values: Project-specific values
         project_types: Типи
         public_value:
           false: приватний
@@ -466,7 +473,7 @@ uk:
         header_look_and_feel: Оформлення
         impaired: Режим спеціальних можливостей
         increase_contrast: Збільшити контрастність
-        increase_contrast_caption: Вмикає високу контрастність для вибраного колірного режиму.
+        increase_contrast_caption: Enables high-contrast mode for the chosen color mode.
         increase_theme_contrast: Збільшити контрастність теми
         mode_guideline: Деякі режими перезаписують користувацькі кольори теми, щоб поліпшити доступність і читабельність. Виберіть світлий режим, якщо потрібна повна підтримка користувацької теми.
         require_double_click_for_inline_edit: Require double click to edit fields
@@ -637,6 +644,8 @@ uk:
         regex_invalid: неможливо перевірити з відповідним регулярним виразом.
         regex_list_invalid: Неможливо проаналізувати рядки %{invalid_lines} як регулярний вираз.
         regex_match_failed: не збігається з регулярним виразом %{expression}.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         smaller_than_or_equal_to_max_length: має бути меншою або дорівнює максимальній довжині.
         smaller_than_or_equal_to_max_value: має бути менше або дорівнювати максимальному значенню.
         ssrf_filtered: порушує політику SSRF цього екземпляра OpenProject.
@@ -653,7 +662,7 @@ uk:
         unknown_property: "– це не відома властивість."
         unknown_property_nested: має невідомий шлях «%{path}».
         unremovable: неможливо видалити.
-        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
+        url_list_invalid: Рядки «%{invalid_lines}» не є дійсними URL-адресами HTTP або HTTPS.
         url_not_secure_context: 'не надає контекст безпеки. Використовуйте HTTPS або адресу loopback, наприклад localhost.
 
           '
@@ -695,6 +704,8 @@ uk:
               invalid: Формула недійсна.
               invalid_tokens: 'Допускаються лише числові значення, оператори, функції, ключові слова й атрибути проєкту таких типів: ціле число, число з рухомою комою, розраховане значення й список зважених елементів.'
               not_allowed_custom_fields_referenced: Атрибут «%{custom_fields}» не можна використовувати, оскільки це призведе до циклічного посилання; один атрибут залежить від іншого.
+            project_specific_value_restriction:
+              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
             required:
               cannot_be_true: не може мати значення true.
           previous_custom_field_recalculation_unprocessed: Перерахунок попередніх змін для цього власного поля ще не було застосовано. Спробуйте повторити спробу за кілька хвилин.
@@ -1139,6 +1150,11 @@ uk:
         few: Постачальники послуг автентифікації
         many: Постачальники послуг автентифікації
         other: Постачальники послуг автентифікації
+      automation:
+        one: Automation
+        few: Automations
+        many: Automations
+        other: Automations
       backup:
         one: Резервна копія
         few: Резервні копії
@@ -1174,11 +1190,6 @@ uk:
         few: Коментарі
         many: Коментарі
         other: Коментарі
-      custom_action:
-        one: Користувацька дія
-        few: Користувацькі дії
-        many: Користувацькі дії
-        other: Користувацькі дії
       custom_field:
         one: Користувацьке поле
         few: Користувацькі поля
@@ -1289,6 +1300,11 @@ uk:
         few: Пріоритети
         many: Пріоритети
         other: Пріоритети
+      label:
+        one: Label
+        few: Labels
+        many: Labels
+        other: Labels
       ldap_auth_source:
         one: LDAP-підключення
         few: LDAP-підключення
@@ -1690,6 +1706,11 @@ uk:
         desktop:
           description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
           title: Custom desktop logos
+        favicon:
+          field: Favicon
+          field_description: The image should be 32x32px in PNG format on transparent background.
+          title: Custom favicon
+          title_description: This is the tiny icon that appears next to the page title in the browser. By default the OpenProject favicon is used, but if you upload a new favicon the theme will automatically be changed to Custom theme.
         mobile:
           description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
           title: Custom mobile logos
@@ -1698,11 +1719,16 @@ uk:
             description: The app header will be black. We recommend a white logo on transparent background.
             name: Dark mode logo
           light:
-            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            description: Make sure to upload a logo that has enough contrast with the app header color selected.
             name: Light mode logo
           light_high_contrast:
             description: The app header will be grey. We recommend a black logo on transparent background.
             name: High contrast mode logo
+        touch_icon:
+          field: Touch icon
+          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          title: Custom touch icon
+          title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
         base_colors: Основні кольори
         main_menu: Головне бічне меню
@@ -1720,11 +1746,15 @@ uk:
       default_colors:
         description: Визначте палітру кольорів, що використовуватимуться в інших частинах програми. Ці кольори будуть доступні, наприклад, під час вибору кольору для позначення статусу чи типу.
       edit_color: Редагувати колір %{color}
+      export:
+        description: Upload and manage custom image files used in your PDF exports.
+        title: Custom export
       fonts:
         file_is_invalid: не є дійсним файлом шрифту TTF.
         file_too_large: завеликий (максимальний розмір – %{count} МБ).
       instructions:
         accent-color: Колір для посилань та інших елементів, які має бути виділено.
+        export_cover_text_color: Color of the text on top of the cover background to ensure readability.
         header-bg-color: Колір фону заголовка додатка за промовчанням.
         main-menu-bg-color: Колір фону меню зліва.
         main-menu-bg-selected-background: Колір фону пунктів меню при їх виборі.
@@ -1733,7 +1763,6 @@ uk:
       tab_branding: Брендування
       tab_default_colors: Стандартні кольори
       tab_interface: Інтерфейс
-      tab_pdf_export_font: Шрифт для експорту в PDF
       tab_pdf_export_styles: Стилі експорту PDF
       theme_warning:
         confirmation: I understand that this action cannot be reversed
@@ -1772,7 +1801,7 @@ uk:
     import:
       title: Iмпорт
     info:
-      database_deprecation_html: 'Починаючи з OpenProject 16.0, для використання OpenProject потрібна версія PostgreSQL 16. Ваша конфігурація працюватиме з поточною базою даних, але передбачається несумісність із майбутніми випусками. <br/> Ми підготували [посібники з оновлення для всіх методів встановлення](upgrade_guide). Дотримуючись цих інструкцій, ви можете виконати оновлення до наступного випуску в будь-який час.
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: Розподіл пам'яті Jemalloc
@@ -1780,12 +1809,15 @@ uk:
       actions:
         button_edit: Змінити конфігурацію
         button_open: Відкрити список циклів
+      api_client:
+        unknown_auth_method: Unknown authentication method. Please use 'bearer' or 'basic'.
       banner:
         contribution_callout: 'Допоможіть нам покращити Jira Migrator, надіславши відгук і пожертвувавши приватні дані. Ви можете [приєднатися до спільноти розробників](link) Jira Migrator.
 
           '
         description: Інструмент Jira Migrator зараз доступний тільки як бета-версія. Зараз ми підтримуємо лише версії Jira Server / Data Center 10.x і 11.x. Хмарні екземпляри поки що не підтримуються.
         title: Спробуйте бета-версію!
+      basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
         description: Налаштуйте хост Jira, щоб почати імпорт елементів із Jira в цей екземпляр OpenProject.
         title: Ще немає налаштованих хостів Jira
@@ -1818,16 +1850,30 @@ uk:
           description: Jira використовує ідентифікатори задач, що складаються з ключа проєкту й порядкового номера (наприклад, PRJ-123). OpenProject також підтримує цю функцію, але її потрібно ввімкнути [тут](link).
           title: Необхідно ввімкнути семантичні ідентифікатори із зазначенням проєктів.
       form:
+        auth_method:
+          basic:
+            caption: Use basic auth if you are using a Jira Server version 8 or the instance is configured behind a proxy.
+            label: Basic auth
+          bearer:
+            caption: We recommend using this authentication method.
+            label: Personal access token (PAT)
         button_add: Додати конфігурацію
-        button_delete_token: Видалити маркер
+        button_delete_basic_auth_password: Delete basic auth password
+        button_delete_personal_access_token: Delete PAT
         button_save: Зберегти конфігурацію
-        delete_token_confirm: Справді видалити маркер? З’єднання з Jira буде розірвано.
+        button_test_connection: Test Connection
+        delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
+        delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          basic_auth_password: Password
+          basic_auth_username: Username
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: Назва
-          personal_access_token: Персональний маркер доступу
+          personal_access_token: Personal access token (PAT)
           url: URL-адреса Jira Server / Data Center
         label_testing: Перевірка конфігурації…
-        test_configuration_caption: Ви можете перевірити цю конфігурацію, [натиснувши тут](test)
+      personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
           button_edit: Змінити цикл
@@ -2096,17 +2142,18 @@ uk:
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
       test:
-        api_error: Інтерфейс Jira API повернув статус помилки «%{status}». Перевірте URL-адресу свого екземпляра Jira й маркер API.
+        api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
+        basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
+        basic_auth_username_invalid: Invalid basic auth username. Please check your credentials in the configuration.
         connection_error: 'Помилка з’єднання: %{message}'
         error: Під час перевірки з’єднання сталася неочікувана помилка
         failed: 'З’єднання не встановлено: не вдалось отримати інформацію про сервер'
         invalid_url: Укажіть дійсну URL-адресу
-        missing_credentials: Укажіть URL-адресу й персональний маркер доступу для перевірки з’єднання
         parse_error: Не вдалося проаналізувати відповідь сервера. Можливо, він не є дійсним екземпляром Jira.
+        personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Встановлено з’єднання із сервером %{server} (версії %{version})
-        token_error: Недійсний маркер API. Перевірте облікові дані, що використовуються в конфігурації.
+        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira Migrator
-      token_deleted: Маркер успішно видалено.
       user:
         unknown_name: Невідомо
     journal_aggregation:
@@ -2373,7 +2420,7 @@ uk:
         types_caption: Додайте типи пакетів робіт, для яких ця дія має бути доступною. Усі наявні варіанти будуть включені автоматично.
         usage_scope_caption: 'Ви можете вибрати, де буде доступна ця дія: усюди (зокрема в коментарях, вікі-сторінках і користувацьких полях), для всіх типів пакетів робіт або лише для певних типів.'
       index:
-        description: Дії з перетворення тексту дають користувачам змогу за допомогою LLM писати, упорядковувати та перевіряти текст скрізь, де використовується редактор форматованого тексту, зокрема в описах пакетів робіт, коментарях і вікі-сторінках. Ви можете створювати нові дії за допомогою власних промптів та інструкцій.
+        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
         label_add_action: Дія
         label_aria_add_action: Додати дію з перетворення тексту
       index_component:
@@ -2422,6 +2469,8 @@ uk:
           many: "%{count} roles selected"
           other: "%{count} roles selected"
         title: Виберіть ролі
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: Статус
       statuses_dialog:
         caption: Додайте або видаліть статуси, які ви хочете пов’язати із цим типом. Вилучення статусу також призведе до видалення пов’язаного з ним робочого процесу.
@@ -2457,7 +2506,6 @@ uk:
       pane:
         cancel: Cancel
         close: Close
-        copied: Copied
         copy: Copy
         discard: Discard
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
@@ -2478,7 +2526,7 @@ uk:
     deleted_by_admin: Файл «%{filename}», перенесений у карантин, видалено адміністратором.
     deleted_message: У файлі «%{filename}» виявлено вірус. Файл видалено.
     not_processed_yet_message: Завантаження заблоковано, оскільки файл ще не перевірено на віруси. Повторіть спробу пізніше.
-    overridden_by_admin: Файл «%{filename}», перенесений у карантин, вилучено користувачем %{user}. Доступ до файлу відновлено.
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: Контейнер
       delete: Видалити файл на карантині
@@ -2664,7 +2712,7 @@ uk:
     work_package_id: Робочий пакет
   authentication:
     instructions:
-      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+      additional_form_action_urls: 'Використовуйте цю опцію лише в тому випадку, якщо вхід не вдається через те, що постачальник ідентифікації перенаправляє браузер на інші сервери. Введіть по одній URL-адресі в кожному рядку, наприклад, адресу, яку консоль браузера показує як заблоковану. Під час входу OpenProject дозволяє перенаправлення на хости, що відповідають цим URL-адресам.
 
         '
     login_and_registration: Вхід і реєстрація
@@ -2950,6 +2998,30 @@ uk:
           weight: Вага
       notice:
         remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
+      projects:
+        changes_heading: Important changes
+        changes_text: 'Starting version 18.0, custom fields are no longer enabled or disabled at a project level. They are included in forms, which are then used in different types and variants. The following list shows projects that use types or variants using forms including this custom field.
+
+          '
+        configure: Configure project-specific values for %{project}
+        disable_all: Disable all
+        editing_values_notice: You are currently editing the list of values visible for this custom field in the project [%{project}](project_url).
+        empty_state:
+          description: Add this custom field to the form of a type that is used in a project.
+          title: No project uses this custom field
+        enable_all: Enable all
+        enabled_values:
+          all: All
+          none: None
+          some: "%{count} of %{total}"
+        filter: Filter by text
+        filter_no_results:
+          description: Change the filters to see more projects.
+          title: No projects match this filter
+        quick_filter:
+          all: All projects
+          with_project_specific_values: With project-specific values
+        types_column: Displayed in type
       role_assignment:
         description: Ви можете автоматично надавати певну роль у проєкті будь-якому користувачу, якому призначено цей атрибут, незалежно від його початкової ролі у цьому проєкті.
         dialog:
@@ -2973,6 +3045,11 @@ uk:
     calculated_field_not_editable: Атрибут не підлягає редагуванню. Його значення обчислюється автоматично.
     confirm_destroy_option: Видалення опції призведе до видалення всіх його подій (наприклад, у робочих пакетах). Дійсно видалити його?
     contained_in_type: Міститься за типом
+    disable_project_specific_values:
+      button: Apply
+      confirmation: I understand that any project-specific settings will be overridden
+      description: All values for this custom field will be available to all projects using it.
+      title: Make all values available to all projects?
     enabled_in_project: Увімкнено в проекті
     instructions:
       admin_only:
@@ -3020,6 +3097,13 @@ uk:
       description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
       heading: Settings moved
     placeholder_version_select: Спочатку потрібно вибрати пакет робіт або проєкт
+    project_specific_values:
+      all:
+        caption: All projects will show the same list of values for this custom field
+        label: Show the same values for all projects
+      allow:
+        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
+        label: Manually choose which values to activate for each project
     reorder_alphabetical: Перевпорядкувати значення за алфавітом
     reorder_confirmation: 'Попередження: поточний порядок доступних значень, а також усі незбережені значення буде втрачено. Справді продовжити?'
     semantic_keys:
@@ -3316,6 +3400,7 @@ uk:
       portfolio_management: Керування портфелем
       project_creation_wizard: Запит на запуск проєкту
       project_list_sharing: Спільне використання списку проєктів
+      project_specific_list_values: Project-specific values for custom fields
       readonly_work_packages: Пакети робіт лише для читання
       scim_api: API сервера SCIM
       sso_auth_providers: Single Sign-On
@@ -3424,6 +3509,8 @@ uk:
         description: Створіть покроковий майстер, який допоможе менеджерам проєктів заповнити запит на запуск проєкту.
       project_list_sharing:
         description: Діліться списками проєктів з окремими користувачами.
+      project_specific_list_values:
+        description: Select which values of a list should be visible in individual projects.
       readonly_work_packages:
         description: Позначайте пакети робіт як доступні лише для читання залежно від статусу.
       scim_api:
@@ -3906,7 +3993,7 @@ uk:
       summary:
         failure: Деякі перевірки не пройдено, і система працює неналежним чином.
         success: Усі підключення й системи працюють належним чином.
-        warning: Деякі перевірки завершилися з попередженням. Це може призвести до неочікуваної поведінки.
+        warning: Some checks returned a warning. This can lead to unexpected behavior.
     result_component:
       status:
         failed: Не пройдено
@@ -3915,7 +4002,7 @@ uk:
         warning: Попередження
   help_texts:
     views:
-      favoured: Позначте це подання як улюблене й додайте на бічну панель збережених подань ліворуч.
+      favoured: Mark this view as favorite and add to the saved views sidebar on the left.
       project: "%{plural} завжди вкладаються в проєкт. Тут можна вибрати лише проєкти з активним модулем %{plural}. Після створення проєкту %{singular} ви зможете додавати в нього пакети робіт з інших проєктів.\n"
       public: Опублікуйте це подання, надавши доступ до нього. Користувачі з дозволом «Керування загальнодоступними поданнями» можуть змінювати або вилучати загальнодоступні запити. Це не впливає на видимість результатів пакетів робіт у цьому поданні, і залежно від дозволів користувачі можуть бачити різні результати.
   homescreen:
@@ -4214,21 +4301,16 @@ uk:
   label_current_status: Поточний статус
   label_current_version: Поточна версія
   label_custom_comment: Коментар до атрибута «%{name}»
-  label_custom_export_cover: Фон обкладинки експорту
-  label_custom_export_cover_overlay: Накладення фону обкладинки експорту
-  label_custom_export_cover_text_color: Колір тексту
+  label_custom_export_cover: Cover background
+  label_custom_export_cover_text_color: Text color for cover background
+  label_custom_export_font: Custom Font
   label_custom_export_font_bold: Жирний
   label_custom_export_font_bold_italic: Жирний курсив
-  label_custom_export_font_instructions: 'Завантажуйте власні шрифти TrueType (.ttf), щоб використовувати їх при експорті в PDF, і керуйте ними. Щоб досягти найкращих результатів, використовуйте суміжні файли з одного сімейства шрифтів. Якщо шрифт не надано, буде використано стандартний шрифт NotoSans.
-
-    '
+  label_custom_export_font_colors: Custom font colors
   label_custom_export_font_italic: Курсив
   label_custom_export_font_regular: Звичайний
-  label_custom_export_footer: Власне зображення для нижнього колонтитула файлу, що експортується
-  label_custom_export_images_instructions: 'Завантажуйте власні файли зображень, щоб використовувати їх при експорті в PDF, і керуйте ними.
-
-    '
-  label_custom_export_logo: Користувацький логотип експорту
+  label_custom_export_footer: Footer image
+  label_custom_export_logo: Logo
   label_custom_favicon: призначені для користувача іконки
   label_custom_field_add_no_type: Додайте це поле до типу робочого пакета
   label_custom_field_default_type: Порожній тип
@@ -4238,6 +4320,7 @@ uk:
   label_custom_style: Дизайн
   label_custom_style_description: Виберіть, як OpenProject виглядає для вас із темами, виберіть ваші кольори за замовчуванням для використання в застосунку та як виглядатимуть експорти.
   label_custom_touch_icon: Призначений для користувача значок логотипу
+  label_custom_value_no_longer_available: "(Value no longer available)"
   label_dashboard: Панель керування
   label_database_version: Версія PostgreSQL
   label_date: Дата
@@ -4258,6 +4341,7 @@ uk:
   label_deleted_custom_field: "(видалено спеціальне поле)"
   label_deleted_custom_item: "(видалений елемент)"
   label_deleted_custom_option: "(параметр видалення)"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(видалена версія)"
   label_departments: Організація
   label_departments_description_html: 'Визначте структуру своєї компанії, створюючи відділи й підвідділи в ієрархічному порядку. Це дасть змогу відобразити лінії підпорядкованості й підтримувати чіткий упорядкований огляд вашої організації в OpenProject. Ви також можете імпортувати наявну організаційну структуру за допомогою [синхронізації відділів з LDAP](ldap_docs_article).
@@ -4478,7 +4562,7 @@ uk:
   label_my_avatar: Мій аватар
   label_my_queries: Мої збережені запити
   label_my_security: Безпека
-  label_my_work: My work
+  label_my_time: My time
   label_name: Назва
   label_never: Ніколи
   label_new: Нові
@@ -4927,7 +5011,7 @@ uk:
       start_tls: STARTTLS
       start_tls_description: Надсилає команду STARTTLS після підключення до стандартного порту LDAP. Рекомендовано для зашифрованого з’єднання.
     tls_options:
-      tls_certificate_description: Якщо сертифікат сервера LDAP не належить до надійних джерел цієї системи, ви можете додати його вручну тут. Введіть рядок сертифіката PEM X509.
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: Перевірити сертифікат SSL
       verify_peer_description_html: 'Вмикає сувору перевірку SSL ланцюжка довірених сертифікатів. <br> <strong>Увага!</strong> Якщо зняти цей прапорець, буде вимкнено перевірку SSL сертифіката сервера LDAP. Через це ваше з’єднання може стати вразливим до MITM-атак.
 
@@ -5770,8 +5854,8 @@ uk:
         label: Зміст
     page_nr_footer: Сторінка %{page} з %{total}
     template_artefact:
-      caption: Деталі пакета робіт, представлені у вигляді артефакту PMflex.
-      label: Артефакт PMflex
+      caption: Work package details rendered as a PMflex Artifact.
+      label: PMflex Artifact
     template_attributes:
       caption: Усі атрибути, наявні в поточній формі, що використовують шаблон за промовчанням.
       label: Атрибути й опис
@@ -6080,11 +6164,11 @@ uk:
           no_status_when_submitted: Не вдалося ввімкнути запит на ініціювання проєкту, оскільки з типом пакета робіт «%{type}» має бути пов’язано принаймні один статус. Увімкніть для нього принаймні один робочий процес статусу.
           no_work_package_type: Не вдалося ввімкнути запит на ініціювання проєкту, оскільки для цього потрібен принаймні один активний тип пакета робіт, а в цьому проєкті немає жодного. Додайте в нього принаймні один тип пакета робіт.
         export:
-          description_attachment_export: Створений артефакт буде збережено як вкладення у форматі PDF у пакеті робіт артефакту.
-          description_file_link_export: Пакет робіт артефакту міститиме посилання на файл PDF, що зберігатиметься в зовнішньому сховищі. Знадобиться робоче файлове сховище з папками проєкту з автоматичним керуванням для цього проєкту. Зараз підтримуються лише файлові сховища Nextcloud.
+          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
+          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Виберіть налаштоване зовнішнє файлове сховище, яке слід використовувати.
           external_file_storage: Зовнішнє файлове сховище
-          label_artifact_export: Експорт артефакту
+          label_artifact_export: Artifact export
           label_attachment_export: Зберегти як вкладення файлу в пакеті робіт
           label_file_link_export: Завантажити файл у зовнішнє файлове сховище й додати посилання на нього в пакет робіт
           pdf_file_storage: Сховище файлів PDF
@@ -6094,6 +6178,12 @@ uk:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: Наразі немає спеціальних полів.
       forums:
         no_results_content_text: Створити новий форум
@@ -6223,15 +6313,27 @@ uk:
     status:
       button_edit: Редагувати статус
     wizard:
-      create_artifact_storage_error: Не вдалося зберегти артефакт у файловому сховищі
-      create_artifact_work_package_error: Не вдалося створити пакет робіт артефакту
+      create_artifact_storage_error: Failed to store artifact in file storage
+      create_artifact_work_package_error: Failed to create artifact work package
       no_custom_fields_html: Для цього проєкту не ввімкнено жодних атрибутів, що необхідні для роботи майстра. Увімкніть хоча б один атрибут у <a href="%{link}">налаштуваннях проєкту</a>.
       no_help_text: Для цього атрибута не визначено текст довідки.
       progress_label: "%{current} з %{total}"
       sections: Розділи
       sidebar_content_title: Зміст
-      success: Атрибути проєкту збережено, пакет робіт артефакту успішно створено.
+      success: Project attributes saved and artifact work package created successfully.
       title: Запит на ініціювання проєкту
+  pwa:
+    offline:
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      headline: You’re offline
+      headline_online: You’re back online
+      reloading: Reloading…
+      retry: Retry
+      retrying: Retrying…
+      status_checking: Checking your connection…
+      status_restored: Connection restored. Reloading…
+      status_still: Still offline. We’ll try again in a moment.
+      title: Offline
   queries:
     apply_filter: Застосувати попередньо налаштований фільтр
     configure_view:
@@ -6713,7 +6815,7 @@ uk:
         description_html: 'Виберіть режим, у якому має працювати інтеграція з антивірусним сканером. <br/> <ul> <li><strong>%{disabled_option}</strong>: вивантажені файли не перевіряються на віруси.</li> <li><strong>%{socket_option}</strong>: ви встановили ClamAV на тому ж сервері, що й OpenProject, і демон сканування clamd працює у фоновому режимі</li> <li><strong>%{host_option}</strong>: ви передаєте файли на зовнішній хост для перевірки на віруси.</li> </ul>
 
           '
-      remaining_quarantined_files_html: 'Перевірку на віруси вимкнено. Залишок файлів на карантині: %{file_count}. Переглянути файли на карантині можна за цим посиланням: %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: 'Перевірку на віруси ввімкнено. Потрібно ще перевірити деякі вивантажені раніше файли (%{file_count}). Цей процес заплановано у фоновому режимі. Файли будуть доступні під час перевірки.
@@ -6816,12 +6918,12 @@ uk:
         confirmation_message: Майстер запиту на ініціювання більше не буде доступний для нових проєктів, створених на основі цього шаблону. Менеджерам і власникам проєктів доведеться вручну вибирати налаштування й указувати відповідну інформацію на сторінці «Огляд проєкту».
         heading: Вимкнути цей запит на ініціювання проєкту?
         title: Вимкнути запит на ініціювання проєкту
-      header_description: 'OpenProject може створити покроковий майстер, який допомагатиме менеджерам проєктів заповнювати запити на ініціювання проєктів. Ви можете вибрати атрибути проєктів, які слід включити, і в результаті створити артефакт у форматі PDF.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
 
         '
       name:
-        artifact_name: Назва артефакту
-        artifact_name_caption: Виберіть для цього артефакту назву, яка відповідатиме вашому методу управління проєктами.
+        artifact_name: Artifact name
+        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
         options:
           project_creation_wizard: Майстер створення проєктів
           project_initiation_request: Запит на ініціювання проєкту
@@ -6841,8 +6943,8 @@ uk:
           Ви подали запит на ініціювання проєкту **%{project_name}**. Зараз він очікує на розгляд.
           Перейдіть за посиланням нижче, щоб отримати доступ до пакета робіт із Вашим запитом.
         confirmation_email_text: Текст листа з підтвердженням
-        description: Коли користувач подає запит на ініціювання проєкту, створюється новий пакет робіт з артефактом запиту, долученим як файл PDF. Наведені нижче налаштування визначають тип, статус і виконавця нового пакета робіт.
-        description_template: "**Цей пакет робіт автоматично створено після завершення робочого процесу «%{wizard_name}».** Артефакт у форматі PDF, що містить усю подану інформацію, було створено й додано в цей пакет робіт для довідки й аудиту. Якщо знадобиться оновити дані або повторити кроки ініціювання, можна будь-коли знову відкрити майстер, скориставшись посиланням, наведеним нижче:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Надіслати лист із підтвердженням користувачу, що подав запит на ініціювання проєкту
         status_when_submitted: Статус на момент подання
         status_when_submitted_caption: Статус, який буде присвоєно створеному пакету робіт після подання запиту.
@@ -6850,7 +6952,7 @@ uk:
         work_package_comment_caption: Виконавця, вибраного вище, буде автоматично @згадано в коментарі.
         work_package_comment_default: Запит на ініціювання проєкту **%{project_name}** подано, і він очікує на розгляд.
         work_package_type: Тип пакета робіт
-        work_package_type_caption: Тип пакета робіт, який слід використовувати для зберігання завершеного артефакту.
+        work_package_type_caption: The work package type that should be used to store the completed artifact.
       wizard_status_button:
         project_creation_wizard: Відкрити майстер створення проєктів
         project_initiation_request: Відкрити запит на ініціювання проєкту
@@ -7030,7 +7132,6 @@ uk:
       sentence_connector: і
       skip_last_comma: хибне значення
   text_access_token_hint: Маркери доступу дозволяють надавати зовнішнім програмам доступ до ресурсів у OpenProject.
-  text_accessibility_hint: Режим доступності призначений для користувачів, які є сліпими, з обмеженими можливостями або мають поганий зір. Для останніх спеціально виділені цілеспрямовані елементи. Зауважте, що модуль Backlogs недоступний у цьому режимі.
   text_analyze: 'Подальший аналіз: %{subject}'
   text_are_you_sure: Ви впевненені?
   text_are_you_sure_continue: Хочете продовжити?
@@ -7228,6 +7329,27 @@ uk:
   tree_view:
     label_empty_sub_tree: Немає елементів
   types:
+    aspect_descriptions:
+      defaults:
+        type: Set the template description text for this type and choose whether subjects are written by users or generated automatically.
+        variant: Set the template description text for this variant and choose whether subjects are written by users or generated automatically.
+      details:
+        type: Set the basic properties of this type, like its name, color and how it appears in projects. Project members always see this name, even when their project uses a variant.
+        variant: Name this variant so admins can tell it apart from other variants. Project members don't see this name, they see the name of the parent type.
+      form_configuration:
+        existing:
+          type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
+        new:
+          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
+          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+      pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
+      project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
+      projects:
+        type: Choose the projects in which this type should be available.
+        variant: Choose the projects in which this variant should be available. In these projects, the variant's settings replace those of its parent type.
+      variants: See all variants of this type, including those created by project admins within their projects.
+      workflows: Define which status changes each role can make in work packages of this type. Workflows can be shared across types and variants.
     comparison:
       action: Порівняти варіанти
       blankslate:
@@ -7275,12 +7397,6 @@ uk:
       add_variant: Додати варіант для об’єкта «%{name}»
       create_type: Створити тип
       create_variant: Створити варіант
-      descriptions:
-        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
-        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
-        pdf: Configure how PDF exports of work packages of this type should look.
-        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
-        projects: In which projects should this type be available?
       fields:
         variant_name_caption: Дає назву цій конфігурації типу «%{type}». Пакети робіт і далі використовують тип «%{type}».
       finish: Завершити
@@ -7328,8 +7444,10 @@ uk:
           caption: Визначте шаблон, використовуючи атрибути й текст, щоб теми пакетів робіт генерувались автоматично. Користувачі не зможуть редагувати теми вручну.
           label: Автоматично згенеровані теми
         description:
-          caption: Введіть текст, який додаватиметься в поле опису всіх нових пакетів робіт цього типу.
-          label: Стандартний текст опису
+          caption:
+            type: This text is included by default in the description of every new work package of this type.
+            variant: This text is included by default in the description of every new work package of this variant.
+          label: Description template
         manually_editable_subjects:
           caption: Користувачі можуть самостійно вводити й редагувати теми пакетів робіт без обмежень.
           label: Теми, які можна редагувати вручну
@@ -7358,15 +7476,14 @@ uk:
           file_link:
             caption: Згенерований файл PDF завантажується в сховище Nextcloud з автоматичним керуванням, яке використовується для проєкту. Посилання на файл є в пакеті робіт. Якщо в проєкті немає такого сховища, відповідні пакети робіт пропускаються.
             label: Завантажити файл у зовнішнє файлове сховище й додати посилання на нього в пакет робіт
-          intro: Автоматично генеруйте артефакт PDF для пакета робіт цього типу щоразу, коли змінюється його статус.
-          invalid_mode: Недійсний режим експорту артефактів.
-          label: Автоматичний експорт артефактів
+          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artifact export mode.
+          label: Automatic artifact export
           off_mode:
             caption: Файл PDF не генерується автоматично.
             label: Вимкнено
-          section_title: Автоматичний експорт артефактів
+          section_title: Automatic artifact export
           unavailable: недоступно, не налаштовано жодного сховища Nextcloud з автоматичним керуванням
-        intro: Виберіть, які шаблони з доступних вам ви хочете ввімкнути для цього типу. Шаблон визначає дизайн і атрибути, що відображаються в експортованому PDF-файлі пакета робіт за допомогою цього типу. Перший шаблон у списку вибирається за замовчуванням.
         pdf_export_templates:
           actions:
             label_disable_all: Вимкнути все
@@ -7415,12 +7532,12 @@ uk:
         rename_group: Перейменувати розділ
         required:
           already_required_globally: Це користувацьке поле є обов’язковим для всіх типів.
-          for_variant: Обов’язкове для цього типу
+          for_variant: Required for this type
           globally: Обов'язкове
           globally_hint: Змініть це у користувацькому полі
-          mark: Обов’язкове для цього типу
+          mark: Require for this type
           not_a_custom_field: Обов’язковим для заповнення лише для одного типу може бути лише користувацьке поле.
-          unmark: Не є обовʼязковим для цього типу
+          unmark: Do not require for this type
         reset_description: 'Це призведе до скидання атрибутів до групи, що використовується за замовчуванням, і до вимкнення ВСІХ користувацьких полів.
 
           '
@@ -7451,7 +7568,6 @@ uk:
           manual:
             description: Коли ви [створите атрибути проєкту](administration_url), вони з’являться тут і їх можна буде додати в тип.
             title: Немає доступних атрибутів проєкту
-        description: Виберіть атрибути проєктів, які потрібно ввімкнути для цього типу пакетів робіт. У пакетах робіт цього типу ввімкнені атрибути відображаються на окремій вкладці, де їх можуть переглядати й редагувати користувачі з відповідними дозволами.
         disabled: Вимкнено
         exclusions:
           attribute_label: Успадкувати %{attribute}
@@ -7470,10 +7586,12 @@ uk:
         empty_state:
           description: Додайте проєкт для використання цієї конфігурації.
           no_results: Немає відповідних проєктів.
+          title: Not used in any project yet
         enable_all: Використовувати у всіх проєктах
         select_projects: Вибрати проєкти
         select_projects_description: Виберіть проєкти, у яких ви хочете використовувати цей тип.
         tab: Проєкти
+        variant_column: Variant or type
       reuse_mode:
         copy:
           confirm_dialog:
@@ -7545,6 +7663,9 @@ uk:
 
             '
           title: Немає варіантів для цього типу
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: Створено в проєкті «%{project}»
         delete:
           description: Проєкти, у яких використовується цей варіант, будуть переведені на варіант, який ви виберете нижче, до того, як цей варіант буде видалено.
@@ -7576,6 +7697,7 @@ uk:
         confirm: Перетворити
         text: Глобальний варіант із цією назвою вже існує. Будь ласка, виберіть іншу назву.
         title: Виберіть іншу назву для цього варіанту
+      created_by_migration: Migrated
       delete:
         description: Цей тип буде видалено назавжди. Цю дію неможливо скасувати.
         description_with_variants: Цей тип і всі його варіанти буде видалено назавжди. Цю дію неможливо скасувати.
@@ -7592,8 +7714,14 @@ uk:
       duplicate_name: Копія обʼєкта «%{name}»
       duplicate_notice: Створено дублікат обʼєкта «%{name}».
       enabled_in_new_projects: Активовано в нових проєктах
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: Активувати в нових проєктах
       make_default_notice: Обʼєкт «%{name}» тепер активується в нових проєктах.
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       no_results_content_text: Створіть новий тип
       no_results_title_text: Наразі немає типів.
       project_variants_count:
@@ -7741,7 +7869,7 @@ uk:
       deletion_warning: Ви справді хочете скасувати цей сеанс? Ви вийдете з облікового запису на цьому пристрої.
       device: Пристрій / ОС
       expires: Завершується
-      instructions: Ви ввійшли в обліковий запис на вказаних далі пристроях. Скасуйте сеанси, які вам не знайомі, чи сеанси на пристроях, якими ви не керуєте.
+      instructions: You are logged in to your account through the following devices. Revoke sessions that you do not recognize or from devices you do not control.
       last_connection: Останнє підключення
       may_not_delete_current: Ви не можете видалити поточний сеанс.
       session_name: "%{browser_name} %{browser_version} у %{os_name}"
@@ -8320,6 +8448,20 @@ uk:
             other: Робочий процес успішно скопійовано в %{count} ролі.
       new:
         dialog_title: Copy workflow of "%{source}"
+    delete:
+      body_in_use:
+        one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
+        few: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+        many: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      button: Delete workflow
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      title: Delete workflow %{name}?
     form:
       copy_from:
         caption: Новий робочий процес починається з копії переходів статусу цього робочого процесу.

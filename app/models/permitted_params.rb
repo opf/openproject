@@ -42,7 +42,7 @@ class PermittedParams
   #
   # A controller could use a permitted_params method like this
   #
-  # model_instance.METHOD_USING_ASSIGMENT = permitted_params.name_of_the_params_key_referenced
+  # model_instance.METHOD_USING_ASSIGNMENT = permitted_params.name_of_the_params_key_referenced
   #
   attr_reader :params, :current_user
 
@@ -524,6 +524,7 @@ class PermittedParams
           :allow_non_open_versions,
           :has_comment,
           :visible_on_user_card,
+          :project_specific_value_restriction,
           { custom_options_attributes: %i(id value default_value position) },
           { type_ids: [] }
         ],

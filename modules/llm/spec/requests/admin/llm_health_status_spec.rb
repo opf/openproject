@@ -179,7 +179,7 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
       expect(response.body).to include("base_url")
     end
 
-    it "is plain YAML, without serialised Ruby objects" do
+    it "is plain YAML, without serialized Ruby objects" do
       connection.update_columns(last_synced_at: Time.zone.parse("2026-10-07 14:42:41"))
 
       get llm_connection_health_status_report_path(format: :txt)
@@ -243,7 +243,7 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
     end
   end
 
-  describe "authorisation" do
+  describe "authorization" do
     let!(:connection) { create(:llm_connection, :with_models, base_url:) }
 
     before do

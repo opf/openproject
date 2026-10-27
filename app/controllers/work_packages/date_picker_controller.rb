@@ -276,7 +276,7 @@ class WorkPackages::DatePickerController < ApplicationController
     # Check which param was not touched
     missing_param = [start_date, due_date, duration].select(&:nil?)
 
-    # If two values are deleted and one is untouched, return tru
+    # If two values are deleted and one is untouched, return true
     empty_params.length == 2 && missing_param.length == 1
   end
 

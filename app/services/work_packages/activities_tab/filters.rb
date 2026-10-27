@@ -38,7 +38,7 @@ module WorkPackages
       VALUES = [ALL, ONLY_COMMENTS, ONLY_CHANGES, HIDE_MEETINGS].freeze
 
       # Coerces an incoming filter param (string or symbol) to a known mode,
-      # falling back to ALL for anything unrecognised.
+      # falling back to ALL for anything unrecognized.
       def self.cast(value)
         VALUES.find { it.to_s == value.to_s } || ALL
       end

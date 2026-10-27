@@ -38,7 +38,7 @@ end
 
 # The order of the matchers is relevant, as less specific matcher could exclude more specific matchers.
 # I.e. `/\Afoo_(.*)_bar\z/` must be specified before `/\Afoo_(.*)\z/` and `/\A(.*)_bar\z/`,
-# as only the first matching rule wil be applied.
+# as only the first matching rule will be applied.
 OpenProject::Inflector.rule do |basename, abspath|
   case basename
   when /\Aoauth_(.*)_api\z/
@@ -109,6 +109,18 @@ end
 
 Rails.autoloaders.main.ignore(Rails.root.join("lib/open_project/patches"))
 Rails.autoloaders.main.ignore(Rails.root.join("lib/generators"))
+
+unless Rails.application.config.cache_classes
+  # The closure_tree gem does define constants on the fly and is not taking class
+  # reloading into account. Since we only use it (via has_closure_tree) in one place
+  # we can "help out" here and unload WorkPackageHierarchy ourselves. This removes
+  # warnings in dev/test logs as well as when using reload! on a rails console.
+  #
+  # See https://github.com/ClosureTree/closure_tree/issues/362.
+  Rails.autoloaders.main.on_unload("WorkPackage") do
+    Object.send(:remove_const, "WorkPackageHierarchy") if Object.const_defined?("WorkPackageHierarchy", false)
+  end
+end
 
 # Comment in to enable zeitwerk logging.
 # Rails.autoloaders.main.log!

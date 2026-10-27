@@ -44,7 +44,7 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
 
     custom_field_index_page.click_to_create_new_custom_field("Hierarchy")
 
-    hierarchy_name = "Stormtrooper Organisation"
+    hierarchy_name = "Stormtrooper Organization"
     fill_in "Name", with: hierarchy_name
     click_on "Save"
 
@@ -63,7 +63,7 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
     expect(page).to have_css(".PageHeader-title", text: hierarchy_name)
 
     # Now, that was the wrong name, so I can change it to the correct one
-    hierarchy_name = "Imperial Organisation"
+    hierarchy_name = "Imperial Organization"
     fill_in "Name", with: "", fill_options: { clear: :backspace }
     fill_in "Name", with: hierarchy_name
     click_on "Save"
@@ -146,8 +146,8 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
     # Finally, we delete the custom field ... I'm done with this ...
     custom_field_index_page.visit!
     expect(page).to have_row(hierarchy_name)
-    within("tr", text: hierarchy_name) do
-      page.find_test_selector("op-custom-fields--delete-button").click
+    within(".Box-row", text: hierarchy_name) do
+      page.find_test_selector("custom-field-delete-button").click
     end
     within_dialog("Delete custom field #{hierarchy_name}") do
       click_on "Delete"
