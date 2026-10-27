@@ -30,6 +30,8 @@
 module WorkPackageTypes
   module ProjectsTab
     class TableComponent < OpPrimer::BorderBoxTableComponent
+      include WorkPackageTypes::VariantRoutes
+
       columns :name, :variant
       main_column :name, :variant
       mobile_labels :variant
@@ -47,7 +49,9 @@ module WorkPackageTypes
 
       def container_data
         {
-          controller: "sortable-lists sortable-lists--list",
+          controller: "sortable-lists sortable-lists--list admin--type-projects-selection",
+          admin__type_projects_selection_switch_url_value: new_variant_projects_switch_path(variant),
+          admin__type_projects_selection_remove_url_value: new_variant_projects_link_deletion_path(variant),
           sortable_lists_selection_enabled_value: true,
           sortable_lists_drag_enabled_value: false,
           sortable_lists_announcement_scope_value: "js.types.projects.selection",
