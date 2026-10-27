@@ -1,7 +1,8 @@
 @if (displayWatchButton) {
   <button
     (click)="toggleWatch()"
-    [attr.title]="buttonTitle"
+    opTooltip
+    [label]="buttonTitle"
     [disabled]="disabled"
     [ngClass]="buttonClass"
     class="button toolbar-icon"

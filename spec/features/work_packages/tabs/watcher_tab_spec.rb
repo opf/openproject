@@ -63,14 +63,12 @@ RSpec.describe "Watcher tab", :js do
   end
 
   def expect_button_is_watching
-    title = I18n.t("js.label_unwatch_work_package")
-    expect(page).to have_css("#unwatch-button[title='#{title}']", wait: 30)
+    expect(page).to have_button("unwatch-button", accessible_name: "Unwatch work package", wait: 30)
     expect(page).to have_css("#unwatch-button .button--icon[eye-icon]")
   end
 
   def expect_button_is_not_watching
-    title = I18n.t("js.label_watch_work_package")
-    expect(page).to have_css("#watch-button[title='#{title}']")
+    expect(page).to have_button("watch-button", accessible_name: "Watch work package")
     expect(page).to have_css("#watch-button .button--icon[eye-closed-icon]")
   end
 

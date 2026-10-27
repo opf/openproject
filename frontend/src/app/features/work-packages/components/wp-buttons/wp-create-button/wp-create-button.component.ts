@@ -54,12 +54,11 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
 
   allowed:boolean;
 
-  disabled:boolean;
+  createPaneOpen:boolean;
 
   projectIdentifier:string|null;
 
   text = {
-    title: this.I18n.t('js.work_packages.create.title'),
     createWithDropdown: this.I18n.t('js.work_packages.create.button'),
     createButton: this.I18n.t('js.label_work_package'),
     explanation: this.I18n.t('js.label_create_work_package'),
@@ -85,7 +84,7 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
   }
 
   private updateDisabledState() {
-    this.disabled = !this.allowed || this.urlParams.isCreatePaneOpen();
+    this.createPaneOpen = this.urlParams.isCreatePaneOpen();
     this.cdRef.detectChanges();
   }
 }

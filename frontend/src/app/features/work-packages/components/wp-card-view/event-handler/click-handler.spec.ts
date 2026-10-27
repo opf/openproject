@@ -28,7 +28,7 @@
 import { usePlatform } from 'core-common/testing/platform';
 import { ElementRef, EventEmitter, Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, within } from '@testing-library/dom';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -73,6 +73,7 @@ describe('CardClickHandler', () => {
       <wp-single-card data-work-package-id="${row.workPackageId}" data-class-identifier="${row.classIdentifier}">
         <div class="op-wp-single-card" data-test-selector="op-wp-single-card" tabindex="0">
           <span>${row.workPackageId}</span>
+          <button type="button" aria-disabled="true">Status</button>
         </div>
       </wp-single-card>
     `).join('');
@@ -145,5 +146,17 @@ describe('CardClickHandler', () => {
     click('E', { shiftKey: true });
     expect(selected()).toEqual(['C', 'D', 'E']);
     expect(itemClicked).toEqual([{ workPackageId: 'E', double: false }]);
+  });
+
+  it('ignores activation of a disabled control inside the card', () => {
+    const itemClicked:{ workPackageId:string, double:boolean }[] = [];
+    card.itemClicked.subscribe((event) => itemClicked.push(event));
+    const status = within(cardSurface('B')).getByRole('button', { name: 'Status' });
+
+    status.click();
+
+    expect(selected()).toEqual([]);
+    expect(focus.focusedWorkPackage).toBeNull();
+    expect(itemClicked).toEqual([]);
   });
 });

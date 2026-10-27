@@ -1,12 +1,15 @@
 <div class="wp-create-button">
   <button
     class="button -primary add-work-package"
-    [disabled]="disabled"
-    [attr.aria-label]="text.explanation"
+    type="button"
+    [disabled]="createPaneOpen"
+    [attr.aria-disabled]="allowed === false || null"
+    opTooltip
+    [label]="text.explanation"
+    tooltipWhenObscured=".button--text"
     opTypesCreateDropdown
     [projectIdentifier]="projectIdentifier"
     [dropdownActive]="allowed"
-    [title]="text.title"
     [fullView]="fullView"
   >
     <svg plus-icon size="small"/>
