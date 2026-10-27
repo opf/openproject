@@ -72,12 +72,9 @@ module Backlogs
         end
 
         def live_relevant_epic_ids
-          work_package_ids = work_packages_in_sprint.select(:id)
-
           WorkPackageHierarchy
-            .where(descendant_id: work_package_ids)
-            .distinct
-            .pluck(:ancestor_id)
+            .where(descendant_id: work_packages_in_sprint.select(:id))
+            .select(:ancestor_id)
         end
 
         def historic_relevant_epic_ids
