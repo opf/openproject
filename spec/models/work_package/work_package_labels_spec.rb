@@ -229,7 +229,7 @@ RSpec.describe WorkPackage, "labels" do
         expect(work_package).to be_override_labels
       end
 
-      it "resolves existing names case-insensitively and builds unsaved labels for new ones" do
+      it "matches existing names case-insensitively and builds unsaved labels for new ones" do
         labels = work_package.effective_labels
 
         expect(labels).to include(lower_label)
@@ -249,7 +249,7 @@ RSpec.describe WorkPackage, "labels" do
     end
 
     describe "saving" do
-      it "refuses to save while names are unresolved and creates no label" do
+      it "refuses to save while label names have no ids and creates no label" do
         work_package.label_name_replacements = ["Brand new"]
 
         expect { expect(work_package.save).to be(false) }.not_to change(Label, :count)
@@ -257,17 +257,17 @@ RSpec.describe WorkPackage, "labels" do
         expect(persisted_label_ids).to contain_exactly(lower_label.id, higher_label.id)
       end
 
-      it "saves once the names are resolved to ids" do
+      it "saves once the label names are replaced with ids" do
         work_package.label_name_replacements = ["Brand new"]
-        work_package.resolve_pending_label_names([lower_label.id])
+        work_package.replace_label_names_with_ids([lower_label.id])
         work_package.save!
 
         expect(persisted_label_ids).to contain_exactly(lower_label.id)
         expect(work_package.label_name_replacements).to be_nil
       end
 
-      it "records resolved labels in the journal" do
-        work_package.resolve_pending_label_names([lower_label.id])
+      it "records the labels in the journal" do
+        work_package.replace_label_names_with_ids([lower_label.id])
         work_package.save!
 
         expect(work_package.journals.last.label_journals.pluck(:label_id)).to contain_exactly(lower_label.id)

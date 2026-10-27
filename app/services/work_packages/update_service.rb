@@ -29,7 +29,7 @@
 
 class WorkPackages::UpdateService < BaseServices::Update
   include ::WorkPackages::Shared::UpdateAncestors
-  include ::WorkPackages::Shared::PendingLabels
+  include ::WorkPackages::Shared::FindOrCreateLabels
   include Attachments::ReplaceAttachments
   include Types::ApplyPatterns
 
@@ -43,7 +43,7 @@ class WorkPackages::UpdateService < BaseServices::Update
   private
 
   def persist(call)
-    labels_call = create_pending_labels(call.result)
+    labels_call = find_or_create_labels(call.result)
 
     if labels_call.failure?
       call.success = false

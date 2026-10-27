@@ -38,7 +38,7 @@ module Labelable
 
     scope :labeled_with, ->(label) { joins(:labelings).where(labelings: { label_id: label }) }
 
-    before_save :ensure_pending_label_names_resolved
+    before_save :abort_save_with_label_names
     after_save :persist_label_associations
 
     validate :validate_label_id_replacements
@@ -54,7 +54,7 @@ module Labelable
     @label_name_replacements = names.nil? ? nil : normalize_label_names(names)
   end
 
-  def resolve_pending_label_names(ids)
+  def replace_label_names_with_ids(ids)
     self.label_id_replacements = pending_label_ids | ids
     self.label_name_replacements = nil
   end
@@ -104,7 +104,7 @@ module Labelable
     errors.add(:labels, :does_not_exist) if missing.any?
   end
 
-  def ensure_pending_label_names_resolved
+  def abort_save_with_label_names
     return if pending_label_names.empty?
 
     errors.add(:labels, :invalid)

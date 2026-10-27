@@ -29,7 +29,7 @@
 
 class WorkPackages::CreateService < BaseServices::BaseCallable
   include ::WorkPackages::Shared::UpdateAncestors
-  include ::WorkPackages::Shared::PendingLabels
+  include ::WorkPackages::Shared::FindOrCreateLabels
   include ::Shared::ServiceContext
   include Types::ApplyPatterns
 
@@ -78,7 +78,7 @@ class WorkPackages::CreateService < BaseServices::BaseCallable
   end
 
   def save_with_labels(work_package)
-    create_pending_labels(work_package).success? && work_package.save(validate: false)
+    find_or_create_labels(work_package).success? && work_package.save(validate: false)
   end
 
   def save_failure(result, work_package)

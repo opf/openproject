@@ -29,14 +29,14 @@
 
 module WorkPackages
   module Shared
-    module PendingLabels
-      def create_pending_labels(work_package)
+    module FindOrCreateLabels
+      def find_or_create_labels(work_package)
         return ServiceResult.success(result: work_package) if work_package.label_name_replacements.blank?
 
-        call = find_or_create_labels(work_package.label_name_replacements)
+        call = find_or_create_label_ids(work_package.label_name_replacements)
 
         if call.success?
-          work_package.resolve_pending_label_names(call.result)
+          work_package.replace_label_names_with_ids(call.result)
           ServiceResult.success(result: work_package)
         else
           add_label_error(work_package, call.errors)
@@ -51,7 +51,7 @@ module WorkPackages
         work_package.errors.add(:labels, detail[:error], **detail.except(:error))
       end
 
-      def find_or_create_labels(names)
+      def find_or_create_label_ids(names)
         service = Labels::FindOrCreateService.new(user:)
         ids = []
 
