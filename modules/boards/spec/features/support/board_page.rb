@@ -100,7 +100,7 @@ module Pages
     def remove_card(list_name, card_title, index)
       source = page.all("#{list_selector(list_name)} [data-test-selector='op-wp-single-card']")[index]
       source.hover
-      source.find('[data-test-selector="op-wp-single-card--inline-cancel-button"]').click
+      source.find(:button, accessible_name: I18n.t("js.card.remove_from_list")).click
 
       expect_card(list_name, card_title, present: false)
     end

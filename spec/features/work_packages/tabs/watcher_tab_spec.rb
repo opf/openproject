@@ -32,6 +32,8 @@ require "spec_helper"
 RSpec.describe "Watcher tab", :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
+  include_context "with axe on Cuprite"
+
   let!(:standard_global_role) { create(:empty_global_role) }
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
@@ -112,10 +114,11 @@ RSpec.describe "Watcher tab", :js do
 
       # Expect watchers counter to increase
       tabs.expect_counter(watchers_tab, 1)
+      expect(page).to be_axe_clean.within("op-wp-watcher-entry")
 
       # Remove watcher from list
       page.find_test_selector("op-wp-watcher-name", text: user.name).hover
-      page.find(".form--selected-value--remover").click
+      click_on accessible_name: "Remove watcher #{user.name}"
 
       # Watchers counter should not be displayed
       tabs.expect_no_counter(watchers_tab)

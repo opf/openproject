@@ -265,7 +265,7 @@ module Components
       end
 
       def remove_filter(field)
-        find("#filter_#{field} .advanced-filters--remove-filter-icon").click
+        page.within("#filter_#{field}") { click_on accessible_name: I18n.t("js.button_delete") }
         expect(page).to have_no_css("#filter_#{field}")
         page.has_css?(".loading-indicator--background", wait: 2)
         expect(page).to have_no_css(".loading-indicator--background", wait: 10)
