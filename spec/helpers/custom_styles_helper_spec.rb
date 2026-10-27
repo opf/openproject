@@ -95,8 +95,7 @@ RSpec.describe CustomStylesHelper do
       let(:current_theme) { build_stubbed(:custom_style) }
 
       before do
-        allow(current_theme).to receive(:favicon).and_return(true)
-        allow(current_theme).to receive(:touch_icon).and_return(true)
+        allow(current_theme).to receive_messages(favicon: true, touch_icon: true)
       end
 
       context "without EE", with_ee: false do
@@ -367,6 +366,15 @@ RSpec.describe CustomStylesHelper do
       expect(uploads.dig(:logo_dark, :source)).to be_nil
       expect(uploads.dig(:logo_dark, :delete_path))
         .to eq(custom_style_logo_delete_path(field: :logo_dark))
+    end
+
+    it "includes the preview's color-mode/theme data attributes for each logo mode" do
+      uploads = helper.custom_logo_uploads(style).index_by { |upload| upload[:field] }
+
+      expect(uploads.dig(:logo, :preview_data)).to eq({ "color-mode": :light, "light-theme": :light })
+      expect(uploads.dig(:logo_light_high_contrast, :preview_data))
+        .to eq({ "color-mode": :light, "light-theme": :light_high_contrast })
+      expect(uploads.dig(:logo_dark, :preview_data)).to eq({ "color-mode": :dark, "dark-theme": :dark })
     end
   end
 

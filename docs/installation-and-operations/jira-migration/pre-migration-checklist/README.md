@@ -41,7 +41,6 @@ Review this against how your teams actually use Jira. If anything here would be 
 
 **Not migrated, specific to custom fields:**
 
-- [ ] Date Time Picker: the time-of-day (the date itself is migrated — see [Custom fields migration](../custom-fields/#date-time-picker))
 - [ ] Epic Link / Epic Name
 - [ ] Sprint field
 - [ ] Story Points
@@ -65,13 +64,12 @@ For anything on this list your teams actually rely on, decide now how you'll han
 - [ ] For anything you decided to keep from the "what doesn't migrate" review above, export it separately now (e.g. via CSV) before you lose easy access to it.
 - [ ] **Note your Jira priority order (severity ranking) before migrating.** The migrator doesn't preserve priority order, colors, or icons — only the name. Since OpenProject falls back to whichever priority is first in the list when an issue has none set, you'll likely need to manually reorder priorities in OpenProject afterward to match your actual severity ranking.
 - [ ] **Note which issue type is the default per project, if that matters to you.** No migrated type is marked as default, regardless of what was default in Jira — you'll need to set this manually in OpenProject after migration.
-- [ ] **Decide whether to import Jira's resolution fields.** By default, the resolution is appended to the status name (e.g. "Done - Fixed"), which creates an additional status per status/resolution combination and the resulution date is imported as a custom field. If you don't need this, select **Exclude resolution fields for this configuration** in the import configuration to keep your status list lean.
+- [ ] **Decide whether to import Jira's resolution fields.** By default, the resolution is appended to the status name (e.g. "Done - Fixed"), which creates an additional status per status/resolution combination and the resolution date is imported as a custom field. If you don't need this, select **Exclude resolution fields for this configuration** in the import configuration to keep your status list lean.
 
 ## OpenProject-side prerequisites
 
 - [ ] Confirm your Jira instance is reachable from OpenProject by using [the connection test](../#test-configuration).
 - [ ] If you're on an OpenProject Enterprise plan, check your available user seats against the number of currently-active Jira users you're about to migrate. Not relevant if you're on the free Community edition. Increase your seat count before the migration.
-- [ ] **Check OpenProject's maximum attachment size setting** (Administration → Files → Attachments) against the largest attachments in your Jira data. OpenProject doesn't impose a total storage quota, but it does enforce a per-file size limit — a Jira attachment larger than this limit will fail to import. Since attachment failures are silently logged and skipped rather than stopping the run, this can otherwise go unnoticed until you check attachment counts post-migration. Raise the limit beforehand if needed.
 - [ ] **Enable project-based semantic identifiers** in OpenProject.
 - [ ] **Disable "Use current date as start date for new work packages" setting** in OpenProject. This is currently needed due to a [known issue](https://community.openproject.org/projects/JIM/work_packages/JIM-155/activity) in the importer.
 - [ ] **Take a full OpenProject backup.** Approving an import run is irreversible; reverting is only possible while the run is still "in review."

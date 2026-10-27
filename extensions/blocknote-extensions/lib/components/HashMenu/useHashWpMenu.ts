@@ -3,10 +3,12 @@ import { MAX_SEARCH_RESULTS, useWorkPackageSearch } from '../../hooks/useWorkPac
 import { createHashWpMenuComponent } from './HashWpMenu';
 import { isHashWpQuery } from './types';
 import { canOpenHashMenu, hashTargetFor } from './hashTrigger';
-import { insertWpForTarget, restoreHashQuery } from './editorUtils';
+import { createWpForTarget, insertWpForTarget, restoreHashQuery } from './editorUtils';
+import type { HashTarget } from './hashTrigger';
 import type { HashMenuItem, HashSearchState } from './types';
 import type { AnyEditor } from '../../editorTypes';
 import { cacheColors } from '../../services/colors';
+import { canCreateWorkPackages } from '../../services/openProjectApi';
 import { closeSuggestionMenu } from '../../utils/suggestionMenu';
 
 export function useHashWpMenu(editor:AnyEditor) {
@@ -21,6 +23,22 @@ export function useHashWpMenu(editor:AnyEditor) {
         restoreHashQuery(editor, query);
       },
     }],
+    [editor]
+  );
+
+  // Comes last, so it is never what Enter picks before the user moves to it.
+  const withCreateItem = useCallback(
+    (items:HashMenuItem[], query:string, target:HashTarget):HashMenuItem[] => {
+      if (!canCreateWorkPackages()) return items;
+
+      return [...items, {
+        title: query,
+        createsWorkPackage: true,
+        onItemClick: () => {
+          createWpForTarget(editor, query, target);
+        },
+      }];
+    },
     [editor]
   );
 
@@ -47,14 +65,16 @@ export function useHashWpMenu(editor:AnyEditor) {
         if (latestQueryRef.current !== query) return [];
         searchStateRef.current = { query, results, error: null };
 
-        if (results.length === 0) return placeholderItems(query);
+        const resultItems = results.length === 0
+          ? placeholderItems(query)
+          : results.map((wp) => ({
+            title: query,
+            onItemClick: () => {
+              insertWpForTarget(editor, wp, target);
+            },
+          }));
 
-        return results.map((wp) => ({
-          title: query,
-          onItemClick: () => {
-            insertWpForTarget(editor, wp, target);
-          },
-        }));
+        return withCreateItem(resultItems, query, target);
       } catch (error) {
         console.error('[work package search] Failed to load work packages from OpenProject:', error);
         if (latestQueryRef.current === query) {
@@ -64,10 +84,10 @@ export function useHashWpMenu(editor:AnyEditor) {
             error: error instanceof Error ? error.message : 'Unknown error',
           };
         }
-        return placeholderItems(query);
+        return withCreateItem(placeholderItems(query), query, target);
       }
     },
-    [editor, search, placeholderItems]
+    [editor, search, placeholderItems, withCreateItem]
   );
 
   /* eslint-disable react-hooks/refs */

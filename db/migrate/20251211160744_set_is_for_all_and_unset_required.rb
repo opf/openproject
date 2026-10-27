@@ -37,20 +37,26 @@ class SetIsForAllAndUnsetRequired < ActiveRecord::Migration[8.0]
     # Before, there was only is_required, which implied is_for_all.
     #
     # Take all project custom fields that are required and set is_for_all to true:
-    ProjectCustomField
-      .where(is_required: true)
-      .update_all(is_for_all: true)
+    execute <<~SQL.squish
+      UPDATE custom_fields
+      SET is_for_all = TRUE
+      WHERE type = 'ProjectCustomField' AND is_required = TRUE
+    SQL
 
     # Additionally, bool and calculated value can no longer be required.
-
-    CustomField
-      .where(field_format: %w(bool calculated_value))
-      .update_all(is_required: false)
+    execute <<~SQL.squish
+      UPDATE custom_fields
+      SET is_required = FALSE
+      WHERE field_format IN ('bool', 'calculated_value')
+    SQL
   end
 
   def down
     # Down migration can only partly reconstruct the data
-    ProjectCustomField
-      .update_all(is_for_all: false)
+    execute <<~SQL.squish
+      UPDATE custom_fields
+      SET is_for_all = FALSE
+      WHERE type = 'ProjectCustomField'
+    SQL
   end
 end

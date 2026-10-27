@@ -201,7 +201,7 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     this.displayNotificationsButton$ = this.storeService.hasNotifications$;
     this.storeService.setFilters(this.workPackage.id!);
 
-    // Set authorisation data
+    // Set authorization data
     this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 
     // Preselect this work package for future list operations

@@ -51,13 +51,13 @@ kk:
         selected:
           one: "%{count} work package selected."
           other: "%{count} work packages selected."
-    burndown:
+    burndown_chart:
       chart_day: 'Day %{day}: %{values}'
       chart_label: Burndown chart
       chart_summary: 'Burndown chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      day: Day
-      points: Points
+      non_working_day: Non-working day
+      story_points: Story points
     created_resolved:
       work_packages: Work packages
     work_packages:

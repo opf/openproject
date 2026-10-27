@@ -37,7 +37,7 @@ module LlmConnections
   class DetectCapabilitiesService
     # Naming is a hint for which models are worth spending a probe on, never a
     # verdict in itself.
-    EMBEDDING_NAME_HINT = %r{embed|bge|nomic|minilm|(^|[-_./])(e5|gte)}i
+    EMBEDDING_NAME_HINT = %r{embed|bge|nomic|minilm|(^|[-_./:])(e5|gte)($|[-_./:])}i
     BACKGROUND_LIMIT = 10
     RETRY_INCONCLUSIVE_AFTER = 1.day
 
@@ -56,7 +56,7 @@ module LlmConnections
       ServiceResult.success(result: record(model_id, result))
     end
 
-    # Pre-colours the model list after a connect, without spending a request per
+    # Pre-colors the model list after a connect, without spending a request per
     # model. Everything not probed stays unknown, which never blocks.
     #
     # @return [ServiceResult] carrying the verdicts that were recorded

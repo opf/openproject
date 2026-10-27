@@ -77,7 +77,7 @@ RSpec.describe SettingsHelper do
       allow(Setting).to receive(:host_name).and_return("2")
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default"
     it_behaves_like "wrapped in container", "select-container"
     it_behaves_like "field disabled if non writable"
@@ -136,7 +136,7 @@ RSpec.describe SettingsHelper do
       allow(Setting).to receive(:host_name).and_return("important value")
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default"
     it_behaves_like "wrapped in container", "text-field-container"
     it_behaves_like "field disabled if non writable"
@@ -154,7 +154,7 @@ RSpec.describe SettingsHelper do
       helper.setting_label :host_name
     end
 
-    it_behaves_like "labelled"
+    it_behaves_like "labeled"
     it_behaves_like "not wrapped in container"
   end
 end

@@ -263,7 +263,7 @@ RSpec.describe "Omniauth authentication" do
         # to a symbol will force omniauth to fail /auth/failure
         OmniAuth.config.test_mode = true
         OmniAuth.config.mock_auth[:developer] = :invalid_credentials
-        # seems like this default behaviour is removed when running the full
+        # seems like this default behavior is removed when running the full
         # test suite, so let's set it back when running this test
         original_on_failure = OmniAuth.config.on_failure
         OmniAuth.config.on_failure = Proc.new do |env|

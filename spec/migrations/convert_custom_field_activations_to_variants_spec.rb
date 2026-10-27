@@ -169,7 +169,7 @@ RSpec.describe ConvertCustomFieldActivationsToVariants, type: :model do
 
     before { migrate }
 
-    it "lists what fits the budget and summarises the rest" do
+    it "lists what fits the budget and summarizes the rest" do
       variant = project.project_types.find_by!(type_id: wide_type.id).variant
 
       expect(variant.variant_name)

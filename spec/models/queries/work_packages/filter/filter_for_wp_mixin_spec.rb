@@ -75,7 +75,7 @@ RSpec.describe Queries::WorkPackages::Filter::FilterForWpMixin do
         # The candidate set is too large to enumerate (`allowed_values`
         # intentionally raises), so the filter must render as a server-side
         # autocompleter against the work_packages resource. Matches the
-        # Angular `op-filter-searchable-multiselect-value` behaviour.
+        # Angular `op-filter-searchable-multiselect-value` behavior.
         expect(filter.autocomplete_options).to eq(
           component: "opce-autocompleter",
           resource: "work_packages",

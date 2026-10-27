@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe "My account Interface settings",
-               :js, :selenium do
+               :js do
   let(:user) { create(:user) }
 
   before do
@@ -106,7 +106,7 @@ RSpec.describe "My account Interface settings",
     end
 
     context "with OS in dark mode", driver: :chrome_dark_mode do
-      it "syncs with OS colour mode" do
+      it "syncs with OS color mode" do
         set_automatic_mode_with_reload
         expect(page).to have_theme("dark")
       end

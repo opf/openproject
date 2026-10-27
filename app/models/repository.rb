@@ -213,7 +213,7 @@ class Repository < ApplicationRecord
   end
 
   # Returns the latest changesets for +path+
-  # Default behaviour is to search in cached changesets
+  # Default behavior is to search in cached changesets
   def latest_changesets(path, _rev, limit = 10)
     if path.blank?
       changesets.includes(:user)

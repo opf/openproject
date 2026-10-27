@@ -63,7 +63,7 @@ export const UnavailableChip = ({
     <InlineChip
       ref={setRef}
       data-drag-handle
-      // icon-only xxs is a labelled state graphic; larger sizes carry visible text
+      // icon-only xxs is a labeled state graphic; larger sizes carry visible text
       role={iconOnly && !hasIndicator ? 'img' : undefined}
       selected={selected}
       aria-label={iconOnly && !hasIndicator ? shortLabel : undefined}

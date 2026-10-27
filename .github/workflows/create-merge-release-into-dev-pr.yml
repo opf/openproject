@@ -12,6 +12,7 @@ jobs:
   setup:
     if: github.repository == 'opf/openproject'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     outputs:
       latest_release_branch: ${{ steps.find_latest_release.outputs.branch }}
     steps:

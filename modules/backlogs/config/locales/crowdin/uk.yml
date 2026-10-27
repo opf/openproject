@@ -143,6 +143,10 @@ uk:
       details: Сегмент беклогу «%{name}» буде видалено, а всі пакети робіт — переміщено у вхідні завдання беклогу. Пакети робіт не видаляться.
       title: Видалити сегмент беклогу?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Визначте дату початку й завершення спринту, щоб згенерувати діаграму згорання завдань.
         blankslate_title: Немає даних про згорання завдань
@@ -316,9 +320,6 @@ uk:
       update_service:
         invalid_target_type: 'list_type має бути одним із таких значень: backlog_bucket із list_id, sprint із list_id або inbox без list_id.'
         missing_target: Має бути вказано list_type або list_id.
-  burndown:
-    story_points: Сторі-поінти
-    story_points_ideal: Сторі-поінти (ідеально)
   created_resolved:
     wp_created: Created
     wp_resolved: Resolved

@@ -36,7 +36,7 @@ describe('lazy service', () => {
 
   it('should add a property with the given name to the object', () => {
     const obj:any = {
-      prop: void 0,
+      prop: undefined,
     };
     lazy(obj, 'prop', () => '');
 
@@ -45,7 +45,7 @@ describe('lazy service', () => {
 
   it('should add an enumerable property', () => {
     const obj:any = {
-      prop: void 0,
+      prop: undefined,
     };
     lazy(obj, 'prop', () => '');
 
@@ -54,7 +54,7 @@ describe('lazy service', () => {
 
   it('should add a configurable property', () => {
     const obj:any = {
-      prop: void 0,
+      prop: undefined,
     };
     lazy(obj, 'prop', () => '');
 
@@ -63,7 +63,7 @@ describe('lazy service', () => {
 
   it('should set the value of the property provided by the setter', () => {
     const obj:any = {
-      prop: void 0,
+      prop: undefined,
     };
     lazy(obj, 'prop', () => '', (val:any) => val);
     obj.prop = 'hello';
@@ -73,7 +73,7 @@ describe('lazy service', () => {
 
   it('should not be settable, if no setter is provided', () => {
     const obj:any = {
-      prop: void 0,
+      prop: undefined,
     };
     lazy(obj, 'prop', () => '');
     try {

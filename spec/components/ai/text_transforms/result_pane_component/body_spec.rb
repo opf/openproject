@@ -64,9 +64,10 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Body, type: :component d
       expect(subject).to have_css(".op-uc-container strong", text: "works")
     end
 
-    it "keeps the raw markdown in a template" do
+    it "keeps the raw markdown in a template for copying" do
       subject
-      expect(rendered_content).to include("<template>Login **works** again</template>")
+      expect(rendered_content)
+        .to include("<template>Login **works** again</template>")
     end
 
     it "prepares a hidden message for a failed replace" do

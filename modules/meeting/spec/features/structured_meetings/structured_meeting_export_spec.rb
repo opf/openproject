@@ -32,7 +32,7 @@ require "spec_helper"
 require_relative "../../support/pages/meetings/show"
 
 RSpec.describe "Meetings Export PDF",
-               :js, :selenium do
+               :js do
   shared_let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   shared_let(:meeting) { create(:meeting, project:) }
   shared_let(:user) do

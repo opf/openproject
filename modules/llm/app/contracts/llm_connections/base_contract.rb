@@ -38,8 +38,6 @@ module LlmConnections
     attribute :default_chat_model_id
     attribute :default_embedding_model_id
 
-    validates :base_url, presence: true
-    validates :api_format, inclusion: { in: Llm::Adapters::FORMATS }
     validates :api_format, exclusion: { in: Llm::Session::UNSUPPORTED_FORMATS, message: :not_supported },
                            unless: -> { api_format.blank? }
 

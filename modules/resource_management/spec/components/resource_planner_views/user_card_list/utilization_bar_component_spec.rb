@@ -38,7 +38,7 @@ RSpec.describe ResourcePlannerViews::UserCardList::UtilizationBarComponent, type
     expect(page).to have_no_test_selector("utilization-bar")
   end
 
-  describe "the bar colour and width by utilization" do
+  describe "the bar color and width by utilization" do
     it "is accent and proportional below 100%" do
       expect(bar(34).send(:bar_color)).to eq(:accent_emphasis)
       expect(bar(34).send(:bar_percentage)).to eq(34)

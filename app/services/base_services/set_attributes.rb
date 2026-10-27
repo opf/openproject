@@ -98,7 +98,7 @@ module BaseServices
 
     def custom_field_ids_to_validate(params)
       # Leave custom_field_ids_to_validate empty when the model is not persisted,
-      # allowing the default behaviour to set the id's to be validated in the
+      # allowing the default behavior to set the id's to be validated in the
       # model.custom_values_to_validate method.
       model.persisted? ? custom_field_ids_from(params) : []
     end

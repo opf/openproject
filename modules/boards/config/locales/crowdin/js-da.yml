@@ -3,7 +3,7 @@ da:
   ee:
     upsell:
       board_view:
-        description: Vil du automatisere dine arbejdsgange med Tavler? Avancerede tavler er en Enterprise-tilføjelse. Opgrader venligst til en betalt plan.
+        description: Vil du automatisere dine arbejdsgange med tavler? Avancerede tavler er en tilføjelse til Enterprise-udgaven. Opgrader til et betalt abonnement.
   js:
     boards:
       add_card: Tilføj kort

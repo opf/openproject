@@ -33,7 +33,7 @@ Every migrated project is created **private** and **active**, with no parent —
 | Due date                                           | Due date                  | -                                                            |
 | Environment                                        | **Not migrated**          | —                                                            |
 | Fix Versions                                       | Target versions           | -                                                            |
-| Issue creation date                                | Work package created date | Set to date when the migration ran, **not** the original date of the issue in Jira. (tracked: [JIM-189](https://community.openproject.org/projects/JIM/work_packages/JIM-189)) |
+| Issue creation date                                | Work package created date | -                                                            |
 | Issue id                                           | **Not migrated**          | Internal Jira ID (planned: [JIM-8](https://community.openproject.org/projects/JIM/work_packages/JIM-8)) |
 | Issue key (e.g. `PROJECT-123`)                     | Work package identifier   | Old/renamed issue keys also keep working afterward, the same way as project keys |
 | Issue links (blocks, relates to, etc.)             | **Not migrated**          | — (planned: [JIM-76](https://community.openproject.org/projects/JIM/work_packages/JIM-76)) |
@@ -63,7 +63,7 @@ Every migrated project is created **private** and **active**, with no parent —
 | Email                 | Email                        | If a Jira user has no email, a placeholder one is generated so the account can still be created. Not always a direct 1:1 copy of the Jira value — see the email/username collision handling below |
 | Jira group membership | OpenProject Group membership | Matched or created by name. Note: pulls in the user's entire Jira group list, not just groups relevant to the migrated projects |
 | Username              | Username                     | Not always a direct 1:1 copy either — see the email/username collision handling below |
-| Password              | Randomly generated           |  Jira passwords can't be migrated, so every new user needs a password reset or invitation afterward (planned: [JIM-116](https://community.openproject.org/projects/JIM/work_packages/JIM-116)) |
+| Password              | Randomly generated           | Jira passwords can't be migrated, so every new user needs a password reset or invitation afterward (planned: [JIM-116](https://community.openproject.org/projects/JIM/work_packages/JIM-116)) |
 
 ## Custom fields
 

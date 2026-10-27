@@ -46,7 +46,7 @@ describe('turbo-navigation-patch (tripwire for hotwired/turbo#1300)', () => {
   it('upstream still sources the snapshot from the fetch response (#1300 unfixed)', () => {
     // When Turbo stops reading `responseHTML` off the fetch response, #1300
     // may be fixed upstream and this whole patch can be deleted. This guard
-    // turns that upgrade into a red test instead of a silent behaviour change.
+    // turns that upgrade into a red test instead of a silent behavior change.
     const upstream = String(original);
     expect(upstream).toContain('responseHTML');
     expect(upstream).toContain('fetchResponse');

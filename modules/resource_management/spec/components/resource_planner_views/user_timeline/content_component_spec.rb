@@ -75,7 +75,7 @@ RSpec.describe ResourcePlannerViews::UserTimeline::ContentComponent, type: :comp
       expect(el["#{prefix}-range-end-value"]).to be_blank
     end
 
-    it "passes the planner's date range for the initial centring" do
+    it "passes the planner's date range for the initial centering" do
       planner.update!(start_date: Date.new(2026, 1, 1), end_date: Date.new(2026, 12, 31))
 
       el = rendered.find("[data-controller='resource-management--resource-timeline']")
