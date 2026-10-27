@@ -36,7 +36,7 @@ class DirectFogUploader < FogFileUploader
   ##
   # This needs to be true so that the necessary condition is included
   # in S3 upload policy (only relevant for direct uploads).
-  def will_include_content_type # rubocop:disable Naming/PredicateMethod
+  def will_include_content_type
     true
   end
 

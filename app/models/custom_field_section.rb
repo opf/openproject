@@ -66,7 +66,7 @@ class CustomFieldSection < ApplicationRecord
   # for a blank prev_key. Idempotent for key (any existing occurrence is
   # removed first). Returns false without mutating when prev_key does not
   # resolve to another key in the order.
-  def insert_after_key(key, prev_key) # rubocop:disable Naming/PredicateMethod -- verb command, not a query
+  def insert_after_key(key, prev_key)
     keys = attribute_order.reject { |k| k == key }
 
     if prev_key.blank?

@@ -48,7 +48,7 @@ module MeetingSections
 
     private
 
-    def default_collapsed_state # rubocop:disable Naming/PredicateMethod
+    def default_collapsed_state
       # For a series backlog, the status of the current occurrence needs to be checked instead of the template
       # For a one-time backlog, @meeting == @current_occurrence
       @current_occurrence.in_progress?

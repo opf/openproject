@@ -99,7 +99,7 @@ class Type < ApplicationRecord
                    form_configuration: FormConfiguration.new(name: FormConfiguration.implicit_name(name)))
   end
 
-  def check_integrity # rubocop:disable Naming/PredicateMethod
+  def check_integrity
     throw :abort if WorkPackage.exists?(type_id: id)
 
     true

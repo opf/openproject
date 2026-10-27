@@ -31,7 +31,7 @@
 module Sprints::Scopes::NotCompleted
   extend ActiveSupport::Concern
 
-  def not_completed # rubocop:disable Naming/PredicateMethod
+  def not_completed
     !completed
   end
 end

@@ -147,6 +147,11 @@ Naming/MethodParameterName:
     - to # pairs with `from` for ranges, as in Day.from_range(from:, to:)
     - "on"
 
+Naming/PredicateMethod:
+  # disabling this cop as it enforces a method name solely based on the return type (if the method returns a boolean, the name must end in "?")
+  # This would also affect side-effect-rich methods that only return a boolean success indicator.
+  Enabled: false
+
 Naming/PredicatePrefix:
   ForbiddenPrefixes:
     - is_

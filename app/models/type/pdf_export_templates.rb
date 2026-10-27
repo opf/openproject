@@ -86,7 +86,7 @@ class Type::PdfExportTemplates
     @type.export_templates_disabled = disabled
   end
 
-  def move_after_anchor(template_id, prev_id) # rubocop:disable Naming/PredicateMethod -- verb command, not a query
+  def move_after_anchor(template_id, prev_id)
     raise_if_readonly!
 
     ordered_ids = list.map(&:id)

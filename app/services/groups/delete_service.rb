@@ -32,7 +32,7 @@ module Groups
   class DeleteService < BaseServices::Delete
     protected
 
-    def destroy(group) # rubocop:disable Naming/PredicateMethod
+    def destroy(group)
       group.update_column(:status, Group.statuses[:deleted])
       ::Principals::DeleteJob.perform_later(group)
       true
