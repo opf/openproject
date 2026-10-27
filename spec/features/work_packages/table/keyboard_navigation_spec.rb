@@ -28,6 +28,7 @@
 #++
 
 require "spec_helper"
+require "support/shared/embedded_keyboard_table_examples"
 
 RSpec.describe "Work package table keyboard navigation", :js do
   let(:project) { create(:project) }
@@ -213,6 +214,27 @@ RSpec.describe "Work package table keyboard navigation", :js do
 
     wp_table.press_keys(%i[shift tab])
     wp_table.expect_focus_on_cell(sibling, :subject)
+  end
+
+  context "as a flat table" do
+    let!(:query) do
+      create(:query, user:, project:, column_names: %w[id subject],
+                     sort_criteria: [%w[subject asc]], show_hierarchies: false)
+    end
+
+    before do
+      wp_table.visit_query(query)
+      wp_table.expect_work_package_order(child, sibling, parent)
+      wp_table.expect_inline_create_button
+    end
+
+    it_behaves_like "an embedded keyboard table", drag_and_drop_enabled: true do
+      let(:rows) { [child, sibling, parent] }
+      let(:first_row_controls) { [child.id.to_s, "Open details view", "Open context menu"] }
+      let(:next_control) { { role: :button, name: "Create new work package" } }
+      let(:context_menu_enabled) { true }
+      let(:axe_states) { [-> { wp_table.expect_focus_on_row(rows.first) }] }
+    end
   end
 
   context "with a read-only column" do
