@@ -2902,13 +2902,17 @@ en:
     project_specific_values:
       all:
         caption: "All projects will show the same list of values for this custom field"
-        label: "Show the same values for all projects"
+        label: "All values will be available in all projects"
       allow:
-        caption: "Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value."
-        label: "Manually choose which values to activate for each project"
+        caption_html: "By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab."
+        label: "Allow filter: Manually choose which values to activate for each project"
       block:
-        caption: "Projects using this custom field will show all values for this custom field but you can manually deactivate specific values for each project."
-        label: "Manually choose which values to deactivate for each project"
+        caption: "By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects."
+        label: "Block filter: Manually choose which values to deactivate for each project"
+      switch_warning:
+        all: "All values will be available in all projects."
+        allow: "No values will be available to any project unless you manually activate them in each project individually."
+        block: "All values will be available in all projects unless you manually deactivate them in individual projects."
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?"
     semantic_keys:
