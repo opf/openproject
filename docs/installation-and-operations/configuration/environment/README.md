@@ -252,6 +252,7 @@ OPENPROJECT_GOOD__JOB__ENGINE__BASIC__AUTH (default=nil) Allow basic authenticat
 OPENPROJECT_GOOD__JOB__MAX__CACHE (default=10000)
 OPENPROJECT_GOOD__JOB__MAX__THREADS (default=20)
 OPENPROJECT_GOOD__JOB__QUEUES (default="*")
+OPENPROJECT_GOOD__JOB__SHUTDOWN__TIMEOUT (default=30) Seconds that the worker waits for running jobs to finish before it stops them. Set it to less than the time the container platform waits before it kills the worker.
 OPENPROJECT_GRAVATAR__FALLBACK__IMAGE (default="404") Set default gravatar image fallback
 OPENPROJECT_HASHED__TOKEN__PEPPER (default=<randomly generated>) Pepper used for HMAC-SHA256 hashing of hashed tokens (e.g. API tokens). Auto-initialized on first use. Changing this invalidates all existing hashed tokens.
 OPENPROJECT_HEALTH__CHECKS__AUTHENTICATION__PASSWORD (default=nil) Add an authentication challenge for the /health_check endpoint
