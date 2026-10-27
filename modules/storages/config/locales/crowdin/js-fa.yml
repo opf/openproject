@@ -26,12 +26,12 @@ fa:
         select: انتخاب فایل‌ها
         select_all: انتخاب همه
         selection:
-          zero: فایل‌ها را برای پیوند انتخاب کنید
-          one: پیوند دادن ۱ فایل
-          other: پیوند دادن %{count} فایل
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          one: ۱ پیوند فایل با موفقیت ایجاد شد.
-          other: "%{count} پیوند فایل با موفقیت ایجاد شد."
+          one: Successfully created %{count} file link.
+          other: Successfully created %{count} file links.
         tooltip:
           not_found: این فایل پیدا نمی‌شود.
           not_logged_in: برای دسترسی به این فایل، وارد فضای ذخیره‌سازی شوید.

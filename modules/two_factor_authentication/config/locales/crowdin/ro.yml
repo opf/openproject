@@ -40,7 +40,7 @@ ro:
         one: WebAuthn
         few: WebAuthn
         other: WebAuthn
-  button_continue: Continuă
+  button_continue: Continuaţi
   button_make_active: Activate
   button_make_default: Marcați ca implicit
   button_otp_by_sms: SMS
@@ -140,7 +140,7 @@ ro:
     error_invalid_backup_code: Cod de rezervă 2FA invalid
     error_is_enforced_not_active: 'Eroare de configurare: Autentificarea doi factori a fost impusă, dar nu există strategii active.'
     error_no_device: Nu s-a găsit niciun dispozitiv 2FA înregistrat pentru acest utilizator, deși este necesar pentru această instanță.
-    error_no_matching_strategy: Nu este disponibilă nicio strategie 2FA corespunzătoare pentru acest utilizator. Vă rugăm să vă contactați administratorul.
+    error_no_matching_strategy: No matching 2FA strategy available for this user. Please contact your administrator.
     forced_registration:
       required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Autentificare doi factori

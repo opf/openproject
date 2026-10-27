@@ -24,13 +24,14 @@ vi:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sorting mode
         duration: thời lượng
         end_time: End time
         location: Địa điểm
         notes: Ghi chú
         notify: Send notifications
         participant:
-          other: "%{count} Người tham gia"
+          other: "%{count} Participants"
         participants: Người tham gia
         participants_added: 'Participants added:'
         participants_attended: Người dự khán
@@ -87,14 +88,18 @@ vi:
         invalid_time_format: 'không phải giờ hợp lệ. Yêu cầu định dạng: HH:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Section does not belong to the same meeting.
           user_invalid: is not a valid participant.
+          vote_based_sorting_required: Voting requires vote-based agenda sorting.
         meeting_participant:
           user_invalid: is not a valid participant.
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: Có một cuộc họp mở trong chuỗi không có trong lịch trình mới. Điều chỉnh lịch trình để bao gồm tất cả các cuộc họp hiện có.
+            one: There is %{count} open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
             other: Có %{count} cuộc họp mở trong chuỗi không nằm trong lịch trình mới. Điều chỉnh lịch trình để bao gồm tất cả các cuộc họp hiện có.
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
@@ -143,6 +148,10 @@ vi:
     meeting_agenda_opened: Đã mở chương trình họp
     meeting_minutes: Biên bản họp đã được chỉnh sửa
     meeting_minutes_created: Đã tạo biên bản cuộc họp
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Thêm vào cuộc họp
   label_add_work_package_to_meeting_dialog_title: Chọn cuộc họp
   label_add_work_package_to_meeting_section_label: phần
@@ -151,6 +160,8 @@ vi:
   label_agenda_backlog_clear_title: Xóa Backlog cuộc họp?
   label_agenda_item_actions: Hành động của mục chương trình nghị sự
   label_agenda_item_add: Thêm mục chương trình nghị sự
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Thêm ghi chú
   label_agenda_item_add_outcome: Thêm kết quả
   label_agenda_item_convert_to_work_package: Convert to work package
@@ -158,6 +169,7 @@ vi:
   label_agenda_item_duplicate: trùng lặp
   label_agenda_item_duplicate_in_next: Lặp lại trong cuộc họp tiếp theo
   label_agenda_item_duplicate_in_next_title: Có lặp lại trong cuộc họp tiếp theo không?
+  label_agenda_item_include_outcomes: Include outcomes
   label_agenda_item_move: Di chuyển
   label_agenda_item_move_down: Dịch xuống
   label_agenda_item_move_to_backlog: Chuyển sang Backlog
@@ -221,7 +233,7 @@ vi:
   label_meeting_last_updated: Cập nhật lần cuối
   label_meeting_minutes: phút
   label_meeting_more:
-    other: Còn %{count} cuộc họp nữa.
+    other: There are %{count} more meetings.
   label_meeting_new: Cuộc họp mới
   label_meeting_new_dynamic: Cuộc họp một lần mới
   label_meeting_new_recurring: Cuộc họp định kỳ mới
@@ -266,9 +278,9 @@ vi:
   label_recurring_meeting_delete: Xóa lần xuất hiện
   label_recurring_meeting_duplicate: Nhân bản dưới dạng cuộc họp một lần
   label_recurring_meeting_more:
-    other: Có thêm %{count} cuộc họp đã lên lịch (%{schedule}).
+    other: There are %{count} more scheduled meetings (%{schedule}).
   label_recurring_meeting_more_past:
-    other: Có thêm %{count} cuộc họp trước đây.
+    other: There are %{count} more past meetings.
   label_recurring_meeting_new: Cuộc họp định kỳ mới
   label_recurring_meeting_next_occurrence: Lần xuất hiện tiếp theo
   label_recurring_meeting_no_end_date: Có nhiều cuộc họp theo lịch trình hơn (%{schedule}).
@@ -298,6 +310,25 @@ vi:
   label_view_meeting_series: Xem chuỗi cuộc họp
   label_write_outcome: Viết kết quả
   meeting:
+    agenda_sorting:
+      change: Change sorting mode
+      current_mode: Currently in %{mode} mode
+      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      manual: Manual
+      manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
+      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
+      remove_thumbs_down: Remove downvote
+      remove_thumbs_up: Remove upvote
+      sidebar_title: Agenda sorting
+      sorted_by_votes: Agenda sorted by votes.
+      thumbs_down: Downvote
+      thumbs_up: Upvote
+      title: Sorting mode
+      vote_based: Vote-based
+      vote_based_description: 'Participants can vote agenda items up or down. Items with the most votes are put on top within each section. Sections remain manually sorted.
+
+        '
+      votes: 'Votes: %{count}'
     attachments:
       onetime_template: These attached files will be included in all future meetings using this template.
       series_template: These attached files will be included in all future meetings in the series.
@@ -305,6 +336,9 @@ vi:
     blankslate:
       desc: Bạn có thể tạo cuộc họp mới hoặc thay đổi tiêu chí lọc
       title: Không có cuộc họp nào để hiển thị
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'Sao chép từ Cuộc họp #%{id}'
     copy:
       agenda: Sao chép chương trình làm việc
@@ -348,6 +382,7 @@ vi:
         header: 'Đã hủy: Cuộc họp ''%{title}'''
         header_occurrence: 'Đã hủy: Cuộc họp diễn ra ''%{title}'''
         header_series: 'Đã hủy: Chuỗi cuộc họp ''%{title}'''
+        reason: Reason for cancellation
         summary: "'%{title}' đã bị hủy bởi ' %{actor}' hoặc bạn đã bị loại khỏi danh sách người tham gia"
         summary_occurrence: Sự kiện '%{title}' đã bị hủy bởi %{actor}, hoặc bạn đã bị loại khỏi danh sách tham gia
         summary_series: Chuỗi cuộc họp '%{title}' đã bị hủy bởi %{actor}, hoặc bạn đã bị loại khỏi danh sách tham gia
@@ -472,6 +507,7 @@ vi:
       no_items: Không có mục chương trình nghị sự
       no_items_flash: Không có mục chương trình nghị sự để trình bày.
       previous: trước đó
+      slide_progress: Slide %{current}/%{total}
       title: Chế độ trình bày
       total_items: "%{current} trong số %{total}"
     types:
@@ -553,7 +589,7 @@ vi:
     day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
     delete_dialog:
       confirmation_message_html:
-        one: 'Xóa <strong>%{title}</strong> cũng sẽ xóa một lần xuất hiện trong chuỗi này. Hành động này không thể đảo ngược. Hãy tiến hành thận trọng.
+        one: 'Deleting <strong>%{title}</strong> will also delete %{count} occurrence in this series. This action is not reversible. Please proceed with caution.
 
           '
         other: 'Xóa <strong>%{title}</strong> sẽ xóa tất cả %{count} lần xuất hiện trong chuỗi này. Hành động này không thể đảo ngược. Hãy tiến hành thận trọng.
@@ -615,7 +651,7 @@ vi:
       error_no_next: Không có sự xuất hiện tiếp theo cho cuộc họp này.
       error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Lần xuất hiện đầu tiên của chuỗi cuộc họp này đã được khởi tạo.
-      first_created: 'Cuộc họp đầu tiên đã được tạo thành công từ mẫu. Tất cả các cuộc họp trong tương lai sẽ được tạo tự động tại thời điểm diễn ra trước đó.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Cuộc họp này là một phần của chuỗi cuộc họp định kỳ.
@@ -677,9 +713,10 @@ vi:
   text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
   text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
   text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
-  text_agenda_item_duplicate_in_next_meeting: Bạn có chắc chắn muốn thêm bản sao của mục chương trình này vào cuộc họp tiếp theo, vào %{date} lúc %{time} không? Kết quả sẽ không bị trùng lặp.
+  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}?
   text_agenda_item_duplicated_in_next_meeting: Mục chương trình nghị sự được sao chép trong cuộc họp tiếp theo, vào ngày %{date}
   text_agenda_item_move_next_meeting: Mục này sẽ được chuyển sang cuộc họp tiếp theo vào %{date} lúc %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Mục chương trình nghị sự đã được chuyển sang cuộc họp tiếp theo, vào %{date}
   text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
   text_agenda_item_no_notes: Không có ghi chú nào được cung cấp

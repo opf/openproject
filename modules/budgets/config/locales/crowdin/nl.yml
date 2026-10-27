@@ -61,6 +61,8 @@ nl:
   attributes:
     budget: Begroting
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: No hourly rate on %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -106,7 +108,7 @@ nl:
   events:
     budget: Begroting bewerkt
   help_click_to_edit: Klik hier om te bewerken.
-  help_currency_format: Formaat van getoonde valuta waarden. %n wordt vervangen door de valuta waarde, %u is vervangen door de valuta eenheid.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Voer hier een waarde in om de standaardkoers te overschrijven.
   label_budget_available: Beschikbaar budget
   label_budget_details: Budget details

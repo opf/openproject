@@ -184,8 +184,8 @@ de:
         all: Alle Wiki-Seiten
         main: Haupt-Wikiseiten
       sub_pages_count:
-        one: 1 Unterseite
-        other: "%{count} Unterseiten"
+        one: "%{count} sub-page"
+        other: "%{count} sub-pages"
     inline_wiki_page_dialog:
       title_add: Vorhandene Wiki-Seite hinzufügen
       title_create: Neue Wiki-Seite anlegen
