@@ -52,20 +52,10 @@ export default class AiTextTransformPaneRunController extends Controller<HTMLEle
   static services:ServiceKey[] = ['turboRequests'];
 
   static values = {
-    state: String,
-    run: String,
-    seq: Number,
-    requestId: String,
-    pollUrl: String,
     editorGone: String,
     selectionGone: String,
   };
 
-  declare readonly stateValue:string;
-  declare readonly runValue:string;
-  declare readonly seqValue:number;
-  declare readonly requestIdValue:string;
-  declare readonly pollUrlValue:string;
   declare readonly editorGoneValue:string;
   declare readonly selectionGoneValue:string;
   declare services:Promise<PickedServices<'turboRequests'>>;
@@ -82,10 +72,21 @@ export default class AiTextTransformPaneRunController extends Controller<HTMLEle
     useAngularServices(this);
   }
 
+  // The state element rendered by AI-175 carries the run's state as plain data attributes.
+  private get stateValue():string { return this.element.dataset.state ?? ''; }
+
+  private get runValue():string { return this.element.dataset.run ?? ''; }
+
+  private get seqValue():number { return Number(this.element.dataset.seq ?? 0); }
+
+  private get requestIdValue():string { return this.element.dataset.requestId ?? ''; }
+
+  private get pollUrlValue():string { return this.element.dataset.pollUrl ?? ''; }
+
   connect():void {
     document.addEventListener(AI_TEXT_TRANSFORM_APPLY_EVENT, this.onApply);
     window.addEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, this.onApplied);
-    if (this.stateValue === 'generating') {
+    if (this.stateValue === 'generating' && this.pollUrlValue) {
       this.schedulePoll(pollDelays.get(this.runValue) ?? POLL_MIN);
     } else {
       pollDelays.delete(this.runValue);
@@ -132,7 +133,7 @@ export default class AiTextTransformPaneRunController extends Controller<HTMLEle
       return;
     }
 
-    const stillShown = document.querySelector(`[data-ai-text-transform-pane-run-run-value="${this.runValue}"]`);
+    const stillShown = document.querySelector(`[data-ai-text-transform-pane-target="state"][data-run="${this.runValue}"]`);
     if (stillShown) {
       return;
     }
@@ -171,8 +172,9 @@ export default class AiTextTransformPaneRunController extends Controller<HTMLEle
 
   private showApplyFailure(message:string):void {
     const pane = this.element.closest(PANE_SELECTOR);
-    const banner = pane?.querySelector<HTMLElement>('[data-ai-text-transform-pane-target="applyFailed"]');
-    const text = pane?.querySelector<HTMLElement>('[data-ai-text-transform-pane-target="applyFailedMessage"]');
+    // The body targets for this banner come with AI-176; until then the demo finds it by its test selector.
+    const banner = pane?.querySelector<HTMLElement>('[data-test-selector="ai-text-transform-pane-apply-failed"]');
+    const text = banner?.querySelector<HTMLElement>('span');
     if (banner && text) {
       text.textContent = message;
       banner.hidden = false;
