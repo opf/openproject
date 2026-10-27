@@ -295,6 +295,20 @@ module Pages
       press_keys(:tab)
     end
 
+    # Presses Tab until `element` holds focus, giving up after `bound` presses.
+    #
+    # @param element [Capybara::Node::Element] The element expected to receive focus.
+    # @param bound [Integer] The maximum number of Tab presses.
+    def tab_until_focused(element, bound: 40)
+      bound.times do
+        break if element.matches_selector?(:css, ":focus", wait: 0)
+
+        press_keys(:tab)
+      end
+
+      expect(element).to match_selector(:css, ":focus")
+    end
+
     # @return [Capybara::Node::Element] The control directly before the table in tab order.
     def entry_control
       last_toolbar_control

@@ -26,6 +26,8 @@
 //++
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
+import { ChangeDetectorRef, ElementRef, Injector, runInInjectionContext } from '@angular/core';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { userEvent } from 'vitest/browser';
 import { usePlatform } from 'core-common/testing/platform';
 import { States } from 'core-app/core/states/states.service';
@@ -44,12 +46,25 @@ import { internalContextMenuColumn, internalSortColumn } from '../../../builders
 import {
   buildQuery, buildTable, ConsumerName, consumerConfiguration, TableHarness, TableHarnessOptions,
 } from '../../../testing/table-harness';
-import { buildGroup } from '../../../testing/work-package-fixture';
+import { buildGroup, buildWorkPackage } from '../../../testing/work-package-fixture';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import {
+  OpEditingPortalChangesetToken,
+  OpEditingPortalHandlerToken,
+  OpEditingPortalSchemaToken,
+} from 'core-app/shared/components/fields/edit/edit-field.component';
+import { DatePickerEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/date-picker-edit-field.component';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { DeviceService } from 'core-app/core/browser/device.service';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import { KeyboardNavigation } from './keyboard-navigation-transformer';
 import { headerRowKey, totalsRowKey } from './navigable-rows';
 import { expansionStateOf } from '../../../helpers/row-expansion';
 import { insideGrid, isNavigableColumn, navigableCells } from './roving-tabindex';
+
+class TableDateField extends DatePickerEditFieldComponent {}
 
 class AnchorDisplayField extends TextDisplayField {
   public render(element:HTMLElement, displayText:string):void {
@@ -1442,6 +1457,110 @@ describe('KeyboardNavigationTransformer', () => {
 
       expect(selectedIds(second)).toEqual(['1', '2', '3']);
       expect(selectedIds(first)).toEqual([]);
+    });
+  });
+
+  describe('a query group beside the main list', () => {
+    const mountListAndGroup = async (options:Partial<TableHarnessOptions> = {}) => {
+      const states = new States();
+      const list = await mount({ states, configuration: consumerConfiguration('list') });
+      const group = await mount({
+        states,
+        workPackages: [{ id: '4' }, { id: '5' }],
+        ...options,
+        configuration: consumerConfiguration('queryGroup'),
+      });
+      return [list, group] as const;
+    };
+
+    const openEditor = async (table:TableHarness, id:string, fieldName:string) => {
+      const target = table.row(id).querySelector<HTMLElement>(`td.${fieldName}`)!;
+      navigation(table).focusPosition(navigation(table).positionOfCell(target)!);
+      fireEvent.keyDown(target, { key: 'Enter' });
+      await waitFor(() => expect(within(target).getByRole('textbox')).toHaveFocus());
+      return { cell: target, handler: table.table.editing.forms[id].activeFields[fieldName] };
+    };
+
+    const openDatePicker = (table:TableHarness, handler:EditFieldHandler) => {
+      const overlay = document.body.appendChild(document.createElement('div'));
+      overlay.className = 'spot-modal-overlay spot-modal-overlay_active';
+      overlay.setAttribute('role', 'dialog');
+      const element = overlay.appendChild(document.createElement('div'));
+      const apply = element.appendChild(document.createElement('button'));
+      apply.textContent = 'Save';
+      const modal = { closingEvent: new Subject<void>(), element, closeMe: vi.fn() };
+      const injector = Injector.create({
+        parent: table.injector,
+        providers: [
+          { provide: OpEditingPortalHandlerToken, useValue: handler },
+          {
+            provide: OpEditingPortalChangesetToken,
+            useValue: {
+              projectedResource: resource(table, '4'),
+              schema: { ofProperty: () => ({}), mappedName: (name:string) => name, isMilestone: false },
+              state: null,
+            },
+          },
+          { provide: OpEditingPortalSchemaToken, useValue: {} },
+          { provide: ElementRef, useValue: new ElementRef(handler.element) },
+          { provide: ChangeDetectorRef, useValue: { markForCheck: () => undefined, detectChanges: () => undefined } },
+          { provide: OpModalService, useValue: { show: () => of(modal), activeModalInstance$: new BehaviorSubject<unknown>(null) } },
+          { provide: TimezoneService, useValue: {} },
+          { provide: DeviceService, useValue: {} },
+        ],
+      });
+      const field = runInInjectionContext(injector, () => new TableDateField());
+      field.showDatePickerModal();
+      apply.focus();
+      return { overlay, apply, close: () => modal.closingEvent.next() };
+    };
+
+    it('keeps a date editor overlay of the group owned by the group while the list re-renders and sees Escape', async () => {
+      const [list, group] = await mountListAndGroup({
+        columns: ['id', 'subject', 'startDate'],
+        editing: { fields: ['startDate', 'combinedDate'] },
+      });
+      const { handler } = await openEditor(group, '4', 'startDate');
+      const { overlay, apply, close } = openDatePicker(group, handler);
+      try {
+        expect(apply).toHaveFocus();
+        expect(group.table.editing.owns(overlay)).toBe(true);
+        expect(list.table.editing.owns(overlay)).toBe(false);
+
+        await list.render();
+        fireEvent.keyDown(apply, { key: 'Escape' });
+
+        expect(apply).toHaveFocus();
+        expect(overlay).toBeInTheDocument();
+        expect(group.table.editing.forms['4'].activeFields.startDate).toBe(handler);
+        expect(group.table.editing.owns(overlay)).toBe(true);
+
+        close();
+
+        expect(group.table.editing.forms['4'].activeFields.startDate).toBeUndefined();
+        expect(group.row('4').querySelector('td.startDate')).toHaveFocus();
+      } finally {
+        overlay.remove();
+      }
+    });
+
+    it('leaves focus in the list when a pending save of the group completes', async () => {
+      let resolveSave!:(value:{ resource:WorkPackageResource; wasNew:boolean }) => void;
+      const [list, group] = await mountListAndGroup({
+        editing: { save: () => new Promise((resolve) => { resolveSave = resolve; }) },
+      });
+      const { cell, handler } = await openEditor(group, '4', 'subject');
+      const submission = handler.handleUserSubmit();
+      await waitFor(() => expect(resolveSave).toBeDefined());
+
+      list.row('2').focus();
+      const saved = buildWorkPackage({ id: '4', subject: 'Changed' });
+      group.injector.get(States).workPackages.get('4').putValue(saved);
+      resolveSave({ resource: saved, wasNew: false });
+      await submission;
+
+      expect(list.row('2')).toHaveFocus();
+      expect(cell).not.toHaveFocus();
     });
   });
 });

@@ -157,6 +157,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   private registerCancelHandler() {
     const handler = (evt:DelegateEvent) => {
       onClickOrEnter(evt.originalEvent, () => {
+        evt.preventDefault();
         this.resetRow();
       });
 
