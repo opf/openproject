@@ -109,8 +109,10 @@ export class GridComponent implements OnDestroy, OnInit {
   @HostListener('window:keyup', ['$event'])
   handleKeyboardEvent(event:KeyboardEvent) {
     if (event.key !== 'Escape') {
+      return;
+    }
 
-    } else if (this.drag.currentlyDragging) {
+    if (this.drag.currentlyDragging) {
       this.drag.abort();
     } else if (this.resize.currentlyResizing) {
       this.resize.abort();

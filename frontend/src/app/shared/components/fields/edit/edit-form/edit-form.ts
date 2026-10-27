@@ -91,7 +91,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   /**
    * Optional callback when the form is being saved
    */
-  protected onSaved(commit:ResourceChangesetCommit):void {
+  protected onSaved(_commit:ResourceChangesetCommit):void {
     // Does nothing by default
   }
 
