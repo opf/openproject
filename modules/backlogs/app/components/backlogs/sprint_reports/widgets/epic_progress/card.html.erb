@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
           flex_layout(justify_content: :space_between) do |row|
             row.with_column do
               render(Primer::Beta::Text.new) do
-                t(".work_package_counts", total: total_work_packages_count, completed: resolved_work_packages_count)
+                t(".work_package_counts", count: total_work_packages_count, completed: resolved_work_packages_count)
               end
             end
             row.with_column do
@@ -54,7 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
                 valuenow: resolved_percentage, valuemin: 0, valuemax: 100,
                 label: t(
                   ".progress_label",
-                  epic: epic.subject, completed: resolved_work_packages_count, total: total_work_packages_count
+                  epic: epic.subject, completed: resolved_work_packages_count, count: total_work_packages_count
                 )
               }
             )

@@ -259,9 +259,13 @@ en:
       widgets:
         epic_progress:
           card:
-            progress_label: "%{epic}: %{completed} of %{total} work packages completed"
+            progress_label:
+              one: "%{epic}: %{completed} of %{count} work package completed"
+              other: "%{epic}: %{completed} of %{count} work packages completed"
             work_package_completed: "(%{percentage})"
-            work_package_counts: "%{completed} / %{total} work packages"
+            work_package_counts:
+              one: "%{completed} / %{count} work package"
+              other: "%{completed} / %{count} work packages"
         work_package_graph:
           title: "Work packages graph"
         work_package_overview:

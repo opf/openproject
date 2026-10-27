@@ -92,7 +92,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :comp
     before { project.backlog_excluded_type_ids = [excluded_type.id] }
 
     it "includes it into the count" do
-      expect(rendered_component).to have_text("0 / 1 work packages")
+      expect(rendered_component).to have_text("0 / 1 work package")
     end
   end
 
@@ -102,7 +102,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :comp
     let!(:invisible_child) { create(:work_package, type: task_type, project: other_project, parent: epic) }
 
     it "excludes it from the count" do
-      expect(rendered_component).to have_text("0 / 1 work packages")
+      expect(rendered_component).to have_text("0 / 1 work package")
     end
   end
 
@@ -112,7 +112,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :comp
     let!(:visible_story) { create(:work_package, type: task_type, project:, parent: invisible_feature) }
 
     it "counts the visible descendant only" do
-      expect(rendered_component).to have_text("0 / 1 work packages")
+      expect(rendered_component).to have_text("0 / 1 work package")
     end
   end
 
@@ -163,7 +163,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :comp
         end
 
         it "does not count it, even though it is a descendant right now" do
-          expect(rendered_component).to have_text("1 / 1 work packages")
+          expect(rendered_component).to have_text("1 / 1 work package")
           expect(rendered_component).to have_text("(100%)")
         end
       end
@@ -181,7 +181,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :comp
       end
 
       it "counts the visible descendant only" do
-        expect(rendered_component).to have_text("0 / 1 work packages")
+        expect(rendered_component).to have_text("0 / 1 work package")
       end
     end
   end
