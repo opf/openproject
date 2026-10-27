@@ -153,11 +153,11 @@ RSpec.describe AI::TextTransformRun do
 
   describe "#request_cancel!" do
     it "flags a running run for cancellation" do
-      run = create(:ai_text_transform_run, :running)
+      run = create(:ai_text_transform_run, :running, updated_at: 1.hour.ago)
 
       run.request_cancel!
 
-      expect(run.reload.cancel_requested).to be(true)
+      expect(run.reload).to have_attributes(cancel_requested: true, updated_at: be_within(1.minute).of(Time.current))
     end
 
     it "leaves a terminal run untouched" do

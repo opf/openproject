@@ -31,7 +31,6 @@ module AI
   module TextTransforms
     class PaneParamsContract < DryApplicationContract
       SCOPES = %w[document selection].freeze
-      STATES = %w[generating done failed stopped cancelled].freeze
       CONTEXT_KEYS = %i[work_package_id project_id type_id].freeze
       KEYS = %i[request_id scope work_package_id project_id type_id after state action_id input retry_of].freeze
 
@@ -44,7 +43,7 @@ module AI
         optional(:project_id).maybe(:integer, gt?: 0)
         optional(:type_id).maybe(:integer, gt?: 0)
         optional(:after).maybe(:integer, gteq?: 0)
-        optional(:state).maybe(:string, included_in?: STATES)
+        optional(:state).maybe(:string, included_in?: ResultPaneState::STATES)
         optional(:action_id).maybe(:integer, gt?: 0)
         optional(:input).maybe(:string, max_size?: AI::TextTransformRun::MAX_INPUT_LENGTH)
         optional(:retry_of).maybe(:string, :uuid_v4?)

@@ -86,6 +86,16 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Body, type: :component d
     end
   end
 
+  context "with a macro in the output" do
+    before do
+      run.events.build(kind: "text_delta", payload: { "delta" => "\n\n# Heading\n\n<macro class=\"toc\"></macro>" }, seq: 2)
+    end
+
+    it "does not expand it" do
+      expect(subject).to have_no_css("macro, .op-uc-toc", visible: :all)
+    end
+  end
+
   context "for a new work package of a project" do
     let(:type) { create(:type) }
     let(:project) { create(:project, :with_internal_wiki, types: [type]).reload }

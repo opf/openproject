@@ -34,18 +34,19 @@ module OpenProject::TextFormatting
         return doc unless context[:untrusted_source]
 
         doc.css("macro").each(&:remove)
-        doc.css("img").each { |image| image.replace(link_for(image)) }
+        doc.css("img").each { |image| image.replace(replacement_for(image)) }
 
         doc
       end
 
       private
 
-      def link_for(image)
-        source = image["src"].to_s
-        link = doc.document.create_element("a", href: source)
-        link.content = I18n.t("text_formatting.image_link", name: image["alt"].presence || source)
-        link
+      def replacement_for(image)
+        source = image["src"].presence
+        text = I18n.t("text_formatting.image_link", name: image["alt"].presence || source)
+        return doc.document.create_text_node(text) unless source
+
+        doc.document.create_element("a", text, href: source, rel: "noopener noreferrer nofollow")
       end
     end
   end

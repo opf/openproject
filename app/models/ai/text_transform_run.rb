@@ -81,7 +81,7 @@ module AI
     end
 
     def request_cancel!
-      update_column(:cancel_requested, true) unless terminal?
+      update_columns(cancel_requested: true, updated_at: Time.current) unless terminal?
     end
 
     def finish!(status, error_message: nil)

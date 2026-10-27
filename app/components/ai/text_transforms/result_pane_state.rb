@@ -30,10 +30,11 @@
 module AI
   module TextTransforms
     class ResultPaneState
+      STATES = %w[generating done failed stopped cancelled].freeze
+
       attr_reader :run, :scope, :request_id, :context, :rejection
 
       delegate :work_package, :project, to: :context
-      delegate :ids, to: :context, prefix: true
 
       def self.rejected(message:, label:, scope:, request_id:, context: Context.none)
         new(run: nil, scope:, request_id:, label:, context:, rejection: message)
