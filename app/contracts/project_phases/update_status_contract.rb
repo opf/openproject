@@ -29,8 +29,6 @@
 
 module ProjectPhases
   class UpdateStatusContract < BaseContract
-    delegate :project, to: :model
-
     attribute :status
   end
 end

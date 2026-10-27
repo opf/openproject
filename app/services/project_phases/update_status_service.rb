@@ -52,10 +52,12 @@ module ProjectPhases
     end
 
     def cascaded_status(earlier:)
+      open, in_progress, completed = Project::Phase.statuses.values_at(:open, :in_progress, :completed)
+
       case model.status
-      when "open"        then earlier ? nil : "open"
-      when "in_progress" then earlier ? "completed" : "open"
-      when "completed"   then earlier ? "completed" : nil
+      when open        then open unless earlier
+      when in_progress then earlier ? completed : open
+      when completed   then completed if earlier
       end
     end
 
