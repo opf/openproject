@@ -46,7 +46,6 @@ properties:
     type: object
     required:
       - project
-      - resource
     properties:
       actor:
         $ref: './user_model.yml'
@@ -58,6 +57,9 @@ properties:
       activity:
         $ref: './activity_model.yml'
       resource:
+        description: |-
+          The resource of the notification. Only embedded for work packages.
+          Documents are only linked via `_links.resource`.
         oneOf:
           - $ref: './work_package_model.yml'
   _links:
@@ -66,7 +68,6 @@ properties:
       - self
       - project
       - actor
-      - activity
       - resource
     properties:
       self:
@@ -105,14 +106,15 @@ properties:
         allOf:
           - "$ref": "./link.yml"
           - description: |-
-              The linked resource of the notification, if any.
+              The resource the notification is about. This can be either a work package or a document.
+              The link's title is the work package's subject or the document's title respectively.
 
-              **Resource**: Polymorphic
+              **Resource**: WorkPackage or Document
       activity:
         allOf:
           - "$ref": "./link.yml"
           - description: |-
-              The journal activity, if the notification originated from a journal entry. This might be null in
-              case no activity triggered the notification.
+              The journal activity, if the notification originated from a journal entry. Only present
+              if the notification was triggered by an activity, e.g. not for date alerts or mentions in documents.
 
               **Resource**: Activity
