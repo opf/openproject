@@ -70,18 +70,19 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     };
   }
 
-  protected buildAugmentedColumns():QueryColumn[] {
-    const columns = super.buildAugmentedColumns();
-
-    return columns.includes(internalContextMenuColumn) ? columns : [...columns, internalContextMenuColumn];
-  }
-
   public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLTableCellElement|null {
     switch (column.id) {
       case internalContextMenuColumn.id:
         return this.buildCancelButton();
-      default:
-        return super.buildCell(workPackage, column);
+      default: {
+        const cell = super.buildCell(workPackage, column);
+
+        if (cell && this.hostsCancelLink(column)) {
+          this.appendCancelLink(cell);
+        }
+
+        return cell;
+      }
     }
   }
 
@@ -93,7 +94,28 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
   }
 
   public refreshRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):HTMLTableRowElement {
-    return this.paintStructuralRow(super.refreshRow(workPackage, row));
+    const refreshed = super.refreshRow(workPackage, row);
+    const lastColumn = this.augmentedColumns.at(-1)!;
+    const host = refreshed.querySelector<HTMLTableCellElement>(`td.${lastColumn.id}`);
+
+    if (host && this.hostsCancelLink(lastColumn)) {
+      this.appendCancelLink(host);
+    }
+
+    return this.paintStructuralRow(refreshed);
+  }
+
+  private hostsCancelLink(column:QueryColumn):boolean {
+    return !this.augmentedColumns.includes(internalContextMenuColumn) && column === this.augmentedColumns.at(-1);
+  }
+
+  private appendCancelLink(cell:HTMLTableCellElement) {
+    if (cell.querySelector(`.${inlineCreateCancelClassName}`)) {
+      return;
+    }
+
+    cell.classList.add('wp-table--cancel-create-host');
+    cell.insertAdjacentHTML('beforeend', this.cancelLinkHtml());
   }
 
   /**
@@ -128,14 +150,18 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     const td = document.createElement('td');
     td.classList.add(tdClassName, 'wp-table--cancel-create-td');
 
-    td.innerHTML = `
+    td.innerHTML = this.cancelLinkHtml();
+
+    return td;
+  }
+
+  private cancelLinkHtml():string {
+    return `
     <a
        href="#"
        class="${inlineCreateCancelClassName} icon icon-cancel"
        aria-label="${this.text.cancelButton}">
     </a>
    `;
-
-    return td;
   }
 }

@@ -54,9 +54,13 @@ RSpec.describe "Work package hierarchies in two embedded tables", :js do
     create(:wiki_page, wiki: project.wiki, title: "Two tables", text: <<~MARKDOWN)
       ## Table A
 
+      [entry A](https://example.com/a)
+
       #{macro}
 
       ## Table B
+
+      [entry B](https://example.com/b)
 
       #{macro}
     MARKDOWN
@@ -81,6 +85,27 @@ RSpec.describe "Work package hierarchies in two embedded tables", :js do
     end
 
     within(second_table) do
+      hierarchies.expect_hierarchy_at(parent, collapsed: false)
+      expect(page).to have_css("tr", text: "Child")
+    end
+  end
+
+  it "collapses a hierarchy with the keyboard only in the table that holds focus" do
+    expect(page).to have_css("#{embedded_tables} tr", text: "Child", count: 2, wait: 10)
+
+    table_a, table_b = %w[A B].zip(page.all(embedded_tables)).map do |name, container|
+      Pages::EmbeddedWorkPackagesTable.new(container, entry_control: -> { find_link("entry #{name}") })
+    end
+
+    table_a.focus_row_by_keyboard(parent)
+    table_a.press_keys(:left)
+
+    within(table_a.container) do
+      hierarchies.expect_hierarchy_at(parent, collapsed: true)
+      hierarchies.expect_hidden(child)
+    end
+
+    within(table_b.container) do
       hierarchies.expect_hierarchy_at(parent, collapsed: false)
       expect(page).to have_css("tr", text: "Child")
     end
