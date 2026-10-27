@@ -289,10 +289,15 @@ module Pages
       expect(page).to have_no_css "#work-package-context-menu"
     end
 
-    # Moves focus into the table with Tab from the last toolbar control.
+    # Moves focus into the table with Tab from the entry control.
     def tab_into_table
-      last_toolbar_control.execute_script("this.focus()")
+      entry_control.execute_script("this.focus()")
       press_keys(:tab)
+    end
+
+    # @return [Capybara::Node::Element] The control directly before the table in tab order.
+    def entry_control
+      last_toolbar_control
     end
 
     # Tabs into the table, returns to the header row with Ctrl+Home and moves
@@ -345,6 +350,17 @@ module Pages
     # @param work_package [WorkPackage] The work package object.
     def expect_focus_on_row(work_package)
       expect(table_container).to have_css(row_selector(work_package), focused: true)
+    end
+
+    # Expects exactly the rows in `selected` among `among` to be marked selected.
+    #
+    # @param selected [Array<WorkPackage>] The work packages expected to be selected.
+    # @param among [Array<WorkPackage>] The work packages whose selection state is checked.
+    def expect_selected_rows(*selected, among:)
+      among.each do |work_package|
+        expect(treegrid)
+          .to have_selector(:row, work_package.subject, aria: { selected: selected.include?(work_package) })
+      end
     end
 
     # Expects the cell for `attribute` in the row for `work_package` to hold focus.

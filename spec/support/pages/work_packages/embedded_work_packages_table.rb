@@ -48,11 +48,8 @@ module Pages
       @table_name || super
     end
 
-    def tab_into_table
-      return super unless @entry_control
-
-      @entry_control.call.execute_script("this.focus()")
-      press_keys(:tab)
+    def entry_control
+      @entry_control ? @entry_control.call : super
     end
 
     def table_container
