@@ -96,24 +96,33 @@ RSpec.describe AI::TextTransforms::Execution,
     expect(events).to eq([[1, "status", { "status" => "running" }]])
   end
 
-  it "ends cancelled while the model streams only empty deltas" do
+  it "ends cancelled on the first empty delta after cancellation is requested" do
+    received = 0
     gateway = AI::TextTransforms::FakeGateway.new(deltas: ["", "", "", "a"],
                                                   before_each: lambda {
+                                                    received += 1
                                                     advance.call(0.6)
                                                     run.update_column(:cancel_requested, true)
                                                   })
 
     execute(gateway)
 
+    expect(received).to eq(1)
     expect(run).to be_cancelled
     expect(events).to eq([[1, "status", { "status" => "running" }]])
   end
 
-  it "fails with timeout when the budget runs out while the model streams only empty deltas" do
-    gateway = AI::TextTransforms::FakeGateway.new(deltas: ["", "", "a"], before_each: -> { advance.call(200) })
+  it "fails with timeout on the first empty delta past the budget" do
+    received = 0
+    gateway = AI::TextTransforms::FakeGateway.new(deltas: ["", "", "a"],
+                                                  before_each: lambda {
+                                                    received += 1
+                                                    advance.call(200)
+                                                  })
 
     execute(gateway)
 
+    expect(received).to eq(1)
     expect(run).to be_failed
     expect(events.last[1..]).to eq(["error", { "message" => "The AI service did not respond in time.", "reason" => "timeout" }])
   end
