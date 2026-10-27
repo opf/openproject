@@ -262,4 +262,94 @@ describe('WorkPackageViewSelectionService', () => {
     expect(selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);
   });
 
+  describe('retainRendered', () => {
+    const occurrence = (id:string, classIdentifier = `wp-row-${id}`, hidden = false):RenderedWorkPackage => (
+      { workPackageId: id, classIdentifier, hidden }
+    );
+
+    it('retains a member present only as another occurrence', () => {
+      selection.initializeSelection(['1', '2']);
+      selection.retainRendered([occurrence('1'), occurrence('2', 'wp-ancestor-row-2')]);
+      expect(selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);
+    });
+
+    it('retains hidden members', () => {
+      selection.initializeSelection(['1', '2']);
+      selection.retainRendered([occurrence('1'), occurrence('2', 'wp-row-2', true)]);
+      expect(selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);
+    });
+
+    it('prunes members absent from the rendered rows and never adds', () => {
+      selection.initializeSelection(['1', '3']);
+      selection.retainRendered([occurrence('1'), occurrence('2')]);
+      expect(selection.getSelectedWorkPackageIds()).toEqual(['1']);
+    });
+
+    it('publishes only when something changed', () => {
+      selection.initializeSelection(['1', '2']);
+      const emitted = vi.fn();
+      const subscription = selection.live$().subscribe(emitted);
+      emitted.mockClear();
+      selection.retainRendered(rows);
+      expect(emitted).not.toHaveBeenCalled();
+      selection.retainRendered([rows[0]]);
+      expect(emitted).toHaveBeenCalledOnce();
+      subscription.unsubscribe();
+    });
+
+    it('keeps the anchor and range session while other members are pruned', () => {
+      gestures.handleClick('1', rows, {});
+      gestures.handleClick('2', rows, { ctrlKey: true });
+      gestures.handleClick('3', rows, { shiftKey: true });
+      expect(selection.getSelectedWorkPackageIds()).toEqual(['1', '2', '3']);
+      const remaining = rows.slice(1);
+      querySpace.tableRendered.putValue(remaining);
+      selection.retainRendered(remaining);
+      expect(selection.getSelectedWorkPackageIds()).toEqual(['2', '3']);
+      gestures.handleClick('4', remaining, { shiftKey: true });
+      expect(selection.getSelectedWorkPackageIds()).toEqual(['2', '3', '4']);
+    });
+
+    it('clears membership on an empty or header-only snapshot', () => {
+      selection.initializeSelection(['1']);
+      selection.retainRendered([{ workPackageId: null, classIdentifier: 'group', hidden: false }]);
+      expect(selection.isEmpty).toBe(true);
+      selection.initializeSelection(['1']);
+      selection.retainRendered([]);
+      expect(selection.isEmpty).toBe(true);
+    });
+
+    it('does not deselect when only the anchor occurrence is lost', () => {
+      gestures.handleClick('2', rows, {});
+      gestures.handleClick('3', rows, { ctrlKey: true });
+      const rendered = [rows[0], rows[1], { ...rows[2], classIdentifier: 'relation-3' }, rows[3]];
+      querySpace.tableRendered.putValue(rendered);
+      selection.retainRendered(rendered);
+      expect(selection.getSelectedWorkPackageIds()).toEqual(['2', '3']);
+      gestures.handleClick('4', rendered, { shiftKey: true });
+      expect(selection.getSelectedWorkPackageIds()).toEqual(['4']);
+    });
+
+    it('does not move the anchor when another member is pruned', () => {
+      gestures.handleClick('1', rows, {});
+      gestures.handleClick('2', rows, { ctrlKey: true });
+      const remaining = rows.slice(1);
+      querySpace.tableRendered.putValue(remaining);
+      selection.retainRendered(remaining);
+      expect(selection.getSelectedWorkPackageIds()).toEqual(['2']);
+      gestures.handleClick('4', remaining, { shiftKey: true });
+      expect(selection.getSelectedWorkPackageIds()).toEqual(['2', '3', '4']);
+    });
+
+    it('replays stale pristine ids to a late subscriber before the pruned ids', () => {
+      selection.initializeSelection(['1', '2']);
+      selection.retainRendered([rows[0]]);
+      const snapshots:string[][] = [];
+      const subscription = selection.live$().subscribe(({ selected }) => snapshots.push(Object.keys(selected)));
+      expect(snapshots).toEqual([['1', '2'], ['1']]);
+      expect(selection.getSelectedWorkPackageIds()).toEqual(['1']);
+      subscription.unsubscribe();
+    });
+  });
+
 });

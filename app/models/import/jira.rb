@@ -31,6 +31,7 @@ module Import
   class Jira < ApplicationRecord
     self.table_name = "jiras"
 
+    enum :auth_method, { bearer: "bearer", basic: "basic" }, default: :bearer, prefix: true
     store_attribute :options, :exclude_resolution_fields, :boolean, default: false
 
     has_many :jira_imports, dependent: :destroy
@@ -38,7 +39,11 @@ module Import
     validate :url_must_be_http_or_https
 
     def client
-      Import::JiraClient.new(url:, personal_access_token:)
+      Import::JiraClient.new(url:,
+                             auth_method:,
+                             personal_access_token:,
+                             basic_auth_username:,
+                             basic_auth_password:)
     end
 
     private

@@ -138,7 +138,7 @@ RSpec.describe Rate do
     end
   end
 
-  # Behavioural coverage for the entry lookups the rate callbacks drive. Written
+  # Behavioral coverage for the entry lookups the rate callbacks drive. Written
   # against the returned entries only, so it holds regardless of how the queries
   # are built.
   describe Rate::Methods do

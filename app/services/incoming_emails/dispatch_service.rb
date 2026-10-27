@@ -173,7 +173,7 @@ module IncomingEmails
           log "could not create account for [#{sender_email}]", :error
         end
       else
-        # Default behaviour, emails from unknown users are ignored
+        # Default behavior, emails from unknown users are ignored
         log "ignoring email from unknown user [#{sender_email}]", report: false
       end
     end

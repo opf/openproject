@@ -826,7 +826,7 @@ RSpec.describe Journable::WithHistoricAttributes,
 
     let(:work_package) do
       create(:work_package,
-             subject: "The labelled work package",
+             subject: "The labeled work package",
              project:,
              journals: {
                created_at => {},

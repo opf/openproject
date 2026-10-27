@@ -195,7 +195,7 @@ module LlmConnections
     # server sending "admin_context_window" of its own would have it stored
     # verbatim and reported as an administrator's.
     def merged_metadata(model, card)
-      raw = normalised_window(card.fetch(:raw, {})).except("admin_context_window")
+      raw = normalized_window(card.fetch(:raw, {})).except("admin_context_window")
       admin_window = model.raw_metadata["admin_context_window"]
 
       admin_window ? raw.merge("admin_context_window" => admin_window) : raw
@@ -204,7 +204,7 @@ module LlmConnections
     # OpenRouter and gateways following it publish the window as
     # +context_length+, where vLLM and SGLang report +max_model_len+, the
     # operator's actual limit and therefore the better figure of the two.
-    def normalised_window(raw)
+    def normalized_window(raw)
       return raw if raw["context_length"].blank? || raw["max_model_len"].present?
 
       raw.merge("context_window" => raw["context_length"])

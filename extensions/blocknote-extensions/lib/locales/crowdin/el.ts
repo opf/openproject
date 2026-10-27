@@ -54,7 +54,8 @@ export const en = {
       'placeholder': 'Search by work package ID or subject',
       'dropdownAriaLabel': 'Work package search results',
       'noResults': 'No results',
-      'error': 'Error. Unable to load content.'
+      'error': 'Error. Unable to load content.',
+      'createWorkPackage': 'Create new work package'
     },
     'unavailableWorkPackage': {
       'loading': {

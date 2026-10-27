@@ -10,7 +10,7 @@ Primer already offers a wide palette of color variables as well as a [clear guid
 
 ## Customization within OpenProject
 
-OpenProject offers the possibility to customize the color palette. For that to work, we unfortunately have to overwrite some of the Primer variables so that every component matches the desired colours. Please note, that we do not adapt these colors depending on the current mode. It is in the users responsibility to select colors that work with all modes.
+OpenProject offers the possibility to customize the color palette. For that to work, we unfortunately have to overwrite some of the Primer variables so that every component matches the desired colors. Please note, that we do not adapt these colors depending on the current mode. It is in the users responsibility to select colors that work with all modes.
 
 ### Primary button color
 
@@ -103,7 +103,7 @@ The dark mode should be activated in My account/Settings by changing Mode to 'Da
 #### Technical notes
 
 Since we respect the user-theming, in Administration/Design -> ADVANCED SETTINGS, the values for **accent** and **primary button** colors are kept but brightened, so that they work well on dark backgrounds.
-However, we enforce the header and the main menu colors to use Primer css variables. Otherwise we have no reliable way to ensure that these elements are also dark enough to fit with the dark mode. So any changes made to the colours of the header and the main menu **will be ignored** in the dark mode.
+However, we enforce the header and the main menu colors to use Primer css variables. Otherwise we have no reliable way to ensure that these elements are also dark enough to fit with the dark mode. So any changes made to the colors of the header and the main menu **will be ignored** in the dark mode.
 
 ```css.erb
 --accent-color--dark-mode: design_color.lighten 0.4;

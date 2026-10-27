@@ -70,7 +70,7 @@ export class StorageFileListItemComponent {
   /**
    * This function enables an override of the click on the label for the storage file list items.
    *
-   * Normal behaviour is, that the label click is associated with the first interactive element,
+   * Normal behavior is, that the label click is associated with the first interactive element,
    * which usually should be the checkbox if available, or the "enterDirectory" icon button,
    * if no checkbox is available.
    *

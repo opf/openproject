@@ -31,6 +31,7 @@ module Import
   class JiraCreateCustomFieldsJob < ApplicationJob
     include Import::JiraOpenProjectReferenceCreation
     include ::Import::JiraCreateProjectJob::JiraImportCustomFields
+    include Import::JiraJobUtils
 
     def text
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
@@ -38,14 +39,18 @@ module Import
 
     # Creates the OP custom fields for the whole import run, before the per-project jobs fan out.
     def perform(jira_import_id)
-      @jira_import = Import::JiraImport.find(jira_import_id)
-      @jira_id = @jira_import.jira.id
-      @system_user = User.system
+      tagged_log("jira_import_id:#{jira_import_id}", "jira_object_type:customField") do
+        Rails.logger.debug "Creating custom fields started"
+        @jira_import = Import::JiraImport.find(jira_import_id)
+        @jira_id = @jira_import.jira.id
+        @system_user = User.system
 
-      build_custom_field_registry
-      store_custom_field_mapping
+        build_custom_field_registry
+        store_custom_field_mapping
+        create_system_field_custom_fields
 
-      create_system_field_custom_fields
+        Rails.logger.debug "Creating custom fields finished"
+      end
     end
   end
 end

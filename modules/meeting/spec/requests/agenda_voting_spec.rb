@@ -60,7 +60,11 @@ RSpec.describe "Meeting agenda voting", :skip_csrf, type: :rails_request do
     expect(response.body).not_to include('draggable-type="agenda-item"')
     expect(response.parsed_body.css(".op-meeting-agenda-item-vote-score button").size).to eq(2)
     sorting = response.parsed_body.at_css('[data-test-selector="agenda-sorting-mode-selector"]')
-    expect(sorting.text.squish).to include("Sorting mode", "Vote-based")
+    expect(sorting.text.squish).to include(
+      "Agenda sorting", "Currently in Vote-based mode",
+      "Participants can vote agenda items up or down. Items with the most votes are put on top within each section. " \
+      "Sections remain manually sorted."
+    )
     expect(sorting.at_css('[data-test-selector="agenda-sorting-mode-selector-button"]')).to be_nil
   end
 
@@ -114,7 +118,15 @@ RSpec.describe "Meeting agenda voting", :skip_csrf, type: :rails_request do
     get agenda_sorting_dialog_project_meeting_path(project, meeting), as: :turbo_stream
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include("Sorting mode", "Manual", "Vote-based")
+    dialog = Nokogiri::HTML.fragment(response.body).at_css("dialog#agenda-sorting-dialog")
+    expect(dialog.text.squish).to include(
+      "Sorting mode", "Manual", "Vote-based",
+      "You can manually arrange agenda items in any order you like by dragging and dropping them up or down.",
+      "Participants can vote agenda items up or down. Items with the most votes are put on top within each section. " \
+      "Sections remain manually sorted."
+    )
+    expect(dialog.at_css("legend")[:class]).to include("sr-only")
+    expect(dialog.at_css('button[type="submit"]').text.squish).to eq("Apply")
   end
 
   it "offers editors a sidebar sorting control in manual mode" do
@@ -123,9 +135,21 @@ RSpec.describe "Meeting agenda voting", :skip_csrf, type: :rails_request do
     get project_meeting_path(project, meeting)
 
     sorting = response.parsed_body.at_css('[data-test-selector="agenda-sorting-mode-selector"]')
-    expect(sorting.text.squish).to include("Sorting mode", "Manual", "Change sorting mode")
+    expect(sorting.text.squish).to include(
+      "Agenda sorting", "Currently in Manual mode", "Change sorting mode",
+      "You can manually arrange agenda items in any order you like by dragging and dropping them up or down."
+    )
     expect(sorting.at_css("a")[:href]).to eq(agenda_sorting_dialog_project_meeting_path(project, meeting))
     expect(sorting.at_css(".octicon-sort-desc")).to be_present
+  end
+
+  it "shows meeting details, status, email updates, and agenda sorting in order" do
+    login_as editor
+    get project_meeting_path(project, meeting)
+
+    sidebar = response.parsed_body.at_css("#meetings-side-panel-component")
+    headings = sidebar.css(".SidePanel-sectionHeader > :first-child").map { it.text.squish }
+    expect(headings.first(4)).to eq(["Meeting details", "Meeting status", "Email calendar updates", "Agenda sorting"])
   end
 
   it "allows editors to change sorting mode without changing positions" do

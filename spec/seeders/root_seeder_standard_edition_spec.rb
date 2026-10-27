@@ -234,7 +234,7 @@ RSpec.describe RootSeeder,
   end
 
   # The fictional company staff is development data, and the demo data referencing it (project
-  # members, work package assignees, meeting participants) only materialises alongside it.
+  # members, work package assignees, meeting participants) only materializes alongside it.
   shared_examples "creates the company staff and the demo data referencing it" do
     it "creates the company departments with their member users" do
       departments = Group.organizational_units

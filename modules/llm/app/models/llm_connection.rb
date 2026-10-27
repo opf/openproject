@@ -240,7 +240,7 @@ class LlmConnection < ApplicationRecord
     errors.add(:base, :singleton)
   end
 
-  # The value goes into Faraday's header serialisation unchanged, where a nested
+  # The value goes into Faraday's header serialization unchanged, where a nested
   # hash or a non-string fails at request time rather than at save time.
   def custom_headers_are_flat_strings
     return if custom_headers.blank?

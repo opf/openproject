@@ -35,7 +35,7 @@ In these Release Notes, we will give an overview of important feature changes. A
 - Feature: Provide sprint reports for active and completed sprints \[[#71891](https://community.openproject.org/wp/71891)\]
 - Feature: Epic progress chart \[[#76462](https://community.openproject.org/wp/76462)\]
 - Feature: Labels for work packages \[[#32181](https://community.openproject.org/wp/32181)\]
-- Feature: Automation to create PM²/PMflex artefacts \[[#69055](https://community.openproject.org/wp/69055)\]
+- Feature: Automation to create PM²/PMflex artifacts \[[#69055](https://community.openproject.org/wp/69055)\]
 - Feature: Cumulative flow diagram \[[#46856](https://community.openproject.org/wp/46856)\]
 - Feature: Introduce burnup charts \[[#71381](https://community.openproject.org/wp/71381)\]
 - Feature: Provide velocity charts \[[#71903](https://community.openproject.org/wp/71903)\]

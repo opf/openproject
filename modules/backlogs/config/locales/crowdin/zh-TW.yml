@@ -131,6 +131,10 @@ zh-TW:
       details: 待辦事項桶「%{name}」將被刪除，所有工作包將移至待辦事項收件匣。不會刪除任何工作包。
       title: 刪除積壓桶？
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: 設定衝刺的開始和結束日期，以產生燃盡圖表。
         blankslate_title: 沒有可用的燃盡圖資料
@@ -292,9 +296,6 @@ zh-TW:
       update_service:
         invalid_target_type: list_type 必須為以下其中一種：帶有 list_id 的 backlog_bucket、帶有 list_id 的 sprint，或不帶有 list_id 的 inbox。
         missing_target: 必須包含 list_type 或 list_id。
-  burndown:
-    story_points: 故事點
-    story_points_ideal: 理想估算故事點數
   created_resolved:
     wp_created: Created
     wp_resolved: Resolved

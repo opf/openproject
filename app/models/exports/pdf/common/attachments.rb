@@ -31,7 +31,7 @@ require "mini_magick"
 
 module Exports::PDF::Common::Attachments
   # Deliberately not MiniMagick::Image#resize: that shells out to `mogrify`, which
-  # since ImageMagick 7.1.2-32 writes to a randomised temp name (`<file>-<hex>~`).
+  # since ImageMagick 7.1.2-32 writes to a randomized temp name (`<file>-<hex>~`).
   # ImageMagick derives the coder from that name's extension, so the module policy in
   # config/imagemagick/policy.xml denies it.
   # https://github.com/ImageMagick/ImageMagick/issues/8995
@@ -128,7 +128,7 @@ module Exports::PDF::Common::Attachments
         # followed by the frame image data as a VP8 / VP8L / VP8X chunk.
         # Wrap it in a minimal RIFF/WEBP container to create a single-frame WebP.
         frame_chunk = data[pos + 8 + 16, chunk_size - 16]
-        # Reject frames whose payload isn't a recognised WebP bitstream type
+        # Reject frames whose payload isn't a recognized WebP bitstream type
         next unless webp_type.map(&:b).include?(frame_chunk[0, 4])
 
         riff_size = 4 + frame_chunk.bytesize # "WEBP" + frame data

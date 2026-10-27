@@ -72,7 +72,7 @@ module Backlogs
         end
 
         def breakdown
-          @breakdown ||= SprintWorkPackageBreakdown.new(sprint:, project:)
+          @breakdown ||= ::Sprints::WorkPackageBreakdown.new(sprint:, project:)
         end
 
         def divider_text

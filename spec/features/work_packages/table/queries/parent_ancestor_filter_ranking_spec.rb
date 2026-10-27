@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package filtering by Parent/Ancestor ranks exact matches first", :js, :selenium do
+RSpec.describe "Work package filtering by Parent/Ancestor ranks exact matches first", :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   let(:project) { create(:project) }

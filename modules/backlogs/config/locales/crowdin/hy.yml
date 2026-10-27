@@ -135,6 +135,10 @@ hy:
       details: "'%{name}' բեքլոգի բաժինը կջնջվի, և բոլոր աշխատանքային փաթեթները կտեղափոխվեն բեքլոգի մուտքային արկղ։ Ոչ մի աշխատանքային փաթեթ չի ջնջվի։"
       title: Ջնջե՞լ բեքլոգի բաժինը
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Այրման գծապատկեր ստեղծելու համար սահմանեք սպրինտի սկզբի և ավարտի ամսաթիվը։
         blankslate_title: Այրման տվյալներ առկա չեն
@@ -300,9 +304,6 @@ hy:
       update_service:
         invalid_target_type: list_type-ը պետք է լինի հետևյալներից մեկը՝ list_id-ով backlog_bucket, list_id-ով sprint կամ առանց list_id-ի inbox։
         missing_target: list_type-ը կամ list_id-ը պետք է առկա լինի։
-  burndown:
-    story_points: Պատմության միավորներ
-    story_points_ideal: Պատմության միավորներ (իդեալական)
   created_resolved:
     wp_created: Created
     wp_resolved: Resolved

@@ -322,8 +322,6 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       this.wpTableTimeline.appliedZoomLevel = this.wpTableTimeline.zoomLevel;
     }
 
-    // timeOutput is a fire-and-forget debug timer; the async callback is intentional.
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     timeOutput('refreshView() in timeline container', async () => {
       // Reset the width of the outer container if its content shrinks
       this.outerContainer.style.setProperty('width', 'auto');

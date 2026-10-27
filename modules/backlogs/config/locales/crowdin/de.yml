@@ -26,7 +26,7 @@ de:
       project:
         allow_multiple_active_sprints: Mehrere aktive Sprints zulassen
         backlog_excluded_types: Ausgeschlossene Arbeitspaket-Typen
-        estimation_unit: Unit
+        estimation_unit: Stück
         sprint_sharing: Sprints teilen
         statuses_considered_closed: Als abgeschlossen geltende Status
       sprint:
@@ -135,6 +135,10 @@ de:
       details: Der Backlog Bucket '%{name}' wird gelöscht und alle Arbeitspakete werden in den Eingangs Backlog verschoben. Kein Arbeitspaket wird gelöscht.
       title: Backlog Bucket löschen?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Legen Sie Start- und Enddatum für den Sprint fest, um ein Burndown-Diagramm zu erstellen.
         blankslate_title: Keine Burndown-Daten verfügbar
@@ -300,9 +304,6 @@ de:
       update_service:
         invalid_target_type: "„list_type“ muss einer der folgenden Werte sein: „backlog_bucket“ mit einer „list_id“, „sprint“ mit einer „list_id“ oder „inbox“ ohne „list_id“."
         missing_target: "„list_type“ oder „list_id“ muss vorhanden sein."
-  burndown:
-    story_points: Story-Points
-    story_points_ideal: Story-Points (ideal)
   created_resolved:
     wp_created: Created
     wp_resolved: Resolved

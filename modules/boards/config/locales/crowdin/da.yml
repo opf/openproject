@@ -3,18 +3,18 @@ da:
   activerecord:
     models:
       boards/grid:
-        one: Board
-        other: Boards
+        one: Tavle
+        other: Tavler
   boards:
     board_type_attributes:
       assignee: Tildelt
       basic: Grundlæggende
       status: Kanban
       subproject: Underprojekt
-      subtasks: overordnet-underordnet
+      subtasks: Overordnet-underordnet
       version: Version
     board_type_descriptions:
-      assignee: 'Tavle med automatiserede kolonner baseret på tildelte brugere. Ideel til afsendelse af arbejdspakker.
+      assignee: 'Tavle med automatiske kolonner ud fra tildelte brugere. Velegnet til at fordele arbejdspakker.
 
         '
       basic: 'Start fra bunden med en tom tavle. Tilføj manuelt kort og kolonner til denne tavle.
@@ -23,13 +23,13 @@ da:
       status: 'Grundlæggende kanbantavle med kolonner til status som To Do, I gang, Udført.
 
         '
-      subproject: 'Tavle med automatiserede kolonner til underprojekter. Træk arbejdspakker til andre lister opdaterer (under)projektet i overensstemmelse hermed.
+      subproject: 'Tavle med automatiske kolonner til underprojekter. Når du trækker arbejdspakker til andre lister, opdateres (under)projektet tilsvarende.
 
         '
-      subtasks: 'Tavle med automatiserede kolonner til underelementer. Træk arbejdspakker til andre lister, opdaterer den overordnede i overensstemmelse hermed.
+      subtasks: 'Tavle med automatiske kolonner til underelementer. Når du trækker arbejdspakker til andre lister, opdateres den overordnede tilsvarende.
 
         '
-      version: 'Tavle med automatiserede kolonner baseret på versionsattributten. Ideel til planlægning af produktudvikling.
+      version: 'Tavle med automatiske kolonner ud fra attributten Version. Velegnet til at planlægge produktudvikling.
 
         '
     board_types:
@@ -42,7 +42,7 @@ da:
   ee:
     upsell:
       board_view:
-        description: Vil du automatisere dine arbejdsgange med Tavler? Avancerede tavler er en Enterprise-tilføjelse. Opgrader venligst til en betalt plan.
+        description: Vil du automatisere dine arbejdsgange med tavler? Avancerede tavler er en tilføjelse til Enterprise-udgaven. Opgrader til et betalt abonnement.
   permission_manage_board_views: Administrer tavler
   permission_show_board_views: Vis tavler
   plugin_openproject_boards:
