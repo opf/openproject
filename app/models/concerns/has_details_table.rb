@@ -80,7 +80,7 @@ module HasDetailsTable
 
       # Register as a named constant so it appears in stack traces, queries, etc.
       class_name = "#{name}Detail"
-      Object.send(:remove_const, class_name) if Object.const_defined?(class_name)
+      Object.send(:remove_const, class_name) if Object.const_defined?(class_name, false)
       Object.const_set(class_name, klass)
     end
 
