@@ -69,6 +69,8 @@ interface IPendingRequest {
 
 export const AI_SELECTION_MARKER = 'ai-text-transform:selection';
 const LAST_ACTION_STORAGE_KEY = 'openproject.ai_actions.last_action_id';
+// Demo only: ?ai_demo_fault=blocked or =failed in the page URL makes the next runs end that way.
+const DEMO_FAULT_PARAM = 'ai_demo_fault';
 
 /**
  * Counterpart of the CKEditor Assistant button, which only renders the list and reports the chosen
