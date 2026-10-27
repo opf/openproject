@@ -121,20 +121,16 @@ export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabe
     return { id: null, name, href: null };
   }
 
-  protected defaultCompareWithFunction():(a:unknown, b:unknown) => boolean {
-    return (a, b) => {
-      const left = a as Partial<ILabelAutocompleteItem>|null|undefined;
-      const right = b as Partial<ILabelAutocompleteItem>|null|undefined;
+  protected defaultCompareWithFunction():(option:unknown, selected:unknown) => boolean {
+    return (option, selected) => {
+      const optionLabel = option as ILabelAutocompleteItem|null|undefined;
+      const selectedLabel = selected as ILabelAutocompleteItem|null|undefined;
 
-      if (!left || !right) {
-        return !left && !right;
+      if (!optionLabel || !selectedLabel) {
+        return !optionLabel && !selectedLabel;
       }
 
-      if (typeof left.name === 'string' && typeof right.name === 'string') {
-        return left.name.toLowerCase() === right.name.toLowerCase();
-      }
-
-      return !!left.href && left.href === right.href;
+      return optionLabel.name.toLowerCase() === selectedLabel.name.toLowerCase();
     };
   }
 
