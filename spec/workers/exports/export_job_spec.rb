@@ -34,31 +34,32 @@ RSpec.describe Exports::ExportJob, with_good_job_batches: [Exports::ExportJob] d
   let(:job_class) do
     stub_const("InterruptedExportJobMock", Class.new(described_class) do
       def prepare!
-        raise "Must not run after an interrupted run"
+        raise "Export started"
       end
     end)
   end
   let(:export) { WorkPackages::Export.create! }
   let!(:job) { job_class.perform_later(export:, user: User.system, mime_type: :csv, query: nil) }
 
-  def restart_after_killed_run
+  before do
+    allow(Rails.error).to receive(:report)
     GoodJob::Job.where(id: job.job_id).update_all(performed_at: Time.current)
-    GoodJob.perform_inline(limit: 1)
   end
 
-  it "retries the export once and then fails it" do
-    allow(Rails.error).to receive(:report)
+  it "cancels the export when the worker process is killed during a run" do
+    GoodJob.perform_inline(limit: 1)
 
-    restart_after_killed_run
-    expect(GoodJob::Job.find(job.job_id)).to have_attributes(performed_at: nil, finished_at: nil)
-    expect(export.job_status).to have_attributes(status: "in_queue")
+    expect(GoodJob::Job.find(job.job_id)).to have_attributes(finished_at: be_present, error_event: "discarded")
+    expect(export.job_status).to have_attributes(status: "cancelled")
     expect(Rails.error)
       .to have_received(:report)
       .with(an_instance_of(GoodJob::InterruptError), source: "application.active_job")
+  end
 
-    expect { restart_after_killed_run }.to raise_error(GoodJob::InterruptError)
-    expect(GoodJob::Job.find(job.job_id))
-      .to have_attributes(finished_at: be_present, error: include("GoodJob::InterruptError"))
-    expect(export.job_status.reload).to have_attributes(status: "failure")
+  it "runs the export again when the worker shuts down during a run" do
+    ActiveSupport::Notifications.instrument("scheduler_shutdown_kill.good_job", active_job_ids: [job.job_id])
+
+    expect { GoodJob.perform_inline(limit: 1) }.to raise_error(RuntimeError, "Export started")
+    expect(Rails.error).not_to have_received(:report)
   end
 end

@@ -36,7 +36,7 @@ module Exports
 
     queue_with_priority :above_normal
 
-    retry_on GoodJob::InterruptError, wait: 0, attempts: 2, report: true
+    discard_on GoodJob::InterruptError, report: true
 
     def perform(export:, user:, mime_type:, query:, query_attributes: nil, options: {})
       self.export = export
