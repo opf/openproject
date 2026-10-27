@@ -29,6 +29,8 @@
 
 module Exports
   module Formatters
+    # Exports::Exporter caches one instance per attribute and export format and reuses it for
+    # every exported record, so a subclass must not memoize anything record-specific.
     class Default
       include Redmine::I18n
 
