@@ -51,7 +51,7 @@ describe('Type projects selection controller', () => {
       <div data-sortable-lists--item-id-value="${id}" ${selected ? 'data-batch-selected' : ''}>
         <action-menu>
           <button type="button" aria-haspopup="true" id="menu-${id}-button">More</button>
-          <ul>
+          <ul popover="manual" id="menu-${id}-list">
             <li data-type-projects-selection-scope="single"><a href="/single/switch?project_ids[]=${id}">Switch variant</a></li>
             <li data-type-projects-selection-scope="single"><a href="/single/remove?project_ids[]=${id}">Remove type from this project</a></li>
             <li data-type-projects-selection-scope="batch" hidden><a data-type-projects-selection-action="switch" href="#">Switch variant</a></li>
@@ -76,8 +76,14 @@ describe('Type projects selection controller', () => {
     return ctx.container.querySelector<HTMLElement>(`[data-sortable-lists--item-id-value="${id}"]`)!;
   }
 
-  function invokeContextMenu(id:string) {
-    rowElement(id).dispatchEvent(new CustomEvent('contextual-action-menu:beforeOpen', { bubbles: true, cancelable: true }));
+  // Both the kebab and the right-click end in the menu's popover opening; Primer swallows the
+  // kebab's click, so the popover is the one signal they share.
+  function openMenu(id:string) {
+    const list = rowElement(id).querySelector<HTMLElement>('[popover]')!;
+    if (list.matches(':popover-open')) {
+      list.hidePopover();
+    }
+    list.showPopover();
   }
 
   function visibleScopes(id:string) {
@@ -93,7 +99,7 @@ describe('Type projects selection controller', () => {
   it('acts on the whole selection from a selected row', async () => {
     await renderTable(['1', '2']);
 
-    invokeContextMenu('2');
+    openMenu('2');
 
     expect(visibleScopes('2')).toEqual(['batch', 'batch']);
     expect(batchHref('2', 'switch')).toBe('/types/1/projects/switch/new?project_ids%5B%5D=1&project_ids%5B%5D=2');
@@ -103,7 +109,7 @@ describe('Type projects selection controller', () => {
   it('acts on the row alone when it is outside the selection', async () => {
     await renderTable(['1', '2']);
 
-    invokeContextMenu('3');
+    openMenu('3');
 
     expect(visibleScopes('3')).toEqual(['single', 'single']);
   });
@@ -111,26 +117,26 @@ describe('Type projects selection controller', () => {
   it('treats a selection of one row as that row alone', async () => {
     await renderTable(['2']);
 
-    invokeContextMenu('2');
+    openMenu('2');
 
     expect(visibleScopes('2')).toEqual(['single', 'single']);
   });
 
-  it('gives the kebab the same scope as the right-click', async () => {
+  it('ignores clicks that never open the menu', async () => {
     await renderTable(['1', '2']);
 
     rowElement('2').querySelector<HTMLElement>('[aria-haspopup="true"]')!.click();
 
-    expect(visibleScopes('2')).toEqual(['batch', 'batch']);
+    expect(visibleScopes('2')).toEqual(['single', 'single']);
   });
 
   it('returns to the single row once the selection is gone', async () => {
     await renderTable(['1', '2']);
-    invokeContextMenu('2');
+    openMenu('2');
 
     rowElement('1').removeAttribute('data-batch-selected');
     rowElement('2').removeAttribute('data-batch-selected');
-    invokeContextMenu('2');
+    openMenu('2');
 
     expect(visibleScopes('2')).toEqual(['single', 'single']);
   });

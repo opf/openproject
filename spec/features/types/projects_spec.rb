@@ -307,6 +307,22 @@ RSpec.describe "Work package type projects tab", :js do
       find("[role='menuitem']", text: label, visible: :visible).click
     end
 
+    it "acts on the selection from a selected row's kebab, and on the row alone once it left the selection" do
+      visit edit_type_projects_path(type_id: type.id)
+
+      toggle(on_base)
+      toggle(on_hardware)
+      within(row(on_hardware)) { click_button accessible_name: "More" }
+
+      expect(page).to have_css("[role='menuitem']", text: "Remove type from these projects", visible: :visible)
+
+      row(on_base).click(x: 6, y: 6, offset: :position)
+      within(row(on_hardware)) { click_button accessible_name: "More" }
+
+      expect(page).to have_css("[role='menuitem']", text: "Remove type from this project", visible: :visible)
+      expect(page).to have_no_css("[role='menuitem']", text: "Remove type from these projects", visible: :visible)
+    end
+
     it "switches the selected projects to another variant" do
       visit edit_type_projects_path(type_id: type.id)
 

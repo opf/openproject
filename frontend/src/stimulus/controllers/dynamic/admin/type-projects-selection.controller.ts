@@ -47,28 +47,19 @@ export default class TypeProjectsSelectionController extends Controller<HTMLElem
   declare readonly removeUrlValue:string;
 
   connect():void {
-    this.element.addEventListener('contextual-action-menu:beforeOpen', this.onContextMenu);
-    this.element.addEventListener('click', this.onClick);
+    this.element.addEventListener('beforetoggle', this.onMenuToggle, true);
   }
 
   disconnect():void {
-    this.element.removeEventListener('contextual-action-menu:beforeOpen', this.onContextMenu);
-    this.element.removeEventListener('click', this.onClick);
+    this.element.removeEventListener('beforetoggle', this.onMenuToggle, true);
   }
 
-  private readonly onContextMenu = (event:Event):void => {
-    if (event.target instanceof Element) {
+  // Every opening of a row menu, from the kebab or a right-click, passes through its popover:
+  // Primer stops the kebab's click from bubbling, and the selection may have changed since the
+  // last opening. Toggle events do not bubble, hence the capture phase.
+  private readonly onMenuToggle = (event:Event):void => {
+    if ((event as ToggleEvent).newState === 'open' && event.target instanceof Element) {
       this.scopeMenuOf(event.target);
-    }
-  };
-
-  private readonly onClick = (event:MouseEvent):void => {
-    const invoker = event.target instanceof Element
-      ? event.target.closest('action-menu [aria-haspopup="true"]')
-      : null;
-
-    if (invoker) {
-      this.scopeMenuOf(invoker);
     }
   };
 
