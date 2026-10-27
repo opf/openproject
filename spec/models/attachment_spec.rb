@@ -432,6 +432,16 @@ RSpec.describe Attachment do
     end
   end
 
+  describe "#incomplete_import?" do
+    it "is true only for imports waiting for or missing their file" do
+      incomplete_statuses = described_class.statuses.keys.select do |status|
+        described_class.new(status:).incomplete_import?
+      end
+
+      expect(incomplete_statuses).to contain_exactly("import_prepared", "import_failed")
+    end
+  end
+
   describe "virus scan job on commit" do
     shared_let(:work_package) { create(:work_package) }
     let(:created_attachment) do
@@ -506,6 +516,16 @@ RSpec.describe Attachment do
 
       context "on update" do
         it_behaves_like "does not run extraction"
+      end
+
+      context "on create of a pending import" do
+        it "does not run extraction" do
+          allow(Attachments::ExtractFulltextJob).to receive(:perform_later)
+
+          create(:attachment, :pending_import, author:, container:)
+
+          expect(Attachments::ExtractFulltextJob).not_to have_received(:perform_later)
+        end
       end
     end
 

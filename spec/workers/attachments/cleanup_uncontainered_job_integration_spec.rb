@@ -67,6 +67,21 @@ RSpec.describe Attachments::CleanupUncontaineredJob, type: :job do
       .to contain_exactly(containered_attachment, new_uncontainered_attachment, finished_upload, new_pending_upload)
   end
 
+  context "with incomplete imports" do
+    let!(:old_import_prepared) do
+      create(:attachment, :pending_import, created_at: grace_period.minutes.ago)
+    end
+    let!(:old_import_failed) do
+      create(:attachment, :failed_import, created_at: grace_period.minutes.ago)
+    end
+
+    it "keeps them regardless of age" do
+      job.perform
+
+      expect(Attachment.all).to include(old_import_prepared, old_import_failed)
+    end
+  end
+
   it "removes the staged direct uploads of the removed pending uploads only", :with_direct_uploads do
     stage_direct_upload(old_pending_upload)
     stage_direct_upload(new_pending_upload)
