@@ -16,7 +16,7 @@
   "devDependencies": {
     "@eslint/json": "^2.1.1",
     "@herb-tools/linter": "^0.11.0",
-    "@redocly/cli": "^2.53.3",
+    "@redocly/cli": "^2.62.1",
     "eslint": "^10.11.0"
   },
   "dependencies": {
