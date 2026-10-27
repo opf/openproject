@@ -2829,6 +2829,9 @@ en:
           all: "All projects"
           with_project_specific_values: "With project-specific values"
         types_column: "Displayed in type"
+        values_empty_state:
+          description: "Add values to this custom field to choose which of them are available in this project."
+          title: "This custom field has no values yet"
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
