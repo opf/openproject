@@ -47,7 +47,9 @@ module OpenProject::WebPush
     def self.hosts = new.hosts
 
     def hosts
-      known = KNOWN_SERVICES.map { |service, sample| stored_hosts.find { under?(it, service) } || sample }
+      known = KNOWN_SERVICES.flat_map do |service, sample|
+        stored_hosts.select { under?(it, service) }.presence || [sample]
+      end
       known + stored_hosts.reject { |host| KNOWN_SERVICES.each_key.any? { under?(host, it) } }
     end
 

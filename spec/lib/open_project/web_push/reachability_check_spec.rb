@@ -126,6 +126,21 @@ RSpec.describe OpenProject::WebPush::ReachabilityCheck do
     end
   end
 
+  context "with subscriptions on two regional Windows push hosts" do
+    before do
+      create(:push_subscription, endpoint: "https://wns2-db5p.notify.windows.com/w/?token=abc")
+      create(:push_subscription, endpoint: "https://wns2-am3p.notify.windows.com/w/?token=def")
+    end
+
+    it "probes every stored host in place of the sample" do
+      expect(results.map(&:host)).to eq(%w[fcm.googleapis.com
+                                           updates.push.services.mozilla.com
+                                           web.push.apple.com
+                                           wns2-am3p.notify.windows.com
+                                           wns2-db5p.notify.windows.com])
+    end
+  end
+
   context "with a stored subscription endpoint at an unknown service" do
     before { create(:push_subscription, endpoint: "https://push.example.org/sub/abc") }
 
