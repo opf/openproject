@@ -46,7 +46,7 @@
     "@typescript-eslint/eslint-plugin": "8.71.2",
     "@typescript-eslint/parser": "8.71.2",
     "@vitest/browser-playwright": "^5.0.0",
-    "@vitest/coverage-v8": "^5.0.0",
+    "@vitest/coverage-v8": "^5.0.5",
     "@vitest/eslint-plugin": "^1.6.27",
     "angular-eslint": "^22.6.0",
     "browserslist": "^4.28.8",
