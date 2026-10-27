@@ -27,7 +27,7 @@
 
 import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { screen } from '@testing-library/dom';
+import { screen, waitFor } from '@testing-library/dom';
 import { PrimerIconButtonComponent } from './icon-button.component';
 
 describe('PrimerIconButtonComponent', () => {
@@ -126,5 +126,20 @@ describe('PrimerIconButtonComponent', () => {
 
     expect(button).toHaveAccessibleName('Star');
     expect(button).toHaveAccessibleDescription('Add to favorites');
+  });
+
+  it('follows a buttonId change', async () => {
+    fixture.componentRef.setInput('icon', 'star');
+    fixture.componentRef.setInput('label', 'Star');
+    fixture.componentRef.setInput('buttonId', 'first-id');
+    await fixture.whenStable();
+
+    fixture.componentRef.setInput('buttonId', 'second-id');
+    await fixture.whenStable();
+
+    await waitFor(() => {
+      expect(screen.getByRole('button').id).toBe('second-id');
+      expect(fixture.nativeElement.querySelector('tool-tip')).toHaveAttribute('for', 'second-id');
+    });
   });
 });
