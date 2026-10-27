@@ -34,8 +34,7 @@ class CopyProjectJob < ApplicationJob
 
   queue_with_priority :above_normal
 
-  # Again error handling pushing the branch costs up
-  def perform(target_project_params:, associations_to_copy:, skip_custom_field_validation: false, send_mails: false, **) # rubocop:disable Metrics/AbcSize
+  def perform(target_project_params:, associations_to_copy:, skip_custom_field_validation: false, send_mails: false, **)
     User.current = user
     target_project_params = target_project_params.with_indifferent_access
 
@@ -159,7 +158,7 @@ class CopyProjectJob < ApplicationJob
                  "'#{source_project.id}' : #{e.message} #{e.backtrace.join("\n")}")
     raise e
   ensure
-    if errors.any?
+    if errors.present?
       logger.error("Encountered an errors while trying to copy related objects for " \
                    "project '#{source_project.id}': #{errors.inspect}")
     end
