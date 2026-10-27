@@ -251,6 +251,29 @@ describe('AiTextTransformPaneController', () => {
       expect(pane()).toBeInTheDocument();
     });
 
+    it('keeps the pane while the close request succeeds', () => {
+      ctx.appendHTML(`<form id="${CLOSE_FORM_ID}"></form>`);
+      const form = document.getElementById(CLOSE_FORM_ID) as HTMLFormElement;
+      vi.spyOn(form, 'requestSubmit').mockImplementation(() => undefined);
+
+      pressEscape();
+      form.dispatchEvent(new CustomEvent('turbo:submit-end', { detail: { success: true } }));
+
+      expect(pane()).toBeInTheDocument();
+    });
+
+    it('removes the pane when the close request fails', () => {
+      ctx.appendHTML(`<form id="${CLOSE_FORM_ID}"></form>`);
+      const form = document.getElementById(CLOSE_FORM_ID) as HTMLFormElement;
+      vi.spyOn(form, 'requestSubmit').mockImplementation(() => undefined);
+      const removedPane = pane();
+
+      pressEscape();
+      form.dispatchEvent(new CustomEvent('turbo:submit-end', { detail: { success: false } }));
+
+      expect(removedPane).not.toBeInTheDocument();
+    });
+
     it('does not let Escape reach surrounding dialogs', () => {
       const outerListener = vi.fn();
       ctx.container.addEventListener('keydown', outerListener);
