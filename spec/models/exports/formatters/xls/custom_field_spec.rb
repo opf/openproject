@@ -117,6 +117,44 @@ RSpec.describe Exports::Formatters::XLS::CustomField do
     end
   end
 
+  describe "a calculated value custom field, which only projects have", with_ee: %i[calculated_values] do
+    let(:calculated_cf) { create(:calculated_value_project_custom_field) }
+
+    let(:project) do
+      build_stubbed(:project) do |p|
+        allow(p).to receive(:available_custom_fields).and_return([calculated_cf])
+        allow(p).to receive(:typed_custom_value_for).with(calculated_cf).and_return(4.0)
+      end
+    end
+
+    it "keeps the computed number a float and formats it with two decimals" do
+      formatter = described_class.new(calculated_cf.column_name)
+
+      expect(formatter.format(project)).to eq(4.0)
+      expect(formatter.format_options).to eq({ number_format: "0.00" })
+    end
+  end
+
+  describe "a multi-value custom field in a typed format" do
+    shared_let(:multi_int_cf) do
+      create(:integer_wp_custom_field).tap { |cf| cf.update_column(:multi_value, true) }
+    end
+
+    let(:work_package) do
+      build_stubbed(:work_package) do |wp|
+        allow(wp).to receive(:available_custom_fields).and_return([multi_int_cf])
+        allow(wp).to receive(:formatted_custom_value_for).with(multi_int_cf).and_return("1, 2")
+      end
+    end
+
+    it "leaves it to the generic formatter, a list of values not being one cell" do
+      formatter = described_class.new(multi_int_cf.column_name)
+
+      expect(formatter.format(work_package)).to eq("1, 2")
+      expect(formatter.format_options).to eq({})
+    end
+  end
+
   describe "a custom field that is not available on the record" do
     let(:elsewhere_cf) { create(:date_wp_custom_field) }
     let(:work_package) do
