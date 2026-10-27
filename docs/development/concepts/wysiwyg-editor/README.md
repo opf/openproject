@@ -7,7 +7,7 @@ keywords: WYSIWYG, CKEditor, Markdown, editor, mentions
 
 # Development concept: WYSIWYG editor
 
-OpenProject uses the CKEditor 5 WYSIWYG editor. CKEditor is a WYSIWYG framework with a lot of functionality and great flexibility (custom builds, plugins...). All the OpenProject code related to CKEditor is hosted in a separate [repository](https://github.com/opf/commonmark-ckeditor-build).
+OpenProject uses the CKEditor 5 WYSIWYG editor. CKEditor is a WYSIWYG framework with a lot of functionality and great flexibility (custom builds, plugins...). OpenProject's custom CKEditor build and plugins are maintained in [opf/commonmark-ckeditor-build](https://github.com/opf/commonmark-ckeditor-build).
 
 CKEditor is used in OpenProject as an input for string fields that require formatting, for example the description of a task, a comment or a wiki page. The collaborative editor of the _Documents_ module is a separate editor based on [BlockNote](https://www.blocknotejs.org/) and is not covered here.
 
