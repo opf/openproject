@@ -51,6 +51,14 @@ pre-commit:
         else
           echo "warning: yamllint is not installed, skipping" >&2
         fi
+    typos:
+      files: git diff --name-only --staged --diff-filter=ACMR
+      run: |
+        if command -v typos > /dev/null 2>&1; then
+          typos --force-exclude --format brief -- {files}
+        else
+          echo "warning: typos is not installed, skipping (https://github.com/crate-ci/typos#install)" >&2
+        fi
 
 # Autofix counterpart of the pre-commit checks. Run explicitly:
 #
@@ -63,7 +71,7 @@ pre-commit:
 #     # fix all files in the repository
 #     lefthook run fix --all-files
 fix:
-  parallel: true
+  parallel: false
   commands:
     eslint:
       root: "frontend/"
@@ -93,3 +101,11 @@ fix:
         - "modules/*/config/locales/en.yml"
         - "modules/*/config/locales/js-en.yml"
       run: script/order_yaml -i {files}
+    typos:
+      files: git diff --name-only --staged --diff-filter=ACMR
+      run: |
+        if command -v typos > /dev/null 2>&1; then
+          typos --force-exclude --write-changes -- {files}
+        else
+          echo "warning: typos is not installed, skipping (https://github.com/crate-ci/typos#install)" >&2
+        fi

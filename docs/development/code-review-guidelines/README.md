@@ -21,6 +21,16 @@ at [Lefthook](https://github.com/evilmartians/lefthook). You can install these r
 are several options on how to install `lefthook` on your system, including using `brew`, `apt`, `bundle`, or `npm`. For
 example, one can add a `Gemfile.local` and thus the `lefthook` to the bundle.
 
+For spelling checks, also install [typos](https://github.com/crate-ci/typos#install).
+The pre-commit hook checks the full contents of staged files using the same
+`typos.toml` dictionary and exclusions as CI. If `typos` is not installed, the
+hook prints a warning and skips the check.
+
+Run only the spelling check with `lefthook run pre-commit --command typos`.
+To apply spelling fixes explicitly, run `lefthook run fix --command typos`,
+then review and stage the changes. The check does not modify files, and the
+fix command does not stage changes automatically.
+
 ### Structure of commit messages
 
 - First line: less than 72 characters, this is when GitHub shows ‘…’
