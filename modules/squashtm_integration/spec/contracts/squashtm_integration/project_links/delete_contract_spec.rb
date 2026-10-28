@@ -43,7 +43,7 @@ RSpec.describe SquashTMIntegration::ProjectLinks::DeleteContract do
   end
 
   context "without that permission" do
-    let(:permissions) { %i[] }
+    let(:permissions) { %i[view_squashtm_test_results] }
 
     it "is invalid" do
       expect(contract).not_to be_valid

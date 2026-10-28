@@ -45,5 +45,19 @@ Rails.application.routes.draw do
         get :destroy_dialog
       end
     end
+
+    resources :work_packages, only: %i[] do
+      resource :squashtm_requirement_link,
+               controller: "squashtm_integration/work_package_requirement_links",
+               only: %i[update destroy] do
+        get :destroy_dialog
+      end
+
+      resources :squashtm, only: %i[] do
+        collection do
+          resources :tab, only: %i[index], controller: "work_package_squashtm_tab", as: "squashtm_tab"
+        end
+      end
+    end
   end
 end
