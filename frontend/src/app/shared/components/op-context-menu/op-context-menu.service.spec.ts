@@ -133,6 +133,33 @@ describe('OPContextMenuService', () => {
     expect(service.active).toBe(menu);
   });
 
+  const focusedItem = () => waitFor(() => {
+    const element = overlay().querySelector<HTMLElement>('.menu-item')!;
+    expect(element).toHaveFocus();
+    return element;
+  });
+
+  it('keeps the native menu for a right-click on an item', async () => {
+    open();
+    const item = await focusedItem();
+
+    fireEvent.pointerDown(item, { button: 2 });
+
+    expect(fireEvent.contextMenu(item)).toBe(true);
+  });
+
+  it('prevents the native menu again once a menu reopens after a right-click', async () => {
+    open();
+    const item = await focusedItem();
+    fireEvent.pointerDown(item, { button: 2 });
+    fireEvent.contextMenu(item);
+
+    open();
+    const reopened = await focusedItem();
+
+    expect(fireEvent.contextMenu(reopened)).toBe(false);
+  });
+
   describe('close reason', () => {
     const openAndSpy = async () => {
       const menu = open();

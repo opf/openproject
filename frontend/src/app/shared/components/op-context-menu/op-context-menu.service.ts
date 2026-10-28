@@ -54,6 +54,8 @@ export class OPContextMenuService {
   private isOpening = false;
   private openSeq = 0;
 
+  private pointerPressedInMenu = false;
+
   public register() {
     const existing = document.querySelector('.op-context-menu--overlay');
     existing?.remove();
@@ -61,7 +63,11 @@ export class OPContextMenuService {
     const hostElement = this.portalHostElement = document.createElement('div');
     hostElement.classList.add('op-context-menu--overlay');
     document.body.appendChild(hostElement);
-    hostElement.addEventListener('contextmenu', (evt) => evt.preventDefault());
+    hostElement.addEventListener('pointerdown', () => { this.pointerPressedInMenu = true; });
+    // Keyboard requests also fire a native contextmenu at the menu item that just took focus.
+    hostElement.addEventListener('contextmenu', (evt) => {
+      if (!this.pointerPressedInMenu) evt.preventDefault();
+    });
 
     this.bodyPortalHost = new DomPortalOutlet(
       hostElement,
@@ -108,6 +114,7 @@ export class OPContextMenuService {
   public show(menu:OpContextMenuHandler, event:Event, component:ComponentType<unknown> = OPContextMenuComponent):void {
     this.close();
     this.isOpening = true;
+    this.pointerPressedInMenu = false;
     const seq = this.openSeq += 1;
 
     // Create and attach portal
