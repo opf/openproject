@@ -83,9 +83,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
 
   def export_work_packages
     work_packages = query.results.work_packages
-    association = WorkPackage.reflect_on_association(
-      Queries::WorkPackages::StoredNames.stored_select(query.group_by)
-    )
+    association = WorkPackage.reflect_on_association(query[:group_by])
     association&.collection? ? work_packages.preload(association.name) : work_packages
   end
 
