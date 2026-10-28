@@ -41,7 +41,7 @@ module Grids
         t(".title")
       end
 
-      def members_by_role
+      def members_by_role # rubocop:disable Metrics/AbcSize
         # Sanity check: If we can't view members, we can return immediatly.
         # This way we don't need to check if current_user is allowed to view_members
         # multiple times.
