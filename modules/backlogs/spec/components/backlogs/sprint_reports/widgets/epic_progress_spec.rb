@@ -101,6 +101,26 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress, type: :component,
     end
   end
 
+  context "when a work package in the sprint belongs to a sub-epic" do
+    let!(:parent_epic) { create(:work_package, type: epic_type, project:, subject: "Parent epic") }
+    let!(:sub_epic) { create(:work_package, type: epic_type, project:, parent: parent_epic, subject: "Sub-epic") }
+    let!(:story) { create(:work_package, type: task_type, project:, parent: sub_epic, sprint:) }
+
+    it "shows only the nearest epic" do
+      expect(rendered_component).to have_css(".op-work-package-card", text: "Sub-epic")
+      expect(rendered_component).to have_no_css(".op-work-package-card", text: "Parent epic")
+    end
+
+    context "when the parent epic also has work of its own in the sprint" do
+      let!(:parent_epic_story) { create(:work_package, type: task_type, project:, parent: parent_epic, sprint:) }
+
+      it "shows both epics" do
+        expect(rendered_component).to have_css(".op-work-package-card", text: "Sub-epic")
+        expect(rendered_component).to have_css(".op-work-package-card", text: "Parent epic")
+      end
+    end
+  end
+
   context "when a work package epic ancestor belongs to a different project" do
     let(:other_project) { create(:project, types: [epic_type]) }
     let(:user) do
@@ -166,6 +186,25 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress, type: :component,
       end
     end
 
+    context "when work packages of two unrelated epics were in the sprint" do
+      let!(:epic_b) do
+        create(:work_package, :created_in_past, type: epic_type, project:, subject: "Second epic",
+                                                created_at: before_completion - 1.day)
+      end
+
+      before do
+        [epic_a, epic_b].each do |parent|
+          create(:work_package, :created_in_past, type: task_type, project:, sprint:, parent:,
+                                                  created_at: before_completion)
+        end
+      end
+
+      it "shows both epics" do
+        expect(rendered_component).to have_css(".op-work-package-card", text: epic_a.subject)
+        expect(rendered_component).to have_css(".op-work-package-card", text: "Second epic")
+      end
+    end
+
     context "when a work package that was in the sprint has since been deleted" do
       let!(:story) do
         create(:work_package, :created_in_past, type: task_type, project:, sprint:, parent: epic_a,
@@ -176,6 +215,34 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress, type: :component,
 
       it "drops all record of it, even from this now-frozen report" do
         expect(rendered_component).to have_no_text(epic_a.subject)
+      end
+    end
+
+    context "when a work package in the sprint belonged to a sub-epic" do
+      let!(:sub_epic) do
+        create(:work_package, :created_in_past, type: epic_type, project:, parent: epic_a, subject: "Sub-epic",
+                                                created_at: before_completion)
+      end
+      let!(:story) do
+        create(:work_package, :created_in_past, type: task_type, project:, sprint:, parent: sub_epic,
+                                                created_at: before_completion)
+      end
+
+      it "shows only the nearest epic" do
+        expect(rendered_component).to have_css(".op-work-package-card", text: "Sub-epic")
+        expect(rendered_component).to have_no_css(".op-work-package-card", text: epic_a.subject)
+      end
+
+      context "when the parent epic also had work of its own in the sprint" do
+        let!(:parent_epic_story) do
+          create(:work_package, :created_in_past, type: task_type, project:, sprint:, parent: epic_a,
+                                                  created_at: before_completion)
+        end
+
+        it "shows both epics" do
+          expect(rendered_component).to have_css(".op-work-package-card", text: "Sub-epic")
+          expect(rendered_component).to have_css(".op-work-package-card", text: epic_a.subject)
+        end
       end
     end
   end

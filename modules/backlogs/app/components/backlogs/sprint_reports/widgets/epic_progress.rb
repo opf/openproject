@@ -55,7 +55,7 @@ module Backlogs
           @relevant_epics ||= begin
             epic_ids = historic? ? historic_relevant_epic_ids : live_relevant_epic_ids
 
-            work_packages_at_report_time.where(id: epic_ids, type_id: epic_type_id).visible(current_user).order(:subject)
+            work_packages_at_report_time.where(id: epic_ids).visible(current_user).order(:subject)
           end
         end
 
@@ -71,26 +71,33 @@ module Backlogs
 
         def live_relevant_epic_ids
           WorkPackageHierarchy
-            .where(descendant_id: work_packages_in_sprint.select(:id))
-            .select(:ancestor_id)
+            .joins("INNER JOIN work_packages ancestors ON ancestors.id = work_package_hierarchies.ancestor_id")
+            .where(descendant_id: work_packages_in_sprint.select(:id), ancestors: { type_id: epic_type_id })
+            .select("DISTINCT ON (work_package_hierarchies.descendant_id) work_package_hierarchies.ancestor_id")
+            .order(:descendant_id, :generations)
         end
 
         def historic_relevant_epic_ids
-          work_package_ids = work_packages_in_sprint.pluck(:id)
+          epic_ids = Set.new
+          visited = Set.new
+          current = work_packages_in_sprint.pluck(:id)
 
-          work_package_ids | historic_ancestor_ids(work_package_ids)
-        end
+          until current.empty?
+            visited.merge(current)
+            found_epic_ids, parent_ids = historic_epics_and_parents(current)
 
-        def historic_ancestor_ids(ids)
-          found = Set.new
-          parents = ids
-
-          until parents.empty?
-            parents = work_packages_at_report_time.where(id: parents).pluck(:parent_id).compact.uniq - found.to_a
-            found.merge(parents)
+            epic_ids.merge(found_epic_ids)
+            current = parent_ids - visited.to_a
           end
 
-          found.to_a
+          epic_ids.to_a
+        end
+
+        def historic_epics_and_parents(ids)
+          rows = work_packages_at_report_time.where(id: ids).pluck(:id, :type_id, :parent_id)
+          epics, others = rows.partition { |_id, type_id, _parent_id| type_id == epic_type_id }
+
+          [epics.map(&:first), others.filter_map(&:last).uniq]
         end
       end
     end

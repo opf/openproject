@@ -131,6 +131,19 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :comp
     end
   end
 
+  context "when the epic contains sub-epics" do
+    let!(:story) { create(:work_package, type: task_type, project:, parent: epic) }
+    let!(:direct_sub_epic) { create(:work_package, type: epic_type, project:, parent: epic) }
+    let!(:direct_sub_epic_story) { create(:work_package, type: task_type, project:, parent: direct_sub_epic) }
+    let!(:feature) { create(:work_package, type: task_type, project:, parent: epic) }
+    let!(:nested_sub_epic) { create(:work_package, type: epic_type, project:, parent: feature) }
+    let!(:nested_sub_epic_story) { create(:work_package, type: task_type, project:, parent: nested_sub_epic) }
+
+    it "excludes the sub-epics and everything below them" do
+      expect(rendered_component).to have_text("0 / 2 work packages")
+    end
+  end
+
   context "when the sprint is completed" do
     let(:before_completion) { 3.days.ago }
     let(:completed_at) { 2.days.ago }
@@ -197,6 +210,25 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :comp
 
       it "counts the visible descendant only" do
         expect(rendered_component).to have_text("0 / 1 work package")
+      end
+    end
+
+    context "when the epic contains sub-epics" do
+      def create_in_past(type:, parent:)
+        create(:work_package, :created_in_past, type:, project:, parent:, created_at: before_completion)
+      end
+
+      before do
+        create_in_past(type: task_type, parent: epic)
+        direct_sub_epic = create_in_past(type: epic_type, parent: epic)
+        create_in_past(type: task_type, parent: direct_sub_epic)
+        feature = create_in_past(type: task_type, parent: epic)
+        nested_sub_epic = create_in_past(type: epic_type, parent: feature)
+        create_in_past(type: task_type, parent: nested_sub_epic)
+      end
+
+      it "excludes the sub-epics and everything below them" do
+        expect(rendered_component).to have_text("0 / 2 work packages")
       end
     end
   end

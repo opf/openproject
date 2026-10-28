@@ -64,8 +64,14 @@ module Backlogs
               if historic?
                 work_packages_at_report_time.where(id: historic_descendant_ids([epic.id])).visible(current_user)
               else
-                epic.descendants.visible(current_user)
+                epic.descendants.where.not(id: sub_epic_subtree_ids).visible(current_user)
               end
+          end
+
+          def sub_epic_subtree_ids
+            sub_epic_ids = epic.descendants.where(type_id: epic.type_id).select(:id)
+
+            WorkPackageHierarchy.where(ancestor_id: sub_epic_ids).select(:descendant_id)
           end
 
           def resolved_work_packages_count
@@ -81,7 +87,10 @@ module Backlogs
             children = ids
 
             until children.empty?
-              children = work_packages_at_report_time.where(parent_id: children).pluck(:id).to_set - found
+              children = work_packages_at_report_time
+                           .where(parent_id: children)
+                           .where.not(type_id: epic.type_id)
+                           .pluck(:id).to_set - found
               found.merge(children)
             end
 
