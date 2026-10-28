@@ -55,12 +55,6 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   include WorkPackage::PDFExport::Report::TableOfContents
   include WorkPackage::PDFExport::Report::Attributes
 
-  VERSION_GROUP_ASSOCIATIONS = {
-    "version" => :target_versions,
-    "target_versions" => :target_versions,
-    "observed_in_versions" => :observed_in_versions
-  }.freeze
-
   attr_accessor :pdf,
                 :options
 
@@ -89,8 +83,10 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
 
   def export_work_packages
     work_packages = query.results.work_packages
-    association = VERSION_GROUP_ASSOCIATIONS[query.group_by]
-    association ? work_packages.preload(association) : work_packages
+    association = WorkPackage.reflect_on_association(
+      Queries::WorkPackages::StoredNames.stored_select(query.group_by)
+    )
+    association&.collection? ? work_packages.preload(association.name) : work_packages
   end
 
   def export!
