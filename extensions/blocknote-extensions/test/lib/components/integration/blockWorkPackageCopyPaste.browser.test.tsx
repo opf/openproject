@@ -37,7 +37,7 @@ describe('Block card - paste placement', () => {
 
     await userEvent.keyboard('HERE');
 
-    await expect.element(textbox).toHaveTextContent(/before[\s\S]*#123[\s\S]*HERE/);
+    await expect.element(textbox).toMatchTextContent(/before[\s\S]*#123[\s\S]*HERE/);
     expect(editor.document.map((block) => block.type)).toEqual([
       'paragraph',
       'openProjectWorkPackageBlock',
@@ -58,7 +58,7 @@ describe('Block card - paste placement', () => {
 
     await userEvent.keyboard('HERE');
 
-    await expect.element(textbox).toHaveTextContent(/before[\s\S]*#123[\s\S]*HERE/);
+    await expect.element(textbox).toMatchTextContent(/before[\s\S]*#123[\s\S]*HERE/);
   });
 
   it('keeps the size of the copied card', async () => {

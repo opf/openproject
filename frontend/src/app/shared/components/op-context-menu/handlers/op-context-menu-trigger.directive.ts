@@ -73,7 +73,7 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
     });
   }
 
-  public computePosition(floating:HTMLElement, openerEvent:Event):Promise<ComputePositionReturn> {
+  public computePosition(floating:HTMLElement, _openerEvent:Event):Promise<ComputePositionReturn> {
     return computePosition(this.element, floating, {
       placement: this.placement,
       middleware: [

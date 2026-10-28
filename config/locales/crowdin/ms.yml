@@ -2654,6 +2654,9 @@ ms:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -2677,11 +2680,6 @@ ms:
     calculated_field_not_editable: Non-editable attribute. This value is calculated automatically.
     confirm_destroy_option: Padamkan satu pilihan akan memadamkan semua kejadian yang berkaitan dengannya (cth. dalam pakej kerja). Adakah anda pasti anda ingin memadamkannya?
     contained_in_type: Terkandung dalam jenis
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: Diaktifkan dalam projek
     instructions:
       admin_only:
@@ -2732,10 +2730,17 @@ ms:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: Susun semula nilai mengikut abjad
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
@@ -5270,6 +5275,14 @@ ms:
     welcome: Selamat datang ke %{app_title}
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: must be an array.
       decimal?: must be a decimal.
       defined: must not be defined.
@@ -5277,6 +5290,7 @@ ms:
       filled?: mesti diisi.
       format?: is in invalid format.
       greater_or_equal_zero: mestilah lebih besar atau sama dengan 0.
+      gt?: must be greater than %{num}.
       gteq?: must be greater than or equal to %{num}.
       hash?: must be a hash.
       included_in?:
@@ -5285,6 +5299,7 @@ ms:
           range: 'must be one of: %{list_left} - %{list_right}.'
       int?: mestilah integer.
       key?: is missing.
+      max_size?: must not be longer than %{num} characters.
       not_found: tidak dijumpai.
       respond_to?: does not implement required method.
       rules:
@@ -5304,6 +5319,7 @@ ms:
       type?: must be %{type}.
       unexpected_key: is not allowed.
       uri?: is not a valid URI.
+      uuid_v4?: must be a UUID (version 4).
     or: atau
     rules:
       blueprint: Pattern blueprint
@@ -5459,13 +5475,19 @@ ms:
     '
   permission_manage_placeholder_user: Cipta, edit, dan buang pengguna placeholder
   permission_manage_project_activities: Urus aktiviti projek
-  permission_manage_project_variants: Manage the project's own type variants
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: Urus pertanyaan BCF awam
   permission_manage_public_project_queries: Uruskan senarai projek awam
   permission_manage_public_queries: Uruskan paparan umum
   permission_manage_repository: Urus repositori
   permission_manage_subtasks: Urus hierarki pakej kerja
   permission_manage_types: Pilih jenis
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: Edit pengguna
   permission_manage_versions: Urus versi
   permission_manage_wiki: Urus wiki
@@ -6688,6 +6710,7 @@ ms:
     '
   text_form_configuration_required_attribute: Atribut ditandakan sebagai diperlukan dan dengan itu sentiasa dipaparkan
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Markdown
     plain: Teks biasa
   text_git_repo_example: repositori kosong dan lokal (cth. /gitrepo, c:\gitrepo)
@@ -7075,6 +7098,9 @@ ms:
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: Projek-projek
         variant_column: Variant or type
       reuse_mode:

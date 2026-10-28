@@ -104,7 +104,7 @@ module API
 
             namespace :cancel do
               post do
-                @run.update!(cancel_requested: true) unless @run.terminal?
+                @run.request_cancel!
 
                 status 204
               end

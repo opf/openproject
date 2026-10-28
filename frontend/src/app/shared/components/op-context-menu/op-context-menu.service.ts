@@ -76,19 +76,18 @@ export class OPContextMenuService {
       return true;
     });
 
-    const that = this;
     const wrapper = document.getElementById('wrapper');
     if (wrapper) {
       // Listen to any click and close the active context menu
       wrapper.addEventListener('click', (evt:Event) => {
-        if (that.active && !that.portalHostElement.contains(evt.target as Element)) {
-          that.close();
+        if (this.active && !this.portalHostElement.contains(evt.target as Element)) {
+          this.close();
         }
       });
       // Listen if it scrolles then close the active context menu
       wrapper.addEventListener('scroll', (evt:Event) => {
-        if (that.active && !that.portalHostElement.contains(evt.target as Element)) {
-          that.close();
+        if (this.active && !this.portalHostElement.contains(evt.target as Element)) {
+          this.close();
         }
       }, true);
     }
