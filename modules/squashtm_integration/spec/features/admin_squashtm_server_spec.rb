@@ -79,7 +79,11 @@ RSpec.describe "SquashTM server administration", :js do
     end
 
     it "shows that the server is linked instead of the form" do
-      expect(page).to have_test_selector("squashtm-server--linked", text: "https://squashtm.example.com/squash")
+      within_test_selector("squashtm-server--linked") do
+        expect(page).to have_text("OpenProject is linked to the SquashTM server at https://squashtm.example.com/squash.")
+        expect(page).to have_link("https://squashtm.example.com/squash", href: "https://squashtm.example.com/squash")
+        expect(find_link("https://squashtm.example.com/squash")[:target]).to eq("_blank")
+      end
       expect(page).to have_no_field("SquashTM URL")
       expect(page).to have_no_field("API token")
       expect(page).to have_test_selector("squashtm-server--test-connection")

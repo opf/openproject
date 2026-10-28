@@ -47,6 +47,8 @@ module SquashTMIntegration
       errors.add(:base_url, :cannot_be_connected_to)
     rescue Client::AuthenticationError
       errors.add(:api_token, :rejected)
+    rescue Client::ServerError => e
+      errors.add(:base_url, :server_error, status: e.status)
     rescue Client::ResponseError
       errors.add(:base_url, :not_squashtm)
     end
