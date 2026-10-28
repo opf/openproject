@@ -44,17 +44,20 @@ See COPYRIGHT and LICENSE files for more details.
           flex.with_column(flex: 1, mr: 3) do
             render(
               Primer::Beta::ProgressBar.new(
-                size: :large
+                size: :large,
+                role: "progressbar",
+                aria: {
+                  valuenow: resolved_percentage, valuemin: 0, valuemax: 100,
+                  label: t(".closed_work_packages"),
+                  valuetext: resolved_summary_text
+                }
               )
             ) do |bar|
-              bar.with_item(
-                percentage: resolved_percentage,
-                aria: { label: t(".closed_work_packages") }
-              )
+              bar.with_item(percentage: resolved_percentage)
             end
           end
 
-          flex.with_column(mr: 3) do
+          flex.with_column(mr: 3, aria: { hidden: true }) do
             render(Primer::Beta::Text.new(tag: :div, font_size: :small)) do
               resolved_summary_text
             end

@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   render(OpenProject::Common::WorkPackageCardComponent.new(work_package: epic)) do |card|
     card.with_additional_details do
       flex_layout do |flex|
-        flex.with_row(mb: 1) do
+        flex.with_row(mb: 1, aria: { hidden: true }) do
           flex_layout(justify_content: :space_between) do |row|
             row.with_column do
               render(Primer::Beta::Text.new) do
@@ -46,9 +46,8 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
         flex.with_row do
-          render(Primer::Beta::ProgressBar.new) do |bar|
-            bar.with_item(
-              percentage: resolved_percentage,
+          render(
+            Primer::Beta::ProgressBar.new(
               role: "progressbar",
               aria: {
                 valuenow: resolved_percentage, valuemin: 0, valuemax: 100,
@@ -58,6 +57,8 @@ See COPYRIGHT and LICENSE files for more details.
                 )
               }
             )
+          ) do |bar|
+            bar.with_item(percentage: resolved_percentage)
           end
         end
       end

@@ -287,6 +287,7 @@ en:
           breakdown_block:
             blocks:
               show_all: "View all"
+              show_all_label: "View all: %{heading}"
           closed_work_packages: "Closed work packages"
           resolved_summary:
             one: "%{percentage}% (%{resolved} of %{total} work package)"
