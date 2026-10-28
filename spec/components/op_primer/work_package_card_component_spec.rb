@@ -95,7 +95,7 @@ RSpec.describe OpPrimer::WorkPackageCardComponent, type: :component do
   it "uses the work package actions label" do
     expect(rendered_component).to have_button(
       menu_button_id,
-      accessible_name: I18n.t("open_project.common.work_package_card_component.menu.label_actions")
+      accessible_name: I18n.t("op_primer.work_package_card_component.menu.label_actions")
     )
   end
 
