@@ -9,7 +9,6 @@ extend-exclude = [
   "frontend/patches/openapi-explorer+*.patch", # vendored dist bundle
   "vendor/**",
   "vendored-plugins/**",
-  "nix/**",
   "*.min.*",
   "lookbook/previews/open_project/deprecated/forms_preview/multiple_fields_per_row.html.erb", # German month names
   "publiccode.yml", # German description
