@@ -37,6 +37,7 @@ module ITSM
 
       menu_item :helpdesk
 
+      before_action :require_feature
       before_action :require_admin
 
       def show
@@ -50,6 +51,10 @@ module ITSM
 
         update_via_turbo_stream(component: ITSM::Admin::HelpdeskSettingsComponent.new(enabled:))
         respond_with_turbo_streams
+      end
+
+      def require_feature
+        render_404 unless OpenProject::FeatureDecisions.helpdesk_active?
       end
     end
   end

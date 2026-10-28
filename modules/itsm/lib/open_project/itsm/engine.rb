@@ -71,7 +71,8 @@ module OpenProject::ITSM
            { controller: "/itsm/admin/settings", action: "show" },
            caption: :label_helpdesk,
            after: :api_and_webhooks,
-           icon: :"op-life-ring"
+           icon: :"op-life-ring",
+           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.helpdesk_active? }
     end
   end
 end
