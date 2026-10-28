@@ -1,0 +1,70 @@
+---
+en:
+  activerecord:
+    attributes:
+      squashtm_integration/project_link:
+        project: "Project"
+        squashtm_project: "SquashTM project"
+      squashtm_integration/server:
+        api_token: "API token"
+        base_url: "SquashTM URL"
+      squashtm_integration/work_package_link:
+        squashtm_requirement: "SquashTM requirement"
+        work_package: "Work package"
+    errors:
+      models:
+        squashtm_integration/project_link:
+          attributes:
+            base:
+              squashtm_server_not_configured: "No SquashTM server is configured. Please contact your instance administrator."
+            project_id:
+              taken: "is already linked to a SquashTM project."
+            squashtm_project_id:
+              not_found: "does not exist or is not visible to the SquashTM account used by OpenProject."
+              squashtm_unavailable: "could not be verified because the SquashTM server is not reachable. Please try again later."
+        squashtm_integration/server:
+          attributes:
+            api_token:
+              rejected: "was rejected by the SquashTM server."
+            base:
+              singleton: "Only one SquashTM server can be configured."
+            base_url:
+              cannot_be_connected_to: "could not be reached. Please ensure the SquashTM server is running and reachable from OpenProject."
+              invalid_url: "is not a valid URL."
+              not_squashtm: "did not answer like a SquashTM server. Please check that the URL includes the SquashTM context path (for example https://squashtm.example.com/squash)."
+              request_timed_out: "did not respond in time. Please ensure the SquashTM server is reachable and not overloaded."
+              ssl_error: "could not be reached over a secure connection. Please check the SquashTM server's TLS certificate."
+              ssrf_filtered: "resolves to a blocked address. If the SquashTM server runs on an internal network, allow its IP via the %{env_name} environment variable."
+        squashtm_integration/work_package_link:
+          attributes:
+            base:
+              squashtm_project_not_linked: "This project is not linked to a SquashTM project."
+              squashtm_server_not_configured: "No SquashTM server is configured. Please contact your instance administrator."
+            squashtm_requirement_id:
+              not_found: "does not exist or is not visible to the SquashTM account used by OpenProject."
+              squashtm_unavailable: "could not be verified because the SquashTM server is not reachable. Please try again later."
+            work_package_id:
+              taken: "is already linked to a SquashTM requirement."
+  permission_manage_squashtm_integration: "Manage SquashTM integration"
+  permission_manage_squashtm_links: "Manage SquashTM requirement links"
+  permission_view_squashtm_test_results: "View SquashTM test results"
+  project_module_squashtm: "SquashTM"
+  squashtm_integration:
+    admin:
+      delete_server_dialog_component:
+        description: "Work packages will no longer show SquashTM test results until a server is configured again."
+        heading: "Delete the SquashTM server configuration?"
+        title: "Delete SquashTM server"
+      server_form:
+        api_token_caption: "A personal API token of the SquashTM account OpenProject uses. Everything this account can read in SquashTM can be shown in OpenProject."
+        api_token_caption_stored: "A token is stored. Leave this field empty to keep it, or enter a new token to replace it."
+        api_token_placeholder_stored: "••••••••"
+        base_url_caption: "The address of the SquashTM server, including its context path."
+      servers:
+        show:
+          description: "Connect OpenProject to a SquashTM server to show test cases, executions and results on work packages."
+          test_connection: "Test connection"
+        test_connection:
+          failure: "The connection to SquashTM failed: %{reason}"
+          success: "The connection to SquashTM was successful."
+      title: "SquashTM"
