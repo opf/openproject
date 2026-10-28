@@ -82,8 +82,8 @@ RSpec.describe "SquashTM server administration", :js do
 
       expect_flash(message: I18n.t(:notice_successful_update))
       expect(SquashTMIntegration::Server.sole).to have_attributes(
-                                                    base_url: "https://other.example.com/squash", api_token: "squashtm-api-token"
-                                                  )
+        base_url: "https://other.example.com/squash", api_token: "squashtm-api-token"
+      )
     end
 
     it "tests the connection" do
