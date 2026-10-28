@@ -351,7 +351,7 @@ module Pages
 
     def expect_focus_on_control(work_package, name)
       expect(find(row_selector(work_package)))
-        .to have_selector(:link_or_button, name, focused: true)
+        .to have_selector(:link_or_button, accessible_name: name, focused: true)
     end
 
     # Expects the "Create new work package" button below the results to be rendered.

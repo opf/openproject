@@ -129,10 +129,49 @@ RSpec.describe "Relation query group keyboard navigation", :js do
     wait_for_network_idle
     wp_table.expect_work_package_listed(rows.first)
 
+    expect(page).to have_element(:"tool-tip", text: "Remove child")
+    wp_table.press_keys(:escape)
+    expect(page).to have_no_element(:"tool-tip", text: "Remove child")
+    wp_table.expect_focus_on_control(rows.first, "Remove child")
+    wait_for_network_idle
+    wp_table.expect_work_package_listed(rows.first)
+
     wp_table.press_keys(:enter)
     wp_table.ensure_work_package_not_listed!(rows.first)
     wp_table.expect_work_package_listed(*rows.drop(1))
     wp_table.expect_focus_on_row(rows.second)
+  end
+
+  it "keeps repeated unlink hints distinct and working after adding a child" do
+    rows.each do |child|
+      wp_table.row(child).hover
+      expect(wp_table.row(child)).to have_selector(:link, accessible_name: "Remove child", accessible_description: "",
+                                                          exact: true)
+      expect(wp_table.row(child)).to have_link(child.id.to_s, accessible_description: "", exact: true)
+    end
+
+    wp_table.focus_row_by_keyboard(rows.first)
+    wp_table.press_keys(%i[shift space], :tab, :tab)
+    wp_table.expect_focus_on_control(rows.first, "Remove child")
+    expect(page).to have_element(:"tool-tip", text: "Remove child")
+    wp_table.press_keys(:escape)
+    expect(page).to have_no_element(:"tool-tip", text: "Remove child")
+    wp_table.expect_selected_rows(rows.first, among: rows)
+    wp_table.expect_focus_on_control(rows.first, "Remove child")
+
+    wp_table.reference_work_package(orphan)
+    wp_table.expect_work_package_listed(*rows, orphan)
+    wp_table.row(rows.first).hover
+    replacement = wp_table.row(rows.first).find(:link, accessible_name: "Remove child", exact: true)
+    replacement.hover
+    expect(page).to have_element(:"tool-tip", text: "Remove child", count: 1)
+    wp_table.press_keys(:escape)
+    expect(page).to have_no_element(:"tool-tip", text: "Remove child")
+    wait_for_network_idle
+    wp_table.expect_work_package_listed(*rows, orphan)
+
+    wp_table.row(rows.second).find(:link, rows.second.id.to_s, exact: true).click
+    Pages::FullWorkPackage.new(rows.second, project).expect_attributes(Subject: rows.second.subject)
   end
 
   it "returns focus to Add child when adding an existing child is cancelled" do
