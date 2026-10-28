@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  render(OpenProject::Common::WorkPackageCardComponent.new(work_package: epic)) do |card|
+  render(OpPrimer::WorkPackageCardComponent.new(work_package: epic)) do |card|
     card.with_additional_details do
       flex_layout do |flex|
         flex.with_row(mb: 1, aria: { hidden: true }) do
