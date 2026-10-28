@@ -58,6 +58,19 @@ module OpenProject::SquashTMIntegration
            if: ->(_) { User.current.admin? },
            caption: "SquashTM",
            icon: :"op-logo-squashtm"
+
+      menu :project_menu,
+           :settings_squashtm,
+           { controller: "/squashtm_integration/project_settings/project_links", action: :show },
+           parent: :settings,
+           caption: :project_module_squashtm
+
+      project_module(:squashtm, dependencies: :work_package_tracking) do
+        permission :manage_squashtm_integration,
+                   { "squashtm_integration/project_settings/project_links": %i[show update destroy_dialog destroy] },
+                   permissible_on: :project,
+                   require: :member
+      end
     end
   end
 end
