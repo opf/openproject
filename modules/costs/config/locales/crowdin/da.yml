@@ -37,7 +37,7 @@ da:
         for_all_projects: For alle projekter
         rates: Satser
         unit: Enhedsnavn
-        unit_plural: Pluralistisk enhedsnavn
+        unit_plural: Enhedsnavn i flertal
       rate:
         rate: Sats
       time_entry:
@@ -131,7 +131,7 @@ da:
       validation:
         start_time_different_date: Datodelen af startTime (%{start_time}) skal være den samme som datoen for spentOn (%{spent_on}).
   attributes:
-    comment: Kommentér
+    comment: Kommentar
     cost_type: Omkostningstype
     costs: Omkostninger
     current_rate: Nuværende sats
@@ -142,21 +142,21 @@ da:
   button_add_activity: Aktivitet
   button_add_rate: Tilføj sats
   button_add_time_entry: Registrer tid
-  button_log_costs: Registrér enhedsomkostninger
+  button_log_costs: Registrer enhedsomkostninger
   button_log_time: Registrer
   button_update_limits: Opdater grænser
   button_update_start_finish_times: Opdater start- og sluttider
-  caption_booked_on_project: Reservationer til projekt
-  caption_default: Forhåndsvalgt
+  caption_booked_on_project: Registreret på projektet
+  caption_default: Standard
   caption_default_rate_history_for: Standardsatshistorik for %{user}
-  caption_locked_on: Låst d.
+  caption_locked_on: Låst den
   caption_log_time_dialog: Registrer tid
   caption_materials: Enheder
   caption_rate_history: Satshistorik
   caption_rate_history_for: Satshistorik for %{user}
   caption_rate_history_for_project: Satshistorik for %{user} i projekt %{project}
   caption_save_rate: Gem sats
-  caption_set_rate: Indstil nuværende sats
+  caption_set_rate: Angiv nuværende sats
   caption_show_locked: Vis låste typer
   cost_types:
     admin:
@@ -207,7 +207,7 @@ da:
   label_available_cost_types_projects: Projekter med tilgængelige omkostningstyper
   label_between: mellem
   label_cost: Omkostning
-  label_cost_filter_add: Tilføj omkostningangivelsesfilter
+  label_cost_filter_add: Tilføj filter for omkostningsposter
   label_cost_plural: Omkostninger
   label_cost_type_plural: Omkostningstyper
   label_cost_type_specific: 'Omkostningstype #%{id}: %{name}'
@@ -216,18 +216,18 @@ da:
   label_costs_per_page: Omkostninger pr. side
   label_current: Nuværende
   label_current_default_rate: Nuværende standardsats
-  label_date_on: d.
+  label_date_on: den
   label_defaults_and_limits: Standarder og grænser
   label_deleted_cost_types: Slettede omkostningstyper
   label_display_cost_entries: Vis enhedsomkostninger
   label_display_time_entries: Vis indberettede timer
   label_display_types: Vis typer
-  label_edit: Redigér
+  label_edit: Rediger
   label_generic_user: Generisk bruger
   label_greater_or_equal: ">="
   label_group_by: Gruppér efter
   label_group_by_add: Tilføj grupperingsfelt
-  label_include_deleted: Inkludér slettede
+  label_include_deleted: Medtag slettede
   label_kind: Type
   label_less_or_equal: "<="
   label_list: Liste
@@ -257,28 +257,28 @@ da:
   label_yes: Ja
   notice_cost_logged_successfully: Enhedsomkostningerne er registreret.
   notice_different_time_zones: Brugeren har en anden tidszone (%{tz}). Tiden registreres i brugerens tidszone.
-  notice_something_wrong: Noget gik galt. Forsøg venligst igen.
+  notice_something_wrong: Noget gik galt. Prøv igen.
   notice_successful_lock: Låst.
   notice_successful_restore: Gendannet.
   notice_time_entry_delete_failed: 'Kunne ikke slette tidsregistreringen. Fejl: %{errors}'
   notice_time_entry_update_failed: 'Kunne ikke opdatere tidsregistreringen. Fejl: %{errors}'
-  permission_edit_cost_entries: Redigér reserverede enhedsomkostninger
-  permission_edit_hourly_rates: Redigér timesatser
-  permission_edit_own_cost_entries: Redigér egne reserverede enhedsomkostninger
-  permission_edit_own_hourly_rate: Redigér egne timesatser
-  permission_edit_rates: Redigér satser
-  permission_log_costs: Reservationsenhedsomkostninger
-  permission_log_own_costs: Reservationsenhedsomkostninger for sig selv
+  permission_edit_cost_entries: Rediger registrerede enhedsomkostninger
+  permission_edit_hourly_rates: Rediger timesatser
+  permission_edit_own_cost_entries: Rediger egne registrerede enhedsomkostninger
+  permission_edit_own_hourly_rate: Rediger egne timesatser
+  permission_edit_rates: Rediger satser
+  permission_log_costs: Registrer enhedsomkostninger
+  permission_log_own_costs: Registrer egne enhedsomkostninger
   permission_manage_default_hourly_rates: Administrer standardtimesatser
   permission_manage_default_hourly_rates_explanation: 'Giver mulighed for at tilføje, ændre og slette standardtimesatser for brugere og pladsholder-brugere.
 
     '
-  permission_view_cost_entries: Se reservationsomkostninger
-  permission_view_cost_rates: Se omostningssatser
-  permission_view_hourly_rates: Se alle timesatser
-  permission_view_own_cost_entries: Se egen reservationsomkostninger
-  permission_view_own_hourly_rate: Se egen timestaser
-  permission_view_own_time_entries: Se eget tidsforbrug
+  permission_view_cost_entries: Vis registrerede omkostninger
+  permission_view_cost_rates: Vis omkostningssatser
+  permission_view_hourly_rates: Vis alle timesatser
+  permission_view_own_cost_entries: Vis egne registrerede omkostninger
+  permission_view_own_hourly_rate: Vis egen timesats
+  permission_view_own_time_entries: Vis eget tidsforbrug
   placeholder_activity_select_work_package_first: Valg af arbejdspakke er påkrævet først
   plugin_costs:
     description: Modulet tilføjer funktioner til at planlægge og følge projekters omkostninger.
@@ -307,16 +307,16 @@ da:
   setting_time_entries_prohibit_logging_on_non_working_days: Tillad ikke registrering af tid på arbejdsfrie dage
   setting_time_entries_prohibit_logging_on_non_working_days_caption: Brugerne kan ikke registrere tid på dage, som en administrator eller brugeren selv i kontoindstillingerne har angivet som arbejdsfrie.
   text_assign_time_and_cost_entries_to_project: Tildel indberettede timer og omkostninger til projektet
-  text_destroy_cost_entries_question: "%{cost_entries} blev indberettet for de arbejdspakker, som du er ved at slette. Hvad ønsker du at gøre?"
+  text_destroy_cost_entries_question: Der er registreret %{cost_entries} på de arbejdspakker, som du er ved at slette. Hvad vil du gøre?
   text_destroy_time_and_cost_entries: Slet indberettede timer og omkostninger
-  text_destroy_time_and_cost_entries_question: "%{hours} timer, %{cost_entries} blev indberettet på de arbejdspakker, som du er ved at slette. Hvad ønsker du at gøre?"
+  text_destroy_time_and_cost_entries_question: Der er registreret %{hours} timer og %{cost_entries} på de arbejdspakker, som du er ved at slette. Hvad vil du gøre?
   text_hourly_rate_destroy_confirmation: Satsen på %{rate} med gyldighed fra %{valid_from} slettes. Omkostninger, der er bogført på den, genberegnes med den sats, der så gælder.
   text_hourly_rate_destroy_confirmation_checkbox_label: Jeg forstår, at handlingen ikke kan fortrydes.
   text_hourly_rate_recalculation: Satsen gælder fra sin startdato, indtil en senere sats træder i kraft. Hvis du ændrer den, genberegnes også eksisterende tidsregistreringer og budgetter i perioden.
   text_no_default_rate: Standardsatsen bruges i alle projekter, hvor brugeren ikke har en bestemt sats.
   text_no_project_rate: Projektet bruger den nuværende standardsats.
   text_reassign_time_and_cost_entries: 'Gentildel indberettede timer og omkostninger til denne arbejdspakke:'
-  text_warning_hidden_elements: Visse angivelser kan været blevet ekskluderet fra sammenlægning.
+  text_warning_hidden_elements: Nogle poster kan være udeladt af sammentællingen.
   total_times:
     day: 'Dag i alt: %{hours}'
     month: 'Måned i alt: %{hours}'

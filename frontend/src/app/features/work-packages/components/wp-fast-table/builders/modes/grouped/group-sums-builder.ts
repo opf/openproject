@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { isNavigableColumn, keyboardNavigationEnabled, navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { SingleRowBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/rows/single-row-builder';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
@@ -59,6 +60,10 @@ export class GroupSumsBuilder extends SingleRowBuilder {
   public renderColumns(sums:GroupObject['sums'], tr:HTMLTableRowElement) {
     this.augmentedColumns.forEach((column, i:number) => {
       const td = document.createElement('td');
+      const { configuration } = this.workPackageTable;
+      if (keyboardNavigationEnabled(configuration) && isNavigableColumn(column, configuration)) {
+        td.classList.add(navigableCellClassName);
+      }
       const div = this.renderContent(sums, column.id, this.sumsSchema[column.id] as IFieldSchema);
 
       if (i === 0) {

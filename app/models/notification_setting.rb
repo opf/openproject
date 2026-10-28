@@ -104,7 +104,6 @@ class NotificationSetting < ApplicationRecord
   include Scopes::Scoped
   scopes :applicable
 
-  # rubocop:disable Naming/PredicateMethod
   def start_date_active
     start_date.present?
   end
@@ -116,5 +115,4 @@ class NotificationSetting < ApplicationRecord
   def overdue_active
     overdue.present?
   end
-  # rubocop:enable Naming/PredicateMethod
 end

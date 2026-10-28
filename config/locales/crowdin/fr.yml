@@ -2768,6 +2768,9 @@ fr:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: Vous pouvez automatiquement accorder un rôle donné dans le projet à tout utilisateur associé à cet attribut de projet, quel que soit son rôle initial dans ce projet.
         dialog:
@@ -2791,11 +2794,6 @@ fr:
     calculated_field_not_editable: Attribut non modifiable. Cette valeur est calculée automatiquement.
     confirm_destroy_option: Supprimer une option supprimera toutes ses occurrences (ex. dans les plans de travail). Voulez-vous vraiment le supprimer ?
     contained_in_type: Figurant dans le type
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: Activé dans le projet
     instructions:
       admin_only:
@@ -2846,10 +2844,17 @@ fr:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: Réorganiser les valeurs par ordre alphabétique
     reorder_confirmation: 'Attention : l''ordre actuel des valeurs disponibles ainsi que toutes les valeurs non enregistrées seront perdus. Voulez-vous vraiment continuer ?'
     semantic_keys:
@@ -5425,6 +5430,14 @@ fr:
     welcome: Bienvenue sur %{app_title}
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: doit être un tableau.
       decimal?: doit être une décimale.
       defined: ne doit pas être défini.
@@ -5432,6 +5445,7 @@ fr:
       filled?: doit être rempli.
       format?: n'est pas dans un format valide.
       greater_or_equal_zero: doit être supérieur ou égal à 0.
+      gt?: must be greater than %{num}.
       gteq?: doit être supérieur ou égal à %{num}.
       hash?: doit être un hachage.
       included_in?:
@@ -5440,6 +5454,7 @@ fr:
           range: 'doit être l''un des éléments suivants : %{list_left} - %{list_right}.'
       int?: doit être un nombre entier.
       key?: est manquant.
+      max_size?: must not be longer than %{num} characters.
       not_found: est introuvable.
       respond_to?: ne met pas en œuvre la méthode requise.
       rules:
@@ -5459,6 +5474,7 @@ fr:
       type?: 'doit être de type : %{type}.'
       unexpected_key: n'est pas autorisé.
       uri?: n'est pas un URI valide.
+      uuid_v4?: must be a UUID (version 4).
     or: ou
     rules:
       blueprint: Modèle de plan
@@ -5614,13 +5630,19 @@ fr:
     '
   permission_manage_placeholder_user: Créer, modifier et supprimer des utilisateurs fictifs
   permission_manage_project_activities: Gérer les activités du projet
-  permission_manage_project_variants: Gérer les variantes de type propres au projet
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: Gérer les requêtes publiques BCF
   permission_manage_public_project_queries: Gérer les listes de projets publics
   permission_manage_public_queries: Gérer les vues publiques
   permission_manage_repository: Gérer le dépôt
   permission_manage_subtasks: Gérer les hiérarchies de lots de travaux
   permission_manage_types: Sélectionner types
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: Modifier les utilisateurs
   permission_manage_versions: Gérer les versions
   permission_manage_wiki: Gérer le wiki
@@ -6849,6 +6871,7 @@ fr:
     '
   text_form_configuration_required_attribute: L'attribut est marqué requis et donc toujours montré
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Markdown
     plain: Texte brut
   text_git_repo_example: un dépôt vide et local (e.x., /gitrepo, c:\gitrepo)
@@ -7241,6 +7264,9 @@ fr:
         enable_all: Activer pour tous les projets
         select_projects: Sélectionner des projets
         select_projects_description: Sélectionnez les projets dans lesquels vous souhaitez utiliser ce type.
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: Projets
         variant_column: Variant or type
       reuse_mode:
