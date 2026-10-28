@@ -14,6 +14,7 @@ import {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
   openProjectWorkPackageAttributeSpec,
+  openProjectWorkPackageAttributeBlockSpec,
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
   OpenProjectHashMenu,
@@ -23,6 +24,7 @@ import './fetchOverride';
 const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
     openProjectWorkPackageBlock: openProjectWorkPackageBlockSpec(),
+    openProjectWorkPackageAttributeBlock: openProjectWorkPackageAttributeBlockSpec(),
   },
   inlineContentSpecs: {
     openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,

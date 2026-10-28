@@ -80,6 +80,12 @@ export function findPendingInlineChip(
   return found;
 }
 
+export function pendingInlineChipRange(doc:ProsemirrorNode, found:FoundInlineChip):[number, number] {
+  const end = found.position + found.node.nodeSize;
+  const spacerEnd = end < doc.content.size && doc.textBetween(end, end + 1) === ' ' ? end + 1 : end;
+  return [found.position, spacerEnd];
+}
+
 /** Removes a pending chip, if it is still in the document, and says whether it was. */
 export function removePendingInlineChip(
   editor:AnyEditor,
@@ -90,9 +96,10 @@ export function removePendingInlineChip(
     const found = findPendingInlineChip(tr.doc, wpid, type);
     if (!found) return false;
 
-    const end = found.position + found.node.nodeSize;
-    const spacerEnd = withSpacer && end < tr.doc.content.size && tr.doc.textBetween(end, end + 1) === ' ' ? end + 1 : end;
-    tr.delete(found.position, spacerEnd);
+    const [from, to] = withSpacer
+      ? pendingInlineChipRange(tr.doc, found)
+      : [found.position, found.position + found.node.nodeSize];
+    tr.delete(from, to);
     return true;
   });
 }
