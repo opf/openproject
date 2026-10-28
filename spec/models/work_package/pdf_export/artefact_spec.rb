@@ -577,7 +577,8 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     let(:type) do
       create(:type_bug).tap do |t|
         variant = t.default_variant
-        variant.attribute_groups = variant.default_attribute_groups + [["borrowed_group", %w(assignee)]]
+        default_groups = variant.default_attribute_groups.map { |key, attributes| [key, attributes - %w(assignee)] }
+        variant.attribute_groups = default_groups + [["borrowed_group", %w(assignee)]]
         variant.save!
       end
     end
@@ -602,14 +603,16 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     let(:type) do
       create(:type_bug).tap do |t|
         variant = t.default_variant
-        variant.attribute_groups = variant.default_attribute_groups + [["root_group", %w(assignee)]]
+        default_groups = variant.default_attribute_groups.map { |key, attributes| [key, attributes - %w(assignee)] }
+        variant.attribute_groups = default_groups + [["root_group", %w(assignee)]]
         variant.save!
       end
     end
     let(:variant) do
       create(:type_variant, type:, variant_name: "Bug variant").tap do |v|
         unlink_configuration(v, aspect: TypeVariant::FORM_CONFIGURATION)
-        v.attribute_groups = v.default_attribute_groups + [["variant_group", %w(assignee)]]
+        default_groups = v.default_attribute_groups.map { |key, attributes| [key, attributes - %w(assignee)] }
+        v.attribute_groups = default_groups + [["variant_group", %w(assignee)]]
         v.save!
       end
     end
