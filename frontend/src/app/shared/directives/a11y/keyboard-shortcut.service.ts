@@ -143,11 +143,16 @@ export class KeyboardShortcutService {
       return;
     }
 
-    const rows = Array.from(list.querySelectorAll<HTMLElement>('tbody.work-package--results-tbody > tr:not(.wp-table--sums-row)'))
+    const rows = Array.from(list.querySelectorAll<HTMLElement>('tbody.work-package--results-tbody > tr'))
       .filter((row) => row.checkVisibility());
     const current = document.activeElement?.closest<HTMLElement>('tr') ?? null;
     const index = current ? rows.indexOf(current) : -1;
-    rows[index + offset]?.focus();
+    for (let next = index + offset; next >= 0 && next < rows.length; next += offset) {
+      if (!rows[next].classList.contains('wp-table--sums-row')) {
+        rows[next].focus();
+        return;
+      }
+    }
   }
 
   focusNextItem():void {
