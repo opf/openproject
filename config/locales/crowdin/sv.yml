@@ -2768,6 +2768,9 @@ sv:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: Du kan automatiskt tilldela en viss projektroll till varje användare som tilldelas det här projektattributet, oavsett användarens ursprungliga roll i projektet.
         dialog:
@@ -2791,11 +2794,6 @@ sv:
     calculated_field_not_editable: Attributet kan inte redigeras. Värdet beräknas automatiskt.
     confirm_destroy_option: Radering av ett alternativ kommer radera alla förekomster (i arbetspaket). Är du säker på att du vill radera?
     contained_in_type: Ingår i typ
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: Aktiverad i projekt
     instructions:
       admin_only:
@@ -2846,15 +2844,43 @@ sv:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: Sortera om värden alfabetiskt
     reorder_confirmation: 'Varning: Den aktuella ordningen för tillgängliga värden och alla osparade värden går förlorade. Är du säker på att du vill fortsätta?'
     semantic_keys:
       job_title: Befattning
       none: Ingen
+    show:
+      columns:
+        form: Form
+        type_or_variant: Type or variant
+      forms:
+        blank_slate:
+          description: This custom field is not part of any form yet.
+          filtered_description: No form matches the current filter.
+          filtered_title: No matching forms
+          title: No forms
+        filter_placeholder: Filter by form name or description…
+      tabs:
+        forms: Forms
+        types_and_variants: Types and variants
+      types_and_variants:
+        blank_slate:
+          description: No type or variant shows this custom field yet.
+          filtered_description: No type or variant matches the current filters.
+          filtered_title: No matching types or variants
+          title: No types or variants
+        filter_placeholder: Filter by type or variant name…
     text_add_new_custom_field: 'Innan du kan lägga till nya anpassade fält till ett projekt måste du skapa dessa.
 
       '
@@ -3546,6 +3572,7 @@ sv:
         caption_html: The form %{name} is used in the following types and variants.
         title: Form used in types
         variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
         variants: Variants
       unused: No type or variant uses this form yet.
       used_by_types:
@@ -5399,6 +5426,14 @@ sv:
     welcome: Välkommen till %{app_title}
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: måste vara en matris.
       decimal?: måste vara en decimal.
       defined: får inte vara definierad.
@@ -5406,6 +5441,7 @@ sv:
       filled?: måste fyllas i.
       format?: har ogiltigt format.
       greater_or_equal_zero: måste vara större än eller lika med 0.
+      gt?: must be greater than %{num}.
       gteq?: måste vara större än eller lika med %{num}.
       hash?: måste vara en hash.
       included_in?:
@@ -5414,6 +5450,7 @@ sv:
           range: 'måste vara ett av följande: %{list_left} – %{list_right}.'
       int?: måste vara ett heltal.
       key?: saknas.
+      max_size?: must not be longer than %{num} characters.
       not_found: hittades inte.
       respond_to?: implementerar inte den obligatoriska metoden.
       rules:
@@ -5433,6 +5470,7 @@ sv:
       type?: måste vara %{type}.
       unexpected_key: är inte tillåtet.
       uri?: är inte en giltig URI.
+      uuid_v4?: must be a UUID (version 4).
     or: eller
     rules:
       blueprint: Mönsterritning
@@ -5588,13 +5626,19 @@ sv:
     '
   permission_manage_placeholder_user: Skapa, redigera och ta bort platshållaranvändare
   permission_manage_project_activities: Hantera projektaktivitet
-  permission_manage_project_variants: Hantera projektets egna typvarianter
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: Hantera offentliga BCF-frågor
   permission_manage_public_project_queries: Hantera offentliga projektlistor
   permission_manage_public_queries: Hantera offentliga vyer
   permission_manage_repository: Hantera versionsarkiv
   permission_manage_subtasks: Hantera arbetspaketshierarkier
   permission_manage_types: Välj typer
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: Redigera användare
   permission_manage_versions: Hantera versioner
   permission_manage_wiki: Hantera wiki
@@ -6820,6 +6864,7 @@ sv:
     '
   text_form_configuration_required_attribute: Attributet är markerat som nödvändigt och visas därför alltid
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Markdown
     plain: Oformaterad text
   text_git_repo_example: ett tomt och lokalt versionsarkiv (t.ex. /gitrepo, c:\gitrepo)
@@ -7206,6 +7251,9 @@ sv:
         enable_all: Aktivera för alla projekt
         select_projects: Välj projekt
         select_projects_description: Välj de projekt där du vill använda den här typen.
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: Projekt
         variant_column: Variant or type
       reuse_mode:
@@ -8119,6 +8167,7 @@ sv:
         caption_html: Arbetsflödet %{name} används av följande typer och varianter.
         title: Arbetsflöde som används av typer
         variant_of: Variant av %{type}
+        variant_of_html: Variant of %{type}
         variants: Varianter
       unused: Ingen typ eller variant använder det här arbetsflödet ännu.
       used_by_types:

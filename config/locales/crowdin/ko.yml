@@ -2644,6 +2644,9 @@ ko:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: 이 프로젝트에서 해당 사용자의 원래 역할에 관계없이 이 프로젝트 특성에 할당된 모든 사용자에게 특정 프로젝트 역할을 자동으로 부여할 수 있습니다.
         dialog:
@@ -2667,11 +2670,6 @@ ko:
     calculated_field_not_editable: 편집할 수 없는 특성입니다. 이 값은 자동으로 계산됩니다.
     confirm_destroy_option: '옵션을 삭제하면 모든 해당 항목(예: 작업 패키지 내 모든 항목)이 삭제됩니다. 그래도 삭제하시겠습니까?'
     contained_in_type: 타입에 포함됨.
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: 프로젝트에 사용 가능함.
     instructions:
       admin_only:
@@ -2722,15 +2720,43 @@ ko:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: 알파벳순으로 값 재정렬
     reorder_confirmation: '경고: 사용 가능한 값의 현재 순서 및 저장되지 않은 모든 값이 손실됩니다. 계속하시겠습니까?'
     semantic_keys:
       job_title: 직책
       none: 없음
+    show:
+      columns:
+        form: Form
+        type_or_variant: Type or variant
+      forms:
+        blank_slate:
+          description: This custom field is not part of any form yet.
+          filtered_description: No form matches the current filter.
+          filtered_title: No matching forms
+          title: No forms
+        filter_placeholder: Filter by form name or description…
+      tabs:
+        forms: Forms
+        types_and_variants: Types and variants
+      types_and_variants:
+        blank_slate:
+          description: No type or variant shows this custom field yet.
+          filtered_description: No type or variant matches the current filters.
+          filtered_title: No matching types or variants
+          title: No types or variants
+        filter_placeholder: Filter by type or variant name…
     text_add_new_custom_field: '프로젝트에 새 사용자 지정 필드를 추가하려면 먼저 해당 필드를 만들어야 합니다. 그래야 이 프로젝트에 해당 필드를 추가할 수 있습니다.
 
       '
@@ -3396,6 +3422,7 @@ ko:
         caption_html: The form %{name} is used in the following types and variants.
         title: Form used in types
         variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
         variants: Variants
       unused: No type or variant uses this form yet.
       used_by_types:
@@ -5234,6 +5261,14 @@ ko:
     welcome: "%{app_title}입니다."
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: "- 배열이어야 합니다."
       decimal?: "- 소수여야 합니다."
       defined: "- 정의해서는 안 됩니다."
@@ -5241,6 +5276,7 @@ ko:
       filled?: "- 입력해야 합니다."
       format?: "- 형식이 잘못되었습니다."
       greater_or_equal_zero: "- 0보다 크거나 같아야 합니다."
+      gt?: must be greater than %{num}.
       gteq?: "- %{num}보다 크거나 같아야 합니다."
       hash?: "- 해시여야 합니다."
       included_in?:
@@ -5249,6 +5285,7 @@ ko:
           range: "- 다음 중 하나여야 합니다: %{list_left} - %{list_right}."
       int?: "- 정수여야 합니다."
       key?: "- 누락되었습니다."
+      max_size?: must not be longer than %{num} characters.
       not_found: "- 찾을 수 없습니다."
       respond_to?: "- 필수 메서드를 구현하지 않습니다."
       rules:
@@ -5268,6 +5305,7 @@ ko:
       type?: "- %{type}이어야(여야) 합니다."
       unexpected_key: "- 허용되지 않습니다."
       uri?: "- 올바른 URI가 아닙니다."
+      uuid_v4?: must be a UUID (version 4).
     or: 또는
     rules:
       blueprint: 패턴 청사진
@@ -5423,7 +5461,10 @@ ko:
     '
   permission_manage_placeholder_user: 플레이스홀더 사용자 생성, 수정, 제거
   permission_manage_project_activities: 프로젝트 작업 관리
-  permission_manage_project_variants: 프로젝트의 고유한 유형 변형 관리
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: 공용 BCF 쿼리 관리
   permission_manage_public_project_queries: 공개 프로젝트 목록 관리
   permission_manage_public_queries: 공용 보기 관리
@@ -5433,6 +5474,9 @@ ko:
 
     This guide is an evolving description of the steps taken from collecting requirements all the way to implementation and release. The goal is to provide a single source of truth and provide a guideline for team members, community contributors and interested customers. As such this document will continuously be updated.
   permission_manage_types: 유형 선택
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: 사용자 편집
   permission_manage_versions: 버전 관리
   permission_manage_wiki: 위키 관리
@@ -6643,6 +6687,7 @@ ko:
     '
   text_form_configuration_required_attribute: 특성이 필수로 나타나므로 항상 표시됩니다.
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Markdown
     plain: 일반 텍스트
   text_git_repo_example: '기본 및 로컬 리포지토리(예: /gitrepo, c:\gitrepo)'
@@ -7034,6 +7079,9 @@ ko:
         enable_all: 모든 프로젝트에 대해 활성화
         select_projects: 프로젝트 선택
         select_projects_description: 이 유형을 사용하려는 프로젝트를 선택합니다.
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: 프로젝트
         variant_column: Variant or type
       reuse_mode:
@@ -7921,6 +7969,7 @@ ko:
         caption_html: The workflow %{name} is used in the following types and variants.
         title: Workflow used in types
         variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
         variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:

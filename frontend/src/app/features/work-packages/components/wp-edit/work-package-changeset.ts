@@ -29,6 +29,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { ChangesetPayload, ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { WorkPackageSchemaProxy } from 'core-app/features/hal/schemas/work-package-schema-proxy';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource> {
@@ -74,7 +75,22 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
       }
     }
 
-    return super.applyChanges(payload);
+    return this.applyLabelLinks(super.applyChanges(payload));
+  }
+
+  private applyLabelLinks(payload:ChangesetPayload):ChangesetPayload {
+    const labels = this.changeset.getValue('labels');
+
+    if (!Array.isArray(labels) || !this.schema.isAttributeEditable('labels')) {
+      return payload;
+    }
+
+    delete payload.labels;
+    payload._links.labels = (labels as HalResource[])
+      .filter((label) => Boolean(label.href) || Boolean(label.name))
+      .map((label) => (label.href ? { href: label.href } : { href: null, title: label.name }));
+
+    return payload;
   }
 
   protected setNewDefaultFor(key:string, val:unknown) {

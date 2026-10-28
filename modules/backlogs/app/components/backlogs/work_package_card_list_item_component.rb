@@ -28,7 +28,7 @@
 #++
 
 module Backlogs
-  class WorkPackageCardListItemComponent < OpenProject::Common::BorderBoxListComponent::WorkPackageItem
+  class WorkPackageCardListItemComponent < OpPrimer::BorderBoxListComponent::WorkPackageItem
     include CommonHelper
     include Concerns::WorkPackageMovability
 

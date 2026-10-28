@@ -18,7 +18,7 @@ describe('Hash trigger - data loss regression', () => {
     await userEvent.keyboard('{Enter}');
 
     await expect.element(page.getByText('#123')).toBeVisible();
-    await expect.element(editor).toHaveTextContent(/Hello.*world example/);
+    await expect.element(editor).toMatchTextContent(/Hello.*world example/);
   });
 
   it('preserves surrounding text when inserting an S-size chip via ###', async () => {
@@ -36,7 +36,7 @@ describe('Hash trigger - data loss regression', () => {
 
     await expect.element(page.getByText('#123')).toBeVisible();
     await expect.element(page.getByText('In Progress')).toBeVisible();
-    await expect.element(editor).toHaveTextContent(/before.*after/);
-    await expect.element(editor).not.toHaveTextContent('##');
+    await expect.element(editor).toMatchTextContent(/before.*after/);
+    await expect.element(editor).not.toMatchTextContent('##');
   });
 });

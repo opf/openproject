@@ -3016,6 +3016,9 @@ pl:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: Możesz automatycznie przyznać określoną rolę w projekcie każdemu użytkownikowi przypisanemu do tego atrybutu projektu, niezależnie od pierwotnej roli tego użytkownika w tym projekcie.
         dialog:
@@ -3039,11 +3042,6 @@ pl:
     calculated_field_not_editable: Atrybut nieedytowalny. Ta wartość jest obliczana automatycznie.
     confirm_destroy_option: Usunięcie tej opcji spowoduje usunięcie wszystkich powiązanych wystąpień (np. w Work Package). Czy na pewno chcesz to usunąć?
     contained_in_type: Zawartość
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: Włączone w projekcie
     instructions:
       admin_only:
@@ -3094,15 +3092,43 @@ pl:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: Ustaw kolejność wartości alfabetycznie
     reorder_confirmation: 'Ostrzeżenie: bieżąca kolejność dostępnych wartości oraz wszystkie niezapisane wartości zostaną utracone. Czy na pewno chcesz kontynuować?'
     semantic_keys:
       job_title: Stanowisko
       none: Brak
+    show:
+      columns:
+        form: Form
+        type_or_variant: Type or variant
+      forms:
+        blank_slate:
+          description: This custom field is not part of any form yet.
+          filtered_description: No form matches the current filter.
+          filtered_title: No matching forms
+          title: No forms
+        filter_placeholder: Filter by form name or description…
+      tabs:
+        forms: Forms
+        types_and_variants: Types and variants
+      types_and_variants:
+        blank_slate:
+          description: No type or variant shows this custom field yet.
+          filtered_description: No type or variant matches the current filters.
+          filtered_title: No matching types or variants
+          title: No types or variants
+        filter_placeholder: Filter by type or variant name…
     text_add_new_custom_field: 'Aby dodać do projektu nowe pola niestandardowe, najpierw należy je utworzyć.
 
       '
@@ -3842,6 +3868,7 @@ pl:
         caption_html: The form %{name} is used in the following types and variants.
         title: Form used in types
         variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
         variants: Variants
       unused: No type or variant uses this form yet.
       used_by_types:
@@ -5742,6 +5769,14 @@ pl:
     welcome: Witamy w %{app_title}
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: musi być tablicą.
       decimal?: musi być liczbą dziesiętną.
       defined: nie może być zdefiniowany.
@@ -5749,6 +5784,7 @@ pl:
       filled?: musi być wypełniony.
       format?: ma nieprawidłowy format.
       greater_or_equal_zero: musi mieć wartość większą lub równą 0.
+      gt?: must be greater than %{num}.
       gteq?: musi być większe niż lub równe %{num}.
       hash?: musi być hashem.
       included_in?:
@@ -5757,6 +5793,7 @@ pl:
           range: 'musi być jednym z: %{list_left} – %{list_right}.'
       int?: musi być liczbą całkowitą.
       key?: "– brak."
+      max_size?: must not be longer than %{num} characters.
       not_found: "– nie znaleziono."
       respond_to?: nie implementuje wymaganej metody.
       rules:
@@ -5776,6 +5813,7 @@ pl:
       type?: musi być %{type}.
       unexpected_key: jest niedozwolony.
       uri?: nie jest prawidłowym adresem URL.
+      uuid_v4?: must be a UUID (version 4).
     or: lub
     rules:
       blueprint: Plan wzorca
@@ -5931,13 +5969,19 @@ pl:
     '
   permission_manage_placeholder_user: Twórz, edytuj i usuwaj użytkowników zastępczych
   permission_manage_project_activities: Zarządzanie działaniami projektu
-  permission_manage_project_variants: Zarządzanie własnymi wariantami typów projektu
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: Zarządzanie publicznymi zapytaniami BCF
   permission_manage_public_project_queries: Zarządzaj listami projektów publicznych
   permission_manage_public_queries: Zarządzaj widokami publicznymi
   permission_manage_repository: Zarządzanie repozytorium
   permission_manage_subtasks: Zarządzaj hierarchiami pakietów prac
   permission_manage_types: Select types
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: Edytuj użytkowników
   permission_manage_versions: Zarządzanie wersjami
   permission_manage_wiki: Zarządzanie wiki
@@ -7181,6 +7225,7 @@ pl:
     '
   text_form_configuration_required_attribute: Atrybut jest zaznaczony jako wymagany i dlatego jest zawsze wyświetlany
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Markdown
     plain: Zwykły tekst
   text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
@@ -7575,6 +7620,9 @@ pl:
         enable_all: Włącz dla wszystkich projektów
         select_projects: Wybierz projekty
         select_projects_description: Wybierz projekty, w których chcesz używać tego typu.
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: Projekty
         variant_column: Variant or type
       reuse_mode:
@@ -8538,6 +8586,7 @@ pl:
         caption_html: The workflow %{name} is used in the following types and variants.
         title: Workflow used in types
         variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
         variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:
