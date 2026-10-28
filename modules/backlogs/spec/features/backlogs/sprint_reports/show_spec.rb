@@ -193,14 +193,14 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
         expect(page).to have_no_text(removed.subject)
       end
 
-      within(".op-sprint-report-wp-table", text: "Sprint scope increase") do
+      within(".op-sprint-report-wp-table", text: "Scope increase after sprint start") do
         expect(page).to have_css("opce-embedded-work-package-table")
         expect(page).to have_text(added_and_completed.subject)
         expect(page).to have_no_text(kept.subject)
         expect(page).to have_no_text(removed.subject)
       end
 
-      within(".op-sprint-report-wp-table", text: "Sprint scope decrease") do
+      within(".op-sprint-report-wp-table", text: "Scope decrease after sprint start") do
         expect(page).to have_css("opce-embedded-work-package-table")
         expect(page).to have_text(removed.subject)
         expect(page).to have_no_text(added_and_completed.subject)

@@ -113,6 +113,35 @@ describe('Edit cell entry', () => {
 
       await expect(waitFor(() => within(harness.row('1')).getByRole('textbox'), { timeout: 300 })).rejects.toThrow();
       expect(subjectField('1')).toHaveClass('-read-only');
+      expect(harness.table.editing.forms).toEqual({});
+    });
+
+    it.each(['Enter', 'F2'])('does not open an editor with %s in a focused cell', async (key) => {
+      const cell = subjectField('1').closest<HTMLTableCellElement>('td, th')!;
+      const navigation = harness.table.keyboardNavigation!;
+      navigation.focusPosition(navigation.positionOfCell(cell)!);
+
+      fireEvent.keyDown(cell, { key });
+
+      await expect(waitFor(() => within(harness.row('1')).getByRole('textbox'), { timeout: 300 })).rejects.toThrow();
+      expect(cell).toHaveFocus();
+      expect(subjectField('1')).toHaveClass('-read-only');
+      expect(harness.table.editing.forms).toEqual({});
+    });
+
+    it('keeps row navigation and keyboard selection available', () => {
+      const cell = subjectField('1').closest<HTMLTableCellElement>('td, th')!;
+      const navigation = harness.table.keyboardNavigation!;
+      navigation.focusPosition(navigation.positionOfCell(cell)!);
+
+      fireEvent.keyDown(cell, { key: 'ArrowLeft' });
+      fireEvent.keyDown(document.activeElement!, { key: 'ArrowLeft' });
+      expect(harness.row('1')).toHaveFocus();
+      fireEvent.keyDown(harness.row('1'), { key: ' ', code: 'Space', shiftKey: true });
+      expect(harness.selection.getSelectedWorkPackageIds()).toContain('1');
+      fireEvent.keyDown(harness.row('1'), { key: 'ArrowDown' });
+      expect(harness.row('2')).toHaveFocus();
+      expect(harness.table.editing.forms).toEqual({});
     });
   });
 
