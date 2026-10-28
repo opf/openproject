@@ -67,13 +67,15 @@ end
 def hold_requests(path)
   held = Queue.new
   holding = Concurrent::AtomicBoolean.new(true)
-  browser = page.driver.browser
-  browser.network.intercept
-  browser.on(:request) { |request| hold_or_continue(request, path, holding, held) }
-  yield held
-ensure
-  holding&.make_false
-  held.pop(true).continue until held.blank?
+  begin
+    browser = page.driver.browser
+    browser.network.intercept
+    browser.on(:request) { |request| hold_or_continue(request, path, holding, held) }
+    yield held
+  ensure
+    holding.make_false
+    held.pop(true).continue until held.empty?
+  end
 end
 
 def hold_or_continue(request, path, holding, held)
