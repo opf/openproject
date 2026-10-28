@@ -132,6 +132,26 @@ describe('KeyboardShortcutService', () => {
       expect(table.groupHeader(1)).toHaveFocus();
     });
 
+    it('moves on from a focused sums row in both directions', async () => {
+      const table = await mountTable([], {
+        ...groupedOptions,
+        groups: [
+          { value: 'One', href: '/api/v3/statuses/1', count: 1, sums: { storyPoints: 13 } },
+          { value: 'Two', href: '/api/v3/statuses/2', count: 1, sums: { storyPoints: 21 } },
+        ],
+      });
+      const sumsCell = (table.row('1').nextElementSibling as HTMLTableRowElement).cells[0];
+      sumsCell.tabIndex = -1;
+
+      sumsCell.focus();
+      service.focusNextItem();
+      expect(table.groupHeader(1)).toHaveFocus();
+
+      sumsCell.focus();
+      service.focusPrevItem();
+      expect(table.row('1')).toHaveFocus();
+    });
+
     it('walks from a group header to the next group header, skipping the rows of a collapsed group', async () => {
       const table = await mountTable([], groupedOptions);
       table.groupHeader(0).focus();
