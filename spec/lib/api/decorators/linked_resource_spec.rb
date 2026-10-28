@@ -146,6 +146,41 @@ RSpec.describe API::Decorators::LinkedResource do
         expect(json).not_to have_json_path("_embedded/excludedThings")
       end
     end
+
+    context "with a custom collection method" do
+      let(:representer_class) do
+        klass = thing_representer_class
+        Class.new(API::Decorators::Single) do
+          include API::Decorators::LinkedResource
+
+          associated_resources :things, v3_path: :user, representer: klass, collection: :visible_things
+        end
+      end
+      let(:model) do
+        Class.new do
+          attr_reader :visible_things
+
+          def initialize(visible_things)
+            @visible_things = visible_things
+          end
+
+          def things
+            raise "things should not be read"
+          end
+        end.new([included_thing])
+      end
+
+      subject(:json) do
+        representer_class
+          .new(model, current_user:, embed_links: %i[things])
+          .to_json
+      end
+
+      it "reads links and embedded resources from the collection method" do
+        expect(json).to be_json_eql("/api/v3/users/1".to_json).at_path("_links/things/0/href")
+        expect(json).to have_json_path("_embedded/things/0")
+      end
+    end
   end
 
   describe ".associated_visible_resource" do
@@ -253,6 +288,25 @@ RSpec.describe API::Decorators::LinkedResource do
         expect(rendered_for(current_user))
           .to be_json_eql("/api/v3/things/42".to_json).at_path("_links/thing/href")
       end
+    end
+  end
+
+  describe "#parse_new_record_titles_from_fragment" do
+    subject(:titles) { representer.new(represented, current_user:).send(:parse_new_record_titles_from_fragment, fragment) }
+
+    let(:fragment) do
+      [
+        { "href" => "/api/v3/users/1", "title" => "Existing" },
+        { "href" => nil, "title" => "First" },
+        { "title" => { "a" => 1 } },
+        { "href" => "", "title" => "Second" },
+        { "href" => nil, "title" => " " },
+        { "href" => nil }
+      ]
+    end
+
+    it "returns the titles of href-less entries with a non-blank string title, in order" do
+      expect(titles).to eq(%w[First Second])
     end
   end
 
