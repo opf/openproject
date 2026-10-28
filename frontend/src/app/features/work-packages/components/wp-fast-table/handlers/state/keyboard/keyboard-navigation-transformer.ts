@@ -379,7 +379,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
       return;
     }
 
-    this.interaction.clearWalk();
+    this.interaction.reconcileWalk();
     this.current = this.current && this.reconcile(rows, previous, this.current);
     if (this.current && owned && this.mayRestoreFocus()) {
       this.focusPosition(this.current);

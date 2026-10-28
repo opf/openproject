@@ -27,6 +27,7 @@
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { userEvent } from 'vitest/browser';
+import { States } from 'core-app/core/states/states.service';
 import { buildTable, TableHarness, TableHarnessOptions } from '../../../testing/table-harness';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import { insideGrid, navigableCells } from './roving-tabindex';
@@ -709,6 +710,22 @@ describe('CellInteraction', () => {
     fireEvent.keyDown(secondControl, { key: 'Escape' });
 
     expect(first).toHaveFocus();
+  });
+
+  it('keeps a walk through a refresh that retains its focused control', async () => {
+    const table = await mount({ configuration: { actionsColumnEnabled: true } });
+    const cell = navigableCells(table.row('1')).at(-1)!;
+    cell.append(document.createElement('button'), document.createElement('button'));
+    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    fireEvent.keyDown(cell, { key: 'Enter' });
+    const control = document.activeElement as HTMLElement;
+    expect(cell).toContainElement(control);
+
+    table.table.refreshRows(table.injector.get(States).workPackages.get('1').value!);
+    expect(control).toHaveFocus();
+    fireEvent.keyDown(control, { key: 'Escape' });
+
+    expect(cell).toHaveFocus();
   });
 
   it('leaves Shift+Arrow inert on a walked control', async () => {

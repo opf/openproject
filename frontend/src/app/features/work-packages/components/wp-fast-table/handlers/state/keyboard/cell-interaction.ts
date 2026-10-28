@@ -283,4 +283,12 @@ export class CellInteraction {
   public clearWalk():void {
     this.tabWalkOrigin = null;
   }
+
+  /** Keeps the walk while focus rests on one of its controls; clears it otherwise. */
+  public reconcileWalk():void {
+    const origin = this.tabWalkOrigin;
+    if (origin && this.walkFrom(origin).includes(document.activeElement as HTMLElement)) return;
+
+    this.clearWalk();
+  }
 }
