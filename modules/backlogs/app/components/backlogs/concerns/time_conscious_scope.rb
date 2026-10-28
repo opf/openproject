@@ -37,8 +37,8 @@ module Backlogs::Concerns
 
     def historic? = sprint.completed_at?
 
-    def as_of
-      @as_of ||= historic? ? WorkPackage.at_timestamp(Timestamp.new(sprint.completed_at)) : WorkPackage.all
+    def work_packages_at_report_time
+      @work_packages_at_report_time ||= historic? ? WorkPackage.at_timestamp(Timestamp.new(sprint.completed_at)) : WorkPackage.all
     end
   end
 end

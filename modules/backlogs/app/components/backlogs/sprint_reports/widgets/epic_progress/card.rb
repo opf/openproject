@@ -62,7 +62,7 @@ module Backlogs
           def work_packages_in_epic
             @work_packages_in_epic ||=
               if historic?
-                as_of.where(id: historic_descendant_ids([epic.id])).visible(current_user)
+                work_packages_at_report_time.where(id: historic_descendant_ids([epic.id])).visible(current_user)
               else
                 epic.descendants.visible(current_user)
               end
@@ -81,7 +81,7 @@ module Backlogs
             children = ids
 
             until children.empty?
-              children = as_of.where(parent_id: children).pluck(:id).to_set - found
+              children = work_packages_at_report_time.where(parent_id: children).pluck(:id).to_set - found
               found.merge(children)
             end
 
