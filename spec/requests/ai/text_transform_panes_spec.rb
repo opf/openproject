@@ -357,6 +357,16 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       expect(detail).to eq("requestId" => request_id, "scope" => "selection", "text" => text)
     end
 
+    it "hands over only what the preview shows" do
+      text = %(Fixed <macro class="toc"></macro> ![chart](https://example.com/a.png))
+      run = run_with_events(:succeeded, ["completed", { "text" => text }])
+
+      post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
+      expect(detail["text"]).to eq("Fixed  [Image: chart](https://example.com/a.png)")
+    end
+
     context "without the permission to edit the work package any more" do
       current_user { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
 
