@@ -32,8 +32,8 @@ module Llm
     FEATURE = :description_assistant
 
     def readiness
-      resolution = Llm::Runtime.for(FEATURE)
-      Readiness.new(resolution.ready?, resolution.ready? ? nil : resolution.status)
+      ready = resolution.ready?
+      Readiness.new(ready, ready ? nil : resolution.status)
     end
 
     def stream(system:, user:, timeout:)
@@ -54,8 +54,12 @@ module Llm
 
     private
 
+    def resolution
+      @resolution ||= Llm::Runtime.for(FEATURE)
+    end
+
     def chat(system:, timeout:)
-      Llm::Runtime.for(FEATURE).chat(timeout:, max_retries: 0).with_instructions(system)
+      resolution.chat(timeout:, max_retries: 0).with_instructions(system)
     end
 
     def translate(error)

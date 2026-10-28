@@ -78,6 +78,16 @@ RSpec.describe Llm::TextTransformGateway, :llm_server_helpers, :webmock,
   describe "#stream" do
     let!(:connection) { create(:llm_connection, :with_models, default_chat_model_identifier: "qwen3.6-27b") }
 
+    it "resolves the model once for the readiness check and the completion" do
+      stub_stream("ok")
+      allow(Llm::Runtime).to receive(:for).and_call_original
+
+      gateway.readiness
+      stream { nil }
+
+      expect(Llm::Runtime).to have_received(:for).once
+    end
+
     it "streams the completion for the resolved model and returns the full text" do
       stub_stream("Hello", " world")
       deltas = []

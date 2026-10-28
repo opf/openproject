@@ -105,10 +105,8 @@ module OpenProject::Llm
                                           available: -> { OpenProject::FeatureDecisions.semantic_search_active? }
     end
 
-    initializer "openproject_llm.text_transform_gateway" do
-      config.to_prepare do
-        AI::TextTransforms::Gateway.factory = -> { Llm::TextTransformGateway.new }
-      end
+    config.to_prepare do
+      AI::TextTransforms::Gateway.factory = -> { Llm::TextTransformGateway.new }
     end
 
     initializer "openproject_llm.load_patches" do
