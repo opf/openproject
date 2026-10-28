@@ -67,12 +67,6 @@ module OpenProject::GitlabIntegration
                   caption: "GitLab",
                   icon: :"op-logo-gitlab"
       end
-
-      project_module(:gitlab, dependencies: :work_package_tracking) do
-        permission(:show_gitlab_content,
-                   {},
-                   permissible_on: %i[work_package project])
-      end
     end
 
     patches %w[WorkPackage]
