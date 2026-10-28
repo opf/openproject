@@ -29,20 +29,48 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   flex_layout(test_selector: "op-work-package-squashtm-tab--requirement") do |container|
     container.with_row(mb: 1) do
-      flex_layout(align_items: :center) do |row|
-        if requirement&.reference
-          row.with_column(mr: 2) do
-            render(Primer::Beta::Text.new(color: :muted, font_weight: :bold)) { requirement.reference }
+      flex_layout(align_items: :center, justify_content: :space_between) do |row|
+        row.with_column do
+          flex_layout(align_items: :center) do |details|
+            if requirement&.reference
+              details.with_column(mr: 2) do
+                render(Primer::Beta::Text.new(color: :muted, font_weight: :bold)) { requirement.reference }
+              end
+            end
+
+            details.with_column(mr: 2) do
+              render(Primer::Beta::Text.new(color: :muted)) { "##{requirement_id}" }
+            end
+
+            if requirement&.status
+              details.with_column do
+                render(Primer::Beta::Label.new(size: :large)) { status_label }
+              end
+            end
           end
         end
 
-        row.with_column(mr: 2) do
-          render(Primer::Beta::Text.new(color: :muted)) { "##{requirement_id}" }
-        end
+        if can_manage_links?
+          row.with_column(ml: 2) do
+            render(Primer::Alpha::ActionMenu.new(test_selector: "op-work-package-squashtm-tab--requirement-menu")) do |menu|
+              menu.with_show_button(
+                scheme: :invisible,
+                size: :small,
+                icon: :"kebab-horizontal",
+                "aria-label": t(:button_actions),
+                tooltip_direction: :w
+              )
 
-        if requirement&.status
-          row.with_column do
-            render(Primer::Beta::Label.new(size: :large)) { status_label }
+              menu.with_item(
+                label: t(".unlink"),
+                scheme: :danger,
+                href: destroy_dialog_project_work_package_squashtm_requirement_link_path(project, work_package),
+                test_selector: "op-work-package-squashtm-tab--unlink",
+                content_arguments: { data: { controller: "async-dialog" } }
+              ) do |item|
+                item.with_leading_visual_icon(icon: :unlink)
+              end
+            end
           end
         end
       end

@@ -119,12 +119,24 @@ RSpec.describe SquashTMIntegration::WorkPackageTabState do
       allow(SquashTMIntegration::Client).to receive(:for).and_return(client)
     end
 
-    it "lists the requirements of the linked SquashTM project sorted by name" do
+    it "lists the requirements of the linked SquashTM project with their references" do
       allow(client).to receive(:all_requirements).with(3).and_return(
-        [{ "id" => 2, "name" => "b second", "extra" => 1 }, { "id" => 1, "name" => "A first" }]
+        [{ "id" => 2, "name" => "Sign in", "extra" => 1, "current_version" => { "reference" => "REQ-002" } }]
       )
 
-      expect(state.requirement_options).to eq([{ id: 1, name: "A first" }, { id: 2, name: "b second" }])
+      expect(state.requirement_options).to eq([{ id: 2, name: "Sign in", reference: "REQ-002" }])
+    end
+
+    it "sorts by reference numerically and lists requirements without a reference last by name" do
+      allow(client).to receive(:all_requirements).with(3).and_return(
+        [{ "id" => 1, "name" => "b no reference", "current_version" => { "reference" => "" } },
+         { "id" => 2, "name" => "Ten", "current_version" => { "reference" => "REQ-10" } },
+         { "id" => 3, "name" => "a no reference" },
+         { "id" => 4, "name" => "Two", "current_version" => { "reference" => "REQ-2" } },
+         { "id" => 5, "name" => "One", "current_version" => { "reference" => "REQ-001" } }]
+      )
+
+      expect(state.requirement_options.pluck(:id)).to eq([5, 4, 2, 3, 1])
     end
 
     it "is nil when SquashTM cannot be reached" do

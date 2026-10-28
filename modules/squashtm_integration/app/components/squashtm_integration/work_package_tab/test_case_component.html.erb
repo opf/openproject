@@ -49,7 +49,10 @@ See COPYRIGHT and LICENSE files for more details.
     container.with_row(mb: 1) do
       render(
         Primer::Beta::Link.new(href: url, font_weight: :bold, scheme: :primary, target: "_blank", rel: "noopener noreferrer")
-      ) { test_case.name }
+      ) do |link|
+        link.with_trailing_visual_icon(icon: :"link-external")
+        test_case.name
+      end
     end
 
     if test_case.description

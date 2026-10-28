@@ -139,6 +139,7 @@ RSpec.describe "Work package SquashTM tab",
             href: "https://squashtm.example.com/squash/test-case-workspace/test-case/21/content?anchor=information"
           )
           expect(page).to have_css("a[target='_blank'][rel='noopener noreferrer']", text: "Valid login")
+          expect(page.find_link("Valid login")).to have_css("svg.octicon-link-external")
         end
 
         it "shows the sanitized test case description" do

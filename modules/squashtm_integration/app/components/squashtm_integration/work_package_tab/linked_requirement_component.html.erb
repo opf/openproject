@@ -45,20 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
 
     container.with_row(mb: 3) do
       render(OpPrimer::BorderBoxListComponent.new(container: :squashtm_requirement, padding: :condensed)) do |list|
-        list.with_header(title: t(".requirement")) do |header|
-          if can_manage_links?
-            header.with_action_icon_button(
-              tag: :a,
-              icon: :unlink,
-              scheme: :invisible,
-              aria: { label: t(".unlink") },
-              tooltip_direction: :w,
-              href: destroy_dialog_project_work_package_squashtm_requirement_link_path(project, work_package),
-              data: { controller: "async-dialog" },
-              test_selector: "op-work-package-squashtm-tab--unlink"
-            )
-          end
-        end
+        list.with_header(title: t(".requirement"))
 
         list.with_item do
           render(SquashTMIntegration::WorkPackageTab::RequirementComponent.new(tab_state))
@@ -77,7 +64,7 @@ See COPYRIGHT and LICENSE files for more details.
           )
         ) do |list|
           list.with_header(title: t(".test_cases"), count: requirement.test_cases.size)
-          list.with_empty_state(title: t(".no_test_cases.title"), description: t(".no_test_cases.description"), icon: :beaker)
+          list.with_empty_state(title: t(".no_test_cases.title"), description: t(".no_test_cases.description"), icon: :"op-logo-squashtm")
 
           requirement.test_cases.each do |test_case|
             list.with_item do
