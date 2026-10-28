@@ -79,6 +79,7 @@ RSpec.shared_context "with a sprint report work package table" do
 
     it "configures table to hide extra UI elements" do
       expect(table_element["data-configuration"]).to be_json_eql({
+        "labelledBy" => "#{described_class.wrapper_key}-header",
         "projectContext" => false,
         "actionsColumnEnabled" => false,
         "columnMenuEnabled" => false,
@@ -86,6 +87,12 @@ RSpec.shared_context "with a sprint report work package table" do
         "inlineCreateEnabled" => false,
         "inlineEditEnabled" => false
       }.to_json)
+    end
+
+    it "names the table with its visible widget heading" do
+      configuration = JSON.parse(table_element["data-configuration"])
+
+      expect(rendered_component).to have_heading(widget_name, level: 3, id: configuration.fetch("labelledBy"))
     end
 
     it "renders a filtered work packages table" do
