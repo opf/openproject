@@ -78,7 +78,7 @@ RSpec.describe "SquashTM server administration", :js do
       visit squashtm_integration_admin_server_path
     end
 
-    it "shows that the server is linked instead of the form" do
+    it "shows the linked server and hides the form" do
       within_test_selector("squashtm-server--linked") do
         expect(page).to have_text("OpenProject is linked to the SquashTM server at https://squashtm.example.com/squash")
         expect(page).to have_link("https://squashtm.example.com/squash", href: "https://squashtm.example.com/squash")
