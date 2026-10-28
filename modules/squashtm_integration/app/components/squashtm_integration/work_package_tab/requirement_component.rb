@@ -34,7 +34,7 @@ module SquashTMIntegration
 
       alias_method :tab_state, :model
 
-      delegate :server, :work_package_link, :requirement, to: :tab_state
+      delegate :server, :work_package_link, :requirement, :work_package, :project, :can_manage_links?, to: :tab_state
 
       def requirement_id
         work_package_link.squashtm_requirement_id_in_database

@@ -130,7 +130,7 @@ en:
     work_package_tab:
       delete_requirement_link_dialog_component:
         confirm: "Unlink"
-        description: "The test cases of this requirement will no longer be shown on this work package. The requirement and its test cases in SquashTM are not affected."
+        description: "The test cases of this requirement will no longer be shown on this work package."
         heading: "Unlink the SquashTM requirement %{name}?"
         title: "Unlink SquashTM requirement"
       execution_status_component:
@@ -143,6 +143,7 @@ en:
         requirement_missing: "The linked SquashTM requirement is no longer visible in SquashTM. It may have been deleted, or the SquashTM account used by OpenProject may have lost access to it."
         test_cases: "Test cases"
         unavailable: "The test cases could not be loaded because the SquashTM server is not reachable. Please try again later."
+      requirement_component:
         unlink: "Unlink"
       requirement_link_form:
         prompt: "Select a SquashTM requirement"

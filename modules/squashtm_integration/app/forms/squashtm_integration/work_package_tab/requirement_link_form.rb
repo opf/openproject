@@ -41,7 +41,7 @@ module SquashTMIntegration
           @requirement_options.each do |requirement|
             list.option(
               value: requirement[:id],
-              label: requirement[:name],
+              label: option_label(requirement),
               selected: requirement[:id] == model.squashtm_requirement_id
             )
           end
@@ -57,6 +57,12 @@ module SquashTMIntegration
       def initialize(requirement_options:)
         super()
         @requirement_options = requirement_options
+      end
+
+      private
+
+      def option_label(requirement)
+        [requirement[:reference], requirement[:name]].compact.join(" – ")
       end
     end
   end

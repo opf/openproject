@@ -105,11 +105,26 @@ module SquashTMIntegration
 
     def load_requirement_options
       @requirement_options = client.all_requirements(project_link.squashtm_project_id)
-                                   .map { it.slice("id", "name").symbolize_keys }
-                                   .sort_by { it[:name].to_s.downcase }
+                                   .map { requirement_option(it) }
+                                   .sort_by { requirement_sort_key(it) }
     rescue Client::Error => e
       log_error("SquashTM requirements of project #{project_link.squashtm_project_id} could not be loaded", e)
       @requirement_options = nil
+    end
+
+    def requirement_option(requirement)
+      {
+        id: requirement["id"],
+        name: requirement["name"],
+        reference: requirement.dig("current_version", "reference").presence
+      }
+    end
+
+    # Compares the numbers inside references numerically, so that REQ-2 comes before REQ-10.
+    def requirement_sort_key(option)
+      reference_parts = option[:reference].to_s.downcase.split(/(\d+)/).map { it.match?(/\A\d+\z/) ? [1, it.to_i] : [0, it] }
+
+      [option[:reference] ? 0 : 1, reference_parts, option[:name].to_s.downcase]
     end
 
     def log_error(message, error)

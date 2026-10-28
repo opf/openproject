@@ -54,7 +54,7 @@ RSpec.describe "SquashTM tab on work packages", :js do
     allow(SquashTMIntegration::Client).to receive(:for).and_return(client)
     allow(client).to receive_messages(
       requirement:,
-      all_requirements: [{ "id" => 11, "name" => "Users can sign in" }],
+      all_requirements: [{ "id" => 11, "name" => "Users can sign in", "current_version" => { "reference" => "REQ-001" } }],
       all_projects: [{ "id" => 1, "name" => "Integration Sandbox" }]
     )
     allow(client).to receive(:test_case).with(21).and_return({ "id" => 21, "name" => "Valid login", "reference" => "TC-001" })
@@ -121,7 +121,7 @@ RSpec.describe "SquashTM tab on work packages", :js do
         work_package_page.switch_to_tab(tab: "squashtm")
         expect(page).to have_text("No SquashTM requirement linked")
 
-        select "Users can sign in", from: "SquashTM requirement"
+        select "REQ-001 – Users can sign in", from: "SquashTM requirement"
         click_button "Link requirement"
 
         within_test_selector("op-work-package-squashtm-tab--requirement") do
@@ -138,7 +138,10 @@ RSpec.describe "SquashTM tab on work packages", :js do
           expect(page).to have_text("Not executed")
         end
 
-        find_test_selector("op-work-package-squashtm-tab--unlink").click
+        within_test_selector("op-work-package-squashtm-tab--requirement-menu") do
+          click_button accessible_name: "Actions"
+        end
+        click_link_or_button "Unlink"
         within_test_selector("op-work-package-squashtm-tab--unlink-dialog") do
           expect(page).to have_text("Unlink the SquashTM requirement Users can sign in?")
           click_button "Unlink"
@@ -152,7 +155,7 @@ RSpec.describe "SquashTM tab on work packages", :js do
         allow(client).to receive(:requirement).and_raise(SquashTMIntegration::Client::NotFoundError)
         work_package_page.switch_to_tab(tab: "squashtm")
 
-        select "Users can sign in", from: "SquashTM requirement"
+        select "REQ-001 – Users can sign in", from: "SquashTM requirement"
         click_button "Link requirement"
 
         expect(page).to have_text("does not exist or is not visible to the SquashTM account")
@@ -168,7 +171,7 @@ RSpec.describe "SquashTM tab on work packages", :js do
           work_package_page.switch_to_tab(tab: "squashtm")
 
           expect(page).to have_test_selector("op-work-package-squashtm-tab--requirement")
-          expect(page).to have_no_test_selector("op-work-package-squashtm-tab--unlink")
+          expect(page).to have_no_test_selector("op-work-package-squashtm-tab--requirement-menu")
         end
       end
     end

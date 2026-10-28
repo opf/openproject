@@ -49,7 +49,8 @@ RSpec.describe SquashTMIntegration::WorkPackageSquashTMTabComponent, type: :comp
                     server:,
                     requirement:,
                     requirement_error:,
-                    requirement_options: [{ id: 1, name: "Users can sign in" }],
+                    requirement_options: [{ id: 1, name: "Users can sign in", reference: "REQ-001" },
+                                          { id: 2, name: "Without reference", reference: nil }],
                     can_configure_server?: can_configure_server,
                     can_manage_links?: can_manage_links,
                     can_manage_project_link?: can_manage_project_link)
@@ -73,7 +74,7 @@ RSpec.describe SquashTMIntegration::WorkPackageSquashTMTabComponent, type: :comp
     it "offers the requirements of the linked SquashTM project" do
       render_component
 
-      expect(page).to have_select("SquashTM requirement", with_options: ["Users can sign in"])
+      expect(page).to have_select("SquashTM requirement", with_options: ["REQ-001 – Users can sign in", "Without reference"])
       expect(page).to have_button("Link requirement")
     end
 
