@@ -61,7 +61,7 @@ RSpec.describe "SquashTM project settings",
         expect(subject.body).to include("Integration Sandbox", "Another project")
       end
 
-      it "shows the current link to the SquashTM project instead of the dropdown" do
+      it "shows the linked SquashTM project and hides the dropdown" do
         create(:squashtm_project_link, project:, squashtm_project_id: 2, squashtm_project_name: "Another project")
 
         banner = Capybara.string(subject.body).find(test_selector("squashtm-project-link--current"))
