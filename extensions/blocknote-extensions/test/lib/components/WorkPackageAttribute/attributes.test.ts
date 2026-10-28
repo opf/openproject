@@ -51,15 +51,32 @@ describe('listAttributes', () => {
 });
 
 describe('findAttribute', () => {
-  it('finds by reference, key or label', () => {
+  it('finds by name or key', () => {
     expect(findAttribute(mockAttributeSchema, 'Content owner')?.key).toBe('customField1');
     expect(findAttribute(mockAttributeSchema, 'customField1')?.key).toBe('customField1');
     expect(findAttribute(mockAttributeSchema, 'Finish date')?.key).toBe('dueDate');
+    expect(findAttribute(mockAttributeSchema, 'status')?.key).toBe('status');
   });
 
-  it('prefers a custom field over an attribute key of the same name, as the macros do', () => {
+  it('prefers a name over a key, as the macros do', () => {
     const schema = { ...mockAttributeSchema, customField9: { type: 'String', name: 'status' } };
     expect(findAttribute(schema, 'status')?.key).toBe('customField9');
+  });
+
+  it('prefers the first of several attributes with the same name, as the macros do', () => {
+    const schema = { ...mockAttributeSchema, customField9: { type: 'String', name: 'Status' } };
+    expect(findAttribute(schema, 'Status')?.key).toBe('status');
+  });
+
+  it('maps the deprecated version onto the target versions, as the macros do', () => {
+    expect(findAttribute(mockAttributeSchema, 'version')?.key).toBe('targetVersions');
+    expect(findAttribute(mockAttributeSchema, 'Version')?.key).toBe('targetVersions');
+  });
+
+  it('finds the date of a milestone by its start or finish date, as the macros do', () => {
+    expect(findAttribute(mockMilestoneSchema, 'startDate')?.key).toBe('date');
+    expect(findAttribute(mockMilestoneSchema, 'dueDate')?.key).toBe('date');
+    expect(findAttribute(mockAttributeSchema, 'startDate')?.key).toBe('startDate');
   });
 
   it('finds nothing the schema does not offer', () => {

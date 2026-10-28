@@ -294,10 +294,24 @@ describe('openProjectApi', () => {
     beforeEach(() => initOpenProjectApi({ baseUrl: proxyUrl }));
     afterEach(() => vi.restoreAllMocks());
 
+    it('returns the schemas the API embeds along with them', async () => {
+      const schema = { _links: { self: { href: '/api/v3/work_packages/schemas/1-2' } } };
+      vi.spyOn(globalThis, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => ({
+          total: 1,
+          count: 1,
+          _embedded: { elements: [{ id: 1 }], schemas: { _embedded: { elements: [schema] } } },
+        }),
+      }));
+
+      expect((await fetchWorkPackages([1])).schemas).toEqual([schema]);
+    });
+
     it('asks for all of them in a single request', async () => {
       const fetchSpy = stubApi({ visible: [1, 2, 3] });
 
-      const workPackages = await fetchWorkPackages([1, 2, 3]);
+      const { workPackages } = await fetchWorkPackages([1, 2, 3]);
 
       expect(workPackages.map(({ id }) => id)).toEqual([1, 2, 3]);
       expect(fetchSpy).toHaveBeenCalledTimes(1);
@@ -319,7 +333,7 @@ describe('openProjectApi', () => {
     it('leaves out the work packages the user cannot see', async () => {
       stubApi({ visible: [1, 3] });
 
-      const workPackages = await fetchWorkPackages([1, 2, 3]);
+      const { workPackages } = await fetchWorkPackages([1, 2, 3]);
 
       expect(workPackages.map(({ id }) => id)).toEqual([1, 3]);
     });
@@ -327,14 +341,14 @@ describe('openProjectApi', () => {
     it('answers with none when not one of them is visible, instead of what the dropped filter returns', async () => {
       const fetchSpy = stubApi({ visible: [7, 8, 9, 10] });
 
-      expect(await fetchWorkPackages([1, 2])).toEqual([]);
+      expect(await fetchWorkPackages([1, 2])).toEqual({ workPackages: [], schemas: [] });
       expect(fetchSpy).toHaveBeenCalledTimes(1);
     });
 
     it('follows the pages when the instance caps the page size', async () => {
       const fetchSpy = stubApi({ visible: [1, 2, 3, 4, 5], maxPageSize: 2 });
 
-      const workPackages = await fetchWorkPackages([1, 2, 3, 4, 5]);
+      const { workPackages } = await fetchWorkPackages([1, 2, 3, 4, 5]);
 
       expect(workPackages.map(({ id }) => id)).toEqual([1, 2, 3, 4, 5]);
       expect(fetchSpy.mock.calls.map(([input]) => new URL(input as string).searchParams.get('offset')))
@@ -345,7 +359,7 @@ describe('openProjectApi', () => {
       const ids = Array.from({ length: 250 }, (_, index) => index + 1);
       const fetchSpy = stubApi({ visible: ids });
 
-      const workPackages = await fetchWorkPackages(ids);
+      const { workPackages } = await fetchWorkPackages(ids);
 
       expect(workPackages).toHaveLength(250);
       expect(fetchSpy.mock.calls.map(([input]) => idsOf(input as string).length)).toEqual([100, 100, 50]);
@@ -354,14 +368,14 @@ describe('openProjectApi', () => {
     it('sends no request for no ids', async () => {
       const fetchSpy = stubApi({ visible: [] });
 
-      expect(await fetchWorkPackages([])).toEqual([]);
+      expect(await fetchWorkPackages([])).toEqual({ workPackages: [], schemas: [] });
       expect(fetchSpy).not.toHaveBeenCalled();
     });
 
     it('leaves out invalid ids instead of failing the others with them', async () => {
       const fetchSpy = stubApi({ visible: [1] });
 
-      const workPackages = await fetchWorkPackages([1, -1, NaN, 1.5]);
+      const { workPackages } = await fetchWorkPackages([1, -1, NaN, 1.5]);
 
       expect(workPackages.map(({ id }) => id)).toEqual([1]);
       expect(idsOf(calledUrl(fetchSpy.mock.calls))).toEqual([1]);
@@ -370,7 +384,7 @@ describe('openProjectApi', () => {
     it('sends no request when no id is valid', async () => {
       const fetchSpy = stubApi({ visible: [1] });
 
-      expect(await fetchWorkPackages([-1, NaN])).toEqual([]);
+      expect(await fetchWorkPackages([-1, NaN])).toEqual({ workPackages: [], schemas: [] });
       expect(fetchSpy).not.toHaveBeenCalled();
     });
 
