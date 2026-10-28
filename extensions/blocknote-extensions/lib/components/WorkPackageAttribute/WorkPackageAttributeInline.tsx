@@ -34,7 +34,7 @@ const Muted = styled.span`
   color: var(--op-wp-meta-color);
 `;
 
-interface WorkPackageAttributeChipProps {
+interface WorkPackageAttributeInlineProps {
   wpid:string;
   displayId:string;
   attribute:string;
@@ -65,7 +65,7 @@ export function WorkPackageAttributeView({ resolved, display, reference }:{
   );
 }
 
-export function WorkPackageAttributeChip({ wpid, displayId, attribute, display }:WorkPackageAttributeChipProps) {
+export function WorkPackageAttributeInline({ wpid, displayId, attribute, display }:WorkPackageAttributeInlineProps) {
   const resolved = useWorkPackageAttribute(wpid, attribute);
   const title = resolved.state === 'ready'
     ? `${formatWorkPackageId(resolved.workPackage.displayId)} · ${resolved.workPackage.subject}`

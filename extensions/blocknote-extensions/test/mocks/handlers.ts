@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { ATTRIBUTE_SCHEMA_HREF, mockAttributeSchema, mockAttributeWorkPackage } from './workPackageAttributes';
+import { mockAttributeSchema, mockAttributeWorkPackage } from './workPackageAttributes';
 
 export const mockWorkPackage = {
   id: 123,
@@ -234,8 +234,22 @@ export function requestedWorkPackageIds(request:Request):string[] | undefined {
   return filterValues(request, 'id');
 }
 
-export function workPackageCollection(elements:{ id:number }[]) {
-  return HttpResponse.json({ total: elements.length, count: elements.length, _embedded: { elements } });
+const mockSchemas = [mockAttributeSchema];
+
+interface MockWorkPackage {
+  id:number;
+  _links?:{ schema?:{ href:string } } | null;
+}
+
+export function workPackageCollection(elements:MockWorkPackage[]) {
+  const schemaHrefs = new Set(elements.map((element) => element._links?.schema?.href));
+  const schemas = mockSchemas.filter((schema) => schemaHrefs.has(schema._links.self.href));
+
+  return HttpResponse.json({
+    total: elements.length,
+    count: elements.length,
+    _embedded: { elements, schemas: { _type: 'Collection', _embedded: { elements: schemas } } },
+  });
 }
 
 const demoParent = { href: '/api/v3/projects/1', title: 'Demo project' };
@@ -321,8 +335,6 @@ export const handlers = [
       },
     })
   ),
-
-  http.get(`http://localhost:3000${ATTRIBUTE_SCHEMA_HREF}`, () => HttpResponse.json(mockAttributeSchema)),
 
   http.get('http://localhost:3000/api/v3/work_packages/:id', ({ params }) =>
     HttpResponse.json(workPackageFor(String(params.id)))

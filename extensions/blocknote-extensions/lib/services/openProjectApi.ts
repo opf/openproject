@@ -147,8 +147,17 @@ export function fetchWorkPackage(id:string | number):Promise<WorkPackage> {
 /*  Keeps the filter short enough for any proxy's URL limit.  */
 const WORK_PACKAGES_PER_REQUEST = 100;
 
-async function fetchWorkPackagesPaged(ids:number[]):Promise<WorkPackage[]> {
-  const workPackages:WorkPackage[] = [];
+export interface WorkPackageBatch {
+  workPackages:WorkPackage[];
+  schemas:WorkPackageSchema[];
+}
+
+type WorkPackagePage = HalCollection<WorkPackage> & {
+  _embedded?:{ schemas?:HalCollection<WorkPackageSchema> };
+};
+
+async function fetchWorkPackagesPaged(ids:number[]):Promise<WorkPackageBatch> {
+  const batch:WorkPackageBatch = { workPackages: [], schemas: [] };
   let offset = 1;
 
   for (;;) {
@@ -160,25 +169,27 @@ async function fetchWorkPackagesPaged(ids:number[]):Promise<WorkPackage[]> {
       pageSize: String(ids.length),
       offset: String(offset),
     });
-    const page = await get<HalCollection<WorkPackage>>(`/api/v3/work_packages?${params.toString()}`);
+    const page = await get<WorkPackagePage>(`/api/v3/work_packages?${params.toString()}`);
     const elements = page._embedded?.elements ?? [];
     const total = page.total ?? elements.length;
 
     // With none of the ids valid, the API drops the filter and answers with unrelated work packages.
-    if (total > ids.length) return [];
+    if (total > ids.length) return { workPackages: [], schemas: [] };
 
-    workPackages.push(...elements);
+    batch.workPackages.push(...elements);
+    batch.schemas.push(...page._embedded?.schemas?._embedded?.elements ?? []);
     // The instance may cap the page size below the one asked for.
-    if (elements.length === 0 || workPackages.length >= total) return workPackages;
+    if (elements.length === 0 || batch.workPackages.length >= total) return batch;
     offset += 1;
   }
 }
 
 /**
- * Loads the given work packages in as few requests as possible. Work packages
- * that do not exist or are not visible are missing from the result.
+ * Loads the given work packages and their schemas in as few requests as
+ * possible. Work packages that do not exist or are not visible are missing
+ * from the result.
  */
-export async function fetchWorkPackages(ids:readonly number[]):Promise<WorkPackage[]> {
+export async function fetchWorkPackages(ids:readonly number[]):Promise<WorkPackageBatch> {
   const wanted = [...new Set(ids)].filter((id) => Number.isSafeInteger(id) && id > 0);
 
   const chunks:number[][] = [];
@@ -186,16 +197,12 @@ export async function fetchWorkPackages(ids:readonly number[]):Promise<WorkPacka
     chunks.push(wanted.slice(start, start + WORK_PACKAGES_PER_REQUEST));
   }
 
-  const workPackages = (await Promise.all(chunks.map(fetchWorkPackagesPaged))).flat();
+  const batches = await Promise.all(chunks.map(fetchWorkPackagesPaged));
   const requested = new Set(wanted);
-  return workPackages.filter((workPackage) => requested.has(workPackage.id));
-}
-
-export function fetchWorkPackageSchema(href:string):Promise<WorkPackageSchema> {
-  if (!href.startsWith('/api/v3/work_packages/schemas/')) {
-    return Promise.reject(new OpenProjectApiError(`Unexpected schema href: ${href}`));
-  }
-  return get<WorkPackageSchema>(href);
+  return {
+    workPackages: batches.flatMap((batch) => batch.workPackages).filter((workPackage) => requested.has(workPackage.id)),
+    schemas: batches.flatMap((batch) => batch.schemas),
+  };
 }
 
 export function fetchStatuses():Promise<StatusCollection> {
