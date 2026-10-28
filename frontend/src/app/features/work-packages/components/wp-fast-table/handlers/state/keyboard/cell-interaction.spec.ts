@@ -648,6 +648,28 @@ describe('CellInteraction', () => {
     expect(extra).not.toHaveAttribute('data-op-original-tabindex');
   });
 
+  it('focuses the input of a parked editor whose field host is not focusable', async () => {
+    const table = await mount();
+    const cell = navigableCells(table.row('1'))[1];
+    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    fireEvent.keyDown(cell, { key: 'Enter' });
+    await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
+    const input = within(cell).getByRole<HTMLInputElement>('textbox');
+    const host = document.createElement('div');
+    host.className = input.className;
+    input.className = '';
+    input.replaceWith(host);
+    host.append(input);
+    input.focus();
+
+    await userEvent.tab({ shift: true });
+    expect(cell).toHaveFocus();
+
+    fireEvent.keyDown(cell, { key: 'Enter' });
+
+    expect(input).toHaveFocus();
+  });
+
   it('restores a control that was disabled while its editor was parked', async () => {
     const table = await mount();
     const cell = navigableCells(table.row('1'))[1];
