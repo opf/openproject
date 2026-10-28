@@ -7,33 +7,19 @@
 **OpenProject** is a web-based, open-source project management software written in Ruby on Rails with PostgreSQL for data persistence.
 
 - **Size**: Large monorepo (~840MB, ~1M+ lines of code)
-- **Backend**: Ruby 4.0.9, Rails ~8.1.3
-- **Frontend**: Node.js 24.x (>= 24.22.1), npm 11.x, TypeScript
+- **Backend**: Ruby on Rails
+- **Frontend**: Node.js, npm, TypeScript
 - **Database**: PostgreSQL (required)
 - **Architecture**: Server-rendered HTML with Hotwire (Turbo + Stimulus). Legacy Angular components exist and are being migrated to custom elements. Uses GitHub's Primer Design System via ViewComponent.
 - **Editions**: Community, Enterprise (SSO, LDAP, SCIM), and BIM (construction industry, code in `modules/bim/`)
 
-## Critical Setup Requirements
+## Setup and Dependency Versions
 
-**ALWAYS verify versions before building:**
-- Ruby: `4.0.9` (see `.ruby-version`)
-- Node: `^24.22.1` (see `package.json` engines)
-- Bundler: `4.0.21` (see `BUNDLED WITH` in `Gemfile.lock`)
+Before building or running checks, verify Ruby against [.ruby-version](.ruby-version), Node.js and npm against the engines in [package.json](package.json) and [frontend/package.json](frontend/package.json), and Bundler against `BUNDLED WITH` in [Gemfile.lock](Gemfile.lock). Rails and other gem requirements are defined in [Gemfile](Gemfile).
 
-### Local Development Setup
-
-```bash
-bundle install                    # Install Ruby gems
-npm ci --ignore-scripts           # Install root Node packages (JSON linting)
-cd frontend && npm ci && cd ..   # Install Node packages
-bundle exec rails db:migrate      # Setup database
-bin/dev                          # Start all services (Rails, frontend, Good Job worker)
-# Access at http://localhost:3000
-```
-
-### Docker Development Setup
-
-See [`docker/dev/AGENTS.md`](docker/dev/AGENTS.md) for full Docker setup and commands.
+- For native setup, read the [development environment guide](docs/development/development-environment/README.md) and follow the instructions for your operating system.
+- For Docker setup and commands, read [docker/dev/AGENTS.md](docker/dev/AGENTS.md).
+- For setup or asset failures, consult the [development FAQ](docs/development/faq/README.md).
 
 ## Project Structure
 
@@ -49,54 +35,17 @@ See [`docker/dev/AGENTS.md`](docker/dev/AGENTS.md) for full Docker setup and com
 - `modules/` — OpenProject plugin modules
 - `spec/` — RSpec test suite
 
-### Configuration Files
+## Checks Before Committing
 
-- `.ruby-version` - Ruby version
-- `.rubocop.yml` - Ruby linting rules
-- `.erb_lint.yml` - ERB template linting
-- `frontend/eslint.config.mjs` - JavaScript/TypeScript linting
-- `Gemfile` - Ruby dependencies
-- `package.json` / `frontend/package.json` - Node.js dependencies
-- `lefthook.yml` - Git hooks configuration
+Run the linters and tests relevant to the changed files:
 
-### Linting (Run Before Committing)
+- Ruby and ERB: follow the [code review guidelines](docs/development/code-review-guidelines/README.md#coding-style); use [lefthook.yml](lefthook.yml) for the configured checks.
+- JavaScript and TypeScript: follow the [frontend formatting guide](docs/development/style-guide/frontend/README.md#code-format) and run the [frontend typecheck](docs/development/testing/running-tests-locally/README.md#frontend-tests).
+- Tests: use [Running tests locally](docs/development/testing/running-tests-locally/README.md); for CI-only or intermittent failures, read the [continuous testing workflow](docs/development/testing/continuous-testing-workflow/README.md) and [flaky test guide](docs/development/testing/handling-flaky-tests/README.md).
 
-```bash
-# Ruby
-bundle exec rubocop                              # Check all files
-bin/dirty-rubocop --uncommitted                  # Check only uncommitted changes
+## Copyright Notices
 
-# JavaScript/TypeScript
-cd frontend && npx eslint src/ && cd ..
-cd frontend && npm run typecheck && cd ..        # Typecheck application and spec sources
-
-# ERB Templates
-erb_lint {files}
-
-# Install Git Hooks (recommended)
-bundle exec lefthook install
-```
-
-### JavaScript and TypeScript Copyright Headers
-
-All first-party JavaScript and TypeScript files must use the canonical compact
-line-comment copyright header generated from `COPYRIGHT_short`:
-
-```typescript
-//-- copyright
-// OpenProject is an open source project management software.
-// ...
-//++
-
-```
-
-Use `//-- copyright` and `//++` exactly as shown. Prefix non-empty body lines
-with `// `, prefix empty body lines with `//`, and leave one blank line between
-the header and the source code. Do not compose or reformat the header manually.
-
-Run `rake copyright:update_typescript` to add or repair headers in `.ts` and
-`.tsx` files. Run `rake copyright:update_js` for `.js`, `.mjs`, and `.cjs`
-files. Both commands accept an optional path argument.
+Use the applicable `copyright:update_*` Rake task or ESLint autofix to generate or repair notices where supported. Copy an existing notice manually only if neither tool can add a missing notice for the file type. See [copyright notices](docs/development/style-guide/README.md#copyright-notices) for commands and format guidance.
 
 ## Code Comments
 
@@ -118,15 +67,10 @@ Write self-explanatory code instead of comments.
   variables, and objects so the code explains itself.
 - When in doubt, delete the comment rather than shortening it.
 
-## Commit Messages
-- First line: < 72 characters, then blank line, then detailed description
-- Reference work packages when applicable
-- Merge strategy: "Merge pull request" (not squash), except single-commit PRs can use "Rebase and merge"
+## Task-Specific Documentation
 
-## Additional Documentation
-
-- `docs/development/` — Development documentation
-- `docs/development/running-tests/` — Testing guide
-- `docs/development/code-review-guidelines/` — Code review standards
-- `CONTRIBUTING.md` — Contribution workflow
-- `.github/copilot-instructions.md` — Extended agent instructions with troubleshooting
+- Commits and pull requests: follow the [code review guidelines](docs/development/code-review-guidelines/README.md), including commit messages and merge strategy, and [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution workflow.
+- Primer components and icons: read the [design system guide](docs/development/design-system/README.md), which links the maintained source repositories and Lookbook.
+- CKEditor: read the [WYSIWYG editor concept](docs/development/concepts/wysiwyg-editor/README.md) for the custom build repository and integration requirements.
+- Service objects and results: follow [application architecture](docs/development/application-architecture/README.md#service-objects).
+- Database migrations: read the [migration guide](docs/development/migrations/README.md), including migration squashing between major versions.
