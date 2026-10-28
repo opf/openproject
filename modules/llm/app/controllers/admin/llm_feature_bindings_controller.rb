@@ -40,7 +40,7 @@ module Admin
     before_action :require_enabled_connection
 
     def index
-      @features = OpenProject::Llm::Features.available
+      @features = OpenProject::Llm::Features.enabled
       @bindings = bindings_by_feature_key
     end
 

@@ -57,4 +57,18 @@ RSpec.describe OpenProject::Llm::Features do
     expect(described_class[:semantic_search])
       .to have_attributes(kind: :embedding, overridable: false, requires: %i[embeddings])
   end
+
+  it "without pgvector semantic search is enabled but not available" do
+    allow(OpenProject::FeatureDecisions).to receive(:semantic_search_active?).and_return(true)
+    allow(OpenProject::Llm::Pgvector).to receive(:available?).and_return(false)
+
+    expect(described_class.enabled).to include(described_class[:semantic_search])
+    expect(described_class.available).not_to include(described_class[:semantic_search])
+  end
+
+  it "never reports a feature as available while it is not enabled" do
+    described_class.register(key, kind: :chat, enabled: -> { false })
+
+    expect(described_class[key]).not_to be_available
+  end
 end
