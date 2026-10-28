@@ -36,6 +36,7 @@ module SquashTMIntegration
           label: attribute_name(:squashtm_project_id),
           caption: I18n.t("squashtm_integration.project_settings.project_link_form.squashtm_project_caption"),
           include_blank: I18n.t("squashtm_integration.project_settings.project_link_form.squashtm_project_prompt"),
+          required: true,
           input_width: :large
         ) do |list|
           @squashtm_projects.each do |squashtm_project|

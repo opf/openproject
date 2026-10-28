@@ -61,7 +61,14 @@ RSpec.describe "SquashTM project settings", :js do
       click_button "Save"
 
       expect_flash(message: I18n.t(:notice_successful_update))
-      expect(page).to have_text("This project is linked to the SquashTM project Integration Sandbox.")
+      within_test_selector("squashtm-project-link--current") do
+        expect(page).to have_text("This project is linked to the SquashTM project Integration Sandbox")
+        expect(page).to have_link(
+          "Integration Sandbox",
+          href: "https://squashtm.example.com/squash/administration-workspace/projects/1/content?anchor=information"
+        )
+      end
+      expect(page).to have_no_select("SquashTM project")
       expect(SquashTMIntegration::ProjectLink.sole).to have_attributes(project_id: project.id, squashtm_project_id: 1)
 
       find_test_selector("squashtm-project-link--delete").click
@@ -77,7 +84,7 @@ RSpec.describe "SquashTM project settings", :js do
     it "lists the SquashTM projects by name" do
       visit project_settings_squashtm_path(project)
 
-      expect(page).to have_select("SquashTM project", options: ["No SquashTM project", "Integration Sandbox", "Webshop"])
+      expect(page).to have_select("SquashTM project", options: ["Select a SquashTM project", "Integration Sandbox", "Webshop"])
     end
 
     it "shows the error when the SquashTM project does not exist" do
@@ -91,15 +98,14 @@ RSpec.describe "SquashTM project settings", :js do
       expect(SquashTMIntegration::ProjectLink).not_to exist
     end
 
-    it "asks for confirmation when saving with no SquashTM project on a linked project" do
+    it "shows the linked SquashTM project with an unlink button" do
       create(:squashtm_project_link, project:, squashtm_project_id: 1, squashtm_project_name: "Integration Sandbox")
       visit project_settings_squashtm_path(project)
 
-      select "No SquashTM project", from: "SquashTM project"
-      click_button "Save"
-
-      expect(page).to have_text("Unlink the SquashTM project Integration Sandbox?")
-      expect(SquashTMIntegration::ProjectLink).to exist
+      expect(page).to have_test_selector("squashtm-project-link--current", text: "Integration Sandbox")
+      expect(page).to have_test_selector("squashtm-project-link--delete", text: "Unlink")
+      expect(page).to have_no_select("SquashTM project")
+      expect(find_link("Integration Sandbox")[:target]).to eq("_blank")
     end
 
     context "without the permission to manage the integration" do
