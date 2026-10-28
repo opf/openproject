@@ -348,6 +348,19 @@ RSpec.describe Attachment do
       end
     end
 
+    describe "for a text file belonging to an export" do
+      let(:export_attachment) do
+        FogAttachment.new author:, container: create(:work_packages_export), file: File.open(text_path)
+      end
+
+      before { export_attachment.save! }
+
+      it "makes S3 use content_disposition 'attachment'" do
+        expect(export_attachment.content_disposition).to eq "attachment; filename=testfile-utf8.txt"
+        expect(export_attachment.external_url.to_s).to include "response-content-disposition=attachment"
+      end
+    end
+
     describe "for a video file" do
       let(:attachment) { described_class.new }
 
@@ -356,6 +369,15 @@ RSpec.describe Attachment do
           attachment.content_type = content_type
           expect(attachment).to be_inlineable, "#{content_type} should be inlineable"
         end
+      end
+    end
+
+    describe "for a PDF file belonging to an export" do
+      let(:attachment) { described_class.new(container: build(:work_packages_export), content_type: "application/pdf") }
+
+      it "stays inlineable so it can be viewed in a browser tab" do
+        expect(attachment).to be_inlineable
+        expect(attachment.content_disposition(include_filename: false)).to eq "inline"
       end
     end
 
