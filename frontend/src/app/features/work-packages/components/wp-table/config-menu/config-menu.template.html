@@ -1,6 +1,7 @@
 <button
     type="button"
     class="spot-link wp-table--columns-selection"
+    [attr.tabindex]="keyboardNavigationEnabled() ? -1 : null"
     [title]="text.configureTable"
     (click)="openTableConfigurationModal()"
 >

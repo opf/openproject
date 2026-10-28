@@ -35,6 +35,7 @@ module AI
       attr_reader :run, :scope, :request_id, :context, :rejection
 
       delegate :work_package, :project, to: :context
+      delegate :ids, to: :context, prefix: true
 
       def self.rejected(message:, label:, scope:, request_id:, context: Context.none)
         new(run: nil, scope:, request_id:, label:, context:, rejection: message)
@@ -55,6 +56,10 @@ module AI
 
       def state
         @state ||= run ? run_state : "failed"
+      end
+
+      def retryable?
+        run.present? && run.failed?
       end
 
       def text
@@ -92,7 +97,7 @@ module AI
       end
 
       def completed_event
-        events.reverse_each.find { |event| event.kind == "completed" }
+        events.rfind { |event| event.kind == "completed" }
       end
 
       def streamed_text
@@ -102,7 +107,7 @@ module AI
       def error_event
         return @error_event if defined?(@error_event)
 
-        @error_event = events.reverse_each.find { |event| event.kind == "error" }
+        @error_event = events.rfind { |event| event.kind == "error" }
       end
 
       def blocked?

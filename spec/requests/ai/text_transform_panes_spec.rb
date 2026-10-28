@@ -65,7 +65,8 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       expect(AI::TextTransformRun.sole).to have_attributes(user:, input: "Login page dont work.", status: "queued")
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('action="append"', 'targets="body"', 'id="ai-text-transforms-result-pane-component"',
-                                       "Fix grammar", "Generating…")
+                                       "Fix grammar", "Generating…", 'data-state="generating"',
+                                       %(data-run="#{AI::TextTransformRun.sole.uuid}"), 'data-seq="0"')
     end
 
     it "starts a run for a new work package of a project and type" do
@@ -84,6 +85,17 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
 
       retried = AI::TextTransformRun.where.not(id: failed.id).sole
       expect(retried).to have_attributes(action: failed.action, input: failed.input, status: "queued")
+    end
+
+    it "repeats a run for a new work package of a project and type" do
+      failed = run_with_events(:failed, ["error", { "reason" => "upstream_error", "message" => "Failed." }])
+      new_work_package = pane_params.except(:work_package_id).merge(project_id: project.id, type_id: type.id)
+
+      post ai_text_transform_panes_path, params: new_work_package.merge(retry_of: failed.uuid), headers: stream
+
+      expect(response).to have_http_status(:ok)
+      expect(AI::TextTransformRun.where.not(id: failed.id).sole).to have_attributes(input: failed.input, status: "queued")
+      expect(response.body).to include(%(name="project_id" value="#{project.id}"), %(name="type_id" value="#{type.id}"))
     end
 
     it "does not repeat a run that is still running" do
@@ -227,7 +239,8 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('action="update"', 'target="ai-text-transforms-result-pane-component-body"',
                                        'target="ai-text-transforms-result-pane-component-footer"',
-                                       "<strong>bold</strong> text", "Generating…")
+                                       "<strong>bold</strong> text", "Generating…",
+                                       'data-state="generating"', %(data-run="#{run.uuid}"), 'data-seq="2"')
     end
 
     it "offers the raw text once completed" do
@@ -235,7 +248,8 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
 
       get ai_text_transform_pane_path(run.uuid, **pane_params, after: 0), headers: stream
 
-      expect(response.body).to include("<strong>done</strong>", "<template>**done**</template>", "Replace")
+      expect(response.body).to include("<strong>done</strong>", "<template>**done**</template>", "Replace",
+                                       'data-state="done"', apply_ai_text_transform_pane_path(run.uuid))
     end
 
     it "keeps markup in the raw text inside its template" do
@@ -252,7 +266,8 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
 
       get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
 
-      expect(response.body).to include("Generation stopped", "Try again")
+      expect(response.body).to include("Generation stopped", "Try again", 'data-state="stopped"',
+                                       %(name="retry_of" value="#{run.uuid}"))
     end
 
     it "removes the pane of a cancelled run and reports the closed request" do
@@ -369,6 +384,25 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
 
       expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  context "with forgery protection", skip_csrf: false do
+    it "renders forms that carry an authenticity token" do
+      run = run_with_events(:succeeded, ["completed", { "text" => "Done." }])
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
+
+      expect(response.body.scan('name="authenticity_token"').size).to eq(2)
+    end
+
+    it "refuses to close a pane without a valid token" do
+      run = run_with_events(:running)
+
+      delete ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(run.reload.cancel_requested).to be(false)
     end
   end
 
