@@ -116,6 +116,7 @@ Depending on the individual use and permissions of the user the following person
 - Assignment of a files to an uploader or creator
 - Change history
 - Person mentioned in a file (incl. file attributes)
+- Files always belong to a container, and are deleted together with that container
 
 #### GitHub pull requests (cg-01)
 
@@ -687,10 +688,10 @@ flowchart LR
 
 OpenProject makes use of technical cookies to identity the browser client and/or remember information such as 2FA login state. The core application makes use of these cookies:
 
-| **Cookie name**                                | **Description**                                              | **Expiration**                                                   | **Security flags**                                    | **Implementation**                                           |
-| ---------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ----------------------------------------------------- | ------------------------------------------------------------ |
-| `_open_project_session` (name is configurable) | contains the information about the logged in user as well as information stored between requests on the user's choices (e.g. the filters for costs are in part stored there) | Session <br>+ configurable server-sideTTL                  | secure<br>httponly<br>Samesite=Lax<br>encrypted | [Code ref](https://github.com/opf/openproject/blob/release/16.0/config/initializers/session_store.rb#L34-L39) |
-| `autologin` (name is configurable)             | (Optional feature, requires opt-in under Administration > Authentication settings) <br>enables the user to automatically log in again after the session expired (e.g. because the browser was closed). It is set when the user checks the '_Stay logged in_' box in the login form.<br> | Cookie 1 year<br>+ server-side token N days (configurable) | secure<br>httponly<br>Samesite=Lax<br>encrypted | [Code ref](https://github.com/opf/openproject/blob/release/16.0/app/services/users/login_service.rb#L58-L74) |
+| **Cookie name**                                | **Description**                                              | **Expiration**                                               | **Security flags**                              | **Implementation**                                           |
+| ---------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ----------------------------------------------- | ------------------------------------------------------------ |
+| `_open_project_session` (name is configurable) | contains the information about the logged in user as well as information stored between requests on the user's choices (e.g. the filters for costs are in part stored there) | Session <br>+ configurable server-sideTTL<br />Automatic nightly cleanup of stale sessions | secure<br>httponly<br>Samesite=Lax<br>encrypted | [Code ref](https://github.com/opf/openproject/blob/release/16.0/config/initializers/session_store.rb#L34-L39) |
+| `autologin` (name is configurable)             | (Optional feature, requires opt-in under Administration > Authentication settings) <br>enables the user to automatically log in again after the session expired (e.g. because the browser was closed). It is set when the user checks the '_Stay logged in_' box in the login form.<br> | Cookie 1 year<br>+ server-side token N days (configurable)   | secure<br>httponly<br>Samesite=Lax<br>encrypted | [Code ref](https://github.com/opf/openproject/blob/release/16.0/app/services/users/login_service.rb#L58-L74) |
 | `op2fa_remember_token`                         | the presence of that cookie suppresses the need for the user to provide a second factor upon login for N days (configurable by administration) if the user selects to do so when entering the 2fa information. | N days (configurable)                                        | secure<br>httponly<br>Samesite=Lax<br>encrypted | [Code ref](https://github.com/opf/openproject/blob/release/16.0/modules/two_factor_authentication/app/controllers/concerns/two_factor_authentication/remember_token.rb#L28-L33) |
 
 ## Deletion of personal data
@@ -708,3 +709,11 @@ For more information on user account deletion, please see [the user administrati
 **Note:** Persons mentioned in text or shown in uploaded pictures cannot be deleted or scrubbed in an automated fashion. All references to persons in text or pictures need to be deleted either one by one or by deleting the project in total. Memory references in memcached might still refer to (invalidated) user data until it is being reassigned.
 
 **Note:** Logfiles might retain personal data for the configured retention period of the logfile. See "D: Logging" above.
+
+
+
+## Deletion of content
+
+Content in OpenProject (Projects, Work packages, Wiki pages, Files, ...) can be fully deleted through the UI with the appropriate permissions in the system. There is no trash or retention period for these objects, they will be deleted immediately.
+
+For file attachments, they always belong to a container for visibility and permission considerations. Attached files will be deleted automatically together with the container being deleted.
