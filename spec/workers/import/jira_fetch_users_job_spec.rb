@@ -54,7 +54,7 @@ RSpec.describe Import::JiraFetchUsersJob do
         allow(jira_client).to receive(:user_by_key)
       end
 
-      it "retrieves additonal userdata and creates import users for the authors and watchers" do
+      it "retrieves additional userdata and creates import users for the authors and watchers" do
         author_keys = %w[JIRAUSER10000 JIRAUSER10102]
         watcher_keys = %w[JIRAUSER666 JIRAUSER123 JIRAUSER69]
         expect { described_class.new(jira_import.id).perform_now }.to change(Import::JiraUser, :count).by(5)
