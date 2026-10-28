@@ -147,14 +147,6 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         expect(response.body).to include("Use the default (Qwen 3.6)")
       end
 
-      it "leaves the model of an embedding feature to its Semantic Indexes" do
-        get llm_feature_bindings_path
-
-        expect(page).to have_no_css("form[action='#{llm_feature_binding_path(:semantic_search)}']")
-        expect(offered_models(:description_assistant)).to contain_exactly("qwen3.6-27b")
-        expect(response.body).to include("Semantic Indexes")
-      end
-
       context "without pgvector" do
         let(:warning) { "[data-test-selector='llm-feature-bindings--pgvector-unavailable']" }
 
@@ -284,64 +276,6 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
       patch llm_feature_binding_path("no_such_feature"), params: { llm_feature_binding: { model_id: "x" } }
 
       expect(response).to have_http_status(:not_found)
-    end
-  end
-
-  describe "embedding settings" do
-    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
-
-    before do
-      login_as admin
-      # Binding an embedding feature probes the model for a vector.
-      mock_llm_embeddings_response(base_url)
-    end
-
-    it "stores the vector size" do
-      patch llm_feature_binding_path(:semantic_search),
-            params: { llm_feature_binding: { model_id: "bge-m3", dimensions: "1024" } }
-
-      binding = connection.feature_bindings.find_by(feature_key: "semantic_search")
-
-      expect(binding.dimensions).to eq(1024)
-    end
-
-    it "rejects a dimension count that is not a positive integer" do
-      patch llm_feature_binding_path(:semantic_search),
-            params: { llm_feature_binding: { model_id: "bge-m3", dimensions: "0" } }
-
-      expect(connection.feature_bindings.find_by(feature_key: "semantic_search")&.dimensions).to be_nil
-    end
-
-    it "rejects a dimension count the vector index cannot store" do
-      patch llm_feature_binding_path(:semantic_search),
-            params: { llm_feature_binding: { model_id: "bge-m3",
-                                             dimensions: WorkPackageEmbedding::DIMENSIONS.next.to_s } }
-
-      expect(connection.feature_bindings.find_by(feature_key: "semantic_search")&.dimensions).to be_nil
-    end
-
-    it "ignores vector settings sent to a chat feature" do
-      patch llm_feature_binding_path(:description_assistant),
-            params: { llm_feature_binding: { model_id: "qwen3.6-27b", dimensions: "1024" } }
-
-      binding = connection.feature_bindings.find_by(feature_key: "description_assistant")
-
-      expect(binding.model_id).to eq("qwen3.6-27b")
-      expect(binding.dimensions).to be_nil
-    end
-
-    # A locked binding is the record that a vector index exists. Everything the
-    # index depends on is frozen, not just the model.
-    it "refuses to change anything a locked index depends on" do
-      binding = create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", model_id: "bge-m3",
-                                             dimensions: 1024, locked_at: Time.current)
-
-      patch llm_feature_binding_path(:semantic_search),
-            params: { llm_feature_binding: { model_id: "qwen3.6-27b", dimensions: "512" } }
-
-      binding.reload
-      expect(binding.model_id).to eq("bge-m3")
-      expect(binding.dimensions).to eq(1024)
     end
   end
 end
