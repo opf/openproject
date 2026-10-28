@@ -114,8 +114,6 @@ RSpec.describe "Endpoints" do
       %w[POST /api/v3/wiki_page_links],
       %w[DELETE /api/v3/wiki_page_links/:wiki_page_link_id],
       %w[GET /api/v3/work_packages/:id/cost_entries],
-      %w[GET /api/v3/work_packages/:id/gitlab_issues],
-      %w[GET /api/v3/work_packages/:id/gitlab_merge_requests],
       %w[GET /api/v3/work_packages/:id/github_pull_requests],
       %w[GET /api/v3/work_packages/:id/meeting_agenda_items],
       %w[GET /api/v3/work_packages/:id/summarized_costs_by_type],

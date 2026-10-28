@@ -36,8 +36,15 @@ module Repositories
     belongs_to :repository_user, class_name: "Repositories::User", optional: true
 
     has_many :pipelines, dependent: :destroy
+    has_one :latest_pipeline, -> { chronological.reverse_order }, class_name: "Pipeline", inverse_of: false, dependent: nil
 
     has_many :merge_request_work_packages, dependent: :destroy
     has_many :work_packages, through: :merge_request_work_packages
+
+    scope :visible, ->(user = ::User.current) {
+      where(id: MergeRequestWorkPackage
+                  .where(work_package: WorkPackage.allowed_to(user, :show_repository_content))
+                  .select(:merge_request_id))
+    }
   end
 end

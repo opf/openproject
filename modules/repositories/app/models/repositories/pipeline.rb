@@ -35,5 +35,8 @@ module Repositories
     belongs_to :provider
     belongs_to :merge_request
     belongs_to :repository_user, class_name: "Repositories::User", optional: true
+
+    scope :visible, ->(user = ::User.current) { where(merge_request: MergeRequest.visible(user)) }
+    scope :chronological, -> { order(arel_table[:started_at].asc.nulls_last, :id) }
   end
 end

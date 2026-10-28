@@ -73,11 +73,12 @@ module OpenProject::Repositories
     end
 
     extend_api_response(:v3, :work_packages, :work_package) do
-      link :repositories,
-            cache_if: -> {
-              Repositories::Provider.exists? &&
-                current_user.allowed_in_work_package?(:show_repository_content, represented)
-            } do
+      show_repositories = -> {
+        Repositories::Provider.exists? &&
+          current_user.allowed_in_work_package?(:show_repository_content, represented)
+      }
+
+      link :repositories, cache_if: show_repositories do
         next if represented.new_record?
 
         {
@@ -85,6 +86,45 @@ module OpenProject::Repositories
           title: "repositories" # TODO: localize?
         }
       end
+
+      %i[repository_issues repository_merge_requests repository_branches repository_commits].each do |resource|
+        link resource.to_s.camelize(:lower).to_sym, cache_if: show_repositories do
+          next if represented.new_record?
+
+          { href: api_v3_paths.public_send(:"#{resource}_by_work_package", represented.id) }
+        end
+      end
+    end
+
+    %i[repository_issue repository_merge_request repository_branch repository_commit].each do |resource|
+      plural = resource.to_s.pluralize
+
+      add_api_resource_paths resource, only: :show
+
+      add_api_path :"#{plural}_by_work_package" do |work_package_id|
+        "#{work_package(work_package_id)}/#{plural}"
+      end
+    end
+
+    add_api_resource_paths :repository_pipeline, only: :show
+
+    add_api_path :repository_pipelines_by_merge_request do |merge_request_id|
+      "#{repository_merge_request(merge_request_id)}/repository_pipelines"
+    end
+
+    add_api_endpoint "API::V3::Root" do
+      mount ::API::V3::Repositories::Issues::IssuesAPI
+      mount ::API::V3::Repositories::MergeRequests::MergeRequestsAPI
+      mount ::API::V3::Repositories::Branches::BranchesAPI
+      mount ::API::V3::Repositories::Commits::CommitsAPI
+      mount ::API::V3::Repositories::Pipelines::PipelinesAPI
+    end
+
+    add_api_endpoint "API::V3::WorkPackages::WorkPackagesAPI", :id do
+      mount ::API::V3::Repositories::Issues::IssuesByWorkPackageAPI
+      mount ::API::V3::Repositories::MergeRequests::MergeRequestsByWorkPackageAPI
+      mount ::API::V3::Repositories::Branches::BranchesByWorkPackageAPI
+      mount ::API::V3::Repositories::Commits::CommitsByWorkPackageAPI
     end
 
     include_module "WorkPackages::Repositories", into: "WorkPackage"

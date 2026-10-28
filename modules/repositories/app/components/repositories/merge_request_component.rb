@@ -34,6 +34,7 @@ module Repositories
     include OpPrimer::ComponentHelpers
 
     alias_method :merge_request, :model
+    delegate :latest_pipeline, to: :merge_request, private: true
 
     private
 
@@ -56,10 +57,6 @@ module Repositories
 
     def state_label
       t(".states.#{merge_request.state}")
-    end
-
-    def latest_pipeline
-      @latest_pipeline ||= merge_request.pipelines.order(started_at: :asc).last
     end
 
     def pipeline_status
