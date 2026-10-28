@@ -26,7 +26,7 @@ In the Community edition there is no limit to the number of users. In Enterprise
 | [Filter users](#filter-users)                   | Filter users in the list.                                    |
 | [Configure view](#configure-view)               | Configure how user information is displayed.                 |
 | [Lock and unlock users](#lock-and-unlock-users) | Block a user permanently in the system or unlock a user.     |
-| [Create users](#create-users)                   | Invite or create new users. Resend or delete user invitations |
+| [Create users](#create-users)                   | Invite or create new users. Resend or delete user invitations. |
 | [Manage user settings](#manage-user-settings)   | Manage user details.                                         |
 | [Authentication](#authentication)               | Set and use authentication methods.                          |
 | [Delete users](#delete-users)                   | Delete a user from the system.                               |
@@ -182,7 +182,7 @@ The **General** tab is divided into several sections.
 
 ### Avatar
 
-The **Avatar** section at the top of the **General** tab shows the user's current avatar. Click the avatar to open the **Edit avatar** dialog. There, you can change the avatar for the user in the same way users change their own avatar: use a [Gravatar](https://en.wikipedia.org/wiki/Gravatar), upload a custom image, or customize the initials and the background color. For details, see [Set an avatar](../../../user-guide/account-settings/account/#set-an-avatar).
+The **Avatar** section at the top of the **General** tab shows the user's current avatar. Click the avatar to open the **Edit avatar** dialog. There, you can change the avatar for the user in the same way users change their own avatar: use a [Gravatar](https://en.wikipedia.org/wiki/Gravatar), upload a custom image, or customize the initials and the background color. For more details, see [Set an avatar](../../../user-guide/account-settings/account/#set-an-avatar).
 
 The options available in the dialog depend on the [avatar settings](../avatars). The **Initials** option is always available.
 
