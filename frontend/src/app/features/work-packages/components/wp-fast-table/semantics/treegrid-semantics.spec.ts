@@ -88,6 +88,14 @@ describe('TreegridSemantics', () => {
 
   const expectHidden = (row:HTMLElement) => expect(row).toHaveAttribute('aria-hidden', 'true');
   const expectExposed = (row:HTMLElement) => expect(row).not.toHaveAttribute('aria-hidden');
+  const expectCollapsed = (row:HTMLElement) => {
+    expect(row).not.toBeVisible();
+    expect(row).not.toHaveAttribute('aria-hidden');
+  };
+  const expectShown = (row:HTMLElement) => {
+    expect(row).toBeVisible();
+    expect(row).not.toHaveAttribute('aria-hidden');
+  };
 
   afterEach(() => harness.destroy());
 
@@ -192,20 +200,20 @@ describe('TreegridSemantics', () => {
     harness.click('1');
     const relationKey = relationOccurrenceKey('ofType', '1', '3');
     const groupMembers = () => [harness.row('1'), harness.row('2'), element(relationKey), sumsRow(0)];
-    const ariaHidden = () => groupMembers().map((row) => row.getAttribute('aria-hidden'));
+    const exposure = () => groupMembers().map((row) => [getComputedStyle(row).display, row.getAttribute('aria-hidden')]);
 
-    const collapsed = atNextPublication(ariaHidden);
+    const collapsed = atNextPublication(exposure);
     toggleGroup(0);
-    expect(await collapsed).toEqual(['true', 'true', 'true', 'true']);
-    expect(groupHeader(0)).not.toHaveAttribute('aria-hidden');
-    expectExposed(harness.row('3'));
-    expectExposed(sumsRow(1));
+    expect(await collapsed).toEqual(Array(4).fill(['none', null]));
+    expectShown(groupHeader(0));
+    expectShown(harness.row('3'));
+    expectShown(sumsRow(1));
     expect(harness.selection.isSelected('1')).toBe(true);
     expect(harness.row('1')).toHaveAttribute('aria-selected', 'true');
 
-    const expanded = atNextPublication(ariaHidden);
+    const expanded = atNextPublication(exposure);
     toggleGroup(0);
-    expect(await expanded).toEqual([null, null, null, null]);
+    expect(await expanded).toEqual(Array(4).fill(['table-row', null]));
     expect(harness.selection.isSelected('1')).toBe(true);
   });
 
@@ -245,9 +253,9 @@ describe('TreegridSemantics', () => {
     await harness.render();
 
     expect(groupHeader(0)).toHaveAttribute('aria-expanded', 'false');
-    expectHidden(harness.row('1'));
-    expectHidden(sumsRow(0));
-    expectExposed(harness.row('3'));
+    expectCollapsed(harness.row('1'));
+    expectCollapsed(sumsRow(0));
+    expectShown(harness.row('3'));
   });
 
   it('paints initially collapsed hierarchy structures', async () => {
@@ -260,17 +268,17 @@ describe('TreegridSemantics', () => {
     await harness.render();
 
     expect(harness.row('1')).toHaveAttribute('aria-expanded', 'false');
-    expectHidden(harness.row('2'));
-    expectHidden(harness.row('3'));
-    expectExposed(harness.row('4'));
+    expectCollapsed(harness.row('2'));
+    expectCollapsed(harness.row('3'));
+    expectShown(harness.row('4'));
 
     hierarchies().expand('1');
 
-    await waitFor(() => expectExposed(harness.row('2')));
+    await waitFor(() => expectShown(harness.row('2')));
     expect(harness.row('1')).toHaveAttribute('aria-expanded', 'true');
     expect(harness.row('2')).toHaveAttribute('aria-expanded', 'false');
     expect(harness.row('2')).toHaveAttribute('aria-level', '2');
-    expectHidden(harness.row('3'));
+    expectCollapsed(harness.row('3'));
     expect(harness.row('3')).toHaveAttribute('aria-level', '3');
   });
 
@@ -304,7 +312,7 @@ describe('TreegridSemantics', () => {
     mount(groupedFixtures);
     await harness.render();
     toggleGroup(0);
-    await waitFor(() => expectHidden(harness.row('1')));
+    await waitFor(() => expectCollapsed(harness.row('1')));
     const previousCells = Array.from(harness.row('1').cells);
 
     const refreshed = atNextRefresh(() => {
@@ -314,6 +322,7 @@ describe('TreegridSemantics', () => {
         rebuiltCells: cells.some((cell) => !previousCells.includes(cell)),
         cellRoles: cells.every((cell) => cell.getAttribute('role') === 'gridcell'),
         hidden: row.getAttribute('aria-hidden'),
+        display: getComputedStyle(row).display,
         level: row.getAttribute('aria-level'),
         role: row.getAttribute('role'),
         selected: row.getAttribute('aria-selected'),
@@ -322,7 +331,7 @@ describe('TreegridSemantics', () => {
     harness.table.refreshRows(resource('1'));
 
     expect(await refreshed).toEqual({
-      rebuiltCells: true, cellRoles: true, hidden: 'true', level: '2', role: 'row', selected: 'false',
+      rebuiltCells: true, cellRoles: true, hidden: null, display: 'none', level: '2', role: 'row', selected: 'false',
     });
   });
 
@@ -357,9 +366,9 @@ describe('TreegridSemantics', () => {
     hierarchies().collapse('1');
 
     await waitFor(() => expect(harness.row('1')).toHaveAttribute('aria-expanded', 'false'));
-    expectExposed(harness.relationRow('1', '3'));
+    expectShown(harness.relationRow('1', '3'));
     expect(harness.relationRow('1', '3')).toHaveAttribute('aria-level', '2');
-    expectHidden(harness.row('2'));
+    expectCollapsed(harness.row('2'));
   });
 
   it('keeps the cell role on drag handles that replace the first cell', async () => {
@@ -395,7 +404,7 @@ describe('TreegridSemantics', () => {
     });
 
     const collapsed = {
-      committed: true, expanded: 'false', hidden: 'true', ledgerHidden: true, display: 'none',
+      committed: true, expanded: 'false', hidden: null, ledgerHidden: true, display: 'none',
     };
 
     const raced = {

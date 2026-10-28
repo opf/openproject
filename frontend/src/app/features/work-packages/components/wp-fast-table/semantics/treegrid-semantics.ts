@@ -89,7 +89,6 @@ export class TreegridSemantics {
     }
 
     paintRowRole(row, occurrence.level);
-    setOrRemove(row, 'aria-hidden', occurrence.hidden ? 'true' : null);
     setOrRemove(row, 'aria-expanded', this.expansionOf(occurrence));
     this.paintSelected(occurrence);
   }

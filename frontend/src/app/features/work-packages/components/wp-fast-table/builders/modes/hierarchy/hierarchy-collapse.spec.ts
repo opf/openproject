@@ -287,15 +287,16 @@ describe('Hierarchy table collapse on a keyboard-enabled table', () => {
     fireEvent.click(within(harness.row('1')).getByRole('button'));
 
     await waitFor(() => expect(harness.row('1')).toHaveAttribute('aria-expanded', 'false'));
-    expect(harness.row('2')).toHaveAttribute('aria-hidden', 'true');
-    expect(harness.row('3')).toHaveAttribute('aria-hidden', 'true');
-    expect(harness.row('4')).not.toHaveAttribute('aria-hidden');
+    expect(harness.row('2')).not.toBeVisible();
+    expect(harness.row('3')).not.toBeVisible();
+    expect(harness.row('4')).toBeVisible();
+    [2, 3, 4].forEach((id) => expect(harness.row(String(id))).not.toHaveAttribute('aria-hidden'));
 
     fireEvent.click(within(harness.row('1')).getByRole('button'));
 
     await waitFor(() => expect(harness.row('1')).toHaveAttribute('aria-expanded', 'true'));
-    expect(harness.row('2')).not.toHaveAttribute('aria-hidden');
-    expect(harness.row('3')).not.toHaveAttribute('aria-hidden');
+    expect(harness.row('2')).toBeVisible();
+    expect(harness.row('3')).toBeVisible();
   });
 });
 
