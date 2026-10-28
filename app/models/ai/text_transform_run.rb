@@ -80,6 +80,10 @@ module AI
       update!(status: "running")
     end
 
+    def request_cancel!
+      update_columns(cancel_requested: true, updated_at: Time.current) unless terminal?
+    end
+
     def finish!(status, error_message: nil)
       raise ArgumentError, "#{status} is not a terminal status" unless TERMINAL_STATUSES.include?(status.to_s)
 
