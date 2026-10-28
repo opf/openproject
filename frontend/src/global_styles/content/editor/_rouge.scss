@@ -1,4 +1,4 @@
-.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1 {
+.highlight .c, .highlight .cd, .highlight .ch, .highlight .cm, .highlight .cpf, .highlight .c1 {
   color: var(--color-prettylights-syntax-comment);
   font-style: italic;
 }
@@ -27,13 +27,18 @@
   color: var(--color-prettylights-syntax-markup-bold);
   font-weight: var(--base-text-weight-bold);
 }
+.highlight .ges {
+  color: var(--color-prettylights-syntax-markup-bold);
+  font-weight: var(--base-text-weight-bold);
+  font-style: italic;
+}
 .highlight .gr, .highlight .gt {
   color: var(--color-prettylights-syntax-invalid-illegal-text);
 }
 .highlight .gh, .highlight .gu {
   color: var(--color-prettylights-syntax-markup-heading);
 }
-.highlight .go, .highlight .gp {
+.highlight .gl, .highlight .go, .highlight .gp {
   color: var(--color-prettylights-syntax-comment);
 }
 .highlight .cp, .highlight .k, .highlight .kd, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv,
@@ -45,11 +50,11 @@
   color: var(--color-prettylights-syntax-constant);
   font-weight: var(--base-text-weight-bold);
 }
-.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .mo, .highlight .mx, .highlight .il,
-.highlight .ss, .highlight .bp, .highlight .nb, .highlight .ni, .highlight .no {
+.highlight .l, .highlight .ld, .highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .mo, .highlight .mx, .highlight .il,
+.highlight .ss, .highlight .bp, .highlight .nb, .highlight .ni, .highlight .no, .highlight .py {
   color: var(--color-prettylights-syntax-constant);
 }
-.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s1, .highlight .s2, .highlight .se, .highlight .sh, .highlight .si, .highlight .sx {
+.highlight .s, .highlight .sa, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .dl, .highlight .s1, .highlight .s2, .highlight .se, .highlight .sh, .highlight .si, .highlight .sx {
   color: var(--color-prettylights-syntax-string);
 }
 .highlight .sr {
@@ -58,7 +63,7 @@
 .highlight .na {
   color: var(--color-prettylights-syntax-entity);
 }
-.highlight .kt, .highlight .nc, .highlight .nd, .highlight .ne, .highlight .nf, .highlight .nl {
+.highlight .kt, .highlight .nc, .highlight .nd, .highlight .ne, .highlight .nf, .highlight .fm, .highlight .nl {
   color: var(--color-prettylights-syntax-entity);
   font-weight: var(--base-text-weight-bold);
 }
@@ -68,7 +73,7 @@
 .highlight .nt {
   color: var(--color-prettylights-syntax-entity-tag);
 }
-.highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi {
+.highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi, .highlight .vm {
   color: var(--color-prettylights-syntax-variable);
 }
 .highlight .w {
