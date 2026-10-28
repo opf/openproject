@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= component_wrapper(tag: :section) do %>
   <%=
     render(
-      OpenProject::Common::BorderBoxListComponent.new(
+      OpPrimer::BorderBoxListComponent.new(
         container: dom_target(Backlogs::Target::Inbox, project),
         current_user:,
         interactive: true,

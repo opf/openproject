@@ -44,13 +44,13 @@ module OpenProject
       end
 
       def fetch(attribute_name)
-        @registry.fetch(attribute_name.to_s) { Common::InplaceEditFields::TextInputComponent }
+        @registry.fetch(attribute_name.to_s) { OpPrimer::InplaceEditFields::TextInputComponent }
       end
 
       def fetch_for_custom_field_format(field_format)
-        return Common::InplaceEditFields::TextInputComponent if field_format.nil?
+        return OpPrimer::InplaceEditFields::TextInputComponent if field_format.nil?
 
-        @custom_field_format_mappings.fetch(field_format.to_s) { Common::InplaceEditFields::TextInputComponent }
+        @custom_field_format_mappings.fetch(field_format.to_s) { OpPrimer::InplaceEditFields::TextInputComponent }
       end
 
       @default = new
