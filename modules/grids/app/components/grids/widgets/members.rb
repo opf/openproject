@@ -66,18 +66,17 @@ module Grids
       end
 
       def principals_for_role(role_id)
-        # We do want every Principal only once, but the extra members join can introduce
-        # the same principal to be returned multiple times, if it has the same role, in a different
-        # project.
-        #
-        # Because SELECT DISTINCT + ORDER is required to have the column to order by in the projection in Postgres,
-        # we have resort to GROUP BY users.id.
-        project
-          .principals
+        # NOTE: The principals scope on Project joins members and
+        #       since we need also member_roles, we would need to
+        #       join members again, resulting in principals being
+        #       included multiple times (e.g. when having the same
+        #       role in multiple projects).
+        Principal
+          .not_locked
           .joins(members: :member_roles)
+          .where(members: { project: })
           .where(member_roles: { role_id: })
-          .group(users: :id)
-          .order(Arel.sql("MAX(members.created_at) DESC"))
+          .order(members: { created_at: :desc })
       end
 
       def can_view_members?
