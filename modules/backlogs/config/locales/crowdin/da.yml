@@ -47,7 +47,7 @@ da:
         backlogs_work_package_type: Backlog-type
         position: Position
         sprint: Sprint
-        story_points: Historiepunkter
+        story_points: Story points
     errors:
       messages:
         cannot_start_while_receiving_shared_sprints: kan ikke startes, mens projektet modtager delte sprints.
@@ -84,7 +84,7 @@ da:
               backlog_bucket_from_another_project: skal tilhøre samme projekt som arbejdspakken.
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: kan kun indeholde id'er for arbejdspakker i den aktuelle sprint.
-              must_block_at_least_one_work_package: skal indeholde ID'et på mindst én billet.
+              must_block_at_least_one_work_package: skal indeholde id'et for mindst én arbejdspakke.
             sprint:
               not_assignable: kan ikke tildeles, fordi den enten ikke er delt med projektet eller allerede er afsluttet.
               not_eligible_for_moving: er ikke en aktiv sprint i det projekt, der ejer den sprint, som arbejdspakken flyttes ud af.

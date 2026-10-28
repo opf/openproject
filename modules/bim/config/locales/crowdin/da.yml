@@ -18,7 +18,7 @@ da:
     errors:
       models:
         bim/bcf/issue:
-          uuid_already_taken: Kan ikke importere dette BCF problem, da der allerede er en anden med den samme GUID. Kunne det være, at dette BCF-problem allerede var blevet importeret til et andet projekt?
+          uuid_already_taken: BCF-sagen kan ikke importeres, fordi der allerede findes en anden med samme GUID. Er sagen måske allerede importeret i et andet projekt?
         bim/bcf/viewpoint:
           bitmaps_not_writable: bitmaps er ikke skrivbar, da den endnu ikke er implementeret.
           index_not_integer: index er ikke et heltal.
@@ -57,7 +57,7 @@ da:
       export: Eksportér
       import:
         add_as_members_with_role: Tilføj dem som medlemmer til projektet "%{project}" med rollen
-        bcf_file_not_found: Kunne ikke finde BCF- fil. Start venligst upload processen igen.
+        bcf_file_not_found: BCF-filen blev ikke fundet. Start overførslen forfra.
         button_back_to_list: Tilbage til liste
         button_perform_import: Bekræft import
         button_prepare: Forbered import
@@ -88,7 +88,7 @@ da:
         work_package_has_newer_changes: Forældet! Dette emne blev ikke opdateret, da de seneste ændringer på serveren var nyere end "ModifiedDate" for det importerede emne. Kommentarer til emnet blev dog importeret.
       import_canceled: BCF-XML-import annulleret.
       import_failed: 'Kan ikke importere BCF-fil: %{error}'
-      import_failed_unsupported_bcf_version: 'Kunne ikke læse BCF- filen: BCF- versionen understøttes ikke. Kontroller, at versionen er mindst %{minimal_version} eller højere.'
+      import_failed_unsupported_bcf_version: 'BCF-filen kunne ikke læses: BCF-versionen understøttes ikke. Sørg for, at versionen er mindst %{minimal_version}.'
       import_successful: "%{count} BCF-sager er importeret"
       import_title: Importér
       import_update_comment: "(Opdateret i BCF-import)"
@@ -107,7 +107,7 @@ da:
     recommended: anbefalet
     x_bcf_issues:
       one: Et BCF- problem
-      other: "%{count} BCF sager"
+      other: "%{count} BCF-sager"
       zero: Ingen BCF-sager
   bim:
     error_direct_upload_failed: Den direkte overførsel mislykkedes.
@@ -146,7 +146,7 @@ da:
     scopes:
       bcf_v2_1: Fuld adgang til BCF v2.1 API'en
       bcf_v2_1_text: Applikationen får fuld læse- og skriveadgang til OpenProject BCF API v2.1 for at udføre handlinger på dine vegne.
-  permission_delete_bcf: Slet BCF sager
+  permission_delete_bcf: Slet BCF-sager
   permission_manage_bcf: Importér og administrer BCF-sager
   permission_manage_bcf_explanation: |
     Giver mulighed for at administrere BCF-sager, herunder masseimport og -opdateringer.

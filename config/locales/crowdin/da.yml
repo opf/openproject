@@ -148,7 +148,7 @@ da:
         min_value: Mindste værdi
         multi_value: Tillad flere valg
         possible_values: Mulige værdier
-        regexp: Normalt udtryk
+        regexp: Regulært udtryk
         searchable: Søgbar
         semantic_key: Semantisk betydning
         visible_on_user_card: Vis på brugerkortet
@@ -223,7 +223,7 @@ da:
         title: Titel
       member:
         blocked: Blokeret
-        roles: Rollee
+        roles: Roller
       notification:
         read_ian: Læst i appen
         resource: Ressource
@@ -335,7 +335,7 @@ da:
         from: Sammenhørende arbejdspakker
         lag: Forsinkelse
         relation_type: Relationstype
-        to: Sammenhørende arbejdspakker
+        to: Relateret arbejdspakke
       reminder:
         remind_at: Påmindelsestidspunkt
         remind_at_date: Dato
@@ -362,7 +362,7 @@ da:
       subproject_template_assignment:
         workspace_type: Type af arbejdsområde
       time_entry:
-        activity: Aktivivtet
+        activity: Aktivitet
         hours: Timer
         ongoing: Igangværende
         spent_on: Dato
@@ -513,7 +513,7 @@ da:
         time_entries: Tidsregistrering
         type: Type
         version: Version
-        watcher: Tilsynsførende
+        watcher: Følger
       work_package_semantic_alias:
         identifier: Id
         work_package: Arbejdspakke
@@ -1408,12 +1408,12 @@ da:
         top_header_colors: Farver i sidehovedet
       color_theme: Farvetema
       color_theme_caption: Brug et af OpenProjects standardtemaer, eller opret dit eget tema med dine farver ved at vælge Tilpasset tema.
-      color_theme_custom: "(Tilpas)"
+      color_theme_custom: "(Tilpasset)"
       colors:
         accent-color: Fremhævningsfarve
-        header-bg-color: Overskriftsbaggrund
-        main-menu-bg-color: Hovedmenu baggrund
-        main-menu-bg-selected-background: Hovedmenu når valgt
+        header-bg-color: Baggrund i sidehovedet
+        main-menu-bg-color: Hovedmenuens baggrund
+        main-menu-bg-selected-background: Hovedmenu, når den er valgt
         primary-button-color: Primær knap
       custom_colors: Brugerdefinerede farver
       default_colors:
@@ -1450,7 +1450,7 @@ da:
         confirmation: Er du sikker på, at du vil slette dette supporttoken til Enterprise-udgaven?
         heading: Vil du slette Enterprise-tokenet?
         title: Slet Enterprise-token
-      enterprise_link: For yderliger information, klik her.
+      enterprise_link: Klik her for at få flere oplysninger.
       get_quote: Få et tilbud
       order: Bestil Enterprise-udgaven til egen drift
       paste: Indsæt dit supporttoken til Enterprise-udgaven
@@ -2164,21 +2164,21 @@ da:
     api_key: API-nøgle
     assigned_to: Tildelt
     assignee: Tildelt
-    attachments: Vedhæftninger
+    attachments: Vedhæftede filer
     author: Forfatter
     avatar: Avatar
     base: 'Generel fejl:'
     body: Brødtekst
     category: Kategori
     color: Farve
-    comment: Kommentér
+    comment: Kommentar
     comments: Kommentar
     content: Indhold
     created_at: Oprettet den
     creator: Oprettet af
     custom_field: Brugerdefineret felt
     custom_options: Mulige værdier
-    custom_values: Selvvalgte felter
+    custom_values: Brugerdefinerede felter
     customized: Tilpasset objekt
     date: Dato
     dates_interval: Periode
@@ -2236,7 +2236,7 @@ da:
     search: Søg
     slug: URL-navn
     sprint: Sprint
-    start_date: Start dato
+    start_date: Startdato
     state: Tilstand
     status: Status
     status_id: Status
@@ -2317,7 +2317,7 @@ da:
   button_add_menu_entry: Tilføj menupunkt
   button_add_non_working_time: Fravær
   button_add_sub_item: Tilføj underelement
-  button_add_watcher: Tilføj tilsynsførende
+  button_add_watcher: Tilføj følger
   button_all_filters: Alle filtre
   button_annotate: Anmærke
   button_apply: Benyt
@@ -2348,7 +2348,7 @@ da:
   button_delete: Slet
   button_delete_menu_entry: Slet menupunkt
   button_delete_permanently: Slet permanent
-  button_delete_watcher: Slet tilsynsførende %{name}
+  button_delete_watcher: Slet følger %{name}
   button_disable: Deaktiver
   button_download: Hent
   button_duplicate: Lav dublet
@@ -2400,7 +2400,7 @@ da:
   button_unarchive: Udpak
   button_uncheck_all: Fjern alle markeringer
   button_unfavorite: Fjern fra favoritter
-  button_unlock: Ophæv spærring
+  button_unlock: Lås op
   button_unpublish: Gør privat
   button_unwatch: Stands tilsyn
   button_update: Opdater
@@ -2634,13 +2634,13 @@ da:
     - Dec
     abbr_week: Uge
     day_names:
-    - Søndag
-    - Mandag
-    - Tirsdag
-    - Onsdag
-    - Torsdag
-    - Fredag
-    - Lørdag
+    - søndag
+    - mandag
+    - tirsdag
+    - onsdag
+    - torsdag
+    - fredag
+    - lørdag
     formats:
       default: "%d/%m/%Y"
       long: "%B %d %Y"
@@ -3076,7 +3076,7 @@ da:
       storage_error: Der opstod en fejl i forbindelsen til lageret.
       unsupported_storage_type: er ikke en understøttet lagertype.
   events:
-    changeset: Pakke af ændringer er redigeret
+    changeset: Ændringssæt er redigeret
     message: Meddelelse er redigeret
     news: Nyheder
     project: Projekt er redigeret
@@ -3289,8 +3289,8 @@ da:
         no_results: Du har ingen favoritprojekter
         no_results_subtext: Føj et eller flere projekter til favoritter fra deres oversigt eller fra en projektliste.
       no_visible_projects: Der er ingen synlige projekter i denne installation.
-      projects: Nyeste synlige projekter i denne omgang.
-      users: Nyeste registrerede brugere i denne omgang.
+      projects: Nyeste synlige projekter i denne installation.
+      users: Nyeste registrerede brugere i denne installation.
     blocks:
       community: OpenProject-fællesskabet
       new_features:
@@ -3480,8 +3480,8 @@ da:
   label_backup: Sikkerhedskopi
   label_basic_details: Grundlæggende oplysninger
   label_between: mellem
-  label_blocked_by: spærret af
-  label_blocks: spærringer
+  label_blocked_by: blokeret af
+  label_blocks: blokerer
   label_blog: Blog
   label_board_plural: Tavler
   label_boolean: Boolsk
@@ -3617,9 +3617,9 @@ da:
   label_download_plural: "%{count} hentninger"
   label_downloads_abbr: D/L
   label_duplicate: dublet
-  label_duplicated_by: duplikeret gennem
-  label_duplicates: dubletter
-  label_edit: Redigér
+  label_duplicated_by: dubleret af
+  label_duplicates: dublerer
+  label_edit: Rediger
   label_edit_x: 'Rediger: %{x}'
   label_empty_element: "(tom)"
   label_enable_multi_select: Vælg multivalg
@@ -3665,7 +3665,7 @@ da:
   label_filters_toggle: Vis/skjul filtre
   label_float: Flyd
   label_folder: Mappe
-  label_follows: følger
+  label_follows: kommer efter
   label_formula: Formel
   label_forum_new: Nyt forum
   label_forum_plural: Fora
@@ -3711,7 +3711,7 @@ da:
   label_in_more_than: på mere end
   label_inactive: Inaktiv
   label_include_sub_projects: Medtag underprojekter
-  label_includes: inkluderer
+  label_includes: omfatter
   label_incoming_emails: Indkommende e-mails
   label_incomplete: Ufuldstændig
   label_index_by_date: Indhold efter dato
@@ -3946,13 +3946,13 @@ da:
   label_register: Opret en ny konto
   label_register_with_developer: Registrer dig som udvikler
   label_registered_on: Registreret den
-  label_related_work_packages: Forbundne arbejdspakker
+  label_related_work_packages: Relaterede arbejdspakker
   label_relates: relateret til
-  label_relates_to: Forbundet til
+  label_relates_to: relateret til
   label_relation_actions: Relationshandlinger
-  label_relation_delete: Slet forbindelse
+  label_relation_delete: Slet relation
   label_relation_edit: Rediger relation
-  label_relation_new: Ny forbindelse
+  label_relation_new: Ny relation
   label_release_notes: Udgivelsesnoter
   label_remaining_work: Resterende arbejde
   label_remove_column: Fjern kolonne
@@ -4140,7 +4140,7 @@ da:
   label_work_package_view_all: Vis alle arbejdspakker
   label_workflow: Arbejdsgang
   label_workflow_copy: Kopiér arbejdsgang
-  label_workflow_plural: Arbejdsprocesser
+  label_workflow_plural: Arbejdsgange
   label_workflow_summary: Oversigt over arbejdsgang
   label_working_days: Arbejdsdage
   label_working_days_and_hours: Arbejdsdage og -timer
@@ -4421,13 +4421,13 @@ da:
     body: Din konto på %{app_title} er forbundet med en ekstern godkendelsesudbyder (%{name}).
     subtext: Adgangskoder til eksterne konti kan ikke ændres i programmet. Brug funktionen til glemt adgangskode hos din godkendelsesudbyder.
     title: Adgangskoden kan ikke ændres
-  mail_subject_account_activation_request: "%{value} anmodninger om kontoaktivering"
+  mail_subject_account_activation_request: Anmodning om aktivering af konto på %{value}
   mail_subject_backup_ready: Din sikkerhedskopi er klar
   mail_subject_backup_token_reset: Token til sikkerhedskopiering nulstillet
   mail_subject_incoming_email_error: En e-mail, som du sendte til OpenProject, kunne ikke behandles
   mail_subject_lost_password: Din %{value} adgangskode
   mail_subject_register: Din %{value} kontoaktivering
-  mail_subject_wiki_content_added: "'%{id}' wikisider er blevet tilføjet"
+  mail_subject_wiki_content_added: Wikisiden '%{id}' er tilføjet
   mail_subject_wiki_content_updated: "'%{id}' wikiside er blevet opdateret"
   mail_user_activation_limit_reached:
     message_html: |
@@ -4490,7 +4490,7 @@ da:
     filters:
       all_shares: Alle delinger
     index:
-      no_results_content_text: Tilføj et deltager til projektet
+      no_results_content_text: Tilføj et medlem til projektet
       no_results_title_text: Projektet har i øjeblikket ingen medlemmer.
     invite_by_mail: Send invitation til %{mail}
     menu:
@@ -4559,7 +4559,7 @@ da:
       indefinite_expiration: Aldrig
       no_results:
         description: De er alle blevet deaktiveret. De kan genaktiveres i administrationsmenuen.
-        title: Ingen adgangstegn til at vise
+        title: Ingen adgangstokens at vise
       oauth_application:
         active_tokens: Aktive tokens
         blank_description: Der er ikke konfigureret og aktiveret adgang for tredjepartsprogrammer for dig.
@@ -5060,7 +5060,7 @@ da:
   permission_add_work_package_attachments: Tilføj vedhæftede filer
   permission_add_work_package_attachments_explanation: Giver mulighed for at tilføje vedhæftede filer uden tilladelsen Rediger arbejdspakker
   permission_add_work_package_comments: Tilføj kommentarer
-  permission_add_work_package_watchers: Tilføj tilsynsførende
+  permission_add_work_package_watchers: Tilføj følgere
   permission_add_work_packages: Tilføj arbejdspakker
   permission_archive_project: Arkivér projekt
   permission_assign_versions: Tildel versioner
@@ -5078,7 +5078,7 @@ da:
   permission_delete_own_messages: Slet egne meddelelser
   permission_delete_reportings: Slet rapporteringer
   permission_delete_timelines: Slet tidslinjer
-  permission_delete_work_package_watchers: Slet tilsynsførende
+  permission_delete_work_package_watchers: Slet følgere
   permission_delete_work_packages: Slet arbejdspakker
   permission_edit_attribute_help_texts: Rediger hjælpetekster til attributter
   permission_edit_messages: Rediger meddelelser
@@ -5086,7 +5086,7 @@ da:
   permission_edit_others_internal_comments_explanation: 'Advarsel: Brugere med denne tilladelse kan redigere andre brugeres interne kommentarer.'
   permission_edit_own_internal_comments: Rediger egne interne kommentarer
   permission_edit_own_messages: Rediger egne meddelelser
-  permission_edit_own_time_entries: Rediger egne tidsregistringer
+  permission_edit_own_time_entries: Rediger egne tidsregistreringer
   permission_edit_own_work_package_comments: Rediger egne kommentarer
   permission_edit_project: Rediger projekt
   permission_edit_project_attributes: Rediger projektattributter
@@ -5118,7 +5118,7 @@ da:
   permission_manage_own_working_times_explanation: 'Giver brugerne mulighed for at administrere deres egen arbejdstid og personlige arbejdsfrie dage.
 
     '
-  permission_manage_placeholder_user: Opret, rediger og slet brugere af pladsholdere
+  permission_manage_placeholder_user: Opret, rediger og slet pladsholder-brugere
   permission_manage_project_activities: Administrer projektets aktiviteter
   permission_manage_project_variants: Administrer projektets egne typevarianter
   permission_manage_public_bcf_queries: Administrer offentlige BCF-visninger
@@ -5130,7 +5130,7 @@ da:
   permission_manage_user: Rediger brugere
   permission_manage_versions: Administrer versioner
   permission_manage_wiki: Administrer wiki
-  permission_manage_work_package_relations: Administrer forbindelser for arbejdspakker
+  permission_manage_work_package_relations: Administrer relationer mellem arbejdspakker
   permission_manage_working_times: Administrer arbejdstid for alle brugere
   permission_manage_working_times_explanation: 'Giver brugerne mulighed for at administrere arbejdstiden for alle brugere, også personlige arbejdsfrie dage.
 
@@ -5169,7 +5169,7 @@ da:
   permission_view_user_email: Vis brugernes e-mailadresser
   permission_view_wiki_edits: Vis wiki-historik
   permission_view_wiki_pages: Vis wiki
-  permission_view_work_package_watchers: Se liste over tilsynsførende
+  permission_view_work_package_watchers: Vis liste over følgere
   permission_view_work_packages: Vis arbejdspakker
   permission_work_package_assigned: Kan være tildelt/ansvarlig
   permission_work_package_assigned_explanation: Arbejdspakker kan tildeles brugere og grupper, der har denne rolle i det pågældende projekt
@@ -5323,8 +5323,8 @@ da:
       button_update_parent_project: Opdater overordnet projekt
       button_update_status_description: Opdater statusbeskrivelse
       categories:
-        no_results_content_text: Opret en ny arbejdspakke kategori
-        no_results_title_text: Der er i øjeblikket ingen arbejdspakke kategorier.
+        no_results_content_text: Opret en ny arbejdspakkekategori
+        no_results_title_text: Der er i øjeblikket ingen arbejdspakkekategorier.
       change_identifier: Skift id
       change_identifier_dialog_title: Skift projekt-id
       change_identifier_format_hint_legacy: Kun små bogstaver (a–z), tal, bindestreger eller understregningstegn.
@@ -5610,15 +5610,15 @@ da:
         Da opgørelsen af påkrævet disklagerplads for et repositorie kan være bekosteligt, forøg denne værdi for at reducere følgevirkninger på ydeevnen.
     subversion:
       existing_introduction: Hvis du har et eksisterende underversions-repositorie, kan du sammenkæde dette med OpenProject for at få adgang til det indefra applikationen.
-      existing_title: Eksisterende underversions-repositorie
+      existing_title: Eksisterende Subversion-repository
       existing_url: Eksisterende URL
       instructions:
-        managed_url: Dette er URL'en på det administrerede (lokale) underversions-repositorie.
+        managed_url: Dette er URL'en til det administrerede (lokale) Subversion-repository.
         url: |-
           Angiv repositorie-URL'en. Dette kan enten målrette et lokalt repositorie (startende med %{local_proto}) eller et eksternt repositorie.
           De følgende URL-skemaer understøttes:
-      managed_introduction: Lad OpenProject oprette og integrere et lokalt underversions-repositorie automatisk.
-      managed_title: Underversions-repositorie integreret i OpenProject
+      managed_introduction: Lad OpenProject oprette og integrere et lokalt Subversion-repository automatisk.
+      managed_title: Subversion-repository integreret i OpenProject
       managed_url: Administreret URL
       password: Repositorie-adgangskode
       username: Repositorie-brugernavn
@@ -5731,7 +5731,7 @@ da:
   setting_consent_info: Informationstekst om samtykke
   setting_consent_required: Samtykke påkrævet
   setting_consent_time: Tidspunkt for samtykke
-  setting_cross_project_work_package_relations: Tillad forbindelser mellem arbejdspakker på tværs af projekter
+  setting_cross_project_work_package_relations: Tillad relationer mellem arbejdspakker på tværs af projekter
   setting_csv_escape_formulas: Neutraliser formler i CSV-eksporter
   setting_csv_escape_formulas_text: 'Neutraliser regnearksformler i CSV-eksporter ved at sætte et enkelt anførselstegn foran celler, der begynder med tegn som =, +, - eller @. Det mindsker risikoen for CSV-formelinjektion, når eksporterede filer åbnes i regnearksprogrammer som Excel. Ulempen er, at strengværdierne i CSV-filen ændres, så du kan slå det fra, hvis efterfølgende værktøjer har brug for de præcise, uændrede celleværdier.
 
@@ -6355,7 +6355,7 @@ da:
     Vælg eller opdatér den OpenProject-bruger, der er tilknyttet hvert brugernavn i loggen for projektarkivet.
     Brugere med det samme brugernavn eller mailadresse i OpenProject og i projektarkivet vil automatisk blive tilknyttet.
   text_setup_mail_configuration: Konfigurer din e-mailudbyder
-  text_status_changed_by_changeset: Indføjet i pakken af ændringer, %{value}.
+  text_status_changed_by_changeset: Anvendt i ændringssæt %{value}.
   text_table_difference_description: Tabellen viser de enkelte %{entries}. Du kan se forskellen mellem to vilkårlige poster ved først at markere de tilhørende afkrydsningsfelter i tabellen. Når du klikker på knappen under tabellen, vises forskellene.
   text_time_logged_by_changeset: Anvendt i ændringssæt %{value}.
   text_tip_work_package_begin_day: arbejdspakker, der begynder denne dag
@@ -6728,7 +6728,7 @@ da:
 
       '
     authorization_rejected: Du har ikke adgang til at logge ind.
-    blocked: Midlertid spærret
+    blocked: midlertidigt låst
     blocked_num_failed_logins:
       one: midlertidigt låst (ét mislykket log ind-forsøg)
       other: midlertidigt låst (%{count} mislykkede log ind-forsøg)
@@ -6743,7 +6743,7 @@ da:
     invite: Invitér bruger via e-mail
     invited: inviteret
     lock: Spær permanent
-    locked: spærret permanent
+    locked: låst permanent
     no_login: Denne bruger anvender adgangskode ved login. Da denne metode er deaktiveret er brugeren p.t. udelukket.
     password_change_unsupported: Ændring af adgangskode er ikke understøttet.
     registered: registreret
@@ -6987,7 +6987,7 @@ da:
       note_placeholder: Hvorfor angiver du påmindelsen?
       success_deletion_message: Påmindelsen er slettet.
       success_update_message: Påmindelsen er opdateret.
-    updated_automatically_by_child_changes: '_Updateret automatisk ved at ændre værdier i underordnet arbejdspakke %{child} _
+    updated_automatically_by_child_changes: '_Opdateret automatisk ved at ændre værdier i underordnet arbejdspakke %{child} _
 
       '
   work_package_relations_tab:
