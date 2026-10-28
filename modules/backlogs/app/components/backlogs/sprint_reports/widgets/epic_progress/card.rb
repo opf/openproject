@@ -38,6 +38,12 @@ module Backlogs
 
           attr_reader :epic, :sprint, :project, :current_user
 
+          def self.percentage(resolved:, total:)
+            return 0 if total.zero? || resolved.zero?
+
+            [resolved * 100 / total, 1].max
+          end
+
           def initialize(epic:, sprint:, project:, current_user: User.current)
             super()
 
@@ -48,9 +54,7 @@ module Backlogs
           end
 
           def resolved_percentage
-            return 0 if total_work_packages_count.zero?
-
-            (resolved_work_packages_count.to_f / total_work_packages_count * 100).round
+            self.class.percentage(resolved: resolved_work_packages_count, total: total_work_packages_count)
           end
 
           private

@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :component do
+RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :component do # rubocop:disable RSpec/MultipleDescribes
   let!(:epic_type) { create(:type, name: "Epic") }
   let(:task_type) { create(:type_task) }
   let(:project) { create(:project, types: [epic_type, task_type].compact) }
@@ -67,6 +67,21 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :comp
     it "exposes the ratio as an accessible progressbar" do
       expect(rendered_component).to have_css("[role='progressbar'][aria-valuenow='50'][aria-valuemin='0'][aria-valuemax='100']")
       expect(rendered_component).to have_css("[aria-label='#{epic.subject}: 1 of 2 work packages completed']")
+    end
+  end
+
+  context "when the resolved ratio is not a whole percentage" do
+    let(:done_status) { create(:status) }
+    let(:open_status) { create(:status) }
+
+    before do
+      project.done_status_ids = [done_status.id]
+      create_list(:work_package, 2, type: task_type, project:, parent: epic, status: done_status)
+      create(:work_package, type: task_type, project:, parent: epic, status: open_status)
+    end
+
+    it "rounds the percentage down" do
+      expect(rendered_component).to have_text("(66%)")
     end
   end
 
@@ -184,5 +199,31 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :comp
         expect(rendered_component).to have_text("0 / 1 work package")
       end
     end
+  end
+end
+
+RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, ".percentage" do
+  it "is 0 when there is nothing to resolve" do
+    expect(described_class.percentage(resolved: 0, total: 0)).to eq(0)
+  end
+
+  it "is 0 when nothing is resolved" do
+    expect(described_class.percentage(resolved: 0, total: 200)).to eq(0)
+  end
+
+  it "shows at least 1% once anything is resolved" do
+    expect(described_class.percentage(resolved: 1, total: 200)).to eq(1)
+  end
+
+  it "rounds down so an unfinished epic never shows 100%" do
+    expect(described_class.percentage(resolved: 199, total: 200)).to eq(99)
+  end
+
+  it "is not thrown off by floating point imprecision" do
+    expect(described_class.percentage(resolved: 29, total: 100)).to eq(29)
+  end
+
+  it "is 100 when everything is resolved" do
+    expect(described_class.percentage(resolved: 200, total: 200)).to eq(100)
   end
 end
