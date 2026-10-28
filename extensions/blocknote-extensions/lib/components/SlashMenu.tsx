@@ -65,6 +65,8 @@ function insertBlockWorkPackage(editor:AnyEditor, mode:PendingMode):void {
   if (!insertedBlock?.id) return;
 
   pendingBlockRegistry.add(insertedBlock.id, mode);
+  // In a shadow root a focused editor moves this selection to a neighbouring card (BNE-179).
+  editor.blur();
   editor.removeBlocks([blockId]);
 }
 
