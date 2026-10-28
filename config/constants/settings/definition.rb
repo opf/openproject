@@ -880,7 +880,7 @@ module Settings
         allowed: %w[lowercase uppercase numeric special]
       },
       password_count_former_banned: {
-        default: 0
+        default: 5
       },
       password_days_valid: {
         default: 0
