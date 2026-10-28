@@ -57,7 +57,7 @@ module OpenProject::SquashTMIntegration
            parent: :admin_integrations,
            if: ->(_) { User.current.admin? },
            caption: "SquashTM",
-           icon: :beaker
+           icon: :"op-logo-squashtm"
 
       project_module(:squashtm, dependencies: :work_package_tracking) do
         permission :view_squashtm_test_results,
