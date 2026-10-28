@@ -31,14 +31,13 @@ require "rails_helper"
 
 RSpec.describe ProjectPhases::StatusController do
   let(:user) { create(:admin) }
-  current_user { user }
-
   let(:project) { create(:project) }
   let(:phase) { create(:project_phase, project:) }
   let(:params) { { status: "in_progress" } }
-
   let(:service_result) { ServiceResult.failure }
   let(:update_service) { instance_double(ProjectPhases::UpdateStatusService, call: service_result) }
+
+  current_user { user }
 
   before do
     allow(ProjectPhases::UpdateStatusService)
