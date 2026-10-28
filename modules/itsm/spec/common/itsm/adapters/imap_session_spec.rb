@@ -33,12 +33,12 @@ require_module_spec_helper
 RSpec.describe ITSM::Adapters::ImapSession do
   include_context "with a connected IMAP session"
 
-  subject(:unconnected_session) { described_class.new(connection: imap_connection, auth_strategy: imap_auth_strategy) }
+  subject(:unconnected_session) { described_class.new(mail_server: imap_mail_server, auth_strategy: imap_auth_strategy) }
 
   let(:encryption) { "tls" }
-  let(:imap_connection) { build(:itsm_mail_server, :imap, encryption:) }
+  let(:imap_mail_server) { build(:itsm_mail_server, :imap, encryption:) }
 
-  it "shows only the connection when inspected" do
+  it "shows only the mail server when inspected" do
     expect(session.inspect).to include("imap.example.com")
     expect(session.inspect).not_to include("support@example.com", "@auth_strategy", "@imap")
   end
@@ -93,6 +93,30 @@ RSpec.describe ITSM::Adapters::ImapSession do
       end
     end
 
+    context "when the server never sends a greeting" do
+      let(:encryption) { "starttls" }
+      let(:silent_server) { TCPServer.new("127.0.0.1", 0) }
+      let(:accepted) { Queue.new }
+      let(:imap_mail_server) do
+        build(:itsm_mail_server, :imap, host: "127.0.0.1", port: silent_server.addr[1], encryption:)
+      end
+
+      before do
+        stub_const("#{described_class}::OPEN_TIMEOUT", 1)
+        allow(Net::IMAP).to receive(:new).and_call_original
+        Thread.new { accepted << silent_server.accept }
+      end
+
+      after do
+        accepted.pop(timeout: 1)&.close
+        silent_server.close
+      end
+
+      it "gives up after the open timeout" do
+        expect(unconnected_session.connect.failure.code).to eq(:timeout)
+      end
+    end
+
     context "when the certificate is invalid" do
       before { allow(Net::IMAP).to receive(:new).and_raise(OpenSSL::SSL::SSLError, "certificate verify failed") }
 
@@ -133,7 +157,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
 
   describe ".open" do
     it "yields the connected session, returns the block's result and logs out" do
-      result = described_class.open(connection: imap_connection, auth_strategy: imap_auth_strategy) { Dry::Monads::Success(:done) }
+      result = described_class.open(mail_server: imap_mail_server, auth_strategy: imap_auth_strategy) { Dry::Monads::Success(:done) }
 
       expect(result).to eq(Dry::Monads::Success(:done))
       expect(imap).to have_received(:logout)
@@ -142,13 +166,13 @@ RSpec.describe ITSM::Adapters::ImapSession do
     it "disconnects even when logging out fails" do
       allow(imap).to receive(:logout).and_raise(IOError)
 
-      described_class.open(connection: imap_connection, auth_strategy: imap_auth_strategy) { Dry::Monads::Success() }
+      described_class.open(mail_server: imap_mail_server, auth_strategy: imap_auth_strategy) { Dry::Monads::Success() }
 
       expect(imap).to have_received(:disconnect)
     end
 
     it "logs out when the block raises" do
-      expect { described_class.open(connection: imap_connection, auth_strategy: imap_auth_strategy) { raise ArgumentError } }
+      expect { described_class.open(mail_server: imap_mail_server, auth_strategy: imap_auth_strategy) { raise ArgumentError } }
         .to raise_error(ArgumentError)
       expect(imap).to have_received(:logout)
     end
@@ -156,7 +180,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
     context "when the server stops responding" do
       let(:silent_server) { TCPServer.new("127.0.0.1", 0) }
       let(:accepted) { Queue.new }
-      let(:imap_connection) do
+      let(:imap_mail_server) do
         build(:itsm_mail_server, :imap, host: "127.0.0.1", port: silent_server.addr[1], encryption: "starttls")
       end
 
@@ -172,7 +196,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
       end
 
       it "gives up after the session timeout" do
-        result = described_class.open(connection: imap_connection, auth_strategy: imap_auth_strategy) { Dry::Monads::Success() }
+        result = described_class.open(mail_server: imap_mail_server, auth_strategy: imap_auth_strategy) { Dry::Monads::Success() }
 
         expect(result.failure.code).to eq(:timeout)
       end
@@ -184,7 +208,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
       it "returns the failure without yielding and logs out" do
         yielded = false
 
-        result = described_class.open(connection: imap_connection, auth_strategy: imap_auth_strategy) { yielded = true }
+        result = described_class.open(mail_server: imap_mail_server, auth_strategy: imap_auth_strategy) { yielded = true }
 
         expect(result.failure.code).to eq(:authentication_failed)
         expect(yielded).to be(false)

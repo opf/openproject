@@ -80,7 +80,7 @@ module OpenProject::ITSM
     add_cron_jobs do
       {
         "ITSM::Mailboxes::ScheduleFetchesJob": {
-          cron: "*/15 * * * *", # every 15 minutes
+          cron: "*/15 * * * *",
           class: ::ITSM::Mailboxes::ScheduleFetchesJob.name
         }
       }

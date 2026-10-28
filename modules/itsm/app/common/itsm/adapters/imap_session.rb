@@ -38,8 +38,10 @@ module ITSM
       SESSION_TIMEOUT = 5.minutes
       FOLDER = "INBOX"
 
-      def self.open(connection:, auth_strategy:)
-        session = new(connection:, auth_strategy:)
+      class GreetingTimeout < StandardError; end
+
+      def self.open(mail_server:, auth_strategy:)
+        session = new(mail_server:, auth_strategy:)
         deadline = Concurrent::ScheduledTask.execute(SESSION_TIMEOUT) { session.time_out }
         session.connect.bind { yield session }
       ensure
@@ -47,8 +49,8 @@ module ITSM
         session&.close
       end
 
-      def initialize(connection:, auth_strategy:)
-        @connection = connection
+      def initialize(mail_server:, auth_strategy:)
+        @mail_server = mail_server
         @auth_strategy = auth_strategy
       end
 
@@ -70,7 +72,7 @@ module ITSM
 
         logout = imap_request { imap.logout }
         imap_request { imap.disconnect }
-        Rails.logger.warn { "IMAP logout failed: #{logout.failure.payload}" } if logout.failure?
+        Rails.logger.warn { "IMAP logout failed (#{logout.failure.code})" } if logout.failure?
       end
 
       # Net::IMAP has no command timeout yet: https://github.com/ruby/net-imap/issues/278
@@ -82,16 +84,18 @@ module ITSM
 
       private
 
-      attr_reader :connection, :auth_strategy, :imap, :timed_out
+      attr_reader :mail_server, :auth_strategy, :imap, :timed_out
 
-      def instance_variables_to_inspect = %i[@connection]
+      def instance_variables_to_inspect = %i[@mail_server]
 
       def imap_request(source: self.class)
         super.alt_map { timed_out ? it.with(code: :timeout) : it }
+      rescue GreetingTimeout
+        failure(code: :timeout, source:)
       end
 
       def safe_address
-        addresses = OpenProject::SsrfProtection.resolver.call(connection.host)
+        addresses = OpenProject::SsrfProtection.resolver.call(mail_server.host)
 
         return failure(code: :unreachable) if addresses.empty?
         return failure(code: :address_not_allowed) unless addresses.all? { OpenProject::SsrfProtection.safe_ip?(it) }
@@ -99,9 +103,13 @@ module ITSM
         Success(addresses)
       end
 
+      # Net::IMAP.new waits for the server greeting without a time limit, and the session timeout
+      # cannot disconnect a connection that is still being opened.
       def open_connection
-        @imap = Net::IMAP.new(connection.host, port: connection.port, ssl: connection.tls?, open_timeout: OPEN_TIMEOUT)
-        imap.starttls if connection.starttls?
+        @imap = Timeout.timeout(OPEN_TIMEOUT, GreetingTimeout) do
+          Net::IMAP.new(mail_server.host, port: mail_server.port, ssl: mail_server.tls?, open_timeout: OPEN_TIMEOUT)
+        end
+        imap.starttls if mail_server.starttls?
       end
     end
   end

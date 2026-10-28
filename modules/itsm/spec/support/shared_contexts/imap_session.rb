@@ -28,7 +28,7 @@
 #++
 
 RSpec.shared_context "with a connected IMAP session" do
-  let(:imap_connection) { build(:itsm_mail_server, :imap) }
+  let(:imap_mail_server) { build(:itsm_mail_server, :imap) }
   let(:imap_credentials) { ITSM::Mailbox::Credentials.new(username: "support@example.com", password: "secret") }
   let(:imap_auth_strategy) { ITSM::Adapters::AuthenticationStrategies::BasicAuth.new(imap_credentials) }
   let(:imap) do
@@ -38,7 +38,7 @@ RSpec.shared_context "with a connected IMAP session" do
     Net::IMAP::TaggedResponse.new("RUBY0001", "NO", Net::IMAP::ResponseText.new(nil, "Rejected"), "")
   end
   let(:session) do
-    ITSM::Adapters::ImapSession.new(connection: imap_connection, auth_strategy: imap_auth_strategy).tap(&:connect)
+    ITSM::Adapters::ImapSession.new(mail_server: imap_mail_server, auth_strategy: imap_auth_strategy).tap(&:connect)
   end
 
   before do

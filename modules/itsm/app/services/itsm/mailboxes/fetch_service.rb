@@ -61,7 +61,7 @@ module ITSM
       # `yield` is Do notation: it unwraps a Success or ends the run on the first Failure.
       # The session still logs out, as `ImapSession.open` closes it in `ensure`.
       def fetch_emails
-        Adapters::ImapSession.open(connection: model.mail_server, auth_strategy:) do |session|
+        Adapters::ImapSession.open(mail_server: model.mail_server, auth_strategy:) do |session|
           uids = yield Adapters::Queries::UnseenUids.call(session:, limit: BATCH_SIZE)
 
           Success(emails: uids.filter_map { |uid| yield read(session, uid) })
@@ -88,7 +88,7 @@ module ITSM
       end
 
       def fetch_failed(error)
-        Rails.logger.warn { "Fetching failed (#{error.code}): #{error.payload}" }
+        Rails.logger.warn { "Fetching failed (#{error.code})" }
         model.fetch_failed!(error.code)
         failure(error.code)
       end
