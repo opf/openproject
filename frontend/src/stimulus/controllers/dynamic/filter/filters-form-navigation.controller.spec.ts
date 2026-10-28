@@ -196,4 +196,26 @@ describe('Filters form navigation', () => {
 
     expect(visit).not.toHaveBeenCalled();
   });
+
+  it('shows the loading indicator until the frame has loaded', async () => {
+    setUrl();
+    const controller = await mount(['page', 'all'], `
+      <turbo-frame id="backlogs_container"></turbo-frame>
+      <div id="global-loading-indicator" hidden></div>
+    `);
+    const frame = ctx.container.querySelector<HTMLElement & { loaded:Promise<void> }>('#backlogs_container')!;
+    const indicator = ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!;
+    let finishLoading!:() => void;
+    visit.mockImplementation(() => {
+      frame.loaded = new Promise((resolve) => { finishLoading = resolve; });
+    });
+
+    controller.currentFiltersValue = [{ subject: { operator: '~', values: ['new'] } }];
+    controller.sendForm();
+    expect(indicator).toBeVisible();
+
+    finishLoading();
+
+    await vi.waitFor(() => expect(indicator).not.toBeVisible());
+  });
 });
