@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Sprint report page", :js, with_ee: [:sprint_report_pro_widgets], with_flag: :sprint_reports do
+RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
   include Rails.application.routes.url_helpers
 
   # Required for epic progress widget:
