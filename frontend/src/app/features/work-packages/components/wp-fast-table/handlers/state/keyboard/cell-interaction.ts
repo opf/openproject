@@ -85,6 +85,9 @@ export class CellInteraction {
         overlayTarget.focus({ preventScroll: true });
       } else {
         open.handler.focus();
+        if (!open.handler.element?.contains(document.activeElement)) {
+          this.editorTabStops(open.handler)[0]?.focus({ preventScroll: true });
+        }
       }
       return true;
     }
