@@ -29,6 +29,6 @@
 
 module ITSM
   module Adapters
-    ERROR_CODES = %i[address_not_allowed authentication_failed server_error tls_failed unreachable].freeze
+    ERROR_CODES = %i[address_not_allowed authentication_failed server_error timeout tls_failed unreachable].freeze
   end
 end

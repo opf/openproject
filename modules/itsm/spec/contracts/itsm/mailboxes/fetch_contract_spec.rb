@@ -36,7 +36,7 @@ RSpec.describe ITSM::Mailboxes::FetchContract, :check_errors_i18n, with_flag: { 
 
   subject(:contract) { described_class.new(mailbox, current_user) }
 
-  let(:mailbox) { create(:itsm_mailbox, project:, active:) }
+  let(:mailbox) { create(:itsm_incoming_mailbox, project:, active:) }
   let(:project) { create(:project) }
   let(:active) { true }
   let(:current_user) { User.system }

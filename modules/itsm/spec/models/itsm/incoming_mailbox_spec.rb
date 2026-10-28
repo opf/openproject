@@ -141,22 +141,14 @@ RSpec.describe ITSM::IncomingMailbox do
     end
   end
 
-  it "logs in to IMAP with its credentials" do
-    imap = instance_double(Net::IMAP, login: nil)
-
-    mailbox.imap_authentication.call(imap)
-
-    expect(imap).to have_received(:login).with("support@example.com", "imap-password")
-  end
-
   describe "#fetch_succeeded!", :freeze_time do
     subject(:mailbox) { create(:itsm_incoming_mailbox, consecutive_failures: 3, last_error: "unreachable") }
 
-    it "records the check and schedules the next one" do
+    it "records the check and stays due for the next scheduled run" do
       mailbox.fetch_succeeded!
 
       expect(mailbox.reload).to have_attributes(last_fetched_at: Time.current,
-                                                next_fetch_at: 15.minutes.from_now,
+                                                next_fetch_at: nil,
                                                 consecutive_failures: 0,
                                                 last_error: nil)
     end
@@ -187,13 +179,15 @@ RSpec.describe ITSM::IncomingMailbox do
     end
   end
 
-  describe ".due_for_fetch", :freeze_time do
+  describe ".due_for_fetch", :freeze_time, with_flag: { helpdesk: true } do
     let!(:never_fetched) { create(:itsm_incoming_mailbox, next_fetch_at: nil) }
     let!(:due) { create(:itsm_incoming_mailbox, next_fetch_at: 1.minute.ago) }
     let!(:not_yet_due) { create(:itsm_incoming_mailbox, next_fetch_at: 1.minute.from_now) }
     let!(:paused) { create(:itsm_incoming_mailbox, active: false, next_fetch_at: nil) }
+    let!(:in_archived_project) { create(:itsm_incoming_mailbox, project: create(:project, active: false)) }
+    let!(:help_desk_disabled) { create(:itsm_incoming_mailbox, project: create(:project, disable_modules: :helpdesk)) }
 
-    it "returns the active mailboxes whose next check is due" do
+    it "returns the active mailboxes of help desk projects whose next check is due" do
       expect(described_class.due_for_fetch).to contain_exactly(never_fetched, due)
     end
   end

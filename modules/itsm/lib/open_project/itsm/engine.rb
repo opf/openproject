@@ -76,5 +76,14 @@ module OpenProject::ITSM
     end
 
     include_module "Projects::HelpdeskMailboxes", into: "Project"
+
+    add_cron_jobs do
+      {
+        "ITSM::Mailboxes::ScheduleFetchesJob": {
+          cron: "*/15 * * * *", # every 15 minutes
+          class: ::ITSM::Mailboxes::ScheduleFetchesJob.name
+        }
+      }
+    end
   end
 end

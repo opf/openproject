@@ -28,7 +28,7 @@
 #++
 
 RSpec.shared_context "with a connected IMAP session" do
-  let(:imap_connection) { ITSM::MailServer::Connection.new(host: "imap.example.com", port: 993, encryption: "tls") }
+  let(:imap_connection) { build(:itsm_mail_server, :imap) }
   let(:imap_credentials) { ITSM::Mailbox::Credentials.new(username: "support@example.com", password: "secret") }
   let(:imap_auth_strategy) { ITSM::Adapters::AuthenticationStrategies::BasicAuth.new(imap_credentials) }
   let(:imap) do

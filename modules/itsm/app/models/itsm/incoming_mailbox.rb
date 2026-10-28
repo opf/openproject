@@ -32,12 +32,14 @@ module ITSM
     include Mailbox
 
     PROTOCOL = "imap"
-    FETCH_INTERVAL = 15.minutes
-    MAX_FETCH_INTERVAL = 6.hours
+    RETRY_INTERVAL = 15.minutes
+    MAX_RETRY_INTERVAL = 6.hours
 
     belongs_to :mail_server, class_name: "ITSM::MailServer", inverse_of: :incoming_mailboxes, optional: false
 
-    scope :due_for_fetch, -> { where(active: true, next_fetch_at: [nil, ..Time.current]) }
+    scope :due_for_fetch, -> do
+      where(active: true, next_fetch_at: [nil, ..Time.current], project: Project.active.has_module(:helpdesk))
+    end
 
     normalizes :email, with: EmailAddress::NORMALIZE
     normalizes :aliases, with: EmailAddress::NORMALIZE_ALL
@@ -45,11 +47,8 @@ module ITSM
     validates :username, uniqueness: { scope: :mail_server_id, case_sensitive: false }
     validates :email, presence: true, uniqueness: true
 
-    def imap_authentication = Adapters::AuthenticationStrategies::BasicAuth.new(credentials)
-
     def fetch_succeeded!
-      now = Time.current
-      update_columns(last_fetched_at: now, next_fetch_at: now + FETCH_INTERVAL, consecutive_failures: 0, last_error: nil)
+      update_columns(last_fetched_at: Time.current, next_fetch_at: nil, consecutive_failures: 0, last_error: nil)
     end
 
     def fetch_failed!(code)
@@ -59,6 +58,6 @@ module ITSM
 
     private
 
-    def retry_interval(failures) = [FETCH_INTERVAL * (2**failures), MAX_FETCH_INTERVAL].min
+    def retry_interval(failures) = [RETRY_INTERVAL * (2**failures), MAX_RETRY_INTERVAL].min
   end
 end

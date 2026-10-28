@@ -46,6 +46,7 @@ en:
               fetch_in_progress: "The mailbox is already being checked."
               inactive: "The mailbox is paused."
               server_error: "The mail server returned an error."
+              timeout: "The mail server stopped responding."
               tls_failed: "No secure connection to the mail server could be established. Check its certificate."
               unreachable: "The mail server could not be reached."
     models:

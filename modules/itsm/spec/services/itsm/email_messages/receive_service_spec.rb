@@ -33,7 +33,7 @@ require_module_spec_helper
 RSpec.describe ITSM::EmailMessages::ReceiveService, with_flag: { helpdesk: true } do
   subject(:result) { described_class.new(mailbox:, user:).call(raw:) }
 
-  let(:mailbox) { create(:itsm_mailbox) }
+  let(:mailbox) { create(:itsm_incoming_mailbox) }
   let(:user) { User.system }
   let(:raw) do
     "Message-ID: <request-1@customer.example>\r\n" \
@@ -86,7 +86,7 @@ RSpec.describe ITSM::EmailMessages::ReceiveService, with_flag: { helpdesk: true 
   end
 
   context "when the helpdesk is disabled in the project" do
-    let(:mailbox) { create(:itsm_mailbox, project: create(:project, disable_modules: :helpdesk)) }
+    let(:mailbox) { create(:itsm_incoming_mailbox, project: create(:project, disable_modules: :helpdesk)) }
 
     it "does not store it" do
       expect(result).to be_failure

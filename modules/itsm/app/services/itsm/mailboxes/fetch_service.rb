@@ -45,7 +45,7 @@ module ITSM
       # No transaction: emails are removed from the server right after their record is created,
       # and a failed fetch still has to be recorded on the mailbox.
       def service_context(send_notifications:, &)
-        OpenProject::Mutex.with_advisory_lock(Mailbox, "itsm_mailbox_fetch_#{model.id}", timeout_seconds: 0) do
+        OpenProject::Mutex.with_advisory_lock(IncomingMailbox, "itsm_mailbox_fetch_#{model.id}", timeout_seconds: 0) do
           without_context_transaction(send_notifications:, &)
         end || failure(:fetch_in_progress)
       end
@@ -53,7 +53,7 @@ module ITSM
       def persist(_service_call)
         Rails.logger.tagged("ITSM", "mailbox #{model.id}") do
           case fetch_emails
-          in Success then fetch_succeeded
+          in Success(emails_left:) then fetch_succeeded(emails_left:)
           in Failure(error) then fetch_failed(error)
           end
         end
@@ -62,13 +62,15 @@ module ITSM
       # `yield` is Do notation: it unwraps a Success or ends the run on the first Failure.
       # The session still logs out, as `ImapSession.open` closes it in `ensure`.
       def fetch_emails
-        Adapters::ImapSession.open(connection: model.mail_server.imap, auth_strategy: model.imap_authentication) do |session|
+        Adapters::ImapSession.open(connection: model.mail_server, auth_strategy:) do |session|
           uids = yield Adapters::Queries::UnseenUids.call(session:, limit: BATCH_SIZE)
           uids.each { |uid| yield receive(session, uid) }
 
-          Success(model)
+          Success(emails_left: uids.size == BATCH_SIZE)
         end
       end
+
+      def auth_strategy = Adapters::AuthenticationStrategies::BasicAuth.new(model.credentials)
 
       def receive(session, uid)
         Adapters::Queries::RawEmail.call(session:, uid:).bind do |raw|
@@ -83,7 +85,7 @@ module ITSM
       rescue ActiveRecord::ActiveRecordError
         raise
       rescue StandardError => e
-        ServiceResult.failure(message: "#{e.class}: #{e.message}")
+        ServiceResult.failure(message: e.class.name)
       end
 
       def settle(session, uid, received)
@@ -93,8 +95,9 @@ module ITSM
         Adapters::Commands::MarkEmailSeen.call(session:, uid:)
       end
 
-      def fetch_succeeded
+      def fetch_succeeded(emails_left:)
         model.fetch_succeeded!
+        state.emails_left = emails_left
         ServiceResult.success(result: model)
       end
 

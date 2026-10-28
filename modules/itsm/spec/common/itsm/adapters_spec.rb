@@ -33,7 +33,7 @@ require_module_spec_helper
 RSpec.describe ITSM::Adapters do
   it "has a translation for every error code" do
     missing = described_class::ERROR_CODES.reject do |code|
-      I18n.exists?("activerecord.errors.models.itsm/mailbox.attributes.base.#{code}", :en)
+      I18n.exists?("activerecord.errors.models.itsm/incoming_mailbox.attributes.base.#{code}", :en)
     end
 
     expect(missing).to be_empty

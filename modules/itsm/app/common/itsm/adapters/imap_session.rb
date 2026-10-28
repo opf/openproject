@@ -35,12 +35,15 @@ module ITSM
       include Concerns::ImapRequest
 
       OPEN_TIMEOUT = 10
+      SESSION_TIMEOUT = 5.minutes
       FOLDER = "INBOX"
 
       def self.open(connection:, auth_strategy:)
         session = new(connection:, auth_strategy:)
+        deadline = Concurrent::ScheduledTask.execute(SESSION_TIMEOUT) { session.time_out }
         session.connect.bind { yield session }
       ensure
+        deadline&.cancel
         session&.close
       end
 
@@ -70,11 +73,22 @@ module ITSM
         Rails.logger.warn { "IMAP logout failed: #{logout.failure.payload}" } if logout.failure?
       end
 
+      # Net::IMAP has no command timeout yet: https://github.com/ruby/net-imap/issues/278
+      # Disconnecting from another thread makes the waiting command fail with an IOError.
+      def time_out
+        @timed_out = true
+        imap&.disconnect
+      end
+
       private
 
-      attr_reader :connection, :auth_strategy, :imap
+      attr_reader :connection, :auth_strategy, :imap, :timed_out
 
       def instance_variables_to_inspect = %i[@connection]
+
+      def imap_request(source: self.class)
+        super.alt_map { timed_out ? it.with(code: :timeout) : it }
+      end
 
       def safe_address
         addresses = OpenProject::SsrfProtection.resolver.call(connection.host)

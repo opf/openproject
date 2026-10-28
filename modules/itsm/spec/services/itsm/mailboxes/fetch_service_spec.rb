@@ -33,7 +33,7 @@ require_module_spec_helper
 RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true } do
   subject(:result) { described_class.new(model: mailbox).call }
 
-  let(:mailbox) { create(:itsm_mailbox, active:, consecutive_failures:, last_error:) }
+  let(:mailbox) { create(:itsm_incoming_mailbox, active:, consecutive_failures:, last_error:) }
   let(:active) { true }
   let(:consecutive_failures) { 0 }
   let(:last_error) { nil }
@@ -61,8 +61,8 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true } do
   it "logs in with the mailbox's IMAP settings" do
     result
 
-    expect(Net::IMAP).to have_received(:new).with(mailbox.mail_server.imap_host, port: 993, ssl: true, open_timeout: 10)
-    expect(imap).to have_received(:login).with(mailbox.imap_username, "imap-password")
+    expect(Net::IMAP).to have_received(:new).with(mailbox.mail_server.host, port: 993, ssl: true, open_timeout: 10)
+    expect(imap).to have_received(:login).with(mailbox.username, "imap-password")
   end
 
   it "stores new emails and removes them from the server" do
@@ -86,9 +86,32 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true } do
   end
 
   context "when processing an email raises" do
+    let(:warnings) { [] }
+
     before do
       allow(ITSM::InboundEmail).to receive(:new).and_call_original
-      allow(ITSM::InboundEmail).to receive(:new).with(emails[1]).and_raise(ArgumentError)
+      allow(ITSM::InboundEmail).to receive(:new).with(emails[1]).and_raise(ArgumentError, "bad header from jane@customer.example")
+      allow(Rails.logger).to receive(:warn) { |&message| warnings << message.call }
+    end
+
+    it "marks it as seen and continues with the next one" do
+      expect(result).to be_success
+      expect(imap).to have_received(:uid_store).with(1, "+FLAGS", [:Seen])
+      expect(imap).to have_received(:uid_fetch).with(2, "BODY.PEEK[]")
+    end
+
+    it "logs the error class without the email content" do
+      result
+
+      expect(warnings).to include("Email not stored: ArgumentError")
+      expect(warnings.join).not_to include("jane@customer.example")
+    end
+  end
+
+  context "when an email's Message-ID is too long to store" do
+    before do
+      emails[1] = "Message-ID: <#{SecureRandom.alphanumeric(3000)}@customer.example>\r\n" \
+                  "From: jane@customer.example\r\n\r\nHello"
     end
 
     it "marks it as seen and continues with the next one" do
@@ -130,9 +153,22 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true } do
     result
 
     expect(mailbox.reload).to have_attributes(last_fetched_at: Time.current,
-                                              next_fetch_at: 15.minutes.from_now,
+                                              next_fetch_at: nil,
                                               consecutive_failures: 0,
                                               last_error: nil)
+  end
+
+  it "reports that no emails are left on the server" do
+    expect(result.state.emails_left).to be(false)
+  end
+
+  context "when the batch is full" do
+    before { stub_const("#{described_class}::BATCH_SIZE", 2) }
+
+    it "reports that emails may be left on the server" do
+      expect(result.state.emails_left).to be(true)
+      expect(imap).to have_received(:uid_fetch).twice
+    end
   end
 
   context "with earlier failures" do
@@ -186,7 +222,7 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true } do
   context "when the mailbox is already being checked" do
     before do
       allow(OpenProject::Mutex).to receive(:with_advisory_lock)
-        .with(ITSM::Mailbox, "itsm_mailbox_fetch_#{mailbox.id}", timeout_seconds: 0)
+        .with(ITSM::IncomingMailbox, "itsm_mailbox_fetch_#{mailbox.id}", timeout_seconds: 0)
         .and_return(false)
     end
 
