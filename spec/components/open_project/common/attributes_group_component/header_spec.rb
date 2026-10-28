@@ -27,9 +27,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module AttributeGroups
-  class AttributeGroupComponent < ::ApplicationComponent
-    renders_one :header, AttributeGroups::AttributeGroupHeaderComponent
-    renders_many :attributes, AttributeGroups::AttributeKeyValueComponent
+require "rails_helper"
+
+RSpec.describe OpenProject::Common::AttributesGroupComponent::Header, type: :component do
+  subject(:render_header) { render_inline(described_class.new(title: "A Title")) }
+
+  it "renders the title" do
+    render_header
+
+    expect(page).to have_css("h3", text: "A Title")
+  end
+
+  context "when providing a tag" do
+    subject(:render_header) { render_inline(described_class.new(title: "A Title", tag: :h2)) }
+
+    it "renders the title inside the given tag" do
+      render_header
+
+      expect(page).to have_css("h2", text: "A Title")
+    end
+  end
+
+  context "when using an h1 tag" do
+    subject(:render_header) { render_inline(described_class.new(title: "A Title", tag: :h1)) }
+
+    it "raises an error, because h1 is reserved" do
+      expect { render_header }.to raise_error(Primer::FetchOrFallbackHelper::InvalidValueError)
+    end
   end
 end

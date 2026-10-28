@@ -27,12 +27,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "rails_helper"
+module OpenProject
+  module Common
+    class AttributesGroupComponent < ::Primer::Component
+      renders_one :header, Header
+      renders_many :attributes, AttributeKeyValue
 
-RSpec.describe AttributeGroups::AttributeGroupHeaderComponent, type: :component do
-  it "renders the title" do
-    render_inline(described_class.new(title: "A Title"))
+      attr_reader :system_arguments
 
-    expect(page).to have_css("h3.attributes-group--header-text", text: "A Title")
+      def initialize(**system_arguments)
+        super()
+        @system_arguments = system_arguments
+
+        @system_arguments[:classes] = class_names(
+          @system_arguments[:classes],
+          "AttributesGroup"
+        )
+      end
+    end
   end
 end
