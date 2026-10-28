@@ -33,6 +33,7 @@ en:
               invalid_url: "is not a valid URL."
               not_squashtm: "did not answer like a SquashTM server. Please check that the URL includes the SquashTM context path (for example https://squashtm.example.com/squash)."
               request_timed_out: "did not respond in time. Please ensure the SquashTM server is reachable and not overloaded."
+              server_error: "responded with an error (HTTP %{status}). Please ensure the SquashTM server is running and healthy."
               ssl_error: "could not be reached over a secure connection. Please check the SquashTM server's TLS certificate."
               ssrf_filtered: "resolves to a blocked address. If the SquashTM server runs on an internal network, allow its IP via the %{env_name} environment variable."
         squashtm_integration/work_package_link:
@@ -63,7 +64,7 @@ en:
       servers:
         show:
           description: "Connect OpenProject to a SquashTM server to show test cases, executions and results on work packages."
-          linked: "OpenProject is linked to the SquashTM server at %{url}."
+          linked_html: "OpenProject is linked to the SquashTM server at %{url}."
           test_connection: "Test connection"
           unlink: "Unlink"
         test_connection:

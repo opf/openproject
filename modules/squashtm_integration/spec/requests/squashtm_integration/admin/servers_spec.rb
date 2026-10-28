@@ -57,7 +57,9 @@ RSpec.describe "SquashTM server administration",
       get server_path
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("OpenProject is linked to the SquashTM server at https://squashtm.example.com/squash.")
+      banner = Capybara.string(response.body).find(test_selector("squashtm-server--linked"))
+      expect(banner).to have_text("OpenProject is linked to the SquashTM server at https://squashtm.example.com/squash.")
+      expect(banner).to have_link("https://squashtm.example.com/squash", href: "https://squashtm.example.com/squash")
       expect(response.body).not_to include("squashtm_server[base_url]")
       expect(response.body).not_to include("secret-token")
     end

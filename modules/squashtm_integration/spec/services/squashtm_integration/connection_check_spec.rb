@@ -64,4 +64,15 @@ RSpec.describe SquashTMIntegration::ConnectionCheck do
       expect(errors.details[attribute].pluck(:error)).to eq([error_type])
     end
   end
+
+  it "reports a ServerError as base_url server_error with the status" do
+    allow(client).to receive(:projects).and_raise(SquashTMIntegration::Client::ServerError.new(502))
+
+    check
+
+    expect(errors.details[:base_url]).to eq([{ error: :server_error, status: 502 }])
+    expect(errors.full_messages).to eq(
+      ["SquashTM URL responded with an error (HTTP 502). Please ensure the SquashTM server is running and healthy."]
+    )
+  end
 end
