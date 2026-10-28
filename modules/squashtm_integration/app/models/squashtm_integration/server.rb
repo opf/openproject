@@ -60,7 +60,15 @@ module SquashTMIntegration
       persisted? && api_token_in_database.present?
     end
 
+    def project_url(project_id)
+      web_url("administration-workspace/projects/#{Integer(project_id)}/content", anchor: "information")
+    end
+
     private
+
+    def web_url(path, anchor:)
+      "#{base_url.chomp('/')}/#{path}?#{{ anchor: }.to_query}"
+    end
 
     def single_server
       errors.add(:base, :singleton) if self.class.exists?

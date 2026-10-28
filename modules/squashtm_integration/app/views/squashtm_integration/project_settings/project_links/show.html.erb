@@ -37,21 +37,6 @@ See COPYRIGHT and LICENSE files for more details.
        { href: project_settings_general_path(@project.id), text: t(:label_project_settings) },
        t(:project_module_squashtm)]
     )
-
-    if @project_link.persisted?
-      header.with_action_button(
-        tag: :a,
-        scheme: :danger,
-        href: destroy_dialog_project_settings_squashtm_path(@project),
-        data: { controller: "async-dialog" },
-        mobile_icon: :unlink,
-        mobile_label: t("squashtm_integration.project_settings.project_links.show.unlink"),
-        test_selector: "squashtm-project-link--delete"
-      ) do |button|
-        button.with_leading_visual_icon(icon: :unlink)
-        t("squashtm_integration.project_settings.project_links.show.unlink")
-      end
-    end
   end
 %>
 
@@ -80,11 +65,23 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% if @project_link.persisted? %>
   <%=
-    render(Primer::Beta::Text.new(tag: :p, mb: 3, test_selector: "squashtm-project-link--current")) do
-      t(
-        "squashtm_integration.project_settings.project_links.show.linked_to",
-        name: @project_link.squashtm_project_name_in_database
+    render(Primer::Alpha::Banner.new(scheme: :success, mb: 3, test_selector: "squashtm-project-link--current")) do
+      t("squashtm_integration.project_settings.project_links.show.linked_to_html", name: linked_squashtm_project_name)
+    end
+  %>
+
+  <%=
+    render(
+      Primer::Beta::Button.new(
+        tag: :a,
+        scheme: :danger,
+        href: destroy_dialog_project_settings_squashtm_path(@project),
+        data: { controller: "async-dialog" },
+        test_selector: "squashtm-project-link--delete"
       )
+    ) do |button|
+      button.with_leading_visual_icon(icon: :unlink)
+      t("squashtm_integration.project_settings.project_links.show.unlink")
     end
   %>
 <% elsif @server.nil? %>
@@ -93,9 +90,7 @@ See COPYRIGHT and LICENSE files for more details.
       t("squashtm_integration.project_settings.project_links.show.not_linked")
     end
   %>
-<% end %>
-
-<% if @squashtm_projects %>
+<% elsif @squashtm_projects %>
   <%=
     primer_form_with(
       model: @project_link,

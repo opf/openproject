@@ -61,10 +61,24 @@ RSpec.describe "SquashTM project settings",
         expect(subject.body).to include("Integration Sandbox", "Another project")
       end
 
-      it "shows the current link" do
+      it "shows the current link to the SquashTM project instead of the dropdown" do
         create(:squashtm_project_link, project:, squashtm_project_id: 2, squashtm_project_name: "Another project")
 
-        expect(subject.body).to include("This project is linked to the SquashTM project Another project.")
+        banner = Capybara.string(subject.body).find(test_selector("squashtm-project-link--current"))
+        expect(banner).to have_text("This project is linked to the SquashTM project Another project")
+        expect(banner).to have_link(
+          "Another project",
+          href: "https://squashtm.example.com/squash/administration-workspace/projects/2/content?anchor=information"
+        )
+        expect(banner).to have_css("a svg.octicon-link-external")
+        expect(subject.body).not_to include("squashtm_project_link[squashtm_project_id]")
+      end
+
+      it "escapes the SquashTM project name" do
+        create(:squashtm_project_link, project:, squashtm_project_id: 2, squashtm_project_name: "<b>Bold</b>")
+
+        expect(subject.body).to include("&lt;b&gt;Bold&lt;/b&gt;")
+        expect(subject.body).not_to include("<b>Bold</b>")
       end
 
       it "warns when the linked SquashTM project is no longer visible" do
@@ -132,22 +146,11 @@ RSpec.describe "SquashTM project settings",
         .to have_attributes(squashtm_project_id: 2, squashtm_project_name: "Another project")
     end
 
-    it "asks for confirmation instead of unlinking when no SquashTM project is selected" do
-      create(:squashtm_project_link, project:)
-
-      patch settings_path,
-            params: { squashtm_project_link: { squashtm_project_id: "" } },
-            headers: { "Accept" => "text/vnd.turbo-stream.html" }
-
-      expect(response).to have_http_status(:ok)
-      expect(response.body).to include("squashtm-project-link--delete-dialog")
-      expect(SquashTMIntegration::ProjectLink).to exist
-    end
-
-    it "changes nothing when no SquashTM project is selected for an unlinked project" do
+    it "requires a SquashTM project" do
       patch settings_path, params: { squashtm_project_link: { squashtm_project_id: "" } }
 
-      expect(response).to redirect_to(settings_path)
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.body).to include("can&#39;t be blank")
       expect(SquashTMIntegration::ProjectLink).not_to exist
     end
 

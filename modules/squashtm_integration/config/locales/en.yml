@@ -78,15 +78,15 @@ en:
         heading: "Unlink the SquashTM project %{name}?"
         title: "Unlink SquashTM project"
       project_link_form:
-        squashtm_project_caption: "Only projects visible to the SquashTM account used by OpenProject are listed. Choose \"No SquashTM project\" to unlink this project."
-        squashtm_project_prompt: "No SquashTM project"
+        squashtm_project_caption: "Only projects visible to the SquashTM account used by OpenProject are listed."
+        squashtm_project_prompt: "Select a SquashTM project"
       project_links:
         destroy:
           success: "The SquashTM project was unlinked."
         show:
           description: "Link this project to a SquashTM project to show its test cases, executions and results on work packages."
           linked_project_missing: "The linked SquashTM project %{name} is no longer visible in SquashTM. It may have been deleted, or the SquashTM account used by OpenProject may have lost access to it."
-          linked_to: "This project is linked to the SquashTM project %{name}."
+          linked_to_html: "This project is linked to the SquashTM project %{name}."
           not_linked: "This project is not linked to a SquashTM project."
           projects_unavailable: "The SquashTM projects could not be loaded because the SquashTM server is not reachable. Please try again later or contact your instance administrator."
           server_not_configured: "No SquashTM server is configured for this OpenProject instance. Please contact your instance administrator to set up the SquashTM integration."
