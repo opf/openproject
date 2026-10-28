@@ -34,7 +34,7 @@ module ITSM
 
       def self.call(**) = new.call(**)
 
-      def call(session:, **) # rubocop:disable Lint/UnusedMethodArgument
+      def call(session:, **)
         raise SubclassResponsibilityError
       end
 
