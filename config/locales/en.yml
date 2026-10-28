@@ -1670,6 +1670,8 @@ en:
         jobs:
           JiraCreateCustomFieldsJob:
             title: "Create custom fields"
+          JiraCreateParentChildRelationsFromSubtasksJob:
+            title: "Create parent-child relations for '%{jira_project_name}'"
           JiraCreateProjectJob:
             title: "Create project '%{jira_project_name}'"
           JiraCreateProjectRoleJob:
@@ -1678,8 +1680,6 @@ en:
             title: "Create versions for '%{jira_project_name}'"
           JiraCreateProjectWorkPackageAttachmentsJob:
             title: "Download work package attachments for '%{jira_project_name}'"
-          JiraCreateParentChildRelationsFromSubtasksJob:
-            title: "Create parent-child relations for '%{jira_project_name}'"
           JiraCreateProjectWorkPackagesJob:
             title: "Create work packages for '%{jira_project_name}'"
           JiraCreateUsersJob:

@@ -74,46 +74,61 @@ module Import
       end
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def each_iteration(jira_issue, jira_import_id, jira_project_id)
       jira_issue_key = jira_issue.payload["key"]
       tagged_log("jira_import_id:#{jira_import_id}",
                  "jira_project_id:#{jira_project_key(jira_project_id)}",
                  "jira_issue_key:#{jira_issue_key}") do
-        parent_data = jira_issue.payload.dig("fields", "parent")
-        return if parent_data.blank?
-
-        parent_jira_id = parent_data["id"]
-        return if parent_jira_id.blank?
-
-        parent_jira_issue = Import::JiraIssue.find_by(
-          jira_import: @jira_import,
-          origin_id: parent_jira_id
-        )
-
-        if parent_jira_issue.nil?
-          Rails.logger.warn "Parent Jira issue #{parent_jira_id} not found for subtask #{jira_issue.origin_id}"
-          return
+        Journal::NotificationConfiguration.with(false) do
+          Journal::EventConfiguration.with(false) do
+            ActiveRecord::Base.transaction do
+              set_parent_child_relation(jira_issue)
+              @jira_import.set_job_cursor(self, jira_issue.id)
+            end
+          end
         end
-
-        child_wp = @jira_import.find_op_leg(jira_issue)
-        parent_wp = @jira_import.find_op_leg(parent_jira_issue)
-
-        if child_wp.nil? || parent_wp.nil?
-          Rails.logger.warn "Work packages not found for hierarchy: child=#{child_wp&.id}, parent=#{parent_wp&.id}"
-          return
-        end
-
-        Rails.logger.debug { "Setting parent of #{child_wp.id} to #{parent_wp.id}" }
-        WorkPackages::UpdateService
-          .new(user: User.system, model: child_wp, contract_class: EmptyContract)
-          .call(parent_id: parent_wp.id)
-
-        @jira_import.set_job_cursor(self, jira_issue.id)
       end
     end
 
     private
+
+    # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
+    def set_parent_child_relation(jira_issue)
+      parent_data = jira_issue.payload.dig("fields", "parent")
+      return if parent_data.blank?
+
+      parent_jira_id = parent_data["id"]
+      return if parent_jira_id.blank?
+
+      parent_jira_issue = Import::JiraIssue.find_by(
+        jira_import: @jira_import,
+        origin_id: parent_jira_id
+      )
+
+      if parent_jira_issue.nil?
+        Rails.logger.warn "Parent Jira issue #{parent_jira_id} not found for subtask #{jira_issue.origin_id}"
+        return
+      end
+
+      child_wp = @jira_import.find_op_leg(jira_issue)
+      parent_wp = @jira_import.find_op_leg(parent_jira_issue)
+
+      if child_wp.nil? || parent_wp.nil?
+        Rails.logger.warn "Work packages not found for hierarchy: child=#{child_wp&.id}, parent=#{parent_wp&.id}"
+        return
+      end
+
+      Rails.logger.debug { "Setting parent of #{child_wp.id} to #{parent_wp.id}" }
+      call = WorkPackages::UpdateService
+               .new(user: User.system, model: child_wp, contract_class: EmptyContract)
+               .with_state(bulk_duplicate_in_progress: true)
+               .call(parent_id: parent_wp.id)
+
+      return if call.success?
+
+      Rails.logger.error "Failed to set parent for work package #{child_wp.id}: #{call.message}"
+      raise call.message
+    end
 
     def subtasks_scope(jira_import_id, jira_project_id)
       Import::JiraIssue
