@@ -28,10 +28,33 @@
 #++
 
 module Avatars
-  class ImageOptionComponent < ApplicationComponent
-    def initialize(principal:, target_avatar_path:)
+  class ImageForm < ApplicationForm
+    form do |f|
+      f.file_field(
+        name: :file,
+        id: "avatar_file_input",
+        label: I18n.t(:label_choose_avatar),
+        caption: I18n.t("avatars.image_hint"),
+        accept: "image/jpeg,image/png,image/gif",
+        preview_url: @image_url,
+        delete_path: (@target_avatar_path if @image_url.present?),
+        delete_button_arguments: {
+          data: {
+            turbo: true,
+            turbo_method: :delete,
+            turbo_confirm: I18n.t(:are_you_sure_delete_avatar),
+            test_selector: "avatar-delete-link"
+          }
+        },
+        data: { "avatars--settings-target": "file", action: "change->avatars--settings#upload" },
+        invalid_file_message: I18n.t(:wrong_file_format),
+        error_data: { "avatars--settings-target": "uploadError" }
+      )
+    end
+
+    def initialize(image_url:, target_avatar_path:)
       super()
-      @principal = principal
+      @image_url = image_url
       @target_avatar_path = target_avatar_path
     end
   end
