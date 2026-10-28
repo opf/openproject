@@ -124,25 +124,25 @@ RSpec.describe "SquashTM tab on work packages", :js do
         select "REQ-001 – Users can sign in", from: "SquashTM requirement"
         click_button "Link requirement"
 
-        within_test_selector("op-work-package-squashtm-tab--requirement") do
+        within_test_selector("squashtm--requirement") do
           expect(page).to have_text("REQ-001")
           expect(page).to have_text("Approved")
           expect(page).to have_link("Users can sign in")
         end
-        within_test_selector("op-work-package-squashtm-tab--test-case-21") do
+        within_test_selector("squashtm--test-case-21") do
           expect(page).to have_text("Valid login")
           expect(page).to have_text("Passed")
           expect(page).to have_text("bob")
         end
-        within_test_selector("op-work-package-squashtm-tab--test-case-22") do
+        within_test_selector("squashtm--test-case-22") do
           expect(page).to have_text("Not executed")
         end
 
-        within_test_selector("op-work-package-squashtm-tab--requirement-menu") do
+        within_test_selector("squashtm--requirement-menu") do
           click_button accessible_name: "Actions"
         end
         click_link_or_button "Unlink"
-        within_test_selector("op-work-package-squashtm-tab--unlink-dialog") do
+        within_test_selector("squashtm--unlink-requirement-dialog") do
           expect(page).to have_text("Unlink the SquashTM requirement Users can sign in?")
           click_button "Unlink"
         end
@@ -152,7 +152,7 @@ RSpec.describe "SquashTM tab on work packages", :js do
       end
 
       it "shows the error when the requirement cannot be linked" do
-        allow(client).to receive(:requirement).and_raise(SquashTMIntegration::Client::NotFoundError)
+        allow(client).to receive(:requirement).and_raise(SquashTMIntegration::Client::NotFoundError.new(404))
         work_package_page.switch_to_tab(tab: "squashtm")
 
         select "REQ-001 – Users can sign in", from: "SquashTM requirement"
@@ -170,8 +170,8 @@ RSpec.describe "SquashTM tab on work packages", :js do
         it "shows the requirement without a way to unlink it" do
           work_package_page.switch_to_tab(tab: "squashtm")
 
-          expect(page).to have_test_selector("op-work-package-squashtm-tab--requirement")
-          expect(page).to have_no_test_selector("op-work-package-squashtm-tab--requirement-menu")
+          expect(page).to have_test_selector("squashtm--requirement")
+          expect(page).to have_no_test_selector("squashtm--requirement-menu")
         end
       end
     end

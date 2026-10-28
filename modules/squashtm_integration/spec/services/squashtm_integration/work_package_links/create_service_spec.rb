@@ -67,28 +67,28 @@ RSpec.describe SquashTMIntegration::WorkPackageLinks::CreateService do
       create(:squashtm_work_package_link, work_package:, squashtm_requirement_id: 12)
 
       expect(result).to be_failure
-      expect(result.errors.details[:work_package_id].pluck(:error)).to include(:taken)
+      expect(result.errors.details[:base].pluck(:error)).to include(:work_package_already_linked)
     end
 
     it "rejects a requirement of another SquashTM project" do
       requirement["project"]["id"] = 2
 
       expect(result).to be_failure
-      expect(result.errors.details[:squashtm_requirement_id].pluck(:error)).to eq([:not_in_linked_project])
+      expect(result.errors.details[:base].pluck(:error)).to eq([:squashtm_requirement_not_in_linked_project])
     end
 
     it "rejects a requirement that does not exist" do
-      allow(client).to receive(:requirement).and_raise(SquashTMIntegration::Client::NotFoundError)
+      allow(client).to receive(:requirement).and_raise(SquashTMIntegration::Client::NotFoundError.new(404))
 
       expect(result).to be_failure
-      expect(result.errors.details[:squashtm_requirement_id].pluck(:error)).to eq([:not_found])
+      expect(result.errors.details[:base].pluck(:error)).to eq([:squashtm_requirement_not_found])
     end
 
     it "fails when SquashTM is not reachable" do
       allow(client).to receive(:requirement).and_raise(SquashTMIntegration::Client::SsrfError)
 
       expect(result).to be_failure
-      expect(result.errors.details[:squashtm_requirement_id].pluck(:error)).to eq([:squashtm_unavailable])
+      expect(result.errors.details[:base].pluck(:error)).to eq([:squashtm_requirement_unavailable])
     end
 
     context "without the permission to manage links" do

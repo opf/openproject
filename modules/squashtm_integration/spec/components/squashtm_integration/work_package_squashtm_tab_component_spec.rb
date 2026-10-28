@@ -129,15 +129,15 @@ RSpec.describe SquashTMIntegration::WorkPackageSquashTMTabComponent, type: :comp
     it "lists the test cases with their latest execution status" do
       render_component
 
-      expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--test-case-21']", text: "Passed")
-      expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--test-case-21']", text: "by bob")
-      expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--test-case-22']", text: "Not executed")
+      expect(page).to have_css("[data-test-selector='squashtm--test-case-21']", text: "Passed")
+      expect(page).to have_css("[data-test-selector='squashtm--test-case-21']", text: "by bob")
+      expect(page).to have_css("[data-test-selector='squashtm--test-case-22']", text: "Not executed")
     end
 
     it "offers no unlink action without the permission" do
       render_component
 
-      expect(page).to have_no_css("[data-test-selector='op-work-package-squashtm-tab--unlink']")
+      expect(page).to have_no_css("[data-test-selector='squashtm--unlink-requirement']")
     end
 
     context "for a user allowed to manage links" do
@@ -146,7 +146,7 @@ RSpec.describe SquashTMIntegration::WorkPackageSquashTMTabComponent, type: :comp
       it "offers to unlink the requirement" do
         render_component
 
-        expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--unlink']")
+        expect(page).to have_css("[data-test-selector='squashtm--unlink-requirement']")
       end
     end
 
@@ -167,7 +167,7 @@ RSpec.describe SquashTMIntegration::WorkPackageSquashTMTabComponent, type: :comp
       it "warns and keeps showing the cached name" do
         render_component
 
-        expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--requirement-missing']")
+        expect(page).to have_css("[data-test-selector='squashtm--requirement-missing']")
         expect(page).to have_text("Users can sign in")
       end
     end
@@ -179,7 +179,7 @@ RSpec.describe SquashTMIntegration::WorkPackageSquashTMTabComponent, type: :comp
       it "explains that the test cases could not be loaded" do
         render_component
 
-        expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--unavailable']")
+        expect(page).to have_css("[data-test-selector='squashtm--test-cases-unavailable']")
         expect(page).to have_text("Users can sign in")
       end
     end

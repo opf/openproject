@@ -96,7 +96,7 @@ RSpec.describe SquashTMIntegration::WorkPackageTabState do
     end
 
     it "reports :not_found when the requirement no longer exists" do
-      allow(coverage).to receive(:call).and_raise(SquashTMIntegration::Client::NotFoundError)
+      allow(coverage).to receive(:call).and_raise(SquashTMIntegration::Client::NotFoundError.new(404))
 
       expect(state.requirement).to be_nil
       expect(state.requirement_error).to eq(:not_found)

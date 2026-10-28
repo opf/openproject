@@ -61,7 +61,7 @@ RSpec.describe "Linking SquashTM requirements to work packages",
     end
 
     it "re-renders the tab with the error when the requirement cannot be linked" do
-      allow(client).to receive(:requirement).and_raise(SquashTMIntegration::Client::NotFoundError)
+      allow(client).to receive(:requirement).and_raise(SquashTMIntegration::Client::NotFoundError.new(404))
 
       patch link_path, params: { squashtm_work_package_link: { squashtm_requirement_id: "11" } }, headers: turbo_stream
 
@@ -89,7 +89,7 @@ RSpec.describe "Linking SquashTM requirements to work packages",
       get "#{link_path}/destroy_dialog", headers: turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("op-work-package-squashtm-tab--unlink-dialog")
+      expect(response.body).to include("squashtm--unlink-requirement-dialog")
       dialog = Capybara.string(Nokogiri::HTML5.fragment(response.body).at_css("template").inner_html)
       expect(dialog).to have_button("Unlink")
     end

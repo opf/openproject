@@ -28,10 +28,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   content_tag("turbo-frame", id: TURBO_FRAME_ID) do
-    component_wrapper(data: { test_selector: "op-work-package-squashtm-tab-container" }) do
+    component_wrapper(data: { test_selector: "squashtm--tab-container" }) do
       case status
       when :no_server
-        render(Primer::Beta::Blankslate.new(spacious: true, test_selector: "op-work-package-squashtm-tab--no-server")) do |blankslate|
+        render(Primer::Beta::Blankslate.new(spacious: true, test_selector: "squashtm--tab-no-server")) do |blankslate|
           blankslate.with_visual_icon(icon: :plug)
           blankslate.with_heading(tag: :h3).with_content(t(".no_server.heading"))
 
@@ -45,7 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
       when :project_not_linked
-        render(Primer::Beta::Blankslate.new(spacious: true, test_selector: "op-work-package-squashtm-tab--project-not-linked")) do |blankslate|
+        render(Primer::Beta::Blankslate.new(spacious: true, test_selector: "squashtm--project-not-linked")) do |blankslate|
           blankslate.with_visual_icon(icon: :link)
           blankslate.with_heading(tag: :h3).with_content(t(".project_not_linked.heading"))
 
@@ -65,7 +65,7 @@ See COPYRIGHT and LICENSE files for more details.
               OpPrimer::BorderBoxListComponent.new(
                 container: :squashtm_requirement,
                 padding: :condensed,
-                test_selector: "op-work-package-squashtm-tab--not-linked"
+                test_selector: "squashtm--requirement-not-linked"
               )
             ) do |list|
               list.with_header(title: t(".requirement"))
@@ -73,10 +73,18 @@ See COPYRIGHT and LICENSE files for more details.
             end
           end
 
+          if work_package_link.errors[:base].any?
+            container.with_row(mb: 3) do
+              render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop)) do
+                work_package_link.errors.full_messages_for(:base).to_sentence
+              end
+            end
+          end
+
           if can_manage_links?
             container.with_row do
               if requirement_options.nil?
-                render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop, test_selector: "op-work-package-squashtm-tab--requirements-unavailable")) do
+                render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop, test_selector: "squashtm--requirements-unavailable")) do
                   t(".requirements_unavailable")
                 end
               else

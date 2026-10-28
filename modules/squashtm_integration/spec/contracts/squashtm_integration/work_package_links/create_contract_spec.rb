@@ -38,10 +38,15 @@ RSpec.describe SquashTMIntegration::WorkPackageLinks::CreateContract do
   let(:user) { build_stubbed(:user) }
   let(:permissions) { %i[manage_squashtm_links] }
 
+  let(:client) { instance_double(SquashTMIntegration::Client) }
+  let(:requirement) { { "id" => 11, "name" => "Users can sign in", "project" => { "id" => 1 } } }
+
   subject(:contract) { described_class.new(link, user) }
 
   before do
     mock_permissions_for(user) { |mock| mock.allow_in_project(*permissions, project:) }
+    allow(SquashTMIntegration::Client).to receive(:for).and_return(client)
+    allow(client).to receive(:requirement).with(11).and_return(requirement)
   end
 
   context "with a configured server and a linked project" do
@@ -61,19 +66,25 @@ RSpec.describe SquashTMIntegration::WorkPackageLinks::CreateContract do
       expect(contract.errors.details[:squashtm_requirement_id].pluck(:error)).to include(:blank)
     end
 
-    it "is invalid when the requirement could not be resolved" do
-      link.change_by_system { link.squashtm_requirement_name = nil }
+    it "is invalid when the requirement does not exist" do
+      allow(client).to receive(:requirement).and_raise(SquashTMIntegration::Client::NotFoundError.new(404))
 
       expect(contract).not_to be_valid
-      expect(contract.errors.details[:squashtm_requirement_id].pluck(:error)).to eq([:not_found])
+      expect(contract.errors.details[:base].pluck(:error)).to eq([:squashtm_requirement_not_found])
     end
 
-    it "reports a lookup error instead of a missing requirement" do
-      link.change_by_system { link.squashtm_requirement_name = nil }
-      link.squashtm_requirement_lookup_error = :squashtm_unavailable
+    it "is invalid when SquashTM is not reachable" do
+      allow(client).to receive(:requirement).and_raise(SquashTMIntegration::Client::TimeoutError)
 
       expect(contract).not_to be_valid
-      expect(contract.errors.details[:squashtm_requirement_id].pluck(:error)).to eq([:squashtm_unavailable])
+      expect(contract.errors.details[:base].pluck(:error)).to eq([:squashtm_requirement_unavailable])
+    end
+
+    it "is invalid when the requirement belongs to another SquashTM project" do
+      requirement["project"]["id"] = 2
+
+      expect(contract).not_to be_valid
+      expect(contract.errors.details[:base].pluck(:error)).to eq([:squashtm_requirement_not_in_linked_project])
     end
   end
 

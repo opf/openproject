@@ -20,6 +20,10 @@ en:
               squashtm_project_not_found: "The SquashTM project %{squashtm_project_id} does not exist or is not visible to the SquashTM account used by OpenProject."
               squashtm_project_unavailable: "The SquashTM project %{squashtm_project_id} could not be verified because the SquashTM server is not reachable. Please try again later."
               squashtm_server_not_configured: "No SquashTM server is configured. Please contact your instance administrator."
+              work_packages_linked:
+                one: "1 work package is still linked to a SquashTM requirement. Remove its link to unlink the project."
+                other: "%{count} work packages are still linked to SquashTM requirements. Remove their links to unlink the project."
+              work_package_links_not_removable: "You are not allowed to remove the SquashTM requirement links of this project's work packages."
         squashtm_integration/server:
           attributes:
             base:
@@ -37,13 +41,11 @@ en:
           attributes:
             base:
               squashtm_project_not_linked: "This project is not linked to a SquashTM project."
+              squashtm_requirement_not_found: "The SquashTM requirement %{squashtm_requirement_id} does not exist or is not visible to the SquashTM account used by OpenProject."
+              squashtm_requirement_not_in_linked_project: "The SquashTM requirement %{squashtm_requirement_id} does not belong to the SquashTM project linked to this project."
+              squashtm_requirement_unavailable: "The SquashTM requirement %{squashtm_requirement_id} could not be verified because the SquashTM server is not reachable. Please try again later."
               squashtm_server_not_configured: "No SquashTM server is configured. Please contact your instance administrator."
-            squashtm_requirement_id:
-              not_found: "does not exist or is not visible to the SquashTM account used by OpenProject."
-              not_in_linked_project: "does not belong to the SquashTM project linked to this project."
-              squashtm_unavailable: "could not be verified because the SquashTM server is not reachable. Please try again later."
-            work_package_id:
-              taken: "is already linked to a SquashTM requirement."
+              work_package_already_linked: "The work package is already linked to a SquashTM requirement."
   permission_manage_squashtm_integration: "Manage SquashTM integration"
   permission_manage_squashtm_links: "Manage SquashTM requirement links"
   permission_view_squashtm_test_results: "View SquashTM test results"
@@ -87,13 +89,25 @@ en:
       warning: "Warning"
     project_settings:
       delete_project_link_dialog_component:
+        blocked: "This project cannot be unlinked while its work packages are linked to SquashTM requirements. Removing these links requires the \"Manage SquashTM requirement links\" permission. Please ask someone who has it."
         confirm: "Unlink"
         description: "Work packages of this project will no longer show SquashTM test results."
         heading: "Unlink the SquashTM project %{name}?"
+        no_work_packages_linked: "No work package is currently linked to a SquashTM requirement."
         title: "Unlink SquashTM project"
+        unlink_work_packages:
+          one: "Remove the SquashTM requirement link and unlink project"
+          other: "Remove all %{count} SquashTM requirement links and unlink project"
       linked_project_component:
         linked_to_html: "This project is linked to the SquashTM project %{name}."
         unlink: "Unlink"
+      linked_work_packages_component:
+        linked:
+          one: "1 work package is still linked to a SquashTM requirement:"
+          other: "%{count} work packages are still linked to SquashTM requirements:"
+        more:
+          one: "and 1 more work package"
+          other: "and %{count} more work packages"
       project_link_form:
         squashtm_project_caption: "Only projects visible to the SquashTM account used by OpenProject are listed."
         squashtm_project_prompt: "Select a SquashTM project"

@@ -45,6 +45,10 @@ module SquashTMIntegration
       persisted? ? squashtm_project_name_in_database : squashtm_project_name
     end
 
+    def work_package_links
+      WorkPackageLink.joins(:work_package).where(work_packages: { project_id: })
+    end
+
     private
 
     def single_link_per_project

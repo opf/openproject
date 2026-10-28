@@ -40,7 +40,7 @@ RSpec.describe SquashTMIntegration::WorkPackageLink do
     duplicate = build(:squashtm_work_package_link, work_package: existing.work_package)
 
     expect(duplicate).not_to be_valid
-    expect(duplicate.errors).to be_added(:work_package_id, :taken, value: existing.work_package_id)
+    expect(duplicate.errors).to be_added(:base, :work_package_already_linked)
   end
 
   it "is removed together with its work package" do

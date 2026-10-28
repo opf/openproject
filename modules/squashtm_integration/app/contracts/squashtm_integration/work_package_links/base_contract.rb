@@ -64,11 +64,26 @@ module SquashTMIntegration
       def requirement_resolved
         return if errors.any?
 
-        if model.squashtm_requirement_lookup_error
-          errors.add(:squashtm_requirement_id, model.squashtm_requirement_lookup_error)
-        elsif model.squashtm_requirement_name.blank?
-          errors.add(:squashtm_requirement_id, :not_found)
-        end
+        add_requirement_error(:squashtm_requirement_not_in_linked_project) unless in_linked_project?(fetch_requirement)
+      rescue Client::NotFoundError
+        add_requirement_error(:squashtm_requirement_not_found)
+      rescue Client::Error, KeyError => e
+        Rails.logger.warn("SquashTM requirement #{model.squashtm_requirement_id} could not be resolved: #{e.class}: #{e.message}")
+        add_requirement_error(:squashtm_requirement_unavailable)
+      end
+
+      def fetch_requirement
+        requirement = Client.for(Server.first).requirement(model.squashtm_requirement_id)
+        requirement.fetch("name")
+        requirement
+      end
+
+      def in_linked_project?(requirement)
+        ProjectLink.exists?(project: model.project, squashtm_project_id: requirement.dig("project", "id"))
+      end
+
+      def add_requirement_error(key)
+        errors.add(:base, key, squashtm_requirement_id: model.squashtm_requirement_id)
       end
     end
   end

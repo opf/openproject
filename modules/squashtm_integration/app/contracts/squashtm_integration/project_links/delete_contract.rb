@@ -31,6 +31,23 @@ module SquashTMIntegration
   module ProjectLinks
     class DeleteContract < ::DeleteContract
       delete_permission :manage_squashtm_integration
+
+      validate :no_work_packages_linked, unless: -> { options[:unlink_work_packages] }
+      validate :work_package_links_removable, if: -> { options[:unlink_work_packages] }
+
+      private
+
+      def no_work_packages_linked
+        count = model.work_package_links.count
+        errors.add(:base, :work_packages_linked, count:) if count.positive?
+      end
+
+      def work_package_links_removable
+        return if model.work_package_links.none?
+        return if user.allowed_in_project?(:manage_squashtm_links, model.project)
+
+        errors.add(:base, :work_package_links_not_removable)
+      end
     end
   end
 end

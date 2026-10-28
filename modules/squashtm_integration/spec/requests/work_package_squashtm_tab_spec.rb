@@ -117,14 +117,14 @@ RSpec.describe "Work package SquashTM tab",
           expect(subject).to have_http_status(:ok)
           page = Capybara.string(subject.body)
 
-          expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--requirement']",
+          expect(page).to have_css("[data-test-selector='squashtm--requirement']",
                                    text: /REQ-001\s+#11\s+Approved\s+Users can sign in/)
-          expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--test-case-21']", text: "Passed")
-          expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--test-case-21']", text: "by bob")
-          expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--test-case-21']", text: "TC-001")
-          expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--test-case-22']", text: "Not executed")
+          expect(page).to have_css("[data-test-selector='squashtm--test-case-21']", text: "Passed")
+          expect(page).to have_css("[data-test-selector='squashtm--test-case-21']", text: "by bob")
+          expect(page).to have_css("[data-test-selector='squashtm--test-case-21']", text: "TC-001")
+          expect(page).to have_css("[data-test-selector='squashtm--test-case-22']", text: "Not executed")
           expect(page).to have_css("#squashtm_test_cases", text: "Test cases")
-          expect(page).to have_no_css("[data-test-selector='op-work-package-squashtm-tab--unlink']")
+          expect(page).to have_no_css("[data-test-selector='squashtm--unlink-requirement']")
         end
 
         it "links the requirement and the test cases to SquashTM" do
@@ -144,7 +144,7 @@ RSpec.describe "Work package SquashTM tab",
 
         it "shows the sanitized test case description" do
           description = Capybara.string(subject.body)
-                                .find("[data-test-selector='op-work-package-squashtm-tab--test-case-description']")
+                                .find("[data-test-selector='squashtm--test-case-description']")
 
           expect(description).to have_css("strong", text: "valid")
           expect(description).to have_no_css("script")
@@ -152,7 +152,7 @@ RSpec.describe "Work package SquashTM tab",
         end
 
         it "warns when the requirement no longer exists in SquashTM" do
-          allow(client).to receive(:requirement).and_raise(SquashTMIntegration::Client::NotFoundError)
+          allow(client).to receive(:requirement).and_raise(SquashTMIntegration::Client::NotFoundError.new(404))
 
           expect(subject.body).to include("The linked SquashTM requirement is no longer visible in SquashTM.")
           expect(subject.body).to include("Users can sign in")
@@ -169,7 +169,7 @@ RSpec.describe "Work package SquashTM tab",
           let(:permissions) { %i[view_work_packages view_squashtm_test_results manage_squashtm_links] }
 
           it "offers to unlink the requirement" do
-            expect(Capybara.string(subject.body)).to have_css("[data-test-selector='op-work-package-squashtm-tab--unlink']")
+            expect(Capybara.string(subject.body)).to have_css("[data-test-selector='squashtm--unlink-requirement']")
           end
         end
       end

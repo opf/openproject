@@ -39,34 +39,16 @@ module SquashTMIntegration
       end
 
       def resolve_requirement
-        project_link = linked_squashtm_project
-        return if project_link.nil?
+        return unless project_linked?
 
-        requirement = fetch_requirement
-        return if requirement.nil?
-
-        if requirement.dig("project", "id") == project_link.squashtm_project_id
-          model.change_by_system { model.squashtm_requirement_name = requirement.fetch("name") }
-        else
-          model.squashtm_requirement_lookup_error = :not_in_linked_project
-        end
+        requirement = Client.for(Server.first).requirement(model.squashtm_requirement_id)
+        model.change_by_system { model.squashtm_requirement_name = requirement.fetch("name") }
+      rescue Client::Error, KeyError
+        nil
       end
 
-      def linked_squashtm_project
-        return if model.work_package.nil? || !Server.configured?
-
-        ProjectLink.find_by(project: model.project)
-      end
-
-      def fetch_requirement
-        Client.for(Server.first).requirement(model.squashtm_requirement_id)
-      rescue Client::NotFoundError
-        model.squashtm_requirement_lookup_error = :not_found
-        nil
-      rescue Client::Error => e
-        Rails.logger.warn("SquashTM requirement #{model.squashtm_requirement_id} could not be resolved: #{e.class}: #{e.message}")
-        model.squashtm_requirement_lookup_error = :squashtm_unavailable
-        nil
+      def project_linked?
+        Server.configured? && model.work_package.present? && ProjectLink.exists?(project: model.project)
       end
     end
   end

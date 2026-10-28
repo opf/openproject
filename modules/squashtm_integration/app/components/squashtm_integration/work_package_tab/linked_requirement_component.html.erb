@@ -27,17 +27,17 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  flex_layout(test_selector: "op-work-package-squashtm-tab--linked") do |container|
+  flex_layout(test_selector: "squashtm--linked-requirement") do |container|
     case requirement_error
     when :not_found
       container.with_row(mb: 3) do
-        render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert, test_selector: "op-work-package-squashtm-tab--requirement-missing")) do
+        render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert, test_selector: "squashtm--requirement-missing")) do
           t(".requirement_missing")
         end
       end
     when :unavailable
       container.with_row(mb: 3) do
-        render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop, test_selector: "op-work-package-squashtm-tab--unavailable")) do
+        render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop, test_selector: "squashtm--test-cases-unavailable")) do
           t(".unavailable")
         end
       end
@@ -60,7 +60,7 @@ See COPYRIGHT and LICENSE files for more details.
             container: :squashtm_test_cases,
             collapsible: true,
             padding: :condensed,
-            test_selector: "op-work-package-squashtm-tab--test-cases"
+            test_selector: "squashtm--test-cases"
           )
         ) do |list|
           list.with_header(title: t(".test_cases"), count: requirement.test_cases.size)

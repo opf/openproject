@@ -35,10 +35,12 @@ module SquashTMIntegration
 
     delegate :project, to: :work_package
 
-    validates :work_package_id, uniqueness: true
+    validate :single_link_per_work_package
 
-    # Set by WorkPackageLinks::SetAttributesService when the requirement could not be resolved,
-    # so that the contract can report it without contacting SquashTM a second time.
-    attr_accessor :squashtm_requirement_lookup_error
+    private
+
+    def single_link_per_work_package
+      errors.add(:base, :work_package_already_linked) if self.class.where.not(id:).exists?(work_package_id:)
+    end
   end
 end

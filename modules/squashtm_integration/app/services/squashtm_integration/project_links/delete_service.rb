@@ -30,6 +30,19 @@
 module SquashTMIntegration
   module ProjectLinks
     class DeleteService < ::BaseServices::Delete
+      protected
+
+      def before_perform(service_call)
+        self.contract_options = params.slice(:unlink_work_packages)
+
+        service_call
+      end
+
+      def persist(service_result)
+        model.work_package_links.delete_all if params[:unlink_work_packages]
+
+        super
+      end
     end
   end
 end
