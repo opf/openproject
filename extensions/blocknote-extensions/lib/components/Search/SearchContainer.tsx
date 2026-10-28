@@ -94,11 +94,10 @@ export const DropdownItem = styled.div.attrs<{
 })<{
   $selected:boolean;
 }>`
+  /*  The pointer moves the focus, so hovering needs no mark of its own: one
+      would linger on the row the keys have since left.  */
   background-color: ${({ $selected }) =>
     $selected ? 'var(--op-item-hover-bg)' : 'transparent'};
-  &:hover {
-    background: var(--op-item-hover-bg);
-  }
   border-radius: var(--bn-border-radius-small);
   margin: var(--spacer-s) 0;
   padding: 0 var(--spacer-m);

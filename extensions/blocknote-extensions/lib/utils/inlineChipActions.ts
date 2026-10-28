@@ -61,13 +61,17 @@ export function findInlineChipAtDOM(editor:AnyEditor, chipDom:HTMLElement):Found
  * Finds a pending chip by its wpid. Only `pending:<uuid>` placeholder wpids
  * are unique in the document, so only those can be found reliably.
  */
-export function findPendingInlineChip(doc:ProsemirrorNode, wpid:string):FoundInlineChip | null {
+export function findPendingInlineChip(
+  doc:ProsemirrorNode,
+  wpid:string,
+  type:string = INLINE_WP_TYPE,
+):FoundInlineChip | null {
   if (!wpid.startsWith(PENDING_PREFIX)) return null;
 
   let found:FoundInlineChip | null = null;
   doc.descendants((node, position) => {
     if (found) return false;
-    if (node.type.name === INLINE_WP_TYPE && node.attrs.wpid === wpid) {
+    if (node.type.name === type && node.attrs.wpid === wpid) {
       found = { position, node };
       return false;
     }
@@ -77,11 +81,19 @@ export function findPendingInlineChip(doc:ProsemirrorNode, wpid:string):FoundInl
 }
 
 /** Removes a pending chip, if it is still in the document, and says whether it was. */
-export function removePendingInlineChip(editor:AnyEditor, wpid:string):boolean {
+export function removePendingInlineChip(
+  editor:AnyEditor,
+  wpid:string,
+  { type = INLINE_WP_TYPE, withSpacer = false }:{ type?:string; withSpacer?:boolean } = {},
+):boolean {
   return editor.transact((tr) => {
-    const found = findPendingInlineChip(tr.doc, wpid);
-    if (found) tr.delete(found.position, found.position + found.node.nodeSize);
-    return found !== null;
+    const found = findPendingInlineChip(tr.doc, wpid, type);
+    if (!found) return false;
+
+    const end = found.position + found.node.nodeSize;
+    const spacerEnd = withSpacer && end < tr.doc.content.size && tr.doc.textBetween(end, end + 1) === ' ' ? end + 1 : end;
+    tr.delete(found.position, spacerEnd);
+    return true;
   });
 }
 

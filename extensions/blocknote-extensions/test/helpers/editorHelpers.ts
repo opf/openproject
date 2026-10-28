@@ -191,3 +191,10 @@ export async function placeCaretAtOffset(offset:number) {
     await waitForCaret((now) => now !== null && now > at, keyPressSettleTimeout);
   }
 }
+
+export async function openWorkPackageAttributeDialog() {
+  await openEditorAndType('/attribute');
+  await expect.element(page.getByText('Work package attribute').first()).toBeVisible();
+  await userEvent.click(page.getByText('Work package attribute').first());
+  await expect.element(page.getByRole('dialog', { name: 'Insert work package attribute' })).toBeVisible();
+}
