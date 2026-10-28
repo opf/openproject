@@ -30,7 +30,7 @@
 require "rails_helper"
 require Rails.root.join("lookbook/previews/open_project/common/border_box_list_component_preview").to_s
 
-RSpec.describe OpenProject::Common::BorderBoxListComponentPreview, :component_preview, :js do
+RSpec.describe OpPrimer::BorderBoxListComponentPreview, :component_preview, :js do
   it "renders a realistic default preview description" do
     visit_preview(:default, from: described_class)
 

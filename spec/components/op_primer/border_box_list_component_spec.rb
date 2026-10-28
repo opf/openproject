@@ -29,7 +29,7 @@
 
 require "rails_helper"
 
-RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
+RSpec.describe OpPrimer::BorderBoxListComponent, type: :component do
   shared_let(:user) { create(:admin) }
   shared_let(:project) { create(:project) }
   shared_let(:work_package) { create(:work_package, subject: "Default WP", project:) }

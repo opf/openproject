@@ -27,32 +27,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject
-  module Common
-    class BorderBoxListComponent
-      # Footer row rendered below list items.
-      #
-      # This component is part of {BorderBoxListComponent} and should not be
-      # used as a standalone component.
-      class Footer < ApplicationComponent
-        attr_reader :id
+module OpPrimer
+  class BorderBoxListComponent
+    # Generic BorderBox list row that renders the slot content directly.
+    class Item < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include Primer::AttributesHelper
+      include HasMenu
 
-        # @param system_arguments [Hash] forwarded to Primer's BorderBox footer.
-        def initialize(**system_arguments)
-          super()
+      # @param system_arguments [Hash] forwarded to Primer's BorderBox row.
+      def initialize(**system_arguments)
+        super()
 
-          @id = system_arguments[:id]
-          @system_arguments = system_arguments
-        end
+        @system_arguments = system_arguments
+      end
 
-        # @return [Hash] arguments forwarded to Primer's BorderBox footer.
-        def footer_args
-          @system_arguments.deep_dup
-        end
-
-        def call
-          content
-        end
+      # @return [Hash] arguments forwarded to Primer's BorderBox row.
+      def row_args
+        @system_arguments.deep_dup
       end
     end
   end
