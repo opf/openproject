@@ -29,8 +29,7 @@
 
 module Attachments
   # Creates an attachment from the metadata an importer read from the source system, so that
-  # references to it can be written before its file is fetched. The file is added by
-  # Attachments::FinishImportService.
+  # references to it can be written before its file is fetched.
   class PrepareImportService < PrepareUploadService
     private
 

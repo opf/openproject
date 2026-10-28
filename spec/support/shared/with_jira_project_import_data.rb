@@ -68,6 +68,10 @@ RSpec.shared_context "with jira project import data" do
     Import::JiraCreateProjectWorkPackagesJob.perform_now(jira_import.id, jira_project.id)
   end
 
+  def download_work_package_attachments
+    Import::JiraDownloadProjectWorkPackageAttachmentsJob.perform_now(jira_import.id, jira_project.id)
+  end
+
   def create_time_entries
     Import::JiraCreateProjectTimeEntriesJob.perform_now(jira_import.id, jira_project.id)
   end
@@ -77,6 +81,7 @@ RSpec.shared_context "with jira project import data" do
     create_project_role
     create_project
     create_work_packages
+    download_work_package_attachments
     create_time_entries
   end
 end

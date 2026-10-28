@@ -1702,6 +1702,8 @@ en:
             title: "Create work packages for '%{jira_project_name}'"
           JiraCreateUsersJob:
             title: "Create users"
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: "Download work package attachments for '%{jira_project_name}'"
           JiraFetchCustomFieldJob:
             title: "Fetch custom fields"
           JiraFetchIssueTypesJob:

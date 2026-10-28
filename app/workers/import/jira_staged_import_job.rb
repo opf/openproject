@@ -109,11 +109,19 @@ module Import
           Rails.logger.info "Starting stage 9"
           batch.enqueue(stage: 9) do
             find_each_imported_project(jira_import) do |jira_project|
-              Import::JiraCreateProjectTimeEntriesJob.set(good_job_labels: ["stage_9"])
+              Import::JiraDownloadProjectWorkPackageAttachmentsJob.set(good_job_labels: ["stage_9"])
                 .perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 9
+          Rails.logger.info "Starting stage 10"
+          batch.enqueue(stage: 10) do
+            find_each_imported_project(jira_import) do |jira_project|
+              Import::JiraCreateProjectTimeEntriesJob.set(good_job_labels: ["stage_10"])
+                .perform_later(jira_import.id, jira_project.id)
+            end
+          end
+        elsif batch.properties[:stage] == 10
           Rails.logger.info "Import finished"
           jira_import.transition_to!(:imported)
         end
