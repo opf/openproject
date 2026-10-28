@@ -38,5 +38,9 @@ module SquashTMIntegration
     # Set by ProjectLinks::SetAttributesService when the SquashTM project could not be resolved,
     # so that the contract can report it without contacting SquashTM a second time.
     attr_accessor :squashtm_project_lookup_error
+
+    def work_package_links
+      WorkPackageLink.joins(:work_package).where(work_packages: { project_id: })
+    end
   end
 end

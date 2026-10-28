@@ -108,6 +108,61 @@ RSpec.describe "SquashTM project settings", :js do
       expect(find_link("Integration Sandbox")[:target]).to eq("_blank")
     end
 
+    context "when work packages are linked to SquashTM requirements" do
+      let(:work_package) { create(:work_package, project:, subject: "Sign-in page") }
+
+      before do
+        create(:squashtm_project_link, project:, squashtm_project_id: 1, squashtm_project_name: "Integration Sandbox")
+        create(:squashtm_work_package_link, work_package:)
+      end
+
+      context "with the permission to manage requirement links" do
+        let(:permissions) { %i[manage_squashtm_integration manage_squashtm_links view_work_packages] }
+
+        it "unlinks the project together with its linked work packages only after explicit confirmation" do
+          visit project_settings_squashtm_path(project)
+
+          find_test_selector("squashtm-project-link--delete").click
+          dialog = find_test_selector("squashtm-project-link--delete-dialog")
+          wait_for_size_animation_completion(dialog)
+
+          within(dialog) do
+            expect(page).to have_text("1 work package is still linked to a SquashTM requirement:")
+            expect(page).to have_link("##{work_package.id} Sign-in page")
+            expect(page).to have_button("Unlink", disabled: true)
+
+            check I18n.t("squashtm_integration.project_settings.delete_project_link_dialog_component.unlink_work_packages",
+                         count: 1)
+            click_button "Unlink"
+          end
+
+          expect_flash(message: "The SquashTM project was unlinked.")
+          expect(SquashTMIntegration::ProjectLink).not_to exist
+          expect(SquashTMIntegration::WorkPackageLink).not_to exist
+        end
+      end
+
+      context "without the permission to manage requirement links" do
+        it "explains that the project cannot be unlinked yet" do
+          visit project_settings_squashtm_path(project)
+
+          find_test_selector("squashtm-project-link--delete").click
+          dialog = find_test_selector("squashtm-project-link--delete-dialog")
+          wait_for_size_animation_completion(dialog)
+
+          within(dialog) do
+            expect(page).to have_test_selector("squashtm-project-link--unlink-blocked")
+            expect(page).to have_link("##{work_package.id} Sign-in page")
+            expect(page).to have_no_button("Unlink")
+            click_button "Close"
+          end
+
+          expect(page).to have_no_test_selector("squashtm-project-link--delete-dialog")
+          expect(SquashTMIntegration::ProjectLink).to exist
+        end
+      end
+    end
+
     context "without the permission to manage the integration" do
       let(:permissions) { %i[view_work_packages] }
 
