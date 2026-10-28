@@ -36,14 +36,15 @@ module Backlogs
           include OpPrimer::ComponentHelpers
           include Backlogs::Concerns::TimeConsciousScope
 
-          attr_reader :epic, :sprint, :project
+          attr_reader :epic, :sprint, :project, :current_user
 
-          def initialize(epic:, sprint:, project:)
+          def initialize(epic:, sprint:, project:, current_user: User.current)
             super()
 
             @epic = epic
             @sprint = sprint
             @project = project
+            @current_user = current_user
           end
 
           def resolved_percentage
@@ -57,9 +58,9 @@ module Backlogs
           def work_packages_in_epic
             @work_packages_in_epic ||=
               if historic?
-                as_of.where(id: historic_descendant_ids([epic.id])).visible
+                as_of.where(id: historic_descendant_ids([epic.id])).visible(current_user)
               else
-                epic.descendants.visible
+                epic.descendants.visible(current_user)
               end
           end
 
