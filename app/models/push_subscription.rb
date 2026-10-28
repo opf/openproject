@@ -38,5 +38,7 @@ class PushSubscription < ApplicationRecord
 
   validates :endpoint, presence: true, uniqueness: true
 
-  scope :under_host, ->(host) { where("endpoint ~ ?", "^https://([^/]+\\.)?#{Regexp.escape(host)}/") }
+  def self.endpoint_hosts
+    distinct.pluck(Arel.sql("lower(substring(endpoint from '^https://([^/]+)/'))")).compact.sort
+  end
 end
