@@ -31,6 +31,10 @@ import { firstValueFrom } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import type { ICKEditorInstance } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
@@ -50,8 +54,22 @@ interface IEditorContextResource {
   };
 }
 
+export type IAiActionsEditor = Pick<ICKEditorInstance, 'getData'|'data'|'model'|'config'>;
+
+interface IPendingRequest {
+  editor:IAiActionsEditor;
+}
+
+interface IAcceptedDetail {
+  requestId:string;
+  text:string;
+}
+
 const FEATURE_FLAG = 'aiTextTransformActions';
 const LAST_ACTION_STORAGE_KEY = 'openproject.ai_actions.last_action_id';
+export const AI_TEXT_TRANSFORM_ACCEPTED_EVENT = 'op-dispatched:ai-text-transform:accepted';
+export const AI_TEXT_TRANSFORM_CLOSED_EVENT = 'op-dispatched:ai-text-transform:closed';
+export const AI_TEXT_TRANSFORM_APPLIED_EVENT = 'op:ai-text-transform:applied';
 
 /**
  * Counterpart of the CKEditor Assistant button, which only renders the list and reports the chosen
@@ -64,6 +82,23 @@ export class AiActionsService {
   private pathHelper = inject(PathHelperService);
 
   private configuration = inject(ConfigurationService);
+
+  private turboRequests = inject(TurboRequestsService);
+
+  private toast = inject(ToastService);
+
+  private I18n = inject(I18nService);
+
+  private pending = new Map<string, IPendingRequest>();
+
+  constructor() {
+    document.addEventListener(AI_TEXT_TRANSFORM_ACCEPTED_EVENT, (event) => {
+      this.apply((event as CustomEvent<IAcceptedDetail>).detail);
+    });
+    document.addEventListener(AI_TEXT_TRANSFORM_CLOSED_EVENT, (event) => {
+      this.pending.delete((event as CustomEvent<{ requestId:string }>).detail.requestId);
+    });
+  }
 
   async actionsFor(resource:IEditorContextResource|undefined, field:string|undefined):Promise<IAiTextTransformAction[]> {
     if (!this.configuration.activeFeatureFlags.includes(FEATURE_FLAG)) {
@@ -92,10 +127,71 @@ export class AiActionsService {
     return actions.find((action) => action.id === lastActionId) ?? actions[0];
   }
 
-  run(action:IAiTextTransformAction):Promise<void> {
+  async run(action:IAiTextTransformAction, editor:IAiActionsEditor, resource?:IEditorContextResource):Promise<void> {
     this.rememberAction(action);
+    this.forgetRequestsOf(editor);
 
-    return Promise.resolve();
+    const requestId = crypto.randomUUID();
+    this.pending.set(requestId, { editor });
+
+    const body = new FormData();
+    Object.entries({
+      request_id: requestId,
+      action_id: String(action.id),
+      scope: 'document',
+      input: editor.getData(),
+      ...this.paneContext(resource, editor.config.get('openProject.context.field') as string|undefined),
+    }).forEach(([name, value]) => body.set(name, value));
+
+    try {
+      await this.turboRequests.request(
+        this.pathHelper.aiTextTransformPanesPath(),
+        { method: 'POST', body, headers: { Accept: 'text/vnd.turbo-stream.html' }, credentials: 'same-origin' },
+        true,
+      );
+    } catch {
+      this.pending.delete(requestId);
+      this.toast.addError(this.I18n.t('js.editor.ai_actions.start_failed'));
+    }
+  }
+
+  // The accepted event arrives through a turbo stream, so only requests started here may write into an editor.
+  private apply({ requestId, text }:IAcceptedDetail):void {
+    const request = this.pending.get(requestId);
+    if (!request) {
+      return;
+    }
+
+    this.pending.delete(requestId);
+    const { model, data } = request.editor;
+    model.change(() => {
+      model.insertContent(data.parse(text), model.createRangeIn(model.document.getRoot()!));
+    });
+
+    window.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_APPLIED_EVENT, { detail: { requestId, ok: true } }));
+  }
+
+  private forgetRequestsOf(editor:IAiActionsEditor):void {
+    this.pending.forEach((request, requestId) => {
+      if (request.editor === editor) {
+        this.pending.delete(requestId);
+      }
+    });
+  }
+
+  private paneContext(resource:IEditorContextResource|undefined, field:string|undefined):Record<string, string> {
+    if (resource?._type !== 'WorkPackage' || field !== 'description') {
+      return {};
+    }
+
+    if (!isNewResource(resource)) {
+      return { work_package_id: resource.id! };
+    }
+
+    const projectId = this.linkedId(resource.$links?.project?.href);
+    const typeId = this.linkedId(resource.$links?.type?.href);
+
+    return projectId && typeId ? { project_id: projectId, type_id: typeId } : {};
   }
 
   private rememberAction(action:IAiTextTransformAction):void {
