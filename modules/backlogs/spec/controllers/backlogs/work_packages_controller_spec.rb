@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -141,13 +140,13 @@ RSpec.describe Backlogs::WorkPackagesController do
         end
 
         context "when the active sprint filter hides the target sprint" do
-          let(:filter_params) { { sprint_ids: [sprint.id] } }
+          let(:filter_params) { { sprint_ids: [sprint.id.to_s].to_json } }
 
           include_examples "shows a flash message after moving a work package that turns invisible", "Agile Sprint 2"
         end
 
         context "when the active sprint filter includes the target sprint" do
-          let(:filter_params) { { sprint_ids: [sprint.id, other_sprint.id] } }
+          let(:filter_params) { { sprint_ids: [sprint.id.to_s, other_sprint.id.to_s].to_json } }
 
           it "emits no flash", :aggregate_failures do
             expect(response).to be_successful
@@ -204,7 +203,7 @@ RSpec.describe Backlogs::WorkPackagesController do
 
         context "when the active bucket filter hides the inbox" do
           let(:bucket) { create(:backlog_bucket, project:) }
-          let(:filter_params) { { bucket_ids: [bucket.id] } }
+          let(:filter_params) { { bucket_ids: [bucket.id.to_s].to_json } }
 
           include_examples "shows a flash message after moving a work package that turns invisible", "Inbox"
         end
@@ -259,7 +258,7 @@ RSpec.describe Backlogs::WorkPackagesController do
         end
 
         context "when the active bucket filter hides the target bucket" do
-          let(:filter_params) { { bucket_ids: ["inbox"] } }
+          let(:filter_params) { { bucket_ids: ["inbox"].to_json } }
 
           include_examples "shows a flash message after moving a work package that turns invisible", "My Bucket"
         end
@@ -318,7 +317,7 @@ RSpec.describe Backlogs::WorkPackagesController do
       let(:prev_id) { first_item.id }
       let(:optimistic) { "true" }
 
-      it "skips the reload because the requested anchor was honoured", :aggregate_failures do
+      it "skips the reload because the requested anchor was honored", :aggregate_failures do
         expect(response).to be_successful
         expect(response).to have_turbo_stream action: "dispatchEvent"
         expect(response).not_to have_turbo_stream action: "turbo_frame_reload"

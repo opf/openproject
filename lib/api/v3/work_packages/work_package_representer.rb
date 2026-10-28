@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -150,6 +149,16 @@ module API
             href: work_package_path(id: represented.id, format: :atom),
             type: "application/rss+xml",
             title: "Atom feed"
+          }
+        end
+
+        link :markdown do
+          next if represented.new_record?
+
+          {
+            href: work_package_path(id: represented.id, format: :md),
+            type: "text/markdown",
+            title: I18n.t(:label_markdown_version)
           }
         end
 
@@ -540,7 +549,7 @@ module API
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
                               .create_link_lambda(:assigned_to)
 
-        # Deprecated in favour of `targetVersions`
+        # Deprecated in favor of `targetVersions`
         # Removed from the API if multiple_versions is enabled on the instance
         associated_resource :version,
                             v3_path: :version,
@@ -627,7 +636,7 @@ module API
                              getter: ->(*) {
                                next unless embed_link?(:labels)
 
-                               represented.effective_labels.map do |label|
+                               represented.effective_labels.reject(&:new_record?).map do |label|
                                  ::API::V3::Labels::LabelRepresenter.create(label, current_user:)
                                end
                              },
@@ -643,7 +652,16 @@ module API
                                         title_attribute: :name)
                                    .to_hash
                                end
-                             }
+                             },
+                             setter: ->(fragment:, **) do
+                               next unless OpenProject::FeatureDecisions.work_package_labels_active?
+
+                               with_href, without_href = fragment.partition { |link| link["href"].present? }
+                               represented.label_ids = parse_link_ids_from_fragment(with_href, :label)
+
+                               names = without_href.filter_map { |link| link["title"].presence if link["title"].is_a?(String) }
+                               represented.label_names = names if names.any?
+                             end
 
         associated_resource :parent,
                             v3_path: :work_package,

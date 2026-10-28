@@ -29,6 +29,10 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { Injector } from '@angular/core';
 
+export interface PreparedTableDragAction {
+  persist():Promise<void>;
+}
+
 export class TableDragActionService {
   /**
    * Initialize an action service in the given isolated query space
@@ -50,25 +54,18 @@ export class TableDragActionService {
   /**
    * Perform a post-order update
    */
-  public onNewOrder(newOrder:string[]):void {
+  public onNewOrder(_newOrder:string[]):void {
   }
 
   /**
    * Returns whether the given work package is movable
    */
-  public canPickup(workPackage:WorkPackageResource):boolean {
+  public canPickup(_workPackage:WorkPackageResource):boolean {
     return true;
   }
 
-  /**
-   * Perform the respective action for the drop that just happened
-   *
-   * @param workPackage
-   * @param target
-   * @param source
-   * @param sibling
-   */
-  public handleDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<unknown> {
-    return Promise.resolve(undefined);
+  /** Capture the persistence intent while the row still belongs to the live view. */
+  public prepareDrop(_workPackage:WorkPackageResource, _el:HTMLElement):Promise<PreparedTableDragAction> {
+    return Promise.resolve({ persist: () => Promise.resolve() });
   }
 }

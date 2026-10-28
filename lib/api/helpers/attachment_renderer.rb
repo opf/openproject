@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -57,16 +56,27 @@ module API
       #                                Defaults to no cache headers.
       def respond_with_attachment(attachment, cache_seconds: nil)
         validate_attachment_access!(attachment)
-        prepare_cache_headers(cache_seconds) if cache_seconds
 
-        if attachment.external_storage?
+        if attachment.prepared?
+          redirect_to_staged_upload(attachment)
+        elsif attachment.external_storage?
+          prepare_cache_headers(cache_seconds) if cache_seconds
           redirect_to_external_attachment(attachment, cache_seconds)
         else
+          prepare_cache_headers(cache_seconds) if cache_seconds
           send_attachment(attachment)
         end
       end
 
       private
+
+      # Only the author may access the staged file.
+      # It is removed once the upload is finished, so this redirect must not be cached.
+      def redirect_to_staged_upload(attachment)
+        raise ::API::Errors::NotFound.new if attachment.author != current_user
+
+        redirect DirectFogUploader.for_attachment(attachment).download_url(attachment.external_url_options)
+      end
 
       def validate_attachment_access!(attachment)
         if attachment.status_quarantined?

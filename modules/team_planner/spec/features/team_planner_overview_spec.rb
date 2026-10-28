@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,19 +22,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-#
+#++
 
 require "spec_helper"
 require_relative "shared_context"
 
 RSpec.describe "Team planner overview",
                :js,
-               :selenium,
                with_ee: %i[team_planner_view] do
   # The order the Projects are created in is important. By naming `project` alphanumerically
   # after `other_project`, we can ensure that subsequent specs that assert sorting is

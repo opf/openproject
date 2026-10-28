@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -89,7 +88,7 @@ RSpec.describe ResourcePlannerViews::WorkPackageList::AllocatedMembersComponent,
   context "with a filter-based allocation that has no assigned user" do
     let(:allocations) { [filter_allocation("Full stack Developer (DE-EN)")] }
 
-    it "renders a generated avatar keyed to the allocation, labelled with the filter name" do
+    it "renders a generated avatar keyed to the allocation, labeled with the filter name" do
       expect(rendered).to have_css("avatar-fallback[data-unique-id='resource-allocation-#{allocations.first.id}']")
       expect(rendered).to have_css("avatar-fallback[data-alt-text='Full stack Developer (DE-EN)']")
       expect(rendered).to have_text("Full stack Developer (DE-EN)")

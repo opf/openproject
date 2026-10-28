@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -210,7 +209,7 @@ RSpec.describe "Statuses", :skip_csrf, type: :rails_request do
         expect(response.body).not_to include("status-row-#{a.id}", "status-row-#{e.id}")
       end
 
-      it "refuses an empty page even if its preceding neighbour exists" do
+      it "refuses an empty page even if its preceding neighbor exists" do
         e.destroy!
 
         put move_status_path(c, page: 3, per_page: 2), params: drop_params, as: :turbo_stream

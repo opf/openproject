@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -51,7 +50,7 @@ class Setting
 
     private
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def reload_smtp_settings!
       # Correct smtp settings when using authentication :none
       authentication = Setting.smtp_authentication.try(:to_sym)
@@ -84,6 +83,5 @@ class Setting
         ActionMailer::Base.smtp_settings[:openssl_verify_mode] = mode unless mode.nil?
       end
     end
-    # rubocop:enable Metrics/AbcSize
   end
 end

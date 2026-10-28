@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -41,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
            data: item_data(root)
          ) do %>
         <%= render(
-              OpenProject::Common::BorderBoxListComponent.new(
+              OpPrimer::BorderBoxListComponent.new(
                 container: "op-types-group-#{root.id}",
                 collapsible: true,
                 empty_state_behavior: :none
@@ -66,6 +65,9 @@ See COPYRIGHT and LICENSE files for more details.
               <% item.with_menu(menu_id: variant_menu_id(child), src: variant_menu_src(child)) %>
               <%= render(WorkPackageTypes::VariantRowComponent.new(variant: child)) do |row| %>
                 <% row.with_caption { t("types.index.variant_label") } %>
+                <% if child.created_by_migration? %>
+                  <% row.with_status_label(scheme: :attention) { t("types.index.created_by_migration") } %>
+                <% end %>
                 <% if child.enabled_in_new_projects? %>
                   <% row.with_status_label { t("types.index.enabled_in_new_projects") } %>
                 <% end %>

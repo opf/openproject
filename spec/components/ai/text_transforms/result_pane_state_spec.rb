@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -80,6 +79,28 @@ RSpec.describe AI::TextTransforms::ResultPaneState do
       end
 
       it { expect(pane.state).to eq("failed") }
+    end
+  end
+
+  describe "#retryable?" do
+    %w[queued running succeeded cancelled].each do |run_status|
+      context "when the run is #{run_status}" do
+        let(:status) { run_status }
+
+        it { is_expected.not_to be_retryable }
+      end
+    end
+
+    context "when the run failed" do
+      let(:status) { "failed" }
+
+      it { is_expected.to be_retryable }
+    end
+
+    context "when the start was rejected" do
+      subject(:pane) { described_class.rejected(message: "Not available", label: "Fix grammar", scope:, request_id:) }
+
+      it { is_expected.not_to be_retryable }
     end
   end
 

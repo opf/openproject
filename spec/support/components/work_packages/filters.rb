@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -282,8 +281,16 @@ module Components
 
       def close_autocompleter(id)
         with_filter_input(id) do |input|
-          input.send_keys :escape
+          input.send_keys(:escape) if input["aria-expanded"] == "true"
         end
+      end
+
+      def select_value(id, query:, select_text:)
+        select_autocomplete -> { page.find("#filter_#{id} ng-select") },
+                            query:,
+                            select_text:,
+                            results_selector: ".ng-dropdown-panel-items"
+        close_autocompleter(id)
       end
 
       protected

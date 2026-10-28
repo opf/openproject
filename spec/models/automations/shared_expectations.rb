@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,10 +64,10 @@ RSpec.shared_examples_for "base custom action" do
     end
   end
 
-  describe ".all" do
-    it "is an array with the class itself" do
-      expect(described_class.all)
-        .to contain_exactly(described_class)
+  describe ".templates" do
+    it "is an array with a template instance of the class" do
+      expect(described_class.templates)
+        .to contain_exactly(an_instance_of(described_class))
     end
   end
 
@@ -88,7 +87,7 @@ RSpec.shared_examples_for "base custom action" do
 
   describe "#values" do
     it "can be provided on initialization" do
-      i = described_class.new(expected_value)
+      i = described_class.new(values: [expected_value])
 
       expect(i.values)
         .to eql [expected_value]

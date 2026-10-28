@@ -18,6 +18,13 @@
                 "avatar_color": {
                     "type": ["string", "null"]
                 },
+                "avatar_text": {
+                    "type": ["string", "null"]
+                },
+                "avatar_type": {
+                    "type": ["string", "null"],
+                    "enum": [null, "gravatar", "image", "initials"]
+                },
                 "theme": {
                   "type": "string",
                   "enum": ["light", "dark", "sync_with_os"]
@@ -51,11 +58,11 @@
                   "type": "string",
                   "enum": ["inline", "sbs"]
                 },
-                "my_work_view_mode": {
+                "my_time_management_view_mode": {
                   "type": "string",
                   "enum": ["list", "calendar", "stack"]
                 },
-                "my_work_mode": {
+                "my_time_management_mode": {
                   "type": "string",
                   "enum": ["day", "week", "workweek", "month"]
                 },

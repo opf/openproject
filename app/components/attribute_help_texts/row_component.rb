@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 class AttributeHelpTexts::RowComponent < OpPrimer::BorderBoxRowComponent
   alias_method :attribute_help_text, :model
@@ -42,7 +41,7 @@ class AttributeHelpTexts::RowComponent < OpPrimer::BorderBoxRowComponent
   end
 
   def help_text
-    render(OpenProject::Common::AttributeHelpTextComponent.new(help_text: attribute_help_text)) do |help_text|
+    render(OpPrimer::AttributeHelpTextComponent.new(help_text: attribute_help_text)) do |help_text|
       help_text.with_additional_label_content(t(:"attribute_help_texts.show_preview"))
     end
   end
@@ -58,6 +57,7 @@ class AttributeHelpTexts::RowComponent < OpPrimer::BorderBoxRowComponent
       Primer::Beta::IconButton.new(
         icon: :trash,
         scheme: :danger,
+        size: :small,
         tag: :a,
         href: attribute_help_text_path(attribute_help_text),
         "aria-label": t(:button_delete),

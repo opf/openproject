@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "rails_helper"
 
 RSpec.describe OpPrimer::InsetBoxComponent, type: :component do
@@ -113,7 +113,7 @@ RSpec.describe OpPrimer::InsetBoxComponent, type: :component do
       expect(rendered).to have_css(".octicon-link + h3", text: "Inherited configuration")
     end
 
-    it "honours a custom heading tag" do
+    it "honors a custom heading tag" do
       rendered = render_inline(described_class.new) do |box|
         box.with_title(tag: :h2) { "Dependents" }
       end

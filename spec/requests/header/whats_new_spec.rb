@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -75,7 +74,17 @@ RSpec.describe "Header What's new", :skip_csrf, type: :rails_request do
 
       expect(response).to have_http_status(:ok)
       expect(release).to be_seen(user.reload)
+      expect(user.pref.whats_new_seen_at).to be_within(1.minute).of(Time.current)
       expect(stream_targets).to eq(["[data-whats-new-badge]"])
+    end
+
+    it "keeps the time of the first opening" do
+      travel_to(3.days.ago) { post seen_header_whats_new_path, as: :turbo_stream }
+      first_opened_at = user.reload.pref.whats_new_seen_at
+
+      post seen_header_whats_new_path, as: :turbo_stream
+
+      expect(user.reload.pref.whats_new_seen_at).to eq(first_opened_at)
     end
 
     it "keeps the badges when an item is read" do
@@ -99,6 +108,20 @@ RSpec.describe "Header What's new", :skip_csrf, type: :rails_request do
 
         expect(response).to redirect_to(%r{/login})
       end
+    end
+  end
+
+  context "when the user first opened the release more than seven days ago" do
+    before do
+      user.pref.mark_whats_new_seen(release.version_key)
+      user.pref.whats_new_seen_at = 8.days.ago
+      user.pref.save!
+    end
+
+    it "responds with not found" do
+      get header_whats_new_path
+
+      expect(response).to have_http_status(:not_found)
     end
   end
 

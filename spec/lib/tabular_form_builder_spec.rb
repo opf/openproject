@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 require "ostruct"
 
@@ -51,7 +51,7 @@ RSpec.describe TabularFormBuilder do
       builder.text_field :name, options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
 
     it_behaves_like "wrapped in field-container by default"
     it_behaves_like "wrapped in container", "text-field-container"
@@ -198,7 +198,7 @@ RSpec.describe TabularFormBuilder do
       builder.text_area :name, options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default"
     it_behaves_like "wrapped in container", "text-area-container"
 
@@ -239,7 +239,7 @@ JJ Abrams</textarea>
       builder.select :name, '<option value="33">FUN</option>'.html_safe, options, html_options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default"
     it_behaves_like "wrapped in container", "select-container"
 
@@ -263,7 +263,7 @@ JJ Abrams</textarea>
       ], :id, :name, options, html_options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default"
     it_behaves_like "wrapped in container", "select-container"
 
@@ -281,7 +281,7 @@ JJ Abrams</textarea>
       builder.date_picker :last_login_on, options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default"
 
     it "outputs element" do
@@ -298,7 +298,7 @@ JJ Abrams</textarea>
       builder.date_select :last_login_on, options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default"
 
     it "outputs element" do
@@ -315,7 +315,7 @@ JJ Abrams</textarea>
       builder.check_box :first_login, options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default"
     it_behaves_like "wrapped in container", "check-box-container"
 
@@ -339,7 +339,7 @@ JJ Abrams</textarea>
                                    options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default"
     it_behaves_like "wrapped in container", "check-box-container"
 
@@ -362,7 +362,7 @@ JJ Abrams</textarea>
       builder.radio_button :name, "John", options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in container"
     it_behaves_like "wrapped in container", "radio-button-container"
 
@@ -385,7 +385,7 @@ JJ Abrams</textarea>
       builder.number_field :failed_login_count, options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default"
     it_behaves_like "wrapped in container", "text-field-container"
 
@@ -405,7 +405,7 @@ JJ Abrams</textarea>
       builder.range_field :failed_login_count, options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default"
     it_behaves_like "wrapped in container", "range-field-container"
 
@@ -425,7 +425,7 @@ JJ Abrams</textarea>
       builder.search_field :name, options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default"
     it_behaves_like "wrapped in container", "search-field-container"
 
@@ -445,7 +445,7 @@ JJ Abrams</textarea>
       builder.email_field :mail, options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default"
     it_behaves_like "wrapped in container", "text-field-container"
 
@@ -465,7 +465,7 @@ JJ Abrams</textarea>
       builder.telephone_field :mail, options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default"
     it_behaves_like "wrapped in container", "text-field-container"
 
@@ -485,7 +485,7 @@ JJ Abrams</textarea>
       builder.password_field :login, options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default"
     it_behaves_like "wrapped in container", "text-field-container"
 
@@ -505,7 +505,7 @@ JJ Abrams</textarea>
       builder.file_field :name, options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default"
     it_behaves_like "wrapped in container", "file-field-container"
 
@@ -524,7 +524,7 @@ JJ Abrams</textarea>
       builder.url_field :name, options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default"
     it_behaves_like "wrapped in container", "text-field-container"
 
@@ -542,7 +542,7 @@ JJ Abrams</textarea>
       Capybara::Node::Simple.new(builder.submit)
     end
 
-    it_behaves_like "not labelled"
+    it_behaves_like "not labeled"
     it_behaves_like "not wrapped in container"
     it_behaves_like "not wrapped in container", "submit-container"
 
@@ -556,7 +556,7 @@ JJ Abrams</textarea>
       builder.button
     end
 
-    it_behaves_like "not labelled"
+    it_behaves_like "not labeled"
     it_behaves_like "not wrapped in container"
     it_behaves_like "not wrapped in container", "button-container"
 
@@ -649,7 +649,7 @@ JJ Abrams</textarea>
       end
 
       context "without ActiveModel and specified label" do
-        # This is a hypotethical resource that does not have an existing translation
+        # This is a hypothetical resource that does not have an existing translation
         # key, therefore stubbing the translation is allowed.
         before do
           allow(I18n).to receive(:t).with(:name, scope: "user").and_return("Name")

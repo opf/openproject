@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -214,6 +213,62 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
 
       expect(new_checksum)
         .not_to eql orig_checksum
+    end
+
+    it "produces a different checksum when a label is added to the work package" do
+      label = create(:label)
+
+      create(:labeling, labelable: work_package, label:)
+
+      expect(new_checksum)
+        .not_to eql orig_checksum
+    end
+
+    it "produces a different checksum when a label is removed from the work package" do
+      label = create(:label)
+      labeling = create(:labeling, labelable: work_package, label:)
+
+      previous_checksum = EagerLoadingMockWrapper
+        .wrap(described_class, [work_package])
+        .first
+        .cache_checksum
+
+      labeling.destroy!
+
+      expect(new_checksum)
+        .not_to eql previous_checksum
+    end
+
+    it "produces a different checksum when an assigned label is renamed" do
+      label = create(:label)
+      create(:labeling, labelable: work_package, label:)
+
+      previous_checksum = EagerLoadingMockWrapper
+        .wrap(described_class, [work_package])
+        .first
+        .cache_checksum
+
+      label.update_attribute(:name, "Renamed label #{label.id}")
+
+      expect(new_checksum)
+        .not_to eql previous_checksum
+    end
+
+    it "produces the same checksum when a label not assigned to the work package changes" do
+      assigned_label = create(:label)
+      create(:labeling, labelable: work_package, label: assigned_label)
+      unassigned_label = create(:label)
+      create(:labeling, labelable: create(:work_package, project:), label: unassigned_label)
+
+      previous_checksum = EagerLoadingMockWrapper
+        .wrap(described_class, [work_package])
+        .first
+        .cache_checksum
+
+      unassigned_label.update_attribute(:name, "Renamed label #{unassigned_label.id}")
+
+      expect(new_checksum)
+        .to eql previous_checksum
     end
   end
 

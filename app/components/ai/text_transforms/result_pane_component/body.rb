@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,12 +51,9 @@ module AI
           %w[generating done].include?(state)
         end
 
-        def done?
-          state == "done"
-        end
-
         def output
-          helpers.format_text(pane.text, object: pane.work_package)
+          helpers.format_text(pane.text, object: pane.work_package, project: pane.project,
+                                         untrusted_source: true, disable_macro_expansion: true)
         end
       end
     end

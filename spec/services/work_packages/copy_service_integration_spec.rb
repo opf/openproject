@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -149,6 +148,30 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
             expect(service_result).to be_success
             expect(copy.target_versions).to be_empty
             expect(copy.observed_in_versions).to be_empty
+          end
+        end
+      end
+
+      describe "copied labels" do
+        let(:label_one) { create(:label) }
+        let(:label_two) { create(:label) }
+
+        before do
+          create(:labeling, label: label_one, labelable: work_package)
+          create(:labeling, label: label_two, labelable: work_package)
+        end
+
+        it "copies the labels and keeps them on the source" do
+          expect(copy.labels).to contain_exactly(label_one, label_two)
+          expect(work_package.reload.labels).to contain_exactly(label_one, label_two)
+        end
+
+        context "when overriding the labels" do
+          let(:other_label) { create(:label) }
+          let(:attributes) { { label_ids: [other_label.id] } }
+
+          it "applies the given labels instead" do
+            expect(copy.labels).to contain_exactly(other_label)
           end
         end
       end

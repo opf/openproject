@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -269,11 +268,11 @@ RSpec.describe "Edit project phases on project overview page", :js do
         dialog.expect_input("Duration", value: 2, disabled: true)
 
         # The earliest enabled date should be after initiating date's finish date
-        initiating_finish_date_succesor = initiating_finish_date + 1.day
+        initiating_finish_date_successor = initiating_finish_date + 1.day
 
         datepicker.show_date(initiating_finish_date)
         datepicker.expect_not_disabled(initiating_finish_date)
-        datepicker.expect_not_disabled(initiating_finish_date_succesor)
+        datepicker.expect_not_disabled(initiating_finish_date_successor)
 
         dialog.close
 
@@ -287,13 +286,13 @@ RSpec.describe "Edit project phases on project overview page", :js do
         dialog = overview_page.open_edit_dialog_for_life_cycle(life_cycle_planning, wait_angular: true)
 
         # The start date automatically succeeds the life_cycle_initiating
-        dialog.expect_input("Start date", value: initiating_finish_date_succesor, disabled: true)
+        dialog.expect_input("Start date", value: initiating_finish_date_successor, disabled: true)
         dialog.expect_input("Finish date", value: "")
         dialog.expect_input("Duration", value: "", disabled: true)
 
         datepicker.show_date(initiating_finish_date)
         datepicker.expect_disabled(initiating_finish_date)
-        datepicker.expect_not_disabled(initiating_finish_date_succesor)
+        datepicker.expect_not_disabled(initiating_finish_date_successor)
 
         retry_block do
           # Set invalid range (finish date before start date) via input field
@@ -309,7 +308,7 @@ RSpec.describe "Edit project phases on project overview page", :js do
         # Correct the finish date to clear validation via the datepicker
         dialog.set_date_for(values: [planning_finish_date])
 
-        dialog.expect_input("Start date", value: initiating_finish_date_succesor, disabled: true)
+        dialog.expect_input("Start date", value: initiating_finish_date_successor, disabled: true)
         dialog.expect_input("Finish date", value: planning_finish_date)
         dialog.expect_input("Duration", value: planning_duration, disabled: true)
 

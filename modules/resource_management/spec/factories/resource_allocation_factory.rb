@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,6 +39,12 @@ FactoryBot.define do
     allocated_time { 5 * 8 * 60 } # 5 days of 8 hours in minutes
 
     traits_for_enum :state
+
+    after(:create) do |allocation|
+      if allocation.principal
+        ResourceAllocations::UpdateScheduleService.new.call(users: [allocation.principal], from: nil)
+      end
+    end
 
     trait :with_user_filter do
       principal { nil }

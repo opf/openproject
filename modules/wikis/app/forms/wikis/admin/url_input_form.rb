@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,7 +36,7 @@ module Wikis::Admin
         required: true,
         type: :url,
         pattern: ".{1,255}",
-        placeholder: "https://xwiki.my-organisation.com",
+        placeholder: "https://xwiki.example.com",
         caption: I18n.t("wikis.admin.wiki_providers.url_caption"),
         input_width: :large,
         disabled: model.configured_from_env?

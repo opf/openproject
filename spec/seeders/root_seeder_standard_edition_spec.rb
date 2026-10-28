@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -235,7 +234,7 @@ RSpec.describe RootSeeder,
   end
 
   # The fictional company staff is development data, and the demo data referencing it (project
-  # members, work package assignees, meeting participants) only materialises alongside it.
+  # members, work package assignees, meeting participants) only materializes alongside it.
   shared_examples "creates the company staff and the demo data referencing it" do
     it "creates the company departments with their member users" do
       departments = Group.organizational_units
@@ -531,12 +530,12 @@ RSpec.describe RootSeeder,
       expect(admins.pluck(:language)).to match_array(%w[en de])
     end
 
-    it "creates 5 additional projects for development" do
-      expect(Project.count).to eq 7
+    it "creates 6 additional projects for development" do
+      expect(Project.count).to eq 8
     end
 
-    it "creates 4 additional work packages for development" do
-      expect(WorkPackage.count).to eq 41
+    it "creates 5 additional work packages for development" do
+      expect(WorkPackage.count).to eq 42
     end
 
     it "creates 1 project with custom fields" do

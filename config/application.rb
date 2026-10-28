@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -83,7 +82,7 @@ module OpenProject
     # Enable raising on assignment to attr_readonly attributes. The previous
     # behavior would allow assignment but silently not persist changes to the
     # database.
-    # This is a rails 7.1 behaviour.
+    # This is a rails 7.1 behavior.
     # Ideally this should be defined in the `config/initializers/new_framework_defaults_7_1.rb`
     # file, but since there is a bug, that file is not loaded correctly in the production environment.
     # Once [the issue](https://community.openproject.org/wp/59474) is solved, this configuration can
@@ -211,7 +210,7 @@ module OpenProject
     config.good_job.max_threads = OpenProject::Configuration[:good_job_max_threads]
     config.good_job.max_cache = OpenProject::Configuration[:good_job_max_cache]
     config.good_job.enable_cron = OpenProject::Configuration[:good_job_enable_cron]
-    config.good_job.shutdown_timeout = 30
+    config.good_job.shutdown_timeout = OpenProject::Configuration[:good_job_shutdown_timeout]
     config.good_job.smaller_number_is_higher_priority = true
 
     config.action_controller.asset_host = OpenProject::Configuration::AssetHost.value
@@ -223,14 +222,6 @@ module OpenProject
 
     # Enable the Rails 7 cache format
     config.active_support.cache_format_version = 7.1
-
-    # RubyLLM's legacy acts_as API warns on boot unless the new one is chosen,
-    # and the choice has to be made before its railtie reaches ActiveRecord, so
-    # a file in config/initializers would come too late. OpenProject uses the
-    # plain client rather than either ActiveRecord API.
-    config.before_initialize do
-      RubyLLM.configure { |llm| llm.use_new_acts_as = true }
-    end
 
     config.after_initialize do
       Settings::Definition.add_all

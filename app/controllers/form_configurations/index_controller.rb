@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -60,6 +59,16 @@ module FormConfigurations
         checked_ids: Array(params[:checked_ids])
       ),
              layout: false
+    end
+
+    def types_dialog
+      record = ::FormConfiguration.find(params.expect(:id))
+
+      respond_with_dialog(
+        WorkPackageTypes::NamedReferences::Index::TypesDialogComponent.new(
+          record:, model_class:, variants: ordered_variants.where(form_configuration_id: record.id)
+        )
+      )
     end
 
     private
@@ -102,12 +111,10 @@ module FormConfigurations
     def filtered? = requested_filters.any?
 
     def results_component
-      table = WorkPackageTypes::NamedReferences::Index::TableComponent.new(records: forms,
-                                                                           variants: form_variants,
-                                                                           model_class:,
-                                                                           filtered: filtered?)
-
-      WorkPackageTypes::NamedReferences::Index::ResultsComponent.new(table:)
+      WorkPackageTypes::NamedReferences::Index::TableComponent.new(records: forms,
+                                                                   variants: form_variants,
+                                                                   model_class:,
+                                                                   filtered: filtered?)
     end
 
     def sub_header_component
@@ -123,13 +130,15 @@ module FormConfigurations
     end
 
     def form_variants
-      @form_variants ||= TypeVariant
-                           .where(form_configuration_id: forms.map(&:id))
-                           .includes(:type, :projects)
-                           .joins(:type)
-                           .merge(::Type.order(:position))
-                           .in_display_order
-                           .group_by(&:form_configuration_id)
+      @form_variants ||= ordered_variants.where(form_configuration_id: forms.map(&:id)).group_by(&:form_configuration_id)
+    end
+
+    def ordered_variants
+      TypeVariant
+        .includes(:type, :projects)
+        .joins(:type)
+        .merge(::Type.order(:position))
+        .in_display_order
     end
 
     def candidate_projects

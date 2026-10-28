@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,7 +54,7 @@ class WorkPackages::DeleteService < BaseServices::Delete
 
     successors = find_successors_of_self_and_descendants(model).to_a
 
-    result = super
+    result = WorkPackage.with_hierarchy_savepoint { super }
 
     if result.success?
       destroy_descendants(deletable, result)
@@ -68,9 +67,11 @@ class WorkPackages::DeleteService < BaseServices::Delete
 
   def detach(detachable)
     detachable.each do |descendant|
-      result = WorkPackages::UpdateService
-        .new(user:, model: descendant, contract_class: EmptyContract)
-        .call(parent: nil, journal_cause: Journal::CausedByWorkPackageParentDeletion.new)
+      result = WorkPackage.with_hierarchy_savepoint do
+        WorkPackages::UpdateService
+          .new(user:, model: descendant, contract_class: EmptyContract)
+          .call(parent: nil, journal_cause: Journal::CausedByWorkPackageParentDeletion.new)
+      end
 
       return result if result.failure?
     end
@@ -80,7 +81,7 @@ class WorkPackages::DeleteService < BaseServices::Delete
 
   def destroy_descendants(descendants, result)
     descendants.each do |descendant|
-      success = destroy(descendant.reload)
+      success = WorkPackage.with_hierarchy_savepoint { destroy(descendant.reload) }
       result.add_dependent!(ServiceResult.new(success:, result: descendant))
     end
   end

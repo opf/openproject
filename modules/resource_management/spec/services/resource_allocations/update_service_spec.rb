@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,6 +48,76 @@ RSpec.describe ResourceAllocations::UpdateService, type: :model do
     expect(service_call).to be_success
     expect(resource_allocation.reload.state).to eq("allocated")
     expect(resource_allocation.allocated_time).to eq(16)
+  end
+
+  describe "updating the schedule" do
+    shared_let(:other_member) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+
+    let(:start_date) { Date.new(2026, 1, 5) }
+    let(:state) { "allocated" }
+    let!(:resource_allocation) do
+      create(:resource_allocation, entity: work_package, principal: owner, state:, start_date:,
+                                   end_date: Date.new(2026, 1, 16))
+    end
+    let(:schedule_service) { instance_spy(ResourceAllocations::UpdateScheduleService) }
+
+    before { allow(ResourceAllocations::UpdateScheduleService).to receive(:new).and_return(schedule_service) }
+
+    def update(**params)
+      described_class.new(user: owner, model: resource_allocation).call(params)
+    end
+
+    it "recomputes from the previous start date when the start moves later" do
+      update(start_date: Date.new(2026, 1, 7))
+
+      expect(schedule_service).to have_received(:call).once.with(users: [owner], from: start_date)
+    end
+
+    it "recomputes from the new start date when the start moves earlier" do
+      update(start_date: Date.new(2026, 1, 2))
+
+      expect(schedule_service).to have_received(:call).once.with(users: [owner], from: Date.new(2026, 1, 2))
+    end
+
+    it "recomputes when the end date or the allocated time change" do
+      update(end_date: Date.new(2026, 1, 20), allocated_time: 600)
+
+      expect(schedule_service).to have_received(:call).once.with(users: [owner], from: start_date)
+    end
+
+    it "recomputes the previous principal before the new one" do
+      update(principal: other_member)
+
+      expect(schedule_service).to have_received(:call).once.with(users: [owner, other_member], from: start_date)
+    end
+
+    it "recomputes when the allocation is canceled" do
+      update(state: "canceled")
+
+      expect(schedule_service).to have_received(:call).once.with(users: [owner], from: start_date)
+    end
+
+    it "does not recompute when no schedule input changed" do
+      update(placeholder_user: create(:placeholder_user))
+
+      expect(schedule_service).not_to have_received(:call)
+    end
+
+    context "when the allocation is not allocated" do
+      let(:state) { "requested" }
+
+      it "recomputes once it becomes allocated" do
+        update(state: "allocated")
+
+        expect(schedule_service).to have_received(:call).once.with(users: [owner], from: start_date)
+      end
+
+      it "does not recompute when its dates change" do
+        update(start_date: Date.new(2026, 1, 7))
+
+        expect(schedule_service).not_to have_received(:call)
+      end
+    end
   end
 
   context "for the user who assigned the principal" do

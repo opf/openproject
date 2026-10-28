@@ -84,7 +84,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
     };
   }
 
-  public computePosition(floating:HTMLElement, openerEvent:Event):Promise<ComputePositionReturn> {
+  public computePosition(floating:HTMLElement, _openerEvent:Event):Promise<ComputePositionReturn> {
     const reference = this.element.querySelector<HTMLElement>('.generic-table--sort-header-outer')!;
     return computePosition(reference, floating, {
       placement: this.placement,
@@ -96,7 +96,9 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
   }
 
   protected get afterFocusOn() {
-    return this.element.querySelector<HTMLElement>(`#${this.column.id}`)!;
+    return this.element.querySelector<HTMLElement>(`#${this.column.id}`)
+      ?? this.element.closest<HTMLElement>('th')
+      ?? this.element;
   }
 
   private buildItems() {
@@ -108,7 +110,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         hidden: !this.wpTableSortBy.isSortable(c),
         linkText: this.I18n.t('js.work_packages.query.sort_descending'),
         icon: 'icon-sort-descending',
-        onClick: (evt:any) => {
+        onClick: () => {
           if (this.wpTableSortBy.isManualSortingMode) {
             this.confirmDialog.confirm({
               text: this.text.confirmDelete,
@@ -127,7 +129,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         hidden: !this.wpTableSortBy.isSortable(c),
         linkText: this.I18n.t('js.work_packages.query.sort_ascending'),
         icon: 'icon-sort-ascending',
-        onClick: (evt:any) => {
+        onClick: () => {
           if (this.wpTableSortBy.isManualSortingMode) {
             this.confirmDialog.confirm({
               text: this.text.confirmDelete,

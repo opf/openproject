@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -195,6 +194,83 @@ RSpec.describe WorkPackage, "labels" do
         end
 
         expect(tracked.changed_by_user).not_to include("labels")
+      end
+    end
+  end
+
+  describe "#label_name_replacements=" do
+    before { work_package.reload }
+
+    def persisted_label_ids = Labeling.where(labelable: work_package).pluck(:label_id)
+
+    it "squishes names and drops blanks" do
+      work_package.label_name_replacements = ["  New   name ", "", nil, "   "]
+
+      expect(work_package.label_name_replacements).to eq(["New name"])
+    end
+
+    it "drops case-insensitive duplicates, keeping the first spelling" do
+      work_package.label_name_replacements = ["Urgent", "urgent", "URGENT", "Other"]
+
+      expect(work_package.label_name_replacements).to eq(%w[Urgent Other])
+    end
+
+    it "stays nil when assigned nil" do
+      work_package.label_name_replacements = nil
+
+      expect(work_package.label_name_replacements).to be_nil
+      expect(work_package).not_to be_override_labels
+    end
+
+    context "with names only" do
+      before { work_package.label_name_replacements = ["Brand new", "APPLE"] }
+
+      it "overrides the labels" do
+        expect(work_package).to be_override_labels
+      end
+
+      it "matches existing names case-insensitively and builds unsaved labels for new ones" do
+        labels = work_package.effective_labels
+
+        expect(labels).to include(lower_label)
+        new_label = labels.find { it.name == "Brand new" }
+        expect(new_label).to be_new_record
+        expect(Label.where(name: "Brand new")).not_to exist
+      end
+
+      it "reports the pending names as a change" do
+        expect(work_package.label_changes)
+          .to eq("labels" => [[lower_label.id, higher_label.id], ["Brand new", "APPLE"]])
+      end
+
+      it "is valid" do
+        expect(work_package).to be_valid
+      end
+    end
+
+    describe "saving" do
+      it "refuses to save while label names have no ids and creates no label" do
+        work_package.label_name_replacements = ["Brand new"]
+
+        expect { expect(work_package.save).to be(false) }.not_to change(Label, :count)
+        expect(work_package.errors.symbols_for(:labels)).to contain_exactly(:invalid)
+        expect(persisted_label_ids).to contain_exactly(lower_label.id, higher_label.id)
+      end
+
+      it "saves once the label names are replaced with ids" do
+        work_package.label_name_replacements = ["Brand new"]
+        work_package.replace_label_names_with_ids([lower_label.id])
+        work_package.save!
+
+        expect(persisted_label_ids).to contain_exactly(lower_label.id)
+        expect(work_package.label_name_replacements).to be_nil
+      end
+
+      it "records the labels in the journal" do
+        work_package.replace_label_names_with_ids([lower_label.id])
+        work_package.save!
+
+        expect(work_package.journals.last.label_journals.pluck(:label_id)).to contain_exactly(lower_label.id)
       end
     end
   end

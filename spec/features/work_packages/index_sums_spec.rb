@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -299,6 +298,7 @@ RSpec.describe "Work package index sums", :js do
 
       # Expect 2 work packages shown
       expect(page).to have_row("WorkPackage", count: 2) # works because the subject name includes "WorkPackage"
+      expect(page).to have_row("Total sum", count: 1)
 
       # Expect the total sums row to have changed
       aggregate_failures do

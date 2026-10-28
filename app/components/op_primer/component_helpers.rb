@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,10 +35,6 @@ module OpPrimer
 
     def grid_layout(css_class, **, &)
       render(Primer::OpenProject::GridLayout.new(css_class:, **), &)
-    end
-
-    def box_collection(**, &)
-      render(OpPrimer::BoxCollectionComponent.new(**), &)
     end
 
     def component_collection(**, &)

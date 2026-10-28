@@ -1,6 +1,6 @@
-The Status button communicates the current status of something (like a meeting or a work package) using a label and a colour. Optionally, it allows the user to change the status to something else. The button triggers an action menu with alternate statuses. In read-only mode, the status button does not offer any interaction.
+The Status button communicates the current status of something (like a meeting or a work package) using a label and a color. Optionally, it allows the user to change the status to something else. The button triggers an action menu with alternate statuses. In read-only mode, the status button does not offer any interaction.
 
-The colours adapt automatically to the currently active mode (light/dark/light high contrast).
+The colors adapt automatically to the currently active mode (light/dark/light high contrast).
 
 ## Overview
 
@@ -10,15 +10,15 @@ The colours adapt automatically to the currently active mode (light/dark/light h
 
 The component provides two variants:
 
-**1. With colour markers**
+**1. With color markers**
 
-For any selectable status item, a small colour marker will be displayed. The colour of this marker is determined by our internal colour helpers. 
+For any selectable status item, a small color marker will be displayed. The color of this marker is determined by our internal color helpers. 
 
 <%= embed OpPrimer::StatusButtonComponentPreview, :playground %>
 
-**2. With icons and colours**
+**2. With icons and colors**
 
-The button will be coloured, along with a leading icon in the foreground colour (the same as the text). The action dropdown menu will also show icons; the dropdown will not, however, show colours.
+The button will be colored, along with a leading icon in the foreground color (the same as the text). The action dropdown menu will also show icons; the dropdown will not, however, show colors.
 
 <%= embed OpPrimer::StatusButtonComponentPreview, :with_icon %>
 
@@ -26,12 +26,12 @@ The button will be coloured, along with a leading icon in the foreground colour 
 
 **Do**
 
-- Use the component when each status needs a colour. (Eg. meeting or work package status)
-- Specify the colour for each status; these colours are not automatically set via Primer and must be manually entered. However, using named Primer colour variables is encouraged (although a hex code will also work, thanks to the internal colour helpers who will translate it to other colour modes).
+- Use the component when each status needs a color. (Eg. meeting or work package status)
+- Specify the color for each status; these colors are not automatically set via Primer and must be manually entered. However, using named Primer color variables is encouraged (although a hex code will also work, thanks to the internal color helpers who will translate it to other color modes).
 
 **Don't**
 
-- Don't use the component if the status is not coloured. You can simply use an ActionMenu for this case.
+- Don't use the component if the status is not colored. You can simply use an ActionMenu for this case.
 
 ## Used in
 
@@ -54,8 +54,8 @@ The StatusButton component is a composition of a Primer Button and Primer Action
 
 * `name`: (required) the name of the option
 * `icon`: (optional) the leading icon
-* `color_ref`: (optional) The reference of the object to be coloured (for persisted items (like WorkPackage status or type), this is the ID, otherwise some other unique identifier)
-* `color_namespace`: (optional, although it is required when setting `color_ref`) The namespace is usually the name of the coloured objects (e.g "status", "type", "meeting_status".
+* `color_ref`: (optional) The reference of the object to be colored (for persisted items (like WorkPackage status or type), this is the ID, otherwise some other unique identifier)
+* `color_namespace`: (optional, although it is required when setting `color_ref`) The namespace is usually the name of the colored objects (e.g "status", "type", "meeting_status".
 
 The `color_ref` and `color_namespace` are used together to build internally the highlighting classes for the options (e.g `__hl_inline_status_1`)
 

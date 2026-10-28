@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -102,7 +101,7 @@ class RepositoriesController < ApplicationController
   def committers
     @committers = @repository.committers
     @users = @project.users.to_a
-    additional_user_ids = @committers.map(&:last).map(&:to_i) - @users.map(&:id)
+    additional_user_ids = @committers.map { |c| c.last.to_i } - @users.map(&:id)
     @users += User.where(id: additional_user_ids) unless additional_user_ids.empty?
     @users.compact!
     @users.sort!

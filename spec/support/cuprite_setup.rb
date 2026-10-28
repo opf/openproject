@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,12 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-#
+#++
 
 require "capybara/cuprite"
 
@@ -154,6 +152,33 @@ Ferrum::Client::Subscriber.prepend(Module.new do
     rescue StandardError => e
       warn("Ferrum: #{event} callback raised #{e.class}: #{e.message}\n  #{e.backtrace&.first}")
     end
+  end
+end)
+
+Ferrum::Context.prepend(Module.new do
+  def create_target(new_window: false)
+    return super() unless new_window
+
+    target_id = @client.command("Target.createTarget", browserContextId: @id, url: "about:blank", newWindow: true)["targetId"]
+
+    new_pending = Concurrent::IVar.new
+    pending = @pendings.put_if_absent(target_id, new_pending) || new_pending
+    resolved = pending.value(@client.protocol_timeout)
+    raise Ferrum::NoSuchTargetError unless resolved
+
+    @pendings.delete(target_id)
+    @targets[target_id]
+  end
+end)
+
+Capybara::Cuprite::Driver.prepend(Module.new do
+  # A new tab hides the previous tab, and a hidden page does not render
+  # Turbo stream responses. Open a window, as Selenium does.
+  def open_new_window
+    target = browser.default_context.create_target(new_window: true)
+    target.maybe_sleep_if_new_window
+    target.page = Capybara::Cuprite::Page.new(target.client, context_id: target.context_id, target_id: target.id)
+    target.page
   end
 end)
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -287,8 +286,11 @@ module ApplicationHelper
   end
 
   def body_data_attributes(local_assigns)
+    service_worker = pwa_service_worker_attributes
+
     {
       controller: ["application auto-theme-switcher hover-card-trigger beforeunload external-links highlight-target-element",
+                   service_worker[:controller],
                    stimulus_body_controller].compact.join(" "),
       relative_url_root: root_path,
       overflowing_identifier: ".__overflowing_body",
@@ -296,7 +298,18 @@ module ApplicationHelper
       rendered_at: Time.zone.now.iso8601,
       turbo: local_assigns[:turbo_opt_out] ? "false" : nil
     }.merge(user_theme_data_attributes)
+     .merge(service_worker.except(:controller))
      .compact
+  end
+
+  def pwa_service_worker_attributes
+    return {} unless OpenProject::FeatureDecisions.progressive_web_app_active?
+
+    {
+      controller: "pwa-service-worker",
+      pwa_service_worker_url_value: pwa_service_worker_path,
+      pwa_service_worker_scope_value: root_path
+    }
   end
 
   def user_theme_data_attributes
@@ -345,7 +358,7 @@ module ApplicationHelper
   end
 
   def check_all_links(form_id = nil, &)
-    render(OpenProject::Common::CheckAllComponent.new(checkable_id: form_id), &)
+    render(OpPrimer::CheckAllComponent.new(checkable_id: form_id), &)
   end
 
   def current_layout

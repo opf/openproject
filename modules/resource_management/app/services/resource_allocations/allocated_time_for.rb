@@ -22,16 +22,12 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module ResourceAllocations
-  # The schedule is computed across all of the user's allocations and only then cut
-  # down to the displayed dates, so that each day matches the placement the
-  # allocation fit check works with.
   class AllocatedTimeFor
     def initialize(user:, dates:)
       @user = user
@@ -54,14 +50,11 @@ module ResourceAllocations
     private
 
     def scheduled_entries
-      schedule = Availability.new(user: @user).optimal_schedule
-      entries = @dates.flat_map { |date| schedule.entries_on(date) }
-
-      ActiveRecord::Associations::Preloader
-        .new(records: work_packages_in(entries), associations: %i[project type])
-        .call
-
-      entries
+      ScheduledEntry
+        .where(user: @user, allocated_on: @dates)
+        .includes(allocation: { entity: %i[project type] })
+        .order(:allocated_on, :minutes)
+        .to_a
     end
 
     def work_packages_in(entries)

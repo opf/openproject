@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -350,6 +349,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def api_key_auth_format?
+    api_request?
+  end
+
+  def api_key_authenticated?
+    @api_key_authenticated == true
+  end
+
   # Returns the API key present in the request
   def api_key_from_request
     if params[:key].present?
@@ -389,7 +396,7 @@ class ApplicationController < ActionController::Base
         return view_paths.find_template(default_template_name(action_name), "api")
       rescue ::ActionView::MissingTemplate
         # the api template was not found
-        # fallback to the default behaviour
+        # fallback to the default behavior
       end
     end
     super
@@ -426,10 +433,6 @@ class ApplicationController < ActionController::Base
 
   def permitted_params
     @permitted_params ||= PermittedParams.new(params, current_user)
-  end
-
-  def session_expired?
-    !api_request? && current_user.logged? && session_ttl_expired?
   end
 
   def login_back_url_params

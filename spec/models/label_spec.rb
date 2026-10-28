@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -71,6 +70,53 @@ RSpec.describe Label do
 
       expect(described_class.with_usage_count.paginate(page: 1, per_page: 1).total_entries)
         .to eq(described_class.count)
+    end
+  end
+
+  describe ".ordered_by_relevance_for" do
+    let(:project) { create(:project) }
+    let(:other_project) { create(:project) }
+
+    let!(:popular_elsewhere) { create(:label, name: "popular elsewhere") }
+    let!(:local_rare) { create(:label, name: "local rare") }
+    let!(:local_common) { create(:label, name: "local common") }
+    let!(:unused_a) { create(:label, name: "Unused A") }
+    let!(:unused_b) { create(:label, name: "unused b") }
+
+    before do
+      label_work_packages(popular_elsewhere, other_project, count: 3)
+      label_work_packages(local_rare, project, count: 1)
+      label_work_packages(local_common, project, count: 2)
+    end
+
+    def label_work_packages(label, project, count:)
+      create_list(:work_package, count, project:).each { create(:labeling, label:, labelable: it) }
+    end
+
+    it "lists labels used in the project first, then by usage, then case-insensitively by name" do
+      expect(described_class.ordered_by_relevance_for(project).to_a)
+        .to eq([local_common, local_rare, popular_elsewhere, unused_a, unused_b])
+    end
+
+    it "keeps a scalar total when paginated" do
+      expect(described_class.ordered_by_relevance_for(project).paginate(page: 1, per_page: 2).total_entries)
+        .to eq(5)
+    end
+  end
+
+  describe ".named_any" do
+    it "finds labels regardless of casing and surrounding whitespace" do
+      alpha = create(:label, name: "Alpha")
+      bravo = create(:label, name: "Bravo")
+      create(:label, name: "Charlie")
+
+      expect(described_class.named_any(["  alpha ", "BRAVO", "Missing"])).to contain_exactly(alpha, bravo)
+    end
+
+    it "finds nothing for empty input" do
+      create(:label, name: "Alpha")
+
+      expect(described_class.named_any([])).to be_empty
     end
   end
 

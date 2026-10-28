@@ -32,9 +32,23 @@
 /* SystemJS module definition */
 declare let module:NodeModule;
 declare module 'dom-plane' {
-  export function createPointCB(point:any):any;
-  export function getClientRect(el:Element|Window):{ top:number, bottom:number, left:number, right:number };
-  export function pointInside(point:any, el:Element|Window):any;
+  export interface Point {
+    target:EventTarget|null;
+    element:unknown;
+    type:string;
+    x:number;
+    y:number;
+    pageX:number;
+    pageY:number;
+    screenX:number;
+    screenY:number;
+    clientX:number;
+    clientY:number;
+  }
+  export interface ClientRect { top:number, bottom:number, left:number, right:number }
+  export function createPointCB(point:Partial<Point>, options?:{ allowUpdate?:boolean|((event:Event) => boolean) }):(event:Event) => void;
+  export function getClientRect(el:Element|Window):ClientRect;
+  export function pointInside(point:Pick<Point, 'x'|'y'>, el:Element|Window):boolean;
 }
 
 interface NodeModule {

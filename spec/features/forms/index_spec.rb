@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,7 +55,7 @@ RSpec.describe "Forms index", :js do
 
   def all_forms = ["Bug form", "Hardware form", "Phase form"]
 
-  def results = "#form_configurations-index-results-component"
+  def results = "#work-package-types-named-references-index-table-component"
 
   def row_for(name)
     page.find(".Box-row") { |row| row.has_css?(".name a", text: name, exact_text: true) }
@@ -97,6 +96,34 @@ RSpec.describe "Forms index", :js do
     within(row_for("Hardware form")) do
       expect(page).to have_css(".types_and_variants", text: "1 type (including 1 variant)")
       expect(page).to have_css(".projects", text: "1 project")
+    end
+  end
+
+  it "opens a dialog listing and linking the dependent types" do
+    visit form_configurations_path
+
+    wait_for_turbo_stream { within(row_for("Bug form")) { click_on "2 types" } }
+
+    within("dialog#form_configuration-#{bug.default_variant.form_configuration.id}-types-dialog") do
+      expect(page).to have_css("strong", text: "Bug form")
+
+      within_test_selector("types-dialog-types") do
+        expect(page).to have_link("Bug")
+        expect(page).to have_link("Task")
+      end
+    end
+  end
+
+  it "distinguishes a dependent variant from its type in the dialog" do
+    visit form_configurations_path
+
+    wait_for_turbo_stream { within(row_for("Hardware form")) { click_on "1 type (including 1 variant)" } }
+
+    within("dialog#form_configuration-#{hardware_form.id}-types-dialog") do
+      within_test_selector("types-dialog-variants") do
+        expect(page).to have_link("Hardware")
+        expect(page).to have_text("Variant of Bug")
+      end
     end
   end
 

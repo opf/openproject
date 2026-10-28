@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,15 +40,9 @@ module WorkPackageTypes
       # only ever be used there, for an administrator too.
       OWNED_EXCLUDED = %i[projects].freeze
 
-      DESCRIBED = %i[defaults form_configuration project_attributes projects pdf].freeze
-
       module_function
 
       def title(step) = I18n.t("types.creation_wizard.steps.#{step}")
-
-      def description(step)
-        I18n.t("types.creation_wizard.descriptions.#{step}") if DESCRIBED.include?(step)
-      end
 
       def all = ALL
 

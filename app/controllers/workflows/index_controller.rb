@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -60,6 +59,16 @@ module Workflows
         checked_ids: Array(params[:checked_ids])
       ),
              layout: false
+    end
+
+    def types_dialog
+      record = ::Workflow.find(params.expect(:id))
+
+      respond_with_dialog(
+        WorkPackageTypes::NamedReferences::Index::TypesDialogComponent.new(
+          record:, model_class:, variants: ordered_variants.where(workflow_id: record.id)
+        )
+      )
     end
 
     private
@@ -100,12 +109,10 @@ module Workflows
     def filtered? = requested_filters.any?
 
     def results_component
-      table = Index::TableComponent.new(records: workflows,
-                                        variants: workflow_variants,
-                                        role_counts: workflow_role_counts,
-                                        filtered: filtered?)
-
-      WorkPackageTypes::NamedReferences::Index::ResultsComponent.new(table:)
+      Index::TableComponent.new(records: workflows,
+                                variants: workflow_variants,
+                                role_counts: workflow_role_counts,
+                                filtered: filtered?)
     end
 
     def sub_header_component
@@ -121,13 +128,15 @@ module Workflows
     end
 
     def workflow_variants
-      @workflow_variants ||= TypeVariant
-                               .where(workflow_id: workflow_ids)
-                               .includes(:type, :projects)
-                               .joins(:type)
-                               .merge(::Type.order(:position))
-                               .in_display_order
-                               .group_by(&:workflow_id)
+      @workflow_variants ||= ordered_variants.where(workflow_id: workflow_ids).group_by(&:workflow_id)
+    end
+
+    def ordered_variants
+      TypeVariant
+        .includes(:type, :projects)
+        .joins(:type)
+        .merge(::Type.order(:position))
+        .in_display_order
     end
 
     def workflow_role_counts

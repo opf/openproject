@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -84,7 +83,7 @@ RSpec.describe "layouts/base" do
       end
 
       it "shows a login form" do
-        expect(rendered).to include "Username"
+        expect(rendered).to include "Username or email"
         expect(rendered).to include "Password"
       end
     end
@@ -96,7 +95,7 @@ RSpec.describe "layouts/base" do
       end
 
       it "shows no password login form" do
-        expect(rendered).not_to include "Username"
+        expect(rendered).not_to include "Username or email"
         expect(rendered).not_to include "Password"
       end
     end

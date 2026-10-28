@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -50,6 +49,15 @@ module AI
       private
 
       attr_reader :pane
+
+      def wrapper_data
+        {
+          test_selector: "ai-text-transform-result",
+          controller: STIMULUS_CONTROLLER,
+          ai_text_transform_pane_close_form_value: CLOSE_FORM_ID,
+          **action(close: "keydown.esc", keepInViewport: "resize@window", closeSubmitted: "turbo:submit-end")
+        }
+      end
     end
   end
 end

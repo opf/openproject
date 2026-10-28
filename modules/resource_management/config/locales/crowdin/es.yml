@@ -114,14 +114,14 @@ es:
       outside_dates:
         description: Las fechas del recurso seleccionado, %{resource_dates}, están fuera de las fechas del paquete de trabajo, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} disponible · %{scheduled} programado"
         description: El usuario seleccionado, %{user}, sería asignado más allá de su horario laboral durante este periodo.
-        hidden_work: Otras asignaciones
+        overtime_summary_html: This allocation adds %{hours} between %{start_date} and %{end_date}, <strong>causing %{overtime} of overtime between %{overtime_start_date} and %{overtime_end_date}</strong>.
         schedule_availability: "%{schedule} (%{factor}% disponible para trabajo de proyecto)"
         schedule_change: hasta %{date}, luego %{schedule}
         schedule_note: Este usuario trabaja %{schedule}.
         submit: Asignar horas extra
         title: "¿Quieres asignar horas extra al usuario?"
+        unplannable: "%{user} has no working day between %{start_date} and %{end_date}, so this allocation cannot be planned."
       staffed_from: Staffed from placeholder user %{placeholder}
       submit: Asignar
       success_message: Recurso asignado.
@@ -173,7 +173,7 @@ es:
     label_new_resource_planner: Nuevo planificador de recursos
     label_resource_planner: Planificador de recursos
     label_resource_planner_plural: Planificadores de recursos
-    my_work:
+    my_time_management:
       hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Añadir vista
@@ -261,7 +261,8 @@ es:
       no_work_schedule: No hay ningún cronograma de trabajo previsto para este usuario
       overbooked: Este usuario ha superado su asignación total en el periodo seleccionado.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} programado, %{available} disponible"
+        dates: Beyond working hours on %{dates}
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: Añadir usuario
     view_types:

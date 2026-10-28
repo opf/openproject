@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -45,7 +44,7 @@ RSpec.describe Statuses::RowComponent, type: :component do
   let(:position) { 2 }
 
   # The menu offers a direction only while there is somewhere to go, so the row needs
-  # a neighbour on either side.
+  # a neighbor on either side.
   before do
     create(:status, name: "Above").update_column(:position, 1)
     status.update_column(:position, position)
@@ -56,7 +55,7 @@ RSpec.describe Statuses::RowComponent, type: :component do
     expect(rendered_component).to have_link("In progress", href: "/statuses/#{status.id}/edit")
   end
 
-  it "shows the colour beside the name rather than in a column of its own" do
+  it "shows the color beside the name rather than in a column of its own" do
     status.update!(color: create(:color, name: "Blue", hexcode: "#1F83D6"))
 
     expect(rendered_component).to have_css(".op-border-box-grid__row-item--main-column .color--preview")

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -170,7 +169,7 @@ RSpec.describe ConvertCustomFieldActivationsToVariants, type: :model do
 
     before { migrate }
 
-    it "lists what fits the budget and summarises the rest" do
+    it "lists what fits the budget and summarizes the rest" do
       variant = project.project_types.find_by!(type_id: wide_type.id).variant
 
       expect(variant.variant_name)

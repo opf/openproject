@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -48,6 +47,40 @@ RSpec.describe "Workflow edit with multiple roles", :js do
   end
 
   current_user { admin }
+
+  context "when opening the role selector without a selection" do
+    let!(:role2_workflow) do
+      create(:workflow, role: role2, type:, old_status: statuses[1], new_status: statuses[2], author: true)
+    end
+    let!(:unused_role) { create(:project_role, name: "Unused role") }
+
+    it "groups roles by usage and keeps selections when filtering" do
+      visit_workflow_page
+      click_button "2 roles selected"
+
+      within_test_selector("role-panel") do
+        expect(page).to have_text("With transitions")
+        expect(page).to have_text("Without transitions")
+        expect(page).to have_css("[data-item-id='#{role.id}'] [aria-selected='true']")
+        expect(page).to have_css("[data-item-id='#{role2.id}'] [aria-selected='true']")
+        expect(page).to have_css("[data-item-id='#{unused_role.id}'] [aria-selected='false']")
+
+        find("input[type='search']").set(unused_role.name)
+        expect(page).to have_no_css("[data-item-id='#{role.id}']")
+        expect(page).to have_no_text("With transitions")
+        expect(page).to have_text("Without transitions")
+        find("[data-item-id='#{unused_role.id}']").click
+        click_button "Apply"
+      end
+
+      expect(page).to have_button("3 roles selected")
+      click_button "3 roles selected"
+      within_test_selector("role-panel") do
+        expect(page).to have_css("[data-item-id='#{unused_role.id}'] [aria-selected='true']")
+        expect(page).to have_css("[data-item-id='#{role.id}'] [aria-selected='true']")
+      end
+    end
+  end
 
   context "when displaying checkboxes" do
     context "when all selected roles have a transition" do
@@ -327,7 +360,7 @@ RSpec.describe "Workflow edit with multiple roles", :js do
   context "when deselecting all roles in the select panel" do
     before { visit_workflow_page(roles: [role, role2]) }
 
-    it "falls back to the first eligible role instead of leaving the page stuck" do
+    it "falls back to used roles instead of leaving the page stuck" do
       click_button "2 roles selected"
       find("[data-item-id='#{role.id}']").click
       find("[data-item-id='#{role2.id}']").click

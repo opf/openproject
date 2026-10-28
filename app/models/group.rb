@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,6 +41,10 @@ class Group < Principal
 
     def avatar_color=(value)
       super(value.present? ? ::Colors::HexColor::Normalizer.call(value) : nil)
+    end
+
+    def avatar_text=(value)
+      super(AvatarTextValidator.normalize(value))
     end
   end
 
@@ -161,7 +164,7 @@ class Group < Principal
               # For now raises exception in case of group as a member arrival.
               raise Scimitar::InvalidSyntaxError.new("Unsupported type #{type.inspect}")
             else
-              raise Scimitar::InvalidSyntaxError.new("Unrecognised type #{type.inspect}")
+              raise Scimitar::InvalidSyntaxError.new("Unrecognized type #{type.inspect}")
             end
           }
         }

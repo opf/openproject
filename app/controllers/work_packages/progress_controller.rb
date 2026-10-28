@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 class WorkPackages::ProgressController < ApplicationController
   include OpTurbo::ComponentStream
@@ -133,9 +132,8 @@ class WorkPackages::ProgressController < ApplicationController
   end
 
   def make_fake_initial_work_package
-    initial_params = params["work_package"]["initial"]
-      .slice(*%w[estimated_hours remaining_hours done_ratio status_id])
-      .permit!
+    initial_params = params.require(:work_package).require(:initial)
+      .permit(:estimated_hours, :remaining_hours, :done_ratio, :status_id)
     @work_package = WorkPackage.new(initial_params)
     @work_package.clear_changes_information
   end

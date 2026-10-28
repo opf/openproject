@@ -13,6 +13,7 @@ hy:
         icon: Հատուկ պատկերակ
         identifier: Նույնացուցիչ
         idp_cert: Ինքնության մատակարարի հանրային վկայագիր
+        idp_cert_fingerprint: Identity provider certificate fingerprint
         idp_entity_id: Ինքնության մատակարարի entity ID
         idp_slo_service_url: Ինքնության մատակարարի ելքի վերջնակետ
         idp_sso_service_url: Ինքնության մատակարարի մուտքի վերջնակետ
@@ -152,6 +153,9 @@ hy:
       metadata_too_large: Մետատվյալների նիշքը գերազանցում է թույլատրելի առավելագույն չափը։
       success: Կազմաձևումը հաջողությամբ թարմացվել է ինքնության մատակարարի մետատվյալների միջոցով։
     providers:
+      apply_metadata:
+        expired: This metadata preview has expired or is invalid. Refresh the metadata again to review the latest configuration.
+        provider_changed: The provider configuration has changed since this preview. Refresh the metadata again to review the latest configuration.
       attribute_mapping: Հատկանիշների համապատասխանեցում
       attribute_mapping_text: 'Հետևյալ դաշտերը որոշում են, թե SAML ինքնության մատակարարի տրամադրած որ հատկանիշներն են օգտագործվում OpenProject-ում օգտատիրոջ հատկանիշները լրացնելու համար
 
@@ -171,9 +175,19 @@ hy:
       label_uid: Ներքին օգտատիրոջ ID
       metadata:
         dialog: Սա այն URL-ն է, որտեղ հասանելի են OpenProject-ի SAML մետատվյալները։ Ըստ ցանկության օգտագործեք այն Ձեր ինքնության մատակարարը կազմաձևելու համար՝
+      metadata_changes:
+        table_component:
+          current_value: Current value
+          mobile_title: Metadata changes
+          new_value: New value
       no_results_table: SAML ինքնության մատակարարներ դեռ սահմանված չեն։
       notice_created: Նոր SAML ինքնության մատակարարը հաջողությամբ ստեղծվել է։
       plural: SAML ինքնության մատակարարներ
+      refresh_metadata:
+        apply: Apply changes
+        description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
+        no_changes: The metadata matches the current configuration.
+        title: Review metadata changes
       request_attributes:
         format: Հատկանիշի ձևաչափ
         legend: 'Այս հատկանիշները ավելացվում են SAML XML մետատվյալներին՝ ինքնության մատակարարին հայտնելու համար, թե որ հատկանիշներն է պահանջում OpenProject-ը։ Հնարավոր է՝ Ձեզ դեռևս անհրաժեշտ լինի բացահայտորեն կազմաձևել Ձեր ինքնության մատակարարը՝ այս հատկանիշները ուղարկելու համար։ Խնդրում ենք դիմել Ձեր IdP-ի փաստաթղթերին։
@@ -197,6 +211,10 @@ hy:
         metadata_form_banner: 'Մետատվյալների խմբագրումը կարող է վերագրել այլ բաժինների առկա արժեքները։ '
         requested_attributes: Սահմանեք այն հատկանիշների ցանկը, որոնք կպահանջվեն Ձեր ինքնության մատակարարին ուղարկվող SAML հարցման մեջ։
       seeded_from_env: Այս մատակարարը ստեղծվել է միջավայրի կազմաձևման հիման վրա։ Այն հնարավոր չէ խմբագրել։
+      side_panel:
+        refresh_metadata_component:
+          button: Refresh metadata
+          description: You can check if the configuration fetched from your identity provider has changed.
       singular: SAML ինքնության մատակարար
       upsell:
         description: Միացրեք OpenProject-ը SAML ինքնության մատակարարին

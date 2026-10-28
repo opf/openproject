@@ -35,6 +35,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { QueryFiltersService } from 'core-app/features/work-packages/components/wp-query/query-filters.service';
 import { HalPayloadHelper } from 'core-app/features/hal/schemas/hal-payload.helper';
 import { PaginationObject } from 'core-app/shared/components/table-pagination/pagination-service';
+import { HTTPClientParamMap } from 'core-app/features/hal/http/http.interfaces';
 
 export class ApiV3QueryPaths extends ApiV3GettableResource<QueryResource> {
   @LazyInject() private queryFilters:QueryFiltersService;
@@ -51,7 +52,7 @@ export class ApiV3QueryPaths extends ApiV3GettableResource<QueryResource> {
    */
   public parameterised(params:object):Observable<QueryResource> {
     return this.halResourceService
-      .get<QueryResource>(this.path, params);
+      .get<QueryResource>(this.path, params as HTTPClientParamMap);
   }
 
   /**

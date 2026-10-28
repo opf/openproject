@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -312,6 +311,24 @@ RSpec.describe ApplicationHelper do
       it "returns #{expected.inspect} with the cookie #{cookie.inspect}" do
         helper.request.cookies[described_class::MAIN_MENU_WIDTH_COOKIE] = cookie unless cookie.nil?
         expect(subject).to eq(expected)
+      end
+    end
+  end
+
+  describe "#pwa_service_worker_attributes" do
+    context "with the progressive web app flag on", with_flag: { progressive_web_app: true } do
+      it "wires the registration controller to the worker url and the instance scope" do
+        expect(helper.pwa_service_worker_attributes).to eq(
+          controller: "pwa-service-worker",
+          pwa_service_worker_url_value: "/service-worker",
+          pwa_service_worker_scope_value: "/"
+        )
+      end
+    end
+
+    context "with the progressive web app flag off", with_flag: { progressive_web_app: false } do
+      it "wires nothing" do
+        expect(helper.pwa_service_worker_attributes).to eq({})
       end
     end
   end

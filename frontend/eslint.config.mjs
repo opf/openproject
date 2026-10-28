@@ -32,9 +32,11 @@ import vitest from '@vitest/eslint-plugin';
 import angular from 'angular-eslint';
 import stylistic from '@stylistic/eslint-plugin';
 import headers from 'eslint-plugin-headers';
+import json from '@eslint/json';
 
 import { defineConfig, globalIgnores } from 'eslint/config';
 import { copyrightHeaderOptions } from './copyright.mjs';
+import { jsonConfig } from './eslint-json.mjs';
 
 export default defineConfig([
   {
@@ -97,6 +99,8 @@ export default defineConfig([
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }],
 
+      '@typescript-eslint/no-empty-function': 'off',
+
       // Allow short circuit evaluations
       '@typescript-eslint/no-unused-expressions': ['error', { allowShortCircuit: true }],
 
@@ -147,7 +151,7 @@ export default defineConfig([
       'no-underscore-dangle': [
         'warn',
         {
-          allow: ['_links', '_embedded', '_meta', '_type', '_destroy'],
+          allow: ['_links', '_embedded', '_meta', '_type', '_destroy', '__initialized_at'],
           allowAfterThis: true,
           allowAfterSuper: false,
           allowAfterThisConstructor: false,
@@ -157,7 +161,6 @@ export default defineConfig([
       ],
 
       'no-return-assign': ['error', 'except-parens'],
-      'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
 
       // https://typescript-eslint.io/rules/no-base-to-string/ Disable false positives due to missing types
       '@typescript-eslint/no-base-to-string': [
@@ -171,6 +174,12 @@ export default defineConfig([
 
       // It's common in Angular to wrap even pure functions in classes for injection purposes
       'class-methods-use-this': 'off',
+    },
+  },
+  {
+    files: ['**/*.d.ts'],
+    rules: {
+      '@typescript-eslint/triple-slash-reference': 'off',
     },
   },
   {
@@ -227,6 +236,7 @@ export default defineConfig([
     },
   },
   {
+    files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}'],
     plugins: { '@stylistic': stylistic },
     rules: {
       '@stylistic/semi': ['error', 'always'],
@@ -270,9 +280,12 @@ export default defineConfig([
       '@stylistic/spaced-comment': 'off',
     },
   },
+  jsonConfig(json),
   globalIgnores([
     '**/.eslintrc.js',
+    '.angular/',
     'coverage/',
+    'src/locales/',
     '**/vendor',
     // Carries a third-party copyright notice; excluded from `rake copyright:update_*` too.
     'src/app/features/plugins/linked/openproject-gitlab_integration/**',

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,28 +34,22 @@ module API
         resources :ai_text_transform_runs do
           helpers do
             def context_from_params
-              if params[:workPackageId]
-                work_package_context
-              elsif params[:projectId]
-                new_work_package_context
-              else
-                ::AI::TextTransforms::Context.none
-              end
+              call = ::AI::TextTransforms::ResolveContext
+                       .new(user: current_user)
+                       .call(work_package_id: params[:workPackageId],
+                             project_id: params[:projectId],
+                             type_id: params[:typeId])
+
+              raise_context_failure(call.errors) if call.failure?
+
+              call.result
             end
 
-            def work_package_context
-              work_package = WorkPackage.visible.find(params[:workPackageId])
-              authorize_in_work_package(:edit_work_packages, work_package:)
+            def raise_context_failure(errors)
+              not_found = errors.find { |error| error.type == :error_not_found }
+              raise ::API::Errors::NotFound.new(model: not_found.base.model_name.element) if not_found
 
-              ::AI::TextTransforms::Context.for_work_package(work_package)
-            end
-
-            def new_work_package_context
-              project = Project.visible(current_user).find(params[:projectId])
-              authorize_in_project(:add_work_packages, project:)
-              type = project.enabled_types.find(params[:typeId])
-
-              ::AI::TextTransforms::Context.for_new_work_package(project:, type:)
+              raise ::API::Errors::ErrorBase.create_and_merge_errors(errors)
             end
 
             def run_representer(run, after: 0)
@@ -111,7 +104,7 @@ module API
 
             namespace :cancel do
               post do
-                @run.update!(cancel_requested: true) unless @run.terminal?
+                @run.request_cancel!
 
                 status 204
               end
