@@ -81,14 +81,8 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
     ActiveModel::Type::Boolean.new.cast(options[:no_columns])
   end
 
-  def export_work_packages
-    work_packages = query.results.work_packages
-    association = WorkPackage.reflect_on_association(query[:group_by]) if query.grouped?
-    association&.collection? ? work_packages.preload(association.name) : work_packages
-  end
-
   def export!
-    success(render_work_packages(export_work_packages))
+    success(render_work_packages(query.results.work_packages))
   rescue Prawn::Errors::CannotFit => e
     error(e, I18n.t(:error_pdf_export_too_many_columns))
   rescue Exports::PDF::Components::Gantt::InvalidDateRangeError => e
