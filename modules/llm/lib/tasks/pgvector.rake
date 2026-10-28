@@ -38,14 +38,6 @@ namespace :openproject do
       rescue ActiveRecord::NoDatabaseError
         # db:migrate creates the database after this task. The next run creates the extension.
       end
-
-      desc "Show whether pgvector is available"
-      task status: :environment do
-        pgvector = OpenProject::Llm::Pgvector
-        puts "Extension available on server: #{pgvector.extension_available?}"
-        puts "Extension installed:           #{pgvector.extension_installed?}"
-        puts "Migrations applied:            #{pgvector.migrations_applied?}"
-      end
     end
   end
 end
