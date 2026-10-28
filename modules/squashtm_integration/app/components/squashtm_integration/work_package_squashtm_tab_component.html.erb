@@ -1,0 +1,100 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  content_tag("turbo-frame", id: TURBO_FRAME_ID) do
+    component_wrapper(data: { test_selector: "op-work-package-squashtm-tab-container" }) do
+      case status
+      when :no_server
+        render(Primer::Beta::Blankslate.new(spacious: true, test_selector: "op-work-package-squashtm-tab--no-server")) do |blankslate|
+          blankslate.with_visual_icon(icon: :plug)
+          blankslate.with_heading(tag: :h3).with_content(t(".no_server.heading"))
+
+          if can_configure_server?
+            blankslate.with_description_content(t(".no_server.admin_description"))
+            blankslate.with_secondary_action(href: squashtm_integration_admin_server_path, data: { turbo_frame: "_top" }) do
+              t(".no_server.configure")
+            end
+          else
+            blankslate.with_description_content(t(".no_server.description"))
+          end
+        end
+      when :project_not_linked
+        render(Primer::Beta::Blankslate.new(spacious: true, test_selector: "op-work-package-squashtm-tab--project-not-linked")) do |blankslate|
+          blankslate.with_visual_icon(icon: :link)
+          blankslate.with_heading(tag: :h3).with_content(t(".project_not_linked.heading"))
+
+          if can_manage_project_link?
+            blankslate.with_description_content(t(".project_not_linked.manager_description"))
+            blankslate.with_secondary_action(href: project_settings_squashtm_path(project), data: { turbo_frame: "_top" }) do
+              t(".project_not_linked.configure")
+            end
+          else
+            blankslate.with_description_content(t(".project_not_linked.description"))
+          end
+        end
+      when :not_linked
+        flex_layout do |container|
+          container.with_row(mb: 3) do
+            render(
+              OpPrimer::BorderBoxListComponent.new(
+                container: :squashtm_requirement,
+                padding: :condensed,
+                test_selector: "op-work-package-squashtm-tab--not-linked"
+              )
+            ) do |list|
+              list.with_header(title: t(".requirement"))
+              list.with_empty_state(title: t(".blankslate.heading"), description: t(".blankslate.description"), icon: :beaker)
+            end
+          end
+
+          if can_manage_links?
+            container.with_row do
+              if requirement_options.nil?
+                render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop, test_selector: "op-work-package-squashtm-tab--requirements-unavailable")) do
+                  t(".requirements_unavailable")
+                end
+              else
+                primer_form_with(
+                  model: work_package_link,
+                  scope: :squashtm_work_package_link,
+                  url: project_work_package_squashtm_requirement_link_path(project, work_package),
+                  method: :patch
+                ) do |form|
+                  render(SquashTMIntegration::WorkPackageTab::RequirementLinkForm.new(form, requirement_options:))
+                end
+              end
+            end
+          end
+        end
+      when :linked
+        render(SquashTMIntegration::WorkPackageTab::LinkedRequirementComponent.new(tab_state))
+      end
+    end
+  end
+%>

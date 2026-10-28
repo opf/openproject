@@ -43,6 +43,7 @@ en:
               squashtm_server_not_configured: "No SquashTM server is configured. Please contact your instance administrator."
             squashtm_requirement_id:
               not_found: "does not exist or is not visible to the SquashTM account used by OpenProject."
+              not_in_linked_project: "does not belong to the SquashTM project linked to this project."
               squashtm_unavailable: "could not be verified because the SquashTM server is not reachable. Please try again later."
             work_package_id:
               taken: "is already linked to a SquashTM requirement."
@@ -71,6 +72,20 @@ en:
           failure: "The connection to SquashTM failed: %{reason}"
           success: "The connection to SquashTM was successful."
       title: "SquashTM"
+    execution_statuses:
+      blocked: "Blocked"
+      cancelled: "Cancelled"
+      error: "Error"
+      failure: "Failed"
+      not_found: "Not found"
+      not_run: "Not run"
+      ready: "Ready"
+      running: "Running"
+      settled: "Settled"
+      skipped: "Skipped"
+      success: "Passed"
+      untestable: "Untestable"
+      warning: "Warning"
     project_settings:
       delete_project_link_dialog_component:
         confirm: "Unlink"
@@ -91,3 +106,47 @@ en:
           projects_unavailable: "The SquashTM projects could not be loaded because the SquashTM server is not reachable. Please try again later or contact your instance administrator."
           server_not_configured: "No SquashTM server is configured for this OpenProject instance. Please contact your instance administrator to set up the SquashTM integration."
           unlink: "Unlink"
+    requirement_statuses:
+      approved: "Approved"
+      obsolete: "Obsolete"
+      under_review: "Under review"
+      work_in_progress: "Work in progress"
+    work_package_squashtm_tab_component:
+      blankslate:
+        description: "Link a SquashTM requirement to see its test cases and their latest results here."
+        heading: "No SquashTM requirement linked"
+      no_server:
+        admin_description: "No SquashTM server is configured for this OpenProject instance. Configure one in the administration to show SquashTM test results here."
+        configure: "Configure SquashTM"
+        description: "No SquashTM server is configured for this OpenProject instance. Please contact your instance administrator to set up the SquashTM integration."
+        heading: "SquashTM is not available"
+      project_not_linked:
+        configure: "Link SquashTM project"
+        description: "This project is not linked to a SquashTM project yet. Please contact a project administrator to set up the link."
+        heading: "No SquashTM project linked"
+        manager_description: "Link this project to a SquashTM project to link its requirements to work packages."
+      requirement: "Requirement"
+      requirements_unavailable: "The SquashTM requirements could not be loaded because the SquashTM server is not reachable. Please try again later."
+    work_package_tab:
+      delete_requirement_link_dialog_component:
+        confirm: "Unlink"
+        description: "The test cases of this requirement will no longer be shown on this work package. The requirement and its test cases in SquashTM are not affected."
+        heading: "Unlink the SquashTM requirement %{name}?"
+        title: "Unlink SquashTM requirement"
+      execution_status_component:
+        not_executed: "Not executed"
+      linked_requirement_component:
+        no_test_cases:
+          description: "No test case in SquashTM verifies this requirement yet."
+          title: "No test cases"
+        requirement: "Requirement"
+        requirement_missing: "The linked SquashTM requirement is no longer visible in SquashTM. It may have been deleted, or the SquashTM account used by OpenProject may have lost access to it."
+        test_cases: "Test cases"
+        unavailable: "The test cases could not be loaded because the SquashTM server is not reachable. Please try again later."
+        unlink: "Unlink"
+      requirement_link_form:
+        prompt: "Select a SquashTM requirement"
+        submit: "Link requirement"
+      test_case_component:
+        last_execution: "Last executed by %{user} on %{date_time}"
+        not_executed: "Not executed yet"

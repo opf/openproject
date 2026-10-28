@@ -88,10 +88,22 @@ RSpec.describe SquashTMIntegration::Server do
     expect(second.errors).to be_added(:base, :singleton)
   end
 
-  it "links a SquashTM project to its information page" do
-    server = build(:squashtm_server, base_url: "https://squashtm.example.com/squash")
+  describe "SquashTM web links" do
+    let(:server) { build(:squashtm_server, base_url: "https://squashtm.example.com/squash") }
 
-    expect(server.project_url(7))
-      .to eq("https://squashtm.example.com/squash/administration-workspace/projects/7/content?anchor=information")
+    it "links a SquashTM project to its information page" do
+      expect(server.project_url(7))
+        .to eq("https://squashtm.example.com/squash/administration-workspace/projects/7/content?anchor=information")
+    end
+
+    it "links a test case to its information page" do
+      expect(server.test_case_url(21))
+        .to eq("https://squashtm.example.com/squash/test-case-workspace/test-case/21/content?anchor=information")
+    end
+
+    it "links a requirement to its dashboard" do
+      expect(server.requirement_url(11))
+        .to eq("https://squashtm.example.com/squash/requirement-workspace/requirement-library/11/content?anchor=dashboard")
+    end
   end
 end
