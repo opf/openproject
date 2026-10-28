@@ -111,7 +111,7 @@ See COPYRIGHT and LICENSE files for more details.
           helpers.turbo_frame_tag(FRAME_ID, target: "_top") do
             if sections.empty?
               render(
-                OpenProject::Common::BorderBoxListComponent.new(
+                OpPrimer::BorderBoxListComponent.new(
                   container: "type-variants",
                   padding: :condensed,
                   mb: 3,
@@ -124,7 +124,7 @@ See COPYRIGHT and LICENSE files for more details.
               safe_join(
                 sections.map do |section, section_variants|
                   render(
-                    OpenProject::Common::BorderBoxListComponent.new(
+                    OpPrimer::BorderBoxListComponent.new(
                       container: "type-variants-#{section}",
                       padding: :condensed,
                       mb: 3,

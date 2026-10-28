@@ -41,7 +41,7 @@ class AttributeHelpTexts::RowComponent < OpPrimer::BorderBoxRowComponent
   end
 
   def help_text
-    render(OpenProject::Common::AttributeHelpTextComponent.new(help_text: attribute_help_text)) do |help_text|
+    render(OpPrimer::AttributeHelpTextComponent.new(help_text: attribute_help_text)) do |help_text|
       help_text.with_additional_label_content(t(:"attribute_help_texts.show_preview"))
     end
   end

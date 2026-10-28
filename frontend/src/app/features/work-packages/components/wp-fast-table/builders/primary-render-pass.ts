@@ -245,6 +245,7 @@ workPackage:WorkPackageResource,
     classIdentifier:string,
     additionalClasses:string[] = [],
     hidden = false,
+    groupIdentifier?:string,
   ) {
     row.classList.add(classIdentifier);
     this.registerAppended(row, {
@@ -255,6 +256,7 @@ workPackage:WorkPackageResource,
       workPackageId: null,
       renderType: 'primary',
       hidden,
+      groupIdentifier,
     });
   }
 
