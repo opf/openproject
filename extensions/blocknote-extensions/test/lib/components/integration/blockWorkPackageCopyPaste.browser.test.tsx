@@ -7,7 +7,7 @@ import {
   buildWorkPackageBlockExternalDOM,
 } from '../../../../lib/components/BlockWorkPackage/externalHtml';
 
-// Paste the serialised external HTML of a block card into the editor.
+// Paste the serialized external HTML of a block card into the editor.
 // Dispatch directly on the contenteditable so we can test paste independence
 // without relying on browser clipboard permissions.
 function pasteBlockCardHtml(wpid:number, size = 'm') {
@@ -37,7 +37,7 @@ describe('Block card - paste placement', () => {
 
     await userEvent.keyboard('HERE');
 
-    await expect.element(textbox).toHaveTextContent(/before[\s\S]*#123[\s\S]*HERE/);
+    await expect.element(textbox).toMatchTextContent(/before[\s\S]*#123[\s\S]*HERE/);
     expect(editor.document.map((block) => block.type)).toEqual([
       'paragraph',
       'openProjectWorkPackageBlock',
@@ -58,7 +58,7 @@ describe('Block card - paste placement', () => {
 
     await userEvent.keyboard('HERE');
 
-    await expect.element(textbox).toHaveTextContent(/before[\s\S]*#123[\s\S]*HERE/);
+    await expect.element(textbox).toMatchTextContent(/before[\s\S]*#123[\s\S]*HERE/);
   });
 
   it('keeps the size of the copied card', async () => {

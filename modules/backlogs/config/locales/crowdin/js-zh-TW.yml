@@ -49,13 +49,13 @@ zh-TW:
         range_unavailable: 選取範圍未變更。展開此清單以選取該範圍。
         selected:
           other: "%{count} work packages selected."
-    burndown:
+    burndown_chart:
       chart_day: 'Day %{day}: %{values}'
       chart_label: Burndown chart
       chart_summary: 'Burndown chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      day: 日
-      points: 燃盡點
+      non_working_day: Non-working day
+      story_points: Story points
     created_resolved:
       work_packages: Work packages
     work_packages:

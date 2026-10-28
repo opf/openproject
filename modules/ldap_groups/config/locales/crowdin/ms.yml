@@ -89,7 +89,7 @@ ms:
       plural: Kumpulan-kumpulan LDAP yang diselaraskan
       singular: Kumpulan LDAP yang diselaraskan
       upsell:
-        description: Manfaatkan kumpulan LDAP yang diselaraskan untuk mengurus pengguna-pengguna, menukar kebenaran mereka dan memudahkan pengurusan pengguna di kalangan kumpulan.
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: Penyelarasan keahlian kumpulan LDAP
     name: Kumpulan LDAP OpenProject

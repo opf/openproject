@@ -241,10 +241,8 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
   }
 
   // No-ops until the ControlValueAccessor registers the real callbacks below.
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onChange = (_:string[]):void => {};
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouched = (_:string[]):void => {};
 
   registerOnChange(fn:(_:string[]) => void):void {

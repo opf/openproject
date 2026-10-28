@@ -29,7 +29,11 @@
 
 class Meeting::AgendaSorting < ApplicationForm
   form do |form|
-    form.radio_button_group(name: :agenda_sorting_mode, label: I18n.t("meeting.agenda_sorting.title")) do |group|
+    form.radio_button_group(
+      name: :agenda_sorting_mode,
+      label: I18n.t("meeting.agenda_sorting.title"),
+      visually_hide_label: true
+    ) do |group|
       %w[manual vote_based].each do |mode|
         group.radio_button(
           value: mode,

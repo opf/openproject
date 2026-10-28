@@ -1,4 +1,4 @@
-ARG RUBY_VERSION="4.0.7"
+ARG RUBY_VERSION="4.0.9"
 ARG DEBIAN_BASE="trixie"
 # Add SBOM scan context for intermediate steps
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
@@ -6,7 +6,7 @@ ARG BUILDKIT_SBOM_SCAN_STAGE=true
 FROM ruby:${RUBY_VERSION}-slim-trixie AS runtime-base
 LABEL maintainer="operations@openproject.com"
 
-ARG NODE_VERSION="24.19.0"
+ARG NODE_VERSION="24.22.1"
 # npm bundled with node lags behind on patches for its vendored deps (e.g. tar)
 ARG NPM_VERSION="11.19.0"
 ARG BIM_SUPPORT=true
@@ -63,7 +63,7 @@ COPY ./docker/prod/setup/preinstall-common.sh ./docker/prod/setup/preinstall-com
 RUN ./docker/prod/setup/preinstall-common.sh
 
 FROM runtime-base AS build-base
-ARG NODE_VERSION="24.19.0"
+ARG NODE_VERSION="24.22.1"
 ARG NPM_VERSION="11.19.0"
 
 # build-only dependencies
@@ -148,7 +148,7 @@ ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
 ENV PGDATA=/var/openproject/pgdata
 ENV NODE_OPTIONS=--use-openssl-ca
 
-COPY --from=openproject/hocuspocus:17.9.3 --chown=$APP_USER:$APP_USER /app /opt/hocuspocus
+COPY --from=openproject/hocuspocus:17.9.4 --chown=$APP_USER:$APP_USER /app /opt/hocuspocus
 # Keep node/npm in all-in-one for bundled hocuspocus even when BIM support is disabled.
 COPY --from=build-base /usr/local/bin/node /usr/local/bin/node
 COPY --from=build-base /usr/local/lib/node_modules /usr/local/lib/node_modules

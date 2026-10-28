@@ -33,6 +33,8 @@ Rails.application.routes.draw do
       resources :providers do
         member do
           post :import_metadata
+          get :refresh_metadata
+          post :apply_metadata
           get :confirm_destroy
         end
       end

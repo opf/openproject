@@ -82,7 +82,7 @@ module OpenProject
     # Enable raising on assignment to attr_readonly attributes. The previous
     # behavior would allow assignment but silently not persist changes to the
     # database.
-    # This is a rails 7.1 behaviour.
+    # This is a rails 7.1 behavior.
     # Ideally this should be defined in the `config/initializers/new_framework_defaults_7_1.rb`
     # file, but since there is a bug, that file is not loaded correctly in the production environment.
     # Once [the issue](https://community.openproject.org/wp/59474) is solved, this configuration can
@@ -210,7 +210,7 @@ module OpenProject
     config.good_job.max_threads = OpenProject::Configuration[:good_job_max_threads]
     config.good_job.max_cache = OpenProject::Configuration[:good_job_max_cache]
     config.good_job.enable_cron = OpenProject::Configuration[:good_job_enable_cron]
-    config.good_job.shutdown_timeout = 30
+    config.good_job.shutdown_timeout = OpenProject::Configuration[:good_job_shutdown_timeout]
     config.good_job.smaller_number_is_higher_priority = true
 
     config.action_controller.asset_host = OpenProject::Configuration::AssetHost.value

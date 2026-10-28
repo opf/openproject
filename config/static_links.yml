@@ -66,6 +66,8 @@ enterprise_features:
     href: https://www.openproject.org/docs/user-guide/activity/#internal-comments-enterprise-add-on
   nextcloud_sso:
     href: https://www.openproject.org/docs/system-admin-guide/integrations/nextcloud/oidc-sso
+  project_specific_list_values:
+    href: https://www.openproject.org/docs/system-admin-guide/custom-fields/
   readonly_work_packages:
     href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-status/#create-a-new-work-package-status
   work_package_subject_generation:
@@ -196,6 +198,8 @@ storage_docs:
 sysadmin_docs:
   roles_and_permissions:
     href: https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions
+  form_configuration:
+    href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-types/form-configuration/
   ldap:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/ldap-connections/
   ldap_group_sync:

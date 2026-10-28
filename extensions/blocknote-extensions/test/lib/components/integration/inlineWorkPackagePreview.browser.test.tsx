@@ -225,7 +225,7 @@ describe('Inline chip - XXS preview indicator (touch)', () => {
     await expect.element(page.getByTestId('wp-preview')).not.toBeInTheDocument();
   });
 
-  it("centres the icon on the identifier's capital letters", async () => {
+  it("centers the icon on the identifier's capital letters", async () => {
     await renderChip();
 
     const id = chipElement().querySelector('.op-bn-work-package--id')!;

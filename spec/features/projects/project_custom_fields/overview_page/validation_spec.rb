@@ -40,7 +40,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     overview_page.visit_page
   end
 
-  describe "with correct validation behaviour" do
+  describe "with correct validation behavior" do
     describe "after validation" do
       it "keeps showing only activated custom fields (tricky regression)" do
         custom_field = string_project_custom_field

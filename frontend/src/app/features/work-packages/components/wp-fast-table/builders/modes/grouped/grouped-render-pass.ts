@@ -78,7 +78,7 @@ export class GroupedRenderPass extends PlainRenderPass {
       if (nextGroup && groupsChanged) {
         const groupClass = groupClassNameFor(nextGroup);
         const rowElement = this.headerBuilder.buildGroupRow(nextGroup, this.colspan);
-        this.appendNonWorkPackageRow(groupOccurrenceKey(nextGroup.index, 'header'), rowElement, groupClass, [groupRowClass]);
+        this.appendNonWorkPackageRow(groupOccurrenceKey(nextGroup.index, 'header'), rowElement, groupClass, [groupRowClass], false, nextGroup.identifier);
         currentGroup = nextGroup;
       }
 
@@ -141,7 +141,7 @@ export class GroupedRenderPass extends PlainRenderPass {
 
   private matchesMultiValue(property:HalResource[], group:GroupObject) {
     // The API returns `group.href` as an object keyed by index rather than a
-    // plain array, so normalise it via `Object.values` before comparing.
+    // plain array, so normalize it via `Object.values` before comparing.
     const groupHrefs = Object.values(group.href);
 
     if (property.length !== groupHrefs.length) {
@@ -184,7 +184,7 @@ export class GroupedRenderPass extends PlainRenderPass {
     const { additionalClasses, hidden } = this.groupRowState(group);
 
     rowElement.classList.add(...additionalClasses);
-    this.appendNonWorkPackageRow(groupOccurrenceKey(group.index, 'sums'), rowElement, groupClass, additionalClasses, hidden);
+    this.appendNonWorkPackageRow(groupOccurrenceKey(group.index, 'sums'), rowElement, groupClass, additionalClasses, hidden, group.identifier);
   }
 
   private groupRowState(group:GroupObject):{ additionalClasses:string[], hidden:boolean } {

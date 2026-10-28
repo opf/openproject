@@ -30,6 +30,7 @@
 module WorkPackages
   class BaseContract < ::ModelContract
     include ::Attachments::ValidateReplacements
+    include ::Labels::ValidateReplacements
     include AssignableValuesContract
     include WorkPackages::SetAttributesService::ProgressValuesCalculations
 

@@ -152,6 +152,11 @@ Naming/MethodParameterName:
     - "if" # conditional options, as in enabled_by_default!(if: -> { ... })
     - "if"
 
+Naming/PredicateMethod:
+  # disabling this cop as it enforces a method name solely based on the return type (if the method returns a boolean, the name must end in "?")
+  # This would also affect side-effect-rich methods that only return a boolean success indicator.
+  Enabled: false
+
 Naming/PredicatePrefix:
   ForbiddenPrefixes:
     - is_
@@ -256,6 +261,11 @@ RSpecRails/HttpStatus:
 
 # The block form of `travel_to` is often the tighter and safer option in our Rails specs.
 RSpecRails/TravelAround:
+  Enabled: false
+
+# Specs stub job classes and assert `have_received(:perform_later)`;
+# switching to `have_enqueued_job` needs the ActiveJob test adapter.
+RSpecRails/ReceivePerformLater:
   Enabled: false
 
 # expect not_to change is not working as expected

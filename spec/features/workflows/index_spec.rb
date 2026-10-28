@@ -279,4 +279,50 @@ RSpec.describe "Workflows index", :js do
 
     expect(page.find(".Box-row", text: "Bug flow")).to have_no_text("Created in")
   end
+
+  it "opens a dialog listing and linking the dependent types" do
+    visit workflows_path
+
+    expect_listed(*all_workflows)
+    expect(page).to have_no_link("Task")
+
+    wait_for_turbo_stream { within(row_for("Bug flow")) { click_on "3 types" } }
+
+    within("dialog#workflow-#{bug_base.workflow.id}-types-dialog") do
+      expect(page).to have_css("strong", text: "Bug flow")
+
+      within_test_selector("types-dialog-types") do
+        expect(page).to have_link("Bug")
+        expect(page).to have_link("Task")
+        expect(page).to have_link("Milestone")
+      end
+    end
+  end
+
+  it "distinguishes a dependent variant from its type in the dialog" do
+    visit workflows_path
+
+    wait_for_turbo_stream { within(row_for("Hardware flow")) { click_on "1 type (including 1 variant)" } }
+
+    within("dialog#workflow-#{hardware_flow.id}-types-dialog") do
+      within_test_selector("types-dialog-variants") do
+        expect(page).to have_link("Hardware")
+        expect(page).to have_text("Variant of Bug")
+      end
+    end
+  end
+
+  it "links the project count to the project list filtered by the workflow's variants" do
+    visit workflows_path
+
+    within(row_for("Bug flow")) do
+      href = find_link("2 projects")[:href]
+      filters = JSON.parse(Rack::Utils.parse_query(URI(href).query).fetch("filters"))
+      type_variant = filters.find { |filter| filter.key?("type_variant_id") }
+
+      expect(URI(href).path).to eq(projects_path)
+      expect(type_variant["type_variant_id"]["values"])
+        .to match_array(bug_base.workflow.type_variants.ids)
+    end
+  end
 end

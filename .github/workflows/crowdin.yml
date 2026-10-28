@@ -45,7 +45,7 @@ jobs:
           ref: ${{ matrix.branch }}
           fetch-depth: 1
           token: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
-      - uses: ruby/setup-ruby@651ff0d62c5c79bed6d53ec518387aae20e72c1a # v1
+      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
         with:
           bundler-cache: true
       - name: "Set crowdin branch name"
@@ -65,7 +65,7 @@ jobs:
             bundle exec script/i18n/generate_seeders_i18n_source_file
           fi
       - name: "Crowdin: upload sources and download translations"
-        uses: crowdin/github-action@9c23991700c0ec5256fd41089b9d9d7d540e424e # v3.3.0
+        uses: crowdin/github-action@72955432d4aa4f6dd64cf17eeb88dd34d6ba064c # v3.4.0
         with:
           # Upload current source files
           upload_sources: true

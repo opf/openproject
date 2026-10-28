@@ -40,6 +40,7 @@ import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { totalsRowKey } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/navigable-rows';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -113,10 +114,14 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
             .ensureLoaded(resource.sumsSchema.href!)
             .then((schema:SchemaResource) => {
               if (table.destroyed || this.destroyRef.destroyed || this.workPackageTable !== table) return;
+              table.keyboardNavigation?.captureOwnership();
               this.refresh(columns, resource, schema);
+              table.notifyRowsRefreshed(totalsRowKey);
             });
-        } else {
+        } else if (this.element.hasChildNodes()) {
+          table.keyboardNavigation?.captureOwnership();
           this.clear();
+          table.notifyRowsRefreshed(totalsRowKey);
         }
       });
   }
@@ -130,7 +135,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
     this.render(columns, resource, schema);
   }
 
-  private render(columns:QueryColumn[], resource:WorkPackageCollectionResource, schema:SchemaResource) {
+  private render(columns:QueryColumn[], resource:WorkPackageCollectionResource, _schema:SchemaResource) {
     this.groupSumsBuilder = new GroupSumsBuilder(this.injector, this.workPackageTable);
     this.groupSumsBuilder.text = this.text;
     this.groupSumsBuilder.renderColumns(resource.totalSums!, this.element);

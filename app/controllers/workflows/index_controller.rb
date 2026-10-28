@@ -61,6 +61,16 @@ module Workflows
              layout: false
     end
 
+    def types_dialog
+      record = ::Workflow.find(params.expect(:id))
+
+      respond_with_dialog(
+        WorkPackageTypes::NamedReferences::Index::TypesDialogComponent.new(
+          record:, model_class:, variants: ordered_variants.where(workflow_id: record.id)
+        )
+      )
+    end
+
     private
 
     def model_class = ::Workflow
@@ -118,13 +128,15 @@ module Workflows
     end
 
     def workflow_variants
-      @workflow_variants ||= TypeVariant
-                               .where(workflow_id: workflow_ids)
-                               .includes(:type, :projects)
-                               .joins(:type)
-                               .merge(::Type.order(:position))
-                               .in_display_order
-                               .group_by(&:workflow_id)
+      @workflow_variants ||= ordered_variants.where(workflow_id: workflow_ids).group_by(&:workflow_id)
+    end
+
+    def ordered_variants
+      TypeVariant
+        .includes(:type, :projects)
+        .joins(:type)
+        .merge(::Type.order(:position))
+        .in_display_order
     end
 
     def workflow_role_counts

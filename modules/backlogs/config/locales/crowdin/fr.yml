@@ -135,6 +135,10 @@ fr:
       details: Le bucket de backlog « %{name} » sera supprimé et tous les lots de travaux seront déplacés vers la boîte de réception du backlog. Aucun lot de travaux ne sera supprimé.
       title: Supprimer le bucket de backlog ?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Définissez les dates de début et de fin du sprint afin de générer un graphique burndown.
         blankslate_title: Aucune donnée de burndown disponible
@@ -215,8 +219,8 @@ fr:
       shared_sprint_warning_banner: Il s'agit d'un sprint partagé. Vous ne disposez pas des autorisations nécessaires pour le modifier.
     sprint_reports:
       navigation_component:
-        next: Next
-        previous: Previous
+        next: Suivante
+        previous: Précédent
       page_header_component:
         breadcrumb: Rapport
         title: Rapport de %{sprint}
@@ -300,12 +304,9 @@ fr:
       update_service:
         invalid_target_type: 'list_type doit être l''une des valeurs suivantes : backlog_bucket avec un list_id, sprint avec un list_id ou inbox sans list_id.'
         missing_target: list_type ou list_id doit être présent.
-  burndown:
-    story_points: Story points
-    story_points_ideal: Story points (idéal)
   created_resolved:
-    wp_created: Created
-    wp_resolved: Resolved
+    wp_created: Créé
+    wp_resolved: Résolu
   ee:
     features:
       multiple_active_sprints: Plusieurs sprints actifs

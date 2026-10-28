@@ -23,7 +23,7 @@ end
 %>
 ```
 
-By default, the trigger element is disabled (via `aria-disabled`) while the request is in flight, preventing double-clicks from opening the dialog twice. This is especially useful when the dialog content is expensive to render. To opt out of this behaviour, set the `data-async-dialog-disable-during-load-value` attribute to `false`:
+By default, the trigger element is disabled (via `aria-disabled`) while the request is in flight, preventing double-clicks from opening the dialog twice. This is especially useful when the dialog content is expensive to render. To opt out of this behavior, set the `data-async-dialog-disable-during-load-value` attribute to `false`:
 
 ```erb
 <%%= render(Primer::Beta::Button.new(
@@ -174,7 +174,7 @@ end
 
 ### Dialogs that should stay open on form submission
 
-Because we normally want to close the dialog when a form is submitted successfully, we have implemented this as the default behaviour.  As described in the last section,
+Because we normally want to close the dialog when a form is submitted successfully, we have implemented this as the default behavior.  As described in the last section,
 when the submission returns a 4xx or 5xx status code, the dialog will stay open and display the validation errors and will be closed when the form is submitted successfully.
 
 If you want to keep a dialog open even after a successful form submission, you can use the `data-keep-open-on-submit="true"` attribute on the dialog. This will prevent the dialog
@@ -244,7 +244,7 @@ or cancel the action.
 
 The primer specification [suggests a pattern](/lookbook/inspect/primer/alpha/dialog/with_form) for rendering such dialogs.
 It consists of a form spanning both the body as well as the footer of the dialog. This has the drawback of the footer
-potentially being rendered outside of the dialog. That behaviour is undesirable. Primer defines to cope with longer
+potentially being rendered outside of the dialog. That behavior is undesirable. Primer defines to cope with longer
 content by scrolling the body.
 
 In order for this to happen, the form should only be rendered inside the body. The submit button can be logically put inside

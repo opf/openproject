@@ -93,7 +93,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController do
         end
       end
 
-      describe "GET show with an unrecognised step" do
+      describe "GET show with an unrecognized step" do
         it "falls back to the first step" do
           get :show, params: { type_id: type.id, step: "does-not-exist" }
 

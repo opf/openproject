@@ -48,7 +48,7 @@ RSpec.describe OpenProject::Notifications do
 
       expect(probe).to have_received(:call) do |call_payload|
         # Don't check for object identity for the payload as it might be
-        # marshalled and unmarshalled before being delivered in the future.
+        # marshaled and unmarshaled before being delivered in the future.
         expect(call_payload).to eql(payload)
       end
     end

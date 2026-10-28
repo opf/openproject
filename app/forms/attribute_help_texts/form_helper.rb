@@ -30,7 +30,7 @@
 module AttributeHelpTexts
   module FormHelper
     def wrap_attribute_label_with_help_text(label, attribute)
-      render OpenProject::Common::AttributeLabelComponent.new(
+      render OpPrimer::AttributeLabelComponent.new(
         model:,
         attribute:,
         tag: nil,

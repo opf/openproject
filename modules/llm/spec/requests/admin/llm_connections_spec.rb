@@ -362,8 +362,8 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
         before do
           connection.update!(connection_fingerprint: connection.settings_fingerprint)
-          connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
-                                                 state: "supported", source: "admin", checked_at: Time.current)
+          create(:llm_capability_verdict, llm_connection: connection, model_id: "qwen3.6-27b", capability: "embeddings",
+                                          state: "supported", source: "admin")
         end
 
         it "replaces the stored catalogue when the host URL changes" do
@@ -710,6 +710,18 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
     end
   end
 
+  describe "the confirmation dialogs on an instance with no connection stored" do
+    before { login_as admin }
+
+    it "answers 404 for both" do
+      get delete_api_key_dialog_llm_connection_path, headers: { "Accept" => "text/vnd.turbo-stream.html" }
+      expect(response).to have_http_status(:not_found)
+
+      get disconnect_dialog_llm_connection_path, headers: { "Accept" => "text/vnd.turbo-stream.html" }
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
   describe "disconnecting" do
     let!(:connection) do
       create(:llm_connection, :with_models,
@@ -723,7 +735,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
     end
 
     it "offers the confirmation, naming what is kept" do
-      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+      create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "qwen3.6-27b")
 
       get disconnect_dialog_llm_connection_path,
           headers: { "Accept" => "text/vnd.turbo-stream.html" }
@@ -734,7 +746,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
     end
 
     it "clears the credential and switches the connection off, keeping everything else" do
-      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+      create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "qwen3.6-27b")
 
       post disconnect_llm_connection_path
 

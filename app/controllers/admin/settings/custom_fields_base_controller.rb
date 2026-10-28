@@ -29,7 +29,7 @@
 
 module Admin
   module Settings
-    # Shared behaviour for the dedicated per-type custom field admin pages
+    # Shared behavior for the dedicated per-type custom field admin pages
     class CustomFieldsBaseController < ::Admin::SettingsController
       include ::CustomFields::SharedActions
       include ::CustomFields::AttributeHelpTextActions

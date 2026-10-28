@@ -130,9 +130,8 @@ module OpenProject
         ##
         # On cancellation due to the given error
         def on_cancelled(job, error)
-          upsert_status job,
-                        status: :cancelled,
-                        message: I18n.t("background_jobs.status.cancelled_due_to", message: error)
+          job.upsert_status status: :cancelled,
+                            message: I18n.t("background_jobs.status.cancelled_due_to", message: error)
         end
 
         ##

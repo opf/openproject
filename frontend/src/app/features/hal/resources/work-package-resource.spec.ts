@@ -27,7 +27,6 @@
 
 import { TestBed } from '@angular/core/testing';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -52,8 +51,6 @@ import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/com
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
-  let injector:Injector;
-  let halResourceNotification:HalResourceNotificationService;
 
   let source:any;
   let workPackage:WorkPackageResource;
@@ -90,8 +87,6 @@ describe('WorkPackage', () => {
       ]
     }).compileComponents();
     halResourceService = TestBed.inject(HalResourceService);
-    injector = TestBed.inject(Injector);
-    halResourceNotification = injector.get(HalResourceNotificationService);
 
     halResourceService.registerResource('WorkPackage', {
       cls: WorkPackageResource,

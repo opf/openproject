@@ -91,7 +91,7 @@ el:
       plural: Συγχρονισμένες ομάδες LDAP
       singular: Συγχρονισμένη ομάδα LDAP
       upsell:
-        description: Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: Συγχρονισμός των μελών ομάδων LDAP.
     name: Ομάδες LDAP OpenProject
