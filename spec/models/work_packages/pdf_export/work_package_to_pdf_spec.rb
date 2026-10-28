@@ -89,7 +89,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     create(:user,
            member_with_permissions: {
              project => %w[view_work_packages export_work_packages view_project_attributes view_project_phases
-                           view_budgets],
+                           view_budgets view_time_entries],
              parent_work_package.project => %w[view_work_packages]
            })
   end
@@ -233,7 +233,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       "Work", "10h",
       "Remaining work", "9h",
       "% Complete", "25%",
-      "Spent time", "0h",
+      *(project.costs_enabled? ? ["Spent time", "0h"] : []),
       *(project.module_enabled?(:backlogs) ? ["Story Points", "1"] : []),
       "Details",
       "Priority", "Normal",
