@@ -27,6 +27,7 @@
 
 import { buildTable, TableHarness, TableHarnessOptions } from '../testing/table-harness';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { waitFor } from '@testing-library/dom';
 import { nextTask } from 'core-common/testing/timing';
 import { States } from 'core-app/core/states/states.service';
@@ -127,10 +128,75 @@ describe('TableRowPositions', () => {
     harness.expectNoRowPositions();
   });
 
-  it('does not infer a flat count for hierarchy mode', async () => {
-    await mount({ showHierarchies: true });
-    expect(table()).not.toHaveAttribute('aria-rowcount');
-    expect(harness.row('21')).not.toHaveAttribute('aria-rowindex');
+  describe('in hierarchy mode', () => {
+    const parent = { id: '1' };
+    const child = { id: '2', ancestors: [parent] };
+    const hierarchies = () => harness.injector.get(WorkPackageViewHierarchiesService);
+    const mountHierarchy = (options:Partial<TableHarnessOptions> = {}) => mount({
+      workPackages: [parent, child],
+      showHierarchies: true,
+      ...options,
+    });
+
+    it('numbers rows from the page offset with an unknown count', async () => {
+      await mountHierarchy();
+      harness.expectRowPositions(['1', '22', '23', '24', '25'], '-1');
+    });
+
+    it('numbers inserted ancestors like result rows', async () => {
+      await mountHierarchy({ workPackages: [{ id: '5', ancestors: [parent] }] });
+      expect(harness.rowIds()).toEqual(['1', '5']);
+      expectIndices(harness.rows(), ['22', '23']);
+      expect(table()).toHaveAttribute('aria-rowcount', '-1');
+    });
+
+    it('keeps indices when a parent collapses', async () => {
+      await mountHierarchy({ workPackages: [parent, child, { id: '3' }] });
+      hierarchies().collapse('1');
+      await waitFor(() => expect(harness.row('1')).toHaveAttribute('aria-expanded', 'false'));
+      expectIndices([harness.row('1'), harness.row('3')], ['22', '24']);
+      expect(harness.totalsRow()).toHaveAttribute('aria-rowindex', '25');
+      expect(table()).toHaveAttribute('aria-rowcount', '-1');
+    });
+
+    it('withdraws positions while rows are out of render order', async () => {
+      await mountHierarchy();
+      const restore = harness.row('2').nextSibling;
+      harness.row('1').before(harness.row('2'));
+      harness.table.rowPositions!.paint();
+      harness.expectNoRowPositions();
+      harness.tbody.insertBefore(harness.row('2'), restore);
+      harness.table.rowPositions!.paint();
+      harness.expectRowPositions(['1', '22', '23', '24', '25'], '-1');
+    });
+
+    it('counts the empty message with an unknown count', async () => {
+      await mountHierarchy({ workPackages: [], pagination: { offset: 1, pageSize: 20, total: 0 } });
+      const empty = document.createElement('tbody');
+      empty.className = 'work-package--empty-tbody';
+      const row = empty.insertRow();
+      row.insertCell().textContent = 'No results';
+      harness.tbody.before(empty);
+      harness.table.rowPositions!.paint();
+      expect(row).toHaveAttribute('aria-rowindex', '2');
+      expect(table()).toHaveAttribute('aria-rowcount', '-1');
+    });
+
+    it('withdraws positions for grouped results', async () => {
+      const status = { href: '/api/v3/statuses/1' };
+      await mountHierarchy({
+        workPackages: [{ id: '1', attributes: { status } }, { id: '2', ancestors: [parent], attributes: { status } }],
+        groups: [{ value: 'G', href: status.href, count: 100 }],
+      });
+      harness.expectNoRowPositions();
+    });
+
+    it('withdraws positions while a relation column is expanded', async () => {
+      await mountHierarchy({ columns: ['id', 'subject', { id: 'children', children: true }] });
+      harness.expand('999', 'children');
+      await harness.render();
+      harness.expectNoRowPositions();
+    });
   });
 
   it('does not activate capability-off consumers', async () => {
@@ -171,7 +237,7 @@ describe('TableRowPositions', () => {
       new Map([['wp:21', 21]]),
     ];
     for (const ordinals of variants) {
-      harness.table.rowPositions!.commit({ source: harness.querySpace.results.value!, body: { count: 100, ordinals } });
+      harness.table.rowPositions!.commit({ kind: 'query', source: harness.querySpace.results.value!, body: { count: 100, ordinals } });
       harness.table.rowPositions!.paint();
       harness.expectNoRowPositions();
     }
@@ -320,6 +386,19 @@ describe('TableRowPositions', () => {
       await dropping;
       expectIndices(harness.rows(), ['3', '4', '6']);
       expect(table()).toHaveAttribute('aria-rowcount', '10');
+    });
+
+    it('withdraws hierarchy positions until preparation settles and restores them after it fails', async () => {
+      await mount({ workPackages: [{ id: '21' }, { id: '22' }, { id: '23' }], showHierarchies: true, dragAction });
+      const dropping = harness.drop('21', '22', 'bottom');
+      await staged(['22', '21', '23']);
+      cleared();
+
+      prepared.reject(new Error('prepare failed'));
+      expect(await dropping).toBe(false);
+      expect(harness.rowIds()).toEqual(['21', '22', '23']);
+      expectIndices(harness.rows(), ['22', '23', '24']);
+      expect(table()).toHaveAttribute('aria-rowcount', '-1');
     });
 
     it('does not paint a torn-down table when a staged move settles', async () => {

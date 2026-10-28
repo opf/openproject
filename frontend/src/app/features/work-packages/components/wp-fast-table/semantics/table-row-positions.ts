@@ -38,6 +38,8 @@ import { isEmptyResultsRow, isExposedRow, isInlineCreateRow, isTotalsRow } from 
 import { bodyRowPositions, draftAgrees, type BodyRowPositions, type PositionGroup } from './body-row-positions';
 
 export interface CapturedRowPositions {
+  /** `page` numbers rows from the page's first query rank and withholds the total. */
+  readonly kind:'query'|'page';
   readonly source:WorkPackageCollectionResource;
   readonly body:BodyRowPositions;
 }
@@ -75,6 +77,7 @@ export class TableRowPositions {
     if (!source || this.withdrawnByMode() || !this.matchesRenderedRows(source)) return null;
 
     const groups = this.table.querySpace.groups.value ?? [];
+    if (this.hierarchies.isEnabled) return groups.length > 0 ? null : this.capturePage(source, draft);
     if (groups.length > 0 && !this.trustsGroupedAggregates(source, groups)) return null;
 
     const positionGroups:PositionGroup[] = groups.map((group, index) => ({
@@ -95,7 +98,7 @@ export class TableRowPositions {
     const rows = draft.occurrences
       .filter((occurrence) => occurrence.key !== placeholderOccurrenceKey())
       .map((occurrence) => ({ key: occurrence.key, member: occurrence.workPackageId !== null }));
-    return draftAgrees(body, rows, positionGroups) ? { source, body } : null;
+    return draftAgrees(body, rows, positionGroups) ? { kind: 'query', source, body } : null;
   }
 
   public commit(snapshot:CapturedRowPositions|null):void {
@@ -109,15 +112,30 @@ export class TableRowPositions {
     if (!element) return;
     const rows = Array.from(element.rows);
     const projection = this.project(element, rows);
-    setIfChanged(element, 'aria-rowcount', projection ? String(projection.count) : null);
+    setIfChanged(element, 'aria-rowcount', projection ? String(projection.count ?? -1) : null);
     rows.forEach((row) => {
       const position = projection?.indices.get(row);
       setIfChanged(row, 'aria-rowindex', position === undefined ? null : String(position));
     });
   }
 
+  /** Contextual ancestors make the query-wide total unknowable, so rendered rows count from the page's first rank. */
+  private capturePage(source:WorkPackageCollectionResource, draft:RenderDraft):CapturedRowPositions|null {
+    const { offset, pageSize } = source;
+    const firstRank = (offset - 1) * pageSize;
+    if (!Number.isSafeInteger(offset) || offset < 1 || !Number.isSafeInteger(pageSize) || pageSize < 1
+      || !Number.isSafeInteger(firstRank)) {
+      return null;
+    }
+    const keys = draft.occurrences
+      .filter((occurrence) => occurrence.key !== placeholderOccurrenceKey())
+      .map((occurrence) => occurrence.key);
+    const ordinals = new Map(keys.map((key, index) => [key, firstRank + index + 1]));
+    if (ordinals.size !== keys.length) return null;
+    return { kind: 'page', source, body: { count: firstRank + keys.length, ordinals } };
+  }
+
   private withdrawnByMode():boolean {
-    if (this.hierarchies.isEnabled) return true;
     return (this.columns.hasRelationColumns() || this.columns.hasChildRelationsColumn())
       && Object.keys(this.relationColumns.current).length > 0;
   }
@@ -183,7 +201,7 @@ export class TableRowPositions {
       if (!Number.isSafeInteger(position) || position <= previous || position > count) return null;
       previous = position;
     }
-    return { count, indices };
+    return { count: snapshot.kind === 'query' ? count : null, indices };
   }
 
   private classify(row:HTMLTableRowElement, occurrences:Map<HTMLTableRowElement, RenderedOccurrence>):ProjectedRowKind {
