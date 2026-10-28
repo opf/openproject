@@ -41,6 +41,7 @@ module ITSM
 
       def show
         @helpdesk_enabled = Setting.helpdesk_enabled?
+        @helpdesk_feature_writable = Setting.helpdesk_enabled_writable?
       end
 
       def enable_helpdesk

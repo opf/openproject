@@ -52,7 +52,7 @@ module OpenProject::ITSM
 
     initializer "openproject_itsm.configuration" do
       ::Settings::Definition.add :helpdesk_enabled,
-                                 description: "Enables help desk features.",
+                                 description: "Enables/disables help desk functionality.",
                                  writable: true,
                                  default: false,
                                  format: :boolean
