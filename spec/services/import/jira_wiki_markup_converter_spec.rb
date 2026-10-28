@@ -30,7 +30,9 @@
 require "spec_helper"
 
 RSpec.describe Import::JiraWikiMarkupConverter do
-  subject(:result) { described_class.new(input).convert }
+  subject(:result) { described_class.new(input, attachment_paths_by_name:).convert }
+
+  let(:attachment_paths_by_name) { {} }
 
   describe "edge cases" do
     context "with nil-like blank input" do
@@ -470,6 +472,39 @@ RSpec.describe Import::JiraWikiMarkupConverter do
 
       it "is not an embed" do
         expect(result).to eq("! leading.png!")
+      end
+    end
+
+    context "when the issue has attachments" do
+      let(:screenshot_path) { "/api/v3/attachments/1/content" }
+      let(:attachment_paths_by_name) { { "My Shot.png" => screenshot_path } }
+
+      context "with the name the attachment was uploaded under" do
+        let(:input) { "!My Shot.png|thumbnail!" }
+
+        it { is_expected.to eq("![](#{screenshot_path})") }
+      end
+
+      context "with alt text" do
+        let(:input) { "!My Shot.png|alt=The dashboard!" }
+
+        it { is_expected.to eq("![The dashboard](#{screenshot_path})") }
+      end
+
+      context "with the name in a different case" do
+        let(:input) { "!my shot.png!" }
+
+        it "does not resolve it" do
+          expect(result).to eq("![](my_shot.png)")
+        end
+      end
+
+      context "with the image in a table cell" do
+        let(:input) { "|!My Shot.png|thumbnail!|caption|" }
+
+        it "links the cell image to the attachment" do
+          expect(result).to include(%(<img src="#{screenshot_path}" alt="">))
+        end
       end
     end
   end

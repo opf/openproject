@@ -89,9 +89,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
 
         work_package = WorkPackage.find("DPPP-6")
 
-        # the 18th journal is added later, when Import::JiraCreateProjectWorkPackageAttachmentsJob
-        # attaches the file referenced by the "Attachment" changelog item asserted below
-        expect(work_package.journals.count).to be 17
+        # 16 journals replay the Jira changelog and comments, enclosed by the creation and the migration entry
+        expect(work_package.journals.count).to be 18
         expect(work_package.journals.where(notes: "Demo comment 1\n\n").count).to be 1
         expect(work_package.journals.where(notes: "Demo comment 2").count).to be 1
         expect(work_package.journals.where(notes: "Parampampam").count).to be 1
@@ -137,6 +136,125 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
       it "creates references for imported entities" do
         expect { create_work_packages }
           .to change(Import::JiraOpenProjectReference, :count).by_at_least(4)
+      end
+
+      it "closes the activity with a migration entry" do
+        create_work_packages
+
+        journal = WorkPackage.find("DPPP-6").journals.order(:version).last
+        expect(journal.cause).to eq("type" => "import", "migrated" => true)
+        expect(journal.created_at).to be_within(1.minute).of(Time.current)
+      end
+
+      describe "attachments" do
+        let(:work_package) { WorkPackage.find("DPPP-6") }
+        let(:attachment) { work_package.attachments.sole }
+        let(:jira_attachment_payload) { jira_issue_payload["fields"]["attachment"].sole }
+
+        it "prepares the attachment from the Jira metadata" do
+          create_work_packages
+
+          expect(attachment).to have_attributes(
+            status: "import_prepared",
+            filename: "airplane-wing-over-cloudy-sky.jpg",
+            filesize: 136426,
+            content_type: "image/jpeg",
+            author: op_user
+          )
+        end
+
+        it "takes the attachment timestamps from the date it was attached in Jira" do
+          create_work_packages
+
+          attached_at = Time.zone.parse(jira_attachment_payload["created"])
+          expect(attachment).to have_attributes(created_at: attached_at, updated_at: attached_at)
+        end
+
+        it "keeps the Jira attachment for downloading the file" do
+          create_work_packages
+
+          jira_attachment = Import::JiraAttachment.sole
+          expect(jira_attachment).to have_attributes(
+            origin_id: "10100",
+            jira_issue:,
+            jira_project:,
+            payload: jira_attachment_payload
+          )
+          expect(jira_import.find_op_leg(jira_attachment)).to eq(attachment)
+        end
+
+        it "records the attachment in every journal" do
+          create_work_packages
+
+          attachment_ids_by_journal = work_package.journals.map { |journal| journal.attachable_journals.pluck(:attachment_id) }
+          expect(attachment_ids_by_journal).to all(eq([attachment.id]))
+        end
+
+        context "with an uploader not otherwise involved in the issue" do
+          let(:uploader) { create(:user) }
+          let(:jira_issue_payload) do
+            super().tap do |payload|
+              payload["fields"]["attachment"].sole["author"]["key"] = "JIRAUSER10001"
+            end
+          end
+
+          before do
+            jira_uploader = create(:jira_user, jira_import:, origin_id: "JIRAUSER10001")
+            create(:jira_open_project_reference,
+                   jira_import:,
+                   jira_entity_class: "Import::JiraUser",
+                   jira_entity_id: jira_uploader.id.to_s,
+                   op_entity_class: "User",
+                   op_entity_id: uploader.id.to_s)
+          end
+
+          it "adds the uploader as a project member" do
+            create_work_packages
+
+            expect(Project.find_by!(identifier: jira_project_key).users).to include(uploader)
+          end
+        end
+
+        context "when the attachment is embedded as an image" do
+          let(:jira_issue_payload) do
+            super().tap do |payload|
+              payload["fields"]["description"] = "The wing: !airplane-wing-over-cloudy-sky.jpg|thumbnail!"
+              payload["fields"]["comment"]["comments"].first["body"] = "Again: !airplane-wing-over-cloudy-sky.jpg!"
+            end
+          end
+          let(:image) { "![](/api/v3/attachments/#{attachment.id}/content)" }
+
+          it "links the description to the attachment" do
+            create_work_packages
+
+            expect(work_package.description).to eq("The wing: #{image}")
+          end
+
+          it "links the comment to the attachment" do
+            create_work_packages
+
+            expect(work_package.journals.where(notes: "Again: #{image}")).to exist
+          end
+
+          context "with an older attachment of the same name" do
+            let(:jira_issue_payload) do
+              super().tap do |payload|
+                attachments = payload["fields"]["attachment"]
+                attachments << attachments.sole.merge("id" => "10099", "created" => "2026-03-17T08:00:00.000+0000")
+              end
+            end
+            let(:attachment) do
+              newer_jira_attachment = Import::JiraAttachment.find_by!(origin_id: "10100")
+              jira_import.find_op_leg(newer_jira_attachment)
+            end
+
+            it "links the most recent one" do
+              create_work_packages
+
+              expect(work_package.description).to eq("The wing: #{image}")
+            end
+          end
+        end
       end
 
       context "when finding or creating a status" do
@@ -200,7 +318,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
           create_work_packages
 
           work_package = WorkPackage.find("DPPP-6")
-          expect(work_package.journals.count).to be 17
+          expect(work_package.journals.count).to be 18
           expect(work_package.journals.where(notes: "Demo comment 2").count).to be 1
         end
       end

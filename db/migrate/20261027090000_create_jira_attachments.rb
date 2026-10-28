@@ -27,29 +27,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+class CreateJiraAttachments < ActiveRecord::Migration[8.1]
+  def change
+    create_table :jira_attachments do |t|
+      t.jsonb :payload
+      t.string :origin_id, null: false
+      t.references :jira_import, null: false, foreign_key: { on_delete: :cascade, on_update: :cascade }
+      t.references :jira_project, null: false, foreign_key: { on_delete: :cascade, on_update: :cascade }
+      t.references :jira_issue, null: false, foreign_key: { on_delete: :cascade, on_update: :cascade }
+      t.index %i[jira_issue_id origin_id], unique: true
 
-RSpec.describe Attachments::ImportCreateService do
-  subject(:service) { described_class.new(user:, contract_class: EmptyContract) }
-
-  let(:user) { create(:admin) }
-  let(:work_package) { create(:work_package) }
-  let(:file) { FileHelpers.mock_uploaded_file(name: "picture.png", content_type: "image/png") }
-
-  it "creates the attachment on the container" do
-    call = service.call(container: work_package, filename: "picture.png", file:)
-
-    expect(call).to be_success
-    expect(work_package.attachments.reload.map(&:filename)).to eq(["picture.png"])
-  end
-
-  it "does not journalize the container" do
-    expect { service.call(container: work_package, filename: "picture.png", file:) }
-      .not_to change { work_package.journals.reload.count }
-  end
-
-  it "does not touch the container" do
-    expect { service.call(container: work_package, filename: "picture.png", file:) }
-      .not_to change { work_package.reload.updated_at }
+      t.timestamps
+    end
   end
 end

@@ -182,10 +182,10 @@ module Import
 
       # Converts a single raw Jira field value (as found in `issue.payload["fields"][field_key]`)
       # into the value to assign to the OP custom field attribute.
-      def convert_value(raw_value, custom_field)
+      def convert_value(raw_value, custom_field, attachment_paths_by_name: {})
         case format
         when "bool" then convert_multicheckbox_bool_value(raw_value)
-        when "text" then JiraWikiMarkupConverter.new(raw_value.to_s).convert
+        when "text" then JiraWikiMarkupConverter.new(raw_value.to_s, attachment_paths_by_name:).convert
         when "list" then convert_list_value(raw_value, custom_field)
         when "user" then convert_user_value(raw_value)
         when "hierarchy" then convert_hierarchy_value(raw_value, custom_field)

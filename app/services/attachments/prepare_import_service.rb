@@ -28,11 +28,14 @@
 #++
 
 module Attachments
-  # Creates an attachment without journalizing its container. Importers replay the source
-  # system's own history, so the container's journals are written by the importer instead.
-  class ImportCreateService < CreateService
+  # Creates an attachment from the metadata an importer read from the source system, so that
+  # references to it can be written before its file is fetched. The file is added by
+  # Attachments::FinishImportService.
+  class PrepareImportService < PrepareUploadService
     private
 
-    def touch(_container) = nil
+    def attributes_service_class
+      SetImportPreparedAttributesService
+    end
   end
 end

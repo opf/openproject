@@ -98,9 +98,16 @@ module Import
               new_custom_fields = new_custom_fields_in_type(jira_issue, type, @custom_field_registry)
               update_custom_fields_in_type(type, new_custom_fields) if new_custom_fields.any?
               priority = create_priority(jira_issue) || IssuePriority.default || IssuePriority.active.first
+
               raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
 
-              create_work_package(jira_issue, @project, type, status, priority, @custom_field_registry)
+              attachment_ids, attachment_paths_by_name = prepare_attachments(jira_issue, @project)
+              create_work_package(jira_issue, @project, type, status, priority, @custom_field_registry,
+                                  attachment_ids:, attachment_paths_by_name:)
+              # Jira attachments cannot be replaced, so both timestamps take the date the file was attached
+              # in Jira rather than the date the import created the attachment. This has to follow the
+              # work package's creation, which touched their updated_at when claiming them.
+              match_attachment_updated_at_to_created_at(attachment_ids)
               @jira_import.set_job_cursor(self, jira_issue.id)
             end
           end
@@ -279,7 +286,8 @@ module Import
     end
 
     # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
-    def create_work_package(jira_issue, project, type, status, priority, custom_field_registry)
+    def create_work_package(jira_issue, project, type, status, priority, custom_field_registry,
+                            attachment_ids:, attachment_paths_by_name:)
       Rails.logger.debug "Creating work package"
 
       # required because otherwise project.types does not include type and then wp creation fails.
@@ -291,7 +299,7 @@ module Import
       assigned_to = find_user(assignee_key)
       [author, assigned_to].uniq.compact.each { |member| create_member(project, member) }
 
-      custom_field_attrs = collect_custom_field_attributes(custom_field_registry, jira_issue)
+      custom_field_attrs = collect_custom_field_attributes(custom_field_registry, jira_issue, attachment_paths_by_name:)
                              .merge(resolution_date_cf_attrs(jira_issue))
 
       original_estimate_seconds = jira_issue.payload.dig("fields", "timetracking", "originalEstimateSeconds")
@@ -323,7 +331,9 @@ module Import
           .call(
             project:,
             subject: jira_issue.payload["fields"]["summary"],
-            description: Import::JiraWikiMarkupConverter.new(jira_issue.payload["fields"]["description"] || "").convert,
+            description: Import::JiraWikiMarkupConverter.new(jira_issue.payload["fields"]["description"] || "",
+                                                             attachment_paths_by_name:).convert,
+            attachment_ids:,
             type:,
             priority:,
             status:,
@@ -364,15 +374,80 @@ module Import
                                                unique_by: :identifier)
 
       create_reference!(op_leg: work_package, jira_leg: jira_issue, jira_import: @jira_import, uses_existing: false)
-      create_work_package_history(work_package, jira_issue, project)
+      create_work_package_history(work_package, jira_issue, project, attachment_paths_by_name)
       work_package
     end
 
+    def prepare_attachments(jira_issue, project)
+      # When there are several attachments with the same name, Jira uses the most recent one. Sorting here
+      # guarantees it comes last and overwrites the older ones in attachment_paths_by_name.
+      payloads = (jira_issue.payload.dig("fields", "attachment") || []).sort_by { |payload| attached_at(payload) }
+      attachment_ids = payloads.map { |payload| prepare_attachment(jira_issue, project, payload) }
+      attachment_paths_by_name = payloads.zip(attachment_ids).to_h do |payload, id|
+        [payload["filename"], attachment_content_path(id)]
+      end
+
+      [attachment_ids, attachment_paths_by_name]
+    end
+
+    def attachment_content_path(id)
+      ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(id)
+    end
+
+    def prepare_attachment(jira_issue, project, payload)
+      Rails.logger.tagged("jira_object_type:attachment", "jira_object_id_or_name:#{payload['filename']}") do
+        author = find_user(payload.dig("author", "key"))
+        create_member(project, author) if author
+        attachment = create_prepared_attachment(payload, author || @system_user)
+
+        jira_attachment =
+          Import::JiraAttachment.create!(
+            jira_import: @jira_import,
+            jira_project_id: jira_issue.jira_project_id,
+            jira_issue:,
+            origin_id: payload["id"],
+            payload:
+          )
+
+        create_reference!(op_leg: attachment, jira_leg: jira_attachment, jira_import: @jira_import, uses_existing: false)
+
+        attachment.id
+      end
+    end
+
+    def create_prepared_attachment(payload, author)
+      service_call =
+        Attachments::PrepareImportService
+          .new(user: author, contract_class: EmptyContract)
+          .call(
+            filename: payload["filename"],
+            filesize: payload["size"],
+            content_type: payload["mimeType"],
+            created_at: attached_at(payload)
+          )
+
+      unless service_call.success?
+        Rails.logger.error service_call.message
+        raise service_call.message
+      end
+
+      service_call.result
+    end
+
+    def attached_at(payload)
+      Time.zone.parse(payload.fetch("created"))
+    end
+
+    def match_attachment_updated_at_to_created_at(attachment_ids)
+      Attachment.where(id: attachment_ids).update_all("updated_at = created_at")
+    end
+
     # rubocop:disable-next Metrics/AbcSize
-    def create_work_package_history(work_package, jira_issue, project)
-      journal_service = Import::JiraImportJournals.new(work_package:)
+    def create_work_package_history(work_package, jira_issue, project, attachment_paths_by_name)
+      journal_service = Import::JiraImportJournals.new(work_package:, attachment_paths_by_name:)
 
       jira_created_at = jira_issue.payload.dig("fields", "created")
+      jira_updated_at = jira_issue.payload.dig("fields", "updated")
       journal_service.set_creation_time(date_time: jira_created_at)
 
       history = jira_issue.payload.dig("changelog", "histories")
@@ -391,7 +466,8 @@ module Import
         end
       end
 
-      journal_service.call(updated_at: jira_issue.payload.dig("fields", "updated"))
+      journal_service.call
+      journal_service.add_migration_entry(updated_at: jira_updated_at)
     end
 
     def find_user(jira_user_key)
