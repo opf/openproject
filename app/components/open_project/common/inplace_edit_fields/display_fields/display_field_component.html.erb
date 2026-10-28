@@ -6,7 +6,7 @@
     classes: @system_arguments[:display_classes]
   ) do |flex|
     flex.with_row(mb: 1) do
-      render OpenProject::Common::AttributeLabelComponent.new(
+      render OpPrimer::AttributeLabelComponent.new(
         attribute:,
         model:,
         required: @system_arguments[:required],
@@ -21,7 +21,7 @@
     end
 
     flex.with_row(w: :full) do
-      render OpenProject::Common::AttributeHelpTextCaptionComponent.new(
+      render OpPrimer::AttributeHelpTextCaptionComponent.new(
         help_text: helpers.help_text_for(
           model,
           attribute,

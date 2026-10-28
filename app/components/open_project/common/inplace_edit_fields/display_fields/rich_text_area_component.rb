@@ -43,10 +43,10 @@ module OpenProject
                 if field_value.present?
                   if truncated
                     name = custom_field? ? custom_field.name : attribute.to_s.humanize
-                    render OpenProject::Common::AttributeComponent.new("#{attribute}-truncated-display-field",
-                                                                       name,
-                                                                       field_value,
-                                                                       lines: 3)
+                    render OpPrimer::AttributeComponent.new("#{attribute}-truncated-display-field",
+                                                            name,
+                                                            field_value,
+                                                            lines: 3)
                   else
                     format_text(field_value, object: model)
                   end

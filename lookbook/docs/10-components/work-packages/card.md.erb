@@ -2,7 +2,7 @@ The `WorkPackageCard` is a compact representation of a work package, designed fo
 
 ## Overview
 
-<%= embed OpenProject::Common::WorkPackageCardComponentPreview, :default %>
+<%= embed OpPrimer::WorkPackageCardComponentPreview, :default %>
 
 ## Anatomy
 
@@ -39,12 +39,12 @@ Shows a link to the parent work package (when `show_parent: true` and a parent e
 
 ## Variants
 
-<%= embed OpenProject::Common::WorkPackageCardComponentPreview, :playground, panels: %i[params source] %>
+<%= embed OpPrimer::WorkPackageCardComponentPreview, :playground, panels: %i[params source] %>
 
 ## Code structure
 
 ```ruby
-render OpenProject::Common::WorkPackageCardComponent.new(
+render OpPrimer::WorkPackageCardComponent.new(
   work_package: @work_package,
   show_assignee: true,
   show_priority: true,
