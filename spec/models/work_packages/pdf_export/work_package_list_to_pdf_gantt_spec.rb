@@ -449,6 +449,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     context "with multiple versions inactive",
             with_settings: { work_package_multiple_versions: false } do
       let(:query_attributes) { { group_by: "version" } }
+      let(:version_one) { create(:version, project:, name: "2.0") }
+      let(:version_two) { create(:version, project:, name: "1.0") }
 
       it "groups a work package under its lowest-id target version, " \
          "and groups work packages without a target version under a none placeholder" do
