@@ -2,22 +2,16 @@
 
 .op-sprint-reports--epic-progress-widget
   container-type: inline-size
-
-  .op-widget-box--body
-    padding: 0
+  max-height: none
 
   .op-widget-box--header
     padding-bottom: 0
 
   .op-sprint-reports--epic-progress
-    border: none
-
     @container (min-width: #{$breakpoint-md})
-      & > .Box-list
-        & > .Box-row
-          max-width: 75%
+      .epic-progress--row
+        max-width: 75%
 
     @container (min-width: #{$breakpoint-xl})
-      & > .Box-list
-        & > .Box-row
-          max-width: 50%
+      .epic-progress--row
+        max-width: 50%
