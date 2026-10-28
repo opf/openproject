@@ -2308,6 +2308,7 @@ en:
         failed_title: "Generation failed"
         generating: "Generating…"
         replace: "Replace"
+        request_failed: "The request failed. Close the result and try again."
         selection_gone: "The selected text is no longer there, so it cannot be replaced. You can still copy it."
         stopped_description: "The response was blocked before it finished, so the partial text was discarded."
         stopped_title: "Generation stopped"
