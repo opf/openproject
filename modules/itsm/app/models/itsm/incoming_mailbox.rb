@@ -33,12 +33,12 @@ module ITSM
 
     PROTOCOL = "imap"
 
-    belongs_to :connection, class_name: "ITSM::MailServer::Connection", inverse_of: :incoming_mailboxes, optional: false
+    belongs_to :mail_server, class_name: "ITSM::MailServer", inverse_of: :incoming_mailboxes, optional: false
 
     normalizes :email, with: EmailAddress::NORMALIZE
     normalizes :aliases, with: EmailAddress::NORMALIZE_ALL
 
-    validates :username, uniqueness: { scope: :connection_id, case_sensitive: false }
+    validates :username, uniqueness: { scope: :mail_server_id, case_sensitive: false }
     validates :email, presence: true, uniqueness: true
   end
 end

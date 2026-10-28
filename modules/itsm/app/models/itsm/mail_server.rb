@@ -29,26 +29,20 @@
 
 module ITSM
   class MailServer < ApplicationRecord
-    has_many :connections, class_name: "ITSM::MailServer::Connection", inverse_of: :mail_server, dependent: :destroy
-    has_one :imap_connection, -> { imap }, class_name: "ITSM::MailServer::Connection", inverse_of: :mail_server,
-                                           autosave: true, dependent: nil
-    has_one :smtp_connection, -> { smtp }, class_name: "ITSM::MailServer::Connection", inverse_of: :mail_server,
-                                           autosave: true, dependent: nil
+    has_many :incoming_mailboxes, class_name: "ITSM::IncomingMailbox", inverse_of: :mail_server,
+                                  dependent: :restrict_with_error
+    has_many :outgoing_mailboxes, class_name: "ITSM::OutgoingMailbox", inverse_of: :mail_server,
+                                  dependent: :restrict_with_error
 
-    before_destroy :ensure_no_mailbox_uses_it, prepend: true
+    attr_readonly :protocol
 
-    validates :name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 255 }
-    validates :imap_connection, :smtp_connection, presence: true
+    enum :protocol, { imap: "imap", smtp: "smtp" }, validate: true
+    enum :encryption, { tls: "tls", starttls: "starttls" }, validate: true
 
-    def in_use? = IncomingMailbox.exists?(connection: connections) || OutgoingMailbox.exists?(connection: connections)
+    normalizes :host, with: ->(host) { host.strip.downcase.delete_suffix(".") }
 
-    private
-
-    def ensure_no_mailbox_uses_it
-      return unless in_use?
-
-      errors.add(:base, :"restrict_dependent_destroy.has_many", record: self.class.human_attribute_name(:mailboxes))
-      throw :abort
-    end
+    validates :name, presence: true, uniqueness: { scope: :protocol, case_sensitive: false }, length: { maximum: 255 }
+    validates :host, presence: true
+    validates :port, numericality: { only_integer: true, in: 1..65_535 }
   end
 end

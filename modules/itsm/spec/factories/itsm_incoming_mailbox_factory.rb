@@ -29,12 +29,8 @@
 
 FactoryBot.define do
   factory :itsm_incoming_mailbox, class: "ITSM::IncomingMailbox" do
-    transient do
-      mail_server { ITSM::MailServer.first || association(:itsm_mail_server) }
-    end
-
     project
-    connection { mail_server.imap_connection }
+    mail_server factory: %i[itsm_mail_server imap]
     sequence(:email) { |n| "support+#{n}@example.com" }
     username { email }
     password { "imap-password" }

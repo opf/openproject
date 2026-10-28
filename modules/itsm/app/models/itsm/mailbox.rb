@@ -38,14 +38,14 @@ module ITSM
 
       normalizes :username, with: ->(username) { username.strip }
 
-      validate :connection_uses_its_protocol, if: :connection
+      validate :mail_server_uses_its_protocol, if: :mail_server
       validates :username, :password, presence: true
     end
 
     private
 
-    def connection_uses_its_protocol
-      errors.add(:connection, :invalid) unless connection.protocol == self.class::PROTOCOL
+    def mail_server_uses_its_protocol
+      errors.add(:mail_server, :invalid) unless mail_server.protocol == self.class::PROTOCOL
     end
   end
 end

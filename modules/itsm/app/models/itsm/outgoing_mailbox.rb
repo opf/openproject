@@ -33,7 +33,7 @@ module ITSM
 
     PROTOCOL = "smtp"
 
-    belongs_to :connection, class_name: "ITSM::MailServer::Connection", inverse_of: :outgoing_mailboxes, optional: false
+    belongs_to :mail_server, class_name: "ITSM::MailServer", inverse_of: :outgoing_mailboxes, optional: false
 
     normalizes :sender_email, with: EmailAddress::NORMALIZE
 

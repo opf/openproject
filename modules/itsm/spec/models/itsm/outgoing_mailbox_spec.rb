@@ -33,7 +33,7 @@ require_module_spec_helper
 RSpec.describe ITSM::OutgoingMailbox do
   subject(:mailbox) { build(:itsm_outgoing_mailbox, mail_server:, project:, sender_email:, username:, password:) }
 
-  let!(:mail_server) { create(:itsm_mail_server) }
+  let(:mail_server) { create(:itsm_mail_server, :smtp) }
   let(:project) { create(:project) }
   let(:sender_email) { "support@example.com" }
   let(:username) { "relay-user" }
@@ -44,10 +44,6 @@ RSpec.describe ITSM::OutgoingMailbox do
   end
 
   it { is_expected.to be_valid }
-
-  it "sends through the SMTP connection of the mail server" do
-    expect(mailbox.connection).to eq(mail_server.smtp_connection)
-  end
 
   it "hides the password when inspected" do
     expect(mailbox.inspect).not_to include("smtp-password")
@@ -65,12 +61,18 @@ RSpec.describe ITSM::OutgoingMailbox do
     it { is_expected.not_to be_valid }
   end
 
-  context "with an IMAP connection" do
-    before { mailbox.connection = mail_server.imap_connection }
+  context "without a mail server" do
+    let(:mail_server) { nil }
+
+    it { is_expected.not_to be_valid }
+  end
+
+  context "with an IMAP server" do
+    let(:mail_server) { create(:itsm_mail_server, :imap) }
 
     it "is not valid" do
       expect(mailbox).not_to be_valid
-      expect(mailbox.errors.symbols_for(:connection)).to include(:invalid)
+      expect(mailbox.errors.symbols_for(:mail_server)).to include(:invalid)
     end
   end
 
@@ -89,7 +91,7 @@ RSpec.describe ITSM::OutgoingMailbox do
   end
 
   context "when another project sends with the same account and address" do
-    before { create(:itsm_outgoing_mailbox, username:, sender_email:) }
+    before { create(:itsm_outgoing_mailbox, mail_server:, username:, sender_email:) }
 
     it "is valid, as projects can share a relay account" do
       expect(mailbox).to be_valid

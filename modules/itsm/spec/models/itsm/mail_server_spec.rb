@@ -31,32 +31,55 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe ITSM::MailServer do
-  subject(:mail_server) { build(:itsm_mail_server, name:) }
+  subject(:mail_server) { build(:itsm_mail_server, :imap, name:, host:, port:, encryption:) }
 
   let(:name) { "Mailbox.org" }
+  let(:host) { "imap.mailbox.org" }
+  let(:port) { 993 }
+  let(:encryption) { "tls" }
 
   it { is_expected.to be_valid }
 
-  it "saves its IMAP and SMTP connections with it" do
-    mail_server.save!
-
-    expect(mail_server.reload.connections.pluck(:protocol)).to contain_exactly("imap", "smtp")
+  it "knows how it is encrypted" do
+    expect(mail_server).to have_attributes(tls?: true, starttls?: false)
   end
 
-  context "without an IMAP connection" do
-    subject(:mail_server) { build(:itsm_mail_server, imap_connection: nil) }
+  context "without encryption" do
+    let(:encryption) { "none" }
 
     it { is_expected.not_to be_valid }
   end
 
-  context "without an SMTP connection" do
-    subject(:mail_server) { build(:itsm_mail_server, smtp_connection: nil) }
+  context "with an unknown protocol" do
+    before { mail_server.protocol = "pop3" }
 
     it { is_expected.not_to be_valid }
   end
 
-  context "with an invalid connection" do
-    before { mail_server.imap_connection.host = "" }
+  context "when its protocol is changed after it was saved" do
+    before { mail_server.save! }
+
+    it "is rejected" do
+      expect { mail_server.protocol = "smtp" }.to raise_error(ActiveRecord::ReadonlyAttributeError)
+    end
+  end
+
+  context "with an upper case host, surrounding whitespace and a trailing dot" do
+    let(:host) { " IMAP.Mailbox.org. " }
+
+    it "normalizes the host" do
+      expect(mail_server.host).to eq("imap.mailbox.org")
+    end
+  end
+
+  context "without a host" do
+    let(:host) { "" }
+
+    it { is_expected.not_to be_valid }
+  end
+
+  context "with a port out of range" do
+    let(:port) { 70_000 }
 
     it { is_expected.not_to be_valid }
   end
@@ -67,8 +90,8 @@ RSpec.describe ITSM::MailServer do
     it { is_expected.not_to be_valid }
   end
 
-  context "when another server uses the same name in a different case" do
-    let!(:existing) { create(:itsm_mail_server, name: "MAILBOX.ORG") }
+  context "when another IMAP server uses the same name in a different case" do
+    let!(:existing) { create(:itsm_mail_server, :imap, name: "MAILBOX.ORG") }
 
     it "is not valid" do
       expect(mail_server).not_to be_valid
@@ -80,30 +103,14 @@ RSpec.describe ITSM::MailServer do
     end
   end
 
-  context "when it is destroyed" do
-    subject(:mail_server) { create(:itsm_mail_server) }
+  context "when an SMTP server uses the same name" do
+    let!(:existing) { create(:itsm_mail_server, :smtp, name:) }
 
-    it "deletes its connections" do
-      connection_ids = mail_server.connections.ids
-
-      mail_server.destroy
-
-      expect(ITSM::MailServer::Connection.where(id: connection_ids)).to be_empty
-    end
+    it { is_expected.to be_valid }
   end
 
-  context "without any mailbox using it" do
-    subject(:mail_server) { create(:itsm_mail_server) }
-
-    it { is_expected.not_to be_in_use }
-  end
-
-  context "when an incoming mailbox uses the server" do
-    subject(:mail_server) { create(:itsm_mail_server) }
-
+  context "when an incoming mailbox uses it" do
     before { create(:itsm_incoming_mailbox, mail_server:) }
-
-    it { is_expected.to be_in_use }
 
     it "cannot be destroyed" do
       expect(mail_server.destroy).to be(false)
@@ -112,8 +119,8 @@ RSpec.describe ITSM::MailServer do
     end
   end
 
-  context "when an outgoing mailbox uses the server" do
-    subject(:mail_server) { create(:itsm_mail_server) }
+  context "when an outgoing mailbox uses it" do
+    subject(:mail_server) { create(:itsm_mail_server, :smtp) }
 
     before { create(:itsm_outgoing_mailbox, mail_server:) }
 

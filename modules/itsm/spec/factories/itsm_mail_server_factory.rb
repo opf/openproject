@@ -30,7 +30,19 @@
 FactoryBot.define do
   factory :itsm_mail_server, class: "ITSM::MailServer" do
     sequence(:name) { |n| "Mail server #{n}" }
-    imap_connection { association :itsm_mail_server_connection, :imap, strategy: :build, mail_server: instance }
-    smtp_connection { association :itsm_mail_server_connection, :smtp, strategy: :build, mail_server: instance }
+
+    trait :imap do
+      protocol { "imap" }
+      host { "imap.example.com" }
+      port { 993 }
+      encryption { "tls" }
+    end
+
+    trait :smtp do
+      protocol { "smtp" }
+      host { "smtp.example.com" }
+      port { 587 }
+      encryption { "starttls" }
+    end
   end
 end

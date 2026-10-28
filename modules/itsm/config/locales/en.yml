@@ -16,25 +16,21 @@ en:
       itsm/incoming_mailbox:
         active: Active
         aliases: Known email addresses
-        connection: IMAP connection
         email: Email address
+        mail_server: IMAP server
         password: Password
         project: Project
         username: Username
       itsm/mail_server:
-        imap_connection: IMAP connection
-        mailboxes: Mailboxes
-        name: Name
-        smtp_connection: SMTP connection
-      itsm/mail_server/connection:
         encryption: Encryption
         host: Server name
         incoming_mailboxes: Incoming mailboxes
+        name: Name
         outgoing_mailboxes: Outgoing mailboxes
         port: Port
         protocol: Protocol
       itsm/outgoing_mailbox:
-        connection: SMTP connection
+        mail_server: SMTP server
         password: Password
         project: Project
         sender_email: Sender email
@@ -53,9 +49,6 @@ en:
       itsm/mail_server:
         one: Mail server
         other: Mail servers
-      itsm/mail_server/connection:
-        one: Mail server connection
-        other: Mail server connections
       itsm/outgoing_mailbox:
         one: Outgoing mailbox
         other: Outgoing mailboxes

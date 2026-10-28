@@ -33,7 +33,7 @@ require_module_spec_helper
 RSpec.describe ITSM::IncomingMailbox do
   subject(:mailbox) { build(:itsm_incoming_mailbox, mail_server:, project:, email:, aliases:, username:, password:) }
 
-  let!(:mail_server) { create(:itsm_mail_server) }
+  let(:mail_server) { create(:itsm_mail_server, :imap) }
   let(:project) { create(:project) }
   let(:email) { "support@example.com" }
   let(:aliases) { [] }
@@ -45,10 +45,6 @@ RSpec.describe ITSM::IncomingMailbox do
   end
 
   it { is_expected.to be_valid }
-
-  it "logs in to the IMAP connection of the mail server" do
-    expect(mailbox.connection).to eq(mail_server.imap_connection)
-  end
 
   it "hides the password when inspected" do
     expect(mailbox.inspect).not_to include("imap-password")
@@ -74,18 +70,18 @@ RSpec.describe ITSM::IncomingMailbox do
     it { is_expected.not_to be_valid }
   end
 
-  context "without a connection" do
-    before { mailbox.connection = nil }
+  context "without a mail server" do
+    let(:mail_server) { nil }
 
     it { is_expected.not_to be_valid }
   end
 
-  context "with an SMTP connection" do
-    before { mailbox.connection = mail_server.smtp_connection }
+  context "with an SMTP server" do
+    let(:mail_server) { create(:itsm_mail_server, :smtp) }
 
     it "is not valid" do
       expect(mailbox).not_to be_valid
-      expect(mailbox.errors.symbols_for(:connection)).to include(:invalid)
+      expect(mailbox.errors.symbols_for(:mail_server)).to include(:invalid)
     end
   end
 
@@ -111,8 +107,8 @@ RSpec.describe ITSM::IncomingMailbox do
     it { is_expected.not_to be_valid }
   end
 
-  context "when another mailbox logs in to the same connection with the same username" do
-    let!(:existing) { create(:itsm_incoming_mailbox, username: "SUPPORT@example.com") }
+  context "when another mailbox logs in to the same server with the same username" do
+    let!(:existing) { create(:itsm_incoming_mailbox, mail_server:, username: "SUPPORT@example.com") }
     let(:email) { "support+demo@example.com" }
 
     it { is_expected.not_to be_valid }
@@ -123,7 +119,7 @@ RSpec.describe ITSM::IncomingMailbox do
   end
 
   context "when another mailbox uses the same username on a different server" do
-    let!(:existing) { create(:itsm_incoming_mailbox, username:, mail_server: create(:itsm_mail_server)) }
+    let!(:existing) { create(:itsm_incoming_mailbox, username:) }
     let(:email) { "support+demo@example.com" }
 
     it { is_expected.to be_valid }

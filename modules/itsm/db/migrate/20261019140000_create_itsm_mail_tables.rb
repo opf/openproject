@@ -30,7 +30,6 @@
 class CreateITSMMailTables < ActiveRecord::Migration[8.1]
   def change
     create_mail_servers
-    create_mail_server_connections
     create_incoming_mailboxes
     create_outgoing_mailboxes
     create_email_threads
@@ -42,31 +41,21 @@ class CreateITSMMailTables < ActiveRecord::Migration[8.1]
   def create_mail_servers
     create_table :itsm_mail_servers do |t|
       t.string :name, null: false
-      t.timestamps
-
-      t.index "lower(name)", unique: true, name: "index_itsm_mail_servers_on_lower_name"
-    end
-  end
-
-  def create_mail_server_connections
-    create_table :itsm_mail_server_connections do |t|
-      t.references :mail_server, null: false, index: false,
-                                 foreign_key: { to_table: :itsm_mail_servers, on_delete: :cascade }
       t.string :protocol, null: false
       t.string :host, null: false
       t.integer :port, null: false
       t.string :encryption, null: false
       t.timestamps
 
-      t.index %i[mail_server_id protocol], unique: true
+      t.index "protocol, lower(name)", unique: true, name: "index_itsm_mail_servers_on_protocol_and_name"
     end
   end
 
   def create_incoming_mailboxes
     create_table :itsm_incoming_mailboxes do |t|
       t.references :project, null: false, foreign_key: { on_delete: :cascade }
-      t.references :connection, null: false, index: false,
-                                foreign_key: { to_table: :itsm_mail_server_connections, on_delete: :restrict }
+      t.references :mail_server, null: false, index: false,
+                                 foreign_key: { to_table: :itsm_mail_servers, on_delete: :restrict }
       t.string :username, null: false
       t.text :password, null: false
       t.string :email, null: false, index: { unique: true }
@@ -79,16 +68,15 @@ class CreateITSMMailTables < ActiveRecord::Migration[8.1]
       t.text :last_error
       t.timestamps
 
-      t.index "connection_id, lower(username)", unique: true,
-                                                name: "index_itsm_incoming_mailboxes_on_connection_and_username"
+      t.index "mail_server_id, lower(username)", unique: true,
+                                                 name: "index_itsm_incoming_mailboxes_on_mail_server_and_username"
     end
   end
 
   def create_outgoing_mailboxes
     create_table :itsm_outgoing_mailboxes do |t|
       t.references :project, null: false, foreign_key: { on_delete: :cascade }
-      t.references :connection, null: false,
-                                foreign_key: { to_table: :itsm_mail_server_connections, on_delete: :restrict }
+      t.references :mail_server, null: false, foreign_key: { to_table: :itsm_mail_servers, on_delete: :restrict }
       t.string :username, null: false
       t.text :password, null: false
       t.string :sender_email, null: false

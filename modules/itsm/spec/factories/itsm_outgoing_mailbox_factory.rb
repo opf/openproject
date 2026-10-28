@@ -29,12 +29,8 @@
 
 FactoryBot.define do
   factory :itsm_outgoing_mailbox, class: "ITSM::OutgoingMailbox" do
-    transient do
-      mail_server { ITSM::MailServer.first || association(:itsm_mail_server) }
-    end
-
     project
-    connection { mail_server.smtp_connection }
+    mail_server factory: %i[itsm_mail_server smtp]
     sequence(:sender_email) { |n| "support+#{n}@example.com" }
     sender_name { "Support" }
     username { "relay-user" }
