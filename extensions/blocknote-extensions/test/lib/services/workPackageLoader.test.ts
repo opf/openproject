@@ -2,9 +2,27 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { WorkPackage } from '../../../lib/openProjectTypes';
 import * as openProjectApi from '../../../lib/services/openProjectApi';
 import { OpenProjectApiError } from '../../../lib/services/openProjectApi';
-import { cachedWorkPackage, clearWorkPackageCache, loadWorkPackage } from '../../../lib/services/workPackageLoader';
+import {
+  cachedWorkPackage,
+  cachedWorkPackageSchema,
+  clearWorkPackageCache,
+  loadWorkPackage,
+} from '../../../lib/services/workPackageLoader';
 
-const workPackage = (id:number) => ({ id, displayId: String(id), subject: `Work package ${id}` }) as WorkPackage;
+const SCHEMA_HREF = '/api/v3/work_packages/schemas/1-2';
+const schema = { subject: { type: 'String', name: 'Subject' }, _links: { self: { href: SCHEMA_HREF } } };
+
+const workPackage = (id:number) => ({
+  id,
+  displayId: String(id),
+  subject: `Work package ${id}`,
+  _links: { schema: { href: SCHEMA_HREF } },
+}) as WorkPackage;
+
+const batchOf = (ids:readonly number[]) => ({
+  workPackages: ids.filter((id) => id !== 404).map(workPackage),
+  schemas: [schema],
+});
 
 describe('workPackageLoader', () => {
   let fetchWorkPackages:ReturnType<typeof vi.spyOn<typeof openProjectApi, 'fetchWorkPackages'>>;
@@ -12,7 +30,7 @@ describe('workPackageLoader', () => {
   beforeEach(() => {
     clearWorkPackageCache();
     fetchWorkPackages = vi.spyOn(openProjectApi, 'fetchWorkPackages')
-      .mockImplementation(async (ids) => ids.filter((id) => id !== 404).map(workPackage));
+      .mockImplementation(async (ids) => batchOf(ids));
   });
 
   afterEach(() => vi.restoreAllMocks());
@@ -49,6 +67,12 @@ describe('workPackageLoader', () => {
     expect(fetchWorkPackages).toHaveBeenCalledTimes(1);
   });
 
+  it('keeps the schemas loaded with the work packages', async () => {
+    const loaded = await loadWorkPackage(1);
+
+    expect(cachedWorkPackageSchema(loaded)).toEqual(schema);
+  });
+
   it('rejects a work package missing from the answer as not found', async () => {
     const missing = loadWorkPackage(404);
     const found = loadWorkPackage(1);
@@ -61,36 +85,36 @@ describe('workPackageLoader', () => {
 
   it('asks for each work package of a failed batch on its own', async () => {
     const failure = new OpenProjectApiError('HTTP error! status: 500', 500);
-    fetchWorkPackages.mockRejectedValueOnce(failure);
-    const fetchWorkPackage = vi.spyOn(openProjectApi, 'fetchWorkPackage')
-      .mockImplementation(async (id) => (id === 2 ? Promise.reject(failure) : workPackage(Number(id))));
+    fetchWorkPackages
+      .mockRejectedValueOnce(failure)
+      .mockImplementation(async (ids) => (ids.includes(2) ? Promise.reject(failure) : batchOf(ids)));
 
     const [first, second] = [loadWorkPackage(1), loadWorkPackage(2)];
 
     expect((await first).id).toBe(1);
     await expect(second).rejects.toBe(failure);
-    expect(fetchWorkPackage.mock.calls.map(([id]) => id)).toEqual([1, 2]);
+    expect(fetchWorkPackages.mock.calls.map(([ids]) => ids)).toEqual([[1, 2], [1], [2]]);
     expect(cachedWorkPackage(1)).toBeDefined();
     expect(cachedWorkPackage(2)).toBeUndefined();
   });
 
   it('tries a work package that failed to load again on the next load', async () => {
     const failure = new OpenProjectApiError('HTTP error! status: 500', 500);
-    fetchWorkPackages.mockRejectedValueOnce(failure);
-    vi.spyOn(openProjectApi, 'fetchWorkPackage').mockRejectedValueOnce(failure);
+    fetchWorkPackages.mockRejectedValueOnce(failure).mockRejectedValueOnce(failure);
 
     await expect(loadWorkPackage(1)).rejects.toBe(failure);
 
     expect((await loadWorkPackage(1)).id).toBe(1);
-    expect(fetchWorkPackages).toHaveBeenCalledTimes(2);
+    expect(fetchWorkPackages).toHaveBeenCalledTimes(3);
   });
 
   it('does not refill the cache from a load started before it was cleared', async () => {
     const stale = loadWorkPackage(1);
     clearWorkPackageCache();
 
-    await stale;
+    const loaded = await stale;
 
     expect(cachedWorkPackage(1)).toBeUndefined();
+    expect(cachedWorkPackageSchema(loaded)).toBeUndefined();
   });
 });

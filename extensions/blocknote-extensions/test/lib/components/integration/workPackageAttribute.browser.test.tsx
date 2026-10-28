@@ -47,7 +47,7 @@ function chip() {
   return element;
 }
 
-describe('Work package attribute chip', () => {
+describe('Inline work package attribute', () => {
   it('shows the value of the attribute', async () => {
     renderAttribute('Content owner', 'value');
 
@@ -67,11 +67,11 @@ describe('Work package attribute chip', () => {
     await vi.waitFor(() => expect(chip().textContent).toBe('Status: In progress'));
   });
 
-  it('loads a work package once for all of its WP attributes', async () => {
+  it('loads a work package and its schema in a single request for all of its attributes', async () => {
     const attribute = (name:string) =>
       ({ type: 'openProjectWorkPackageAttribute', props: { wpid: '321', displayId: 'PROJ-321', attribute: name, display: 'value' } });
 
-    const requested = await requestsDuring('/api/v3/work_packages?', async () => {
+    const requested = await requestsDuring('/api/v3/work_packages', async () => {
       renderEditor({
         initialContent: [{ type: 'paragraph', content: [attribute('status'), ' ', attribute('assignee'), ' ', attribute('Content owner')] }],
       });

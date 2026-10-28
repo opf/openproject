@@ -1,6 +1,6 @@
 import { createReactInlineContentSpec } from '@blocknote/react';
 import { attributeInlineConfig } from './inlineConfig';
-import { WorkPackageAttributeChip } from './WorkPackageAttributeChip';
+import { WorkPackageAttributeInline } from './WorkPackageAttributeInline';
 import {
   computeWorkPackageAttributeExternalData,
   parseWorkPackageAttributeExternalHTML,
@@ -10,7 +10,7 @@ export const openProjectWorkPackageAttributeSpec = createReactInlineContentSpec(
   attributeInlineConfig,
   {
     render: ({ inlineContent }) => (
-      <WorkPackageAttributeChip
+      <WorkPackageAttributeInline
         wpid={inlineContent.props.wpid}
         displayId={inlineContent.props.displayId || inlineContent.props.wpid}
         attribute={inlineContent.props.attribute}

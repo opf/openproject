@@ -3,7 +3,6 @@ import { page } from 'vitest/browser';
 import { worker } from './mocks/browser';
 import { initializeOpBlockNoteExtensions } from '../lib';
 import { clearWorkPackageCache } from '../lib/services/workPackageLoader';
-import { clearWorkPackageSchemaCache } from '../lib/hooks/useWorkPackageSchema';
 import { forgetLastSelection } from '../lib/components/CreateWorkPackage/lastSelection';
 import { clearPickerCache } from '../lib/components/CreateWorkPackage/usePickerOptions';
 import { clearDatePickerSettings } from '../lib/components/CreateWorkPackage/datePickerSettings';
@@ -13,7 +12,6 @@ import { DESKTOP } from './helpers/createWorkPackageHelpers';
 beforeEach(async () => {
   await page.viewport(DESKTOP.width, DESKTOP.height);
   clearWorkPackageCache();
-  clearWorkPackageSchemaCache();
   forgetLastSelection();
   clearPickerCache();
   clearDatePickerSettings();
