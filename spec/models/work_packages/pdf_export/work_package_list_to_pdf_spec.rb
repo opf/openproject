@@ -173,6 +173,12 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     [project.name, query.name, user.name, export_date_formatted]
   end
 
+  def hide_attribute_on(name, hidden_work_package)
+    checks = WorkPackage::Exports::Attributes.attribute_visibility_checks
+    allow(checks).to receive(:[]).and_call_original
+    allow(checks).to receive(:[]).with(name).and_return(->(wp) { wp != hidden_work_package })
+  end
+
   def show
     cmd = "open -a Preview #{export_pdf.content.path}"
     `#{cmd}`
@@ -207,6 +213,39 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
           *work_package_columns(work_package_parent),
           *work_package_columns(work_package_child)
         ].join(" ")
+      end
+    end
+
+    describe "with a relation to a work package the user may not see" do
+      let(:column_names) { %w[id subject parent] }
+      let!(:invisible_parent) do
+        create(:work_package,
+               project: create(:project, types:, name: "Invisible project"),
+               type: type_task,
+               subject: "Invisible parent")
+      end
+
+      before { work_package_parent.update!(parent: invisible_parent) }
+
+      it "leaves the cell blank" do
+        strings = pdf_strings_without_footers(1)
+        expect(strings).to eq [
+          query.name,
+          *column_titles,
+          work_package_parent.display_id.to_s, work_package_parent.subject,
+          work_package_child.display_id.to_s, work_package_child.subject, work_package_parent.to_s
+        ].join(" ")
+      end
+    end
+
+    describe "with a summable attribute hidden on one work package" do
+      let(:query_attributes) { { display_sums: true } }
+
+      before { hide_attribute_on(:story_points, work_package_child) }
+
+      it "blanks the cell and the sum it would disclose" do
+        strings = pdf_strings_without_footers(1)
+        expect(strings).to include([I18n.t("js.label_sum"), "38%"].join(" "))
       end
     end
 
@@ -549,6 +588,22 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
           *work_package_details(work_package_parent, "1", long_text_fields),
           *work_package_details(work_package_child, "2", long_text_fields),
         ].join(" ")
+      end
+    end
+
+    describe "with sums hidden on one work package" do
+      let(:query_attributes) { { display_sums: true } }
+
+      before { hide_attribute_on(:story_points, work_package_child) }
+
+      it "blanks the entry in the overview table" do
+        strings = pdf_strings_without_footers(3)
+        expect(strings).to include([
+          I18n.t("js.work_packages.tabs.overview"),
+          column_title(:story_points),
+          column_title(:done_ratio),
+          I18n.t("js.label_sum"), "38%"
+        ].join(" "))
       end
     end
 

@@ -85,11 +85,14 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            description: "A **rich** text description",
            parent: parent_project)
   end
+  let(:permissions) do
+    %w[view_work_packages export_work_packages view_project_attributes view_project_phases view_budgets
+       view_time_entries]
+  end
   let(:user) do
     create(:user,
            member_with_permissions: {
-             project => %w[view_work_packages export_work_packages view_project_attributes view_project_phases
-                           view_budgets view_time_entries],
+             project => permissions,
              parent_work_package.project => %w[view_work_packages]
            })
   end
@@ -695,6 +698,18 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
         expect(result).not_to include("Story Points")
         expect(result).to include("Priority Normal")
         expect(result).to include("Lorem")
+      end
+    end
+
+    context "without permission to view time entries" do
+      let(:permissions) { super() - %w[view_time_entries] }
+      let(:attachments) { [] }
+      let(:description) { "Lorem ipsum" }
+
+      it "omits the spent time attribute" do
+        result = remove_pdf_page_footers(pdf[:strings].join(" "), 2)
+        expect(result).not_to include("Spent time")
+        expect(result).to include("Remaining work")
       end
     end
   end
