@@ -619,6 +619,24 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
 
       expect(within(headerRow()).getAllByRole('columnheader').at(-1)).toHaveAccessibleName('Configure view');
     });
+
+    it('draws the focus ring of the header row on its sticky cells', async () => {
+      await mount(enabled);
+      const shadows = () => within(headerRow()).getAllByRole('columnheader').map((header) => getComputedStyle(header).boxShadow);
+
+      expect(shadows().every((shadow) => shadow === 'none')).toBe(true);
+
+      headerRow().focus();
+
+      expect(shadows().every((shadow) => shadow.includes('inset'))).toBe(true);
+      expect(shadows()[0]).toContain(' 2px 0px 0px 0px inset');
+      expect(shadows().at(-1)).toContain(' -2px 0px 0px 0px inset');
+
+      headerRow().closest('table')!.setAttribute('dir', 'rtl');
+
+      expect(shadows()[0]).toContain(' -2px 0px 0px 0px inset');
+      expect(shadows().at(-1)).toContain(' 2px 0px 0px 0px inset');
+    });
   });
 
   describe('sorting', () => {
