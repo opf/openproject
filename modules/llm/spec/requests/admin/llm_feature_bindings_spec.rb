@@ -112,8 +112,6 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         expect(response.body).to include("Semantic search")
       end
 
-      # Semantic search is registered but not built, so it carries a flag of its
-      # own. Registration alone must not put it on the tab.
       it "leaves out a feature whose own flag is off",
          with_flag: { llm_connection: true, semantic_search: false } do
         get llm_feature_bindings_path
@@ -121,6 +119,17 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         expect(response).to have_http_status(:ok)
         expect(response.body).to include("Description assistant")
         expect(response.body).not_to include("Semantic search")
+      end
+
+      context "when pgvector is not available" do
+        before { allow(OpenProject::Llm::Pgvector).to receive(:available?).and_return(false) }
+
+        it "displays a warning for semantic search" do
+          get llm_feature_bindings_path
+
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include(I18n.t("llm.pgvector.unavailable_html").remove(" [Learn more](docs_url)"))
+        end
       end
 
       it "offers the tabs of the LLM settings page" do
