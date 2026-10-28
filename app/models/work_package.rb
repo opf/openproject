@@ -202,6 +202,7 @@ class WorkPackage < ApplicationRecord
 
   include WorkPackage::Journalized
   prepend Journable::Timestamps
+
   self.column_names_from_current_record += %w[identifier sequence_number]
 
   def self.status_based_mode?
