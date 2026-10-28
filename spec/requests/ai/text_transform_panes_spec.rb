@@ -87,6 +87,17 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       expect(retried).to have_attributes(action: failed.action, input: failed.input, status: "queued")
     end
 
+    it "repeats a run for a new work package of a project and type" do
+      failed = run_with_events(:failed, ["error", { "reason" => "upstream_error", "message" => "Failed." }])
+      new_work_package = pane_params.except(:work_package_id).merge(project_id: project.id, type_id: type.id)
+
+      post ai_text_transform_panes_path, params: new_work_package.merge(retry_of: failed.uuid), headers: stream
+
+      expect(response).to have_http_status(:ok)
+      expect(AI::TextTransformRun.where.not(id: failed.id).sole).to have_attributes(input: failed.input, status: "queued")
+      expect(response.body).to include(%(name="project_id" value="#{project.id}"), %(name="type_id" value="#{type.id}"))
+    end
+
     it "does not repeat a run that is still running" do
       running = run_with_events(:running)
 
@@ -373,6 +384,25 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
 
       expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  context "with forgery protection", skip_csrf: false do
+    it "renders forms that carry an authenticity token" do
+      run = run_with_events(:succeeded, ["completed", { "text" => "Done." }])
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
+
+      expect(response.body.scan('name="authenticity_token"').size).to eq(2)
+    end
+
+    it "refuses to close a pane without a valid token" do
+      run = run_with_events(:running)
+
+      delete ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(run.reload.cancel_requested).to be(false)
     end
   end
 
