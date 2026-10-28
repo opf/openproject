@@ -54,6 +54,24 @@ RSpec.describe SquashTMIntegration::Client, :webmock do
       expect { client.projects }.to raise_error(described_class::ResponseError)
     end
 
+    it "raises a plain response error on an unexpected client error status" do
+      stub_request(:get, projects_url).to_return(status: 422)
+
+      expect { client.projects }.to raise_error(described_class::ResponseError) { |error|
+        expect(error).not_to be_a(described_class::ServerError)
+      }
+    end
+
+    [500, 502, 503, 504].each do |status|
+      it "raises a server error with the status when SquashTM or its proxy fails with #{status}" do
+        stub_request(:get, projects_url).to_return(status:, body: "Bad Gateway")
+
+        expect { client.projects }.to raise_error(described_class::ServerError) { |error|
+          expect(error.status).to eq(status)
+        }
+      end
+    end
+
     it "raises a response error when the body is not JSON" do
       stub_request(:get, projects_url).to_return(status: 200, body: "<html>Login</html>")
 

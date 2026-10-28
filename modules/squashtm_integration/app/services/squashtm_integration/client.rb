@@ -41,6 +41,15 @@ module SquashTMIntegration
     class ResponseError < Error; end
     class NotFoundError < ResponseError; end
 
+    class ServerError < ResponseError
+      attr_reader :status
+
+      def initialize(status)
+        @status = status
+        super("SquashTM responded with #{status}")
+      end
+    end
+
     COLLECTION_PAGE_SIZE = 200
 
     def self.for(server)
@@ -128,6 +137,7 @@ module SquashTMIntegration
       return if response.status.in?(200..299)
       raise AuthenticationError if response.status.in?([401, 403])
       raise NotFoundError if response.status == 404
+      raise ServerError.new(response.status) if response.status >= 500
 
       raise ResponseError, "SquashTM responded with #{response.status}"
     end
