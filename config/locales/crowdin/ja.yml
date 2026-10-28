@@ -2648,6 +2648,9 @@ ja:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -2671,11 +2674,6 @@ ja:
     calculated_field_not_editable: Non-editable attribute. This value is calculated automatically.
     confirm_destroy_option: オプションを削除すると、そのすべての派生 (例えばワークパッケージ) が削除されます。削除してもよろしいですか?
     contained_in_type: タイプに含まれる
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: プロジェクトで有効
     instructions:
       admin_only:
@@ -2726,10 +2724,17 @@ ja:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: 値をアルファベット順に並べ替える
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
@@ -5256,6 +5261,14 @@ ja:
     welcome: "%{app_title} へようこそ"
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: must be an array.
       decimal?: 10進数である必要があります。
       defined: を定義してはならない。
@@ -5263,6 +5276,7 @@ ja:
       filled?: を入力する必要があります。
       format?: is in invalid format.
       greater_or_equal_zero: は 0 以上でなければなりません。
+      gt?: must be greater than %{num}.
       gteq?: must be greater than or equal to %{num}.
       hash?: must be a hash.
       included_in?:
@@ -5271,6 +5285,7 @@ ja:
           range: 'must be one of: %{list_left} - %{list_right}.'
       int?: は整数でなければなりません。
       key?: は見つかりません。
+      max_size?: must not be longer than %{num} characters.
       not_found: 見つかりません。
       respond_to?: does not implement required method.
       rules:
@@ -5290,6 +5305,7 @@ ja:
       type?: must be %{type}.
       unexpected_key: is not allowed.
       uri?: is not a valid URI.
+      uuid_v4?: must be a UUID (version 4).
     or: または
     rules:
       blueprint: パターンの建設計画
@@ -5445,13 +5461,19 @@ ja:
     '
   permission_manage_placeholder_user: プレースホルダーユーザーの作成、編集、削除
   permission_manage_project_activities: プロジェクト活動の管理
-  permission_manage_project_variants: Manage the project's own type variants
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: 公開BCFクエリの管理
   permission_manage_public_project_queries: 公開プロジェクトリストの管理
   permission_manage_public_queries: 公開ビューの管理
   permission_manage_repository: リポジトリの管理
   permission_manage_subtasks: ワークパッケージ階層の管理
   permission_manage_types: ワークパッケージのタイプを選択
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: ユーザーの編集
   permission_manage_versions: バージョンの管理
   permission_manage_wiki: Wiki の管理
@@ -6673,6 +6695,7 @@ ja:
     '
   text_form_configuration_required_attribute: 属性が必須とマークされています。 したがって常に示されます
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Markdown
     plain: プレーンテキスト
   text_git_repo_example: ローカルのリポジトリ （/gitrepo、c:\gitrepo など）
@@ -7064,6 +7087,9 @@ ja:
         enable_all: すべてのプロジェクトで有効
         select_projects: プロジェクトを選択
         select_projects_description: このタイプを使用するプロジェクトを選択。
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: プロジェクト
         variant_column: Variant or type
       reuse_mode:

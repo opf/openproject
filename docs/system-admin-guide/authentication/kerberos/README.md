@@ -50,8 +50,8 @@ You will then need to add the generated keytab to be used for the OpenProject in
 
 We are going to create a new file `/etc/openproject/addons/apache2/custom/vhost/kerberos.conf` with the following contents.
 
-> [!NOTE]
-> The following kerberos configuration is only an example. We cannot provide any support or help with regards to the Kerberos side of configuration. OpenProject will simply handle the incoming header containing the logged in user.
+> [!IMPORTANT]
+> The following kerberos configuration is only an example. We cannot provide any support or help with regards to the Kerberos side of configuration. OpenProject will simply handle the incoming header containing the logged in user, so make sure in your outer proxy/web server to not accept that header from incoming requests, as this would result in an authorization bypass.
 
 ```apache
 <Location />

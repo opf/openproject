@@ -3020,6 +3020,9 @@ cs:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -3043,11 +3046,6 @@ cs:
     calculated_field_not_editable: Non-editable attribute. This value is calculated automatically.
     confirm_destroy_option: Smazáním možnosti smažete všechny výskyty (např. v pracovních balíčcích). Opravdu ji chcete odstranit?
     contained_in_type: Obsahuje typ
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: Povoleno v projektu
     instructions:
       admin_only:
@@ -3098,10 +3096,17 @@ cs:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: Změnit pořadí abecedně
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
@@ -5771,6 +5776,14 @@ cs:
     welcome: Vítejte v %{app_title}
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: musí být pole.
       decimal?: musí být desetinné číslo.
       defined: nesmí být definováno.
@@ -5778,6 +5791,7 @@ cs:
       filled?: musí být vyplněno
       format?: je v neplatném formátu.
       greater_or_equal_zero: musí být větší nebo rovno 0.
+      gt?: must be greater than %{num}.
       gteq?: musí být větší než nebo rovno %{num}.
       hash?: musí být hash.
       included_in?:
@@ -5786,6 +5800,7 @@ cs:
           range: 'musí být jedním z těchto: %{list_left} - %{list_right}.'
       int?: musí být celé číslo
       key?: chybí.
+      max_size?: must not be longer than %{num} characters.
       not_found: nenalezeno
       respond_to?: neimplementuje požadovanou metodu.
       rules:
@@ -5805,6 +5820,7 @@ cs:
       type?: musí být %{type}.
       unexpected_key: není povoleno.
       uri?: není platná adresa URL.
+      uuid_v4?: must be a UUID (version 4).
     or: nebo
     rules:
       blueprint: Vzhled plánu
@@ -5960,13 +5976,19 @@ cs:
     '
   permission_manage_placeholder_user: Vytvořit, upravit a odstranit placeholder uživatele
   permission_manage_project_activities: Spravovat projektové aktivity
-  permission_manage_project_variants: Manage the project's own type variants
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: Spravovat veřejné dotazy BCF.
   permission_manage_public_project_queries: Spravovat veřejné seznamy projektů
   permission_manage_public_queries: Spravovat veřejné dotazy
   permission_manage_repository: Správa repozitáře
   permission_manage_subtasks: Spravovat hierarchie pracovních balíčků
   permission_manage_types: Vyberte typy
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: Upravit uživatele
   permission_manage_versions: Správovat verze
   permission_manage_wiki: Spravovat wiki
@@ -7224,6 +7246,7 @@ cs:
     '
   text_form_configuration_required_attribute: Atribut je označen jako povinný údaj, a proto je vždy zobrazen
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Zmenšení
     plain: Obyčejný text
   text_git_repo_example: holé a místní úložiště (např. /gitrepo, c:\gitrepo)
@@ -7618,6 +7641,9 @@ cs:
         enable_all: Povolit pro všechny projekty
         select_projects: Vybrat projekty
         select_projects_description: Vyberte projekty, ve kterých chcete tento typ použít.
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: Projekty
         variant_column: Variant or type
       reuse_mode:

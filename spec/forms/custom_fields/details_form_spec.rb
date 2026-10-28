@@ -163,6 +163,17 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
     end
   end
 
+  context "with a WorkPackageCustomField with deactivated values per project" do
+    let(:model_class) { WorkPackageCustomField }
+    let(:field_format) { "list" }
+    let(:model) { model_class.new(field_format:, project_specific_value_restriction: "block") }
+
+    it "selects manually deactivating the values for each project" do
+      expect(page).to have_checked_field(I18n.t("custom_fields.project_specific_values.block.label"), with: "block")
+      expect(page).to have_unchecked_field(I18n.t("custom_fields.project_specific_values.allow.label"), disabled: :all)
+    end
+  end
+
   context "with a WorkPackageCustomField without project-specific values" do
     let(:model_class) { WorkPackageCustomField }
     let(:field_format) { "list" }
@@ -170,6 +181,7 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
     context "when the enterprise plan includes project-specific values", with_ee: %i[project_specific_list_values] do
       it "offers to choose the values for each project" do
         expect(page).to have_field(I18n.t("custom_fields.project_specific_values.allow.label"), disabled: false)
+        expect(page).to have_field(I18n.t("custom_fields.project_specific_values.block.label"), disabled: false)
         expect(page).to have_no_text(I18n.t("ee.upsell.project_specific_list_values.description"))
       end
     end
@@ -177,6 +189,7 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
     context "when the enterprise plan does not include project-specific values" do
       it "does not offer to choose the values for each project and offers the upsell" do
         expect(page).to have_field(I18n.t("custom_fields.project_specific_values.allow.label"), disabled: true)
+        expect(page).to have_field(I18n.t("custom_fields.project_specific_values.block.label"), disabled: true)
         expect(page).to have_text(I18n.t("ee.upsell.project_specific_list_values.description"))
       end
     end

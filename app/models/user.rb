@@ -657,7 +657,6 @@ class User < Principal
     self.mail = email&.value
   end
 
-  # rubocop:disable Naming/PredicateMethod
   def scim_active=(is_active)
     if is_active
       activate
@@ -671,7 +670,6 @@ class User < Principal
   def scim_active
     active?
   end
-  # rubocop:enable Naming/PredicateMethod
 
   def self.scim_resource_type
     Scimitar::Resources::User

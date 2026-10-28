@@ -131,8 +131,8 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
    * Append an additional ancestor row that is not yet loaded
    */
   public buildAncestorRow(ancestor:WorkPackageResource,
-    ancestorGroups:string[],
-    index:number):[HTMLTableRowElement, boolean] {
+    _ancestorGroups:string[],
+    _index:number):[HTMLTableRowElement, boolean] {
     const workPackage = this.states.workPackages.get(ancestor.id!).value!;
     const [tr, hidden] = this.buildEmpty(workPackage);
     const identifier = ancestorClassIdentifier(ancestor.id!);

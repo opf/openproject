@@ -172,16 +172,8 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   }
 
   private warnIfNoOptions(values:unknown[]) {
-    let hasMember = false;
-    if (values.length === 0) {
-      if (this.ngSelectComponent.ngSelectInstance.searchTerm !== undefined && this.ngSelectComponent.ngSelectInstance.searchTerm !== '') {
-        hasMember = true;
-      } else {
-        hasMember = false;
-      }
-    } else {
-      hasMember = false;
-    }
+    const { searchTerm } = this.ngSelectComponent.ngSelectInstance;
+    const hasMember = values.length === 0 && searchTerm !== undefined && searchTerm !== '';
     this.actionService
       .warningTextWhenNoOptionsAvailable(hasMember)
       .then((text) => {
