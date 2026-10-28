@@ -130,7 +130,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
     this.render(columns, resource, schema);
   }
 
-  private render(columns:QueryColumn[], resource:WorkPackageCollectionResource, schema:SchemaResource) {
+  private render(columns:QueryColumn[], resource:WorkPackageCollectionResource, _schema:SchemaResource) {
     this.groupSumsBuilder = new GroupSumsBuilder(this.injector, this.workPackageTable);
     this.groupSumsBuilder.text = this.text;
     this.groupSumsBuilder.renderColumns(resource.totalSums!, this.element);

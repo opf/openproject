@@ -157,8 +157,8 @@ da:
   label_document_title: Titel
   label_document_type: Type
   label_documents: Dokumenter
-  permission_manage_documents: Håndter dokumenter
-  permission_view_documents: Se dokumenter
+  permission_manage_documents: Administrer dokumenter
+  permission_view_documents: Vis dokumenter
   plugin_openproject_documents:
     description: Et OpenProject-plugin til oprettelse af dokumenter i projekter.
     name: OpenProject Documents

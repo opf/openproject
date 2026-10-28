@@ -82,6 +82,7 @@ en:
     omniauth_login: Please login to activate your account.
     signup_title: "Create an account in %{app_title}"
     signup_with_external_account: "Sign up with an external account"
+    username_or_email: "Username or email"
 
   actionview_instancetag_blank_option: "Please select"
 
@@ -2239,10 +2240,12 @@ en:
         save: "Save changes and continue"
         title: "Save changes before continuing?"
       read_only:
-        edit_action: "Edit workflow"
+        edit_action: "Edit this workflow"
         text_html: >
-          You are using an existing workflow. To make changes, either edit the original workflow
-          or click on <b>+ %{action}</b> above to create a new one.
+          Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants.
+          They can no longer be edited directly within a type. To make changes, either edit the original workflow
+          or click on <strong>+ %{action}</strong> above to create a new one.
+        title: "Important changes"
       role_selector:
         label: "Role: %{role}"
         no_role: "Select role"
@@ -2830,6 +2833,9 @@ en:
           all: "All projects"
           with_project_specific_values: "With project-specific values"
         types_column: "Displayed in type"
+        values_empty_state:
+          description: "Add values to this custom field to choose which of them are available in this project."
+          title: "This custom field has no values yet"
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -2853,11 +2859,6 @@ en:
     calculated_field_not_editable: "Non-editable attribute. This value is calculated automatically."
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
     contained_in_type: "Contained in type"
-    disable_project_specific_values:
-      button: "Apply"
-      confirmation: "I understand that any project-specific settings will be overridden"
-      description: "All values for this custom field will be available to all projects using it."
-      title: "Make all values available to all projects?"
     enabled_in_project: "Enabled in project"
     instructions:
       admin_only:
@@ -2908,10 +2909,17 @@ en:
     project_specific_values:
       all:
         caption: "All projects will show the same list of values for this custom field"
-        label: "Show the same values for all projects"
+        label: "All values will be available in all projects"
       allow:
-        caption: "Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value."
-        label: "Manually choose which values to activate for each project"
+        caption_html: "By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab."
+        label: "Allow filter: Manually choose which values to activate for each project"
+      block:
+        caption: "By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects."
+        label: "Block filter: Manually choose which values to deactivate for each project"
+      switch_warning:
+        all: "All values will be available in all projects."
+        allow: "No values will be available to any project unless you manually activate them in each project individually."
+        block: "All values will be available in all projects unless you manually deactivate them in individual projects."
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?"
     semantic_keys:
@@ -3642,9 +3650,12 @@ en:
       title: "Configure a new form"
     tab:
       read_only:
-        banner_html: >
-          You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
-        edit_action: "Edit form"
+        edit_action: "Edit this form"
+        text_html: >
+          Starting version 18.0, forms are reusable objects that can be used across multiple types and variants.
+          They can no longer be edited directly within a type. To make changes, either edit the original form or
+          click on <strong>+ Form</strong> above to create a new one.
+        title: "Important changes"
     usage:
       dialog:
         button: "View dependent types"
@@ -4285,6 +4296,7 @@ en:
   label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_internal: "Internal"
   label_introduction_video: "Getting started video"
+  label_invalid_file_type: "This file type is not supported."
   label_invitation: Invitation
 
   label_invite_user: "Invite user"
@@ -5559,6 +5571,14 @@ en:
 
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: "must not be combined with a work package."
+          retry_of:
+            with_action: "must not be combined with an action or input."
+          type_id:
+            without_project: "must be given together with a project."
       array?: "must be an array."
       decimal?: "must be a decimal."
       defined: "must not be defined."
@@ -5566,6 +5586,7 @@ en:
       filled?: "must be filled."
       format?: "is in invalid format."
       greater_or_equal_zero: "must be greater or equal to 0."
+      gt?: "must be greater than %{num}."
       gteq?: "must be greater than or equal to %{num}."
       hash?: "must be a hash."
       included_in?:
@@ -5574,6 +5595,7 @@ en:
           range: "must be one of: %{list_left} - %{list_right}."
       int?: "must be an integer."
       key?: "is missing."
+      max_size?: "must not be longer than %{num} characters."
       not_found: "not found."
       respond_to?: "does not implement required method."
       rules:
@@ -5593,6 +5615,7 @@ en:
       type?: "must be %{type}."
       unexpected_key: "is not allowed."
       uri?: "is not a valid URI."
+      uuid_v4?: "must be a UUID (version 4)."
     or: "or"
     rules:
       blueprint: "Pattern blueprint"
@@ -5751,13 +5774,17 @@ en:
     Allows users to manage their own working times, and personal non-working days.
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_manage_project_activities: "Manage project activities"
-  permission_manage_project_variants: "Manage the project's own type variants"
+  permission_manage_project_variants: "Manage type variants"
+  permission_manage_project_variants_explanation: >
+    Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_manage_public_project_queries: "Manage public project lists"
   permission_manage_public_queries: "Manage public views"
   permission_manage_repository: "Manage repository"
   permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_types: "Select types"
+  permission_manage_types_explanation: >
+    Select which work package types are available in the project.
   permission_manage_user: "Edit users"
   permission_manage_versions: "Manage versions"
   permission_manage_wiki: "Manage wiki"
@@ -7079,6 +7106,7 @@ en:
     You can freely group the fields to reflect the needs for your domain.
   text_form_configuration_required_attribute: "Attribute is marked required and thus always shown"
   text_formatting:
+    image_link: "Image: %{name}"
     markdown: "Markdown"
     plain: "Plain text"
   text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
@@ -7482,6 +7510,9 @@ en:
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
+        switch_dialog:
+          description: 'The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.'
+          title: "Replace variants?"
         tab: Projects
         variant_column: Variant or type
       reuse_mode:

@@ -3022,6 +3022,9 @@ uk:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: Ви можете автоматично надавати певну роль у проєкті будь-якому користувачу, якому призначено цей атрибут, незалежно від його початкової ролі у цьому проєкті.
         dialog:
@@ -3045,11 +3048,6 @@ uk:
     calculated_field_not_editable: Атрибут не підлягає редагуванню. Його значення обчислюється автоматично.
     confirm_destroy_option: Видалення опції призведе до видалення всіх його подій (наприклад, у робочих пакетах). Дійсно видалити його?
     contained_in_type: Міститься за типом
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: Увімкнено в проекті
     instructions:
       admin_only:
@@ -3100,15 +3098,43 @@ uk:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: Перевпорядкувати значення за алфавітом
     reorder_confirmation: 'Попередження: поточний порядок доступних значень, а також усі незбережені значення буде втрачено. Справді продовжити?'
     semantic_keys:
       job_title: Назва посади
       none: Немає
+    show:
+      columns:
+        form: Form
+        type_or_variant: Type or variant
+      forms:
+        blank_slate:
+          description: This custom field is not part of any form yet.
+          filtered_description: No form matches the current filter.
+          filtered_title: No matching forms
+          title: No forms
+        filter_placeholder: Filter by form name or description…
+      tabs:
+        forms: Forms
+        types_and_variants: Types and variants
+      types_and_variants:
+        blank_slate:
+          description: No type or variant shows this custom field yet.
+          filtered_description: No type or variant matches the current filters.
+          filtered_title: No matching types or variants
+          title: No types or variants
+        filter_placeholder: Filter by type or variant name…
     text_add_new_custom_field: 'Щоб додати нові користувальницькі поля до проекту, спочатку потрібно створити їх, перш ніж ви зможете додати їх до цього проекту.
 
       '
@@ -3852,6 +3878,7 @@ uk:
         caption_html: The form %{name} is used in the following types and variants.
         title: Form used in types
         variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
         variants: Variants
       unused: No type or variant uses this form yet.
       used_by_types:
@@ -5746,6 +5773,14 @@ uk:
     welcome: Вітаємо в додатку %{app_title}
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: має бути масивом.
       decimal?: має бути десятковим числом.
       defined: не має визначатися.
@@ -5753,6 +5788,7 @@ uk:
       filled?: "— слід заповнити."
       format?: має недійсний формат.
       greater_or_equal_zero: має бути більше ніж 0 або дорівнювати йому.
+      gt?: must be greater than %{num}.
       gteq?: має бути більше ніж %{num} або дорівнювати цьому значенню.
       hash?: має бути гешом.
       included_in?:
@@ -5761,6 +5797,7 @@ uk:
           range: 'має бути якимось із цих елементів: %{list_left} — %{list_right}.'
       int?: має бути цілим числом.
       key?: "— відсутній елемент."
+      max_size?: must not be longer than %{num} characters.
       not_found: "— не знайдено."
       respond_to?: не реалізує потрібний метод.
       rules:
@@ -5780,6 +5817,7 @@ uk:
       type?: має бути типом «%{type}».
       unexpected_key: не дозволяється.
       uri?: не є дійсною URL-адресою.
+      uuid_v4?: must be a UUID (version 4).
     or: або
     rules:
       blueprint: Структура шаблону
@@ -5935,13 +5973,19 @@ uk:
     '
   permission_manage_placeholder_user: Створення, редагування та видалення прототипів користувачів
   permission_manage_project_activities: Управління проектною діяльністю
-  permission_manage_project_variants: Управління варіантами типів проєкту
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: Керування загальнодоступними запитами BCF
   permission_manage_public_project_queries: Керування списками загальнодоступних проєктів
   permission_manage_public_queries: Керуйте переглядами громадськості
   permission_manage_repository: Управління сховищем
   permission_manage_subtasks: Керування ієрархіями пакетів робіт
   permission_manage_types: Виберіть типи
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: Редагування користувачів
   permission_manage_versions: Управління версіями
   permission_manage_wiki: Управління wiki
@@ -7196,6 +7240,7 @@ uk:
     '
   text_form_configuration_required_attribute: Атрибут позначений необхідним і таким чином завжди показано
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Markdown
     plain: Простий текст
   text_git_repo_example: пуста локальна тека репозиторію (напр. /gitrepo, c:\gitrepo)
@@ -7590,6 +7635,9 @@ uk:
         enable_all: Використовувати у всіх проєктах
         select_projects: Вибрати проєкти
         select_projects_description: Виберіть проєкти, у яких ви хочете використовувати цей тип.
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: Проєкти
         variant_column: Variant or type
       reuse_mode:
@@ -8553,6 +8601,7 @@ uk:
         caption_html: The workflow %{name} is used in the following types and variants.
         title: Workflow used in types
         variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
         variants: Variants
       unused: Наразі жоден тип чи варіант ще не використовує цей робочий процес.
       used_by_types:

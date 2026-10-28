@@ -30,7 +30,6 @@ require_relative "../../support/pages/ifc_models/show_default"
 
 RSpec.describe "Switching work package view",
                :js,
-               :selenium,
                with_config: { edition: "bim" } do
   let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
@@ -75,7 +74,7 @@ RSpec.describe "Switching work package view",
 
     it "saves the representation in the query" do
       # After refresh the WP are still displayed as cards
-      page.driver.browser.navigate.refresh
+      page.refresh
       cards.expect_work_package_listed wp_1, wp_2
     end
   end

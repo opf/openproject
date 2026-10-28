@@ -50,7 +50,7 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
 
   private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.keepTab, this.currentProject, this.pathHelper, this.urlParams);
 
-  public render(element:HTMLElement, displayText:string):void {
+  public render(element:HTMLElement, _displayText:string):void {
     if (this.isEmpty()) {
       element.innerText = this.placeholder;
       return;

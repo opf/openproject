@@ -199,7 +199,7 @@ module Components
       end
     end
 
-    def wait_until_upload_progress_toaster_cleared # rubocop:disable Naming/PredicateMethod
+    def wait_until_upload_progress_toaster_cleared
       page.has_no_selector?("op-toasters-upload-progress")
     end
 

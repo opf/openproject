@@ -152,9 +152,9 @@ RSpec.describe "Cancel editing work package", :js, :selenium do
     description.click_and_type_slowly "foobar"
 
     # Try to move back to list, expect warning
-    page.execute_script("window.history.back()")
-    expect(wp_page).to have_alert_dialog
-    wp_page.dismiss_alert_dialog!
+    dismiss_confirm(I18n.t("js.work_packages.confirm_edit_cancel")) do
+      page.execute_script("window.history.back()")
+    end
     description.expect_active!
 
     # Now cancel the field

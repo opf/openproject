@@ -40,7 +40,7 @@ fr:
         view: Un lien dynamique vers une vue, inséré à l'aide d'une macro.
         work_package: Un lien dynamique vers un lot de travaux inséré à l'aide d'une macro.
   account:
-    already_have_an_account: You already have an account?
+    already_have_an_account: Avez-vous déjà un compte ?
     auth_source_login_html: Veuillez vous connecter en tant que <em>%{login}</em> pour activer votre compte.
     continue_with_provider: Continuer avec %{name}
     delete: Supprimer le compte
@@ -152,7 +152,7 @@ fr:
         min_value: Valeur minimale
         multi_value: Autoriser la sélection multiple
         possible_values: Valeurs possibles
-        project_specific_value_restriction: Project-specific values
+        project_specific_value_restriction: Valeurs spécifiques au projet
         regexp: Expression régulière
         searchable: Recherchable
         semantic_key: Signification sémantique
@@ -209,22 +209,22 @@ fr:
         widgets: Widgets
       group:
         avatar_color: Fallback color
-        avatar_text: Avatar text
-        avatar_type: Avatar type
+        avatar_text: Texte de l'avatar
+        avatar_type: Type d'avatar
         group_users: Groupes d'utilisateurs
         identity_url: URL d'identité
         organizational_unit: Unité organisationnelle
         parent: Groupe parent
       group_detail:
         avatar_color: Fallback color
-        avatar_text: Avatar text
-        avatar_type: Avatar type
+        avatar_text: Texte de l'avatar
+        avatar_type: Type d'avatar
         organizational_unit: Unité organisationnelle
         parent: Groupe parent
       import/jira:
-        auth_method: Auth method
-        basic_auth_password: Basic auth password
-        basic_auth_username: Basic auth username
+        auth_method: Méthode d’authentification
+        basic_auth_password: Mot de passe d'authentification basique
+        basic_auth_username: Nom d'utilisateur d'authentification basique
         name: Nom de l'instance Jira
         personal_access_token: Jeton d'accès personnel
         url: URL de l'instance Jira
@@ -297,7 +297,7 @@ fr:
         project_creation_wizard_status_when_submitted: Statut lors de l'envoi
         project_creation_wizard_work_package_comment: Commentaire du lot de travaux
         project_creation_wizard_work_package_type: Type de lot de travaux
-        project_specific_values: Project-specific values
+        project_specific_values: Valeurs spécifiques au projet
         project_types: Types
         public_value:
           false: privé
@@ -431,7 +431,7 @@ fr:
       user:
         admin: Administrateur
         auth_source: Sources d'authentification
-        avatar_type: Avatar type
+        avatar_type: Type d'avatar
         consented_at: Consenti à
         current_password: Mot de passe actuel
         department: Service
@@ -455,14 +455,14 @@ fr:
         auto_hide_popups: Masquer automatiquement les bannières de réussite
         auto_hide_popups_caption: Lorsque cette option est activée, les bannières vertes de réussite disparaissent automatiquement après 5 secondes.
         avatar_color: Fallback color
-        avatar_text: Avatar text
-        avatar_type: Avatar type
+        avatar_text: Texte de l'avatar
+        avatar_type: Type d'avatar
         button_update_alerts: Mettre à jour les alertes
         button_update_look_and_feel: Mettre à jour l'apparence
         button_update_user_information: Mettre à jour le profil
         comments_sorting: Afficher l'activité du lot de travaux triée par
         daily_reminders: Rappels quotidiens
-        date_format: Date format
+        date_format: Format de date
         disable_keyboard_shortcuts: Désactiver les raccourcis clavier
         dismissed_enterprise_banners: Bannières d'entreprise masquées
         force_dark_theme_contrast: Forcer un contraste élevé en mode sombre
@@ -473,11 +473,11 @@ fr:
         header_look_and_feel: Apparence et ergonomie
         impaired: Mode d'accessibilité
         increase_contrast: Augmenter le contraste
-        increase_contrast_caption: Enables high-contrast mode for the chosen color mode.
+        increase_contrast_caption: Active le mode de contraste élevé pour le mode de couleur choisi.
         increase_theme_contrast: Augmenter le contraste du thème
         mode_guideline: Certains modes écrasent les couleurs des thèmes personnalisés pour des raisons d'accessibilité et de lisibilité. Veuillez sélectionner le mode Clair pour une prise en charge complète des thèmes personnalisés.
-        require_double_click_for_inline_edit: Require double click to edit fields
-        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
+        require_double_click_for_inline_edit: Exiger un double-clic pour modifier les champs
+        require_double_click_for_inline_edit_caption: Lorsque cette option est activée, un simple clic n'ouvre plus le champ en mode édition. Cela facilite la sélection et la copie de texte, par exemple dans la description d'un lot de travail.
         theme: Mode de couleur
         time_format: Time format
         time_zone: Fuseau horaire
@@ -1523,14 +1523,14 @@ fr:
         description: Définissez une palette de couleurs à utiliser ailleurs dans l'application. Elles seront disponibles, par exemple, lorsque vous choisirez une couleur pour représenter un statut ou un type.
       edit_color: Modifier %{color}
       export:
-        description: Upload and manage custom image files used in your PDF exports.
-        title: Custom export
+        description: Importez et gérez les fichiers d'image personnalisées utilisés dans vos exportations au format PDF.
+        title: Export personnalisé
       fonts:
         file_is_invalid: n'est pas un fichier de police TTF valide.
         file_too_large: est trop volumineux (la taille maximale est de %{count} Mo).
       instructions:
         accent-color: Couleur pour les liens et autres éléments correctement mis en évidence.
-        export_cover_text_color: Color of the text on top of the cover background to ensure readability.
+        export_cover_text_color: Couleur du texte sur le fond de la couverture afin d'assurer la lisibilité.
         header-bg-color: Couleur d'arrière-plan par défaut de l'en-tête de l'application.
         main-menu-bg-color: Couleur d'arrière-plan du menu de gauche.
         main-menu-bg-selected-background: Couleur d'arrière-plan des éléments de menu lorsqu'ils sont sélectionnés.
@@ -1541,9 +1541,9 @@ fr:
       tab_interface: Interface
       tab_pdf_export_styles: Styles d'exportation PDF
       theme_warning:
-        confirmation: I understand that this action cannot be reversed
-        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
-        heading: Change color theme?
+        confirmation: Je comprends que cette suppression ne peut pas être annulée
+        description: Le changement de thème écrasera les styles et les couleurs personnalisés. Les paramètres de mise en page que vous avez créés seront perdus.
+        heading: Changer le thème de couleurs ?
         title: Changer le thème de couleurs
     enterprise:
       add_token: Téléverser un jeton de support de l'édition Enterprise
@@ -1577,7 +1577,7 @@ fr:
     import:
       title: Importation
     info:
-      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
+      database_deprecation_html: 'À partir d''OpenProject 16.0, PostgreSQL 16 est nécessaire pour utiliser OpenProject. Votre installation restera fonctionnelle avec votre base de données actuelle, mais attendez-vous à des incompatibilités dans les prochaines versions. <br/> Nous avons préparé des [guides de mise à jour pour toutes les méthodes d''installation](upgrade_guide). Vous pouvez effectuer la mise à jour à tout moment avant la prochaine version en suivant les guides.
 
         '
     jemalloc_allocator: Allocateur de mémoire Jemalloc
@@ -1586,14 +1586,14 @@ fr:
         button_edit: Modifier la configuration
         button_open: Ouvrir les exécutions
       api_client:
-        unknown_auth_method: Unknown authentication method. Please use 'bearer' or 'basic'.
+        unknown_auth_method: Méthode d'authentification inconnue. Veuillez utiliser « bearer » ou « basic ».
       banner:
         contribution_callout: 'Aidez-nous à améliorer le Jira Migrator avec vos commentaires et vos dons de données privées. Vous pouvez [rejoindre la communauté de développement](link) du Jira Migrator.
 
           '
         description: Ce Jira Migrator est actuellement en version bêta. Nous ne prenons actuellement en charge que les versions 10.x et 11.x de Jira Server/Data Center. Les instances Cloud ne sont pas prises en charge pour le moment.
         title: Version bêta disponible. Essayez-la !
-      basic_auth_password_deleted: Basic auth password was successfully deleted.
+      basic_auth_password_deleted: Le mot de passe d'authentification de base a été supprimé avec succès.
       blank:
         description: Configurez un hôte Jira pour commencer à importer des éléments de Jira vers cette instance d'OpenProject.
         title: Aucun hôte Jira n'est encore configuré
@@ -1628,17 +1628,17 @@ fr:
       form:
         auth_method:
           basic:
-            caption: Use basic auth if you are using a Jira Server version 8 or the instance is configured behind a proxy.
-            label: Basic auth
+            caption: Utilisez l'authentification de base si vous utilisez Jira Server version 8 ou si l'instance est configurée derrière un proxy.
+            label: Authentification de base
           bearer:
-            caption: We recommend using this authentication method.
-            label: Personal access token (PAT)
+            caption: Nous vous recommandons d'utiliser cette méthode d'authentification.
+            label: Jeton personnel d'accès « PAT » (Personal Access Token)
         button_add: Ajouter la configuration
-        button_delete_basic_auth_password: Delete basic auth password
-        button_delete_personal_access_token: Delete PAT
+        button_delete_basic_auth_password: Supprimer le mot de passe de l'authentification de base
+        button_delete_personal_access_token: Supprimer le PAT
         button_save: Enregistrer la configuration
-        button_test_connection: Test Connection
-        delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
+        button_test_connection: Tester la connexion
+        delete_basic_auth_password_confirm: Êtes-vous sûr de vouloir supprimer le mot de passe d'authentification de base ? Cela désactivera la connexion à Jira.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
@@ -2768,6 +2768,9 @@ fr:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: Vous pouvez automatiquement accorder un rôle donné dans le projet à tout utilisateur associé à cet attribut de projet, quel que soit son rôle initial dans ce projet.
         dialog:
@@ -2791,11 +2794,6 @@ fr:
     calculated_field_not_editable: Attribut non modifiable. Cette valeur est calculée automatiquement.
     confirm_destroy_option: Supprimer une option supprimera toutes ses occurrences (ex. dans les plans de travail). Voulez-vous vraiment le supprimer ?
     contained_in_type: Figurant dans le type
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: Activé dans le projet
     instructions:
       admin_only:
@@ -2846,15 +2844,43 @@ fr:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: Réorganiser les valeurs par ordre alphabétique
     reorder_confirmation: 'Attention : l''ordre actuel des valeurs disponibles ainsi que toutes les valeurs non enregistrées seront perdus. Voulez-vous vraiment continuer ?'
     semantic_keys:
       job_title: Intitulé du poste
       none: Aucun
+    show:
+      columns:
+        form: Form
+        type_or_variant: Type or variant
+      forms:
+        blank_slate:
+          description: This custom field is not part of any form yet.
+          filtered_description: No form matches the current filter.
+          filtered_title: No matching forms
+          title: No forms
+        filter_placeholder: Filter by form name or description…
+      tabs:
+        forms: Forms
+        types_and_variants: Types and variants
+      types_and_variants:
+        blank_slate:
+          description: No type or variant shows this custom field yet.
+          filtered_description: No type or variant matches the current filters.
+          filtered_title: No matching types or variants
+          title: No types or variants
+        filter_placeholder: Filter by type or variant name…
     text_add_new_custom_field: 'Pour ajouter de nouveaux champs personnalisés à un projet, vous devez d''abord les créer avant de pouvoir les ajouter à ce projet.
 
       '
@@ -3546,6 +3572,7 @@ fr:
         caption_html: Le formulaire %{name} est utilisé dans les types et variantes suivants.
         title: Formulaire utilisé dans les types
         variant_of: Variante de %{type}
+        variant_of_html: Variant of %{type}
         variants: Variantes
       unused: Aucun type ni aucune variante n'utilise encore cette forme.
       used_by_types:
@@ -5403,6 +5430,14 @@ fr:
     welcome: Bienvenue sur %{app_title}
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: doit être un tableau.
       decimal?: doit être une décimale.
       defined: ne doit pas être défini.
@@ -5410,6 +5445,7 @@ fr:
       filled?: doit être rempli.
       format?: n'est pas dans un format valide.
       greater_or_equal_zero: doit être supérieur ou égal à 0.
+      gt?: must be greater than %{num}.
       gteq?: doit être supérieur ou égal à %{num}.
       hash?: doit être un hachage.
       included_in?:
@@ -5418,6 +5454,7 @@ fr:
           range: 'doit être l''un des éléments suivants : %{list_left} - %{list_right}.'
       int?: doit être un nombre entier.
       key?: est manquant.
+      max_size?: must not be longer than %{num} characters.
       not_found: est introuvable.
       respond_to?: ne met pas en œuvre la méthode requise.
       rules:
@@ -5437,6 +5474,7 @@ fr:
       type?: 'doit être de type : %{type}.'
       unexpected_key: n'est pas autorisé.
       uri?: n'est pas un URI valide.
+      uuid_v4?: must be a UUID (version 4).
     or: ou
     rules:
       blueprint: Modèle de plan
@@ -5592,13 +5630,19 @@ fr:
     '
   permission_manage_placeholder_user: Créer, modifier et supprimer des utilisateurs fictifs
   permission_manage_project_activities: Gérer les activités du projet
-  permission_manage_project_variants: Gérer les variantes de type propres au projet
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: Gérer les requêtes publiques BCF
   permission_manage_public_project_queries: Gérer les listes de projets publics
   permission_manage_public_queries: Gérer les vues publiques
   permission_manage_repository: Gérer le dépôt
   permission_manage_subtasks: Gérer les hiérarchies de lots de travaux
   permission_manage_types: Sélectionner types
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: Modifier les utilisateurs
   permission_manage_versions: Gérer les versions
   permission_manage_wiki: Gérer le wiki
@@ -6827,6 +6871,7 @@ fr:
     '
   text_form_configuration_required_attribute: L'attribut est marqué requis et donc toujours montré
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Markdown
     plain: Texte brut
   text_git_repo_example: un dépôt vide et local (e.x., /gitrepo, c:\gitrepo)
@@ -7219,6 +7264,9 @@ fr:
         enable_all: Activer pour tous les projets
         select_projects: Sélectionner des projets
         select_projects_description: Sélectionnez les projets dans lesquels vous souhaitez utiliser ce type.
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: Projets
         variant_column: Variant or type
       reuse_mode:
@@ -8132,6 +8180,7 @@ fr:
         caption_html: The workflow %{name} is used in the following types and variants.
         title: Workflow used in types
         variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
         variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:
