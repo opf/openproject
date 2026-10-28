@@ -141,7 +141,7 @@ RSpec.describe FillFromGitlab, type: :model do
       migrate
       expect(Repositories::Issue.find_by!(web_url: issue_with_nulls.gitlab_html_url)).to have_attributes(
         title: "",
-        body: "",
+        description: "",
         labels: [],
         external_updated_at: issue_with_nulls.reload.updated_at
       )

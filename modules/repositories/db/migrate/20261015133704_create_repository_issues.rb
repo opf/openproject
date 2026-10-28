@@ -41,7 +41,7 @@ class CreateRepositoryIssues < ActiveRecord::Migration[8.1]
       t.string :state, null: false
       t.string :project_name, null: false
       t.string :title, null: false, default: ""
-      t.text :body, null: false, default: ""
+      t.text :description, null: false, default: ""
       t.jsonb :labels, null: false, default: []
       t.datetime :external_updated_at, precision: nil, null: false
 
