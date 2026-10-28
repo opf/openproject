@@ -42,13 +42,13 @@ module Components
 
     def go_to_page(number)
       within_pagination do
-        within(".op-pagination--pages") { click_on number.to_s }
+        within(".op-pagination--pages") { click_on number.to_s, exact: true }
       end
     end
 
     def select_per_page(number)
       within_pagination do
-        within(".op-pagination--options") { click_on number.to_s }
+        within(".op-pagination--options") { click_on number.to_s, exact: true }
       end
     end
 
