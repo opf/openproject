@@ -60,7 +60,7 @@ module Grids
             {
               id:,
               name:,
-              members: members,
+              members:,
               total_count: total_count,
               remaining: [total_count - limit, 0].max,
               has_more: total_count > limit
