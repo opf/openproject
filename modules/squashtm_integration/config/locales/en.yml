@@ -17,10 +17,10 @@ en:
           attributes:
             base:
               squashtm_server_not_configured: "No SquashTM server is configured. Please contact your instance administrator."
+              work_package_links_not_removable: "You are not allowed to remove the SquashTM requirement links of this project's work packages."
               work_packages_linked:
                 one: "1 work package is still linked to a SquashTM requirement. Remove its link to unlink the project."
                 other: "%{count} work packages are still linked to SquashTM requirements. Remove their links to unlink the project."
-              work_package_links_not_removable: "You are not allowed to remove the SquashTM requirement links of this project's work packages."
             project_id:
               taken: "is already linked to a SquashTM project."
             squashtm_project_id:
@@ -92,12 +92,12 @@ en:
       warning: "Warning"
     project_settings:
       delete_project_link_dialog_component:
+        blocked: "This project cannot be unlinked while its work packages are linked to SquashTM requirements. Removing these links requires the \"Manage SquashTM requirement links\" permission. Please ask someone who has it."
         confirm: "Unlink"
         description: "Work packages of this project will no longer show SquashTM test results."
         heading: "Unlink the SquashTM project %{name}?"
         no_work_packages_linked: "No work package is currently linked to a SquashTM requirement."
         title: "Unlink SquashTM project"
-        blocked: "This project cannot be unlinked while its work packages are linked to SquashTM requirements. Removing these links requires the \"Manage SquashTM requirement links\" permission. Please ask someone who has it."
         unlink_work_packages:
           one: "Remove the SquashTM requirement link and unlink project"
           other: "Remove all %{count} SquashTM requirement links and unlink project"
