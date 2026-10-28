@@ -1907,7 +1907,7 @@ en:
               title: "Create work packages"
             "9":
               rest_line_text: "Creating parent-child relations from subtasks for %{projects_number} more projects"
-              title: "Creaating parent-child relations from subtasks"
+              title: "Creating parent-child relations from subtasks"
             "10":
               rest_line_text: "Downloading attachments for %{projects_number} more projects"
               title: "Download attachments"
