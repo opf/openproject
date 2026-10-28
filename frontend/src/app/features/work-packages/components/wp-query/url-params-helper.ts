@@ -112,7 +112,7 @@ export class UrlParamsHelperService {
 
 
   // copied more or less from angular buildUrl
-  public buildQueryString(params:any) {
+  public buildQueryString(params:object|null|undefined) {
     if (!params) {
       return undefined;
     }
@@ -255,7 +255,7 @@ export class UrlParamsHelperService {
     const properties = JSON.parse(updateJson) as QueryProps;
 
     if (properties.c) {
-      queryData['columns[]'] = properties.c.map((column:any) => column);
+      queryData['columns[]'] = properties.c.map((column) => column);
     }
     if (properties.s) {
       queryData.showSums = properties.s;
@@ -286,7 +286,7 @@ export class UrlParamsHelperService {
     }
 
     if (properties.hla) {
-      queryData['highlightedAttributes[]'] = properties.hla.map((column:any) => column);
+      queryData['highlightedAttributes[]'] = properties.hla.map((column) => column);
     }
 
     if (properties.hi !== undefined) {
@@ -318,7 +318,7 @@ export class UrlParamsHelperService {
 
     // Sortation
     if (properties.t) {
-      queryData.sortBy = JSON.stringify(properties.t.split(',').map((sort:any) => sort.split(':')));
+      queryData.sortBy = JSON.stringify(properties.t.split(',').map((sort) => sort.split(':')));
     }
 
     if (properties.ts) {
@@ -400,7 +400,7 @@ export class UrlParamsHelperService {
 
   private buildV3GetColumnsFromQueryResource(query:QueryResource):string[] {
     if (query.columns) {
-      return query.columns.map((column:any) => column.id || idFromLink(column.href)) as string[];
+      return query.columns.map((column) => column.id || idFromLink(column.href));
     }
     const links = query._links as { columns?:HalLink[] };
     if (links.columns) {
