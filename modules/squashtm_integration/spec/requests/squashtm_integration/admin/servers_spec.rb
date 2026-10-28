@@ -51,7 +51,7 @@ RSpec.describe "SquashTM server administration",
       expect(response.body).to include("squashtm_server[base_url]")
     end
 
-    it "shows the linked server without the form or the stored token" do
+    it "shows the linked server, hides the form and never reveals the stored token" do
       create(:squashtm_server, api_token: "secret-token")
 
       get server_path
