@@ -121,4 +121,56 @@ RSpec.describe Grids::Widgets::Members, type: :component do
       end
     end
   end
+
+  describe "data fetching" do
+    let(:project) { create(:project) }
+    let(:user) do
+      bob = create(:user, lastname: "Bob")
+      create(:member, principal: bob, project:,
+                      roles: [
+                        create(:project_role, name: "Bob-Role", permissions: [:view_members])
+                      ])
+
+      bob
+    end
+
+    before do
+      role = create(:project_role, name: "Developers")
+      alice = create(:user, lastname: "Alice")
+
+      # create another project, with alice and the same role
+      create(:member, principal: alice, project: create(:project), roles: [role])
+
+      create(:member, principal: alice, project:,
+                      roles: [
+                        role,
+                        create(:project_role, name: "Alice-Role")
+                      ])
+
+      # Peter is in the project, but locked!
+      peter = create(:user, :locked, lastname: "Peter")
+      create(:member, principal: peter, project:,
+                      roles: [
+                        create(:project_role, name: "Peter-Role")
+                      ])
+
+      create_list(:user, 3, member_with_roles: { project => [role] })
+    end
+
+    subject(:roles) { described_class.new(project).members_by_role }
+
+    it "fetches data for roles" do
+      # ensure roles are sorted by name
+      expect(roles.pluck(:name)).to eq(["Alice-Role", "Bob-Role", "Developers"])
+
+      roles.each do |role_data|
+        members = role_data[:members]
+
+        expect(members.to_a.size).to be <= 3
+        expect(members.map(&:id)).to eq(members.map(&:id).uniq), "Expected principals to be uniq"
+      end
+
+      expect(roles.find { |r| r[:name] == "Developers" }[:members].count).to eq(3)
+    end
+  end
 end
