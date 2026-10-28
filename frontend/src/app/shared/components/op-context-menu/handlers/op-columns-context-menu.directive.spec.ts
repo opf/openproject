@@ -38,6 +38,7 @@ import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { registerContextMenu } from 'core-app/shared/components/op-context-menu/testing/register-context-menu';
 import { headerRowKey } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/navigable-rows';
+import { navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { buildTable, TableHarness } from 'core-app/features/work-packages/components/wp-fast-table/testing/table-harness';
 import { OpColumnsContextMenu } from './op-columns-context-menu.directive';
 
@@ -164,6 +165,17 @@ describe('OpColumnsContextMenu on a capability-on table', () => {
 
     expect(service.active).toBeNull();
     expect(subjectHeader()).toHaveFocus();
+  });
+
+  it('column menu: hiding a column returns focus to the previous column header', async () => {
+    const overlay = await openMenu();
+    const [idHeader] = harness.headerCells();
+
+    fireEvent.click(overlay.getByRole('menuitem', { name: 'js.work_packages.query.hide_column' }));
+    await new Promise((resolve) => { setTimeout(resolve); });
+
+    expect(idHeader).toHaveFocus();
+    expect(idHeader).toHaveClass(navigableCellClassName);
   });
 
   it('Escape immediately after opening closes the menu and returns focus to the header cell', async () => {

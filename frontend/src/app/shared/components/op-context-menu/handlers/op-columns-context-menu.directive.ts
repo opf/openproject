@@ -115,6 +115,18 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       ?? this.element;
   }
 
+  private followColumn(header:HTMLElement|null):void {
+    const navigation = this.table.keyboardNavigation;
+    const current = navigation?.position;
+    const position = header && navigation?.positionOfCell(header);
+    if (!navigation || !this.origin || !position || current?.key !== this.origin.key || current.cell !== this.origin.cell) {
+      return;
+    }
+
+    navigation.recordPosition(position);
+    this.origin = position;
+  }
+
   private buildItems() {
     const c = this.column;
 
@@ -196,10 +208,14 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         icon: 'icon-delete',
         onClick: () => {
           const focusColumn = this.wpTableColumns.previous(c) || this.wpTableColumns.next(c);
+          const headerRow = this.element.closest('tr');
           this.wpTableColumns.removeColumn(c);
+          if (focusColumn) {
+            this.followColumn(headerRow?.querySelector<HTMLElement>(`#${CSS.escape(focusColumn.id)}`) ?? null);
+          }
 
           setTimeout(() => {
-            if (focusColumn) {
+            if (focusColumn && !this.origin) {
               document.querySelector<HTMLElement>(`#${focusColumn.id}`)?.focus();
             }
           });
