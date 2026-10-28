@@ -34,6 +34,37 @@ RSpec.describe Import::JiraFetchUsersJob do
   let(:jira_client) { instance_double(Import::JiraClient) }
   let(:user_keys) { Set.new }
 
+  describe "#perform" do
+    include_context "with jira project import data"
+
+    let(:jira_issue_payload) { JSON.parse(Rails.root.join("spec/fixtures/import/jira/issue.json").read) }
+    let(:jira_client) { instance_double(Import::JiraClient) }
+
+    context "when an issue has watchers" do
+      before do
+        payload = jira_issue_payload.merge("watchers" => [{ "key" => "JIRAUSER666" }, { "key" => "JIRAUSER123" }])
+        create(:jira_issue, jira_import:, origin_id: "10405", jira_project:, payload:)
+
+        payload = jira_issue_payload.merge("watchers" => [{ "key" => "JIRAUSER666" }, { "key" => "JIRAUSER69" }])
+        create(:jira_issue, jira_import:, origin_id: "10406", jira_project:, payload:)
+
+        create(:jira_issue, jira_import:, origin_id: "10407", jira_project:, payload: jira_issue_payload)
+
+        allow(Import::JiraClient).to receive(:new).and_return(jira_client)
+        allow(jira_client).to receive(:user_by_key)
+      end
+
+      it "retrieves additonal userdata and creates import users for the authors and watchers" do
+        author_keys = %w[JIRAUSER10000 JIRAUSER10102]
+        watcher_keys = %w[JIRAUSER666 JIRAUSER123 JIRAUSER69]
+        expect { described_class.new(jira_import.id).perform_now }.to change(Import::JiraUser, :count).by(5)
+
+        (author_keys + watcher_keys).each { |key| expect(jira_client).to have_received(:user_by_key).with(key:).once }
+        expect(Import::JiraUser.pluck(:origin_id)).to contain_exactly(*author_keys, *watcher_keys)
+      end
+    end
+  end
+
   describe "#collect_attachment_user_keys" do
     it "adds the author key of every attachment" do
       payload = {

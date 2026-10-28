@@ -66,6 +66,7 @@ module Import
       collect_attachment_user_keys(user_keys, payload)
       collect_worklog_user_keys(user_keys, payload)
       collect_changelog_user_keys(user_keys, issue)
+      collect_watchers_user_keys(user_keys, issue)
     end
 
     def collect_field_user_keys(user_keys, mention_usernames, payload)
@@ -117,6 +118,10 @@ module Import
       (issue.payload.dig("changelog", "histories") || []).each do |entry|
         user_keys << entry.dig("author", "key") if entry.dig("author", "key").present?
       end
+    end
+
+    def collect_watchers_user_keys(user_keys, issue)
+      issue.payload.fetch("watchers", []).each { |watcher| user_keys << watcher["key"] if watcher["key"].present? }
     end
 
     def collect_markup_mentions(text, mention_usernames)
