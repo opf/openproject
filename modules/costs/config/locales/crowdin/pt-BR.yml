@@ -72,6 +72,10 @@ pt-BR:
           attributes:
             project_ids:
               blank: Selecione um projeto.
+        rate:
+          attributes:
+            principal:
+              invalid: deve ser um usuário ou um usuário substituto.
         time_entry:
           attributes:
             entity:
@@ -140,7 +144,6 @@ pt-BR:
   button_add_time_entry: Registro de tempo
   button_log_costs: Registrar custos unitários
   button_log_time: Registro
-  button_stop_timer: Parar temporizador
   button_update_limits: Atualizar limites
   button_update_start_finish_times: Atualizar horários de início e término
   caption_booked_on_project: Reservado para o projeto
@@ -174,9 +177,13 @@ pt-BR:
       cost_types:
         for_all_projects_hint: Este tipo de custo está habilitado em todos os projetos.
         heading: Tipos de custo
+        hint: Select which cost types are displayed in your project when members log their costs.
         in_use_hint: Este tipo de custo não pode ser desativado porque já há custos registrados para ele neste projeto.
         none_active: Nenhum tipo de custo está ativo neste projeto.
       time_and_costs: Tempo e custos
+      time_entry_activities:
+        heading: Time tracking
+        hint: Select which time tracking activities are displayed in your project when members log their time.
   costs:
     widgets:
       actual_costs:
@@ -207,9 +214,9 @@ pt-BR:
   label_costlog: Custos unitários registrados
   label_costs: Custos
   label_costs_per_page: Custos por página
+  label_current: Atual
   label_current_default_rate: Atual taxa padrão
   label_date_on: em
-  label_day: Dia
   label_defaults_and_limits: Padrões e limites
   label_deleted_cost_types: Tipos de custos excluídos
   label_display_cost_entries: Exibir os custos unitários
@@ -225,21 +232,12 @@ pt-BR:
   label_less_or_equal: "<="
   label_list: Lista
   label_log_costs: Registrar custos unitários
-  label_month: Mês
-  label_my_time_tracking: Meu controle de tempo
   label_new_time_entry_activity: Nova atividade de registro de tempo
-  label_next_day: Próximo dia
-  label_next_month: Próximo mês
-  label_next_week: Próxima semana
-  label_next_workweek: Próxima semana útil
   label_no: Não
-  label_no_time: Sem tempo controlado
+  label_no_default_rate: Nenhuma taxa padrão definida
+  label_no_project_rate: Nenhuma taxa definida para este projeto
   label_option_plural: Opções
   label_overall_costs: Custos totais
-  label_previous_day: Dia anterior
-  label_previous_month: Mês anterior
-  label_previous_week: Semana anterior
-  label_previous_workweek: Semana útil anterior
   label_rate_plural: Taxas
   label_show: Exibir
   label_specific_day: Dia %{day}
@@ -248,15 +246,14 @@ pt-BR:
   label_status_finished: Finalizado
   label_time: Horário
   label_time_entry_activity_form_description: As mudanças nesta atividade de registro de tempo serão aplicadas a todos os projetos onde estiver habilitada.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limites
-  label_timer_since: Iniciado às %{time}
   label_today_capitalized: Hoje
   label_units: Custos unitários
   label_until: até
+  label_using_current_default_rate: Usando a taxa padrão atual
   label_valid_from: Válido a partir de
-  label_view_mode_switcher: Alterar vista
   label_work_package_filter_add: Adicionar filtro de pacote de trabalho
-  label_workweek: Semana útil
   label_yes: Sim
   notice_cost_logged_successfully: Custo unitário registrado com sucesso.
   notice_different_time_zones: Este usuário tem um fuso horário diferente (%{tz}). A hora será registrada usando o fuso horário dele.
@@ -272,6 +269,10 @@ pt-BR:
   permission_edit_rates: Editar taxas
   permission_log_costs: Reservar custos unitários
   permission_log_own_costs: Reservar custos unitários próprios
+  permission_manage_default_hourly_rates: Gerenciar taxas horárias padrão
+  permission_manage_default_hourly_rates_explanation: 'Permite adicionar, alterar e excluir as taxas horárias padrão de usuários e usuários substitutos.
+
+    '
   permission_view_cost_entries: Ver custos reservados
   permission_view_cost_rates: Ver taxas de custo
   permission_view_hourly_rates: Ver todas as taxas de horárias
@@ -309,6 +310,11 @@ pt-BR:
   text_destroy_cost_entries_question: "%{cost_entries} foram informados sobre os pacotes de trabalho que você está prestes a excluir. O que você quer fazer?"
   text_destroy_time_and_cost_entries: Excluir horas e custos informados
   text_destroy_time_and_cost_entries_question: "%{hours} horas, %{cost_entries} foram relatados sobre os pacotes de trabalho que você está prestes a excluir. O que você quer fazer?"
+  text_hourly_rate_destroy_confirmation: A taxa de %{rate}, válida a partir de %{valid_from}, será excluída. Os custos lançados com base nela serão recalculados usando a taxa que estiver vigente.
+  text_hourly_rate_destroy_confirmation_checkbox_label: Entendo que esta ação é irreversível.
+  text_hourly_rate_recalculation: Essa taxa se aplica a partir da data de início de sua validade até a entrada em vigor de uma taxa posterior. Alterá-la também fará com que os lançamentos de horas e os orçamentos existentes nesse período sejam recalculados.
+  text_no_default_rate: A taxa padrão é usada em todos os projetos nos quais não há uma taxa específica definida para o usuário.
+  text_no_project_rate: Este projeto usará a taxa padrão atual.
   text_reassign_time_and_cost_entries: 'Reatribua horas reportadas e custos para este pacote de trabalho:'
   text_warning_hidden_elements: Algumas entradas podem ter sido excluídas da agregação.
   total_times:

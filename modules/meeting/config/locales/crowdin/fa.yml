@@ -24,14 +24,15 @@ fa:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sorting mode
         duration: مدت
         end_time: زمان پایان
         location: موقعیت مکانی
         notes: یادداشت‌ها
         notify: ارسال اعلان‌ها
         participant:
-          one: ۱ شرکت‌کننده
-          other: "%{count} شرکت‌کننده"
+          one: "%{count} Participant"
+          other: "%{count} Participants"
         participants: شركت كنندگان
         participants_added: 'شرکت‌کنندگان افزوده‌شده:'
         participants_attended: حاضران
@@ -88,14 +89,18 @@ fa:
         invalid_time_format: 'زمان معتبری نیست. قالب الزامی: HH:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: بخش به همان جلسه تعلق ندارد.
           user_invalid: شرکت‌کننده معتبری نیست.
+          vote_based_sorting_required: Voting requires vote-based agenda sorting.
         meeting_participant:
           user_invalid: شرکت‌کننده معتبری نیست.
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: یک جلسه باز در این مجموعه وجود دارد که برنامه جدید آن را پوشش نمی‌دهد. برنامه را طوری تنظیم کنید که همه جلسات موجود را شامل شود.
+            one: There is %{count} open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
             other: "%{count} جلسه باز در این مجموعه وجود دارد که برنامه جدید آن‌ها را پوشش نمی‌دهد. برنامه را طوری تنظیم کنید که همه جلسات موجود را شامل شود."
         recurring_meeting_interim_response:
           not_an_occurrence: زمان نوبت معتبری برای این جلسه تکرارشونده نیست
@@ -152,6 +157,10 @@ fa:
     meeting_agenda_opened: دستور جلسه باز شد
     meeting_minutes: صورت‌جلسه ویرایش شد
     meeting_minutes_created: صورت‌جلسه ایجاد شد
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: افزودن به جلسه
   label_add_work_package_to_meeting_dialog_title: انتخاب جلسه
   label_add_work_package_to_meeting_section_label: بخش
@@ -160,6 +169,8 @@ fa:
   label_agenda_backlog_clear_title: بک‌لاگ دستور جلسه پاک شود؟
   label_agenda_item_actions: اقدامات موارد دستور جلسه
   label_agenda_item_add: افزودن مورد دستور جلسه
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: افزودن یادداشت
   label_agenda_item_add_outcome: افزودن نتیجه
   label_agenda_item_convert_to_work_package: تبدیل به بسته کاری
@@ -167,6 +178,7 @@ fa:
   label_agenda_item_duplicate: تکثیر
   label_agenda_item_duplicate_in_next: تکثیر در جلسه بعدی
   label_agenda_item_duplicate_in_next_title: در جلسه بعدی تکثیر شود؟
+  label_agenda_item_include_outcomes: Include outcomes
   label_agenda_item_move: انتقال
   label_agenda_item_move_down: انتقال به پایین
   label_agenda_item_move_to_backlog: انتقال به بک‌لاگ
@@ -230,8 +242,8 @@ fa:
   label_meeting_last_updated: آخرین به‌روزرسانی
   label_meeting_minutes: صورت‌جلسه
   label_meeting_more:
-    one: یک جلسه دیگر وجود دارد.
-    other: "%{count} جلسه دیگر وجود دارد."
+    one: There is %{count} more meeting.
+    other: There are %{count} more meetings.
   label_meeting_new: ایجاد جلسه
   label_meeting_new_dynamic: جلسه یک‌باره جدید
   label_meeting_new_recurring: جلسه تکرارشونده جدید
@@ -276,11 +288,11 @@ fa:
   label_recurring_meeting_delete: حذف نوبت
   label_recurring_meeting_duplicate: تکثیر به‌عنوان جلسه یک‌باره
   label_recurring_meeting_more:
-    one: یک جلسه زمان‌بندی‌شده دیگر وجود دارد (%{schedule}).
-    other: "%{count} جلسه زمان‌بندی‌شده دیگر وجود دارد (%{schedule})."
+    one: There is %{count} more scheduled meeting (%{schedule}).
+    other: There are %{count} more scheduled meetings (%{schedule}).
   label_recurring_meeting_more_past:
-    one: یک جلسه گذشته دیگر وجود دارد.
-    other: "%{count} جلسه گذشته دیگر وجود دارد."
+    one: There is %{count} more past meeting.
+    other: There are %{count} more past meetings.
   label_recurring_meeting_new: جلسه تکرارشونده جدید
   label_recurring_meeting_next_occurrence: نوبت بعدی
   label_recurring_meeting_no_end_date: جلسات زمان‌بندی‌شده بیشتری وجود دارند (%{schedule}).
@@ -310,6 +322,25 @@ fa:
   label_view_meeting_series: مشاهده مجموعه جلسات
   label_write_outcome: ثبت نتیجه
   meeting:
+    agenda_sorting:
+      change: Change sorting mode
+      current_mode: Currently in %{mode} mode
+      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      manual: Manual
+      manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
+      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
+      remove_thumbs_down: Remove downvote
+      remove_thumbs_up: Remove upvote
+      sidebar_title: Agenda sorting
+      sorted_by_votes: Agenda sorted by votes.
+      thumbs_down: Downvote
+      thumbs_up: Upvote
+      title: Sorting mode
+      vote_based: Vote-based
+      vote_based_description: 'Participants can vote agenda items up or down. Items with the most votes are put on top within each section. Sections remain manually sorted.
+
+        '
+      votes: 'Votes: %{count}'
     attachments:
       onetime_template: این فایل‌های پیوست در همه جلسات آینده‌ای که از این الگو استفاده می‌کنند قرار خواهند گرفت.
       series_template: این فایل‌های پیوست در همه جلسات آینده این مجموعه قرار خواهند گرفت.
@@ -317,6 +348,9 @@ fa:
     blankslate:
       desc: می‌توانید یک جلسه جدید ایجاد کنید یا معیارهای فیلتر را تغییر دهید
       title: جلسه‌ای برای نمایش وجود ندارد
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'کپی‌شده از جلسه #%{id}'
     copy:
       agenda: کپی دستور جلسه
@@ -360,6 +394,7 @@ fa:
         header: 'لغوشده: جلسه «%{title}»'
         header_occurrence: 'لغوشده: نوبت جلسه «%{title}»'
         header_series: 'لغوشده: مجموعه جلسات «%{title}»'
+        reason: Reason for cancellation
         summary: "«%{title}» توسط %{actor} لغو شده یا شما از فهرست شرکت‌کنندگان حذف شده‌اید"
         summary_occurrence: یک نوبت از «%{title}» توسط %{actor} لغو شده یا شما از فهرست شرکت‌کنندگان حذف شده‌اید
         summary_series: مجموعه جلسات «%{title}» توسط %{actor} لغو شده یا شما از فهرست شرکت‌کنندگان حذف شده‌اید
@@ -484,6 +519,7 @@ fa:
       no_items: بدون مورد دستور جلسه
       no_items_flash: هیچ مورد دستور جلسه‌ای برای ارائه وجود ندارد.
       previous: قبلی
+      slide_progress: Slide %{current}/%{total}
       title: حالت ارائه
       total_items: "%{current} از %{total}"
     types:
@@ -560,13 +596,13 @@ fa:
     caption:
       ends_on: این تنظیم باعث می‌شود مجموعه در %{date} پایان یابد
       occurrences:
-        one: 'نتیجه: ۱ نوبت پیشِ رو'
-        other: 'نتیجه: %{count} نوبت پیشِ رو'
+        one: This results in %{count} upcoming occurrence
+        other: This results in %{count} upcoming occurrences
       occurrences_capped: 'نتیجه: بیش از %{count} نوبت پیشِ رو'
     day_of_month_skipping_info: ماه‌هایی که کمتر از %{monthly_day} روز دارند نادیده گرفته می‌شوند
     delete_dialog:
       confirmation_message_html:
-        one: 'حذف <strong>%{title}</strong> یک نوبت از این مجموعه را نیز حذف خواهد کرد. این اقدام قابل بازگشت نیست. لطفاً با احتیاط ادامه دهید.
+        one: 'Deleting <strong>%{title}</strong> will also delete %{count} occurrence in this series. This action is not reversible. Please proceed with caution.
 
           '
         other: 'حذف <strong>%{title}</strong> همه %{count} نوبت این مجموعه را حذف خواهد کرد. این اقدام قابل بازگشت نیست. لطفاً با احتیاط ادامه دهید.
@@ -631,7 +667,7 @@ fa:
       error_no_next: نوبت بعدی برای این جلسه وجود ندارد.
       error_template_draft: الگوی مجموعه جلسات هنوز در حالت پیش‌نویس است.
       first_already_exists: اولین نوبت این مجموعه جلسات قبلاً ایجاد شده است.
-      first_created: 'اولین جلسه با موفقیت از روی الگو ایجاد شد. همه جلسات آینده در زمان نوبت قبلی به‌طور خودکار ایجاد خواهند شد.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: این جلسه بخشی از یک مجموعه جلسات تکرارشونده است.
@@ -693,9 +729,10 @@ fa:
   text_agenda_item_dialog_skipping_closed_many: "%{count} جلسه بسته"
   text_agenda_item_dialog_skipping_closed_one: جلسه بسته در %{date}
   text_agenda_item_dialog_skipping_note: 'توجه: %{details} نادیده گرفته می‌شود.'
-  text_agenda_item_duplicate_in_next_meeting: آیا مطمئن هستید که می‌خواهید یک کپی از این مورد دستور جلسه را به جلسه بعدی در %{date} ساعت %{time} اضافه کنید؟ نتایج تکثیر نخواهند شد.
+  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}?
   text_agenda_item_duplicated_in_next_meeting: مورد دستور جلسه در جلسه بعدی، در %{date} تکثیر شد
   text_agenda_item_move_next_meeting: این مورد به جلسه بعدی در %{date} ساعت %{time} منتقل خواهد شد.
+  text_agenda_item_moved_to_backlog: مورد دستور جلسه به فهرست کارهای معوق منتقل شد
   text_agenda_item_moved_to_next_meeting: مورد دستور جلسه به جلسه بعدی، در %{date} منتقل شد
   text_agenda_item_no_available_occurrence: نوبت پیشِ رویی در دسترس نیست.
   text_agenda_item_no_notes: یادداشتی ارائه نشده است

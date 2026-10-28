@@ -26,13 +26,11 @@ be:
         select: Select files
         select_all: Select all
         selection:
-          zero: Select files to link
-          one: Link 1 file
-          few: Link %{count} files
-          many: Link %{count} files
+          none: Select files to link
+          one: Link %{count} file
           other: Link %{count} files
         success_create:
-          one: Successfully created 1 file link.
+          one: Successfully created %{count} file link.
           few: Successfully created %{count} file links.
           many: Successfully created %{count} file links.
           other: Successfully created %{count} file links.

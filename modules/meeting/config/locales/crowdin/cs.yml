@@ -24,16 +24,17 @@ cs:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sorting mode
         duration: Doba trvání
         end_time: Čas ukončení
         location: Místo
         notes: Poznámky
         notify: Send notifications
         participant:
-          one: 1 Účastník
-          few: "%{count} Účastníků"
-          many: "%{count} Účastníků"
-          other: "%{count} Účastníků"
+          one: "%{count} Participant"
+          few: "%{count} Participants"
+          many: "%{count} Participants"
+          other: "%{count} Participants"
         participants: Účastníci
         participants_added: 'Přidaní účastníci:'
         participants_attended: Účastníci
@@ -90,14 +91,18 @@ cs:
         invalid_time_format: 'není platný čas. Požadovaný formát: HH:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Sekce nepatří do stejné schůze.
           user_invalid: není platným účastníkem.
+          vote_based_sorting_required: Voting requires vote-based agenda sorting.
         meeting_participant:
           user_invalid: není platným účastníkem.
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: There is one open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
+            one: There is %{count} open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
             other: There are %{count} open meetings in the series that are not covered by the new schedule. Adjust the schedule to include all existing meetings.
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
@@ -170,6 +175,10 @@ cs:
     meeting_agenda_opened: Agenda schůzky otevřena
     meeting_minutes: Zápis ze zasedání byl upraven
     meeting_minutes_created: Zápisy ze zasedání byly vytvořeny
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Přidat do schůzky
   label_add_work_package_to_meeting_dialog_title: Zvolte schůzku
   label_add_work_package_to_meeting_section_label: Sekce
@@ -178,6 +187,8 @@ cs:
   label_agenda_backlog_clear_title: Vyčistit backlog programu?
   label_agenda_item_actions: volby pro body schůzky
   label_agenda_item_add: Přidat položku programu
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Přidat poznámky
   label_agenda_item_add_outcome: Přidat výsledek
   label_agenda_item_convert_to_work_package: Zkonvertovat na pracovní balíček
@@ -185,6 +196,7 @@ cs:
   label_agenda_item_duplicate: Kopírovat
   label_agenda_item_duplicate_in_next: Duplicate in next meeting
   label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
+  label_agenda_item_include_outcomes: Include outcomes
   label_agenda_item_move: Přesunout
   label_agenda_item_move_down: Přesunout níž
   label_agenda_item_move_to_backlog: Přesunout do backlogu
@@ -250,10 +262,10 @@ cs:
   label_meeting_last_updated: Naposledy aktualizováno
   label_meeting_minutes: Zápisy
   label_meeting_more:
-    one: Proběhne ještě jedna schůzka.
-    few: Proběhne ještě %{count} dalších schůzek.
-    many: Proběhne ještě %{count} dalších schůzek.
-    other: Proběhne ještě %{count} dalších schůzek.
+    one: There is %{count} more meeting.
+    few: There are %{count} more meetings.
+    many: There are %{count} more meetings.
+    other: There are %{count} more meetings.
   label_meeting_new: Nová schůzka
   label_meeting_new_dynamic: Nová jednorázová schůzka
   label_meeting_new_recurring: Nová opakovaná schůzka
@@ -298,15 +310,15 @@ cs:
   label_recurring_meeting_delete: Odstranit výskyt
   label_recurring_meeting_duplicate: Duplikovat jako jednorázovou schůzku
   label_recurring_meeting_more:
-    one: There is one more scheduled meeting (%{schedule}).
-    few: Dalších %{count} naplánovaných schůzek (%{schedule}).
-    many: Dalších %{count} naplánovaných schůzek (%{schedule}).
-    other: Dalších %{count} naplánovaných schůzek (%{schedule}).
+    one: There is %{count} more scheduled meeting (%{schedule}).
+    few: There are %{count} more scheduled meetings (%{schedule}).
+    many: There are %{count} more scheduled meetings (%{schedule}).
+    other: There are %{count} more scheduled meetings (%{schedule}).
   label_recurring_meeting_more_past:
-    one: There is one more past meeting.
-    few: 'Dalších  %{count}  minulých schůzek '
-    many: 'Dalších  %{count}  minulých schůzek '
-    other: 'Dalších  %{count}  minulých schůzek '
+    one: There is %{count} more past meeting.
+    few: There are %{count} more past meetings.
+    many: There are %{count} more past meetings.
+    other: There are %{count} more past meetings.
   label_recurring_meeting_new: Nová opakovaná schůzka
   label_recurring_meeting_next_occurrence: Další výskyt
   label_recurring_meeting_no_end_date: Jsou zde další naplánované schůzky (%{schedule}).
@@ -338,6 +350,25 @@ cs:
   label_view_meeting_series: Zobrazit sérii schůzek
   label_write_outcome: Napište výsledek
   meeting:
+    agenda_sorting:
+      change: Change sorting mode
+      current_mode: Currently in %{mode} mode
+      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      manual: Manual
+      manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
+      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
+      remove_thumbs_down: Remove downvote
+      remove_thumbs_up: Remove upvote
+      sidebar_title: Agenda sorting
+      sorted_by_votes: Agenda sorted by votes.
+      thumbs_down: Downvote
+      thumbs_up: Upvote
+      title: Sorting mode
+      vote_based: Vote-based
+      vote_based_description: 'Participants can vote agenda items up or down. Items with the most votes are put on top within each section. Sections remain manually sorted.
+
+        '
+      votes: 'Votes: %{count}'
     attachments:
       onetime_template: These attached files will be included in all future meetings using this template.
       series_template: Tyto přiložené soubory budou zahrnuty do všech budoucích schůzek v rámci série.
@@ -345,6 +376,9 @@ cs:
     blankslate:
       desc: Můžete vytvořit novou schůzku nebo změnit kritéria filtru
       title: Žádné schůzky k zobrazení
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'Zkopírováno ze schůzky #%{id}'
     copy:
       agenda: Kopírovat program
@@ -388,6 +422,7 @@ cs:
         header: 'Zrušeno: Schůzka ''%{title}'''
         header_occurrence: 'Zrušeno: Schůzka ze série ''%{title}'''
         header_series: 'Zrušeno: Série schůzek ''%{title}'''
+        reason: Reason for cancellation
         summary: "'%{title}' byla zrušena prostřednictvím %{actor}, nebo jste byli odstraněni jako účastník"
         summary_occurrence: Schůzka ze série '%{title}' byla zrušena prostřednictvím %{actor}, nebo jste byli odstraněni jako účastník
         summary_series: Série schůzek '%{title}' byla zrušena prostřednictvím %{actor}, nebo jste byli odstraněni jako účastník
@@ -512,6 +547,7 @@ cs:
       no_items: Žádné body programu
       no_items_flash: Na programu nejsou žádné body.
       previous: Předchozí
+      slide_progress: Slide %{current}/%{total}
       title: Prezentační mód
       total_items: "%{current} z %{total}"
     types:
@@ -571,7 +607,7 @@ cs:
   permission_create_meetings: 'Vytvořit schůzku
 
     '
-  permission_delete_meetings: Odstranit schůzky
+  permission_delete_meetings: Smazat schůzku
   permission_edit_meetings: Upravit schůzku
   permission_manage_agendas: Správa zápisů
   permission_manage_agendas_explanation: Umožňuje vytvářet, upravovat a odebírat položky agendy
@@ -590,15 +626,15 @@ cs:
     caption:
       ends_on: This results in a series ending on %{date}
       occurrences:
-        one: Výsledkem bude 1 nadcházející událost
-        few: Výsledkem budou %{count} nadcházející události
-        many: Výsledkem bude %{count} nadcházejících událostí
-        other: Výsledkem bude %{count} nadcházejících událostí
+        one: This results in %{count} upcoming occurrence
+        few: This results in %{count} upcoming occurrences
+        many: This results in %{count} upcoming occurrences
+        other: This results in %{count} upcoming occurrences
       occurrences_capped: Výsledkem je více než %{count} nadcházejících událostí
     day_of_month_skipping_info: Měsíce s méně než %{monthly_day} dny budou vynechány
     delete_dialog:
       confirmation_message_html:
-        one: 'Deleting <strong>%{title}</strong> will also delete one occurrence in this series. This action is not reversible. Please proceed with caution.
+        one: 'Deleting <strong>%{title}</strong> will also delete %{count} occurrence in this series. This action is not reversible. Please proceed with caution.
 
           '
         other: 'Deleting <strong>%{title}</strong> will delete all %{count} occurrences in this series. This action is not reversible. Please proceed with caution.
@@ -669,7 +705,7 @@ cs:
       error_no_next: Na této schůzce není žádný další výskyt.
       error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: První výskyt této série schůzek je již vytvořen.
-      first_created: 'První schůzka byla úspěšně vytvořena ze šablony. Všechny budoucí schůzky budou vytvořeny automaticky v čase předchozí události.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Tato schůzka je součástí opakované série schůzek.
@@ -731,9 +767,10 @@ cs:
   text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
   text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
   text_agenda_item_dialog_skipping_note: 'Poznámka: Přeskočení %{details}.'
-  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}? Outcomes will not be duplicated.
+  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}?
   text_agenda_item_duplicated_in_next_meeting: Agenda item duplicated in the next meeting, on %{date}
   text_agenda_item_move_next_meeting: Tento bod bude přesunut na příští schůzi v %{date} %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Bod programu přesunut na příští schůzi %{date}
   text_agenda_item_no_available_occurrence: Nejsou k dispozici žádné nadcházející výskyty událostí.
   text_agenda_item_no_notes: Nebyly poskytnuty žádné poznámky

@@ -25,8 +25,6 @@ eo:
     button_log_costs: Log unit costs
     label_hour: horo
     label_hours: horoj
-    myTimeTracking:
-      noSpecificTime: Neniu specifa tempo
     text_are_you_sure: Are you sure?
     work_packages:
       properties:
