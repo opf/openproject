@@ -58,4 +58,35 @@ Rails.application.routes.draw do
     # of a registered feature, and a feature may not have a row yet.
     resources :llm_feature_bindings, only: %i[index update], controller: "admin/llm_feature_bindings"
   end
+
+  namespace :admin do
+    resources :ai_assistants, except: :show do
+      post :copy, on: :member
+      resources :skills, controller: "ai_assistant_skills", except: %i[index show] do
+        post :copy, on: :member
+      end
+    end
+  end
+
+  # AI Assistance in the app header. The place (work_package_id or project_id) is a query
+  # parameter, because the menu is the same on every page.
+  resource :ai_assistance_menu, path: "ai_assistance/menu", controller: "ai_assistance/menus", only: :show
+  resource :ai_assistance_chat, path: "ai_assistance/chat", controller: "ai_assistance/chats", only: %i[show create] do
+    post :messages, action: :send_message
+    post :start
+    post :rerun
+    get :poll
+    get :history
+    post "proposals/:proposal_id/apply", action: :apply, as: :apply_proposal
+    post "proposals/:proposal_id/dismiss", action: :dismiss, as: :dismiss_proposal
+  end
+
+  namespace :my do
+    resources :ai_assistants, except: :show do
+      post :copy, on: :member
+      resources :skills, controller: "ai_assistant_skills", except: %i[index show] do
+        post :copy, on: :member
+      end
+    end
+  end
 end

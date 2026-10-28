@@ -1,0 +1,127 @@
+<%#
+  -- copyright
+  OpenProject is an open source project management software.
+  Copyright (C) the OpenProject GmbH
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License version 3.
+
+  OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+  Copyright (C) 2006-2013 Jean-Philippe Lang
+  Copyright (C) 2010-2013 the ChiliProject Team
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+  See COPYRIGHT and LICENSE files for more details.
+
+  ++#
+%>
+
+<%# An assistant with its skills, laid out like the sections of the project attributes. %>
+<% owner = assistant.principal %>
+<%= render(Primer::Beta::BorderBox.new(mb: 3, data: { test_selector: "ai-assistant-section" })) do |box| %>
+  <% box.with_header(data: { test_selector: "ai-assistant-row" }) do %>
+    <%= render(Primer::Alpha::ActionMenu.new(float: :right, data: { test_selector: "ai-assistant-menu" })) do |menu| %>
+      <% menu.with_show_button(
+           icon: "kebab-horizontal",
+           scheme: :invisible,
+           size: :small,
+           "aria-label": t("admin.ai_assistants.index.actions", assistant: assistant.name)
+         ) %>
+      <% menu.with_item(label: t(:button_edit), href: pages.edit_assistant_path(assistant)) do |item| %>
+        <% item.with_leading_visual_icon(icon: :pencil) %>
+      <% end %>
+      <% menu.with_item(
+           label: t(:button_copy),
+           href: pages.copy_assistant_path(assistant),
+           form_arguments: { method: :post },
+           data: { test_selector: "ai-assistant-copy" }
+         ) do |item| %>
+        <% item.with_leading_visual_icon(icon: :copy) %>
+      <% end %>
+    <% end %>
+    <%= render(Primer::Beta::Link.new(href: pages.edit_assistant_path(assistant), font_weight: :bold, mr: 2)) { assistant.name } %>
+    <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small, data: { test_selector: "ai-assistant-owner" })) do %>
+      <% if assistant.group? %>
+        <%= render(Primer::Beta::Octicon.new(icon: assistant.owner_icon, mr: 1, "aria-label": t("admin.ai_assistants.index.owner_kinds.group"))) %>
+        <%= render(Primer::Beta::Link.new(href: show_group_path(owner), scheme: :secondary)) { owner.name } %>
+      <% elsif assistant.personal? %>
+        <%= render(Primer::Beta::Octicon.new(icon: assistant.owner_icon, mr: 1, "aria-label": t("admin.ai_assistants.index.owner_kinds.user"))) %>
+        <%= render(Primer::Beta::Link.new(href: user_path(owner), scheme: :secondary)) { owner.name } %>
+      <% else %>
+        <%= render(Primer::Beta::Octicon.new(icon: assistant.owner_icon, mr: 1)) %>
+        <%= t("admin.ai_assistants.index.owners.global") %>
+      <% end %>
+    <% end %>
+    <% unless assistant.active? %>
+      <%= render(Primer::Beta::Label.new(scheme: :secondary, ml: 2)) { t("admin.ai_assistants.inactive") } %>
+    <% end %>
+    <% if assistant.description.present? %>
+      <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, font_size: :small, mb: 0, mt: 1)) { assistant.description } %>
+    <% end %>
+  <% end %>
+  <% if assistant.skills.empty? %>
+    <% box.with_row do %>
+      <%= render(Primer::Beta::Text.new(color: :subtle)) { t("admin.ai_assistants.skills.empty") } %>
+    <% end %>
+  <% end %>
+  <% assistant.skills.each do |skill| %>
+    <% box.with_row(py: 2, data: { test_selector: "ai-assistant-skill-row" }) do %>
+      <%= flex_layout(align_items: :center) do |row| %>
+        <% row.with_column(mr: 2) { render(Primer::Beta::Octicon.new(icon: skill.icon, color: :muted)) } %>
+        <% row.with_column(flex: 1) do %>
+          <%= render(Primer::Beta::Link.new(href: pages.edit_skill_path(assistant, skill))) { skill.display_label } %>
+          <% unless skill.active? %>
+            <%= render(Primer::Beta::Label.new(scheme: :secondary, ml: 2)) { t("admin.ai_assistants.inactive") } %>
+          <% end %>
+        <% end %>
+        <% row.with_column(mr: 2) do %>
+          <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) do %>
+            <%= t("admin.ai_assistants.skills.offered_on.#{skill.offered_on}") %>
+          <% end %>
+        <% end %>
+        <% row.with_column do %>
+          <%= render(Primer::Alpha::ActionMenu.new(data: { test_selector: "ai-assistant-skill-menu" })) do |menu| %>
+            <% menu.with_show_button(
+                 icon: "kebab-horizontal",
+                 scheme: :invisible,
+                 "aria-label": t("admin.ai_assistants.skills.actions", skill: skill.display_label)
+               ) %>
+            <% menu.with_item(label: t(:button_edit), href: pages.edit_skill_path(assistant, skill)) do |item| %>
+              <% item.with_leading_visual_icon(icon: :pencil) %>
+            <% end %>
+            <% menu.with_item(
+                 label: t(:button_copy),
+                 href: pages.copy_skill_path(assistant, skill),
+                 form_arguments: { method: :post },
+                 data: { test_selector: "ai-assistant-skill-copy" }
+               ) do |item| %>
+              <% item.with_leading_visual_icon(icon: :copy) %>
+            <% end %>
+            <% menu.with_item(
+                 label: t(:button_delete),
+                 scheme: :danger,
+                 href: pages.skill_path(assistant, skill),
+                 form_arguments: { method: :delete, inputs: [{ name: "back", value: "list" }],
+                                   data: { turbo_confirm: t("admin.ai_assistants.skills.delete_confirm") } }
+               ) do |item| %>
+              <% item.with_leading_visual_icon(icon: :trash) %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

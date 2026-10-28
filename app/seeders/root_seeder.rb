@@ -77,8 +77,10 @@ class RootSeeder < Seeder
     seed_admin_user
     seed_oauth_data
     # The demo data references the development users, so they have to exist before it runs.
-    seed_development_people if seed_development_data?
+    # On this branch they are seeded everywhere, so that previews show the AI Assistance demo.
+    seed_development_people
     seed_demo_data
+    seed_ai_demo_data
     seed_development_data if seed_development_data?
     seed_plugins_data
     seed_env_data
@@ -159,6 +161,14 @@ class RootSeeder < Seeder
   def seed_demo_data
     print_status "*** Seeding demo data"
     DemoDataSeeder.new(seed_data).seed!
+  end
+
+  # The COMMS developers' workloads, the Refresh work package demo and custom actions, on the demo data.
+  def seed_ai_demo_data
+    print_status "*** Seeding the AI Assistance demo"
+    DevelopmentData::WorkloadsSeeder.new(seed_data).seed!
+    DevelopmentData::RefreshCaseSeeder.new(seed_data).seed!
+    DevelopmentData::CustomActionsSeeder.new(seed_data).seed!
   end
 
   def seed_env_data

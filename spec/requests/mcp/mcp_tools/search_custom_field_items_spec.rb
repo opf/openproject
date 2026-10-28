@@ -171,6 +171,26 @@ RSpec.describe McpTools::SearchCustomFieldItems do
       end
     end
 
+    context "when querying a list custom field" do
+      let!(:custom_field) { create(:wp_custom_field, :list, possible_values: %w[Alpha Beta Gamma]) }
+
+      it "finds its values, in order" do
+        mcp_request
+        items = parsed_results.dig("structuredContent", "items")
+        expect(items.pluck("label")).to eq(%w[Alpha Beta Gamma])
+        expect(parsed_results.dig("structuredContent", "total")).to eq(3)
+      end
+
+      context "when filtering by label" do
+        let(:call_args) { { custom_field_id: custom_field.id, label: "et" } }
+
+        it "finds the matching value" do
+          mcp_request
+          expect(parsed_results.dig("structuredContent", "items").pluck("label")).to eq(["Beta"])
+        end
+      end
+    end
+
     context "when querying a custom field without a hierarchy" do
       let!(:custom_field) { create(:wp_custom_field, :text) }
 

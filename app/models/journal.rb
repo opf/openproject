@@ -91,7 +91,14 @@ class Journal < ApplicationRecord
                    status_changes
                    meeting_id
                    source_meeting_id
+                   source
+                   depth
+                   run_id
+                   skill_key
+                   assistant_name
+                   chat_id
                    message_id
+                   proposal_id
                  ],
                  prefix: true
 
@@ -104,6 +111,8 @@ class Journal < ApplicationRecord
   ].freeze
 
   VALID_CAUSE_TYPES = (%w[
+    assistant_chat
+    assistant_skill
     default_attribute_written
     forum_message
     import

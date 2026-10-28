@@ -3897,6 +3897,9 @@ en:
 
   journals:
     cause_descriptions:
+      assistant_chat: proposed in the chat and applied by %{user_name}
+      assistant_chat_link: "Open the chat"
+      assistant_skill: proposed by %{assistant_name} and applied by %{user_name}
       budget_deleted: Budget has been deleted
       forum_message_deleted: "(deleted)"
       import:
@@ -3958,6 +3961,8 @@ en:
           non_working: "%{day} is now non-working"
           working: "%{day} is now working"
     caused_changes:
+      assistant_chat: "AI Assistance:"
+      assistant_skill: "AI Assistance:"
       budget_deleted: "Budget has been deleted"
       dates_changed: "Dates changed"
       default_attribute_written: "Read-only attributes written"

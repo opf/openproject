@@ -1,0 +1,101 @@
+<%#
+  -- copyright
+  OpenProject is an open source project management software.
+  Copyright (C) the OpenProject GmbH
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License version 3.
+
+  OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+  Copyright (C) 2006-2013 Jean-Philippe Lang
+  Copyright (C) 2010-2013 the ChiliProject Team
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+  See COPYRIGHT and LICENSE files for more details.
+
+  ++#
+%>
+
+<%= component_wrapper(class: "width-full", data: wrapper_data) do %>
+  <% if read_only %>
+    <%= render(Primer::Box.new(display: :flex, align_items: :center, data: { test_selector: "ai-assistance-chat-read-only" })) do %>
+      <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small, flex: 1)) { t("ai_assistance.chat.not_offered") } %>
+      <%= render(Primer::Beta::Button.new(type: :button, ml: 2, data: { close_dialog_id: dialog_id })) { t(:button_close) } %>
+    <% end %>
+  <% else %>
+    <%= primer_form_with(url: send_path, method: :post, html: { class: "mb-0" }, data: { test_selector: "ai-assistance-chat-form" }) do %>
+      <%= hidden_field_tag :skill_id, skill.id %>
+      <% if chat %>
+        <%= hidden_field_tag :chat_id, chat.id %>
+      <% end %>
+      <%= render(Primer::Box.new(mb: 2, **chat_control_arguments)) do %>
+        <%= render(
+              Primer::Alpha::TextArea.new(
+                name: :content, label: t("ai_assistance.chat.question"), visually_hide_label: true,
+                placeholder:,
+                rows: 2, full_width: true, disabled: pending?
+              )
+            ) %>
+      <% end %>
+      <%= render(Primer::Box.new(display: :flex, align_items: :center)) do %>
+        <% if collapsed? && !pending? %>
+          <%= render(
+                Primer::Beta::Button.new(
+                  type: :button,
+                  data: { "ai-assistance--chat-form-target": "openButton",
+                          action: "ai-assistance--chat-form#open",
+                          test_selector: "ai-assistance-chat-about" }
+                )
+              ) do |button| %>
+            <% button.with_leading_visual_icon(icon: :"comment-discussion") %>
+            <%= t("ai_assistance.chat.chat_about_this") %>
+          <% end %>
+        <% end %>
+        <%= render(
+              Primer::Beta::Button.new(
+                type: :submit, scheme: :invisible, formaction: new_chat_path, formnovalidate: true,
+                **chat_control_arguments.deep_merge(data: { test_selector: "ai-assistance-new-chat" })
+              )
+            ) do |button| %>
+          <% button.with_leading_visual_icon(icon: :plus) %>
+          <%= t("ai_assistance.chat.new") %>
+        <% end %>
+        <% if rerun? %>
+          <%= render(
+                Primer::Beta::Button.new(
+                  type: :submit, scheme: :invisible, formaction: rerun_path, formnovalidate: true,
+                  data: { test_selector: "ai-assistance-rerun" }
+                )
+              ) do |button| %>
+            <% button.with_leading_visual_icon(icon: :sync) %>
+            <%= t("ai_assistance.chat.rerun") %>
+          <% end %>
+        <% end %>
+        <%= render(Primer::Box.new(flex: 1)) %>
+        <%= render(Primer::Beta::Button.new(type: :button, mr: 2, data: { close_dialog_id: dialog_id })) { t(:button_close) } %>
+        <%= render(
+              Primer::Beta::Button.new(
+                type: :submit, scheme: :primary, disabled: pending?,
+                **chat_control_arguments.deep_merge(data: { test_selector: "ai-assistance-chat-send" })
+              )
+            ) do |button| %>
+          <% button.with_leading_visual_icon(icon: :"paper-airplane") %>
+          <%= t("ai_assistance.chat.send") %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
