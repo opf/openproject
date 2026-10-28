@@ -42,10 +42,12 @@ See COPYRIGHT and LICENSE files for more details.
 <% if @server.persisted? %>
   <%=
     render(Primer::Alpha::Banner.new(scheme: :success, mb: 3, test_selector: "squashtm-server--linked")) do
-      t(
-        "squashtm_integration.admin.servers.show.linked_html",
-        url: render(Primer::Beta::Link.new(href: @server.base_url, target: "_blank", rel: "noopener noreferrer")) { @server.base_url }
-      )
+      server_link = render(Primer::Beta::Link.new(href: @server.base_url, target: "_blank", rel: "noopener noreferrer")) do |link|
+        link.with_trailing_visual_icon(icon: :"link-external")
+        @server.base_url
+      end
+
+      t("squashtm_integration.admin.servers.show.linked_html", url: server_link)
     end
   %>
 
@@ -75,7 +77,7 @@ See COPYRIGHT and LICENSE files for more details.
             test_selector: "squashtm-server--delete"
           )
         ) do |button|
-          button.with_leading_visual_icon(icon: :trash)
+          button.with_leading_visual_icon(icon: :unlink)
           t("squashtm_integration.admin.servers.show.unlink")
         end
       end
