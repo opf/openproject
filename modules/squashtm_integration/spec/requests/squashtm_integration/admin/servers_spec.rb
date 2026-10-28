@@ -44,13 +44,21 @@ RSpec.describe "SquashTM server administration",
   end
 
   describe "GET /squashtm_integration/admin/server" do
-    it "renders the form without the stored token" do
+    it "renders the form when no server is configured" do
+      get server_path
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("squashtm_server[base_url]")
+    end
+
+    it "shows the linked server without the form or the stored token" do
       create(:squashtm_server, api_token: "secret-token")
 
       get server_path
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("https://squashtm.example.com/squash")
+      expect(response.body).to include("OpenProject is linked to the SquashTM server at https://squashtm.example.com/squash.")
+      expect(response.body).not_to include("squashtm_server[base_url]")
       expect(response.body).not_to include("secret-token")
     end
 

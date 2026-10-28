@@ -36,43 +36,57 @@ See COPYRIGHT and LICENSE files for more details.
       [{ href: admin_index_path, text: t(:label_administration) },
        t("squashtm_integration.admin.title")]
     )
+  end
+%>
 
-    if @server.persisted?
-      header.with_action_button(
-        tag: :a,
-        href: test_connection_squashtm_integration_admin_server_path,
-        data: { turbo_method: :post },
-        mobile_icon: :plug,
-        mobile_label: t("squashtm_integration.admin.servers.show.test_connection"),
-        test_selector: "squashtm-server--test-connection"
-      ) do |button|
-        button.with_leading_visual_icon(icon: :plug)
-        t("squashtm_integration.admin.servers.show.test_connection")
+<% if @server.persisted? %>
+  <%=
+    render(Primer::Alpha::Banner.new(scheme: :success, mb: 3, test_selector: "squashtm-server--linked")) do
+      t("squashtm_integration.admin.servers.show.linked", url: @server.base_url)
+    end
+  %>
+
+  <%=
+    flex_layout(direction: :row, flex_wrap: :wrap) do |actions|
+      actions.with_column(mr: 2) do
+        render(
+          Primer::Beta::Button.new(
+            tag: :a,
+            href: test_connection_squashtm_integration_admin_server_path,
+            data: { turbo_method: :post },
+            test_selector: "squashtm-server--test-connection"
+          )
+        ) do |button|
+          button.with_leading_visual_icon(icon: :plug)
+          t("squashtm_integration.admin.servers.show.test_connection")
+        end
       end
 
-      header.with_action_button(
-        tag: :a,
-        scheme: :danger,
-        href: destroy_dialog_squashtm_integration_admin_server_path,
-        data: { controller: "async-dialog" },
-        mobile_icon: :trash,
-        mobile_label: t(:button_delete),
-        test_selector: "squashtm-server--delete"
-      ) do |button|
-        button.with_leading_visual_icon(icon: :trash)
-        t(:button_delete)
+      actions.with_column do
+        render(
+          Primer::Beta::Button.new(
+            tag: :a,
+            scheme: :danger,
+            href: destroy_dialog_squashtm_integration_admin_server_path,
+            data: { controller: "async-dialog" },
+            test_selector: "squashtm-server--delete"
+          )
+        ) do |button|
+          button.with_leading_visual_icon(icon: :trash)
+          t("squashtm_integration.admin.servers.show.unlink")
+        end
       end
     end
-  end
-%>
-
-<%=
-  primer_form_with(
-    model: @server,
-    scope: :squashtm_server,
-    url: squashtm_integration_admin_server_path,
-    method: :patch
-  ) do |form|
-    render(SquashTMIntegration::Admin::ServerForm.new(form))
-  end
-%>
+  %>
+<% else %>
+  <%=
+    primer_form_with(
+      model: @server,
+      scope: :squashtm_server,
+      url: squashtm_integration_admin_server_path,
+      method: :patch
+    ) do |form|
+      render(SquashTMIntegration::Admin::ServerForm.new(form))
+    end
+  %>
+<% end %>

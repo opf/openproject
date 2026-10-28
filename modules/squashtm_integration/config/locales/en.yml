@@ -63,7 +63,9 @@ en:
       servers:
         show:
           description: "Connect OpenProject to a SquashTM server to show test cases, executions and results on work packages."
+          linked: "OpenProject is linked to the SquashTM server at %{url}."
           test_connection: "Test connection"
+          unlink: "Unlink"
         test_connection:
           failure: "The connection to SquashTM failed: %{reason}"
           success: "The connection to SquashTM was successful."

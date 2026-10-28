@@ -53,8 +53,10 @@ RSpec.describe "SquashTM server administration", :js do
     click_button "Save"
 
     expect_flash(message: I18n.t(:notice_successful_update))
-    expect(page).to have_field("SquashTM URL", with: "https://squashtm.example.com/squash")
-    expect(page).to have_field("API token", with: "")
+    expect(page).to have_test_selector("squashtm-server--linked",
+                                       text: "OpenProject is linked to the SquashTM server at " \
+                                             "https://squashtm.example.com/squash.")
+    expect(page).to have_no_field("SquashTM URL")
     expect(SquashTMIntegration::Server.sole.api_token).to eq("secret-token")
   end
 
@@ -76,14 +78,12 @@ RSpec.describe "SquashTM server administration", :js do
       visit squashtm_integration_admin_server_path
     end
 
-    it "keeps the stored token when only the URL is changed" do
-      fill_in "SquashTM URL", with: "https://other.example.com/squash"
-      click_button "Save"
-
-      expect_flash(message: I18n.t(:notice_successful_update))
-      expect(SquashTMIntegration::Server.sole).to have_attributes(
-        base_url: "https://other.example.com/squash", api_token: "squashtm-api-token"
-      )
+    it "shows that the server is linked instead of the form" do
+      expect(page).to have_test_selector("squashtm-server--linked", text: "https://squashtm.example.com/squash")
+      expect(page).to have_no_field("SquashTM URL")
+      expect(page).to have_no_field("API token")
+      expect(page).to have_test_selector("squashtm-server--test-connection")
+      expect(page).to have_test_selector("squashtm-server--delete", text: "Unlink")
     end
 
     it "tests the connection" do
