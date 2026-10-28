@@ -50,10 +50,15 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Body, type: :component d
       expect(subject).to have_css(".op-uc-container strong", text: "works")
     end
 
-    it "has no raw text, apply message or banners" do
-      expect(subject).to have_no_css("template", visible: :all)
-      expect(subject).to have_no_test_selector("ai-text-transform-pane-apply-failed", visible: :all)
+    it "has no visible banners" do
       expect(subject).to have_no_css(".Banner")
+    end
+
+    it "prepares a hidden error banner for the pane controller" do
+      expect(subject).to have_css("[data-test-selector='ai-text-transform-pane-error']" \
+                                  "[data-ai-text-transform-pane-target='error'] " \
+                                  ".Banner--error [data-ai-text-transform-pane-target='errorMessage']",
+                                  visible: :hidden)
     end
   end
 
@@ -64,14 +69,8 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Body, type: :component d
       expect(subject).to have_css(".op-uc-container strong", text: "works")
     end
 
-    it "keeps the raw markdown in a template for copying" do
-      subject
-      expect(rendered_content)
-        .to include("<template>Login **works** again</template>")
-    end
-
-    it "prepares a hidden message for a failed replace" do
-      expect(subject).to have_test_selector("ai-text-transform-pane-apply-failed", visible: :hidden)
+    it "keeps no second copy of the raw markdown" do
+      expect(subject).to have_no_css("template", visible: :all)
     end
   end
 
@@ -117,6 +116,17 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Body, type: :component d
     it "shows the warning banner without text" do
       expect(subject).to have_css(".Banner--warning", text: "Generation stopped")
       expect(subject).to have_no_css(".op-uc-container")
+    end
+  end
+
+  context "when rejected" do
+    let(:pane) do
+      AI::TextTransforms::ResultPaneState.rejected(message: "Too long", label: "Fix grammar", scope:,
+                                                   request_id: SecureRandom.uuid)
+    end
+
+    it "has no error banner for the pane controller" do
+      expect(subject).to have_no_test_selector("ai-text-transform-pane-error", visible: :all)
     end
   end
 
