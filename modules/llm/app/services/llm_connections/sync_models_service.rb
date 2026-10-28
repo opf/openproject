@@ -185,7 +185,7 @@ module LlmConnections
     def discard_discovered_models(discarded)
       connection.models.discovered.delete_all
       connection.capability_verdicts.where.not(source: "admin").delete_all
-      connection.feature_bindings.where(model_id: discarded, locked_at: nil).delete_all
+      connection.feature_bindings.where(model_id: discarded, semantic_index_id: nil).delete_all
     end
 
     # The administrator's context-window override is theirs, and a routine

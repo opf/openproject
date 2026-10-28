@@ -34,23 +34,12 @@
 # does not lose the administrator's choice.
 class LlmFeatureBinding < ApplicationRecord
   belongs_to :llm_connection, optional: false
-
-  # Settings that describe how vectors are written, and so only mean anything
-  # for an embedding feature.
-  EMBEDDING_SETTINGS = %i[dimensions].freeze
-
-  # Everything a stored index depends on. Changing any of it invalidates the
-  # vectors already written, not just the model.
-  LOCKED_SETTINGS = ([:model_id] + EMBEDDING_SETTINGS).freeze
-
-  before_save :freeze_on_lock
+  belongs_to :semantic_index, optional: true
 
   validates :feature_key, presence: true, uniqueness: { scope: :llm_connection_id }
-  validates :dimensions, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
   validate :feature_registered
   validate :model_offered_by_connection, if: :model_id_changed?
-  validate :embedding_settings_only_for_embedding_features
-  validate :locked_settings_unchanged
+  validate :semantic_index_activatable, if: :semantic_index_id_changed?
 
   def feature
     OpenProject::Llm::Features[feature_key]
@@ -70,29 +59,10 @@ class LlmFeatureBinding < ApplicationRecord
   # catalogue changed.
   def dangling?
     resolved = resolved_model_id
-    resolved.present? && (from_another_deployment? || llm_connection.available_model_ids.exclude?(resolved))
+    resolved.present? && llm_connection.available_model_ids.exclude?(resolved)
   end
-
-  # The same model name on another server need not be the same model, so a lock
-  # only holds for the deployment it was taken on.
-  def from_another_deployment?
-    locked? && locked_deployment_fingerprint != llm_connection.settings_fingerprint
-  end
-
-  def locked? = locked_at.present?
 
   private
-
-  # A lock freezes what the vectors were written with. A binding that inherits
-  # the connection default would keep following it after the lock, so the
-  # resolved model is written down at the moment of locking, together with the
-  # deployment it was resolved on.
-  def freeze_on_lock
-    return unless locked_at.present? && locked_at_changed? && locked_at_was.nil?
-
-    self.locked_deployment_fingerprint = llm_connection.settings_fingerprint
-    self.model_id = default_model_id if model_id.blank?
-  end
 
   def default_model_id
     return if feature.nil?
@@ -115,32 +85,13 @@ class LlmFeatureBinding < ApplicationRecord
     errors.add(:model_id, :not_available)
   end
 
-  def embedding_settings_only_for_embedding_features
-    return if feature.nil? || feature.embedding?
+  def semantic_index_activatable
+    return if semantic_index.nil?
 
-    EMBEDDING_SETTINGS.each do |attribute|
-      next if public_send(attribute).blank?
-
-      errors.add(attribute, :not_for_chat_feature)
-    end
-  end
-
-  # Vectors written under one embedding model are meaningless under another, and
-  # the dimension count is baked into the index, so a locked binding can only be
-  # changed by an explicit re-index.
-  #
-  # TODO(#69620): re-indexing is what clears locked_at. Until that job exists a
-  # locked binding can only be changed in the database.
-  def locked_settings_unchanged
-    # Only constrains later edits. On the save that records the lock -- and on
-    # create -- every attribute reads as changed from nil, and there is nothing
-    # indexed yet for them to contradict.
-    return unless locked? && locked_at_was.present?
-
-    LOCKED_SETTINGS.each do |attribute|
-      next unless public_send(:"#{attribute}_changed?")
-
-      errors.add(attribute, :locked)
+    if !feature&.embedding?
+      errors.add(:semantic_index, :not_for_chat_feature)
+    elsif !semantic_index.ready?
+      errors.add(:semantic_index, :not_ready)
     end
   end
 end
