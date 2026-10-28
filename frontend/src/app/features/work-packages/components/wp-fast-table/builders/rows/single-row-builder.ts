@@ -226,7 +226,7 @@ export class SingleRowBuilder {
    * Refresh a row that is currently being edited, that is, some edit fields may be open
    */
   public refreshRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):HTMLTableRowElement {
-    const oldCells = Array.from(row.querySelectorAll<HTMLTableCellElement>(`.${tdClassName}`));
+    const oldCells = Array.from(row.querySelectorAll<HTMLTableCellElement>(':scope > td'));
     const retained = new Map<string, HTMLTableCellElement>();
 
     this.augmentedColumns.forEach((column:QueryColumn) => {

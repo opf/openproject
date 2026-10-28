@@ -220,6 +220,27 @@ describe('SingleRowBuilder refresh with an active editor', () => {
     expect(harness.row('1').querySelector('td.id')).not.toBe(idCell);
   });
 
+  it('replaces an untagged column menu cell instead of shifting the rebuilt cells', async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }],
+      editing: {},
+      productionMarkup: true,
+      configuration: { keyboardNavigationEnabled: true, actionsColumnEnabled: false, columnMenuEnabled: true },
+    });
+    await harness.render();
+    const subjectCell = harness.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+    subjectCell.focus();
+    fireEvent.keyDown(subjectCell, { key: 'Enter' });
+    await waitFor(() => expect(within(harness.row('1')).getByRole('textbox')).toHaveFocus());
+    const cellCount = harness.row('1').cells.length;
+
+    harness.table.refreshRows(harness.injector.get(States).workPackages.get('1').value!);
+
+    expect(harness.row('1').cells).toHaveLength(cellCount);
+    expect(harness.row('1').cells[0]).toHaveClass('id');
+    expect(harness.row('1').cells[1]).toBe(subjectCell);
+  });
+
   it('keeps an inline-create editor focused during refresh', async () => {
     harness = buildTable({
       workPackages: [{ id: '1' }],
