@@ -1,0 +1,105 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+---
+copyright: COPYRIGHT_short
+
+ignore:
+  # 3rd party
+  - "**/node_modules/**/*"
+  - "**/vendor/**/*"
+  - "modules/gitlab_integration/**/*"
+  - "lib_static/plugins/verification/**/*"
+  - "lib/chronic_duration.rb"
+  - "frontend/src/global_styles/content/_loading_indicator.sass"
+  # render copyright_header themselves
+  - "lib/open_project/plugins/frontend_linking/*.erb"
+  # crowdin and generated
+  - "modules/*/config/locales/crowdin/*.yml"
+  - "config/locales/{crowdin,generated}/*.yml"
+  # generated
+  - "frontend/out-tsc/**/*"
+  - "frontend/dist/**/*"
+  - "frontend/.angular/**/*"
+  - "public/assets/**/*"
+  - "public/plugin_assets/**/*"
+  - "bin/{brakeman,bundle,rails,rake,rspec,rubocop,setup,spring}"
+  # other
+  - ".git/**/*"
+  - "tmp/**/*"
+  - "log/**/*"
+  - "files/**/*"
+  # explicitly ignore
+  - "**/*.{png,jpg,gif,webp,ico,svg,mp4}"
+  - "**/*.{ttf,woff,woff2,eot}"
+  - "**/*.{gz,xkt,ifc,bcf}"
+  - "**/*.{json,csv,lock,patch,ldif,properties}"
+  - "**/*.{pem,crt,pub,asc,token}"
+  - "**/*.{md,rdoc,txt,apib}"
+  - "lookbook/docs/**/*.md.erb"
+  - "packaging/addons/*/templates"
+  - "**/*.{eml,xml,xsd}"
+  - "**/LICENSE*"
+  - "COPYRIGHT{,_short}"
+  - ".ruby-version"
+
+styles:
+  - comment: "#"
+    include:
+      - Rakefile
+      - Guardfile
+      - config.ru
+      - "**/Gemfile"
+      - "**/Dangerfile"
+      - "**/.gitignore"
+      - "**/*.rb{,.example}"
+      - "**/*.rake"
+      - "**/*.gemspec"
+      - "**/*.atom.builder"
+      - "**/*.yml{,.example}"
+      - "**/*.sh"
+  - comment: "//"
+    alternative_comments:
+      - ["/*", "*/"]
+    include:
+      - "**/*.{js,mjs,cjs}"
+      - "**/*.{ts,tsx}{,.example}"
+      - "**/*.{sass,scss}{,.example}"
+  - comment: ["<%#", "#%>"]
+    alternative_comments:
+      - ["<%#", "%>"]
+    include: "**/*.erb"
+  - comment: ["/*", "*/"]
+    include: "**/*.css"
+  - comment: "--"
+    alternative_comments:
+      - ["/*", "*/"]
+    include: "**/*.sql"
+  # keep last for relevant styles above to win
+  - comment: "#"
+    include:
+      - "{bin,docker,packaging,script}/**/*"

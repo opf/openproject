@@ -77,10 +77,11 @@ erb_lint {files}
 bundle exec lefthook install
 ```
 
-### JavaScript and TypeScript Copyright Headers
+### Copyright Headers
 
-All first-party JavaScript and TypeScript files must use the canonical compact
-line-comment copyright header generated from `COPYRIGHT_short`:
+Every first-party source file starts with the copyright header generated from
+`COPYRIGHT_short`, in the comment style `.copycop.yml` defines for its path, and
+followed by one blank line. For `.ts` and `.tsx` files that is:
 
 ```typescript
 //-- copyright
@@ -90,13 +91,13 @@ line-comment copyright header generated from `COPYRIGHT_short`:
 
 ```
 
-Use `//-- copyright` and `//++` exactly as shown. Prefix non-empty body lines
-with `// `, prefix empty body lines with `//`, and leave one blank line between
-the header and the source code. Do not compose or reformat the header manually.
+Do not compose or reformat a header manually. Use `bin/copycop` instead:
 
-Run `rake copyright:update_typescript` to add or repair headers in `.ts` and
-`.tsx` files. Run `rake copyright:update_js` for `.js`, `.mjs`, and `.cjs`
-files. Both commands accept an optional path argument.
+```shell
+bin/copycop                  # Report missing, malformed or misplaced headers
+bin/copycop -a               # Insert and repair headers
+bin/copycop -a [paths]       # Limit the run to files or directories
+```
 
 ## Code Comments
 
