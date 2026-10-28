@@ -27,22 +27,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject
-  module Common
-    class AttributesGroupComponent < ::Primer::Component
-      renders_one :header, Header
-      renders_many :attributes, AttributeKeyValue
+module OpPrimer
+  class AttributesGroupComponent
+    # Key/value row for {AttributesGroupComponent}.
+    #
+    # This component is part of {AttributesGroupComponent} and should not be
+    # used as a standalone component.
+    class AttributeKeyValue < ::Primer::Component
+      attr_reader :key
 
-      attr_reader :system_arguments
-
-      def initialize(**system_arguments)
+      def initialize(key:)
         super()
-        @system_arguments = system_arguments
 
-        @system_arguments[:classes] = class_names(
-          @system_arguments[:classes],
-          "AttributesGroup"
-        )
+        @key = key
       end
     end
   end

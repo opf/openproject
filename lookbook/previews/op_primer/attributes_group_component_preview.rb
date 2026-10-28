@@ -27,15 +27,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject
-  module Common
-    # @logical_path OpenProject/Common
-    class AttributesGroupComponentPreview < Lookbook::Preview
-      def default; end
+module OpPrimer
+  # @logical_path OpenProject/Primer
+  class AttributesGroupComponentPreview < Lookbook::Preview
+    def default; end
 
-      def with_header; end
+    def with_header; end
 
-      def with_long_values; end
-    end
+    def with_long_values; end
   end
 end

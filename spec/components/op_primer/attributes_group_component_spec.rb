@@ -29,7 +29,7 @@
 
 require "rails_helper"
 
-RSpec.describe OpenProject::Common::AttributesGroupComponent, type: :component do
+RSpec.describe OpPrimer::AttributesGroupComponent, type: :component do
   it "renders the title" do
     render_inline(described_class.new) do |component|
       component.with_header(title: "A Title")

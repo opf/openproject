@@ -27,22 +27,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject
-  module Common
-    class AttributesGroupComponent
-      # Key/value row for {AttributesGroupComponent}.
-      #
-      # This component is part of {AttributesGroupComponent} and should not be
-      # used as a standalone component.
-      class AttributeKeyValue < ::Primer::Component
-        attr_reader :key
+require "rails_helper"
 
-        def initialize(key:)
-          super()
+RSpec.describe OpPrimer::AttributesGroupComponent::AttributeKeyValue, type: :component do
+  it "renders the attribute key and content" do
+    render_inline(described_class.new(key: "Attribute Key")) { "Attribute Value" }
 
-          @key = key
-        end
-      end
-    end
+    expect(page).to have_css(".AttributesGroupItem-key", text: "Attribute Key") &
+      have_css(".AttributesGroupItem-value", text: "Attribute Value")
+  end
+
+  it "preserve html in the content if it's a safe string" do
+    render_inline(described_class.new(key: "Attribute Key")) { "<div>Some value</div>".html_safe }
+
+    expect(page).to have_no_css(".AttributesGroupItem-value", text: "<div>Some value</div>")
+    expect(page).to have_css(".AttributesGroupItem-value", text: "Some value")
   end
 end

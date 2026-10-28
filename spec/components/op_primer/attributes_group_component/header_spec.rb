@@ -22,34 +22,37 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject
-  module Common
-    class AttributesGroupComponent
-      # Structured header for {AttributesGroupComponent}.
-      #
-      # This component is part of {AttributesGroupComponent} and should not be
-      # used as a standalone component.
-      class Header < ::Primer::Component
-        DEFAULT_TAG = :h3
-        TAG_OPTIONS = %i[h2 h3 h4 h5 h6].freeze
+require "rails_helper"
 
-        attr_reader :title, :tag, :size, :description, :system_arguments
+RSpec.describe OpPrimer::AttributesGroupComponent::Header, type: :component do
+  subject(:render_header) { render_inline(described_class.new(title: "A Title")) }
 
-        def initialize(title:, description: nil, tag: DEFAULT_TAG, size: :medium, **system_arguments)
-          super()
-          @title = title
-          @description = description
-          @tag = fetch_or_fallback(TAG_OPTIONS, tag, DEFAULT_TAG)
-          @size = size
-          @system_arguments = system_arguments
-        end
-      end
+  it "renders the title" do
+    render_header
+
+    expect(page).to have_css("h3", text: "A Title")
+  end
+
+  context "when providing a tag" do
+    subject(:render_header) { render_inline(described_class.new(title: "A Title", tag: :h2)) }
+
+    it "renders the title inside the given tag" do
+      render_header
+
+      expect(page).to have_css("h2", text: "A Title")
+    end
+  end
+
+  context "when using an h1 tag" do
+    subject(:render_header) { render_inline(described_class.new(title: "A Title", tag: :h1)) }
+
+    it "raises an error, because h1 is reserved" do
+      expect { render_header }.to raise_error(Primer::FetchOrFallbackHelper::InvalidValueError)
     end
   end
 end

@@ -27,20 +27,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "rails_helper"
+module OpPrimer
+  class AttributesGroupComponent < ::Primer::Component
+    renders_one :header, Header
+    renders_many :attributes, AttributeKeyValue
 
-RSpec.describe OpenProject::Common::AttributesGroupComponent::AttributeKeyValue, type: :component do
-  it "renders the attribute key and content" do
-    render_inline(described_class.new(key: "Attribute Key")) { "Attribute Value" }
+    attr_reader :system_arguments
 
-    expect(page).to have_css(".AttributesGroupItem-key", text: "Attribute Key") &
-      have_css(".AttributesGroupItem-value", text: "Attribute Value")
-  end
+    def initialize(**system_arguments)
+      super()
+      @system_arguments = system_arguments
 
-  it "preserve html in the content if it's a safe string" do
-    render_inline(described_class.new(key: "Attribute Key")) { "<div>Some value</div>".html_safe }
-
-    expect(page).to have_no_css(".AttributesGroupItem-value", text: "<div>Some value</div>")
-    expect(page).to have_css(".AttributesGroupItem-value", text: "Some value")
+      @system_arguments[:classes] = class_names(
+        @system_arguments[:classes],
+        "AttributesGroup"
+      )
+    end
   end
 end
