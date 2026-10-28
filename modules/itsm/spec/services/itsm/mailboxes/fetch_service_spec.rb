@@ -65,18 +65,12 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true } do
     expect(imap).to have_received(:login).with(mailbox.username, "imap-password")
   end
 
-  it "stores new emails and removes them from the server" do
+  it "reads the unseen emails and leaves them untouched on the server" do
     expect(result).to be_success
-    expect(mailbox.messages.pluck(:message_id, :status)).to eq([%w[first@customer.example received]])
-    expect(imap).to have_received(:uid_store).with(1, "+FLAGS", [:Deleted])
-    expect(imap).to have_received(:uid_expunge).with(1)
-  end
-
-  it "marks emails that could not be stored as seen and leaves them on the server" do
-    result
-
-    expect(imap).to have_received(:uid_store).with(2, "+FLAGS", [:Seen])
-    expect(imap).not_to have_received(:uid_store).with(2, "+FLAGS", [:Deleted])
+    expect(imap).to have_received(:uid_fetch).with(1, "BODY.PEEK[]")
+    expect(imap).to have_received(:uid_fetch).with(2, "BODY.PEEK[]")
+    expect(imap).not_to have_received(:uid_store)
+    expect(imap).not_to have_received(:uid_expunge)
   end
 
   it "logs out afterwards" do
@@ -85,7 +79,7 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true } do
     expect(imap).to have_received(:logout)
   end
 
-  context "when processing an email raises" do
+  context "when an email cannot be parsed" do
     let(:warnings) { [] }
 
     before do
@@ -94,49 +88,17 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true } do
       allow(Rails.logger).to receive(:warn) { |&message| warnings << message.call }
     end
 
-    it "marks it as seen and continues with the next one" do
+    it "skips it and continues with the next one" do
       expect(result).to be_success
-      expect(imap).to have_received(:uid_store).with(1, "+FLAGS", [:Seen])
       expect(imap).to have_received(:uid_fetch).with(2, "BODY.PEEK[]")
+      expect(imap).not_to have_received(:uid_store)
     end
 
     it "logs the error class without the email content" do
       result
 
-      expect(warnings).to include("Email not stored: ArgumentError")
+      expect(warnings).to include("Email not read: ArgumentError")
       expect(warnings.join).not_to include("jane@customer.example")
-    end
-  end
-
-  context "when an email's Message-ID is too long to store" do
-    before do
-      emails[1] = "Message-ID: <#{SecureRandom.alphanumeric(3000)}@customer.example>\r\n" \
-                  "From: jane@customer.example\r\n\r\nHello"
-    end
-
-    it "marks it as seen and continues with the next one" do
-      expect(result).to be_success
-      expect(imap).to have_received(:uid_store).with(1, "+FLAGS", [:Seen])
-      expect(imap).to have_received(:uid_fetch).with(2, "BODY.PEEK[]")
-    end
-  end
-
-  context "when an email was stored in an earlier run that did not get to remove it" do
-    before { create(:itsm_email_message, mailbox:, thread: nil, message_id: "first@customer.example") }
-
-    it "removes it from the server without storing it again" do
-      expect { result }.not_to change(ITSM::EmailMessage, :count)
-      expect(imap).to have_received(:uid_store).with(1, "+FLAGS", [:Deleted])
-    end
-  end
-
-  context "when the database fails while storing an email" do
-    before { allow(ITSM::EmailMessages::CreateService).to receive(:new).and_raise(ActiveRecord::ConnectionNotEstablished) }
-
-    it "aborts the run without marking any email as read" do
-      expect { result }.to raise_error(ActiveRecord::ConnectionNotEstablished)
-      expect(imap).not_to have_received(:uid_store)
-      expect(imap).to have_received(:logout)
     end
   end
 
@@ -145,7 +107,7 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true } do
 
     it "leaves it alone" do
       expect(result).to be_success
-      expect(imap).not_to have_received(:uid_store).with(1, any_args)
+      expect(imap).not_to have_received(:uid_store)
     end
   end
 
@@ -158,16 +120,13 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true } do
                                               last_error: nil)
   end
 
-  it "reports that no emails are left on the server" do
-    expect(result.state.emails_left).to be(false)
-  end
+  context "with more unseen emails than one run reads" do
+    before { stub_const("#{described_class}::BATCH_SIZE", 1) }
 
-  context "when the batch is full" do
-    before { stub_const("#{described_class}::BATCH_SIZE", 2) }
+    it "reads only the oldest ones" do
+      result
 
-    it "reports that emails may be left on the server" do
-      expect(result.state.emails_left).to be(true)
-      expect(imap).to have_received(:uid_fetch).twice
+      expect(imap).to have_received(:uid_fetch).once.with(1, "BODY.PEEK[]")
     end
   end
 
@@ -201,7 +160,7 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true } do
   end
 
   context "when the connection drops in the middle of the run" do
-    before { allow(imap).to receive(:uid_store).with(1, "+FLAGS", [:Deleted]).and_raise(IOError) }
+    before { allow(imap).to receive(:uid_fetch).with(1, "BODY.PEEK[]").and_raise(IOError) }
 
     it "stops and records the failure" do
       expect(result.errors.symbols_for(:base)).to eq([:unreachable])

@@ -42,8 +42,7 @@ module ITSM
 
       private
 
-      # No transaction: emails are removed from the server right after their record is created,
-      # and a failed fetch still has to be recorded on the mailbox.
+      # No transaction: a failed fetch still has to be recorded on the mailbox.
       def service_context(send_notifications:, &)
         OpenProject::Mutex.with_advisory_lock(IncomingMailbox, "itsm_mailbox_fetch_#{model.id}", timeout_seconds: 0) do
           without_context_transaction(send_notifications:, &)
@@ -53,7 +52,7 @@ module ITSM
       def persist(_service_call)
         Rails.logger.tagged("ITSM", "mailbox #{model.id}") do
           case fetch_emails
-          in Success(emails_left:) then fetch_succeeded(emails_left:)
+          in Success(emails:) then fetch_succeeded(emails)
           in Failure(error) then fetch_failed(error)
           end
         end
@@ -64,40 +63,27 @@ module ITSM
       def fetch_emails
         Adapters::ImapSession.open(connection: model.mail_server, auth_strategy:) do |session|
           uids = yield Adapters::Queries::UnseenUids.call(session:, limit: BATCH_SIZE)
-          uids.each { |uid| yield receive(session, uid) }
 
-          Success(emails_left: uids.size == BATCH_SIZE)
+          Success(emails: uids.filter_map { |uid| yield read(session, uid) })
         end
       end
 
       def auth_strategy = Adapters::AuthenticationStrategies::BasicAuth.new(model.credentials)
 
-      def receive(session, uid)
-        Adapters::Queries::RawEmail.call(session:, uid:).bind do |raw|
-          next Success() if raw.nil?
-
-          settle(session, uid, receive_email(raw))
-        end
+      def read(session, uid)
+        Adapters::Queries::RawEmail.call(session:, uid:).fmap { |raw| parse(raw) if raw }
       end
 
-      def receive_email(raw)
-        EmailMessages::ReceiveService.new(mailbox: model, user:).call(raw:)
-      rescue ActiveRecord::ActiveRecordError
-        raise
+      def parse(raw)
+        InboundEmail.new(raw).headers
       rescue StandardError => e
-        ServiceResult.failure(message: e.class.name)
+        Rails.logger.warn { "Email not read: #{e.class.name}" }
+        nil
       end
 
-      def settle(session, uid, received)
-        return Adapters::Commands::RemoveEmail.call(session:, uid:) if received.success?
-
-        Rails.logger.warn { "Email not stored: #{received.message}" }
-        Adapters::Commands::MarkEmailSeen.call(session:, uid:)
-      end
-
-      def fetch_succeeded(emails_left:)
+      def fetch_succeeded(emails)
+        Rails.logger.info { "Read #{emails.size} unseen emails" }
         model.fetch_succeeded!
-        state.emails_left = emails_left
         ServiceResult.success(result: model)
       end
 

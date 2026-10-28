@@ -34,11 +34,7 @@ RSpec.describe ITSM::Mailboxes::FetchJob, type: :job, with_flag: { helpdesk: tru
   subject(:perform) { described_class.perform_now(mailbox) }
 
   let(:mailbox) { create(:itsm_incoming_mailbox) }
-  let(:emails_left) { false }
-  let(:service) do
-    instance_double(ITSM::Mailboxes::FetchService,
-                    call: ServiceResult.success(result: mailbox, state: Shared::ServiceState.build(emails_left:)))
-  end
+  let(:service) { instance_double(ITSM::Mailboxes::FetchService, call: ServiceResult.success(result: mailbox)) }
 
   before { allow(ITSM::Mailboxes::FetchService).to receive(:new).with(model: mailbox).and_return(service) }
 
@@ -47,16 +43,6 @@ RSpec.describe ITSM::Mailboxes::FetchJob, type: :job, with_flag: { helpdesk: tru
 
     expect(service).to have_received(:call)
     expect(described_class).not_to have_been_enqueued
-  end
-
-  context "when emails are left on the server", :freeze_time do
-    let(:emails_left) { true }
-
-    it "queues the next fetch a minute later" do
-      perform
-
-      expect(described_class).to have_been_enqueued.with(mailbox).at(1.minute.from_now)
-    end
   end
 
   context "when the fetch fails" do

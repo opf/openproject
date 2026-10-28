@@ -32,8 +32,6 @@ module ITSM
     class FetchJob < ApplicationJob
       include GoodJob::ActiveJobExtensions::Concurrency
 
-      FOLLOW_UP_DELAY = 1.minute
-
       good_job_control_concurrency_with(
         enqueue_limit: 1,
         perform_limit: 1,
@@ -43,8 +41,7 @@ module ITSM
       discard_on ActiveJob::DeserializationError
 
       def perform(mailbox)
-        result = FetchService.new(model: mailbox).call
-        self.class.set(wait: FOLLOW_UP_DELAY).perform_later(mailbox) if result.state.emails_left
+        FetchService.new(model: mailbox).call
       end
     end
   end
