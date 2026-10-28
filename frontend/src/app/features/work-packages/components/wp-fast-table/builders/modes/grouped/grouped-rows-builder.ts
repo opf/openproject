@@ -44,6 +44,7 @@ import type { RenderPassOptions } from '../../primary-render-pass';
 import { GroupedRenderPass } from './grouped-render-pass';
 import { groupedRowClassName, groupIdentifier } from './grouped-rows-helpers';
 import type { OccurrenceKey } from '../../../rendered-occurrence-ledger';
+import { keyboardNavigationEnabled } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 
 export class GroupedRowsBuilder extends RowsBuilder {
   // Injections
@@ -81,7 +82,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
   }
 
   public buildRows(options:RenderPassOptions) {
-    const builder = new GroupHeaderBuilder(this.injector);
+    const builder = new GroupHeaderBuilder(this.injector, keyboardNavigationEnabled(this.workPackageTable.configuration));
     return new GroupedRenderPass(
       this.injector,
       this.workPackageTable,
@@ -94,9 +95,9 @@ export class GroupedRowsBuilder extends RowsBuilder {
   /**
    * Refresh the group expansion state
    */
-  public refreshExpansionState() {
+  public refreshExpansionState():ReadonlyMap<OccurrenceKey, boolean> {
     const groups = this.getGroupData();
-    const builder = new GroupHeaderBuilder(this.injector);
+    const builder = new GroupHeaderBuilder(this.injector, keyboardNavigationEnabled(this.workPackageTable.configuration));
     const updates = new Map<OccurrenceKey, boolean>();
 
     this.workPackageTable.tableAndTimelineContainer
@@ -137,7 +138,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
           });
       });
 
-    this.workPackageTable.setHidden(updates);
+    return updates;
   }
 
   /**
