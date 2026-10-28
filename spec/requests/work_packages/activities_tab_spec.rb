@@ -164,6 +164,59 @@ RSpec.describe "Work package activities tab",
     end
   end
 
+  describe "GET item_actions" do
+    let(:mark_unread_selector) { "op-wp-journal-#{comment.id}-mark-unread" }
+    let(:mark_read_selector) { "op-wp-journal-#{comment.id}-mark-read" }
+
+    it "offers to mark a journal without unread notifications as unread" do
+      get item_actions_work_package_activity_path(work_package, comment)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(mark_unread_selector)
+      expect(response.body).not_to include(mark_read_selector)
+    end
+
+    it "offers to mark a journal with an unread notification as read" do
+      create(:notification, recipient: user, resource: work_package, journal: comment, read_ian: false)
+
+      get item_actions_work_package_activity_path(work_package, comment)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include(mark_unread_selector)
+      expect(response.body).to include(mark_read_selector)
+    end
+  end
+
+  describe "POST mark_unread", :skip_csrf do
+    let(:unread_notifications) { Notification.where(recipient: user, journal: comment, read_ian: false) }
+
+    it "creates an unread notification and re-renders the journal" do
+      expect do
+        post mark_unread_work_package_activity_path(work_package, comment),
+             headers: { "Accept" => "text/vnd.turbo-stream.html" }
+      end.to change(unread_notifications, :count).by(1)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("op-journal-unread-notification")
+      expect(response.body).to include("op-dispatched:notifications:updated")
+    end
+  end
+
+  describe "POST mark_read", :skip_csrf do
+    let!(:notification) do
+      create(:notification, recipient: user, resource: work_package, journal: comment, read_ian: false)
+    end
+
+    it "marks the notification as read and re-renders the journal" do
+      post mark_read_work_package_activity_path(work_package, comment),
+           headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:ok)
+      expect(notification.reload.read_ian).to be true
+      expect(response.body).to include("op-dispatched:notifications:updated")
+    end
+  end
+
   describe "comment errors", :skip_csrf do
     let(:turbo_stream_headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
 

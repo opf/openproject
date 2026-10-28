@@ -47,6 +47,7 @@ import {
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
 import { Observable } from 'rxjs';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
@@ -103,6 +104,8 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   readonly actions$ = inject(ActionsService);
 
   readonly storeService = inject(WpSingleViewService);
+
+  readonly currentUserService = inject(CurrentUserService);
 
   // Work package resource to be loaded from the cache
   public workPackage:WorkPackageResource;
@@ -198,7 +201,7 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
         },
       );
 
-    this.displayNotificationsButton$ = this.storeService.hasNotifications$;
+    this.displayNotificationsButton$ = this.currentUserService.isLoggedIn$;
     this.storeService.setFilters(this.workPackage.id!);
 
     // Set authorization data

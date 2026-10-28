@@ -197,6 +197,10 @@ paths:
     "$ref": "./paths/activity_attachments_prepare.yml"
   "/api/v3/activities/{id}/emoji_reactions":
     "$ref": "./paths/activity_emoji_reactions.yml"
+  "/api/v3/activities/{id}/mark_read":
+    "$ref": "./paths/activity_mark_read.yml"
+  "/api/v3/activities/{id}/mark_unread":
+    "$ref": "./paths/activity_mark_unread.yml"
   "/api/v3/ai_text_transform_actions":
     "$ref": "./paths/ai_text_transform_actions.yml"
   "/api/v3/ai_text_transform_runs":
@@ -639,6 +643,8 @@ paths:
     "$ref": "./paths/work_package_file_links.yml"
   "/api/v3/work_packages/{id}/form":
     "$ref": "./paths/work_package_form.yml"
+  "/api/v3/work_packages/{id}/mark_unread":
+    "$ref": "./paths/work_package_mark_unread.yml"
   "/api/v3/work_packages/{id}/revisions":
     "$ref": "./paths/work_package_revisions.yml"
   "/api/v3/work_packages/{id}/relations":
