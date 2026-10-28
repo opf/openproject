@@ -33,6 +33,8 @@ require_module_spec_helper
 RSpec.describe ITSM::Adapters::Queries::RawEmail do
   include_context "with a connected IMAP session"
 
+  after { session.close }
+
   subject(:result) { described_class.call(session:, uid: 7) }
 
   it "returns the raw email without marking it as read" do

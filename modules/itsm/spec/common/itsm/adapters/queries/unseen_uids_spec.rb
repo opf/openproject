@@ -33,6 +33,8 @@ require_module_spec_helper
 RSpec.describe ITSM::Adapters::Queries::UnseenUids do
   include_context "with a connected IMAP session"
 
+  after { session.close }
+
   subject(:result) { described_class.call(session:, limit:) }
 
   let(:limit) { 10 }

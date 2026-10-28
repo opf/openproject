@@ -42,10 +42,8 @@ module ITSM
 
       def self.open(mail_server:, auth_strategy:)
         session = new(mail_server:, auth_strategy:)
-        deadline = Concurrent::ScheduledTask.execute(SESSION_TIMEOUT) { session.time_out }
         session.connect.bind { yield session }
       ensure
-        deadline&.cancel
         session&.close
       end
 
@@ -55,6 +53,8 @@ module ITSM
       end
 
       def connect
+        start_deadline
+
         safe_address
           .bind { imap_request { open_connection } }
           # The strategy returns its own Result, which imap_request wraps once more.
@@ -68,11 +68,16 @@ module ITSM
       end
 
       def close
-        return if imap.nil? || imap.disconnected?
+        deadline&.cancel
+        log_out unless imap.nil? || imap.disconnected?
+      end
 
-        logout = imap_request { imap.logout }
-        imap_request { imap.disconnect }
-        Rails.logger.warn { "IMAP logout failed (#{logout.failure.code})" } if logout.failure?
+      private
+
+      attr_reader :mail_server, :auth_strategy, :imap, :deadline, :timed_out
+
+      def start_deadline
+        @deadline = Concurrent::ScheduledTask.execute(SESSION_TIMEOUT) { time_out }
       end
 
       # Net::IMAP has no command timeout yet: https://github.com/ruby/net-imap/issues/278
@@ -82,9 +87,11 @@ module ITSM
         imap&.disconnect
       end
 
-      private
-
-      attr_reader :mail_server, :auth_strategy, :imap, :timed_out
+      def log_out
+        logout = imap_request { imap.logout }
+        imap_request { imap.disconnect }
+        Rails.logger.warn { "IMAP logout failed (#{logout.failure.code})" } if logout.failure?
+      end
 
       def instance_variables_to_inspect = %i[@mail_server]
 

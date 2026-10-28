@@ -33,23 +33,27 @@ require_module_spec_helper
 RSpec.describe ITSM::Adapters::ImapSession do
   include_context "with a connected IMAP session"
 
-  subject(:unconnected_session) { described_class.new(mail_server: imap_mail_server, auth_strategy: imap_auth_strategy) }
+  subject(:imap_session) { described_class.new(mail_server: imap_mail_server, auth_strategy: imap_auth_strategy) }
 
   let(:encryption) { "tls" }
   let(:imap_mail_server) { build(:itsm_mail_server, :imap, encryption:) }
 
+  after { imap_session.close }
+
   it "shows only the mail server when inspected" do
-    expect(session.inspect).to include("imap.example.com")
-    expect(session.inspect).not_to include("support@example.com", "@auth_strategy", "@imap")
+    imap_session.connect
+
+    expect(imap_session.inspect).to include("imap.example.com")
+    expect(imap_session.inspect).not_to include("support@example.com", "@auth_strategy", "@imap", "@deadline")
   end
 
-  it "does not expose the IMAP connection" do
-    expect(session).not_to respond_to(:imap)
+  it "does not expose the IMAP connection or its time limit" do
+    expect(imap_session).not_to respond_to(:imap, :time_out)
   end
 
   describe "#connect" do
     it "logs in over TLS and opens the inbox" do
-      expect(unconnected_session.connect).to eq(Dry::Monads::Success(unconnected_session))
+      expect(imap_session.connect).to eq(Dry::Monads::Success(imap_session))
 
       expect(Net::IMAP).to have_received(:new).with("imap.example.com", port: 993, ssl: true, open_timeout: 10)
       expect(imap).not_to have_received(:starttls)
@@ -61,7 +65,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
       let(:encryption) { "starttls" }
 
       it "upgrades the connection before logging in" do
-        unconnected_session.connect
+        imap_session.connect
 
         expect(Net::IMAP).to have_received(:new).with("imap.example.com", port: 993, ssl: false, open_timeout: 10)
         expect(imap).to have_received(:starttls)
@@ -72,7 +76,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
       before { allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(->(_host) { [IPAddr.new("10.0.0.5")] }) }
 
       it "refuses to connect" do
-        expect(unconnected_session.connect.failure.code).to eq(:address_not_allowed)
+        expect(imap_session.connect.failure.code).to eq(:address_not_allowed)
         expect(Net::IMAP).not_to have_received(:new)
       end
     end
@@ -81,7 +85,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
       before { allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(->(_host) { [] }) }
 
       it "reports the server as unreachable" do
-        expect(unconnected_session.connect.failure.code).to eq(:unreachable)
+        expect(imap_session.connect.failure.code).to eq(:unreachable)
       end
     end
 
@@ -89,7 +93,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
       before { allow(Net::IMAP).to receive(:new).and_raise(Errno::ECONNREFUSED) }
 
       it "reports the server as unreachable" do
-        expect(unconnected_session.connect.failure.code).to eq(:unreachable)
+        expect(imap_session.connect.failure.code).to eq(:unreachable)
       end
     end
 
@@ -113,7 +117,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
       end
 
       it "gives up after the open timeout" do
-        expect(unconnected_session.connect.failure.code).to eq(:timeout)
+        expect(imap_session.connect.failure.code).to eq(:timeout)
       end
     end
 
@@ -121,7 +125,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
       before { allow(Net::IMAP).to receive(:new).and_raise(OpenSSL::SSL::SSLError, "certificate verify failed") }
 
       it "reports the TLS failure" do
-        expect(unconnected_session.connect.failure.code).to eq(:tls_failed)
+        expect(imap_session.connect.failure.code).to eq(:tls_failed)
       end
     end
 
@@ -129,7 +133,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
       before { allow(imap).to receive(:login).and_raise(Net::IMAP::NoResponseError.new(imap_rejection)) }
 
       it "reports the authentication failure without opening the inbox" do
-        expect(unconnected_session.connect.failure.code).to eq(:authentication_failed)
+        expect(imap_session.connect.failure.code).to eq(:authentication_failed)
         expect(imap).not_to have_received(:select)
       end
     end
@@ -138,18 +142,20 @@ RSpec.describe ITSM::Adapters::ImapSession do
       before { allow(imap).to receive(:select).and_raise(Net::IMAP::NoResponseError.new(imap_rejection)) }
 
       it "reports a server error" do
-        expect(unconnected_session.connect.failure.code).to eq(:server_error)
+        expect(imap_session.connect.failure.code).to eq(:server_error)
       end
     end
   end
 
   describe "#request" do
+    before { imap_session.connect }
+
     it "yields the IMAP connection and wraps the value" do
-      expect(session.request(source: String) { |connection| connection }).to eq(Dry::Monads::Success(imap))
+      expect(imap_session.request(source: String) { |connection| connection }).to eq(Dry::Monads::Success(imap))
     end
 
     it "names the given source when the request fails" do
-      result = session.request(source: String) { raise IOError }
+      result = imap_session.request(source: String) { raise IOError }
 
       expect(result.failure).to have_attributes(code: :unreachable, source: String)
     end
