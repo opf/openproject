@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -81,9 +80,11 @@ module WorkPackageTypes
       end
 
       it "removes unavailable attributes from legacy form configurations when updating rows" do
+        deleted_custom_field = create(:work_package_custom_field, field_format: "string")
+        deleted_custom_field_attribute = deleted_custom_field.attribute_name
+        deleted_custom_field.destroy!
         custom_field = create(:work_package_custom_field, field_format: "string")
         RequestStore.clear!
-        deleted_custom_field_attribute = "custom_field_1"
         variant.form_configuration.update!(attribute_groups: [
                                              ["Legacy custom group", [deleted_custom_field_attribute, "priority"]]
                                            ])

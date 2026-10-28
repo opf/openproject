@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -174,6 +173,9 @@ export class ApiV3Service {
 
   // /api/v3/job_statuses
   public readonly job_statuses = this.apiV3CollectionEndpoint('job_statuses');
+
+  // /api/v3/labels
+  public readonly labels = this.apiV3CollectionEndpoint('labels');
 
   // /api/v3/views
   public readonly views = this.apiV3CustomEndpoint(ApiV3ViewsPaths);

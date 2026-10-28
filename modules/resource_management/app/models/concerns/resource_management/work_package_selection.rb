@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -126,7 +125,7 @@ module ResourceManagement
     end
 
     # A manually-picked view pins its hand-chosen ids; an automatic view forwards
-    # its query filters so the API filters server-side instead of materialising a
+    # its query filters so the API filters server-side instead of materializing a
     # potentially huge id list.
     def allocation_work_package_filters
       if manually_picked?

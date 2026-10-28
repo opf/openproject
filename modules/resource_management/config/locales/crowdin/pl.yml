@@ -119,20 +119,22 @@ pl:
       criteria:
         empty: Nie ustawiono kryteriów.
         label: Kryteria
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: Dla wybranego użytkownika nie skonfigurowano godzin pracy w tych terminach, dlatego uznaje się, że nie ma on dostępności.
         partial: Dla wybranego użytkownika nie skonfigurowano godzin pracy w terminach %{dates}, dlatego dni te są traktowane jako dni bez dostępności.
       outside_dates:
         description: Wybrane daty zasobów, %{resource_dates}, wykraczają poza daty pakietu roboczego, %{work_package_dates}.
       overbooking:
-        capacity_summary: Dostępne %{available}· Zaplanowano %{scheduled}
         description: Wybrany użytkownik, %{user}, zostałby przydzielony poza godzinami pracy w tym okresie.
-        hidden_work: Inne przydziały
+        overtime_summary_html: This allocation adds %{hours} between %{start_date} and %{end_date}, <strong>causing %{overtime} of overtime between %{overtime_start_date} and %{overtime_end_date}</strong>.
         schedule_availability: "%{schedule} (%{factor}% dostępne do pracy nad projektem)"
         schedule_change: do %{date}, następnie %{schedule}
         schedule_note: Ten użytkownik pracuje %{schedule}.
         submit: Przydziel nadgodziny
         title: Czy chcesz przydzielić nadgodziny użytkownikowi?
+        unplannable: "%{user} has no working day between %{start_date} and %{end_date}, so this allocation cannot be planned."
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Przydziel
       success_message: Zasób przydzielono.
       title: Przydziel zasób
@@ -183,6 +185,8 @@ pl:
     label_new_resource_planner: Nowy planista zasobów
     label_resource_planner: Planista zasobów
     label_resource_planner_plural: Planiści zasobów
+    my_time_management:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Dodaj widok
     public_caption: Ustaw ten widok jako publiczny dla wszystkich członków projektu. Nie ma to wpływu na widoczność pakietów roboczych, która nadal zależy od uprawnień poszczególnych użytkowników.
@@ -269,7 +273,8 @@ pl:
       no_work_schedule: Dla tego użytkownika nie zaplanowano żadnego harmonogramu pracy
       overbooked: W wybranym okresie ten użytkownik ma nadmierne przydziały.
       overbooked_tooltip:
-        range: "%{dates}: zaplanowano %{scheduled}, dostępne %{available}"
+        dates: Beyond working hours on %{dates}
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: Dodaj użytkownika
     view_types:

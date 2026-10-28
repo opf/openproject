@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -149,6 +148,32 @@ RSpec.describe AI::TextTransformRun do
     it "rejects non-terminal statuses" do
       expect { run.finish!("running") }.to raise_error(ArgumentError, /not a terminal status/)
       expect(run.reload).to be_running
+    end
+  end
+
+  describe "#request_cancel!" do
+    it "flags a running run for cancellation" do
+      run = create(:ai_text_transform_run, :running, updated_at: 1.hour.ago)
+
+      run.request_cancel!
+
+      expect(run.reload).to have_attributes(cancel_requested: true, updated_at: be_within(1.minute).of(Time.current))
+    end
+
+    it "leaves a terminal run untouched" do
+      run = create(:ai_text_transform_run, :succeeded)
+
+      run.request_cancel!
+
+      expect(run.reload.cancel_requested).to be(false)
+    end
+
+    it "does not depend on the run being valid" do
+      run = create(:ai_text_transform_run, :running)
+      run.update_column(:input, "x" * (AI::TextTransformRun::MAX_INPUT_LENGTH + 1))
+
+      expect { run.reload.request_cancel! }.not_to raise_error
+      expect(run.reload.cancel_requested).to be(true)
     end
   end
 

@@ -52,7 +52,7 @@ sl:
   documents:
     active_editors: Active editors
     active_editors_count:
-      one: 1 active editor
+      one: "%{count} active editor"
       two: "%{count} active editors"
       few: "%{count} active editors"
       other: "%{count} active editors"

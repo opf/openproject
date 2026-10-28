@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -153,8 +152,7 @@ module Pages
 
             if autocomplete
               has_no_css?(".ng-spinner-loader") # wait for possible async loading of options for ng-select
-              dropdown_el = find(".ng-option", text: val, wait: 5)
-              scroll_to_and_click(dropdown_el)
+              scroll_to_and_click { find(".ng-option", text: val, wait: 5) }
             end
           end
         end

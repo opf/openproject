@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -35,7 +34,7 @@ import { WorkPackageViewBaseService } from 'core-app/features/work-packages/rout
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 
-import { BatchSelection, SelectionItem } from 'core-common/batch-selection';
+import { BatchSelection, SelectionItem, selectionKey } from 'core-common/batch-selection';
 import {
   anchoredOccurrence,
   occurrenceRangeIds,
@@ -170,6 +169,21 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
     });
     this.publish();
     this.opContextMenu.close();
+  }
+
+  /**
+   * Keeps only members that `rows` render, hidden rows included.
+   *
+   * @remarks
+   * Never adds and publishes only when membership or the anchor changed.
+   * The owning table calls this after each of its own publications once
+   * it has committed; the card view and Boards never do.
+   */
+  public retainRendered(rows:readonly RenderedWorkPackage[]):void {
+    const live = new Set(selectableOccurrences(rows).map((row) => selectionKey(this.item(row.workPackageId!))));
+    if (this.model.prune(live)) {
+      this.publish();
+    }
   }
 
   public getSelectedWorkPackages():WorkPackageResource[] {

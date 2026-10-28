@@ -22,14 +22,15 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Exports
   module Formatters
+    # Exports::Exporter caches one instance per attribute and export format and reuses it for
+    # every exported record, so a subclass must not memoize anything record-specific.
     class Default
       include Redmine::I18n
 
@@ -85,6 +86,18 @@ module Exports
 
       def number_format
         "0.00"
+      end
+
+      def integer_format
+        "0"
+      end
+
+      def date_format
+        "yyyy-mm-dd"
+      end
+
+      def datetime_format
+        "yyyy-mm-dd hh:mm"
       end
 
       def percentage_format

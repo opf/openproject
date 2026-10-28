@@ -20,27 +20,19 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { QueryFilterInstanceSchemaResource } from 'core-app/features/hal/resources/query-filter-instance-schema-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
-export interface QueryFilterResourceEmbedded {
-  schema:QueryFilterInstanceSchemaResource;
-}
-
 export class QueryFilterResource extends HalResource {
-  public $embedded:QueryFilterResourceEmbedded;
-
-  public values:any[];
+  public values:unknown[];
 
   public get id():string {
-    return this.$source.id || idFromLink(this.href);
+    return (this.$source.id as string) || idFromLink(this.href);
   }
 
   public set id(newId:string) {

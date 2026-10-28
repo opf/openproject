@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -64,12 +63,32 @@ module CustomFields
       op_routes.public_send(:"reorder_alphabetical_admin_settings_#{cf_singular(custom_field)}_path", custom_field)
     end
 
+    def projects_path(custom_field)
+      op_routes.public_send(:"projects_admin_settings_#{cf_singular(custom_field)}_path", custom_field)
+    end
+
+    def project_values_path(custom_field, project)
+      op_routes.public_send(:"project_values_admin_settings_#{cf_singular(custom_field)}_path", custom_field, project)
+    end
+
+    def forms_path(custom_field)
+      op_routes.public_send(:"forms_admin_settings_#{cf_singular(custom_field)}_path", custom_field)
+    end
+
+    def types_and_variants_path(custom_field)
+      op_routes.public_send(:"types_and_variants_admin_settings_#{cf_singular(custom_field)}_path", custom_field)
+    end
+
     def attribute_help_text_path(custom_field)
       op_routes.public_send(:"attribute_help_text_admin_settings_#{cf_singular(custom_field)}_path", custom_field)
     end
 
     def update_attribute_help_text_path(custom_field)
       op_routes.public_send(:"update_attribute_help_text_admin_settings_#{cf_singular(custom_field)}_path", custom_field)
+    end
+
+    def deletion_dialog_path(custom_field, *, **)
+      op_routes.public_send(:"deletion_dialog_admin_settings_#{cf_singular(custom_field)}_path", custom_field)
     end
 
     private

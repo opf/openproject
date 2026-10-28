@@ -22,9 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
+# See COPYRIGHT and LICENSE files for more details.
+#++
 
 module Statuses
   class TableComponent < OpPrimer::BorderBoxTableComponent
@@ -57,7 +58,7 @@ module Statuses
     def container_class = "op-statuses-table"
 
     # Positions are global while a filtered list shows a non-contiguous subset, so a
-    # drop would resolve against neighbours the list does not display.
+    # drop would resolve against neighbors the list does not display.
     def reorderable?
       query.filters.empty?
     end

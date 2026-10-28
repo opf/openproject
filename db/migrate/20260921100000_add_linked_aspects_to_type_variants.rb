@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 # A variant that owned an aspect (no '<aspect>_source_id') stays independent. A variant that
 # inherited one - from any source, base or otherwise - is linked to its own base instead, dropping
-# the old model's arbitrary inheritance in favour of parent-only links.
+# the old model's arbitrary inheritance in favor of parent-only links.
 class AddLinkedAspectsToTypeVariants < ActiveRecord::Migration[8.1]
   ASPECTS = %w[pdf_export defaults form_configuration project_attributes].freeze
 

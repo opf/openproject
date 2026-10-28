@@ -20,14 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injectable, inject } from '@angular/core';
-import { Board } from 'core-app/features/boards/board/board';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { VersionResource } from 'core-app/features/hal/resources/version-resource';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
@@ -41,7 +39,6 @@ import { VersionAutocompleterComponent } from 'core-app/shared/components/autoco
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import {
-  firstValueFrom,
   Observable,
   of,
 } from 'rxjs';

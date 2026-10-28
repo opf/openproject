@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,7 +55,7 @@ class WorkPackages::StatusBadgeComponent < ApplicationComponent
 
   # A read-only status forbids every attribute write except the status itself
   # ({WorkPackages::BaseContract#readonly_attributes_unchanged}), which is not
-  # something the badge's colour and name convey on their own. The lock says so,
+  # something the badge's color and name convey on their own. The lock says so,
   # matching the leading visual {WorkPackages::StatusButtonComponent} already
   # gives read-only options in the status dropdown.
   #

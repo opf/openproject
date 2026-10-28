@@ -46,7 +46,7 @@ ja:
   documents:
     active_editors: アクティブな編集者
     active_editors_count:
-      other: "%{count} アクティブな編集者"
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:

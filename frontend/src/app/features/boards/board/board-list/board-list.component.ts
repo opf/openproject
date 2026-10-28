@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -95,6 +94,7 @@ import { firstValueFrom } from 'rxjs';
 import { WorkPackageIsolatedQuerySpaceDirective } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { HTTPClientParamMap } from 'core-app/features/hal/http/http.interfaces';
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -176,7 +176,14 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   private canAdd = firstValueFrom(this.wpInlineCreate.canAdd);
 
-  public columnsQueryProps:any;
+  /**
+   * Identifies the newest list request. Filter changes can start a request
+   * while an earlier refresh is still in flight. Ignore an older response so
+   * it cannot replace the filtered card collection.
+   */
+  private queryRequestSerial = 0;
+
+  public columnsQueryProps:HTTPClientParamMap;
 
   public get text() {
     return {
@@ -336,7 +343,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
           this.inFlight = false;
           this.toastService.addSuccess(this.text.updateSuccessful);
         },
-        (_error) => this.inFlight = false,
+        (_error) => { this.inFlight = false; },
       );
   }
 
@@ -350,6 +357,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public get listName() {
     return this.query?.name;
+  }
+
+  public get hasLargeHeader():boolean {
+    return !!this.actionService?.largeHeader();
   }
 
   public showCardStatusButton() {
@@ -444,6 +455,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   private loadQuery(visibly = true) {
+    this.queryRequestSerial += 1;
+    const requestSerial = this.queryRequestSerial;
     let observable = this
       .apiv3Service
       .queries
@@ -458,9 +471,17 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     observable
       .subscribe(
         (query) => {
+          if (requestSerial !== this.queryRequestSerial) {
+            return;
+          }
+
           this.wpStatesInitialization.updateQuerySpace(query, query.results);
         },
         (error) => {
+          if (requestSerial !== this.queryRequestSerial) {
+            return;
+          }
+
           const userIsNotAllowedToSeeSubprojectError = 'urn:openproject-org:api:v3:errors:InvalidQuery';
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (error.errorIdentifier === userIsNotAllowedToSeeSubprojectError) {
@@ -480,7 +501,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     const existingFilters = (this.resource.options.filters || []) as ApiV3Filter[];
 
     const newFilters = existingFilters.concat(filters);
-    const newColumnsQueryProps:any = {
+    const newColumnsQueryProps:HTTPClientParamMap = {
       'columns[]': ['id', 'subject'],
       showHierarchies: false,
       pageSize: 500,

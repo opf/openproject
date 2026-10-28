@@ -81,7 +81,7 @@ hy:
       group_regexes: Յուրաքանչյուր տողում՝ մեկ կանոնավոր արտահայտության կաղապար։ Խնդրում ենք կարդալ [փաստաթղթերը](docs_url)՝ դա անելու մասին լրացուցիչ տեղեկությունների համար։
       group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: Սեղմեք 'Փորձարկել կաղապարը'՝ Ձեր կանոնավոր արտահայտության կաղապարը նմուշային OIDC userinfo-ի վրա փորձարկելու համար։
-      group_sync: Ավտոմատ կերպով դուրս բերել և համաժամացնել խմբերի անդամակցության տեղեկությունները ինքնության մատակարարից։
+      group_sync: Automatically extract and synchronize group membership information from the identity provider.
       groups_claim: Նշեք այն պնդման անվանումը, որը պետք է ցույց տա այն խմբերի անվանումները, որոնց անդամ է օգտատերը։
       limit_self_registration: Եթե միացված է, օգտատերերը կարող են այս մատակարարի միջոցով գրանցվել միայն այն դեպքում, երբ մատակարարի կողմում կազմաձևումը դա թույլ է տալիս։
       mapping_admin: 'Տրամադրեք հատուկ համապատասխանեցում userinfo պատասխանում՝ ադմինիստրատորի կարգավիճակի համար։ Ակնկալվում է, որ կվերադարձվի բուլյան հատկանիշ։
@@ -164,7 +164,7 @@ hy:
       delete_result_1: Մատակարարը կհեռացվի հասանելի մատակարարների ցանկից։
       delete_result_direct: Այս մատակարարը նշված է որպես ուղիղ մուտքի մատակարար։ Կարգավորումը կհեռացվի, և օգտատերերն այլևս չեն վերահղվի մատակարարին՝ մուտք գործելու համար։
       delete_result_user_count:
-        one: Ներկայումս մեկ օգտատեր դեռ օգտագործում է այս մատակարարը։ Նա պետք է կրկին հրավիրվի կամ մուտք գործի այլ մատակարարի միջոցով։
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: Ներկայումս %{count} օգտատեր դեռ օգտագործում է այս մատակարարը։ Նրանք պետք է կրկին հրավիրվեն կամ մուտք գործեն այլ մատակարարի միջոցով։
         zero: Ներկայումս ոչ մի օգտատեր չի օգտագործում այս մատակարարը։ Լրացուցիչ գործողություն չի պահանջվում։
       input_delete_confirmation_html: Ջնջումը հաստատելու համար մուտքագրեք մատակարարի անվանումը՝ %{name}։

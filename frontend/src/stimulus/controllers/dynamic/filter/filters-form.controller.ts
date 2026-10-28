@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -39,6 +38,8 @@ import {
   showElement,
 } from 'core-app/shared/helpers/dom-helpers';
 import { escapeFilterValue } from 'core-stimulus/helpers/filter-helpers';
+import { getMetaValue } from 'core-app/core/setup/globals/global-helpers';
+import { endOfDayISO, startOfDayISO } from 'core-common/local-datetime';
 import { PrimerMultiInputElement } from '@primer/view-components/app/lib/primer/forms/primer_multi_input';
 
 interface PrimerTextFieldElement extends HTMLElement {
@@ -85,6 +86,9 @@ export default class FiltersFormController extends Controller {
     'days',
     'singleDay',
     'dateRange',
+    'singleDatetime',
+    'datetimeFrom',
+    'datetimeTo',
     'simpleValue',
     'filtersInput',
     'filterCount',
@@ -102,6 +106,9 @@ export default class FiltersFormController extends Controller {
   declare readonly daysTargets:HTMLInputElement[];
   declare readonly singleDayTargets:HTMLInputElement[];
   declare readonly dateRangeTargets:HTMLInputElement[];
+  declare readonly singleDatetimeTargets:HTMLInputElement[];
+  declare readonly datetimeFromTargets:HTMLInputElement[];
+  declare readonly datetimeToTargets:HTMLInputElement[];
   declare readonly simpleValueTargets:HTMLInputElement[];
   declare readonly filtersInputTarget:HTMLInputElement;
 
@@ -214,7 +221,24 @@ export default class FiltersFormController extends Controller {
     this.registerAngularPickerWithMultiInput(target, 'opce-range-date-picker');
   }
 
-  // angular_component_tag serialises @Input() bindings as JSON in data-* attributes, so the
+  singleDatetimeTargetConnected(target:HTMLElement) {
+    this.datetimeTargetConnected(target);
+  }
+
+  datetimeFromTargetConnected(target:HTMLElement) {
+    this.datetimeTargetConnected(target);
+  }
+
+  datetimeToTargetConnected(target:HTMLElement) {
+    this.datetimeTargetConnected(target);
+  }
+
+  private datetimeTargetConnected(target:HTMLElement) {
+    this.addChangeListener(target);
+    this.registerAngularPickerWithMultiInput(target, 'opce-basic-single-datetime-picker');
+  }
+
+  // angular_component_tag serializes @Input() bindings as JSON in data-* attributes, so the
   // Angular date picker wrapper's data-name holds a JSON-encoded value that primer-multi-input
   // cannot use to identify its child fields.  date_picker.html.erb therefore also sets
   // data-multi-input-name as a plain string with the intended field name.
@@ -254,6 +278,18 @@ export default class FiltersFormController extends Controller {
   }
 
   dateRangeTargetDisconnected(target:HTMLElement) {
+    this.removeChangeListener(target);
+  }
+
+  singleDatetimeTargetDisconnected(target:HTMLElement) {
+    this.removeChangeListener(target);
+  }
+
+  datetimeFromTargetDisconnected(target:HTMLElement) {
+    this.removeChangeListener(target);
+  }
+
+  datetimeToTargetDisconnected(target:HTMLElement) {
     this.removeChangeListener(target);
   }
 
@@ -465,9 +501,12 @@ export default class FiltersFormController extends Controller {
     });
   }
 
-  private readonly daysOperators = ['>t-', '<t-', 't-', '<t+', '>t+', 't+'];
-  private readonly onDateOperator = '=d';
-  private readonly betweenDatesOperator = '<>d';
+  // Driven by the `data-value-fields` table that `Filters::Inputs::DateForm` emits on the value container.
+  private valueField(valueContainer:HTMLElement|undefined, operator:string|undefined):string|undefined {
+    const fields = JSON.parse(valueContainer?.dataset.valueFields ?? '{}') as Record<string, string>;
+
+    return operator ? fields[operator] : undefined;
+  }
 
   // Whether the operator currently selected in `operatorElement` declares
   // itself value-less. Driven by the `data-no-value` attribute that
@@ -488,13 +527,9 @@ export default class FiltersFormController extends Controller {
         valueContainer.removeAttribute('hidden');
       }
 
-      const multiInput = valueContainer.querySelector<PrimerMultiInputElement>('primer-multi-input');
-      if (this.daysOperators.includes(selectedOperator)) {
-        multiInput?.activateField('days');
-      } else if (selectedOperator === this.onDateOperator) {
-        multiInput?.activateField('singleDay');
-      } else if (selectedOperator === this.betweenDatesOperator) {
-        multiInput?.activateField('dateRange');
+      const field = this.valueField(valueContainer, selectedOperator);
+      if (field) {
+        valueContainer.querySelector<PrimerMultiInputElement>('primer-multi-input')?.activateField(field);
       }
     }
   }
@@ -598,13 +633,21 @@ export default class FiltersFormController extends Controller {
       })
         .then((response:Response) => response.text())
         .then((html:string) => {
-          renderStreamMessage(html);
-          if (this.sentFilters === newFilters) {
-            window.history.replaceState(window.history.state, '', browserUrl);
+          if (this.sentFilters !== newFilters) return;
+
+          if (this.buildFiltersParam(this.currentFilters()) !== newFilters) {
+            this.sentFilters = previousFilters;
+            hideElement(loadingIndicator);
+            return;
           }
+
+          renderStreamMessage(html);
+          window.history.replaceState(window.history.state, '', browserUrl);
           hideElement(loadingIndicator);
         })
         .catch((error:Error) => {
+          if (this.sentFilters !== newFilters) return;
+
           this.sentFilters = previousFilters;
           console.error('Error:', error);
           hideElement(loadingIndicator);
@@ -687,7 +730,9 @@ export default class FiltersFormController extends Controller {
     return filters.map((filter) => this.buildFilterString(filter)).join('&');
   }
 
-  private readonly dateFilterTypes = ['datetime_past', 'date'];
+  private readonly dateFilterTypes = ['datetime_past', 'datetime', 'date'];
+
+  private readonly timestampFilterTypes = ['datetime_past', 'datetime'];
 
   private parseFilterValue(valueContainer:HTMLElement, filterName:string, filterType:string, operator:string, requiresNoValue:boolean) {
     const checkbox = valueContainer.querySelector<HTMLInputElement>('input[type="checkbox"]');
@@ -707,7 +752,7 @@ export default class FiltersFormController extends Controller {
     }
 
     if (this.dateFilterTypes.includes(filterType)) {
-      return this.parseDateFilterValue(valueContainer, filterName);
+      return this.parseDateFilterValue(valueContainer, filterName, operator, this.timestampFilterTypes.includes(filterType));
     }
 
     const hiddenField = valueContainer.querySelector<HTMLInputElement>('input[type="hidden"]');
@@ -724,29 +769,50 @@ export default class FiltersFormController extends Controller {
     return null;
   }
 
-  private parseDateFilterValue(_valueContainer:HTMLElement, filterName:string) {
-    let value;
-    const operator = this.findTargetByName(filterName, this.operatorTargets)?.value;
+  private parseDateFilterValue(valueContainer:HTMLElement, filterName:string, operator:string, timestamps:boolean) {
+    let value:(string|undefined)[]|undefined;
+    const field = this.valueField(valueContainer, operator);
 
-    if (operator && this.daysOperators.includes(operator)) {
+    if (field === 'intDays') {
       const dateValue = this.findTargetByName(filterName, this.daysTargets)?.value;
 
       value = [dateValue].filter((v) => v !== '');
-    } else if (operator === this.onDateOperator) {
-      const dateValue = this.findTargetById(filterName, this.singleDayTargets)?.value;
+    } else if (field === 'singleDay') {
+      const dateValue = this.findTargetByName(filterName, this.singleDayTargets)?.value ?? '';
 
-      value = [dateValue].filter((v) => v !== '');
-    } else if (operator === this.betweenDatesOperator) {
-      // The range picker renders an empty range as "-" (see Filters::Inputs::DateForm#between_dates_div).
-      const rangeValue = this.findTargetById(filterName, this.dateRangeTargets)?.value ?? '';
-      const [fromValue = '', toValue = ''] = rangeValue === '-' ? [] : rangeValue.split(' - ');
+      value = [timestamps ? this.dayStart(dateValue) : dateValue].filter((v) => v !== '');
+    } else if (field === 'singleDatetime') {
+      const datetimeValue = this.findTargetByName(filterName, this.singleDatetimeTargets)?.value ?? '';
+
+      value = [datetimeValue].filter((v) => v !== '');
+    } else if (field === 'datetimeRange') {
+      const fromValue = this.findTargetByName(filterName, this.datetimeFromTargets)?.value ?? '';
+      const toValue = this.findTargetByName(filterName, this.datetimeToTargets)?.value ?? '';
 
       value = fromValue === '' && toValue === '' ? [] : [fromValue, toValue];
+    } else if (field === 'dateRange') {
+      // The range picker renders an empty range as "-" (see Filters::Inputs::DateForm#between_dates_div).
+      const rangeValue = this.findTargetByName(filterName, this.dateRangeTargets)?.value ?? '';
+      const [fromValue = '', toValue = ''] = rangeValue === '-' ? [] : rangeValue.split(' - ');
+
+      if (fromValue === '' && toValue === '') {
+        value = [];
+      } else {
+        value = timestamps ? [this.dayStart(fromValue), this.dayEnd(toValue)] : [fromValue, toValue];
+      }
     }
     if (value && value.length > 0) {
       return value;
     }
     return null;
+  }
+
+  private dayStart(date:string):string {
+    return date ? startOfDayISO(date, getMetaValue('current_user', 'timeZone')) ?? '' : '';
+  }
+
+  private dayEnd(date:string):string {
+    return date ? endOfDayISO(date, getMetaValue('current_user', 'timeZone')) ?? '' : '';
   }
 
   private findTargetByName<T extends HTMLElement>(
@@ -760,14 +826,6 @@ export default class FiltersFormController extends Controller {
       targets,
       targetFilter,
     );
-  }
-
-  private findTargetById<T extends HTMLElement>(
-    filterName:string,
-    targets:T[],
-    targetFilter?:FilterFunc<T>,
-  ):T | undefined {
-    return this.findTargetBy(filterName, (target:T) => target.id, targets, targetFilter);
   }
 
   private findTargetBy<T extends HTMLElement>(

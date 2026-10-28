@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -161,7 +160,21 @@ class UserMailer < ApplicationMailer
     references *[@message.parent, @message].compact
 
     send_localized_mail(user) do
-      "[#{@message.forum.project.name} - #{@message.forum.name} - msg#{@message.root.id}] #{@message.subject}"
+      "#{message_subject_prefix(@message)} #{@message.subject}"
+    end
+  end
+
+  def message_mentioned(user, journal)
+    @message = journal.journable
+    @author = journal.user
+
+    open_project_message_headers(@message)
+    message_id @message, user
+    references *[@message.parent, @message].compact
+
+    send_localized_mail(user) do
+      "#{message_subject_prefix(@message)} " \
+        "#{t(:"mail.mention.message_subject", user_name: @author.name, subject: @message.subject)}"
     end
   end
 
@@ -240,5 +253,9 @@ class UserMailer < ApplicationMailer
     open_project_headers "Project" => message.project.identifier,
                          "Message-Id" => message.parent_id || message.id,
                          "Type" => "Forum"
+  end
+
+  def message_subject_prefix(message)
+    "[#{message.forum.project.name} - #{message.forum.name} - msg#{message.root.id}]"
   end
 end

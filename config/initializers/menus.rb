@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -106,6 +105,16 @@ Redmine::MenuManager.map :top_menu do |menu|
             if: ->(*) do
               User.current.logged?
             end
+
+  menu.push :my_time,
+            { controller: "/my/time_management", action: "index" },
+            after: :my_page,
+            context: :my,
+            caption: :label_my_time,
+            if: ->(*) do
+              User.current.allowed_in_any_project?(:log_own_time) || User.current.allowed_in_any_project?(:log_time)
+            end,
+            icon: :clock
 end
 
 Redmine::MenuManager.map :quick_add_menu do |menu|
@@ -114,13 +123,53 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
               { controller: "/projects", action: :new, project_id: nil, parent_id: project&.id }
             },
             caption: ->(_) { Project.model_name.human },
-            icon: "plus",
+            icon: "project",
             html: {
               aria: { label: I18n.t(:label_project_new) }
             },
             if: ->(project) {
               User.current.allowed_globally?(:add_project) ||
                 User.current.allowed_in_project?(:add_subprojects, project)
+            }
+
+  menu.push :new_board,
+            ->(project) { [:new, project, :work_package_board] },
+            caption: ->(_) { I18n.t("boards.label_board") },
+            icon: "op-boards",
+            skip_permissions_check: true, # url is a polymorphic path, not a controller/action hash
+            if: ->(project) {
+              if project
+                User.current.allowed_in_project?(:manage_board_views, project)
+              else
+                User.current.allowed_in_any_project?(:manage_board_views)
+              end
+            }
+
+  menu.push :new_meeting,
+            ->(project) { [:new_dialog, project, :meetings] },
+            caption: ->(_) { I18n.t(:label_meeting) },
+            icon: "comment-discussion",
+            html: {
+              target: nil,
+              data: {
+                controller: "async-dialog"
+              }
+            },
+            skip_permissions_check: true, # url is a polymorphic path, not a controller/action hash
+            if: ->(project) {
+              if project
+                User.current.allowed_in_project?(:create_meetings, project)
+              else
+                User.current.allowed_in_any_project?(:create_meetings)
+              end
+            }
+
+  menu.push :new_document,
+            ->(_project) { { controller: "/documents", action: :new } },
+            caption: ->(_) { Document.model_name.human },
+            icon: "note",
+            if: ->(project) {
+              project.present? && User.current.allowed_in_project?(:manage_documents, project)
             }
 
   menu.push :invite_user,
@@ -191,11 +240,20 @@ Redmine::MenuManager.map :global_menu do |menu|
             icon: "person",
             caption: I18n.t("my_page.label")
 
+  menu.push :my_time,
+            { controller: "/my/time_management", action: "index", date: "today" },
+            after: :my_page,
+            caption: :label_my_time,
+            if: ->(*) do
+              User.current.allowed_in_any_project?(:log_own_time) || User.current.allowed_in_any_project?(:log_time)
+            end,
+            icon: :clock
+
   menu.push :portfolios,
             { controller: "/portfolios", action: "index" },
             caption: I18n.t("label_portfolio_plural"),
             icon: "briefcase",
-            after: :my_page,
+            after: :my_time,
             if: ->(_) {
               (User.current.logged? || !Setting.login_required?) &&
                 (User.current.allowed_globally?(:add_portfolios) ||
@@ -402,21 +460,21 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :users_and_permissions
 
   menu.push :admin_work_packages,
-            { controller: "/admin/settings/work_packages_general", action: :show },
+            { controller: "/work_package_types/types" },
             if: ->(_) { User.current.admin? },
             caption: :label_work_package_plural,
             icon: "op-view-list"
-
-  menu.push :work_packages_general,
-            { controller: "/admin/settings/work_packages_general", action: :show },
-            if: ->(_) { User.current.admin? },
-            caption: :label_general,
-            parent: :admin_work_packages
 
   menu.push :types,
             { controller: "/work_package_types/types" },
             if: ->(_) { User.current.admin? },
             caption: :label_type_plural,
+            parent: :admin_work_packages
+
+  menu.push :work_packages_general,
+            { controller: "/admin/settings/work_packages_general", action: :show },
+            if: ->(_) { User.current.admin? },
+            caption: :label_general,
             parent: :admin_work_packages
 
   menu.push :form_configurations,
@@ -550,12 +608,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: I18n.t("menus.admin.ai"),
             icon: :sparkle
 
-  menu.push :llm_connection,
-            { controller: "/admin/llm_connections", action: :show },
-            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.llm_connection_active? },
-            caption: I18n.t("menus.admin.llm_connection"),
-            parent: :ai
-
   menu.push :mcp_configurations,
             { controller: "/admin/mcp_configurations", action: :index },
             if: ->(_) { User.current.admin? },
@@ -578,7 +630,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :date_format,
             { controller: "/admin/settings/date_format_settings", action: :show },
             if: ->(_) { User.current.admin? },
-            caption: :label_date_format,
+            caption: :label_date_and_time_formats,
             parent: :calendars_and_dates
 
   menu.push :icalendar,
@@ -744,13 +796,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: proc { User.current.admin? && OpenProject::Configuration.ee_manager_visible? }
 
   menu.push :import,
-            { controller: "/admin/import/jira/instances", action: :index },
+            { controller: "/admin/import/jira", action: :index },
             if: ->(_) { User.current.admin? },
             caption: :label_import,
             icon: "desktop-download"
 
   menu.push :jira_import,
-            { controller: "/admin/import/jira/instances", action: :index },
+            { controller: "/admin/import/jira", action: :index },
             if: ->(_) { User.current.admin? },
             caption: :label_jira_import,
             parent: :import

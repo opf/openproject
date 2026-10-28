@@ -235,7 +235,7 @@ When used as operators, `AND` and `OR` have the same lowest precedence `0`, lowe
 
 `SWITCH(300, 100, 1, 200, 2)` => invalid
 
-`CASE` provides similar behaviour using keyword form. Invalid if no branch matches and there is no `ELSE`:
+`CASE` provides similar behavior using keyword form. Invalid if no branch matches and there is no `ELSE`:
 
 `CASE 200 WHEN 100 THEN 1 WHEN 200 THEN 2 ELSE 3 END` => `2`
 

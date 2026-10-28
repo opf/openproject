@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,7 +42,7 @@ class PermittedParams
   #
   # A controller could use a permitted_params method like this
   #
-  # model_instance.METHOD_USING_ASSIGMENT = permitted_params.name_of_the_params_key_referenced
+  # model_instance.METHOD_USING_ASSIGNMENT = permitted_params.name_of_the_params_key_referenced
   #
   attr_reader :params, :current_user
 
@@ -255,6 +254,7 @@ class PermittedParams
                                    :force_dark_theme_contrast,
                                    :comments_sorting,
                                    :disable_keyboard_shortcuts,
+                                   :require_double_click_for_inline_edit,
                                    :warn_on_leaving_unsaved,
                                    :auto_hide_popups,
                                    immediate_reminders: %i[mentioned personal_reminder],
@@ -401,16 +401,12 @@ class PermittedParams
     whitelist.permit!
   end
 
-  def time_entry_activities_project
-    params.permit(time_entry_activities_project: %i[activity_id active]).require(:time_entry_activities_project)
-  end
-
   def watcher
     params.require(:watcher).permit(:watchable, :user, :user_id)
   end
 
   def reply
-    params.require(:reply).permit(:content, :subject)
+    params.require(:reply).permit(:content)
   end
 
   def wiki
@@ -516,6 +512,7 @@ class PermittedParams
           :allow_non_open_versions,
           :has_comment,
           :visible_on_user_card,
+          :project_specific_value_restriction,
           { custom_options_attributes: %i(id value default_value position) },
           { type_ids: [] }
         ],
@@ -554,6 +551,7 @@ class PermittedParams
           :estimated_hours,
           { target_version_ids: [] },
           { observed_in_version_ids: [] },
+          { label_ids: [] },
           :budget_id,
           :parent_id,
           :priority_id,
@@ -583,6 +581,7 @@ class PermittedParams
           :status_id,
           { target_version_ids: [] },
           { observed_in_version_ids: [] },
+          { label_ids: [] },
           :priority_id
         ],
         placeholder_user: %i(

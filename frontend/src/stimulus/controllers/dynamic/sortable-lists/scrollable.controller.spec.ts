@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -123,7 +122,7 @@ describe('Sortable lists scrollable controller', () => {
     expect(options?.getConfiguration?.(scrollArgs(element, { type: 'x' }))).toEqual({ maxScrollSpeed: 'standard' });
   });
 
-  it('honours valid overrides and falls back on invalid ones', async () => {
+  it('honors valid overrides and falls back on invalid ones', async () => {
     const valid = await mount('data-sortable-lists--scrollable-allowed-axis-value="horizontal" data-sortable-lists--scrollable-max-scroll-speed-value="fast"');
     let options = vi.mocked(autoScrollForElements).mock.lastCall?.[0];
     expect(options?.getAllowedAxis?.(scrollArgs(valid.element, { type: 'x' }))).toEqual('horizontal');

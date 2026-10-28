@@ -102,7 +102,7 @@ ms:
     not_recommended: tidak disarankan
     recommended: disarankan
     x_bcf_issues:
-      one: Satu isu BCF
+      one: "%{count} BCF issue"
       other: "%{count} Isu-isu BCF"
       zero: Tiada isu-isu BCF
   bim:

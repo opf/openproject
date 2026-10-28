@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -341,6 +340,7 @@ module Redmine # :nodoc:
     # Permissions defined inside +block+ will be bind to the module.
     #
     #   project_module :things do
+    #     enabled_by_default!
     #     permission :view_contacts, { contacts: [:list, :show] }, public: true
     #     permission :destroy_contacts, { contacts: :destroy }
     #   end
@@ -352,6 +352,17 @@ module Redmine # :nodoc:
       end
     ensure
       plugin.instance_eval { @project_scope = nil }
+    end
+
+    # Adds the surrounding project module to the modules enabled for new projects.
+    # Pass a callable as +if:+ to decide lazily, e.g. depending on a setting.
+    def enabled_by_default!(**)
+      mod, mod_options = @project_scope
+      OpenProject::AccessControl.map do |map|
+        map.project_module(mod, mod_options) do |map|
+          map.enabled_by_default!(**)
+        end
+      end
     end
 
     # Registers an activity provider.

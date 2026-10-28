@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -679,7 +678,7 @@ describe('Sortable lists controller', () => {
     fixture.innerHTML = `
       <turbo-frame
         id="backlogs-list"
-        src="/projects/demo/backlogs/backlog?bucket_ids%5B%5D=1&bucket_ids%5B%5D=inbox&sprint_ids%5B%5D=2"
+        src="/projects/demo/backlogs/backlog?bucket_ids=%5B%221%22%2C%22inbox%22%5D&sprint_ids=%222%22"
         data-controller="sortable-lists"
         data-sortable-lists-move-url-template-value="/projects/demo/backlogs/work_packages/{id}/move"
         data-sortable-lists-optimistic-value="true"

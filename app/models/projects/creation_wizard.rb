@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,7 +48,7 @@ module Projects::CreationWizard
     store_attribute :settings, :project_creation_wizard_artifact_export_storage, :string
 
     # The store_attribute default cannot be used here, because the default is not returned
-    # when the JSON defintion is present but it's nil.
+    # when the JSON definition is present but it's nil.
     def project_creation_wizard_artifact_name
       super.presence || DEFAULT_ARTIFACT_NAME_OPTION
     end

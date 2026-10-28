@@ -107,20 +107,22 @@ it:
       criteria:
         empty: Nessun criterio impostato.
         label: Criteri
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: L'utente selezionato non ha ore lavorative configurate per queste date, pertanto viene considerato privo di capacità.
         partial: L'utente selezionato non ha ore lavorative configurate per %{dates}, pertanto quei giorni vengono considerati senza capacità.
       outside_dates:
         description: Le date della risorsa selezionata, %{resource_dates}, non rientrano nelle date della macro-attività, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} disponibili · %{scheduled} programmati"
         description: L'utente selezionato, %{user}, verrebbe assegnato oltre il proprio orario di lavoro durante questo periodo.
-        hidden_work: Altre allocazioni
+        overtime_summary_html: This allocation adds %{hours} between %{start_date} and %{end_date}, <strong>causing %{overtime} of overtime between %{overtime_start_date} and %{overtime_end_date}</strong>.
         schedule_availability: "%{schedule} (%{factor}% disponibile per il lavoro sui progetti)"
         schedule_change: fino al giorno %{date}, poi %{schedule}
         schedule_note: Questo utente lavora al %{schedule}.
         submit: Assegna straordinario
         title: Vuoi assegnare ore di straordinario all'utente?
+        unplannable: "%{user} has no working day between %{start_date} and %{end_date}, so this allocation cannot be planned."
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Assegna
       success_message: Risorsa assegnata.
       title: Assegna risorsa
@@ -171,6 +173,8 @@ it:
     label_new_resource_planner: Nuovo pianificatore di risorse
     label_resource_planner: Pianificatore di risorse
     label_resource_planner_plural: Pianificatori di risorse
+    my_time_management:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Aggiungi vista
     public_caption: Rendi questa vista pubblica per tutti i membri del progetto. Questo non influisce sulla visibilità delle macro-attività, che continua a dipendere dalle autorizzazioni di ciascun utente.
@@ -257,7 +261,8 @@ it:
       no_work_schedule: Non è previsto alcun orario di lavoro per questo utente
       overbooked: Questo utente è sovrallocato nel periodo selezionato.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} in programma, %{available} disponibile"
+        dates: Beyond working hours on %{dates}
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: Aggiungi utente
     view_types:

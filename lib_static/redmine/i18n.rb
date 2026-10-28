@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,10 +32,14 @@
 
 module Redmine
   module I18n
+    extend self
+
     include ActionView::Helpers::NumberHelper
 
     IN_CONTEXT_TRANSLATION_CODE = :lol
     IN_CONTEXT_TRANSLATION_NAME = "In-Context Crowdin Translation"
+
+    DATE_TIME_FORMAT_EXAMPLE_TIMESTAMP = Time.utc(2026, 2, 28, 15, 30).freeze
 
     def self.included(base)
       base.extend Redmine::I18n
@@ -78,8 +81,8 @@ module Redmine
     # @param time_zone [ActiveSupport::TimeZone] Use a different time zone than the current users's.
     #   If provided, will output the time zone identifier
     # @param format [String, nil] The strftime format to use for the date. If nil, the default
-    #   date format from `Setting.date_format` is used.
-    def format_date(date_or_time, time_zone: nil, format: Setting.date_format)
+    #   date format from `User.current.date_format` is used.
+    def format_date(date_or_time, time_zone: nil, format: User.current.date_format)
       return nil unless date_or_time
 
       local =
@@ -167,10 +170,10 @@ module Redmine
     # @param time_zone [ActiveSupport::TimeZone] Use a different time zone than the current users's.
     #   If provided, will output the time zone identifier
     # @param format [String] The strftime format to use for the time. Defaults
-    #   to the format in `Setting.time_format`.
+    #   to the format in `User.current.time_format`.
     # @return [String, nil] The formatted time string, or nil if the time is not
     #   provided.
-    def format_time(time, include_date: true, time_zone: nil, format: Setting.time_format)
+    def format_time(time, include_date: true, time_zone: nil, format: User.current.time_format)
       return nil unless time
 
       local =
@@ -223,6 +226,10 @@ module Redmine
         .period_for_utc(period.utc)
         .abbreviation
         .to_s
+    end
+
+    def date_time_format_example(format)
+      DATE_TIME_FORMAT_EXAMPLE_TIMESTAMP.strftime(format)
     end
 
     def day_name(day)

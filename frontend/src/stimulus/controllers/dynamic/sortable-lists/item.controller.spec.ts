@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -695,7 +694,7 @@ describe('Sortable lists item controller', () => {
     });
   });
 
-  it('adds a text/html link flavour when the item has a label', () => {
+  it('adds a text/html link flavor when the item has a label', () => {
     const element = document.createElement('article');
 
     connectedControllerFor(element, {
@@ -729,7 +728,7 @@ describe('Sortable lists item controller', () => {
     );
   });
 
-  it('keeps a non-web URL out of the text/html flavour', () => {
+  it('keeps a non-web URL out of the text/html flavor', () => {
     const element = document.createElement('article');
 
     connectedControllerFor(element, {
@@ -1616,7 +1615,7 @@ describe('Sortable lists item controller', () => {
     });
 
     // A fixed row is still an ordered participant: it anchors drops for its
-    // orderable neighbours, so its drop target must stay registered.
+    // orderable neighbors, so its drop target must stay registered.
     it('still registers a drop target when the item is fixed', async () => {
       const item = await renderItem({ mobility: 'fixed' });
 

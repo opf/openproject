@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -105,8 +104,7 @@ RSpec.describe "Workflows index", :skip_csrf, type: :rails_request do
     get workflows_path
 
     row = row_for("Standard flow")
-    expect(row).to have_css(".projects", text: I18n.t("workflows.index.projects_count", count: 5))
-    expect(row).to have_no_css(".projects a")
+    expect(row).to have_css(".projects a", text: I18n.t("workflows.index.projects_count", count: 5))
   end
 
   it "marks a workflow a project owns with that project" do
@@ -133,7 +131,7 @@ RSpec.describe "Workflows index", :skip_csrf, type: :rails_request do
       get workflows_path(filters: %(name ~ "standard")), as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("workflows-index-results-component")
+      expect(response.body).to include("workflows-index-table-component")
       expect(response.body).to include("Standard flow")
       expect(response.body).not_to include("Spare flow")
     end

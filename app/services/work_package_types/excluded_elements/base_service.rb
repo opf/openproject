@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,7 +58,7 @@ module WorkPackageTypes
       private
 
       # The exclusions are an array column, so the read-modify-write needs a lock. The lock is
-      # taken on the variant rather than per aspect, which serialises concurrent edits to
+      # taken on the variant rather than per aspect, which serializes concurrent edits to
       # unrelated aspects of the same variant.
       def narrow(aspect)
         column = :"#{TypeVariant.validated_excludable_aspect(aspect)}_excluded_elements"
@@ -79,7 +78,7 @@ module WorkPackageTypes
       end
 
       # Element keys are aspect-specific strings (see TypeVariant::ConfigurationLinkable), so
-      # they are only normalised here — an unknown key is inert rather than invalid, and the
+      # they are only normalized here — an unknown key is inert rather than invalid, and the
       # aspect's reader is what interprets them.
       def elements_param
         Array(params[:elements]).map { |element| element.to_s.strip }.compact_blank

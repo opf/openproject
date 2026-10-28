@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,17 +29,13 @@ import { Controller } from '@hotwired/stimulus';
 import { retrieveCkEditorInstance } from 'core-app/shared/helpers/ckeditor-helpers';
 
 interface QuoteResult {
-  subject:string;
   content:string;
 }
 
 export default class ForumMessagesController extends Controller {
   static targets = [
     'reply',
-    'subject',
   ];
-
-  declare readonly subjectTarget:HTMLInputElement;
 
   declare readonly replyTarget:HTMLElement;
 
@@ -57,8 +52,12 @@ export default class ForumMessagesController extends Controller {
       .then((result:QuoteResult) => this.insertQuoteInReply(result));
   }
 
-  private insertQuoteInReply({ subject, content }:QuoteResult):void {
-    this.subjectTarget.value = subject;
-    retrieveCkEditorInstance(this.replyTarget)?.setData(content);
+  private insertQuoteInReply({ content }:QuoteResult):void {
+    const editor = retrieveCkEditorInstance(this.replyTarget);
+    editor?.setData(content);
+
+    // Focusing cancels a smooth scroll still in flight, so the focus has to come first.
+    editor?.editing.view.focus();
+    this.replyTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }

@@ -8,6 +8,8 @@ on:
       - "help/**"
       - "packaging/**"
       - ".pkgr.yml"
+      - "extensions/blocknote-extensions/**"
+      - "extensions/op-blocknote-hocuspocus/**"
 
 jobs:
   danger:
@@ -22,7 +24,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1
+      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
         with:
           ruby-version: .ruby-version
           bundler-cache: true

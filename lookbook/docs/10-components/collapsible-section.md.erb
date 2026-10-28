@@ -7,9 +7,11 @@ The <strong>CollapsibleSection</strong> allows you to make section headers of a 
 The CollapsibleSection consists of two basic parts: the title and the content below it that will be collapsed. The title offers some additional options.
 
 - The title
-  - A caption (optional): Text, shown next to the title in a subtle colour
+  - A caption (optional): Text, shown next to the title in a subtle color
   - Additional information (optional): Free content, shown at the end of the title row
 - The collapsible content area
+
+The initial state is controlled by the `collapsed` parameter. By default (`collapsed: false`) the section renders open and the user can toggle it between expanded and collapsed. Pass `collapsed: true` to render it collapsed initially, and `collapsed: :locked` to keep the section permanently open and hide the toggle, so the content can never be collapsed.
 
 ## Best practices
 

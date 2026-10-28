@@ -22,90 +22,38 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Filters::Inputs::DateForm < Filters::Inputs::BaseFilterForm
-  DAYS_OPERATORS = %w[>t- <t- t- <t+ >t+ t+].freeze
-
-  def add_operand(group)
-    filter_name = @filter.name
-    filter_values = @filter.values
-    fmt = date_format
-
-    days_value = fmt == "days" ? filter_values.fetch(0, "") : nil
-    on_date_value = fmt == "on-date" ? filter_values.fetch(0, "") : nil
-    from_value = fmt == "between-dates" ? filter_values.fetch(0, "") : nil
-    to_value = fmt == "between-dates" ? filter_values.fetch(1, "") : nil
-
-    # The multi name intentionally uses @filter.name (not operand_name) because
-    # parseDateFilterValue in filters-form.controller.ts locates the datepicker
-    # inputs via findTargetById(filterName, …), which matches the id derived from
-    # the multi name. Switching to operand_name would require migrating that
-    # lookup to findTargetByName and adding data-filter-name to the picker inputs.
-    group.multi(name: filter_name, label: filter_name, visually_hide_label: true,
-                class: ["advanced-filters--filter-value"],
-                data: {
-                  "filter--filters-form-target": "filterValueContainer",
-                  "filter-name": filter_name
-                }) do |builder|
-      days_div(builder, filter_name, days_value)
-      on_date_div(builder, filter_name, on_date_value)
-      between_dates_div(builder, filter_name, from_value, to_value)
-    end
-  end
+class Filters::Inputs::DateForm < Filters::Inputs::BaseDateForm
+  VALUE_FIELDS = {
+    ">t-" => "intDays",
+    "<t-" => "intDays",
+    "t-" => "intDays",
+    "<t+" => "intDays",
+    ">t+" => "intDays",
+    "t+" => "intDays",
+    "=d" => "singleDay",
+    ">d" => "singleDay",
+    "<d" => "singleDay",
+    "<>d" => "dateRange"
+  }.freeze
 
   private
 
-  def date_format
-    op = @filter.operator || @filter.default_operator.symbol
-    @date_format ||= if DAYS_OPERATORS.include?(op)
-                       "days"
-                     elsif op == "=d"
-                       "on-date"
-                     elsif op == "<>d"
-                       "between-dates"
-                     end
+  def add_fields(builder, filter_name)
+    days_div(builder, filter_name, field_value("intDays"))
+    on_date_div(builder, filter_name, field_value("singleDay"))
+    between_dates_div(builder, filter_name, date_range_value)
   end
 
-  def days_div(builder, filter_name, value)
-    field_arguments = {
-      name: :days,
-      label: I18n.t("datetime.units.day.other"),
-      visually_hide_label: true,
-      trailing_visual: { text: { text: I18n.t("datetime.units.day.other") } },
-      scope_name_to_model: false,
-      value:,
-      hidden: value.nil?,
-      data: {
-        "filter--filters-form-target": "days",
-        "filter-name": filter_name
-      }
-    }
-
-    builder.text_field(**field_arguments, type: :number, step: "any", class: "days")
+  def date_range_value
+    "#{field_value('dateRange', 0)} - #{field_value('dateRange', 1)}" if active_field == "dateRange"
   end
 
-  def on_date_div(builder, filter_name, value)
-    builder.single_date_picker(
-      name: :singleDay,
-      label: :singleDay,
-      hidden: value.nil?,
-      leading_visual: { icon: :calendar },
-      value: value || "",
-      datepicker_options: {
-        inDialog: @dialog_id,
-        input_attributes: { "data-filter--filters-form-target" => "singleDay" }
-      }.compact,
-      data: { "filter-name": filter_name }
-    )
-  end
-
-  def between_dates_div(builder, filter_name, from_value, to_value)
-    value = [from_value, to_value].compact.join(" - ").presence
+  def between_dates_div(builder, filter_name, value)
     builder.range_date_picker(
       name: :dateRange,
       label: :dateRange,
@@ -114,7 +62,7 @@ class Filters::Inputs::DateForm < Filters::Inputs::BaseFilterForm
       value: value || "-",
       datepicker_options: {
         inDialog: @dialog_id,
-        input_attributes: { "data-filter--filters-form-target" => "dateRange" }
+        input_attributes: { "data-filter--filters-form-target" => "dateRange", "data-filter-name" => filter_name }
       }.compact,
       data: { "filter-name": filter_name }
     )

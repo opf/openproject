@@ -24,14 +24,15 @@ bg:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sorting mode
         duration: Продължителност
         end_time: End time
         location: Местоположение
         notes: Бележки
         notify: Send notifications
         participant:
-          one: 1 участник
-          other: "%{count} Участника"
+          one: "%{count} Participant"
+          other: "%{count} Participants"
         participants: Участници
         participants_added: 'Participants added:'
         participants_attended: Присъстващи
@@ -88,14 +89,18 @@ bg:
         invalid_time_format: 'не е валидно време. Задължителен формат: HH:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Section does not belong to the same meeting.
           user_invalid: is not a valid participant.
+          vote_based_sorting_required: Voting requires vote-based agenda sorting.
         meeting_participant:
           user_invalid: is not a valid participant.
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: There is one open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
+            one: There is %{count} open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
             other: There are %{count} open meetings in the series that are not covered by the new schedule. Adjust the schedule to include all existing meetings.
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
@@ -152,6 +157,10 @@ bg:
     meeting_agenda_opened: Дневния ред на среащата е открит
     meeting_minutes: Протоколът от срещата е редактиран
     meeting_minutes_created: Протоколът от срещата е създаден
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Добавяне към среща
   label_add_work_package_to_meeting_dialog_title: Select meeting
   label_add_work_package_to_meeting_section_label: Раздел
@@ -160,6 +169,8 @@ bg:
   label_agenda_backlog_clear_title: Clear agenda backlog?
   label_agenda_item_actions: Agenda items actions
   label_agenda_item_add: Add agenda item
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Добавяне на бележки
   label_agenda_item_add_outcome: Add outcome
   label_agenda_item_convert_to_work_package: Convert to work package
@@ -167,6 +178,7 @@ bg:
   label_agenda_item_duplicate: Duplicate
   label_agenda_item_duplicate_in_next: Duplicate in next meeting
   label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
+  label_agenda_item_include_outcomes: Include outcomes
   label_agenda_item_move: Премести
   label_agenda_item_move_down: Премести надолу
   label_agenda_item_move_to_backlog: Move to backlog
@@ -230,7 +242,7 @@ bg:
   label_meeting_last_updated: Last updated
   label_meeting_minutes: Минути
   label_meeting_more:
-    one: There is one more meeting.
+    one: There is %{count} more meeting.
     other: There are %{count} more meetings.
   label_meeting_new: Нова среща
   label_meeting_new_dynamic: New one-time meeting
@@ -276,10 +288,10 @@ bg:
   label_recurring_meeting_delete: Delete occurrence
   label_recurring_meeting_duplicate: Duplicate as a one-time meeting
   label_recurring_meeting_more:
-    one: There is one more scheduled meeting (%{schedule}).
+    one: There is %{count} more scheduled meeting (%{schedule}).
     other: There are %{count} more scheduled meetings (%{schedule}).
   label_recurring_meeting_more_past:
-    one: There is one more past meeting.
+    one: There is %{count} more past meeting.
     other: There are %{count} more past meetings.
   label_recurring_meeting_new: New recurring meeting
   label_recurring_meeting_next_occurrence: Next occurrence
@@ -310,6 +322,25 @@ bg:
   label_view_meeting_series: View meeting series
   label_write_outcome: Write outcome
   meeting:
+    agenda_sorting:
+      change: Change sorting mode
+      current_mode: Currently in %{mode} mode
+      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      manual: Manual
+      manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
+      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
+      remove_thumbs_down: Remove downvote
+      remove_thumbs_up: Remove upvote
+      sidebar_title: Agenda sorting
+      sorted_by_votes: Agenda sorted by votes.
+      thumbs_down: Downvote
+      thumbs_up: Upvote
+      title: Sorting mode
+      vote_based: Vote-based
+      vote_based_description: 'Participants can vote agenda items up or down. Items with the most votes are put on top within each section. Sections remain manually sorted.
+
+        '
+      votes: 'Votes: %{count}'
     attachments:
       onetime_template: These attached files will be included in all future meetings using this template.
       series_template: These attached files will be included in all future meetings in the series.
@@ -317,6 +348,9 @@ bg:
     blankslate:
       desc: You can create a new meeting or change filter criteria
       title: There are no meetings to display
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'Копирано от среща #%{id}'
     copy:
       agenda: Копиране на дневния ред
@@ -360,6 +394,7 @@ bg:
         header: 'Cancelled: Meeting ''%{title}'''
         header_occurrence: 'Cancelled: Meeting occurrence ''%{title}'''
         header_series: 'Cancelled: Meeting series ''%{title}'''
+        reason: Reason for cancellation
         summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
         summary_occurrence: An occurrence of '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
         summary_series: Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
@@ -484,6 +519,7 @@ bg:
       no_items: No agenda items
       no_items_flash: There are no agenda items to present.
       previous: Previous
+      slide_progress: Slide %{current}/%{total}
       title: Presentation Mode
       total_items: "%{current} of %{total}"
     types:
@@ -560,13 +596,13 @@ bg:
     caption:
       ends_on: This results in a series ending on %{date}
       occurrences:
-        one: This results in 1 upcoming occurrence
+        one: This results in %{count} upcoming occurrence
         other: This results in %{count} upcoming occurrences
       occurrences_capped: This results in more than %{count} upcoming occurrences
     day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
     delete_dialog:
       confirmation_message_html:
-        one: 'Deleting <strong>%{title}</strong> will also delete one occurrence in this series. This action is not reversible. Please proceed with caution.
+        one: 'Deleting <strong>%{title}</strong> will also delete %{count} occurrence in this series. This action is not reversible. Please proceed with caution.
 
           '
         other: 'Deleting <strong>%{title}</strong> will delete all %{count} occurrences in this series. This action is not reversible. Please proceed with caution.
@@ -631,7 +667,7 @@ bg:
       error_no_next: There is no next occurrence for this meeting.
       error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: The first occurrence of this meeting series is already instantiated.
-      first_created: 'The first meeting has been successfuly created from template. All future meetings will be created automatically at the time of the previous occurrence.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: This meeting is part of a recurring meeting series.
@@ -693,9 +729,10 @@ bg:
   text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
   text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
   text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
-  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}? Outcomes will not be duplicated.
+  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}?
   text_agenda_item_duplicated_in_next_meeting: Agenda item duplicated in the next meeting, on %{date}
   text_agenda_item_move_next_meeting: This item will be moved to the next meeting on %{date} at %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Agenda item moved to the next meeting, on %{date}
   text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
   text_agenda_item_no_notes: Не са предоставени бележки

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "rails_helper"
 
@@ -44,7 +43,7 @@ RSpec.describe WorkPackageTypes::ExportConfigurationComponent, type: :component 
       expect(page).to have_no_css("[data-test-selector='disable-all-pdf-export-templates']")
     end
 
-    it "renders the inherited artefact export mode as disabled radios" do
+    it "renders the inherited artifact export mode as disabled radios" do
       render_inline(described_class.new(variant, readonly: true))
 
       expect(page.find("input[type=radio][value='#{Type::ArtefactExport::OFF}']")).to be_disabled
@@ -58,7 +57,7 @@ RSpec.describe WorkPackageTypes::ExportConfigurationComponent, type: :component 
       expect(page).to have_css("[data-test-selector='enable-all-pdf-export-templates']")
     end
 
-    it "renders the artefact export mode as editable radios" do
+    it "renders the artifact export mode as editable radios" do
       render_inline(described_class.new(variant))
 
       expect(page.find("input[type=radio][value='#{Type::ArtefactExport::OFF}']")).not_to be_disabled

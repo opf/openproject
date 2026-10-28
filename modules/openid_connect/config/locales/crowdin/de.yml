@@ -81,7 +81,7 @@ de:
       group_regexes: Ein regulärer Ausdruck pro Zeile. Bitte lesen Sie [die Dokumentation](docs_url) für weitere Informationen hierzu.
       group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: Klicken Sie auf 'Muster testen', um Ihr Muster für den regulären Ausdruck mit der OIDC-Benutzerinfo zu vergleichen.
-      group_sync: Gruppenzugehörigkeit von Benutzern automatisch vom Identitätsanbieter übertragen.
+      group_sync: Automatically extract and synchronize group membership information from the identity provider.
       groups_claim: Geben Sie den Namen des Claims an, der die Namen von Gruppen enthält, bei denen der Nutzer Mitglied ist.
       limit_self_registration: Wenn diese Option aktiviert ist, können sich Benutzer nur dann über diesen Anbieter registrieren, wenn die Konfiguration aufseiten des Anbieters dies zulässt.
       mapping_admin: 'Benutzerdefinierte Zuordnung in der Antwort des Userinfo-Endpunkts für den Admin-Status eines Benutzers. Ein boolesches Attribut wird erwartet.
@@ -164,7 +164,7 @@ de:
       delete_result_1: Entfernt diese SSO-Anmeldemöglichkeit aus der Liste der verfügbaren Anbieter.
       delete_result_direct: Dieser SSO-Anbieter wird für den direkten Login verwendet. Die Einstellung wird entfernt und die Benutzer werden nicht mehr automatisch zur Anmeldung an diesen Anbieter weitergeleitet.
       delete_result_user_count:
-        one: Ein Benutzer verwendet derzeit noch diesen Anbieter. Er muss erneut eingeladen werden oder sich bei einem anderen Anbieter anmelden.
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count} Benutzer verwenden derzeit noch diesen Anbieter. Diese müssen erneut eingeladen werden oder sich bei einem anderen Anbieter anmelden."
         zero: Derzeit verwenden keine Benutzer diesen SSO-Anbieter. Es sind keine weiteren Maßnahmen erforderlich.
       input_delete_confirmation_html: Geben Sie den Namen des SSO-Anbieters %{name} ein, um die Löschung zu bestätigen.

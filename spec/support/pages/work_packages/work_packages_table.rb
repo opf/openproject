@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -170,12 +169,15 @@ module Pages
     # @param ids [Array<WorkPackage, String, Integer>] The work package IDs or
     #   objects.
     def expect_work_package_order(*ids)
-      retry_block do
-        rows = page.all ".work-package-table .wp--row"
-        expected = ids.map { |el| el.is_a?(WorkPackage) ? el.id.to_s : el.to_s }
+      expected = ids.map { |el| el.is_a?(WorkPackage) ? el.id.to_s : el.to_s }
+
+      page.document.synchronize do
+        rows = page.all(".work-package-table .wp--row", minimum: expected.size)
         found = rows.map { |el| el["data-work-package-id"] }
 
-        raise "Order is incorrect: #{found.inspect} != #{expected.inspect}" unless found == expected
+        unless found == expected
+          raise Capybara::ElementNotFound, "Order is incorrect: #{found.inspect} != #{expected.inspect}"
+        end
       end
     end
 
@@ -213,13 +215,9 @@ module Pages
 
     # Clicks the inline create button.
     def click_inline_create
-      ##
-      # When using the inline create on initial page load,
-      # there is a delay on travis where inline create can be clicked.
-      sleep 3
-
+      wait_for_network_idle if using_cuprite?
       container.find('[data-test-selector="op-wp-inline-create"]').click
-      expect(container).to have_css(".wp-inline-create-row", wait: 10)
+      expect(container).to have_css(".wp-inline-create-row", wait: 30)
     end
 
     # Opens the split view for the specified work package.
@@ -250,7 +248,7 @@ module Pages
     # @param work_package [WorkPackage] The work package object.
     def click_on_row(work_package)
       loading_indicator_saveguard
-      page.driver.browser.action.click(row(work_package).native).perform
+      row(work_package).click
     end
 
     # Opens the full screen view of the specified work package by
@@ -264,7 +262,7 @@ module Pages
       click_target = row(work_package).find(".inline-edit--display-field.id")
       click_target.double_click
 
-      FullWorkPackage.new(work_package, project)
+      FullWorkPackage.new(work_package, project).tap(&:ensure_loaded)
     end
 
     # Opens the full screen view of the specified work package by clicking on
@@ -373,7 +371,7 @@ module Pages
     end
 
     def table_container
-      find("#content .work-packages-split-view--tabletimeline-side")
+      find("#content .work-packages-split-view--tabletimeline-side", wait: 20)
     end
 
     def work_package_container(work_package)
@@ -385,7 +383,7 @@ module Pages
     end
 
     def progress_popover(work_package)
-      Components::WorkPackages::ProgressPopover.new(container: -> { work_package_container(work_package) })
+      Components::WorkPackages::ProgressPopover.new(container: page, field_selector_prefix: row_selector(work_package))
     end
 
     def expect_no_column_add_option(column_name)
@@ -400,16 +398,18 @@ module Pages
     end
 
     def work_package_field(work_package, key)
-      container = work_package_container(work_package)
+      row = work_package.nil? ? ".wp-inline-create-row" : row_selector(work_package)
+      selector = "#{row} .inline-edit--container.#{key.to_s.camelize(:lower)}"
+
       case key.to_sym
       when :date, :startDate, :dueDate, :combinedDate
-        DateEditField.new container, key, is_milestone: work_package.milestone?, is_table: true
+        DateEditField.new page, key, selector:, is_milestone: work_package.milestone?, is_table: true
       when :estimatedTime, :remainingTime
-        ProgressEditField.new container, key
+        ProgressEditField.new page, key, selector:
       when :project
-        InlineProjectEditField.new container, key
+        InlineProjectEditField.new page, key, selector:
       else
-        EditField.new container, key
+        EditField.new page, key, selector:
       end
     end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -148,12 +147,21 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
       expect(page).to have_text("Imported from sprint-43-scope.csv on 09/21/2026 at", normalize_ws: true)
     end
 
-    it "counts what was created per type, not just in total" do
+    it "summarizes the run exactly as the check did" do
       render_outcome("imported", "dry_run" => false)
 
-      expect(page).to have_text("142 work packages", normalize_ws: true)
-      expect(page).to have_text("96 Task", normalize_ws: true)
-      expect(page).to have_text("46 Bug", normalize_ws: true)
+      expect(page).to have_text("Work packages 142", normalize_ws: true)
+      expect(page).to have_text("Types 2", normalize_ws: true)
+      expect(page).to have_text("Accounts 11", normalize_ws: true)
+      expect(page).to have_text("#{I18n.t('work_packages.import.report.headline.dated.label')} 118", normalize_ws: true)
+    end
+
+    it "breaks what was created down per value, not just per type" do
+      render_outcome("imported", "dry_run" => false)
+
+      expect(page).to have_text("Task 96", normalize_ws: true)
+      expect(page).to have_text("Bug 46", normalize_ws: true)
+      expect(page).to have_text("New 142", normalize_ws: true)
     end
 
     it "says notifications were suppressed" do

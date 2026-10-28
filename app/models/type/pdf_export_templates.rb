@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -86,7 +85,7 @@ class Type::PdfExportTemplates
     @type.export_templates_disabled = disabled
   end
 
-  def move_after_anchor(template_id, prev_id) # rubocop:disable Naming/PredicateMethod -- verb command, not a query
+  def move_after_anchor(template_id, prev_id)
     raise_if_readonly!
 
     ordered_ids = list.map(&:id)

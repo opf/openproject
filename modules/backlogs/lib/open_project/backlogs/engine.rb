@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,6 +51,8 @@ module OpenProject::Backlogs
              bundled: true,
              settings:) do
       project_module :backlogs, dependencies: :work_package_tracking do
+        enabled_by_default!
+
         permission :view_sprints,
                    { "backlogs/backlog": %i[show details],
                      "backlogs/filters": :show,
@@ -152,7 +153,6 @@ module OpenProject::Backlogs
                WorkPackage
                Project]
 
-    patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :Projects, :CopyService
     patch_with_namespace :Projects, :SetAttributesService
     patch_with_namespace :WorkPackages, :SetAttributesService
@@ -160,10 +160,9 @@ module OpenProject::Backlogs
     patch_with_namespace :WorkPackages, :UpdateContract
     patch_with_namespace :Projects, :Copy, :WorkPackagesDependentService
     patch_with_namespace :Queries, :Copy, :FiltersMapper
-    patch_with_namespace :API, :V3, :WorkPackages, :EagerLoading, :Checksum
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
 
-    additional_permitted_attributes new_work_package: %i[backlog_bucket_id sprint_id]
+    additional_permitted_attributes new_work_package: %i[backlog_bucket_id sprint_id story_points]
 
     extend_api_response(:v3, :work_packages, :work_package,
                         &::OpenProject::Backlogs::Patches::API::WorkPackageRepresenter.extension)
@@ -171,25 +170,13 @@ module OpenProject::Backlogs
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema,
                         &::OpenProject::Backlogs::Patches::API::WorkPackageSchemaRepresenter.extension)
 
-    add_api_path :sprint do |id|
-      "#{root}/sprints/#{id}"
-    end
-
-    add_api_path :sprints do
-      "#{root}/sprints"
-    end
+    add_api_resource_paths :sprint, only: %i[index show]
 
     add_api_path :project_sprints do |id|
       "#{root}/projects/#{id}/sprints"
     end
 
-    add_api_path :backlog_buckets do
-      "#{root}/backlog_buckets"
-    end
-
-    add_api_path :backlog_bucket do |id|
-      "#{root}/backlog_buckets/#{id}"
-    end
+    add_api_resource_paths :backlog_bucket, only: %i[index show]
 
     add_api_path :project_backlog_buckets do |id|
       "#{root}/projects/#{id}/backlog_buckets"
@@ -254,6 +241,9 @@ module OpenProject::Backlogs
       ::TypeVariant.add_default_mapping(:other, :position)
       ::TypeVariant.add_default_mapping(:details, :sprint)
       ::TypeVariant.add_default_mapping(:details, :backlog_bucket)
+
+      ::API::V3::WorkPackages::EagerLoading::Checksum.add_checksum_associations(:sprint)
+      ::API::V3::WorkPackages::WorkPackageRepresenter.to_eager_load |= %i[sprint backlog_bucket]
 
       ::Queries::Register.register(::Query) do
         filter Queries::WorkPackages::Filter::BacklogBucketFilter

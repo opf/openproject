@@ -5,6 +5,23 @@
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
 //
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+//
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
@@ -86,9 +103,9 @@
     border-bottom-right-radius: 0
 
   // Drop container: the whole list outlines while a sortable item hovers it,
-  // signalling the item will land inside this list. A refused container (a
+  // signaling the item will land inside this list. A refused container (a
   // confined item hovering a foreign list) mutes the outline to a danger tone
-  // instead, signalling the item will not land here.
+  // instead, signaling the item will not land here.
   &[data-drop-container]
     outline: var(--borderWidth-thick) solid var(--fgColor-accent)
     outline-offset: calc(var(--borderWidth-thick) * -1)
@@ -261,7 +278,7 @@
       bottom: calc(var(--op-border-box-list-drop-gap-height) / -2)
 
 // Empty-state wrapper. With a drop target label, an overlay covers the
-// blankslate while a sortable item hovers the list, labelling it as a drop
+// blankslate while a sortable item hovers the list, labeling it as a drop
 // zone. Hidden via visibility so it is unreachable while inactive; the
 // visibility delay keeps the overlay shown until the fade-out finishes.
 .op-border-box-list-empty-state

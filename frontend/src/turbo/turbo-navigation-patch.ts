@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -39,7 +38,7 @@ import * as Turbo from '@hotwired/turbo';
  * there is no upstream frontend regression test — see the Rails system spec.
  *
  * Upstream fix in flight: https://github.com/hotwired/turbo/pull/1549. Once it
- * ships in a release we depend on, drop this patch in favour of it.
+ * ships in a release we depend on, drop this patch in favor of it.
  *
  * This is a verbatim fork of `FrameController.proposeVisitIfNavigatedWithAction`
  * with a single divergence: the history snapshot is built from the live

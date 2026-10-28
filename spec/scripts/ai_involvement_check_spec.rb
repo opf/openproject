@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -70,7 +69,7 @@ RSpec.describe "script/ci/ai_involvement_check.sh", :aggregate_failures do # rub
     expect(run_check(body)).to eq("status" => "ok", "level" => "None/Assisted")
   end
 
-  it "normalises a bare None or Assisted to None/Assisted" do
+  it "normalizes a bare None or Assisted to None/Assisted" do
     expect(run_check(pr_body("None"))).to eq("status" => "ok", "level" => "None/Assisted")
     expect(run_check(pr_body("Assisted"))).to eq("status" => "ok", "level" => "None/Assisted")
   end

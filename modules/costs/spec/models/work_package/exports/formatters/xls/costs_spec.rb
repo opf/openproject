@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,9 +33,9 @@ RSpec.describe WorkPackage::Exports::Formatters::XLS::Costs do
   let(:formatter_instance) { described_class.new(:overall_costs) }
 
   describe ".apply?" do
-    it "returns true for the cost attributes and csv format", :aggregate_failures do
+    it "returns true for the cost attributes and xls format", :aggregate_failures do
       %i[material_costs labor_costs overall_costs].each do |attribute|
-        expect(described_class.apply?(attribute, :csv)).to be true
+        expect(described_class.apply?(attribute, :xls)).to be true
       end
     end
 
@@ -45,13 +44,13 @@ RSpec.describe WorkPackage::Exports::Formatters::XLS::Costs do
     end
 
     it "returns false for other attributes" do
-      expect(described_class.apply?(:estimated_hours, :csv)).to be false
+      expect(described_class.apply?(:estimated_hours, :xls)).to be false
     end
   end
 
   describe "registration" do
-    it "is the formatter picked for cost attributes in csv exports" do
-      expect(Exports::Register.formatter_for(WorkPackage, :labor_costs, :csv)).to be_a(described_class)
+    it "is the formatter picked for cost attributes in xls exports" do
+      expect(Exports::Register.formatter_for(WorkPackage, :labor_costs, :xls)).to be_a(described_class)
     end
   end
 

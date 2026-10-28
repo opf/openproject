@@ -14,11 +14,8 @@
   gap: 1rem
   overflow: hidden
 
-  &--info
-    gap: 0.5rem
+  &--name, &--email
+    @include text-shortener()
 
-    &--name, &--email
-      @include text-shortener()
-
-  &--group-list, &--department
+  &--item
     gap: 0.5rem

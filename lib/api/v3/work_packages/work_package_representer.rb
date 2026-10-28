@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -150,6 +149,16 @@ module API
             href: work_package_path(id: represented.id, format: :atom),
             type: "application/rss+xml",
             title: "Atom feed"
+          }
+        end
+
+        link :markdown do
+          next if represented.new_record?
+
+          {
+            href: work_package_path(id: represented.id, format: :md),
+            type: "text/markdown",
+            title: I18n.t(:label_markdown_version)
           }
         end
 
@@ -540,7 +549,7 @@ module API
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
                               .create_link_lambda(:assigned_to)
 
-        # Deprecated in favour of `targetVersions`
+        # Deprecated in favor of `targetVersions`
         # Removed from the API if multiple_versions is enabled on the instance
         associated_resource :version,
                             v3_path: :version,
@@ -684,18 +693,6 @@ module API
                               represented.parent = new_parent
                             end
 
-        associated_resource :budget,
-                            as: :budget,
-                            v3_path: :budget,
-                            link_title_attribute: :subject,
-                            representer: ::API::V3::Budgets::BudgetRepresenter,
-                            link_cache_if: -> { view_budgets_allowed? },
-                            getter: ->(*) {
-                              if embed_link?(:budget) && represented.budget && view_budgets_allowed?
-                                ::API::V3::Budgets::BudgetRepresenter.create(represented.budget, current_user:)
-                              end
-                            }
-
         resources :customActions,
                   uncacheable_link: true,
                   link: ->(*) {
@@ -746,12 +743,6 @@ module API
 
           @current_user_update_allowed = ::WorkPackages::UpdateContract.update_allowed?(user: current_user,
                                                                                         work_package: represented)
-        end
-
-        def view_budgets_allowed?
-          return @view_budgets_allowed if defined?(@view_budgets_allowed)
-
-          @view_budgets_allowed = current_user.allowed_in_project?(:view_budgets, represented.project)
         end
 
         def view_project_phase_allowed?
@@ -847,7 +838,6 @@ module API
                                 type
                                 watchers
                                 attachments
-                                budget
                                 target_versions
                                 observed_in_versions
                                 labels]

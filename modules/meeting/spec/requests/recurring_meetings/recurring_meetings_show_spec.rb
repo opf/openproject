@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -465,7 +464,7 @@ RSpec.describe "Recurring meetings show",
       it "defaults to 15 past meetings when no limit parameter is provided" do
         get project_recurring_meeting_path(project, recurring_meeting, direction: "past")
 
-        expect(page).to have_css(".op-border-box-table--rows [role='row']", count: 15)
+        expect(page).to have_css(".op-border-box-table__rows [role='row']", count: 15)
         expect(page).to have_css("#recurring-meetings-footer-component")
       end
     end

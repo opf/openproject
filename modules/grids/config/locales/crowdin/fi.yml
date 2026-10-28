@@ -31,7 +31,7 @@ fi:
         title: Members
         view_all_members: Näytä kaikki jäsenet
         x_more:
-          one: and one more member.
+          one: and %{count} more member.
           other: and %{count} more members.
       news:
         no_results: Ei mitään uutta raportoitavaksi.
