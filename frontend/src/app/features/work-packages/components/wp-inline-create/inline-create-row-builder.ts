@@ -47,6 +47,7 @@ import {
 
 export const inlineCreateRowClassName = 'wp-inline-create-row';
 export const inlineCreateCancelClassName = 'wp-table--cancel-create-link';
+const cancelLinkHostClassName = 'wp-table--cancel-create-host';
 
 export class InlineCreateRowBuilder extends SingleRowBuilder {
   // Injections
@@ -95,9 +96,15 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
   public refreshRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):HTMLTableRowElement {
     const refreshed = super.refreshRow(workPackage, row);
     const lastColumn = this.augmentedColumns.at(-1)!;
-    const host = refreshed.querySelector<HTMLTableCellElement>(`td.${lastColumn.id}`);
+    const host = this.hostsCancelLink(lastColumn) ? refreshed.querySelector<HTMLTableCellElement>(`td.${lastColumn.id}`) : null;
 
-    if (host && this.hostsCancelLink(lastColumn)) {
+    refreshed.querySelectorAll<HTMLTableCellElement>(`td.${cancelLinkHostClassName}`).forEach((cell) => {
+      if (cell !== host) {
+        cell.classList.remove(cancelLinkHostClassName);
+        cell.querySelector(`.${inlineCreateCancelClassName}`)?.remove();
+      }
+    });
+    if (host) {
       this.appendCancelLink(host);
     }
 
@@ -113,7 +120,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
       return;
     }
 
-    cell.classList.add('wp-table--cancel-create-host');
+    cell.classList.add(cancelLinkHostClassName);
     cell.insertAdjacentHTML('beforeend', this.cancelLinkHtml());
   }
 
