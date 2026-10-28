@@ -26,7 +26,9 @@
 //++
 
 import { waitFor, within } from '@testing-library/dom';
-import { buildTable, consumerConfiguration, ConsumerName, TableHarness } from '../wp-fast-table/testing/table-harness';
+import { buildColumn, buildTable, consumerConfiguration, ConsumerName, TableHarness } from '../wp-fast-table/testing/table-harness';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageTableConfigurationObject } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { States } from 'core-app/core/states/states.service';
 import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
@@ -124,6 +126,27 @@ describe('InlineCreateRowBuilder', () => {
       expect(row.cells).toHaveLength(table.headerRow().cells.length);
       expect(cancelLinks(row)).toHaveLength(1);
       expect(row.contains(editor)).toBe(true);
+    });
+
+    it('moves the Cancel link to a column appended while the last column is being edited', async () => {
+      const table = await mount('macro', {});
+      const row = table.addInlineCreateRow();
+      const form = Object.values(table.table.editing.forms)[0];
+      const handler = await form.activate('subject');
+      handler!.focus();
+      const editedCell = row.querySelector<HTMLTableCellElement>('td.subject')!;
+      await waitFor(() => expect(editedCell.querySelector('input.inline-edit--field')).toHaveFocus());
+      const columns = table.injector.get(WorkPackageViewColumnsService);
+      const appended = [...columns.getColumns(), buildColumn('status') as QueryColumn];
+      vi.spyOn(columns, 'getColumns').mockReturnValue(appended);
+      const builder = new InlineCreateRowBuilder(table.injector, table.table);
+
+      builder.refreshRow(table.injector.get(States).workPackages.get(HAL_NEW_RESOURCE_ID).value!, row);
+
+      expect(row.querySelector('td.subject')).toBe(editedCell);
+      expect(cancelLinks(row)).toHaveLength(1);
+      expect(row.lastElementChild!.querySelector(`.${inlineCreateCancelClassName}`)).not.toBeNull();
+      expect(editedCell).not.toHaveClass('wp-table--cancel-create-host');
     });
   });
 });
