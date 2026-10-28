@@ -34,7 +34,5 @@ class EnablePgvector < ActiveRecord::Migration[8.1]
     Extensions::Pgvector.create(self)
   end
 
-  def down
-    disable_extension "vector"
-  end
+  def down; end
 end
