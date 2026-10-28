@@ -214,7 +214,7 @@ export class CellInteraction {
 
   private park(handler:EditFieldHandler):void {
     this.parked.add(handler);
-    this.editorTabStops(handler).forEach((element) => {
+    this.editorControls(handler).forEach((element) => {
       if (!element.hasAttribute(originalTabindex)) {
         element.setAttribute(originalTabindex, element.getAttribute('tabindex') ?? '__absent__');
       }
@@ -226,13 +226,17 @@ export class CellInteraction {
     return [handler.element!, ...handler.overlays];
   }
 
-  private editorTabStops(handler:EditFieldHandler):HTMLElement[] {
+  private editorControls(handler:EditFieldHandler):HTMLElement[] {
     return this.editorElements(handler).flatMap((root) => {
       const candidates = root.matches(editorTabStopSelector) ? [root] : [];
-      return [...candidates, ...root.querySelectorAll<HTMLElement>(editorTabStopSelector)]
-        .filter((element) => rendered(element) && enabled(element))
-        .filter((element) => element.tabIndex >= 0 || element.hasAttribute(originalTabindex));
+      return [...candidates, ...root.querySelectorAll<HTMLElement>(editorTabStopSelector)];
     });
+  }
+
+  private editorTabStops(handler:EditFieldHandler):HTMLElement[] {
+    return this.editorControls(handler)
+      .filter((element) => rendered(element) && enabled(element))
+      .filter((element) => element.tabIndex >= 0 || element.hasAttribute(originalTabindex));
   }
 
   private overlayFocusTarget(handler:EditFieldHandler):HTMLElement|null {

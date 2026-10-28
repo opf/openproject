@@ -648,6 +648,28 @@ describe('CellInteraction', () => {
     expect(extra).not.toHaveAttribute('data-op-original-tabindex');
   });
 
+  it('restores a control that was disabled while its editor was parked', async () => {
+    const table = await mount();
+    const cell = navigableCells(table.row('1'))[1];
+    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    fireEvent.keyDown(cell, { key: 'Enter' });
+    await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
+    const input = within(cell).getByRole<HTMLInputElement>('textbox');
+    const save = input.closest('form')!.appendChild(document.createElement('button'));
+    save.disabled = true;
+    input.focus();
+
+    await userEvent.tab();
+    expect(cell).toHaveFocus();
+    fireEvent.keyDown(cell, { key: 'ArrowLeft' });
+    fireEvent.keyDown(document.activeElement!, { key: 'ArrowRight' });
+    expect(cell).toHaveFocus();
+    fireEvent.keyDown(cell, { key: 'Enter' });
+    save.disabled = false;
+
+    expect(save).not.toHaveAttribute('tabindex');
+  });
+
   it('keeps the origin of a walk started on a pointer-focused control', async () => {
     const table = await mount();
     const [first, second] = navigableCells(table.row('1'));
