@@ -243,77 +243,35 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
     end
 
     context "with an embedding feature available", with_flag: { llm_connection: true, semantic_search: true } do
-      it "passes a default embedding model the server offers" do
-        connection.update!(default_embedding_model: connection.models.find_by!(external_id: "bge-m3"))
-
-        expect(result_for(:models, :default_embedding_model).state).to eq(:success)
-      end
-
-      it "names a default embedding model the server no longer offers" do
-        default = connection.models.find_by!(external_id: "bge-m3")
-        connection.update!(default_embedding_model: default)
-        default.update!(active: false)
-
-        result = result_for(:models, :default_embedding_model)
-
-        expect(result.state).to eq(:warning)
-        expect(result.code).to eq(:default_model_missing)
-        expect(result.context[:model]).to eq("bge-m3")
-      end
-    end
-  end
-
-  describe "the features group" do
-    before { mock_llm_models_response(base_url) }
-
-    it "warns about features with no model chosen" do
-      result = result_for(:features, :bindings_resolvable)
-
-      expect(result.state).to eq(:warning)
-      expect(result.code).to eq(:features_unbound)
-    end
-
-    it "fails when a binding points at a model the server no longer offers" do
-      bind_to_withdrawn_model("description_assistant", "vanished")
-
-      result = result_for(:features, :bindings_resolvable)
-
-      expect(result.state).to eq(:failure)
-      expect(result.code).to eq(:features_model_missing)
-    end
-
-    context "with an embedding feature available", with_flag: { llm_connection: true, semantic_search: true } do
-      it "fails when the bound model lacks a capability the feature requires" do
-        create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", model_id: "bge-m3")
-        create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
-                                        state: "unsupported", source: "probe")
-
+      it "leaves it to the active Semantic Index instead of asking for a model" do
         result = result_for(:features, :bindings_resolvable)
 
-        expect(result.state).to eq(:failure)
-        expect(result.code).to eq(:features_incapable)
-        expect(result.context).to include(features: "Semantic search", capabilities: "Embeddings")
+        expect(result.context[:features]).to eq("Description assistant")
       end
     end
 
-    it "passes while the model of a locked binding is still offered" do
-      create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", model_id: "bge-m3",
-                                   locked_at: Time.current)
+    describe "the active Semantic Index" do
+      let(:semantic_index) { create(:semantic_index, state: "ready") }
 
-      expect(result_for(:features, :locked_bindings_intact).state).to eq(:success)
-    end
+      before do
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "supported", source: "probe", checked_at: Time.current)
+        connection.feature_bindings.create!(feature_key: "semantic_search", semantic_index:)
+      end
 
-    # Only reachable while the feature itself is switched off: for an available
-    # feature the missing model already fails bindings_resolvable, which halts
-    # the group.
-    it "fails when the model of a locked binding has left the catalogue" do
-      bind_to_withdrawn_model("semantic_search", "retired-embedder", locked_at: Time.current)
+      it "passes while its model is still offered" do
+        expect(result_for(:features, :active_semantic_index_intact).state).to eq(:success)
+      end
 
-      result = result_for(:features, :locked_bindings_intact)
+      it "fails once its model has left the catalogue" do
+        connection.models.find_by!(external_id: "bge-m3").update!(active: false)
 
-      expect(result.state).to eq(:failure)
-      expect(result.code).to eq(:locked_model_missing)
-      expect(result.context).to include(features: "Semantic search")
+        result = result_for(:features, :active_semantic_index_intact)
+
+        expect(result.state).to eq(:failure)
+        expect(result.code).to eq(:semantic_index_model_missing)
+        expect(result.context).to include(title: semantic_index.title, model: "bge-m3")
+      end
     end
   end
 
