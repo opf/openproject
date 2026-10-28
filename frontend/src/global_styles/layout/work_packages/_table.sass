@@ -37,10 +37,24 @@
   @include extended-content--bottom
   @include extended-content--right
 
+  .work-packages-split-view--tabletimeline-footer
+    margin-right: $right-space
+
   // Since only the split screen on the right should touch the bottom,
   // we need to add it manually to the left to avoid a jump there
   .work-packages-partitioned-page--content-left
     padding-bottom: 10px
+
+.router--work-packages-base
+  &.router--work-packages-partitioned-split-view-details,
+  &.router--work-packages-partitioned-split-view-new
+    // Base layout restores padding-right: 1rem on #content-body/#content-header when the
+    // split pane is open. Override it back to 0.
+    @include split-pane-active
+      @include extended-content--right
+
+      .work-packages-partitioned-page--content-left .work-packages-split-view--tabletimeline-footer
+        margin-right: $right-space
 
 // Ensure correct height applied to child elements.
 // The dom looks like this:
