@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { isNavigableColumn, keyboardNavigationEnabled, navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { locateTableRowByIdentifier } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
@@ -74,16 +75,16 @@ export class SingleRowBuilder {
   @LazyInject() I18n!:I18nService;
 
   // Cell builder instance
-  protected cellBuilder = new CellBuilder(this.injector);
+  protected cellBuilder = new CellBuilder(this.injector, this.workPackageTable.configuration);
 
   // Relation cell builder instance
-  protected relationCellBuilder = new RelationCellbuilder(this.injector);
+  protected relationCellBuilder = new RelationCellbuilder(this.injector, this.workPackageTable.configuration);
 
   // Share cell builder instance
-  protected shareCellBuilder = new ShareCellbuilder(this.injector);
+  protected shareCellBuilder = new ShareCellbuilder(this.injector, this.workPackageTable.configuration);
 
   // Details Link builder
-  protected contextLinkBuilder = new TableActionRenderer(this.injector);
+  protected contextLinkBuilder = new TableActionRenderer(this.injector, this.workPackageTable.configuration);
 
   // Baseline column builder
   protected baselineColumnBuilder = new BaselineColumnBuilder(this.injector);
@@ -141,6 +142,10 @@ export class SingleRowBuilder {
         if (this.workPackageTable.configuration.columnMenuEnabled) {
           const td = document.createElement('td');
           td.classList.add('hide-when-print');
+          if (keyboardNavigationEnabled(this.workPackageTable.configuration)
+            && isNavigableColumn(column, this.workPackageTable.configuration)) {
+            td.classList.add(navigableCellClassName);
+          }
           return td;
         }
         return null;
@@ -169,7 +174,7 @@ export class SingleRowBuilder {
   public createEmptyRow(workPackage:WorkPackageResource) {
     const identifier = this.classIdentifier(workPackage);
     const tr = document.createElement('tr');
-    tr.setAttribute('tabindex', '0');
+    tr.setAttribute('tabindex', keyboardNavigationEnabled(this.workPackageTable.configuration) ? '-1' : '0');
     tr.dataset.workPackageId = workPackage.id!;
     tr.dataset.classIdentifier = identifier;
     tr.classList.add(

@@ -10,11 +10,11 @@
       <%= t("two_factor_authentication.devices.totp.text_cannot_scan") %>
     </p>
 
-    <%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
-      <% component.with_attribute(key: t("two_factor_authentication.devices.totp.account"), value: @device.account_name) %>
-      <% component.with_attribute(key: t("two_factor_authentication.devices.totp.secret_key"), value: @device.otp_secret) %>
-      <% component.with_attribute(key: t("two_factor_authentication.devices.totp.time_based"), value: t("general_text_Yes")) %>
-      <% component.with_attribute(key: t("two_factor_authentication.devices.totp.provisioning_uri"), value: @device.provisioning_url) %>
+    <%= render(OpenProject::Common::AttributesGroupComponent.new) do |component| %>
+      <% component.with_attribute(key: t("two_factor_authentication.devices.totp.account")) { @device.account_name } %>
+      <% component.with_attribute(key: t("two_factor_authentication.devices.totp.secret_key")) { @device.otp_secret } %>
+      <% component.with_attribute(key: t("two_factor_authentication.devices.totp.time_based")) { t("general_text_Yes") } %>
+      <% component.with_attribute(key: t("two_factor_authentication.devices.totp.provisioning_uri")) { @device.provisioning_url } %>
     <% end %>
   </div>
 </div>

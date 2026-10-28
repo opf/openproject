@@ -1,0 +1,7 @@
+<%= render(OpenProject::Common::AttributesGroupComponent.new) do |component|
+      component.with_attribute(key: "Some key") { "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat." }
+
+      component.with_attribute(key: "With banner") do
+        render(Primer::Alpha::Banner.new(scheme: :warning, mt: 2)) { "Also banners can have comparably long text that may require wrapping after some length." }
+      end
+    end %>

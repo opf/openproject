@@ -232,7 +232,7 @@ describe('SearchDropdown', () => {
       await expect.element(page.getByText('Fix login bug')).toBeVisible();
 
       const options = page.getByRole('option').elements();
-      expect(options.at(-1)).toHaveTextContent('Create new work package');
+      expect(options.at(-1)).toMatchTextContent('Create new work package');
 
       await userEvent.click(page.getByText('Create new work package'));
 

@@ -35,7 +35,7 @@ da:
           other: "%{count} deltagere"
         participants: Deltagere
         participants_added: 'Deltagere tilføjet:'
-        participants_attended: Tilsluttede
+        participants_attended: Deltog
         participants_invited: Inviterede
         participants_removed: 'Deltagere fjernet:'
         project: Projekt
@@ -147,9 +147,9 @@ da:
           updated_html: ændret fra <i>%{old_value}</i> til <i>%{value}</i>
   caption_meeting_template_select: Vælg en skabelon for automatisk at kopiere dens dagsordenspunkter
   caption_template_project_select: Vælg det projekt, mødeskabelonen skal oprettes i
-  description_attended: tilsluttede
+  description_attended: deltog
   error_notification: Notifikationen kunne ikke sendes.
-  error_notification_with_errors: 'Kunne ikke sende påmindelse. Følgende modtagere blev ikke nået: %{recipients}'
+  error_notification_with_errors: 'Notifikationen kunne ikke sendes. Følgende modtagere kunne ikke få besked: %{recipients}'
   events:
     meeting: Mødet er ændret
     meeting_agenda: Mødedagsorden er ændret
@@ -228,7 +228,7 @@ da:
   label_meeting_delete: Slet møde
   label_meeting_details: Mødedetaljer
   label_meeting_details_edit: Rediger mødedetaljer
-  label_meeting_diff: Uenigheder
+  label_meeting_diff: Forskelle
   label_meeting_duplicate: Dupliker møde
   label_meeting_edit: Rediger møde
   label_meeting_edit_title: Rediger mødets titel
@@ -583,7 +583,7 @@ da:
   permission_manage_agendas_explanation: Giver mulighed for at oprette, redigere og fjerne dagsordenspunkter
   permission_manage_outcomes: Administrer resultater
   permission_send_meeting_invites_and_outcomes: Send mødeinvitationer og resultater til deltagerne
-  permission_view_meetings: Se møder
+  permission_view_meetings: Vis møder
   placeholder_meeting_template_no_templates_for_project: Der er ingen tilgængelige skabeloner til projektet
   placeholder_meeting_template_select_project_first: Vælg først et projekt
   placeholder_section_select_meeting_first: Der skal først vælges et møde
@@ -750,7 +750,7 @@ da:
   text_exit_draft_mode_dialog_title: Vil du åbne mødet og sende invitationer?
   text_in_hours: i timer
   text_meeting_agenda_for_meeting: dagsorden for mødet "%{meeting}"
-  text_meeting_agenda_open_are_you_sure: Dette vil overskrive alle ændringer i minutterne! Vil du fortsætte?
+  text_meeting_agenda_open_are_you_sure: Alle ændringer i referatet overskrives! Vil du fortsætte?
   text_meeting_closed_description: Mødet er lukket. Du kan ikke længere tilføje eller fjerne dagsordenspunkter.
   text_meeting_closed_dropdown_description: Mødet er lukket. Du kan ikke længere ændre dagsordenspunkter eller resultater.
   text_meeting_closing_are_you_sure: Er du sikker på, at du vil lukke mødets dagsorden?
@@ -763,7 +763,7 @@ da:
   text_meeting_ics_meeting_series_description: 'Link til mødeserien: %{url}'
   text_meeting_in_progress_description: Du kan ændre dagsordenen, dokumentere resultater for hvert punkt og registrere, hvilke deltagere der deltog. Når mødet er færdigt, kan du markere det som lukket for at låse det.
   text_meeting_in_progress_dropdown_description: Dokumentér resultater som informationsbehov eller beslutninger, der træffes på mødet.
-  text_meeting_minutes_for_meeting: referat  for mødet "%{meeting}"
+  text_meeting_minutes_for_meeting: referat for mødet "%{meeting}"
   text_meeting_not_editable_anymore: Mødet kan ikke længere redigeres.
   text_meeting_not_present_anymore: Mødet er slettet. Vælg et andet møde.
   text_meeting_occurrence_ics_description: 'Link til forekomsten af mødet: %{url} Link til mødeserien: %{series_url}'

@@ -146,7 +146,7 @@ describe('Create work package - prefilled from previous selections', () => {
       await userEvent.keyboard('nothing of this belongs in the document{Escape}');
 
       await expect.element(page.getByTestId('create-wp-modal')).not.toBeInTheDocument();
-      await expect.element(page.getByRole('textbox')).not.toHaveTextContent('belongs in the document');
+      await expect.element(page.getByRole('textbox')).not.toMatchTextContent('belongs in the document');
     } finally {
       release();
     }
