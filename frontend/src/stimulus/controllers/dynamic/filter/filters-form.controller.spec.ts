@@ -166,8 +166,9 @@ describe('Filters form controller', () => {
   });
 
   beforeEach(async () => {
-    fetchSpy = vi.fn().mockImplementation(() => new Promise<Response>((resolve) => {
+    fetchSpy = vi.fn().mockImplementation((_url:string, { signal }:RequestInit) => new Promise<Response>((resolve, reject) => {
       resolveResponse = resolve;
+      signal?.addEventListener('abort', () => reject(signal.reason as Error));
     }));
     vi.spyOn(window, 'fetch').mockImplementation(fetchSpy);
 
@@ -202,6 +203,22 @@ describe('Filters form controller', () => {
     return ctx.getController<FiltersFormControllerType>('filter--filters-form');
   }
 
+  function streamResponse() {
+    return new Response('<turbo-stream action="remove" target="filter-result"></turbo-stream>', {
+      headers: { 'Content-Type': 'text/vnd.turbo-stream.html' },
+    });
+  }
+
+  function requestSignal(call:number):AbortSignal {
+    return (fetchSpy.mock.calls[call] as [string, RequestInit])[1].signal!;
+  }
+
+  function type(value:string) {
+    const input = ctx.container.querySelector<HTMLInputElement>('input')!;
+    input.value = value;
+    input.dispatchEvent(new Event('input'));
+  }
+
   it('ignores a response when the form has a newer unsent value', async () => {
     const controller = await renderForm();
     const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);
@@ -209,9 +226,8 @@ describe('Filters form controller', () => {
     controller.sendForm();
     await waitFor(() => expect(fetchSpy).toHaveBeenCalledOnce());
 
-    const input = ctx.container.querySelector<HTMLInputElement>('input')!;
-    input.value = 'new';
-    resolveResponse(new Response('<turbo-stream action="remove" target="filter-result"></turbo-stream>'));
+    ctx.container.querySelector<HTMLInputElement>('input')!.value = 'new';
+    resolveResponse(streamResponse());
     await ctx.nextFrame();
     await ctx.nextFrame();
 
@@ -228,7 +244,7 @@ describe('Filters form controller', () => {
     await waitFor(() => expect(fetchSpy).toHaveBeenCalledOnce());
 
     input.value = 'new';
-    resolveResponse(new Response('<turbo-stream action="remove" target="filter-result"></turbo-stream>'));
+    resolveResponse(streamResponse());
     await ctx.nextFrame();
     await ctx.nextFrame();
 
@@ -236,8 +252,48 @@ describe('Filters form controller', () => {
     controller.sendForm();
     await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2));
 
-    resolveResponse(new Response('<turbo-stream action="remove" target="filter-result"></turbo-stream>'));
+    resolveResponse(streamResponse());
     await waitFor(() => expect(replaceState).toHaveBeenCalledOnce());
     expect(ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!.hidden).toBe(true);
+  });
+
+  it('keeps the in-flight request when typing returns to its value before the debounce', async () => {
+    const controller = await renderForm();
+    const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);
+
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledOnce());
+
+    type('new');
+    type('old');
+    await new Promise((resolve) => { setTimeout(resolve, 350); });
+
+    expect(fetchSpy).toHaveBeenCalledOnce();
+    expect(requestSignal(0).aborted).toBe(false);
+
+    resolveResponse(streamResponse());
+    await waitFor(() => expect(replaceState).toHaveBeenCalledOnce());
+  });
+
+  it('keeps the indicator visible while a superseding request is in flight', async () => {
+    const controller = await renderForm();
+    const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);
+    const input = ctx.container.querySelector<HTMLInputElement>('input')!;
+    const indicator = ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!;
+
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledOnce());
+
+    input.value = 'new';
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2));
+    await ctx.nextFrame();
+
+    expect(requestSignal(0).aborted).toBe(true);
+    expect(indicator.hidden).toBe(false);
+
+    resolveResponse(streamResponse());
+    await waitFor(() => expect(replaceState).toHaveBeenCalledOnce());
+    await waitFor(() => expect(indicator.hidden).toBe(true));
   });
 });

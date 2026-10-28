@@ -35,7 +35,7 @@ export function post(url:string|URL, options?:Options) {
   return withLoadingIndicator(request.perform());
 }
 
-export function withLoadingIndicator(request:Promise<FetchResponse>) {
+export function withLoadingIndicator<T>(request:Promise<T>) {
   const loadingIndicator = document.querySelector<HTMLElement>('#global-loading-indicator');
   invariant(loadingIndicator, 'Expected an Element with id global-loading-indicator to be present');
   showElement(loadingIndicator);
