@@ -119,13 +119,14 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     event?.stopPropagation();
     const form = document.getElementById(this.closeFormValue);
     if (form instanceof HTMLFormElement) {
-      form.addEventListener('turbo:submit-end', (submitEnd:CustomEvent<{ success:boolean }>) => {
-        if (!submitEnd.detail.success) {
-          this.element.remove();
-        }
-      }, { once: true });
       form.requestSubmit();
     } else {
+      this.element.remove();
+    }
+  }
+
+  closeSubmitted(event:CustomEvent<{ success?:boolean }>):void {
+    if ((event.target as Element).id === this.closeFormValue && event.detail.success === false) {
       this.element.remove();
     }
   }
