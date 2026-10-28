@@ -397,6 +397,7 @@ module Import
 
       create_reference!(op_leg: work_package, jira_leg: jira_issue, jira_import: @jira_import, uses_existing: false)
       create_work_package_history(work_package, jira_issue, project)
+      create_watchers(work_package, jira_issue, project)
       work_package
     end
 
@@ -432,6 +433,23 @@ module Import
       end
 
       journal_service.call(updated_at: jira_issue.payload.dig("fields", "updated"))
+    end
+
+    def create_watchers(work_package, jira_issue, project)
+      watchers = jira_issue.payload.fetch("watchers", [])
+      return unless watchers.any?
+
+      users = watchers.filter_map { find_user(it["key"]) }.grep_v(DeletedUser)
+      return unless users.any?
+
+      users.each { create_member(project, it) }
+      Watcher.insert_all(watchers_insert_data(users, work_package), unique_by: :index_watchers_on_user_id_and_watchable)
+    end
+
+    def watchers_insert_data(users, work_package)
+      users.map do |user|
+        { user_id: user.id, watchable_type: work_package.class.name, watchable_id: work_package.id }
+      end
     end
 
     def find_user(jira_user_key)

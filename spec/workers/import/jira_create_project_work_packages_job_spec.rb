@@ -651,6 +651,52 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
           end
         end
       end
+
+      context "with watchers" do
+        let(:locked_op_user) { create(:user, status: :locked) }
+        let(:jira_issue_payload) do
+          super().merge(
+            "watchers" => [
+              { "key" => "JIRAUSER_WATCHER" },
+              { "key" => "JIRAUSER10000" },
+              { "key" => "JIRAUSER_UNKNOWN" }
+            ]
+          )
+        end
+
+        before do
+          jira_user = create(:jira_user, jira_import:, origin_id: "JIRAUSER_WATCHER", payload: jira_user_payload)
+          create(:jira_open_project_reference,
+                 jira_import:,
+                 jira_entity_class: "Import::JiraUser",
+                 jira_entity_id: jira_user.id.to_s,
+                 op_entity_class: "User",
+                 op_entity_id: locked_op_user.id.to_s)
+        end
+
+        it "adds the existing users as watchers to the work package, even if they are still locked" do
+          expect { create_work_packages }.to change(Watcher, :count).by(2)
+
+          expect(WorkPackage.find("DPPP-6").watcher_users).to contain_exactly(locked_op_user, op_user)
+        end
+
+        it "makes the watchers members of the project" do
+          create_work_packages
+
+          project = Project.find_by!(identifier: jira_project_key)
+          expect(Member.where(project:, principal: locked_op_user)).to exist
+        end
+
+        context "when the author is not listed as a watcher in jira" do
+          let(:jira_issue_payload) { super().merge("watchers" => [{ "key" => "JIRAUSER_UNKNOWN" }]) }
+
+          it "still adds them as a watcher" do
+            expect { create_work_packages }.to change(Watcher, :count).by(1)
+
+            expect(WorkPackage.find("DPPP-6").watcher_users).to contain_exactly(op_user)
+          end
+        end
+      end
     end
   end
 
