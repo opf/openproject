@@ -152,7 +152,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
 
     ["#{journals}.journable_id AS id",
      "#{journals}.id AS journal_id",
-     "#{model.table_name}.created_at",
+     *model.column_names_from_current_record.map { |c| "#{model.table_name}.#{c}" },
      "#{journals}.updated_at",
      "CASE #{timestamp_case_when_statements} END as timestamp",
      *model.journal_class.column_names
