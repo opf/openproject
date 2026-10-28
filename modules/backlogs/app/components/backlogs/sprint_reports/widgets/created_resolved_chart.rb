@@ -38,9 +38,7 @@ module Backlogs
         param :sprint
         param :project
 
-        def title
-          t("backlogs.show_created_resolved_chart")
-        end
+        def title = t(".title")
 
         def chart_data
           {

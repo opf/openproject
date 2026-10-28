@@ -38,9 +38,7 @@ module Backlogs
         param :sprint
         param :project
 
-        def title
-          t("backlogs.show_epic_progress")
-        end
+        def title = t(".title")
 
         def wrapper_arguments
           { full_width: true }
