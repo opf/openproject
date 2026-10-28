@@ -484,9 +484,9 @@ GEM
       base64
       ssrf_filter (~> 1.5)
     csv (3.3.6)
-    cuprite (0.18)
+    cuprite (0.19)
       capybara (~> 3.0)
-      ferrum (~> 0.18.0)
+      ferrum (~> 0.19.1)
     daemons (1.4.1)
     dalli (5.2.2)
       logger
@@ -598,7 +598,7 @@ GEM
       net-http (~> 0.5)
     faraday-retry (2.4.0)
       faraday (~> 2.0)
-    ferrum (0.18.0)
+    ferrum (0.19.2)
       addressable (~> 2.5)
       base64 (~> 0.2)
       concurrent-ruby (~> 1.1)
@@ -1643,7 +1643,7 @@ DEPENDENCIES
   costs!
   counter_culture (~> 3.14)
   csv (~> 3.3)
-  cuprite (~> 0.18.0)
+  cuprite (~> 0.19.0)
   daemons
   dalli (~> 5.2.2)
   date_validator (~> 0.12.0)
@@ -1925,7 +1925,7 @@ CHECKSUMS
   crass (1.0.7) sha256=94868719948664c89ddcaf0a37c65048413dfcb1c869470a5f7a7ceb5390b295
   css_parser (3.2.0) sha256=e2d9d76164246d4d5d0b96e22fcbf581e1c65368ec3e52e056d4154e42eaac65
   csv (3.3.6) sha256=aba61e7e507a66f03d45cb1f3c4b6359861c3504038b422962875dce099e4456
-  cuprite (0.18) sha256=32c3203a492f25dbd5a3525716ae09610bcef8936ddd32ff39f34477a98062b2
+  cuprite (0.19) sha256=e56d59db56693bdfbffd533f715df366f03285ea4435e4c31603e146e0e02518
   daemons (1.4.1) sha256=8fc76d76faec669feb5e455d72f35bd4c46dc6735e28c420afb822fac1fa9a1d
   dalli (5.2.2) sha256=23ad7dd2891525b720be39a550eba144bebebfe807d3d51b4582be2997d63f73
   date (3.5.1) sha256=750d06384d7b9c15d562c76291407d89e368dda4d4fff957eb94962d325a0dc0
@@ -1971,7 +1971,7 @@ CHECKSUMS
   faraday-multipart (1.2.0) sha256=7d89a949693714176f612323ca13746a2ded204031a6ba528adee788694ef757
   faraday-net_http (3.5.0) sha256=2e7094c34e38754ee048cc3df47376f8657005d9375f8473bce1c3b526a22e36
   faraday-retry (2.4.0) sha256=7b79c48fb7e56526faf247b12d94a680071ff40c9fda7cf1ec1549439ad11ebe
-  ferrum (0.18.0) sha256=4cb8be16e352fc1d75f087e9214b34ec1b93ba932410c730a4724909ca89d7c6
+  ferrum (0.19.2) sha256=76edbd1cd6045d781423687b641da4acfa4e3e6dc5443fb836cab0c4a282ec7e
   ffi (1.17.4) sha256=bcd1642e06f0d16fc9e09ac6d49c3a7298b9789bcb58127302f934e437d60acf
   ffi (1.17.4-aarch64-linux-gnu) sha256=b208f06f91ffd8f5e1193da3cae3d2ccfc27fc36fba577baf698d26d91c080df
   ffi (1.17.4-aarch64-linux-musl) sha256=9286b7a615f2676245283aef0a0a3b475ae3aae2bb5448baace630bb77b91f39

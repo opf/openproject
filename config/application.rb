@@ -210,7 +210,7 @@ module OpenProject
     config.good_job.max_threads = OpenProject::Configuration[:good_job_max_threads]
     config.good_job.max_cache = OpenProject::Configuration[:good_job_max_cache]
     config.good_job.enable_cron = OpenProject::Configuration[:good_job_enable_cron]
-    config.good_job.shutdown_timeout = 30
+    config.good_job.shutdown_timeout = OpenProject::Configuration[:good_job_shutdown_timeout]
     config.good_job.smaller_number_is_higher_priority = true
 
     config.action_controller.asset_host = OpenProject::Configuration::AssetHost.value

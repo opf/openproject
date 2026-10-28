@@ -281,7 +281,7 @@ module Components
 
       def close_autocompleter(id)
         with_filter_input(id) do |input|
-          input.send_keys :escape
+          input.send_keys(:escape) if input["aria-expanded"] == "true"
         end
       end
 
