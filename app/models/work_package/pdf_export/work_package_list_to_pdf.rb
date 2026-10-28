@@ -55,6 +55,12 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   include WorkPackage::PDFExport::Report::TableOfContents
   include WorkPackage::PDFExport::Report::Attributes
 
+  VERSION_GROUP_ASSOCIATIONS = {
+    "version" => :target_versions,
+    "target_versions" => :target_versions,
+    "observed_in_versions" => :observed_in_versions
+  }.freeze
+
   attr_accessor :pdf,
                 :options
 
@@ -81,11 +87,10 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
     ActiveModel::Type::Boolean.new.cast(options[:no_columns])
   end
 
-  # Preload the target versions separately: an eager_load join would repeat
-  # work packages that have several target versions.
   def export_work_packages
     work_packages = query.results.work_packages
-    query.group_by == "version" ? work_packages.preload(:target_versions) : work_packages
+    association = VERSION_GROUP_ASSOCIATIONS[query.group_by]
+    association ? work_packages.preload(association) : work_packages
   end
 
   def export!
