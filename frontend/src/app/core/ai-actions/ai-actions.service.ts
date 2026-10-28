@@ -28,6 +28,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -131,7 +132,7 @@ export class AiActionsService {
     this.rememberAction(action);
     this.forgetRequestsOf(editor);
 
-    const requestId = crypto.randomUUID();
+    const requestId = uuidv4();
     this.pending.set(requestId, { editor });
 
     const body = new FormData();
