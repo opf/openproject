@@ -29,7 +29,6 @@
 
 class Projects::PhaseStatusButtonComponent < ApplicationComponent
   include ApplicationHelper
-  include OpTurbo::Streamable
   include OpPrimer::ComponentHelpers
   include Primer::ClassNameHelper
 
@@ -42,10 +41,6 @@ class Projects::PhaseStatusButtonComponent < ApplicationComponent
     @user = user
     @status = Projects::PhaseStatuses.find(phase.status)
     @system_arguments = system_arguments
-  end
-
-  def wrapper_uniq_by
-    phase
   end
 
   def render? = @status.present? && edit_enabled?

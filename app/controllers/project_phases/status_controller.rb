@@ -41,9 +41,8 @@ module ProjectPhases
         .call(status: params.require(:status))
 
       if call.success?
-        refresh_buttons
-        render_success_flash_message_via_turbo_stream(message: t(:notice_successful_update))
-        respond_with_turbo_streams
+        reload_frame_via_turbo_stream("project-life-cycle-sidebar")
+        respond_with_flash_success(message: t(:notice_successful_update))
       else
         message = t(:notice_unsuccessful_update_with_reason, reason: call.message)
         respond_with_flash_error(message:)
@@ -55,14 +54,6 @@ module ProjectPhases
     def find_phase
       @phase = Project::Phase.where(active: true).find(params.expect(:project_phase_id))
       @project = @phase.project
-    end
-
-    def refresh_buttons
-      @project.available_phases.reload.each do |phase|
-        update_via_turbo_stream(
-          component: Projects::PhaseStatusButtonComponent.new(phase:, user: current_user)
-        )
-      end
     end
   end
 end

@@ -88,10 +88,6 @@ RSpec.describe Projects::PhaseStatusButtonComponent, type: :component do
       end
     end
 
-    it "renders component wrapper" do
-      expect(subject).to have_element id: "projects-phase-status-button-component-#{phase.id}", count: 1
-    end
-
     context "without a status" do
       let(:phase_attributes) { { status: nil } }
 
