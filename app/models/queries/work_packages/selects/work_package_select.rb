@@ -121,7 +121,11 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
   end
 
   def value(model)
-    model.send name
+    if @value_from
+      @value_from.call(model)
+    else
+      model.send name
+    end
   end
 
   def initialize(name, options = {})
@@ -142,6 +146,7 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
       group_by_class_name
       null_handling
       default_order
+      value_from
     ].each do |attribute|
       instance_variable_set(:"@#{attribute}", options[attribute])
     end
