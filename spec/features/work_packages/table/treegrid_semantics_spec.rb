@@ -135,7 +135,7 @@ RSpec.describe "Work package table treegrid semantics", :js do
       expect(treegrid).to have_selector(:row, "Foo", aria: { level: 1, expanded: false })
       foo_members = [alpha, bravo].map { |wp| treegrid.find(wp_table.row_selector(wp), visible: :hidden) }
       foo_sum = treegrid.find("tr[data-occurrence-key='#{foo_sums_key}']", visible: :hidden)
-      expect(foo_members.first).to match_selector(:element, aria: { hidden: true, selected: true }, visible: :hidden)
+      expect(foo_members.first).to match_selector(:element, aria: { selected: true }, visible: :hidden)
       [*foo_members, foo_sum].each { |row| expect_excluded_from_accessibility_tree(row) }
       expect(treegrid).to have_selector(:row, "Charlie in bar", aria: { level: 2 })
       expect_axe_clean_table
@@ -227,7 +227,7 @@ RSpec.describe "Work package table treegrid semantics", :js do
       end
       expect(treegrid).to have_selector(:row, "Alpha parent", aria: { level: 1, expanded: false })
       descendants = [child, grandchild].map { |wp| treegrid.find(wp_table.row_selector(wp), visible: :hidden) }
-      expect(descendants.last).to match_selector(:element, aria: { hidden: true, selected: true }, visible: :hidden)
+      expect(descendants.last).to match_selector(:element, aria: { selected: true }, visible: :hidden)
       descendants.each { |row| expect_excluded_from_accessibility_tree(row) }
       expect_axe_clean_table
 

@@ -164,12 +164,13 @@ describe('Grouped table collapse on a keyboard-enabled table', () => {
     fireEvent.click(harness.groupHeader(0).querySelector('.expander')!);
 
     await waitFor(() => expect(harness.groupHeader(0)).toHaveAttribute('aria-expanded', 'false'));
-    expect(harness.row('1')).toHaveAttribute('aria-hidden', 'true');
-    expect(harness.row('2')).not.toHaveAttribute('aria-hidden');
+    expect(harness.row('1')).not.toBeVisible();
+    expect(harness.row('1')).not.toHaveAttribute('aria-hidden');
+    expect(harness.row('2')).toBeVisible();
 
     fireEvent.click(harness.groupHeader(0).querySelector('.expander')!);
 
     await waitFor(() => expect(harness.groupHeader(0)).toHaveAttribute('aria-expanded', 'true'));
-    expect(harness.row('1')).not.toHaveAttribute('aria-hidden');
+    expect(harness.row('1')).toBeVisible();
   });
 });
