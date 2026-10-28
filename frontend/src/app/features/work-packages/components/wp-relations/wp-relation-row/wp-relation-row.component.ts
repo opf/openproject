@@ -186,7 +186,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
     }
   }
 
-  public cancelRelationTypeEditOnEscape(evt:KeyboardEvent) {
+  public cancelRelationTypeEditOnEscape(_evt:KeyboardEvent) {
     this.userInputs.showRelationTypesForm = false;
   }
 

@@ -100,8 +100,8 @@ da:
   button_add_budget: Tilføj budget
   button_add_budget_item: Tilføj planlagte omkostninger
   button_add_cost_type: Tilføj omkostningstype
-  button_cancel_edit_budget: Annullér budgetredigering
-  button_cancel_edit_costs: Annullér omkostningsredigering
+  button_cancel_edit_budget: Annuller redigering af budget
+  button_cancel_edit_costs: Annuller redigering af omkostninger
   caption_labor: Arbejdskraft
   caption_labor_costs: Faktiske lønomkostninger
   caption_material_costs: Faktiske enhedsomkostninger
@@ -120,7 +120,7 @@ da:
   label_budget_spent_ratio: Andel forbrugt
   label_budget_totals: I alt
   label_deliverable: Budget
-  label_example_placeholder: f.eks. %{decimal}
+  label_example_placeholder: fx %{decimal}
   label_view_all_budgets: Vis alle budgetter
   label_yes: Ja
   notice_budget_conflict: Arbejdspakkerne skal høre til samme projekt.

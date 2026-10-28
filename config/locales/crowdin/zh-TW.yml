@@ -2650,6 +2650,9 @@ zh-TW:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: 您可以自動將某個專案角色授予指派給此專案屬性的任何使用者，不論該使用者在該專案中的原始角色為何。
         dialog:
@@ -2673,11 +2676,6 @@ zh-TW:
     calculated_field_not_editable: 不可編輯屬性。此值會自動計算。
     confirm_destroy_option: 刪除此選項將會刪除其所有出現位置（例如：工作套件中的該選項）。您確定要刪除嗎？
     contained_in_type: 已包含在類型中
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: 已在專案中啟用
     instructions:
       admin_only:
@@ -2728,10 +2726,17 @@ zh-TW:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: 按字母順序重新排列
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
@@ -5258,6 +5263,14 @@ zh-TW:
     welcome: 歡迎使用 %{app_title}
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: 必須是陣列。
       decimal?: 必須是有效的小數數值。
       defined: 不可被定義。
@@ -5265,6 +5278,7 @@ zh-TW:
       filled?: 必填。
       format?: is in invalid format.
       greater_or_equal_zero: 必須大於或等於 0。
+      gt?: must be greater than %{num}.
       gteq?: 必須大於或等於 %{num}。
       hash?: 必須是一個 hash 值。
       included_in?:
@@ -5273,6 +5287,7 @@ zh-TW:
           range: 必須是以下其中之一：%{list_left} - %{list_right}。
       int?: 必須是整數。
       key?: 遺失。
+      max_size?: must not be longer than %{num} characters.
       not_found: 未找到。
       respond_to?: 未執行所需的方法。
       rules:
@@ -5292,6 +5307,7 @@ zh-TW:
       type?: 必須是 %{type}。
       unexpected_key: is not allowed.
       uri?: is not a valid URI.
+      uuid_v4?: must be a UUID (version 4).
     or: 或
     rules:
       blueprint: 樣式藍圖
@@ -5447,13 +5463,19 @@ zh-TW:
     '
   permission_manage_placeholder_user: 建立、編輯及刪除佔位符使用者
   permission_manage_project_activities: 管理專案活動
-  permission_manage_project_variants: Manage the project's own type variants
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: 管理公開的 BCF 查詢
   permission_manage_public_project_queries: 管理公開項目列表
   permission_manage_public_queries: 管理公開查詢
   permission_manage_repository: 管理版本庫
   permission_manage_subtasks: 管理工作套件階層
   permission_manage_types: 選擇類型
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: 編輯使用者
   permission_manage_versions: 管理版本
   permission_manage_wiki: 管理維基
@@ -6674,6 +6696,7 @@ zh-TW:
     '
   text_form_configuration_required_attribute: 以標示為必須的屬性將會永遠顯示
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Markdown
     plain: 純文字
   text_git_repo_example: 部分和本機存放區 (例如 /gitrepo, c:\ gitrepo)
@@ -7065,6 +7088,9 @@ zh-TW:
         enable_all: 在所有專案中啟用
         select_projects: 選取專案
         select_projects_description: 選擇要使用此類型的專案。
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: 專案
         variant_column: Variant or type
       reuse_mode:

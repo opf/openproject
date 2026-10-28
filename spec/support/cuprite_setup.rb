@@ -155,6 +155,33 @@ Ferrum::Client::Subscriber.prepend(Module.new do
   end
 end)
 
+Ferrum::Context.prepend(Module.new do
+  def create_target(new_window: false)
+    return super() unless new_window
+
+    target_id = @client.command("Target.createTarget", browserContextId: @id, url: "about:blank", newWindow: true)["targetId"]
+
+    new_pending = Concurrent::IVar.new
+    pending = @pendings.put_if_absent(target_id, new_pending) || new_pending
+    resolved = pending.value(@client.protocol_timeout)
+    raise Ferrum::NoSuchTargetError unless resolved
+
+    @pendings.delete(target_id)
+    @targets[target_id]
+  end
+end)
+
+Capybara::Cuprite::Driver.prepend(Module.new do
+  # A new tab hides the previous tab, and a hidden page does not render
+  # Turbo stream responses. Open a window, as Selenium does.
+  def open_new_window
+    target = browser.default_context.create_target(new_window: true)
+    target.maybe_sleep_if_new_window
+    target.page = Capybara::Cuprite::Page.new(target.client, context_id: target.context_id, target_id: target.id)
+    target.page
+  end
+end)
+
 Capybara::Cuprite::Browser.prepend(Module.new do
   # Ferrum tracks out-of-process iframes as browser targets. Cuprite exposes all
   # targets as Capybara window handles, so Chrome's PDF viewer can look like
