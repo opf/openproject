@@ -38,12 +38,14 @@ module My
     no_authorization_required! :create, :destroy
 
     def create
-      result = subscribe(params[:push_endpoint].to_s)
+      result = subscribe_service.call(endpoint: params[:push_endpoint].to_s, resume: resume?)
 
-      if result.success?
-        render_devices
-      else
+      if result.failure?
         render json: { errors: result.errors.full_messages }, status: :unprocessable_entity
+      elsif resume?
+        head :no_content
+      else
+        render_devices
       end
     end
 
@@ -62,44 +64,16 @@ module My
       PushSubscription.where(user: current_user).find(params.expect(:id))
     end
 
-    def subscribe(endpoint)
-      attempts = 0
-
-      begin
-        attempts += 1
-        subscription = PushSubscription.find_or_initialize_by(endpoint:)
-        return takeover_refused_result(subscription) if held_by_another_user?(subscription)
-
-        replace_session_subscription(subscription)
-      rescue ActiveRecord::RecordNotUnique
-        retry if attempts < 2
-        raise
-      end
+    def subscribe_service
+      ::PushSubscriptions::SubscribeService.new(user: current_user, session_id: current_session_row_id, device:)
     end
 
-    def replace_session_subscription(subscription)
-      session_id = current_session_row_id
-      result = nil
-
-      PushSubscription.transaction do
-        PushSubscription.where(session_id:).where.not(endpoint: subscription.endpoint).delete_all
-        result = ::PushSubscriptions::CreateService
-          .new(user: current_user, model: subscription)
-          .call(user: current_user, session_id:)
-        raise ActiveRecord::Rollback if result.failure?
-      end
-
-      result
+    def device
+      { browser_name: session[:browser], browser_version: session[:browser_version], platform: session[:platform] }
     end
 
-    def held_by_another_user?(subscription)
-      subscription.persisted? && subscription.user_id != current_user.id
-    end
-
-    def takeover_refused_result(subscription)
-      ServiceResult.failure(result: subscription).tap do |result|
-        result.errors.add(:endpoint, :taken)
-      end
+    def resume?
+      ActiveModel::Type::Boolean.new.cast(params[:resume])
     end
 
     def render_devices
