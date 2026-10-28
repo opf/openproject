@@ -27,7 +27,6 @@ Review this against how your teams actually use Jira. If anything here would be 
 **Not migrated at all, for any issue:**
 
 - [ ] Reporter (Jira's Reporter and Creator become the same thing in OpenProject: only Creator/Author survives)
-- [ ] Watchers (planned: [JIM-180](https://community.openproject.org/projects/JIM/work_packages/JIM-180))
 - [ ] Sub-tasks and parent/child hierarchy (planned: [JIM-75](https://community.openproject.org/projects/JIM/work_packages/JIM-75))
 - [ ] Issue links (blocks, relates to, duplicates, etc.) (planned: [JIM-76](https://community.openproject.org/projects/JIM/work_packages/JIM-76))
 - [ ] Web links (workaround planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206)).
@@ -42,7 +41,7 @@ Review this against how your teams actually use Jira. If anything here would be 
 - [ ] Epic Link / Epic Name
 - [ ] Sprint field
 - [ ] Story Points
-- [ ] User picker / multi-user picker values, unless the referenced user is also referenced elsewhere on an imported issue (as creator, assignee, comment or attachment author, or an @mention). Otherwise the value comes across empty, with no reliable way to prevent this in advance.
+- [ ] User picker / multi-user picker values, unless the referenced user is also referenced elsewhere on an imported issue (as creator, assignee, watcher, comment or attachment author, or an @mention). Otherwise the value comes across empty, with no reliable way to prevent this in advance.
 - [ ] Version-picker
 - [ ] Any third-party plugin-provided custom field type e.g. Scripted Fields
 - [ ] Per-context custom field values (Jira Field Contexts) - At the moment OpenProject does not support different option sets per project or issue type; a custom field's options are always global.

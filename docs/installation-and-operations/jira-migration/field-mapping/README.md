@@ -51,8 +51,8 @@ Every migrated project is created **private** and **active**, with no parent —
 | Sub-tasks / parent-child links                     | **Not migrated**          | — (planned: [JIM-75](https://community.openproject.org/projects/JIM/work_packages/JIM-75)) |
 | Summary                                            | Subject                   | -                                                            |
 | Votes                                              | **Not migrated**          | Does not exist in OpenProject (workaround planned: [JIM-207](https://community.openproject.org/projects/JIM/work_packages/JIM-207)) |
-| Watchers                                           | **Not migrated**          | — (planned: [JIM-180](https://community.openproject.org/projects/JIM/work_packages/JIM-180)) |
-| Web link | **Not migrated** | Does not exist in OpenProject (workaround planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206)) |
+| Watchers                                           | Watchers                  | Users who only watch an issue are imported as well. All users are added as watchers without receiving a notification. |
+| Web link                                           | **Not migrated**          | Does not exist in OpenProject (workaround planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206)) |
 
 
 ## Users & groups
