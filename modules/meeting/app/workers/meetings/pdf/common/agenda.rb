@@ -40,7 +40,7 @@ module Meetings::PDF::Common::Agenda
   end
 
   def format_duration(duration)
-    OpenProject::Common::DurationComponent.new(duration, :minutes, abbreviated: true).text
+    OpPrimer::DurationComponent.new(duration, :minutes, abbreviated: true).text
   end
 
   def section_title(section)

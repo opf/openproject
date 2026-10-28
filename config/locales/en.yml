@@ -5628,17 +5628,16 @@ en:
       parent: "Parent"
       short: "Short name"
       weight: "Weight"
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: "Drag to reorder"
+      menu:
+        label_actions: "Work package actions"
+      parent: "Parent"
+      undisclosed: "Undisclosed"
   open_link_in_a_new_tab: "Open link in a new tab"
 
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: "Drag to reorder"
-        menu:
-          label_actions: "Work package actions"
-        parent: "Parent"
-        undisclosed: "Undisclosed"
   page:
     text: "Text"
 
