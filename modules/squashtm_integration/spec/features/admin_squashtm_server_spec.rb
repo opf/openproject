@@ -55,7 +55,7 @@ RSpec.describe "SquashTM server administration", :js do
     expect_flash(message: I18n.t(:notice_successful_update))
     expect(page).to have_test_selector("squashtm-server--linked",
                                        text: "OpenProject is linked to the SquashTM server at " \
-                                             "https://squashtm.example.com/squash.")
+                                             "https://squashtm.example.com/squash")
     expect(page).to have_no_field("SquashTM URL")
     expect(SquashTMIntegration::Server.sole.api_token).to eq("secret-token")
   end
@@ -80,7 +80,7 @@ RSpec.describe "SquashTM server administration", :js do
 
     it "shows that the server is linked instead of the form" do
       within_test_selector("squashtm-server--linked") do
-        expect(page).to have_text("OpenProject is linked to the SquashTM server at https://squashtm.example.com/squash.")
+        expect(page).to have_text("OpenProject is linked to the SquashTM server at https://squashtm.example.com/squash")
         expect(page).to have_link("https://squashtm.example.com/squash", href: "https://squashtm.example.com/squash")
         expect(find_link("https://squashtm.example.com/squash")[:target]).to eq("_blank")
       end
@@ -88,6 +88,7 @@ RSpec.describe "SquashTM server administration", :js do
       expect(page).to have_no_field("API token")
       expect(page).to have_test_selector("squashtm-server--test-connection")
       expect(page).to have_test_selector("squashtm-server--delete", text: "Unlink")
+      within_test_selector("squashtm-server--delete") { expect(page).to have_css("svg.octicon-unlink") }
     end
 
     it "tests the connection" do
