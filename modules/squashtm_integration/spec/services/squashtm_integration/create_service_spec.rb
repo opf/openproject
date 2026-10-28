@@ -40,8 +40,8 @@ RSpec.describe SquashTMIntegration::Servers::CreateService do
   it "creates the server with a normalized URL" do
     expect(result).to be_success
     expect(SquashTMIntegration::Server.sole).to have_attributes(
-                                                  base_url: "https://squashtm.example.com/squash", api_token: "secret-token"
-                                                )
+      base_url: "https://squashtm.example.com/squash", api_token: "secret-token"
+    )
   end
 
   it "fails when a server already exists" do
