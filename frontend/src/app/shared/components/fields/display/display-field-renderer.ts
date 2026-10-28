@@ -161,7 +161,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     }
 
     const schema = this.schema(resource, change);
-    if (this.isAttributeEditable(schema, name)) {
+    if (this.options.inlineEditEnabled !== false && this.isAttributeEditable(schema, name)) {
       span.classList.add(editableClassName);
       span.setAttribute('role', 'button');
     } else {
