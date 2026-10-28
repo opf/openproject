@@ -34,33 +34,24 @@ interface ViteWatcher {
   on(event:'event', listener:(event:{ code:string }) => void):void;
 }
 
-const extensionDir = path.resolve(__dirname, '../../extensions/op-blocknote-extensions');
+const extensionDir = path.resolve(__dirname, '../../extensions/blocknote-extensions');
 const frontendDir = path.resolve(__dirname, '..');
-const nodeModulesDir = path.join(frontendDir, 'node_modules');
+const packageDir = path.join(frontendDir, 'node_modules/@openproject/op-blocknote-extensions');
 
 function log(message:string) {
   console.log(`[op-blocknote-extensions] ${message}`);
-}
-
-function installedPackageDir() {
-  const { dependencies } = JSON.parse(
-    fs.readFileSync(path.join(frontendDir, 'package.json'), 'utf8'),
-  ) as { dependencies:Record<string, string> };
-  const packageName = Object.keys(dependencies).find((name) => /(^|\/)op-blocknote-extensions$/.test(name))!;
-
-  return path.join(nodeModulesDir, packageName);
 }
 
 // Only these are linked, not the whole folder: with preserveSymlinks, the extension's own
 // node_modules would otherwise shadow the frontend's copies of react and @blocknote/*.
 const linkedEntries = ['package.json', 'dist'];
 
-function isLinked(packageDir:string) {
+function isLinked() {
   return fs.lstatSync(path.join(packageDir, 'dist'), { throwIfNoEntry: false })?.isSymbolicLink() ?? false;
 }
 
-function link(packageDir:string) {
-  if (isLinked(packageDir)) return;
+function link() {
+  if (isLinked()) return;
 
   fs.rmSync(packageDir, { recursive: true, force: true });
   fs.mkdirSync(packageDir, { recursive: true });
@@ -69,8 +60,8 @@ function link(packageDir:string) {
   });
 }
 
-function restoreNpmPackage(packageDir:string) {
-  if (!isLinked(packageDir) && fs.existsSync(path.join(packageDir, 'package.json'))) return;
+function restoreNpmPackage() {
+  if (!isLinked()) return;
 
   log('restoring the npm package');
   fs.rmSync(packageDir, { recursive: true, force: true });
@@ -113,15 +104,13 @@ async function watch() {
 }
 
 export async function useLocalOpBlockNoteExtensions(isDevServer:boolean) {
-  const packageDir = installedPackageDir();
-
   if (!['true', '1'].includes(process.env.OP_BLOCKNOTE_EXTENSIONS_LOCAL ?? '')) {
-    restoreNpmPackage(packageDir);
+    restoreNpmPackage();
     return;
   }
 
   installDependencies();
-  link(packageDir);
+  link();
 
   if (isDevServer) {
     log(`watching ${path.relative(process.cwd(), extensionDir)}`);
