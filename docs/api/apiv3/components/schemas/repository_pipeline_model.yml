@@ -1,0 +1,96 @@
+# Schema: RepositoryPipelineModel
+---
+type: object
+properties:
+  id:
+    type: integer
+    description: Identifier of the resource within OpenProject
+    readOnly: true
+  status:
+    type: string
+    description: Status of the pipeline as reported by the provider, e.g. `success`
+    readOnly: true
+  webUrl:
+    type: string
+    format: uri
+    description: URL of the pipeline on the provider's website
+    readOnly: true
+  detailsUrl:
+    type:
+    - "string"
+    - "null"
+    format: uri
+    description: URL of the pipeline's details (e.g. its jobs) on the provider's website
+    readOnly: true
+  author:
+    description: The user on the provider who triggered the pipeline. Null if unknown.
+    oneOf:
+    - $ref: "./repository_user_model.yml"
+    - type: "null"
+  startedAt:
+    type:
+    - "string"
+    - "null"
+    format: date-time
+    description: Time the pipeline started. Null if it has not started yet.
+    readOnly: true
+  completedAt:
+    type:
+    - "string"
+    - "null"
+    format: date-time
+    description: Time the pipeline completed. Null if it has not completed yet.
+    readOnly: true
+  createdAt:
+    type: string
+    format: date-time
+    description: Time the resource was first synchronized into OpenProject
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time the resource was last synchronized into OpenProject
+    readOnly: true
+  _links:
+    type: object
+    required:
+    - self
+    - mergeRequest
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This pipeline
+
+            **Resource**: RepositoryPipeline
+          readOnly: true
+      mergeRequest:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The merge request the pipeline was run for
+
+            **Resource**: RepositoryMergeRequest
+          readOnly: true
+example:
+  _type: RepositoryPipeline
+  _links:
+    self:
+      href: "/api/v3/repository_pipelines/99"
+      title: success
+    mergeRequest:
+      href: "/api/v3/repository_merge_requests/1"
+      title: Fix crash when saving
+  id: 99
+  status: success
+  webUrl: https://gitlab.example.com/my-group/my-project/-/pipelines/99
+  detailsUrl: https://gitlab.example.com/my-group/my-project/-/pipelines/99/builds
+  author:
+    name: Jane Doe
+    username: jdoe
+    avatarUrl: https://gitlab.example.com/uploads/user/avatar/1/avatar.png
+  startedAt: '2026-10-01T12:00:00.000Z'
+  completedAt: '2026-10-01T12:10:00.000Z'
+  createdAt: '2026-10-01T12:00:00.000Z'
+  updatedAt: '2026-10-01T12:10:00.000Z'

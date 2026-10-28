@@ -1,0 +1,31 @@
+# Schema: RepositoryBranchCollectionModel
+---
+allOf:
+  - $ref: "./offset_paginated_collection_model.yml"
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: "./link.yml"
+              - description: |-
+                  This collection of repository branches
+
+                  **Resource**: RepositoryBranchCollectionModel
+                readOnly: true
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            items:
+              $ref: "./repository_branch_model.yml"

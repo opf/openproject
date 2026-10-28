@@ -1,0 +1,55 @@
+# /api/v3/repository_merge_requests/{id}/repository_pipelines
+---
+get:
+  summary: List pipelines of a repository merge request
+  operationId: list_repository_merge_request_pipelines
+  tags:
+  - Repositories
+  description: |-
+    Returns a paginated collection of the CI pipelines run for the given merge request,
+    ordered from the oldest to the latest one. Pipelines that have not started yet come last.
+
+    Request it with `pageSize=0` to only retrieve the total number of pipelines.
+  parameters:
+  - name: id
+    description: Repository merge request id
+    in: path
+    required: true
+    schema:
+      type: integer
+    example: 1
+  - name: offset
+    description: Page number inside the requested collection.
+    in: query
+    required: false
+    schema:
+      type: integer
+      default: 1
+    example: 1
+  - name: pageSize
+    description: Number of elements to display per page.
+    in: query
+    required: false
+    schema:
+      type: integer
+    example: 25
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/repository_pipeline_collection_model.yml"
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the merge request does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** show repository content (on at least one work package linked to the merge request)

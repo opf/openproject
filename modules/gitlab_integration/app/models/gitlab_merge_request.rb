@@ -65,17 +65,6 @@ class GitlabMergeRequest < ApplicationRecord
     found || (new(gitlab_id: id, gitlab_html_url: url) if initialize)
   end
 
-  ##
-  # When a MR lives long enough and receives many pushes, the same pipeline CI can be run multiple times.
-  # This method only returns the latest.
-
-  def latest_pipelines
-    with_logging do
-      gitlab_pipelines.select("DISTINCT ON (gitlab_pipelines.project_id, gitlab_pipelines.gitlab_id) *")
-                      .order(project_id: :asc, gitlab_id: :desc, started_at: :desc)
-    end
-  end
-
   def partial?
     [body].all?(&:nil?)
   end
@@ -87,12 +76,5 @@ class GitlabMergeRequest < ApplicationRecord
     return if labels.all? { |label| label.keys.sort == LABEL_KEYS }
 
     errors.add(:labels, :invalid_schema)
-  end
-
-  def with_logging
-    yield if block_given?
-  rescue StandardError => e
-    Rails.logger.error "Error at latest_pipeline: #{e} #{e.message}"
-    raise e
   end
 end
