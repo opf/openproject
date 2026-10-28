@@ -114,7 +114,10 @@
         "serve": {
           "builder": "@angular-builders/custom-esbuild:dev-server",
           "options": {
-            "servePath": "/assets/frontend"
+            "servePath": "/assets/frontend",
+            "prebundle": {
+              "exclude": ["@openproject/op-blocknote-extensions"]
+            }
           },
           "configurations": {
             "production": {
