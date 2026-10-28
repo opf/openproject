@@ -36,7 +36,7 @@ module API
                                          has_default: false,
                                          required: true,
                                          values_callback: ->(*) {
-                                           represented.custom_field.custom_options
+                                           represented.visible_custom_options
                                          },
                                          value_representer: CustomOptions::CustomOptionRepresenter,
                                          link_factory: ->(value) {
@@ -49,10 +49,21 @@ module API
                                            value_required?
                                          }
 
+          def json_cache_key
+            super + [visible_options_cache_key]
+          end
+
           private
 
           def type
             "[]CustomOption"
+          end
+
+          # The allowed values of a custom field with project-specific values differ by user.
+          def visible_options_cache_key
+            return if filter.custom_field.project_specific_value_restriction.nil?
+
+            OpenProject::Cache::CacheKey.expand(filter.visible_custom_options.pluck(:id))
           end
         end
       end

@@ -243,4 +243,36 @@ RSpec.describe Workflow do
       expect(described_class.where(id: workflow_id)).to be_empty
     end
   end
+
+  describe "#in_use?" do
+    it "is true while a variant references it" do
+      expect(create(:type).default_variant.workflow).to be_in_use
+    end
+
+    it "is false once nothing references it" do
+      expect(create(:named_workflow)).not_to be_in_use
+    end
+  end
+
+  describe "#replacement_targets" do
+    it "offers the other global workflows" do
+      workflow = create(:named_workflow)
+      other = create(:named_workflow)
+
+      expect(workflow.replacement_targets).to include(other)
+    end
+
+    it "excludes itself" do
+      workflow = create(:named_workflow)
+
+      expect(workflow.replacement_targets).not_to include(workflow)
+    end
+
+    it "excludes project-owned workflows" do
+      workflow = create(:named_workflow)
+      owned = create(:project_owned_workflow, project:)
+
+      expect(workflow.replacement_targets).not_to include(owned)
+    end
+  end
 end

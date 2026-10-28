@@ -248,7 +248,7 @@ module Pages
     # @param work_package [WorkPackage] The work package object.
     def click_on_row(work_package)
       loading_indicator_saveguard
-      page.driver.browser.action.click(row(work_package).native).perform
+      row(work_package).click
     end
 
     # Opens the full screen view of the specified work package by

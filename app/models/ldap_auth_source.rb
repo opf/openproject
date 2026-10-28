@@ -83,7 +83,7 @@ class LdapAuthSource < ApplicationRecord
 
   ##
   # Find a user by login in any of the available sources.
-  # If it's an onthefly_register ldap connection, this might implictly create the user.
+  # If it's an onthefly_register ldap connection, this might implicitly create the user.
   def self.find_user(login)
     find_each do |source|
       Rails.logger.debug { "Looking up '#{login}' in '#{source.name}'" }

@@ -28,6 +28,7 @@
 import { debounce } from 'lodash-es';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
 import type { Editor as CodeMirrorEditor } from 'codemirror';
+import type { ViewDocumentKeyDownEvent, ViewDocumentKeyUpEvent } from '@ckeditor/ckeditor5-engine';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -50,6 +51,13 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 })
 export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input() context:ICKEditorContext;
+
+  /**
+   * Return the current content. This may be outdated a tiny bit.
+   */
+  public get content():string {
+    return this._content;
+  }
 
   @Input()
   public set content(newVal:string) {
@@ -141,7 +149,7 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
     if (this.manualMode) {
       content = this.codeMirrorInstance!.getValue();
     } else {
-      content = this.ckEditorInstance.getData({ trim: false });
+      content = this.ckEditorInstance.getData({ trim: 'none' });
     }
 
     if (content === null || content === undefined) {
@@ -190,13 +198,6 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
     }
   }
 
-  /**
-   * Return the current content. This may be outdated a tiny bit.
-   */
-  public get content() {
-    return this._content;
-  }
-
   public get initialized():boolean {
     return this.ckEditorInstance !== undefined;
   }
@@ -215,7 +216,7 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy():void {
     this.removeEditorErrorListener?.();
     this.ckEditorInstance?.destroy().catch((e:unknown) => {
       console.error('Failed to destroy CKEditor instance:', e);
@@ -262,7 +263,7 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
   }
 
   private interceptModifiedEnterKeystrokes(editor:ICKEditorInstance) {
-    editor.listenTo(
+    editor.listenTo<ViewDocumentKeyDownEvent>(
       editor.editing.view.document,
       'keydown',
       (evt, data) => {
@@ -282,7 +283,7 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
   }
 
   private interceptKeyup(editor:ICKEditorInstance) {
-    editor.listenTo(
+    editor.listenTo<ViewDocumentKeyUpEvent>(
       editor.editing.view.document,
       'keyup',
       (event) => {

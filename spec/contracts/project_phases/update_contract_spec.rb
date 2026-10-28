@@ -68,7 +68,7 @@ RSpec.describe ProjectPhases::UpdateContract do
         it_behaves_like "contract is invalid", duration: :error_readonly
       end
 
-      context "when the phase has preceeding phases" do
+      context "when the phase has preceding phases" do
         def create_phase(**) = create(:project_phase, project:, **)
 
         let(:project) { create(:project) }

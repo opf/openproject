@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Watcher tab", :js, :selenium do
+RSpec.describe "Watcher tab", :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   let!(:standard_global_role) { create(:empty_global_role) }

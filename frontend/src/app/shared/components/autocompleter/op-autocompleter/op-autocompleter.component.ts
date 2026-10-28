@@ -64,7 +64,7 @@ import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 export interface IAutocompleteItem {
-  id:ID;
+  id:ID|null;
   href:string|null;
 }
 
@@ -129,6 +129,8 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
   @Input() public focusDirectly?:boolean = true;
 
   @Input() public fetchDataDirectly?:boolean = false;
+
+  @Input() public deferFetchUntilOpened?:boolean = false;
 
   @Input() public labelRequired?:boolean = true;
 
@@ -291,6 +293,8 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   public loading$ = new Subject<boolean>();
 
+  private hasBeenOpened = false;
+
   @ViewChild('ngSelectInstance') ngSelectInstance:NgSelectComponent;
 
   @ViewChild('syncedInput') syncedInput:ElementRef<HTMLInputElement>;
@@ -403,6 +407,11 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
   }
 
   public opened():void {
+    if (this.deferFetchUntilOpened && !this.hasBeenOpened) {
+      this.hasBeenOpened = true;
+      this.typeahead?.next(this.ngSelectInstance.searchTerm ?? '');
+    }
+
     this.repositionDropdown();
     this.open.emit();
   }
@@ -495,6 +504,9 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
     return this.typeahead.pipe(
       filter(() => [this.defaultData, this.url, this.getOptionsFn].some(Boolean)),
+      // Must precede distinctUntilChanged, which would otherwise dedupe the term
+      // replayed by opened() against the suppressed initial one.
+      filter(() => !this.deferFetchUntilOpened || this.hasBeenOpened),
       distinctUntilChanged(),
       tap(() => this.loading$.next(true)),
       debounceTime(this.debounceTimeForCurrentEnvironment),

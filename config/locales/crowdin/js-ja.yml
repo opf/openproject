@@ -361,8 +361,8 @@ ja:
     ical_sharing_modal:
       copy_url_label: URLをコピー
       description: URL(iCalendar)を使用して、外部クライアントでこのカレンダーを購読し、そこから最新のワークパッケージ情報を表示することができます。
-      ical_generation_error_text: カレンダーのURL生成時にエラーが発生しました。
-      inital_setup_error_message: データ取得中にエラーが発生しました。
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL "%{name}" がクリップボードにコピーされました。カレンダークライアントに貼り付けて購読を完了してください。
       title: カレンダーを購読する
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -554,6 +554,8 @@ ja:
     label_reset: リセット
     label_resize_project_menu: Resize project menu
     label_save_as: 名前をつけて保存
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: 列を検索する
     label_select_watcher: ウォッチャーを選択...
     label_selected_filter_list: 選択されたフィルタ

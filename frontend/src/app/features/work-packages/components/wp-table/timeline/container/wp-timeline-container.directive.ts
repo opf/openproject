@@ -322,8 +322,6 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       this.wpTableTimeline.appliedZoomLevel = this.wpTableTimeline.zoomLevel;
     }
 
-    // timeOutput is a fire-and-forget debug timer; the async callback is intentional.
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     timeOutput('refreshView() in timeline container', async () => {
       // Reset the width of the outer container if its content shrinks
       this.outerContainer.style.setProperty('width', 'auto');
@@ -376,7 +374,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
             relationType: 'follows',
           });
         })
-        .catch((error:any) => this.notificationService.handleRawError(error, end));
+        .catch((error:unknown) => this.notificationService.handleRawError(error, end));
     });
   }
 
@@ -391,7 +389,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
             relationType: 'precedes',
           });
         })
-        .catch((error:any) => this.notificationService.handleRawError(error, end));
+        .catch((error:unknown) => this.notificationService.handleRawError(error, end));
     });
   }
 
@@ -541,7 +539,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     });
 
     // left spacing
-    newParams.dateDisplayStart.subtract(currentParams.dayCountForMarginLeft, 'days'); // .substract modifies its instance
+    newParams.dateDisplayStart.subtract(currentParams.dayCountForMarginLeft, 'days'); // .subtract modifies its instance
 
     // right spacing
     // RR: kept both variants for documentation purpose.

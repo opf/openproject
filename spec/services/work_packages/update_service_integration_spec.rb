@@ -1894,6 +1894,61 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
   end
 
+  describe "creating labels typed into the work package", with_flag: { work_package_labels: true } do
+    let(:attributes) { { label_names: %w[charlie Alpha bravo] } }
+    let(:saved_work_package) { work_package.reload }
+    let(:service_result) { subject }
+
+    before { work_package }
+
+    def stub_first_label_lookup_miss
+      calls = 0
+      allow(Label).to receive(:named).and_wrap_original do |original, *args|
+        (calls += 1) == 1 ? Label.none : original.call(*args)
+      end
+    end
+
+    it "creates the labels in case-insensitive name order" do
+      expect(service_result).to be_success
+
+      created = Label.where(name: %w[bravo Alpha charlie]).order(:id).pluck(:name)
+      expect(created).to eq(%w[Alpha bravo charlie])
+    end
+
+    it "reuses a label another save created after validation" do
+      other = create(:label, name: "bravo")
+      stub_first_label_lookup_miss
+
+      expect(service_result).to be_success
+      expect(Label.where("LOWER(name) = 'bravo'").count).to eq(1)
+      expect(saved_work_package.labels).to include(other)
+    end
+
+    it "rolls the created labels back when the work package cannot be saved" do
+      allow_any_instance_of(WorkPackage).to receive(:save).and_return(false) # rubocop:disable RSpec/AnyInstance
+
+      expect { service_result }.not_to change(Label, :count)
+      expect(service_result).to be_failure
+    end
+
+    context "when a label cannot be created" do
+      let(:failure) do
+        ServiceResult.failure(result: nil).tap { it.errors.add(:name, :blank) }
+      end
+
+      before do
+        service = instance_double(Labels::FindOrCreateService, call: failure)
+        allow(Labels::FindOrCreateService).to receive(:new).and_return(service)
+      end
+
+      it "fails with a labels error and leaves the labels alone" do
+        expect(service_result).to be_failure
+        expect(service_result.errors.symbols_for(:labels)).to contain_exactly(:blank)
+        expect(work_package.reload.labels).to be_empty
+      end
+    end
+  end
+
   context "with an automatically generated subject containing labels", with_flag: { work_package_labels: true } do
     shared_let(:labels_type) do
       create(:type, name: "Labeled autosubject",
@@ -2110,8 +2165,8 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
 
     it "removes the parent successfully and reschedules the parent" do
-      # Unload the `ancestor_hierarchies` association so that we don't validate the associatied
-      # records. `closure_tree`'s behaviour is to reload the associations after save, even if they
+      # Unload the `ancestor_hierarchies` association so that we don't validate the associated
+      # records. `closure_tree`'s behavior is to reload the associations after save, even if they
       # weren't loaded, see: https://github.com/ClosureTree/closure_tree/blob/
       # 509f6dfa58da18bb4bff6ded0469263216579a90/lib/closure_tree/hierarchy_maintenance.rb#L44-L45
       #

@@ -4,7 +4,7 @@ updates:
     directories:
       - "/"
       - "/frontend"
-      - "/extensions/op-blocknote-extensions"
+      - "/extensions/blocknote-extensions"
       - "/extensions/op-blocknote-hocuspocus"
     schedule:
       interval: "daily"

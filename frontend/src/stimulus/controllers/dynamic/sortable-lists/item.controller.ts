@@ -98,7 +98,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
   // Provided by the stimulus-elements blessing; absent when the item is not
   // inside a Primer action-menu (a drag-only consumer), in which case the move
-  // menu simply does nothing — drag behaviour is unaffected.
+  // menu simply does nothing — drag behavior is unaffected.
   declare readonly menuElement:ActionMenuElement;
   declare readonly hasMenuElement:boolean;
 
@@ -189,7 +189,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   private register():void {
     this.cleanupFn = combine(
       // A non-movable item registers no draggable but stays a drop target:
-      // its movable neighbours still anchor on it.
+      // its movable neighbors still anchor on it.
       isOrderableItem(this.element) ? this.registerDraggable() : () => undefined,
       this.registerDropTarget(),
     );
@@ -362,7 +362,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   }
 
   // Every member of the prospective batch, so an external drop receives the
-  // whole block; text/html joins in as one link per labelled member.
+  // whole block; text/html joins in as one link per labeled member.
   private externalDragData():Record<string, string> {
     const members = this.root?.externalDragItems(this.element) ?? [this.element];
     const entries = members

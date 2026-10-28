@@ -65,6 +65,18 @@ class Type < ApplicationRecord
     end
   }
 
+  scope :with_name_like, ->(query) {
+    where("types.name ILIKE :query", query: "%#{sanitize_sql_like(query.to_s.strip)}%")
+  }
+
+  scope :with_own_or_variant_name_like, ->(query) {
+    with_name_like(query).or(where(id: TypeVariant.with_name_like(query).select(:type_id)))
+  }
+
+  scope :with_migrated_variants, -> {
+    where(id: TypeVariant.created_by_migration.select(:type_id))
+  }
+
   delegate :to_s, to: :name
 
   # Read from the collection rather than through an association of its own, so a base variant
@@ -98,7 +110,7 @@ class Type < ApplicationRecord
                    form_configuration: FormConfiguration.new(name: FormConfiguration.implicit_name(name)))
   end
 
-  def check_integrity # rubocop:disable Naming/PredicateMethod
+  def check_integrity
     throw :abort if WorkPackage.exists?(type_id: id)
 
     true

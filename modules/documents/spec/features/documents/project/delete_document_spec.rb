@@ -33,8 +33,7 @@ require_module_spec_helper
 require_relative "support/documents_index_page"
 
 RSpec.describe "Delete Document",
-               :js,
-               :selenium do
+               :js do
   shared_let(:project) { create(:project) }
   shared_let(:member_role_read_only) { create(:existing_project_role, permissions: [:view_documents]) }
   shared_let(:member_role_manage) { create(:existing_project_role, permissions: %i[view_documents manage_documents]) }

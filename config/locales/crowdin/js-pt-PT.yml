@@ -361,8 +361,8 @@ pt-PT:
     ical_sharing_modal:
       copy_url_label: Copiar URL
       description: Pode utilizar o URL (iCalendar) para subscrever este calendário num cliente externo e ver informações atualizadas sobre o pacote de trabalho a partir daí.
-      ical_generation_error_text: Ocorreu um erro ao gerar o URL do calendário.
-      inital_setup_error_message: Ocorreu um erro ao recuperar os dados.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: O URL "%{name}" foi copiado com sucesso para a área de transferência. Cole-o no seu cliente de Calendários para concluir a subscrição.
       title: Subscrever o calendário
       token_name_description_text: Se subscrever este calendário a partir de vários dispositivos, este nome irá ajudar a distinguir entre eles na sua lista de <a href="%{myAccessTokensUrl}" target="_blank">tokens de acesso</a>.
@@ -554,6 +554,8 @@ pt-PT:
     label_reset: Repor
     label_resize_project_menu: Redimensionar menu do projeto
     label_save_as: Guardar como
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Pesquisar uma coluna
     label_select_watcher: Selecionar um observador...
     label_selected_filter_list: Filtros selecionados

@@ -49,7 +49,13 @@ module Admin
       end
 
       def usage
-        render(Primer::Beta::Text.new(color: :subtle, test_selector: "label-usage")) { usage_text }
+        if usage_count.zero?
+          render(Primer::Beta::Text.new(color: :subtle, test_selector: "label-usage")) { "-" }
+        else
+          render(Primer::Beta::Link.new(href: labelled_work_packages_path, target: "_blank", test_selector: "label-usage")) do
+            t(".used_in_work_packages", count: usage_count)
+          end
+        end
       end
 
       def button_links
@@ -60,9 +66,12 @@ module Admin
 
       # usage_count is a select-only virtual attribute present only on rows
       # loaded through Label.with_usage_count; label[:usage_count] is nil otherwise.
-      def usage_text
-        count = label[:usage_count].to_i
-        count.zero? ? "-" : t(".used_in_work_packages", count:)
+      def usage_count
+        label[:usage_count].to_i
+      end
+
+      def labelled_work_packages_path
+        helpers.work_packages_path(query_props: { f: [{ n: "label", o: "=", v: [label.id.to_s] }] }.to_json)
       end
 
       def action_menu

@@ -83,7 +83,7 @@ RSpec.describe Forums::Topics::RowComponent, type: :component do
 
     before { rendered_component }
 
-    it "marks both with a labelled icon", :aggregate_failures do
+    it "marks both with a labeled icon", :aggregate_failures do
       expect(find_test_selector("topic-sticky")["aria-label"]).to eq("Sticky")
       expect(find_test_selector("topic-locked")["aria-label"]).to eq("Locked")
     end

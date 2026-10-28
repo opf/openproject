@@ -437,6 +437,40 @@ RSpec.describe "API v3 Work package resource",
           .at_path("_embedded/elements/0/_meta/timestamp")
       end
 
+      describe "observedInVersions" do
+        let(:timestamps) { [Timestamp.parse("2015-01-01T00:00:00Z")] }
+        let(:version_a) { create(:version, project:, name: "Version A") }
+        let(:version_b) { create(:version, project:, name: "Version B") }
+
+        before do
+          work_package.observed_in_version_ids_replacements = [version_a.id, version_b.id]
+          work_package.save!
+        end
+
+        context "when the work package was observed in fewer versions at the historic timestamp" do
+          before do
+            create(:journal_work_package_version_journal,
+                   journal: original_journal,
+                   version: version_a,
+                   kind: "observed_in")
+          end
+
+          it "links only the versions of the historic state" do
+            expect(subject.body)
+              .to be_json_eql([{ href: api_v3_paths.version(version_a.id), title: "Version A" }].to_json)
+              .at_path("_embedded/elements/0/_links/observedInVersions")
+          end
+        end
+
+        context "when the work package was not observed in any version at the historic timestamp" do
+          it "links no versions" do
+            expect(subject.body)
+              .to be_json_eql([].to_json)
+              .at_path("_embedded/elements/0/_links/observedInVersions")
+          end
+        end
+      end
+
       describe "update links" do
         context "when last timestamp is current" do
           it "has the update links" do
@@ -813,7 +847,7 @@ RSpec.describe "API v3 Work package resource",
 
             describe "_meta" do
               describe "timestamp" do
-                it "has the baseline timestamp, which is the first timestmap" do
+                it "has the baseline timestamp, which is the first timestamp" do
                   expect(subject.body)
                     .to be_json_eql(timestamps.first.to_s.to_json)
                     .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp")
@@ -1327,7 +1361,7 @@ RSpec.describe "API v3 Work package resource",
             describe "0 (baseline attributes)" do
               describe "_meta" do
                 describe "timestamp" do
-                  it "has the baseline timestamp, which is the first timestmap" do
+                  it "has the baseline timestamp, which is the first timestamp" do
                     expect(subject.body)
                       .to be_json_eql("oneWeekAgo@11:00+00:00".to_json)
                       .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp")

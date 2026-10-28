@@ -361,8 +361,8 @@ hy:
     ical_sharing_modal:
       copy_url_label: Պատճենել URL-ը
       description: Դուք կարող եք օգտագործել URL-ը (iCalendar)՝ արտաքին հաճախորդում այս օրացույցին բաժանորդագրվելու և այնտեղից աշխատանքային փաթեթների արդիական տեղեկությունները դիտելու համար։
-      ical_generation_error_text: Օրացույցի URL-ը ստեղծելիս սխալ առաջացավ։
-      inital_setup_error_message: Տվյալները ստանալիս սխալ առաջացավ։
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: '"%{name}" URL-ը հաջողությամբ պատճենվել է Ձեր փոխանակման բուֆերում։ Տեղադրեք այն Ձեր օրացույցի հաճախորդում՝ բաժանորդագրությունն ավարտելու համար։'
       title: Բաժանորդագրվել օրացույցին
       token_name_description_text: Եթե այս օրացույցին բաժանորդագրվեք մի քանի սարքից, այս անունը կօգնի Ձեզ տարբերել դրանք Ձեր <a href="%{myAccessTokensUrl}" target="_blank">մուտքի թոքենների</a> ցանկում։
@@ -554,6 +554,8 @@ hy:
     label_reset: Վերակայել
     label_resize_project_menu: Փոխել նախագծի ցանկի չափը
     label_save_as: Պահպանել որպես
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Որոնել սյունակ
     label_select_watcher: Ընտրեք հետևող...
     label_selected_filter_list: Ընտրված զտիչներ

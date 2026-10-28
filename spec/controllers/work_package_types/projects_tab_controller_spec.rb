@@ -298,7 +298,8 @@ because it's still in use by work packages)
 
         it "switches it over rather than adding a second row" do
           post :link,
-               params: { type_id: type.id, variant_id: variant.id, project_ids: [node_payload(project)] },
+               params: { type_id: type.id, variant_id: variant.id, project_ids: [node_payload(project)],
+                         confirm_switch: "1" },
                format: :turbo_stream
 
           expect(project.project_types.where(type_id: type.id).count).to eq(1)
@@ -415,7 +416,7 @@ because it's still in use by work packages)
         end
 
         it "re-renders the projects table" do
-          expect(response.body).to include(%(target="#{Projects::TableComponent.wrapper_key}"))
+          expect(response.body).to include(%(target="#{WorkPackageTypes::ProjectsTab::TableComponent.wrapper_key}"))
         end
       end
     end

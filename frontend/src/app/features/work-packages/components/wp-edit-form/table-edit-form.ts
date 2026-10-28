@@ -78,7 +78,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     .id(this.workPackageId)
     .requireAndStream()
     .pipe(takeUntilDestroyed(this.table.destroyRef))
-    .subscribe((wp) => this.resource = wp);
+    .subscribe((wp) => { this.resource = wp; });
 
   constructor(
     public injector:Injector,

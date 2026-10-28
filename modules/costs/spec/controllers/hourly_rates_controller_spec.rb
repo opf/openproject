@@ -37,7 +37,7 @@ RSpec.describe HourlyRatesController do
       login_as(user)
     end
 
-    context "when accessing the hourly rates of a user with a non exisiting project" do
+    context "when accessing the hourly rates of a user with a non existing project" do
       it "responds with 404" do
         get :show, params: { project_id: "this-does-not-exist", id: user.id }
         expect(response).to have_http_status(:not_found)

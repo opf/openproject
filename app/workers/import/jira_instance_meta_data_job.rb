@@ -30,6 +30,7 @@
 module Import
   class JiraInstanceMetaDataJob < ApplicationJob
     include GoodJob::ActiveJobExtensions::Concurrency
+    include JiraJobUtils
 
     good_job_control_concurrency_with(
       total_limit: 2,
@@ -42,13 +43,22 @@ module Import
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def perform(jira_import_id)
-      jira_import = Import::JiraImport.find(jira_import_id)
-      jira = jira_import.jira
-      @client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
-      jira_import.update!(available: collect_metadata)
-      jira_import.transition_to!(:instance_meta_done)
+      jira_import = nil
+      tagged_log("jira_import_id:#{jira_import_id}") do
+        Rails.logger.info "Fetching instance meta data started"
+        jira_import = Import::JiraImport.find(jira_import_id)
+        jira = jira_import.jira
+        @client = jira.client
+        jira_import.update!(available: collect_metadata)
+        jira_import.transition_to!(:instance_meta_done)
+        Rails.logger.info "Fetching instance meta data finished"
+      end
     rescue StandardError => e
+      tagged_log("jira_import_id:#{jira_import_id}") do
+        Rails.logger.error "Fetching instance meta data failed: #{e.message}"
+      end
       jira_import&.transition_to!(:instance_meta_error, error: e.message, error_backtrace: e.backtrace)
     end
 
@@ -73,6 +83,9 @@ module Import
 
     def collect_projects
       @client.projects.filter_map do |project|
+        Rails.logger.tagged("jira_object_type:project", "jira_object_id_or_name:#{project['key']}") do
+          Rails.logger.debug "Fetched project"
+        end
         next unless project_browsable?(project["key"])
 
         { "id" => project["id"], "key" => project["key"], "name" => project["name"] }
@@ -84,6 +97,9 @@ module Import
       true
     rescue Import::JiraClient::ApiError => e
       if e.status == 400
+        Rails.logger.tagged("jira_object_type:project", "jira_object_id_or_name:#{project_key}") do
+          Rails.logger.warn "Project is not browsable (#{e.message}), excluding it from instance meta data"
+        end
         false
       else
         raise e

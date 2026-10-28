@@ -135,7 +135,7 @@ tr:
     error_invalid_backup_code: Geçersiz 2FA yedekleme kodu
     error_is_enforced_not_active: 'Yapılandırma hatası: İki faktörlü kimlik doğrulama zorlandı, ancak etkin stratejiler mevcut değil.'
     error_no_device: Bu örnek için gerekli olmasına rağmen, bu kullanıcı için kayıtlı 2FA cihazı bulunamadı.
-    error_no_matching_strategy: Bu kullanıcı için eşleşen 2FA stratejisi yok. Lütfen yöneticinize başvurun.
+    error_no_matching_strategy: No matching 2FA strategy available for this user. Please contact your administrator.
     forced_registration:
       required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: İki faktörlü kimlik doğrulama etkin değil

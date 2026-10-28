@@ -52,11 +52,15 @@ export class WidgetWpGraphComponent extends AbstractWidgetComponent implements O
     this.loadQueriesInitially();
   }
 
+  public get chartType() {
+    return this.graphConfiguration.chartType;
+  }
+
   public set chartType(type:string) {
     this.resource.options.chartType = type;
   }
 
-  public updateGraph(config:any) {
+  public updateGraph():void {
     this.graphConfiguration.persistAndReload()
       .then(() => {
         this.repaint();
@@ -101,9 +105,5 @@ export class WidgetWpGraphComponent extends AbstractWidgetComponent implements O
 
   public get chartOptions():ChartOptions {
     return this.graphConfiguration.chartOptions;
-  }
-
-  public get chartType() {
-    return this.graphConfiguration.chartType;
   }
 }

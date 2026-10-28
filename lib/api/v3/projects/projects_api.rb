@@ -61,7 +61,7 @@ module API
               # TODO: This should be scoped to only allow actual projects.
               # But since it and especially the NestedAPIs are established routes,
               # we keep it intact for all kinds of workspaces for 17.0.
-              # This behaviour is not documented in the API docs to nudge users to switch.
+              # This behavior is not documented in the API docs to nudge users to switch.
               @project = if current_user.admin?
                            Project
                          else

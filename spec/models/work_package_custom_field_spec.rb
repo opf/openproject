@@ -48,4 +48,24 @@ RSpec.describe WorkPackageCustomField do
       end
     end
   end
+
+  describe "#type_ids_by_project_id" do
+    let(:feature) { create(:type) }
+    let(:epic) { create(:type) }
+    let(:bug) { create(:type) }
+    let(:custom_field) { create(:list_wp_custom_field, types: [feature, epic]) }
+
+    let!(:project) { create(:project, types: [feature, epic, bug]) }
+    let!(:other_project) { create(:project, types: [feature]) }
+
+    before do
+      create(:project, types: [bug])
+      create(:project, active: false, types: [feature])
+    end
+
+    it "maps the active projects using the field to the types showing it there" do
+      expect(custom_field.type_ids_by_project_id)
+        .to match(project.id => contain_exactly(feature.id, epic.id), other_project.id => [feature.id])
+    end
+  end
 end
