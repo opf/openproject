@@ -53,11 +53,14 @@ module Grids
           .group(:id, :name)
           .order(name: :asc)
           .count
-          .map do |(id, name), total_count|
+          .filter_map do |(id, name), total_count|
+            members = principals_for_role(id).limit(limit).load
+            next if members.none?
+
             {
               id:,
               name:,
-              members: principals_for_role(id).limit(limit),
+              members: members,
               total_count: total_count,
               remaining: [total_count - limit, 0].max,
               has_more: total_count > limit
