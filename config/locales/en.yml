@@ -3959,6 +3959,7 @@ en:
           working: "%{day} is now working"
     caused_changes:
       budget_deleted: "Budget has been deleted"
+      comment_retracted: "Comment retracted"
       dates_changed: "Dates changed"
       default_attribute_written: "Read-only attributes written"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"

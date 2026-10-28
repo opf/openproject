@@ -104,6 +104,7 @@ class Journal < ApplicationRecord
   ].freeze
 
   VALID_CAUSE_TYPES = (%w[
+    comment_retracted
     default_attribute_written
     forum_message
     import
