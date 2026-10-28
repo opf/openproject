@@ -93,17 +93,14 @@ module OpenProject::Llm
       # Semantic search embeds work packages into a pgvector index. The stored vectors
       # are meaningless under a different model, so it is not overridable: changing it
       # is a destructive re-index rather than a swap.
-      #
-      # The feature itself is not built yet, so it carries its own flag rather than
-      # riding on :llm_connection. Until that flag is on it is registered but never
-      # available, which keeps it off the feature configuration tab and out of the
-      # health checks.
       OpenProject::Llm::Features.register :semantic_search,
                                           kind: :embedding,
                                           requires: %i[embeddings],
-                                          available: -> {
-                                            OpenProject::FeatureDecisions.semantic_search_active? &&
-                                              OpenProject::Llm::Pgvector.available?
+                                          enabled: -> {
+                                            OpenProject::FeatureDecisions.semantic_search_active?
+                                          },
+                                          prerequisites: -> {
+                                            OpenProject::Llm::Pgvector.available?
                                           }
     end
 
