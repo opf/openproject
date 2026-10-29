@@ -312,8 +312,8 @@ export function getCSSVariable(variable:string, fallback = ''):string {
 }
 
 /**
- * Whether an element's text is not fully visible: not rendered, visually hidden or cut off.
+ * Whether an element's text is cut off or hidden: not rendered, visually hidden or cut off. Not whether another element covers it.
  */
-export function isObscured(element:HTMLElement):boolean {
+export function isTextCutOffOrHidden(element:HTMLElement):boolean {
   return !element.checkVisibility() || element.scrollWidth > element.clientWidth;
 }

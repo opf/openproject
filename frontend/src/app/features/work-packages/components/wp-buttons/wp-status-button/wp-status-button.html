@@ -13,7 +13,7 @@
       opTooltip
       [label]="text.status + ' ' + status.name"
       [description]="disabledReason ?? undefined"
-      [tooltipWhenObscured]="disabledReason ? undefined : statusText"
+      [tooltipWhenTruncated]="disabledReason ? undefined : statusText"
       wpStatusDropdown
       [wpStatusDropdown-workPackage]="workPackage"
       >

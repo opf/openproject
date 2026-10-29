@@ -421,7 +421,7 @@ describe('OpTooltipDirective', () => {
     expectTooltipsFollowHosts(['Three', 'Two']);
   });
 
-  describe('tooltipWhenObscured', () => {
+  describe('tooltipWhenTruncated', () => {
     const truncating = 'display:inline-block; overflow:hidden; white-space:nowrap; text-overflow:ellipsis';
     const visuallyHidden = 'position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap';
 
@@ -434,7 +434,7 @@ describe('OpTooltipDirective', () => {
     }
 
     it('opens while the host text is cut off', async () => {
-      await render(`<button type="button" opTooltip label="Include sub-projects" tooltipWhenObscured style="${truncating}; max-width:40px">Include sub-projects</button>`);
+      await render(`<button type="button" opTooltip label="Include sub-projects" tooltipWhenTruncated style="${truncating}; max-width:40px">Include sub-projects</button>`);
 
       const button = screen.getByRole('button');
       button.focus();
@@ -444,7 +444,7 @@ describe('OpTooltipDirective', () => {
     });
 
     it('stays closed while the host text fits', async () => {
-      await render(`<button type="button" opTooltip label="Baseline" tooltipWhenObscured style="${truncating}">Baseline</button>`);
+      await render(`<button type="button" opTooltip label="Baseline" tooltipWhenTruncated style="${truncating}">Baseline</button>`);
 
       const button = screen.getByRole('button');
       const toggle = await focusAndToggle(button);
@@ -455,7 +455,7 @@ describe('OpTooltipDirective', () => {
     });
 
     it('opens while text matched by a selector is visually hidden', async () => {
-      await render(`<button type="button" opTooltip label="Baseline" tooltipWhenObscured=".text"><svg></svg><span class="text" style="${visuallyHidden}">Baseline</span></button>`);
+      await render(`<button type="button" opTooltip label="Baseline" tooltipWhenTruncated=".text"><svg></svg><span class="text" style="${visuallyHidden}">Baseline</span></button>`);
 
       screen.getByRole('button').focus();
 
@@ -463,7 +463,7 @@ describe('OpTooltipDirective', () => {
     });
 
     it('opens while text matched by a selector is not rendered', async () => {
-      await render('<button type="button" opTooltip label="Baseline" tooltipWhenObscured=".text"><svg></svg><span class="text" style="display:none">Baseline</span></button>');
+      await render('<button type="button" opTooltip label="Baseline" tooltipWhenTruncated=".text"><svg></svg><span class="text" style="display:none">Baseline</span></button>');
 
       screen.getByRole('button').focus();
 
@@ -474,7 +474,7 @@ describe('OpTooltipDirective', () => {
       await render(`
         <ul>
           <li #crumb style="max-width:40px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis">
-            <a href="#crumb" opTooltip label="Parent work package" [tooltipWhenObscured]="crumb">Parent work package</a>
+            <a href="#crumb" opTooltip label="Parent work package" [tooltipWhenTruncated]="crumb">Parent work package</a>
           </li>
         </ul>
       `);
@@ -485,7 +485,7 @@ describe('OpTooltipDirective', () => {
     });
 
     it('leaves Escape to other handlers while suppressed', async () => {
-      await render(`<button type="button" opTooltip label="Baseline" tooltipWhenObscured style="${truncating}">Baseline</button>`);
+      await render(`<button type="button" opTooltip label="Baseline" tooltipWhenTruncated style="${truncating}">Baseline</button>`);
       const escapes = vi.fn();
       document.addEventListener('keydown', escapes);
 

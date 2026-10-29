@@ -41,7 +41,7 @@
             opTooltip
             [label]="columnName"
             [description]="headerColumn.name === columnName ? undefined : headerColumn.name"
-            [tooltipWhenObscured]="headerColumn.name === columnName ? '' : undefined">
+            [tooltipWhenTruncated]="headerColumn.name === columnName ? '' : undefined">
             <op-icon icon-classes="icon-context icon-relations relations-header--icon" />
             {{columnName}}
           </button>

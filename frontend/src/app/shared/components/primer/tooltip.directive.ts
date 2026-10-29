@@ -42,7 +42,7 @@ import {
   untracked,
   ViewContainerRef,
 } from '@angular/core';
-import { attributeTokenList, ensureId, generateId, isObscured } from 'core-app/shared/helpers/dom-helpers';
+import { attributeTokenList, ensureId, generateId, isTextCutOffOrHidden } from 'core-app/shared/helpers/dom-helpers';
 import { OpTooltipComponent, TooltipType } from './tooltip.component';
 import { TooltipDirection } from './tooltip-direction';
 
@@ -70,11 +70,11 @@ export class OpTooltipDirective {
   readonly tooltipId = input(generateId('tooltip'));
   readonly tooltipDirection = input<TooltipDirection>('s', { alias: 'tooltip-direction' });
   /**
-   * Opens the tooltip only while this text is obscured (not rendered, visually hidden or cut off),
+   * Opens the tooltip only while this text is cut off or hidden (not rendered or visually hidden),
    * for a label that repeats text the control shows at some widths. Empty for the host, a selector
    * within the host, or an element, such as an ancestor that cuts off an inline host.
    */
-  readonly tooltipWhenObscured = input<HTMLElement|string>();
+  readonly tooltipWhenTruncated = input<HTMLElement|string>();
 
   private readonly viewContainer = inject(ViewContainerRef);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
@@ -120,7 +120,7 @@ export class OpTooltipDirective {
     if (!this.tooltipRef) {
       this.tooltipRef = untracked(() => this.viewContainer.createComponent(OpTooltipComponent));
       (this.tooltipRef.location.nativeElement as HTMLElement)
-        .addEventListener('beforetoggle', (event) => this.suppressUnobscured(event));
+        .addEventListener('beforetoggle', (event) => this.suppressWhileTextFits(event));
     }
     this.tooltipRef.setInput('forId', this.hostId() || ensureId(this.host));
     this.tooltipRef.setInput('tooltipId', this.tooltipId());
@@ -129,15 +129,15 @@ export class OpTooltipDirective {
     this.tooltipRef.setInput('text', tooltip.text);
   }
 
-  private suppressUnobscured(event:ToggleEvent) {
-    const text = this.obscurableText();
-    if (event.newState === 'open' && text && !isObscured(text)) {
+  private suppressWhileTextFits(event:ToggleEvent) {
+    const text = this.truncatableText();
+    if (event.newState === 'open' && text && !isTextCutOffOrHidden(text)) {
       event.preventDefault();
     }
   }
 
-  private obscurableText():HTMLElement|null {
-    const target = this.tooltipWhenObscured();
+  private truncatableText():HTMLElement|null {
+    const target = this.tooltipWhenTruncated();
     if (target === undefined || target instanceof HTMLElement) {
       return target ?? null;
     }
