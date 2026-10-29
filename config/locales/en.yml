@@ -2701,8 +2701,9 @@ en:
   colors:
     contrast:
       background: "Background"
-      caption: "Default light and dark themes · WCAG AA · Normal text · Minimum 4.5:1."
+      caption: "Pass means the text meets the WCAG AA minimum contrast ratio of 4.5:1 for normal text."
       dark: "Dark mode"
+      description: "These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes."
       fail: "Fail"
       foreground: "Foreground"
       light: "Light mode"

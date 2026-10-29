@@ -61,7 +61,7 @@ RSpec.describe "default colors administration", :js do
       find_field("Name").click
 
       expect(page).to have_heading "Contrast preview"
-      expect(page).to have_text("Default light and dark themes")
+      expect(page).to have_text("standard light and dark themes")
       expect(page).to have_text("3 of 4 pass")
       within(:list, accessible_name: "Light mode") do
         within(:list_item, text: "Used as foreground") do
