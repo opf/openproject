@@ -72,7 +72,7 @@ cs:
       label_add_new: Přidat nový webhook
       label_edit: Upravit webhook
       label_x_events:
-        one: 1 událost
+        one: "%{count} event"
         other: "%{count} událostí"
         zero: Žádné události
       no_results_table: Zatím nebyly definovány žádné webhooky

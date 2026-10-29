@@ -61,6 +61,7 @@ el:
         single: Επιλογή "%{name}"
       remove: Διαγραφή %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Πληκτρολογήστε για αναζήτηση
       project:
@@ -162,6 +163,7 @@ el:
     button_stop_timer: Διακοπή χρονόμετρου
     button_uncheck_all: Αποεπιλογή όλων
     button_update: Ενημέρωση
+    button_view_markdown: View Markdown
     caption_rate_history: Ιστορικό αμοιβής
     card:
       add_new: Προσθέστε νέα κάρτα
@@ -202,6 +204,7 @@ el:
     description_subwork_package: 'Παιδί του πακέτου εργασίας #%{id}'
     editor:
       ckeditor_error: An error occurred within CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Η αποθήκευση του αρχείου απέτυχε δίνοντας το ακόλουθο μήνυμα: %{error}'
       macro:
         attribute_reference:
@@ -358,8 +361,8 @@ el:
     ical_sharing_modal:
       copy_url_label: Copy URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: An error occured while fetching data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
       title: Subscribe to calendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -551,6 +554,8 @@ el:
     label_reset: Επαναφορά
     label_resize_project_menu: Resize project menu
     label_save_as: Αποθήκευση ως
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Search a column
     label_select_watcher: Επιλέξτε έναν παρατηρητή...
     label_selected_filter_list: Επιλεγμένα φίλτρα
@@ -623,7 +628,7 @@ el:
     notifications:
       center:
         and_more_users:
-          one: and 1 other
+          one: and %{count} other
           other: and %{count} others
         empty_state:
           no_notification: Looks like you are all caught up.
@@ -720,6 +725,7 @@ el:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Κάντε κλικ για να προσθέσετε περιγραφή για αυτή την σχέση
       selection: Παρακαλώ επιλέξτε
       subject: Εισάγετε θέμα εδώ
@@ -806,12 +812,32 @@ el:
       sorting_disabled: η ταξινόμηση είναι απενεργοποιημένη
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Close modal
@@ -825,9 +851,7 @@ el:
     text_user_wrote: "%{value} έγραψε:"
     text_work_packages_destroy_confirmation: Είστε βέβαιοι ότι θέλετε να διαγράψετε το(-α) επιλεγμένο(-α) πακέτο(-α) εργασίας;
     time_entry:
-      stop: Stop
       title: Καταγραφή χρόνου
-      tracking: Παρακολούθηση χρόνου
       work_package_required: Πρέπει πρώτα να επιλεγεί ένα πακέτο εργασίας.
     timer:
       button_stop: Stop current timer
@@ -862,19 +886,19 @@ el:
       label_two_factor_authentication: Ταυτοποίηση δύο παραγόντων
     units:
       child_work_packages:
-        one: ένα παιδί πακέτο εργασίας
-        other: "%{count} παιδιά πακέτα εργασίας"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 ημέρα
+        one: "%{count} day"
         other: "%{count} ημέρες"
         zero: 0 days
       hour:
-        one: 1 ώρα
+        one: "%{count} h"
         other: "%{count} ώρες"
         zero: 0 ω
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: πακέτο εργασίας

@@ -106,7 +106,7 @@ de:
     not_recommended: nicht empfohlen
     recommended: empfohlen
     x_bcf_issues:
-      one: Ein BCF-Fall
+      one: "%{count} BCF-Fall"
       other: "%{count} BCF-Fälle"
       zero: Keine BCF-Fälle
   bim:
@@ -144,8 +144,10 @@ de:
       processing_default: 'Die folgenden Standard-IFC-Modelle werden noch verarbeitet und sind daher noch nicht verfügbar:'
   oauth:
     scopes:
-      bcf_v2_1: Voller Zugriff auf die BCF v2.1 API
+      bcf_v2_1: Access to the BCF v2.1 API
       bcf_v2_1_text: Die Anwendung erhält vollen Lese- und Schreibzugriff auf die OpenProject-API, um Aktionen in Ihrem Namen durchzuführen.
+      explanations_admin:
+        bcf_v2_1: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on the user's behalf.
   permission_delete_bcf: BCF-Fälle löschen
   permission_manage_bcf: BCF-Fälle importieren und verwalten
   permission_manage_bcf_explanation: |

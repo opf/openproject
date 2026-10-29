@@ -108,7 +108,7 @@ fa:
     not_recommended: پیشنهاد نشده
     recommended: پیشنهادی
     x_bcf_issues:
-      one: یک مشکل BCF
+      one: "%{count} BCF issue"
       other: "%{count} مشکل BCF"
       zero: بدون مشکل BCF
   bim:
@@ -146,8 +146,10 @@ fa:
       processing_default: 'مدلهای پیش فرض IFC زیر هنوز در حال پردازش هستند و بنابراین در دسترس نیستند:'
   oauth:
     scopes:
-      bcf_v2_1: دسترسی کامل به API نسخه2.1
+      bcf_v2_1: Access to the BCF v2.1 API
       bcf_v2_1_text: برنامه دسترسی کامل خواندن و نوشتن به OpenProject BCF API نسخه2.1 را برای انجام اقدامات از طرف شما دریافت خواهد کرد.
+      explanations_admin:
+        bcf_v2_1: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on the user's behalf.
   permission_delete_bcf: مشکلات حذف BCF
   permission_manage_bcf: وارد کردن و مدیریت مشکلات BCF
   permission_manage_bcf_explanation: |
