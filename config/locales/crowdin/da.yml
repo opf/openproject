@@ -534,6 +534,7 @@ da:
         duration: Varighed
         end_deletion: Slut på sletning
         end_insertion: Slut på indsættelse
+        has_spent_time: Has spent time
         identifier: Id
         ignore_non_working_days: Ignorer arbejdsfrie dage
         include_non_working_days:
