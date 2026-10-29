@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,7 +35,6 @@ FactoryBot.define do
 
     transient do
       default_locales { nil }
-      projects { [] }
     end
 
     sequence(:name) { |n| "Custom Field Nr. #{n}" }
@@ -49,11 +47,5 @@ FactoryBot.define do
     possible_values { "" }
     admin_only { false }
     field_format { "bool" }
-
-    after(:create) do |custom_field, evaluator|
-      evaluator.projects.each do |project|
-        project.work_package_custom_fields << custom_field
-      end
-    end
   end
 end

@@ -3,7 +3,7 @@ description: |-
   Portfolios are one of the types of [workspaces](https://www.openproject.org/docs/api/endpoints/workspaces) in OpenProject structuring the information (e.g. work packages, wikis) into smaller sets. They are typically used to group, structure and manage sub-portfolios, programs and projects that
   target similar strategic goals of the organization. 
 
-  As containers, they also control behaviour of the elements within them. One of the most important aspects of this is that portfolios limit permissions by having members with a certain permission set (roles) assigned to them.
+  As containers, they also control behavior of the elements within them. One of the most important aspects of this is that portfolios limit permissions by having members with a certain permission set (roles) assigned to them.
 
   ## Actions
 

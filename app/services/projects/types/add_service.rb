@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,8 +40,6 @@ module Projects
 
         if current_project_type&.variant_id == variant.id
           service_call
-        elsif named_variant_without_feature?(variant)
-          failure(:cannot_assign_variants_yet)
         elsif current_project_type
           failure(conflict_with(current_project_type, variant))
         else
@@ -59,13 +56,8 @@ module Projects
         end
       end
 
-      def named_variant_without_feature?(variant)
-        !variant.is_default_variant? && !OpenProject::FeatureDecisions.type_variants_active?
-      end
-
       def add_variant(variant)
         model.project_types.create!(type_id: variant.type_id, variant:)
-        enable_work_package_custom_fields(variant)
       end
     end
   end

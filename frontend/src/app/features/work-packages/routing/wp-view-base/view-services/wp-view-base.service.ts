@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -62,7 +61,7 @@ export abstract class WorkPackageViewBaseService<T> {
    * @param {QueryResource} querywp-view-group-by.service
    * @param {QuerySchemaResource} schema
    */
-  public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource) {
+  public initialize(query:QueryResource, results:WorkPackageCollectionResource, _schema?:QuerySchemaResource) {
     const initial = this.valueFromQuery(query, results)!;
     this.pristineState.putValue(initial);
   }

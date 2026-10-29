@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,7 +28,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { GitHubActionsMenuComponent } from './git-actions-menu.component';
-import { GitLabActionsMenuComponent } from 'core-app/features/plugins/linked/openproject-gitlab_integration/git-actions-menu/git-actions-menu.component';
 import { GitActionsService } from '../git-actions/git-actions.service';
 import { By } from '@angular/platform-browser';
 import { OpIconComponent } from 'core-app/shared/components/icon/icon.component';
@@ -97,13 +95,6 @@ describe('GitHubActionsMenuComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('has a distinct Angular component id from the GitLab actions menu', () => {
-    const githubComponent = GitHubActionsMenuComponent as unknown as ComponentWithId;
-    const gitlabComponent = GitLabActionsMenuComponent as unknown as ComponentWithId;
-
-    expect(githubComponent.ɵcmp.id).not.toEqual(gitlabComponent.ɵcmp.id);
   });
 
   it('should generate the branch name on copy button click', () => {

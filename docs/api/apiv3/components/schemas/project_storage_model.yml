@@ -80,12 +80,13 @@ properties:
         allOf:
           - $ref: './link.yml'
           - description: |-
-              A link to OpenProject strorage.
+              A link to OpenProject storage.
 
               # Conditions
 
               If the storage has not been configured(oauth client is missing, for instance), then the link is null.
       openWithConnectionEnsured:
+        deprecated: true
         allOf:
           - $ref: './link.yml'
           - description: |-

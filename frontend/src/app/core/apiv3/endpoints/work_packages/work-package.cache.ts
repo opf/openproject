@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,7 +28,7 @@
 import { isEqual } from 'lodash-es';
 import { MultiInputState } from '@openproject/reactivestates';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { Injectable, Injector } from '@angular/core';
+import { Injector } from '@angular/core';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
@@ -37,7 +36,6 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { CustomActionResource } from 'core-app/features/hal/resources/custom-action-resource';
 
-@Injectable()
 export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
   @LazyInject() private schemaCacheService:SchemaCacheService;
 

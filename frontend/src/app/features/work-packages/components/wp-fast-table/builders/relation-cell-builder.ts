@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -36,6 +35,8 @@ import { States } from 'core-app/core/states/states.service';
 import { WorkPackageRelationsService } from '../../wp-relations/wp-relations.service';
 import { QueryColumn, queryColumnTypes } from '../../wp-query/query-column';
 import { tdClassName } from './cell-builder';
+import { keyboardNavigationEnabled, navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
+import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 
 export const relationCellTdClassName = 'wp-table--relation-cell-td';
 export const relationCellIndicatorClassName = 'wp-table--relation-indicator';
@@ -47,13 +48,17 @@ export class RelationCellbuilder {
 
   @LazyInject() wpTableRelationColumns:WorkPackageViewRelationColumnsService;
 
-  constructor(public readonly injector:Injector) {
+  constructor(public readonly injector:Injector, private readonly configuration?:WorkPackageTableConfiguration) {
   }
 
   public build(workPackage:WorkPackageResource, column:QueryColumn) {
     const td = document.createElement('td');
     td.classList.add(tdClassName, relationCellTdClassName, column.id);
     td.dataset.columnId = column.id;
+
+    if (keyboardNavigationEnabled(this.configuration)) {
+      td.classList.add(navigableCellClassName);
+    }
 
     // Get current expansion and value state
     const expanded = this.wpTableRelationColumns.getExpandFor(workPackage.id!) === column.id;
@@ -91,7 +96,7 @@ export class RelationCellbuilder {
     const indicator = document.createElement('span');
     indicator.classList.add(relationCellIndicatorClassName);
     indicator.setAttribute('aria-hidden', 'true');
-    indicator.setAttribute('tabindex', '0');
+    indicator.setAttribute('tabindex', keyboardNavigationEnabled(this.configuration) ? '-1' : '0');
 
     return indicator;
   }

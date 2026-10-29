@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -56,22 +55,17 @@ See COPYRIGHT and LICENSE files for more details.
       <input type="hidden" name="<%= key %>" value="<%= value %>">
     <% end %>
 
-    <div class="FormControl mb-3">
-      <label for="ifc-direct-upload-file-input" class="FormControl-label">
-        <%= Bim::IfcModels::IfcModel.human_attribute_name(:ifc_attachment) %>
-        <span aria-hidden="true">*</span>
-      </label>
-      <input id="ifc-direct-upload-file-input"
-             type="file"
-             name="file"
-             accept=".ifc"
-             class="FormControl-input FormControl-medium border-0"
-             data-action="change->bim--ifc-model-direct-upload#setSessionModelTitle"
-             required>
-    </div>
-
     <%=
       render_inline_form(f) do |form|
+        form.file_field(
+          name: :file,
+          scope_name_to_model: false,
+          id: "ifc-direct-upload-file-input",
+          label: Bim::IfcModels::IfcModel.human_attribute_name(:ifc_attachment),
+          accept: ".ifc",
+          required: true,
+          data: { action: "change->bim--ifc-model-direct-upload#setSessionModelTitle" }
+        )
         form.check_box(
           name: :is_default,
           label: Bim::IfcModels::IfcModel.human_attribute_name(:is_default),
@@ -92,13 +86,10 @@ See COPYRIGHT and LICENSE files for more details.
       multipart: true
     ) do |f|
       render_inline_form(f) do |form|
-        form.text_field(
+        form.file_field(
           name: :ifc_attachment,
-          type: :file,
           label: Bim::IfcModels::IfcModel.human_attribute_name(:ifc_attachment),
-          border: 0,
           accept: ".ifc",
-          input_width: :medium,
           required: true
         )
         form.check_box(name: :is_default, label: Bim::IfcModels::IfcModel.human_attribute_name(:is_default))

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -42,6 +41,13 @@ interface TargetConfig {
   targetId:string|null;
 }
 
+/**
+ * @deprecated Closed to new consumers. Use the `sortable-lists` controller
+ * suite instead — or, once it lands, the declarative `BorderBoxListComponent`
+ * options that emit its contract. This controller is Dragula-based, sends
+ * index-based positions, and offers no keyboard path; its remaining call sites
+ * are being migrated. See the drag and drop pattern page in Lookbook.
+ */
 export default class GenericDragAndDropController extends Controller {
   static targets = ['container', 'scrollContainer'];
 

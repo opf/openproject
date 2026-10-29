@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -197,6 +196,87 @@ RSpec.describe "API v3 Work package form resource" do
               it_behaves_like "valid payload with initial values"
 
               it_behaves_like "having no errors"
+            end
+
+            describe "labels", with_flag: :work_package_labels do
+              let(:label) { create(:label) }
+              let(:params) do
+                valid_params.merge(_links: { labels: [{ href: api_v3_paths.label(label.id) }] })
+              end
+
+              include_context "with post request"
+
+              it_behaves_like "having no errors"
+
+              it "echoes the pending labels back" do
+                expect(last_response.body)
+                  .to be_json_eql(api_v3_paths.label(label.id).to_json)
+                        .at_path("_embedded/payload/_links/labels/0/href")
+              end
+
+              it "does not persist them" do
+                expect(Labeling.where(labelable: work_package)).not_to exist
+              end
+
+              context "with a title for a label that does not exist yet" do
+                let(:params) do
+                  valid_params.merge(_links: { labels: [{ href: nil, title: "Needs triage" }] })
+                end
+
+                it_behaves_like "having no errors"
+
+                it "echoes the pending name back without a href" do
+                  expect(last_response.body)
+                    .to be_json_eql({ href: nil, title: "Needs triage" }.to_json)
+                          .at_path("_embedded/payload/_links/labels/0")
+                end
+
+                it "creates neither the label nor the labeling" do
+                  expect(Label.where(name: "Needs triage")).not_to exist
+                  expect(Labeling.where(labelable: work_package)).not_to exist
+                end
+              end
+
+              context "with a title for a label that does not exist yet by a user who may not create labels" do
+                let(:current_user) do
+                  create(:user).tap do |user|
+                    create(:work_package_member,
+                           principal: user,
+                           entity: work_package,
+                           roles: [create(:edit_work_package_role)])
+                  end
+                end
+                let(:params) do
+                  valid_params.merge(_links: { labels: [{ href: nil, title: "Needs triage" }] })
+                end
+
+                it "reports the labels as unauthorized" do
+                  expect(last_response.body)
+                    .to be_json_eql("Labels #{I18n.t('activerecord.errors.messages.error_unauthorized')}".to_json)
+                          .at_path("_embedded/validationErrors/labels/message")
+                end
+
+                it "creates no label" do
+                  expect(Label.count).to eq(0)
+                end
+              end
+
+              context "with a title matching an existing label in different casing" do
+                let(:label) { create(:label, name: "Needs triage") }
+                let(:params) do
+                  valid_params.merge(_links: { labels: [{ href: nil, title: label.name.upcase }] })
+                end
+
+                it "echoes the existing label's href" do
+                  expect(last_response.body)
+                    .to be_json_eql(api_v3_paths.label(label.id).to_json)
+                          .at_path("_embedded/payload/_links/labels/0/href")
+                end
+
+                it "does not create another label" do
+                  expect(Label.count).to eq(1)
+                end
+              end
             end
 
             context "for invalid content" do
@@ -817,9 +897,8 @@ RSpec.describe "API v3 Work package form resource" do
                 let(:params) { valid_params.merge(cf_param) }
 
                 before do
-                  project.work_package_custom_fields << custom_field
                   project.save!
-                  work_package.type.default_variant.custom_fields << custom_field
+                  work_package.type.default_variant.custom_field_ids |= [custom_field.id]
                   work_package.save!
 
                   login_as(current_user)
@@ -837,7 +916,6 @@ RSpec.describe "API v3 Work package form resource" do
                          field_format: "string",
                          name: "Department",
                          is_required: true,
-                         projects: [project],
                          types: [work_package.type])
                 end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,10 +32,11 @@ module ResourceManagement
     # Shared setup for the timeline's JSON feeds: locates the planner and view and
     # loads its allocations. Subclasses render the FullCalendar resources and events.
     class FeedsController < BaseController
+      include ResourceManagement::PlannerRoutes
+
       menu_item :resource_management
 
-      before_action :find_project_by_project_id
-      before_action :authorize
+      load_and_authorize_in_planner_section
       before_action :find_resource_planner
       before_action :find_view
 

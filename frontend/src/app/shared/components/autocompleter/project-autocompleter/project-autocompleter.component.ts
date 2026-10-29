@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -129,7 +128,8 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
       filtered = elements;
     } else {
       const lowered = matching.toLowerCase();
-      filtered = elements.filter((el) => el.name.toLowerCase().includes(lowered));
+      filtered = elements.filter((el) => el.name.toLowerCase().includes(lowered)
+        || !!el.identifier?.toLowerCase().includes(lowered));
     }
 
     return of(filtered);
@@ -194,6 +194,7 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
             id: project.id,
             href: project._links.self.href,
             name: project.name,
+            identifier: project.identifier,
             _type: project._type,
             disabled,
             disabledReason: (typeof this.disabledProjects[id] === 'string') ? this.disabledProjects[id] : '',

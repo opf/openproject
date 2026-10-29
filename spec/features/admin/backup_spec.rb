@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe "backup", :js, :selenium do
+RSpec.describe "backup", :js do
   let(:current_user) do
     create(:user,
            global_permissions: [:create_backup],
@@ -117,9 +116,9 @@ RSpec.describe "backup", :js, :selenium do
 
     expect(page).to have_content /#{I18n.t('js.backup.title')}/i
 
-    click_on I18n.t("backup.label_delete_token")
-
-    page.driver.browser.switch_to.alert.accept
+    accept_confirm do
+      click_on I18n.t("backup.label_delete_token")
+    end
 
     expect(page).to have_content I18n.t("backup.text_token_deleted")
 

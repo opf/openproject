@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -193,10 +192,26 @@ module Redmine
                 LEFT JOIN custom_options
                 ON custom_options.custom_field_id = custom_values.custom_field_id
                 AND custom_options.id::VARCHAR = custom_values.value
+                AND #{usable_custom_option_condition(custom_field_ids)}
               SQL
               .where(customized_type: name, custom_field_id: custom_field_ids)
               .where("customized_id=#{table_name}.id")
               .where("(custom_values.value ILIKE ?) OR (custom_options.value ILIKE ?)")
+          end
+
+          # Options that are not usable in the project of the customized object must not be found by their text.
+          def usable_custom_option_condition(custom_field_ids)
+            restricted_fields = CustomField.where(id: custom_field_ids).where.not(project_specific_value_restriction: nil)
+            return "TRUE" if restricted_fields.empty?
+
+            project_sql = "SELECT project_id AS id FROM #{quoted_table_name} WHERE id = custom_values.customized_id"
+            usable_conditions = restricted_fields.map do |custom_field|
+              "(custom_values.custom_field_id = #{custom_field.id} AND " \
+                "#{custom_field.usable_value_condition('custom_options.id', project_sql)})"
+            end
+
+            "(custom_values.custom_field_id NOT IN (#{restricted_fields.map(&:id).join(', ')}) " \
+              "OR #{usable_conditions.join(' OR ')})"
           end
 
           def add_project_custom_field_enabled_condition(scope)

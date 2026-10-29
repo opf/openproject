@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe "Work package navigation", :js, :selenium do
+RSpec.describe "Work package navigation", :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project, name: "Some project", enabled_module_names: [:work_package_tracking]) }
   let(:work_package) { build(:work_package, project:) }
@@ -85,7 +84,8 @@ RSpec.describe "Work package navigation", :js, :selenium do
     split_work_package.visit!
     split_work_package.expect_subject
     # Should be checked in table
-    expect(global_work_packages.table_container).to have_css(".wp-row-#{work_package.id}.-checked")
+    global_work_packages.expect_work_package_listed(work_package)
+    expect(page).to have_css("#{global_work_packages.row_selector(work_package)}.-checked")
 
     # deep link work package show
 
@@ -106,7 +106,8 @@ RSpec.describe "Work package navigation", :js, :selenium do
     project_html_title.expect_first_segment "My fancy query | Work Packages"
 
     # Go back to work packages without query
-    page.execute_script("window.history.back()")
+    page.go_back
+    expect(page).to have_no_css("html[aria-busy]")
     project_work_packages.expect_work_package_listed(work_package)
     project_html_title.expect_first_segment "All open | Work Packages"
 
@@ -133,7 +134,7 @@ RSpec.describe "Work package navigation", :js, :selenium do
     # Back to split screen using the button
     full_work_package.go_back
     global_work_packages.expect_work_package_listed(work_package)
-    expect(page).to have_current_path project_work_packages_path(project) + "/details/#{work_package.id}/overview"
+    expect(page).to have_current_path project_work_packages_path(project) + "/details/#{work_package.id}"
 
     # Link to full screen from index
     global_work_packages.open_full_screen_by_link(work_package)
@@ -189,7 +190,7 @@ RSpec.describe "Work package navigation", :js, :selenium do
 
     wait_for_network_idle
 
-    page.find(".wp-table--cell-td.id a", text: work_package.id).click
+    page.find(".wp-table--cell-td.id a", text: work_package.id, wait: 20).click
 
     full_page = Pages::FullWorkPackage.new work_package, work_package.project
     full_page.ensure_page_loaded

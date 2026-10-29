@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,6 +28,10 @@
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { Injector } from '@angular/core';
+
+export interface PreparedTableDragAction {
+  persist():Promise<void>;
+}
 
 export class TableDragActionService {
   /**
@@ -51,25 +54,18 @@ export class TableDragActionService {
   /**
    * Perform a post-order update
    */
-  public onNewOrder(newOrder:string[]):void {
+  public onNewOrder(_newOrder:string[]):void {
   }
 
   /**
    * Returns whether the given work package is movable
    */
-  public canPickup(workPackage:WorkPackageResource):boolean {
+  public canPickup(_workPackage:WorkPackageResource):boolean {
     return true;
   }
 
-  /**
-   * Perform the respective action for the drop that just happened
-   *
-   * @param workPackage
-   * @param target
-   * @param source
-   * @param sibling
-   */
-  public handleDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<unknown> {
-    return Promise.resolve(undefined);
+  /** Capture the persistence intent while the row still belongs to the live view. */
+  public prepareDrop(_workPackage:WorkPackageResource, _el:HTMLElement):Promise<PreparedTableDragAction> {
+    return Promise.resolve({ persist: () => Promise.resolve() });
   }
 }

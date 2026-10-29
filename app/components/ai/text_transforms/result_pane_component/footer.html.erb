@@ -1,0 +1,77 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= component_wrapper do %>
+  <%= content_tag(:span, nil, hidden: true, data: state_data) %>
+  <%= pane_form(id: CLOSE_FORM_ID, url: ai_text_transform_pane_path(pane.uuid), method: :delete) %>
+  <%= pane_form(id: APPLY_FORM_ID, url: apply_ai_text_transform_pane_path(pane.uuid), method: :post) if done? %>
+  <%= pane_form(id: RETRY_FORM_ID, url: ai_text_transform_panes_path, method: :post, fields: { **form_params, retry_of: pane.uuid }) if pane.retryable? %>
+  <%=
+    flex_layout(align_items: :center, classes: "op-ai-result-pane--footer") do |bar|
+      bar.with_column(mr: 2, classes: "op-ai-result-pane--grip", data: action(beginDrag: :pointerdown)) do
+        render(Primer::Beta::Octicon.new(icon: :grabber, color: :muted))
+      end
+      bar.with_column(flex: 1) do
+        case state
+        when "generating"
+          flex_layout(align_items: :center, justify_content: :space_between) do |footer|
+            footer.with_column do
+              render(Primer::Beta::Text.new(color: :muted)) { label(:generating) }
+            end
+            footer.with_column do
+              render(Primer::Beta::Button.new(type: :submit, form: CLOSE_FORM_ID)) { label(:cancel) }
+            end
+          end
+        when "done"
+          flex_layout(align_items: :center) do |footer|
+            footer.with_column(flex: 1) do
+              render(Primer::Beta::ClipboardCopyButton.new(scheme: :invisible, value: pane.text, "aria-label": label(:copy)))
+            end
+            footer.with_column(mr: 2) do
+              render(Primer::Beta::Button.new(type: :submit, form: CLOSE_FORM_ID)) { label(:discard) }
+            end
+            footer.with_column do
+              render(Primer::Beta::Button.new(scheme: :primary, type: :submit, form: APPLY_FORM_ID)) { label(:replace) }
+            end
+          end
+        else
+          flex_layout(align_items: :center, justify_content: :flex_end) do |footer|
+            if pane.retryable?
+              footer.with_column(mr: 2) do
+                render(Primer::Beta::Button.new(type: :submit, form: RETRY_FORM_ID)) { label(:try_again) }
+              end
+            end
+            footer.with_column do
+              render(Primer::Beta::Button.new(type: :submit, form: CLOSE_FORM_ID)) { label(:close) }
+            end
+          end
+        end
+      end
+    end
+  %>
+<% end %>

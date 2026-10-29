@@ -20,12 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { isNavigableColumn, keyboardNavigationEnabled, navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { locateTableRowByIdentifier } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
@@ -41,7 +41,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { checkedClassName, pressedClassName } from '../ui-state-link-builder';
+import { paintRowSelection } from './row-selection-painter';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { RelationCellbuilder } from '../relation-cell-builder';
 import {
@@ -75,16 +75,16 @@ export class SingleRowBuilder {
   @LazyInject() I18n!:I18nService;
 
   // Cell builder instance
-  protected cellBuilder = new CellBuilder(this.injector);
+  protected cellBuilder = new CellBuilder(this.injector, this.workPackageTable.configuration);
 
   // Relation cell builder instance
-  protected relationCellBuilder = new RelationCellbuilder(this.injector);
+  protected relationCellBuilder = new RelationCellbuilder(this.injector, this.workPackageTable.configuration);
 
   // Share cell builder instance
-  protected shareCellBuilder = new ShareCellbuilder(this.injector);
+  protected shareCellBuilder = new ShareCellbuilder(this.injector, this.workPackageTable.configuration);
 
   // Details Link builder
-  protected contextLinkBuilder = new TableActionRenderer(this.injector);
+  protected contextLinkBuilder = new TableActionRenderer(this.injector, this.workPackageTable.configuration);
 
   // Baseline column builder
   protected baselineColumnBuilder = new BaselineColumnBuilder(this.injector);
@@ -142,6 +142,10 @@ export class SingleRowBuilder {
         if (this.workPackageTable.configuration.columnMenuEnabled) {
           const td = document.createElement('td');
           td.classList.add('hide-when-print');
+          if (keyboardNavigationEnabled(this.workPackageTable.configuration)
+            && isNavigableColumn(column, this.workPackageTable.configuration)) {
+            td.classList.add(navigableCellClassName);
+          }
           return td;
         }
         return null;
@@ -170,7 +174,7 @@ export class SingleRowBuilder {
   public createEmptyRow(workPackage:WorkPackageResource) {
     const identifier = this.classIdentifier(workPackage);
     const tr = document.createElement('tr');
-    tr.setAttribute('tabindex', '0');
+    tr.setAttribute('tabindex', keyboardNavigationEnabled(this.workPackageTable.configuration) ? '-1' : '0');
     tr.dataset.workPackageId = workPackage.id!;
     tr.dataset.classIdentifier = identifier;
     tr.classList.add(
@@ -242,7 +246,7 @@ export class SingleRowBuilder {
   protected isColumnBeingEdited(workPackage:WorkPackageResource, column:QueryColumn) {
     const form = this.workPackageTable.editing.forms[workPackage.id!];
 
-    return form && form.activeFields[column.id];
+    return form?.activeFields[column.id];
   }
 
   protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):[HTMLTableRowElement, boolean] {
@@ -251,7 +255,10 @@ export class SingleRowBuilder {
 
     if (change && !change.isEmpty()) {
       // Try to find an old instance of this row
-      const oldRow = locateTableRowByIdentifier(this.classIdentifier(workPackage));
+      const oldRow = locateTableRowByIdentifier(
+        this.classIdentifier(workPackage),
+        this.workPackageTable.tableAndTimelineContainer,
+      );
 
       change.changedAttributes.forEach((attribute:string) => {
         const oldCell = oldRow?.querySelector<HTMLTableCellElement>(`.${tdClassName}.${attribute}`);
@@ -277,15 +284,10 @@ export class SingleRowBuilder {
       }
     });
 
-    // Set the row selection state
-    if (this.wpTableSelection.isSelected(workPackage.id!)) {
-      row.classList.add(checkedClassName);
-    }
-
-    // Mark the currently focused (details-panel) row as pressed
-    if (this.wpTableFocus.isFocused(workPackage.id!)) {
-      row.classList.add(pressedClassName);
-    }
+    paintRowSelection(row, {
+      selected: this.wpTableSelection.isSelected(workPackage.id!),
+      pressed: this.wpTableFocus.isFocused(workPackage.id!),
+    });
 
     return [row, false];
   }

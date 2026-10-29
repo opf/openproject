@@ -22,37 +22,31 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+module WorkflowFactoryDeprecation
+  class << self
+    def warn_once
+      return if @warned
+
+      @warned = true
+      OpenProject::Deprecation.warn(
+        "Factory :workflow builds a Workflows::StatusTransition and creates a named " \
+        "Workflow as a side-effect. Use :status_transition, or :named_workflow for the container."
+      )
+    end
+  end
+end
+
 FactoryBot.define do
-  factory :workflow do
-    # A workflow belongs to a variant. `type:` / `type_id:` are kept as aliases so the many
-    # call sites that name a type keep reading naturally: a type contributes its base variant.
-    transient do
-      type { nil }
-      type_id { nil }
-    end
+  factory :named_workflow, class: "Workflow" do
+    sequence(:name) { |n| "Workflow No. #{n}" }
+  end
 
-    old_status factory: :status
-    new_status factory: :status
-    role factory: :project_role
-    type_variant do
-      case type
-      when TypeVariant
-        type
-      when Type
-        type.default_variant
-      else
-        type_id ? Type.find(type_id).default_variant : association(:type_variant)
-      end
-    end
-
-    factory :workflow_with_default_status do
-      old_status factory: :default_status
-    end
+  factory :workflow, parent: :status_transition, class: "Workflows::StatusTransition" do
+    after(:build) { WorkflowFactoryDeprecation.warn_once }
   end
 end

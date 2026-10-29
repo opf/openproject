@@ -3,7 +3,7 @@
     flex_layout(align_items: :center, justify_content: :space_between) do |enumeration_container|
       enumeration_container.with_column(flex_layout: true) do |enumeration_info|
         enumeration_info.with_column(mr: 2) do
-          render(Primer::OpenProject::DragHandle.new)
+          render(Primer::OpenProject::DragHandle.new(data: { sortable_lists__item_target: "handle" }))
         end
 
         if colored?

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -242,10 +241,8 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
   }
 
   // No-ops until the ControlValueAccessor registers the real callbacks below.
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onChange = (_:string[]):void => {};
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouched = (_:string[]):void => {};
 
   registerOnChange(fn:(_:string[]) => void):void {

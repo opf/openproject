@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -41,7 +40,6 @@ describe('UserLinkComponent component test', () => {
     t: (key:string, args:any) => `Author: ${args.user}`,
   };
 
-  let app:UserLinkComponent;
   let fixture:ComponentFixture<UserLinkComponent>;
   let element:HTMLElement;
   let user:UserResource;
@@ -58,7 +56,6 @@ describe('UserLinkComponent component test', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(UserLinkComponent);
-    app = fixture.debugElement.componentInstance;
     element = fixture.elementRef.nativeElement;
   });
 

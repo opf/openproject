@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,13 +38,13 @@ module AuthSourceSSO
     # Do nothing if sso disabled
     return user unless auth_source_sso_enabled?
     # Return super auth if SSO already in progress
-    return user if sso_in_progress!
+    return user if !api_key_authenticated? && sso_in_progress!
 
     # Get the header-provided login value
     login = read_sso_login
 
     if login.present?
-      perform_header_sso login, user
+      api_key_authenticated? ? user : perform_header_sso(login, user)
     elsif header_optional?
       user
     else

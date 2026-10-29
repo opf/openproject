@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,10 +33,10 @@ RSpec.describe UserPreference do
   subject(:preference) do
     build(:user_preference,
           user:,
-          settings:)
+          settings: preferences)
   end
 
-  let(:settings) { {} }
+  let(:preferences) { {} }
 
   let(:user) { build_stubbed(:user) }
 
@@ -81,6 +80,16 @@ RSpec.describe UserPreference do
     it_behaves_like "accepts real and false booleans",
                     :warn_on_leaving_unsaved=,
                     :warn_on_leaving_unsaved?
+  end
+
+  describe "require double click for inline edit" do
+    it_behaves_like "accepts real and false booleans",
+                    :require_double_click_for_inline_edit=,
+                    :require_double_click_for_inline_edit?
+
+    it "is disabled without a value being stored" do
+      expect(subject.require_double_click_for_inline_edit).to be false
+    end
   end
 
   describe "auto hide popups" do
@@ -133,7 +142,7 @@ RSpec.describe UserPreference do
     end
 
     context "with reminders being stored" do
-      let(:settings) do
+      let(:preferences) do
         {
           "daily_reminders" => {
             "enabled" => false,
@@ -144,7 +153,7 @@ RSpec.describe UserPreference do
 
       it "returns the stored value" do
         expect(subject.daily_reminders)
-          .to eql(settings["daily_reminders"])
+          .to eql(preferences["daily_reminders"])
       end
     end
   end
@@ -158,7 +167,7 @@ RSpec.describe UserPreference do
     end
 
     context "with work days being stored" do
-      let(:settings) do
+      let(:preferences) do
         {
           "workdays" => [1, 2, 4, 5]
         }
@@ -171,7 +180,7 @@ RSpec.describe UserPreference do
     end
 
     context "with work days being stored and empty" do
-      let(:settings) do
+      let(:preferences) do
         {
           "workdays" => []
         }
@@ -206,7 +215,7 @@ RSpec.describe UserPreference do
 
   describe "#time_zone" do
     context "with a time zone set and a default configured", with_settings: { user_default_timezone: "America/Los_Angeles" } do
-      let(:settings) { { "time_zone" => "Africa/Algiers" } }
+      let(:preferences) { { "time_zone" => "Africa/Algiers" } }
 
       it "returns the time zone set" do
         expect(preference.time_zone).to eql "Africa/Algiers"
@@ -219,7 +228,7 @@ RSpec.describe UserPreference do
       end
     end
 
-    context "with neiter a time zone configured nor a default one", with_settings: { user_default_timezone: "" } do
+    context "with neither a time zone configured nor a default one", with_settings: { user_default_timezone: "" } do
       it "returns UTC" do
         expect(preference.time_zone).to eql "Etc/UTC"
       end
@@ -228,7 +237,7 @@ RSpec.describe UserPreference do
 
   describe "#time_zone?" do
     context "with a time zone set and a default configured", with_settings: { user_default_timezone: "America/Los_Angeles" } do
-      let(:settings) { { "time_zone" => "Africa/Algiers" } }
+      let(:preferences) { { "time_zone" => "Africa/Algiers" } }
 
       it "is true" do
         expect(preference).to be_time_zone
@@ -241,9 +250,77 @@ RSpec.describe UserPreference do
       end
     end
 
-    context "with neiter a time zone configured nor a default one", with_settings: { user_default_timezone: "" } do
+    context "with neither a time zone configured nor a default one", with_settings: { user_default_timezone: "" } do
       it "is false" do
         expect(preference).not_to be_time_zone
+      end
+    end
+  end
+
+  describe "#date_format" do
+    context "with setting set", with_settings: { date_format: "%Y-%m-%d" } do
+      context "with preference set" do
+        let(:preferences) { { "date_format" => "%Y.%m.%d" } }
+
+        it "returns the preference value" do
+          expect(preference.date_format).to eql "%Y.%m.%d"
+        end
+      end
+
+      context "without preference set" do
+        it "returns nil, ignoring the setting" do
+          expect(preference.date_format).to be_nil
+        end
+      end
+    end
+
+    context "without default configured" do
+      context "with preference set" do
+        let(:preferences) { { "date_format" => "%Y.%m.%d" } }
+
+        it "returns the preference value" do
+          expect(preference.date_format).to eql "%Y.%m.%d"
+        end
+      end
+
+      context "without preference set" do
+        it "returns empty value" do
+          expect(preference.date_format).to be_nil
+        end
+      end
+    end
+  end
+
+  describe "#time_format" do
+    context "with setting", with_settings: { time_format: "%Hh%M" } do
+      context "with preference set" do
+        let(:preferences) { { "time_format" => "%H:%M" } }
+
+        it "returns the preference value" do
+          expect(preference.time_format).to eql "%H:%M"
+        end
+      end
+
+      context "without preference set" do
+        it "returns nil, ignoring the setting" do
+          expect(preference.time_format).to be_nil
+        end
+      end
+    end
+
+    context "without setting" do
+      context "with preference set" do
+        let(:preferences) { { "time_format" => "%H:%M" } }
+
+        it "returns the preference value" do
+          expect(preference.time_format).to eql "%H:%M"
+        end
+      end
+
+      context "without preference set" do
+        it "returns empty value" do
+          expect(preference.time_format).to be_nil
+        end
       end
     end
   end
@@ -258,7 +335,7 @@ RSpec.describe UserPreference do
     end
 
     context "with a dark theme specified" do
-      let(:settings) { { "theme" => "dark" } }
+      let(:preferences) { { "theme" => "dark" } }
 
       it "returns the dark theme" do
         expect(subject.theme).to eq("dark")
@@ -268,7 +345,7 @@ RSpec.describe UserPreference do
     end
 
     context "with a light theme and contrast enabled" do
-      let(:settings) { { "theme" => "light", "increase_theme_contrast" => true } }
+      let(:preferences) { { "theme" => "light", "increase_theme_contrast" => true } }
 
       it "returns light theme with high contrast detection" do
         expect(subject.theme).to eq("light")
@@ -280,7 +357,7 @@ RSpec.describe UserPreference do
     end
 
     context "with a dark theme and contrast enabled" do
-      let(:settings) { { "theme" => "dark", "increase_theme_contrast" => true } }
+      let(:preferences) { { "theme" => "dark", "increase_theme_contrast" => true } }
 
       it "returns dark theme with high contrast detection" do
         expect(subject.theme).to eq("dark")
@@ -292,7 +369,7 @@ RSpec.describe UserPreference do
     end
 
     context "with light theme and contrast disabled" do
-      let(:settings) { { "theme" => "light", "increase_theme_contrast" => false } }
+      let(:preferences) { { "theme" => "light", "increase_theme_contrast" => false } }
 
       it "returns light theme without high contrast" do
         expect(subject.theme).to eq("light")
@@ -304,7 +381,7 @@ RSpec.describe UserPreference do
     end
 
     context "with dark theme and contrast disabled" do
-      let(:settings) { { "theme" => "dark", "increase_theme_contrast" => false } }
+      let(:preferences) { { "theme" => "dark", "increase_theme_contrast" => false } }
 
       it "returns dark theme without high contrast" do
         expect(subject.theme).to eq("dark")
@@ -316,7 +393,7 @@ RSpec.describe UserPreference do
     end
 
     context "with system theme specified" do
-      let(:settings) { { "theme" => "sync_with_os" } }
+      let(:preferences) { { "theme" => "sync_with_os" } }
 
       it "returns the system theme" do
         expect(subject.theme).to eq("sync_with_os")
@@ -325,7 +402,7 @@ RSpec.describe UserPreference do
     end
 
     context "with unset contrast settings" do
-      let(:settings) { { "theme" => "light" } }
+      let(:preferences) { { "theme" => "light" } }
 
       it "defaults contrast settings to false" do
         expect(subject).not_to be_increase_theme_contrast
@@ -334,6 +411,24 @@ RSpec.describe UserPreference do
         expect(subject).not_to be_a_light_high_contrast_theme
         expect(subject).not_to be_a_dark_high_contrast_theme
       end
+    end
+  end
+
+  describe "#avatar_color=" do
+    it "normalizes a long hex form to uppercase" do
+      subject.avatar_color = "#aabbcc"
+      expect(subject.avatar_color).to eql "#AABBCC"
+    end
+
+    it "normalizes a short hex form to its long uppercase form" do
+      subject.avatar_color = "#abc"
+      expect(subject.avatar_color).to eql "#AABBCC"
+    end
+
+    it "clears the value when set to blank" do
+      subject.avatar_color = "#aabbcc"
+      subject.avatar_color = ""
+      expect(subject.avatar_color).to be_nil
     end
   end
 

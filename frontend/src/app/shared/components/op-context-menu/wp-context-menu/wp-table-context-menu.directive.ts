@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -32,6 +31,7 @@ import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-
 import { PositionArgs, WorkPackageViewContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
 import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { keyboardNavigationEnabled } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 
 export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
   @LazyInject() wpViewIndentation:WorkPackageViewHierarchyIdentationService;
@@ -42,6 +42,16 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
     additionalPositionArgs:PositionArgs,
     protected table:WorkPackageTable) {
     super(injector, workPackageId, element, additionalPositionArgs, true);
+  }
+
+  protected override get afterFocusOn():HTMLElement {
+    if (!keyboardNavigationEnabled(this.table.configuration)) {
+      return super.afterFocusOn;
+    }
+
+    return this.element.closest<HTMLElement>('[tabindex="0"]')
+      ?? this.element.querySelector<HTMLElement>('[tabindex="0"]')
+      ?? super.afterFocusOn;
   }
 
   public triggerContextMenuAction(action:WorkPackageAction) {

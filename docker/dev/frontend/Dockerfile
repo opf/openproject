@@ -10,8 +10,6 @@ RUN apt-get update && apt-get install -y chromium
 
 ENV CHROME_BIN=/usr/bin/chromium
 
-RUN npm i -g npm@11.3.0
-
 RUN groupadd $USER || true
 RUN groupmod -g $DEV_GID $USER || true
 RUN usermod -u $DEV_UID -d /home/dev $USER || true

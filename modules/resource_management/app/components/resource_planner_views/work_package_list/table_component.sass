@@ -14,6 +14,11 @@
       // their tracks aligned. minmax(0, …) lets a track shrink below its content.
       grid-template-columns: minmax(0, 376fr) minmax(0, 80fr) minmax(0, 200fr) minmax(0, 200fr) minmax(0, 200fr) 40px
 
+    // A global planner names each work package's project in a column after the
+    // subject, which the subject gives up its width for.
+    &.-global .op-border-box-grid
+      grid-template-columns: minmax(0, 236fr) minmax(0, 180fr) minmax(0, 80fr) minmax(0, 200fr) minmax(0, 200fr) minmax(0, 200fr) 40px
+
     // Subject keeps its main-column semantics (row header role, no truncation)
     // but must occupy a single track in the explicit template above rather than
     // spanning two as the shared grid would have it.

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,7 +32,7 @@ module Queries
   # ["Job title is Developer", "Spoken language is German, English"].
   #
   #   Queries::FilterSummary.new(query.filters).phrases
-  #   Queries::FilterSummary.new(allocation.user_filter).to_s
+  #   Queries::FilterSummary.new(placeholder_user.user_filter).to_s
   #
   # List filters (custom fields, status, …) have their value ids resolved to the
   # corresponding objects; other filters fall back to their raw values. A filter

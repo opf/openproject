@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,6 +34,7 @@ module Projects
         class ListComponent < ApplicationComponent
           include OpPrimer::ComponentHelpers
           include OpTurbo::Streamable
+          include WorkPackageTypes::VariantRoutes
 
           def initialize(project:)
             super()
@@ -98,19 +98,23 @@ module Projects
           end
 
           def variant_caption(variant)
-            if owned?(variant)
+            if owned_by_project?(variant)
               t("projects.settings.types.project_specific_variant")
             else
               t("projects.settings.types.variant_label")
             end
           end
 
-          def owned?(variant)
+          def owned_by_project?(variant)
             variant.project_id == project.id
           end
 
           def configurable?(variant)
-            owned?(variant) && manageable?
+            owned_by_project?(variant) && manageable?
+          end
+
+          def convertible?(variant)
+            owned_by_project?(variant) && User.current.admin?
           end
 
           def manageable?
@@ -133,19 +137,11 @@ module Projects
             }
           end
 
-          # Named explicitly: this page is not one of the variant screens, so no request carries
-          # the project for it.
-          def add_variant_path(type)
-            new_creation_wizard_types_path(in_project_id: project, type_id: type.id)
-          end
+          def add_variant_path(type) = new_variant_creation_wizard_path(project, type)
 
-          def edit_variant_path(variant)
-            type_settings_path(in_project_id: project, type_id: variant.type_id, variant_id: variant.id)
-          end
+          def edit_variant_path(variant) = variant_settings_path(project, variant)
 
-          def delete_variant_path(variant)
-            type_variant_path(in_project_id: project, type_id: variant.type_id, id: variant.id)
-          end
+          def delete_variant_path(variant) = variant_path(project, variant)
 
           def actionable?(project_type, variant)
             usable?(project_type, variant) || configurable?(variant)
@@ -159,10 +155,30 @@ module Projects
             use_action(menu, variant) if usable?(project_type, variant)
             return unless configurable?(variant)
 
+            edit_action(menu, variant)
+            convert_action(menu, variant) if convertible?(variant)
+            menu.with_divider
+            delete_action(menu, variant)
+          end
+
+          def edit_action(menu, variant)
             menu.with_item(label: t(:button_edit), href: edit_variant_path(variant)) do |entry|
               entry.with_leading_visual_icon(icon: :pencil)
             end
-            menu.with_divider
+          end
+
+          # Converting is a global operation, so it doesn't pass in_project_id
+          def convert_action(menu, variant)
+            menu.with_item(
+              label: t("types.index.convert_to_global"),
+              href: convert_to_global_dialog_type_variant_path(type_id: variant.type_id, id: variant.id),
+              content_arguments: { data: { controller: "async-dialog" } }
+            ) do |entry|
+              entry.with_leading_visual_icon(icon: :"stack-check")
+            end
+          end
+
+          def delete_action(menu, variant)
             menu.with_item(
               label: t(:button_delete),
               scheme: :danger,

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -81,7 +80,7 @@ RSpec.describe "type PDF export template settings", :js do
   end
 
   it "keeps the table of contents enabled and the hyphenation language unset when saving " \
-     "artefact settings that were never configured" do
+     "artifact settings that were never configured" do
     click_link_or_button type.default_variant.pdf_export_templates.find("artefact").label
 
     expect(page).to have_checked_field("toc_enabled")
@@ -103,14 +102,14 @@ RSpec.describe "type PDF export template settings", :js do
     expect(type.default_variant.reload.pdf_export_templates.settings_for("attributes")).to eq({})
   end
 
-  context "when the type links its PDF export config to a source type", with_flag: { type_variants: true } do
-    let(:source) { create(:type) }
+  context "when the variant inherits its PDF export config from its base" do
+    let(:variant) { create(:type_variant, type:) }
 
     before do
-      source.default_variant.pdf_export_templates.update_settings("attributes", "footer_text" => "Source footer")
-      source.default_variant.save!
-      link_configuration(type, source:, aspect: TypeVariant::PDF_EXPORT)
-      visit edit_type_pdf_export_template_index_path(type)
+      type.default_variant.pdf_export_templates.update_settings("attributes", "footer_text" => "Base footer")
+      type.default_variant.save!
+      link_configuration(variant, aspect: TypeVariant::PDF_EXPORT)
+      visit edit_type_variant_pdf_export_template_index_path(type_id: type.id, variant_id: variant.id)
     end
 
     it "does not link the template label to its settings", :aggregate_failures do
@@ -121,9 +120,10 @@ RSpec.describe "type PDF export template settings", :js do
     end
 
     it "shows the inherited settings with disabled fields" do
-      visit edit_settings_type_pdf_export_template_path(type_id: type.id, id: "attributes")
+      visit edit_settings_type_variant_pdf_export_template_path(type_id: type.id, variant_id: variant.id,
+                                                                id: "attributes")
 
-      expect(page).to have_field("footer_text", with: "Source footer", disabled: true)
+      expect(page).to have_field("footer_text", with: "Base footer", disabled: true)
       expect(page).to have_button(I18n.t(:button_save), disabled: true)
     end
   end

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -35,7 +34,7 @@ export interface CaretPlacement {
 
 const CARET_INSET_IN_PX = 12;
 
-// The caret sits on the popover edge that faces the anchor, centred on the
+// The caret sits on the popover edge that faces the anchor, centered on the
 // anchor along that edge and kept clear of the popover's rounded corners.
 export function caretPlacement(popover:DOMRect, anchor:DOMRect):CaretPlacement {
   const side = caretSide(popover, anchor);

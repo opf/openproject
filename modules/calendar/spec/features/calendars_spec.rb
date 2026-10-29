@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -183,32 +182,38 @@ RSpec.describe "Work package calendars", :js do
     expect(page)
       .to have_no_css ".fc-event-title", text: another_future_work_package.subject
 
-    # click goes to work package split screen
-    page.find(".fc-event-title", text: current_work_package.subject).click
+    # The app may not be fully initialized even though the calendar events are
+    # visible right after the browser back navigation above. Clicking too early
+    # can click a stale element or hit an app that isn't ready yet. Retry to
+    # handle this (see the identical situation, with the same explanation, further
+    # below for the analogous click after the next go_back).
+    retry_block do
+      # click goes to work package split screen
+      page.find(".fc-event-title", text: current_work_package.subject).click
 
-    wait_for_turbo_frame do
-      expect(page).to have_current_path("/projects/#{project.identifier}/calendars/new/details/#{current_work_package.id}", ignore_query: true)
-      current_wp_split_screen.expect_open
+      wait_for_turbo_frame do
+        expected_path = "/projects/#{project.identifier}/calendars/new/details/#{current_work_package.id}"
+        expect(page).to have_current_path(expected_path, ignore_query: true)
+        current_wp_split_screen.expect_open
+      end
     end
 
     # Going back in browser history will lead us back to the calendar
     # Regression #29664
-    retry_block do
-      page.go_back
-      expect_angular_frontend_initialized
-      expect(page)
-        .to have_css(".fc-event-title", text: current_work_package.subject, wait: 20)
-      current_wp_split_screen.expect_closed
-    end
+    page.go_back
+    expect(page).to have_current_path(%r{/projects/#{project.identifier}/calendars/new(?:\?|$)})
+    page.refresh
+    expect_angular_frontend_initialized
+    expect(page)
+      .to have_css(".fc-event-title", text: current_work_package.subject, wait: 20)
+    current_wp_split_screen.expect_closed
 
     # After go_back, the app may not be fully initialized even though the
     # calendar events are visible. Clicking too early can cause an "not
     # authorized" error on the split screen API call. Retry to handle this.
-    retry_block do
-      page.find(".fc-event-title", text: current_work_package.subject).click
-      wait_for_turbo_frame do
-        current_wp_split_screen.expect_open
-      end
+    page.find(".fc-event-title", text: current_work_package.subject).click
+    wait_for_turbo_frame do
+      current_wp_split_screen.expect_open
     end
 
     # click back goes back to calendar

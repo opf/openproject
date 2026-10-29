@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -44,22 +43,22 @@ See COPYRIGHT and LICENSE files for more details.
     end
 
     dialog.with_footer do
-      # `mr: :auto` pushes the allocate action to the left of the footer's
-      # flex row, leaving the close button right-aligned.
-      concat(
-        render(
-          Primer::Beta::Button.new(
-            scheme: :link,
-            tag: :a,
-            href: allocate_resource_path,
-            mr: :auto,
-            data: { controller: "async-dialog" }
-          )
-        ) do |button|
-          button.with_leading_visual_icon(icon: :"person-add")
-          t("resource_management.work_package_allocations_dialog.allocate_resource")
-        end
-      )
+      if allocatable?
+        concat(
+          render(
+            Primer::Beta::Button.new(
+              scheme: :link,
+              tag: :a,
+              href: allocate_resource_path,
+              mr: :auto,
+              data: { controller: "async-dialog" }
+            )
+          ) do |button|
+            button.with_leading_visual_icon(icon: :"person-add")
+            t("resource_management.work_package_allocations_dialog.allocate_resource")
+          end
+        )
+      end
       concat(
         render(Primer::Beta::Button.new(data: { "close-dialog-id": DIALOG_ID })) do
           t(:button_close)

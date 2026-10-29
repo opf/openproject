@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -196,7 +195,7 @@ RSpec.describe Projects::CreationWizardStatusComponent, type: :component do
 
       it "renders a button linking to the work package" do
         rendered = render_inline(component)
-        expect(rendered).to have_link(href: project_work_packages_path(project, work_package))
+        expect(rendered).to have_link(href: project_work_package_path(project, work_package))
       end
     end
 

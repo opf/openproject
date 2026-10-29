@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -37,6 +36,8 @@ interface VisitingSession {
 
 describe('Filters form navigation', () => {
   const framePath = '/projects/demo/backlogs/backlog';
+  const bucketIds = JSON.stringify(['inbox', '7']);
+  const sprintIds = JSON.stringify('8');
 
   let ctx:StimulusTestContext;
   let Controller:typeof FiltersFormControllerType;
@@ -91,7 +92,9 @@ describe('Filters form navigation', () => {
   }
 
   function setUrl(filters?:string) {
-    const params = new URLSearchParams('all=true&page=3&bucket_ids[]=inbox&bucket_ids[]=7&sprint_ids[]=8&sortBy=position');
+    const params = new URLSearchParams({
+      all: 'true', page: '3', bucket_ids: bucketIds, sprint_ids: sprintIds, sortBy: 'position',
+    });
     if (filters !== undefined) params.set('filters', filters);
     window.history.replaceState(window.history.state, '', `${window.location.pathname}?${params}`);
   }
@@ -119,8 +122,8 @@ describe('Filters form navigation', () => {
     const url = visitedUrl();
     expect(url.searchParams.has('all')).toBe(false);
     expect(url.searchParams.has('page')).toBe(false);
-    expect(url.searchParams.getAll('bucket_ids[]')).toEqual(['inbox', '7']);
-    expect(url.searchParams.getAll('sprint_ids[]')).toEqual(['8']);
+    expect(url.searchParams.get('bucket_ids')).toEqual(bucketIds);
+    expect(url.searchParams.get('sprint_ids')).toEqual(sprintIds);
     expect(url.searchParams.get('sortBy')).toBe('position');
     expect(url.pathname).toBe(framePath);
     expect(url.searchParams.get('filters') ?? '').toBe(controller.serializedFiltersWith());
