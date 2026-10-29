@@ -75,6 +75,7 @@ tr:
     omniauth_login: Hesabınızı aktifleştirmek için lütfen giriş yapın.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
+    username_or_email: Username or email
   actionview_instancetag_blank_option: Lütfen seçin
   activemodel:
     attributes:
@@ -1042,6 +1043,8 @@ tr:
             identifier:
               must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -2212,10 +2215,11 @@ tr:
         save: Save changes and continue
         title: Save changes before continuing?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'Role: %{role}'
         no_role: Select role
@@ -3570,10 +3574,11 @@ tr:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
@@ -4189,6 +4194,7 @@ tr:
   label_interface_colors_description: 'Bu renkler uygulamanın nasıl görüneceğini kontrol eder. Bunları değiştirirseniz tema otomatik olarak Özel tema olarak değiştirilecektir, ancak erişilebilirlik kontrast gereksinimleri (WCAG 2.1) uyumluluğunu garanti edemeyiz. '
   label_internal: Dahili
   label_introduction_video: Başlarken videosu
+  label_invalid_file_type: This file type is not supported.
   label_invitation: Davet
   label_invite_user: Kullanıcı davet et
   label_item: Öğe
@@ -5324,21 +5330,20 @@ tr:
           tb: TB
   oauth:
     application:
+      basic_details: Basic details
       builtin: Yerleşik OAuth uygulamaları
       client_credentials: Müşteri kimlik bilgileri
       confidential: Gizli
-      default_scopes: "(Varsayılan kapsamlar)"
       instructions:
-        client_credential_user_id: İstemciler bu uygulamayı kullandıklarında kimliğe bürünmek için isteğe bağlı kullanıcı kimliği. Yalnızca genel erişime izin vermek için boş bırakın
-        confidential: Uygulamanın, müşteri sırrının gizli tutulabileceği yerlerde kullanılıp kullanılmayacağını kontrol edin. Yerel mobil uygulamalar ve Tek Sayfa Uygulamaları gizli değildir.
-        default_scopes: ''
-        enabled: Bu uygulamayı etkinleştirerek kullanıcıların bununla yetkilendirme bağışları gerçekleştirmesine izin verin.
-        name: Uygulamanızın adı. Bu, yetkilendirildikten sonra diğer kullanıcılara gösterilecektir.
-        redirect_uri_html: 'İzin verilen URL''ler yetkili kullanıcılar adresine yönlendirilebilir. Her satıra bir giriş. <br/> Bir masaüstü uygulamasına kaydoluyorsanız, aşağıdaki URL''yi kullanın.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: OpenProject için bir OAuth API istemci uygulaması geliştiriyorsanız, tüm kullanıcıların kullanması için bu formu kullanarak kayıt olabilirsiniz.
-        scopes: Uygulamanın erişmesine izin vermek istediğiniz kapsamları kontrol edin. Kapsam işaretli değilse, api_v3 olduğu kabul edilir.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: Oauth uygulaması %{name}
       new: Yeni OAuth uygulaması
       non_confidential: Gizli olmayan
@@ -5355,7 +5360,7 @@ tr:
         '
     authorization_error: Bir yetkilendirme hatası oluştu.
     client_credentials: Müşteri kimlik bilgileri için kullanılan kullanıcı
-    client_credentials_impersonation_html: 'Varsayılan olarak, OpenProject,%{authorization_code_flow_link}. yoluyla OAuth 2.0 yetkilendirmesi sağlar. İsteğe bağlı olarak%{client_credentials_flow_link} özelliğini etkinleştirebilirsiniz, ancak kendi adına istekleri gerçekleştirilecek bir kullanıcı sağlamanız gerekir.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: İstemci kimlik bilgileri kullanıcısı olarak ayarlandı
@@ -5381,9 +5386,12 @@ tr:
       other_applications: Diğer OAuth uygulamaları
     my_registered_applications: OAuth uygulamalarını kayıtedin
     scopes:
-      api_v3: Tam API v3 erişimi
+      api_v3: Access to APIv3
       api_v3_text: Uygulama, sizin adınıza işlem yapmak için OpenProject API v3'e tam okuma ve yazma erişimi alacaktır.
-      mcp: Access to MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
   oauth_client:
     errors:
@@ -5493,16 +5501,15 @@ tr:
       parent: Üst
       short: Kısa adı
       weight: Weight
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Bağlantıyı yeni sekmede aç
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Drag to reorder
-        menu:
-          label_actions: Work package actions
-        parent: Parent
-        undisclosed: Undisclosed
   page:
     text: Metin
   pagination:

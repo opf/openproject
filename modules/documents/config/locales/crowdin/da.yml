@@ -77,8 +77,8 @@ da:
         title: Deaktiver samarbejde i realtid
       enable_text_collaboration:
         description: |-
-          Når det er aktiveret, vil flere brugere kunne arbejde sammen på et dokument på samme tid.
-          Alle nye dokumenter vil være baseret på en ny editor (BlockNote) og kræver en fungerende forbindelse til en
+          Når det er slået til, kan flere brugere arbejde sammen på et dokument samtidig.
+          Alle nye dokumenter bruger en ny editor (BlockNote) og kræver en fungerende forbindelse til en
           Hocuspocus-server.
         heading: Samarbejde i realtid er ikke aktiveret
         primary_action: Aktivér samarbejde i realtid
@@ -86,7 +86,7 @@ da:
     button_add_type: Type
     delete_dialog:
       confirmation_message_html: Dokumentet og alle vedhæftede filer slettes permanent. Er du sikker på, at du vil gøre det?
-      heading: Slet dette dokument?
+      heading: Vil du slette dokumentet?
       title: Slet dokument
     delete_document_type_dialog:
       at_least_one_type_required:
@@ -96,14 +96,14 @@ da:
       confirmation_message: Typen "%{type_name}" bruges ikke i øjeblikket. Det påvirker ikke eksisterende dokumenter at slette den.
       heading: Vil du slette dokumenttypen?
       reassign_message:
-        one: Typen "%{type_name}" bruges i øjeblikket i %{document_count} dokument. Vælg venligst hvilken type der skal angives dokumentet.
-        other: Typen "%{type_name}" bruges i øjeblikket i %{document_count} dokumenter. Vælg venligst, hvilken type de skal overgå til.
+        one: Typen "%{type_name}" bruges i øjeblikket i %{document_count} dokument. Vælg, hvilken type det skal flyttes til.
+        other: Typen "%{type_name}" bruges i øjeblikket i %{document_count} dokumenter. Vælg, hvilken type de skal flyttes til.
       select_reassign_to_label: Gentildel dokumenter til
       title: Slet dokumenttype
     document_categories_deprecation_notice:
       description: |-
-        Dine eksisterende filkategorier er blevet konverteret til dokumenttyper med introduktionen af det nye dokumentmodul.
-        Alle eksisterende dokumenter er også blevet migreret til disse nye typer.
+        Med det nye modul Dokumenter er dine eksisterende filkategorier omdannet til dokumenttyper.
+        Alle eksisterende dokumenter er også flyttet til de nye typer.
       heading: Filkategorier hedder nu 'Dokumenttyper'
       primary_action: Konfigurer dokumenttyper
       secondary_action: Få mere at vide om modulet Dokumenter
@@ -146,8 +146,8 @@ da:
         placeholder: Skriv her for at søge i dokumentnavne
     text_collaboration_disabled_notice:
       description: |-
-        Det er ikke muligt at åbne dokumentet, fordi tekstsamarbejde i realtid er deaktiveret.
-        Kontakt din administrator for at aktivere tekstsamarbejde i realtid, hvis du vil have adgang til dette dokument.
+        Dokumentet kan ikke åbnes, fordi tekstsamarbejde i realtid er slået fra.
+        Kontakt din administrator for at få slået tekstsamarbejde i realtid til, hvis du vil have adgang til dokumentet.
   enumeration_doc_categories: Dokumentkategorier
   label_document_added: Dokument tilføjet
   label_document_category: Kategori

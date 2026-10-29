@@ -9,9 +9,11 @@ body
 
 // Show the correct icon for the current expansion state
 .wp-table--relation-indicator
+  @include unset-button-styles
   @include icon-common
   @extend .icon-arrow-down1
   font-size: 0.6rem
+  color: inherit
   cursor: pointer
 
   .wp-table--relation-cell-td.-expanded &

@@ -59,10 +59,9 @@ module Import
         elsif batch.properties[:stage] == 1
           Rails.logger.info "Starting stage 2"
           batch.enqueue(stage: 2) do
-            Import::JiraProject.where(jira_import_id: jira_import.id,
-                                      origin_id: jira_import.project_ids).pluck(:id).each do |id|
-              Import::JiraFetchProjectIssuesJob.set(good_job_labels: ["stage_2"]).perform_later(jira_import.id, id)
-              Import::JiraFetchProjectVersionsJob.set(good_job_labels: ["stage_2"]).perform_later(jira_import.id, id)
+            find_each_imported_project(jira_import) do |jira_project|
+              Import::JiraFetchProjectIssuesJob.set(good_job_labels: ["stage_2"]).perform_later(jira_import.id, jira_project.id)
+              Import::JiraFetchProjectVersionsJob.set(good_job_labels: ["stage_2"]).perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 2
@@ -85,16 +84,14 @@ module Import
         elsif batch.properties[:stage] == 5
           Rails.logger.info "Starting stage 6"
           batch.enqueue(stage: 6) do
-            Import::JiraProject.where(jira_import_id: jira_import.id,
-                                      origin_id: jira_import.project_ids).find_each do |jira_project|
+            find_each_imported_project(jira_import) do |jira_project|
               Import::JiraCreateProjectJob.set(good_job_labels: ["stage_6"]).perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 6
           Rails.logger.info "Starting stage 7"
           batch.enqueue(stage: 7) do
-            Import::JiraProject.where(jira_import_id: jira_import.id,
-                                      origin_id: jira_import.project_ids).find_each do |jira_project|
+            find_each_imported_project(jira_import) do |jira_project|
               Import::JiraCreateProjectVersionsJob
                 .set(good_job_labels: ["stage_7"])
                 .perform_later(jira_import.id, jira_project.id)
@@ -103,8 +100,7 @@ module Import
         elsif batch.properties[:stage] == 7
           Rails.logger.info "Starting stage 8"
           batch.enqueue(stage: 8) do
-            Import::JiraProject.where(jira_import_id: jira_import.id,
-                                      origin_id: jira_import.project_ids).find_each do |jira_project|
+            find_each_imported_project(jira_import) do |jira_project|
               Import::JiraCreateProjectWorkPackagesJob.set(good_job_labels: ["stage_8"])
                 .perform_later(jira_import.id, jira_project.id)
             end
@@ -112,13 +108,20 @@ module Import
         elsif batch.properties[:stage] == 8
           Rails.logger.info "Starting stage 9"
           batch.enqueue(stage: 9) do
-            Import::JiraProject.where(jira_import_id: jira_import.id,
-                                      origin_id: jira_import.project_ids).find_each do |jira_project|
+            find_each_imported_project(jira_import) do |jira_project|
               Import::JiraCreateProjectWorkPackageAttachmentsJob.set(good_job_labels: ["stage_9"])
                 .perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 9
+          Rails.logger.info "Starting stage 10"
+          batch.enqueue(stage: 10) do
+            find_each_imported_project(jira_import) do |jira_project|
+              Import::JiraCreateProjectTimeEntriesJob.set(good_job_labels: ["stage_10"])
+                .perform_later(jira_import.id, jira_project.id)
+            end
+          end
+        elsif batch.properties[:stage] == 10
           Rails.logger.info "Import finished"
           jira_import.transition_to!(:imported)
         end
@@ -126,6 +129,11 @@ module Import
         Rails.logger.error "Staged import batch discarded, one or more jobs failed"
         jira_import.transition_to!(:import_error)
       end
+    end
+
+    def find_each_imported_project(jira_import, &)
+      Import::JiraProject.where(jira_import_id: jira_import.id,
+                                origin_id: jira_import.project_ids).find_each(&)
     end
   end
 end
