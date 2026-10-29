@@ -75,6 +75,7 @@ hy:
     omniauth_login: Ձեր հաշիվն ակտիվացնելու համար խնդրում ենք մտնել։
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
+    username_or_email: Username or email
   actionview_instancetag_blank_option: Ընտրեք
   activemodel:
     attributes:
@@ -1038,6 +1039,8 @@ hy:
             identifier:
               must_not_be_changed: 'չպետք է փոփոխվի ձեռքով։ Աշխատանքային փաթեթների նույնացուցիչները հատկացվում են ինքնաշխատ և որոշվում են alias աղյուսակի միջոցով, ուստի դրանք ձեռքով փոփոխելը խաթարում է հղումները և նույնացուցիչների պատմությունը։ Եթե այս փոփոխությունը կանխամտածված է, պահպանեք `save(context: :%{context})`-ով և ապահովեք work_package_semantic_aliases աղյուսակի համապատասխանությունը։'
               semantic_identifier_incomplete: և sequence_number-ը պետք է սահմանվեն միաժամանակ։
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -2206,10 +2209,11 @@ hy:
         save: Պահպանել փոփոխությունները և շարունակել
         title: Պահպանե՞լ փոփոխությունները շարունակելուց առաջ։
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: Դեր՝ %{role}
         no_role: Ընտրեք դեր
@@ -3560,10 +3564,11 @@ hy:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
@@ -4179,6 +4184,7 @@ hy:
   label_interface_colors_description: 'Այս գույները վերահսկում են հավելվածի տեսքը։ Եթե դրանք փոփոխեք, թեման ավտոմատ կերպով կփոխվի Հատուկ թեմայի, սակայն մենք չենք կարող երաշխավորել մատչելիության հակադրության նվազագույն պահանջների (WCAG 2.1) պահպանումը։ '
   label_internal: Ներքին
   label_introduction_video: Ինչպես սկսելու տեսանյութ
+  label_invalid_file_type: This file type is not supported.
   label_invitation: Հրավեր
   label_invite_user: Հրավիրել օգտատեր
   label_item: Տարր
@@ -5314,21 +5320,20 @@ hy:
           tb: TB
   oauth:
     application:
+      basic_details: Basic details
       builtin: Համակարգի ներկառուցված հավելված
       client_credentials: Հաճախորդի հավատարմագրեր
       confidential: Գաղտնի
-      default_scopes: "(Կանխադրված շրջանակներ)"
       instructions:
-        client_credential_user_id: Ոչ պարտադիր օգտատիրոջ ID, որի անունից կգործեն հաճախորդներն այս հավելվածն օգտագործելիս։ Թողեք դատարկ՝ միայն հանրային հասանելիությունը թույլատրելու համար
-        confidential: Նշեք, եթե հավելվածը կօգտագործվի այնտեղ, որտեղ հաճախորդի գաղտնիքը կարող է գաղտնի պահվել։ Բնիկ բջջային հավելվածները և միաէջանի հավելվածները համարվում են ոչ գաղտնի։
-        default_scopes: ''
-        enabled: Միացրեք այս հավելվածը՝ թույլ տալով օգտատերերին դրա միջոցով տրամադրել լիազորման թույլտվություններ։
-        name: Ձեր հավելվածի անվանումը։ Այն կցուցադրվի այլ օգտատերերին լիազորման ժամանակ։
-        redirect_uri_html: 'Թույլատրելի URL-ները, որոնց կարող են վերահղվել լիազորված օգտատերերը։ Մեկ գրառում յուրաքանչյուր տողում։ <br/> Եթե գրանցում եք աշխատասեղանի հավելված, օգտագործեք հետևյալ URL-ը։
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: Եթե Դուք մշակում եք OAuth API հաճախորդի հավելված OpenProject-ի համար, կարող եք գրանցել այն այս ձևի միջոցով՝ բոլոր օգտատերերի օգտագործման համար։
-        scopes: Նշեք այն շրջանակները, որոնց հասանելիությունը ցանկանում եք տրամադրել հավելվածին։ Եթե ոչ մի շրջանակ նշված չէ, ենթադրվում է api_v3։
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: "'%{name}' OAuth հավելված"
       new: Նոր OAuth հավելված
       non_confidential: Ոչ գաղտնի
@@ -5345,7 +5350,7 @@ hy:
         '
     authorization_error: Լիազորման սխալ է տեղի ունեցել։
     client_credentials: Հաճախորդի հավատարմագրերի համար օգտագործվող օգտատեր
-    client_credentials_impersonation_html: 'Կանխադրված կարգով OpenProject-ը տրամադրում է OAuth 2.0 լիազորում %{authorization_code_flow_link}-ի միջոցով։ Ըստ ցանկության կարող եք միացնել %{client_credentials_flow_link}-ը, սակայն պետք է նշեք օգտատեր, ում անունից կկատարվեն հարցումները։
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: Հաճախորդի հավատարմագրերի օգտատերը սահմանված է՝
@@ -5371,9 +5376,12 @@ hy:
       other_applications: Այլ OAuth հավելվածներ
     my_registered_applications: Գրանցված OAuth հավելվածներ
     scopes:
-      api_v3: API v3-ի ամբողջական հասանելիություն
+      api_v3: Access to APIv3
       api_v3_text: Հավելվածը կստանա OpenProject API v3-ի ընթերցման և գրելու ամբողջական հասանելիություն՝ Ձեր անունից գործողություններ կատարելու համար։
-      mcp: Մուտք դեպի MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: Հավելվածը կստանա մուտք դեպի OpenProject-ի MCP վերջնակետեր։ Դրանք APIv3-ի սահմանափակ ենթաբազմություն են, որը հարմարեցված է AI գործակալների հետ օգտագործման համար։
   oauth_client:
     errors:
@@ -5481,16 +5489,15 @@ hy:
       parent: Ծնող
       short: Կարճ անվանում
       weight: Կշիռ
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Բացել հղումը նոր ներդիրում
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Քաշեք՝ վերադասավորելու համար
-        menu:
-          label_actions: Աշխատանքային փաթեթի գործողություններ
-        parent: Ծնող
-        undisclosed: Չբացահայտված
   page:
     text: Տեքստ
   pagination:

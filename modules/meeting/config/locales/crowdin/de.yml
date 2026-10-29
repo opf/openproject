@@ -24,15 +24,15 @@ de:
   activerecord:
     attributes:
       meeting:
-        agenda_sorting_mode: Sorting mode
+        agenda_sorting_mode: Sortiermodus
         duration: Dauer
         end_time: Endzeit
         location: Ort/Raum
         notes: Anmerkungen
         notify: Benachrichtigungen senden
         participant:
-          one: "%{count} Participant"
-          other: "%{count} Participants"
+          one: "%{count} Teilnehmer(in)"
+          other: "%{count} Teilnehmer(innen)"
         participants: Teilnehmer
         participants_added: 'Hinzugefügte Teilnehmer:'
         participants_attended: Anwesend
@@ -242,8 +242,8 @@ de:
   label_meeting_last_updated: Zuletzt aktualisiert
   label_meeting_minutes: Protokoll
   label_meeting_more:
-    one: There is %{count} more meeting.
-    other: There are %{count} more meetings.
+    one: Es gibt %{count} weitere Besprechung.
+    other: Es gibt %{count} weitere Besprechungen.
   label_meeting_new: Neue Besprechung
   label_meeting_new_dynamic: Neue einmalige Besprechung
   label_meeting_new_recurring: Neue Terminserie
@@ -288,11 +288,11 @@ de:
   label_recurring_meeting_delete: Besprechung löschen
   label_recurring_meeting_duplicate: Als einmalige Besprechung duplizieren
   label_recurring_meeting_more:
-    one: There is %{count} more scheduled meeting (%{schedule}).
-    other: There are %{count} more scheduled meetings (%{schedule}).
+    one: Es gibt %{count} folgende Besprechung (%{schedule}).
+    other: Es gibt %{count} folgende Besprechungen (%{schedule}).
   label_recurring_meeting_more_past:
-    one: There is %{count} more past meeting.
-    other: There are %{count} more past meetings.
+    one: Es gibt %{count} weitere vergangene Besprechung.
+    other: Es gibt %{count} weitere vergangene Besprechungen.
   label_recurring_meeting_new: Neue Terminserie
   label_recurring_meeting_next_occurrence: Nächstes Ereignis
   label_recurring_meeting_no_end_date: Es sind weitere Besprechungen geplant (%{schedule}).
@@ -335,12 +335,12 @@ de:
       sorted_by_votes: Agenda sorted by votes.
       thumbs_down: Downvote
       thumbs_up: Upvote
-      title: Sorting mode
+      title: Sortiermodus
       vote_based: Vote-based
       vote_based_description: 'Participants can vote agenda items up or down. Items with the most votes are put on top within each section. Sections remain manually sorted.
 
         '
-      votes: 'Votes: %{count}'
+      votes: 'Stimmen: %{count}'
     attachments:
       onetime_template: Diese angehängten Dateien werden bei allen zukünftigen Besprechungen mit dieser Vorlage berücksichtigt.
       series_template: Die angehängten Dateien werden in alle künftigen Besprechungen dieser Terminserie einbezogen.
@@ -519,7 +519,7 @@ de:
       no_items: Keine Tagesordnungspunkte
       no_items_flash: Es sind keine Tagesordnungspunkte vorhanden.
       previous: Zurück
-      slide_progress: Slide %{current}/%{total}
+      slide_progress: Folie %{current}/%{total}
       title: Präsentationsmodus
       total_items: "%{current} von %{total}"
     types:
@@ -596,8 +596,8 @@ de:
     caption:
       ends_on: Dies führt zu einer Reihe, die am %{date} endet
       occurrences:
-        one: This results in %{count} upcoming occurrence
-        other: This results in %{count} upcoming occurrences
+        one: Dies führt zu %{count} bevorstehender Veranstaltung
+        other: Dies führt zu %{count} bevorstehenden Veranstaltungen
       occurrences_capped: Dies führt zu mehr als %{count} bevorstehenden Veranstaltungen
     day_of_month_skipping_info: Monate mit weniger als %{monthly_day} Tagen werden übersprungen
     delete_dialog:

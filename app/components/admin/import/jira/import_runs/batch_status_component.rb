@@ -43,7 +43,8 @@ module Admin::Import::Jira::ImportRuns
       { number: 6, icon: :"op-include-projects" },
       { number: 7, icon: :versions },
       { number: 8, icon: :"op-work-packages" },
-      { number: 9, icon: :paperclip }
+      { number: 9, icon: :paperclip },
+      { number: 10, icon: :clock }
     ].freeze
 
     def initialize(batch:)

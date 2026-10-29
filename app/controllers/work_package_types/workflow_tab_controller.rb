@@ -47,7 +47,7 @@ module WorkPackageTypes
     end
 
     def change
-      workflow = Workflow.available_in(@variant.project).find(params.expect(:workflow_id))
+      workflow = Workflow.find(params.expect(:workflow_id))
       missing_statuses = statuses_lost_by_switching_to(workflow)
       return confirm_change(workflow, missing_statuses) if missing_statuses.any? && !params[:confirmed]
 
@@ -55,8 +55,7 @@ module WorkPackageTypes
     end
 
     def start_dialog
-      respond_with_dialog start_dialog_component(url: start_variant_workflow_path(variant_scope_project, @variant,
-                                                                                  **dialog_params))
+      respond_with_dialog start_dialog_component(url: start_variant_workflow_path(@variant, **dialog_params))
     end
 
     def configure_dialog
@@ -70,13 +69,12 @@ module WorkPackageTypes
       return confirm_new_workflow if new_workflow_needs_confirmation?
 
       close_dialog_via_turbo_stream(confirm_dialog_id) if params[:confirmed]
-      respond_with_dialog naming_dialog(Workflow.new(project: @variant.project, name: provisional_name),
+      respond_with_dialog naming_dialog(Workflow.new(name: provisional_name),
                                         copy_from_id: chosen_copy_from_id)
     end
 
     def create
-      service_call = ::Workflows::CreateService.new(user: current_user)
-                                                 .call(project: @variant.project, **workflow_params)
+      service_call = ::Workflows::CreateService.new(user: current_user).call(**workflow_params)
       return render_form_errors(service_call.result) unless service_call.success?
 
       assign(service_call.result)
@@ -85,7 +83,7 @@ module WorkPackageTypes
 
     def start
       if copying_without_a_source?
-        return reject_missing_copy_source(start_variant_workflow_path(variant_scope_project, @variant, **dialog_params))
+        return reject_missing_copy_source(start_variant_workflow_path(@variant, **dialog_params))
       end
       return confirm_new_workflow if new_workflow_needs_confirmation?
 
@@ -161,7 +159,7 @@ module WorkPackageTypes
 
     def new_workflow_resume_path
       if action_name == "start"
-        start_variant_workflow_path(variant_scope_project, @variant, **dialog_params)
+        start_variant_workflow_path(@variant, **dialog_params)
       else
         configure_variant_workflow_path(@variant, **dialog_params)
       end
@@ -171,7 +169,7 @@ module WorkPackageTypes
       return if chosen_copy_from_id.blank?
       return @copy_source if defined?(@copy_source)
 
-      @copy_source = Workflow.available_in(@variant.project).find_by(id: chosen_copy_from_id)
+      @copy_source = Workflow.find_by(id: chosen_copy_from_id)
     end
 
     def eligible_roles = ::Workflows::StatusTransition.eligible_roles
@@ -193,9 +191,7 @@ module WorkPackageTypes
 
     def start_workflow
       ::Workflows::CreateService.new(user: current_user)
-                                  .call(project: @variant.project,
-                                        name: provisional_name,
-                                        copy_from_id: chosen_copy_from_id)
+                                  .call(name: provisional_name, copy_from_id: chosen_copy_from_id)
     end
 
     def assign(workflow)
@@ -225,7 +221,7 @@ module WorkPackageTypes
       NamedReferences::StartDialogComponent.new(
         model_class: ::Workflow,
         url:,
-        candidates: Workflow.available_in(@variant.project).in_display_order.to_a,
+        candidates: Workflow.in_display_order.to_a,
         error:,
         type_record_id: @variant.type_reference_id(Workflow.variant_reflection)
       )
@@ -233,7 +229,7 @@ module WorkPackageTypes
 
     def dialog_params = { back_url: }.compact
 
-    def provisional_name = Workflow.implicit_name(@variant.composite_name, project: @variant.project)
+    def provisional_name = Workflow.implicit_name(@variant.composite_name)
 
     def chosen_copy_from_id
       return unless params[:start] == NamedReferences::StartForm::COPY
