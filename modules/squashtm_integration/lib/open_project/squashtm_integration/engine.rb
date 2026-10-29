@@ -50,6 +50,31 @@ module OpenProject::SquashTMIntegration
 
     register "openproject-squashtm_integration",
              author_url: "https://www.openproject.org",
-             bundled: true
+             bundled: true do
+      menu :admin_menu,
+           :admin_squashtm_integration,
+           { controller: "/squashtm_integration/admin/servers", action: :show },
+           parent: :admin_integrations,
+           if: ->(_) { User.current.admin? },
+           caption: "SquashTM",
+           icon: :"op-logo-squashtm"
+
+      project_module(:squashtm, dependencies: :work_package_tracking) do
+        permission :view_squashtm_test_results,
+                   {},
+                   permissible_on: :project,
+                   dependencies: :view_work_packages
+
+        permission :manage_squashtm_links,
+                   {},
+                   permissible_on: :project,
+                   dependencies: :view_squashtm_test_results
+
+        permission :manage_squashtm_integration,
+                   {},
+                   permissible_on: :project,
+                   require: :member
+      end
+    end
   end
 end
