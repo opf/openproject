@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe McpTools::SearchLabels, with_flag: { work_package_labels: true } do
+RSpec.describe McpTools::SearchLabels do
   subject(:mcp_request) do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "Content-Type", "application/json"
@@ -93,13 +93,6 @@ RSpec.describe McpTools::SearchLabels, with_flag: { work_package_labels: true } 
     context "when the user cannot view work packages anywhere" do
       let(:user) { create(:user) }
 
-      it "does not find any labels" do
-        mcp_request
-        expect(result_items).to be_empty
-      end
-    end
-
-    context "when the labels feature is disabled", with_flag: { work_package_labels: false } do
       it "does not find any labels" do
         mcp_request
         expect(result_items).to be_empty

@@ -61,8 +61,7 @@ module McpTools
     private
 
     def labels_visible?
-      OpenProject::FeatureDecisions.work_package_labels_active? &&
-        current_user.allowed_in_any_work_package?(:view_work_packages)
+      current_user.allowed_in_any_work_package?(:view_work_packages)
     end
   end
 end

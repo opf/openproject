@@ -48,17 +48,6 @@ module McpTools
       version_id.nil? ? wps.without_target_version : wps.with_target_version(version_id)
     }
 
-    # With the labels feature disabled, work packages are treated as carrying no labels at all.
-    FILTER_ON_LABELS = ->(wps, label_id) {
-      if !OpenProject::FeatureDecisions.work_package_labels_active?
-        label_id.nil? ? wps : wps.none
-      elsif label_id.nil?
-        wps.without_labels
-      else
-        wps.labeled_with(label_id)
-      end
-    }
-
     # We can't use subclasses of WorkPackageFilter as filter_class, because they overwrite apply_to badly and rely on using
     # an instantiated Query to be used.
     filter :assigned_to_id
@@ -69,7 +58,7 @@ module McpTools
     filter :type_id
     filter :version_id, filter_proc: FILTER_ON_TARGET_VERSIONS
     filter :target_version_id, filter_proc: FILTER_ON_TARGET_VERSIONS
-    filter :label_id, filter_proc: FILTER_ON_LABELS
+    filter :label_id, filter_proc: ->(wps, label_id) { label_id.nil? ? wps.without_labels : wps.labeled_with(label_id) }
     filter :subject, filter_proc: ->(wps, v) { wps.where("subject ILIKE '%#{OpenProject::SqlSanitization.quoted_sanitized_sql_like(v)}%'") }
 
     input_schema(

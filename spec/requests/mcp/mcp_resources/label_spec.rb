@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe McpResources::Label, with_flag: { work_package_labels: true } do
+RSpec.describe McpResources::Label do
   subject(:mcp_request) do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "Content-Type", "application/json"
@@ -87,10 +87,6 @@ RSpec.describe McpResources::Label, with_flag: { work_package_labels: true } do
     context "when the user cannot view work packages anywhere" do
       let(:user) { create(:user) }
 
-      it_behaves_like "MCP empty resource response"
-    end
-
-    context "when the labels feature is disabled", with_flag: { work_package_labels: false } do
       it_behaves_like "MCP empty resource response"
     end
   end
