@@ -28,6 +28,8 @@
 #++
 module LlmModels
   class DeleteContract < ::DeleteContract
+    include EnvNamedDefault
+
     delete_permission :admin
 
     validate :manual_only
@@ -40,7 +42,7 @@ module LlmModels
     end
 
     def not_configured_from_env
-      errors.add :base, :configured_from_env if LlmConnection.find(model.llm_connection_id).env_named_default?(model)
+      errors.add :base, :configured_from_env if env_named_default?
     end
   end
 end

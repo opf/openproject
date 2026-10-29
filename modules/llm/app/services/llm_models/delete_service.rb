@@ -30,10 +30,8 @@ module LlmModels
   class DeleteService < ::BaseServices::Delete
     include LockedOnConnection
 
-    # Verdicts are keyed by the identifier string, not by foreign key, so leaving
-    # them behind would silently apply them to a future model re-added under the
-    # same name, and a connection default naming a model that no longer exists is
-    # one no AI feature could resolve.
+    # Verdicts are keyed by the identifier string, not by foreign key, and
+    # must not carry over to a model re-added under the same name.
     def persist(service_result)
       super.tap do |call|
         next unless call.success?

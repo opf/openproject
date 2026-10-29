@@ -34,7 +34,7 @@ module LlmModels
 
     def persist(service_result)
       llm_model = service_result.result
-      pin_type = type_chosen?(llm_model)
+      pin_type = type_chosen?
 
       ActiveRecord::Base.transaction(requires_new: true) do
         super.tap { |call| after_save(llm_model, pin_type:) if call.success? }
@@ -48,7 +48,7 @@ module LlmModels
       apply_capabilities(llm_model, pin_type:)
     end
 
-    def type_chosen?(_llm_model)
+    def type_chosen?
       params[:model_type].present?
     end
 
@@ -64,13 +64,8 @@ module LlmModels
       error.cause.try(:result)&.error_field(PG::Result::PG_DIAG_CONSTRAINT_NAME) == IDENTIFIER_INDEX
     end
 
-    # Stored as admin-sourced verdicts, which survive re-detection: an
-    # administrator knows things about their deployment that neither a published
-    # registry nor a probe can determine.
-    #
-    # A capability is only touched when its key was submitted. Absent is not the
-    # same as blank: a PATCH carrying one field would otherwise clear every
-    # assertion an administrator had made.
+    # A capability is only touched when its key was submitted: absent is not
+    # blank, and blank withdraws the administrator's assertion.
     def apply_capabilities(llm_model, pin_type:)
       embedding = params[:model_type].to_s == "embedding"
       assert(llm_model, :embeddings, embedding ? "supported" : "unsupported") if pin_type
@@ -82,8 +77,6 @@ module LlmModels
       end
     end
 
-    # "Not specified" clears an assertion rather than recording ignorance as
-    # fact; detection may fill it in later.
     def assert(llm_model, capability, state)
       verdict = llm_model.llm_connection.capability_verdicts
                          .find_or_initialize_by(model_id: llm_model.external_id, capability: capability.to_s)

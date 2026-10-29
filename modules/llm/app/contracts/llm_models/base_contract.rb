@@ -29,6 +29,7 @@
 module LlmModels
   class BaseContract < ::ModelContract
     include RequiresAdminGuard
+    include EnvNamedDefault
 
     attribute :display_name
     attribute :external_id, writable: -> { model.new_record? || model.manual? }
@@ -52,10 +53,6 @@ module LlmModels
 
         errors.add :"capability_#{capability}", :inclusion
       end
-    end
-
-    def env_named_default?
-      LlmConnection.find(model.llm_connection_id).env_named_default?(model)
     end
   end
 end

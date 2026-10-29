@@ -39,10 +39,9 @@ module LlmModels
       super
     end
 
-    # The type is only pinned when the administrator picked one that differs from
-    # what the model is today, so re-saving a discovered model does not freeze a
-    # type that a probe or a refresh could still correct.
-    def type_chosen?(_llm_model)
+    # A type is pinned only when it differs from the stored one, leaving an
+    # unchanged type open to correction by a probe or a refresh.
+    def type_chosen?
       super && params[:model_type].to_s != @stored_model_type
     end
 
