@@ -644,7 +644,7 @@ GEM
       fugit (>= 1.11.0)
       railties (>= 6.1.0)
       thor (>= 1.0.0)
-    google-apis-core (1.3.0)
+    google-apis-core (1.3.2)
       addressable (~> 2.9)
       faraday (~> 2.13)
       faraday-follow_redirects (~> 0.3)
@@ -1978,7 +1978,7 @@ CHECKSUMS
   glob (0.5.0) sha256=6397ae620b2f71b00424ec6c880c92d5ddcf6c44e6035c0b610a59efe16418fd
   globalid (1.4.0) sha256=037f12fbf1d9d7a014d501c2d5c77356fd4ddd96d7a7991d6700bba96706f427
   good_job (4.19.4) sha256=adbdf723d5b0a8fec25fedf5108628c74c91e4e9d980bb3375bafd750a132b70
-  google-apis-core (1.3.0) sha256=94543a5a1d0a0de98c165ac6ae68d2c1f131ad3734123994136b74c6484664f0
+  google-apis-core (1.3.2) sha256=dec616d1fee423b4337ca3a802efc61cff0739aa6a6de1ebd16ba30c1b7b6dd7
   google-apis-gmail_v1 (0.53.0) sha256=8ac02850e636de42bd6f54f20565eab4bf089f4334ae6ee76ad7c051e92cd5a4
   google-cloud-env (2.4.1) sha256=987cc58afc50ce2903128ab4dcd442159be4457246b8137e41d49d5c3fc590dd
   google-logging-utils (0.2.1) sha256=73945c3ac6800eba802c26b1744765d5057cc4d89182c7255ee1347b0ca96dc7
