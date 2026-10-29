@@ -106,7 +106,7 @@ it:
     not_recommended: non consigliato
     recommended: consigliato
     x_bcf_issues:
-      one: Un problema BCF
+      one: "%{count} BCF issue"
       other: "%{count} problemi BCF"
       zero: Nessun problema BCF
   bim:
@@ -144,8 +144,10 @@ it:
       processing_default: 'I seguenti modelli IFC predefiniti sono ancora in fase di elaborazione e non sono quindi ancora disponibili:'
   oauth:
     scopes:
-      bcf_v2_1: Accesso completo alle API BCF v2.1
+      bcf_v2_1: Access to the BCF v2.1 API
       bcf_v2_1_text: L'applicazione riceverà accesso completo in lettura e scrittura alle API BCF v2.1 per effettuare azioni a tuo nome.
+      explanations_admin:
+        bcf_v2_1: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on the user's behalf.
   permission_delete_bcf: Elimina i problemi BCF
   permission_manage_bcf: Importa e gestisci problemi BCF
   permission_manage_bcf_explanation: |
