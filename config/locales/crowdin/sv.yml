@@ -75,6 +75,7 @@ sv:
     omniauth_login: Vänligen logga in för att aktivera ditt konto.
     signup_title: Skapa ett konto i %{app_title}
     signup_with_external_account: Registrera dig med ett externt konto
+    username_or_email: Username or email
   actionview_instancetag_blank_option: Välj
   activemodel:
     attributes:
@@ -1038,6 +1039,8 @@ sv:
             identifier:
               must_not_be_changed: 'får inte ändras manuellt. Identifierare för arbetspaket tilldelas automatiskt och matchas via aliastabellen, så manuella ändringar bryter länkar och identifierarhistorik. Om ändringen är avsiktlig sparar du med `save(context: :%{context})` och ser till att tabellen work_package_semantic_aliases förblir konsekvent.'
               semantic_identifier_incomplete: och sequence_number måste båda anges samtidigt.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -2208,10 +2211,11 @@ sv:
         save: Spara ändringar och fortsätt
         title: Spara ändringarna innan du fortsätter?
       read_only:
-        edit_action: Redigera arbetsflöde
-        text_html: 'Du använder ett befintligt arbetsflöde. För att göra ändringar kan du antingen redigera det ursprungliga arbetsflödet eller klicka på <b>+ %{action}</b> ovan för att skapa ett nytt.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'Roll: %{role}'
         no_role: Välj roll
@@ -3562,10 +3566,11 @@ sv:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
@@ -4181,6 +4186,7 @@ sv:
   label_interface_colors_description: Dessa färger styr hur programmet ser ut. Om du ändrar dem ändras temat automatiskt till Anpassat tema, men vi kan inte garantera att minimikraven för tillgänglighetskontrast (WCAG 2.1) uppfylls.
   label_internal: Intern
   label_introduction_video: Kom igång-video
+  label_invalid_file_type: This file type is not supported.
   label_invitation: Inbjudan
   label_invite_user: Bjud in användare
   label_item: Objekt
@@ -5312,21 +5318,20 @@ sv:
           tb: TB
   oauth:
     application:
+      basic_details: Basic details
       builtin: Inbyggt instansprogram
       client_credentials: Klientuppgifter
       confidential: Konfidentiellt
-      default_scopes: "(Standardomfattning)"
       instructions:
-        client_credential_user_id: Valfritt användar-ID att efterlikna när klienter använder det här programmet. Lämna tomt för att endast tillåta publik åtkomst
-        confidential: Kontrollera om programmet kommer att användas där klienthemligheten kan hållas konfidentiell. Mobilappar och Single Page Apps antas vara icke-konfidentiella.
-        default_scopes: ''
-        enabled: Aktivera programmet så att användare kan bevilja auktorisering med det.
-        name: Namnet på din applikation. Detta kommer att visas för andra användare vid auktorisering.
-        redirect_uri_html: 'De tillåtna URL: erna kan omdirigeras till. En post per rad. <br/> Om du registrerar ett skrivbordsprogram, använd följande URL.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: Om du utvecklar en OAuth API-klientapplikation för OpenProject, kan du registrera den med hjälp av detta formulär för alla användare att använda.
-        scopes: Markera de omfång som du vill att programmet ska ge åtkomst till. Om inget omfång är markerat, antas.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: OAuth applikationen '%{name}'
       new: Ny OAuth applikation
       non_confidential: Icke-konfidentiell
@@ -5343,7 +5348,7 @@ sv:
         '
     authorization_error: Ett auktoriseringsfel har inträffat.
     client_credentials: Användare som används för klientuppgifter
-    client_credentials_impersonation_html: 'Som standard ger OpenProject OAuth 2.0-auktorisering via %{authorization_code_flow_link}. Du kan valfritt aktivera %{client_credentials_flow_link}, men du måste tillhandahålla en användare för vars räkning förfrågningar kommer att utföras.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: Användare av klientuppgifter inställd på
@@ -5369,9 +5374,12 @@ sv:
       other_applications: Andra OAuth-program
     my_registered_applications: Registrerade OAuth applikationer
     scopes:
-      api_v3: Full API v3-åtkomst
+      api_v3: Access to APIv3
       api_v3_text: Applikationen kommer att få fullständig läs- och skrivåtkomst till OpenProject API v3 för att utföra åtgärder åt dig.
-      mcp: Åtkomst till MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: Programmet får åtkomst till OpenProjects MCP-slutpunkter. De är en begränsad delmängd av APIv3 som är anpassad för användning med AI-agenter.
   oauth_client:
     errors:
@@ -5481,16 +5489,15 @@ sv:
       parent: Överordnad
       short: Kort namn
       weight: Vikt
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Öppna länken i en ny flik
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Dra för att ändra ordning
-        menu:
-          label_actions: Åtgärder för arbetspaket
-        parent: Överordnad
-        undisclosed: Ej angivet
   page:
     text: Text
   pagination:

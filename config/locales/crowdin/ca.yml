@@ -75,6 +75,7 @@ ca:
     omniauth_login: Si us plau, entra per activar el teu compte.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
+    username_or_email: Username or email
   actionview_instancetag_blank_option: Si us plau, selecciona
   activemodel:
     attributes:
@@ -1038,6 +1039,8 @@ ca:
             identifier:
               must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -2208,10 +2211,11 @@ ca:
         save: Save changes and continue
         title: Save changes before continuing?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'Role: %{role}'
         no_role: Select role
@@ -3562,10 +3566,11 @@ ca:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
@@ -4181,6 +4186,7 @@ ca:
   label_interface_colors_description: 'These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). '
   label_internal: Intern
   label_introduction_video: Getting started video
+  label_invalid_file_type: This file type is not supported.
   label_invitation: Invitació
   label_invite_user: Invitar usuari
   label_item: Item
@@ -5317,21 +5323,20 @@ ca:
           tb: TB
   oauth:
     application:
+      basic_details: Basic details
       builtin: Built-in instance application
       client_credentials: Client credentials
       confidential: Confidencial
-      default_scopes: "(Àmbit per defecte)"
       instructions:
-        client_credential_user_id: ID d'usuari opcional per personificar quan clients utilitzen l'aplicació. Deixa-ho buit per permetre només accés públic
-        confidential: Comprova que l'aplicació que s'utilitzarà on la clau secreta de client pot mantenir-se confidencial. Aplicacions natives de mòbil i Aplicacions de Pàgina Única es classifiquen com a no confidencials.
-        default_scopes: ''
-        enabled: Enable this application, allowing users to perform authorization grants with it.
-        name: El nom de la teva aplicació. Aquest serà mostrat a altres usuaris després d'autoritzar-ho.
-        redirect_uri_html: 'Les URLs permeses en les que usuaris autoritzats poden ser redirigits. Una entrada per línia. <br/> Si estàs registrant una aplicació d''escriptori, utilitza l''URL següent.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: Si estàs desenvolupant una aplicació OAuth API per OpenProject, pots registrar-la utilitzant aquest formulari per a tots els usuaris per utilitzar-la.
-        scopes: Comprova els àmbits als quals vols que l'aplicació garanteixi accés. Si no es comproven els àmbits, s'assumeix l'api_v3.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: Aplicació OAuth "%{name}".
       new: Nova aplicació OAuth
       non_confidential: Non confidential
@@ -5348,7 +5353,7 @@ ca:
         '
     authorization_error: S'ha produït un error d'autorització.
     client_credentials: Usuari utilitzat per a les credencials de client
-    client_credentials_impersonation_html: 'Per defecte, OpenProject proveeix una autorització OAuth 2.0 via %{authorization_code_flow_link}. Opcional també pots activar %{client_credentials_flow_link}, però hauràs d''especificar un usuari, el qual serà utilitzat per realitzar peticions.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: Usuari de credencials de client establert a
@@ -5374,9 +5379,12 @@ ca:
       other_applications: Other OAuth applications
     my_registered_applications: Aplicacions OAuth registrades
     scopes:
-      api_v3: Accés complet de l'API v3
+      api_v3: Access to APIv3
       api_v3_text: L'aplicació rebrà accés complet de lectura i escriptura a la API v3 d'OpenProject per efectuar les accions en nom teu.
-      mcp: Access to MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
   oauth_client:
     errors:
@@ -5486,16 +5494,15 @@ ca:
       parent: Pare
       short: Short name
       weight: Weight
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Open link in a new tab
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Drag to reorder
-        menu:
-          label_actions: Work package actions
-        parent: Parent
-        undisclosed: Undisclosed
   page:
     text: Text
   pagination:

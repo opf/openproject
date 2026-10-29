@@ -71,7 +71,7 @@ class Workflows::MatrixController < ApplicationController
 
   private
 
-  def standalone? = params[:workflow_id].present?
+  def standalone? = variant_scope_project.nil? && params[:workflow_id].present?
 
   def variant
     return if standalone?

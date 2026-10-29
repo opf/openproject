@@ -113,5 +113,6 @@ export class SelectionTransformer {
           pressed: this.wpTableFocus.isFocused(workPackageId),
         });
       });
+    this.table.semantics?.paintSelection();
   }
 }
