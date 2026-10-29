@@ -36,7 +36,7 @@ module LlmModels
       # to change -- the next refresh would only put it back. One entered by hand
       # is editable, because a typo in it is otherwise unfixable except by
       # deleting the model and losing everything asserted about it. Renaming
-      # cascades; see LlmModel#cascade_rename!.
+      # cascades; see LlmModels::UpdateService.
       if new_record? || (model.manual? && !model.llm_connection.env_named_default?(model))
         f.text_field(
           name: :external_id,
