@@ -102,14 +102,19 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
       [
         [:text, "Add sprint goal widget"],
         [:text, "Work packages within the sprint"],
-        [:css, "opce-wp-overview-graph"],
-        [:css, "opce-burndown-chart"]
+        [:css, "opce-burndown-chart"],
+        [:css, "opce-wp-overview-graph"]
       ]
     end
 
-    let(:pro_widgets) do
+    let(:all_widgets) do
       [
+        [:text, "Add sprint goal widget"],
+        [:text, "Work packages within the sprint"],
+        [:css, "opce-burndown-chart"],
         [:css, "opce-created-resolved-chart"],
+        [:text, "Epic progress"],
+        [:css, "opce-wp-overview-graph"],
         [:text, "Completed work"],
         [:text, "Unfinished work"],
         [:text, "Scope increase after sprint start"],
@@ -143,7 +148,7 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
 
     context "with baseline_comparison and sprint_report_pro_widgets",
             with_ee: %i[baseline_comparison sprint_report_pro_widgets] do
-      let(:expected_widgets) { core_widgets + pro_widgets }
+      let(:expected_widgets) { all_widgets }
 
       it_behaves_like "sprint report widgets"
     end
