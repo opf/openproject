@@ -189,6 +189,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         icon: 'icon-column-left',
         onClick: () => {
           this.wpTableColumns.shift(c, -1);
+          this.followColumn(this.element);
           return true;
         },
       },
@@ -199,6 +200,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         icon: 'icon-column-right',
         onClick: () => {
           this.wpTableColumns.shift(c, 1);
+          this.followColumn(this.element);
           return true;
         },
       },

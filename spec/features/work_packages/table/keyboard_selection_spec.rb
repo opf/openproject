@@ -261,6 +261,20 @@ RSpec.describe "Work package table keyboard selection", :js do
       wp_table.expect_focus_on_column_header("Subject")
     end
 
+    it "follows a column moved from the column menu with focus" do
+      wp_table.focus_row_by_keyboard(bravo)
+      wp_table.press_keys(:right, :right, :up, :up)
+      wp_table.expect_focus_on_column_header("Subject")
+      wp_table.press_keys(:enter)
+      within "#column-context-menu" do
+        click_on "Move column left"
+      end
+
+      wp_table.expect_focus_on_column_header("Subject")
+      wp_table.press_keys(:right)
+      wp_table.expect_focus_on_column_header("ID")
+    end
+
     it "returns focus to the previous column after hiding a column from the column menu" do
       wp_table.focus_row_by_keyboard(bravo)
       wp_table.press_keys(:right, :right, :up, :up)

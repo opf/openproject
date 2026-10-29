@@ -167,6 +167,16 @@ describe('OpColumnsContextMenu on a capability-on table', () => {
     expect(subjectHeader()).toHaveFocus();
   });
 
+  it('column menu: moving a column returns focus to its header at the new position', async () => {
+    const overlay = await openMenu();
+    const [, subject, status] = harness.headerCells();
+    vi.spyOn(harness.injector.get(WorkPackageViewColumnsService), 'shift').mockImplementation(() => status.after(subject));
+
+    fireEvent.click(overlay.getByRole('menuitem', { name: 'js.work_packages.query.move_column_right' }));
+
+    expect(subject).toHaveFocus();
+  });
+
   it('column menu: hiding a column returns focus to the previous column header', async () => {
     const overlay = await openMenu();
     const [idHeader] = harness.headerCells();
