@@ -75,6 +75,7 @@ vi:
     omniauth_login: Vui lòng đăng nhập để kích hoạt tài khoản của bạn.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
+    username_or_email: Username or email
   actionview_instancetag_blank_option: Vui lòng chọn
   activemodel:
     attributes:
@@ -1036,6 +1037,8 @@ vi:
             identifier:
               must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -2086,10 +2089,11 @@ vi:
         save: Save changes and continue
         title: Save changes before continuing?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'Role: %{role}'
         no_role: Select role
@@ -3414,10 +3418,11 @@ vi:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
@@ -4026,6 +4031,7 @@ vi:
   label_interface_colors_description: Những màu này kiểm soát giao diện của ứng dụng. Nếu bạn sửa đổi chúng, chủ đề sẽ tự động được thay đổi thành Chủ đề tùy chỉnh nhưng chúng tôi không thể đảm bảo việc tuân thủ mức độ tương phản tối thiểu về khả năng truy cập (WCAG 2.1).
   label_internal: Nội bộ
   label_introduction_video: Video bắt đầu
+  label_invalid_file_type: This file type is not supported.
   label_invitation: Thư mời
   label_invite_user: Mời người dùng
   label_item: mục
@@ -5158,21 +5164,20 @@ vi:
           tb: bệnh lao
   oauth:
     application:
+      basic_details: Basic details
       builtin: Ứng dụng phiên bản tích hợp
       client_credentials: Thông tin xác thực của khách hàng
       confidential: bí mật
-      default_scopes: "(Phạm vi mặc định)"
       instructions:
-        client_credential_user_id: ID người dùng tùy chọn để mạo danh khi khách hàng sử dụng ứng dụng này. Để trống để chỉ cho phép truy cập công cộng
-        confidential: Kiểm tra xem ứng dụng sẽ được sử dụng trong khi thông tin mật của khách hàng vẫn được đảm bảo. Các ứng dụng di động và Ứng dụng web được cho là không bảo mật.
-        default_scopes: ''
-        enabled: Kích hoạt ứng dụng này, cho phép người dùng thực hiện cấp phép với nó.
-        name: Tên ứng dụng của bạn. Điều này sẽ được hiển thị cho người dùng khác khi ủy quyền.
-        redirect_uri_html: 'Các URL người dùng được ủy quyền có thể được chuyển hướng đến. Mỗi mục nhập trên một dòng. <br/> Nếu bạn đang đăng ký một ứng dụng máy tính để bàn, hãy sử dụng URL sau.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: Nếu bạn đang phát triển ứng dụng khách API OAuth cho OpenProject, bạn có thể đăng ký ứng dụng đó bằng biểu mẫu này để tất cả người dùng sử dụng.
-        scopes: Kiểm tra phạm vi bạn muốn ứng dụng cấp quyền truy cập. Nếu không có phạm vi nào được chọn, api_v3 sẽ được giả sử.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: Ứng dụng OAuth '%{name}'
       new: Ứng dụng OAuth mới
       non_confidential: Không bí mật
@@ -5189,7 +5194,7 @@ vi:
         '
     authorization_error: Đã xảy ra lỗi ủy quyền.
     client_credentials: Người dùng được sử dụng cho thông tin xác thực của Khách hàng
-    client_credentials_impersonation_html: 'Theo mặc định, OpenProject cung cấp ủy quyền OAuth 2.0 thông qua %{authorization_code_flow_link}. Bạn có thể tùy ý bật %{client_credentials_flow_link}, nhưng bạn phải cung cấp người dùng mà yêu cầu của họ sẽ được thực hiện thay mặt họ.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: Người dùng thông tin đăng nhập của khách hàng được đặt thành
@@ -5214,9 +5219,12 @@ vi:
       other_applications: Các ứng dụng OAuth khác
     my_registered_applications: Ứng dụng OAuth đã đăng ký
     scopes:
-      api_v3: Truy cập đầy đủ API v3
+      api_v3: Access to APIv3
       api_v3_text: Ứng dụng sẽ nhận được quyền truy cập đọc và ghi đầy đủ vào OpenProject API v3 để thay mặt bạn thực hiện các hành động.
-      mcp: Access to MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
   oauth_client:
     errors:
@@ -5324,16 +5332,15 @@ vi:
       parent: cha mẹ
       short: Tên viết tắt
       weight: cân nặng
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Mở liên kết trong tab mới
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Drag to reorder
-        menu:
-          label_actions: Gói công việc (Work Package) actions
-        parent: Parent
-        undisclosed: Undisclosed
   page:
     text: văn bản
   pagination:

@@ -75,6 +75,7 @@ uk:
     omniauth_login: Увійдіть, щоб активувати свій обліковий запис.
     signup_title: Створіть обліковий запис у %{app_title}
     signup_with_external_account: Реєстрація за допомогою стороннього облікового запису
+    username_or_email: Username or email
   actionview_instancetag_blank_option: Будь ласка, виберіть
   activemodel:
     attributes:
@@ -1046,6 +1047,8 @@ uk:
             identifier:
               must_not_be_changed: 'не можна змінити вручну. Ідентифікатори пакетів робіт призначаються автоматично й зіставляються через таблицю псевдонімів, тому їх ручне змінення порушує зв’язки й історію ідентифікаторів. Якщо ви навмисно вносите цю зміну, збережіть запис за допомогою `save(context: :%{context})` і забезпечте узгодженість таблиці work_package_semantic_aliases.'
               semantic_identifier_incomplete: і sequence_number мають бути вказані одночасно.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -2456,10 +2459,11 @@ uk:
         save: Зберегти зміни й продовжити
         title: Зберегти зміни перед продовженням?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'Роль: %{role}'
         no_role: Виберіть роль
@@ -3868,10 +3872,11 @@ uk:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
@@ -4501,6 +4506,7 @@ uk:
   label_interface_colors_description: 'Ці кольори визначають зовнішній вигляд застосунку. Якщо ви зміните їх, тему буде автоматично змінено на користувацьку тему, але ми не можемо гарантувати дотримання доступності мінімального контрасту (WCAG 2.1). '
   label_internal: Власне
   label_introduction_video: Відео про початок роботи
+  label_invalid_file_type: This file type is not supported.
   label_invitation: Запрошення
   label_invite_user: Запросити користувача
   label_item: Елемент
@@ -5657,21 +5663,20 @@ uk:
           tb: ТБ
   oauth:
     application:
+      basic_details: Basic details
       builtin: Вбудований екземпляр застосунку
       client_credentials: Облікові дані клієнта
       confidential: Конфіденційний
-      default_scopes: "(Області за умовчанням)"
       instructions:
-        client_credential_user_id: Необов'язковий ідентифікатор користувача, який видає себе, коли клієнти використовують цю програму. Залиште пустим, щоб дозволити лише загальний доступ
-        confidential: Перевірте, чи буде використовуватися програма, якщо секрет клієнта може бути конфіденційним. Природні мобільні програми та програми з однією сторінкою вважаються неконфіденційними.
-        default_scopes: ''
-        enabled: Увімкнути цей застосунок, дозволяючи користувачам надання авторизації з ним.
-        name: Назва вашої програми. Це буде показано іншим користувачам після авторизації.
-        redirect_uri_html: 'Дозволені URL-адреси, дозволені користувачам, можна перенаправити. Один запис на рядок.  <br/>  Якщо ви реєструєте настільну програму, використовуйте таку URL-адресу.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: Якщо ви розробляєте клієнтське додаток OAuth для OpenProject, ви можете зареєструвати його, використовуючи цю форму для всіх користувачів.
-        scopes: Перевірте області, до яких ви хотіли б надати доступ. Якщо не позначено жодну область, такою вважатиметься api_v3.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: " Програми OAuth '%{name}'"
       new: Нова програма OAuth
       non_confidential: Не конфіденційний
@@ -5688,7 +5693,7 @@ uk:
         '
     authorization_error: Сталася помилка авторизації.
     client_credentials: Користувач, який використовується для облікових даних клієнта
-    client_credentials_impersonation_html: 'За замовчуванням OpenProject надає авторизацію OAuth 2.0 через %{authorization_code_flow_link}. За бажанням можна включити %{client_credentials_flow_link} але ви повинні надати користувачеві, від імені будуть  кого виконуватися запити.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: Ідентифікатор користувача для облікових даних клієнта
@@ -5716,9 +5721,12 @@ uk:
       other_applications: Інші застосунки OAuth
     my_registered_applications: Зареєстровані програми OAuth
     scopes:
-      api_v3: Повний доступ до API версії 3
+      api_v3: Access to APIv3
       api_v3_text: Додаток отримає повний доступ для читання та записування в OpenProject API версії 3, щоб виконувати дії від вашого імені.
-      mcp: Доступ до MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: Додаток отримає доступ до кінцевих точок OpenProject MCP. Це обмежена підмножина API v3, адаптована для використання агентами ШІ.
   oauth_client:
     errors:
@@ -5828,16 +5836,15 @@ uk:
       parent: Батьківський об’єкт
       short: Коротка назва
       weight: Вага
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Відкрити посилання в новій вкладці
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Перетягніть, щоб змінити порядок
-        menu:
-          label_actions: Дії з пакетом робіт
-        parent: Батьківський
-        undisclosed: Нерозкритий
   page:
     text: Текст
   pagination:

@@ -62,4 +62,4 @@ da:
       work_packages: Arbejdspakker
     work_packages:
       properties:
-        storyPoints: Historiepoint
+        storyPoints: Story points

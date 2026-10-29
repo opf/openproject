@@ -27,17 +27,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Colors
-  # @logical_path OpenProject
-  class SwatchComponentPreview < Lookbook::Preview
-    # @label Default
-    def default
-      render(Colors::SwatchComponent.new(hexcode: "#218BFF"))
-    end
+require Rails.root.join("db/migrate/migration_utils/permission_adder")
 
-    # @label With value
-    def with_value
-      render(Colors::SwatchComponent.new(hexcode: "#218BFF", show_value: true))
-    end
+class AddManageHelpdeskPermissionToProjectAdmins < ActiveRecord::Migration[8.1]
+  def up
+    ::Migration::MigrationUtils::PermissionAdder.add(%i[edit_project select_project_modules], :manage_helpdesk)
+  end
+
+  def down
+    RolePermission.delete_by(permission: "manage_helpdesk")
   end
 end

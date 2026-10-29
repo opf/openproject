@@ -52,8 +52,8 @@ da:
     errors:
       messages:
         cannot_start_while_receiving_shared_sprints: kan ikke startes, mens projektet modtager delte sprints.
-        dates_required: Start- og slutdatoer er obligatoriske for at kunne starte sprinten.
-        must_be_in_planning: skal være i planlægning for at starte.
+        dates_required: Sprinten skal have en start- og slutdato, før den kan startes.
+        must_be_in_planning: skal være under planlægning, før den kan startes.
         only_one_active_sprint_allowed: der må kun være én aktiv sprint pr. projekt.
       models:
         project:
@@ -64,8 +64,8 @@ da:
             sprint_sharing:
               active_or_borrowed_sprint_blocks_receiving: kan ikke sættes til at modtage, fordi projektet har en aktiv eller lånt sprint. Luk arbejdspakkerne, eller fjern dem fra sprinten først.
               locked_by_multiple_active_sprints: kan ikke ændres, mens flere aktive sprints er slået til.
-              share_all_projects_already_taken: kan ikke indstilles, da projektet "%{name}" allerede deler med alle projekter.
-              share_all_projects_already_taken_anonymous: kan ikke indstilles, da et andet projekt allerede deler med alle projekter.
+              share_all_projects_already_taken: kan ikke angives, fordi projektet "%{name}" allerede deler med alle projekter.
+              share_all_projects_already_taken_anonymous: kan ikke angives, fordi et andet projekt allerede deler med alle projekter.
               work_packages_still_linked_to_shared_sprints: kan ikke ændres, fordi arbejdspakker stadig er knyttet til delte sprints. Fjern dem fra sprintene først.
           receiving_sprints: modtager delte sprints. Egne sprints kan ikke oprettes.
         sprint:
@@ -140,8 +140,8 @@ da:
         projection: Resterende story points (prognose)
         remaining: Resterende story points
       show:
-        blankslate_description: Angiv start- og slutdato for sprinten for at generere et burndown-diagram.
-        blankslate_title: Ingen burndown-data tilgængelige
+        blankslate_description: Angiv start- og slutdato for sprinten for at danne et burndown-diagram.
+        blankslate_title: Der er ingen data til burndown-diagrammet
     created_resolved_chart:
       show:
         blankslate_description: Angiv start- og slutdato for sprinten for at danne et diagram over oprettede og løste arbejdspakker.
@@ -152,9 +152,9 @@ da:
       '
     finish_sprint_dialog_component:
       actions:
-        move_to_bottom_of_backlog: Flyt dem til bunden af backloggen
+        move_to_bottom_of_backlog: Flyt dem nederst i backloggen
         move_to_sprint: Flyt dem til en anden sprint
-        move_to_top_of_backlog: Flyt dem til toppen af backloggen
+        move_to_top_of_backlog: Flyt dem øverst i backloggen
       body: "%{message} Hvad vil du gøre med dem?"
       button_complete_sprint: Afslut sprint
       legend: Handling for ufærdige arbejdspakker
@@ -249,6 +249,46 @@ da:
           resolved_summary:
             one: "%{percentage} % (%{resolved} af %{total} arbejdspakke)"
             other: "%{percentage} % (%{resolved} af %{total} arbejdspakker)"
+        work_package_table:
+          added:
+            blankslate:
+              empty:
+                description: Work packages that were added after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show added work packages.
+              not_started:
+                description: Added work packages will appear here after the sprint starts.
+            title: Scope increase after sprint start
+          blankslate:
+            heading: No work packages to display
+          completed:
+            blankslate:
+              empty:
+                description: Work packages that were completed in the sprint will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show completed work packages.
+              not_started:
+                description: Completed work packages will appear here after the sprint starts.
+            title: Completed work
+          removed:
+            blankslate:
+              empty:
+                description: Work packages that were removed after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show removed work packages.
+              not_started:
+                description: Removed work packages will appear here after the sprint starts.
+            title: Scope decrease after sprint start
+          unfinished:
+            blankslate:
+              empty:
+                description: All work packages in this sprint are completed.
+                heading: Wow, all done!
+              no_dates:
+                description: Sprint start and finish dates are necessary to show unfinished work packages.
+              not_started:
+                description: Unfinished work packages will appear here after the sprint starts.
+            title: Unfinished work
     sprints:
       row_component:
         action_menu:
@@ -269,13 +309,13 @@ da:
 
       '
     story_points:
-      one: "%{count} historiepoint"
-      other: "%{count} historiepoint"
+      one: "%{count} story point"
+      other: "%{count} story points"
     types_and_statuses: Typer og statusser
-    unassigned: Utildelt
+    unassigned: Ikke tildelt
     user_preference:
       button_update_backlogs: Opdater backlog-modulet
-      header_backlogs: Backlog-modul
+      header_backlogs: Modulet Backlogs
     work_package_card_menu_component:
       action_menu:
         copy_work_package_id: Kopiér arbejdspakkens id
@@ -321,7 +361,7 @@ da:
   label_backlog_and_sprints: Backlog og sprints
   label_backlog_bucket_edit: Rediger backlog-gruppe
   label_backlog_bucket_new: Ny backlog-gruppe
-  label_backlogs: Backlogger
+  label_backlogs: Backlogs
   label_burndown_chart: Burndown-diagram
   label_inbox: Indbakke
   label_points_burn_down: Ned
@@ -353,7 +393,7 @@ da:
   plugin_openproject_backlogs:
     description: Modulet tilføjer funktioner, så agile teams kan arbejde med OpenProject i Scrum-projekter.
     name: OpenProject Backlogs
-  project_module_backlogs: Backlogger
+  project_module_backlogs: Backlogs
   projects:
     copy:
       backlog_buckets: Backlog-grupper
@@ -377,16 +417,16 @@ da:
             caption: Sprints, der oprettes i dette projekt, er kun tilgængelige og synlige i dette projekt. De er heller ikke synlige i underprojekter.
             label: Del ikke
           receive_shared:
-            caption: Dette projekt kan kun bruge sprints delt af andre projekter.
+            caption: Projektet kan kun bruge sprints, som andre projekter deler.
             label: Modtag delte sprints
-            warning: Dette projekt kan kun bruge sprints delt af andre projekter. Ubrugte sprints, tidligere oprettet i dette projekt, vil ikke længere være synlige.
+            warning: Projektet kan kun bruge sprints, som andre projekter deler. Ubrugte sprints, der tidligere er oprettet i projektet, er ikke længere synlige.
           share_all_projects:
             caption: Sprints, der oprettes i dette projekt, bliver tilgængelige for alle projekter i installationen. Når du vælger muligheden, er den ikke længere tilgængelig for andre projekter.
             disabled_caption: Muligheden er ikke tilgængelig, fordi projektet "%{name}" allerede deler med alle projekter, og kun ét projekt kan gøre det.
             disabled_caption_anonymous: Muligheden er ikke tilgængelig, fordi et andet projekt allerede deler med alle projekter, og kun ét projekt kan gøre det.
             label: Alle projekter
           share_subprojects:
-            caption: Sprints oprettet i dette projekt vil være tilgængelige for alle underprojekter i det aktuelle projekt.
+            caption: Sprints, der oprettes i dette projekt, bliver tilgængelige for alle underprojekter til det aktuelle projekt.
             info: Når en sprint deles, deles navn, status samt start- og slutdato i alle projekter. De kan ikke ændres i projekter, der modtager og bruger sprintene.
             label: Underprojekter
         sprint_sharing: Del sprints

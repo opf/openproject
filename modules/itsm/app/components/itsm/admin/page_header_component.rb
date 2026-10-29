@@ -22,56 +22,21 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Colors
-  class SwatchComponent < ApplicationComponent
-    def initialize(hexcode:, show_value: false, **system_arguments)
-      super()
-
-      @hexcode = hexcode
-      @show_value = show_value
-      @system_arguments = system_arguments
-      @system_arguments[:align_items] ||= :center
-
-      @system_arguments[:classes] = class_names(
-        @system_arguments[:classes],
-        "op-color-swatch"
-      )
-    end
-
-    def call
-      render(Primer::OpenProject::FlexLayout.new(**@system_arguments)) do |flex|
-        flex.with_column do
-          render(Primer::Box.new(**swatch_arguments))
-        end
-
-        if show_value?
-          flex.with_column do
-            render(Primer::Beta::Text.new(tag: :span, ml: 2)) { hexcode }
-          end
-        end
+module ITSM
+  module Admin
+    class PageHeaderComponent < ApplicationComponent
+      def breadcrumb_items
+        [
+          { href: admin_index_path, text: t("label_administration") },
+          t(:label_helpdesk)
+        ]
       end
-    end
-
-    private
-
-    attr_reader :hexcode
-
-    def show_value?
-      @show_value
-    end
-
-    def swatch_arguments
-      {
-        tag: :span,
-        classes: "op-color-swatch--indicator",
-        aria: { hidden: true },
-        style: "background-color: #{hexcode}"
-      }
     end
   end
 end

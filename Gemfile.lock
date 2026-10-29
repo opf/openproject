@@ -912,12 +912,12 @@ GEM
       validate_email
       validate_url
       webfinger (~> 2.0)
-    openproject-octicons (19.37.0)
-    openproject-octicons_helper (19.37.0)
+    openproject-octicons (19.38.0)
+    openproject-octicons_helper (19.38.0)
       actionview
-      openproject-octicons (= 19.37.0)
+      openproject-octicons (= 19.38.0)
       railties
-    openproject-primer_view_components (0.94.0)
+    openproject-primer_view_components (0.95.0)
       actionview (>= 7.2.0)
       activesupport (>= 7.2.0)
       openproject-octicons (>= 19.36.0)
@@ -1132,7 +1132,7 @@ GEM
     parallel (2.3.0)
     parallel_tests (4.10.1)
       parallel
-    parser (3.3.12.0)
+    parser (3.3.13.0)
       ast (~> 2.4.1)
       racc
     pdf-core (0.9.0)
@@ -1361,27 +1361,27 @@ GEM
     rspec-support (3.13.7)
     rspec-wait (1.0.2)
       rspec (>= 3.4)
-    rubocop (1.91.0)
+    rubocop (1.92.2)
       json (>= 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
       parallel (>= 1.10)
       parser (>= 3.3.0.2)
       rainbow (>= 2.2.2, < 4.0)
-      regexp_parser (>= 2.9.3, < 3.0)
+      regexp_parser (>= 2.11.3, < 3.0)
       rubocop-ast (>= 1.49.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
     rubocop-ast (1.50.0)
       parser (>= 3.3.7.2)
       prism (~> 1.7)
-    rubocop-capybara (3.0.0)
+    rubocop-capybara (3.1.0)
       lint_roller (~> 1.1)
-      rubocop (~> 1.81)
+      rubocop (~> 1.89)
     rubocop-factory_bot (2.28.0)
       lint_roller (~> 1.1)
       rubocop (~> 1.72, >= 1.72.1)
-    rubocop-openproject (0.7.1)
+    rubocop-openproject (0.8.0)
       rubocop
     rubocop-performance (1.27.0)
       lint_roller (~> 1.1)
@@ -1716,10 +1716,10 @@ DEPENDENCIES
   openproject-ldap_groups!
   openproject-llm!
   openproject-meeting!
-  openproject-octicons (~> 19.37.0)
-  openproject-octicons_helper (~> 19.37.0)
+  openproject-octicons (~> 19.38.0)
+  openproject-octicons_helper (~> 19.38.0)
   openproject-openid_connect!
-  openproject-primer_view_components (~> 0.94.0)
+  openproject-primer_view_components (~> 0.95.0)
   openproject-recaptcha!
   openproject-reporting!
   openproject-resource_management!
@@ -2099,10 +2099,10 @@ CHECKSUMS
   openproject-ldap_groups (1.0.0)
   openproject-llm (1.0.0)
   openproject-meeting (1.0.0)
-  openproject-octicons (19.37.0) sha256=de10a8339edbfbf328f3e5d92ae1f61b99e52dfb3c76d06bce4d5d3d891c0092
-  openproject-octicons_helper (19.37.0) sha256=ea8ec70882de05063fc17ecbcd16f4221c91bd53e12cb4c3f225d726e89362ee
+  openproject-octicons (19.38.0) sha256=820cf9fe2309bf2960868267ecc8d7c4788ac4f4ad34f0cffa0777513626e5c0
+  openproject-octicons_helper (19.38.0) sha256=591ea11e9f2281b42f8a404e7e9f5ef4025b583f1b69555a8016296ad3b7d7c6
   openproject-openid_connect (1.0.0)
-  openproject-primer_view_components (0.94.0) sha256=4fdb7c8cb4332d828d6f1033b219af1a8005c5e366e7787b07fe398ab16c519b
+  openproject-primer_view_components (0.95.0) sha256=56704ecc82f9f52f7cdbf6cbbe7c5d3f7fa59ce485fc5b684561c9a045ec73ea
   openproject-recaptcha (1.0.0)
   openproject-reporting (1.0.0)
   openproject-resource_management (1.0.0)
@@ -2183,7 +2183,7 @@ CHECKSUMS
   paper_trail (17.0.0) sha256=1c2842061d3874ca7015908e821e2aa14f9b982af2acb2a7974713bf79021c85
   parallel (2.3.0) sha256=f75a3e904101ce6a1ccb6b8dc800cbafd42166d83330192438dcf29395167a6f
   parallel_tests (4.10.1) sha256=df05458c691462b210f7a41fc2651d4e4e8a881e8190e6d1e122c92c07735d70
-  parser (3.3.12.0) sha256=21a6d7f755d5a24dfbdc6e6b772e4e879a52e7631a88bc5a3a134606052c9828
+  parser (3.3.13.0) sha256=e02f9b63c2fe05b0c68f692ba4df89b3cb113b663964f75d988fbebfd6c3deca
   pdf-core (0.9.0) sha256=4f368b2f12b57ec979872d4bf4bd1a67e8648e0c81ab89801431d2fc89f4e0bb
   pdf-inspector (1.3.0) sha256=fc107579d6f29b636e2da3d6743479b2624d9e390bf2d84beef8fd4ebe1a05bd
   pdf-reader (2.16.0) sha256=bf1b5564c085264d8279bde3cf1467778b75841494d20c0fe7da3dad475f3732
@@ -2268,11 +2268,11 @@ CHECKSUMS
   rspec-retry (0.6.2) sha256=6101ba23a38809811ae3484acde4ab481c54d846ac66d5037ccb40131a60d858
   rspec-support (3.13.7) sha256=0640e5570872aafefd79867901deeeeb40b0c9875a36b983d85f54fb7381c47c
   rspec-wait (1.0.2) sha256=865f921239325d3d26fc10ded4bdd485d8b58bcaaad1a28dd85ed15266b5a912
-  rubocop (1.91.0) sha256=9c82b7bf391c5d7e3798c5b9996e22a1fe3bd7468e351dfdeb96140c058296d0
+  rubocop (1.92.2) sha256=14fb31eed143a0dc6f78186c550c1715e81cd38f59d05d1165050e445c1f5382
   rubocop-ast (1.50.0) sha256=b9ca88300da0803ee222ad20cdb30494c0a784eed06fdc35d254b06d662788db
-  rubocop-capybara (3.0.0) sha256=7a64655238acda7f8f3c87e37ac825a64c615a79c17c253f1a28270dc3768c4b
+  rubocop-capybara (3.1.0) sha256=1712900b04178272b643f7bffa385f7b1d157c4f83a0ad502ae10690e18f5096
   rubocop-factory_bot (2.28.0) sha256=4b17fc02124444173317e131759d195b0d762844a71a29fe8139c1105d92f0cb
-  rubocop-openproject (0.7.1) sha256=7b99b7a3c2288dc9b5602a6086b69946982d77e729a3be6ba3f07059392fc739
+  rubocop-openproject (0.8.0) sha256=7177cd78c4a0ac7fa5c38eb7960707f815fa6de41ad356c9279b7c6ac72048c1
   rubocop-performance (1.27.0) sha256=eeeb1374d062a368ee1c787b70eb0b0cc4b184cb1f8565f424760946146d61ce
   rubocop-rails (2.38.0) sha256=6e2b7c532efa95e3050371bec20b8f5b025662acead8bc70ee31f0e3e6fa2f06
   rubocop-rspec (3.10.2) sha256=0b3e2ecc592cd10ecbf0095bb58d1e357905276e069643523cc19eb7495f65e2
