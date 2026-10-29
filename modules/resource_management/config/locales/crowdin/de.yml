@@ -68,8 +68,8 @@ de:
   label_resource_management: Ressourcenmanagement
   permission_allocate_user_resources: Benutzer-Ressourcen zuweisen
   permission_allocate_user_resources_explanation: Ermöglicht Benutzern das Erstellen, Aktualisieren und Löschen von Ressourcenzuweisungen innerhalb eines Ressourcenplaners. Dazu gehört die Zuweisung von Benutzern (oder Benutzerfiltern) zu einem Planer und die Anpassung des zugewiesenen Zeit- und Datumsbereichs.
-  permission_assign_users_to_generic_allocations: Benutzer an generische Zuweisungen zuordnen
-  permission_assign_users_to_generic_allocations_explanation: Ermöglicht es Benutzern, über die Ansicht „Personalplanung“ echte Benutzer generischen (filterbasierten) Ressourcenzuweisungen zuzuordnen, denen noch kein Benutzer zugewiesen ist. Das Erstellen oder Bearbeiten von Zuweisungen ist nicht möglich.
+  permission_assign_users_to_generic_allocations: Benutzer an Platzhalter zuweisen
+  permission_assign_users_to_generic_allocations_explanation: Ermöglicht es Benutzern, über die Ansicht „Personalplanung“ echte Benutzer an einen Platzhalter zuzuordnen, denen noch kein Benutzer zugewiesen ist. Das Erstellen oder Bearbeiten von Zuweisungen ist nicht möglich.
   permission_manage_public_resource_planners: Öffentliche Ressourcenplaner verwalten
   permission_manage_public_resource_planners_explanation: Ermöglicht Benutzern das Erstellen und Verwalten von öffentlichen Ressourcenplanern. Sie können damit ihre eigenen Ressourcenplaner anzeigen, erstellen, verwalten und veröffentlichen. Es erlaubt Benutzern nicht, die von anderen Benutzern erstellten Ressourcenplaner, die nicht öffentlich freigegeben sind, einzusehen.
   permission_view_resource_planners: Ressourcenplaner anzeigen
@@ -302,7 +302,7 @@ de:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} Mitglied dieses Projekts entspricht den Filterkriterien der Zuweisung."
+          one: "%{count} Mitglied dieses Projekts entspricht dem Platzhalter."
           other: "%{count} Mitglieder dieses Projekts entsprechen den Filterkriterien der Zuweisung."
       blank:
         add_work_package: Arbeitspaket hinzufügen

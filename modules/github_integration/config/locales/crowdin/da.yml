@@ -43,7 +43,7 @@ da:
     changed_files_count: Ændrede filer
     comments_count: Antal kommentarer
     deletions_count: Antal sletninger
-    github: GitHub-identifikator
+    github: GitHub-id
     github_app_owner_avatar_url: URL til ejerens avatar
     github_avatar_url: Avatar-URL
     github_html_url: URL til pull request
@@ -68,7 +68,7 @@ da:
     description: Integrerer OpenProject og GitHub for en bedre arbejdsgang
     name: OpenProject GitHub Integration
   project_module_github: GitHub
-  text_deploy_target_api_key_info: 'En OpenProject [API-nøgle](docs_url) tilhørende en bruger med den globale introspektionstilladelse.
+  text_deploy_target_api_key_info: 'En [API-nøgle](docs_url) til OpenProject, der tilhører en bruger med den globale tilladelse til introspektion.
 
     '
   text_deploy_target_type_info: 'Indtil videre understøttes kun OpenProject selv.

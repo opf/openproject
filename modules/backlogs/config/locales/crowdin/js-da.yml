@@ -27,4 +27,4 @@ da:
       points: Point
     work_packages:
       properties:
-        storyPoints: Historiepoint
+        storyPoints: Story points

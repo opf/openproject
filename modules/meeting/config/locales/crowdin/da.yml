@@ -27,7 +27,7 @@ da:
         duration: Varighed
         end_time: Sluttidspunkt
         location: Placering
-        notes: Kommentarer
+        notes: Noter
         notify: Send notifikationer
         participant:
           one: 1 deltager
@@ -47,7 +47,7 @@ da:
         type: Mødetype
       meeting_agenda_item:
         author: Forfatter
-        description: Kommentarer
+        description: Noter
         duration_in_minutes: Varighed
         item_type: Type
         lock_version: Låseversion
@@ -170,12 +170,12 @@ da:
   label_agenda_item_move: Flyt
   label_agenda_item_move_down: Flyt ned
   label_agenda_item_move_to_backlog: Flyt til backlog
-  label_agenda_item_move_to_bottom: Flyt til bunden
+  label_agenda_item_move_to_bottom: Flyt nederst
   label_agenda_item_move_to_current_meeting: Flyt til det aktuelle møde
   label_agenda_item_move_to_next: Flyt til næste møde
   label_agenda_item_move_to_next_title: Vil du flytte til næste møde?
   label_agenda_item_move_to_section: Flyt til afsnit
-  label_agenda_item_move_to_top: Flyt til toppen
+  label_agenda_item_move_to_top: Flyt øverst
   label_agenda_item_move_up: Flyt op
   label_agenda_item_remove_from_agenda: Fjern fra dagsordenen
   label_agenda_item_remove_from_backlog: Fjern fra backlog
@@ -251,7 +251,7 @@ da:
   label_meeting_state_cancelled: Aflyst
   label_meeting_state_closed: Lukket
   label_meeting_state_draft: Kladde
-  label_meeting_state_in_progress: Igangværende
+  label_meeting_state_in_progress: I gang
   label_meeting_state_open: Åben
   label_meeting_state_planned: Planlagt
   label_meeting_state_skipped: Sprunget over
@@ -431,7 +431,7 @@ da:
       templates:
         default:
           caption: Standardskabelonen passer til de fleste møder og viser den nuværende tilstand.
-          label: Forhåndsvalgt
+          label: Standard
         minutes:
           caption: Skabelonen til referat passer til lukkede og arkiverede møder.
           label: Referat
@@ -471,7 +471,7 @@ da:
         no_participants: Ingen deltagere
         participants: Deltagere
         remove_participant: Fjern deltager
-        show_all: Vis alt
+        show_all: Vis alle
       text:
         manage_participants: Søg efter projektmedlemmer, og tilføj dem som deltagere i mødet.
         search_for_members: Søg efter projektmedlemmer

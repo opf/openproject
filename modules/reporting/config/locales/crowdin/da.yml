@@ -66,11 +66,11 @@ da:
   label_group_by_add: Tilføj Gruppér efter-attribut
   label_inactive: "«inaktiv»"
   label_is_not_project_with_subprojects: er ikke (inkl. underprojekter)
-  label_is_not_work_package_with_descendants: er ikke (inkluderer efterkommere)
+  label_is_not_work_package_with_descendants: er ikke (inkl. underordnede)
   label_is_project_with_subprojects: er (inkl. underprojekter)
-  label_is_work_package_with_descendants: er (inkluderer efterkommere)
+  label_is_work_package_with_descendants: er (inkl. underordnede)
   label_less: "<"
-  label_logged_by_reporting: Logget af
+  label_logged_by_reporting: Registreret af
   label_money: Kontantværdi
   label_month_reporting: Måned (Brugt)
   label_new_report: Ny omkostningsrapport

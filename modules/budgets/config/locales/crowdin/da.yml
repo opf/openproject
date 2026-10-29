@@ -27,8 +27,8 @@ da:
         author: Forfatter
         available: Til rådighed
         base_amount: Basisbeløb
-        budget: Planlagte
-        budget_ratio: Forbrugt (ratio)
+        budget: Planlagt
+        budget_ratio: Forbrugt (andel)
         description: Beskrivelse
         labor_budget: Planlagte lønomkostninger
         labor_budget_items: Planlagte lønomkostninger
@@ -90,8 +90,8 @@ da:
         view_details: Vis budgetdetaljer
       budget_totals:
         remaining_budget: Resterende budget
-        spent_budget: Brugt budget
-        title: Budgettotaler
+        spent_budget: Forbrugt budget
+        title: Budget i alt
         total_actual_costs: Samlede faktiske omkostninger
         total_planned_budget: Samlet planlagt budget
   budgets_title: Budgetter
@@ -129,5 +129,5 @@ da:
     name: Budgetter
   project_module_budgets: Budgetter
   text_budget_delete: Slet budgettet fra alle arbejdspakker
-  text_budget_destroy_assigned_wp: Der er %{count} arbejdspakker tilknyttet dette budget. Hvad ønsker du at gøre?
-  text_budget_reassign_to: 'Overfør dem til dette budget:'
+  text_budget_destroy_assigned_wp: Der er %{count} arbejdspakker knyttet til budgettet. Hvad vil du gøre?
+  text_budget_reassign_to: 'Flyt dem til dette budget:'

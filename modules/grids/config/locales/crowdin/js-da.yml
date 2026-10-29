@@ -24,13 +24,13 @@ da:
           no_results: Du har ingen favoritprojekter. Føj et eller flere projekter til favoritter fra deres oversigt eller fra en projektliste.
           title: Favoritprojekter
         project_status:
-          at_risk: I fare
+          at_risk: I risiko
           discontinued: Afsluttet i utide
           finished: Afsluttet
           not_set: Ikke angivet
           not_started: Ikke startet
-          off_track: Af sporet
-          on_track: På sporet
+          off_track: Afviger fra planen
+          on_track: Følger planen
           title: Status
         project_timeline:
           accessible_date_range: "%{start} til %{end}"

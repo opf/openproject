@@ -437,7 +437,7 @@ da:
         oauth_client_redirect_uri: Kopiér værdien til en ny web-omdirigerings-URI under Omdirigerings-URI'er.
         oauth_client_secret: Hvis der ikke er nogen klienthemmelighed for programmet under Klientlegitimationsoplysninger, skal du oprette en ny.
         oauth_configuration: Kopiér værdierne fra det ønskede program i %{application_link_text}.
-        provider_configuration: Sørg for, at du har administratorrettigheder på %{application_link_text}, eller kontakt din Microsoft-administrator, før du foretager opsætningen. I portalen skal du også registrere en Azure-applikation eller bruge en eksisterende til godkendelse.
+        provider_configuration: Sørg for, at du har administratorrettigheder i %{application_link_text}, eller kontakt din Microsoft-administrator, før du går i gang med opsætningen. I portalen skal du også registrere et Azure-program eller bruge et eksisterende til godkendelse.
         tenant_id: Kopiér mappe-id'et (tenant) fra det ønskede program under App-registreringer i %{application_link_text}.
         tenant_id_placeholder: Navn eller UUID
       setting_up_additional_storages: Hvis du vil sætte flere fillagre op, kan du gå til
@@ -448,7 +448,7 @@ da:
         application_link_text: SharePoint-webstedet
         integration: SharePoint-administration / OpenProject
         oauth_configuration: Kopiér værdierne fra det ønskede program på %{application_link_text}.
-        provider_configuration: Sørg for, at du har administratorrettigheder på %{application_link_text}, eller kontakt din Microsoft-administrator, før du foretager opsætningen. I portalen skal du også registrere en Azure-applikation eller bruge en eksisterende til godkendelse.
+        provider_configuration: Sørg for, at du har administratorrettigheder på %{application_link_text}, eller kontakt din Microsoft-administrator, før du går i gang med opsætningen. I portalen skal du også registrere et Azure-program eller bruge et eksisterende til godkendelse.
       type: 'Sørg for, at du har administratorrettigheder i din Nextcloud-installation, og at følgende app er installeret, før du går i gang med opsætningen:'
       type_link_text: "“Integration OpenProject”"
     label_active: Aktiv

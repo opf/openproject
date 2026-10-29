@@ -53,7 +53,7 @@ da:
         self: Din konto fjernes straks fra systemet, og du kan ikke længere logge ind med dine loginoplysninger.
       title: Slet kontoen for %{name}
     deletion_pending: Kontoen er planlagt til sletning. Bemærk, at det sker i baggrunden. Der kan gå et øjeblik, før brugeren er helt slettet.
-    error_inactive_activation_by_mail: 'Din konto er endnu ikke blevet aktiveret. For at aktivere din konto, klik på det link, der blev sendt til dig.
+    error_inactive_activation_by_mail: 'Din konto er endnu ikke aktiveret. Klik på linket i den e-mail, du har fået tilsendt, for at aktivere den.
 
       '
     error_inactive_manual_activation: 'Din konto er endnu ikke blevet aktiveret. Vent venligst på at en administrator aktiverer din konto.
@@ -75,7 +75,7 @@ da:
   activemodel:
     attributes:
       projects/copy_options:
-        dependencies: Aflæggere
+        dependencies: Afhængigheder
   activerecord:
     attributes:
       ai/text_transform_action:
@@ -207,11 +207,11 @@ da:
       ldap_auth_source:
         account: Konto
         admin: Administrator
-        attr_firstname: Fornavn
-        attr_lastname: Efternavn
+        attr_firstname: Attribut for fornavn
+        attr_lastname: Attribut for efternavn
         attr_login: Attribut for brugernavn
-        attr_mail: E-mail
-        base_dn: DN base
+        attr_mail: Attribut for e-mail
+        base_dn: Base DN
         filter_string: Filterstreng
         host: Vært
         onthefly: Automatisk oprettelse af brugere
@@ -332,7 +332,7 @@ da:
         timeline_zoom_level: Zoomniveau for Gantt-diagram
         timestamps: Tidsstempler for Baseline
       relation:
-        from: Sammenhørende arbejdspakker
+        from: Relateret arbejdspakke
         lag: Forsinkelse
         relation_type: Relationstype
         to: Relateret arbejdspakke
@@ -541,7 +541,7 @@ da:
         email: er ikke en gyldig e-mailadresse.
         empty: må ikke være tomt.
         enterprise_plan_required: kræver mindst %{plan_name}.
-        error_conflict: Oplysning er opdateret af mindst én anden bruger i mellemtiden.
+        error_conflict: Oplysningerne er blevet opdateret af mindst én anden bruger i mellemtiden.
         error_enterprise_only: "%{action} findes kun i OpenProject Enterprise-udgaven."
         error_not_found: blev ikke fundet.
         error_readonly: er skrivebeskyttet og kan ikke ændres.
@@ -906,8 +906,8 @@ da:
               numeric: tal (fx "1")
               requirements_not_met: 'Skal indeholde tegn af følgende typer: %{rules}'
               reused:
-                one: er blevet benyttet tidligere. Vælg venligst et, der er forskelligt fra dit seneste.
-                other: er blevet benyttet tidligere. Vælg venligst et, der er forskelligt fra dine seneste %{count}.
+                one: er brugt før. Vælg en, der er forskellig fra den seneste.
+                other: er brugt før. Vælg en, der er forskellig fra de seneste %{count}.
               special: Speciel (fx "%")
               uppercase: store bogstaver (f.eks. "A")
             password_confirmation:
@@ -942,7 +942,7 @@ da:
           attributes:
             slug:
               undeducible: kan ikke udledes af titlen '%{title}'.
-          error_conflict: En anden har opdateret wikisiden, mens du redigerede den.
+          error_conflict: En anden har opdateret wiki-siden, mens du redigerede den.
         work_package:
           attributes:
             assigned_to:
@@ -1309,8 +1309,8 @@ da:
         one: Wiki
         other: Wikier
       wiki_page:
-        one: Wikiside
-        other: Wikisider
+        one: Wiki-side
+        other: Wiki-sider
       work_package:
         one: Arbejdspakke
         other: Arbejdspakker
@@ -1439,7 +1439,7 @@ da:
       add_token: Overfør et supporttoken til Enterprise-udgaven
       book_now: Bestil nu
       buttons:
-        contact: Kontakt os for en demo
+        contact: Kontakt os for at få en demo
         upgrade: Opgrader nu
       create_dialog:
         title: Tilføj Enterprise-token
@@ -2005,7 +2005,7 @@ da:
         types_caption: Tilføj de arbejdspakketyper, som handlingen skal være tilgængelig for. Alle tilgængelige varianter medtages automatisk.
         usage_scope_caption: 'Du kan begrænse, hvor handlingen er synlig: overalt (også i kommentarer, wikier og brugerdefinerede felter), for alle arbejdspakketyper eller for bestemte arbejdspakketyper.'
       index:
-        description: Handlinger til tekstomskrivning giver brugerne LLM-baserede handlinger til at skrive, ordne og gennemse tekst overalt, hvor editoren til formateret tekst bruges, fx i beskrivelser af arbejdspakker, kommentarer og wikisider. Du opretter nye handlinger med dine egne prompts og instruktioner.
+        description: Handlinger til tekstomskrivning giver brugerne LLM-baserede handlinger til at skrive, ordne og gennemse tekst overalt, hvor editoren til formateret tekst bruges, fx i beskrivelser af arbejdspakker, kommentarer og wiki-sider. Du opretter nye handlinger med dine egne prompts og instruktioner.
         label_add_action: Handling
         label_aria_add_action: Tilføj handling til tekstomskrivning
       index_component:
@@ -2099,7 +2099,7 @@ da:
       code_404: Den forespurgte ressource kunne ikke findes.
       code_409: Ressourcen kunne ikke opdateres på grund af modstridende ændringer.
       code_429: For mange forespørgsler. Prøv igen senere.
-      code_500: En intern fejl opstod.
+      code_500: Der opstod en intern fejl.
       code_500_missing_enterprise_token: Forespørgslen kan ikke behandles, fordi Enterprise-tokenet er ugyldigt eller mangler.
       code_500_outbound_request_failure: En udgående forespørgsel til en anden ressource mislykkedes med statuskoden %{status_code}.
       conflict:
@@ -2278,11 +2278,11 @@ da:
       limit_reached: Du kan højst tage %{limit} sikkerhedskopier pr. dag.
       token_cooldown: Sikkerhedskopi token vil være gyldig om %{hours} timer.
     failed: Sikkerhedskopieringen mislykkedes
-    label_backup_token: Sikkerhedskopiér token
-    label_create_token: Opret sikkerhedskopi token
-    label_delete_token: Slet sikkerhedskopi token
-    label_reset_token: Nulstil sikkerhedskopi token
-    label_token_users: Følgende brugere har aktive sikkerhedskopi tokens
+    label_backup_token: Token til sikkerhedskopi
+    label_create_token: Opret token til sikkerhedskopi
+    label_delete_token: Slet token til sikkerhedskopi
+    label_reset_token: Nulstil token til sikkerhedskopi
+    label_token_users: Følgende brugere har aktive tokens til sikkerhedskopi
     missing_attachments_notice_html: '<br/> <b>%{file_count} kunne ikke læses</b> og er udeladt af sikkerhedskopien. Arkivet har fået endelsen "-incomplete" i navnet for at vise, at der mangler nogle vedhæftede filer.
 
       '
@@ -2291,8 +2291,8 @@ da:
       action_reset: Nulstil
       checkbox_confirmation_create: Jeg forstår, at tokenet til sikkerhedskopiering giver adgang til at hente alle data i installationen
       checkbox_confirmation_reset: Jeg forstår, at det eksisterende token til sikkerhedskopiering bliver ugyldigt
-      heading_create: Opret sikkerhedskopi token
-      heading_reset: Nulstil sikkerhedskopi token
+      heading_create: Opret token til sikkerhedskopi
+      heading_reset: Nulstil token til sikkerhedskopi
       implications: 'Aktivering af sikkerhedskopier vil tillade enhver bruger med de nødvendige tilladelser og denne sikkerhedskopi token til at downloade en sikkerhedskopi, der indeholder alle data fra denne OpenProject installation. Dette omfatter data fra alle andre brugere.
 
         '
@@ -2339,9 +2339,9 @@ da:
   button_configure_menu_entry: Opsæt menupunkt
   button_confirm: Bekræft
   button_continue: Fortsæt
-  button_copy: Kopier
+  button_copy: Kopiér
   button_copy_link_to_clipboard: Kopiér link til udklipsholderen
-  button_copy_to_clipboard: Kopiér til Udklipsholder
+  button_copy_to_clipboard: Kopiér til udklipsholderen
   button_create: Opret
   button_create_and_continue: Opret og fortsæt
   button_decline: Afvis
@@ -2354,7 +2354,7 @@ da:
   button_duplicate: Lav dublet
   button_duplicate_and_follow: Dupliker, og gå til kopien
   button_edit: Rediger
-  button_edit_associated_wikipage: 'Rediger tilknyttet wikiside: %{page_title}'
+  button_edit_associated_wikipage: 'Rediger tilknyttet wiki-side: %{page_title}'
   button_edit_non_working_time: Rediger fravær
   button_enable: Aktivér
   button_expand_all: Fold alle ud
@@ -2394,7 +2394,7 @@ da:
   button_select: Vælg
   button_set_reminder: Angiv påmindelse
   button_show: Vis
-  button_sort: Sorter
+  button_sort: Sortér
   button_submit: Indsend
   button_test: Test
   button_unarchive: Udpak
@@ -2429,7 +2429,7 @@ da:
       no_results_title_text: Der er i øjeblikket ingen farver.
     label_no_color: Ingen farve
     label_properties: Egenskaber
-    label_really_delete_color: 'Er du sikker på, du vil slette den følgende farve? Typer med denne farve vil ikke blive slettet.
+    label_really_delete_color: 'Er du sikker på, at du vil slette følgende farve? Typer, der bruger farven, slettes ikke.
 
       '
     new:
@@ -2486,7 +2486,7 @@ da:
       dependencies_label: Kopiér fra skabelon
     template_heading: Vælg en projektskabelon for at arbejde med de mest udbredte projektmodeller, eller opret et projekt fra bunden.
     template_label: Brug skabelon
-  create_wiki_page: Opret ny wikiside
+  create_wiki_page: Opret ny wiki-side
   create_wiki_page_button: Wiki-side
   custom_actions:
     actions:
@@ -2611,27 +2611,27 @@ da:
     confirmation_live_message_unchecked: Knappen til at fortsætte er nu inaktiv. Du skal markere afkrydsningsfeltet for at fortsætte.
   date:
     abbr_day_names:
-    - Søn
-    - Man
-    - Tir
-    - Ons
-    - Tor
-    - Fre
-    - Lør
+    - søn
+    - man
+    - tir
+    - ons
+    - tor
+    - fre
+    - lør
     abbr_month_names:
     -
-    - Jan
-    - Feb
-    - Mar
-    - Apr
-    - Maj
-    - Jun
-    - Jul
-    - Aug
-    - Sep
-    - Okt
-    - Nov
-    - Dec
+    - jan
+    - feb
+    - mar
+    - apr
+    - maj
+    - jun
+    - jul
+    - aug
+    - sep
+    - okt
+    - nov
+    - dec
     abbr_week: Uge
     day_names:
     - søndag
@@ -2642,27 +2642,27 @@ da:
     - fredag
     - lørdag
     formats:
-      default: "%d/%m/%Y"
-      long: "%B %d %Y"
-      short: "%b %d"
+      default: "%d.%m.%Y"
+      long: "%e. %B %Y"
+      short: "%e. %b"
     month_names:
     -
-    - Januar
-    - Februar
-    - Marts
-    - April
-    - Maj
-    - Juni
-    - Juli
-    - August
-    - September
-    - Oktober
-    - November
-    - December
+    - januar
+    - februar
+    - marts
+    - april
+    - maj
+    - juni
+    - juli
+    - august
+    - september
+    - oktober
+    - november
+    - december
     order:
-    - ":år"
-    - ":måned"
-    - :dag
+    - :day
+    - :month
+    - :year
   datetime:
     distance_in_words:
       about_x_hours:
@@ -2680,13 +2680,13 @@ da:
       half_a_minute: et halvt minut
       less_than_x_minutes:
         one: under ét minut
-        other: færre end %{count} minutter
+        other: under %{count} minutter
       less_than_x_seconds:
         one: under 1 sekund
-        other: færre end %{count} sekunder
+        other: under %{count} sekunder
       over_x_years:
         one: over 1 år
-        other: flere end %{count} år
+        other: over %{count} år
       x_days:
         one: 1 dag
         other: "%{count} dage"
@@ -2698,7 +2698,7 @@ da:
         other: "%{count} t"
       x_minutes:
         one: 1 minut
-        other: "%{count} minutte"
+        other: "%{count} minutter"
       x_minutes_abbreviated:
         one: 1 min
         other: "%{count} min"
@@ -2797,7 +2797,7 @@ da:
   description_sub_work_package: Underordnet arbejdspakke til denne
   description_toc_toggle: Vis/Skjul indholdsfortegnelse
   description_wiki_subpages_reassign: Vælg ny overordnet side
-  direction: Fra venstre mod højre
+  direction: ltr
   doorkeeper:
     access_token_url: URL til adgangstoken
     auth_url: Godkendelses-URL
@@ -3001,7 +3001,7 @@ da:
   error_auth_source_sso_failed: Single sign-on (SSO) for brugeren '%{value}' mislykkedes
   error_can_not_archive_project: 'Dette projekt kan ikke arkiveres: %{errors}'
   error_can_not_deactivate_type_invisible_projects: Der er også arbejdspakker i projekter, som du ikke kan se.
-  error_can_not_delete_custom_field: Kan ikke slette det selvvalgte felt
+  error_can_not_delete_custom_field: Kan ikke slette det brugerdefinerede felt
   error_can_not_delete_entry: Posten kan ikke slettes
   error_can_not_delete_in_use_archived_undisclosed: Der er også arbejdspakker i arkiverede projekter. Bed en administrator om at foretage sletningen; administratoren kan se, hvilke projekter der er berørt.
   error_can_not_delete_in_use_archived_work_packages: 'Der er også arbejdspakker i arkiverede projekter. Du skal først genaktivere følgende projekter, før du kan ændre attributten for de pågældende arbejdspakker: %{archived_projects_urls}'
@@ -3015,7 +3015,7 @@ da:
   error_can_not_unarchive_project: 'Dette projekt kan ikke fjernes fra arkivering: %{errors}'
   error_check_user_and_role: Vælg venligst en bruger og en rolle.
   error_code: Fejl %{code}
-  error_color_could_not_be_saved: Farve kan ikke gemmes
+  error_color_could_not_be_saved: Farven kunne ikke gemmes
   error_cookie_missing: OpenProject-cookien mangler. Sørg for, at cookies er slået til, da programmet ikke virker korrekt uden.
   error_custom_option_not_found: Valgmuligheden findes ikke.
   error_enterprise_activation_user_limit: Din konto kunne ikke aktiveres (grænsen for antal brugere er nået). Kontakt din administrator for at få adgang.
@@ -3046,12 +3046,12 @@ da:
   error_scm_command_failed: 'Der opstod en fejl da du forsøgte at tilgå projektarkivet: %{value}'
   error_scm_not_found: Indholdet eller ændring findes ikke i projektarkivet.
   error_token_authenticity: Tokenet til beskyttelse mod Cross-Site Request Forgery kunne ikke bekræftes. Har du prøvet at sende data fra flere browsere eller faner? Luk alle faner, og prøv igen.
-  error_type_could_not_be_saved: Typen kan ikke gemmes
+  error_type_could_not_be_saved: Typen kunne ikke gemmes
   error_unable_delete_default_status: Det er ikke muligt at slette forhåndsværdien for arbejdspakkens status. Vælg venligst en anden status for arbejdspakken før den nuværende slettes.
   error_unable_delete_status: Arbejdspakkens status kan ikke slettes da den bruges af mindst én pakke.
-  error_unable_delete_wiki: Wikisiden kan ikke slettes.
+  error_unable_delete_wiki: Wiki-siden kan ikke slettes.
   error_unable_to_connect: Kan ikke forbinde til (%{value})
-  error_unable_update_wiki: Wikisiden kan ikke opdateres.
+  error_unable_update_wiki: Wiki-siden kan ikke opdateres.
   error_wiki_root_menu_item_conflict: '"%{old_name}" kan ikke omdøbes til "%{new_name}", fordi det resulterende menupunkt er i konflikt med det eksisterende menupunkt "%{existing_caption}" (%{existing_identifier}).
 
     '
@@ -3216,7 +3216,7 @@ da:
   general_pdf_encoding: ISO-8859-15
   general_text_No: Nej
   general_text_Yes: Ja
-  general_text_false: forkert
+  general_text_false: falsk
   general_text_no: nej
   general_text_true: sand
   general_text_yes: ja
@@ -3497,7 +3497,7 @@ da:
   label_calendar_show: Vis kalender
   label_calendar_subscriptions: Kalenderabonnementer
   label_calendars_and_dates: Kalendere og datoer
-  label_change_parent: Ændr overordnede
+  label_change_parent: Skift overordnet
   label_change_password: Skift adgangskode
   label_change_plural: Ændringer
   label_change_properties: Skift egenskaber
@@ -3569,8 +3569,8 @@ da:
   label_custom_favicon: Brugerdefineret favicon
   label_custom_field_add_no_type: Føj feltet til en arbejdspakketype
   label_custom_field_default_type: Tom typebetegnelse
-  label_custom_field_new: Nyt selvvalgt felt
-  label_custom_field_plural: Selvvalgte felter
+  label_custom_field_new: Nyt brugerdefineret felt
+  label_custom_field_plural: Brugerdefinerede felter
   label_custom_logo: Eget logo til computer
   label_custom_logo_mobile: Eget logo til mobil
   label_custom_pdf_export_settings: Brugerdefinerede indstillinger for PDF-eksport
@@ -3593,7 +3593,7 @@ da:
   label_delete_project: Slet projekt
   label_delete_user: Slet bruger
   label_deleted: slettet
-  label_deleted_custom_field: "(slettet selvvalgt felt)"
+  label_deleted_custom_field: "(slettet brugerdefineret felt)"
   label_deleted_custom_item: "(slettet element)"
   label_deleted_custom_option: "(slettet valgmulighed)"
   label_deleted_version: "(slettet version)"
@@ -3611,7 +3611,7 @@ da:
   label_disabled: deaktiveret
   label_disabled_uppercase: Deaktiveret
   label_display: Vis
-  label_display_per_page: Per side %{value}
+  label_display_per_page: 'Pr. side: %{value}'
   label_display_used_statuses_only: Vis kun statuser, der bruges af denne type
   label_download: "%{count} hentning"
   label_download_plural: "%{count} hentninger"
@@ -3622,7 +3622,7 @@ da:
   label_edit: Rediger
   label_edit_x: 'Rediger: %{x}'
   label_empty_element: "(tom)"
-  label_enable_multi_select: Vælg multivalg
+  label_enable_multi_select: Slå flervalg til/fra
   label_enabled_project_activities: Aktiverede aktivitetstidsregistrering
   label_enabled_project_custom_fields: Aktiverede brugerdefinerede felter
   label_enabled_project_modules: Aktiverede moduler
@@ -3669,7 +3669,7 @@ da:
   label_formula: Formel
   label_forum_new: Nyt forum
   label_forum_plural: Fora
-  label_forum_sticky: Fremhævet
+  label_forum_sticky: Fastgjort
   label_forums_locked: Låst
   label_function_plural: Funktioner
   label_gantt_chart: Gantt-diagram
@@ -3690,7 +3690,7 @@ da:
   label_group_plural: Grupper
   label_help: Hjælp
   label_here: her
-  label_hide: Gem
+  label_hide: Skjul
   label_hierarchy: Hierarki
   label_hierarchy_leaf: Hierarkiblad
   label_history: Historik
@@ -3759,7 +3759,7 @@ da:
   label_loading: Henter...
   label_locale: Sprog og område
   label_lock_user: Lås bruger
-  label_locked: Spærret
+  label_locked: låst
   label_logged_as: Logget ind som
   label_login: Log ind
   label_logout: Log ud
@@ -3853,7 +3853,7 @@ da:
   label_open: åben
   label_open_menu: Åbn menuen
   label_open_work_packages: åbn
-  label_open_work_packages_plural: åbn
+  label_open_work_packages_plural: åbne
   label_openproject_website: OpenProjects websted
   label_operator_all: er ikke tom
   label_operator_equals_all: er (OG)
@@ -3882,7 +3882,7 @@ da:
   label_past: Tidligere
   label_path_encoding: Indkod sti for arkivering
   label_people: Personer
-  label_per_page: 'Per side:'
+  label_per_page: 'Pr. side:'
   label_percent_complete: "% færdigt"
   label_permissions: Tilladelser
   label_permissions_report: Oversigt over tilladelser
@@ -4009,10 +4009,10 @@ da:
   label_show_completed_versions: Vis færdige versioner
   label_show_less: Vis mindre
   label_show_more: Vis flere
-  label_sort: Sorter
-  label_sort_ascending: Sorter stigende
-  label_sort_by: Sorter efter %{value}
-  label_sort_descending: Sorter faldende
+  label_sort: Sortér
+  label_sort_ascending: Sortér stigende
+  label_sort_by: Sortér efter %{value}
+  label_sort_descending: Sortér faldende
   label_sort_higher: Flyt op
   label_sort_highest: Flyt til toppen
   label_sort_lower: Flyt ned
@@ -4078,7 +4078,7 @@ da:
   label_used_in_projects: Bruges i projekter
   label_user_activity_html: Aktivitet for %{value}
   label_user_and_permission: Brugere og tilladelser
-  label_user_anonymous: Anonymt
+  label_user_anonymous: Anonym
   label_user_attributes_plural: Brugerattributter
   label_user_menu: Brugermenu
   label_user_named: Bruger %{name}
@@ -4107,16 +4107,16 @@ da:
   label_weighted_item_list: Vægtet liste
   label_what_is_this: Hvad er det?
   label_widget_new: Ny widget
-  label_wiki_content_added: Wikiside tilføjet
-  label_wiki_content_updated: Wikiside opdateret
+  label_wiki_content_added: Wiki-side tilføjet
+  label_wiki_content_updated: Wiki-side opdateret
   label_wiki_dont_show_menu_item: Vis ikke denne wikipage i projektnavigationen
   label_wiki_edit: Wiki-redigering
   label_wiki_edit_plural: Wiki-redigeringer
   label_wiki_navigation: Wiki-navigering
-  label_wiki_page_attachments: Vedhæftede filer på wikisiden
-  label_wiki_page_id: Wikisidens id
+  label_wiki_page_attachments: Vedhæftede filer på wiki-siden
+  label_wiki_page_id: Wiki-sidens id
   label_wiki_page_plural: Wiki-sider
-  label_wiki_page_versions: Wikisidens versioner
+  label_wiki_page_versions: Wiki-sidens versioner
   label_wiki_show_index_page_link: Vis undermenupunkt 'Indhold'
   label_wiki_show_menu_item: Vis som menupunkt i projektnavigeringen
   label_wiki_show_new_page_link: Vis undermenupunktet 'Opret ny underside'
@@ -4215,7 +4215,7 @@ da:
     back_to_index: Klik her for at gå tilbage til listen over forbindelser.
     connection_encryption: Forbindelseskryptering
     encryption_details: Indstillinger for LDAPS/STARTTLS
-    ldap_auth_failed: Kunne ikke godkendes på LDAP-serveren.
+    ldap_auth_failed: Godkendelse på LDAP-serveren mislykkedes.
     ldap_details: LDAP detaljer
     ldap_error: 'LDAP-fejl: %{error_message}'
     sync_failed: 'Synkroniseringen fra LDAP mislykkedes: %{message}.'
@@ -4283,7 +4283,7 @@ da:
     placeholder: "[Pladsholder] Makro %{macro_name}"
     wiki_child_pages:
       errors:
-        page_not_found: Wikisiden '%{name}' blev ikke fundet.
+        page_not_found: Wiki-siden '%{name}' blev ikke fundet.
   mail:
     actions: Handlinger
     digests:
@@ -4427,8 +4427,8 @@ da:
   mail_subject_incoming_email_error: En e-mail, som du sendte til OpenProject, kunne ikke behandles
   mail_subject_lost_password: Din %{value} adgangskode
   mail_subject_register: Din %{value} kontoaktivering
-  mail_subject_wiki_content_added: Wikisiden '%{id}' er tilføjet
-  mail_subject_wiki_content_updated: "'%{id}' wikiside er blevet opdateret"
+  mail_subject_wiki_content_added: Wiki-siden '%{id}' er tilføjet
+  mail_subject_wiki_content_updated: "'%{id}' wiki-side er blevet opdateret"
   mail_user_activation_limit_reached:
     message_html: |
       En ny bruger (%{email}) forsøgte at oprette en konto i et OpenProject-miljø, som du administrerer (%{host}).
@@ -4508,7 +4508,7 @@ da:
       aggregation: Sammenlægning
       ai: Kunstig intelligens (AI)
       api_and_webhooks: API og webhooks
-      mail_notification: E-mail-påmindelser
+      mail_notification: E-mail-notifikationer
       mails_and_notifications: E-mails og notifikationer
       mcp_configurations: Model Context Protocol (MCP)
       text_transform_actions: Handlinger til tekstomskrivning
@@ -4623,8 +4623,8 @@ da:
         news_commented: Kommentar til en nyhed
         submit_button: Opdater beskeder
         title: E-mailbeskeder om andet end arbejdspakker
-        wiki_page_added: Wikiside tilføjet
-        wiki_page_updated: Wikiside opdateret
+        wiki_page_added: Wiki-side tilføjet
+        wiki_page_updated: Wiki-side opdateret
       immediate_reminders:
         mentioned: Giv mig besked, når jeg bliver omtalt
         personal_reminder: Giv mig besked om personlige påmindelser
@@ -4801,9 +4801,9 @@ da:
         watched: Du følger %{work_package}
   number:
     format:
-      delimiter: ","
+      delimiter: "."
       precision: 3
-      separator: "."
+      separator: ","
     human:
       format:
         delimiter: ''
@@ -5277,7 +5277,7 @@ da:
       members: Projektmedlemmer
       overviews: Projektoversigt
       queries: 'Arbejdspakker: gemte visninger'
-      wiki_page_attachments: 'Wikisider: vedhæftede filer'
+      wiki_page_attachments: 'Wiki-sider: vedhæftede filer'
       work_package_attachments: 'Arbejdspakker: vedhæftede filer'
       work_package_categories: 'Arbejdspakker: kategorier'
       work_package_file_links: 'Arbejdspakker: fil-links'
@@ -6194,7 +6194,7 @@ da:
   status_blocked: blokeret
   status_deleted: slettet
   status_invited: inviteret
-  status_locked: Spærret
+  status_locked: låst
   status_registered: registreret
   statuses:
     edit:
@@ -6218,14 +6218,14 @@ da:
       headers:
         excluded_from_totals: Udeladt fra totaler
         is_closed: Lukket
-        is_default: Forhåndsvalgt
+        is_default: Standard
         is_readonly: Skrivebeskyttet
       no_results_content_text: Tilføj en ny status
       no_results_title_text: Der er i øjeblikket ingen statusser for arbejdspakker.
   support:
     array:
       sentence_connector: og
-      skip_last_comma: forkert
+      skip_last_comma: 'false'
   text_access_token_hint: Adgangstegn tillader dig at tildele eksterne applikationer adgang til ressourcer i OpenProject.
   text_accessibility_hint: Tilgængelighedstilstanden er beregnet til brugere, der er blinde, har motoriske handicap eller dårligt syn. For de sidstnævnte bliver elementer med fokus fremhævet særligt. Bemærk, at modulet Backlogs ikke er tilgængeligt i denne tilstand.
   text_analyze: 'Yderligere gennemgang: %{subject}'
@@ -6238,7 +6238,7 @@ da:
   text_caracters_maximum: "%{count} tegn som maksimum."
   text_caracters_minimum: Skal være mindst %{count} tegn lang.
   text_comma_separated: Flere værdier tilladt (adskilt med komma).
-  text_comment_wiki_page: 'Kommentar til wikisiden: %{page}'
+  text_comment_wiki_page: 'Kommentar til wiki-siden: %{page}'
   text_custom_export_cover_instructions: 'Det er det billede, der vises i baggrunden af forsiden i dine PDF-eksporter. Det skal være en PNG- eller JPEG-billedfil på cirka 800 pixel i bredden og 500 pixel i højden.
 
     '
@@ -6350,7 +6350,7 @@ da:
   text_project_identifier_url_description: Projekt-id'et indgår i projektets URL.
   text_reassign: 'Gentildel til arbejdspakke:'
   text_regexp_multiline: Det regulære udtryk anvendes i flerlinjetilstand, fx ^---\s+
-  text_rename_wiki_page: Omdøb wikiside
+  text_rename_wiki_page: Omdøb wiki-side
   text_repository_usernames_mapping: |-
     Vælg eller opdatér den OpenProject-bruger, der er tilknyttet hvert brugernavn i loggen for projektarkivet.
     Brugere med det samme brugernavn eller mailadresse i OpenProject og i projektarkivet vil automatisk blive tilknyttet.
@@ -6393,14 +6393,14 @@ da:
   time:
     am: formiddag
     formats:
-      default: "%d%m%Y%I%M%p"
-      long: "%B %d, %Y % H: %M"
-      short: "%d %b% H: %M"
-      time: "%I:%M %p"
+      default: "%d.%m.%Y %H:%M"
+      long: "%e. %B %Y %H:%M"
+      short: "%e. %b %H:%M"
+      time: "%H:%M"
     pm: eftermiddag
   timeframe:
     end: til
-    show: Vis tidsrammer
+    show: Vis tidsramme
     start: fra
   title_enterprise_upgrade: Opgrader for at få plads til flere brugere.
   title_remove_and_delete_user: Fjern den inviterede bruger fra projektet, og slet brugeren.
@@ -6422,9 +6422,9 @@ da:
     '
   top_menu:
     additional_resources: Flere ressourcer
-    getting_started: At komme gang
+    getting_started: Kom godt i gang
     help_and_support: Hjælp og support
-  total_progress: Samlet fremgang
+  total_progress: Samlet fremdrift
   tree_view:
     label_empty_sub_tree: Ingen elementer
   types:
@@ -6730,8 +6730,8 @@ da:
     authorization_rejected: Du har ikke adgang til at logge ind.
     blocked: midlertidigt låst
     blocked_num_failed_logins:
-      one: midlertidigt låst (ét mislykket log ind-forsøg)
-      other: midlertidigt låst (%{count} mislykkede log ind-forsøg)
+      one: midlertidigt låst (ét mislykket loginforsøg)
+      other: midlertidigt låst (%{count} mislykkede loginforsøg)
     confirm_status_change: Du er ved at ændre status for '%{name}'. Er du sikker på, at du vil fortsætte?
     deleted: Slettet bruger
     department_ldap_managed_caption: Afdelingen styres af LDAP-synkroniseringen og kan ikke ændres her.
@@ -6781,9 +6781,9 @@ da:
         no_results_placeholder: Ingen pladsholdere blev fundet
         no_results_user: Ingen brugere blev fundet
         required:
-          group: Vælg venligst en gruppe
-          placeholder: Vælg venligst en pladsholder
-          user: Vælg venligst en bruger
+          group: Vælg en gruppe
+          placeholder: Vælg en pladsholder
+          user: Vælg en bruger
       project:
         label: Projekt
         next_button: Næste
@@ -6796,27 +6796,27 @@ da:
           '
         label: Rolle i %{project}
         no_roles_found: Der blev ikke fundet nogen roller
-        required: Vælg venligst en rolle
+        required: Vælg en rolle
       success_message:
-        group: Gruppen er nu en del af %{project}. I mellemtiden kan du allerede planlægge med denne gruppe og tildele arbejdspakker for eksempel.
-        placeholder_user: Pladsholderen kan nu bruges i %{project}. I mellemtiden kan du allerede planlægge med den pågældende bruger og tildele arbejdspakker for eksempel.
-        user: Brugeren kan nu logge ind for at få adgang til %{project}. I mellemtiden kan du allerede planlægge med den pågældende bruger og tildele arbejdspakker for eksempel.
+        group: Gruppen er nu en del af %{project}. I mellemtiden kan du allerede planlægge med gruppen og for eksempel tildele den arbejdspakker.
+        placeholder_user: Pladsholderen kan nu bruges i %{project}. I mellemtiden kan du allerede planlægge med pladsholderen og for eksempel tildele den arbejdspakker.
+        user: Brugeren kan nu logge ind og få adgang til %{project}. I mellemtiden kan du allerede planlægge med brugeren og for eksempel tildele vedkommende arbejdspakker.
       summary:
         next_button: Send invitation
       title:
         invite: Invitér bruger
-        invite_principal_to_project: Inviter %{principal} til %{project}
-        invite_to_project: Inviter %{type} til %{project}
+        invite_principal_to_project: Invitér %{principal} til %{project}
+        invite_to_project: Invitér %{type} til %{project}
       type:
         already_member_message: Allerede medlem af %{project}
         group:
           description: Tilladelser baseret på den tildelte rolle i det valgte projekt
           title: Inviter gruppe til %{project_name}
         placeholder_user:
-          description: Har ikke adgang til projektet, og ingen e-mails er sendt ud.
+          description: Har ikke adgang til projektet, og der sendes ingen e-mails.
           title: Tilføj pladsholder-bruger til %{project_name}
           title_no_ee: Pladsholder-bruger (Enterprise-tilføjelse)
-        required: Vælg venligst den type, der skal inviteres
+        required: Vælg, hvilken type der skal inviteres
         user:
           description: Tilladelser baseret på den tildelte rolle i det valgte projekt
           title: Inviter bruger til %{project_name}
@@ -6832,7 +6832,7 @@ da:
       device: Enhed/styresystem
       expires: Udløber
       instructions: Du er logget ind på din konto fra følgende enheder. Tilbagekald sessioner, som du ikke kender, eller som kommer fra enheder, som du ikke har kontrol over.
-      last_connection: Seneste session
+      last_connection: Seneste forbindelse
       may_not_delete_current: Du kan ikke slette din aktuelle session.
       session_name: "%{browser_name} %{browser_version} på %{os_name}"
       title: Administration af sessioner
@@ -6895,8 +6895,8 @@ da:
           other: "%{count} arbejdsdage"
         work_hours: Arbejdstimer
   version_status_closed: lukket
-  version_status_locked: Spærret
-  version_status_open: åbn
+  version_status_locked: låst
+  version_status_open: åben
   versions:
     overview:
       no_results_title_text: Der er i øjeblikket ingen arbejdspakker tildelt versionen.
@@ -6932,10 +6932,10 @@ da:
     '
   wiki:
     index:
-      no_results_content_text: Tilføj en ny wikiside
-    no_results_title_text: Der er i øjeblikket ingen wikisider.
-    page_not_editable_index: Den ønskede side findes ikke (endnu). Du er sendt videre til oversigten over alle wikisider.
-    print_hint: Udskriver indholdet af wikisiden uden navigationslinjer.
+      no_results_content_text: Tilføj en ny wiki-side
+    no_results_title_text: Der er i øjeblikket ingen wiki-sider.
+    page_not_editable_index: Den ønskede side findes ikke (endnu). Du er sendt videre til oversigten over alle wiki-sider.
+    print_hint: Udskriver indholdet af wiki-siden uden navigationslinjer.
   wiki_menu_item_delete_not_permitted: Menupunktet til den eneste wiki-side kan ikke slettes.
   wiki_menu_item_for: Menupunkt for wikipage "%{title}"
   wiki_menu_item_new_main_item_explanation: 'Du er ved at slette det eneste overordnede punkt på wiki-menuen. Du skal nu vælge en wiki-side, udfra hvilken der kan dannes et nyt hovedpunkt. Hvis du vil slette wikien helt kan wiki-modulet deaktiveres af projektadministratorer.

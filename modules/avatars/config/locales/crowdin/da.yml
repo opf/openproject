@@ -15,7 +15,7 @@ da:
     text_avatar_local_only: Du kan overføre en egen avatar ved at klikke på billedet. Vi anbefaler et billede på 128 × 128 pixel.
   empty_file_error: Overfør et gyldigt billede (jpg, png, gif)
   error_image_size: Billedet er for stort.
-  error_image_upload: Fejl under lagring af billedet.
+  error_image_upload: Billedet kunne ikke gemmes.
   label_avatar: Avatar
   label_avatar_plural: Avatarer
   label_choose_avatar: Vælg avatar fra fil

@@ -76,7 +76,7 @@ da:
         '
       client_id: Det klient-id, som du har fået af din OpenID Connect-udbyder
       client_secret: Den klienthemmelighed, som du har fået af din OpenID Connect-udbyder
-      display_name: Udbydernavnet. Dette vises som login-knappen samt på udbyderlisten.
+      display_name: Udbyderens navn. Det vises på login-knappen og i listen over udbydere.
       endpoint_url: Den endepunkts-URL, som du har fået af OpenID Connect-udbyderen
       group_regexes: Ét mønster med regulære udtryk pr. linje. Læs [dokumentationen](docs_url) for at få flere oplysninger om, hvordan du gør.
       group_regexes_detail: Definér eventuelt mønstre med regulære udtryk, der finder gruppenavne i claimet for grupper. Et mønster som <code>^Level1/Level2/([\w/]+)$</code> udtrækker fx gruppen “Groupname/SubGroup” fra et svar, der indeholder “Level1/Level2/GroupName/SubGroup”. Hvis intet mønster matcher, ignoreres gruppen. Lad feltet stå tomt for at synkronisere alle grupper med deres fulde gruppenavn.
@@ -149,7 +149,7 @@ da:
         description: Forbind OpenProject med en OpenID Connect-identitetsudbyder
         title: Single sign-on (SSO) med OpenID Connect
     setting_instructions:
-      limit_self_registration: 'Hvis aktiveret, kan brugere kun registrere sig vha. denne udbyder, hvis selv-registreringsindstillingen tillader dette.
+      limit_self_registration: 'Når indstillingen er slået til, kan brugere kun registrere sig via denne udbyder, hvis indstillingen for selvregistrering tillader det.
 
         '
     settings:
