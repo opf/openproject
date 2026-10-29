@@ -474,7 +474,7 @@ GEM
     crack (1.0.1)
       bigdecimal
       rexml
-    crass (1.0.7)
+    crass (1.0.8)
     css_parser (3.2.0)
       addressable
       base64
@@ -1433,8 +1433,8 @@ GEM
     rubyzip (3.4.1)
     safety_net_attestation (0.5.0)
       jwt (>= 2.0, < 4.0)
-    sanitize (7.0.0)
-      crass (~> 1.0.2)
+    sanitize (7.0.1)
+      crass (~> 1.0.8)
       nokogiri (>= 1.16.8)
     scimitar (2.15.0)
       rails (>= 7.0)
@@ -1784,7 +1784,7 @@ DEPENDENCIES
   ruby-prof
   ruby-progressbar (~> 1.13.0)
   rubytree (~> 2.2.2)
-  sanitize (~> 7.0.0)
+  sanitize (~> 7.0.1)
   scimitar (~> 2.13)
   selenium-devtools
   selenium-webdriver (~> 4.51)
@@ -1908,7 +1908,7 @@ CHECKSUMS
   costs (1.0.0)
   counter_culture (3.14.0) sha256=386f10ba78837123443597212284f166a498abf36af4b6e85e2f280b908760f3
   crack (1.0.1) sha256=ff4a10390cd31d66440b7524eb1841874db86201d5b70032028553130b6d4c7e
-  crass (1.0.7) sha256=94868719948664c89ddcaf0a37c65048413dfcb1c869470a5f7a7ceb5390b295
+  crass (1.0.8) sha256=7a0145c7a2c59f8e7923b3a69ce819c444823a00a5127d805298fea13be24efe
   css_parser (3.2.0) sha256=e2d9d76164246d4d5d0b96e22fcbf581e1c65368ec3e52e056d4154e42eaac65
   csv (3.3.6) sha256=aba61e7e507a66f03d45cb1f3c4b6359861c3504038b422962875dce099e4456
   cuprite (0.19) sha256=e56d59db56693bdfbffd533f715df366f03285ea4435e4c31603e146e0e02518
@@ -2289,7 +2289,7 @@ CHECKSUMS
   rubytree (2.2.2) sha256=61e845fdcaf731602ab03aa4dfde35f3907f5453ec10cf4dfc5a0ac0111bd52d
   rubyzip (3.4.1) sha256=0a79e745b5c25872ebd148457df5665da8530ed8626c993b01457128f173ca02
   safety_net_attestation (0.5.0) sha256=c8cd01dd550dbe8553862918af6355a04672db11d218ec96104ce3955293f2aa
-  sanitize (7.0.0) sha256=269d1b9d7326e69307723af5643ec032ff86ad616e72a3b36d301ac75a273984
+  sanitize (7.0.1) sha256=6dc0d80edab7e5f6bb9036ee001aa8fea000359860c6e53cd909e16321e1ac79
   scimitar (2.15.0) sha256=700901afab9303b705a8f37644cd733ee3c3819b168d24a14a48dec060b16d63
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
   selenium-devtools (0.154.0) sha256=fa6f77b66206cf0c194cfd71e4ab614cac149ee6d92ca7e8753d36d4360ec102
