@@ -55,7 +55,11 @@ module Backlogs
           @relevant_epics ||= begin
             epic_ids = historic? ? historic_relevant_epic_ids : live_relevant_epic_ids
 
-            work_packages_at_report_time.where(id: epic_ids).visible(current_user).order(:subject)
+            work_packages_at_report_time
+              .where(id: epic_ids)
+              .visible(current_user)
+              .includes(:type, :status)
+              .order(:subject)
           end
         end
 
