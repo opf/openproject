@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "OAuth authorization code flow", :js, :selenium do
+RSpec.describe "OAuth authorization code flow", :js do
   let!(:user) { create(:user) }
   let!(:redirect_uri) { "urn:ietf:wg:oauth:2.0:oob" }
   let!(:allowed_redirect_uri) { redirect_uri }

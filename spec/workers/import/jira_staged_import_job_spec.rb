@@ -92,7 +92,7 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
       end
 
       describe "the final stage" do
-        let(:stage) { 9 }
+        let(:stage) { 10 }
 
         it "transitions the import to import_error instead of raising" do
           expect { run_callback }.not_to raise_error
@@ -319,22 +319,43 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
                               payload: { "id" => "10012", "key" => "DPPP", "name" => "Demo project" })
       end
 
+      it "enqueues one create time entries job per selected project" do
+        run_callback
+
+        expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectTimeEntriesJob").count).to eq(1)
+      end
+
+      it "labels enqueued jobs with stage_10" do
+        run_callback
+
+        expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectTimeEntriesJob").last.labels)
+          .to include("stage_10")
+      end
+    end
+
+    describe "stage 10" do
+      let(:stage) { 10 }
+      let!(:jira_project) do
+        create(:jira_project, jira_import:, origin_id: "10012",
+                              payload: { "id" => "10012", "key" => "DPPP", "name" => "Demo project" })
+      end
+
       it "enqueues one create attachments job per selected project" do
         run_callback
 
         expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectWorkPackageAttachmentsJob").count).to eq(1)
       end
 
-      it "labels enqueued jobs with stage_10" do
+      it "labels enqueued jobs with stage_11" do
         run_callback
 
         expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectWorkPackageAttachmentsJob").last.labels)
-          .to include("stage_10")
+          .to include("stage_11")
       end
     end
 
-    describe "stage 10 (final stage)" do
-      let(:stage) { 10 }
+    describe "stage 11 (final stage)" do
+      let(:stage) { 11 }
 
       it "does not enqueue any more jobs" do
         expect { run_callback }.not_to change(GoodJob::Job, :count)

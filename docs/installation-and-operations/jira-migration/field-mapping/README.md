@@ -33,12 +33,12 @@ Every migrated project is created **private** and **active**, with no parent —
 | Due date                                           | Due date                  | -                                                            |
 | Environment                                        | **Not migrated**          | —                                                            |
 | Fix Versions                                       | Target versions           | -                                                            |
-| Issue creation date                                | Work package created date | Set to date when the migration ran, **not** the original date of the issue in Jira. (tracked: [JIM-189](https://community.openproject.org/projects/JIM/work_packages/JIM-189)) |
+| Issue creation date                                | Work package created date | -                                                            |
 | Issue id                                           | **Not migrated**          | Internal Jira ID (planned: [JIM-8](https://community.openproject.org/projects/JIM/work_packages/JIM-8)) |
 | Issue key (e.g. `PROJECT-123`)                     | Work package identifier   | Old/renamed issue keys also keep working afterward, the same way as project keys |
 | Issue links (blocks, relates to, etc.)             | **Not migrated**          | — (planned: [JIM-76](https://community.openproject.org/projects/JIM/work_packages/JIM-76)) |
 | Issue type                                         | Type                      | Matched by name (not case-sensitive); a new Type is created automatically if nothing matches, and it's attached to the right projects (mirroring Jira's per-project Issue Type Scheme). Only the name comes across. No migrated type is marked as the project's default, even if it was the default in Jira. |
-| Logged work / time entries                         | **Not migrated**          | - (planned: [JIM-93](https://community.openproject.org/projects/JIM/work_packages/JIM-93)) |
+| Logged work / time entries                         | Time entries              | Each worklog becomes a time entry of the same user on the work package, keeping its duration, comment and start date and time in the user's OpenProject time zone. No activity is set, and comments longer than 1,000 characters are shortened. Time entry comments in OpenProject are plain text, so Jira formatting in worklog comments, such as bold text, links or mentions, shows as Jira markup (for example `*bold*`). Worklogs restricted to a Jira role or group are migrated too and become visible to everyone allowed to see time entries in the project |
 | Original time estimate                             | Work                      | -                                                            |
 | Priority                                           | Priority                  | Matched by name (not case-sensitive); created automatically if missing. If an issue has no priority in Jira, OpenProject's default priority is used. Only the name comes across — Jira's severity order, colors, and icons aren't preserved, and this matters beyond appearance: OpenProject falls back to whichever priority ends up first in the list when an issue has none set |
 | Remaining time estimate                            | Remaining work            | -                                                            |
@@ -63,7 +63,8 @@ Every migrated project is created **private** and **active**, with no parent —
 | Email                 | Email                        | If a Jira user has no email, a placeholder one is generated so the account can still be created. Not always a direct 1:1 copy of the Jira value — see the email/username collision handling below |
 | Jira group membership | OpenProject Group membership | Matched or created by name. Note: pulls in the user's entire Jira group list, not just groups relevant to the migrated projects |
 | Username              | Username                     | Not always a direct 1:1 copy either — see the email/username collision handling below |
-| Password              | Randomly generated           |  Jira passwords can't be migrated, so every new user needs a password reset or invitation afterward (planned: [JIM-116](https://community.openproject.org/projects/JIM/work_packages/JIM-116)) |
+| Password              | Randomly generated           | Jira passwords can't be migrated, so every new user needs a password reset or invitation afterward (planned: [JIM-116](https://community.openproject.org/projects/JIM/work_packages/JIM-116)) |
+| Time zone             | Time zone                    | Taken from Jira when OpenProject offers the same zone, otherwise OpenProject's default is used. Existing accounts that are reused keep their own |
 
 ## Custom fields
 

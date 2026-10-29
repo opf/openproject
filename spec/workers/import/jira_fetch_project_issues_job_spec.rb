@@ -30,52 +30,60 @@
 require "spec_helper"
 
 RSpec.describe Import::JiraFetchProjectIssuesJob do
-  let(:jira) { create(:jira) }
-  let(:author) { create(:user) }
-  let(:jira_import) { create(:jira_import, jira:, author:) }
-  let!(:jira_project) do
-    create(:jira_project,
-           jira_import:,
-           origin_id: "10001",
-           payload: { "id" => "10001", "key" => "TEST", "name" => "Test Project" })
+  include_context "with jira project import data"
+
+  subject(:fetch_issues) { described_class.perform_now(jira_import.id, jira_project.id) }
+
+  let(:jira_client) { instance_double(Import::JiraClient) }
+  let(:issues) do
+    [
+      issue("10001", worklogs: worklogs(2)),
+      issue("10002", worklogs: worklogs(20), total: 22)
+    ]
   end
 
-  subject(:job) { described_class.new(jira_import.id, jira_project.id) }
+  before do
+    allow(Import::JiraClient).to receive(:new).and_return(jira_client)
+    allow(jira_client).to receive(:issues).and_return({ "issues" => issues, "total" => 2 }, { "issues" => [], "total" => 2 })
+    allow(jira_client).to receive(:issue_worklogs).and_return("total" => 22, "worklogs" => worklogs(22))
+  end
 
-  describe "#progress" do
-    context "when no cursor is set" do
-      it "returns zeros" do
-        expect(job.progress).to eq({ current: 0, total: 0, percentage: 0 })
-      end
+  describe "#perform" do
+    it "stores the worklogs Jira returned with the issue without fetching them again" do
+      fetch_issues
+
+      expect(stored_worklogs("10001").size).to eq(2)
+      expect(jira_client).not_to have_received(:issue_worklogs).with("10001")
     end
 
-    context "when cursor is set" do
-      it "calculates progress from cursor data" do
-        jira_import.set_job_cursor(job, { "start_at" => 50, "total" => 100 })
+    it "fetches all worklogs with an extra request when the issue has more than 20" do
+      fetch_issues
 
-        progress = job.progress
-        expect(progress[:current]).to eq(50)
-        expect(progress[:total]).to eq(100)
-        expect(progress[:percentage]).to eq(50.0)
-      end
-
-      it "returns 100% when all issues are fetched" do
-        jira_import.set_job_cursor(job, { "start_at" => 100, "total" => 100 })
-
-        progress = job.progress
-        expect(progress[:current]).to eq(100)
-        expect(progress[:total]).to eq(100)
-        expect(progress[:percentage]).to eq(100.0)
-      end
-
-      it "handles partial progress" do
-        jira_import.set_job_cursor(job, { "start_at" => 33, "total" => 99 })
-
-        progress = job.progress
-        expect(progress[:current]).to eq(33)
-        expect(progress[:total]).to eq(99)
-        expect(progress[:percentage]).to eq(33.33)
-      end
+      expect(jira_client).to have_received(:issue_worklogs).with("10002").once
+      expect(stored_worklogs("10002").size).to eq(22)
     end
+  end
+
+  private
+
+  def worklogs(count)
+    Array.new(count) { |index| { "id" => index.to_s } }
+  end
+
+  def issue(id, worklogs:, total: worklogs.size)
+    {
+      "id" => id,
+      "key" => "DPPP-#{id}",
+      "fields" => {
+        "worklog" => {
+          "total" => total,
+          "worklogs" => worklogs
+        }
+      }
+    }
+  end
+
+  def stored_worklogs(origin_id)
+    Import::JiraIssue.find_by!(jira_import:, origin_id:).payload.dig("fields", "worklog", "worklogs")
   end
 end

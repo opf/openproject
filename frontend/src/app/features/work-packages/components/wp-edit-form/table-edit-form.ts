@@ -51,6 +51,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { editFieldContainerClass } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
+import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
@@ -68,8 +69,13 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
 
   @LazyInject() wpListService:WorkPackagesListService;
 
+  /** The focus position of the cell the first active field was opened in; null outside rendered occurrences. */
+  public origin:FocusPosition|null = null;
+
+  private submittedOrigin:FocusPosition|null = null;
+
   // Use cell builder to reset edit fields
-  private cellBuilder = new CellBuilder(this.injector);
+  private cellBuilder = new CellBuilder(this.injector, this.table.configuration);
 
   // Subscription
   private resourceSubscription:Subscription = this
@@ -78,7 +84,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     .id(this.workPackageId)
     .requireAndStream()
     .pipe(takeUntilDestroyed(this.table.destroyRef))
-    .subscribe((wp) => this.resource = wp);
+    .subscribe((wp) => { this.resource = wp; });
 
   constructor(
     public injector:Injector,
@@ -109,10 +115,26 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     return this.rowContainer?.querySelector<HTMLTableCellElement>(`.${tdClassName}.${fieldName}`);
   }
 
+  public override async activate(fieldName:string, noWarnings = false):Promise<void|EditFieldHandler> {
+    try {
+      return await super.activate(fieldName, noWarnings);
+    } finally {
+      if (!this.hasActiveFields()) {
+        this.origin = null;
+      }
+    }
+  }
+
   public activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {
     return this.waitForContainer(fieldName)
       .then((cell) => {
         this.assertActivationActive();
+        this.table.editing.forms[this.workPackageId] ??= this;
+        if (!this.hasActiveFields()) {
+          this.origin = this.originOf(fieldName);
+        } else if (this.origin) {
+          this.table.keyboardNavigation?.recordPosition(this.origin);
+        }
         // Forcibly set the width since the edit field may otherwise
         // be given more width. Thereby preserve a minimum width of 150.
         // To avoid flickering content, the padding is removed, too.
@@ -155,8 +177,27 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
       td.classList.remove(editModeClassName);
 
       if (focus) {
-        this.FocusHelper.focus(cell);
+        this.returnFocusFrom(cell);
       }
+    }
+
+    if (!this.hasActiveFields()) {
+      this.origin = null;
+    }
+  }
+
+  public override async submit():Promise<WorkPackageResource> {
+    const origin = this.origin;
+    const resource = await super.submit();
+    this.submittedOrigin = origin;
+    return resource;
+  }
+
+  public override onSubmitComplete():void {
+    const origin = this.submittedOrigin;
+    this.submittedOrigin = null;
+    if (origin && !this.table.destroyed && !this.hasActiveFields()) {
+      this.table.keyboardNavigation?.returnFocus(origin);
     }
   }
 
@@ -222,6 +263,29 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
       unregister = onDestroySafely(this.table.destroyRef, () => finish(new EditActivationCancelled()));
       check();
     });
+  }
+
+  private originOf(fieldName:string):FocusPosition|null {
+    const navigation = this.table.keyboardNavigation;
+    const td = this.findCell(fieldName);
+    if (!td || !navigation) {
+      return null;
+    }
+
+    const origin = navigation.positionOfCell(td);
+    if (origin) {
+      navigation.recordPosition(origin);
+    }
+    return origin;
+  }
+
+  private returnFocusFrom(container:HTMLElement):void {
+    const navigation = this.table.keyboardNavigation;
+    if (!navigation) {
+      this.FocusHelper.focus(container);
+    } else if (this.origin) {
+      navigation.returnFocus(this.origin);
+    }
   }
 
   private get rowContainer() {

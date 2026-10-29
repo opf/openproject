@@ -64,6 +64,60 @@ RSpec.describe CustomFields::UpdateService, type: :model do
       end
     end
 
+    describe "project_specific_value_restriction attribute" do
+      let!(:custom_field) { create(:list_wp_custom_field, :project_specific_allowlist) }
+      let(:other_custom_field) { create(:list_wp_custom_field, :project_specific_allowlist) }
+      let(:project) { create(:project) }
+
+      before do
+        create(:project_specific_value_restriction, project:, custom_option: custom_field.custom_options.first)
+        create(:project_specific_value_restriction, project:, custom_option: other_custom_field.custom_options.first)
+      end
+
+      context "when switching to blocking values" do
+        let(:attributes) { { project_specific_value_restriction: "block" } }
+
+        it "removes the restrictions of the custom field only" do
+          expect(subject).to be_success
+
+          expect(custom_field.project_specific_value_restrictions).to be_empty
+          expect(other_custom_field.project_specific_value_restrictions).to exist
+        end
+      end
+
+      context "when disabling project-specific restrictions" do
+        let(:attributes) { { project_specific_value_restriction: nil } }
+
+        it "removes the restrictions of the custom field only" do
+          expect(subject).to be_success
+
+          expect(custom_field.project_specific_value_restrictions).to be_empty
+          expect(other_custom_field.project_specific_value_restrictions).to exist
+        end
+      end
+
+      context "when updating another attribute" do
+        let(:attributes) { { name: "Renamed" } }
+
+        it "keeps the restrictions" do
+          expect(subject).to be_success
+
+          expect(custom_field.project_specific_value_restrictions).to exist
+        end
+      end
+
+      context "when the update fails" do
+        let(:attributes) { { project_specific_value_restriction: nil, name: "" } }
+
+        it "keeps the restrictions" do
+          expect(subject).not_to be_success
+
+          expect(custom_field.project_specific_value_restrictions).to exist
+          expect(custom_field.reload).to be_project_specific_value_restriction_allow
+        end
+      end
+    end
+
     describe "calculated value custom field", with_ee: %i[calculated_values] do
       using CustomFieldFormulaReferencing
 

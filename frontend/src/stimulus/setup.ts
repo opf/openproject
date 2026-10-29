@@ -45,6 +45,7 @@ import PasswordRequirementsController from './controllers/password-requirements.
 import PreviewController from './controllers/dynamic/work-packages/date-picker/preview.controller';
 import KeepScrollPositionController from './controllers/keep-scroll-position.controller';
 import PatternInputController from './controllers/pattern-input.controller';
+import FileFieldController from './controllers/file-field.controller';
 import HoverCardTriggerController from './controllers/hover-card-trigger.controller';
 import ScrollIntoViewController from './controllers/scroll-into-view.controller';
 import ReloadFrameOnEventController from './controllers/reload-frame-on-event.controller';
@@ -110,6 +111,7 @@ OpenProjectStimulusApplication.preregister('zen-mode', OpZenModeController);
 OpenProjectStimulusApplication.preregister('work-packages--date-picker--preview', PreviewController);
 OpenProjectStimulusApplication.preregister('keep-scroll-position', KeepScrollPositionController);
 OpenProjectStimulusApplication.preregister('pattern-input', PatternInputController);
+OpenProjectStimulusApplication.preregister('file-field', FileFieldController);
 OpenProjectStimulusApplication.preregister('scroll-into-view', ScrollIntoViewController);
 OpenProjectStimulusApplication.preregister('reload-frame-on-event', ReloadFrameOnEventController);
 OpenProjectStimulusApplication.preregister('ckeditor-focus', CkeditorFocusController);

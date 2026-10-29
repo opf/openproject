@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,7 +36,6 @@ source "https://rubygems.org", cooldown: 7
 ruby File.read(File.expand_path(".ruby-version", __dir__)).strip
 
 gem "actionpack-xml_parser", "~> 2.0.0"
-gem "activemodel-serializers-xml", "~> 1.0.1"
 gem "activerecord-import", "~> 2.3.0"
 gem "activerecord-session_store", "~> 2.3.0"
 gem "ox"
@@ -101,9 +99,6 @@ gem "rouge", "~> 5.1.0"
 gem "sanitize", "~> 7.0.0"
 # HTML autolinking for mails and urls (replaces autolink)
 gem "rinku", "~> 2.0.4", require: %w[rinku rails_rinku]
-# Version parsing with semver
-gem "semantic", "~> 1.6.1"
-
 # generates SVG Graphs
 # used for statistics on svn repositories
 gem "svg-graph", "~> 2.2.0"
@@ -125,7 +120,6 @@ gem "bcrypt", "~> 3.1.22"
 
 gem "multi_json", "~> 1.21.2"
 
-gem "daemons"
 gem "good_job", "~> 4.19.3" # update should be done manually in sync with saas-openproject version.
 
 gem "rack-protection", "~> 3.2.0"
@@ -207,7 +201,7 @@ gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
 gem "aws-sdk-s3", "~> 1.233"
 
-gem "openproject-token", "~> 8.13.0"
+gem "openproject-token", "~> 8.15.0"
 
 gem "plaintext", "~> 0.4.0"
 
@@ -236,11 +230,11 @@ gem "yabeda-rails"
 
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.37.0", require: false
-gem "opentelemetry-instrumentation-all", "~> 0.97.0", require: false
+gem "opentelemetry-instrumentation-all", "~> 0.98.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
-gem "openproject-octicons", "~>19.37.0"
-gem "openproject-octicons_helper", "~>19.37.0"
+gem "openproject-octicons", "~>19.38.0"
+gem "openproject-octicons_helper", "~>19.38.0"
 gem "openproject-primer_view_components", "~>0.94.0"
 gem "view_component", "~> 4.15.0"
 
@@ -259,13 +253,9 @@ gem "turbo-rails", "~> 2.0.20"
 
 gem "httpx", "~> 1.8.4"
 
-# Brings actual deep-freezing to most ruby objects
-gem "ice_nine"
-
 group :test do
   gem "launchy", "~> 3.1.0"
   gem "rack-test", "~> 2.2.0"
-  gem "shoulda-context", "~> 2.0"
 
   # Test prof provides factories from code
   # and other niceties
@@ -300,10 +290,10 @@ group :test do
   gem "capybara", "~> 3.40.0"
   gem "capybara_accessible_selectors", git: "https://github.com/citizensadvice/capybara_accessible_selectors", tag: "v0.16.0"
   gem "capybara-screenshot", "~> 1.0.17"
-  gem "cuprite", "~> 0.18.0"
+  gem "cuprite", "~> 0.19.0"
   gem "rspec-wait"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.49"
+  gem "selenium-webdriver", "~> 4.51"
 
   gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"
@@ -311,7 +301,7 @@ group :test do
   # Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.
   gem "vcr"
   # Mock backend requests (for ruby tests)
-  gem "webmock", "~> 3.26", require: false
+  gem "webmock", "~> 3.32", require: false
 
   # Mock selenium requests through proxy (for feature tests)
   gem "puffing-billy", "~> 4.0.0"
@@ -325,7 +315,7 @@ group :test do
 end
 
 group :ldap do
-  gem "net-ldap", "~> 0.20.0"
+  gem "net-ldap", "~> 0.21.0"
 end
 
 group :development do

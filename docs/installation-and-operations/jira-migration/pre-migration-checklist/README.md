@@ -32,7 +32,6 @@ Review this against how your teams actually use Jira. If anything here would be 
 - [ ] Issue links (blocks, relates to, duplicates, etc.) (planned: [JIM-76](https://community.openproject.org/projects/JIM/work_packages/JIM-76))
 - [ ] Web links (workaround planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206)).
 - [ ] Labels (planned: [JIM-109](https://community.openproject.org/projects/JIM/work_packages/JIM-109))
-- [ ] Logged work / time entries (only the *estimated* and *remaining* hours fields come across — actual time logged does not) (planned: [JIM-93](https://community.openproject.org/projects/JIM/work_packages/JIM-93))
 - [ ] Votes (workaround planned: [JIM-207](https://community.openproject.org/projects/JIM/work_packages/JIM-207), open feature request: [OP-3251](https://community.openproject.org/projects/OP/work_packages/OP-3251))
 - [ ] Environment
 - [ ] Security Level
@@ -41,7 +40,6 @@ Review this against how your teams actually use Jira. If anything here would be 
 
 **Not migrated, specific to custom fields:**
 
-- [ ] Date Time Picker: the time-of-day (the date itself is migrated — see [Custom fields migration](../custom-fields/#date-time-picker))
 - [ ] Epic Link / Epic Name
 - [ ] Sprint field
 - [ ] Story Points
@@ -71,7 +69,6 @@ For anything on this list your teams actually rely on, decide now how you'll han
 
 - [ ] Confirm your Jira instance is reachable from OpenProject by using [the connection test](../#test-configuration).
 - [ ] If you're on an OpenProject Enterprise plan, check your available user seats against the number of currently-active Jira users you're about to migrate. Not relevant if you're on the free Community edition. Increase your seat count before the migration.
-- [ ] **Check OpenProject's maximum attachment size setting** (Administration → Files → Attachments) against the largest attachments in your Jira data. OpenProject doesn't impose a total storage quota, but it does enforce a per-file size limit — a Jira attachment larger than this limit will fail to import. Since attachment failures are silently logged and skipped rather than stopping the run, this can otherwise go unnoticed until you check attachment counts post-migration. Raise the limit beforehand if needed.
 - [ ] **Enable project-based semantic identifiers** in OpenProject.
 - [ ] **Disable "Use current date as start date for new work packages" setting** in OpenProject. This is currently needed due to a [known issue](https://community.openproject.org/projects/JIM/work_packages/JIM-155/activity) in the importer.
 - [ ] **Take a full OpenProject backup.** Approving an import run is irreversible; reverting is only possible while the run is still "in review."

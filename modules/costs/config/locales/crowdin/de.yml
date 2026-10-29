@@ -182,7 +182,7 @@ de:
         none_active: In diesem Projekt sind derzeit keine Kostenarten aktiv.
       time_and_costs: Zeit und Kosten
       time_entry_activities:
-        heading: Time tracking
+        heading: Zeiterfassung
         hint: Select which time tracking activities are displayed in your project when members log their time.
   costs:
     widgets:

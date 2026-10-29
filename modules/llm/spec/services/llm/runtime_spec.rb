@@ -75,7 +75,7 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true, semantic_search:
     # The same name on another server need not be the same model, and an index
     # written with the first one must not be queried with the second.
     it "refuses a binding locked on another deployment, although the name is still offered" do
-      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+      create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "qwen3.6-27b")
                 .update!(locked_at: Time.current)
       connection.update_columns(base_url: "https://elsewhere.example/v1")
 
@@ -84,7 +84,7 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true, semantic_search:
     end
 
     it "resolves a locked binding while the connection still points at its deployment" do
-      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+      create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "qwen3.6-27b")
                 .update!(locked_at: Time.current)
 
       expect(resolution.status).to eq(:ready)
@@ -99,7 +99,7 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true, semantic_search:
 
     it "prefers the feature binding over the connection default" do
       connection.update!(default_chat_model: connection.models.find_by(external_id: "qwen3.6-27b"))
-      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "bge-m3")
+      create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "bge-m3")
 
       expect(resolution.model_id).to eq("bge-m3")
     end
@@ -108,7 +108,7 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true, semantic_search:
       let(:override) { "qwen3.6-27b" }
 
       it "wins over the binding" do
-        connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "bge-m3")
+        create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "bge-m3")
 
         expect(resolution.model_id).to eq("qwen3.6-27b")
       end
@@ -116,9 +116,9 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true, semantic_search:
       # semantic_search's vectors were written with the bound model; a different
       # one at query time is silently wrong answers, not a preference.
       it "is ignored by a feature that is not overridable" do
-        connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "bge-m3")
-        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
-                                               state: "supported", source: "admin", checked_at: Time.current)
+        create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", model_id: "bge-m3")
+        create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
+                                        state: "supported", source: "admin")
 
         resolution = described_class.for(:semantic_search, override: "qwen3.6-27b")
 
@@ -144,11 +144,11 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true, semantic_search:
     let(:feature_key) { :semantic_search }
     let!(:connection) { create(:llm_connection, :with_models) }
 
-    before { connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "qwen3.6-27b") }
+    before { create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", model_id: "qwen3.6-27b") }
 
     it "blocks on a definite unsupported verdict" do
-      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
-                                             state: "unsupported", source: "probe", checked_at: Time.current)
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "qwen3.6-27b", capability: "embeddings",
+                                      state: "unsupported", source: "probe")
 
       expect(resolution.status).to eq(:incapable)
       expect(resolution.missing_capabilities).to eq([:embeddings])
@@ -157,8 +157,8 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true, semantic_search:
     # Refusing on "we could not tell" would make most self-hosted servers
     # unusable, since the model list carries no capability information at all.
     it "does not block when the verdict is unknown" do
-      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
-                                             state: "unknown", source: "probe", checked_at: Time.current)
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "qwen3.6-27b", capability: "embeddings",
+                                      state: "unknown", source: "probe")
 
       expect(resolution).to be_ready
     end

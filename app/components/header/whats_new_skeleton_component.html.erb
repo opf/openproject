@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
   <% @item_count.times do |index| %>
     <% if index.positive? %>
-      <%= render(OpenProject::Common::DividerComponent.new(mt: 0, mb: 0)) %>
+      <%= render(OpPrimer::DividerComponent.new(mt: 0, mb: 0)) %>
     <% end %>
     <%= render(Primer::Box.new(px: 3, py: 2)) do %>
       <%= render(Primer::Alpha::SkeletonBox.new(width: "35%", height: "16px", mb: 2)) %>

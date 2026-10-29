@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { t(:label_bulk_edit_selected_work_packages) }
     header.with_breadcrumbs(
-      [*([href: project_overview_path(@project.id), text: @project.name] if @project),
+      [*([{ href: project_overview_path(@project.id), text: @project.name }] if @project),
        { href: (@project ? project_work_packages_path(@project) : work_packages_path), text: t(:label_work_package_plural) },
        t(:label_bulk_edit_selected_work_packages)]
     )
@@ -192,7 +192,7 @@ See COPYRIGHT and LICENSE files for more details.
             <div class="form--field">
               <%= blank_custom_field_label_tag("work_package", custom_field) %>
               <div class="form--field-container">
-                <%= custom_field_tag_for_bulk_edit("work_package", custom_field, @project) %>
+                <%= custom_field_tag_for_bulk_edit("work_package", custom_field, @project, usable_in: @projects) %>
               </div>
             </div>
           <% end %>

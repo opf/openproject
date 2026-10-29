@@ -119,7 +119,7 @@ module Import
         "text" => "text",
         "number" => "float",
         "date" => "date",
-        "datetime" => "date", # TODO: loss of precision
+        "datetime" => "datetime",
         "option" => "list",
         "user" => "user",
         "any" => "string"
@@ -299,8 +299,11 @@ module Import
       def best_matching_candidate(candidates, run_custom_field_ids)
         return best_value_bearing_candidate(candidates, run_custom_field_ids) if value_bearing_format?
 
-        candidates.find { |cf| cf.name.casecmp?(@import_name) } ||
-          candidates.find { |cf| cf.name.casecmp?(stable_base_name) }
+        CustomFieldNames.best_match(candidates, import_names)
+      end
+
+      def import_names
+        [@import_name, stable_base_name].uniq
       end
 
       def value_bearing_format?
@@ -449,9 +452,9 @@ module Import
         result.success? ? result.value! : nil
       end
 
-      # Fallback for scalar formats (string, float, date, link). Hash values
-      # (e.g. cascading selects without enterprise) are converted to a readable
-      # "Parent - Child" string instead of their Ruby Hash#to_s representation.
+      # Fallback for scalar formats. Hash values (e.g. cascading selects without
+      # enterprise) are converted to a readable "Parent - Child" string instead of
+      # their Ruby Hash#to_s representation.
       def convert_fallback_value(raw_value)
         return raw_value unless raw_value.is_a?(Hash)
 

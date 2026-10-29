@@ -12,8 +12,7 @@ import { EyeClosedIcon, AlertIcon } from '@primer/octicons-react';
 import { BlockCard } from './BlockCard';
 import { UnavailableCard } from '../WorkPackage/UnavailableCard';
 import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
-import { WorkPackageSearchPopover } from '../Search/WorkPackageSearchPopover';
-import { CreateWorkPackageModal } from '../CreateWorkPackage';
+import { PendingWorkPackagePopover } from '../WorkPackage/PendingWorkPackagePopover';
 import { defaultWpVariables, nonSelectableStyles } from '../WorkPackage/atoms';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
 import { moveCursorAfterBlock } from '../../utils/cursor';
@@ -196,18 +195,11 @@ export const BlockWorkPackageComponent = ({
   return (
     <Block ref={trackBlockElement} $pending={pendingMode !== undefined} $selected={isBlockSelected} data-selected={isBlockSelected || undefined} draggable="true" onDragStart={handleBlockDragStart}>
       <div contentEditable={false}>
-        {pendingMode === 'create' && blockEl && (
-          <CreateWorkPackageModal
+        {pendingMode && blockEl && (
+          <PendingWorkPackagePopover
+            mode={pendingMode}
             anchorEl={blockEl}
-            onCreated={handleSelectWorkPackage}
-            onCancel={handleCancelPending}
-          />
-        )}
-
-        {pendingMode === 'link' && blockEl && (
-          <WorkPackageSearchPopover
-            anchorEl={blockEl}
-            onSelect={handleSelectWorkPackage}
+            onResolve={handleSelectWorkPackage}
             onCancel={handleCancelPending}
           />
         )}

@@ -1,122 +1,123 @@
 export const en = {
   translation: {
     'slashMenu': {
-      'title': 'Link existing work package',
-      'subtext': 'Add a dynamic link to a single work package',
+      'title': "Vorhandenes Arbeitspaket verlinken",
+      'subtext': "Link zu einem einzelnen Arbeitspaket hinzufügen",
       'create': {
-        'title': 'Create new work package',
-        'subtext': 'Create a work package and link it here'
+        'title': "Neues Arbeitspaket erstellen",
+        'subtext': "Ein Arbeitspaket erstellen und hier verlinken"
       },
       'aliases': {
-        'workpackage': 'workpackage',
-        'work package': 'work package',
-        'wp': 'wp',
-        'link': 'link',
-        'create': 'create'
+        'workpackage': "Arbeitspaket",
+        'work package': "Arbeitspaket",
+        'wp': "ap",
+        'link': "verlinken",
+        'create': "erstellen"
       }
     },
     'formattingToolbar': {
-      'createWorkPackage': 'Create work package'
+      'createWorkPackage': "Arbeitspaket erstellen"
     },
     'createWorkPackage': {
-      'title': 'Create new work package',
-      'close': 'Close',
-      'cancel': 'Cancel',
-      'create': 'Create',
-      'creating': 'Creating…',
-      'selectPlaceholder': 'Please select…',
-      'searchPlaceholder': 'Type to search…',
-      'loading': 'Loading…',
-      'noResults': 'No results',
-      'filterBy': 'Filter the list',
-      'allValues': 'All',
-      'favorites': 'Favorites',
-      'clear': 'Clear',
-      'deselect': 'Remove selection',
-      'removeValue': 'Remove {{value}}',
-      'openOptions': 'Show options',
-      'closeOptions': 'Hide options',
-      'subjectPlaceholder': 'Enter subject here',
-      'subjectClipped': 'The selected text was too long and has been shortened to the first {{limit}} characters.',
-      'projectPlaceholder': 'Select a project…',
-      'loadFailed': 'The work package form could not be loaded: {{message}}',
-      'notAllowed': 'You are not allowed to create work packages.',
-      'validationFailed': 'Please correct the highlighted fields below.',
-      'requiredField': 'This field is required.',
-      'notANumber': 'Please enter a number.',
-      'notAWholeNumber': 'Please enter a whole number, without a decimal separator.',
-      'unsupportedField': '"{{field}}" cannot be set here.',
-      'unsupportedRequired': 'This work package requires a field that cannot be set here.',
-      'createInOpenProject': 'Create it in OpenProject'
+      'title': "Neues Arbeitspaket erstellen",
+      'close': "Schließen",
+      'cancel': "Abbrechen",
+      'create': "Erstellen",
+      'creating': "Wird erstellt…",
+      'selectPlaceholder': "Bitte auswählen",
+      'searchPlaceholder': "Geben Sie Ihren Suchbegriff ein",
+      'loading': "Lädt…",
+      'noResults': "Keine Ergebnisse",
+      'filterBy': "Liste filtern",
+      'allValues': "Alle",
+      'favorites': "Favoriten",
+      'clear': "Zurücksetzen",
+      'deselect': "Auswahl entfernen",
+      'removeValue': "{{value}} entfernen",
+      'openOptions': "Optionen anzeigen",
+      'closeOptions': "Optionen ausblenden",
+      'subjectPlaceholder': "Geben Sie hier den Betreff ein",
+      'subjectClipped': "Der ausgewählte Text war zu lang und wurde auf die ersten {{limit}} Zeichen gekürzt.",
+      'projectPlaceholder': "Wählen Sie ein Projekt aus…",
+      'loadFailed': "Das Arbeitspaket-Formular konnte nicht geladen werden: {{message}}",
+      'notAllowed': "Sie sind nicht berechtigt, Arbeitspakete zu erstellen.",
+      'validationFailed': "Bitte korrigieren Sie die unten hervorgehobenen Felder.",
+      'requiredField': "Dies ist ein Pflichtfeld.",
+      'notANumber': "Bitte geben Sie eine gültige Zahl ein.",
+      'notAWholeNumber': "Bitte geben Sie eine ganze Zahl ohne Dezimaltrennzeichen ein.",
+      'unsupportedField': "\"{{field}}\" kann hier nicht gesetzt werden.",
+      'unsupportedRequired': "Für dieses Arbeitspaket ist ein Feld erforderlich, das hier nicht festgelegt werden kann.",
+      'createInOpenProject': "In OpenProject erstellen"
     },
     'search': {
-      'label': 'Link existing work package',
-      'placeholder': 'Search by work package ID or subject',
-      'dropdownAriaLabel': 'Work package search results',
-      'noResults': 'No results',
-      'error': 'Error. Unable to load content.'
+      'label': "Vorhandenes Arbeitspaket verlinken",
+      'placeholder': "Nach ID oder Betreff suchen",
+      'dropdownAriaLabel': "Suchergebnisse (Arbeitspakete)",
+      'noResults': "Keine Ergebnisse",
+      'error': "Fehler. Der Inhalt konnte nicht geladen werden.",
+      'createWorkPackage': "Neues Arbeitspaket erstellen"
     },
     'unavailableWorkPackage': {
       'loading': {
-        'header': 'Loading',
-        'message': 'Please wait'
+        'header': "Lädt",
+        'message': "Bitte warten"
       },
       'unauthorized': {
-        'header': 'Linked work package unavailable',
-        'message': 'You do not have permission to see this',
-        'short_message': 'Work package unavailable: no permission'
+        'header': "Das verlinkte Arbeitspaket ist nicht verfügbar",
+        'message': "Aufgrund fehlender Berechtigungen kann es nicht angezeigt werden",
+        'short_message': "Arbeitspaket nicht verfügbar: keine Berechtigung"
       },
       'error': {
-        'header': 'Error',
-        'message': 'Could not load work package',
-        'short_message': 'Unavailable: error'
+        'header': "Fehler",
+        'message': "Arbeitspaket konnte nicht geladen werden",
+        'short_message': "Nicht verfügbar: Fehler"
       }
     },
     'options': {
-      'openInNewTab': 'Open in new tab',
-      'open': 'Open',
-      'changeSize': 'Change size',
-      'remove': 'Remove',
-      'removeAriaLabel': 'Remove work package',
-      'openAriaLabel': 'Open work package {{id}} in new tab',
-      'inlineSizeLabel': 'Inline size',
-      'blockSizeLabel': 'Block size',
-      'chipAriaLabel': 'Work package {{id}}'
+      'openInNewTab': "In neuer Registerkarte öffnen",
+      'open': "Öffnen",
+      'changeSize': "Größe ändern",
+      'remove': "Entfernen",
+      'removeAriaLabel': "Arbeitspaket entfernen",
+      'openAriaLabel': "Öffnen Sie das Arbeitspaket {{id}} in einer neuen Registerkarte",
+      'inlineSizeLabel': "Inline Größe",
+      'blockSizeLabel': "Blockgröße",
+      'chipAriaLabel': "Arbeitspaket {{id}}"
     },
     'preview': {
       'showAriaLabel': 'Show details of work package {{id}}'
     },
     'sizes': {
       'xxs': {
-        'label': 'Tiny',
-        'desc': 'Identifier'
+        'label': "Winzig",
+        'desc': "Kennung"
       },
       'xs': {
-        'label': 'Compact',
-        'desc': 'Type, Identifier, Subject'
+        'label': "Kompakt",
+        'desc': "Typ, Kennung, Betreff"
       },
       's': {
-        'label': 'Regular',
-        'desc': 'Status, Type, Identifier, Subject'
+        'label': "Regulär",
+        'desc': "Status, Typ, Kennung, Betreff"
       },
       'm': {
-        'label': 'Compact card',
-        'desc': 'Status, Type, Identifier, Subject'
+        'label': "Kompakte Karte",
+        'desc': "Status, Typ, Kennung, Betreff"
       },
       'l': {
-        'label': 'Regular card',
-        'desc': 'Identifier, Subject, Type, Status, Parent, Project'
+        'label': "Reguläre Karte",
+        'desc': "Kennung, Betreff, Typ, Status, Übergeordnetes Arbeitspaket, Projekt"
       },
       'xl': {
-        'label': 'Full card',
-        'desc': 'Identifier, Subject, Type, Status, Parent, Project, Description'
+        'label': "Vollständige Karte",
+        'desc': "Kennung, Betreff, Typ, Status, Übergeordnetes Arbeitspaket, Projekt, Beschreibung"
       }
     },
     'hashMenu': {
-      'typeToSearch': 'Type to search work packages…'
+      'typeToSearch': "Nach Arbeitspaketen suchen…"
     },
     'spinner': {
-      'ariaLabel': 'Loading'
+      'ariaLabel': "Lädt"
     }
   }
 };

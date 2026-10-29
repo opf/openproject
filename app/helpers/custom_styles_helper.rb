@@ -93,13 +93,6 @@ module CustomStylesHelper
         path: custom_style_path(tab: :pdf_export_styles),
         label: t(:"admin.custom_styles.tab_pdf_export_styles"),
         pdf: true
-      },
-      {
-        name: "pdf_export_font",
-        partial: "custom_styles/pdf_export_font",
-        path: custom_style_path(tab: :pdf_export_font),
-        label: t(:"admin.custom_styles.tab_pdf_export_font"),
-        pdf: true
       }
     ]
   end
@@ -201,11 +194,12 @@ module CustomStylesHelper
     %i[regular bold italic bold_italic].map do |variant|
       field = :"export_font_#{variant}"
       font = custom_style.public_send(field)
+      present = custom_style.id && font.present?
       {
         field: field,
         label: I18n.t("label_custom_export_font_#{variant}"),
-        present: font.present?,
-        filename: custom_style.id && font.present? ? File.basename(font.file.path) : nil,
+        present:,
+        filename: present ? File.basename(font.file.path) : nil,
         delete_path: public_send(:"custom_style_export_font_#{variant}_delete_path"),
         instructions: I18n.t("text_custom_export_font_#{variant}_instructions")
       }
@@ -291,13 +285,24 @@ module CustomStylesHelper
 
     {
       field:,
+      mode:,
       label: t("admin.custom_styles.branding.modes.#{mode}.name"),
       present:,
       source: present ? custom_logo_url(custom_style, attachment) : nil,
       img_class: field.to_s.start_with?("logo_mobile") ? "custom-logo-mobile-preview" : "custom-logo-preview",
       accept: "image/*",
       delete_path: custom_style_logo_delete_path(field:),
-      instructions: t("admin.custom_styles.branding.modes.#{mode}.description")
+      instructions: t("admin.custom_styles.branding.modes.#{mode}.description"),
+      preview_data: logo_mode_data_attributes(mode)
     }
+  end
+
+  # Mirrors ApplicationHelper#user_theme_data_attributes/ThemeUtils#applyThemeToBody: with these
+  # two attributes on an element, CSS custom properties mapped in _primer_color_mapping.erb
+  # (e.g. --header-bg-color) resolve exactly as they would under that color mode, so a logo
+  # preview can show its background the way the real header would render it.
+  def logo_mode_data_attributes(mode)
+    color_mode = mode == :dark ? :dark : :light
+    { "color-mode": color_mode, "#{color_mode}-theme": mode }
   end
 end

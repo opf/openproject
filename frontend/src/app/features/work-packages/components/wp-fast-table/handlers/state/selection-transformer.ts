@@ -63,14 +63,16 @@ export class SelectionTransformer {
         if (table.ledger.generation > 0) {
           this.wpTableSelection.retainRendered(rows);
         }
-        this.wpTableFocus.ifShouldFocus((wpId:string) => {
-          const root = table.tableAndTimelineContainer;
-          const element = locateTableRow(wpId, root);
-          if (element) {
-            scrollTableRowIntoView(wpId, root);
-            this.FocusHelper.focus(element);
-          }
-        });
+        if (!table.configuration.keyboardNavigationEnabled) {
+          this.wpTableFocus.ifShouldFocus((wpId:string) => {
+            const root = table.tableAndTimelineContainer;
+            const element = locateTableRow(wpId, root);
+            if (element) {
+              scrollTableRowIntoView(wpId, root);
+              this.FocusHelper.focus(element);
+            }
+          });
+        }
       });
 
     this.wpTableSelection.live$()

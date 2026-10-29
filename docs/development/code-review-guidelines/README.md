@@ -122,7 +122,7 @@ If there are breaking changes (e.g., to permissions, code relevant for developer
 
 - For external contributions: Check whether the author has signed a [Contributor License Agreement](../#openproject-contributor-license-agreement-cla) and kindly ask for it if not. There is a GitHub workflow ensuring the contributor signed the current CLA. If the action is green, consider this point done.
 
-- Copyright notice: When new files are added, make sure they contain the OpenProject copyright notice (copy from any file in OpenProject).
+- Copyright notice: When new files are added, follow the [copyright notice guide](../style-guide/#copyright-notices) for generators and the manual fallback when generation is unavailable.
 
 - Adding Gems: When adding gems, make sure not only the Gemfile is updated, but also the Gemfile.lock.
 

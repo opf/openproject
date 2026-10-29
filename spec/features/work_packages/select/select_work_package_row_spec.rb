@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Select work package row", :js, :selenium do
+RSpec.describe "Select work package row", :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_package_1) { create(:work_package, project:) }
@@ -67,20 +67,14 @@ RSpec.describe "Select work package row", :js, :selenium do
     element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell-td.id")
     loading_indicator_saveguard
 
-    page.driver.browser.action.key_down(:shift)
-        .click(element.native)
-        .key_up(:shift)
-        .perform
+    element.click(:shift)
   end
 
   def select_work_package_row_with_ctrl(number)
     element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell-td.id")
     loading_indicator_saveguard
 
-    page.driver.browser.action.key_down(:meta)
-        .click(element.native)
-        .key_up(:meta)
-        .perform
+    element.click(:meta)
   end
 
   def expect_row_checked(*indices)
@@ -224,7 +218,7 @@ RSpec.describe "Select work package row", :js, :selenium do
     end
 
     it do
-      expect(page).to have_heading(work_package_1.subject, level: 2, exact_text: true)
+      expect(page).to have_heading(work_package_1.subject, level: 2, exact: true)
     end
   end
 

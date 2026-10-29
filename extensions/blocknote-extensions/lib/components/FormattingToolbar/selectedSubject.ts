@@ -1,9 +1,6 @@
 import type { AnyEditor } from '../../editorTypes';
 import { WORK_PACKAGE_NODE_TYPES } from '../../utils/nodeTypes';
-
-export function subjectOf(text:string):string {
-  return text.replace(/\s+/g, ' ').trim();
-}
+import { subjectOf } from '../../utils/subject';
 
 function selectionHoldsWorkPackage(editor:AnyEditor):boolean {
   const { doc, selection } = editor.prosemirrorState;

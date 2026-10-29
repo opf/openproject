@@ -109,7 +109,7 @@ module WorkPackageTypes
     end
 
     def reusable_workflow(started_id)
-      candidates = Workflow.global.where.not(id: started_id).in_display_order
+      candidates = Workflow.where.not(id: started_id).in_display_order
       candidates.where(id: TypeVariant.select(:workflow_id)).first || candidates.first
     end
 
@@ -183,6 +183,8 @@ module WorkPackageTypes
     end
 
     def update_form_configuration
+      return advance if @variant.project_owned?
+
       form = @variant.form_configuration
       return name_reference(form, ::FormConfigurations::UpdateService) if params[:form_configuration].present?
       return advance unless form&.used_by_one_variant?
@@ -191,6 +193,8 @@ module WorkPackageTypes
     end
 
     def update_workflows
+      return advance if @variant.project_owned?
+
       workflow = @variant.workflow
       return name_reference(workflow, ::Workflows::UpdateService) if params[:workflow].present?
       return advance unless workflow&.used_by_one_variant?

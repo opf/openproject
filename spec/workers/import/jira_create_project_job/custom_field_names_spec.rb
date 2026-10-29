@@ -65,6 +65,70 @@ RSpec.describe Import::JiraCreateProjectJob::CustomFieldNames do
     end
   end
 
+  describe ".same_field?" do
+    it "matches the same name regardless of case" do
+      expect(described_class).to be_same_field("Story Points", "STORY POINTS")
+    end
+
+    it "matches a stored name carrying the counter unique_name appends" do
+      expect(described_class).to be_same_field("Story Points (2)", "Story Points")
+      expect(described_class).to be_same_field("Story Points (12)", "Story Points")
+    end
+
+    it "strips the counter from the stored name only" do
+      expect(described_class).not_to be_same_field("Story Points", "Story Points (2)")
+    end
+
+    it "matches a Jira field whose own name ends in a number against its renamed field" do
+      expect(described_class).to be_same_field("Story Points (2) (2)", "Story Points (2)")
+    end
+
+    it "keeps a project key suffix apart from the counter" do
+      expect(described_class).not_to be_same_field("Story Points (XYZ)", "Story Points")
+    end
+
+    it "matches a project key suffix with itself despite a counter" do
+      expect(described_class).to be_same_field("Story Points (XYZ) (2)", "Story Points (XYZ)")
+    end
+
+    it "does not match a different name" do
+      expect(described_class).not_to be_same_field("Story Points Estimate", "Story Points")
+      expect(described_class).not_to be_same_field("Story Points 2", "Story Points")
+    end
+  end
+
+  describe ".best_match" do
+    def field(name) = create(:string_wp_custom_field, name:)
+
+    it "returns nil when nothing matches" do
+      expect(described_class.best_match([field("Story Points Estimate")], "Story Points")).to be_nil
+    end
+
+    it "prefers an exact name over one carrying the counter" do
+      numbered = field("Story Points (2)")
+      exact = field("Story Points")
+
+      expect(described_class.best_match([numbered, exact], "Story Points")).to eq(exact)
+    end
+
+    it "falls back to a name carrying the counter" do
+      numbered = field("Story Points (2)")
+
+      expect(described_class.best_match([numbered], "Story Points")).to eq(numbered)
+    end
+
+    it "ignores a name carrying a project key suffix" do
+      expect(described_class.best_match([field("Story Points (XYZ)")], "Story Points")).to be_nil
+    end
+
+    it "prefers an exact match on a later name over a counter match on an earlier one" do
+      numbered = field("Story Points (2)")
+      exact = field("Story Points (XYZ)")
+
+      expect(described_class.best_match([numbered, exact], ["Story Points (XYZ)", "Story Points"])).to eq(exact)
+    end
+  end
+
   describe ".unique_name" do
     subject(:unique_name) { described_class.unique_name("Resolution") }
 
