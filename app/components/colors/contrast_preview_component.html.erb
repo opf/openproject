@@ -29,6 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render Primer::BaseComponent.new(tag: :section, hidden: true, aria: { live: :polite }, data: { color_contrast_target: "preview" }) do %>
   <%= render Primer::Beta::Subhead.new(mt: 0, mb: 3) do |subhead| %>
     <% subhead.with_heading(tag: :h3, size: :medium) { t("colors.contrast.title") } %>
+    <% subhead.with_description { t("colors.contrast.description") } %>
     <% subhead.with_actions do %>
       <%= render Primer::Beta::Text.new(color: :muted, data: { color_contrast_target: "summary" }) %>
     <% end %>
