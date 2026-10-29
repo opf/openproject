@@ -21,3 +21,4 @@
 /src/app/features/plugins/linked-plugins.module.ts
 /src/app/features/plugins/linked-plugins.styles.sass
 /legacy/app/plugins/*
+/.vitest/
