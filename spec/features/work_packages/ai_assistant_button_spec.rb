@@ -70,8 +70,7 @@ RSpec.describe "Editor Assistant button",
 
   it "offers the type-scoped actions in the description and the actions scoped everywhere in comments" do
     description = TextEditorField.new(work_package_page, "description")
-    description.display_trigger_element.double_click
-    description.expect_active!
+    description.activate!
 
     expect_assistant_menu(within: description.field_container,
                           labels: ["Fix grammar", "Sort into template"])
