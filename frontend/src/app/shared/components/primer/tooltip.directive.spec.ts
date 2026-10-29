@@ -454,6 +454,22 @@ describe('OpTooltipDirective', () => {
       expect(button).toHaveAccessibleName('Baseline');
     });
 
+    it('stays closed while single-line text fits a tight line box', async () => {
+      await render(`<button type="button" opTooltip label="Typography" tooltipWhenTruncated style="${truncating}; line-height:1; height:12px">Typography</button>`);
+
+      const toggle = await focusAndToggle(screen.getByRole('button'));
+
+      expect(toggle.defaultPrevented).toBe(true);
+    });
+
+    it('stays closed while inline text matched by a selector is shown', async () => {
+      await render('<button type="button" opTooltip label="Filter" tooltipWhenTruncated=".text"><svg></svg><span class="text">Filter</span></button>');
+
+      const toggle = await focusAndToggle(screen.getByRole('button'));
+
+      expect(toggle.defaultPrevented).toBe(true);
+    });
+
     it('opens while text matched by a selector is visually hidden', async () => {
       await render(`<button type="button" opTooltip label="Baseline" tooltipWhenTruncated=".text"><svg></svg><span class="text" style="${visuallyHidden}">Baseline</span></button>`);
 

@@ -72,7 +72,8 @@ export class OpTooltipDirective {
   /**
    * Opens the tooltip only while this text is cut off or hidden (not rendered or visually hidden),
    * for a label that repeats text the control shows at some widths. Empty for the host, a selector
-   * within the host, or an element, such as an ancestor that cuts off an inline host.
+   * within the host, or an element. Inline text only counts while hidden, so pass the ancestor that
+   * cuts it off; see {@link isTextCutOffOrHidden}.
    */
   readonly tooltipWhenTruncated = input<HTMLElement|string>();
 
