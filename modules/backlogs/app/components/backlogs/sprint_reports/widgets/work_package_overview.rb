@@ -36,6 +36,7 @@ module Backlogs
 
         param :sprint
         param :project
+        param :breakdown
 
         def title = t(".title")
 
@@ -69,10 +70,6 @@ module Backlogs
 
         def total_work_packages_count
           @total_work_packages_count ||= resolved_work_packages_count + breakdown.unfinished.work_package_count
-        end
-
-        def breakdown
-          @breakdown ||= ::Sprints::WorkPackageBreakdown.new(sprint:, project:)
         end
 
         def divider_text
