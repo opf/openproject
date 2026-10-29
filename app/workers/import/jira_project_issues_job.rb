@@ -33,7 +33,7 @@ module Import
       jira_import = Import::JiraImport.find(arguments[0])
       cursor = jira_import.get_job_cursor(self)
       if cursor.present?
-        issues = Import::JiraIssue.where(jira_import:, jira_project_id: arguments[1])
+        issues = issues_to_process(jira_import, arguments[1])
         total = issues.count
         current = issues.where(id: ..cursor).count
         percentage = (current.to_f / total * 100).round(2)
@@ -44,6 +44,11 @@ module Import
     end
 
     private
+
+    # Jobs that only process some of the issues narrow this down, so progress counts the same ones.
+    def issues_to_process(jira_import, jira_project_id)
+      Import::JiraIssue.where(jira_import:, jira_project_id:)
+    end
 
     def create_member(project, user)
       raise "#{self.class} must set @system_user and @project_role to create members" unless @system_user && @project_role

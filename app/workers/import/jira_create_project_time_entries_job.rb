@@ -57,8 +57,7 @@ module Import
 
         cursor ||= @jira_import.get_job_cursor(self)
         enumerator_builder.active_record_on_records(
-          Import::JiraIssue
-            .where(jira_import_id:, jira_project_id:)
+          issues_to_process(@jira_import, jira_project_id)
             .select(:id, "payload ->> 'key' AS key", "payload #> '{fields,worklog,worklogs}' AS worklogs"),
           cursor:
         )
@@ -82,9 +81,9 @@ module Import
 
     private
 
-    def create_time_entries(jira_issue)
-      return if jira_issue.worklogs.blank?
+    def issues_to_process(jira_import, jira_project_id) = super.with_worklogs
 
+    def create_time_entries(jira_issue)
       work_package = @jira_import.find_op_leg!(jira_issue)
 
       jira_issue.worklogs.each do |worklog|

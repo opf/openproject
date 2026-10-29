@@ -165,11 +165,17 @@ RSpec.describe Import::JiraCreateProjectTimeEntriesJob,
   describe "#progress" do
     subject(:job) { described_class.new(jira_import.id, jira_project.id) }
 
+    let(:jira_issue_payload) do
+      super().tap { |payload| payload["fields"]["worklog"]["worklogs"] = [{ "id" => "10000" }] }
+    end
+
     it "returns zeros when no cursor is set" do
       expect(job.progress).to eq({ current: 0, total: 0, percentage: 0 })
     end
 
-    it "calculates progress based on the cursor position" do
+    it "calculates progress over the issues with worklogs" do
+      create(:jira_issue, jira_import:, jira_project:,
+                          payload: { "key" => "DPPP-7", "fields" => { "worklog" => { "worklogs" => [] } } })
       jira_import.set_job_cursor(job, jira_issue.id)
 
       expect(job.progress).to eq({ current: 1, total: 1, percentage: 100.0 })
