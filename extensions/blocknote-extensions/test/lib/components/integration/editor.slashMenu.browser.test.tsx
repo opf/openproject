@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
-import { renderEditor } from '../../../helpers/renderEditor';
+import { renderEditor, renderEditorInShadowDom } from '../../../helpers/renderEditor';
 import { openEditorAndStartBulletList } from '../../../helpers/editorHelpers';
 
 async function openSlashMenuAndSelectWp() {
@@ -52,5 +52,26 @@ describe('Slash menu - block vs inline routing', () => {
 
     await expect.element(page.getByText('#123')).toBeVisible();
     await expect.element(page.getByTestId('block-card')).not.toBeInTheDocument();
+  });
+});
+
+describe('Slash menu - pending block between cards (BNE-179)', () => {
+  const card = { type: 'openProjectWorkPackageBlock', props: { wpid: 123 } };
+
+  it('selects only the pending block, not the cards around it', async () => {
+    const { shadowRoot } = await renderEditorInShadowDom({
+      initialContent: [card, { type: 'paragraph' }, card],
+    });
+    await expect.poll(() => shadowRoot.querySelectorAll('[data-testid="block-card"]').length).toBe(2);
+
+    const emptyParagraph = shadowRoot.querySelector('[data-content-type="paragraph"]')!;
+    await userEvent.click(emptyParagraph);
+    await userEvent.keyboard('/');
+    await userEvent.click(page.getByText('Link existing work package').first());
+    await expect.poll(() => shadowRoot.activeElement?.id).toBe('op-bn-wp-search-input');
+
+    const selectedFlags = [...shadowRoot.querySelectorAll('[data-testid="block-wp-wrapper"]')]
+      .map((wrapper) => wrapper.hasAttribute('data-selected'));
+    expect(selectedFlags).toEqual([false, true, false]);
   });
 });
