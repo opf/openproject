@@ -170,6 +170,26 @@ describe('OpTooltipDirective', () => {
     expect(tooltip()).toHaveAttribute('for', button.id);
   });
 
+  it('never replaces a bound host id with a generated one', async () => {
+    const replacedValues:(string|null)[] = [];
+    const collect = (records:MutationRecord[]) => replacedValues.push(...records.map((record) => record.oldValue));
+    const observer = new MutationObserver(collect);
+    observer.observe(document.body, { subtree: true, attributeFilter: ['id', 'for'], attributeOldValue: true });
+
+    await render('<button type="button" [attr.id]="hostId()" opTooltip label="Refresh"><svg></svg></button>');
+    collect(observer.takeRecords());
+    observer.disconnect();
+
+    expect(replacedValues).not.toContainEqual(expect.stringMatching(/^el-/));
+    expect(tooltip()).toHaveAttribute('for', 'host-1');
+  });
+
+  it('leaves the host without an id when no tooltip renders', async () => {
+    await render('<button type="button" opTooltip label="Star" [showTooltip]="false"><svg></svg></button>');
+
+    expect(screen.getByRole('button')).not.toHaveAttribute('id');
+  });
+
   it('keeps existing aria-describedby tokens', async () => {
     await render(`
       <span id="help-1">Opens the importer</span>
