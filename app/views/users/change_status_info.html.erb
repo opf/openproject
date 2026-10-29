@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
       </p>
 
       <%=
-        render(OpenProject::Common::AttributesGroupComponent.new) do |component|
+        render(OpPrimer::AttributesGroupComponent.new) do |component|
           component.with_attribute(key: User.human_attribute_name(:login)) { @user.login }
           component.with_attribute(key: User.human_attribute_name(:mail)) { @user.mail }
           component.with_attribute(key: User.human_attribute_name(:name)) { @user.name }

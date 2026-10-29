@@ -51,7 +51,7 @@ See COPYRIGHT and LICENSE files for more details.
 
     <% grouped_permissions.each do |mod, permissions| %>
       <%= render(
-            OpenProject::Common::BorderBoxListComponent.new(
+            OpPrimer::BorderBoxListComponent.new(
               container: module_list_id(mod),
               collapsible: true,
               header_padding: :condensed,

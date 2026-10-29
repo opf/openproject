@@ -60,6 +60,19 @@ RSpec.describe WorkPackage, "target versions" do
     expect(work_package.reload.target_versions).to be_empty
   end
 
+  describe "#lowest_target_version" do
+    it "returns the target version with the lowest id" do
+      work_package.target_version_ids_replacements = [higher_version.id, lower_version.id]
+      work_package.save!
+
+      expect(work_package.reload.lowest_target_version).to eq(lower_version)
+    end
+
+    it "is nil without a target version" do
+      expect(work_package.lowest_target_version).to be_nil
+    end
+  end
+
   describe "#target_versions_changed?" do
     it "is false without an override" do
       expect(work_package).not_to be_target_versions_changed

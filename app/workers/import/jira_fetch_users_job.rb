@@ -64,6 +64,7 @@ module Import
       collect_field_user_keys(user_keys, mention_usernames, payload)
       collect_comment_user_keys(user_keys, mention_usernames, payload)
       collect_attachment_user_keys(user_keys, payload)
+      collect_worklog_user_keys(user_keys, payload)
       collect_changelog_user_keys(user_keys, issue)
     end
 
@@ -84,6 +85,13 @@ module Import
     def collect_attachment_user_keys(user_keys, payload)
       (payload["attachment"] || []).each do |attachment|
         key = attachment.dig("author", "key")
+        user_keys << key if key.present?
+      end
+    end
+
+    def collect_worklog_user_keys(user_keys, payload)
+      (payload.dig("worklog", "worklogs") || []).each do |worklog|
+        key = worklog.dig("author", "key")
         user_keys << key if key.present?
       end
     end
