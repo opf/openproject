@@ -218,7 +218,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
         context "when the attachment is embedded as an image" do
           let(:jira_issue_payload) do
             super().tap do |payload|
-              payload["fields"]["description"] = "The wing: !airplane-wing-over-cloudy-sky.jpg|thumbnail!"
+              payload["fields"]["description"] = "The wing: !airplane-wing-over-cloudy-sky.jpg!"
               payload["fields"]["comment"]["comments"].first["body"] = "Again: !airplane-wing-over-cloudy-sky.jpg!"
             end
           end

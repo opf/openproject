@@ -75,7 +75,7 @@ module Import
       end
 
       def render_image(node)
-        %(<img src="#{escape(image_source(node.url))}" alt="#{escape(node.params['alt'] || '')}">)
+        html_image(node, image_size_style(node.params))
       end
 
       def render_line_break(_node)

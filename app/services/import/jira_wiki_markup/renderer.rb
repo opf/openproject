@@ -30,7 +30,11 @@
 module Import
   module JiraWikiMarkup
     class Renderer
+      include ActionView::Helpers::TagHelper
+
       N = Nodes
+
+      JIRA_THUMBNAIL_STYLE = "width:200px"
 
       EMOTICON_MAP = {
         ":)" => "\u{1F642}",
@@ -270,8 +274,49 @@ module Import
       end
 
       def render_image(node)
+        size_style = image_size_style(node.params)
+
+        if size_style
+          html_image(node, size_style)
+        else
+          markdown_image(node)
+        end
+      end
+
+      def markdown_image(node)
         alt = node.params["alt"] || ""
         "![#{alt}](#{markdown_destination(image_source(node.url))})"
+      end
+
+      def html_image(node, size_style)
+        tag.img(src: image_source(node.url), alt: node.params["alt"] || "", style: size_style)
+      end
+
+      def image_size_style(params)
+        if params["thumbnail"]
+          JIRA_THUMBNAIL_STYLE
+        else
+          width_or_height_style(params)
+        end
+      end
+
+      # Keep only one dimension because OpenProject's editor resizes an image by its width alone.
+      def width_or_height_style(params)
+        width = css_length(params["width"])
+        height = css_length(params["height"])
+
+        if width
+          "width:#{width}"
+        elsif height
+          "height:#{height}"
+        end
+      end
+
+      def css_length(value)
+        case value
+        when /\A\d+\z/ then "#{value}px"
+        when /\A\d+(px|%)\z/ then value
+        end
       end
 
       def image_source(url)

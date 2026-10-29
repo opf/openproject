@@ -403,7 +403,7 @@ RSpec.describe Import::JiraWikiMarkupConverter do
       let(:input) { "!Screenshot 2025-06-07 at 16.28.33.png|thumbnail!" }
 
       it "references the name the attachment is stored under" do
-        expect(result).to eq("![](Screenshot_2025-06-07_at_16.28.33.png)")
+        expect(result).to eq(%(<img src="Screenshot_2025-06-07_at_16.28.33.png" alt="" style="width:200px">))
       end
     end
 
@@ -416,7 +416,7 @@ RSpec.describe Import::JiraWikiMarkupConverter do
     context "with spaces in the file name, mid-sentence" do
       let(:input) { "See !My File.png|width=100! here" }
 
-      it { is_expected.to eq("See ![](My_File.png) here") }
+      it { is_expected.to eq(%(See <img src="My_File.png" alt="" style="width:100px"> here)) }
     end
 
     context "with characters the uploader replaces beyond spaces" do
@@ -436,7 +436,7 @@ RSpec.describe Import::JiraWikiMarkupConverter do
     end
 
     context "with a remote URL rather than an attachment" do
-      let(:input) { "!http://example.com/a b.png|width=10!" }
+      let(:input) { "!http://example.com/a b.png!" }
 
       it "leaves the URL alone and wraps it so CommonMark accepts it" do
         expect(result).to eq("![](<http://example.com/a b.png>)")
@@ -475,6 +475,48 @@ RSpec.describe Import::JiraWikiMarkupConverter do
       end
     end
 
+    context "as a thumbnail" do
+      let(:input) { "!screenshot.png|thumbnail!" }
+
+      it "shows the image as wide as Jira's thumbnails" do
+        expect(result).to eq(%(<img src="screenshot.png" alt="" style="width:200px">))
+      end
+    end
+
+    context "with a width and height" do
+      let(:input) { "!screenshot.png|width=681,height=403!" }
+
+      it "keeps only the width, as OpenProject's editor does when resizing an image" do
+        expect(result).to eq(%(<img src="screenshot.png" alt="" style="width:681px">))
+      end
+    end
+
+    context "with a width in pixels" do
+      let(:input) { "!screenshot.png|width=300px!" }
+
+      it { is_expected.to eq(%(<img src="screenshot.png" alt="" style="width:300px">)) }
+    end
+
+    context "with a width in percent" do
+      let(:input) { "!screenshot.png|width=50%!" }
+
+      it { is_expected.to eq(%(<img src="screenshot.png" alt="" style="width:50%">)) }
+    end
+
+    context "with only a height" do
+      let(:input) { "!screenshot.png|height=100!" }
+
+      it { is_expected.to eq(%(<img src="screenshot.png" alt="" style="height:100px">)) }
+    end
+
+    context "with an unsupported size" do
+      let(:input) { "!screenshot.png|width=auto!" }
+
+      it "ignores it" do
+        expect(result).to eq("![](screenshot.png)")
+      end
+    end
+
     context "when the issue has attachments" do
       let(:screenshot_path) { "/api/v3/attachments/1/content" }
       let(:attachment_paths_by_name) { { "My Shot.png" => screenshot_path } }
@@ -482,7 +524,7 @@ RSpec.describe Import::JiraWikiMarkupConverter do
       context "with the name the attachment was uploaded under" do
         let(:input) { "!My Shot.png|thumbnail!" }
 
-        it { is_expected.to eq("![](#{screenshot_path})") }
+        it { is_expected.to eq(%(<img src="#{screenshot_path}" alt="" style="width:200px">)) }
       end
 
       context "with alt text" do
@@ -503,7 +545,7 @@ RSpec.describe Import::JiraWikiMarkupConverter do
         let(:input) { "|!My Shot.png|thumbnail!|caption|" }
 
         it "links the cell image to the attachment" do
-          expect(result).to include(%(<img src="#{screenshot_path}" alt="">))
+          expect(result).to include(%(<img src="#{screenshot_path}" alt="" style="width:200px">))
         end
       end
     end
@@ -746,7 +788,7 @@ RSpec.describe Import::JiraWikiMarkupConverter do
       it "does not split the row on the parameter separator" do
         expect(result).to eq(
           "<table><tbody><tr>" \
-          '<td><img src="img.png" alt=""></td><td>b</td>' \
+          '<td><img src="img.png" alt="" style="width:200px"></td><td>b</td>' \
           "</tr></tbody></table>\n"
         )
       end
@@ -758,7 +800,7 @@ RSpec.describe Import::JiraWikiMarkupConverter do
       it "does not split the row inside the file name or its parameters" do
         expect(result).to eq(
           "<table><thead><tr><th>Head</th></tr></thead>" \
-          '<tbody><tr><td><img src="My_Shot.png" alt=""></td><td>caption</td></tr></tbody>' \
+          '<tbody><tr><td><img src="My_Shot.png" alt="" style="width:200px"></td><td>caption</td></tr></tbody>' \
           "</table>\n"
         )
       end
@@ -771,7 +813,7 @@ RSpec.describe Import::JiraWikiMarkupConverter do
         expect(result).to eq(
           "<table>" \
           '<thead><tr><th><img src="head.png" alt="a head"></th></tr></thead>' \
-          '<tbody><tr><td>see <img src="img.png" alt=""> here</td><td>b</td></tr></tbody>' \
+          '<tbody><tr><td>see <img src="img.png" alt="" style="width:100px"> here</td><td>b</td></tr></tbody>' \
           "</table>\n"
         )
       end
