@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -71,7 +70,7 @@ export class StorageFileListItemComponent {
   /**
    * This function enables an override of the click on the label for the storage file list items.
    *
-   * Normal behaviour is, that the label click is associated with the first interactive element,
+   * Normal behavior is, that the label click is associated with the first interactive element,
    * which usually should be the checkbox if available, or the "enterDirectory" icon button,
    * if no checkbox is available.
    *

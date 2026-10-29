@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,9 +55,13 @@ module ResourcePlannerViews
       private
 
       # `id` is a list filter, so the `!` operator excludes the given ids
-      # (work packages already on the list).
+      # (work packages already on the list). A global planner has no project to
+      # narrow by and offers every resource managed work package the user may
+      # see, which is what `ResourcePlannerViewsController#addable_work_packages`
+      # accepts in turn.
       def autocomplete_filters
-        filters = [{ name: "project_id", operator: "=", values: [@project.id] }]
+        filters = [::ResourceManagement::WorkPackageSelection::RESOURCE_MANAGEMENT_ENABLED_FILTER]
+        filters << { name: "project_id", operator: "=", values: [@project.id] } if @project
 
         if @excluded_ids.present?
           filters << { name: "id", operator: "!", values: @excluded_ids.map(&:to_s) }

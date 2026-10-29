@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,7 @@ module WorkPackageTypes
   class ExportConfigurationComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
+    include WorkPackageTypes::VariantRoutes
 
     def initialize(model, readonly: false, **)
       @readonly = readonly
@@ -43,7 +43,7 @@ module WorkPackageTypes
     def artefact_export_form_options
       {
         model:,
-        url: update_artefact_export_type_pdf_export_template_index_path(**model.path_args),
+        url: update_artefact_export_variant_pdf_export_template_index_path(helpers.variant_scope_project, model),
         method: :put,
         readonly: @readonly,
         data: artefact_export_form_data

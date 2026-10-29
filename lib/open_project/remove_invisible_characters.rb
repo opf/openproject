@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,11 +34,17 @@ module OpenProject
   #
   #   normalizes :name, with: OpenProject::RemoveInvisibleCharacters
   #
-  ASCII_CONTROL_CHARACTERS = /[\x00-\x1F\x7F]/
-  ZERO_WIDTH_CHARACTERS = /[\u200B\u200C\u200D\uFEFF\u2060]/
-  INVISIBLE_CHARACTERS = Regexp.union(ASCII_CONTROL_CHARACTERS, ZERO_WIDTH_CHARACTERS)
+  class RemoveInvisibleCharacters
+    ASCII_CONTROL_CHARACTERS = /[\x00-\x1F\x7F]/
+    ZERO_WIDTH_CHARACTERS = /[\u200B\u200C\u200D\uFEFF\u2060]/
+    INVISIBLE_CHARACTERS = Regexp.union(ASCII_CONTROL_CHARACTERS, ZERO_WIDTH_CHARACTERS)
 
-  private_constant :ASCII_CONTROL_CHARACTERS, :ZERO_WIDTH_CHARACTERS, :INVISIBLE_CHARACTERS
+    private_constant :ASCII_CONTROL_CHARACTERS, :ZERO_WIDTH_CHARACTERS, :INVISIBLE_CHARACTERS
 
-  RemoveInvisibleCharacters = ->(value) { value.is_a?(String) ? value.gsub(INVISIBLE_CHARACTERS, "") : value }
+    def self.call(value)
+      return value unless value.is_a?(String)
+
+      value.gsub(INVISIBLE_CHARACTERS, "")
+    end
+  end
 end

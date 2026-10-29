@@ -11,14 +11,17 @@
     [title]="text.toggle_title"
     data-test-selector="project-include-button"
     >
-    {{ text.toggle_title }}
-    @if ((numberOfProjectsInFilter$ | async); as count) {
-      <span
-        class="badge"
-        [textContent]="count"
-        >
-      </span>
-    }
+    <svg op-include-projects-icon size="small"/>
+    <span class="button--text">
+      {{ text.toggle_title }}
+      @if ((numberOfProjectsInFilter$ | async); as count) {
+        <span
+          class="badge"
+          [textContent]="count"
+          >
+        </span>
+      }
+    </span>
     <svg triangle-down-icon size="small"/>
   </button>
 

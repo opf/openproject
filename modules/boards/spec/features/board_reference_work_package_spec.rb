@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,8 +30,7 @@ require_relative "support/board_index_page"
 require_relative "support/board_page"
 
 RSpec.describe "Board reference work package spec",
-               :js,
-               :selenium do
+               :js do
   let(:user) do
     create(:user,
            member_with_roles: { project => role })

@@ -22,14 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require_relative "../toasts/expectations"
 require_relative "../flash/expectations"
+require_relative "../capybara/sub_header_helpers"
 require_relative "../capybara/wait_helpers"
 
 module Pages
@@ -42,6 +42,7 @@ module Pages
     include Toasts::Expectations
     include Flash::Expectations
     include RSpec::Wait
+    include SubHeaderHelpers
     include WaitHelpers
 
     def current_page?
@@ -53,7 +54,7 @@ module Pages
 
       visit(path)
 
-      wait_for_reload
+      wait_for_reload if using_cuprite?
     end
 
     def reload!
@@ -211,26 +212,30 @@ module Pages
     end
 
     def drag_and_drop_list_selenium(from:, to:, elements:, handler:)
-      # Wait a bit because drag & drop in selenium is easily offended
-      sleep 1
+      page.document.synchronize(10) do
+        source = page.all(elements, minimum: [from, to].max + 1)[from]
+        scroll_to_element(source)
+        source.hover
+      end
 
-      list = page.all(elements, minimum: [from, to].max + 1)
-      source = list[from]
-      target = list[to]
+      page.document.synchronize(10) do
+        list = page.all(elements, minimum: [from, to].max + 1)
+        source = list[from]
+        target = list[to]
 
-      scroll_to_element(source)
-      source.hover
+        perform_native_drag(
+          source: source.find(handler),
+          target:,
+          offset_y: -(target.native.rect.height / 4)
+        )
+      end
+    end
 
-      # These helpers have always meant "insert before the element currently at
-      # index `to`" (Dragula's insertBefore semantics), so aim at the target's
-      # top quarter — closest-edge resolution then inserts above it either way.
-      perform_native_drag(
-        source: source.find(handler),
-        target:,
-        offset_y: -(target.native.rect.height / 4)
-      )
-
-      sleep 1
+    def send_select_all(element)
+      platform = page.evaluate_script("navigator.userAgentData?.platform || navigator.platform")
+      apple_platform = platform.match?(/mac|iphone|ipad|ipod/i)
+      element.execute_script("this.focus()")
+      element.send_keys [apple_platform ? :command : :control, "a"]
     end
 
     def path

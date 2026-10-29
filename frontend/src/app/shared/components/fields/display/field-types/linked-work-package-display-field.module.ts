@@ -20,20 +20,19 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { truncate } from 'lodash-es';
-import { StateService } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { UiStateLinkBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 import { WorkPackageDisplayField } from 'core-app/shared/components/fields/display/field-types/work-package-display-field.module';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
   public text = {
@@ -41,17 +40,17 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
     none: this.I18n.t('js.filter.noneElement'),
   };
 
-  @LazyInject() $state!:StateService;
-
   @LazyInject() keepTab!:KeepTabService;
 
   @LazyInject() currentProject!:CurrentProjectService;
 
   @LazyInject() pathHelper!:PathHelperService;
 
-  private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab, this.currentProject, this.pathHelper);
+  @LazyInject() urlParams!:UrlParamsService;
 
-  public render(element:HTMLElement, displayText:string):void {
+  private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.keepTab, this.currentProject, this.pathHelper, this.urlParams);
+
+  public render(element:HTMLElement, _displayText:string):void {
     if (this.isEmpty()) {
       element.innerText = this.placeholder;
       return;
@@ -59,7 +58,7 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
 
     const routingId = this.wpRoutingId;
     const link = this.uiStateBuilder.linkToShow(
-      this.wpId,
+      this.wpId!,
       this.text.linkTitle,
       this.valueString,
       routingId,

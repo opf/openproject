@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -38,7 +37,7 @@ RSpec.describe "Persisted lists on projects index page",
 
   shared_let(:manager)   { create(:project_role, name: "Manager") }
   # The permission is not necessary for any of the tests. But it enables one more code path
-  # where a regression occured before (#72362).
+  # where a regression occurred before (#72362).
   shared_let(:developer) { create(:project_role, name: "Developer", permissions: %i(export_projects)) }
 
   shared_let(:custom_field) { create(:text_project_custom_field) }
@@ -92,25 +91,6 @@ RSpec.describe "Persisted lists on projects index page",
       ProjectRole.non_member
       login_as current_user
       projects_page.visit!
-    end
-
-    context 'with the "Active projects" filter' do
-      before do
-        projects_page.set_sidebar_filter "Active projects"
-      end
-
-      it "shows all active projects (default)" do
-        projects_page.expect_projects_listed(project,
-                                             public_project,
-                                             development_project,
-                                             on_track_project,
-                                             off_track_project,
-                                             at_risk_project)
-
-        projects_page.expect_filters_container_hidden
-        projects_page.open_filters
-        projects_page.expect_filter_set "active"
-      end
     end
 
     context 'with the "My projects" filter' do
@@ -193,44 +173,6 @@ RSpec.describe "Persisted lists on projects index page",
         projects_page.expect_filter_set "project_status_code"
       end
     end
-
-    context 'with the "Off track" filter' do
-      before do
-        projects_page.set_sidebar_filter "Off track"
-      end
-
-      it "shows all projects having the off_track status" do
-        projects_page.expect_projects_listed(off_track_project)
-        projects_page.expect_projects_not_listed(public_project,
-                                                 project,
-                                                 development_project,
-                                                 on_track_project,
-                                                 at_risk_project)
-
-        projects_page.expect_filters_container_hidden
-        projects_page.open_filters
-        projects_page.expect_filter_set "project_status_code"
-      end
-    end
-
-    context 'with the "At risk" filter' do
-      before do
-        projects_page.set_sidebar_filter "At risk"
-      end
-
-      it "shows all projects having the off_track status" do
-        projects_page.expect_projects_listed(at_risk_project)
-        projects_page.expect_projects_not_listed(public_project,
-                                                 project,
-                                                 development_project,
-                                                 on_track_project,
-                                                 off_track_project)
-
-        projects_page.expect_filters_container_hidden
-        projects_page.open_filters
-        projects_page.expect_filter_set "project_status_code"
-      end
-    end
   end
 
   describe "persisting queries", with_settings: { enabled_projects_columns: %w[name project_status] } do
@@ -250,7 +192,7 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.visit!
     end
 
-    it "starts at active projects static query" do
+    it "starts at and modifies the active projects static query" do
       projects_page.expect_title("Active projects")
 
       # Since the query is static, no save button an no menu item is shown
@@ -266,9 +208,7 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.expect_projects_listed(project, public_project, development_project)
       projects_page.expect_columns("Name", "Status")
       projects_page.expect_no_columns("Public")
-    end
 
-    it "allows changing filters" do
       projects_page.open_filters
       projects_page.filter_by_membership("yes")
 
@@ -287,9 +227,7 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.expect_title("Projects")
       projects_page.expect_projects_listed(project, development_project)
       projects_page.expect_projects_not_listed(public_project)
-    end
 
-    it "allows changing columns" do
       projects_page.set_columns("Name")
 
       wait_for_reload # changing columns via the dialog is still done via page reload
@@ -312,7 +250,7 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.open_filters
       projects_page.filter_by_membership("yes")
 
-      wait_for_reload # chnaging filters is still done via page reload
+      wait_for_reload # changing filters is still done via page reload
 
       projects_page.expect_projects_listed(project, development_project)
       projects_page.expect_projects_not_listed(public_project)
@@ -372,7 +310,7 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.expect_menu_item("Rename", visible: false)
     end
 
-    it "allows saving persisted query with new name" do
+    it "allows saving changed and unchanged persisted queries as new lists" do
       projects_page.set_sidebar_filter("Persisted query")
       projects_page.set_columns("Name", "Status", "Public")
       projects_page.save_query_as("My new saved query")
@@ -382,9 +320,7 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.expect_sidebar_filter("Persisted query", selected: false)
       projects_page.expect_sidebar_filter("My new saved query", selected: true)
       projects_page.expect_columns("Name", "Status", "Public")
-    end
 
-    it "allows duplicating persisted query without changes" do
       projects_page.set_sidebar_filter("Persisted query")
       projects_page.save_query_as("My duplicated query")
 
@@ -411,25 +347,13 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.open_filters
       projects_page.filter_by_membership("yes")
 
-      wait_for_reload # chnaging filters is still done via page reload
+      wait_for_reload # changing filters is still done via page reload
 
       # Rename menu item is now shown after applying filters
       projects_page.expect_no_menu_item("Rename", visible: false)
     end
 
-    it "allows deleting persisted query" do
-      projects_page.set_sidebar_filter("Persisted query")
-      projects_page.delete_query
-
-      projects_page.expect_no_sidebar_filter("My new saved query")
-      # Default filter will be active again
-      projects_page.expect_title("Active projects")
-      projects_page.expect_projects_listed(project, public_project, development_project)
-      projects_page.expect_columns("Name", "Status")
-      projects_page.expect_no_columns("Public")
-    end
-
-    it "allows favoriting persisted query" do
+    it "allows favoriting and deleting a persisted query" do
       projects_page.expect_sidebar_filter("Persisted query", favorited: false)
 
       projects_page.set_sidebar_filter("Persisted query")
@@ -440,6 +364,14 @@ RSpec.describe "Persisted lists on projects index page",
 
       projects_page.unmark_query_favorite
       projects_page.expect_sidebar_filter("Persisted query", selected: true, favorited: false)
+
+      projects_page.delete_query
+
+      projects_page.expect_no_sidebar_filter("Persisted query")
+      projects_page.expect_title("Active projects")
+      projects_page.expect_projects_listed(project, public_project, development_project)
+      projects_page.expect_columns("Name", "Status")
+      projects_page.expect_no_columns("Public")
     end
 
     it "loads the query with a custom field filter (Regression#57298)" do

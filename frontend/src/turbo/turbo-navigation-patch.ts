@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -39,7 +38,7 @@ import * as Turbo from '@hotwired/turbo';
  * there is no upstream frontend regression test — see the Rails system spec.
  *
  * Upstream fix in flight: https://github.com/hotwired/turbo/pull/1549. Once it
- * ships in a release we depend on, drop this patch in favour of it.
+ * ships in a release we depend on, drop this patch in favor of it.
  *
  * This is a verbatim fork of `FrameController.proposeVisitIfNavigatedWithAction`
  * with a single divergence: the history snapshot is built from the live
@@ -80,6 +79,19 @@ export function applyTurboNavigationPatch() {
           };
 
           if (this.action) options.action = this.action;
+
+          // Cache the snapshot synchronously. `Turbo.session.visit()`
+          // below also caches it eventually (via `PageView#cacheSnapshot`), but
+          // that happens asynchronously (`await nextEventLoopTick()`), while
+          // `turbo:render`/`turbo:load` for this visit fire immediately,
+          // before that write lands. If the user hits browser back/forward in that
+          // window, the popstate-triggered restore visit misses the cache and falls
+          // through to a full, uncached network fetch instead of an instant restore,
+          // Writing it here closes that window; the later async write then just overwrites the same
+          // entry with equivalent content.
+          if (pageSnapshot.isCacheable) {
+            Turbo.session.view.snapshotCache.put(Turbo.session.view.lastRenderedLocation, pageSnapshot);
+          }
 
           Turbo.session.visit(frame.src, options);
         }

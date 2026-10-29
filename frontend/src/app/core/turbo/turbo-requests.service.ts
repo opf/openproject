@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -49,12 +48,14 @@ export class TurboRequestsService {
     html:string,
     headers:Headers
   }> {
+    let requestController:AbortController|undefined;
+
     if (requestId) {
       this.abortRequest(requestId);
 
-      const controller = new AbortController();
-      this.#controllers.set(requestId, controller);
-      init.signal = controller.signal;
+      requestController = new AbortController();
+      this.#controllers.set(requestId, requestController);
+      init.signal = requestController.signal;
     }
 
     const defaultHeaders:{'X-CSRF-Token'?:string} = {};
@@ -76,7 +77,7 @@ export class TurboRequestsService {
         }));
       })
       .then((result) => {
-        const contentType = result.response.headers.get('Content-Type') || '';
+        const contentType = result.response.headers.get('Content-Type') ?? '';
         const isTurboStream = contentType.includes('text/vnd.turbo-stream.html');
 
         // only render the stream message if we are in a turbo stream response
@@ -105,7 +106,7 @@ export class TurboRequestsService {
         throw error;
       })
       .finally(() => {
-        if (requestId) {
+        if (requestId && this.#controllers.get(requestId) === requestController) {
           this.#controllers.delete(requestId);
         }
       });
@@ -127,7 +128,7 @@ export class TurboRequestsService {
         body: formData,
       },
       true,
-      requestId || requestUrlWithParams,
+      requestId ?? requestUrlWithParams,
     );
   }
 

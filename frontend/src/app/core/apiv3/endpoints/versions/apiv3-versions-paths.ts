@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -31,7 +30,6 @@ import { VersionResource } from 'core-app/features/hal/resources/version-resourc
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
 import { Observable } from 'rxjs';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { ApiV3AvailableProjectsPaths } from 'core-app/core/apiv3/endpoints/projects/apiv3-available-projects-paths';
 import { ApiV3VersionPaths } from 'core-app/core/apiv3/endpoints/versions/apiv3-version-paths';

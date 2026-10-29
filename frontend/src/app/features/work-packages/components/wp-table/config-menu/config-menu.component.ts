@@ -20,20 +20,20 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ChangeDetectionStrategy, Component, Injector, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, inject, input } from '@angular/core';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { WpTableConfigurationModalComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
 
 @Component({
   templateUrl: './config-menu.template.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-table-config-menu',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.
@@ -46,6 +46,8 @@ export class WorkPackagesTableConfigMenuComponent {
   readonly injector = inject(Injector);
   readonly opModalService = inject(OpModalService);
   readonly opContextMenu = inject(OPContextMenuService);
+
+  readonly keyboardNavigationEnabled = input(false);
 
   public text = {
     configureTable: this.I18n.t('js.toolbar.settings.configure_view'),

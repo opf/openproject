@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,12 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-#
+#++
 
 require "spec_helper"
 
@@ -80,8 +78,9 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
 
       it "reorder a template" do
         first = variant.pdf_export_templates.list.first
-        put_reload :drop, { id: first.id, position: 2 } # drop index starts at 1
-        variant.pdf_export_templates.list[1].id == first.id
+        second = variant.pdf_export_templates.list[1]
+        put_reload :move, { id: first.id, list_type: "pdf_export_templates", list_id: "", prev_id: second.id }
+        expect(variant.pdf_export_templates.list[1].id).to eq(first.id)
       end
 
       it "toggles enabled/disabled for a template" do
@@ -103,31 +102,38 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
       end
     end
 
-    context "when linked to a source type", with_flag: { type_variants: true } do
+    context "when the variant links its PDF export config to its base" do
       render_views
 
-      before { link_configuration(wp_type, source: create(:type), aspect: TypeVariant::PDF_EXPORT) }
+      let(:linked_variant) { create(:type_variant, type: wp_type) }
+
+      before { link_configuration(linked_variant, aspect: TypeVariant::PDF_EXPORT) }
 
       it "refuses enable_all with a forbidden turbo-stream flash" do
-        expect { put_reload :enable_all }.not_to raise_error
+        expect { put_reload :enable_all, { variant_id: linked_variant.id } }.not_to raise_error
         expect(response).to have_http_status(:forbidden)
         expect(response.body).to include(I18n.t("types.edit.export_configuration.templates.readonly_error"))
       end
 
       it "refuses disable_all with a forbidden turbo-stream flash" do
-        expect { put_reload :disable_all }.not_to raise_error
+        expect { put_reload :disable_all, { variant_id: linked_variant.id } }.not_to raise_error
         expect(response).to have_http_status(:forbidden)
       end
 
       it "refuses toggle with a forbidden turbo-stream flash" do
-        first = variant.pdf_export_templates.list.first
-        expect { post_reload :toggle, { id: first.id } }.not_to raise_error
+        first = linked_variant.pdf_export_templates.list.first
+        expect { post_reload :toggle, { variant_id: linked_variant.id, id: first.id } }.not_to raise_error
         expect(response).to have_http_status(:forbidden)
       end
 
-      it "refuses drop with a forbidden turbo-stream flash" do
-        first = variant.pdf_export_templates.list.first
-        expect { put_reload :drop, { id: first.id, position: 2 } }.not_to raise_error
+      it "refuses move with a forbidden turbo-stream flash" do
+        first = linked_variant.pdf_export_templates.list.first
+        second = linked_variant.pdf_export_templates.list[1]
+        expect do
+          put_reload :move,
+                     { variant_id: linked_variant.id, id: first.id, list_type: "pdf_export_templates", list_id: "",
+                       prev_id: second.id }
+        end.not_to raise_error
         expect(response).to have_http_status(:forbidden)
       end
     end
@@ -135,7 +141,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
     describe "#edit" do
       render_views
 
-      it "renders the export configuration page including the artefact export form" do
+      it "renders the export configuration page including the artifact export form" do
         get :edit, params: { type_id: wp_type.id }
 
         expect(response).to have_http_status(:ok)
@@ -230,7 +236,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
         expect(response).to have_http_status(:not_found)
       end
 
-      it "stores the artefact template's lifecycle/budget defaults and resets them" do
+      it "stores the artifact template's lifecycle/budget defaults and resets them" do
         artefact_template = variant.pdf_export_templates.find("artefact")
 
         patch :update_settings,
@@ -245,27 +251,33 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
         expect(variant.reload.pdf_export_templates.settings_for("artefact")).to eq({})
       end
 
-      context "when the type links its PDF export config to a source type" do
-        let(:source) { create(:type).default_variant }
+      context "when the variant links its PDF export config to its base" do
+        let(:base) { wp_type.default_variant }
+        let(:linked_variant) { create(:type_variant, type: wp_type) }
+        let(:template) { linked_variant.pdf_export_templates.find("attributes") }
 
         before do
-          source.pdf_export_templates.update_settings("attributes", "footer_text" => "Source footer")
-          source.save!
-          link_configuration(wp_type, source:, aspect: TypeVariant::PDF_EXPORT)
+          base.pdf_export_templates.update_settings("attributes", "footer_text" => "Base footer")
+          base.save!
+          link_configuration(linked_variant, aspect: TypeVariant::PDF_EXPORT)
         end
 
-        it "does not change the effective (inherited) settings", with_flag: { type_variants: true } do
+        it "does not change the effective (inherited) settings" do
           patch :update_settings,
-                params: { type_id: wp_type.id, id: template.id, footer_text: "Attempted override" }
+                params: { type_id: wp_type.id, variant_id: linked_variant.id, id: template.id,
+                          footer_text: "Attempted override" }
 
-          expect(variant.reload.pdf_export_templates.settings_for("attributes")[:footer_text]).to eq("Source footer")
+          expect(linked_variant.reload.pdf_export_templates.settings_for("attributes")[:footer_text]).to eq("Base footer")
         end
 
-        it "redirects with an alert instead of raising", with_flag: { type_variants: true } do
+        it "redirects with an alert instead of raising" do
           patch :update_settings,
-                params: { type_id: wp_type.id, id: template.id, footer_text: "Attempted override" }
+                params: { type_id: wp_type.id, variant_id: linked_variant.id, id: template.id,
+                          footer_text: "Attempted override" }
 
-          expect(response).to redirect_to(edit_type_pdf_export_template_index_path(type_id: wp_type.id))
+          expect(response).to redirect_to(
+            edit_type_variant_pdf_export_template_index_path(type_id: wp_type.id, variant_id: linked_variant.id)
+          )
           expect(flash[:alert]).to eq(I18n.t("types.edit.export_configuration.templates.readonly_error"))
         end
       end
@@ -274,7 +286,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
     describe "#update_artefact_export" do
       let(:param_key) { variant.model_name.param_key.to_sym }
 
-      it "stores a valid artefact export mode and responds with a turbo stream" do
+      it "stores a valid artifact export mode and responds with a turbo stream" do
         put :update_artefact_export,
             params: { type_id: wp_type.id, param_key => { artefact_export_mode: Type::ArtefactExport::FILE_LINK } },
             as: :turbo_stream

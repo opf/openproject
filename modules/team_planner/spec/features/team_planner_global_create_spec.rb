@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 require_relative "shared_context"
@@ -34,7 +33,6 @@ require_relative "shared_context"
 RSpec.describe "Team Planner",
                "Creating a view from a Global Context",
                :js,
-               :selenium,
                with_ee: %i[team_planner_view] do
   include_context "with team planner full access"
 
@@ -78,6 +76,18 @@ RSpec.describe "Team Planner",
         expect(page).to have_current_path(project_team_planner_path(project, Query.last), ignore_query: true)
         expect(page).to have_text("Gotham Renewal")
       end
+    end
+
+    it_behaves_like "a project picker searchable by identifier" do
+      let(:target_project) { project }
+      let(:control_project) do
+        create(:project,
+               name: "Unrelated Control Project",
+               identifier: "unrelated-control-project",
+               member_with_permissions: { user => %w[view_team_planner manage_team_planner] })
+      end
+
+      delegate :search_project, to: :team_planner
     end
 
     context "when missing a required field" do

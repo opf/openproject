@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,8 +31,7 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe "Show/Edit Document View",
-               :js,
-               :selenium do
+               :js do
   include_context "with hocuspocus"
 
   shared_let(:project) { create(:project) }
@@ -49,6 +47,15 @@ RSpec.describe "Show/Edit Document View",
 
   current_user { member }
 
+  def open_active_editors_list
+    click_on "1 active editor"
+    expect(page).to have_text("Active editors")
+  end
+
+  def rect_of(element)
+    page.evaluate_script("arguments[0].getBoundingClientRect().toJSON()", element)
+  end
+
   it "renders a collaborative document",
      with_settings: { real_time_text_collaboration_enabled: true } do
     visit document_path(document)
@@ -61,25 +68,47 @@ RSpec.describe "Show/Edit Document View",
       end
     end
 
+    aggregate_failures "closes the active editors list on an outside click, Escape and the close button" do
+      open_active_editors_list
+
+      find("body").click
+      expect(page).to have_no_text("Active editors")
+
+      open_active_editors_list
+
+      page.send_keys(:escape)
+      expect(page).to have_no_text("Active editors")
+
+      open_active_editors_list
+
+      click_button accessible_name: "Close"
+      expect(page).to have_no_text("Active editors")
+    end
+
     aggregate_failures "can edit document title" do
       within_test_selector("document-page-header") do
+        page.find(:button, accessible_name: "Document actions").ancestor('action-menu[data-ready="true"]')
         click_button accessible_name: "Document actions"
         expect(page).to have_selector :menuitem, "Edit title"
 
-        click_on "Edit title"
+        wait_for_turbo_stream { page.find(:menuitem, "Edit title").click }
 
         fill_in "document_title", with: ""
-        click_on "Save"
+        wait_for_turbo_stream { click_on "Save" }
         expect(page).to have_content("Title can't be blank")
 
         fill_in "document_title", with: "Updated collaborative document"
-        click_on "Save"
+        wait_for_turbo_stream { click_on "Save" }
 
         expect(page).to have_content("Updated collaborative document")
+      end
 
+      within_test_selector("document-page-header") do
+        page.find(:button, accessible_name: "Document actions").ancestor('action-menu[data-ready="true"]')
         click_button accessible_name: "Document actions"
-        click_on "Edit title"
-        click_on "Cancel"
+        expect(page).to have_selector :menuitem, "Edit title"
+        wait_for_turbo_stream { page.find(:menuitem, "Edit title").click }
+        wait_for_turbo_stream { click_on "Cancel" }
         expect(page).to have_content("Updated collaborative document")
       end
     end
@@ -98,6 +127,51 @@ RSpec.describe "Show/Edit Document View",
       editor.fill_in("This is the new **content**.")
 
       expect(editor.element).to have_content("This is the new content.") # bold is applied
+    end
+  end
+
+  context "on a phone-sized screen", with_settings: { real_time_text_collaboration_enabled: true } do
+    include_context "with mobile screen size", 390, 800
+
+    def uncovered?(element)
+      page.evaluate_script(<<~JS, element)
+        (function(element) {
+          const rect = element.getBoundingClientRect();
+          return element.contains(document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2));
+        })(arguments[0])
+      JS
+    end
+
+    it "opens the active editors list below its trigger and fully on screen" do
+      visit document_path(document)
+
+      trigger = find_link("1 active editor")
+      open_active_editors_list
+      heading = find("h4", text: "Active editors")
+      editor_name = find(".op-live-users--popover span", exact_text: member.name)
+
+      expect(rect_of(heading)["top"]).to be >= rect_of(trigger)["bottom"]
+      [heading, editor_name].each do |element|
+        rect = rect_of(element)
+        expect(rect["left"]).to be >= 0
+        expect(rect["right"]).to be <= page.evaluate_script("window.innerWidth")
+        expect(rect["bottom"]).to be <= page.evaluate_script("window.innerHeight")
+        expect(uncovered?(element)).to be(true), "#{element.text} is covered by another element"
+      end
+    end
+  end
+
+  context "with an editor name without spaces", with_settings: { real_time_text_collaboration_enabled: true } do
+    before { member.update!(firstname: "OpenProject" * 8, lastname: "Admin") }
+
+    it "wraps the name inside the active editors list" do
+      visit document_path(document)
+
+      open_active_editors_list
+      popover = find(".op-live-users--popover .Popover-message")
+      editor_name = find(".op-live-users--popover span", exact_text: member.name)
+
+      expect(rect_of(editor_name)["right"]).to be <= rect_of(popover)["right"]
     end
   end
 

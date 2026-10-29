@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,12 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-#
+#++
 
 require "capybara/cuprite"
 
@@ -63,15 +61,12 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
   Capybara.register_driver(name) do |app|
     options = {
       process_timeout: 20,
-      timeout: 10,
+      timeout: 30,
       # In case the timeout is not enough, this option can be activated:
       # pending_connection_errors: false,
       headless: headless_mode?,
       save_path: DownloadList::SHARED_PATH.to_s,
-      window_size: [1920, 1080],
-      # workaround for compatibility issues with browserless docker image and ferrum
-      # see https://github.com/rubycdp/ferrum/issues/540
-      flatten: false
+      window_size: [1920, 1080]
     }
 
     if headful_mode? && ENV["CAPYBARA_WINDOW_RESOLUTION"]
@@ -92,6 +87,7 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
       "disable-dev-shm-usage": nil,
       "disable-gpu": nil,
       "disable-popup-blocking": nil,
+      "disable-component-update": nil,
       lang: language,
       "accept-lang": language,
       "no-sandbox": nil,
@@ -135,12 +131,71 @@ def configure_remote_chrome(options)
     raise "Both CHROME_URL and CHROME_WS_URL were passed. Only one can be accepted at a time."
   end
 
-  return options.merge(url: ENV["CHROME_URL"]) if ENV["CHROME_URL"].present?
-  return options.merge(ws_url: ENV["CHROME_WS_URL"]) if ENV["CHROME_WS_URL"].present?
+  # Browserless requires non-flattened sessions: https://github.com/rubycdp/ferrum/issues/540
+  return options.merge(url: ENV["CHROME_URL"], flatten: false) if ENV["CHROME_URL"].present?
+  return options.merge(ws_url: ENV["CHROME_WS_URL"], flatten: false) if ENV["CHROME_WS_URL"].present?
 
   options
 end
 
+# Backport https://github.com/rubycdp/ferrum/pull/629 until it is released.
+Ferrum::Client::Subscriber.prepend(Module.new do
+  private
+
+  def call(message)
+    method, session_id, params = message.values_at("method", "sessionId", "params")
+    event = Ferrum::SessionClient.event_name(method, session_id)
+
+    total = @on[event]&.size.to_i
+    @on[event]&.each_with_index do |block, index|
+      block.call(params, index, total)
+    rescue StandardError => e
+      warn("Ferrum: #{event} callback raised #{e.class}: #{e.message}\n  #{e.backtrace&.first}")
+    end
+  end
+end)
+
+Ferrum::Context.prepend(Module.new do
+  def create_target(new_window: false)
+    return super() unless new_window
+
+    target_id = @client.command("Target.createTarget", browserContextId: @id, url: "about:blank", newWindow: true)["targetId"]
+
+    new_pending = Concurrent::IVar.new
+    pending = @pendings.put_if_absent(target_id, new_pending) || new_pending
+    resolved = pending.value(@client.protocol_timeout)
+    raise Ferrum::NoSuchTargetError unless resolved
+
+    @pendings.delete(target_id)
+    @targets[target_id]
+  end
+end)
+
+Capybara::Cuprite::Driver.prepend(Module.new do
+  # A new tab hides the previous tab, and a hidden page does not render
+  # Turbo stream responses. Open a window, as Selenium does.
+  def open_new_window
+    target = browser.default_context.create_target(new_window: true)
+    target.maybe_sleep_if_new_window
+    target.page = Capybara::Cuprite::Page.new(target.client, context_id: target.context_id, target_id: target.id)
+    target.page
+  end
+end)
+
+Capybara::Cuprite::Browser.prepend(Module.new do
+  # Ferrum tracks out-of-process iframes as browser targets. Cuprite exposes all
+  # targets as Capybara window handles, so Chrome's PDF viewer can look like
+  # three newly opened windows even though the application clicked once.
+  def window_handles
+    targets.values.reject(&:iframe?).map(&:id)
+  end
+
+  def reset
+    super
+  rescue Ferrum::TimeoutError, Ferrum::DeadBrowserError, Ferrum::NoSuchTargetError, Ferrum::BrowserError
+    restart
+  end
+end)
 register_better_cuprite "en"
 
 RSpec.configure do |config|

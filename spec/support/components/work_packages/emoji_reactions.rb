@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -78,7 +77,7 @@ module Components
 
       def expect_no_emoji_reactions_for_journal(journal)
         within_journal_entry(journal) do
-          wait(3.seconds).for { page }.not_to have_test_selector("emoji-reactions")
+          expect(page).to have_no_css('[data-test-selector="emoji-reactions"]', wait: 20)
         end
       end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -112,8 +111,14 @@ RSpec.describe "SAML administration CRUD",
 
       click_link_or_button "Delete"
 
-      check "I understand that this deletion cannot be reversed."
-      click_on "Delete permanently"
+      within_dialog "Delete SAML provider" do
+        confirmation = find_field("I understand that this deletion cannot be reversed.")
+        confirmation.click
+
+        expect(confirmation).to be_checked
+        expect(page).to have_button("Delete permanently", disabled: false)
+        click_on "Delete permanently"
+      end
 
       expect(page).to have_text "No SAML providers configured yet."
       expect { provider.reload }.to raise_error ActiveRecord::RecordNotFound
@@ -181,10 +186,41 @@ RSpec.describe "SAML administration CRUD",
         provider.reload
         expect(provider.limit_self_registration).to be true
       end
+
+      it "can review, cancel, and apply refreshed metadata", :webmock do
+        url = "https://example.com/metadata"
+        provider.update!(metadata_url: url, last_metadata_update: 1.day.ago)
+        original_options = provider.options.deep_dup
+        metadata = Rails.root.join("modules/auth_saml/spec/fixtures/idp_metadata.xml").read
+        stub_request(:get, url).to_return(status: 200, body: metadata)
+
+        visit saml_provider_path(provider)
+        within_test_selector("saml_provider_refresh_metadata") do
+          expect(page).to have_text("You can check if the configuration fetched from your identity provider has changed.")
+          click_on "Refresh metadata"
+        end
+
+        expect(page).to have_heading(text: "Review metadata changes")
+        expect(page).to have_text("https://example.com/sso")
+        expect(page).to have_text("https://example.com/login")
+        expect(provider.reload.options).to eq(original_options)
+
+        click_on "Cancel"
+        expect(page).to have_heading(text: "My provider")
+        expect(provider.reload.options).to eq(original_options)
+
+        click_on "Refresh metadata"
+        click_on "Apply changes"
+
+        expect(page).to have_text("Successfully updated the configuration using the identity provider metadata.")
+        expect(page).to have_heading(text: "My provider")
+        expect(provider.reload.idp_sso_service_url).to eq("https://example.com/login")
+        expect(provider.last_metadata_update).to be > 1.minute.ago
+      end
     end
   end
 
-  context "without EE", without_ee: %i[sso_auth_providers] do
+  context "without EE" do
     it "renders the upsell page" do
       visit "/admin/saml/providers"
       expect(page).to have_enterprise_banner(:professional)

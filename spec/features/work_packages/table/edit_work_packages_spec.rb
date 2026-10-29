@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 
 RSpec.describe "Inline editing work packages", :js do
@@ -123,16 +150,14 @@ RSpec.describe "Inline editing work packages", :js do
           possible_values: %w(foo bar xyz),
           is_required: false,
           is_for_all: false,
-          types: [type],
-          projects: [project]
+          types: [type]
         ),
         create(
           :work_package_custom_field,
           field_format: "string",
           is_required: false,
           is_for_all: false,
-          types: [type],
-          projects: [project]
+          types: [type]
         )
       ]
 
@@ -198,7 +223,7 @@ RSpec.describe "Inline editing work packages", :js do
       expect(work_package.send(custom_fields.first.attribute_getter)).to eq("bar")
       expect(work_package.send(custom_fields.last.attribute_getter)).to eq("my custom text")
 
-      # Saveguard to let the background update complete
+      # Safeguard to let the background update complete
       wp_table.visit!
       wp_table.expect_work_package_listed(work_package)
     end
@@ -250,6 +275,17 @@ RSpec.describe "Inline editing work packages", :js do
       project_field.clear_search
       project_field.search_for("Project")
       project_field.expect_option("Test Project", workspace_badge: false)
+    end
+
+    it "finds a workspace by its identifier, which is never displayed itself" do
+      project_field = wp_table.edit_field(work_package, :project)
+      project_field.activate!
+
+      project_field.search_for(portfolio.identifier)
+
+      expect(project_field.dropdown).to have_no_text("Test Program")
+      expect(project_field.dropdown).to have_no_text("Test Project")
+      project_field.expect_option("Test Portfolio", workspace_badge: "Portfolio")
     end
   end
 end

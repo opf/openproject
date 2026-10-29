@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,7 +30,8 @@
 require "spec_helper"
 
 RSpec.describe "Examples embedded in APIv3 schemas" do # rubocop:disable RSpec/DescribeClass
-  schema_names = Dir[ # rubocop:disable RSpec/LeakyLocalVariable
+  # rubocop:disable-next RSpec/LeakyLocalVariable
+  schema_names = Dir[
     Rails.root.join("docs/api/apiv3/components/schemas/*").to_s
   ].map { |f| File.basename(f).split(".", 2).first }.grep(/model$/)
 

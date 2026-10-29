@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,6 +54,11 @@ RSpec.describe "Admin lists project mappings for a storage",
   let(:project_storages_index_page) { Pages::Admin::Storages::ProjectStorages::Index.new }
 
   current_user { admin }
+
+  def choose_manually_managed_folder
+    choose "Existing folder with manually managed permissions"
+    expect(page).to have_checked_field("storages_project_storage_project_folder_mode_manual")
+  end
 
   context "with insufficient permissions" do
     it "is not accessible" do
@@ -178,6 +182,15 @@ RSpec.describe "Admin lists project mappings for a storage",
       end
     end
 
+    it_behaves_like "a fill-in project autocompleter searchable by identifier" do
+      let(:target_project) { create(:project, name: "Searched Storage Project", identifier: "searched-storage-project") }
+      let(:control_project) { create(:project, name: "Unrelated Storage Project", identifier: "unrelated-storage-project") }
+
+      before do
+        click_on "Add projects"
+      end
+    end
+
     it "links to the delete page of a storage" do
       page.find_test_selector("storage-delete-button").click
 
@@ -211,7 +224,7 @@ RSpec.describe "Admin lists project mappings for a storage",
             expect(page)
               .to have_checked_field("storages_project_storage_project_folder_mode_automatic")
 
-            choose "Existing folder with manually managed permissions"
+            choose_manually_managed_folder
             wait_for { page }.to have_text("No selected folder")
             click_on "Select folder"
 
@@ -249,7 +262,7 @@ RSpec.describe "Admin lists project mappings for a storage",
               find(".ng-option-label", text: project.name).click
               check "Include sub-projects"
 
-              choose "Existing folder with manually managed permissions"
+              choose_manually_managed_folder
               wait_for { page }.to have_text("No selected folder")
 
               click_on "Add"
@@ -322,11 +335,8 @@ RSpec.describe "Admin lists project mappings for a storage",
           project_storages_index_page.click_menu_item_of("Edit project folder", project_storage.project)
 
           within("dialog") do
-            choose "Existing folder with manually managed permissions"
-            # The login button is an Angular custom element whose label is set asynchronously
-            # in ngOnInit(). On slow CI, bootstrapping can take longer than the default wait.
-            expect(page).to have_button("Nextcloud login", wait: 20)
-            click_on("Nextcloud login")
+            choose_manually_managed_folder
+            find("opce-storage-login-button[ng-version] button", visible: true, wait: 20).click
             wait_for { page }.to have_current_path(
               %r{/index.php/apps/oauth2/authorize\?client_id=.*&redirect_uri=.*&response_type=code&state=.*}
             )

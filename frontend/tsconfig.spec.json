@@ -2,6 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
+    "resolveJsonModule": true,
+    "rootDir": "..",
     "types": [
       "vitest/globals",
       "@testing-library/jest-dom/vitest"
@@ -15,6 +17,8 @@
   ],
   "include": [
     "src/**/*.spec.ts",
+    "src/**/testing/**/*.ts",
+    "src/stimulus/test-helpers.ts",
     "src/**/*.d.ts",
     "src/main.ts",
     "src/app/**/*.module.ts"

@@ -22,16 +22,17 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe "wiki pages", :js, :selenium, with_settings: { journal_aggregation_time_minutes: 0 } do
+RSpec.describe "wiki pages", :js, with_settings: { journal_aggregation_time_minutes: 0 } do
   shared_let(:internal_provider) { create(:internal_wiki_provider) }
+
+  let(:editor) { Components::WysiwygEditor.new }
 
   let(:project) do
     create(:project, enabled_module_names: [:news])
@@ -91,7 +92,7 @@ RSpec.describe "wiki pages", :js, :selenium, with_settings: { journal_aggregatio
 
     page.find_test_selector("wiki-edit-action-button").click
 
-    find(".ck-content").set(content_second_version)
+    editor.replace_text(content_second_version)
 
     SeleniumHubWaiter.wait
     click_button "Save"
@@ -131,7 +132,7 @@ RSpec.describe "wiki pages", :js, :selenium, with_settings: { journal_aggregatio
 
     page.find_test_selector("wiki-edit-action-button").click
 
-    find(".ck-content").set(content_third_version)
+    editor.replace_text(content_third_version)
 
     fill_in "Comment", with: other_user_comment
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -304,6 +303,62 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
     end
   end
 
+  describe "creating labels typed into the work package", with_flag: { work_package_labels: true } do
+    let(:role) do
+      create(:project_role,
+             permissions: %i[view_work_packages add_work_packages edit_work_packages])
+    end
+    let(:attributes) { { subject: "Labelled", project:, label_names: %w[charlie Alpha bravo] } }
+    let(:saved_work_package) { WorkPackage.find_by!(subject: "Labelled") }
+
+    def stub_first_label_lookup_miss
+      calls = 0
+      allow(Label).to receive(:named).and_wrap_original do |original, *args|
+        (calls += 1) == 1 ? Label.none : original.call(*args)
+      end
+    end
+
+    it "creates the labels in case-insensitive name order" do
+      expect(service_result).to be_success
+
+      created = Label.where(name: %w[bravo Alpha charlie]).order(:id).pluck(:name)
+      expect(created).to eq(%w[Alpha bravo charlie])
+    end
+
+    it "reuses a label another save created after validation" do
+      other = create(:label, name: "bravo")
+      stub_first_label_lookup_miss
+
+      expect(service_result).to be_success
+      expect(Label.where("LOWER(name) = 'bravo'").count).to eq(1)
+      expect(saved_work_package.labels).to include(other)
+    end
+
+    it "rolls the created labels back when the work package cannot be saved" do
+      allow_any_instance_of(WorkPackage).to receive(:save).and_return(false) # rubocop:disable RSpec/AnyInstance
+
+      expect { service_result }.not_to change(Label, :count)
+      expect(service_result).to be_failure
+    end
+
+    context "when a label cannot be created" do
+      let(:failure) do
+        ServiceResult.failure(result: nil).tap { it.errors.add(:name, :blank) }
+      end
+
+      before do
+        service = instance_double(Labels::FindOrCreateService, call: failure)
+        allow(Labels::FindOrCreateService).to receive(:new).and_return(service)
+      end
+
+      it "fails with a labels error and persists nothing" do
+        expect(service_result).to be_failure
+        expect(service_result.errors.symbols_for(:labels)).to contain_exactly(:blank)
+        expect(WorkPackage.where(subject: "Labelled")).not_to exist
+      end
+    end
+  end
+
   describe "versions, target versions and observed in versions" do
     let!(:version1) { create(:version, project:) }
     let!(:version2) { create(:version, project:) }
@@ -365,14 +420,29 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
     end
   end
 
-  describe "generating the subject from a pattern when the project resolves the type to a variant",
-           with_flag: { type_variants: true } do
+  describe "generating the subject from a pattern containing labels", with_flag: { work_package_labels: true } do
+    let(:type) do
+      create(:type, patterns: { subject: { blueprint: "Labeled: {{labels}}", enabled: true } })
+    end
+    let(:frontend_label) { create(:label, name: "Frontend") }
+    let(:bug_label) { create(:label, name: "Bug") }
+    let(:attributes) do
+      { project:, type:, status: default_status, priority: default_priority, label_ids: [frontend_label.id, bug_label.id] }
+    end
+
+    it "includes the labels assigned on creation" do
+      expect(service_result).to be_success
+      expect(new_work_package.reload.subject).to eq("Labeled: Frontend, Bug")
+    end
+  end
+
+  describe "generating the subject from a pattern when the project resolves the type to a variant" do
     let(:family_root) do
       create(:type, name: "Family root", patterns: { subject: { blueprint: "Root subject", enabled: true } })
     end
     let(:variant) do
       create(:type_variant, type: family_root, variant_name: "Variant").tap do |named|
-        link_configuration(named, source: family_root, aspect: TypeVariant::DEFAULTS)
+        link_configuration(named, aspect: TypeVariant::DEFAULTS)
       end
     end
     let(:project) { create(:project, types: [variant, default_type]) }

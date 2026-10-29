@@ -1,0 +1,19 @@
+<% html_title t(:label_project_settings), t("work_packages.import.title") %>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("work_packages.import.title") }
+    header.with_description { t("work_packages.import.intro") }
+    header.with_breadcrumbs(
+      [{ href: project_overview_path(@project.id), text: @project.name },
+       { href: project_settings_general_path(@project.id), text: t(:label_project_settings) },
+       t("work_packages.import.title")]
+    )
+  end
+%>
+
+<%= render Primer::Box.new(data: { controller: "work-packages--csv-import" }) do %>
+  <%= render Primer::Box.new(id: "import_announcement", classes: "sr-only", aria: { live: :polite }) %>
+  <%= render partial: "projects/settings/work_packages_import/report" %>
+  <%= render partial: "projects/settings/work_packages_import/form" %>
+<% end %>

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,13 +34,13 @@ RSpec.describe "API v3 projects resource with filters for the linked storages",
                content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  def enable_module(project, modul)
-    project.enabled_module_names = project.enabled_module_names + [modul]
+  def enable_module(project, module_name)
+    project.enabled_module_names = project.enabled_module_names + [module_name]
     project.save
   end
 
-  def disable_module(project, modul)
-    project.enabled_module_names = project.enabled_module_names - [modul]
+  def disable_module(project, module_name)
+    project.enabled_module_names = project.enabled_module_names - [module_name]
     project.save
   end
 

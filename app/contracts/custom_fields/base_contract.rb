@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -53,6 +52,9 @@ module CustomFields
     attribute :multi_value
     attribute :name
     attribute :possible_values
+    attribute :project_specific_value_restriction do
+      validate_project_specific_value_restriction
+    end
     attribute :regexp
     attribute :searchable
     attribute :visible_on_user_card
@@ -62,6 +64,17 @@ module CustomFields
       return unless %w[bool calculated_value].include?(field_format)
 
       errors.add(:is_required, :cannot_be_true) if is_required == true
+    end
+
+    def validate_project_specific_value_restriction
+      return if project_specific_value_restriction.nil?
+
+      if type != "WorkPackageCustomField" || %w[list hierarchy weighted_item_list].exclude?(field_format)
+        errors.add(:project_specific_value_restriction, :not_supported)
+      elsif model.project_specific_value_restriction_changed? && !EnterpriseToken.allows_to?(:project_specific_list_values)
+        errors.add(:project_specific_value_restriction, :error_enterprise_only,
+                   action: I18n.t("ee.features.project_specific_list_values"))
+      end
     end
   end
 end

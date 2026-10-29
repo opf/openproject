@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -30,6 +29,6 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title @resource_planner.name, t(:label_resource_management) %>
 
 <%= turbo_frame_tag "resource-planner-shell", class: "op-rm-planner-page", data: { turbo_action: "advance" } do %>
-  <%= render(ResourcePlanners::ShowPageHeaderComponent.new(resource_planner: @resource_planner, project: @project, selected_view: @view)) %>
+  <%= render(ResourcePlanners::ShowPageHeaderComponent.new(resource_planner: @resource_planner, selected_view: @view)) %>
   <%= render(@content_component) %>
 <% end %>

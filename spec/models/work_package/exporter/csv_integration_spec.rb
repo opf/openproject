@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -218,6 +217,37 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
 
       expect(headers.first).to eq "#{byte_order_mark}Subject"
       expect(values.first).to eq "No associations"
+    end
+  end
+
+  context "with typed columns" do
+    let(:options) { { show_descriptions: false } }
+    let(:query) do
+      create(:query, project:, user:, column_names: %i(start_date done_ratio estimated_hours))
+    end
+
+    shared_let(:work_package) do
+      create(:work_package,
+             project:,
+             type: type_a,
+             start_date: Date.new(2026, 8, 24),
+             done_ratio: 25,
+             estimated_hours: 10.0)
+    end
+
+    subject(:header_value_pairs) do
+      headers, values = CSV.parse instance.export!.content
+      headers.zip(values)
+    end
+
+    it "keeps rendering formatted strings" do
+      expect(header_value_pairs).to eq [
+        ["#{byte_order_mark}Start date", "08/24/2026"],
+        ["% Complete", "0.25"],
+        ["Total % complete", ""],
+        ["Work", "10.0"],
+        ["Total work", ""]
+      ]
     end
   end
 

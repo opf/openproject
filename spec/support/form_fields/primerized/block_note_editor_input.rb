@@ -1,9 +1,37 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 module FormFields
   module Primerized
     class BlockNoteEditorInput
       include Capybara::DSL
+      include WaitHelpers
 
       # Since op-blocknote-extensions 0.3.1 the work package search is portalled into
       # BlockNote's `.bn-container`, a sibling of the contenteditable - so it is no longer
@@ -31,6 +59,38 @@ module FormFields
 
       def click_formatting_toolbar_button(label)
         shadow_root.find("button[aria-label='#{label}']").click
+      end
+
+      def insert_table
+        send_keys_to_editor("/table")
+        send_keys(:enter)
+      end
+
+      def open_table_row_menu
+        shadow_root.first("table td, table th").hover
+        shadow_root.find(".bn-table-handle:not([style*='rotate'])").click
+      end
+
+      def open_table_cell_menu(cell)
+        handle = page.document.synchronize do
+          cell.hover
+          shadow_root.find(".bn-table-cell-handle", wait: 0).tap do |current|
+            raise Capybara::ExpectationNotMet, "Cell handle is not on the hovered cell" unless horizontally_within?(current, cell)
+          end
+        end
+        handle.click
+      end
+
+      # The colors menu lists the text colors first, then the background colors, with the same names.
+      def pick_table_cell_color(name, background: false)
+        click_table_menu_item("Colors", hover: true)
+        shadow_root.all("[role='menuitem']", text: /#{name}\z/, minimum: 2)[background ? 1 : 0].click
+        send_keys(:escape)
+      end
+
+      def click_table_menu_item(text, hover: false)
+        item = shadow_root.find(".bn-menu-item", exact_text: text)
+        hover ? item.hover : item.click
       end
 
       def create_work_package_form
@@ -180,7 +240,35 @@ module FormFields
         heading_font_size.to_f / paragraph_font_size.to_i
       end
 
+      def heading_block_id(text)
+        page.evaluate_script(<<~JS, text)
+          Array.from(#{shadow_root_query}.querySelectorAll('[data-content-type="heading"]'))
+            .find((heading) => heading.textContent.trim() === arguments[0])
+            .parentElement.dataset.id
+        JS
+      end
+
+      # IntersectionObserver also accounts for the scrolling panel clipping the heading.
+      def heading_in_viewport?(block_id)
+        page.evaluate_async_script(<<~JS, block_id)
+          const [blockId, done] = arguments;
+          const heading = #{shadow_root_query}.querySelector(`[data-id="${blockId}"] > [data-content-type="heading"]`);
+          if (!heading) return done(null);
+
+          new IntersectionObserver((entries, observer) => {
+            observer.disconnect();
+            done(entries[0].intersectionRatio > 0.99);
+          }).observe(heading);
+        JS
+      end
+
       private
+
+      def horizontally_within?(element, container)
+        x, _, width, = bounding_rect(element)
+        left, _, container_width, = bounding_rect(container)
+        (x + (width / 2)).between?(left, left + container_width)
+      end
 
       # Attention: This only works with selenium, not with cuprite,
       # as cuprite does not support shadow dom (yet).

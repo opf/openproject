@@ -22,20 +22,51 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 class WorkPackageCustomField < CustomField
-  has_and_belongs_to_many :projects, # rubocop:disable Rails/HasAndBelongsToMany
-                          join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
-                          foreign_key: "custom_field_id"
-  has_and_belongs_to_many :type_variants, # rubocop:disable Rails/HasAndBelongsToMany
-                          join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
-                          foreign_key: "custom_field_id",
-                          association_foreign_key: "type_variant_id"
+  def self.project_counts
+    project_type_usages
+      .group("#{FormConfigurationAttribute.table_name}.custom_field_id")
+      .distinct
+      .count(:project_id)
+  end
+
+  # A field reaches a project when the variant that project applies shows it. An archived project
+  # is no reach, which is the same answer CustomFields::DetailsComponent gives.
+  def self.project_type_usages
+    memberships = FormConfigurationAttribute.table_name
+    form_join, form_configuration_id, excluded =
+      TypeVariant.form_configuration_join("project_types.variant_id")
+    exclusion = TypeVariant.excluded_custom_field_condition("#{memberships}.custom_field_id", excluded)
+
+    ProjectType
+      .joins(form_join)
+      .joins(Arel.sql("JOIN #{memberships} ON #{memberships}.form_configuration_id = #{form_configuration_id} " \
+                      "AND #{memberships}.custom_field_id IS NOT NULL " \
+                      "AND #{memberships}.form_configuration_group_id IS NOT NULL AND #{exclusion}"))
+      .where(project_id: Project.active.select(:id))
+  end
+
+  def type_ids_by_project_id
+    self.class.project_type_usages
+      .where(FormConfigurationAttribute.table_name => { custom_field_id: id })
+      .distinct
+      .pluck(:project_id, :type_id)
+      .group_by(&:first)
+      .transform_values { |pairs| pairs.map(&:last) }
+  end
+
+  has_many :form_configuration_memberships, -> { active },
+           class_name: "FormConfigurationAttribute",
+           foreign_key: :custom_field_id,
+           inverse_of: :custom_field,
+           dependent: nil
+  has_many :form_configurations, -> { distinct }, through: :form_configuration_memberships
+  has_many :type_variants, through: :form_configurations
   has_many :work_packages,
            through: :custom_values,
            source: :customized,
@@ -44,7 +75,7 @@ class WorkPackageCustomField < CustomField
   scopes :visible,
          :on_visible_type_and_project
 
-  scope :usable_as_custom_action, -> {
+  scope :usable_as_automation, -> {
     where.not(field_format: %w[hierarchy weighted_item_list])
          .order(:name)
   }

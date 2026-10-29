@@ -1,0 +1,225 @@
+
+Attribute help texts are a feature that allow administrators to provide
+additional information for attributes of certain entities in OpenProject.
+Currently, work packages and projects are supported.
+
+Our [System admin guide][system_admin_guide] provides guidance for
+administrators on how to create and manage Attribute help texts.
+
+## Overview of Attribute help texts
+
+When Attribute help text is configured for an attribute, a small question mark
+icon is displayed next to the attribute in question.
+If the help text has a short caption configured, this is shown below the field.
+
+<%= image_tag("lookbook/attribute_help_text_example1.png") %>
+
+Hovering on the icon will show a tooltip. Clicking on the icon will open the
+Attribute help text modal. Depending on permissions, an Edit button may be
+displayed.
+
+<%= embed OpPrimer::AttributeHelpTextComponentPreview, :dialog_component %>
+
+## Attribute help texts with forms
+
+When using Primer Forms (via `primer_form_with` and the Forms DSL), configured
+Attribute help texts will automatically be rendered for all applicable fields as
+part of the field's label and caption, provided a `model:` is passed to `primer_form_with`
+and that the model supports Attribute help texts.
+
+All current input methods in use are supported, with the exception of `hidden`
+and visual (non-input) types:
+
+  - `action_menu(**, &)`
+  - `auto_complete(**, &)`
+  - `autocompleter(**, &)`
+  - `block_note_editor(**, &)`
+  - `button(**, &)`
+  - `check_box_group(**, &)`
+  - `check_box(**, &)`
+  - `color_select_list(**, &)`
+  - `multi(**, &)`
+  - `pattern_input(**, &)`
+  - `project_autocompleter(**, &)`
+  - `radio_button_group(**, &)`
+  - `range_date_picker(**)`
+  - `rich_text_area(**)`
+  - `select_list(**, &)`
+  - `single_date_picker(**)`
+  - `storage_manual_project_folder_selection(**)`
+  - `submit(**, &)`
+  - `text_area(**, &)`
+  - `text_field(**, &)`
+  - `work_package_autocompleter(**, &)`
+
+An example of a `ProjectForm` with Attribute help texts automatically enabled:
+
+```ruby
+class ProjectForm < ApplicationForm
+  form do |f|
+    f.text_field name: :name, label: attribute_name(:name), required: true
+
+    f.rich_text_area(
+      name: :description,
+      label: attribute_name(:description),
+      rich_text_options: {
+        showAttachments: false
+      }
+    )
+  end
+end
+```
+
+Attribute help texts are automatically rendered for custom fields as well:
+
+```ruby
+class ProjectCustomFieldsForm < ApplicationForm
+  include CustomFields::CustomFieldRendering
+
+  form do |f|
+    render_custom_fields(form: f)
+  end
+end
+```
+
+Should rendering Attribute help texts not be desired, it is possible to disable
+rendering for a particular field by passing `include_help_text: false`.
+
+```ruby
+class ProjectForm < ApplicationForm
+  form do |f|
+    # no attribute help text will be rendered
+    f.text_field name: :name, label: attribute_name(:name), required: true, include_help_text: false
+  end
+end
+```
+
+If the name of the form field differs from the attribute name, this can also be
+customized by passing `help_text_options` with a `attribute_name` key.
+
+```ruby
+class ProjectForm < ApplicationForm
+  form do |f|
+    f.text_field name: :project_name, label: attribute_name(:name), required: true,
+                 help_text_options: { attribute_name: :name }
+  end
+end
+```
+
+N.B. More likely than not, you won't need this. Both Rails `FormBuilder`
+and Primer's Form DSL work best (i.e. bind model values with fields)
+when form field names match attribute names. This only exists for advanced use
+cases, such as if you are using a separate Form model.
+
+```erb
+<%%=
+  primer_form_with(url: "/foo", model: ProjectFormModel.new(project:)) do
+    render ProjectForm.new(f)
+  end
+%>
+```
+
+### For Component authors
+
+If you create a new input method (by extending
+`Primer::Forms::Dsl::Input` and adding an accompanying method to
+`lib/primer/open_project/forms/dsl/input_methods.rb`), care should be
+taken to call `decorate_options`, which enables the automatic rendering
+of help texts:
+
+```ruby
+  def super_duper_text_field(**)
+    add_input SuperDuperTextFieldInput.new(builder:, form:, **decorate_options(**))
+  end
+```
+
+You should also add an accompanying spec to
+`spec/lib/primer/open_project/forms/dsl/input_methods_spec.rb` to verify your
+input method supports help text-related arguments.
+
+Under-the-hood, automatic display of help texts for fields relies on rendering
+an `OpPrimer::AttributeLabelComponent`. There may be times when you
+need to create a component that has Form-field like behavior or visuals, but
+that does not use the Primer Forms API (i.e. components that extend
+`ApplicationComponent`/`ViewComponent::Base` rather than `Primer:Forms::Dsl::Input`).
+In such cases, you can use `AttributeLabelComponent` directly.
+For captions you can use `OpPrimer::AttributeHelpTextCaptionComponent`:
+
+<%= image_tag("lookbook/attribute_help_text_example2.png") %>
+
+```erb
+<%%=
+    flex_layout do |container|
+      container.with_row do
+        flex_layout(align_items: :center) do |flex|
+          flex.with_column do
+            render(Primer::Beta::Text.new(font_weight: bold)) { project.name }
+          end
+
+          flex.with_column(mr: 2) do
+            render(
+              OpPrimer::AttributeLabelComponent.new(
+                attribute: :name,
+                model: project,
+                current_user: user
+              )
+            )
+          end
+        end
+      end
+
+      container.with_row do
+        render(
+          OpPrimer::AttributeHelpTextCaptionComponent.new(
+            help_text: helpers.help_text_for(project, :name, current_user: :user)
+          )
+        )
+      end
+    end
+%>
+```
+
+By default the label is wrapped in a `span`. This can be overridden by passing the
+`tag:` argument. Passing `tag: nil` will remove the wrapper.
+
+## Attribute help texts outside of forms
+
+### View components
+
+You may also wish to show help texts when displaying attributes to the user. You
+can use `AttributeLabelComponent` as shown above, passing the model and
+applicable attribute. This takes care of finding and instantiating the Attribute
+help text.
+
+There is also a lower-level component available: `AttributeHelpTextComponent`.
+This component only renders an icon and optional additional text (via the
+`additional_label` slot). It renders without a wrapper and the caller is
+responsible for finding and passing an instance of `AttributeHelpText`.
+
+<%= embed OpPrimer::AttributeHelpTextComponentPreview, :playground, panels: %i[source] %>
+
+### Angular (deprecated)
+
+There is also an Angular `attribute-help-text` component available. Although we
+are not building new UI in Angular, this component may be useful if you have to
+backport functionality to an Angular-rendered view.
+
+The `attribute-help-text` component should render identically to its Rails
+`AttributeHelpTextComponent` counterpart. Set the attribute name using the
+`attribute` property and model name using `attributeScope` (in `PascalCase`).
+
+#### Attributes
+
+```html
+  <attribute-help-text attribute="status" attributeScope="WorkPackage" />
+```
+
+#### Property Binding
+
+```html
+  <attribute-help-text
+    [attribute]="model.attribute"
+    [attributeScope]="'Project'" />
+```
+
+[system_admin_guide]:https://www.openproject.org/docs/system-admin-guide/attribute-help-texts/

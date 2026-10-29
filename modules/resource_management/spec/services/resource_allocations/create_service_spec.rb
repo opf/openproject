@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -75,7 +74,7 @@ RSpec.describe ResourceAllocations::CreateService, type: :model do
 
   it "leaves principal_assigned_by blank for a generic allocation" do
     result = described_class.new(user: owner).call(
-      params.merge(principal: nil, principal_explicit: false, filter_name: "Ruby Developer")
+      params.merge(principal: nil, placeholder_user: create(:placeholder_user, name: "Ruby Developer"))
     )
     expect(result).to be_success, "expected success but got: #{result.errors.full_messages}"
     expect(result.result.principal_assigned_by).to be_nil
@@ -94,6 +93,38 @@ RSpec.describe ResourceAllocations::CreateService, type: :model do
   it "honors an explicitly-passed state" do
     result = described_class.new(user: owner).call(params.merge(state: "requested"))
     expect(result.result.state).to eq("requested")
+  end
+
+  describe "updating the schedule" do
+    let(:schedule_service) { instance_spy(ResourceAllocations::UpdateScheduleService) }
+
+    before { allow(ResourceAllocations::UpdateScheduleService).to receive(:new).and_return(schedule_service) }
+
+    it "recomputes the principal's schedule from the start date" do
+      service_call
+
+      expect(schedule_service).to have_received(:call).once.with(users: [assignee], from: Date.new(2026, 1, 1))
+    end
+
+    it "does not recompute for an allocation that is not allocated" do
+      described_class.new(user: owner).call(params.merge(state: "requested"))
+
+      expect(schedule_service).not_to have_received(:call)
+    end
+
+    it "does not recompute for a generic allocation" do
+      described_class.new(user: owner).call(
+        params.merge(principal: nil, placeholder_user: create(:placeholder_user, name: "Ruby Developer"))
+      )
+
+      expect(schedule_service).not_to have_received(:call)
+    end
+
+    it "does not recompute when the allocation is invalid" do
+      described_class.new(user: owner).call(params.merge(allocated_time: 0))
+
+      expect(schedule_service).not_to have_received(:call)
+    end
   end
 
   context "when allocated_time is zero" do
