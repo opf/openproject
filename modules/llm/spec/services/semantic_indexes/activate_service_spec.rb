@@ -64,6 +64,17 @@ RSpec.describe SemanticIndexes::ActivateService do
     end
   end
 
+  context "when pgvector is unavailable" do
+    before { allow(OpenProject::Llm::Pgvector).to receive(:available?).and_return(false) }
+
+    it "fails" do
+      expect(result).to be_failure
+      expect(result.message).to eq("The pgvector extension is not installed. " \
+                                   "Install it and run the migrations again to start indexing.")
+      expect(active_semantic_index).to be_nil
+    end
+  end
+
   context "as a regular user" do
     let(:user) { build_stubbed(:user) }
 
