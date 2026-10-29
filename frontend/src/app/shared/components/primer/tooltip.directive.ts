@@ -78,7 +78,7 @@ export class OpTooltipDirective {
 
   private readonly viewContainer = inject(ViewContainerRef);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
-  private readonly hostId = signal(ensureId(this.host));
+  private readonly hostId = signal(this.host.id);
 
   private readonly hostAria = computed<HostAria>(() => {
     const label = presence(this.label());
@@ -100,7 +100,7 @@ export class OpTooltipDirective {
   private readonly displacedValues = new Map<OwnedAttribute, string|null>();
 
   constructor() {
-    const observer = new MutationObserver(() => this.hostId.set(ensureId(this.host)));
+    const observer = new MutationObserver(() => this.hostId.set(this.host.id));
     observer.observe(this.host, { attributeFilter: ['id'] });
     inject(DestroyRef).onDestroy(() => observer.disconnect());
 
@@ -122,7 +122,7 @@ export class OpTooltipDirective {
       (this.tooltipRef.location.nativeElement as HTMLElement)
         .addEventListener('beforetoggle', (event) => this.suppressUnobscured(event));
     }
-    this.tooltipRef.setInput('forId', this.hostId());
+    this.tooltipRef.setInput('forId', this.hostId() || ensureId(this.host));
     this.tooltipRef.setInput('tooltipId', this.tooltipId());
     this.tooltipRef.setInput('type', tooltip.type);
     this.tooltipRef.setInput('direction', this.tooltipDirection());
