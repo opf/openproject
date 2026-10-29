@@ -988,16 +988,31 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
             non_privileged_representer.to_json
           end
 
-          it "still renders the budget link for the user having view_budgets (regression AGILE-296)" do
-            expect(subject).to have_json_path("_links/budget")
+          it "still renders the real budget link for the user having view_budgets (regression AGILE-296)" do
+            expect(subject)
+              .to be_json_eql("/api/v3/budgets/#{budget.id}".to_json)
+                    .at_path("_links/budget/href")
+
+            expect(subject)
+              .to be_json_eql(budget.subject.to_json)
+                    .at_path("_links/budget/title")
           end
         end
       end
 
       context "with the user lacking the view_budgets permission" do
-        it "has no link to the budget" do
+        it "renders an undisclosed budget link" do
           expect(subject)
-            .not_to have_json_path("_links/budget")
+            .to be_json_eql(API::V3::URN_UNDISCLOSED.to_json)
+                  .at_path("_links/budget/href")
+
+          expect(subject)
+            .to be_json_eql(I18n.t(:"api_v3.undisclosed.budget").to_json)
+                  .at_path("_links/budget/title")
+        end
+
+        it "does not disclose the budget subject" do
+          expect(subject).not_to include(budget.subject)
         end
 
         it "has no budget embedded" do
@@ -1009,6 +1024,18 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           allow(API::V3::Budgets::BudgetRepresenter).to receive(:create)
           subject
           expect(API::V3::Budgets::BudgetRepresenter).not_to have_received(:create)
+        end
+
+        context "when no budget is assigned" do
+          let(:budget) { nil }
+
+          it "renders an empty budget link" do
+            expect(subject)
+              .to be_json_eql(nil.to_json)
+                    .at_path("_links/budget/href")
+
+            expect(subject).not_to have_json_path("_links/budget/title")
+          end
         end
       end
 
@@ -1023,8 +1050,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           privileged_representer.to_json
         end
 
-        it "does not leak the budget link to the user lacking view_budgets (regression AGILE-296)" do
-          expect(subject).not_to have_json_path("_links/budget")
+        it "renders an undisclosed budget link to the user lacking view_budgets (regression AGILE-296)" do
+          expect(subject)
+            .to be_json_eql(API::V3::URN_UNDISCLOSED.to_json)
+                  .at_path("_links/budget/href")
+
+          expect(subject).not_to include(budget.subject)
         end
       end
     end
