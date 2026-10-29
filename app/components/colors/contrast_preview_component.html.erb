@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
   <%= flex_layout(direction: [:column, nil, :row], align_items: :stretch, classes: "gap-3") do |modes| %>
     <% %w[light dark].each do |mode| %>
-      <% modes.with_column(flex: 1) do %>
+      <% modes.with_box(flex: 1) do %>
         <%= render OpPrimer::BorderBoxListComponent.new(container: "contrast-preview-#{mode}") do |list| %>
           <% list.with_header(title_tag: :h4) do |header| %>
             <% header.with_title do %>

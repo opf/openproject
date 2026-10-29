@@ -129,6 +129,21 @@ RSpec.describe "default colors administration", :js do
       expect(page).to have_heading "Contrast preview"
     end
 
+    it "restores the contrast preview after a save fails validation" do
+      fill_in "Name", with: ""
+      fill_in "Hex code", with: "#1F75D3"
+
+      expect(page).to have_text("4 of 4 pass")
+
+      click_on "Save"
+      wait_for_reload
+
+      expect(page).to have_field("Name", validation_error: "Name can't be blank.")
+      expect(page).to have_field("Hex code", with: "#1F75D3")
+      expect(page).to have_heading "Contrast preview"
+      expect(page).to have_text("4 of 4 pass")
+    end
+
     it "clears the server error when the hex code is edited" do
       fill_in "Name", with: "Invalid color"
       fill_in "Hex code", with: "#XXX"
