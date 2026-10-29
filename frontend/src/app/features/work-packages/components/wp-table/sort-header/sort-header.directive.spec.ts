@@ -298,12 +298,13 @@ describe('SortHeaderDirective relation columns', () => {
     await waitFor(() => expect(screen.getByRole('button', { name: 'Bug' })).toHaveAccessibleDescription('Relations to Bug'));
   });
 
-  it('adds no tooltip when the header text is the column name', async () => {
+  it('offers the column name as a label tooltip when the header text is the column name', async () => {
     await render(relationColumns.children);
 
     await waitFor(() => expect(screen.getByRole('button', { name: 'Children' })).toBeInTheDocument());
     expect(screen.getByRole('button', { name: 'Children' })).not.toHaveAccessibleDescription();
-    expect(fixture.nativeElement.querySelector('tool-tip')).toBeNull();
+    expect(fixture.nativeElement.querySelector('tool-tip')).toHaveAttribute('data-type', 'label');
+    expect(fixture.nativeElement.querySelector('tool-tip')).toHaveTextContent('Children');
   });
 
   it('renders no header button without a column menu', async () => {

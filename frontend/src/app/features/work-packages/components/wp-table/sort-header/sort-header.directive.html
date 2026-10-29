@@ -39,7 +39,9 @@
             class="relations-header--button"
             tabindex="-1"
             opTooltip
-            [description]="headerColumn.name === columnName ? undefined : headerColumn.name">
+            [label]="columnName"
+            [description]="headerColumn.name === columnName ? undefined : headerColumn.name"
+            [tooltipWhenObscured]="headerColumn.name === columnName ? '' : undefined">
             <op-icon icon-classes="icon-context icon-relations relations-header--icon" />
             {{columnName}}
           </button>
