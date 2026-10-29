@@ -50,6 +50,7 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true } do
   end
 
   before do
+    with_ssrf_ip_allowlist(["203.0.113.10"])
     allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(->(_host) { [IPAddr.new("203.0.113.10")] })
     allow(Net::IMAP).to receive(:new).and_return(imap)
     allow(imap).to receive(:uid_search).and_return(unseen_uids)
@@ -111,7 +112,7 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true } do
     end
   end
 
-  it "records the successful check", :freeze_time do
+  it "records the successful check", freeze_time: Time.current.change(usec: 0) do
     result
 
     expect(mailbox.reload).to have_attributes(last_fetched_at: Time.current,
@@ -141,7 +142,7 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true } do
     end
   end
 
-  context "when the server cannot be reached", :freeze_time do
+  context "when the server cannot be reached", freeze_time: Time.current.change(usec: 0) do
     before { allow(Net::IMAP).to receive(:new).and_raise(Errno::ECONNREFUSED) }
 
     it "fails with the reason" do

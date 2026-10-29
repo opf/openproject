@@ -42,6 +42,7 @@ RSpec.shared_context "with a connected IMAP session" do
   end
 
   before do
+    with_ssrf_ip_allowlist(["203.0.113.10"])
     allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(->(_host) { [IPAddr.new("203.0.113.10")] })
     allow(Net::IMAP).to receive(:new).and_return(imap)
   end

@@ -141,7 +141,7 @@ RSpec.describe ITSM::IncomingMailbox do
     end
   end
 
-  describe "#fetch_succeeded!", :freeze_time do
+  describe "#fetch_succeeded!", freeze_time: Time.current.change(usec: 0) do
     subject(:mailbox) { create(:itsm_incoming_mailbox, consecutive_failures: 3, last_error: "unreachable") }
 
     it "records the check and stays due for the next scheduled run" do
@@ -154,7 +154,7 @@ RSpec.describe ITSM::IncomingMailbox do
     end
   end
 
-  describe "#fetch_failed!", :freeze_time do
+  describe "#fetch_failed!", freeze_time: Time.current.change(usec: 0) do
     subject(:mailbox) { create(:itsm_incoming_mailbox, consecutive_failures:, last_fetched_at: 1.day.ago) }
 
     let(:consecutive_failures) { 0 }
