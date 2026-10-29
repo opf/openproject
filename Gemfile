@@ -161,7 +161,7 @@ gem "meta-tags", "~> 2.24.0"
 gem "paper_trail", "~> 17.0.0"
 
 # State machine with audit trail
-gem "statesman", "~> 13.3.0"
+gem "statesman", "~> 13.4.0"
 
 gem "job-iteration"
 
