@@ -93,6 +93,8 @@ en:
         not_ready:
           model_missing: "The model %{model} is no longer offered by the connection."
           no_connection: "No active LLM connection is configured."
+          pgvector_missing: "The pgvector extension is not installed. Install it and run the migrations again to start indexing."
+        progress: "%{percentage}% done"
       start_indexing:
         not_indexable: "This Semantic Index is already being indexed."
     llm_connections:
