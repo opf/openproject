@@ -120,12 +120,36 @@ RSpec.describe Rate do
   end
 
   describe "#principal" do
+    let(:deprecation_instance) do
+      instance_double(ActiveSupport::Deprecation, warn: nil)
+    end
+
+    before do
+      allow(ActiveSupport::Deprecation).to receive(:new).and_return(deprecation_instance)
+    end
+
     it "is reachable under the deprecated user alias" do
       user = build(:user)
       rate.user = user
 
       expect(rate.principal).to eq(user)
       expect(rate.user).to eq(user)
+
+      expect(deprecation_instance)
+            .to have_received(:warn)
+                  .with(
+                    a_string_matching("user= is deprecated and will be removed in a future OpenProject version"),
+                    an_instance_of(Array)
+                  )
+                  .once
+
+      expect(deprecation_instance)
+            .to have_received(:warn)
+                  .with(
+                    a_string_matching("user is deprecated and will be removed in a future OpenProject version"),
+                    an_instance_of(Array)
+                  )
+                  .once
     end
 
     # The rate outlives the principal so already booked costs stay explainable.
