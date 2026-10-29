@@ -166,6 +166,10 @@ class Attachment < ApplicationRecord
   # Determine mime types that we deem safe for inline content disposition
   # e.g., which will be loaded by the browser without forcing to download them
   def inlineable?
+    # Exported files are meant to be saved. Only PDF exports are viewed in a browser tab,
+    # mirroring the download link the job status dialog renders for them.
+    return is_pdf? if internal_container?
+
     is_text? || is_image? || is_movie? || is_pdf?
   end
 
