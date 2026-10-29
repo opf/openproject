@@ -1481,14 +1481,14 @@ en:
       updated_on_time_entry: "logged time updated on %{datetime}"
     project_phase:
       activated: "activated"
-      added_date: "set to %{date}"
-      changed_date: "changed from %{from} to %{to}"
+      added_date: "phase set to %{date}"
+      changed_date: "phase changed from %{from} to %{to}"
       deactivated: "deactivated"
       deleted_project_phase: "Deleted project phase"
       phase_and_both_gates: "%{phase_message}. %{start_gate_message}, and %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: "date deleted %{date}"
-      status_changed: "changed from %{from} to %{to}"
+      status_changed: "phase changed from %{from} to %{to}"
 
   admin:
     banners:
