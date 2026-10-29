@@ -28,7 +28,7 @@
 #++
 
 class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
-  MINIMAL_NEXTCLOUD_VERSION = 30
+  MINIMAL_NEXTCLOUD_VERSION = 33
   AUTHORIZATION_HEADER = "Bearer TESTBEARERTOKEN"
 
   HTTPX_TIMEOUT_SETTINGS = { timeout: { connect_timeout: 5, read_timeout: 3 } }.freeze
