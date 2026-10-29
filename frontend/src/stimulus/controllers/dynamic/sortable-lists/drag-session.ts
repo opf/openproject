@@ -36,12 +36,13 @@ export interface DragSessionHost {
   readonly rootElement:HTMLElement;
   // 0 means no cap.
   readonly maxBatchSize:number;
-  // The items an action from this item applies to, without touching the
-  // selection. Never empty: the item itself when nothing wider applies.
+  // The items a drag from this item would carry: the selected batch when
+  // the item belongs to it, otherwise the item alone. Leaves the selection
+  // unchanged.
   prospectiveMembers(itemElement:HTMLElement):HTMLElement[];
-  // Commits the batch: an unselected movable item becomes the selection
-  // first. Null when the root runs no selection, so the drop takes the
-  // single-item route.
+  // The items the drag will move, as identities. Selects the item first
+  // when it is not selected yet. Null when the root has no selection; the
+  // drop then moves the dragged item alone.
   frozenMembers(itemElement:HTMLElement):SelectionItem[]|null;
   ownedDestinations():DestinationIdentity[];
   liveOwnerDestinationOf(element:HTMLElement):DestinationIdentity|null;
@@ -161,9 +162,9 @@ export class DragSession {
     }
   }
 
-  // Every mark under the root, not just the batch's own rows: a cancelled
-  // drop, or a row the item controller marked before it had a session,
-  // would otherwise leave one behind.
+  // Clears the dragging mark from every row under the root, not only the
+  // batch's rows, so none survives a cancelled drop or a row the item
+  // controller marked itself before the session existed.
   end():SelectionItem[]|null {
     if (this.currentPhase === 'ended') {
       return null;

@@ -56,6 +56,7 @@ import {
   resolveItemExternalUrl,
   resolveItemLabel,
   sortableItemSelector,
+  type DestinationIdentity,
 } from './list-dom';
 import { draggingAttribute } from './drag-session';
 import { webLinkHref } from './external-data';
@@ -404,17 +405,22 @@ export default class ItemController extends Controller<HTMLElement> implements R
   }
 
   private getItemData():SortableDragSourceData {
+    const dragSession = this.root?.dragSession;
+
     return sortableDragSourceData({
       itemId: this.idValue,
       type: this.typeValue,
       rootElement: this.root?.element ?? null,
-      // A rootless item can carry no batch, so its own mobility is the
-      // whole answer, and it can name no list either: anything short of free
-      // movement leaves it accepting nothing.
-      permittedDestinations: this.root?.dragSession
-        ? this.root.dragSession.permittedDestinations()
-        : (itemMobility(this.element) === 'free' ? null : []),
+      permittedDestinations: dragSession
+        ? dragSession.permittedDestinations()
+        : this.unbatchedPermittedDestinations(),
     });
+  }
+
+  // Without a session the item cannot name its own list, so anything short
+  // of free movement leaves it accepting nothing.
+  private unbatchedPermittedDestinations():DestinationIdentity[]|null {
+    return itemMobility(this.element) === 'free' ? null : [];
   }
 
   private renderDropIndicator(edge:Edge|null) {
