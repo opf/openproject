@@ -25,7 +25,7 @@
       <% end %>
     <% end %>
 
-    <%= primer_form_with(model: form_model, url: form_url, method: :patch, scope: :llm_feature_binding) do |f| %>
+    <%= settings_primer_form_with(model: form_model, url: form_url, method: :patch, scope: :llm_feature_binding) do |f| %>
       <%= render(
             LlmConnections::FeatureBindingForm.new(
               f,
@@ -37,5 +37,9 @@
             )
           ) %>
     <% end %>
+  <% end %>
+
+  <% if feature.embedding? %>
+    <%= render(LlmConnections::SemanticIndexes::BoxComponent.new(semantic_indexes: SemanticIndex.order(:created_at))) %>
   <% end %>
 <% end %>
