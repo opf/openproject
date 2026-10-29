@@ -31,6 +31,17 @@ To apply spelling fixes explicitly, run `lefthook run fix --command typos`,
 then review and stage the changes. The check does not modify files, and the
 fix command does not stage changes automatically.
 
+> [!TIP]
+> For an intentional spelling or project acronym, add an entry mapping the term
+> to itself in the existing `[default.extend-words]` section of `typos.toml`.
+> For example, `lod = "lod"` accepts LOD (level of detail).
+>
+> To exclude a file or directory, append a pattern such as `"path/to/file.txt"`
+> or `"path/to/directory/**"` to the existing `extend-exclude` array under
+> `[files]`. Prefer a term exception over excluding a whole file when possible.
+> See [typos: false positives](https://github.com/crate-ci/typos#false-positives)
+> for more options. These exceptions apply to both Lefthook and CI.
+
 ### Structure of commit messages
 
 - First line: less than 72 characters, this is when GitHub shows ‘…’
