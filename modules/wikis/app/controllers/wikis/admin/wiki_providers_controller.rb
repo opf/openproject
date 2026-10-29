@@ -143,8 +143,7 @@ module Wikis
       def render_step_form(wiki_provider)
         step = current_step_name
         in_wizard = params[:continue_wizard].present?
-        component = Wikis::Adapters::Registry.resolve("#{wiki_provider}.components.forms.#{step}")
-                                             .new(wiki_provider, in_wizard:)
+        component = wiki_provider.registry_entry("components.forms.#{step}").new(wiki_provider, in_wizard:)
         update_via_turbo_stream(component:)
         respond_with_turbo_streams
       end
