@@ -159,6 +159,22 @@ RSpec.describe Notifications::CreateFromModelService, "comment", with_settings: 
 
         it_behaves_like "creates no notification"
       end
+
+      context "with notifications without a journal existing for other resources" do
+        let!(:other_notification) do
+          create(:notification,
+                 recipient: other_user,
+                 reason: :date_alert_start_date,
+                 journal: nil,
+                 resource: create(:work_package, project:))
+        end
+
+        it "keeps those notifications" do
+          call
+
+          expect(Notification).to exist(id: other_notification.id)
+        end
+      end
     end
   end
 end
