@@ -65,8 +65,8 @@ interface IPendingRequest {
 
 // Demo only (AI-126 demo branch, preview of AI-177): the CKEditor model APIs the selection mode needs.
 interface ISelectionModel {
-  document:{ selection:{ isCollapsed:boolean; getFirstRange():unknown } };
-  markers:{ get(name:string):{ getRange():unknown }|null };
+  document:{ selection?:{ isCollapsed:boolean; getFirstRange():unknown } };
+  markers?:{ get(name:string):{ getRange():unknown }|null };
   getSelectedContent(selection:unknown):unknown;
   change(callback:(writer:{ addMarker(name:string, options:unknown):void; removeMarker(name:string):void }) => void):void;
 }
@@ -180,14 +180,14 @@ export class AiActionsService {
   // A destroyed editor gets no answer, so the pane tells the user it is gone.
   private apply({ requestId, text }:IAcceptedDetail):void {
     const request = this.pending?.requestId === requestId ? this.pending : null;
-    this.forget(requestId);
+    this.forget(requestId, false);
     const editor = request?.editor;
     if (!editor || editor.state === 'destroyed') {
       return;
     }
 
     const { model, data } = editor;
-    const marker = (model as unknown as ISelectionModel).markers.get(AI_SELECTION_MARKER);
+    const marker = (model as unknown as ISelectionModel).markers?.get(AI_SELECTION_MARKER) ?? null;
     if (request.scope === 'selection' && !marker) {
       window.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_APPLIED_EVENT, { detail: { requestId, ok: false } }));
       return;
@@ -202,9 +202,9 @@ export class AiActionsService {
     window.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_APPLIED_EVENT, { detail: { requestId, ok: true } }));
   }
 
-  private forget(requestId:string):void {
+  private forget(requestId:string, clearMarker = true):void {
     if (this.pending?.requestId === requestId) {
-      if (this.pending.editor.state !== 'destroyed') {
+      if (clearMarker && this.pending.editor.state !== 'destroyed') {
         this.clearMarker(this.pending.editor);
       }
       this.pending = null;
@@ -216,7 +216,7 @@ export class AiActionsService {
     this.clearMarker(editor);
     const model = editor.model as unknown as ISelectionModel;
     const { selection } = model.document;
-    if (selection.isCollapsed) {
+    if (!selection || selection.isCollapsed) {
       return null;
     }
 
@@ -231,7 +231,7 @@ export class AiActionsService {
 
   private clearMarker(editor:IAiActionsEditor):void {
     const model = editor.model as unknown as ISelectionModel;
-    if (model.markers.get(AI_SELECTION_MARKER)) {
+    if (model.markers?.get(AI_SELECTION_MARKER)) {
       model.change((writer) => writer.removeMarker(AI_SELECTION_MARKER));
     }
   }
