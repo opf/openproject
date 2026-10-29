@@ -21,7 +21,7 @@ export function describeUnavailableWorkPackage(t:TFunction, displayId:string, ki
   return `${workPackageLabel(t, displayId)}, ${t(`unavailableWorkPackage.${kind}.short_message`)}`;
 }
 
-// What the work package shows at this size; nothing while it still loads.
+// A compact chip hides its status; a tiny one shows everything in its hover preview.
 export function describeLinkedWorkPackage(
   t:TFunction,
   displayId:string,
@@ -30,13 +30,12 @@ export function describeLinkedWorkPackage(
   unavailableKind:UnavailableKind | undefined,
 ):string | undefined {
   if (workPackage) {
-    const showsDetails = size !== 'xxs';
-    const showsStatus = showsDetails && size !== 'xs';
+    const showsStatus = size !== 'xs';
     return [
       workPackageLabel(t, workPackage.displayId),
-      showsDetails && workPackage._links?.type?.title,
+      workPackage._links?.type?.title,
       showsStatus && workPackage._links?.status?.title,
-      showsDetails && workPackage.subject,
+      workPackage.subject,
     ].filter(Boolean).join(', ');
   }
   if (unavailableKind) return describeUnavailableWorkPackage(t, displayId, unavailableKind);

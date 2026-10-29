@@ -97,11 +97,11 @@ describe('Work package keyboard access - selecting an inline chip', () => {
       .toBe('Work package #123, Bug, Fix login bug. Press Enter to open its options.');
   });
 
-  it('announces only the identifier of a tiny chip', async () => {
+  it('announces what the hover preview of a tiny chip shows', async () => {
     await selectChipWithKeyboard(chipDocumentOfSize('xxs'));
 
     await expect.poll(() => liveRegion()?.textContent)
-      .toBe('Work package #123. Press Enter to open its options.');
+      .toBe('Work package #123, Bug, In Progress, Fix login bug. Press Enter to open its options.');
   });
 
   it('keeps the formatting toolbar closed while the chip is selected', async () => {
