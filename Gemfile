@@ -36,7 +36,7 @@ source "https://rubygems.org", cooldown: 7
 ruby File.read(File.expand_path(".ruby-version", __dir__)).strip
 
 gem "actionpack-xml_parser", "~> 2.0.0"
-gem "activerecord-import", "~> 2.3.0"
+gem "activerecord-import", "~> 3.0.0"
 gem "activerecord-session_store", "~> 2.3.0"
 gem "ox"
 gem "rails", "~> 8.1.3", ">= 8.1.3.1"
@@ -161,7 +161,7 @@ gem "meta-tags", "~> 2.24.0"
 gem "paper_trail", "~> 17.0.0"
 
 # State machine with audit trail
-gem "statesman", "~> 13.3.0"
+gem "statesman", "~> 13.4.0"
 
 gem "job-iteration"
 
@@ -183,6 +183,9 @@ end
 gem "i18n-js", "~> 4.2.4"
 gem "rails-i18n", "~> 8.1.0"
 
+# Binding json to a version below 3 as sprockets does not
+# limit the json version but fails with 3+.
+gem "json", "< 3"
 gem "sprockets", "~> 3.7.2" # lock sprockets below 4.0
 gem "sprockets-rails", "~> 3.5.1"
 
@@ -230,7 +233,7 @@ gem "yabeda-rails"
 
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.37.0", require: false
-gem "opentelemetry-instrumentation-all", "~> 0.98.0", require: false
+gem "opentelemetry-instrumentation-all", "~> 0.99.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
 gem "openproject-octicons", "~>19.38.0"
@@ -251,7 +254,7 @@ gem "factory_bot_rails", "~> 6.5.0", require: false
 gem "turbo_power", "~> 0.8.0"
 gem "turbo-rails", "~> 2.0.20"
 
-gem "httpx", "~> 1.8.4"
+gem "httpx", "~> 1.9.0"
 
 group :test do
   gem "launchy", "~> 3.1.0"
