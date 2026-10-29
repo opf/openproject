@@ -497,6 +497,12 @@ module Costs
         formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Currency
       end
 
+      ::WorkPackage::Exports::Attributes
+        .add_attribute_visibility_check(:spent_time, :spent_hours) do |work_package|
+          User.current.allowed_in_project?(:view_time_entries, work_package.project) ||
+            User.current.allowed_in_work_package?(:view_own_time_entries, work_package)
+        end
+
       ::Queries::Register.register(::ProjectQuery) do
         filter ::Queries::Projects::Filters::AvailableCostTypesProjectsFilter
       end

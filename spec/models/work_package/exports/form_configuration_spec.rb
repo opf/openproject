@@ -88,13 +88,12 @@ RSpec.describe WorkPackage::Exports::FormConfiguration do
     expect(groups.first.parts[2].entries.map(&:name)).to eq([:"cf_#{cf_bool.id}"])
   end
 
-  it "keeps a group configured without attributes" do
+  it "drops a group configured without attributes" do
     variant = type.default_variant
     variant.attribute_groups = [["Empty", []]]
     variant.save!
 
-    expect(groups.map(&:key)).to eq(["Empty"])
-    expect(groups.first.parts).to be_empty
+    expect(groups).to be_empty
   end
 
   context "with project-level constraints" do
