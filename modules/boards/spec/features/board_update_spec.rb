@@ -30,8 +30,7 @@ require_relative "support/board_index_page"
 require_relative "support/board_page"
 
 RSpec.describe "Work Package boards updating spec",
-               :js,
-               :selenium do
+               :js do
   let(:admin) { create(:admin) }
 
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }

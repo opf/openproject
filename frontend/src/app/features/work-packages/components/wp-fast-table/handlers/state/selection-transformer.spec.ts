@@ -91,6 +91,7 @@ describe('SelectionTransformer', () => {
       destroyRef: lifetime.get(DestroyRef),
       tableAndTimelineContainer: root,
       renderedRows,
+      configuration: { keyboardNavigationEnabled: false },
     } as unknown as WorkPackageTable;
     new SelectionTransformer(injector, table);
     const row = root.querySelector<HTMLElement>('.wp-table--row')!;
@@ -137,7 +138,7 @@ describe('SelectionTransformer', () => {
       const lifetime = Injector.create({ providers: [], parent: injector });
       const root = document.createElement('div');
       document.body.append(root);
-      new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [] } as unknown as WorkPackageTable);
+      new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], configuration: { keyboardNavigationEnabled: false } } as unknown as WorkPackageTable);
       return { injector, lifetime, root, reset };
     };
     const first = build();
@@ -173,7 +174,7 @@ describe('SelectionTransformer', () => {
     const root = document.createElement('div');
     root.innerHTML = '<div class="wp-table--row" tabindex="0" data-work-package-id="2" data-class-identifier="wp-row-2">Row</div>';
     document.body.append(root);
-    new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [] } as unknown as WorkPackageTable);
+    new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], configuration: { keyboardNavigationEnabled: false } } as unknown as WorkPackageTable);
     selection.initializeSelection(['2']);
 
     const allowed = fireEvent.keyDown(root.firstElementChild!, {
@@ -202,7 +203,7 @@ describe('SelectionTransformer', () => {
     const root = document.createElement('div');
     document.body.append(root);
     new SelectionTransformer(injector, {
-      injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger,
+      injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger, configuration: { keyboardNavigationEnabled: false },
     } as unknown as WorkPackageTable);
 
     const stale = [{ workPackageId: '2', classIdentifier: 'wp-card-2', hidden: false }];
@@ -263,6 +264,17 @@ describe('SelectionTransformer with two tables showing the same work packages', 
     expect(Math.abs(second.container.scrollTop - destination)).toBeLessThan(1);
     expect(focusedInFirst).not.toHaveBeenCalled();
     expect(first.container.scrollTop).toBe(firstScroll);
+  });
+
+  it('flag off: SelectionTransformer still focuses the requested row after render', async () => {
+    expect(second.table.configuration.keyboardNavigationEnabled).toBe(false);
+    const focused = focusSpy(second);
+
+    second.focus.updateFocus('2', true);
+    await second.render();
+
+    await waitFor(() => expect(focused).toHaveBeenCalledExactlyOnceWith(second.row('2')));
+    expect(second.table.keyboardNavigation).toBeNull();
   });
 
   it('leaves both tables alone when its own table does not show the row', async () => {

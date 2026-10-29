@@ -75,6 +75,7 @@ hy:
     omniauth_login: Ձեր հաշիվն ակտիվացնելու համար խնդրում ենք մտնել։
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
+    username_or_email: Username or email
   actionview_instancetag_blank_option: Ընտրեք
   activemodel:
     attributes:
@@ -1038,6 +1039,8 @@ hy:
             identifier:
               must_not_be_changed: 'չպետք է փոփոխվի ձեռքով։ Աշխատանքային փաթեթների նույնացուցիչները հատկացվում են ինքնաշխատ և որոշվում են alias աղյուսակի միջոցով, ուստի դրանք ձեռքով փոփոխելը խաթարում է հղումները և նույնացուցիչների պատմությունը։ Եթե այս փոփոխությունը կանխամտածված է, պահպանեք `save(context: :%{context})`-ով և ապահովեք work_package_semantic_aliases աղյուսակի համապատասխանությունը։'
               semantic_identifier_incomplete: և sequence_number-ը պետք է սահմանվեն միաժամանակ։
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -2206,10 +2209,11 @@ hy:
         save: Պահպանել փոփոխությունները և շարունակել
         title: Պահպանե՞լ փոփոխությունները շարունակելուց առաջ։
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: Դեր՝ %{role}
         no_role: Ընտրեք դեր
@@ -2768,6 +2772,9 @@ hy:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: Դուք կարող եք ավտոմատ կերպով տրամադրել նախագծի որոշակի դեր ցանկացած օգտատիրոջ, որը նշանակված է այս նախագծի հատկանիշին, անկախ տվյալ նախագծում այդ օգտատիրոջ սկզբնական դերից։
         dialog:
@@ -2791,11 +2798,6 @@ hy:
     calculated_field_not_editable: Չխմբագրվող հատկանիշ։ Այս արժեքը հաշվարկվում է ավտոմատ կերպով։
     confirm_destroy_option: Ընտրանքի ջնջումը կջնջի դրա բոլոր օգտագործումները (օրինակ՝ աշխատանքային փաթեթներում)։ Համոզվա՞ծ եք, որ ցանկանում եք ջնջել այն։
     contained_in_type: Ներառված է տեսակում
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: Միացված է նախագծում
     instructions:
       admin_only:
@@ -2846,15 +2848,43 @@ hy:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: Վերադասավորել արժեքներն այբբենական կարգով
     reorder_confirmation: Նախազգուշացում՝ հասանելի արժեքների ընթացիկ դասավորությունը, ինչպես նաև բոլոր չպահպանված արժեքները կկորչեն։ Համոզվա՞ծ եք, որ ցանկանում եք շարունակել։
     semantic_keys:
       job_title: Պաշտոն
       none: Ոչ մեկը
+    show:
+      columns:
+        form: Form
+        type_or_variant: Type or variant
+      forms:
+        blank_slate:
+          description: This custom field is not part of any form yet.
+          filtered_description: No form matches the current filter.
+          filtered_title: No matching forms
+          title: No forms
+        filter_placeholder: Filter by form name or description…
+      tabs:
+        forms: Forms
+        types_and_variants: Types and variants
+      types_and_variants:
+        blank_slate:
+          description: No type or variant shows this custom field yet.
+          filtered_description: No type or variant matches the current filters.
+          filtered_title: No matching types or variants
+          title: No types or variants
+        filter_placeholder: Filter by type or variant name…
     text_add_new_custom_field: 'Նախագծին նոր հատուկ դաշտեր ավելացնելու համար նախ անհրաժեշտ է ստեղծել դրանք, ապա ավելացնել այս նախագծում։
 
       '
@@ -3534,16 +3564,18 @@ hy:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
         caption_html: The form %{name} is used in the following types and variants.
         title: Form used in types
         variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
         variants: Variants
       unused: No type or variant uses this form yet.
       used_by_types:
@@ -4152,6 +4184,7 @@ hy:
   label_interface_colors_description: 'Այս գույները վերահսկում են հավելվածի տեսքը։ Եթե դրանք փոփոխեք, թեման ավտոմատ կերպով կփոխվի Հատուկ թեմայի, սակայն մենք չենք կարող երաշխավորել մատչելիության հակադրության նվազագույն պահանջների (WCAG 2.1) պահպանումը։ '
   label_internal: Ներքին
   label_introduction_video: Ինչպես սկսելու տեսանյութ
+  label_invalid_file_type: This file type is not supported.
   label_invitation: Հրավեր
   label_invite_user: Հրավիրել օգտատեր
   label_item: Տարր
@@ -5287,21 +5320,20 @@ hy:
           tb: TB
   oauth:
     application:
+      basic_details: Basic details
       builtin: Համակարգի ներկառուցված հավելված
       client_credentials: Հաճախորդի հավատարմագրեր
       confidential: Գաղտնի
-      default_scopes: "(Կանխադրված շրջանակներ)"
       instructions:
-        client_credential_user_id: Ոչ պարտադիր օգտատիրոջ ID, որի անունից կգործեն հաճախորդներն այս հավելվածն օգտագործելիս։ Թողեք դատարկ՝ միայն հանրային հասանելիությունը թույլատրելու համար
-        confidential: Նշեք, եթե հավելվածը կօգտագործվի այնտեղ, որտեղ հաճախորդի գաղտնիքը կարող է գաղտնի պահվել։ Բնիկ բջջային հավելվածները և միաէջանի հավելվածները համարվում են ոչ գաղտնի։
-        default_scopes: ''
-        enabled: Միացրեք այս հավելվածը՝ թույլ տալով օգտատերերին դրա միջոցով տրամադրել լիազորման թույլտվություններ։
-        name: Ձեր հավելվածի անվանումը։ Այն կցուցադրվի այլ օգտատերերին լիազորման ժամանակ։
-        redirect_uri_html: 'Թույլատրելի URL-ները, որոնց կարող են վերահղվել լիազորված օգտատերերը։ Մեկ գրառում յուրաքանչյուր տողում։ <br/> Եթե գրանցում եք աշխատասեղանի հավելված, օգտագործեք հետևյալ URL-ը։
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: Եթե Դուք մշակում եք OAuth API հաճախորդի հավելված OpenProject-ի համար, կարող եք գրանցել այն այս ձևի միջոցով՝ բոլոր օգտատերերի օգտագործման համար։
-        scopes: Նշեք այն շրջանակները, որոնց հասանելիությունը ցանկանում եք տրամադրել հավելվածին։ Եթե ոչ մի շրջանակ նշված չէ, ենթադրվում է api_v3։
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: "'%{name}' OAuth հավելված"
       new: Նոր OAuth հավելված
       non_confidential: Ոչ գաղտնի
@@ -5318,7 +5350,7 @@ hy:
         '
     authorization_error: Լիազորման սխալ է տեղի ունեցել։
     client_credentials: Հաճախորդի հավատարմագրերի համար օգտագործվող օգտատեր
-    client_credentials_impersonation_html: 'Կանխադրված կարգով OpenProject-ը տրամադրում է OAuth 2.0 լիազորում %{authorization_code_flow_link}-ի միջոցով։ Ըստ ցանկության կարող եք միացնել %{client_credentials_flow_link}-ը, սակայն պետք է նշեք օգտատեր, ում անունից կկատարվեն հարցումները։
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: Հաճախորդի հավատարմագրերի օգտատերը սահմանված է՝
@@ -5344,9 +5376,12 @@ hy:
       other_applications: Այլ OAuth հավելվածներ
     my_registered_applications: Գրանցված OAuth հավելվածներ
     scopes:
-      api_v3: API v3-ի ամբողջական հասանելիություն
+      api_v3: Access to APIv3
       api_v3_text: Հավելվածը կստանա OpenProject API v3-ի ընթերցման և գրելու ամբողջական հասանելիություն՝ Ձեր անունից գործողություններ կատարելու համար։
-      mcp: Մուտք դեպի MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: Հավելվածը կստանա մուտք դեպի OpenProject-ի MCP վերջնակետեր։ Դրանք APIv3-ի սահմանափակ ենթաբազմություն են, որը հարմարեցված է AI գործակալների հետ օգտագործման համար։
   oauth_client:
     errors:
@@ -5399,6 +5434,14 @@ hy:
     welcome: Բարի գալուստ %{app_title}
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: պետք է լինի զանգված։
       decimal?: պետք է լինի տասնորդական թիվ։
       defined: չպետք է սահմանված լինի։
@@ -5406,6 +5449,7 @@ hy:
       filled?: պետք է լրացված լինի։
       format?: անվավեր ձևաչափով է։
       greater_or_equal_zero: պետք է մեծ կամ հավասար լինի 0-ին։
+      gt?: must be greater than %{num}.
       gteq?: պետք է մեծ կամ հավասար լինի %{num}-ին։
       hash?: պետք է լինի հեշ։
       included_in?:
@@ -5414,6 +5458,7 @@ hy:
           range: պետք է լինի հետևյալներից մեկը՝ %{list_left} - %{list_right}։
       int?: պետք է լինի ամբողջ թիվ։
       key?: բացակայում է։
+      max_size?: must not be longer than %{num} characters.
       not_found: չի գտնվել։
       respond_to?: չի իրականացնում պահանջվող մեթոդը։
       rules:
@@ -5433,6 +5478,7 @@ hy:
       type?: պետք է լինի %{type}։
       unexpected_key: թույլատրված չէ։
       uri?: վավեր URI չէ։
+      uuid_v4?: must be a UUID (version 4).
     or: կամ
     rules:
       blueprint: Կաղապարի սխեմա
@@ -5443,16 +5489,15 @@ hy:
       parent: Ծնող
       short: Կարճ անվանում
       weight: Կշիռ
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Բացել հղումը նոր ներդիրում
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Քաշեք՝ վերադասավորելու համար
-        menu:
-          label_actions: Աշխատանքային փաթեթի գործողություններ
-        parent: Ծնող
-        undisclosed: Չբացահայտված
   page:
     text: Տեքստ
   pagination:
@@ -5588,13 +5633,19 @@ hy:
     '
   permission_manage_placeholder_user: Ստեղծել, խմբագրել և ջնջել տեղապահ օգտատերերին
   permission_manage_project_activities: Կառավարել նախագծի գործունեությունները
-  permission_manage_project_variants: Manage the project's own type variants
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: Կառավարել հանրային BCF հարցումները
   permission_manage_public_project_queries: Կառավարել նախագծերի հանրային ցուցակները
   permission_manage_public_queries: Կառավարել հանրային տեսքերը
   permission_manage_repository: Կառավարել պահոցը
   permission_manage_subtasks: Կառավարել աշխատանքային փաթեթների հիերարխիաները
   permission_manage_types: Ընտրել տեսակները
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: Խմբագրել օգտատերերին
   permission_manage_versions: Կառավարել տարբերակները
   permission_manage_wiki: Կառավարել վիքին
@@ -6828,6 +6879,7 @@ hy:
     '
   text_form_configuration_required_attribute: Հատկանիշը նշված է որպես պարտադիր և այդ պատճառով միշտ ցուցադրվում է
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Markdown
     plain: Պարզ տեքստ
   text_git_repo_example: մերկ և տեղական պահոց (օր. /gitrepo, c:\gitrepo)
@@ -7220,6 +7272,9 @@ hy:
         enable_all: Միացնել բոլոր նախագծերի համար
         select_projects: Ընտրել նախագծերը
         select_projects_description: Ընտրեք նախագծերը, որոնցում ցանկանում եք օգտագործել այս տեսակը։
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: Նախագծեր
         variant_column: Variant or type
       reuse_mode:
@@ -8133,6 +8188,7 @@ hy:
         caption_html: The workflow %{name} is used in the following types and variants.
         title: Workflow used in types
         variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
         variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:

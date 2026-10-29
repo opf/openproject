@@ -93,11 +93,15 @@ describe('Inline chip - unavailable work package', () => {
   it('shows the unavailable card in the preview on hover for size xxs', async () => {
     loadUnavailableWorkPackages(999);
 
+    // Off the corner: vitest 5 starts the pointer at (0,0), so hovering a chip
+    // rendered there never fires mouseenter.
     render(
-      <InlineWorkPackageChip
-        inlineContent={{ props: { wpid: '999', size: 'xxs', instanceId: 'test-xxs-preview' } }}
-        contentRef={vi.fn()}
-      />
+      <div style={{ padding: 20 }}>
+        <InlineWorkPackageChip
+          inlineContent={{ props: { wpid: '999', size: 'xxs', instanceId: 'test-xxs-preview' } }}
+          contentRef={vi.fn()}
+        />
+      </div>
     );
 
     await vi.waitFor(() => {

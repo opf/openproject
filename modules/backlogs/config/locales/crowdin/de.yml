@@ -26,7 +26,7 @@ de:
       project:
         allow_multiple_active_sprints: Mehrere aktive Sprints zulassen
         backlog_excluded_types: Ausgeschlossene Arbeitspaket-Typen
-        estimation_unit: Unit
+        estimation_unit: Stück
         sprint_sharing: Sprints teilen
         statuses_considered_closed: Als abgeschlossen geltende Status
       sprint:
@@ -73,8 +73,8 @@ de:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: There is %{count} work package that was not completed in this sprint.
-                other: There are %{count} work packages that were not completed in this sprint.
+                one: Es gibt %{count} Arbeitspaket, das in diesem Sprint nicht abgeschlossen wurde.
+                other: Es gibt %{count} Arbeitspakete, die in diesem Sprint nicht abgeschlossen wurden.
             status:
               not_active: ist nicht aktiv und kann deshalb nicht geschlossen werden.
         sprint_goal:
@@ -169,8 +169,8 @@ de:
       drop_zone_label: Hier ablegen um das Arbeitspaket hinzuzufügen
       label_actions: Posteingang-Aktionen
       show_more:
-        one: Show %{count} more item
-        other: Show %{count} more items
+        one: Zeige %{count} weiteres Element
+        other: Zeige %{count} weitere Elemente
       title: Posteingang
     index_subheader_component:
       label_search_by_subject: Arbeitspakete nach Betreff suchen
@@ -219,8 +219,8 @@ de:
       shared_sprint_warning_banner: Dies ist ein geteilter Sprint. Sie verfügen nicht über die erforderlichen Berechtigungen, um ihn zu bearbeiten.
     sprint_reports:
       navigation_component:
-        next: Next
-        previous: Previous
+        next: Weiter
+        previous: Zurück
       page_header_component:
         breadcrumb: Bericht
         title: "%{sprint} Bericht"
@@ -249,6 +249,46 @@ de:
           resolved_summary:
             one: "%{percentage}% (%{resolved} von %{total} Arbeitspaket)"
             other: "%{percentage}% (%{resolved} von %{total} Arbeitspaketen)"
+        work_package_table:
+          added:
+            blankslate:
+              empty:
+                description: Work packages that were added after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show added work packages.
+              not_started:
+                description: Added work packages will appear here after the sprint starts.
+            title: Scope increase after sprint start
+          blankslate:
+            heading: No work packages to display
+          completed:
+            blankslate:
+              empty:
+                description: Work packages that were completed in the sprint will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show completed work packages.
+              not_started:
+                description: Completed work packages will appear here after the sprint starts.
+            title: Completed work
+          removed:
+            blankslate:
+              empty:
+                description: Work packages that were removed after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show removed work packages.
+              not_started:
+                description: Removed work packages will appear here after the sprint starts.
+            title: Scope decrease after sprint start
+          unfinished:
+            blankslate:
+              empty:
+                description: All work packages in this sprint are completed.
+                heading: Wow, all done!
+              no_dates:
+                description: Sprint start and finish dates are necessary to show unfinished work packages.
+              not_started:
+                description: Unfinished work packages will appear here after the sprint starts.
+            title: Unfinished work
     sprints:
       row_component:
         action_menu:
@@ -305,8 +345,8 @@ de:
         invalid_target_type: "„list_type“ muss einer der folgenden Werte sein: „backlog_bucket“ mit einer „list_id“, „sprint“ mit einer „list_id“ oder „inbox“ ohne „list_id“."
         missing_target: "„list_type“ oder „list_id“ muss vorhanden sein."
   created_resolved:
-    wp_created: Created
-    wp_resolved: Resolved
+    wp_created: Erstellt
+    wp_resolved: Gelöst
   ee:
     features:
       multiple_active_sprints: Mehrere aktive Sprints

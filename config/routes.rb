@@ -500,6 +500,15 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :ai do
+    resources :text_transform_panes, only: %i[create show destroy], param: :uuid do
+      member do
+        post :apply
+        post :cancel
+      end
+    end
+  end
+
   namespace :projects do
     resource :menu, only: %i[show]
     resource :filters, only: %i[show]
@@ -1066,6 +1075,9 @@ Rails.application.routes.draw do
           post "projects/:project_id/values/:value_id", action: :toggle_project_value, as: :toggle_project_value
           post "projects/:project_id/enable_all", action: :enable_all_project_values, as: :enable_all_project_values
           post "projects/:project_id/disable_all", action: :disable_all_project_values, as: :disable_all_project_values
+
+          get :forms
+          get :types_and_variants
 
           get :deletion_dialog
         end

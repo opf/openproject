@@ -53,9 +53,6 @@ export class HighlightingRenderPass {
 
     const highlightAttribute = this.wpTableHighlighting.current.mode;
 
-    // Get the computed style to identify bright properties
-    const styles = window.getComputedStyle(document.body);
-
     this.tablePass.draft.occurrences.forEach((occurrence) => {
       // We only care for rows that are natural work packages
       if (!occurrence.workPackage) {

@@ -43,7 +43,7 @@ function ChipWrapper({ initialSize, wpid = '123' }:{
 }
 
 async function waitForResolvedChip() {
-  await expect.element(page.getByText('#123')).toBeVisible();
+  await expect.element(page.getByText('#123', { exact: true })).toBeVisible();
 }
 
 async function openPopover() {
@@ -476,7 +476,7 @@ describe('Inline chip popover UX', () => {
     render(<ChipWrapper initialSize="s" />);
     await waitForResolvedChip();
     await openPopover();
-    await expect.element(page.getByTitle('Change size')).toHaveTextContent('Regular');
+    await expect.element(page.getByTitle('Change size')).toMatchTextContent('Regular');
   });
 
   it('inline size menu shows all 6 options', async () => {

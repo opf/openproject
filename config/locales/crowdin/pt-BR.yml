@@ -75,6 +75,7 @@ pt-BR:
     omniauth_login: Faça login para ativar sua conta.
     signup_title: Crie uma conta no %{app_title}
     signup_with_external_account: Cadastre-se com uma conta externa
+    username_or_email: Username or email
   actionview_instancetag_blank_option: Por favor selecione
   activemodel:
     attributes:
@@ -1038,6 +1039,8 @@ pt-BR:
             identifier:
               must_not_be_changed: 'não pode ser alterado manualmente. Os identificadores de pacotes de trabalho são atribuídos automaticamente e resolvidos pela tabela de aliases, e alterações manuais podem quebrar links e o histórico de identificadores. Se essa alteração for intencional, salve com "save(context: :%{context})" e mantenha a tabela work_package_semantic_aliases consistente.'
               semantic_identifier_incomplete: e sequence_number devem ambos ser definidos ao mesmo tempo.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -2208,10 +2211,11 @@ pt-BR:
         save: Salvar alterações e continuar
         title: Salvar alterações antes de continuar?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'Função: %{role}'
         no_role: Selecionar função
@@ -2770,6 +2774,9 @@ pt-BR:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: Você pode conceder automaticamente uma função específica no projeto a qualquer usuário atribuído a este atributo, independentemente da função original desse usuário no projeto.
         dialog:
@@ -2793,11 +2800,6 @@ pt-BR:
     calculated_field_not_editable: Atributo não editável. O valor é calculado automaticamente.
     confirm_destroy_option: Removendo uma opção removerá todas as suas ocorrências (ex. em pacotes de trabalho). Tem certeza que você quer removê-la?
     contained_in_type: Contido no tipo
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: Habilitado no projeto
     instructions:
       admin_only:
@@ -2848,15 +2850,43 @@ pt-BR:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: Reorganizar valores em ordem alfabética
     reorder_confirmation: 'Aviso: A ordem atual dos valores disponíveis, assim como todos os valores não salvos, será perdida. Tem certeza de que deseja continuar?'
     semantic_keys:
       job_title: Cargo
       none: Nenhum
+    show:
+      columns:
+        form: Form
+        type_or_variant: Type or variant
+      forms:
+        blank_slate:
+          description: This custom field is not part of any form yet.
+          filtered_description: No form matches the current filter.
+          filtered_title: No matching forms
+          title: No forms
+        filter_placeholder: Filter by form name or description…
+      tabs:
+        forms: Forms
+        types_and_variants: Types and variants
+      types_and_variants:
+        blank_slate:
+          description: No type or variant shows this custom field yet.
+          filtered_description: No type or variant matches the current filters.
+          filtered_title: No matching types or variants
+          title: No types or variants
+        filter_placeholder: Filter by type or variant name…
     text_add_new_custom_field: 'Para adicionar campos personalizados a um projeto é necessário criá-los primeiro para depois adicioná-los a este projeto.
 
       '
@@ -3538,16 +3568,18 @@ pt-BR:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
         caption_html: The form %{name} is used in the following types and variants.
         title: Form used in types
         variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
         variants: Variants
       unused: No type or variant uses this form yet.
       used_by_types:
@@ -4156,6 +4188,7 @@ pt-BR:
   label_interface_colors_description: 'Essas cores controlam a aparência do aplicativo. Se você alterá-las, o tema mudará automaticamente para Tema Personalizado, mas não podemos garantir que atenda aos mínimos de contraste de acessibilidade (WCAG 2.1). '
   label_internal: Interno
   label_introduction_video: Vídeo de introdução
+  label_invalid_file_type: This file type is not supported.
   label_invitation: Convite
   label_invite_user: Convidar usuário
   label_item: Item
@@ -5290,21 +5323,20 @@ pt-BR:
           tb: TB
   oauth:
     application:
+      basic_details: Basic details
       builtin: Aplicativo de instância integrado
       client_credentials: Credenciais do cliente
       confidential: Confidencial
-      default_scopes: "(Escopos padrão)"
       instructions:
-        client_credential_user_id: ID de usuário usado como representante quando os clientes usam esta aplicação. Deixe em branco para permitir apenas o acesso público
-        confidential: Verifique se a aplicação será usada onde o segredo do cliente pode ser mantido em sigilo. Apps móveis nativos e aplicativos de página única são considerados não confidenciais.
-        default_scopes: ''
-        enabled: Habilite este aplicativo para permitir que os usuários realizem concessões de autorização com ele.
-        name: O nome da sua aplicação. Isto será exibido para outros usuários mediante autorização.
-        redirect_uri_html: 'Os URLs permitidos dos usuários autorizados podem ser redirecionadas para. Uma entrada por linha. <br/> Se você estiver registrando uma aplicação desktop, use o seguinte URL.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: Se você estiver desenvolvendo uma aplicação cliente da API OAuth do OpenProject, poderá registrá-la usando este formulário para ser usada por todos os usuários.
-        scopes: Verifique os escopos que você quer que a aplicação conceda acesso. Se nenhum escopo estiver marcado, api_v3 é assumido.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: Aplicação OAuth '%{name}'
       new: Nova aplicação OAuth
       non_confidential: Não confidencial
@@ -5321,7 +5353,7 @@ pt-BR:
         '
     authorization_error: Ocorreu um erro de autorização.
     client_credentials: Usuário usado para credenciais do cliente
-    client_credentials_impersonation_html: 'Por padrão, o OpenProject fornece autorização OAuth 2.0 via %{authorization_code_flow_link}. Você pode habilitar opcionalmente %{client_credentials_flow_link}, mas você deve fornecer um usuário em cujo nome as requisições serão realizadas.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: Usuário de credenciais do cliente definido para
@@ -5347,9 +5379,12 @@ pt-BR:
       other_applications: Outras aplicações OAuth
     my_registered_applications: Aplicações OAuth registradas
     scopes:
-      api_v3: Acesso completo a API v3
+      api_v3: Access to APIv3
       api_v3_text: A aplicação receberá acesso total de leitura e escrita a API v3 do OpenProject para executar ações em seu nome.
-      mcp: Acesso ao MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: O aplicativo terá acesso aos endpoints MCP do OpenProject. Eles são um subconjunto limitado da API v3, adaptado para uso por agentes de IA.
   oauth_client:
     errors:
@@ -5404,6 +5439,14 @@ pt-BR:
     welcome: Bem-vindo ao %{app_title}
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: deve ser um array.
       decimal?: deve ser um número decimal.
       defined: não deve ser definido.
@@ -5411,6 +5454,7 @@ pt-BR:
       filled?: deve ser preenchido.
       format?: está em formato inválido.
       greater_or_equal_zero: deve ser maior ou igual a 0.
+      gt?: must be greater than %{num}.
       gteq?: deve ser maior ou igual a %{num}.
       hash?: deve ser um hash.
       included_in?:
@@ -5419,6 +5463,7 @@ pt-BR:
           range: 'deve ser um dos seguintes: %{list_left} - %{list_right}.'
       int?: deve ser um número inteiro.
       key?: está faltando.
+      max_size?: must not be longer than %{num} characters.
       not_found: não encontrado.
       respond_to?: não implementa o método obrigatório.
       rules:
@@ -5438,6 +5483,7 @@ pt-BR:
       type?: dever ser %{type}.
       unexpected_key: não é permitido.
       uri?: não é um URL válido.
+      uuid_v4?: must be a UUID (version 4).
     or: ou
     rules:
       blueprint: Esquema de padrão
@@ -5448,16 +5494,15 @@ pt-BR:
       parent: Pai
       short: Nome abreviado
       weight: Peso
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Abrir link em uma nova aba
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Arraste para reordenar
-        menu:
-          label_actions: Ações do pacote de trabalho
-        parent: Pai
-        undisclosed: Não divulgado
   page:
     text: Texto
   pagination:
@@ -5593,13 +5638,19 @@ pt-BR:
     '
   permission_manage_placeholder_user: Criar, editar e excluir usuários do espaço reservado
   permission_manage_project_activities: Gerenciar atividades do projeto
-  permission_manage_project_variants: Gerenciar as próprias variantes de tipo do projeto
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: Gerenciar consultas públicas a BCF
   permission_manage_public_project_queries: Gerenciar listas de projetos públicos
   permission_manage_public_queries: Gerenciar visões públicas
   permission_manage_repository: Gerenciar repositório
   permission_manage_subtasks: Gerenciar hierarquias dos pacotes de trabalho
   permission_manage_types: Selecionar tipos
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: Editar usuários
   permission_manage_versions: Gerenciar versões
   permission_manage_wiki: Gerenciar wiki
@@ -6824,6 +6875,7 @@ pt-BR:
     '
   text_form_configuration_required_attribute: O atributo está marcado como obrigatório, logo ele será sempre mostrado
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Markdown
     plain: Texto simples
   text_git_repo_example: 'um repositório e local (ex.: /gitrepo, c:\gitrepo)'
@@ -7210,6 +7262,9 @@ pt-BR:
         enable_all: Habilitar para todos os projetos
         select_projects: Selecionar projetos
         select_projects_description: Selecione os projetos nos quais deseja usar esse tipo.
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: Projetos
         variant_column: Variant or type
       reuse_mode:
@@ -8123,6 +8178,7 @@ pt-BR:
         caption_html: The workflow %{name} is used in the following types and variants.
         title: Workflow used in types
         variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
         variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:

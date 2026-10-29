@@ -75,6 +75,7 @@ tr:
     omniauth_login: Hesabınızı aktifleştirmek için lütfen giriş yapın.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
+    username_or_email: Username or email
   actionview_instancetag_blank_option: Lütfen seçin
   activemodel:
     attributes:
@@ -1042,6 +1043,8 @@ tr:
             identifier:
               must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -2212,10 +2215,11 @@ tr:
         save: Save changes and continue
         title: Save changes before continuing?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'Role: %{role}'
         no_role: Select role
@@ -2776,6 +2780,9 @@ tr:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -2799,11 +2806,6 @@ tr:
     calculated_field_not_editable: Düzenlenemez öznitelik. Bu değer otomatik olarak hesaplanır.
     confirm_destroy_option: Bir seçeneğin silinmesi, kullanıldığı her yerden (örneğin iş paketleri) silinmesine neden olur. Silmek istediğinizden emin misiniz?
     contained_in_type: Kullanıldığı tipler
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: Projede etkin
     instructions:
       admin_only:
@@ -2854,15 +2856,43 @@ tr:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: Değerleri alfabetik olarak yeniden sıralayın
     reorder_confirmation: 'Uyarı: Mevcut değerlerin mevcut sırası ve kaydedilmemiş tüm değerler kaybolacaktır. Devam etmek istediğinizden emin misiniz?'
     semantic_keys:
       job_title: Job title
       none: None
+    show:
+      columns:
+        form: Form
+        type_or_variant: Type or variant
+      forms:
+        blank_slate:
+          description: This custom field is not part of any form yet.
+          filtered_description: No form matches the current filter.
+          filtered_title: No matching forms
+          title: No forms
+        filter_placeholder: Filter by form name or description…
+      tabs:
+        forms: Forms
+        types_and_variants: Types and variants
+      types_and_variants:
+        blank_slate:
+          description: No type or variant shows this custom field yet.
+          filtered_description: No type or variant matches the current filters.
+          filtered_title: No matching types or variants
+          title: No types or variants
+        filter_placeholder: Filter by type or variant name…
     text_add_new_custom_field: 'Bir projeye yeni özel alanlar eklemeden önce onları oluşturmalısınız.
 
       '
@@ -3544,16 +3574,18 @@ tr:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
         caption_html: The form %{name} is used in the following types and variants.
         title: Form used in types
         variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
         variants: Variants
       unused: No type or variant uses this form yet.
       used_by_types:
@@ -4162,6 +4194,7 @@ tr:
   label_interface_colors_description: 'Bu renkler uygulamanın nasıl görüneceğini kontrol eder. Bunları değiştirirseniz tema otomatik olarak Özel tema olarak değiştirilecektir, ancak erişilebilirlik kontrast gereksinimleri (WCAG 2.1) uyumluluğunu garanti edemeyiz. '
   label_internal: Dahili
   label_introduction_video: Başlarken videosu
+  label_invalid_file_type: This file type is not supported.
   label_invitation: Davet
   label_invite_user: Kullanıcı davet et
   label_item: Öğe
@@ -5297,21 +5330,20 @@ tr:
           tb: TB
   oauth:
     application:
+      basic_details: Basic details
       builtin: Yerleşik OAuth uygulamaları
       client_credentials: Müşteri kimlik bilgileri
       confidential: Gizli
-      default_scopes: "(Varsayılan kapsamlar)"
       instructions:
-        client_credential_user_id: İstemciler bu uygulamayı kullandıklarında kimliğe bürünmek için isteğe bağlı kullanıcı kimliği. Yalnızca genel erişime izin vermek için boş bırakın
-        confidential: Uygulamanın, müşteri sırrının gizli tutulabileceği yerlerde kullanılıp kullanılmayacağını kontrol edin. Yerel mobil uygulamalar ve Tek Sayfa Uygulamaları gizli değildir.
-        default_scopes: ''
-        enabled: Bu uygulamayı etkinleştirerek kullanıcıların bununla yetkilendirme bağışları gerçekleştirmesine izin verin.
-        name: Uygulamanızın adı. Bu, yetkilendirildikten sonra diğer kullanıcılara gösterilecektir.
-        redirect_uri_html: 'İzin verilen URL''ler yetkili kullanıcılar adresine yönlendirilebilir. Her satıra bir giriş. <br/> Bir masaüstü uygulamasına kaydoluyorsanız, aşağıdaki URL''yi kullanın.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: OpenProject için bir OAuth API istemci uygulaması geliştiriyorsanız, tüm kullanıcıların kullanması için bu formu kullanarak kayıt olabilirsiniz.
-        scopes: Uygulamanın erişmesine izin vermek istediğiniz kapsamları kontrol edin. Kapsam işaretli değilse, api_v3 olduğu kabul edilir.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: Oauth uygulaması %{name}
       new: Yeni OAuth uygulaması
       non_confidential: Gizli olmayan
@@ -5328,7 +5360,7 @@ tr:
         '
     authorization_error: Bir yetkilendirme hatası oluştu.
     client_credentials: Müşteri kimlik bilgileri için kullanılan kullanıcı
-    client_credentials_impersonation_html: 'Varsayılan olarak, OpenProject,%{authorization_code_flow_link}. yoluyla OAuth 2.0 yetkilendirmesi sağlar. İsteğe bağlı olarak%{client_credentials_flow_link} özelliğini etkinleştirebilirsiniz, ancak kendi adına istekleri gerçekleştirilecek bir kullanıcı sağlamanız gerekir.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: İstemci kimlik bilgileri kullanıcısı olarak ayarlandı
@@ -5354,9 +5386,12 @@ tr:
       other_applications: Diğer OAuth uygulamaları
     my_registered_applications: OAuth uygulamalarını kayıtedin
     scopes:
-      api_v3: Tam API v3 erişimi
+      api_v3: Access to APIv3
       api_v3_text: Uygulama, sizin adınıza işlem yapmak için OpenProject API v3'e tam okuma ve yazma erişimi alacaktır.
-      mcp: Access to MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
   oauth_client:
     errors:
@@ -5411,6 +5446,14 @@ tr:
     welcome: "%{app_title}'e hoş geldiniz"
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: bir dizi olmalıdır.
       decimal?: ondalık sayı olmalıdır.
       defined: tanımlanmamış olmalıdır.
@@ -5418,6 +5461,7 @@ tr:
       filled?: doldurulmalı.
       format?: is in invalid format.
       greater_or_equal_zero: sıfıra eşit ya da büyük olmalı.
+      gt?: must be greater than %{num}.
       gteq?: "%{num} değerine eşit ya da daha büyük olması gerekir."
       hash?: bir hash olmalıdır.
       included_in?:
@@ -5426,6 +5470,7 @@ tr:
           range: 'biri olmalı: %{list_left} - %{list_right}.'
       int?: bir tamsayı olmalıdır.
       key?: eksik.
+      max_size?: must not be longer than %{num} characters.
       not_found: bulunamadı.
       respond_to?: does not implement required method.
       rules:
@@ -5445,6 +5490,7 @@ tr:
       type?: "%{type} olmalıdır."
       unexpected_key: is not allowed.
       uri?: is not a valid URI.
+      uuid_v4?: must be a UUID (version 4).
     or: ya da
     rules:
       blueprint: Kalıp planı
@@ -5455,16 +5501,15 @@ tr:
       parent: Üst
       short: Kısa adı
       weight: Weight
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Bağlantıyı yeni sekmede aç
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Drag to reorder
-        menu:
-          label_actions: Work package actions
-        parent: Parent
-        undisclosed: Undisclosed
   page:
     text: Metin
   pagination:
@@ -5600,13 +5645,19 @@ tr:
     '
   permission_manage_placeholder_user: Yer tutucu kullanıcıları oluşturun, düzenleyin ve silin
   permission_manage_project_activities: Proje aktivitilerini yönet
-  permission_manage_project_variants: Manage the project's own type variants
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: Genel BCF sorgularını yönetme
   permission_manage_public_project_queries: Genel proje listelerini yönetme
   permission_manage_public_queries: Herkese açık görünümleri yönetmek
   permission_manage_repository: Depo yönetimi
   permission_manage_subtasks: İş paketi kategorilerini yönet
   permission_manage_types: İş paketi türlerini seçmek
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: Kullanıcı düzenleme
   permission_manage_versions: Sürümleri yönetmek
   permission_manage_wiki: Wiki'yi yönet
@@ -6840,6 +6891,7 @@ tr:
     '
   text_form_configuration_required_attribute: Öznitelik gerekli olarak işaretlendiği için her zaman gösterilir
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Markdown
     plain: Düz yazı
   text_git_repo_example: 'çıplak ve yerel bir depo (örneğin / gitrepo, c: \ gitrepo)'
@@ -7226,6 +7278,9 @@ tr:
         enable_all: Tüm projeler için etkinleştir
         select_projects: Projeleri seçin
         select_projects_description: Bu türü kullanmak istediğiniz projeleri seçin.
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: Projeler
         variant_column: Variant or type
       reuse_mode:
@@ -8139,6 +8194,7 @@ tr:
         caption_html: The workflow %{name} is used in the following types and variants.
         title: Workflow used in types
         variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
         variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:

@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe "My account Interface settings",
-               :js, :selenium do
+               :js do
   let(:user) { create(:user) }
 
   before do

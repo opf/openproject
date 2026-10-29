@@ -30,6 +30,8 @@
 module Labelable
   extend ActiveSupport::Concern
 
+  MAX_LABEL_NAMES_PER_SAVE = 50
+
   included do
     has_many :labelings, as: :labelable, dependent: :delete_all
     has_many :labels, -> { order(:id) }, through: :labelings
@@ -37,33 +39,47 @@ module Labelable
     scope :labeled_with, ->(label) { joins(:labelings).where(labelings: { label_id: label }) }
     scope :without_labels, -> { where.not(id: Labeling.where(labelable_type: polymorphic_name).select(:labelable_id)) }
 
+    before_save :abort_save_with_label_names
     after_save :persist_label_associations
 
     validate :validate_label_id_replacements
   end
 
-  attr_reader :label_id_replacements
+  attr_reader :label_id_replacements, :label_name_replacements
 
   def label_id_replacements=(new_labels)
     @label_id_replacements = new_labels.nil? ? nil : normalize_label_ids(new_labels)
   end
 
-  def override_labels? = !label_id_replacements.nil?
+  def label_name_replacements=(names)
+    @label_name_replacements = names.nil? ? nil : normalize_label_names(names)
+  end
+
+  def replace_label_names_with_ids(ids)
+    self.label_id_replacements = label_ids_to_assign | ids
+    self.label_name_replacements = nil
+  end
+
+  def override_labels? = !label_id_replacements.nil? || !label_name_replacements.nil?
 
   def effective_labels
     return labels unless override_labels?
 
-    Label.where(id: label_id_replacements).order(:id)
+    Label.where(id: label_ids_to_assign).order(:id).to_a + labels_for_names_to_assign
   end
 
   def label_changes
     return {} unless override_labels?
-    return {} if label_id_replacements.sort == label_ids.sort
+    return {} if label_ids_to_assign.sort == label_ids.sort && label_names_to_assign.empty?
 
-    { "labels" => [label_ids, label_id_replacements] }
+    { "labels" => [label_ids, label_ids_to_assign + label_names_to_assign] }
   end
 
   private
+
+  def label_ids_to_assign = Array(label_id_replacements)
+
+  def label_names_to_assign = Array(label_name_replacements)
 
   def normalize_label_ids(new_labels)
     Array.wrap(new_labels)
@@ -71,16 +87,33 @@ module Labelable
          .uniq
   end
 
+  def normalize_label_names(names)
+    Array.wrap(names).map { it.to_s.squish }.compact_blank.uniq(&:downcase)
+  end
+
+  def labels_for_names_to_assign
+    existing = Label.named_any(label_names_to_assign).index_by { it.name.downcase }
+
+    label_names_to_assign.map { |name| existing[name.downcase] || Label.new(name:) }
+  end
+
   def validate_label_id_replacements
     return unless override_labels?
 
-    missing = label_id_replacements - Label.where(id: label_id_replacements).pluck(:id)
+    missing = label_ids_to_assign - Label.where(id: label_ids_to_assign).pluck(:id)
 
     errors.add(:labels, :does_not_exist) if missing.any?
   end
 
+  def abort_save_with_label_names
+    return if label_names_to_assign.empty?
+
+    errors.add(:labels, :invalid)
+    throw :abort
+  end
+
   def persist_label_associations
-    replace_labels(label_id_replacements) if override_labels?
+    replace_labels(label_ids_to_assign) if override_labels?
 
     self.label_id_replacements = nil
   end

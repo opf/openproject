@@ -37,10 +37,6 @@ module OpPrimer
       render(Primer::OpenProject::GridLayout.new(css_class:, **), &)
     end
 
-    def box_collection(**, &)
-      render(OpPrimer::BoxCollectionComponent.new(**), &)
-    end
-
     def component_collection(**, &)
       render(OpPrimer::ComponentCollectionComponent.new(**), &)
     end

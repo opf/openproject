@@ -46,7 +46,7 @@ export class CardRightClickHandler implements CardEventHandler {
   @LazyInject() opContextMenu:OPContextMenuService;
 
   constructor(public readonly injector:Injector,
-    card:WorkPackageCardViewComponent) {
+    _card:WorkPackageCardViewComponent) {
   }
 
   public get EVENT():EventType {

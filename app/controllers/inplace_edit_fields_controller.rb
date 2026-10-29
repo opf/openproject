@@ -60,7 +60,7 @@ class InplaceEditFieldsController < ApplicationController
 
   def dialog
     respond_with_dialog(
-      OpenProject::Common::InplaceEditFieldDialogComponent.new(
+      OpPrimer::InplaceEditFieldDialogComponent.new(
         model: @model,
         attribute: @attribute,
         system_arguments: system_arguments.to_h.symbolize_keys
@@ -206,7 +206,7 @@ class InplaceEditFieldsController < ApplicationController
     args[:id] = args.delete(:page_component_id) if args[:page_component_id]
     args = args.except(:wrapper_id, :form_id)
 
-    OpenProject::Common::InplaceEditFieldComponent.new(
+    OpPrimer::InplaceEditFieldComponent.new(
       model: @model,
       attribute: @attribute,
       enforce_edit_mode:,
@@ -224,7 +224,7 @@ class InplaceEditFieldsController < ApplicationController
   def dialog_field_component
     args = system_arguments.to_h.symbolize_keys
 
-    OpenProject::Common::InplaceEditFieldComponent.new(
+    OpPrimer::InplaceEditFieldComponent.new(
       model: @model,
       attribute: @attribute,
       enforce_edit_mode: true,
@@ -265,7 +265,7 @@ class InplaceEditFieldsController < ApplicationController
                    .symbolize_keys
                    .except(:id) # exclude UUID so the component generates a fresh one
 
-    comp = OpenProject::Common::InplaceEditFieldComponent.new(
+    comp = OpPrimer::InplaceEditFieldComponent.new(
       model: @model,
       attribute:,
       update_registry:,

@@ -63,12 +63,12 @@ da:
   notice_deploy_target_created: Udrulningsmål oprettet
   notice_deploy_target_destroyed: Udrulningsmål slettet
   permission_introspection: Læs kørende OpenProject-kerneversion og build SHA
-  permission_show_github_content: Vis GitHub indhold
+  permission_show_github_content: Vis GitHub-indhold
   plugin_openproject_github_integration:
     description: Integrerer OpenProject og GitHub for en bedre arbejdsgang
     name: OpenProject GitHub Integration
   project_module_github: GitHub
-  text_deploy_target_api_key_info: 'En OpenProject [API-nøgle](docs_url) tilhørende en bruger med den globale introspektionstilladelse.
+  text_deploy_target_api_key_info: 'En [API-nøgle](docs_url) til OpenProject, der tilhører en bruger med den globale tilladelse til introspektion.
 
     '
   text_deploy_target_type_info: 'Indtil videre understøttes kun OpenProject selv.
