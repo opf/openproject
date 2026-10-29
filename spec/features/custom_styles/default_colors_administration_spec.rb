@@ -50,6 +50,132 @@ RSpec.describe "default colors administration", :js do
     end
   end
 
+  describe "contrast previews" do
+    before do
+      click_link accessible_name: "New color"
+      fill_in "Name", with: "Preview color"
+    end
+
+    it "shows pass or fail per theme and usage" do
+      fill_in "Hex code", with: "#fff"
+      find_field("Name").click
+
+      expect(page).to have_heading "Contrast preview"
+      expect(page).to have_text("standard light and dark themes")
+      expect(page).to have_text("3 of 4 pass")
+      within(:list, accessible_name: "Light mode") do
+        within(:list_item, text: "Used as foreground") do
+          expect(page).to have_text("#C7C7C7")
+          expect(page).to have_text("1.69:1")
+          expect(page).to have_text("Fail")
+        end
+        within(:list_item, text: "Used as background") do
+          expect(page).to have_text("21.00:1")
+          expect(page).to have_text("Pass")
+        end
+      end
+      within(:list, accessible_name: "Dark mode") do
+        within(:list_item, text: "Used as foreground") do
+          expect(page).to have_text("#0D1117")
+          expect(page).to have_text("18.92:1")
+          expect(page).to have_text("Pass")
+        end
+        within(:list_item, text: "Used as background") do
+          expect(page).to have_text("#393C41")
+          expect(page).to have_text("11.11:1")
+          expect(page).to have_text("Pass")
+        end
+      end
+      expect(Color.where(name: "Preview color")).not_to exist
+    end
+
+    it "hides results for incomplete input and rejects an invalid hex code on blur" do
+      fill_in "Hex code", with: "#fff"
+      find_field("Name").click
+      expect(page).to have_heading "Contrast preview"
+
+      find_field("Hex code").send_keys(:end, :backspace)
+      expect(page).to have_no_heading "Contrast preview"
+      expect(page).to have_field("Hex code", validation_error: false)
+      find_field("Name").click
+      expect(page).to have_field("Hex code", validation_error: "Hex code is not a valid 6-digit hexadecimal color code.")
+      expect(page).to have_no_heading "Contrast preview"
+
+      fill_in "Hex code", with: "#fff"
+      expect(page).to have_field("Hex code", validation_error: false)
+      find_field("Name").click
+      expect(page).to have_heading "Contrast preview"
+    end
+
+    it "saves a color that fails contrast and previews it again after reopening" do
+      fill_in "Hex code", with: "#fff"
+      find_field("Name").click
+      click_on "Save"
+      wait_for_reload
+      expect_and_dismiss_flash type: :success, message: "Successful creation."
+
+      within_test_selector "default-colors-list" do
+        click_on "Preview color"
+      end
+      expect(page).to have_heading "Contrast preview"
+      expect(page).to have_text("3 of 4 pass")
+    end
+
+    it "checks contrast when a color is picked" do
+      fill_in "Name", with: "Picked color"
+      fill_in accessible_name: "Pick color for Hex code", with: "#ff0000"
+
+      expect(page).to have_field("Hex code", with: "#FF0000")
+      expect(page).to have_heading "Contrast preview"
+    end
+
+    it "restores the contrast preview after a save fails validation" do
+      fill_in "Name", with: ""
+      fill_in "Hex code", with: "#1F75D3"
+
+      expect(page).to have_text("4 of 4 pass")
+
+      click_on "Save"
+      wait_for_reload
+
+      expect(page).to have_field("Name", validation_error: "Name can't be blank.")
+      expect(page).to have_field("Hex code", with: "#1F75D3")
+      expect(page).to have_heading "Contrast preview"
+      expect(page).to have_text("4 of 4 pass")
+    end
+
+    it "clears the server error when the hex code is edited" do
+      fill_in "Name", with: "Invalid color"
+      fill_in "Hex code", with: "#XXX"
+      click_on "Save"
+
+      expect(page).to have_field("Hex code", validation_error: "Hex code is not a valid 6-digit hexadecimal color code.")
+
+      find_field("Hex code").send_keys(:end, :backspace)
+
+      expect(page).to have_field("Hex code", validation_error: false)
+      expect(page).to have_no_text("Hex code is not a valid 6-digit hexadecimal color code.")
+    end
+
+    it "shows the client hex code error where the server shows it" do
+      fill_in "Hex code", with: "#XXX"
+      find_field("Name").click
+
+      expect(page).to have_css(".FormControl-inlineValidation",
+                               text: "Hex code is not a valid 6-digit hexadecimal color code.", count: 1)
+    end
+
+    it "checks contrast while typing without leaving the field" do
+      fill_in "Hex code", with: ""
+      expect(page).to have_no_heading "Contrast preview"
+
+      find_field("Hex code").send_keys("#fff")
+
+      expect(find_field("Hex code")).to match_css(":focus")
+      expect(page).to have_heading "Contrast preview"
+    end
+  end
+
   describe "creating colors" do
     it "creates a color" do
       click_link accessible_name: "New color"

@@ -42,8 +42,12 @@ module Admin
           name: :hexcode,
           label: attribute_name(:hexcode),
           required: true,
-          autocomplete: "off",
-          input_width: :small
+          input_width: :medium,
+          data: {
+            color_contrast_target: "hexcode",
+            invalid_message: hexcode_invalid_message,
+            action: "input->color-contrast#update change->color-contrast#check"
+          }
         )
 
         color_form.group(layout: :horizontal) do |button_group|
@@ -67,6 +71,10 @@ module Admin
 
       def cancel_path
         url_helpers.custom_style_path(tab: :default_colors)
+      end
+
+      def hexcode_invalid_message
+        model.errors.full_message(:hexcode, model.errors.generate_message(:hexcode, :hexcode_invalid))
       end
     end
   end

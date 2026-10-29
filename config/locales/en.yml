@@ -2699,6 +2699,22 @@ en:
       unknown: "An unknown error occurred. Please review the formula for this Calculated value."
 
   colors:
+    contrast:
+      background: "Background"
+      caption: "Pass means the text meets the WCAG AA minimum contrast ratio of 4.5:1 for normal text."
+      dark: "Dark mode"
+      description: "These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes."
+      fail: "Fail"
+      foreground: "Foreground"
+      light: "Light mode"
+      pass: "Pass"
+      ratio: "Contrast ratio"
+      sample: "Sample text"
+      text: "Text"
+      title: "Contrast preview"
+      used_as_background: "Used as background"
+      used_as_foreground: "Used as foreground"
+      wcag_rule: "WCAG 1.4.3"
     edit:
       label_edit_color: "Edit Color"
     form:
