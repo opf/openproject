@@ -243,6 +243,7 @@ module Import
         end
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def delete_labels
       Import::JiraOpenProjectReference
         .where(jira_import_id: @jira_import.id, uses_existing: false)
@@ -252,9 +253,18 @@ module Import
           # label is used by something outside this import run, keep it
           next if op_leg.labelings.exists?
 
-          service_call = ::Labels::DeleteService.new(user: @user, model: op_leg).call
-          raise service_call.message if service_call.failure?
+          Rails.logger.tagged("jira_object_type:label", "jira_object_id_or_name:#{ref.op_entity_id}") do
+            Rails.logger.debug "Deleting label"
+            service_call = ::Labels::DeleteService.new(user: @user, model: op_leg).call
+            if service_call.failure?
+              Rails.logger.error service_call.message
+              raise service_call.message
+            end
+          end
         rescue Import::JiraOpenProjectReference::LegNotFoundError
+          Rails.logger.tagged("jira_object_type:label", "jira_object_id_or_name:#{ref.op_entity_id}") do
+            Rails.logger.warn "OpenProject label no longer exists, skipping its deletion"
+          end
           next
         end
     end

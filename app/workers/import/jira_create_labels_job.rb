@@ -30,6 +30,7 @@
 module Import
   class JiraCreateLabelsJob < ApplicationJob
     include Import::JiraOpenProjectReferenceCreation
+    include Import::JiraJobUtils
 
     DISTINCT_LABEL_NAMES = Arel.sql("DISTINCT jsonb_array_elements_text(payload -> 'fields' -> 'labels')")
 
@@ -38,10 +39,16 @@ module Import
     end
 
     def perform(jira_import_id)
-      @jira_import = Import::JiraImport.find(jira_import_id)
-      @system_user = User.system
+      tagged_log("jira_import_id:#{jira_import_id}", "jira_object_type:label") do
+        Rails.logger.debug "Creating labels started"
+        @jira_import = Import::JiraImport.find(jira_import_id)
+        @system_user = User.system
 
-      jira_label_names.each { create_label(it) }
+        jira_label_names.each do |name|
+          Rails.logger.tagged("jira_object_id_or_name:#{name}") { create_label(name) }
+        end
+        Rails.logger.debug "Creating labels finished"
+      end
     end
 
     private
@@ -56,16 +63,26 @@ module Import
     end
 
     def create_label(name)
+      Rails.logger.debug "Creating label"
       ApplicationRecord.transaction do
         service_call = Labels::CreateService.new(user: @system_user).call(name:)
-        next reference_existing_label(name) if service_call.errors.symbols_for(:name).include?(:taken)
-        raise service_call.message if service_call.failure?
+        next reference_existing_label(name) if name_taken?(service_call)
+
+        if service_call.failure?
+          Rails.logger.error service_call.message
+          raise service_call.message
+        end
 
         create_reference!(op_leg: service_call.result, jira_leg: nil, jira_import: @jira_import, uses_existing: false)
       end
     end
 
+    def name_taken?(service_call)
+      service_call.errors.symbols_for(:name).include?(:taken)
+    end
+
     def reference_existing_label(name)
+      Rails.logger.debug "Found existing label"
       label = Label.named(name).first!
       return if referenced?(label)
 
