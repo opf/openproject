@@ -142,8 +142,10 @@ module Llm
       # RubyLLM retries POSTs three times by default, so one completion can be
       # billed four times. Callers state what they are willing to pay for.
       config.max_retries = max_retries
-      # Demo only (AI-100): OpenAI-compatible gateways ignore the "developer" role
-      # RubyLLM uses by default, which silently drops the whole system prompt.
+      # RubyLLM sends instructions with the "developer" role, which
+      # OpenAI-compatible servers such as vLLM or Ollama drop, and the
+      # instructions with it. OpenAI itself treats "system" as "developer" for
+      # its reasoning models.
       config.openai_use_system_role = true
     end
 

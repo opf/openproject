@@ -34,7 +34,12 @@ module AI
         def ready? = ready
       end
 
-      def self.build = DemoFaultGateway.new(LlmGateway.new)
+      class << self
+        attr_accessor :factory
+
+        # Demo only (AI-100 demo branch): ?ai_demo_fault= wraps the real gateway.
+        def build = DemoFaultGateway.new(factory&.call || NullGateway.new)
+      end
     end
   end
 end
