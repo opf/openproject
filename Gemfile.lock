@@ -1160,7 +1160,7 @@ GEM
       ttfunk (~> 1.7)
     prawn-table (0.2.2)
       prawn (>= 1.3.0, < 3.0.0)
-    prettyprint (0.2.0)
+    prettyprint (0.2.1)
     prism (1.9.0)
     prometheus-client-mmap (1.6.1)
       base64
@@ -2197,7 +2197,7 @@ CHECKSUMS
   pp (0.6.4) sha256=dfcb0fce700c41456265922884f9fe195d7fbb0674a3578e6c0f69588e82b570
   prawn (2.4.0) sha256=82062744f7126c2d77501da253a154271790254dfa8c309b8e52e79bc5de2abd
   prawn-table (0.2.2) sha256=336d46e39e003f77bf973337a958af6a68300b941c85cb22288872dc2b36addb
-  prettyprint (0.2.0) sha256=2bc9e15581a94742064a3cc8b0fb9d45aae3d03a1baa6ef80922627a0766f193
+  prettyprint (0.2.1) sha256=d555d57ea6d7cf001d4774b693546a6bd88bec1e778ddffb5c60b68ceec4b7d4
   prism (1.9.0) sha256=7b530c6a9f92c24300014919c9dcbc055bf4cdf51ec30aed099b06cd6674ef85
   prometheus-client-mmap (1.6.1) sha256=db2994fd547c49631fda38019cc19acf163bdf9a7dcba2ba2f497c53e0256e51
   prometheus-client-mmap (1.6.1-aarch64-linux-gnu) sha256=47b43352a00a5536a510b6b24063b4897b6d432cf109f0a510d3145ea1433419
