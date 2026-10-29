@@ -30,11 +30,11 @@
 module Admin::Import::Jira
   class Form < ApplicationForm
     # rubocop:disable-next Metrics/AbcSize
-    def credential_field(group, input_name:)
+    def credential_field(group, input_name:, caption: nil)
       if model.persisted? && model.public_send(input_name).present?
         group.html_content do
           render(Primer::BaseComponent.new(tag: :div, classes: "FormControl")) do
-            render(
+            saved_credential_row = render(
               Primer::OpenProject::FlexLayout.new(
                 align_items: :flex_end,
                 classes: "FormControl-input-wrap FormControl-input-width--large"
@@ -70,6 +70,7 @@ module Admin::Import::Jira
                 )
               end
             end
+            helpers.safe_join([saved_credential_row, saved_credential_caption(caption)])
           end
         end
 
@@ -84,12 +85,19 @@ module Admin::Import::Jira
         group.text_field(
           name: input_name,
           label: I18n.t("admin.jira.form.fields.#{input_name}"),
+          caption:,
           required: !model.persisted?,
           input_width: :large,
           autocomplete: "off",
           data: { "admin--jira-configuration-form-target": input_name.to_s.camelize(:lower) }
         )
       end
+    end
+
+    def saved_credential_caption(caption)
+      return if caption.blank?
+
+      render(Primer::BaseComponent.new(tag: :span, classes: "FormControl-caption")) { caption }
     end
 
     form do |f|
@@ -135,6 +143,8 @@ module Admin::Import::Jira
         )
       end
 
+      f.html_content { render(Admin::Import::Jira::CredentialRequirementsComponent.new) }
+
       f.group(
         hidden: !model.auth_method_bearer?,
         data: {
@@ -143,7 +153,9 @@ module Admin::Import::Jira
           value: "bearer"
         }
       ) do |bearer_group|
-        credential_field(bearer_group, input_name: :personal_access_token)
+        credential_field(bearer_group,
+                         input_name: :personal_access_token,
+                         caption: I18n.t("admin.jira.form.personal_access_token_caption"))
       end
 
       f.group(

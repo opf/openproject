@@ -118,6 +118,10 @@ module Import
       get("/rest/api/2/mypermissions")
     end
 
+    def administrator?
+      mypermissions.dig("permissions", "ADMINISTER", "havePermission") == true
+    end
+
     def index_condition_summary
       get("/rest/api/2/index/summary")
     end

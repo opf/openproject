@@ -105,6 +105,33 @@ RSpec.describe Import::JiraClient do
     end
   end
 
+  describe "#administrator?", :webmock do
+    include_context "with ssrf stubs"
+
+    before do
+      stub_request(:get, "#{url}/rest/api/2/mypermissions")
+        .to_return(status: 200, body: mypermissions.to_json, headers: { "Content-Type" => "application/json" })
+    end
+
+    context "when the credentials hold the ADMINISTER permission" do
+      let(:mypermissions) { { "permissions" => { "ADMINISTER" => { "havePermission" => true } } } }
+
+      it { expect(client).to be_administrator }
+    end
+
+    context "when the credentials lack the ADMINISTER permission" do
+      let(:mypermissions) { { "permissions" => { "ADMINISTER" => { "havePermission" => false } } } }
+
+      it { expect(client).not_to be_administrator }
+    end
+
+    context "when Jira does not report the ADMINISTER permission" do
+      let(:mypermissions) { { "permissions" => {} } }
+
+      it { expect(client).not_to be_administrator }
+    end
+  end
+
   describe "#custom_field_options", :webmock do
     include_context "with ssrf stubs"
 

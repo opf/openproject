@@ -1662,6 +1662,10 @@ en:
         button_delete_personal_access_token: "Delete PAT"
         button_save: "Save configuration"
         button_test_connection: "Test Connection"
+        credential_requirements:
+          administrator: "The user must be a Jira administrator."
+          project_member: "The user must be a member of every Jira project you want to migrate."
+          title: "Requirements for the Jira user behind the credentials"
         delete_basic_auth_password_confirm: "Are you sure you want to delete the basic auth password? This will disable the Jira connection."
         delete_personal_access_token_confirm: "Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection."
         exclude_resolution_fields_caption: "You can exclude the resolution and resolution date fields from the import for this configuration."
@@ -1673,6 +1677,7 @@ en:
           personal_access_token: "Personal access token (PAT)"
           url: "Jira Server/Data Center URL"
         label_testing: "Testing configuration..."
+        personal_access_token_caption: "The token must belong to a Jira administrator."
       personal_access_token_deleted: "Personal access token (PAT) was successfully deleted."
       run:
         actions:
@@ -1726,6 +1731,9 @@ en:
             title: "Fetching meta data about selected projects"
           JiraRevertImportJob:
             title: "Reverting this Jira import run"
+        not_administrator_error:
+          basic: "Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again."
+          bearer: "Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again."
         project_identifier_taken: "You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry."
         remove_error: "A Jira import run cannot be removed while it is running"
         side_panel:
@@ -1940,10 +1948,12 @@ en:
         error: "An unexpected error occurred while testing the connection"
         failed: "Connection failed: Unable to retrieve server information"
         invalid_url: "Please provide a valid URL"
+        not_administrator:
+          basic: "Basic auth user must be a Jira administrator."
+          bearer: "Personal Access Token must be an admin token."
         parse_error: "Failed to parse the response from the server. The server may not be a valid Jira instance."
         personal_access_token_invalid: "Invalid personal access token (PAT). Please check your credentials in the configuration."
         success: "Successfully connected to %{server} (version %{version})"
-        user_is_not_admin: "Credential's owner is not an Administer in Jira"
       title: "Jira Migrator"
       user:
         unknown_name: "Unknown"
