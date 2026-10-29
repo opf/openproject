@@ -98,10 +98,7 @@ module Import
     # rubocop:disable-next Metrics/AbcSize
     def create_time_entry(work_package, worklog)
       user = project_user(worklog.dig("author", "key"))
-
-      # Jira sends `started` in the server's time zone, but the author logged the time in their own.
-      time_zone = ActiveSupport::TimeZone[worklog.dig("author", "timeZone").to_s] || Time.zone
-      started_at = time_zone.parse(worklog["started"])
+      started_at = user.time_zone.parse(worklog["started"])
       start_time = (started_at.hour * 60) + started_at.min
 
       call = TimeEntries::ImportCreateService
@@ -112,7 +109,6 @@ module Import
                  hours: worklog["timeSpentSeconds"] / TimeEntry::SECONDS_PER_HOUR,
                  spent_on: started_at.to_date,
                  start_time:,
-                 time_zone: time_zone.name,
                  comments: worklog_comment(worklog),
                  created_at: Time.zone.parse(worklog["created"]),
                  updated_at: Time.zone.parse(worklog["updated"])

@@ -32,16 +32,15 @@ require "spec_helper"
 RSpec.describe TimeEntries::ImportCreateService do
   subject(:service) { described_class.new(user:, contract_class: EmptyContract) }
 
-  let(:user) { create(:user, preferences: { time_zone: "Europe/Berlin" }) }
+  let(:user) { create(:user) }
   let(:work_package) { create(:work_package) }
-  let(:params) { { user:, entity: work_package, hours: 1.5, spent_on: Date.new(2026, 10, 21), time_zone: "Asia/Tokyo" } }
+  let(:params) { { user:, entity: work_package, hours: 1.5, spent_on: Date.new(2026, 10, 21) } }
 
-  it "keeps the time zone it is given instead of the user's own" do
+  it "creates the time entry on the work package" do
     call = service.call(params)
 
     expect(call).to be_success
     expect(work_package.time_entries.reload.sole).to have_attributes(user:, hours: 1.5, project: work_package.project)
-    expect(work_package.time_entries.reload.sole.time_zone).to eq("Asia/Tokyo")
   end
 
   it "does not send a time entry created event" do

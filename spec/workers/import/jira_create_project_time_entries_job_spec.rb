@@ -39,7 +39,7 @@ RSpec.describe Import::JiraCreateProjectTimeEntriesJob,
     let(:worklog) do
       {
         "id" => "10000",
-        "author" => { "key" => "JIRAUSER10000", "timeZone" => "Europe/Berlin" },
+        "author" => { "key" => "JIRAUSER10000" },
         "comment" => "Reproduced the *bug*",
         "created" => "2026-03-19T08:00:00.000+0000",
         "updated" => "2026-03-19T08:15:00.000+0000",
@@ -52,6 +52,7 @@ RSpec.describe Import::JiraCreateProjectTimeEntriesJob,
       super().tap { |payload| payload["fields"]["worklog"]["worklogs"] = worklogs }
     end
 
+    let(:op_user) { super().tap { |user| user.pref.update!(time_zone: "Europe/Berlin") } }
     let(:work_package) { WorkPackage.find("DPPP-6") }
 
     before do
@@ -100,20 +101,6 @@ RSpec.describe Import::JiraCreateProjectTimeEntriesJob,
     it "leaves the work package and its activity untouched" do
       expect { create_time_entries }
         .not_to change { [work_package.reload.updated_at, work_package.journals.count] }
-    end
-
-    context "when the author has no time zone" do
-      let(:worklog) { super().merge("author" => { "key" => "JIRAUSER10000" }) }
-
-      it "books the time in OpenProject's default time zone" do
-        create_time_entries
-
-        expect(work_package.time_entries.sole).to have_attributes(
-          spent_on: Date.new(2026, 3, 18),
-          start_time: (23 * 60) + 30,
-          time_zone: Time.zone.name
-        )
-      end
     end
 
     context "when the author was not imported" do

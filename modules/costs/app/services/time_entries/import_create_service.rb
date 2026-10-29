@@ -32,14 +32,6 @@ module TimeEntries
   class ImportCreateService < CreateService
     protected
 
-    # CreateService always sets the user's own time zone. Imported users don't have their Jira time zone
-    # imported yet, so we keep the one Jira reports with the worklog.
-    def set_attributes(params)
-      super.tap do |call|
-        call.result.time_zone = params[:time_zone] if params[:time_zone]
-      end
-    end
-
     def after_perform(call) = call
   end
 end
