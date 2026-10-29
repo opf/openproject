@@ -46,16 +46,14 @@ function fixture({ serverInvalid = false } = {}):string {
                aria-describedby="validation-hexcode"
                data-color-contrast-target="hexcode"
                data-invalid-message="${INVALID_MESSAGE}"
-               data-action="input->color-contrast#markOutdated change->color-contrast#check">
+               data-action="input->color-contrast#update change->color-contrast#check">
         <div class="FormControl-inlineValidation" id="validation-hexcode" ${serverInvalid ? '' : 'hidden'}>
           <span class="FormControl-inlineValidation--visual" hidden></span>
           <span class="FormControl-inlineValidation--visual"></span>
           <span>${serverInvalid ? INVALID_MESSAGE : ''}</span>
         </div>
       </div>
-      <button type="button" data-action="color-contrast#check">Check contrast</button>
       <section data-color-contrast-target="preview" hidden>
-        <p data-color-contrast-target="outdated" hidden>Outdated</p>
         <span data-color-contrast-target="summary"></span>
       </section>
     </form>
@@ -82,7 +80,7 @@ function card(mode:'light'|'dark', usage:'foreground'|'background'):string {
   `;
 }
 
-function resultsFixture():string {
+function resultsFixture(hex = ''):string {
   return `
     <form data-controller="color-contrast">
       <div class="FormControl">
@@ -90,19 +88,18 @@ function resultsFixture():string {
         <input type="text"
                id="color_hexcode"
                name="color[hexcode]"
+               value="${hex}"
                aria-describedby="validation-hexcode"
                data-color-contrast-target="hexcode"
                data-invalid-message="${INVALID_MESSAGE}"
-               data-action="input->color-contrast#markOutdated change->color-contrast#check">
+               data-action="input->color-contrast#update change->color-contrast#check">
         <div class="FormControl-inlineValidation" id="validation-hexcode" hidden>
           <span class="FormControl-inlineValidation--visual" hidden></span>
           <span class="FormControl-inlineValidation--visual"></span>
           <span></span>
         </div>
       </div>
-      <button type="button" data-action="color-contrast#check">Check contrast</button>
       <section data-color-contrast-target="preview" hidden>
-        <p data-color-contrast-target="outdated" hidden>Outdated</p>
         <span data-color-contrast-target="summary"></span>
         <ul>
           ${card('light', 'foreground')}
@@ -119,11 +116,9 @@ describe('ColorContrastController', () => {
   let ctx:StimulusTestContext;
 
   const hexcode = () => ctx.screen.getByRole<HTMLInputElement>('textbox', { name: 'Hex code' });
-  const checkButton = () => ctx.screen.getByRole('button', { name: 'Check contrast' });
   const validation = () => ctx.container.querySelector<HTMLElement>('.FormControl-inlineValidation')!;
   const message = () => validation().querySelector<HTMLElement>('span:not(.FormControl-inlineValidation--visual)')!;
   const preview = () => ctx.container.querySelector<HTMLElement>('[data-color-contrast-target="preview"]')!;
-  const outdated = () => ctx.container.querySelector<HTMLElement>('[data-color-contrast-target="outdated"]')!;
 
   let announceSpy:MockInstance<typeof LiveRegionElement.prototype.announce>;
 
@@ -149,7 +144,7 @@ describe('ColorContrastController', () => {
 
     it('shows the invalid message in the validation element on check', () => {
       hexcode().value = '#XXX';
-      checkButton().click();
+      fireEvent.change(hexcode());
 
       expect(hexcode()).toBeInvalid();
       expect(hexcode()).toHaveAttribute('invalid', 'true');
@@ -160,7 +155,7 @@ describe('ColorContrastController', () => {
 
     it('shows the preview and no error for a valid hex code', () => {
       hexcode().value = '#fff';
-      checkButton().click();
+      fireEvent.change(hexcode());
 
       expect(hexcode()).not.toHaveAttribute('aria-invalid');
       expect(validation()).not.toBeVisible();
@@ -176,7 +171,7 @@ describe('ColorContrastController', () => {
 
     it('clears the client error when the field is edited', () => {
       hexcode().value = '#XXX';
-      checkButton().click();
+      fireEvent.change(hexcode());
       fireEvent.input(hexcode());
 
       expect(hexcode()).not.toHaveAttribute('aria-invalid');
@@ -187,53 +182,47 @@ describe('ColorContrastController', () => {
 
     it('announces the invalid message', () => {
       hexcode().value = '#XXX';
-      checkButton().click();
+      fireEvent.change(hexcode());
 
       expect(announceSpy).toHaveBeenCalledWith(INVALID_MESSAGE, expect.objectContaining({ politeness: 'assertive' }));
     });
 
     it('announces nothing for a valid hex code', () => {
       hexcode().value = '#fff';
-      checkButton().click();
+      fireEvent.change(hexcode());
 
       expect(announceSpy).not.toHaveBeenCalled();
     });
 
-    it('keeps the results current when the same hex code is entered again', () => {
+    it('previews a valid color while typing without leaving the field', () => {
       hexcode().value = '#fff';
-      checkButton().click();
-      hexcode().value = '#FFFFFF';
       fireEvent.input(hexcode());
 
-      expect(outdated()).not.toBeVisible();
+      expect(preview()).toBeVisible();
+      expect(validation()).not.toBeVisible();
     });
 
-    it('marks the results outdated when a different hex code is entered', () => {
+    it('hides previous results for incomplete input without announcing an error', () => {
       hexcode().value = '#fff';
-      checkButton().click();
-      hexcode().value = '#ff0';
+      fireEvent.input(hexcode());
+      hexcode().value = '#ff';
       fireEvent.input(hexcode());
 
-      expect(outdated()).toBeVisible();
-    });
-
-    it('keeps the preview hidden after an invalid check until the next check', () => {
-      hexcode().value = '#fff';
-      checkButton().click();
-      hexcode().value = '#XXX';
-      checkButton().click();
       expect(preview()).not.toBeVisible();
+      expect(validation()).not.toBeVisible();
+      expect(announceSpy).not.toHaveBeenCalled();
+    });
+
+    it('shows the preview again as soon as the color becomes valid', () => {
+      hexcode().value = '#XXX';
+      fireEvent.change(hexcode());
       expect(validation()).toBeVisible();
 
       hexcode().value = '#FFFFFF';
       fireEvent.input(hexcode());
-      expect(validation()).not.toBeVisible();
-      expect(preview()).not.toBeVisible();
-      expect(outdated()).not.toBeVisible();
 
-      checkButton().click();
+      expect(validation()).not.toBeVisible();
       expect(preview()).toBeVisible();
-      expect(outdated()).not.toBeVisible();
     });
   });
 
@@ -250,9 +239,18 @@ describe('ColorContrastController', () => {
       await ctx.mount(resultsFixture());
     });
 
+    it('checks an existing color when the form opens', async () => {
+      ctx.container.replaceChildren();
+      await ctx.mount(resultsFixture('#FF69B4'));
+
+      expect(preview()).toBeVisible();
+      expect(ctx.screen.getByText('3 of 4 pass')).toBeVisible();
+      expect(cards().map(valuesOf).every((value) => value.ratio !== '')).toBe(true);
+    });
+
     it('reports foreground, background, ratio and verdict per theme and usage', () => {
       hexcode().value = '#FF69B4';
-      checkButton().click();
+      fireEvent.change(hexcode());
 
       expect(cards().map(valuesOf)).toEqual([
         { foreground: '#FF1A8C', background: '#FFFFFF', ratio: '3.63:1', verdict: 'Fail' },
@@ -263,11 +261,11 @@ describe('ColorContrastController', () => {
       expect(ctx.screen.getByText('3 of 4 pass')).toBeVisible();
     });
 
-    it('replaces the previous results on recheck', () => {
+    it('replaces the previous results while typing', () => {
       hexcode().value = '#FF69B4';
-      checkButton().click();
+      fireEvent.input(hexcode());
       hexcode().value = '#1F75D3';
-      checkButton().click();
+      fireEvent.input(hexcode());
 
       expect(cards().map(valuesOf)).toEqual([
         { foreground: '#185BA5', background: '#FFFFFF', ratio: '6.81:1', verdict: 'Pass' },

@@ -30,20 +30,24 @@ import { announce } from '@primer/live-region-element';
 import { composite, computedColor, contrastRatio, formatContrastRatio, normalizeHex, toHex } from '../../helpers/color-contrast';
 
 export default class ColorContrastController extends Controller {
-  static targets = ['hexcode', 'preview', 'outdated', 'card', 'summary'];
+  static targets = ['hexcode', 'preview', 'card', 'summary'];
 
   declare readonly hexcodeTarget:HTMLInputElement;
   declare readonly previewTarget:HTMLElement;
-  declare readonly outdatedTarget:HTMLElement;
   declare readonly cardTargets:HTMLElement[];
   declare readonly summaryTarget:HTMLElement;
 
-  private lastChecked:string|null = null;
+  connect():void {
+    if (normalizeHex(this.hexcodeTarget.value)) this.check();
+  }
 
-  markOutdated():void {
-    const unchanged = normalizeHex(this.hexcodeTarget.value) === this.lastChecked;
-    this.outdatedTarget.hidden = this.previewTarget.hidden || unchanged;
-    this.setInvalid(false);
+  update():void {
+    this.clearError();
+    if (normalizeHex(this.hexcodeTarget.value)) {
+      this.check();
+    } else {
+      this.previewTarget.hidden = true;
+    }
   }
 
   check():void {
@@ -51,9 +55,7 @@ export default class ColorContrastController extends Controller {
     this.setInvalid(hex === null);
     if (!hex) return;
 
-    this.lastChecked = hex;
     this.previewTarget.hidden = false;
-    this.outdatedTarget.hidden = true;
     const channels = hex.slice(1).match(/../g)!.map((channel) => parseInt(channel, 16));
     // Mirrors Colors::HexColor#perceived_lightness (app/models/colors/hex_color.rb),
     // including the four-place rounding; keep both in step.

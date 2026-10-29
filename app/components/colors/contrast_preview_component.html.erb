@@ -33,9 +33,6 @@ See COPYRIGHT and LICENSE files for more details.
       <%= render Primer::Beta::Text.new(color: :muted, data: { color_contrast_target: "summary" }) %>
     <% end %>
   <% end %>
-  <%= render Primer::Beta::Text.new(tag: :p, hidden: true, color: :muted, mb: 3, data: { color_contrast_target: "outdated" }) do %>
-    <%= t("colors.contrast.outdated") %>
-  <% end %>
   <%= flex_layout(direction: [:column, nil, :row], align_items: :stretch, classes: "gap-3") do |modes| %>
     <% %w[light dark].each do |mode| %>
       <% modes.with_column(flex: 1) do %>

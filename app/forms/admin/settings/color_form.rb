@@ -38,27 +38,17 @@ module Admin
           input_width: :medium
         )
 
-        color_form.group(layout: :horizontal, align_items: :flex_start, classes: "color-form--hexcode-row") do |hexcode_group|
-          hexcode_group.color_field(
-            name: :hexcode,
-            label: attribute_name(:hexcode),
-            required: true,
-            input_width: :small,
-            data: {
-              color_contrast_target: "hexcode",
-              invalid_message: hexcode_invalid_message,
-              action: "input->color-contrast#markOutdated change->color-contrast#check"
-            }
-          )
-
-          hexcode_group.button(
-            name: :check_contrast,
-            type: :button,
-            mt: 4,
-            label: I18n.t("colors.contrast.check"),
-            data: { action: "color-contrast#check" }
-          )
-        end
+        color_form.color_field(
+          name: :hexcode,
+          label: attribute_name(:hexcode),
+          required: true,
+          input_width: :small,
+          data: {
+            color_contrast_target: "hexcode",
+            invalid_message: hexcode_invalid_message,
+            action: "input->color-contrast#update change->color-contrast#check"
+          }
+        )
 
         color_form.html_content do
           render Colors::ContrastPreviewComponent.new(hexcode_id: @builder.field_id(:hexcode))
