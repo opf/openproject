@@ -39,6 +39,73 @@ RSpec.describe FillFromGitlab, type: :model do
   let(:wp_one) { create(:work_package) }
   let(:wp_two) { create(:work_package, project: wp_one.project) }
   let(:wp_three) { create(:work_package, project: wp_one.project) }
+  let(:gitlab_ids) { (1..).each }
+
+  # The GitLab tables are only written by the code this migration replaces, so the
+  # spec builds their rows itself instead of relying on models that no longer exist.
+  def gitlab_table(name)
+    Class.new(ApplicationRecord) { self.table_name = name }
+  end
+
+  def next_gitlab_id = gitlab_ids.next
+
+  def create_gitlab_user(**attributes)
+    id = next_gitlab_id
+    gitlab_table("gitlab_users").create!(
+      { gitlab_id: id, username: "user_#{id}", name: "User #{id}", avatar_url: "#{base_url}/avatar_#{id}.jpg" }
+        .merge(attributes)
+    )
+  end
+
+  def create_gitlab_issue(work_packages: [], **attributes)
+    id = next_gitlab_id
+    issue = gitlab_table("gitlab_issues").create!(gitlab_resource_defaults(id, "issues").merge(attributes))
+    link_work_packages("gitlab_issues_work_packages", gitlab_issue_id: issue.id, work_packages:)
+    issue
+  end
+
+  def create_gitlab_merge_request(work_packages: [], **attributes)
+    id = next_gitlab_id
+    merge_request = gitlab_table("gitlab_merge_requests").create!(
+      gitlab_resource_defaults(id, "merge_requests").merge(draft: false, merged: false).merge(attributes)
+    )
+    link_work_packages("gitlab_merge_requests_work_packages", gitlab_merge_request_id: merge_request.id, work_packages:)
+    merge_request
+  end
+
+  def create_gitlab_pipeline(merge_request:, **attributes)
+    id = next_gitlab_id
+    gitlab_table("gitlab_pipelines").create!(
+      {
+        gitlab_merge_request_id: merge_request.id,
+        gitlab_id: id,
+        name: id.to_s,
+        gitlab_html_url: "#{base_url}/group/project/-/pipelines/#{id}",
+        project_id: 1,
+        gitlab_user_avatar_url: "#{base_url}/avatar.jpg",
+        status: "pending",
+        started_at: 1.hour.ago
+      }.merge(attributes)
+    )
+  end
+
+  def gitlab_resource_defaults(id, path)
+    {
+      gitlab_id: id,
+      number: id,
+      gitlab_html_url: "#{base_url}/group/project/-/#{path}/#{id}",
+      state: "opened",
+      repository: "Project",
+      title: "Title #{id}",
+      body: "Body #{id}",
+      labels: [],
+      gitlab_updated_at: Time.current
+    }
+  end
+
+  def link_work_packages(table, work_packages:, **resource_key)
+    work_packages.each { |work_package| gitlab_table(table).create!(work_package_id: work_package.id, **resource_key) }
+  end
 
   context "without any GitLab data" do
     it "does not create a provider" do
@@ -50,60 +117,48 @@ RSpec.describe FillFromGitlab, type: :model do
   context "with GitLab data", with_settings: {
     plugin_openproject_gitlab_integration: { gitlab_user_id: "42", webhook_secret: "it's s3cret" }
   } do
-    let!(:alice) do
-      create(:gitlab_user, username: "alice", name: "Alice Old").tap do |user|
-        user.update_columns(updated_at: 2.days.ago)
-      end
-    end
+    let!(:alice) { create_gitlab_user(username: "alice", name: "Alice Old", updated_at: 2.days.ago) }
     let!(:alice_duplicate) do
       # users may have been created duplicate due to race condition in user creation
-      create(:gitlab_user, gitlab_id: alice.gitlab_id, username: "alice", name: "Alice New").tap do |user|
-        user.update_columns(updated_at: 1.day.ago)
-      end
+      create_gitlab_user(gitlab_id: alice.gitlab_id, username: "alice", name: "Alice New", updated_at: 1.day.ago)
     end
 
     let!(:issue_in_project_a) do
-      create(:gitlab_issue,
-             gitlab_user: alice,
-             gitlab_id: 5,
-             number: 5,
-             gitlab_html_url: "#{base_url}/group/project-a/-/issues/5",
-             work_packages: [wp_one])
+      create_gitlab_issue(gitlab_user_id: alice.id,
+                          gitlab_id: 5,
+                          number: 5,
+                          gitlab_html_url: "#{base_url}/group/project-a/-/issues/5",
+                          work_packages: [wp_one])
     end
     let!(:issue_in_project_b) do
-      create(:gitlab_issue,
-             gitlab_user: alice_duplicate,
-             gitlab_id: 5, # due to pre-existing bug gitlab_id equals number always (not unique)
-             number: 5,
-             gitlab_html_url: "#{base_url}/group/project-b/-/issues/5",
-             work_packages: [wp_two])
+      create_gitlab_issue(gitlab_user_id: alice_duplicate.id,
+                          gitlab_id: 5, # due to pre-existing bug gitlab_id equals number always (not unique)
+                          number: 5,
+                          gitlab_html_url: "#{base_url}/group/project-b/-/issues/5",
+                          work_packages: [wp_two])
     end
     let!(:issue_with_nulls) do
-      create(:gitlab_issue, gitlab_html_url: "#{base_url}/group/project-a/-/issues/6").tap do |issue|
-        issue.update_columns(title: nil, body: nil, labels: nil, gitlab_updated_at: nil)
-      end
+      create_gitlab_issue(gitlab_html_url: "#{base_url}/group/project-a/-/issues/6",
+                          title: nil, body: nil, labels: nil, gitlab_updated_at: nil)
     end
 
     let!(:merge_request) do
-      create(:gitlab_merge_request,
-             gitlab_html_url: "#{base_url}/group/project-a/-/merge_requests/7",
-             work_packages: [wp_one, wp_three])
+      create_gitlab_merge_request(gitlab_html_url: "#{base_url}/group/project-a/-/merge_requests/7",
+                                  work_packages: [wp_one, wp_three])
     end
     let!(:open_draft_mr) do
-      create(:gitlab_merge_request, :draft, gitlab_html_url: "#{base_url}/group/project-a/-/merge_requests/8")
+      create_gitlab_merge_request(draft: true, gitlab_html_url: "#{base_url}/group/project-a/-/merge_requests/8")
     end
     let!(:merged_draft_mr) do
-      create(:gitlab_merge_request, :draft, :closed_merged,
-             gitlab_html_url: "#{base_url}/group/project-a/-/merge_requests/9")
+      create_gitlab_merge_request(draft: true, state: "merged", merged: true, merged_at: Time.current,
+                                  gitlab_html_url: "#{base_url}/group/project-a/-/merge_requests/9")
     end
     let!(:mr_without_gitlab_id) do
-      create(:gitlab_merge_request, gitlab_html_url: "#{base_url}/group/project-a/-/merge_requests/10").tap do |mr|
-        mr.update_columns(gitlab_id: nil)
-      end
+      create_gitlab_merge_request(gitlab_id: nil, gitlab_html_url: "#{base_url}/group/project-a/-/merge_requests/10")
     end
 
-    let!(:first_pipeline) { create(:gitlab_pipeline, gitlab_merge_request: merge_request, username: "alice") }
-    let!(:second_pipeline) { create(:gitlab_pipeline, gitlab_merge_request: merge_request, username: "alice") }
+    let!(:first_pipeline) { create_gitlab_pipeline(merge_request:, username: "alice") }
+    let!(:second_pipeline) { create_gitlab_pipeline(merge_request:, username: "alice") }
 
     it "creates a single provider with the base URL and the plugin settings" do
       migrate
