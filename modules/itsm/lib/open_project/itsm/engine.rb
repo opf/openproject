@@ -74,5 +74,7 @@ module OpenProject::ITSM
            icon: :"op-life-ring",
            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.helpdesk_active? }
     end
+
+    include_module "Projects::HelpdeskMailboxes", into: "Project"
   end
 end
