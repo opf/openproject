@@ -1,0 +1,11 @@
+---
+en:
+  admin:
+    description: >-
+      Enables the functionality to create work packages by sending emails using an IMAP server and reply to those
+      using an SMTP server.
+    enable_helpdesk: Enable Helpdesk in this instance
+    helpdesk_set_by_environment: The help desk feature is set by an environment variable and not changeable here.
+  label_helpdesk: Help desk
+  permission_manage_helpdesk: Manage help desk
+  project_module_helpdesk: Help desk

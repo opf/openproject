@@ -343,7 +343,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
           this.inFlight = false;
           this.toastService.addSuccess(this.text.updateSuccessful);
         },
-        (_error) => this.inFlight = false,
+        (_error) => { this.inFlight = false; },
       );
   }
 

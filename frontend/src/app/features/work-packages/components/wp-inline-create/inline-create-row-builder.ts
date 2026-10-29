@@ -77,7 +77,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     }
   }
 
-  public buildNew(workPackage:WorkPackageResource, form:EditForm):[HTMLElement, boolean] {
+  public buildNew(workPackage:WorkPackageResource, _form:EditForm):[HTMLElement, boolean] {
     // Get any existing edit state for this work package
     const [row, hidden] = this.buildEmpty(workPackage);
 

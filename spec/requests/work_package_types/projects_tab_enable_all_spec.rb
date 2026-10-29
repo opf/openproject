@@ -40,9 +40,13 @@ RSpec.describe "Enabling a work package type in all projects", :skip_csrf,
 
   before { login_as admin }
 
-  def toggle(value)
-    post enable_all_type_projects_path(type_id: type.id, value:), as: :turbo_stream
+  def toggle(value, confirm_switch: false)
+    post enable_all_type_projects_path(type_id: type.id, value:),
+         params: { confirm_switch: confirm_switch ? "1" : "0" },
+         as: :turbo_stream
   end
+
+  def switch_dialog_id = WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID
 
   it "enables the type everywhere and offers to disable it next" do
     toggle("1")
@@ -61,6 +65,33 @@ RSpec.describe "Enabling a work package type in all projects", :skip_csrf,
 
     expect(variant.reload.projects).to be_empty
     expect(response.body).to include(I18n.t("types.edit.projects.enable_all"))
+  end
+
+  context "when a project uses another variant of the type" do
+    shared_let(:hardware) { create(:type_variant, type:, variant_name: "Hardware") }
+
+    before { create(:project_type, project: one, type:, variant: hardware) }
+
+    it "asks before switching it back" do
+      toggle("1")
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(switch_dialog_id).and include("Foundry")
+      expect(one.reload.type_variant(type)).to eq(hardware)
+    end
+
+    it "enables nothing else while asking" do
+      toggle("1")
+
+      expect(variant.projects).to be_empty
+    end
+
+    it "switches it once confirmed" do
+      toggle("1", confirm_switch: true)
+
+      expect(response.body).to include(%(action="closeDialog" target="#{switch_dialog_id}"))
+      expect(variant.projects).to contain_exactly(one, other)
+    end
   end
 
   context "when one project refuses" do

@@ -40,7 +40,6 @@ describe('UserLinkComponent component test', () => {
     t: (key:string, args:any) => `Author: ${args.user}`,
   };
 
-  let app:UserLinkComponent;
   let fixture:ComponentFixture<UserLinkComponent>;
   let element:HTMLElement;
   let user:UserResource;
@@ -57,7 +56,6 @@ describe('UserLinkComponent component test', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(UserLinkComponent);
-    app = fixture.debugElement.componentInstance;
     element = fixture.elementRef.nativeElement;
   });
 

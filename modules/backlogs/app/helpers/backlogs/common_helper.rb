@@ -69,7 +69,7 @@ module Backlogs
     end
 
     def all_sprints_for(project)
-      Sprint.for_project(project).not_completed.order_by_date
+      Sprint.assignable(project:).order_by_date
     end
 
     def filtered_sprints_for(project)

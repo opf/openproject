@@ -31,8 +31,6 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 describe('keepTab service', () => {
-  let pathHelper:any;
-  let currentProject:any;
   let keepTab:KeepTabService;
 
   beforeEach(() => {
@@ -43,8 +41,8 @@ describe('keepTab service', () => {
     TestBed.configureTestingModule({
       providers: [
         KeepTabService,
-        { provide: PathHelperService, useValue: pathHelper },
-        { provide: CurrentProjectService, useValue: currentProject },
+        { provide: PathHelperService, useValue: undefined },
+        { provide: CurrentProjectService, useValue: undefined },
       ],
     });
 

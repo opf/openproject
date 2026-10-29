@@ -69,7 +69,7 @@ export class WorkPackageDisplayField extends DisplayField {
     if (linkedWp) {
       return linkedWp.displayId;
     }
-    return (this.wpId as string | null) ?? '';
+    return this.wpId ?? '';
   }
 
   /**

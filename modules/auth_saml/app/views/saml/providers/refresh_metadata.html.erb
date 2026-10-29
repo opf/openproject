@@ -1,0 +1,34 @@
+<% html_title(t(:label_administration), t(".title"), @provider.display_name) %>
+
+<% content_for :header_tags do %>
+  <meta name="turbo-cache-control" content="no-cache">
+<% end %>
+
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title { t(".title") } %>
+  <% header.with_breadcrumbs(
+       [{ href: admin_index_path, text: t(:label_administration) },
+        { href: saml_providers_path, text: t("saml.providers.plural") },
+        { href: saml_provider_path(@provider), text: @provider.display_name },
+        t(".title")]
+     ) %>
+  <% header.with_description { t(".description") } %>
+<% end %>
+
+<% if @metadata_changes.empty? %>
+  <%= render(Primer::Alpha::Banner.new) { t(".no_changes") } %>
+<% else %>
+  <%= render(Saml::Providers::MetadataChanges::TableComponent.new(rows: @metadata_changes.to_a, provider: @provider)) %>
+<% end %>
+
+<%= form_with(url: apply_metadata_saml_provider_path(@provider), method: :post) do %>
+  <%= hidden_field_tag :metadata_token, @metadata_token %>
+  <%= flex_layout(align_items: :center, mt: 3) do |actions|
+        actions.with_column(mr: 2) do
+          render(Primer::Beta::Button.new(type: :submit, scheme: :primary)) { t(".apply") }
+        end
+        actions.with_column do
+          render(Primer::Beta::Button.new(tag: :a, href: saml_provider_path(@provider))) { t(:button_cancel) }
+        end
+      end %>
+<% end %>

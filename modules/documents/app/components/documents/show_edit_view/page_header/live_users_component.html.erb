@@ -102,7 +102,7 @@ See COPYRIGHT and LICENSE files for more details.
                       end
 
                       user_row.with_column(ml: 2) do
-                        render(Primer::Beta::Text.new(color: :subtle)) { user.name }
+                        render(Primer::Beta::Text.new(color: :subtle, classes: "op-live-users--name")) { user.name }
                       end
                     end
                   end

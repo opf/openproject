@@ -32,11 +32,18 @@ module API
         class HierarchicalItemAggregate
           attr_accessor :depth
 
-          delegate :id, :label, :short, :weight, :parent, :children, :root?, to: :item
+          delegate :id, :label, :short, :weight, :parent, :root?, to: :item
 
-          def initialize(item:, depth:)
+          def initialize(item:, depth:, visible_ids: nil)
             @item = item
             @depth = depth
+            @visible_ids = visible_ids
+          end
+
+          def children
+            return item.children if visible_ids.nil?
+
+            item.children.select { visible_ids.include?(it.id) }
           end
 
           def formatted_weight
@@ -53,7 +60,7 @@ module API
 
           private
 
-          attr_accessor :item
+          attr_accessor :item, :visible_ids
 
           def weight_formatter
             @weight_formatter ||= ::CustomFields::Hierarchy::HierarchicalItemFormatter

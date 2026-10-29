@@ -611,6 +611,13 @@ module Settings
         writable: false,
         default: true
       },
+      good_job_shutdown_timeout: {
+        description: "Seconds that the worker waits for running jobs to finish before it stops them. " \
+                     "Set it to less than the time the container platform waits before it kills the worker.",
+        format: :integer,
+        writable: false,
+        default: 30
+      },
       good_job_cleanup_preserved_jobs_before_seconds_ago: {
         description: "",
         format: :integer,
