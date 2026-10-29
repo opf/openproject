@@ -53,11 +53,28 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent, type: :component do
     expect(subject).to have_css(".Box .Box-footer", text: "Replace")
   end
 
-  it "attaches the floating pane controller to the wrapper" do
+  it "attaches the pane controller to the wrapper" do
     expect(subject).to have_css(
       "[data-test-selector='ai-text-transform-result'][data-controller='ai-text-transform-pane']" \
       "[data-ai-text-transform-pane-close-form-value='#{AI::TextTransforms::ResultPaneHelpers::CLOSE_FORM_ID}']" \
-      "[data-action='keydown.esc->ai-text-transform-pane#close resize@window->ai-text-transform-pane#keepInViewport']"
+      "[data-ai-text-transform-pane-editor-gone-value^='The editor is no longer open']" \
+      "[data-ai-text-transform-pane-selection-gone-value^='The selected text is no longer there']" \
+      "[data-ai-text-transform-pane-request-failed-value^='The request failed']"
+    )
+  end
+
+  it "wires keyboard, window, form and editor events to the pane controller" do
+    actions = subject.find("[data-controller='ai-text-transform-pane']")["data-action"].split
+
+    expect(actions).to contain_exactly(
+      "keydown.esc->ai-text-transform-pane#close",
+      "resize@window->ai-text-transform-pane#keepInViewport",
+      "turbo:submit-start->ai-text-transform-pane#submitStarted",
+      "turbo:submit-end->ai-text-transform-pane#submitEnded",
+      "turbo:before-stream-render@document->ai-text-transform-pane#rememberFocus",
+      "op-dispatched:ai-text-transform:accepted@document->ai-text-transform-pane#accepted",
+      "op:ai-text-transform:applied@window->ai-text-transform-pane#applied",
+      "pagehide@window->ai-text-transform-pane#abandon"
     )
   end
 

@@ -2646,6 +2646,9 @@ vi:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: Bạn có thể tự động cấp một vai trò dự án nhất định cho bất kỳ người dùng nào được gán cho thuộc tính dự án này, bất kể vai trò ban đầu của người dùng đó trong dự án đó là gì.
         dialog:
@@ -2669,11 +2672,6 @@ vi:
     calculated_field_not_editable: Thuộc tính không thể chỉnh sửa. Giá trị này được tính toán tự động.
     confirm_destroy_option: Xóa một tùy chọn sẽ xóa tất cả các sự kiện của nó (ví dụ như trong các gói công việc). Bạn có chắc bạn muốn xóa bỏ nó?
     contained_in_type: Chứa trong loại
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: Đã bật trong dự án
     instructions:
       admin_only:
@@ -2724,10 +2722,17 @@ vi:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: Sắp xếp lại các giá trị theo thứ tự bảng chữ cái
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
@@ -5264,6 +5269,14 @@ vi:
     welcome: Chào mừng đến với %{app_title}
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: phải là một mảng.
       decimal?: phải là số thập phân.
       defined: không được xác định.
@@ -5271,6 +5284,7 @@ vi:
       filled?: phải được lấp đầy.
       format?: is in invalid format.
       greater_or_equal_zero: phải lớn hơn hoặc bằng 0.
+      gt?: must be greater than %{num}.
       gteq?: phải lớn hơn hoặc bằng %{num}.
       hash?: phải là một hàm băm.
       included_in?:
@@ -5279,6 +5293,7 @@ vi:
           range: 'phải là một trong: %{list_left} - %{list_right}.'
       int?: phải là số nguyên.
       key?: bị thiếu.
+      max_size?: must not be longer than %{num} characters.
       not_found: không tìm thấy.
       respond_to?: không thực hiện phương pháp cần thiết.
       rules:
@@ -5298,6 +5313,7 @@ vi:
       type?: phải là %{type}.
       unexpected_key: is not allowed.
       uri?: is not a valid URI.
+      uuid_v4?: must be a UUID (version 4).
     or: hoặc
     rules:
       blueprint: bản thiết kế hoa văn
@@ -5453,13 +5469,19 @@ vi:
     '
   permission_manage_placeholder_user: Tạo, chỉnh sửa và xóa người dùng giữ chỗ
   permission_manage_project_activities: Quản lý hoạt động dự án
-  permission_manage_project_variants: Manage the project's own type variants
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: Quản lý truy vấn BCF công khai
   permission_manage_public_project_queries: Quản lý danh sách dự án công
   permission_manage_public_queries: Quản lý truy vấn công cộng
   permission_manage_repository: Quản lý kho lưu trữ
   permission_manage_subtasks: Quản lý phân cấp gói công việc
   permission_manage_types: Chọn loại
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: Chỉnh sửa người dùng
   permission_manage_versions: Quản lý phiên bản
   permission_manage_wiki: Quản lý wiki
@@ -6684,6 +6706,7 @@ vi:
     '
   text_form_configuration_required_attribute: Thuộc tính được đánh dấu là bắt buộc và do đó luôn được hiển thị
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Gạch dưới
     plain: Văn bản thuần
   text_git_repo_example: một kho lưu trữ trống và cục bộ (trong /git repo, c:\git repo)
@@ -7075,6 +7098,9 @@ vi:
         enable_all: Kích hoạt cho tất cả các dự án
         select_projects: Chọn dự án
         select_projects_description: Chọn các dự án mà bạn muốn sử dụng loại này.
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: dự án
         variant_column: Variant or type
       reuse_mode:

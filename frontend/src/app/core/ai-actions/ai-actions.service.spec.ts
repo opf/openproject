@@ -29,8 +29,17 @@ import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
-import { AiActionsService } from 'core-app/core/ai-actions/ai-actions.service';
+import {
+  AI_TEXT_TRANSFORM_ACCEPTED_EVENT,
+  AI_TEXT_TRANSFORM_APPLIED_EVENT,
+  AI_TEXT_TRANSFORM_CLOSED_EVENT,
+  AiActionsService,
+  IAiActionsEditor,
+} from 'core-app/core/ai-actions/ai-actions.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 
 const halCollection = (elements:unknown[]) => ({
   _type: 'Collection',
@@ -62,17 +71,45 @@ const newWorkPackage = { ...existingWorkPackage, id: 'new' };
 const fixGrammar = { id: 1, label: 'Fix grammar', position: 1, injectsTypeTemplate: false };
 const makeConcise = { id: 2, label: 'Make concise', position: 2, injectsTypeTemplate: false };
 
+function fakeEditor(field?:string, data = 'Login page dont work.') {
+  const root = { name: '$root' };
+  const range = { rangeIn: root };
+  const parsed = { parsed: true };
+  const model = {
+    document: { getRoot: vi.fn(() => root) },
+    createRangeIn: vi.fn(() => range),
+    insertContent: vi.fn(),
+    change: vi.fn((callback:() => void) => callback()),
+  };
+  const editor = {
+    state: 'ready',
+    getData: vi.fn(() => data),
+    data: { parse: vi.fn(() => parsed) },
+    model,
+    config: { get: vi.fn((name:string) => (name === 'openProject.context.field' ? field : undefined)) },
+  };
+
+  return { editor, asEditor: editor as unknown as IAiActionsEditor, model, range, parsed };
+}
+
 describe('AiActionsService', () => {
   let service:AiActionsService;
   let httpMock:HttpTestingController;
   let activeFeatureFlags:string[];
+  let turboRequests:{ request:ReturnType<typeof vi.fn> };
+  let toast:{ addError:ReturnType<typeof vi.fn> };
 
   beforeEach(() => {
     activeFeatureFlags = ['aiTextTransformActions'];
+    turboRequests = { request: vi.fn().mockResolvedValue({ html: '', headers: new Headers() }) };
+    toast = { addError: vi.fn() };
     TestBed.configureTestingModule({
       providers: [
         AiActionsService,
         { provide: ConfigurationService, useValue: { get activeFeatureFlags() { return activeFeatureFlags; } } },
+        { provide: TurboRequestsService, useValue: turboRequests },
+        { provide: ToastService, useValue: toast },
+        { provide: I18nService, useValue: { t: (key:string) => key } },
         provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -175,7 +212,7 @@ describe('AiActionsService', () => {
     });
 
     it('is the action that was run last', async () => {
-      await service.run(makeConcise);
+      await service.run(makeConcise, fakeEditor().asEditor);
 
       expect(service.defaultAction([fixGrammar, makeConcise])).toBe(makeConcise);
       expect(window.localStorage.getItem(storageKey)).toBe('2');
@@ -197,6 +234,147 @@ describe('AiActionsService', () => {
       vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => { throw new Error('blocked'); });
 
       expect(service.defaultAction([fixGrammar, makeConcise])).toBe(fixGrammar);
+    });
+  });
+  describe('run', () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    function requestBody(call = 0):Record<string, FormDataEntryValue> {
+      const init = turboRequests.request.mock.calls[call][1] as RequestInit;
+      return Object.fromEntries((init.body as FormData).entries());
+    }
+
+    function requestIdOf(call = 0):string {
+      return requestBody(call).request_id as string;
+    }
+
+    function accept(requestId:string, text = 'Login page does not work.'):void {
+      document.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_ACCEPTED_EVENT, { detail: { requestId, scope: 'document', text } }));
+    }
+
+    it('requests the result pane for the whole work package description with its context', async () => {
+      await service.run(fixGrammar, fakeEditor('description').asEditor, existingWorkPackage);
+
+      const [url, init, suppressErrorToast] = turboRequests.request.mock.calls[0] as [string, RequestInit, boolean];
+      expect(url).toBe('/ai/text_transform_panes');
+      expect(init).toMatchObject({ method: 'POST', headers: { Accept: 'text/vnd.turbo-stream.html' } });
+      expect(suppressErrorToast).toBe(true);
+      expect(requestBody()).toEqual({
+        request_id: expect.stringMatching(/^[0-9a-f-]{36}$/) as string,
+        action_id: '1',
+        scope: 'document',
+        input: 'Login page dont work.',
+        work_package_id: '123',
+      });
+    });
+
+    it('sends project and type for a new work package', async () => {
+      await service.run(fixGrammar, fakeEditor('description').asEditor, newWorkPackage);
+
+      expect(requestBody()).toMatchObject({ project_id: '7', type_id: '45' });
+      expect(requestBody()).not.toHaveProperty('work_package_id');
+    });
+
+    it.each([
+      ['a work package comment', existingWorkPackage, 'journal[notes]'],
+      ['an editor without resource', undefined, 'content'],
+    ])('sends no context for %s', async (_, resource, field) => {
+      await service.run(fixGrammar, fakeEditor(field).asEditor, resource);
+
+      expect(Object.keys(requestBody()).sort()).toEqual(['action_id', 'input', 'request_id', 'scope']);
+    });
+
+    it('replaces the whole document as one undoable change and reports it', async () => {
+      const { asEditor, model, range, parsed, editor } = fakeEditor('description');
+      const applied = vi.fn();
+      window.addEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, applied);
+      await service.run(fixGrammar, asEditor, existingWorkPackage);
+
+      accept(requestIdOf());
+      window.removeEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, applied);
+
+      expect(editor.data.parse).toHaveBeenCalledWith('Login page does not work.');
+      expect(model.change).toHaveBeenCalledTimes(1);
+      expect(model.insertContent).toHaveBeenCalledWith(parsed, range);
+      expect((applied.mock.calls[0][0] as CustomEvent).detail).toEqual({ requestId: requestIdOf(), ok: true });
+    });
+
+    it('applies each request only once', async () => {
+      const { asEditor, model } = fakeEditor();
+      await service.run(fixGrammar, asEditor);
+
+      accept(requestIdOf());
+      accept(requestIdOf());
+
+      expect(model.insertContent).toHaveBeenCalledTimes(1);
+    });
+
+    it('ignores requests it did not start', async () => {
+      const { asEditor, model } = fakeEditor();
+      await service.run(fixGrammar, asEditor);
+
+      accept('3f1c2b4a-5d6e-4f70-8a9b-0c1d2e3f4a5b');
+
+      expect(model.insertContent).not.toHaveBeenCalled();
+    });
+
+    it('drops the older request once a new pane replaced its pane, even from another editor', async () => {
+      const first = fakeEditor();
+      const second = fakeEditor();
+      await service.run(fixGrammar, first.asEditor);
+      await service.run(makeConcise, second.asEditor);
+
+      accept(requestIdOf(0));
+      expect(first.model.insertContent).not.toHaveBeenCalled();
+
+      accept(requestIdOf(1));
+      expect(second.model.insertContent).toHaveBeenCalledTimes(1);
+    });
+
+    it('keeps the current request when a new pane could not be requested', async () => {
+      const { asEditor, model } = fakeEditor();
+      await service.run(fixGrammar, asEditor);
+      turboRequests.request.mockRejectedValueOnce(new Error('403'));
+      await service.run(makeConcise, fakeEditor().asEditor);
+
+      accept(requestIdOf(0));
+
+      expect(model.insertContent).toHaveBeenCalledTimes(1);
+    });
+
+    it('leaves the answer to the pane when the editor was destroyed meanwhile', async () => {
+      const { asEditor, model, editor } = fakeEditor();
+      const applied = vi.fn();
+      window.addEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, applied);
+      await service.run(fixGrammar, asEditor);
+
+      editor.state = 'destroyed';
+      accept(requestIdOf());
+      window.removeEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, applied);
+
+      expect(model.insertContent).not.toHaveBeenCalled();
+      expect(applied).not.toHaveBeenCalled();
+    });
+
+    it('forgets a request once its pane was closed', async () => {
+      const { asEditor, model } = fakeEditor();
+      await service.run(fixGrammar, asEditor);
+
+      document.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_CLOSED_EVENT, { detail: { requestId: requestIdOf() } }));
+      accept(requestIdOf());
+
+      expect(model.insertContent).not.toHaveBeenCalled();
+    });
+
+    it('tells the user when the pane could not be requested', async () => {
+      turboRequests.request.mockRejectedValueOnce(new Error('403'));
+      const { asEditor, model } = fakeEditor();
+      await service.run(fixGrammar, asEditor);
+
+      accept(requestIdOf());
+
+      expect(toast.addError).toHaveBeenCalledWith('js.editor.ai_actions.start_failed');
+      expect(model.insertContent).not.toHaveBeenCalled();
     });
   });
 });

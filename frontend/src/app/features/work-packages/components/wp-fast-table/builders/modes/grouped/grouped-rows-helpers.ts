@@ -33,7 +33,7 @@ export function groupIdentifier(group:GroupObject) {
   if (group.href) {
     try {
       value += group.href.map((el) => el.href).join('-');
-    } catch (e) {
+    } catch {
       console.error(`Failed to extract group identifier for ${group.value}`);
     }
   }
