@@ -204,7 +204,10 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     }
   }
 
-  abandon():void {
+  abandon(event?:PageTransitionEvent):void {
+    if (event?.persisted) {
+      return;
+    }
     if (this.run.state !== 'generating' || this.closing || this.abandoned || !this.run.pollUrl) {
       return;
     }
@@ -308,7 +311,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
       this.pollInFlight = false;
     }
 
-    if (this.run.state === 'generating') {
+    if (this.element.isConnected && this.run.state === 'generating') {
       this.schedulePoll();
     }
   }
