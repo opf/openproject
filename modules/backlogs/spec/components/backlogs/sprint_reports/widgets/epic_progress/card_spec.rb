@@ -40,7 +40,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :comp
 
   current_user { user }
 
-  subject(:rendered_component) { render_inline(described_class.new(epic:, sprint:)) }
+  subject(:rendered_component) { render_inline(described_class.new(epic:, sprint:, project:)) }
 
   context "when the project uses a named variant of the Epic type" do
     let!(:epic_variant) { create(:type_variant, type: epic_type, variant_name: "Business Epic") }
@@ -117,19 +117,19 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :comp
         other_project.done_status_ids = [status.id]
       end
 
-      it "counts that descendant as resolved" do
-        expect(rendered_component).to have_text("1 / 2 work packages")
+      it "does not count either descendant as resolved" do
+        expect(rendered_component).to have_text("0 / 2 work packages")
       end
     end
 
-    context "when only the report's project considers the status done" do
+    context "when only the sprint's project considers the status done" do
       before do
         project.done_status_ids = [status.id]
         other_project.done_status_ids = []
       end
 
-      it "counts only the report project's descendant as resolved" do
-        expect(rendered_component).to have_text("1 / 2 work packages")
+      it "counts both descendants as resolved" do
+        expect(rendered_component).to have_text("2 / 2 work packages")
       end
     end
   end
