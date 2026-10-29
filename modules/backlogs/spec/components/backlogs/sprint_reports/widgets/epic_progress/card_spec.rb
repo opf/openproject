@@ -40,7 +40,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :comp
 
   current_user { user }
 
-  subject(:rendered_component) { render_inline(described_class.new(epic:, sprint:, project:)) }
+  subject(:rendered_component) { render_inline(described_class.new(epic:, sprint:)) }
 
   context "when the project uses a named variant of the Epic type" do
     let!(:epic_variant) { create(:type_variant, type: epic_type, variant_name: "Business Epic") }

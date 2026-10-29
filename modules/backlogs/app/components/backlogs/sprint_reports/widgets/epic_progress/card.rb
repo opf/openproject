@@ -36,7 +36,7 @@ module Backlogs
           include OpPrimer::ComponentHelpers
           include Backlogs::Concerns::TimeConsciousScope
 
-          attr_reader :epic, :sprint, :project, :current_user
+          attr_reader :epic, :sprint, :current_user
 
           def self.percentage(resolved:, total:)
             return 0 if total.zero? || resolved.zero?
@@ -44,12 +44,11 @@ module Backlogs
             [resolved * 100 / total, 1].max
           end
 
-          def initialize(epic:, sprint:, project:, current_user: User.current)
+          def initialize(epic:, sprint:, current_user: User.current)
             super()
 
             @epic = epic
             @sprint = sprint
-            @project = project
             @current_user = current_user
           end
 
