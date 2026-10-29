@@ -143,7 +143,6 @@ PATH
   remote: modules/gitlab_integration
   specs:
     openproject-gitlab_integration (3.0.0)
-      openproject-webhooks
 
 PATH
   remote: modules/grids
@@ -217,6 +216,7 @@ PATH
   remote: modules/repositories
   specs:
     openproject-repositories (1.0.0)
+      openproject-webhooks
 
 PATH
   remote: modules/resource_management

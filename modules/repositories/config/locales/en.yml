@@ -33,6 +33,67 @@ en:
       copy_create_branch_command: Copy command to create a branch with empty commit
       create_branch_with_empty_commit: Create branch with empty commit
       title: Git quick snippets
+    gitlab:
+      issue_closed_referenced_comment: >
+        **Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url})
+        has been closed by [%{gitlab_user}](%{gitlab_user_url}).
+      issue_opened_referenced_comment: >
+        **Issue Opened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url})
+        has been opened by [%{gitlab_user}](%{gitlab_user_url}).
+      issue_reopened_referenced_comment: >
+        **Issue Reopened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url})
+        has been reopened by [%{gitlab_user}](%{gitlab_user_url}).
+      merge_request_closed_comment: >
+        **MR Closed:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url})
+        has been closed by [%{gitlab_user}](%{gitlab_user_url}).
+      merge_request_merged_comment: >
+        **MR Merged:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url})
+        has been merged by [%{gitlab_user}](%{gitlab_user_url}).
+      merge_request_opened_comment: >
+        **MR Opened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url})
+        has been opened by [%{gitlab_user}](%{gitlab_user_url}).
+      merge_request_reopened_comment: >
+        **MR Reopened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url})
+        has been reopened by [%{gitlab_user}](%{gitlab_user_url}).
+      note_commit_referenced_comment: >
+        **Referenced in Commit:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in
+        a Commit Note [%{commit_id}](%{commit_url}) on [%{repository}](%{repository_url}):
+
+        %{commit_note}
+      note_issue_commented_comment: >
+        **Commented in Issue:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in
+        Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}):
+
+        %{issue_note}
+      note_issue_referenced_comment: >
+        **Referenced in Issue:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in
+        Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}):
+
+        %{issue_note}
+      note_mr_commented_comment: >
+        **Commented in MR:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in
+        Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}):
+
+        %{mr_note}
+      note_mr_referenced_comment: >
+        **Referenced in MR:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in
+        Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}):
+
+        %{mr_note}
+      note_snippet_referenced_comment: >
+        **Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in
+        Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}):
+
+        %{snippet_note}
+
+        %{commit_note}
+
+        %{commit_note}
+      push_single_commit_comment_with_ref: >
+        **Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url})
+        to [%{repository}](%{repository_url}) at %{commit_timestamp}:
+
+        %{commit_note}
     issue_component:
       states:
         closed: Closed
