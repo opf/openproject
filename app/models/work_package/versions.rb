@@ -171,6 +171,8 @@ module WorkPackage::Versions
   def effective_target_versions = effective_versions("target")
   def effective_observed_in_versions = effective_versions("observed_in")
 
+  def lowest_target_version = target_versions.first
+
   # An override can also originate from the system, e.g. when versions that are
   # not shared with the (new) project are cleared on a project change. Such
   # overrides are marked here so that contracts don't attribute them to the
