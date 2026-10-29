@@ -233,8 +233,8 @@ gem "opentelemetry-exporter-otlp", "~> 0.37.0", require: false
 gem "opentelemetry-instrumentation-all", "~> 0.98.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
-gem "openproject-octicons", "~>19.37.0"
-gem "openproject-octicons_helper", "~>19.37.0"
+gem "openproject-octicons", "~>19.38.0"
+gem "openproject-octicons_helper", "~>19.38.0"
 gem "openproject-primer_view_components", "~>0.94.0"
 gem "view_component", "~> 4.15.0"
 
