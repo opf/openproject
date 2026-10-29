@@ -29,53 +29,6 @@
 
 ---
 en:
-  activerecord:
-    attributes:
-      gitlab_branch:
-        gitlab_project: "GitLab project"
-        namespace: "GitLab namespace"
-        project_html_url: "GitLab project URL"
-      gitlab_merge_request:
-        labels: "Labels"
-      gitlab_pipeline:
-        ci_details: "CI Details"
-      gitlab_user:
-        avatar_url: "Avatar URL"
-        name: "Name"
-        username: "Username"
-    errors:
-      models:
-        gitlab_issue:
-          attributes:
-            labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
-        gitlab_merge_request:
-          attributes:
-            labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
-    models:
-      gitlab_branch:
-        one: "GitLab branch"
-        other: "GitLab branches"
-      gitlab_issue:
-        one: "GitLab issue"
-        other: "GitLab issues"
-      gitlab_merge_request:
-        one: "GitLab merge request"
-        other: "GitLab merge requests"
-      gitlab_pipeline:
-        one: "GitLab pipeline"
-        other: "GitLab pipelines"
-      gitlab_user:
-        one: "GitLab user"
-        other: "GitLab users"
-  attributes:
-    commit: "Commit"
-    gitlab: "GitLab identifier"
-    gitlab_html_url: "GitLab HTML URL"
-    gitlab_merge_request: "Merge Request"
-    gitlab_updated_at: "Updated at"
-    gitlab_user_avatar_url: "GitLab avatar URL"
   label_gitlab_actor: "GitLab actor"
 
   label_gitlab_integration: "GitLab Integration"

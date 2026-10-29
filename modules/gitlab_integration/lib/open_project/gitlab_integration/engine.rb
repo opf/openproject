@@ -64,7 +64,5 @@ module OpenProject::GitlabIntegration
                   icon: :"op-logo-gitlab"
       end
     end
-
-    patches %w[WorkPackage]
   end
 end
