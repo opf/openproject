@@ -131,6 +131,17 @@ describe('OpTooltipDirective', () => {
     expect(document.querySelector('tool-tip')).toBeNull();
   });
 
+  it('reads showTooltip as a boolean attribute', async () => {
+    await render(`
+      <button type="button" opTooltip label="Star" showTooltip="false"><svg></svg></button>
+      <button type="button" opTooltip label="Refresh" showTooltip><svg></svg></button>
+    `);
+
+    expect(screen.getByRole('button', { name: 'Star' })).toHaveAttribute('aria-label', 'Star');
+    expect(screen.getByRole('button', { name: 'Refresh' })).not.toHaveAttribute('aria-label');
+    expect(document.querySelectorAll('tool-tip')).toHaveLength(1);
+  });
+
   it('renders nothing for empty label and description', async () => {
     await render('<button type="button" opTooltip label="" description="">Plain</button>');
 

@@ -29,6 +29,7 @@
 
 import {
   afterRenderEffect,
+  booleanAttribute,
   ComponentRef,
   computed,
   DestroyRef,
@@ -65,7 +66,7 @@ const presence = (value?:string) => (value === undefined || value === '' ? null 
 export class OpTooltipDirective {
   readonly label = input<string>();
   readonly description = input<string>();
-  readonly showTooltip = input(true);
+  readonly showTooltip = input(true, { transform: booleanAttribute });
   readonly tooltipId = input(generateId('tooltip'));
   readonly tooltipDirection = input<TooltipDirection>('s', { alias: 'tooltip-direction' });
   /**

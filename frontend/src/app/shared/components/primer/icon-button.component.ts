@@ -27,7 +27,7 @@
 
 /* eslint-disable @angular-eslint/component-selector, @angular-eslint/no-input-rename */
 
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { generateId } from 'core-app/shared/helpers/dom-helpers';
 import { IconModule } from '../icon/icon.module';
 import { AbstractBaseButtonDirective } from './abstract-base-button.directive';
@@ -73,7 +73,7 @@ export class PrimerIconButtonComponent extends AbstractBaseButtonDirective {
    *
    * @default true
    */
-  readonly showTooltip = input(true);
+  readonly showTooltip = input(true, { transform: booleanAttribute });
   readonly tooltipId = input(generateId('tooltip'));
   readonly tooltipDirection = input<TooltipDirection>('s', { alias: 'tooltip-direction' });
 
