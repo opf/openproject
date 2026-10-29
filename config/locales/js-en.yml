@@ -504,6 +504,7 @@ en:
     label_description: "Description"
     label_details: "Details"
     label_display: "Display"
+    label_document: "Document"
     label_drop_files: "Drop files here to attach files."
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
     label_drop_or_click_files: "Drop files here or click to attach files."
