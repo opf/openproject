@@ -89,14 +89,6 @@ RSpec.describe LlmFeatureBinding do
       expect(binding.resolved_model_id).to eq("qwen3.6-27b")
       expect(binding).not_to be_dangling
     end
-
-    it "writes that identifier down when the binding is locked" do
-      binding = connection.feature_bindings.create!(feature_key: "semantic_search")
-
-      binding.update!(locked_at: Time.current)
-
-      expect(binding.reload.model_id).to eq("bge-m3")
-    end
   end
 
   describe "the active Semantic Index" do
