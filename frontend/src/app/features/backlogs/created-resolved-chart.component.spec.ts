@@ -26,6 +26,8 @@
 //++
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { BaseChartDirective } from 'ng2-charts';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -90,6 +92,16 @@ describe('CreatedResolvedComponent', () => {
 
   const options = () => fixture.componentInstance.lineChartOptions();
 
+  // What chart.js put on the axis, rather than what it was asked for. ng2-charts builds the chart
+  // on an input change that follows its own ngOnInit, which one round of change detection does not
+  // reach, so it is asked to build it here.
+  const renderedYAxisLabels = () => {
+    const directive = fixture.debugElement.query(By.directive(BaseChartDirective))
+      .injector.get(BaseChartDirective);
+
+    return directive.render()!.scales.y.ticks.map((tick) => tick.value);
+  };
+
   it('renders a canvas once a series carries points', () => {
     renderWith(bothSeries());
 
@@ -119,6 +131,19 @@ describe('CreatedResolvedComponent', () => {
     renderWith(bothSeries());
 
     expect(datasets().map((dataset) => dataset.stepped)).toEqual(['after', 'after']);
+  });
+
+  // A work package is atomic. A sprint holding one of them used to be drawn against an axis
+  // offering 0.2 and 0.4 of it, because chart.js fits its steps to the range it is given.
+  it('labels the axis in whole work packages', () => {
+    renderWith([
+      { id: 'created', label: 'Created work packages', data: [point('2026-10-12T09:00:00.000Z', 1)] },
+    ]);
+
+    const labels = renderedYAxisLabels();
+
+    expect(labels.length).toBeGreaterThan(1);
+    expect(labels.filter((label) => !Number.isInteger(label))).toEqual([]);
   });
 
   it('adds a point-less series so the non-working days get a legend entry that toggles them', () => {

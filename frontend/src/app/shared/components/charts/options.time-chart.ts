@@ -100,7 +100,10 @@ export function timeChartOptions({ zone, range, yTitle, suggestedMax, formatDate
       },
       y: {
         title: { display: true, text: yTitle, color: fontColor },
-        ticks: { color: fontColor },
+        // Whole units only. Callers must be measuring something atomic -- a count of work
+        // packages, or a sum of story points, which are integers. A fractional unit such as
+        // estimated hours (AGILE-198) would need this lifted to a parameter.
+        ticks: { color: fontColor, precision: 0 },
         grid: { color: gridColor },
         border: { color: fontColor },
         beginAtZero: true,
