@@ -58,7 +58,7 @@ RSpec.describe "default colors administration", :js do
 
     it "shows pass or fail per theme and usage" do
       fill_in "Hex code", with: "#fff"
-      click_on "Check contrast"
+      find_field("Name").click
 
       expect(page).to have_heading "Contrast preview"
       expect(page).to have_text("Default light and dark themes")
@@ -89,27 +89,27 @@ RSpec.describe "default colors administration", :js do
       expect(Color.where(name: "Preview color")).not_to exist
     end
 
-    it "flags outdated results on edit and rejects an invalid hex code" do
+    it "hides results for incomplete input and rejects an invalid hex code on blur" do
       fill_in "Hex code", with: "#fff"
-      click_on "Check contrast"
+      find_field("Name").click
       expect(page).to have_heading "Contrast preview"
 
       find_field("Hex code").send_keys(:end, :backspace)
-      expect(page).to have_text("These results are outdated. Click Check contrast to update them.")
-      click_on "Check contrast"
+      expect(page).to have_no_heading "Contrast preview"
+      expect(page).to have_field("Hex code", validation_error: false)
+      find_field("Name").click
       expect(page).to have_field("Hex code", validation_error: "Hex code is not a valid 6-digit hexadecimal color code.")
       expect(page).to have_no_heading "Contrast preview"
 
       fill_in "Hex code", with: "#fff"
       expect(page).to have_field("Hex code", validation_error: false)
-      click_on "Check contrast"
+      find_field("Name").click
       expect(page).to have_heading "Contrast preview"
-      expect(page).to have_no_text("These results are outdated")
     end
 
     it "saves a colour that fails contrast and previews it again after reopening" do
       fill_in "Hex code", with: "#fff"
-      click_on "Check contrast"
+      find_field("Name").click
       click_on "Save"
       wait_for_reload
       expect_and_dismiss_flash type: :success, message: "Successful creation."
@@ -117,7 +117,6 @@ RSpec.describe "default colors administration", :js do
       within_test_selector "default-colors-list" do
         click_on "Preview color"
       end
-      click_on "Check contrast"
       expect(page).to have_heading "Contrast preview"
       expect(page).to have_text("3 of 4 pass")
     end
@@ -128,19 +127,6 @@ RSpec.describe "default colors administration", :js do
 
       expect(page).to have_field("Hex code", with: "#FF0000")
       expect(page).to have_heading "Contrast preview"
-      expect(page).to have_no_text("These results are outdated")
-    end
-
-    it "keeps the check button beside the hex code input when the hex code is invalid" do
-      fill_in "Name", with: "Invalid color"
-      fill_in "Hex code", with: "#XXX"
-      click_on "Save"
-
-      expect(page).to have_text("Hex code is not a valid 6-digit hexadecimal color code.")
-      hexcode = find_field("Hex code").rect
-      button = find_button("Check contrast").rect
-      expect(button["y"]).to be_within(1).of(hexcode["y"])
-      expect(hexcode["width"]).to be < 150
     end
 
     it "clears the server error when the hex code is edited" do
@@ -158,17 +144,19 @@ RSpec.describe "default colors administration", :js do
 
     it "shows the client hex code error where the server shows it" do
       fill_in "Hex code", with: "#XXX"
-      click_on "Check contrast"
+      find_field("Name").click
 
       expect(page).to have_css(".FormControl-inlineValidation",
                                text: "Hex code is not a valid 6-digit hexadecimal color code.", count: 1)
     end
 
-    it "checks contrast when a typed color is committed" do
-      fill_in "Hex code", with: "#fff"
-      find_field("Name").click
+    it "checks contrast while typing without leaving the field" do
+      fill_in "Hex code", with: ""
+      expect(page).to have_no_heading "Contrast preview"
 
-      expect(page).to have_field("Hex code", with: "#FFFFFF")
+      find_field("Hex code").send_keys("#fff")
+
+      expect(find_field("Hex code")).to match_css(":focus")
       expect(page).to have_heading "Contrast preview"
     end
   end
