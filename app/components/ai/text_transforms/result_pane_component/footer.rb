@@ -40,11 +40,7 @@ module AI
             run: pane.run&.uuid,
             seq: pane.last_seq,
             request_id: pane.request_id,
-            poll_url:,
-            # Demo glue (AI-126 demo branch, until AI-176): polling and the applied wait.
-            controller: "ai-text-transform-pane-run",
-            ai_text_transform_pane_run_editor_gone_value: label(:editor_gone),
-            ai_text_transform_pane_run_selection_gone_value: label(:selection_gone)
+            poll_url:
           }
         end
 

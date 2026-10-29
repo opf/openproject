@@ -28,22 +28,16 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import type { ICKEditorInstance } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-
-import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
-import { IEditorWithContent } from 'core-app/core/ai-actions/editor-content';
-import {
-  AI_TEXT_TRANSFORM_APPLIED_EVENT,
-  AI_TEXT_TRANSFORM_APPLY_EVENT,
-  AI_TEXT_TRANSFORM_CLOSED_EVENT,
-  AiTextTransformApplyDetail,
-  AiTextTransformAppliedDetail,
-  AiTextTransformScope,
-} from 'core-app/core/ai-actions/ai-text-transform-events';
 
 export interface IAiTextTransformAction {
   id:number;
@@ -61,23 +55,41 @@ interface IEditorContextResource {
   };
 }
 
-const FEATURE_FLAG = 'aiTextTransformActions';
+export type IAiActionsEditor = Pick<ICKEditorInstance, 'getData'|'data'|'model'|'config'|'state'>;
+
 interface IPendingRequest {
-  editor:IEditorWithContent;
-  scope:AiTextTransformScope;
+  requestId:string;
+  editor:IAiActionsEditor;
+  scope:'document'|'selection';
 }
 
-export const AI_SELECTION_MARKER = 'ai-text-transform:selection';
+// Demo only (AI-126 demo branch, preview of AI-177): the CKEditor model APIs the selection mode needs.
+interface ISelectionModel {
+  document:{ selection:{ isCollapsed:boolean; getFirstRange():unknown } };
+  markers:{ get(name:string):{ getRange():unknown }|null };
+  getSelectedContent(selection:unknown):unknown;
+  change(callback:(writer:{ addMarker(name:string, options:unknown):void; removeMarker(name:string):void }) => void):void;
+}
+
+type IDescriptionContext = { workPackageId:string }|{ projectId:string, typeId:string };
+
+interface IAcceptedDetail {
+  requestId:string;
+  text:string;
+}
+
+const FEATURE_FLAG = 'aiTextTransformActions';
 const LAST_ACTION_STORAGE_KEY = 'openproject.ai_actions.last_action_id';
-// Demo only: ?ai_demo_fault=blocked or =failed in the page URL makes the next runs end that way.
+export const AI_TEXT_TRANSFORM_ACCEPTED_EVENT = 'op-dispatched:ai-text-transform:accepted';
+export const AI_TEXT_TRANSFORM_CLOSED_EVENT = 'op-dispatched:ai-text-transform:closed';
+export const AI_TEXT_TRANSFORM_APPLIED_EVENT = 'op:ai-text-transform:applied';
+// Demo only (AI-126 demo branch): the selection marker of the AI-177 preview and the fault switch.
+const AI_SELECTION_MARKER = 'ai-text-transform:selection';
 const DEMO_FAULT_PARAM = 'ai_demo_fault';
 
 /**
  * Counterpart of the CKEditor Assistant button, which only renders the list and reports the chosen
  * action. Availability is decided server-side; an empty list keeps the button hidden.
- *
- * Demo (AI-126 demo branch, until AI-176): run requests the server-rendered result pane through
- * Turbo and applies the text the pane hands back to the editor model.
  */
 @Injectable({ providedIn: 'root' })
 export class AiActionsService {
@@ -89,14 +101,19 @@ export class AiActionsService {
 
   private turboRequests = inject(TurboRequestsService);
 
-  private pending = new Map<string, IPendingRequest>();
+  private toast = inject(ToastService);
+
+  private I18n = inject(I18nService);
+
+  // The page shows one result pane at a time, so only the request behind it can be applied.
+  private pending:IPendingRequest|null = null;
 
   constructor() {
-    document.addEventListener(AI_TEXT_TRANSFORM_APPLY_EVENT, (event) => {
-      this.apply((event as CustomEvent<AiTextTransformApplyDetail>).detail);
+    document.addEventListener(AI_TEXT_TRANSFORM_ACCEPTED_EVENT, (event) => {
+      this.apply((event as CustomEvent<IAcceptedDetail>).detail);
     });
     document.addEventListener(AI_TEXT_TRANSFORM_CLOSED_EVENT, (event) => {
-      this.closed((event as CustomEvent<{ requestId:string }>).detail.requestId);
+      this.forget((event as CustomEvent<{ requestId:string }>).detail.requestId);
     });
   }
 
@@ -127,134 +144,107 @@ export class AiActionsService {
     return actions.find((action) => action.id === lastActionId) ?? actions[0];
   }
 
-  async run(action:IAiTextTransformAction, editor?:IEditorWithContent, resource?:IEditorContextResource):Promise<void> {
+  async run(action:IAiTextTransformAction, editor:IAiActionsEditor, resource?:IEditorContextResource):Promise<void> {
     this.rememberAction(action);
-    if (!editor) {
-      return;
-    }
 
-    this.forgetRequestsOf(editor);
-
-    // An action that injects the type template describes the whole description,
-    // so it always runs on the document, even with text selected.
+    const requestId = uuidv4();
     const selection = action.injectsTypeTemplate ? null : this.markSelection(editor);
-    const scope:AiTextTransformScope = selection === null ? 'document' : 'selection';
-    const requestId = crypto.randomUUID();
-    this.pending.set(requestId, { editor, scope });
+    const scope = selection === null ? 'document' : 'selection';
 
-    await this.turboRequests.request(`${this.pathHelper.staticBase}/ai/text_transform_panes`, {
-      method: 'POST',
-      body: this.paneRequest({
-        request_id: requestId,
-        action_id: String(action.id),
-        scope,
-        input: selection ?? editor.getData(),
-        ...this.paneContext(resource, this.fieldOf(editor)),
-      }),
-      headers: { Accept: 'text/vnd.turbo-stream.html' },
-      credentials: 'same-origin',
-    });
-  }
-
-  // Only results for requests started here are applied: the apply event comes from a turbo
-  // stream, and an injected stream must not be able to write into the editor.
-  private apply({ requestId, text }:AiTextTransformApplyDetail):void {
-    const request = this.pending.get(requestId);
-    if (!request) {
-      return;
-    }
-
-    const { editor, scope } = request;
-    const marker = editor.model.markers.get(AI_SELECTION_MARKER);
-    const ok = scope === 'document' || marker !== null;
-
-    if (ok) {
-      // insertContent keeps the undo history, unlike setData.
-      editor.model.change((writer) => {
-        const range = marker && scope === 'selection'
-          ? marker.getRange()
-          : editor.model.createRangeIn(editor.model.document.getRoot());
-        editor.model.insertContent(editor.data.parse(text), range);
-        if (marker) {
-          writer.removeMarker(AI_SELECTION_MARKER);
-        }
-      });
-      this.pending.delete(requestId);
-    }
-
-    const detail:AiTextTransformAppliedDetail = { requestId, ok };
-    window.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_APPLIED_EVENT, { detail }));
-  }
-
-  private closed(requestId:string):void {
-    const request = this.pending.get(requestId);
-    if (request) {
-      this.pending.delete(requestId);
-      this.clearMarker(request.editor);
-    }
-  }
-
-  private forgetRequestsOf(editor:IEditorWithContent):void {
-    this.pending.forEach((request, requestId) => {
-      if (request.editor === editor) {
-        this.pending.delete(requestId);
-      }
-    });
-  }
-
-  private markSelection(editor:IEditorWithContent):string|null {
-    this.clearMarker(editor);
-    const { selection } = editor.model.document;
-    if (selection.isCollapsed) {
-      return null;
-    }
-
-    const markdown = editor.data.stringify(editor.model.getSelectedContent(selection));
-    if (markdown.trim() === '') {
-      return null;
-    }
-
-    editor.model.change((writer) => {
-      writer.addMarker(AI_SELECTION_MARKER, { range: selection.getFirstRange(), usingOperation: false });
-    });
-    return markdown;
-  }
-
-  private clearMarker(editor:IEditorWithContent):void {
-    if (editor.model.markers.get(AI_SELECTION_MARKER)) {
-      editor.model.change((writer) => writer.removeMarker(AI_SELECTION_MARKER));
-    }
-  }
-
-  private paneRequest(fields:Record<string, string>):FormData {
     const body = new FormData();
-    Object.entries(fields).forEach(([key, value]) => body.set(key, value));
-
+    Object.entries({
+      request_id: requestId,
+      action_id: String(action.id),
+      scope,
+      input: selection ?? editor.getData(),
+      ...this.paneContext(resource, editor.config.get('openProject.context.field') as string|undefined),
+    }).forEach(([name, value]) => body.set(name, value));
     const demoFault = new URLSearchParams(window.location.search).get(DEMO_FAULT_PARAM);
     if (demoFault) {
       body.set('demo_fault', demoFault);
     }
-    return body;
+
+    try {
+      await this.turboRequests.request(
+        this.pathHelper.aiTextTransformPanesPath(),
+        { method: 'POST', body, headers: { Accept: 'text/vnd.turbo-stream.html' }, credentials: 'same-origin' },
+        true,
+      );
+      this.pending = { requestId, editor, scope };
+    } catch {
+      this.toast.addError(this.I18n.t('js.editor.ai_actions.start_failed'));
+    }
   }
 
-  // The work package description runs with its context; every other editor runs without one.
+  // The accepted event arrives through a turbo stream, so only requests started here may write into an editor.
+  // A destroyed editor gets no answer, so the pane tells the user it is gone.
+  private apply({ requestId, text }:IAcceptedDetail):void {
+    const request = this.pending?.requestId === requestId ? this.pending : null;
+    this.forget(requestId);
+    const editor = request?.editor;
+    if (!editor || editor.state === 'destroyed') {
+      return;
+    }
+
+    const { model, data } = editor;
+    const marker = (model as unknown as ISelectionModel).markers.get(AI_SELECTION_MARKER);
+    if (request.scope === 'selection' && !marker) {
+      window.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_APPLIED_EVENT, { detail: { requestId, ok: false } }));
+      return;
+    }
+
+    model.change(() => {
+      const range = request.scope === 'selection' && marker ? marker.getRange() : model.createRangeIn(model.document.getRoot()!);
+      model.insertContent(data.parse(text), range as Parameters<typeof model.insertContent>[1]);
+    });
+    this.clearMarker(editor);
+
+    window.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_APPLIED_EVENT, { detail: { requestId, ok: true } }));
+  }
+
+  private forget(requestId:string):void {
+    if (this.pending?.requestId === requestId) {
+      if (this.pending.editor.state !== 'destroyed') {
+        this.clearMarker(this.pending.editor);
+      }
+      this.pending = null;
+    }
+  }
+
+  // Demo only (AI-126 demo branch, preview of AI-177): mark the selected range and send only its markdown.
+  private markSelection(editor:IAiActionsEditor):string|null {
+    this.clearMarker(editor);
+    const model = editor.model as unknown as ISelectionModel;
+    const { selection } = model.document;
+    if (selection.isCollapsed) {
+      return null;
+    }
+
+    const markdown = editor.data.stringify(model.getSelectedContent(selection) as Parameters<typeof editor.data.stringify>[0]);
+    if (markdown.trim() === '') {
+      return null;
+    }
+
+    model.change((writer) => writer.addMarker(AI_SELECTION_MARKER, { range: selection.getFirstRange(), usingOperation: false }));
+    return markdown;
+  }
+
+  private clearMarker(editor:IAiActionsEditor):void {
+    const model = editor.model as unknown as ISelectionModel;
+    if (model.markers.get(AI_SELECTION_MARKER)) {
+      model.change((writer) => writer.removeMarker(AI_SELECTION_MARKER));
+    }
+  }
+
   private paneContext(resource:IEditorContextResource|undefined, field:string|undefined):Record<string, string> {
-    if (resource?._type !== 'WorkPackage' || field !== 'description') {
+    const context = this.descriptionContext(resource, field);
+    if (!context) {
       return {};
     }
 
-    if (resource.id && resource.id !== 'new') {
-      return { work_package_id: resource.id };
-    }
-
-    const projectId = this.linkedId(resource.$links?.project?.href);
-    const typeId = this.linkedId(resource.$links?.type?.href);
-    return projectId && typeId ? { project_id: projectId, type_id: typeId } : {};
-  }
-
-  // Only the field: config.get deep-clones its value, and the context's HAL resource cannot be cloned.
-  private fieldOf(editor:IEditorWithContent):string|undefined {
-    return editor.config?.get('openProject.context.field') as string|undefined;
+    return 'workPackageId' in context
+      ? { work_package_id: context.workPackageId }
+      : { project_id: context.projectId, type_id: context.typeId };
   }
 
   private rememberAction(action:IAiTextTransformAction):void {
@@ -276,24 +266,38 @@ export class AiActionsService {
   }
 
   private listPath(resource:IEditorContextResource|undefined, field:string|undefined):string|null {
-    if (resource?._type === 'WorkPackage' && field === 'description') {
-      return this.workPackageListPath(resource);
+    const paths = this.pathHelper.api.v3;
+    const context = this.descriptionContext(resource, field);
+
+    if (context === undefined) {
+      return paths.aiTextTransformActions();
+    }
+    if (context === null) {
+      return null;
     }
 
-    return this.pathHelper.api.v3.aiTextTransformActions();
+    return 'workPackageId' in context
+      ? paths.aiTextTransformActionsByWorkPackage(context.workPackageId)
+      : paths.aiTextTransformActionsByProject(context.projectId, context.typeId);
   }
 
-  private workPackageListPath(workPackage:IEditorContextResource):string|null {
-    const paths = this.pathHelper.api.v3;
-
-    if (!isNewResource(workPackage)) {
-      return paths.aiTextTransformActionsByWorkPackage(workPackage.id!);
+  // undefined for any editor but a work package description, null for a new work package without project or type.
+  private descriptionContext(
+    resource:IEditorContextResource|undefined,
+    field:string|undefined,
+  ):IDescriptionContext|null|undefined {
+    if (resource?._type !== 'WorkPackage' || field !== 'description') {
+      return undefined;
     }
 
-    const projectId = this.linkedId(workPackage.$links?.project?.href);
-    const typeId = this.linkedId(workPackage.$links?.type?.href);
+    if (!isNewResource(resource)) {
+      return { workPackageId: resource.id! };
+    }
 
-    return projectId && typeId ? paths.aiTextTransformActionsByProject(projectId, typeId) : null;
+    const projectId = this.linkedId(resource.$links?.project?.href);
+    const typeId = this.linkedId(resource.$links?.type?.href);
+
+    return projectId && typeId ? { projectId, typeId } : null;
   }
 
   private linkedId(href:string|undefined):string|null {

@@ -40,6 +40,10 @@ export class PathHelperService {
     return this.appBasePath;
   }
 
+  public aiTextTransformPanesPath() {
+    return `${this.staticBase}/ai/text_transform_panes`;
+  }
+
   public attachmentDownloadPath(attachmentIdentifier:string, slug:string|undefined) {
     const path = `${this.staticBase}/attachments/${attachmentIdentifier}`;
 
