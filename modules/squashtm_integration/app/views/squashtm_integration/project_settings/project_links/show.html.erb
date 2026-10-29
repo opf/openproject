@@ -1,0 +1,104 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title t(:label_project_settings), t(:project_module_squashtm) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:project_module_squashtm) }
+    header.with_description { t("squashtm_integration.project_settings.project_links.show.description") }
+    header.with_breadcrumbs(
+      [{ href: project_overview_path(@project.id), text: @project.name },
+       { href: project_settings_general_path(@project.id), text: t(:label_project_settings) },
+       t(:project_module_squashtm)]
+    )
+  end
+%>
+
+<% if @server.nil? %>
+  <%=
+    render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert, mb: 3, test_selector: "squashtm-project-link--no-server")) do
+      t("squashtm_integration.project_settings.project_links.show.server_not_configured")
+    end
+  %>
+<% elsif @squashtm_projects.nil? %>
+  <%=
+    render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop, mb: 3, test_selector: "squashtm-project-link--projects-unavailable")) do
+      t("squashtm_integration.project_settings.project_links.show.projects_unavailable")
+    end
+  %>
+<% elsif linked_squashtm_project_missing? %>
+  <%=
+    render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert, mb: 3, test_selector: "squashtm-project-link--linked-project-missing")) do
+      t(
+        "squashtm_integration.project_settings.project_links.show.linked_project_missing",
+        name: @project_link.squashtm_project_name_in_database
+      )
+    end
+  %>
+<% end %>
+
+<% if @project_link.persisted? %>
+  <%=
+    render(Primer::Alpha::Banner.new(scheme: :success, mb: 3, test_selector: "squashtm-project-link--current")) do
+      t("squashtm_integration.project_settings.project_links.show.linked_to_html", name: linked_squashtm_project_name)
+    end
+  %>
+
+  <%=
+    render(
+      Primer::Beta::Button.new(
+        tag: :a,
+        scheme: :danger,
+        href: destroy_dialog_project_settings_squashtm_path(@project),
+        data: { controller: "async-dialog" },
+        test_selector: "squashtm-project-link--delete"
+      )
+    ) do |button|
+      button.with_leading_visual_icon(icon: :unlink)
+      t("squashtm_integration.project_settings.project_links.show.unlink")
+    end
+  %>
+<% elsif @server.nil? %>
+  <%=
+    render(Primer::Beta::Text.new(tag: :p, color: :subtle)) do
+      t("squashtm_integration.project_settings.project_links.show.not_linked")
+    end
+  %>
+<% elsif @squashtm_projects %>
+  <%=
+    primer_form_with(
+      model: @project_link,
+      scope: :squashtm_project_link,
+      url: project_settings_squashtm_path(@project),
+      method: :patch
+    ) do |form|
+      render(SquashTMIntegration::ProjectSettings::ProjectLinkForm.new(form, squashtm_projects: @squashtm_projects))
+    end
+  %>
+<% end %>

@@ -87,4 +87,11 @@ RSpec.describe SquashTMIntegration::Server do
     expect(second).not_to be_valid
     expect(second.errors).to be_added(:base, :singleton)
   end
+
+  it "links a SquashTM project to its information page" do
+    server = build(:squashtm_server, base_url: "https://squashtm.example.com/squash")
+
+    expect(server.project_url(7))
+      .to eq("https://squashtm.example.com/squash/administration-workspace/projects/7/content?anchor=information")
+  end
 end
