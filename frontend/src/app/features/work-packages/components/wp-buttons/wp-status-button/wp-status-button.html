@@ -11,7 +11,9 @@
       [attr.aria-disabled]="!allowed || null"
       title=""
       opTooltip
+      [label]="text.status + ' ' + status.name"
       [description]="disabledReason ?? undefined"
+      [tooltipWhenObscured]="disabledReason ? undefined : statusText"
       wpStatusDropdown
       [wpStatusDropdown-workPackage]="workPackage"
       >
@@ -22,7 +24,7 @@
           <op-icon icon-classes="button--icon icon-locked" />
         </span>
       }
-      <span class="op-wp-status-button--text button--text">
+      <span #statusText class="op-wp-status-button--text button--text">
         <span class="sr-only">{{ text.status }} </span>
         <span [textContent]="status.name"></span>
       </span>
