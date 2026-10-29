@@ -31,32 +31,99 @@ module AI
   module TextTransforms
     # Brings the model output that Replace inserts in line with the pane's untrusted preview, so the
     # editor never receives macros, images or group mentions (which notify every member on save).
+    # Code spans and blocks stay untouched because only image and raw HTML nodes are rewritten.
     class ApplicableText
-      MACRO = %r{<macro\b[^>]*?(?:/>|>.*?</macro>)}m
-      GROUP_MENTION = %r{<mention\b(?=[^>]*\bdata-type="group")[^>]*>(.*?)</mention>}m
-      MARKDOWN_IMAGE = /!\[([^\]]*)\]\(\s*<?([^)\s>]+)>?(?:\s+"[^"]*")?\s*\)/
-      HTML_IMAGE = /<img\b[^>]*>/m
+      PARSE_OPTIONS = {
+        parse: { smart: false },
+        extension: { table: true, strikethrough: true, tagfilter: false, autolink: false, tasklist: false, shortcodes: false }
+      }.freeze
+      TAG = %r{<(/?)(macro|img|mention)\b(?:[^>"']|"[^"]*"|'[^']*')*>}i
 
-      def self.call(text)
-        text
-          .gsub(MACRO, "")
-          .gsub(GROUP_MENTION) { Regexp.last_match(1) }
-          .gsub(MARKDOWN_IMAGE) { image_link(Regexp.last_match(1), Regexp.last_match(2)) }
-          .gsub(HTML_IMAGE) { |tag| html_image_link(tag) }
+      def self.call(text) = new(text).call
+
+      def initialize(text)
+        @text = text
+        @group_mentions = []
       end
 
-      def self.html_image_link(tag)
-        image = Nokogiri::HTML5.fragment(tag).at("img")
-        image_link(image&.[]("alt"), image&.[]("src"))
+      def call
+        edits.reverse.reduce(@text.b) { |result, (range, replacement)| result.bytesplice(range, replacement.b) }
+             .force_encoding(@text.encoding)
       end
 
-      def self.image_link(alt, source)
-        source = source.presence
-        text = I18n.t("text_formatting.image_link", name: alt.presence || source).delete("[]")
-        source ? "[#{text}](#{source})" : text
+      private
+
+      def edits
+        covered_until = 0
+        Commonmarker.parse(@text, options: PARSE_OPTIONS).to_enum(:walk).filter_map do |node|
+          range = byte_range(node)
+          next if range.begin < covered_until
+
+          edit = edit_for(node, range)
+          covered_until = range.end if edit
+          edit
+        end
       end
 
-      private_class_method :html_image_link, :image_link
+      def edit_for(node, range)
+        case node.type
+        when :image
+          [range, markdown_image_link(node)]
+        when :html_inline, :html_block
+          source = @text.byteslice(range)
+          rewritten = source.gsub(TAG) { rewrite_tag(Regexp.last_match) }
+          [range, rewritten] if rewritten != source
+        end
+      end
+
+      def rewrite_tag(match)
+        closing = match[1].present?
+        case match[2].downcase
+        when "macro" then ""
+        when "img" then closing ? "" : html_image_link(match[0])
+        when "mention" then rewrite_mention(match[0], closing)
+        end
+      end
+
+      def rewrite_mention(tag, closing)
+        group = closing ? @group_mentions.pop : @group_mentions.push(attributes(tag)["data-type"] == "group").last
+        group ? "" : tag
+      end
+
+      def markdown_image_link(node)
+        alt = node.to_enum(:walk).select { %i[text code].include?(it.type) }.map(&:string_content).join
+        source = node.url.presence
+        text = image_link_text(alt, source).delete("[]")
+        return text unless source
+
+        "[#{text}](#{source.match?(/[\s()<>]/) ? "<#{source}>" : source})"
+      end
+
+      def html_image_link(tag)
+        image = attributes(tag)
+        source = image["src"].presence
+        text = ERB::Util.html_escape(image_link_text(image["alt"], source))
+        source ? %(<a href="#{ERB::Util.html_escape(source)}">#{text}</a>) : text
+      end
+
+      def image_link_text(alt, source)
+        OpenProject::TextFormatting::Filters::UntrustedSourceFilter.image_link_text(alt, source)
+      end
+
+      def attributes(tag)
+        Nokogiri::HTML5.fragment(tag).element_children.first || {}
+      end
+
+      def byte_range(node)
+        position = node.source_position
+        first = line_offsets[position[:start_line] - 1] + position[:start_column] - 1
+        last = line_offsets[position[:end_line] - 1] + position[:end_column]
+        first...last
+      end
+
+      def line_offsets
+        @line_offsets ||= @text.each_line.reduce([0]) { |offsets, line| offsets << (offsets.last + line.bytesize) }
+      end
     end
   end
 end

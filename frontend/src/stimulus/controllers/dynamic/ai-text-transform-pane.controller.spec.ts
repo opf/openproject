@@ -480,6 +480,21 @@ describe('AiTextTransformPaneController', () => {
         expect(turboRequests.request).toHaveBeenCalledTimes(2);
       });
 
+      it('stops when the pane disappears while a poll is in flight', async () => {
+        let answer:(value:{ html:string, headers:Headers }) => void = () => undefined;
+        turboRequests.request.mockImplementationOnce(() => new Promise((resolve) => { answer = resolve; }));
+        vi.spyOn(window, 'fetch').mockResolvedValue(new Response(null, { status: 204 }));
+        await mountRun('generating');
+
+        await vi.advanceTimersByTimeAsync(400);
+        wrapper()!.remove();
+        await ctx.nextFrame();
+        answer({ html: '', headers: new Headers() });
+        await vi.advanceTimersByTimeAsync(10000);
+
+        expect(turboRequests.request).toHaveBeenCalledTimes(1);
+      });
+
       it('stops and shows the error banner when a poll fails', async () => {
         turboRequests.request.mockRejectedValueOnce(new Error('404'));
         await mountRun('generating');
@@ -592,6 +607,14 @@ describe('AiTextTransformPaneController', () => {
         await ctx.nextFrame();
 
         expect(cancelCalls()).toHaveLength(1);
+      });
+
+      it('keeps the run when the page goes into the back/forward cache', async () => {
+        await mountRun('generating');
+
+        window.dispatchEvent(new PageTransitionEvent('pagehide', { persisted: true }));
+
+        expect(cancelCalls()).toHaveLength(0);
       });
 
       it('leaves cancelling to the close request', async () => {
