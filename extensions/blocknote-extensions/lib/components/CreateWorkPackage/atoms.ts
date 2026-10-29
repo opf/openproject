@@ -119,7 +119,7 @@ export const Overlay = styled.div.attrs({
     --op-create-wp-border: var(--borderColor-default, #3d444d);
     --op-create-wp-muted: var(--fgColor-muted, #9198a1);
     --op-create-wp-danger: var(--fgColor-danger, #f85149);
-    --op-create-wp-link: var(--fgColor-link, #4493f8);
+    --op-create-wp-link: var(--fgColor-link, #6F8DD3);
     --op-create-wp-text: var(--fgColor-default, #f0f6fc);
     --op-create-wp-accent: var(--button-primary-bgColor-rest, #238636);
     --op-create-wp-accent-hover: var(--button-primary-bgColor-hover, #29903b);

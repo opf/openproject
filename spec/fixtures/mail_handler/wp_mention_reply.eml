@@ -121,7 +121,7 @@ TF-8">
         background: #FFFFFF;
       }h1, h2, h3 { font-family: "Trebuchet MS", Verdana, sans-serif; mar=
 gin: 0px; }h1 { font-size: 1.2em; }h2, h3 { font-size: 1.1em; }h2.emailTi=
-tle { color: #1a67a3; font-size: 2em; }a, a:link, a:visited { color: #2A5=
+tle { color: #0F41B5; font-size: 2em; }a, a:link, a:visited { color: #2A5=
 685;}a:hover, a:active { color: #c61a1a; }a.op-uc-link_permalink { displa=
 y: none; }hr {
         width: 100%;
@@ -227,7 +227,7 @@ t-family:Helvetica;width:100%"
                                           <tr>
                                             <td> <span
                                                 style=3D"font-size:16px;
-                                                color: #1A67A3;
+                                                color: #0F41B5;
                                                 font-weight: 600;">
                                                 Marc Alcob=C3=A9 mentione=
 d
@@ -248,10 +248,10 @@ href=3D"https://example.org/notifications/details/39733/act=
 ivity"
                                                 target=3D"_blank"
                                                 style=3D"background:
-                                                #D1E5F5; padding: 8px
-                                                12px; color: #1A67A3;
+                                                #CFD9F0; padding: 8px
+                                                12px; color: #0F41B5;
                                                 border: 1px solid
-                                                #1A67A3; border-radius:
+                                                #0F41B5; border-radius:
                                                 16px; text-decoration:
                                                 none;font-size: 14px;"
                                                 moz-do-not-send=3D"true">=
