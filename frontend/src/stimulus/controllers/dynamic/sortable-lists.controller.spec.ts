@@ -2975,11 +2975,16 @@ describe('Sortable lists controller', () => {
         expect(draggingIds()).toEqual(['2']);
       });
 
-      it('returns the batch size from freeze', () => {
+      it('reports the frozen batch size', () => {
         selectItems(item1, item3);
 
-        expect(controller.beginDrag(item1).freeze()).toBe(2);
-        expect(controller.beginDrag(item2).freeze()).toBe(1);
+        const batchSession = controller.beginDrag(item1);
+        batchSession.freeze();
+        expect(batchSession.frozenSize).toBe(2);
+
+        const singleSession = controller.beginDrag(item2);
+        singleSession.freeze();
+        expect(singleSession.frozenSize).toBe(1);
       });
 
       it('clears every dragging mark after a completed drop', async () => {

@@ -167,14 +167,29 @@ describe('sortable-lists drag session', () => {
   });
 
   describe('freeze and start', () => {
-    it('freezes once and reports the batch size', () => {
+    it('freezes once and reports the frozen size', () => {
       const frozenMembers = vi.fn(() => [identity(items[0]), identity(items[1])]);
       const session = new DragSession(host({ frozenMembers }), items[0]);
 
-      expect(session.freeze()).toBe(2);
-      expect(session.freeze()).toBe(2);
+      expect(session.frozenSize).toBe(1);
+      session.freeze();
+      session.freeze();
+
+      expect(session.frozenSize).toBe(2);
       expect(session.phase).toBe('frozen');
       expect(frozenMembers).toHaveBeenCalledTimes(1);
+    });
+
+    it('ignores freeze once ended', () => {
+      const frozenMembers = vi.fn(() => [identity(items[0]), identity(items[1])]);
+      const session = new DragSession(host({ frozenMembers }), items[0]);
+      session.end();
+
+      session.freeze();
+
+      expect(session.phase).toBe('ended');
+      expect(session.frozenSize).toBe(1);
+      expect(frozenMembers).not.toHaveBeenCalled();
     });
 
     it('marks every frozen member on start', () => {
@@ -228,7 +243,8 @@ describe('sortable-lists drag session', () => {
     it('reports size one, marks the source only and ends with null', () => {
       const session = new DragSession(host({ frozenMembers: () => null }), items[0]);
 
-      expect(session.freeze()).toBe(1);
+      session.freeze();
+      expect(session.frozenSize).toBe(1);
       session.start();
 
       expect(items[0]).toHaveAttribute('data-dragging', 'source');

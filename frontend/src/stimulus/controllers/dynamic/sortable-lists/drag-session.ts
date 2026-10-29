@@ -133,15 +133,18 @@ export class DragSession {
     this.owners = new WeakMap();
   }
 
-  // Returns the batch size for the preview, which Pragmatic renders before
-  // the drag starts.
-  freeze():number {
+  // The preview's count, which Pragmatic renders before the drag starts.
+  // 1 until frozen, and when the root has no selection.
+  get frozenSize():number {
+    return Math.max(1, this.frozenBatch?.length ?? 0);
+  }
+
+  // Only a prospective session freezes; later phases ignore it.
+  freeze():void {
     if (this.currentPhase === 'prospective') {
-      this.frozenBatch = this.host.frozenMembers(this.sourceElement);
+      this.commitBatch();
       this.currentPhase = 'frozen';
     }
-
-    return Math.max(1, this.frozenBatch?.length ?? 0);
   }
 
   start():void {
@@ -149,7 +152,9 @@ export class DragSession {
       return;
     }
 
-    this.freeze();
+    if (this.currentPhase === 'prospective') {
+      this.commitBatch();
+    }
     this.currentPhase = 'started';
     this.markRows();
   }
@@ -176,6 +181,10 @@ export class DragSession {
       .forEach((element) => element.removeAttribute(draggingAttribute));
 
     return this.frozenBatch;
+  }
+
+  private commitBatch():void {
+    this.frozenBatch = this.host.frozenMembers(this.sourceElement);
   }
 
   private markRows():void {

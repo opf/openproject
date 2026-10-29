@@ -261,7 +261,9 @@ export default class ItemController extends Controller<HTMLElement> implements R
       onGenerateDragPreview: ({ location, nativeSetDragImage }) => {
         // Pragmatic dispatches this before onDragStart, so the batch is
         // frozen here, in time for the preview to show its size.
-        const batchSize = this.root?.dragSession?.freeze() ?? 1;
+        const dragSession = this.root?.dragSession;
+        dragSession?.freeze();
+        const batchSize = dragSession?.frozenSize ?? 1;
 
         if (!this.hasPreviewTarget) {
           return;
