@@ -164,7 +164,27 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
     }
   }
 
-  changeValueFromInputDebounced = debounce(this.changeValueFromInput.bind(this), 16);
+  changeValueFromInputDebounced = debounce((value:string) => this.changeValueFromInput(value), 16);
+
+  private mobileDraft:string[]|null = null;
+
+  private mobileCommitTimer:ReturnType<typeof setTimeout>|undefined;
+
+  changeMobileDateFromInput(index:0|1, date:string):void {
+    this.mobileDraft ??= [this.value[0] || '', this.value[1] || ''];
+    this.mobileDraft[index] = date;
+    clearTimeout(this.mobileCommitTimer);
+    this.mobileCommitTimer = setTimeout(() => this.commitMobileDate(), 16);
+  }
+
+  private commitMobileDate():void {
+    const draft = this.mobileDraft;
+    this.mobileDraft = null;
+
+    if (draft) {
+      this.changeValueFromInput(draft);
+    }
+  }
 
   changeValueFromInput(value:string|string[]) {
     const newDates = (typeof value === 'string') ? this.resolveDateStringToArray(value) : value;
