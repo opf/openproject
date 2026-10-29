@@ -1438,7 +1438,7 @@ GEM
     scimitar (2.15.0)
       rails (>= 7.0)
     securerandom (0.4.1)
-    selenium-devtools (0.154.0)
+    selenium-devtools (0.155.0)
       selenium-webdriver (~> 4.2)
     selenium-webdriver (4.51.0)
       base64 (~> 0.2)
@@ -2291,7 +2291,7 @@ CHECKSUMS
   sanitize (7.0.1) sha256=6dc0d80edab7e5f6bb9036ee001aa8fea000359860c6e53cd909e16321e1ac79
   scimitar (2.15.0) sha256=700901afab9303b705a8f37644cd733ee3c3819b168d24a14a48dec060b16d63
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
-  selenium-devtools (0.154.0) sha256=fa6f77b66206cf0c194cfd71e4ab614cac149ee6d92ca7e8753d36d4360ec102
+  selenium-devtools (0.155.0) sha256=c8d9844ff6fc759ce0afbb473a6f95240b7650285f1760080441f84427c6b950
   selenium-webdriver (4.51.0) sha256=09edf1b7fc360e0570bac609676f804ed527fe0b2f285e03233561e29b0ec105
   shoulda-matchers (8.0.1) sha256=5dbb46e5765b9da225111b085e0819e8c8a121ff94bba430a153eb1ea2c60288
   signet (0.22.1) sha256=6e73e9f2bdc2f038a5fdc8a89d248792b1b55e9ca50ee1ba458d8f1d9f0a2151
