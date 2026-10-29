@@ -106,7 +106,7 @@ export class OpTooltipDirective {
     inject(DestroyRef).onDestroy(() => observer.disconnect());
 
     effect(() => this.renderTooltip());
-    afterRenderEffect({ write: () => this.reconcileHost() });
+    afterRenderEffect({ mixedReadWrite: () => this.reconcileHost() });
   }
 
   private renderTooltip() {
