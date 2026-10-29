@@ -232,3 +232,7 @@ The monolith was turned into a hybrid application with semi-separated JavaScript
 Due to performance issues with AngularJS digest cycles and a large number of components, the work package table was [refactored into a plain JavaScript renderer](https://github.com/opf/openproject/pull/5117) end of 2016. Finally, in early 2018, the application frontend was [migrated from AngularJS to Angular](https://github.com/opf/openproject/pull/5984) during the course of a few releases.
 
 [In early 2019](https://github.com/opf/openproject/pull/7385), the rest of AngularJS code was removed and the frontend switched to the Angular CLI with Ahead-of-Time compilation (AOT).
+
+## Service objects
+
+Service objects return results using [ServiceResult](https://github.com/opf/openproject/blob/dev/app/services/service_result.rb), which represents success or failure and carries the resulting object and errors. Some services use [dry-monads](https://github.com/dry-rb/dry-monads) for result modeling.

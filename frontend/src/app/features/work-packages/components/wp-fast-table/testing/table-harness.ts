@@ -99,10 +99,13 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
-import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { activeFieldClassName, activeFieldContainerClassName, EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler';
 import { IntegerDisplayField } from 'core-app/shared/components/fields/display/field-types/integer-display-field.module';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
+import { internalContextMenuColumn, internalSortColumn } from '../builders/internal-sort-columns';
+import { isNavigableColumn, navigableCellClassName } from '../handlers/state/keyboard/roving-tabindex';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -110,13 +113,16 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 /** A relation column: `relationType` builds an `ofType` column, `children: true` the child relations column. */
 export type RelationColumnSpec = { id:string, relationType:string }|{ id:string, children:true };
 
+/** A plain column whose header renders without a sort link. */
+export interface NonSortableColumnSpec { id:string, sortable:false }
+
 export interface TableHarnessOptions {
   workPackages:WorkPackageFixture[];
   providers?:Provider[];
   /** Retains the root so a replacement table can mount with a fresh injector. */
   dom?:ReturnType<typeof buildDom>;
   /** Column ids, or relation column specs that render real relation rows once expanded. */
-  columns?:(string|RelationColumnSpec)[];
+  columns?:(string|RelationColumnSpec|NonSortableColumnSpec)[];
   /** Feeds the relations service, so `ofType` columns find these relations between fixtures. */
   relations?:RelationFixture[];
   /** Loads fixture `children` into the resource cache on render (default); `false` leaves them for `requireAll`. */
@@ -130,14 +136,19 @@ export interface TableHarnessOptions {
   configuration?:WorkPackageTableConfigurationObject;
   /** Keeps production defaults for every setting but the extra columns the harness cannot build. */
   productionDefaults?:boolean;
+  /** Renders the production `thead` and totals row around the results, for navigation that walks them. */
+  productionMarkup?:boolean;
   /** Overrides for the drag action service the drop handler resolves. */
   dragAction?:Partial<TableDragActionService>;
   /** Uses the production action registry, including group and hierarchy actions. */
   builtinDragActions?:boolean;
   query?:QueryResource;
   onDropComplete?:(success:boolean) => void;
-  /** Makes `subject` inline-editable; `formWritable: false` has the loaded form refuse the field. */
-  editing?:{ formWritable?:boolean };
+  /**
+   * Makes `fields` (default `subject`) inline-editable; `formWritable: false` has the loaded form refuse them.
+   * `save` stands in for the changeset save; without it every submit is an unchanged one.
+   */
+  editing?:{ formWritable?:boolean; fields?:string[]; save?:() => Promise<{ resource:WorkPackageResource; wasNew:boolean }> };
   requireDoubleClickForInlineEdit?:boolean;
   /** The application-wide resource cache; pass one instance to tables that share a page. */
   states?:States;
@@ -145,6 +156,10 @@ export interface TableHarnessOptions {
   timelineVisible?:boolean;
   requireAll?:(ids:string[]) => Promise<WorkPackageResource[]>;
   loadPositions?:() => Promise<QueryOrder>;
+  /** Activates the baseline view service, so rows read their fixtures' `baseline` state. */
+  baseline?:boolean;
+  /** Whole translated strings by key, with `%{name}` interpolation; unlisted keys translate to themselves. */
+  translations?:Record<string, string>;
   /** Runs against the fresh injector before the handler registry attaches, to seed state a predecessor view left behind; resolving a view service here constructs it ahead of the transformers, as production does. */
   beforeAttach?:(injector:Injector) => void;
 }
@@ -167,6 +182,12 @@ export interface TableHarness {
   row(workPackageId:string):HTMLTableRowElement;
   /** The relation row of `to` under `from`, located by its occurrence key. */
   relationRow(from:string, to:string, type?:string):HTMLTableRowElement;
+  /** The `thead` row; requires `productionMarkup`. */
+  headerRow():HTMLTableRowElement;
+  /** The header cells in column order, ending with the configuration cell; requires `productionMarkup`. */
+  headerCells():HTMLTableCellElement[];
+  /** The totals row; requires `productionMarkup`. */
+  totalsRow():HTMLTableRowElement;
   timelineRow(workPackageId:string):HTMLElement;
   /** The timeline cell at the position of the given table row; both sides render one element per row. */
   timelineRowOf(row:HTMLElement):HTMLElement;
@@ -214,7 +235,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     .addFieldType(IntegerDisplayField, 'integer', ['Integer']);
   const querySpace = injector.get(IsolatedQuerySpace);
   const states = injector.get(States);
-  const dom = options.dom ?? buildDom();
+  const dom = options.dom ?? buildDom({ productionMarkup: options.productionMarkup });
 
   const groupBy = options.groupBy ?? 'status';
   const query = options.query ?? buildQuery(
@@ -225,6 +246,12 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     options.highlightingMode,
   );
   querySpace.query.putValue(query);
+  const configuration = new WorkPackageTableConfiguration(
+    { ...(options.productionDefaults ? unbuildableColumns : harnessConfiguration), ...options.configuration },
+  );
+  if (options.productionMarkup) {
+    fillProductionMarkup(dom.wrapper, query, configuration);
+  }
   querySpace.groups.putValue((options.groups ?? []).map((group, index) => buildGroup(group, groupBy, index)));
   initializeViewServices(injector, query);
 
@@ -235,9 +262,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     dom.tbody,
     dom.timelineBody,
     {} as WorkPackageTimelineTableController,
-    new WorkPackageTableConfiguration(
-      { ...(options.productionDefaults ? unbuildableColumns : harnessConfiguration), ...options.configuration },
-    ),
+    configuration,
   );
 
   const outputs:WorkPackageViewOutputs = {
@@ -302,6 +327,18 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
         throw new Error(`No rendered ${type} relation row from ${from} to ${to}`);
       }
       return row;
+    },
+
+    headerRow() {
+      return productionMarkupElement<HTMLTableRowElement>(dom.wrapper, 'thead tr');
+    },
+
+    headerCells() {
+      return Array.from(productionMarkupElement(dom.wrapper, 'thead tr').querySelectorAll<HTMLTableCellElement>('th'));
+    },
+
+    totalsRow() {
+      return productionMarkupElement<HTMLTableRowElement>(dom.wrapper, 'tr.wp-table--sums-row');
     },
 
     timelineRow(workPackageId) {
@@ -375,9 +412,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       const builder = new InlineCreateRowBuilder(injector, table);
       table.editing.startEditing(workPackage, builder.classIdentifier(workPackage));
       const [row] = builder.buildEmpty(workPackage);
-      const inlineCreateBody = document.createElement('tbody');
-      inlineCreateBody.append(row);
-      dom.tbody.after(inlineCreateBody);
+      inlineCreateBodyOf(dom).append(row);
       return row;
     },
 
@@ -414,27 +449,31 @@ export class FakeDragAndDropService {
   }
 }
 
-/** Stands in for the Angular editing portal: a plain input the edit handler can focus. */
+/** Stands in for the Angular editing portal: a plain input, labeled with its field and error messages like the portal, driven by the production field handler. */
 class FakeEditingPortalService {
-  create(container:HTMLElement, _injector:Injector, form:EditForm, _schema:IFieldSchema, fieldName:string, _errors:string[], destroyRef?:DestroyRef):Promise<EditFieldHandler> {
+  create(container:HTMLElement, injector:Injector, form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[], destroyRef?:DestroyRef):Promise<EditFieldHandler> {
+    const wrapper = document.createElement('div');
+    wrapper.className = activeFieldContainerClassName;
+    const label = document.createElement('label');
+    label.className = 'sr-only';
     const input = document.createElement('input');
-    input.className = 'inline-edit--field';
-    container.appendChild(input);
-    const onDestroy = new Subject<void>();
+    input.className = activeFieldClassName;
+    wrapper.append(label, input);
+    container.appendChild(wrapper);
+    const handler = new HalResourceEditFieldHandler(injector, form, fieldName, schema, container, injector.get(PathHelperService), errors, destroyRef);
+    input.id = handler.htmlId;
+    label.htmlFor = handler.htmlId;
+    const markErrors = () => {
+      wrapper.classList.toggle('-error', handler.isErrorenous);
+      label.textContent = `${handler.fieldLabel} ${handler.errorMessageOnLabel()}`.trim();
+    };
+    markErrors();
+    handler.errorsChanged$.subscribe(markErrors);
     let unregister:() => void = () => undefined;
-    const handler = {
-      onDestroy,
-      $onUserActivate: new Subject<void>(),
-      focus: () => input.focus(),
-      deactivate: () => {
-        input.remove();
-        delete form.activeFields[fieldName];
-        onDestroy.next();
-        onDestroy.complete();
-        unregister();
-        form.reset(fieldName);
-      },
-    } as unknown as EditFieldHandler;
+    handler.onDestroy.pipe(take(1)).subscribe(() => {
+      wrapper.remove();
+      unregister();
+    });
     if (destroyRef) unregister = onDestroySafely(destroyRef, () => handler.deactivate(false));
     return Promise.resolve(handler);
   }
@@ -443,7 +482,8 @@ class FakeEditingPortalService {
 export function harnessProviders(dragService:FakeDragAndDropService, options:TableHarnessOptions) {
   const editable = !!options.editing;
   const formWritable = options.editing?.formWritable ?? true;
-  const subjectSchema = (writable:boolean) => ({ type: 'String', name: 'subject', writable });
+  const editableFields = options.editing?.fields ?? ['subject'];
+  const fieldSchema = (name:string, writable:boolean) => (editableFields.includes(name) ? { type: 'String', name, writable } : undefined);
   const sumsSchema = buildSumsSchema(options.groups ?? []);
 
   return [
@@ -485,23 +525,26 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
       useValue: {
         state: () => ({ value: sumsSchema }),
         of: () => ({
-          ofProperty: (attribute:string) => (attribute === 'subject' ? subjectSchema(editable) : undefined),
+          ofProperty: (attribute:string) => fieldSchema(attribute, editable),
           mappedName: (attribute:string) => attribute,
-          isAttributeEditable: (attribute:string) => editable && attribute === 'subject',
+          availableAttributes: ['subject'],
+          isAttributeEditable: (attribute:string) => editable && editableFields.includes(attribute),
         }),
       },
     },
-    { provide: I18nService, useValue: { t: (key:string) => key, locale: 'en' } },
+    { provide: I18nService, useValue: { t: translate(options.translations), locale: 'en' } },
     { provide: HalResourceService, useValue: {} },
     {
       provide: HalResourceEditingService,
       useValue: {
         typedState: () => ({ hasValue: () => false, value: undefined }),
         stopEditing: () => undefined,
+        save: options.editing?.save,
         changeFor: () => ({
-          schema: { ofProperty: (attribute:string) => (attribute === 'subject' ? subjectSchema(formWritable) : null) },
+          schema: { ofProperty: (attribute:string) => fieldSchema(attribute, formWritable) ?? null },
           getForm: () => Promise.resolve(),
           reset: () => undefined,
+          isEmpty: () => !options.editing?.save,
         }),
       },
     },
@@ -526,8 +569,8 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
     { provide: UrlParamsService, useValue: { currentDetailsRouteParams: () => null, basePathWithoutDetails: () => '' } },
     { provide: KeepTabService, useValue: { currentDetailsTab: 'overview', currentShowTab: 'activity' } },
     { provide: FocusHelperService, useValue: { focus: () => undefined } },
-    { provide: WorkPackageViewBaselineService, useValue: { isActive: () => false, isChanged: () => false } },
-    { provide: HalResourceNotificationService, useValue: { handleRawError: () => undefined, showEditingBlockedError: () => undefined } },
+    { provide: WorkPackageViewBaselineService, useValue: baselineStub(!!options.baseline) },
+    { provide: HalResourceNotificationService, useValue: { handleRawError: () => undefined, showEditingBlockedError: () => undefined, showSave: () => undefined } },
     { provide: WorkPackageNotificationService, useExisting: HalResourceNotificationService },
     { provide: EditingPortalService, useValue: new FakeEditingPortalService() },
     { provide: CopyToClipboardService, useValue: {} },
@@ -546,6 +589,19 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
   ];
 }
 
+function translate(translations:Record<string, string> = {}) {
+  return (key:string, args:Record<string, unknown> = {}) => (translations[key] ?? key)
+    .replace(/%\{(\w+)\}/g, (match, name:string) => (Object.hasOwn(args, name) ? String(args[name]) : match));
+}
+
+function baselineStub(active:boolean) {
+  return {
+    isActive: () => active,
+    isChanged: (workPackage:WorkPackageResource, attribute:string) => active
+      && Object.hasOwn(workPackage.attributesByTimestamp?.[0] ?? {}, attribute),
+  };
+}
+
 function relationsStub(relations:RelationFixture[]) {
   const byWorkPackage = buildRelations(relations);
   return {
@@ -556,13 +612,65 @@ function relationsStub(relations:RelationFixture[]) {
   };
 }
 
-export function buildDom() {
+function productionMarkupElement<T extends HTMLElement = HTMLElement>(wrapper:HTMLElement, selector:string):T {
+  const element = wrapper.querySelector<T>(selector);
+  if (!element) {
+    throw new Error(`No ${selector} rendered; build the table with productionMarkup`);
+  }
+  return element;
+}
+
+function fillProductionMarkup(wrapper:HTMLElement, query:QueryResource, configuration:WorkPackageTableConfiguration) {
+  const keyboardNavigationEnabled = configuration.keyboardNavigationEnabled;
+  const tabindex = keyboardNavigationEnabled ? ' tabindex="-1"' : '';
+  const navigable = keyboardNavigationEnabled ? ' wp-table--navigable-cell' : '';
+  const columns = query.columns as unknown as { id:string, name:string, sortable?:boolean }[];
+  const headerCells = columns.map(({ id, name, sortable }) => `
+    <th class="wp-table--table-header${navigable}">
+      <div class="generic-table--sort-header-outer">
+        <span class="generic-table--sort-header">${sortable === false ? `<a${tabindex}>${name}</a>` : `<a href="#" id="${id}"${tabindex}>${name}</a>`}</span>
+      </div>
+    </th>`).join('');
+  const configurationCell = `
+    <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th${navigable}">
+      <button type="button" class="wp-table--columns-selection"${tabindex}></button>
+    </th>`;
+
+  productionMarkupElement(wrapper, 'thead tr').innerHTML = headerCells + configurationCell;
+  const augmentedColumns = [
+    ...(configuration.dragAndDropEnabled ? [internalSortColumn] : []),
+    ...(columns as QueryColumn[]),
+    internalContextMenuColumn,
+  ];
+  productionMarkupElement(wrapper, 'tr.wp-table--sums-row').innerHTML = augmentedColumns
+    .map((column) => `<td${keyboardNavigationEnabled && isNavigableColumn(column, configuration) ? ` class="${navigableCellClassName}"` : ''}></td>`)
+    .join('');
+}
+
+function inlineCreateBodyOf(dom:ReturnType<typeof buildDom>):HTMLTableSectionElement {
+  const table = dom.tbody.closest('table')!;
+  const existing = table.querySelector<HTMLTableSectionElement>('tbody[wpInlineCreate]');
+  if (existing) {
+    return existing;
+  }
+
+  const body = document.createElement('tbody');
+  body.setAttribute('wpInlineCreate', '');
+  const totalsBody = table.querySelector(':scope > tbody:has(> tr.wp-table--sums-row)');
+  (totalsBody ?? dom.tbody).after(body);
+  return body;
+}
+
+export function buildDom(options:{ productionMarkup?:boolean } = {}) {
   const wrapper = document.createElement('div');
   wrapper.innerHTML = `
-    <div class="work-packages-tabletimeline--table-side">
-      <div class="work-package-table--container">
-        <table class="work-package-table"><tbody class="work-package--results-tbody"></tbody></table>
-      </div>
+    <div class="work-packages-tabletimeline--table-side work-package-table--container">
+      <table class="work-package-table">
+        ${options.productionMarkup ? '<thead class="-sticky"><tr></tr></thead>' : ''}
+        <tbody class="work-package--results-tbody"></tbody>
+        ${options.productionMarkup ? '<tbody><tr class="wp-table--sums-row wp-table--row"></tr></tbody>' : ''}
+        ${options.productionMarkup ? '<tbody wpInlineCreate><tr><td><button type="button" class="spot-link">Create new work package</button></td></tr></tbody>' : ''}
+      </table>
     </div>
     <div class="work-packages-tabletimeline--timeline-side"><div class="wp-table-timeline--body"></div></div>
   `;
@@ -572,7 +680,7 @@ export function buildDom() {
     wrapper,
     container: wrapper.querySelector<HTMLElement>('.work-packages-tabletimeline--table-side')!,
     scroll: wrapper.querySelector<HTMLElement>('.work-package-table--container')!,
-    tbody: wrapper.querySelector<HTMLTableSectionElement>('tbody')!,
+    tbody: wrapper.querySelector<HTMLTableSectionElement>('tbody.work-package--results-tbody')!,
     timelineBody: wrapper.querySelector<HTMLElement>('.wp-table-timeline--body')!,
   };
 }
@@ -583,7 +691,7 @@ function buildSumsSchema(groups:GroupFixture[]):Record<string, IFieldSchema> {
   return Object.fromEntries(attributes.map((name) => [name, { type: 'Integer', name, writable: false, hasDefault: false }]));
 }
 
-export function buildQuery(columns:(string|RelationColumnSpec)[], groupBy:string|null, showHierarchies:boolean, timelineVisible:boolean, highlightingMode:HighlightingMode = 'inline'):QueryResource {
+export function buildQuery(columns:(string|RelationColumnSpec|NonSortableColumnSpec)[], groupBy:string|null, showHierarchies:boolean, timelineVisible:boolean, highlightingMode:HighlightingMode = 'inline'):QueryResource {
   return {
     id: null,
     columns: columns.map(buildColumn),
@@ -598,13 +706,17 @@ export function buildQuery(columns:(string|RelationColumnSpec)[], groupBy:string
   } as unknown as QueryResource;
 }
 
-function buildColumn(column:string|RelationColumnSpec) {
+function buildColumn(column:string|RelationColumnSpec|NonSortableColumnSpec) {
   if (typeof column === 'string') {
     return { id: column, name: column, _type: 'QueryColumn', href: `/api/v3/queries/columns/${column}` };
   }
 
   const { id } = column;
   const href = `/api/v3/queries/columns/${id}`;
+  if ('sortable' in column) {
+    return { id, name: id, _type: 'QueryColumn', href, sortable: false };
+  }
+
   return 'children' in column
     ? { id, name: id, _type: queryColumnTypes.RELATION_CHILD, href }
     : { id, name: id, _type: queryColumnTypes.RELATION_OF_TYPE, relationType: column.relationType, href };

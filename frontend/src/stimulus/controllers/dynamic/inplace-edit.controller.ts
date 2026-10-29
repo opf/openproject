@@ -199,7 +199,7 @@ export default class extends Controller {
 
       // For plain-text inputs: store the char offset at the click position so
       // the rendered text input can place the cursor accurately via setSelectionRange.
-      let range:Range | null = null;
+      let range:Range | null;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-explicit-any
       if ((e as any).rangeParent) {
         range = document.createRange();

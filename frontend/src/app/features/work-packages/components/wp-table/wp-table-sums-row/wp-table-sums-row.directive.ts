@@ -26,7 +26,7 @@
 //++
 
 import { AfterViewInit, Directive, DestroyRef, ElementRef, Injector, Input, inject } from '@angular/core';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
@@ -40,6 +40,9 @@ import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { totalsRowKey } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/navigable-rows';
+import { keyboardNavigationEnabled } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
+import { paintRowRole, paintSectionExposure } from 'core-app/features/work-packages/components/wp-fast-table/semantics/treegrid-semantics';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -97,6 +100,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
 
     this.tables
       .pipe(
+        tap((table) => this.reconcileSemantics(table)),
         switchMap((table) => combineLatest([
           this.wpTableColumns.live$(),
           this.wpTableSums.live$(),
@@ -112,13 +116,31 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
           void this.schemaCache
             .ensureLoaded(resource.sumsSchema.href!)
             .then((schema:SchemaResource) => {
-              if (table.destroyed || this.destroyRef.destroyed || this.workPackageTable !== table) return;
+              if (table.destroyed || this.destroyRef.destroyed || this.workPackageTable !== table || !this.wpTableSums.isEnabled) return;
+              table.keyboardNavigation?.captureOwnership();
               this.refresh(columns, resource, schema);
+              this.reconcileSemantics(table);
+              table.notifyRowsRefreshed(totalsRowKey);
             });
-        } else {
+        } else if (this.element.hasChildNodes()) {
+          table.keyboardNavigation?.captureOwnership();
           this.clear();
+          this.reconcileSemantics(table);
+          table.notifyRowsRefreshed(totalsRowKey);
         }
       });
+  }
+
+  private reconcileSemantics(table:WorkPackageTable) {
+    if (table.destroyed || !keyboardNavigationEnabled(table.configuration)) return;
+
+    if (this.isHidden || this.element.cells.length === 0) {
+      this.element.setAttribute('aria-hidden', 'true');
+    } else {
+      this.element.removeAttribute('aria-hidden');
+    }
+    paintRowRole(this.element, 1);
+    paintSectionExposure(this.element.parentElement as HTMLTableSectionElement);
   }
 
   private clear() {
@@ -130,9 +152,9 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
     this.render(columns, resource, schema);
   }
 
-  private render(columns:QueryColumn[], resource:WorkPackageCollectionResource, schema:SchemaResource) {
+  private render(columns:QueryColumn[], resource:WorkPackageCollectionResource, _schema:SchemaResource) {
     this.groupSumsBuilder = new GroupSumsBuilder(this.injector, this.workPackageTable);
     this.groupSumsBuilder.text = this.text;
-    this.groupSumsBuilder.renderColumns(resource.totalSums!, this.element);
+    this.groupSumsBuilder.renderColumns(resource.totalSums!, this.element, 'total');
   }
 }

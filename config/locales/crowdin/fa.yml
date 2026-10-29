@@ -75,6 +75,7 @@ fa:
     omniauth_login: برای فعال‌سازی حساب خود لطفاً وارد شوید.
     signup_title: ایجاد حساب در %{app_title}
     signup_with_external_account: ثبت‌نام با حساب خارجی
+    username_or_email: Username or email
   actionview_instancetag_blank_option: لطفا انتخاب کنید
   activemodel:
     attributes:
@@ -1036,6 +1037,8 @@ fa:
             identifier:
               must_not_be_changed: 'نباید به‌صورت دستی تغییر کند. شناسه‌های بسته کاری به‌طور خودکار تخصیص داده می‌شوند و از طریق جدول alias حل می‌شوند؛ تغییر دستی آن‌ها پیوندها و تاریخچه شناسه را می‌شکند. اگر این تغییر عمدی است، با `save(context: :%{context})` ذخیره کنید و جدول work_package_semantic_aliases را سازگار نگه دارید.'
               semantic_identifier_incomplete: و sequence_number باید هر دو هم‌زمان تنظیم شوند.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -2206,10 +2209,11 @@ fa:
         save: ذخیره تغییرات و ادامه
         title: تغییرات پیش از ادامه ذخیره شوند؟
       read_only:
-        edit_action: ویرایش گردش کاری
-        text_html: 'شما از یک گردش کاری موجود استفاده می‌کنید. برای ایجاد تغییر، یا گردش کاری اصلی را ویرایش کنید یا برای ساخت یک گردش کاری جدید روی <b>+ %{action}</b> در بالا کلیک کنید.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'نقش: %{role}'
         no_role: انتخاب نقش
@@ -2768,6 +2772,9 @@ fa:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: می‌توانید صرف‌نظر از نقش اصلی کاربر در پروژه، یک نقش پروژه مشخص را به‌طور خودکار به هر کاربری که به این ویژگی پروژه تخصیص داده شده اعطا کنید.
         dialog:
@@ -2789,11 +2796,6 @@ fa:
     calculated_field_not_editable: ویژگی غیرقابل‌ویرایش. این مقدار به‌طور خودکار محاسبه می‌شود.
     confirm_destroy_option: حذف یک گزینه همه کاربردهای آن را نیز حذف می‌کند (برای مثال در بسته‌های کاری). مطمئنید می‌خواهید آن را حذف کنید؟
     contained_in_type: موجود در نوع
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: فعال در پروژه
     instructions:
       admin_only:
@@ -2844,10 +2846,17 @@ fa:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: مرتب‌سازی مقادیر بر اساس حروف الفبا
     reorder_confirmation: 'هشدار: ترتیب فعلی مقادیر موجود و همه مقادیر ذخیره‌نشده از دست خواهند رفت. مطمئنید می‌خواهید ادامه دهید؟'
     semantic_keys:
@@ -3555,10 +3564,11 @@ fa:
       title: پیکربندی فرم جدید
     tab:
       read_only:
-        banner_html: 'شما از یک فرم موجود استفاده می‌کنید. برای اعمال تغییرات، فرم اصلی را ویرایش کنید یا روی <strong>+ فرم</strong> در بالا کلیک کنید تا فرم جدیدی بسازید.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: ویرایش فرم
+        title: Important changes
     usage:
       dialog:
         button: مشاهده انواع وابسته
@@ -4174,6 +4184,7 @@ fa:
   label_interface_colors_description: این رنگ‌ها ظاهر برنامه را کنترل می‌کنند. اگر آن‌ها را تغییر دهید، پوسته به‌طور خودکار به پوسته سفارشی تغییر خواهد کرد، اما نمی‌توانیم رعایت حداقل‌های کنتراست دسترس‌پذیری (WCAG 2.1) را تضمین کنیم.
   label_internal: داخلی
   label_introduction_video: ویدیوی شروع کار
+  label_invalid_file_type: This file type is not supported.
   label_invitation: دعوت نامه
   label_invite_user: دعوت کاربر
   label_item: مورد
@@ -5307,21 +5318,20 @@ fa:
           tb: ترابایت
   oauth:
     application:
+      basic_details: Basic details
       builtin: برنامه داخلی نمونه
       client_credentials: اعتبارنامه‌های کلاینت
       confidential: محرمانه
-      default_scopes: "(Scopeهای پیش‌فرض)"
       instructions:
-        client_credential_user_id: شناسه کاربر اختیاری برای Impersonate کردن هنگام استفاده کلاینت‌ها از این برنامه. برای اجازه فقط دسترسی عمومی، خالی بگذارید
-        confidential: اگر برنامه در جایی استفاده می‌شود که Client Secret می‌تواند محرمانه نگه داشته شود، این گزینه را فعال کنید. برنامه‌های Native موبایل و Single Page Appها غیرمحرمانه فرض می‌شوند.
-        default_scopes: ''
-        enabled: این برنامه را فعال کنید تا کاربران بتوانند Authorization Grant را از طریق آن انجام دهند.
-        name: نام برنامه شما. هنگام مجوزدهی به کاربران دیگر نمایش داده می‌شود.
-        redirect_uri_html: 'URLهای مجازی که کاربران مجاز می‌توانند به آن‌ها Redirect شوند. هر ورودی در یک خط. <br/> اگر برنامه دسکتاپ ثبت می‌کنید، از URL زیر استفاده کنید.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: اگر در حال توسعه یک برنامه OAuth API Client برای OpenProject هستید، می‌توانید آن را با این فرم ثبت کنید تا همه کاربران بتوانند استفاده کنند.
-        scopes: Scopeهایی را که می‌خواهید برنامه اجازه دسترسی به آن‌ها را بدهد انتخاب کنید. اگر هیچ Scopeای انتخاب نشود، api_v3 فرض می‌شود.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: برنامه OAuth «%{name}»
       new: برنامه OAuth جدید
       non_confidential: غیرمحرمانه
@@ -5338,7 +5348,7 @@ fa:
         '
     authorization_error: خطایی در مجوزدهی رخ داده است.
     client_credentials: کاربر مورد استفاده برای Client Credentials
-    client_credentials_impersonation_html: 'به‌طور پیش‌فرض، OpenProject مجوزدهی OAuth 2.0 را از طریق %{authorization_code_flow_link} ارائه می‌کند. می‌توانید %{client_credentials_flow_link} را نیز فعال کنید، اما باید کاربری را مشخص کنید که درخواست‌ها از طرف او انجام شوند.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: کاربر Client Credentials تنظیم‌شده روی
@@ -5364,9 +5374,12 @@ fa:
       other_applications: سایر برنامه‌های OAuth
     my_registered_applications: برنامه‌های OAuth ثبت‌شده
     scopes:
-      api_v3: دسترسی کامل API v3
+      api_v3: Access to APIv3
       api_v3_text: برنامه برای انجام اقدامات از طرف شما، دسترسی کامل خواندن و نوشتن به OpenProject API v3 دریافت خواهد کرد.
-      mcp: دسترسی به MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: برنامه به نقاط پایانی MCP در OpenProject دسترسی خواهد داشت. این‌ها زیرمجموعه محدودی از APIv3 هستند که برای استفاده با Agentهای هوش مصنوعی طراحی شده‌اند.
   oauth_client:
     errors:
@@ -5421,6 +5434,14 @@ fa:
     welcome: به %{app_title} خوش آمدید
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: باید آرایه باشد.
       decimal?: باید عدد اعشاری باشد.
       defined: نباید تعریف شده باشد.
@@ -5428,6 +5449,7 @@ fa:
       filled?: باید پر شود.
       format?: قالب نامعتبر دارد.
       greater_or_equal_zero: باید بزرگ‌تر از یا برابر با ۰ باشد.
+      gt?: must be greater than %{num}.
       gteq?: باید بزرگ‌تر از یا برابر با %{num} باشد.
       hash?: باید Hash باشد.
       included_in?:
@@ -5436,6 +5458,7 @@ fa:
           range: 'باید یکی از این موارد باشد: %{list_left} - %{list_right}.'
       int?: باید عدد صحیح باشد.
       key?: وجود ندارد.
+      max_size?: must not be longer than %{num} characters.
       not_found: یافت نشد.
       respond_to?: متد الزامی را پیاده‌سازی نمی‌کند.
       rules:
@@ -5455,6 +5478,7 @@ fa:
       type?: باید %{type} باشد.
       unexpected_key: مجاز نیست.
       uri?: URI معتبر نیست.
+      uuid_v4?: must be a UUID (version 4).
     or: یا
     rules:
       blueprint: Blueprint الگو
@@ -5465,16 +5489,15 @@ fa:
       parent: والد
       short: نام کوتاه
       weight: وزن
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: بازکردن پیوند در Tab جدید
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: برای تغییر ترتیب Drag کنید
-        menu:
-          label_actions: اقدام‌های بسته کاری
-        parent: والد
-        undisclosed: نمایش‌داده‌نشده
   page:
     text: متن
   pagination:
@@ -5610,13 +5633,19 @@ fa:
     '
   permission_manage_placeholder_user: ایجاد، ویرایش و حذف کاربران جایگزین
   permission_manage_project_activities: مدیریت فعالیت‌های پروژه
-  permission_manage_project_variants: مدیریت گونه‌های نوعِ متعلق به خود پروژه
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: مدیریت Queryهای عمومی BCF
   permission_manage_public_project_queries: مدیریت فهرست‌های عمومی پروژه
   permission_manage_public_queries: مدیریت نماهای عمومی
   permission_manage_repository: مدیریت مخزن
   permission_manage_subtasks: مدیریت سلسله‌مراتب بسته کاری
   permission_manage_types: انتخاب نوع‌ها
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: ویرایش کاربران
   permission_manage_versions: مدیریت نسخه‌ها
   permission_manage_wiki: مدیریت Wiki
@@ -6852,6 +6881,7 @@ fa:
     '
   text_form_configuration_required_attribute: ویژگی الزامی علامت‌گذاری شده و بنابراین همیشه نمایش داده می‌شود
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Markdown
     plain: متن ساده
   text_git_repo_example: یک مخزن Bare و محلی (برای مثال /gitrepo، c:\gitrepo)
@@ -7244,6 +7274,9 @@ fa:
         enable_all: فعال‌کردن برای همه پروژه‌ها
         select_projects: انتخاب پروژه‌ها
         select_projects_description: پروژه‌هایی را که می‌خواهید از این نوع استفاده کنند انتخاب کنید.
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: پروژه‌ها
         variant_column: Variant or type
       reuse_mode:

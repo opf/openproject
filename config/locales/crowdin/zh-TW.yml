@@ -75,6 +75,7 @@ zh-TW:
     omniauth_login: 請登入來啟用您的帳號。
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
+    username_or_email: Username or email
   actionview_instancetag_blank_option: 請選擇
   activemodel:
     attributes:
@@ -1036,6 +1037,8 @@ zh-TW:
             identifier:
               must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -2086,10 +2089,11 @@ zh-TW:
         save: Save changes and continue
         title: Save changes before continuing?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'Role: %{role}'
         no_role: Select role
@@ -2650,6 +2654,9 @@ zh-TW:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: 您可以自動將某個專案角色授予指派給此專案屬性的任何使用者，不論該使用者在該專案中的原始角色為何。
         dialog:
@@ -2673,11 +2680,6 @@ zh-TW:
     calculated_field_not_editable: 不可編輯屬性。此值會自動計算。
     confirm_destroy_option: 刪除此選項將會刪除其所有出現位置（例如：工作套件中的該選項）。您確定要刪除嗎？
     contained_in_type: 已包含在類型中
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: 已在專案中啟用
     instructions:
       admin_only:
@@ -2728,10 +2730,17 @@ zh-TW:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: 按字母順序重新排列
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
@@ -3411,10 +3420,11 @@ zh-TW:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
@@ -4023,6 +4033,7 @@ zh-TW:
   label_interface_colors_description: '這些顏色控制應用程式的外觀。如果您修改它們，主題會自動變更為自訂主題，但我們無法保證符合網頁內容可訪問性指南基本要求 (WCAG 2.1)。 '
   label_internal: 內部
   label_introduction_video: 入門影片
+  label_invalid_file_type: This file type is not supported.
   label_invitation: 邀請
   label_invite_user: 邀請使用者
   label_item: 欄位
@@ -5147,21 +5158,20 @@ zh-TW:
           tb: TB
   oauth:
     application:
+      basic_details: Basic details
       builtin: 內建範例
       client_credentials: 客戶憑證
       confidential: 機密
-      default_scopes: "(默認範圍)"
       instructions:
-        client_credential_user_id: 可選擇的 user id 使用戶端在使用此應用程式時保持唯一。保留空白表示只允許公眾訪問
-        confidential: 檢查是否這個應用程式能夠保存客戶端密鑰的隱密性。原生行動應用程式和一頁式應用程式被認定是非保密的。
-        default_scopes: ''
-        enabled: 啟用此應用程式，允許使用者授權執行。
-        name: 您的應用程式名稱。它將會在其他使用者認證時顯示。
-        redirect_uri_html: '允許的 URLs 可被授權使用者轉址。一行一個URL。<br/> 如果你視註冊一個桌面應用程式，請使用下面的URL。
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: 如果你在開發一個 OAuth API 客戶端應用程式給 OpenProject，你可以用這個格式註冊它以便給所有使用者使用。
-        scopes: 選擇您希望應用程序授予權限的範圍。如果不選擇任何範圍，將假定 api_v3。
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: OAuth 應用程式 '%{name}'
       new: 新增 OAuth 應用程式
       non_confidential: 非機密
@@ -5178,7 +5188,7 @@ zh-TW:
         '
     authorization_error: 授權錯誤。
     client_credentials: 用於客戶端憑證的用戶
-    client_credentials_impersonation_html: '默認情況下，OpenProject 通過 %{authorization_code_flow_link} 提供 OAuth 2.0 授權。您可以選擇啓用 %{client_credentials_flow_link}，但您必須提供代其執行請求的用戶。
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: 設置的目標客戶端憑據用戶
@@ -5203,9 +5213,12 @@ zh-TW:
       other_applications: 其他 OAuth 應用程式
     my_registered_applications: 已註冊的 OAuth 應用程式
     scopes:
-      api_v3: 完整 API v3 存取
+      api_v3: Access to APIv3
       api_v3_text: 應用程序將獲得 OpenProject API v3 的完全讀寫訪問權限來代表您執行操作。
-      mcp: Access to MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
   oauth_client:
     errors:
@@ -5258,6 +5271,14 @@ zh-TW:
     welcome: 歡迎使用 %{app_title}
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: 必須是陣列。
       decimal?: 必須是有效的小數數值。
       defined: 不可被定義。
@@ -5265,6 +5286,7 @@ zh-TW:
       filled?: 必填。
       format?: is in invalid format.
       greater_or_equal_zero: 必須大於或等於 0。
+      gt?: must be greater than %{num}.
       gteq?: 必須大於或等於 %{num}。
       hash?: 必須是一個 hash 值。
       included_in?:
@@ -5273,6 +5295,7 @@ zh-TW:
           range: 必須是以下其中之一：%{list_left} - %{list_right}。
       int?: 必須是整數。
       key?: 遺失。
+      max_size?: must not be longer than %{num} characters.
       not_found: 未找到。
       respond_to?: 未執行所需的方法。
       rules:
@@ -5292,6 +5315,7 @@ zh-TW:
       type?: 必須是 %{type}。
       unexpected_key: is not allowed.
       uri?: is not a valid URI.
+      uuid_v4?: must be a UUID (version 4).
     or: 或
     rules:
       blueprint: 樣式藍圖
@@ -5302,16 +5326,15 @@ zh-TW:
       parent: 上層
       short: 簡稱
       weight: 權重
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: 在新分頁中開啟連結
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Drag to reorder
-        menu:
-          label_actions: Work package actions
-        parent: Parent
-        undisclosed: Undisclosed
   page:
     text: 文字
   pagination:
@@ -5447,13 +5470,19 @@ zh-TW:
     '
   permission_manage_placeholder_user: 建立、編輯及刪除佔位符使用者
   permission_manage_project_activities: 管理專案活動
-  permission_manage_project_variants: Manage the project's own type variants
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: 管理公開的 BCF 查詢
   permission_manage_public_project_queries: 管理公開項目列表
   permission_manage_public_queries: 管理公開查詢
   permission_manage_repository: 管理版本庫
   permission_manage_subtasks: 管理工作套件階層
   permission_manage_types: 選擇類型
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: 編輯使用者
   permission_manage_versions: 管理版本
   permission_manage_wiki: 管理維基
@@ -6674,6 +6703,7 @@ zh-TW:
     '
   text_form_configuration_required_attribute: 以標示為必須的屬性將會永遠顯示
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Markdown
     plain: 純文字
   text_git_repo_example: 部分和本機存放區 (例如 /gitrepo, c:\ gitrepo)
@@ -7065,6 +7095,9 @@ zh-TW:
         enable_all: 在所有專案中啟用
         select_projects: 選取專案
         select_projects_description: 選擇要使用此類型的專案。
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: 專案
         variant_column: Variant or type
       reuse_mode:

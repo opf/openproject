@@ -44,7 +44,7 @@ describe('Block card - resize', () => {
     await convertToCompactCard();
 
     await openBlockCardPopover();
-    await expect.element(page.getByTitle('Change size')).toHaveTextContent('Compact card');
+    await expect.element(page.getByTitle('Change size')).toMatchTextContent('Compact card');
   });
 
   it('size menu shows all 4 options for a block card', async () => {

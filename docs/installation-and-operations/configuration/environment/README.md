@@ -201,7 +201,7 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_DEFAULT__AUTO__HIDE__POPUPS` | `true` | Whether to automatically hide success notifications by default |
 | `OPENPROJECT_DEFAULT__COMMENT__SORT__ORDER` | `"asc"` | Default sort order for activities |
 | `OPENPROJECT_DEFAULT__LANGUAGE` | `"en"` | Default language |
-| `OPENPROJECT_DEFAULT__PROJECTS__MODULES` | `["calendar", "board_view", "work_package_tracking", "gantt", "news", "costs"]` | Default enabled modules for new projects |
+| `OPENPROJECT_DEFAULT__PROJECTS__MODULES` | `["work_package_tracking", "news", "costs", "backlogs", "board_view", "meetings", "calendar_view", "gantt"]` | Default enabled modules for new projects |
 | `OPENPROJECT_DEFAULT__PROJECTS__PUBLIC` | `false` | New projects are public by default |
 | `OPENPROJECT_DEFAULT__PROJECTS__WIKI` | `true` | Enable wiki functionality for new projects by default |
 | `OPENPROJECT_DEMO__PROJECTS__AVAILABLE` | `false` |  |
@@ -253,11 +253,13 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_GOOD__JOB__MAX__CACHE` | `10000` |  |
 | `OPENPROJECT_GOOD__JOB__MAX__THREADS` | `20` |  |
 | `OPENPROJECT_GOOD__JOB__QUEUES` | `"*"` |  |
+| `OPENPROJECT_GOOD__JOB__SHUTDOWN__TIMEOUT` | `30` | Seconds that the worker waits for running jobs to finish before it stops them. Set it to less than the time the container platform waits before it kills the worker. |
 | `OPENPROJECT_GRAVATAR__FALLBACK__IMAGE` | `"404"` | Set default gravatar image fallback |
 | `OPENPROJECT_HASHED__TOKEN__PEPPER` | `<randomly generated>` | Pepper used for HMAC-SHA256 hashing of hashed tokens (e.g. API tokens). Auto-initialized on first use. Changing this invalidates all existing hashed tokens. |
 | `OPENPROJECT_HEALTH__CHECKS__AUTHENTICATION__PASSWORD` | `nil` | Add an authentication challenge for the /health_check endpoint |
 | `OPENPROJECT_HEALTH__CHECKS__BACKLOG__THRESHOLD` | `20` | Set threshold of outstanding HTTP requests to fail health check |
 | `OPENPROJECT_HEALTH__CHECKS__JOBS__NEVER__RAN__MINUTES__AGO` | `5` | Set threshold of outstanding background jobs to fail health check |
+| `OPENPROJECT_HELPDESK__ENABLED` | `false` | Enables/disables help desk functionality. |
 | `OPENPROJECT_HIDDEN__MENU__ITEMS` | `{}` | Hide menu items in the menu sidebar for each main menu (such as Administration and Projects). |
 | `OPENPROJECT_HOME__URL` | `nil` | Override default link when clicking on the top menu logo (Homescreen by default). |
 | `OPENPROJECT_HOST__NAME` | `nil` | Host name |

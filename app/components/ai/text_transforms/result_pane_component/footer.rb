@@ -49,19 +49,15 @@ module AI
         end
 
         def poll_url
-          ai_text_transform_pane_path(pane.uuid, **form_params, after: pane.last_seq, state:) if pane.run
+          ai_text_transform_pane_path(pane.uuid, **form_params) if pane.run
         end
 
         def form_params
           { request_id: pane.request_id, scope: pane.scope, **pane.context_ids }
         end
 
-        def retryable?
-          pane.run && %w[failed stopped].include?(state)
-        end
-
-        def form(id:, url:, method:, fields: form_params)
-          form_with(url:, method:, id:, data: { turbo_stream: true }) do
+        def pane_form(id:, url:, method:, fields: form_params)
+          form_with(url:, method:, id:) do
             safe_join(fields.map { |name, value| hidden_field_tag(name, value, id: nil) })
           end
         end

@@ -99,6 +99,28 @@ RSpec.describe AI::TextTransforms::Context do
     end
   end
 
+  describe "#ids" do
+    let(:user) do
+      create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages add_work_packages] })
+    end
+    let(:work_package) { create(:work_package, project:, type:) }
+
+    {
+      "a work package" => -> { described_class.for_work_package(work_package) },
+      "a new work package" => -> { described_class.for_new_work_package(project:, type:) },
+      "no object" => -> { described_class.none }
+    }.each do |name, build_context|
+      it "resolves back to the context of #{name} through the pane parameters" do
+        context = instance_exec(&build_context)
+        params = AI::TextTransforms::PaneParamsContract.new.call(request_id: SecureRandom.uuid, scope: "document", **context.ids)
+
+        expect(params).to be_success
+        resolved = AI::TextTransforms::ResolveContext.new(user:).call(**params.to_h.slice(*context.ids.keys)).result
+        expect(resolved).to have_attributes(work_package: context.work_package, project: context.project, type: context.type)
+      end
+    end
+  end
+
   describe ".none" do
     let(:context) { described_class.none }
 

@@ -75,6 +75,7 @@ ms:
     omniauth_login: Sila log masuk untuk mengaktifkan akaun anda.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
+    username_or_email: Username or email
   actionview_instancetag_blank_option: Sila pilih
   activemodel:
     attributes:
@@ -1038,6 +1039,8 @@ ms:
             identifier:
               must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -2090,10 +2093,11 @@ ms:
         save: Save changes and continue
         title: Save changes before continuing?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'Role: %{role}'
         no_role: Select role
@@ -2654,6 +2658,9 @@ ms:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -2677,11 +2684,6 @@ ms:
     calculated_field_not_editable: Non-editable attribute. This value is calculated automatically.
     confirm_destroy_option: Padamkan satu pilihan akan memadamkan semua kejadian yang berkaitan dengannya (cth. dalam pakej kerja). Adakah anda pasti anda ingin memadamkannya?
     contained_in_type: Terkandung dalam jenis
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: Diaktifkan dalam projek
     instructions:
       admin_only:
@@ -2732,10 +2734,17 @@ ms:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: Susun semula nilai mengikut abjad
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
@@ -3419,10 +3428,11 @@ ms:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
@@ -4033,6 +4043,7 @@ ms:
   label_interface_colors_description: Warna ini mengawal penampilan aplikasi. Jika anda mengubah suainya, tema akan ditukar secara automatik kepada tema Tersuai, tetapi kami tidak dapat memastikan pematuhan kontras kebolehaksesan minimum (WCAG 2.1).
   label_internal: Dalaman
   label_introduction_video: Getting started video
+  label_invalid_file_type: This file type is not supported.
   label_invitation: Jemputan
   label_invite_user: Jemput pengguna
   label_item: Item
@@ -5157,21 +5168,20 @@ ms:
           tb: TB
   oauth:
     application:
+      basic_details: Basic details
       builtin: Aplikasi contoh terbina dalam
       client_credentials: Bukti kelayakan pelanggan
       confidential: Sulit
-      default_scopes: "(Skop default)"
       instructions:
-        client_credential_user_id: ID pengguna pilihan untuk menyamar apabila pelanggan menggunakan aplikasi ini. Tinggalkan kosong untuk benarkan akses awam sahaja.
-        confidential: Semak jika aplikasi akan digunakan dimana rahsia pelanggan boleh dikekalkan sulit. Aplikasi mudah alih asal dan Single Page Apps dianggap sebagai tidak sulit.
-        default_scopes: ''
-        enabled: Dayakan aplikasi ini, membenarkan pengguna melaksanakan pemberian kebenaran dengannya.
-        name: Nama aplikasi anda. Ini akan dipaparkan ke pengguna lain selepas kebenaran.
-        redirect_uri_html: 'URL yang dibenarkan membenarkan pengguna boleh diubah hala. Satu entri setiap baris. <br/> Jika anda mendaftar aplikasi desktop, gunakan URL berikut.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: Jika anda sedang membangunkan aplikasi pelanggan API OAuth untuk OpenProject, anda boleh mendaftarkannya menggunakan borang ini untuk semua pengguna menggunakannya.
-        scopes: Tandakan skop yang anda mahu untuk berikan akses ke aplikasi tersebut. Jika tiada skop ditandakan, api_v3 akan diandaikan.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: "'%{name}' aplikasi OAuth"
       new: Aplikasi OAuth baharu
       non_confidential: Tidak sulit
@@ -5190,7 +5200,7 @@ ms:
         '
     authorization_error: Sebuah ralat kebenaran telah berlaku.
     client_credentials: Pengguna yang digunakan untuk kelayakan Pelanggan
-    client_credentials_impersonation_html: 'Secara default, OpenProject menyediakan kebenaran OAuth 2.0 melalui %{authorization_code_flow_link}. Anda boleh memilih untuk mengaktifkan %{client_credentials_flow_link}, tetapi anda mesti menyediakan pengguna yang akan mewakili permintaan.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: Pengguna kelayakan pelanggan ditetapkan kepada
@@ -5215,9 +5225,12 @@ ms:
       other_applications: Aplikasi OAuth lain
     my_registered_applications: Aplikasi OAuth berdaftar
     scopes:
-      api_v3: Akses API v3 penuh
+      api_v3: Access to APIv3
       api_v3_text: Aplikasi akan menerima akses penuh baca & tulis di OpenProject API v3 untuk melaksanakan tindakan bagi pihak anda.
-      mcp: Access to MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
   oauth_client:
     errors:
@@ -5270,6 +5283,14 @@ ms:
     welcome: Selamat datang ke %{app_title}
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: must be an array.
       decimal?: must be a decimal.
       defined: must not be defined.
@@ -5277,6 +5298,7 @@ ms:
       filled?: mesti diisi.
       format?: is in invalid format.
       greater_or_equal_zero: mestilah lebih besar atau sama dengan 0.
+      gt?: must be greater than %{num}.
       gteq?: must be greater than or equal to %{num}.
       hash?: must be a hash.
       included_in?:
@@ -5285,6 +5307,7 @@ ms:
           range: 'must be one of: %{list_left} - %{list_right}.'
       int?: mestilah integer.
       key?: is missing.
+      max_size?: must not be longer than %{num} characters.
       not_found: tidak dijumpai.
       respond_to?: does not implement required method.
       rules:
@@ -5304,6 +5327,7 @@ ms:
       type?: must be %{type}.
       unexpected_key: is not allowed.
       uri?: is not a valid URI.
+      uuid_v4?: must be a UUID (version 4).
     or: atau
     rules:
       blueprint: Pattern blueprint
@@ -5314,16 +5338,15 @@ ms:
       parent: Ibu bapa
       short: Nama pendek
       weight: Weight
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Open link in a new tab
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Drag to reorder
-        menu:
-          label_actions: Work package actions
-        parent: Parent
-        undisclosed: Undisclosed
   page:
     text: Teks
   pagination:
@@ -5459,13 +5482,19 @@ ms:
     '
   permission_manage_placeholder_user: Cipta, edit, dan buang pengguna placeholder
   permission_manage_project_activities: Urus aktiviti projek
-  permission_manage_project_variants: Manage the project's own type variants
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: Urus pertanyaan BCF awam
   permission_manage_public_project_queries: Uruskan senarai projek awam
   permission_manage_public_queries: Uruskan paparan umum
   permission_manage_repository: Urus repositori
   permission_manage_subtasks: Urus hierarki pakej kerja
   permission_manage_types: Pilih jenis
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: Edit pengguna
   permission_manage_versions: Urus versi
   permission_manage_wiki: Urus wiki
@@ -6688,6 +6717,7 @@ ms:
     '
   text_form_configuration_required_attribute: Atribut ditandakan sebagai diperlukan dan dengan itu sentiasa dipaparkan
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Markdown
     plain: Teks biasa
   text_git_repo_example: repositori kosong dan lokal (cth. /gitrepo, c:\gitrepo)
@@ -7075,6 +7105,9 @@ ms:
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: Projek-projek
         variant_column: Variant or type
       reuse_mode:

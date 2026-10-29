@@ -75,6 +75,7 @@ ja:
     omniauth_login: アカウントをアクティブにするのにログインしてください。
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
+    username_or_email: Username or email
   actionview_instancetag_blank_option: 選択してください
   activemodel:
     attributes:
@@ -1038,6 +1039,8 @@ ja:
             identifier:
               must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -2088,10 +2091,11 @@ ja:
         save: Save changes and continue
         title: Save changes before continuing?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'Role: %{role}'
         no_role: Select role
@@ -2648,6 +2652,9 @@ ja:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -2671,11 +2678,6 @@ ja:
     calculated_field_not_editable: Non-editable attribute. This value is calculated automatically.
     confirm_destroy_option: オプションを削除すると、そのすべての派生 (例えばワークパッケージ) が削除されます。削除してもよろしいですか?
     contained_in_type: タイプに含まれる
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: プロジェクトで有効
     instructions:
       admin_only:
@@ -2726,10 +2728,17 @@ ja:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: 値をアルファベット順に並べ替える
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
@@ -3411,10 +3420,11 @@ ja:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
@@ -4023,6 +4033,7 @@ ja:
   label_interface_colors_description: 'これらの色は、アプリケーションの外観を制御します。 それらを変更すると、テーマは自動的にカスタムテーマに変更されます。 しかし、アクセシビリティコントラストの最小値(WCAG 2)の遵守は保証できません。 ). '
   label_internal: 社内
   label_introduction_video: Getting started video
+  label_invalid_file_type: This file type is not supported.
   label_invitation: 案内
   label_invite_user: ユーザを招待
   label_item: 項目
@@ -5143,21 +5154,20 @@ ja:
           tb: TB
   oauth:
     application:
+      basic_details: Basic details
       builtin: 内蔵サイト・アプリケーション
       client_credentials: クライアント認証
       confidential: 機密
-      default_scopes: "(既定の範囲)"
       instructions:
-        client_credential_user_id: クライアントがこのアプリケーションを使用するときに偽装するためのオプションのユーザーIDです。 パブリックアクセスのみを許可するには空のままにします
-        confidential: クライアントシークレットを機密にできる場所でアプリケーションが使用されるかどうかを確認します。 ネイティブモバイルアプリとシングルページアプリは機密とはみなされません。
-        default_scopes: ''
-        enabled: このアプリケーションを有効にし、ユーザがこのアプリケーションで認証付与を実行できるようにする。
-        name: アプリケーションの名前。これは承認時に他のユーザーに表示されます。
-        redirect_uri_html: '許可されたURLで承認されたユーザーにリダイレクトできます。 1行に1エントリ。<br/>デスクトップアプリケーションを登録する場合は、次のURLを使用してください。
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: OpenProject用のOAuth APIクライアントアプリケーションを開発している場合は、このフォームを使用してすべてのユーザーが使用できるように登録できます。
-        scopes: アプリケーションにアクセスを許可するスコープをチェックします。チェックされていない場合、api_v3になる。
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: OAuthアプリケーション '%{name}'
       new: 新しいOAuthアプリケーション
       non_confidential: 非公開
@@ -5174,7 +5184,7 @@ ja:
         '
     authorization_error: 認証エラーが発生しました。
     client_credentials: クライアントの資格情報を使用するユーザー
-    client_credentials_impersonation_html: 'デフォルトでは、OpenProjectは %{authorization_code_flow_link} を介してOAuth 2.0認証を提供します。 オプションで %{client_credentials_flow_link} を有効にすることもできますが、その代わりにユーザーに代わってリクエストが実行されるようにする必要があります。
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: クライアントの資格情報をユーザーに設定
@@ -5199,9 +5209,12 @@ ja:
       other_applications: その他のOAuthアプリケーション
     my_registered_applications: 登録済みのOAuthアプリケーション
     scopes:
-      api_v3: Full API v3アクセス
+      api_v3: Access to APIv3
       api_v3_text: アプリケーションはアクションを実行するためのOpenProject API v3へのフルアクセスが許可されます。
-      mcp: Access to MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
   oauth_client:
     errors:
@@ -5256,6 +5269,14 @@ ja:
     welcome: "%{app_title} へようこそ"
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: must be an array.
       decimal?: 10進数である必要があります。
       defined: を定義してはならない。
@@ -5263,6 +5284,7 @@ ja:
       filled?: を入力する必要があります。
       format?: is in invalid format.
       greater_or_equal_zero: は 0 以上でなければなりません。
+      gt?: must be greater than %{num}.
       gteq?: must be greater than or equal to %{num}.
       hash?: must be a hash.
       included_in?:
@@ -5271,6 +5293,7 @@ ja:
           range: 'must be one of: %{list_left} - %{list_right}.'
       int?: は整数でなければなりません。
       key?: は見つかりません。
+      max_size?: must not be longer than %{num} characters.
       not_found: 見つかりません。
       respond_to?: does not implement required method.
       rules:
@@ -5290,6 +5313,7 @@ ja:
       type?: must be %{type}.
       unexpected_key: is not allowed.
       uri?: is not a valid URI.
+      uuid_v4?: must be a UUID (version 4).
     or: または
     rules:
       blueprint: パターンの建設計画
@@ -5300,16 +5324,15 @@ ja:
       parent: 親項目
       short: ショートネーム
       weight: Weight
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Open link in a new tab
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Drag to reorder
-        menu:
-          label_actions: Work package actions
-        parent: Parent
-        undisclosed: Undisclosed
   page:
     text: テキスト（本文）
   pagination:
@@ -5445,13 +5468,19 @@ ja:
     '
   permission_manage_placeholder_user: プレースホルダーユーザーの作成、編集、削除
   permission_manage_project_activities: プロジェクト活動の管理
-  permission_manage_project_variants: Manage the project's own type variants
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: 公開BCFクエリの管理
   permission_manage_public_project_queries: 公開プロジェクトリストの管理
   permission_manage_public_queries: 公開ビューの管理
   permission_manage_repository: リポジトリの管理
   permission_manage_subtasks: ワークパッケージ階層の管理
   permission_manage_types: ワークパッケージのタイプを選択
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: ユーザーの編集
   permission_manage_versions: バージョンの管理
   permission_manage_wiki: Wiki の管理
@@ -6673,6 +6702,7 @@ ja:
     '
   text_form_configuration_required_attribute: 属性が必須とマークされています。 したがって常に示されます
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Markdown
     plain: プレーンテキスト
   text_git_repo_example: ローカルのリポジトリ （/gitrepo、c:\gitrepo など）
@@ -7064,6 +7094,9 @@ ja:
         enable_all: すべてのプロジェクトで有効
         select_projects: プロジェクトを選択
         select_projects_description: このタイプを使用するプロジェクトを選択。
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: プロジェクト
         variant_column: Variant or type
       reuse_mode:

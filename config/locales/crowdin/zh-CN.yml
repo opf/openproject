@@ -75,6 +75,7 @@ zh-CN:
     omniauth_login: 请登录以激活您的帐户。
     signup_title: 在 %{app_title} 中创建帐户
     signup_with_external_account: 使用外部帐户注册
+    username_or_email: Username or email
   actionview_instancetag_blank_option: 请选择
   activemodel:
     attributes:
@@ -1036,6 +1037,8 @@ zh-CN:
             identifier:
               must_not_be_changed: '不得手动更改。工作包标识符是自动分配并通过别名表解析的，因此手动更改它们会破坏链接和标识符历史记录。如果此更改是有意操作，请使用 `save(context: :%{context})` 进行保存，并确保 work_package_semantic_aliases 表的一致性。'
               semantic_identifier_incomplete: 并且必须同时设置 sequence_number。
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -2084,10 +2087,11 @@ zh-CN:
         save: 保存更改并继续
         title: 保存更改后再继续？
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 角色：%{role}
         no_role: 选择角色
@@ -2642,6 +2646,9 @@ zh-CN:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: 您可以自动将某个项目角色授予任何被指定至此项目特性的用户，而不管该用户在该项目中的原始角色是什么。
         dialog:
@@ -2665,11 +2672,6 @@ zh-CN:
     calculated_field_not_editable: 不可编辑属性。此值是自动计算的。
     confirm_destroy_option: 删除某个选项将会删除其所有实例 (例如, 在工作包中)。确定要删除？
     contained_in_type: 已包含在类型中
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: 已在项目中启用
     instructions:
       admin_only:
@@ -2720,10 +2722,17 @@ zh-CN:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: 按字母顺序重新排序
     reorder_confirmation: 警告：当前的可用值顺序以及所有未保存的值都将丢失。确定要继续吗？
     semantic_keys:
@@ -3405,10 +3414,11 @@ zh-CN:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
@@ -4017,6 +4027,7 @@ zh-CN:
   label_interface_colors_description: '这些颜色控制应用程序的外观。 如果您修改了它们，主题将自动变为自定义主题， 但我们无法确保无障碍对比最小值(WCAG 2)。 。 '
   label_internal: 内部
   label_introduction_video: 入门指南视频
+  label_invalid_file_type: This file type is not supported.
   label_invitation: 邀请
   label_invite_user: 邀请用户
   label_item: 条目
@@ -5139,21 +5150,20 @@ zh-CN:
           tb: TB
   oauth:
     application:
+      basic_details: Basic details
       builtin: 内置实例应用程序
       client_credentials: 客户端凭据
       confidential: 机密
-      default_scopes: "（默认范围）"
       instructions:
-        client_credential_user_id: 在客户端使用此应用程序时要冒充的可选用户 ID。留空可以仅允许公开访问
-        confidential: 检查在客户端密钥可以保密的地方是否使用应用程序。原生移动应用和单页应用被假定为非机密。
-        default_scopes: ''
-        enabled: 启用此应用程序，允许用户使用它执行授权授予。
-        name: 您的应用程序的名称。将在授权后显示给其他用户。
-        redirect_uri_html: '授权的用户可以重定向到的允许 URL。每行一个条目。<br/>如果您注册的是桌面应用程序，请使用以下 URL。
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: 如果您正在为 OpenProject 开发 OAuth API 客户端应用程序，则可以使用此表单注册，供所有用户使用。
-        scopes: 选择您希望应用程序授予权限的范围。如果不选择任何范围，将假定 api_v3。
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: OAuth 应用程序“%{name}”
       new: 新的 OAuth 应用程序
       non_confidential: 非机密
@@ -5170,7 +5180,7 @@ zh-CN:
         '
     authorization_error: 发生了验证错误。
     client_credentials: 用于客户端凭据的用户
-    client_credentials_impersonation_html: '默认情况下，OpenProject 通过 %{authorization_code_flow_link} 提供 OAuth 2.0 授权。您可以选择启用 %{client_credentials_flow_link}，但您必须提供代其执行请求的用户。
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: 设置的目标客户端凭据用户
@@ -5195,9 +5205,12 @@ zh-CN:
       other_applications: 其他 OAuth 应用程序
     my_registered_applications: 已注册的 OAuth 应用程序
     scopes:
-      api_v3: API v3 完全访问权限
+      api_v3: Access to APIv3
       api_v3_text: 应用程序将获得 OpenProject API v3 的完全读写访问权限来代表您执行操作。
-      mcp: 访问 MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: 应用程序将获得 OpenProject MCP 端点的访问权限。它们是 APIv3 的一个有限子集，专为与 AI 智能体配合使用而设计。
   oauth_client:
     errors:
@@ -5250,6 +5263,14 @@ zh-CN:
     welcome: 欢迎使用 %{app_title}
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: 必须为一个数组。
       decimal?: 必须为小数。
       defined: 不得定义。
@@ -5257,6 +5278,7 @@ zh-CN:
       filled?: 必须填写
       format?: 格式无效。
       greater_or_equal_zero: 必须大于或等于 0
+      gt?: must be greater than %{num}.
       gteq?: 必须大于或等于 %{num}。
       hash?: 必须是一个哈希值。
       included_in?:
@@ -5265,6 +5287,7 @@ zh-CN:
           range: 必须是其中之一： %{list_left} - %{list_right}。
       int?: 必须为整数。
       key?: 缺失。
+      max_size?: must not be longer than %{num} characters.
       not_found: 未找到。
       respond_to?: 不实现所需方法。
       rules:
@@ -5284,6 +5307,7 @@ zh-CN:
       type?: 必须是 %{type}。
       unexpected_key: 不允许使用。
       uri?: 不是有效的 URI。
+      uuid_v4?: must be a UUID (version 4).
     or: 或
     rules:
       blueprint: 图案蓝图
@@ -5294,16 +5318,15 @@ zh-CN:
       parent: 父级
       short: 简称
       weight: 权重
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: 在新标签页打开链接
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: 拖拽排序
-        menu:
-          label_actions: 工作包操作
-        parent: 父
-        undisclosed: 未公开
   page:
     text: 文本
   pagination:
@@ -5439,13 +5462,19 @@ zh-CN:
     '
   permission_manage_placeholder_user: 创建、编辑和删除占位符用户
   permission_manage_project_activities: 管理项目活动
-  permission_manage_project_variants: 管理项目自有的类型变体
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: 管理公开的 BCF 查询
   permission_manage_public_project_queries: 管理公开项目列表
   permission_manage_public_queries: 管理公共查询
   permission_manage_repository: 托管存储库
   permission_manage_subtasks: 管理工作包层次结构
   permission_manage_types: 选择类型
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: 编辑用户
   permission_manage_versions: 管理版本
   permission_manage_wiki: 管理维基
@@ -6659,6 +6688,7 @@ zh-CN:
     '
   text_form_configuration_required_attribute: 属性是非常需要的，因此一直都会显示。
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Markdown
     plain: 纯文本
   text_git_repo_example: 一个裸的和本地的存储库例如： /gitrepo, c:\gitrepo)
@@ -7050,6 +7080,9 @@ zh-CN:
         enable_all: 对所有项目启用
         select_projects: 选择项目
         select_projects_description: 选择您想要使用此类型的项目。
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: 项目
         variant_column: Variant or type
       reuse_mode:

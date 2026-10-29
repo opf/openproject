@@ -58,6 +58,10 @@ module AI
         @state ||= run ? run_state : "failed"
       end
 
+      def retryable?
+        run.present? && run.failed?
+      end
+
       def text
         @text ||= completed_event ? completed_event.payload["text"].to_s : streamed_text
       end
@@ -93,7 +97,7 @@ module AI
       end
 
       def completed_event
-        events.reverse_each.find { |event| event.kind == "completed" }
+        events.rfind { |event| event.kind == "completed" }
       end
 
       def streamed_text
@@ -103,7 +107,7 @@ module AI
       def error_event
         return @error_event if defined?(@error_event)
 
-        @error_event = events.reverse_each.find { |event| event.kind == "error" }
+        @error_event = events.rfind { |event| event.kind == "error" }
       end
 
       def blocked?

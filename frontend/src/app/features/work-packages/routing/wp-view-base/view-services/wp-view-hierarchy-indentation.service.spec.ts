@@ -188,7 +188,7 @@ describe('WorkPackageViewIndentation service', () => {
       expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, '2345');
     });
 
-    it('Can indent with a predecessor that shares an ancestor chain', async () => {
+    it('can indent next to a nested predecessor', async () => {
       querySpace.tableRendered.putValue([
         { workPackageId: '5555', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },

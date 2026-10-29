@@ -238,7 +238,7 @@ export class HalResource {
     return undefined;
   }
 
-  public getEditorContext(fieldName:string):ICKEditorContext {
+  public getEditorContext(_fieldName:string):ICKEditorContext {
     return { type: 'constrained' };
   }
 
