@@ -129,6 +129,23 @@ module Pages
         within("[data-test-selector='project-life-cycle-#{life_cycle.id}']", &)
       end
 
+      def change_phase_status(life_cycle, from:, to:)
+        wait_for_turbo_stream do
+          within_life_cycle_container(life_cycle) do
+            click_button from
+            click_on to
+          end
+        end
+      end
+
+      def expect_phase_status_buttons(phases, *statuses)
+        phases.zip(statuses).each do |phase, status|
+          within_life_cycle_container(phase) do
+            expect(page).to have_button(status)
+          end
+        end
+      end
+
       def expand_text(custom_field)
         within_custom_field_container(custom_field) do
           page.find('[data-test-selector="expand-button"]').click
