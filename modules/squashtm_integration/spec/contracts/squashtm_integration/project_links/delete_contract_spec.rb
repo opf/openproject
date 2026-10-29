@@ -43,11 +43,51 @@ RSpec.describe SquashTMIntegration::ProjectLinks::DeleteContract do
   end
 
   context "without that permission" do
-    let(:permissions) { %i[] }
+    let(:permissions) { %i[view_squashtm_test_results] }
 
     it "is invalid" do
       expect(contract).not_to be_valid
       expect(contract.errors.details[:base].pluck(:error)).to eq([:error_unauthorized])
     end
+  end
+
+  context "when work packages of the project are linked to SquashTM requirements" do
+    let(:project) { create(:project) }
+    let(:link) { create(:squashtm_project_link, project:) }
+
+    before do
+      create_list(:work_package, 2, project:).each { create(:squashtm_work_package_link, work_package: it) }
+    end
+
+    it "is invalid and reports how many work packages are linked" do
+      expect(contract).not_to be_valid
+      expect(contract.errors.details[:base]).to eq([{ error: :work_packages_linked, count: 2 }])
+    end
+
+    context "when the work package links are to be removed as well" do
+      subject(:contract) { described_class.new(link, user, options: { unlink_work_packages: true }) }
+
+      context "with the permission to manage requirement links" do
+        let(:permissions) { %i[manage_squashtm_integration manage_squashtm_links] }
+
+        it { is_expected.to be_valid }
+      end
+
+      context "without the permission to manage requirement links" do
+        it "is invalid" do
+          expect(contract).not_to be_valid
+          expect(contract.errors.details[:base].pluck(:error)).to eq([:work_package_links_not_removable])
+        end
+      end
+    end
+  end
+
+  context "when only work packages of other projects are linked" do
+    let(:project) { create(:project) }
+    let(:link) { create(:squashtm_project_link, project:) }
+
+    before { create(:squashtm_work_package_link, work_package: create(:work_package)) }
+
+    it { is_expected.to be_valid }
   end
 end

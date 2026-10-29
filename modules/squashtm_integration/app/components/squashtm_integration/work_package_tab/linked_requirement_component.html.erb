@@ -1,0 +1,78 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  flex_layout(test_selector: "op-work-package-squashtm-tab--linked") do |container|
+    case requirement_error
+    when :not_found
+      container.with_row(mb: 3) do
+        render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert, test_selector: "op-work-package-squashtm-tab--requirement-missing")) do
+          t(".requirement_missing")
+        end
+      end
+    when :unavailable
+      container.with_row(mb: 3) do
+        render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop, test_selector: "op-work-package-squashtm-tab--unavailable")) do
+          t(".unavailable")
+        end
+      end
+    end
+
+    container.with_row(mb: 3) do
+      render(OpPrimer::BorderBoxListComponent.new(container: :squashtm_requirement, padding: :condensed)) do |list|
+        list.with_header(title: t(".requirement"))
+
+        list.with_item do
+          render(SquashTMIntegration::WorkPackageTab::RequirementComponent.new(tab_state))
+        end
+      end
+    end
+
+    if requirement
+      container.with_row(mb: 3) do
+        render(
+          OpPrimer::BorderBoxListComponent.new(
+            container: :squashtm_test_cases,
+            collapsible: true,
+            padding: :condensed,
+            test_selector: "op-work-package-squashtm-tab--test-cases"
+          )
+        ) do |list|
+          list.with_header(title: t(".test_cases"), count: requirement.test_cases.size)
+          list.with_empty_state(title: t(".no_test_cases.title"), description: t(".no_test_cases.description"), icon: :"op-logo-squashtm")
+
+          requirement.test_cases.each do |test_case|
+            list.with_item do
+              render(SquashTMIntegration::WorkPackageTab::TestCaseComponent.new(test_case, server:))
+            end
+          end
+        end
+      end
+    end
+  end
+%>

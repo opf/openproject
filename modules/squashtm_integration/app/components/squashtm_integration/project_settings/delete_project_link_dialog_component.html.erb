@@ -26,18 +26,59 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  render(
-    Primer::OpenProject::DangerDialog.new(
-      title: t(".title"),
-      confirm_button_text: t(".confirm"),
-      form_arguments:,
-      test_selector: "squashtm-project-link--delete-dialog"
-    )
-  ) do |dialog|
-    dialog.with_confirmation_message do |message|
-      message.with_heading(tag: :h2) { t(".heading", name: project_link.squashtm_project_name) }
-      message.with_description_content(t(".description"))
+<% if blocked? %>
+  <%=
+    render(
+      Primer::Alpha::Dialog.new(
+        id: BLOCKED_DIALOG_ID,
+        title: t(".title"),
+        size: dialog_size,
+        test_selector: "squashtm-project-link--delete-dialog"
+      )
+    ) do |dialog|
+      dialog.with_header(variant: :large)
+
+      dialog.with_body do
+        concat(
+          render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert, mb: 3, test_selector: "squashtm-project-link--unlink-blocked")) do
+            t(".blocked")
+          end
+        )
+        concat(render(linked_work_packages_component))
+      end
+
+      dialog.with_footer do
+        render(Primer::Beta::Button.new(data: { close_dialog_id: BLOCKED_DIALOG_ID })) { t(:button_close) }
+      end
     end
-  end
-%>
+  %>
+<% else %>
+  <%=
+    render(
+      Primer::OpenProject::DangerDialog.new(
+        title: t(".title"),
+        size: dialog_size,
+        confirm_button_text: t(".confirm"),
+        form_arguments:,
+        test_selector: "squashtm-project-link--delete-dialog"
+      )
+    ) do |dialog|
+      dialog.with_confirmation_message do |message|
+        message.with_heading(tag: :h2) { t(".heading", name: project_link.squashtm_project_name) }
+        message.with_description_content(t(".description"))
+      end
+
+      if work_packages_linked?
+        dialog.with_additional_details(display: :block, test_selector: "squashtm-project-link--linked-work-packages") do
+          render(linked_work_packages_component)
+        end
+
+        dialog.with_confirmation_check_box_content(t(".unlink_work_packages", count: linked_work_package_count))
+      else
+        dialog.with_additional_details(display: :block, test_selector: "squashtm-project-link--no-linked-work-packages") do
+          render(Primer::Beta::Text.new(tag: :p, color: :muted, text_align: :center)) { t(".no_work_packages_linked") }
+        end
+      end
+    end
+  %>
+<% end %>

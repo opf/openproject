@@ -74,7 +74,7 @@ RSpec.describe SquashTMIntegration::ProjectLinks::CreateContract do
   end
 
   context "without the permission to manage the SquashTM integration" do
-    let(:permissions) { %i[] }
+    let(:permissions) { %i[view_squashtm_test_results] }
 
     before { create(:squashtm_server) }
 

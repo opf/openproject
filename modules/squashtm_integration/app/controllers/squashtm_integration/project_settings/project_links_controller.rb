@@ -63,7 +63,9 @@ module SquashTMIntegration
       end
 
       def destroy
-        result = ProjectLinks::DeleteService.new(user: current_user, model: @project_link).call
+        result = ProjectLinks::DeleteService
+                   .new(user: current_user, model: @project_link)
+                   .call(unlink_work_packages: unlink_work_packages?)
 
         if result.success?
           flash[:notice] = t(".success")
@@ -75,6 +77,10 @@ module SquashTMIntegration
       end
 
       private
+
+      def unlink_work_packages?
+        ActiveRecord::Type::Boolean.new.cast(params[:unlink_work_packages]) || false
+      end
 
       def redirect_to_settings
         redirect_to project_settings_squashtm_path(@project), status: :see_other

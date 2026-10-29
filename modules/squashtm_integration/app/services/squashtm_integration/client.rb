@@ -74,7 +74,7 @@ module SquashTMIntegration
     end
 
     def all_requirements(project_id)
-      collection("projects/#{Integer(project_id)}/requirements", "requirements")
+      collection("projects/#{Integer(project_id)}/requirements", "requirements", fields: "name,current_version[reference]")
     end
 
     def requirement(id)
@@ -93,9 +93,9 @@ module SquashTMIntegration
 
     attr_reader :base_url, :api_token
 
-    def collection(path, embedded_key)
+    def collection(path, embedded_key, **query)
       (0..).each_with_object([]) do |page, collected|
-        response = get(path, page:, size: COLLECTION_PAGE_SIZE)
+        response = get(path, page:, size: COLLECTION_PAGE_SIZE, **query)
         collected.concat(response.dig("_embedded", embedded_key) || [])
         break collected if page + 1 >= response.dig("page", "totalPages").to_i
       end

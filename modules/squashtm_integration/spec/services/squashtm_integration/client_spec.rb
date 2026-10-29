@@ -139,8 +139,9 @@ RSpec.describe SquashTMIntegration::Client, :webmock do
   end
 
   describe "#all_requirements" do
-    it "collects the requirements of the SquashTM project" do
-      stub_request(:get, "https://squashtm.example.com/squash/api/rest/latest/projects/3/requirements?page=0&size=200")
+    it "collects the requirements of the SquashTM project with their references" do
+      stub_request(:get, "https://squashtm.example.com/squash/api/rest/latest/projects/3/requirements")
+        .with(query: { page: 0, size: 200, fields: "name,current_version[reference]" })
         .to_return(status: 200, body: { _embedded: { requirements: [{ id: 11, name: "Sign in" }] },
                                         page: { number: 0, totalPages: 1 } }.to_json)
 

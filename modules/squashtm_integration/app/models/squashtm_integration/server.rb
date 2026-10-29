@@ -64,6 +64,14 @@ module SquashTMIntegration
       web_url("administration-workspace/projects/#{Integer(project_id)}/content", anchor: "information")
     end
 
+    def test_case_url(test_case_id)
+      web_url("test-case-workspace/test-case/#{Integer(test_case_id)}/content", anchor: "information")
+    end
+
+    def requirement_url(requirement_id)
+      web_url("requirement-workspace/requirement-library/#{Integer(requirement_id)}/content", anchor: "dashboard")
+    end
+
     private
 
     def web_url(path, anchor:)
