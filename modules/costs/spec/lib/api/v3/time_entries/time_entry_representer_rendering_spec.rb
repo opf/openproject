@@ -55,6 +55,7 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "rendering" do
     [:edit_time_entries]
   end
   let(:work_package_visible) { true }
+  let(:meeting_visible) { true }
   let(:representer) do
     described_class.create(time_entry, current_user:, embed_links:)
   end
@@ -65,6 +66,7 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "rendering" do
     mock_permissions_for(current_user) do |mock|
       mock.allow_in_project *permissions, project: workspace if workspace
       mock.allow_in_project :view_work_packages, project: workspace if work_package_visible && workspace
+      mock.allow_in_project :view_meetings, project: workspace if meeting_visible && workspace
     end
 
     allow(time_entry)
@@ -161,6 +163,24 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "rendering" do
 
       it "does not include displayId in the entity link" do
         expect(subject).not_to have_json_path("_links/entity/displayId")
+      end
+    end
+
+    context "with a time entry logged on a meeting not visible to the user" do
+      let(:meeting_visible) { false }
+
+      before do
+        time_entry.entity = meeting
+      end
+
+      it_behaves_like "has a titled link" do
+        let(:link) { "entity" }
+        let(:href) { API::V3::URN_UNDISCLOSED }
+        let(:title) { I18n.t(:"api_v3.undisclosed.workPackage") }
+      end
+
+      it "does not embed the meeting" do
+        expect(subject).not_to have_json_path("_embedded/entity")
       end
     end
 
