@@ -1671,6 +1671,7 @@ DEPENDENCIES
   ice_cube (~> 0.17.0)
   inline_svg (~> 1.10.0)
   job-iteration
+  json (< 3)
   json_schemer (~> 2.5.0)
   json_spec (~> 1.1.4)
   ladle

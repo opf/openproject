@@ -183,6 +183,9 @@ end
 gem "i18n-js", "~> 4.2.4"
 gem "rails-i18n", "~> 8.1.0"
 
+# Binding json to a version below 3 as sprockets does not
+# limit the json version but fails with 3+.
+gem "json", "< 3"
 gem "sprockets", "~> 3.7.2" # lock sprockets below 4.0
 gem "sprockets-rails", "~> 3.5.1"
 
