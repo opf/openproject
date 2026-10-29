@@ -41,6 +41,9 @@ import { Controller, type ActionEvent } from '@hotwired/stimulus';
 import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
 import { closestDragBlockingElement } from 'core-stimulus/helpers/interactive-element-helper';
 import {
+  clearDragSource,
+  isDragSource,
+  markDragSource,
   permittedDestinationsAllowDrop,
   isItemFromRoot,
   sortableDragSourceData,
@@ -58,7 +61,6 @@ import {
   sortableItemSelector,
   type DestinationIdentity,
 } from './list-dom';
-import { draggingAttribute } from './drag-session';
 import { webLinkHref } from './external-data';
 import { renderDragPreview } from './preview';
 
@@ -242,7 +244,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
         // marks itself only when the root lost its session after permitting
         // the drag, such as a disconnect in between.
         if (!this.root?.dragSession) {
-          this.element.setAttribute(draggingAttribute, 'source');
+          markDragSource(this.element);
         }
         // Cancels drops landing outside registered drop targets. This also
         // guards the external data channel: a misdropped card carrying
@@ -255,7 +257,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
         // The root's monitor ends the session and clears every mark under
         // it; the item cleans up only the mark it set itself above.
         if (!this.root?.dragSession) {
-          this.element.removeAttribute(draggingAttribute);
+          clearDragSource(this.element);
         }
       },
       onGenerateDragPreview: ({ location, nativeSetDragImage }) => {
@@ -317,7 +319,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
         return isItemFromRoot(root.element, source.data)
           && source.data.itemId !== this.idValue
           && source.data.type === this.typeValue
-          && !this.element.hasAttribute(draggingAttribute)
+          && !isDragSource(this.element)
           && permittedDestinationsAllowDrop(source.data, this.root?.ownerDestinationOf(this.element) ?? null);
       },
       // Only the identity a drop needs; the batch-aware fields are computed
@@ -452,7 +454,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     }
 
     let next = this.element.nextElementSibling;
-    while (next instanceof HTMLElement && next.matches(sortableItemSelector) && next.hasAttribute(draggingAttribute)) {
+    while (next instanceof HTMLElement && next.matches(sortableItemSelector) && isDragSource(next)) {
       next = next.nextElementSibling;
     }
 

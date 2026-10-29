@@ -26,10 +26,9 @@
 //++
 
 import { selectionKey, type SelectionItem } from 'core-common/batch-selection';
+import { clearDragSource, draggingAttribute, markDragSource } from './drag-and-drop';
 import { itemAcceptsDestination, type DestinationIdentity } from './list-dom';
 import { itemElementsByKey } from './selection';
-
-export const draggingAttribute = 'data-dragging';
 
 // What one drag needs from the root that hosts it.
 export interface DragSessionHost {
@@ -178,7 +177,7 @@ export class DragSession {
     this.currentPhase = 'ended';
     this.host.rootElement
       .querySelectorAll(`[${draggingAttribute}]`)
-      .forEach((element) => element.removeAttribute(draggingAttribute));
+      .forEach(clearDragSource);
 
     return this.frozenBatch;
   }
@@ -192,7 +191,7 @@ export class DragSession {
       ? this.frozenBatchElements()
       : [this.sourceElement];
 
-    elements.forEach((element) => element.setAttribute(draggingAttribute, 'source'));
+    elements.forEach(markDragSource);
   }
 
   private frozenBatchElements():HTMLElement[] {

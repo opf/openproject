@@ -56,6 +56,22 @@ import {
   type MoveDirection,
 } from './list-dom';
 
+// Shared with the global generic-drag-and-drop controller and its row
+// styles, so it is not scoped to sortable lists.
+export const draggingAttribute = 'data-dragging';
+
+export function markDragSource(element:Element):void {
+  element.setAttribute(draggingAttribute, 'source');
+}
+
+export function clearDragSource(element:Element):void {
+  element.removeAttribute(draggingAttribute);
+}
+
+export function isDragSource(element:Element):boolean {
+  return element.hasAttribute(draggingAttribute);
+}
+
 // The Pragmatic DnD payloads exchanged between the sortable-lists root and
 // item controllers, built on top of the DOM contract in list-dom.ts.
 const sortableItemIdentityKey = Symbol('sortable-list-item');
