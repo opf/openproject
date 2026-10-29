@@ -7036,6 +7036,9 @@ en:
       no_results_content_text: Add a new status
       no_results_title_text: There are currently no work package statuses.
       status_actions: "Status actions"
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
 
   # Used in array.to_sentence.
   support:
