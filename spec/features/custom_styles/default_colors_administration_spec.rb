@@ -107,7 +107,7 @@ RSpec.describe "default colors administration", :js do
       expect(page).to have_heading "Contrast preview"
     end
 
-    it "saves a colour that fails contrast and previews it again after reopening" do
+    it "saves a color that fails contrast and previews it again after reopening" do
       fill_in "Hex code", with: "#fff"
       find_field("Name").click
       click_on "Save"
