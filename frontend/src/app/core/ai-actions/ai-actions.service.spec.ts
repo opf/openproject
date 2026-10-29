@@ -82,6 +82,7 @@ function fakeEditor(field?:string, data = 'Login page dont work.') {
     change: vi.fn((callback:() => void) => callback()),
   };
   const editor = {
+    state: 'ready',
     getData: vi.fn(() => data),
     data: { parse: vi.fn(() => parsed) },
     model,
@@ -317,16 +318,42 @@ describe('AiActionsService', () => {
       expect(model.insertContent).not.toHaveBeenCalled();
     });
 
-    it('drops the older request when the same editor starts a new one', async () => {
-      const { asEditor, model } = fakeEditor();
-      await service.run(fixGrammar, asEditor);
-      await service.run(makeConcise, asEditor);
+    it('drops the older request once a new pane replaced its pane, even from another editor', async () => {
+      const first = fakeEditor();
+      const second = fakeEditor();
+      await service.run(fixGrammar, first.asEditor);
+      await service.run(makeConcise, second.asEditor);
 
       accept(requestIdOf(0));
-      expect(model.insertContent).not.toHaveBeenCalled();
+      expect(first.model.insertContent).not.toHaveBeenCalled();
 
       accept(requestIdOf(1));
+      expect(second.model.insertContent).toHaveBeenCalledTimes(1);
+    });
+
+    it('keeps the current request when a new pane could not be requested', async () => {
+      const { asEditor, model } = fakeEditor();
+      await service.run(fixGrammar, asEditor);
+      turboRequests.request.mockRejectedValueOnce(new Error('403'));
+      await service.run(makeConcise, fakeEditor().asEditor);
+
+      accept(requestIdOf(0));
+
       expect(model.insertContent).toHaveBeenCalledTimes(1);
+    });
+
+    it('leaves the answer to the pane when the editor was destroyed meanwhile', async () => {
+      const { asEditor, model, editor } = fakeEditor();
+      const applied = vi.fn();
+      window.addEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, applied);
+      await service.run(fixGrammar, asEditor);
+
+      editor.state = 'destroyed';
+      accept(requestIdOf());
+      window.removeEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, applied);
+
+      expect(model.insertContent).not.toHaveBeenCalled();
+      expect(applied).not.toHaveBeenCalled();
     });
 
     it('forgets a request once its pane was closed', async () => {

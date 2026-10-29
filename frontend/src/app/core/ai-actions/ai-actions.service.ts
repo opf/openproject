@@ -55,11 +55,14 @@ interface IEditorContextResource {
   };
 }
 
-export type IAiActionsEditor = Pick<ICKEditorInstance, 'getData'|'data'|'model'|'config'>;
+export type IAiActionsEditor = Pick<ICKEditorInstance, 'getData'|'data'|'model'|'config'|'state'>;
 
 interface IPendingRequest {
+  requestId:string;
   editor:IAiActionsEditor;
 }
+
+type IDescriptionContext = { workPackageId:string }|{ projectId:string, typeId:string };
 
 interface IAcceptedDetail {
   requestId:string;
@@ -90,14 +93,15 @@ export class AiActionsService {
 
   private I18n = inject(I18nService);
 
-  private pending = new Map<string, IPendingRequest>();
+  // The page shows one result pane at a time, so only the request behind it can be applied.
+  private pending:IPendingRequest|null = null;
 
   constructor() {
     document.addEventListener(AI_TEXT_TRANSFORM_ACCEPTED_EVENT, (event) => {
       this.apply((event as CustomEvent<IAcceptedDetail>).detail);
     });
     document.addEventListener(AI_TEXT_TRANSFORM_CLOSED_EVENT, (event) => {
-      this.pending.delete((event as CustomEvent<{ requestId:string }>).detail.requestId);
+      this.forget((event as CustomEvent<{ requestId:string }>).detail.requestId);
     });
   }
 
@@ -130,10 +134,8 @@ export class AiActionsService {
 
   async run(action:IAiTextTransformAction, editor:IAiActionsEditor, resource?:IEditorContextResource):Promise<void> {
     this.rememberAction(action);
-    this.forgetRequestsOf(editor);
 
     const requestId = uuidv4();
-    this.pending.set(requestId, { editor });
 
     const body = new FormData();
     Object.entries({
@@ -150,21 +152,22 @@ export class AiActionsService {
         { method: 'POST', body, headers: { Accept: 'text/vnd.turbo-stream.html' }, credentials: 'same-origin' },
         true,
       );
+      this.pending = { requestId, editor };
     } catch {
-      this.pending.delete(requestId);
       this.toast.addError(this.I18n.t('js.editor.ai_actions.start_failed'));
     }
   }
 
   // The accepted event arrives through a turbo stream, so only requests started here may write into an editor.
+  // A destroyed editor gets no answer, so the pane tells the user it is gone.
   private apply({ requestId, text }:IAcceptedDetail):void {
-    const request = this.pending.get(requestId);
-    if (!request) {
+    const editor = this.pending?.requestId === requestId ? this.pending.editor : null;
+    this.forget(requestId);
+    if (!editor || editor.state === 'destroyed') {
       return;
     }
 
-    this.pending.delete(requestId);
-    const { model, data } = request.editor;
+    const { model, data } = editor;
     model.change(() => {
       model.insertContent(data.parse(text), model.createRangeIn(model.document.getRoot()!));
     });
@@ -172,27 +175,21 @@ export class AiActionsService {
     window.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_APPLIED_EVENT, { detail: { requestId, ok: true } }));
   }
 
-  private forgetRequestsOf(editor:IAiActionsEditor):void {
-    this.pending.forEach((request, requestId) => {
-      if (request.editor === editor) {
-        this.pending.delete(requestId);
-      }
-    });
+  private forget(requestId:string):void {
+    if (this.pending?.requestId === requestId) {
+      this.pending = null;
+    }
   }
 
   private paneContext(resource:IEditorContextResource|undefined, field:string|undefined):Record<string, string> {
-    if (resource?._type !== 'WorkPackage' || field !== 'description') {
+    const context = this.descriptionContext(resource, field);
+    if (!context) {
       return {};
     }
 
-    if (!isNewResource(resource)) {
-      return { work_package_id: resource.id! };
-    }
-
-    const projectId = this.linkedId(resource.$links?.project?.href);
-    const typeId = this.linkedId(resource.$links?.type?.href);
-
-    return projectId && typeId ? { project_id: projectId, type_id: typeId } : {};
+    return 'workPackageId' in context
+      ? { work_package_id: context.workPackageId }
+      : { project_id: context.projectId, type_id: context.typeId };
   }
 
   private rememberAction(action:IAiTextTransformAction):void {
@@ -214,24 +211,38 @@ export class AiActionsService {
   }
 
   private listPath(resource:IEditorContextResource|undefined, field:string|undefined):string|null {
-    if (resource?._type === 'WorkPackage' && field === 'description') {
-      return this.workPackageListPath(resource);
+    const paths = this.pathHelper.api.v3;
+    const context = this.descriptionContext(resource, field);
+
+    if (context === undefined) {
+      return paths.aiTextTransformActions();
+    }
+    if (context === null) {
+      return null;
     }
 
-    return this.pathHelper.api.v3.aiTextTransformActions();
+    return 'workPackageId' in context
+      ? paths.aiTextTransformActionsByWorkPackage(context.workPackageId)
+      : paths.aiTextTransformActionsByProject(context.projectId, context.typeId);
   }
 
-  private workPackageListPath(workPackage:IEditorContextResource):string|null {
-    const paths = this.pathHelper.api.v3;
-
-    if (!isNewResource(workPackage)) {
-      return paths.aiTextTransformActionsByWorkPackage(workPackage.id!);
+  // undefined for any editor but a work package description, null for a new work package without project or type.
+  private descriptionContext(
+    resource:IEditorContextResource|undefined,
+    field:string|undefined,
+  ):IDescriptionContext|null|undefined {
+    if (resource?._type !== 'WorkPackage' || field !== 'description') {
+      return undefined;
     }
 
-    const projectId = this.linkedId(workPackage.$links?.project?.href);
-    const typeId = this.linkedId(workPackage.$links?.type?.href);
+    if (!isNewResource(resource)) {
+      return { workPackageId: resource.id! };
+    }
 
-    return projectId && typeId ? paths.aiTextTransformActionsByProject(projectId, typeId) : null;
+    const projectId = this.linkedId(resource.$links?.project?.href);
+    const typeId = this.linkedId(resource.$links?.type?.href);
+
+    return projectId && typeId ? { projectId, typeId } : null;
   }
 
   private linkedId(href:string|undefined):string|null {
