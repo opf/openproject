@@ -75,6 +75,7 @@ vi:
     omniauth_login: Vui lòng đăng nhập để kích hoạt tài khoản của bạn.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
+    username_or_email: Username or email
   actionview_instancetag_blank_option: Vui lòng chọn
   activemodel:
     attributes:
@@ -1036,6 +1037,8 @@ vi:
             identifier:
               must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -2086,10 +2089,11 @@ vi:
         save: Save changes and continue
         title: Save changes before continuing?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'Role: %{role}'
         no_role: Select role
@@ -2646,6 +2650,9 @@ vi:
           all: All projects
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: Bạn có thể tự động cấp một vai trò dự án nhất định cho bất kỳ người dùng nào được gán cho thuộc tính dự án này, bất kể vai trò ban đầu của người dùng đó trong dự án đó là gì.
         dialog:
@@ -2669,11 +2676,6 @@ vi:
     calculated_field_not_editable: Thuộc tính không thể chỉnh sửa. Giá trị này được tính toán tự động.
     confirm_destroy_option: Xóa một tùy chọn sẽ xóa tất cả các sự kiện của nó (ví dụ như trong các gói công việc). Bạn có chắc bạn muốn xóa bỏ nó?
     contained_in_type: Chứa trong loại
-    disable_project_specific_values:
-      button: Apply
-      confirmation: I understand that any project-specific settings will be overridden
-      description: All values for this custom field will be available to all projects using it.
-      title: Make all values available to all projects?
     enabled_in_project: Đã bật trong dự án
     instructions:
       admin_only:
@@ -2724,15 +2726,43 @@ vi:
     project_specific_values:
       all:
         caption: All projects will show the same list of values for this custom field
-        label: Show the same values for all projects
+        label: All values will be available in all projects
       allow:
-        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
-        label: Manually choose which values to activate for each project
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: Sắp xếp lại các giá trị theo thứ tự bảng chữ cái
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
       job_title: Job title
       none: None
+    show:
+      columns:
+        form: Form
+        type_or_variant: Type or variant
+      forms:
+        blank_slate:
+          description: This custom field is not part of any form yet.
+          filtered_description: No form matches the current filter.
+          filtered_title: No matching forms
+          title: No forms
+        filter_placeholder: Filter by form name or description…
+      tabs:
+        forms: Forms
+        types_and_variants: Types and variants
+      types_and_variants:
+        blank_slate:
+          description: No type or variant shows this custom field yet.
+          filtered_description: No type or variant matches the current filters.
+          filtered_title: No matching types or variants
+          title: No types or variants
+        filter_placeholder: Filter by type or variant name…
     text_add_new_custom_field: 'Để thêm các trường tùy chỉnh mới vào một dự án, trước tiên bạn cần tạo chúng trước khi có thể thêm vào dự án này.
 
       '
@@ -3388,16 +3418,18 @@ vi:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
         caption_html: The form %{name} is used in the following types and variants.
         title: Form used in types
         variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
         variants: Variants
       unused: No type or variant uses this form yet.
       used_by_types:
@@ -3999,6 +4031,7 @@ vi:
   label_interface_colors_description: Những màu này kiểm soát giao diện của ứng dụng. Nếu bạn sửa đổi chúng, chủ đề sẽ tự động được thay đổi thành Chủ đề tùy chỉnh nhưng chúng tôi không thể đảm bảo việc tuân thủ mức độ tương phản tối thiểu về khả năng truy cập (WCAG 2.1).
   label_internal: Nội bộ
   label_introduction_video: Video bắt đầu
+  label_invalid_file_type: This file type is not supported.
   label_invitation: Thư mời
   label_invite_user: Mời người dùng
   label_item: mục
@@ -5131,21 +5164,20 @@ vi:
           tb: bệnh lao
   oauth:
     application:
+      basic_details: Basic details
       builtin: Ứng dụng phiên bản tích hợp
       client_credentials: Thông tin xác thực của khách hàng
       confidential: bí mật
-      default_scopes: "(Phạm vi mặc định)"
       instructions:
-        client_credential_user_id: ID người dùng tùy chọn để mạo danh khi khách hàng sử dụng ứng dụng này. Để trống để chỉ cho phép truy cập công cộng
-        confidential: Kiểm tra xem ứng dụng sẽ được sử dụng trong khi thông tin mật của khách hàng vẫn được đảm bảo. Các ứng dụng di động và Ứng dụng web được cho là không bảo mật.
-        default_scopes: ''
-        enabled: Kích hoạt ứng dụng này, cho phép người dùng thực hiện cấp phép với nó.
-        name: Tên ứng dụng của bạn. Điều này sẽ được hiển thị cho người dùng khác khi ủy quyền.
-        redirect_uri_html: 'Các URL người dùng được ủy quyền có thể được chuyển hướng đến. Mỗi mục nhập trên một dòng. <br/> Nếu bạn đang đăng ký một ứng dụng máy tính để bàn, hãy sử dụng URL sau.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: Nếu bạn đang phát triển ứng dụng khách API OAuth cho OpenProject, bạn có thể đăng ký ứng dụng đó bằng biểu mẫu này để tất cả người dùng sử dụng.
-        scopes: Kiểm tra phạm vi bạn muốn ứng dụng cấp quyền truy cập. Nếu không có phạm vi nào được chọn, api_v3 sẽ được giả sử.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: Ứng dụng OAuth '%{name}'
       new: Ứng dụng OAuth mới
       non_confidential: Không bí mật
@@ -5162,7 +5194,7 @@ vi:
         '
     authorization_error: Đã xảy ra lỗi ủy quyền.
     client_credentials: Người dùng được sử dụng cho thông tin xác thực của Khách hàng
-    client_credentials_impersonation_html: 'Theo mặc định, OpenProject cung cấp ủy quyền OAuth 2.0 thông qua %{authorization_code_flow_link}. Bạn có thể tùy ý bật %{client_credentials_flow_link}, nhưng bạn phải cung cấp người dùng mà yêu cầu của họ sẽ được thực hiện thay mặt họ.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: Người dùng thông tin đăng nhập của khách hàng được đặt thành
@@ -5187,9 +5219,12 @@ vi:
       other_applications: Các ứng dụng OAuth khác
     my_registered_applications: Ứng dụng OAuth đã đăng ký
     scopes:
-      api_v3: Truy cập đầy đủ API v3
+      api_v3: Access to APIv3
       api_v3_text: Ứng dụng sẽ nhận được quyền truy cập đọc và ghi đầy đủ vào OpenProject API v3 để thay mặt bạn thực hiện các hành động.
-      mcp: Access to MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
   oauth_client:
     errors:
@@ -5242,6 +5277,14 @@ vi:
     welcome: Chào mừng đến với %{app_title}
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: phải là một mảng.
       decimal?: phải là số thập phân.
       defined: không được xác định.
@@ -5249,6 +5292,7 @@ vi:
       filled?: phải được lấp đầy.
       format?: is in invalid format.
       greater_or_equal_zero: phải lớn hơn hoặc bằng 0.
+      gt?: must be greater than %{num}.
       gteq?: phải lớn hơn hoặc bằng %{num}.
       hash?: phải là một hàm băm.
       included_in?:
@@ -5257,6 +5301,7 @@ vi:
           range: 'phải là một trong: %{list_left} - %{list_right}.'
       int?: phải là số nguyên.
       key?: bị thiếu.
+      max_size?: must not be longer than %{num} characters.
       not_found: không tìm thấy.
       respond_to?: không thực hiện phương pháp cần thiết.
       rules:
@@ -5276,6 +5321,7 @@ vi:
       type?: phải là %{type}.
       unexpected_key: is not allowed.
       uri?: is not a valid URI.
+      uuid_v4?: must be a UUID (version 4).
     or: hoặc
     rules:
       blueprint: bản thiết kế hoa văn
@@ -5286,16 +5332,15 @@ vi:
       parent: cha mẹ
       short: Tên viết tắt
       weight: cân nặng
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Mở liên kết trong tab mới
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Drag to reorder
-        menu:
-          label_actions: Gói công việc (Work Package) actions
-        parent: Parent
-        undisclosed: Undisclosed
   page:
     text: văn bản
   pagination:
@@ -5431,13 +5476,19 @@ vi:
     '
   permission_manage_placeholder_user: Tạo, chỉnh sửa và xóa người dùng giữ chỗ
   permission_manage_project_activities: Quản lý hoạt động dự án
-  permission_manage_project_variants: Manage the project's own type variants
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: Quản lý truy vấn BCF công khai
   permission_manage_public_project_queries: Quản lý danh sách dự án công
   permission_manage_public_queries: Quản lý truy vấn công cộng
   permission_manage_repository: Quản lý kho lưu trữ
   permission_manage_subtasks: Quản lý phân cấp gói công việc
   permission_manage_types: Chọn loại
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: Chỉnh sửa người dùng
   permission_manage_versions: Quản lý phiên bản
   permission_manage_wiki: Quản lý wiki
@@ -6662,6 +6713,7 @@ vi:
     '
   text_form_configuration_required_attribute: Thuộc tính được đánh dấu là bắt buộc và do đó luôn được hiển thị
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Gạch dưới
     plain: Văn bản thuần
   text_git_repo_example: một kho lưu trữ trống và cục bộ (trong /git repo, c:\git repo)
@@ -7053,6 +7105,9 @@ vi:
         enable_all: Kích hoạt cho tất cả các dự án
         select_projects: Chọn dự án
         select_projects_description: Chọn các dự án mà bạn muốn sử dụng loại này.
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: dự án
         variant_column: Variant or type
       reuse_mode:
@@ -7940,6 +7995,7 @@ vi:
         caption_html: The workflow %{name} is used in the following types and variants.
         title: Workflow used in types
         variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
         variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:

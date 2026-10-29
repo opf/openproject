@@ -31,6 +31,7 @@ module FormFields
   module Primerized
     class BlockNoteEditorInput
       include Capybara::DSL
+      include WaitHelpers
 
       # Since op-blocknote-extensions 0.3.1 the work package search is portalled into
       # BlockNote's `.bn-container`, a sibling of the contenteditable - so it is no longer
@@ -58,6 +59,38 @@ module FormFields
 
       def click_formatting_toolbar_button(label)
         shadow_root.find("button[aria-label='#{label}']").click
+      end
+
+      def insert_table
+        send_keys_to_editor("/table")
+        send_keys(:enter)
+      end
+
+      def open_table_row_menu
+        shadow_root.first("table td, table th").hover
+        shadow_root.find(".bn-table-handle:not([style*='rotate'])").click
+      end
+
+      def open_table_cell_menu(cell)
+        handle = page.document.synchronize do
+          cell.hover
+          shadow_root.find(".bn-table-cell-handle", wait: 0).tap do |current|
+            raise Capybara::ExpectationNotMet, "Cell handle is not on the hovered cell" unless horizontally_within?(current, cell)
+          end
+        end
+        handle.click
+      end
+
+      # The colors menu lists the text colors first, then the background colors, with the same names.
+      def pick_table_cell_color(name, background: false)
+        click_table_menu_item("Colors", hover: true)
+        shadow_root.all("[role='menuitem']", text: /#{name}\z/, minimum: 2)[background ? 1 : 0].click
+        send_keys(:escape)
+      end
+
+      def click_table_menu_item(text, hover: false)
+        item = shadow_root.find(".bn-menu-item", exact_text: text)
+        hover ? item.hover : item.click
       end
 
       def create_work_package_form
@@ -230,6 +263,12 @@ module FormFields
       end
 
       private
+
+      def horizontally_within?(element, container)
+        x, _, width, = bounding_rect(element)
+        left, _, container_width, = bounding_rect(container)
+        (x + (width / 2)).between?(left, left + container_width)
+      end
 
       # Attention: This only works with selenium, not with cuprite,
       # as cuprite does not support shadow dom (yet).

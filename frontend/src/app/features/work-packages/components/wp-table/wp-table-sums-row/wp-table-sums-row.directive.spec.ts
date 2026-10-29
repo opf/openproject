@@ -37,6 +37,8 @@ import { WorkPackageViewSumService } from 'core-app/features/work-packages/routi
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { nextTask } from 'core-common/testing/timing';
 import { buildQuery, buildTable, FakeDragAndDropService, harnessProviders, initializeViewServices, TableHarness } from '../../wp-fast-table/testing/table-harness';
+import type { KeyboardNavigation } from '../../wp-fast-table/handlers/state/keyboard/keyboard-navigation-transformer';
+import { totalsRowKey } from '../../wp-fast-table/handlers/state/keyboard/navigable-rows';
 import { WorkPackageTableSumsRowController } from './wp-table-sums-row.directive';
 
 @Component({ template: '<table><tbody><tr wpTableSumsRow></tr></tbody></table>', standalone: false })
@@ -142,5 +144,40 @@ describe('WorkPackageTableSumsRowController input readiness', () => {
     expect(row).toHaveTextContent('js.label_total_sum');
     directive.wpTableSums.setEnabled(false);
     expect(row).toBeEmptyDOMElement();
+  });
+
+  it.each([
+    ['rendering', true, 'js.label_total_sum'],
+    ['clearing', false, ''],
+  ])('captures focus ownership before %s the row and notifies the table after', async (_name, enabled, text) => {
+    const events:string[] = [];
+    row.innerHTML = '<td>previous</td>';
+    harness.table.keyboardNavigation = {
+      captureOwnership: () => events.push(`capture:${row.textContent}`),
+    } as unknown as KeyboardNavigation;
+    harness.table.rowsRefreshed$.subscribe((key) => events.push(`refreshed:${key}:${row.textContent}`));
+    directive.wpTableSums.setEnabled(enabled);
+    directive.workPackageTable = harness.table;
+    fixture.detectChanges();
+
+    await resolveSchema();
+
+    expect(events).toEqual(['capture:previous', `refreshed:${totalsRowKey}:${text}`]);
+  });
+
+  it('leaves an already empty row alone when sums are off', async () => {
+    const events:string[] = [];
+    harness.table.keyboardNavigation = {
+      captureOwnership: () => events.push('capture'),
+    } as unknown as KeyboardNavigation;
+    harness.table.rowsRefreshed$.subscribe((key) => events.push(`refreshed:${key}`));
+    directive.wpTableSums.setEnabled(false);
+    directive.workPackageTable = harness.table;
+    fixture.detectChanges();
+
+    await resolveSchema();
+
+    expect(row).toBeEmptyDOMElement();
+    expect(events).toEqual([]);
   });
 });

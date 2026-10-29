@@ -150,8 +150,8 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
       # An unconfirmed capability is not a capability: offering such a model
       # invites a choice that fails much later, at index time.
       it "offers an embedding feature only models known to create embeddings" do
-        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
-                                               state: "supported", source: "probe", checked_at: Time.current)
+        create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
+                                        state: "supported", source: "probe")
 
         get llm_feature_bindings_path
 
@@ -168,7 +168,7 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
 
       # Otherwise opening the page and saving it would blank a working binding.
       it "keeps the bound model listed once it no longer qualifies" do
-        connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "qwen3.6-27b")
+        create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", model_id: "qwen3.6-27b")
 
         get llm_feature_bindings_path
 
@@ -201,7 +201,7 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
     end
 
     it "treats a blank choice as inheriting the default" do
-      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+      create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "qwen3.6-27b")
 
       patch llm_feature_binding_path("description_assistant"), params: { llm_feature_binding: { model_id: "" } }
 
@@ -234,8 +234,8 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
     context "when the probe rules out a capability the feature requires" do
       let(:feature_key) { :spec_only_vision_feature }
       let(:verdict) do
-        connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "vision",
-                                               state: "unsupported", source: "probe", checked_at: Time.current)
+        create(:llm_capability_verdict, llm_connection: connection, model_id: "qwen3.6-27b", capability: "vision",
+                                        state: "unsupported", source: "probe")
       end
 
       before do
@@ -271,7 +271,7 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
     end
 
     it "refuses a request that carries no binding" do
-      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+      create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "qwen3.6-27b")
 
       patch llm_feature_binding_path("description_assistant")
 
@@ -325,8 +325,8 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
     # A locked binding is the record that a vector index exists. Everything the
     # index depends on is frozen, not just the model.
     it "refuses to change anything a locked index depends on" do
-      binding = connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "bge-m3",
-                                                    dimensions: 1024, locked_at: Time.current)
+      binding = create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", model_id: "bge-m3",
+                                             dimensions: 1024, locked_at: Time.current)
 
       patch llm_feature_binding_path(:semantic_search),
             params: { llm_feature_binding: { model_id: "qwen3.6-27b", dimensions: "512" } }

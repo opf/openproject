@@ -45,7 +45,7 @@ da:
         title_portfolio: Porteføljens tidslinje
         title_program: Programmets tidslinje
       subitems:
-        button_text: Underpunkt
+        button_text: Underelement
         no_results: Der er ingen synlige underordnede.
-        title: Underpunkter
-        view_all_subitems: Vis alle underpunkter
+        title: Underelementer
+        view_all_subitems: Vis alle underelementer

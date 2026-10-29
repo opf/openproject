@@ -44,10 +44,12 @@ export class ApiV3ConfigurationPath extends ApiV3GettableResource<ConfigurationR
       return this.$configuration;
     }
 
-    return this.$configuration = this.halResourceService
+    this.$configuration = this.halResourceService
       .get<ConfigurationResource>(this.path)
       .pipe(
         shareReplay(),
       );
+
+    return this.$configuration;
   }
 }

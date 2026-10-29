@@ -244,7 +244,7 @@ RSpec.describe "My avatar management", :js do
     choose "Image"
     attach_file("avatar_file_input", File.join(image_base_path, "invalid.txt"), make_visible: true)
 
-    expect(page).to have_css(".avatars--error-pane", text: I18n.t(:wrong_file_format))
+    expect(page).to have_css(".InlineMessage", text: I18n.t(:wrong_file_format))
     expect(page).to have_button("Save", disabled: true)
     attach_file("avatar_file_input", File.join(image_base_path, "too_big.jpg"), make_visible: true)
 
@@ -255,6 +255,7 @@ RSpec.describe "My avatar management", :js do
 
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"), wait: 20)
     open_avatar_dialog
+    find(:button, accessible_name: I18n.t(:button_actions)).click
     expect(page).to have_test_selector("avatar-delete-link")
     expect(page).to have_css(".avatars--preview img[src$='/avatar?source=image']", count: 3)
     wait_for { page.evaluate_script("document.querySelector('.avatars--preview img').naturalWidth") }.to eq 128
@@ -270,6 +271,7 @@ RSpec.describe "My avatar management", :js do
     expect(user.reload.local_avatar_attachment).to be_present
 
     choose "Image"
+    find(:button, accessible_name: I18n.t(:button_actions)).click
     accept_alert { find_test_selector("avatar-delete-link").click }
 
     expect(page).to have_text(I18n.t(:avatar_deleted), wait: 20)

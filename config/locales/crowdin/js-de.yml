@@ -628,8 +628,8 @@ de:
     notifications:
       center:
         and_more_users:
-          one: and %{count} other
-          other: and %{count} others
+          one: und %{count} weitere
+          other: und %{count} weitere
         empty_state:
           no_notification: Alle Benachrichtungen abgearbeitet.
           no_notification_for_filter: Keine Benachrichtigungen für diesen Filter vorhanden.

@@ -126,7 +126,7 @@ describe('create work package: hierarchy custom field picker', () => {
     await openPicker();
     await userEvent.fill(page.getByLabelText(FIELD), 'room 1a');
 
-    await expect.poll(optionLabels).toEqual(['room 1a']);
+    await expect.poll(() => optionLabels()).toEqual(['room 1a']);
 
     await userEvent.click(page.getByRole('treeitem', { name: 'room 1a' }));
     await expect.element(page.getByLabelText(FIELD)).toHaveValue('room 1a');
@@ -135,7 +135,7 @@ describe('create work package: hierarchy custom field picker', () => {
   it('asks for the listing whole, once, however much is typed', async () => {
     await openPicker();
     await userEvent.fill(page.getByLabelText(FIELD), 'room 1a');
-    await expect.poll(optionLabels).toEqual(['room 1a']);
+    await expect.poll(() => optionLabels()).toEqual(['room 1a']);
 
     expect(itemRequests).toHaveLength(1);
     expect(itemRequests[0].searchParams.get('pageSize')).toBe('-1');
@@ -146,7 +146,7 @@ describe('create work package: hierarchy custom field picker', () => {
     await openPicker();
     await userEvent.fill(page.getByLabelText(FIELD), 'room');
 
-    await expect.poll(optionLabels).toEqual(['room 1 (R1)', 'room 1a', 'room 2 (R2)']);
+    await expect.poll(() => optionLabels()).toEqual(['room 1 (R1)', 'room 1a', 'room 2 (R2)']);
   });
 
   it('narrows a field holding several values down too', async () => {

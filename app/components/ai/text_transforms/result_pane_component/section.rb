@@ -45,6 +45,10 @@ module AI
         attr_reader :pane
 
         delegate :state, to: :pane
+
+        def done?
+          state == "done"
+        end
       end
     end
   end

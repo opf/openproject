@@ -1,0 +1,56 @@
+name: Typos
+
+on:
+  pull_request:
+
+jobs:
+  typos:
+    name: Typos
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      checks: write
+    env:
+      TYPOS_VERSION: v1.51.1
+      TYPOS_SHA256: 93c301fd4120ff076e2cc2a6d6a61cab4a4bdb81899287c0938b452e56d1f454
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up reviewdog
+        uses: reviewdog/action-setup@d8a7baabd7f3e8544ee4dbde3ee41d0011c3a93f # v1.5.0
+      - name: Install typos
+        run: |
+          archive="typos-${TYPOS_VERSION}-x86_64-unknown-linux-musl.tar.gz"
+          curl -fsSL -o "${RUNNER_TEMP}/${archive}" \
+            "https://github.com/crate-ci/typos/releases/download/${TYPOS_VERSION}/${archive}"
+          echo "${TYPOS_SHA256}  ${RUNNER_TEMP}/${archive}" | sha256sum -c -
+          tar -xzf "${RUNNER_TEMP}/${archive}" -C "${RUNNER_TEMP}" ./typos
+      - name: Run typos
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ github.token }}
+        run: |
+          set -o pipefail
+          "${RUNNER_TEMP}/typos" --format json > "${RUNNER_TEMP}/typos.json" || status=$?
+          if [ "${status:-0}" -ne 0 ] && [ "${status}" -ne 2 ]; then
+            exit "${status}"
+          fi
+          # rdjsonl conversion adapted from reviewdog/action-typos (MIT)
+          jq -c '
+            select(.type == "typo")
+            | (.path | ltrimstr("./")) as $path
+            | {
+                start: { line: .line_num, column: (.byte_offset + 1) },
+                end: { line: .line_num, column: (.byte_offset + (.typo | length) + 1) }
+              } as $range
+            | {
+                message: ("`" + .typo + "` should be `" + (.corrections | join("`, `")) + "`"),
+                location: { path: $path, range: $range },
+                suggestions: (.corrections | map({ text: ., range: $range }))
+              }
+          ' "${RUNNER_TEMP}/typos.json" |
+            reviewdog -f=rdjsonl -name=typos -reporter=github-pr-annotations \
+              -filter-mode=added -fail-level=any

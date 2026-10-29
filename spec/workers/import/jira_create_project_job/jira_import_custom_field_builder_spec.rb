@@ -85,7 +85,7 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
       it { is_expected.to eq("date") }
     end
 
-    context "with a datetime field (data loss!)" do
+    context "with a datetime field (datetime)" do
       let(:jira_field) do
         jira_field_for(name: "CF Datetime",
                        schema: { "type" => "datetime",
@@ -93,7 +93,18 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
                                  "customId" => 10262 })
       end
 
-      it { is_expected.to eq("date") }
+      it { is_expected.to eq("datetime") }
+    end
+
+    context "with a ScriptRunner scripted field reporting a datetime" do
+      let(:jira_field) do
+        jira_field_for(name: "CF Scripted Datetime",
+                       schema: { "type" => "datetime",
+                                 "custom" => "com.onresolve.jira.groovy.groovyrunner:scripted-field",
+                                 "customId" => 10263 })
+      end
+
+      it { is_expected.to eq("datetime") }
     end
 
     context "with a URL field (url)" do
@@ -719,7 +730,7 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
       end
     end
 
-    context "with scalar passthrough fields (string, float, date, link)" do
+    context "with scalar passthrough fields" do
       {
         "string" => ["CF String",
                      { "type" => "string",
@@ -733,6 +744,10 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
                    { "type" => "date",
                      "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:datepicker" },
                    "2024-01-15"],
+        "datetime" => ["CF Datetime",
+                       { "type" => "datetime",
+                         "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:datetime" },
+                       "2024-01-15T10:30:00.000+0100"],
         "link" => ["CF URL",
                    { "type" => "string",
                      "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:url" },
