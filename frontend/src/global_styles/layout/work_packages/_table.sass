@@ -37,9 +37,6 @@
   @include extended-content--bottom
   @include extended-content--right
 
-  .work-packages-split-view--tabletimeline-footer
-    margin-right: $content-horizontal-space
-
   // Since only the split screen on the right should touch the bottom,
   // we need to add it manually to the left to avoid a jump there
   .work-packages-partitioned-page--content-left
@@ -52,9 +49,6 @@
     // split pane is open. Override it back to 0.
     @include split-pane-active
       @include extended-content--right
-
-      .work-packages-partitioned-page--content-left .work-packages-split-view--tabletimeline-footer
-        margin-right: $content-horizontal-space
 
 // Ensure correct height applied to child elements.
 // The dom looks like this:
