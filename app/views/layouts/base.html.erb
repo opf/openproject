@@ -39,6 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= call_hook :view_layouts_base_html_head %>
   <!-- page specific tags -->
   <%= content_for(:header_tags) if content_for?(:header_tags) %>
+  <%= content_for(:head) if content_for?(:head) %>
   <meta name="current_menu_item" content="<%= current_menu_item %>">
 </head>
 <%= content_tag :body,
@@ -101,13 +102,13 @@ See COPYRIGHT and LICENSE files for more details.
         <div id="menu-sidebar">
           <div class="main-menu--top-container">
             <%= render(Primer::OpenProject::FlexLayout.new(align_items: :center, pt: 3)) do |flex|
-              flex.with_column(overflow: :hidden) do
-                render_projects_top_menu_node
-              end
-              flex.with_column(text_align: :right, flex: :auto) do
-                render(OpenProject::Common::MainMenuToggleComponent.new(expanded: true))
-              end
-            end %>
+                  flex.with_column(overflow: :hidden) do
+                    render_projects_top_menu_node
+                  end
+                  flex.with_column(text_align: :right, flex: :auto) do
+                    render(OpenProject::Common::MainMenuToggleComponent.new(expanded: true))
+                  end
+                end %>
 
             <%= render(
                   Primer::BaseComponent.new(

@@ -28,6 +28,12 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_backlogs) %>
 
+<%# Dialogs like "new work package" redirect back here. As a morphing refresh, that reloads
+    the lists in place instead of starting over with the skeleton. %>
+<% turbo_refreshes_with method: :morph, scroll: :preserve %>
+<%# A cached preview would show the loaded lists, which the response's skeleton then replaces. %>
+<% turbo_exempts_page_from_preview %>
+
 <% content_for :content_header do %>
   <%=
     render Primer::OpenProject::PageHeader.new do |header|
@@ -62,7 +68,9 @@ See COPYRIGHT and LICENSE files for more details.
                         sortable_lists_sortable_lists__list_outlet: "#backlogs_container [data-controller~='sortable-lists--list']",
                         sortable_lists_sortable_lists__item_outlet: "#backlogs_container [data-controller~='sortable-lists--item']",
                         sortable_lists_sortable_lists__scrollable_outlet: "#backlogs_container [data-controller~='sortable-lists--scrollable']"
-                      } %>
+                      } do %>
+    <%= render(Backlogs::ListsSkeletonComponent.new) %>
+  <% end %>
 <% end %>
 
 <% content_for :content_body_right do %>

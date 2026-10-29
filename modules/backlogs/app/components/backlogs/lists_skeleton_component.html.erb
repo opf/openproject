@@ -1,0 +1,93 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  render(
+    Primer::Box.new(
+      classes: "op-sprint-planning-container",
+      aria: { hidden: true },
+      test_selector: "op-backlogs-skeleton"
+    )
+  ) do
+%>
+  <% %i[backlog sprints].each do |column| %>
+    <%= render(Primer::Box.new(classes: "op-sprint-planning-lists")) do %>
+      <%=
+        render(Primer::Beta::Subhead.new(hide_border: true, pb: 0)) do |head|
+          head.with_heading(tag: :h3, size: :medium, font_weight: :bold, display: :inline_flex, align_items: :center) do
+            render(Primer::Alpha::SkeletonBox.new(width: "120px", height: "1lh"))
+          end
+        end
+      %>
+
+      <%= render(Primer::OpenProject::FlexLayout.new(justify_content: :space_between, align_items: :center)) do |flex| %>
+        <% flex.with_column do %>
+          <%= render(Primer::Alpha::SkeletonBox.new(width: "120px", height: "32px")) %>
+        <% end %>
+        <% flex.with_column do %>
+          <%= render(Primer::Alpha::SkeletonBox.new(width: "100px", height: "32px")) %>
+        <% end %>
+      <% end %>
+
+      <% if column == :backlog %>
+        <%=
+          render(
+            OpPrimer::BorderBoxListComponent.new(
+              container: :backlogs_skeleton,
+              scheme: :transparent,
+              padding: :condensed,
+              header_padding: :condensed,
+              empty_state_behavior: :none
+            )
+          ) do |list|
+            list.with_header(title_arguments: { font_size: 4 }) do |header|
+              header.with_title { render(Primer::Alpha::SkeletonBox.new(width: "140px", height: "1lh")) }
+              header.with_action_icon_button(
+                icon: :"kebab-horizontal",
+                scheme: :invisible,
+                aria: { label: t(:label_loading) },
+                classes: "v-hidden"
+              )
+            end
+            list.with_item do
+              render(Primer::Beta::Blankslate.new(spacious: true)) do |blankslate|
+                with_placeholder_content(blankslate, icon: :"op-backlogs")
+              end
+            end
+          end
+        %>
+      <% else %>
+        <%=
+          render(Primer::Beta::Blankslate.new(border: true, spacious: true)) do |blankslate|
+            with_placeholder_content(blankslate, icon: :zap)
+          end
+        %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
