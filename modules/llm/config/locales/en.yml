@@ -78,13 +78,39 @@ en:
         semantic_index:
           attributes:
             base:
-              active: "The Semantic Index is active. Activate another Semantic Index first."
+              active: "The semantic index is active. Activate another semantic index first."
               locked_while_indexing: "cannot be changed while it is being indexed."
             model_id:
               not_offered: "is not an embedding model offered by the configured LLM server."
-          locked_once_indexed: "cannot be changed once the Semantic Index has been indexed."
+          locked_once_indexed: "cannot be changed once the semantic index has been indexed."
   admin:
     semantic_indexes:
+      activate:
+        body_html: "Semantic search will use <b>%{title}</b> immediately."
+        body_switch_html: "Semantic search switches from <b>%{current}</b> to <b>%{title}</b> immediately. %{current} stays ready and can be reactivated."
+        button: "Activate"
+        confirm: "Activate"
+        success: "\"%{title}\" is now the active semantic index."
+        title: "Activate \"%{title}\"?"
+      active: "Active"
+      box:
+        empty_description: "Create a new semantic index to make work packages findable by meaning."
+        empty_title: "No semantic index yet"
+        new: "New semantic index"
+        title: "semantic indexes"
+      destroy:
+        description: "The semantic index and its settings will be removed. This cannot be undone."
+        heading: "Delete %{title}?"
+        title: "Delete semantic index"
+      dialog:
+        edit_title: "Edit \"%{title}\""
+        new_title: "New semantic index"
+      form:
+        context_token_length_caption: "Maximum number of tokens embedded per work package."
+        embedding_vector_dimensions_caption: "How many numbers each vector has."
+        locked_once_indexed: "This semantic index has been indexed. Model, context length and dimensions can't be changed. Create a new semantic index to use different parameters."
+        model_caption: "Only models known to create embeddings are offered."
+        option_unqualified: "%{model} (no longer eligible)"
       indexing:
         failed_requests:
           one: "1 request failed."
@@ -94,10 +120,25 @@ en:
           no_connection: "No active LLM connection is configured."
           pgvector_missing: "The pgvector extension is not installed. Install it and run the migrations again to start indexing."
         progress: "%{percentage}% done"
+      menu:
+        delete: "Delete"
+        locked_while_active: "Activate another semantic index first"
       start_indexing:
-        not_indexable: "This Semantic Index is already being indexed."
+        button:
+          failed: "Retry indexing"
+          not_indexed: "Start indexing"
+          ready: "Re-index"
+        not_indexable: "This semantic index is already being indexed."
+        started: "Indexing of \"%{title}\" has started."
+      states:
+        failed: "Failed"
+        indexing: "Indexing"
+        not_indexed: "Not indexed"
+        ready: "Ready"
       stop_indexing:
+        button: "Stop"
         not_indexing: "This semantic index is not being indexed."
+        stopped: "Indexing of \"%{title}\" was stopped."
     llm_connections:
       delete_api_key:
         configured_from_env: "This connection is configured through the environment and cannot be changed here."
@@ -299,12 +340,12 @@ en:
         not_configured: "No endpoint has been configured."
         not_openai_compatible: "The endpoint did not return a valid model list. Please ensure it points at an OpenAI-API-compatible endpoint, including the API version segment."
         request_timed_out: "The server did not respond in time."
-        semantic_index_model_missing: "The active Semantic Index \"%{title}\" was built with %{model}, which the server no longer offers. Activate another Semantic Index to keep search by meaning working."
+        semantic_index_model_missing: "The active semantic index \"%{title}\" was built with %{model}, which the server no longer offers. Activate another semantic index to keep search by meaning working."
         server_error: "The server responded with status %{status}."
         ssrf_filtered: "The endpoint resolves to a blocked address."
         unsupported_api_format: "%{api_format} needs credentials that OpenProject cannot store."
       features:
-        active_semantic_index_intact: "The active Semantic Index still has its model"
+        active_semantic_index_intact: "The active semantic index still has its model"
         bindings_resolvable: "Every feature has a usable model"
         header: "AI features"
       inference:
