@@ -99,6 +99,41 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :comp
     end
   end
 
+  context "when a descendant belongs to a project with different done statuses" do
+    let(:status) { create(:status) }
+    let(:other_project) { create(:project, types: [task_type]) }
+    let(:user) do
+      create(:user, member_with_permissions: {
+               project => %i[view_work_packages],
+               other_project => %i[view_work_packages]
+             })
+    end
+    let!(:own_project_child) { create(:work_package, type: task_type, project:, parent: epic, status:) }
+    let!(:other_project_child) { create(:work_package, type: task_type, project: other_project, parent: epic, status:) }
+
+    context "when only the descendant's project considers the status done" do
+      before do
+        project.done_status_ids = []
+        other_project.done_status_ids = [status.id]
+      end
+
+      it "counts that descendant as resolved" do
+        expect(rendered_component).to have_text("1 / 2 work packages")
+      end
+    end
+
+    context "when only the report's project considers the status done" do
+      before do
+        project.done_status_ids = [status.id]
+        other_project.done_status_ids = []
+      end
+
+      it "counts only the report project's descendant as resolved" do
+        expect(rendered_component).to have_text("1 / 2 work packages")
+      end
+    end
+  end
+
   context "when descendant type is excluded from backlogs" do
     let(:excluded_type) { create(:type_bug) }
     let(:project) { create(:project, types: [epic_type, task_type, excluded_type].compact) }
