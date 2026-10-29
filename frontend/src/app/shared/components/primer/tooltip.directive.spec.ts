@@ -70,16 +70,10 @@ describe('OpTooltipDirective', () => {
     fixture?.destroy();
   });
 
-  it('upgrades the tool-tip created through ViewContainerRef', async () => {
+  it('opens on focus and closes on Escape', async () => {
     await render('<button type="button" opTooltip label="Refresh"><svg></svg></button>');
 
-    const button = screen.getByRole('button');
-
-    expect(button).toHaveAccessibleName('Refresh');
-    expect(button.nextElementSibling?.tagName).toBe('TOOL-TIP');
-    expect(button.nextElementSibling).toHaveAttribute('role', 'tooltip');
-
-    button.focus();
+    screen.getByRole('button').focus();
     await waitFor(() => {
       expect(tooltip().matches(':popover-open')).toBe(true);
     });
@@ -96,7 +90,7 @@ describe('OpTooltipDirective', () => {
     const button = screen.getByRole('button');
 
     expect(button).toHaveAccessibleName('Refresh');
-    expect(button).not.toHaveAttribute('aria-label');
+    expect(button).not.toHaveAccessibleDescription();
     expect(tooltip()).toHaveAttribute('aria-hidden', 'true');
   });
 
@@ -110,26 +104,24 @@ describe('OpTooltipDirective', () => {
     expect(tooltip()).not.toHaveAttribute('aria-hidden');
   });
 
-  it('keeps the label as aria-label when label and description are both given', async () => {
+  it('names a control from the label while describing it with the tooltip', async () => {
     await render('<button type="button" opTooltip label="Star" description="Add to favorites"><svg></svg></button>');
 
     const button = screen.getByRole('button');
 
     expect(button).toHaveAccessibleName('Star');
     expect(button).toHaveAccessibleDescription('Add to favorites');
-    expect(button).toHaveAttribute('aria-label', 'Star');
   });
 
-  it('uses aria-label and aria-description when showTooltip is false', async () => {
+  it('names and describes a control without a tooltip when showTooltip is false', async () => {
     await render(
       '<button type="button" opTooltip label="Star" description="Add to favorites" [showTooltip]="false"><svg></svg></button>',
     );
 
     const button = screen.getByRole('button');
 
-    expect(button).toHaveAttribute('aria-label', 'Star');
-    expect(button).toHaveAttribute('aria-description', 'Add to favorites');
     expect(button).toHaveAccessibleName('Star');
+    expect(button).toHaveAttribute('aria-description', 'Add to favorites');
     expect(document.querySelector('tool-tip')).toBeNull();
   });
 
@@ -139,9 +131,10 @@ describe('OpTooltipDirective', () => {
       <button type="button" opTooltip label="Refresh" showTooltip><svg></svg></button>
     `);
 
-    expect(screen.getByRole('button', { name: 'Star' })).toHaveAttribute('aria-label', 'Star');
-    expect(screen.getByRole('button', { name: 'Refresh' })).not.toHaveAttribute('aria-label');
+    expect(screen.getByRole('button', { name: 'Star' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Refresh' })).toBeInTheDocument();
     expect(document.querySelectorAll('tool-tip')).toHaveLength(1);
+    expect(tooltip()).toHaveTextContent('Refresh');
   });
 
   it('renders nothing for empty label and description', async () => {
@@ -150,10 +143,9 @@ describe('OpTooltipDirective', () => {
     const button = screen.getByRole('button');
 
     expect(document.querySelector('tool-tip')).toBeNull();
-    expect(button).not.toHaveAttribute('aria-label');
+    expect(button).toHaveAccessibleName('Plain');
+    expect(button).not.toHaveAccessibleDescription();
     expect(button).not.toHaveAttribute('aria-description');
-    expect(button).not.toHaveAttribute('aria-labelledby');
-    expect(button).not.toHaveAttribute('aria-describedby');
   });
 
   it('reuses an existing host id', async () => {
@@ -222,9 +214,9 @@ describe('OpTooltipDirective', () => {
     const button = screen.getByRole('button');
 
     await waitFor(() => {
-      expect(button).toHaveAttribute('aria-labelledby', tooltip().id);
+      expect(button).toHaveAccessibleName('Refresh');
     });
-    expect(button).not.toHaveAttribute('aria-describedby');
+    expect(button).not.toHaveAccessibleDescription();
   });
 
   it('follows a host id change', async () => {
@@ -259,22 +251,18 @@ describe('OpTooltipDirective', () => {
     await settle(() => host.description.set('Reload the list'));
 
     await waitFor(() => {
-      expect(button).toHaveAttribute('aria-describedby', 'tip-1');
+      expect(button).toHaveAccessibleDescription('Reload the list');
     });
-    expect(button).not.toHaveAttribute('aria-labelledby');
-    expect(button).toHaveAttribute('aria-label', 'Refresh');
+    expect(button).toHaveAccessibleName('Refresh');
     expect(tooltip()).not.toHaveAttribute('aria-hidden');
-    expect(button).toHaveAccessibleDescription('Reload the list');
 
     await settle(() => host.description.set(undefined));
 
     await waitFor(() => {
-      expect(button).toHaveAttribute('aria-labelledby', 'tip-1');
+      expect(button).not.toHaveAccessibleDescription();
     });
-    expect(button).not.toHaveAttribute('aria-describedby');
-    expect(button).not.toHaveAttribute('aria-label');
-    expect(tooltip()).toHaveAttribute('aria-hidden', 'true');
     expect(button).toHaveAccessibleName('Refresh');
+    expect(tooltip()).toHaveAttribute('aria-hidden', 'true');
   });
 
   it('changes tooltip id and type together', async () => {
