@@ -43,7 +43,7 @@ class Projects::PhaseStatusButtonComponent < ApplicationComponent
     @system_arguments = system_arguments
   end
 
-  def render? = @status.present? && edit_enabled?
+  def render? = @status.present?
 
   private
 

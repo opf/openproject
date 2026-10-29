@@ -13,7 +13,8 @@
             style: :foreground,
             icon: @status.icon,
             title: @status.name,
-            "aria-label": @status.name
+            "aria-label": @status.name,
+            disabled: !edit_enabled?
           },
           menu_arguments: {
             data: { test_selector: "phase-status-action-menu-#{@phase.id}" }
