@@ -72,6 +72,8 @@ module Sprints
     end
 
     def reference_finish
+      return Timestamp.now if @sprint.started_at? && !@sprint.completed_at?
+
       Timestamp.new(timeframe.effective_finish)
     end
 

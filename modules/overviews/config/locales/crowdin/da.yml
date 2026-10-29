@@ -7,5 +7,5 @@ da:
         other: Oversigter
   overviews:
     label_dashboard: Oversigtspanel
-    label_home: "%{workspace_type} hjem"
+    label_home: "%{workspace_type}-forside"
     label_overview: Overblik

@@ -75,6 +75,7 @@ pt-PT:
     omniauth_login: Por favor, inicie a sessão para ativar a sua conta.
     signup_title: Crie uma conta em %{app_title}
     signup_with_external_account: Registe-se com uma conta externa
+    username_or_email: Username or email
   actionview_instancetag_blank_option: Por favor, selecione
   activemodel:
     attributes:
@@ -1038,6 +1039,8 @@ pt-PT:
             identifier:
               must_not_be_changed: 'não devem ser alterados manualmente. Os identificadores dos pacotes de trabalho são atribuídos automaticamente e resolvidos através da tabela de alias; por isso, alterá-los manualmente interrompe as ligações e o histórico dos identificadores. Se esta alteração for deliberada, guarde com `save(context: :%{context})` e mantenha a tabela `work_package_semantic_aliases` consistente.'
               semantic_identifier_incomplete: e sequence_number devem ser definidos ao mesmo tempo.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -2208,10 +2211,11 @@ pt-PT:
         save: Guardar as alterações e continuar
         title: Guardar as alterações antes de continuar?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'Função: %{role}'
         no_role: Selecionar função
@@ -3564,10 +3568,11 @@ pt-PT:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
@@ -4183,6 +4188,7 @@ pt-PT:
   label_interface_colors_description: 'Estas cores controlam o aspeto da aplicação. Se as modificar, o tema será automaticamente alterado para Tema personalizado, mas não podemos garantir a conformidade com os mínimos de contraste de acessibilidade (WCAG 2.1). '
   label_internal: Interno
   label_introduction_video: Vídeo de introdução
+  label_invalid_file_type: This file type is not supported.
   label_invitation: Convite
   label_invite_user: Convidar utilizador
   label_item: Item
@@ -5314,21 +5320,20 @@ pt-PT:
           tb: TB
   oauth:
     application:
+      basic_details: Basic details
       builtin: Aplicação de instância incorporada
       client_credentials: Credenciais do cliente
       confidential: Confidencial
-      default_scopes: "(Âmbitos predefinidos)"
       instructions:
-        client_credential_user_id: ID opcional de utilizador para simular quando os clientes utilizam esta aplicação. Deixe em branco para permitir apenas o acesso público
-        confidential: Verifique se a aplicação será usada num local em que o segredo do cliente possa permanecer confidencial. As aplicações móveis nativas e as Aplicações de Página Única são consideradas não-confidenciais.
-        default_scopes: ''
-        enabled: Ative esta aplicação, permitindo que os utilizadores efetuem concessões de autorização com ela.
-        name: O nome da sua aplicação. Isto será exibido aos outros utilizadores após a autorização.
-        redirect_uri_html: 'Os utilizadores autorizados com URLs podem ser redirecionados para. Uma entrada por linha. <br/> Se estiver a registar uma aplicação de desktop, use a seguinte URL.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: Se está a desenvolver uma aplicação de cliente OAuth API para OpenProject, pode registá-la através deste formulário para que todos os utilizadores a possam usar.
-        scopes: Verifique os contextos em que quer que a aplicação conceda acesso. Se nenhum contexto estiver marcado, api_v3 é assumido.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: Aplicação OAuth '%{name}'
       new: Nova aplicação OAuth
       non_confidential: Não confidencial
@@ -5345,7 +5350,7 @@ pt-PT:
         '
     authorization_error: Ocorreu um erro de autorização.
     client_credentials: Utilizador usado para credenciais do cliente
-    client_credentials_impersonation_html: 'Por padrão, o OpenProject fornece autorização OAuth 2.0 via %{authorization_code_flow_link}. Opcionalmente, pode habilitar %{client_credentials_flow_link}, mas deve fornecer um utilizador em cujo nome serão feitos os pedidos.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: Utilizador de credenciais do cliente definido para
@@ -5371,9 +5376,12 @@ pt-PT:
       other_applications: Outras aplicações OAuth
     my_registered_applications: Aplicações OAuth registadas
     scopes:
-      api_v3: Acesso completo à API v3
+      api_v3: Access to APIv3
       api_v3_text: A aplicação receberá acesso completo de leitura e escrita à API v3 do OpenProject para executar ações em seu nome.
-      mcp: Acesso ao MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: A aplicação terá acesso aos pontos de extremidade do OpenProject MCP. Trata-se de um sub-conjunto limitado da APIv3, concebido especificamente para utilização com agentes de IA.
   oauth_client:
     errors:
@@ -5483,16 +5491,15 @@ pt-PT:
       parent: Principal
       short: Nome abreviado
       weight: Peso
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Abrir a ligação num novo separador
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Arrastar para reordenar
-        menu:
-          label_actions: Ações do pacote de trabalho
-        parent: Principal
-        undisclosed: Não revelado
   page:
     text: Conteúdo
   pagination:
