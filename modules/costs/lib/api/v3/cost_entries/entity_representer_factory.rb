@@ -114,7 +114,7 @@ module API
         end
 
         def entity_visible?(entity, user)
-          !entity.is_a?(WorkPackage) || entity.visible?(user)
+          entity.visible?(user)
         end
 
         def undisclosed_link

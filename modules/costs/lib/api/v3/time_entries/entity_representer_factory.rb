@@ -126,7 +126,10 @@ module API
         end
 
         def entity_visible?(entity, user)
-          !entity.is_a?(WorkPackage) || entity.visible?(user)
+          case entity
+          when WorkPackage, Meeting then entity.visible?(user)
+          else false
+          end
         end
 
         def undisclosed_link
@@ -135,18 +138,13 @@ module API
 
         def create_setter_lambda(name)
           ->(fragment:, **) {
-            result = ::API::Utilities::ResourceLinkParser.parse(fragment["href"])
+            # TODO: Accept meetings as entity once time tracking on meetings is released.
+            id = ::API::Utilities::ResourceLinkParser.parse_id(fragment["href"],
+                                                               property: name,
+                                                               expected_namespace: "work_packages")
 
-            case result[:namespace]
-            when "meetings"
-              represented.public_send("#{name}_id=", result[:id])
-              represented.public_send("#{name}_type=", "Meeting")
-            when "work_packages"
-              represented.public_send("#{name}_id=", result[:id])
-              represented.public_send("#{name}_type=", "WorkPackage")
-            else
-              # TODO: Handle error if unexpected object
-            end
+            represented.public_send("#{name}_id=", id)
+            represented.public_send("#{name}_type=", "WorkPackage")
           }
         end
       end
