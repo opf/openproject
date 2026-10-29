@@ -243,22 +243,26 @@ Rails.application.routes.draw do
       get :change_dialog
       patch :change
 
-      get :start_dialog
-      post :start
-
       if administration
+        get :start_dialog
+        post :start
+
         get :configure_dialog
         post :configure
         post :create
       end
 
-      resource :matrix, only: %i[show update], controller: "/workflows/matrix" do
-        get :status_dialog
-        post :confirm_statuses
+      resource :matrix, only: administration ? %i[show update] : %i[show], controller: "/workflows/matrix" do
+        if administration
+          get :status_dialog
+          post :confirm_statuses
+        end
       end
 
-      resource :copy, only: %i[new], controller: "/workflows/copies" do
-        resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
+      if administration
+        resource :copy, only: %i[new], controller: "/workflows/copies" do
+          resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
+        end
       end
     end
 

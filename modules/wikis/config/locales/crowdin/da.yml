@@ -49,11 +49,11 @@ da:
       wikis: Wikier
     project_settings:
       wiki: Projektwiki
-  permission_manage_wiki_page_links: Administrer links til wikisider
+  permission_manage_wiki_page_links: Administrer links til wiki-sider
   wikis:
     admin:
       destroy_confirmation_dialog_component:
-        description_html: Wiki-udbyderen %{wiki_provider} og alle tilhørende links til wikisider slettes. Desuden er links til wikisider i teksten ikke længere tilgængelige. Handlingen kan ikke fortrydes.
+        description_html: Wiki-udbyderen %{wiki_provider} og alle tilhørende links til wiki-sider slettes. Desuden er links til wiki-sider i teksten ikke længere tilgængelige. Handlingen kan ikke fortrydes.
         heading: Vil du slette wiki-udbyderen permanent?
         title: Slet wiki-udbyder
       forms:
@@ -106,7 +106,7 @@ da:
         no_results_description: Tilføj en wiki-udbyder for at se den her.
         no_results_title: Du har endnu ikke sat nogen wiki-udbydere op.
       wiki_providers:
-        index_description: Tilføj en ekstern wikitjeneste for at linke arbejdspakker til eksisterende wikisider eller oprette nye direkte fra OpenProject.
+        index_description: Tilføj en ekstern wikitjeneste for at linke arbejdspakker til eksisterende wiki-sider eller oprette nye direkte fra OpenProject.
         label_add_new: Tilføj ny wiki-udbyder
         label_edit: Rediger XWiki-udbyder
         label_new_provider: Ny XWiki-udbyder
@@ -137,14 +137,14 @@ da:
       done_continue: Færdig, fortsæt
       open_wiki: Åbn wiki
       save_and_continue: Gem, og fortsæt
-      wiki_page: Wikiside
+      wiki_page: Wiki-side
     create_new_wiki_page_dialog:
-      title: Opret ny wikiside
+      title: Opret ny wiki-side
     deferred_inline_page_link_macro_component:
       loading: Indlæser…
     delete_relation_page_link_confirmation_dialog:
-      heading: Vil du slette linket til den relaterede wikiside?
-      title: Slet link til relateret wikiside
+      heading: Vil du slette linket til den relaterede wiki-side?
+      title: Slet link til relateret wiki-side
     errors:
       connection_error: Der kunne ikke oprettes forbindelse til wiki-udbyderen.
       invalid_parent: Den valgte side er ikke en gyldig overordnet side.
@@ -171,33 +171,33 @@ da:
         xwiki_oauth_unauthorized: XWiki genkendte ikke brugertokenet.
     index:
       column_last_edited: Senest redigeret
-      column_name: Wikiside
+      column_name: Wiki-side
       column_parent: Overordnet
       column_project: Projekt
       column_sub_pages: Undersider
       filter_by_name: Filtrér efter sidenavn
       filter_placeholder: Søg efter navn
       menu_title: Wiki
-      no_results_description: Der er ingen tilgængelige wikisider.
-      no_results_title: Der er endnu ingen wikisider
+      no_results_description: Der er ingen tilgængelige wiki-sider.
+      no_results_title: Der er endnu ingen wiki-sider
       queries:
-        all: Alle wikisider
-        main: Primære wikisider
+        all: Alle wiki-sider
+        main: Primære wiki-sider
       sub_pages_count:
         one: "%{count} underside"
         other: "%{count} undersider"
     inline_wiki_page_dialog:
-      title_add: Tilføj eksisterende wikiside
-      title_create: Opret ny wikiside
+      title_add: Tilføj eksisterende wiki-side
+      title_create: Opret ny wiki-side
     instructions:
       xwiki:
         integration: XWiki-administration
         oauth_application_details_html: Klienthemmeligheden kan ikke ses igen, når du har lukket vinduet. Kopiér værdierne til [indstillingerne for OpenProject-integrationen i XWiki](xwiki_admin_link).
     link_existing_wiki_page_dialog:
-      title: Tilføj eksisterende wikiside
+      title: Tilføj eksisterende wiki-side
     oauth_login_component:
       connect_button: Forbind %{provider}-konto
-      description: Log ind på %{provider} for at se og administrere relaterede wikisider fra denne OpenProject-installation.
+      description: Log ind på %{provider} for at se og administrere relaterede wiki-sider fra denne OpenProject-installation.
       heading: Ikke forbundet med %{provider}
     page_link_component:
       add_to_related_pages: Føj til relaterede sider
@@ -206,15 +206,15 @@ da:
       labels:
         page_title: Titel
         parent: Overordnet
-        wiki_page: Wikiside
+        wiki_page: Wiki-side
       search:
-        no_results: Der blev ikke fundet nogen wikisider
-        placeholder: Søg efter en wikiside (eller angiv dens URL)
+        no_results: Der blev ikke fundet nogen wiki-sider
+        placeholder: Søg efter en wiki-side (eller angiv dens URL)
     page_links:
-      aria_label: Et dynamisk link til en wikiside, der er indsat med en makro.
+      aria_label: Et dynamisk link til en wiki-side, der er indsat med en makro.
       errors:
-        page_access_forbidden: Du har ikke tilladelse til at åbne denne wikiside
-        page_not_found: Den linkede wikiside er ikke længere tilgængelig
+        page_access_forbidden: Du har ikke tilladelse til at åbne denne wiki-side
+        page_not_found: Den linkede wiki-side er ikke længere tilgængelig
         unexpected: Der opstod en uventet fejl
       source:
         parent: Som overordnet
@@ -222,7 +222,7 @@ da:
       project_internal_wiki_component:
         blankslate_description: Projektwikier er slået fra for hele installationen og kan derfor ikke slås til for enkelte projekter. Bed din administrator om at slå wikierne til i administrationsindstillingerne.
         blankslate_title: Projektwikier er slået fra for hele installationen
-        caption: Slår OpenProjects egen wiki til for projektet. Medlemmerne kan oprette og læse wikisider, der gemmes i OpenProject.
+        caption: Slår OpenProjects egen wiki til for projektet. Medlemmerne kan oprette og læse wiki-sider, der gemmes i OpenProject.
         enable: Slå OpenProject-wikien til for dette projekt
     provider_types:
       internal:
@@ -231,9 +231,9 @@ da:
         name: XWiki
     relation_page_links_component:
       empty_heading: Ingen relaterede sider
-      empty_text: Tilføj wikisider, der er relevante for arbejdspakken.
-      link_existing: Eksisterende wikiside
-      link_new: Ny wikiside
+      empty_text: Tilføj wiki-sider, der er relevante for arbejdspakken.
+      link_existing: Eksisterende wiki-side
+      link_new: Ny wiki-side
     upsell:
       xwiki:
         description: 'Forbind XWiki med OpenProject, og hold dokumentation og arbejde synkroniseret: link sider, følg henvisninger, og styr det hele ét sted.'

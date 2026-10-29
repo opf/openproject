@@ -313,10 +313,6 @@ GEM
       globalid (>= 0.3.6)
     activemodel (8.1.4)
       activesupport (= 8.1.4)
-    activemodel-serializers-xml (1.0.3)
-      activemodel (>= 5.0.0.a)
-      activesupport (>= 5.0.0.a)
-      builder (~> 3.1)
     activerecord (8.1.4)
       activemodel (= 8.1.4)
       activesupport (= 8.1.4)
@@ -487,7 +483,6 @@ GEM
     cuprite (0.19)
       capybara (~> 3.0)
       ferrum (~> 0.19.1)
-    daemons (1.4.1)
     dalli (5.2.2)
       logger
     date (3.5.1)
@@ -748,7 +743,6 @@ GEM
       logger
       ostruct
     ice_cube (0.17.0)
-    ice_nine (0.11.2)
     image_processing (1.14.0)
       mini_magick (>= 4.9.5, < 6)
       ruby-vips (>= 2.0.17, < 3)
@@ -918,12 +912,12 @@ GEM
       validate_email
       validate_url
       webfinger (~> 2.0)
-    openproject-octicons (19.37.0)
-    openproject-octicons_helper (19.37.0)
+    openproject-octicons (19.38.0)
+    openproject-octicons_helper (19.38.0)
       actionview
-      openproject-octicons (= 19.37.0)
+      openproject-octicons (= 19.38.0)
       railties
-    openproject-primer_view_components (0.94.0)
+    openproject-primer_view_components (0.95.0)
       actionview (>= 7.2.0)
       activesupport (>= 7.2.0)
       openproject-octicons (>= 19.36.0)
@@ -1452,8 +1446,6 @@ GEM
       logger (~> 1.4)
       rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
-    semantic (1.6.1)
-    shoulda-context (2.0.0)
     shoulda-matchers (8.0.1)
       activesupport (>= 7.2)
     signet (0.22.1)
@@ -1610,7 +1602,6 @@ PLATFORMS
 DEPENDENCIES
   actionpack-xml_parser (~> 2.0.0)
   active_record_doctor (~> 2.1.0)
-  activemodel-serializers-xml (~> 1.0.1)
   activerecord-import (~> 2.3.0)
   activerecord-nulldb-adapter (~> 1.2.2)
   activerecord-session_store (~> 2.3.0)
@@ -1644,7 +1635,6 @@ DEPENDENCIES
   counter_culture (~> 3.14)
   csv (~> 3.3)
   cuprite (~> 0.19.0)
-  daemons
   dalli (~> 5.2.2)
   date_validator (~> 0.12.0)
   deckar01-task_list (~> 2.3.1)
@@ -1680,7 +1670,6 @@ DEPENDENCIES
   i18n-js (~> 4.2.4)
   i18n-tasks (~> 1.1.0)
   ice_cube (~> 0.17.0)
-  ice_nine
   inline_svg (~> 1.10.0)
   job-iteration
   json_schemer (~> 2.5.0)
@@ -1727,10 +1716,10 @@ DEPENDENCIES
   openproject-ldap_groups!
   openproject-llm!
   openproject-meeting!
-  openproject-octicons (~> 19.37.0)
-  openproject-octicons_helper (~> 19.37.0)
+  openproject-octicons (~> 19.38.0)
+  openproject-octicons_helper (~> 19.38.0)
   openproject-openid_connect!
-  openproject-primer_view_components (~> 0.94.0)
+  openproject-primer_view_components (~> 0.95.0)
   openproject-recaptcha!
   openproject-reporting!
   openproject-resource_management!
@@ -1799,8 +1788,6 @@ DEPENDENCIES
   scimitar (~> 2.13)
   selenium-devtools
   selenium-webdriver (~> 4.51)
-  semantic (~> 1.6.1)
-  shoulda-context (~> 2.0)
   shoulda-matchers (~> 8.0)
   simplecov (~> 1.3.2)
   spring
@@ -1851,7 +1838,6 @@ CHECKSUMS
   active_record_doctor (2.1.0) sha256=9926d54ed5d76543dfc848b5e126bb87111daa136c43992d0880e1798bce1ac9
   activejob (8.1.4) sha256=4ed5b2ed8d4cc5c8f5f09becfef8346f202a4884eee0c8c73cae5ac378824099
   activemodel (8.1.4) sha256=9a0906c127bd118aa5f06157db12b8f750da83dccee72db2f658547a0ae7a0e8
-  activemodel-serializers-xml (1.0.3) sha256=fa1b16305e7254cc58a59c68833e3c0a593a59c8ab95d3be5aaea7cd9416c397
   activerecord (8.1.4) sha256=3b4957ea7f246c9231bd7faa909312eac03a9101aaf87977b6c52733ff00b04f
   activerecord-import (2.3.0) sha256=e2d7e87b019053d21e8ef8372d773751af867fcf4045a19075369abb4ce1f374
   activerecord-nulldb-adapter (1.2.2) sha256=01e0b2e49af11ad56a92e274a3d8c9fb3c50a12a5460218c4c4b45355d9ef968
@@ -1926,7 +1912,6 @@ CHECKSUMS
   css_parser (3.2.0) sha256=e2d9d76164246d4d5d0b96e22fcbf581e1c65368ec3e52e056d4154e42eaac65
   csv (3.3.6) sha256=aba61e7e507a66f03d45cb1f3c4b6359861c3504038b422962875dce099e4456
   cuprite (0.19) sha256=e56d59db56693bdfbffd533f715df366f03285ea4435e4c31603e146e0e02518
-  daemons (1.4.1) sha256=8fc76d76faec669feb5e455d72f35bd4c46dc6735e28c420afb822fac1fa9a1d
   dalli (5.2.2) sha256=23ad7dd2891525b720be39a550eba144bebebfe807d3d51b4582be2997d63f73
   date (3.5.1) sha256=750d06384d7b9c15d562c76291407d89e368dda4d4fff957eb94962d325a0dc0
   date_validator (0.12.0) sha256=68c9834da240347b9c17441c553a183572508617ebfbe8c020020f3192ce3058
@@ -2028,7 +2013,6 @@ CHECKSUMS
   i18n-tasks (1.1.2) sha256=4dcfba49e52a623f30661cb316cb80d84fbba5cb8c6d88ef5e02545fffa3637a
   icalendar (2.12.5) sha256=bda963d46bb08d9de1366eff05308c1e60a178532422fcc11d60360f84f58156
   ice_cube (0.17.0) sha256=32deb45dda4b4acc53505c2f581f6d32b5afc04d29b9004769944a0df5a5fcbe
-  ice_nine (0.11.2) sha256=5d506a7d2723d5592dc121b9928e4931742730131f22a1a37649df1c1e2e63db
   image_processing (1.14.0) sha256=754cc169c9c262980889bec6bfd325ed1dafad34f85242b5a07b60af004742fb
   inline_svg (1.10.0) sha256=5b652934236fd9f8adc61f3fd6e208b7ca3282698b19f28659971da84bf9a10f
   interception (0.5) sha256=a53818d636752a8df90d8c1bb2f7b6e13a7b828543cb02b50fbde98b849d7907
@@ -2115,10 +2099,10 @@ CHECKSUMS
   openproject-ldap_groups (1.0.0)
   openproject-llm (1.0.0)
   openproject-meeting (1.0.0)
-  openproject-octicons (19.37.0) sha256=de10a8339edbfbf328f3e5d92ae1f61b99e52dfb3c76d06bce4d5d3d891c0092
-  openproject-octicons_helper (19.37.0) sha256=ea8ec70882de05063fc17ecbcd16f4221c91bd53e12cb4c3f225d726e89362ee
+  openproject-octicons (19.38.0) sha256=820cf9fe2309bf2960868267ecc8d7c4788ac4f4ad34f0cffa0777513626e5c0
+  openproject-octicons_helper (19.38.0) sha256=591ea11e9f2281b42f8a404e7e9f5ef4025b583f1b69555a8016296ad3b7d7c6
   openproject-openid_connect (1.0.0)
-  openproject-primer_view_components (0.94.0) sha256=4fdb7c8cb4332d828d6f1033b219af1a8005c5e366e7787b07fe398ab16c519b
+  openproject-primer_view_components (0.95.0) sha256=56704ecc82f9f52f7cdbf6cbbe7c5d3f7fa59ce485fc5b684561c9a045ec73ea
   openproject-recaptcha (1.0.0)
   openproject-reporting (1.0.0)
   openproject-resource_management (1.0.0)
@@ -2310,8 +2294,6 @@ CHECKSUMS
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
   selenium-devtools (0.154.0) sha256=fa6f77b66206cf0c194cfd71e4ab614cac149ee6d92ca7e8753d36d4360ec102
   selenium-webdriver (4.51.0) sha256=09edf1b7fc360e0570bac609676f804ed527fe0b2f285e03233561e29b0ec105
-  semantic (1.6.1) sha256=3cdbb48f59198ebb782a3fdfb87b559e0822a311610db153bae22777a7d0c163
-  shoulda-context (2.0.0) sha256=7adf45342cd800f507d2a053658cb1cce2884b616b26004d39684b912ea32c34
   shoulda-matchers (8.0.1) sha256=5dbb46e5765b9da225111b085e0819e8c8a121ff94bba430a153eb1ea2c60288
   signet (0.22.1) sha256=6e73e9f2bdc2f038a5fdc8a89d248792b1b55e9ca50ee1ba458d8f1d9f0a2151
   simplecov (1.3.2) sha256=2a22ec1759f1b8db60881a2e038758956fc69ef93ed669be0bde0678de6d0e85

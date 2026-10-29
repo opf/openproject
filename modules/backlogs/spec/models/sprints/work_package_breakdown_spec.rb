@@ -65,18 +65,37 @@ RSpec.describe Sprints::WorkPackageBreakdown do
   end
 
   describe "#reference_start and #reference_finish" do
-    let(:sprint) do
-      create(:sprint, project:,
-                      start_date: 10.days.ago.to_date,
-                      finish_date: 4.days.from_now.to_date,
-                      started_at: 7.days.ago)
+    let(:start_date) { 10.days.ago.to_date }
+    let(:finish_date) { 4.days.from_now.to_date }
+    let(:started_at) { nil }
+    let(:completed_at) { nil }
+    let(:sprint) { create(:sprint, project:, start_date:, finish_date:, started_at:, completed_at:) }
+    let(:timeframe) { Sprints::Timeframe.new(sprint) }
+
+    context "when the sprint was not started" do
+      it "wraps the sprint's timeframe as timestamps", :aggregate_failures do
+        expect(breakdown.reference_start).to eq Timestamp.new(timeframe.effective_start)
+        expect(breakdown.reference_finish).to eq Timestamp.new(timeframe.effective_finish)
+      end
     end
 
-    it "wraps the sprint's timeframe as timestamps" do
-      timeframe = Sprints::Timeframe.new(sprint)
+    context "when the sprint was started" do
+      let(:started_at) { 7.days.ago }
 
-      expect(breakdown.reference_start).to eq Timestamp.new(timeframe.effective_start)
-      expect(breakdown.reference_finish).to eq Timestamp.new(timeframe.effective_finish)
+      it "uses the current timestamp for reference_finish", :aggregate_failures do
+        expect(breakdown.reference_start).to eq Timestamp.new(timeframe.effective_start)
+        expect(breakdown.reference_finish).to eq Timestamp.now
+      end
+    end
+
+    context "when the sprint was completed" do
+      let(:started_at) { 7.days.ago }
+      let(:completed_at) { 1.day.ago }
+
+      it "wraps the sprint's timeframe as timestamps", :aggregate_failures do
+        expect(breakdown.reference_start).to eq Timestamp.new(timeframe.effective_start)
+        expect(breakdown.reference_finish).to eq Timestamp.new(timeframe.effective_finish)
+      end
     end
   end
 
