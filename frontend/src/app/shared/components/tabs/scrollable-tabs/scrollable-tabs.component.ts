@@ -124,10 +124,14 @@ export class ScrollableTabsComponent extends UntilDestroyedMixin implements Afte
   }
 
   public clickTab(tab:TabDefinition, event:Event):void {
+    event.preventDefault();
+
+    if (tab.disable !== undefined) {
+      return;
+    }
+
     this.currentTabId = tab.id;
     this.tabSelected.emit(tab);
-
-    event.preventDefault();
 
     // Override history to avoid that browser back leads you to a different tab instead of the page you originated from
     if (tab.path) {

@@ -27,7 +27,7 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { screen } from '@testing-library/dom';
+import { fireEvent, screen } from '@testing-library/dom';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { ScrollableTabsComponent } from './scrollable-tabs.component';
@@ -66,5 +66,26 @@ describe('ScrollableTabsComponent', () => {
   it('leaves tabs without a reason undescribed', () => {
     expect(screen.getByRole('tab', { name: 'Columns' })).not.toHaveAccessibleDescription();
     expect(screen.getByRole('tab', { name: 'Display settings' })).not.toHaveAccessibleDescription();
+  });
+
+  it('marks disabled tabs as disabled while keeping them reachable for their tooltip', () => {
+    const gantt = screen.getByRole('tab', { name: 'Gantt chart' });
+
+    expect(gantt).toHaveAttribute('aria-disabled', 'true');
+    expect(screen.getByRole('tab', { name: 'Columns' })).not.toHaveAttribute('aria-disabled');
+    expect(getComputedStyle(gantt).pointerEvents).not.toBe('none');
+
+    gantt.focus();
+    expect(gantt).toHaveFocus();
+  });
+
+  it('ignores activation of a disabled tab', () => {
+    const selected = vi.fn();
+    fixture.componentInstance.tabSelected.subscribe(selected);
+
+    fireEvent.click(screen.getByRole('tab', { name: 'Gantt chart' }));
+
+    expect(selected).not.toHaveBeenCalled();
+    expect(fixture.componentInstance.currentTabId).not.toBe('gantt');
   });
 });
