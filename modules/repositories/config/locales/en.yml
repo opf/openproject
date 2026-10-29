@@ -1,7 +1,14 @@
 ---
 en:
   activerecord:
-    attributes: {}
+    attributes:
+      repositories/gitlab_provider:
+        gitlab_user: Webhook user
+        url: GitLab URL
+        webhook_secret: Webhook secret
+      repositories/provider:
+        created_at: Created
+        name: Name
     errors:
       models: {}
     models:
@@ -15,6 +22,75 @@ en:
   project_module_repositories: Repositories
 
   repositories:
+    admin:
+      buttons:
+        save_and_continue: Save and continue
+      destroy_confirmation_dialog_component:
+        delete_result:
+          branches_and_commits: All branches and commits received from this provider and their links to work packages.
+          issues: All issues received from this provider and their links to work packages.
+          merge_requests: All merge requests and pipelines received from this provider and their links to work packages.
+        description_html: >-
+          The repository provider %{provider} will be deleted together with all data OpenProject received from it.
+          This includes:
+        heading: Permanently delete this repository provider?
+        title: Delete repository provider
+      index_description: >-
+        Connect repository providers to show issues, merge requests, branches and commits in the work packages
+        they reference.
+      label_add_new: Add new repository provider
+      label_new_provider: New %{provider_type} provider
+      label_provider: Repository provider
+      menu: Repositories
+      open_provider: Open
+      regenerate_webhook_secret_dialog_component:
+        confirm_button: Regenerate secret
+        description: >-
+          The current webhook secret will stop working immediately. You have to enter the new secret in all
+          webhooks of this provider.
+        heading: Regenerate the webhook secret?
+        title: Regenerate webhook secret
+      sections:
+        general_information: General information
+        webhook: Webhook
+      steps:
+        general_information:
+          edit: Edit provider configuration
+          name_caption: Give the provider a name so that users can tell multiple providers apart.
+          title: Provider configuration
+          url_caption: >-
+            The address of your GitLab instance, including the https://. Webhooks are accepted for all projects
+            below this address.
+        webhook:
+          api_key_placeholder: API_KEY
+          description_configured: The webhook secret is configured.
+          description_pending: >-
+            No webhook secret is configured. Requests to the webhook are accepted without verification, which may
+            allow unauthorized actors to forge events.
+          edit: Show webhook configuration
+          form_description: >-
+            Create a webhook in your GitLab projects or groups with the following URL and secret token.
+          regenerate_secret: Regenerate secret
+          secret: Secret token
+          secret_caption: Copy this value into the "Secret token" field of the GitLab webhook.
+          title: Webhook configuration
+          url: URL
+          url_caption: Replace API_KEY with an API key of the webhook user.
+        webhook_user:
+          caption: >-
+            When set, webhook requests authenticated with any other user's API key are rejected.
+          description_any_user: Webhooks may be sent with the API key of any user.
+          description_pending: No webhook user has been chosen yet.
+          description_user: Webhooks have to be sent with an API key of %{name}.
+          edit: Edit webhook user
+          form_description: >-
+            The OpenProject user whose API key authenticates webhook requests. This user also posts automated
+            comments on work packages and needs permission to view and comment on them.
+          title: Webhook user
+      table:
+        blank_description: Add a repository provider to see its activity in work packages.
+        blank_title: No repository providers configured yet
+        provider_type: Provider
     branch_component:
       copy_name: Copy branch name
       create_merge_request: Create merge request
@@ -122,6 +198,9 @@ en:
         opened: Open
       updated_at: Updated on %{date_time}.
       updated_by: Last updated by %{name}.
+    provider_types:
+      gitlab:
+        name: GitLab
     work_package_tab_component:
       blank_slates:
         branches:

@@ -51,18 +51,9 @@ module OpenProject::GitlabIntegration
       }
     end
 
-    register "openproject-gitlab_integration",
+    register("openproject-gitlab_integration",
              author_url: "https://github.com/btey/openproject",
              bundled: true,
-             settings: do
-      ::Redmine::MenuManager.map(:admin_menu) do |menu|
-        menu.push :admin_gitlab_integration,
-                  { controller: "/gitlab_integration/admin/settings", action: "show" },
-                  parent: :admin_integrations,
-                  if: ->(_) { User.current.admin? },
-                  caption: "GitLab",
-                  icon: :"op-logo-gitlab"
-      end
-    end
+             settings:)
   end
 end
