@@ -70,6 +70,22 @@ RSpec.describe "Statuses administration" do
         expect(page).to have_content("Working on it")
         expect(page).to have_content("Job finished")
       end
+
+      it "links a status's workflow count to the filtered workflows list" do
+        workflow = create(:named_workflow, name: "Review flow")
+        create(:status_transition, workflow:, old_status: in_progress_status)
+        create(:named_workflow, name: "Unrelated flow")
+
+        visit statuses_path
+
+        within(".Box-row", text: "Working on it") do
+          click_link I18n.t("statuses.index.workflows_count", count: 1)
+        end
+
+        expect(page).to have_current_path(/workflows/)
+        expect(page).to have_text("Review flow")
+        expect(page).to have_no_text("Unrelated flow")
+      end
     end
   end
 end
