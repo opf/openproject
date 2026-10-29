@@ -63,6 +63,8 @@ en:
         Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
+      import_failed_hint: "The file could not be imported. It is not available for download."
+      import_prepared_hint: "The file is still being imported. It is not available for download yet."
       quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
 
     autocomplete_ng_select:

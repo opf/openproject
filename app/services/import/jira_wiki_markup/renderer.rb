@@ -30,7 +30,11 @@
 module Import
   module JiraWikiMarkup
     class Renderer
+      include ActionView::Helpers::TagHelper
+
       N = Nodes
+
+      JIRA_THUMBNAIL_STYLE = "width:200px"
 
       EMOTICON_MAP = {
         ":)" => "\u{1F642}",
@@ -58,8 +62,9 @@ module Import
         "(flagoff)" => "\u{1F3F3}\u{FE0F}"
       }.freeze
 
-      def initialize(document)
+      def initialize(document, attachment_paths_by_name:)
         @document = document
+        @attachment_paths_by_name = attachment_paths_by_name
       end
 
       def render
@@ -156,7 +161,7 @@ module Import
       end
 
       def cell_renderer
-        @cell_renderer ||= HtmlCellRenderer.new(@document)
+        @cell_renderer ||= HtmlCellRenderer.new(@document, attachment_paths_by_name: @attachment_paths_by_name)
       end
 
       # Markdown has no panel, so it becomes its title above its content. Jira does
@@ -269,15 +274,60 @@ module Import
       end
 
       def render_image(node)
-        # TODO get work package attachment and use OP image syntax (HTML <img> tag with data attributes)
-        alt = node.params["alt"] || ""
-        "![#{alt}](#{markdown_destination(attachment_reference(node.url))})"
+        size_style = image_size_style(node.params)
+
+        if size_style
+          html_image(node, size_style)
+        else
+          markdown_image(node)
+        end
       end
 
-      # An attachment is stored under a name sanitized by CarrierWave, and
-      # AttachmentFilter resolves an image by matching src against that name, so a
-      # reference to "My Shot.png" has to be written the way it was stored. Reusing
-      # the uploader's own expression keeps the two from drifting apart.
+      def markdown_image(node)
+        alt = node.params["alt"] || ""
+        "![#{alt}](#{markdown_destination(image_source(node.url))})"
+      end
+
+      def html_image(node, size_style)
+        tag.img(src: image_source(node.url), alt: node.params["alt"] || "", style: size_style)
+      end
+
+      def image_size_style(params)
+        if params["thumbnail"]
+          JIRA_THUMBNAIL_STYLE
+        else
+          width_or_height_style(params)
+        end
+      end
+
+      # Keep only one dimension because OpenProject's editor resizes an image by its width alone.
+      def width_or_height_style(params)
+        width = css_length(params["width"])
+        height = css_length(params["height"])
+
+        if width
+          "width:#{width}"
+        elsif height
+          "height:#{height}"
+        end
+      end
+
+      def css_length(value)
+        case value
+        when /\A\d+\z/ then "#{value}px"
+        when /\A\d+(px|%)\z/ then value
+        end
+      end
+
+      def image_source(url)
+        @attachment_paths_by_name[url] || attachment_reference(url)
+      end
+
+      # A name matching none of the issue's attachments is written the way an
+      # attachment of that name would be stored: CarrierWave sanitizes the name, and
+      # AttachmentFilter resolves an image by matching src against it, so a reference
+      # to "My Shot.png" has to become "My_Shot.png". Reusing the uploader's own
+      # expression keeps the two from drifting apart.
       def attachment_reference(url)
         return url if url.match?(%r{\A(\w+://|//|/|www\.)}i)
 

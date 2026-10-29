@@ -298,16 +298,16 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
                               payload: { "id" => "10012", "key" => "DPPP", "name" => "Demo project" })
       end
 
-      it "enqueues one create attachments job per selected project" do
+      it "enqueues one download attachments job per selected project" do
         run_callback
 
-        expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectWorkPackageAttachmentsJob").count).to eq(1)
+        expect(GoodJob::Job.where(job_class: "Import::JiraDownloadProjectWorkPackageAttachmentsJob").count).to eq(1)
       end
 
       it "labels enqueued jobs with stage_9" do
         run_callback
 
-        expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectWorkPackageAttachmentsJob").last.labels)
+        expect(GoodJob::Job.where(job_class: "Import::JiraDownloadProjectWorkPackageAttachmentsJob").last.labels)
           .to include("stage_9")
       end
     end

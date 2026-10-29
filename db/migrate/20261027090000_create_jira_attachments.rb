@@ -27,12 +27,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Attachments
-  # Creates an attachment without journalizing its container. Importers replay the source
-  # system's own history, so the container's journals are written by the importer instead.
-  class ImportCreateService < CreateService
-    private
+class CreateJiraAttachments < ActiveRecord::Migration[8.1]
+  def change
+    create_table :jira_attachments do |t|
+      t.jsonb :payload
+      t.string :origin_id, null: false
+      t.references :jira_import, null: false, foreign_key: { on_delete: :cascade, on_update: :cascade }
+      t.references :jira_project, null: false, foreign_key: { on_delete: :cascade, on_update: :cascade }
+      t.references :jira_issue, null: false, foreign_key: { on_delete: :cascade, on_update: :cascade }
+      t.index %i[jira_issue_id origin_id], unique: true
 
-    def touch(_container) = nil
+      t.timestamps
+    end
   end
 end

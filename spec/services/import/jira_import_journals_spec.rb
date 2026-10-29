@@ -30,10 +30,11 @@
 require "spec_helper"
 
 RSpec.describe Import::JiraImportJournals, "integration" do
-  subject(:service) { described_class.new(work_package:) }
+  subject(:service) { described_class.new(work_package:, attachment_paths_by_name:) }
 
   let(:work_package) { create(:work_package) }
   let(:commenter) { create(:user) }
+  let(:attachment_paths_by_name) { {} }
 
   def history_entry(created:, author: "Alice", items: [])
     {
@@ -66,52 +67,6 @@ RSpec.describe Import::JiraImportJournals, "integration" do
     it "does not create extra journals" do
       expect { service.set_creation_time(date_time: import_date) }
         .not_to change { work_package.journals.reload.count }
-    end
-  end
-
-  describe "#backfill_attachments" do
-    let!(:attachment) { create(:attachment, container: work_package) }
-
-    before do
-      service.add_comment(
-        comment: { "created" => "2022-03-15T12:00:00.000+0000", "body" => "A comment." },
-        user: commenter
-      )
-      service.call
-    end
-
-    it "records the attachment in every journal" do
-      service.backfill_attachments
-
-      expect(work_package.journals.reload.map { |journal| journal.attachable_journals.pluck(:attachment_id) })
-        .to all(eq([attachment.id]))
-    end
-
-    it "keeps the journals from reporting the attachment as a later change" do
-      service.backfill_attachments
-
-      expect(work_package.journals.reload.reject(&:initial?).flat_map { |journal| journal.details.keys })
-        .not_to include("attachments_#{attachment.id}")
-    end
-
-    it "creates no journal of its own" do
-      expect { service.backfill_attachments }
-        .not_to change { work_package.journals.reload.count }
-    end
-
-    it "can run again without duplicating the records" do
-      service.backfill_attachments
-
-      expect { service.backfill_attachments }
-        .not_to change { Journal::AttachableJournal.where(attachment_id: attachment.id).count }
-    end
-
-    context "without attachments" do
-      let!(:attachment) { nil }
-
-      it "does nothing" do
-        expect { service.backfill_attachments }.not_to change(Journal::AttachableJournal, :count)
-      end
     end
   end
 
@@ -154,19 +109,6 @@ RSpec.describe Import::JiraImportJournals, "integration" do
   end
 
   describe "#call" do
-    context "with a jira update timestamp" do
-      let(:jira_updated_at) { "2022-03-15T13:00:00.000+0000" }
-
-      it "sets updated_at of the work package without journalizing it" do
-        service.add_history(history: [history_entry(created: "2022-03-15T11:00:00.000+0000")])
-
-        expect { service.call(updated_at: jira_updated_at) }
-          .to change { work_package.journals.reload.count }.by(1)
-
-        expect(work_package.reload.updated_at).to be_within(1.second).of(Time.zone.parse(jira_updated_at))
-      end
-    end
-
     context "with a single history entry" do
       let(:history_items) do
         [{ "field" => "status", "fromString" => "Open", "toString" => "In Progress" }]
@@ -240,6 +182,24 @@ RSpec.describe Import::JiraImportJournals, "integration" do
       it "converts markup to Markdown in the notes" do
         journal = work_package.journals.reload.last
         expect(journal.notes).to eq("This is **bold** text.")
+      end
+    end
+
+    context "with an image embedded in a description change" do
+      let(:attachment_paths_by_name) { { "Screen Shot.png" => "/api/v3/attachments/1/content" } }
+      let(:description_change) do
+        { "field" => "description", "fromString" => "Before", "toString" => "After !Screen Shot.png!" }
+      end
+
+      before do
+        service.add_history(history: [history_entry(created: "2022-03-15T13:00:00.000+0000", items: [description_change])])
+        service.call
+      end
+
+      it "links the new description to the attachment" do
+        converted_change = work_package.journals.reload.last.cause_import_history.sole["items"].sole
+
+        expect(converted_change["toString"]).to eq("After ![](/api/v3/attachments/1/content)")
       end
     end
 

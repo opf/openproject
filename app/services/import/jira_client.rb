@@ -77,6 +77,9 @@ module Import
     # can fall back to another route instead of failing the import.
     class UnsupportedEndpointError < Error; end
 
+    CONNECTION_ERRORS = [SsrfFilter::Error, SocketError, Errno::ECONNREFUSED, Errno::EHOSTUNREACH,
+                         OpenSSL::SSL::SSLError, Timeout::Error].freeze
+
     HTTP_OPTIONS = {
       open_timeout: 30,
       read_timeout: 30
@@ -329,6 +332,7 @@ module Import
           response.read_body do |chunk|
             tempfile.write chunk
           end
+          tempfile.rewind
           yield tempfile
         else
           status = response.code.to_i
@@ -339,17 +343,11 @@ module Import
         end
       end
       nil
-    rescue SsrfFilter::PrivateIPAddress
-      raise SsrfError, I18n.t("admin.jira.client.ssrf_blocked")
-    rescue SsrfFilter::Error => e
-      raise ConnectionError, I18n.t("admin.jira.client.connection_error", message: e.message)
-    rescue OpenSSL::SSL::SSLError => e
-      raise ConnectionError, I18n.t("admin.jira.client.ssl_error", message: e.message)
-    rescue Timeout::Error => e
-      raise ConnectionError, I18n.t("admin.jira.client.connection_timeout", message: e.message)
+    rescue *CONNECTION_ERRORS => e
+      raise connection_error(e)
     ensure
       if tempfile
-        File.unlink(tempfile)
+        FileUtils.rm_f(tempfile.path)
         tempfile.close
       end
     end
@@ -408,14 +406,21 @@ module Import
         params:,
         http_options: HTTP_OPTIONS
       )
-    rescue SsrfFilter::PrivateIPAddress
-      raise SsrfError, I18n.t("admin.jira.client.ssrf_blocked")
-    rescue SsrfFilter::Error, SocketError, Errno::ECONNREFUSED, Errno::EHOSTUNREACH => e
-      raise ConnectionError, I18n.t("admin.jira.client.connection_error", message: e.message)
-    rescue OpenSSL::SSL::SSLError => e
-      raise ConnectionError, I18n.t("admin.jira.client.ssl_error", message: e.message)
-    rescue Timeout::Error => e
-      raise ConnectionError, I18n.t("admin.jira.client.connection_timeout", message: e.message)
+    rescue *CONNECTION_ERRORS => e
+      raise connection_error(e)
+    end
+
+    def connection_error(error)
+      case error
+      when SsrfFilter::PrivateIPAddress
+        SsrfError.new(I18n.t("admin.jira.client.ssrf_blocked"))
+      when OpenSSL::SSL::SSLError
+        ConnectionError.new(I18n.t("admin.jira.client.ssl_error", message: error.message))
+      when Timeout::Error
+        ConnectionError.new(I18n.t("admin.jira.client.connection_timeout", message: error.message))
+      else
+        ConnectionError.new(I18n.t("admin.jira.client.connection_error", message: error.message))
+      end
     end
 
     def handle_response(response)

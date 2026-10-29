@@ -29,27 +29,27 @@
 
 require "spec_helper"
 
-RSpec.describe Attachments::ImportCreateService do
-  subject(:service) { described_class.new(user:, contract_class: EmptyContract) }
+RSpec.describe Attachments::PrepareImportService, "integration" do
+  subject(:call) do
+    described_class
+      .new(user:, contract_class: EmptyContract)
+      .call(filename: "Screen Shot.png", filesize: 1024, content_type: "image/png")
+  end
 
-  let(:user) { create(:admin) }
-  let(:work_package) { create(:work_package) }
-  let(:file) { FileHelpers.mock_uploaded_file(name: "picture.png", content_type: "image/png") }
+  let(:user) { create(:user) }
+  let(:attachment) { call.result }
 
-  it "creates the attachment on the container" do
-    call = service.call(container: work_package, filename: "picture.png", file:)
-
+  it "creates an attachment without a container" do
     expect(call).to be_success
-    expect(work_package.attachments.reload.map(&:filename)).to eq(["picture.png"])
+    expect(attachment).to have_attributes(container: nil,
+                                          status: "import_prepared",
+                                          author: user,
+                                          filesize: 1024,
+                                          content_type: "image/png",
+                                          digest: "")
   end
 
-  it "does not journalize the container" do
-    expect { service.call(container: work_package, filename: "picture.png", file:) }
-      .not_to change { work_package.journals.reload.count }
-  end
-
-  it "does not touch the container" do
-    expect { service.call(container: work_package, filename: "picture.png", file:) }
-      .not_to change { work_package.reload.updated_at }
+  it "names the file the way it will be stored" do
+    expect(attachment.filename).to eq("Screen_Shot.png")
   end
 end

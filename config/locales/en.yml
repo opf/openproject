@@ -1698,12 +1698,12 @@ en:
             title: "Create time entries for '%{jira_project_name}'"
           JiraCreateProjectVersionsJob:
             title: "Create versions for '%{jira_project_name}'"
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: "Download work package attachments for '%{jira_project_name}'"
           JiraCreateProjectWorkPackagesJob:
             title: "Create work packages for '%{jira_project_name}'"
           JiraCreateUsersJob:
             title: "Create users"
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: "Download work package attachments for '%{jira_project_name}'"
           JiraFetchCustomFieldJob:
             title: "Fetch custom fields"
           JiraFetchIssueTypesJob:

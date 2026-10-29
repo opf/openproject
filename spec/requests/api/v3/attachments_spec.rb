@@ -164,5 +164,28 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
     end
   end
 
+  describe "GET /content of an incomplete import" do
+    let(:permissions) { [:view_work_packages] }
+
+    let(:attachment) do
+      create(:attachment, status:, author: current_user, container: create(:work_package, project:))
+    end
+
+    before do
+      allow(User).to receive(:current).and_return current_user
+      get api_v3_paths.attachment_content(attachment.id)
+    end
+
+    %i[import_prepared import_failed].each do |status|
+      context "when the attachment is #{status}" do
+        let(:status) { status }
+
+        it "returns 404" do
+          expect(last_response).to have_http_status :not_found
+        end
+      end
+    end
+  end
+
   context "with an quarantined attachments"
 end
