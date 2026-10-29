@@ -55,6 +55,14 @@ module OpenProject::Repositories
            },
            before: :watchers
 
+      menu :admin_menu,
+           :repository_providers,
+           { controller: "/repositories/admin/repository_providers", action: :index },
+           parent: :admin_integrations,
+           if: ->(_) { User.current.admin? },
+           caption: :"repositories.admin.menu",
+           icon: :repo
+
       project_module(:repositories, dependencies: :work_package_tracking) do
         permission :show_repository_content, {}, permissible_on: %i[work_package project]
       end
