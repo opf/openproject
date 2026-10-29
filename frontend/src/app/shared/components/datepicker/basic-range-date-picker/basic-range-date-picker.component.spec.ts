@@ -37,7 +37,7 @@ import { OpBasicRangeDatePickerComponent } from './basic-range-date-picker.compo
 describe('OpBasicRangeDatePickerComponent', () => {
   let component:OpBasicRangeDatePickerComponent;
   let fixture:ComponentFixture<OpBasicRangeDatePickerComponent>;
-  let valueChange:ReturnType<typeof vi.fn>;
+  let valueChange:ReturnType<typeof vi.fn<(value:string[]) => void>>;
 
   const input = (id:string) => (fixture.nativeElement as HTMLElement).querySelector<HTMLInputElement>(`#${id}`)!;
 
@@ -58,6 +58,12 @@ describe('OpBasicRangeDatePickerComponent', () => {
     })
     .compileComponents();
 
+  const settleWithoutCommitting = async () => {
+    await vi.advanceTimersByTimeAsync(0);
+    vi.advanceTimersByTime(16);
+    await Promise.resolve();
+  };
+
   const render = async (value:string[] = []) => {
     fixture = TestBed.createComponent(OpBasicRangeDatePickerComponent);
     component = fixture.componentInstance;
@@ -66,7 +72,7 @@ describe('OpBasicRangeDatePickerComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    valueChange = vi.fn();
+    valueChange = vi.fn<(value:string[]) => void>();
     component.valueChange.subscribe(valueChange);
     vi.useFakeTimers();
   };
@@ -83,7 +89,7 @@ describe('OpBasicRangeDatePickerComponent', () => {
 
       enterDate('range-start', '2025-01-07');
       enterDate('range-end', '2025-01-08');
-      vi.advanceTimersByTime(20);
+      await vi.advanceTimersByTimeAsync(20);
 
       expect(component.value).toEqual(['2025-01-07', '2025-01-08']);
       expect(valueChange).toHaveBeenCalledTimes(1);
@@ -95,7 +101,7 @@ describe('OpBasicRangeDatePickerComponent', () => {
 
       enterDate('range-end', '2025-01-08');
       enterDate('range-start', '2025-01-07');
-      vi.advanceTimersByTime(20);
+      await vi.advanceTimersByTimeAsync(20);
 
       expect(component.value).toEqual(['2025-01-07', '2025-01-08']);
       expect(valueChange).toHaveBeenCalledTimes(1);
@@ -106,7 +112,7 @@ describe('OpBasicRangeDatePickerComponent', () => {
       await render(['2025-01-01', '2025-01-31']);
 
       enterDate('range-end', '2025-01-15');
-      vi.advanceTimersByTime(20);
+      await vi.advanceTimersByTimeAsync(20);
 
       expect(valueChange).toHaveBeenCalledTimes(1);
       expect(valueChange).toHaveBeenCalledWith(['2025-01-01', '2025-01-15']);
@@ -116,9 +122,9 @@ describe('OpBasicRangeDatePickerComponent', () => {
       await render();
 
       enterDate('range-start', '2025-01-07');
-      vi.advanceTimersByTime(20);
+      await vi.advanceTimersByTimeAsync(20);
       enterDate('range-end', '2025-01-08');
-      vi.advanceTimersByTime(20);
+      await vi.advanceTimersByTimeAsync(20);
 
       expect(valueChange).toHaveBeenCalledTimes(2);
       expect(valueChange).toHaveBeenNthCalledWith(1, ['2025-01-07', '']);
@@ -130,7 +136,7 @@ describe('OpBasicRangeDatePickerComponent', () => {
 
       enterDate('range-start', '2025-01-07');
       enterDate('range-end', '2025-01-08');
-      vi.advanceTimersByTime(20);
+      await vi.advanceTimersByTimeAsync(20);
 
       expect(input('range')).toHaveAttribute('data-value', '2025-01-07 - 2025-01-08');
     });
@@ -140,6 +146,7 @@ describe('OpBasicRangeDatePickerComponent', () => {
 
       enterDate('range-start', '2025-01-07');
       enterDate('range-end', '2025-01-08');
+      await vi.advanceTimersByTimeAsync(10);
       fixture.destroy();
       await vi.advanceTimersByTimeAsync(50);
 
@@ -151,6 +158,7 @@ describe('OpBasicRangeDatePickerComponent', () => {
 
       enterDate('range-start', '2025-01-07');
       enterDate('range-end', '2025-01-08');
+      await vi.advanceTimersByTimeAsync(10);
       component.clearValue();
       await vi.advanceTimersByTimeAsync(50);
 
@@ -182,6 +190,31 @@ describe('OpBasicRangeDatePickerComponent', () => {
 
       expect(valueChange).toHaveBeenLastCalledWith(['2025-01-07', '2025-01-08']);
     });
+    it('keeps a newer date entered while an older one is about to be committed', async () => {
+      await render();
+
+      enterDate('range-start', '2025-01-07');
+      await settleWithoutCommitting();
+      enterDate('range-end', '2025-01-08');
+      await vi.advanceTimersByTimeAsync(50);
+
+      expect(component.value).toEqual(['2025-01-07', '2025-01-08']);
+      expect(valueChange).toHaveBeenCalledTimes(1);
+      expect(valueChange).toHaveBeenCalledWith(['2025-01-07', '2025-01-08']);
+    });
+
+    it('discards a settled but uncommitted range when the parent writes a different value', async () => {
+      await render();
+
+      enterDate('range-start', '2025-01-07');
+      enterDate('range-end', '2025-01-08');
+      await settleWithoutCommitting();
+      component.writeValue(['2024-12-01', '2024-12-02']);
+      await vi.advanceTimersByTimeAsync(50);
+
+      expect(component.value).toEqual(['2024-12-01', '2024-12-02']);
+      expect(valueChange).not.toHaveBeenCalled();
+    });
   });
 
   describe('on desktop', () => {
@@ -203,6 +236,20 @@ describe('OpBasicRangeDatePickerComponent', () => {
       await vi.advanceTimersByTimeAsync(50);
 
       expect(component.value).toEqual([]);
+    });
+
+    it('commits the same text again after clearing', async () => {
+      await render();
+
+      enterDate('range', '2025-01-07 - 2025-01-08');
+      await vi.advanceTimersByTimeAsync(20);
+      component.clearValue();
+      enterDate('range', '2025-01-07 - 2025-01-08');
+      await vi.advanceTimersByTimeAsync(50);
+
+      expect(component.value).toEqual(['2025-01-07', '2025-01-08']);
+      expect(valueChange).toHaveBeenCalledTimes(3);
+      expect(valueChange).toHaveBeenLastCalledWith(['2025-01-07', '2025-01-08']);
     });
   });
 });

@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, ElementRef, EventEmitter, forwardRef, HostBinding, Injector, Input, OnInit, Output, ViewChild, ViewEncapsulation, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, debounced, effect, ElementRef, forwardRef, HostBinding, Injector, Input, OnInit, output, Resource, signal, untracked, ViewChild, ViewEncapsulation, WritableSignal, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   ControlValueAccessor,
@@ -82,7 +82,7 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
     return this.showClearButton && !this.mobile;
   }
 
-  @Output() valueChange = new EventEmitter();
+  readonly valueChange = output<string[]>();
 
   private _value:string[] = [];
 
@@ -142,7 +142,8 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
 
   constructor() {
     populateInputsFromDataset(this);
-    inject(DestroyRef).onDestroy(() => this.cancelPendingInput());
+    this.commitWhenSettled(this.desktopDates, this.settledDesktopDates);
+    this.commitWhenSettled(this.mobileDraft, this.settledMobileDraft);
   }
 
   ngOnInit() {
@@ -164,31 +165,36 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
     }
   }
 
-  private desktopCommitTimer:ReturnType<typeof setTimeout>|undefined;
+  private readonly desktopDates = signal<string[]|null>(null);
+
+  private readonly settledDesktopDates = debounced(this.desktopDates, 16);
 
   changeValueFromInputDebounced(value:string):void {
-    clearTimeout(this.desktopCommitTimer);
-    this.desktopCommitTimer = setTimeout(() => this.changeValueFromInput(value), 16);
+    this.desktopDates.set(this.resolveDateStringToArray(value));
   }
 
-  private mobileDraft:string[]|null = null;
+  private readonly mobileDraft = signal<string[]|null>(null);
 
-  private mobileCommitTimer:ReturnType<typeof setTimeout>|undefined;
+  private readonly settledMobileDraft = debounced(this.mobileDraft, 16);
 
   changeMobileDateFromInput(index:0|1, date:string):void {
-    this.mobileDraft ??= [this.value[0] || '', this.value[1] || ''];
-    this.mobileDraft[index] = date;
-    clearTimeout(this.mobileCommitTimer);
-    this.mobileCommitTimer = setTimeout(() => this.commitMobileDate(), 16);
+    const draft = [...(this.mobileDraft() ?? [this.value[0] || '', this.value[1] || ''])];
+    draft[index] = date;
+    this.mobileDraft.set(draft);
   }
 
-  private commitMobileDate():void {
-    const draft = this.mobileDraft;
-    this.mobileDraft = null;
-
-    if (draft) {
-      this.changeValueFromInput(draft);
-    }
+  // Only the edit that is still pending may commit: a settled value can be
+  // superseded or cancelled before this effect runs.
+  private commitWhenSettled(pending:WritableSignal<string[]|null>, settled:Resource<string[]|null>):void {
+    effect(() => {
+      const dates = settled.value();
+      if (dates !== null && dates === untracked(pending)) {
+        untracked(() => {
+          pending.set(null);
+          this.changeValueFromInput(dates);
+        });
+      }
+    });
   }
 
   changeValueFromInput(value:string|string[]) {
@@ -222,9 +228,8 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
   }
 
   private cancelPendingInput():void {
-    clearTimeout(this.desktopCommitTimer);
-    clearTimeout(this.mobileCommitTimer);
-    this.mobileDraft = null;
+    this.desktopDates.set(null);
+    this.mobileDraft.set(null);
   }
 
   private assignValue(dates:string[]):void {
