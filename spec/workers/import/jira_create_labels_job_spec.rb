@@ -66,11 +66,23 @@ RSpec.describe Import::JiraCreateLabelsJob do
       expect { create_labels }.to not_change(Label, :count).and not_change(references, :count)
     end
 
-    it "keeps its own labels revertable when a half-finished run is retried" do
+    it "keeps its own labels revertable when the import is run again" do
       create_labels
       create_labels
 
       expect(references.pluck(:uses_existing)).to eq([false, false])
+    end
+
+    context "when the reference cannot be written" do
+      before do
+        allow(Import::JiraOpenProjectReference).to receive(:upsert_all).and_raise("reference write failed")
+      end
+
+      it "rolls the label back, so a retry cannot mistake it for a pre-existing one" do
+        expect { create_labels }.to raise_error("reference write failed")
+
+        expect(Label.count).to eq(0)
+      end
     end
 
     context "when several issues share a label" do
@@ -104,7 +116,7 @@ RSpec.describe Import::JiraCreateLabelsJob do
         expect(references.where(uses_existing: false).map { |ref| ref.op_leg.name }).to eq(["urgent"])
       end
 
-      it "still references it as pre-existing when a half-finished run is retried" do
+      it "still references it as pre-existing when the import is run again" do
         create_labels
         create_labels
 

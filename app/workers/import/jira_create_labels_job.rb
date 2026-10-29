@@ -56,11 +56,13 @@ module Import
     end
 
     def create_label(name)
-      service_call = Labels::CreateService.new(user: @system_user).call(name:)
-      return reference_existing_label(name) if service_call.errors.symbols_for(:name).include?(:taken)
-      raise service_call.message if service_call.failure?
+      ApplicationRecord.transaction do
+        service_call = Labels::CreateService.new(user: @system_user).call(name:)
+        next reference_existing_label(name) if service_call.errors.symbols_for(:name).include?(:taken)
+        raise service_call.message if service_call.failure?
 
-      create_reference!(op_leg: service_call.result, jira_leg: nil, jira_import: @jira_import, uses_existing: false)
+        create_reference!(op_leg: service_call.result, jira_leg: nil, jira_import: @jira_import, uses_existing: false)
+      end
     end
 
     def reference_existing_label(name)
