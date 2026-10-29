@@ -312,8 +312,22 @@ export function getCSSVariable(variable:string, fallback = ''):string {
 }
 
 /**
- * Whether an element's text is cut off or hidden: not rendered, visually hidden or cut off. Not whether another element covers it.
+ * Whether an element's text is cut off or hidden: not rendered, visually hidden, or overflowing its
+ * own box horizontally. Not whether another element covers it, and not line clamping: a single line
+ * that fits can still overflow vertically by its descenders or a fixed height.
+ *
+ * An inline element has no box of its own to overflow (`clientWidth` is 0, while `scrollWidth`
+ * differs between browsers), so it only counts when hidden. To detect an inline element cut off
+ * by an ancestor, pass that ancestor instead.
  */
 export function isTextCutOffOrHidden(element:HTMLElement):boolean {
-  return !element.checkVisibility() || element.scrollWidth > element.clientWidth;
+  if (!element.checkVisibility()) {
+    return true;
+  }
+
+  if (getComputedStyle(element).display === 'inline') {
+    return false;
+  }
+
+  return element.scrollWidth > element.clientWidth;
 }
