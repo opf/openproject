@@ -29,46 +29,45 @@
 
 module ITSM
   module Mailboxes
-    class FetchService < ::BaseServices::BaseContracted
+    class FetchService < ::BaseServices::BaseCallable
       include Dry::Monads[:result]
-      include Dry::Monads::Do.for(:fetch_emails)
+      include Dry::Monads::Do.for(:read_all)
 
       BATCH_SIZE = 50
 
-      def initialize(model:, user: User.system, contract_class: FetchContract)
-        super(user:, contract_class:)
-        self.model = model
+      def initialize(mailbox)
+        super()
+        @mailbox = mailbox
+      end
+
+      protected
+
+      def perform
+        return service_failure(:inactive) unless mailbox.active?
+
+        OpenProject::Mutex.with_advisory_lock(IncomingMailbox, "itsm_mailbox_fetch_#{mailbox.id}", timeout_seconds: 0) do
+          Rails.logger.tagged("ITSM", "mailbox #{mailbox.id}") do
+            fetch_emails.either(method(:fetch_succeeded), method(:fetch_failed))
+          end
+        end || service_failure(:fetch_in_progress)
       end
 
       private
 
-      # No transaction: a failed fetch still has to be recorded on the mailbox.
-      def service_context(send_notifications:, &)
-        OpenProject::Mutex.with_advisory_lock(IncomingMailbox, "itsm_mailbox_fetch_#{model.id}", timeout_seconds: 0) do
-          without_context_transaction(send_notifications:, &)
-        end || failure(:fetch_in_progress)
-      end
+      attr_reader :mailbox
 
-      def persist(_service_call)
-        Rails.logger.tagged("ITSM", "mailbox #{model.id}") do
-          case fetch_emails
-          in Success(emails:) then fetch_succeeded(emails)
-          in Failure(error) then fetch_failed(error)
-          end
-        end
-      end
-
-      # `yield` is Do notation: it unwraps a Success or ends the run on the first Failure.
-      # The session still logs out, as `ImapSession.open` closes it in `ensure`.
       def fetch_emails
-        Adapters::ImapSession.open(mail_server: model.mail_server, auth_strategy:) do |session|
-          uids = yield Adapters::Queries::UnseenUids.call(session:, limit: BATCH_SIZE)
-
-          Success(emails: uids.filter_map { |uid| yield read(session, uid) })
+        Adapters::ImapSession.open(mail_server: mailbox.mail_server, auth_strategy:) do |session|
+          Adapters::Queries::UnseenUids.call(session:, limit: BATCH_SIZE)
+            .bind { |uids| read_all(session, uids) }
         end
       end
 
-      def auth_strategy = Adapters::AuthenticationStrategies::BasicAuth.new(model.credentials)
+      def auth_strategy = Adapters::AuthenticationStrategies::BasicAuth.new(mailbox.credentials)
+
+      def read_all(session, uids)
+        Success(uids.filter_map { |uid| yield read(session, uid) })
+      end
 
       def read(session, uid)
         Adapters::Queries::RawEmail.call(session:, uid:).fmap { |raw| parse(raw) if raw }
@@ -83,17 +82,17 @@ module ITSM
 
       def fetch_succeeded(emails)
         Rails.logger.info { "Read #{emails.size} unseen emails" }
-        model.fetch_succeeded!
-        ServiceResult.success(result: model)
+        mailbox.fetch_succeeded!
+        ServiceResult.success(result: mailbox)
       end
 
       def fetch_failed(error)
         Rails.logger.warn { "Fetching failed (#{error.code})" }
-        model.fetch_failed!(error.code)
-        failure(error.code)
+        mailbox.fetch_failed!(error.code)
+        service_failure(error.code)
       end
 
-      def failure(code) = ServiceResult.failure(result: model).tap { it.errors.add(:base, code) }
+      def service_failure(code) = ServiceResult.failure(result: mailbox).tap { it.errors.add(:base, code) }
     end
   end
 end

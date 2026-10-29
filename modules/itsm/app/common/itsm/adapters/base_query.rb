@@ -30,8 +30,6 @@
 module ITSM
   module Adapters
     class BaseQuery
-      include Dry::Monads[:result]
-
       def self.call(**) = new.call(**)
 
       def call(session:, **)

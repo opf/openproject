@@ -30,15 +30,15 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true } do
-  subject(:result) { described_class.new(model: mailbox).call }
+RSpec.describe ITSM::Mailboxes::FetchService do
+  subject(:result) { described_class.new(mailbox).call }
 
   let(:mailbox) { create(:itsm_incoming_mailbox, active:, consecutive_failures:, last_error:) }
   let(:active) { true }
   let(:consecutive_failures) { 0 }
   let(:last_error) { nil }
   let(:imap) do
-    instance_double(Net::IMAP, login: nil, select: nil, uid_store: nil, uid_expunge: nil, capable?: true,
+    instance_double(Net::IMAP, login: nil, select: nil, uid_store: nil, uid_expunge: nil,
                                logout: nil, disconnect: nil, disconnected?: false)
   end
   let(:unseen_uids) { [2, 1] }
@@ -175,6 +175,7 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true } do
 
     it "does not connect" do
       expect(result).to be_failure
+      expect(result.errors.symbols_for(:base)).to eq([:inactive])
       expect(Net::IMAP).not_to have_received(:new)
     end
   end

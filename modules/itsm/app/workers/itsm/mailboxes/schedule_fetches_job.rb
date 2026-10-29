@@ -31,7 +31,7 @@ module ITSM
   module Mailboxes
     class ScheduleFetchesJob < ApplicationJob
       def perform
-        return unless OpenProject::FeatureDecisions.helpdesk_active?
+        return unless OpenProject::FeatureDecisions.helpdesk_active? && Setting.helpdesk_enabled?
 
         IncomingMailbox.due_for_fetch.find_each { FetchJob.perform_later(it) }
       end

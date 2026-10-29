@@ -36,7 +36,7 @@ RSpec.describe ITSM::Mailboxes::FetchJob, type: :job, with_flag: { helpdesk: tru
   let(:mailbox) { create(:itsm_incoming_mailbox) }
   let(:service) { instance_double(ITSM::Mailboxes::FetchService, call: ServiceResult.success(result: mailbox)) }
 
-  before { allow(ITSM::Mailboxes::FetchService).to receive(:new).with(model: mailbox).and_return(service) }
+  before { allow(ITSM::Mailboxes::FetchService).to receive(:new).with(mailbox).and_return(service) }
 
   it "fetches the mailbox once" do
     perform

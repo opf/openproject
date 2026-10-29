@@ -30,7 +30,9 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe ITSM::Mailboxes::ScheduleFetchesJob, type: :job, with_flag: { helpdesk: true } do
+RSpec.describe ITSM::Mailboxes::ScheduleFetchesJob, type: :job,
+                                                    with_flag: { helpdesk: true },
+                                                    with_settings: { helpdesk_enabled: true } do
   let!(:due) { create(:itsm_incoming_mailbox, next_fetch_at: 1.minute.ago) }
   let!(:not_yet_due) { create(:itsm_incoming_mailbox, next_fetch_at: 1.minute.from_now) }
 
@@ -42,6 +44,12 @@ RSpec.describe ITSM::Mailboxes::ScheduleFetchesJob, type: :job, with_flag: { hel
   end
 
   context "with the help desk feature disabled", with_flag: { helpdesk: false } do
+    it "queues nothing" do
+      expect { described_class.perform_now }.not_to have_enqueued_job(ITSM::Mailboxes::FetchJob)
+    end
+  end
+
+  context "with the help desk turned off in the administration", with_settings: { helpdesk_enabled: false } do
     it "queues nothing" do
       expect { described_class.perform_now }.not_to have_enqueued_job(ITSM::Mailboxes::FetchJob)
     end

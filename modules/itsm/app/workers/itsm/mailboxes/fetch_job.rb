@@ -41,7 +41,7 @@ module ITSM
       discard_on ActiveJob::DeserializationError
 
       def perform(mailbox)
-        FetchService.new(model: mailbox).call
+        FetchService.new(mailbox).call
       end
     end
   end

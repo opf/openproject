@@ -32,7 +32,7 @@ require "net/imap"
 module ITSM
   module Adapters
     class ImapSession
-      include Concerns::ImapRequest
+      include Dry::Monads[:result]
 
       OPEN_TIMEOUT = 10
       SESSION_TIMEOUT = 5.minutes
@@ -55,7 +55,7 @@ module ITSM
       def connect
         start_deadline
 
-        safe_address
+        verify_host
           .bind { imap_request { open_connection } }
           # The strategy returns its own Result, which imap_request wraps once more.
           .bind { imap_request { auth_strategy.call(imap) }.flatten }
@@ -76,11 +76,47 @@ module ITSM
 
       attr_reader :mail_server, :auth_strategy, :imap, :deadline, :timed_out
 
+      def instance_variables_to_inspect = %i[@mail_server]
+
+      def verify_host
+        addresses = OpenProject::SsrfProtection.resolver.call(mail_server.host)
+
+        return failure(code: :unreachable) if addresses.empty?
+        return failure(code: :address_not_allowed) unless addresses.all? { OpenProject::SsrfProtection.safe_ip?(it) }
+
+        Success()
+      end
+
+      # Net::IMAP.new waits for the server greeting without a time limit, and the session timeout
+      # cannot disconnect a connection that is still being opened.
+      def open_connection
+        @imap = Timeout.timeout(OPEN_TIMEOUT, GreetingTimeout) do
+          Net::IMAP.new(mail_server.host, port: mail_server.port, ssl: mail_server.tls?, open_timeout: OPEN_TIMEOUT)
+        end
+        imap.starttls if mail_server.starttls?
+      end
+
+      def imap_request(source: self.class)
+        Success(yield)
+      rescue GreetingTimeout
+        failure(code: :timeout, source:)
+      rescue OpenSSL::SSL::SSLError => e
+        failure(code: :tls_failed, payload: e.message, source:)
+      rescue SocketError, SystemCallError, IOError, Timeout::Error => e
+        failure(code: :unreachable, payload: e.message, source:)
+      rescue Net::IMAP::Error => e
+        failure(code: :server_error, payload: e.message, source:)
+      end
+
+      def failure(code:, payload: nil, source: self.class)
+        Failure(SimpleError.new(source:, code: timed_out ? :timeout : code, payload:))
+      end
+
+      # Net::IMAP has no command timeout yet: https://github.com/ruby/net-imap/issues/278
       def start_deadline
         @deadline = Concurrent::ScheduledTask.execute(SESSION_TIMEOUT) { time_out }
       end
 
-      # Net::IMAP has no command timeout yet: https://github.com/ruby/net-imap/issues/278
       # Disconnecting from another thread makes the waiting command fail with an IOError.
       def time_out
         @timed_out = true
@@ -91,32 +127,6 @@ module ITSM
         logout = imap_request { imap.logout }
         imap_request { imap.disconnect }
         Rails.logger.warn { "IMAP logout failed (#{logout.failure.code})" } if logout.failure?
-      end
-
-      def instance_variables_to_inspect = %i[@mail_server]
-
-      def imap_request(source: self.class)
-        super.alt_map { timed_out ? it.with(code: :timeout) : it }
-      rescue GreetingTimeout
-        failure(code: :timeout, source:)
-      end
-
-      def safe_address
-        addresses = OpenProject::SsrfProtection.resolver.call(mail_server.host)
-
-        return failure(code: :unreachable) if addresses.empty?
-        return failure(code: :address_not_allowed) unless addresses.all? { OpenProject::SsrfProtection.safe_ip?(it) }
-
-        Success(addresses)
-      end
-
-      # Net::IMAP.new waits for the server greeting without a time limit, and the session timeout
-      # cannot disconnect a connection that is still being opened.
-      def open_connection
-        @imap = Timeout.timeout(OPEN_TIMEOUT, GreetingTimeout) do
-          Net::IMAP.new(mail_server.host, port: mail_server.port, ssl: mail_server.tls?, open_timeout: OPEN_TIMEOUT)
-        end
-        imap.starttls if mail_server.starttls?
       end
     end
   end
