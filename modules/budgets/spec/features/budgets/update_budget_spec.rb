@@ -84,7 +84,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
     let(:labor_budget_item) do
       create(:labor_budget_item,
              hours: 5,
-             user:,
+             principal: user,
              budget:)
     end
 
@@ -247,7 +247,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
       let!(:labor_budget_item_2) do
         create(:labor_budget_item,
                hours: 5,
-               user:,
+               principal: user,
                budget:)
       end
 

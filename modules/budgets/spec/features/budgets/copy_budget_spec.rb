@@ -65,7 +65,7 @@ RSpec.describe "Copying a budget", :js do
   let!(:labor_budget_item) do
     create(:labor_budget_item,
            hours: 5,
-           user: original_author,
+           principal: original_author,
            budget:)
   end
   let(:budget_page) { Pages::EditBudget.new budget.id }
