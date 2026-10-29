@@ -85,6 +85,32 @@ en:
           locked_once_indexed: "cannot be changed once the Semantic Index has been indexed."
   admin:
     semantic_indexes:
+      activate:
+        body_html: "Semantic search will use <b>%{title}</b> immediately."
+        body_switch_html: "Semantic search switches from <b>%{current}</b> to <b>%{title}</b> immediately. %{current} stays ready and can be reactivated."
+        button: "Activate"
+        confirm: "Activate"
+        success: "\"%{title}\" is now the active Semantic Index."
+        title: "Activate \"%{title}\"?"
+      active: "Active"
+      box:
+        empty_description: "Create a new Semantic Index to make work packages findable by meaning."
+        empty_title: "No Semantic Index yet"
+        new: "New Semantic Index"
+        title: "Semantic Indexes"
+      destroy:
+        description: "The Semantic Index and its settings will be removed. This cannot be undone."
+        heading: "Delete %{title}?"
+        title: "Delete Semantic Index"
+      dialog:
+        edit_title: "Edit \"%{title}\""
+        new_title: "New Semantic Index"
+      form:
+        context_token_length_caption: "Maximum number of tokens embedded per work package."
+        embedding_vector_dimensions_caption: "How many numbers each vector has."
+        locked_once_indexed: "This Semantic Index has been indexed. Model, context length and dimensions can't be changed. Create a new Semantic Index to use different parameters."
+        model_caption: "Only models known to create embeddings are offered."
+        option_unqualified: "%{model} (no longer eligible)"
       indexing:
         failed_requests:
           one: "1 request failed."
@@ -96,6 +122,21 @@ en:
         progress: "%{percentage}% done"
       start_indexing:
         not_indexable: "This Semantic Index is already being indexed."
+      menu:
+        delete: "Delete"
+        locked_while_active: "Activate another Semantic Index first"
+      start_indexing:
+        button:
+          failed: "Retry indexing"
+          not_indexed: "Start indexing"
+          ready: "Re-index"
+        not_indexable: "This Semantic Index is already being indexed."
+        started: "Indexing of \"%{title}\" has started."
+      states:
+        failed: "Failed"
+        indexing: "Indexing"
+        not_indexed: "Not indexed"
+        ready: "Ready"
     llm_connections:
       delete_api_key:
         configured_from_env: "This connection is configured through the environment and cannot be changed here."
