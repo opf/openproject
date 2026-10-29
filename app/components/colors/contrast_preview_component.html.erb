@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= flex_layout(direction: [:column, nil, :row], align_items: :stretch, classes: "gap-3") do |modes| %>
     <% %w[light dark].each do |mode| %>
       <% modes.with_column(flex: 1) do %>
-        <%= render OpenProject::Common::BorderBoxListComponent.new(container: "contrast-preview-#{mode}") do |list| %>
+        <%= render OpPrimer::BorderBoxListComponent.new(container: "contrast-preview-#{mode}") do |list| %>
           <% list.with_header(title_tag: :h4) do |header| %>
             <% header.with_title do %>
               <%= render Primer::Beta::Octicon.new(icon: mode == "light" ? :sun : :moon, mr: 2) %>
