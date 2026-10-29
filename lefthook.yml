@@ -49,7 +49,7 @@ pre-commit:
         if command -v yamllint > /dev/null 2>&1; then
           yamllint {files}
         else
-          echo "warning: yamllint is not installed, skipping" >&2
+          echo "warning: yamllint is not installed, skipping (https://yamllint.readthedocs.io/en/stable/quickstart.html#installing-yamllint)" >&2
         fi
     typos:
       files: git diff --name-only --staged --diff-filter=ACMR
