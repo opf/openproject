@@ -58,14 +58,14 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
       budget_page.add_labor_costs! 5, user_name: user.name, comment: "treatment", expected_costs: "125.00 EUR"
 
       click_on "Submit"
-      expect(budget_page).to have_text("Successful update")
+      expect(budget_page).to have_content("Successful update")
 
       expect(page).to have_css("tbody td.currency", text: "150.00 EUR")
-      expect(budget_page.overall_unit_costs).to have_text "150.00 EUR"
+      expect(budget_page.overall_unit_costs).to have_content "150.00 EUR"
 
       expect(page).to have_css("tbody td.currency", text: "125.00 EUR")
-      expect(budget_page.labor_costs_at(1)).to have_text "125.00 EUR"
-      expect(budget_page.overall_labor_costs).to have_text "125.00 EUR"
+      expect(budget_page.labor_costs_at(1)).to have_content "125.00 EUR"
+      expect(budget_page.overall_labor_costs).to have_content "125.00 EUR"
     end
   end
 
@@ -119,15 +119,15 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
       budget_page.expect_planned_costs! type: :labor, row: 1, expected: "75.00 EUR"
 
       click_on "Submit"
-      expect(budget_page).to have_text("Successful update")
+      expect(budget_page).to have_content("Successful update")
 
       expect(page).to have_css("tbody td.currency", text: "250.00 EUR")
-      expect(budget_page.unit_costs_at(1)).to have_text "250.00 EUR"
-      expect(budget_page.overall_unit_costs).to have_text "250.00 EUR"
+      expect(budget_page.unit_costs_at(1)).to have_content "250.00 EUR"
+      expect(budget_page.overall_unit_costs).to have_content "250.00 EUR"
 
       expect(page).to have_css("tbody td.currency", text: "75.00 EUR")
-      expect(budget_page.labor_costs_at(1)).to have_text "75.00 EUR"
-      expect(budget_page.overall_labor_costs).to have_text "75.00 EUR"
+      expect(budget_page.labor_costs_at(1)).to have_content "75.00 EUR"
+      expect(budget_page.overall_labor_costs).to have_content "75.00 EUR"
     end
 
     context "with german locale" do
@@ -162,7 +162,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
         expect(page).to have_field("budget_existing_material_budget_item_attributes_#{material_budget_item.id}_amount")
 
         click_on "OK"
-        expect(budget_page).to have_text(I18n.t(:notice_successful_update))
+        expect(budget_page).to have_content(I18n.t(:notice_successful_update))
 
         expect(page).to have_css("tbody td.currency", text: "150,00 EUR")
         expect(page).to have_css("tbody td.currency", text: "1.000,00 EUR")
@@ -191,7 +191,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
 
         # Update second element
         budget_page.edit_planned_costs! material_budget_item_2.id, type: :material, costs: 543
-        expect(budget_page).to have_text("Successful update")
+        expect(budget_page).to have_content("Successful update")
         expect(page).to have_css("tbody td.currency", text: "123.00 EUR")
         expect(page).to have_css("tbody td.currency", text: "543.00 EUR")
 
@@ -223,7 +223,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
 
           # Update second element
           budget_page.edit_planned_costs! material_budget_item_2.id, type: :material, costs: 543
-          expect(budget_page).to have_text("Successful update")
+          expect(budget_page).to have_content("Successful update")
           expect(page).to have_css("tbody td.currency", text: "USD 123.00")
           expect(page).to have_css("tbody td.currency", text: "USD 543.00")
 
@@ -264,7 +264,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
 
         # Update second element
         budget_page.edit_planned_costs! labor_budget_item_2.id, type: :labor, costs: 987
-        expect(budget_page).to have_text("Successful update")
+        expect(budget_page).to have_content("Successful update")
         expect(page).to have_css("tbody td.currency", text: "456.00 EUR")
         expect(page).to have_css("tbody td.currency", text: "987.00 EUR")
 
@@ -296,7 +296,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
 
           # Update second element
           budget_page.edit_planned_costs! labor_budget_item_2.id, type: :labor, costs: 987
-          expect(budget_page).to have_text("Successful update")
+          expect(budget_page).to have_content("Successful update")
           expect(page).to have_css("tbody td.currency", text: "USD 456.00")
           expect(page).to have_css("tbody td.currency", text: "USD 987.00")
 
@@ -326,7 +326,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
 
       click_on "Submit"
 
-      expect(budget_page.labor_costs_at(1)).to have_no_text "125.00 EUR"
+      expect(budget_page.labor_costs_at(1)).to have_no_content "125.00 EUR"
     end
   end
 
@@ -346,7 +346,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
       budget_page.add_labor_costs! 10, user_name: group.name, comment: "team work"
 
       click_on "Submit"
-      expect(budget_page).to have_text("Successful update")
+      expect(budget_page).to have_content("Successful update")
 
       expect(page).to have_css(".labor_budget_items tbody td", text: group.name)
     end
