@@ -75,6 +75,7 @@ ro:
     omniauth_login: Autentifică-te pentru activarea contului tău.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
+    username_or_email: Username or email
   actionview_instancetag_blank_option: Selectează
   activemodel:
     attributes:
@@ -1040,6 +1041,8 @@ ro:
             identifier:
               must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -2330,10 +2333,11 @@ ro:
         save: Save changes and continue
         title: Save changes before continuing?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'Role: %{role}'
         no_role: Select role
@@ -3714,10 +3718,11 @@ ro:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
@@ -4340,6 +4345,7 @@ ro:
   label_interface_colors_description: 'Aceste culori controlează cum arată aplicația. Dacă le modifici, tema va fi schimbată automat la tema personalizată, dar nu putem asigura conformitatea minimelor de accesibilitate (WCAG 2.1). '
   label_internal: Intern
   label_introduction_video: Getting started video
+  label_invalid_file_type: This file type is not supported.
   label_invitation: Invitație
   label_invite_user: Invită utilizator
   label_item: Element
@@ -5490,21 +5496,20 @@ ro:
           tb: TB
   oauth:
     application:
+      basic_details: Basic details
       builtin: Built-in instance application
       client_credentials: Client credentials
       confidential: Confidenţial
-      default_scopes: Scopuri
       instructions:
-        client_credential_user_id: ID-ul de utilizator opțional pe care trebuie să se substituie atunci când clienții utilizează această aplicație. Lăsați gol pentru a permite doar accesul public
-        confidential: Verificați dacă aplicația va fi utilizată în cazul în care secretul clientului poate fi păstrat confidențial. Aplicațiile mobile native și aplicațiile cu o singură pagină sunt considerate neconfidențiale.
-        default_scopes: ''
-        enabled: Enable this application, allowing users to perform authorization grants with it.
-        name: Numele aplicației dumneavoastră. Acesta va fi afișat celorlalți utilizatori în momentul autorizării.
-        redirect_uri_html: 'URL-urile permise către care pot fi redirecționați utilizatorii autorizați. O intrare pe linie. <br/> Dacă înregistrezi o aplicație desktop, utilizează următoarea adresă URL.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: Dacă dezvoltați o aplicație client OAuth API pentru OpenProject, o puteți înregistra folosind acest formular pentru toți utilizatorii.
-        scopes: Bifează domeniile la care vrei ca aplicația să acorde acces. Dacă nu se bifează niciun domeniu de aplicare, se presupune api_v3.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: OAuth aplicație '%{name}'
       new: Aplicație OAuth
       non_confidential: Non confidential
@@ -5521,7 +5526,7 @@ ro:
         '
     authorization_error: A apărut o eroare internă.
     client_credentials: Credențiale client ID utilizator
-    client_credentials_impersonation_html: 'În mod implicit, OpenProject oferă autorizare OAuth 2.0 prin %{authorization_code_flow_link}. Puteți activa opțional %{client_credentials_flow_link}, dar trebuie să furnizați un utilizator în numele căruia vor fi efectuate cererile.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: Credențiale client ID utilizator
@@ -5548,9 +5553,12 @@ ro:
       other_applications: Other OAuth applications
     my_registered_applications: Aplicații OAuth înregistrate
     scopes:
-      api_v3: Acces complet la API v3
+      api_v3: Access to APIv3
       api_v3_text: Aplicația va primi acces complet de citire și scriere la OpenProject API v3 pentru a efectua acțiuni în numele dumneavoastră.
-      mcp: Access to MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
   oauth_client:
     errors:
@@ -5658,16 +5666,15 @@ ro:
       parent: Părinte
       short: Nume scurt
       weight: Weight
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Open link in a new tab
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Drag to reorder
-        menu:
-          label_actions: Work package actions
-        parent: Părinte
-        undisclosed: Undisclosed
   page:
     text: Text
   pagination:

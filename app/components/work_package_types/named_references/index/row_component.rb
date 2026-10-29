@@ -36,7 +36,7 @@ module WorkPackageTypes
         delegate :model_class, :icon, to: :table
 
         def name
-          safe_join([title, created_in, description].compact)
+          safe_join([title, description].compact)
         end
 
         def types_and_variants
@@ -69,19 +69,6 @@ module WorkPackageTypes
           return if record.description.blank?
 
           render(Primer::Beta::Text.new(tag: :div, font_size: :small, color: :muted)) { record.description }
-        end
-
-        def created_in
-          project = model_class.project_owned? && record.project
-          return if project.blank?
-
-          link = render(Primer::Beta::Link.new(href: helpers.project_settings_work_packages_types_path(project))) do
-            project.name
-          end
-
-          render(Primer::Beta::Text.new(tag: :div, font_size: :small, color: :muted)) do
-            t("types.edit.variants.created_in_html", project: link)
-          end
         end
 
         def types_and_variants_label

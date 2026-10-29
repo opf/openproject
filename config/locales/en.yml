@@ -963,8 +963,6 @@ en:
               invalid_tokens: "One or more attributes inside the field are not valid. Please, fix the attributes before saving."
             variant:
               must_belong_to_the_type: "must be a variant of this type."
-            workflow:
-              not_available_to_this_variant: "must be a workflow this project can use."
         user:
           attributes:
             base:
@@ -3944,6 +3942,7 @@ en:
         Child work packages without Work are ignored.
       unaccessable_work_package_changed: by changes to a related work package
       work_package_children_changed_times: by changes to child %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       work_package_parent_changed_times: by changes to parent %{link}
       work_package_parent_deleted: because the parent work package was deleted
@@ -3976,6 +3975,7 @@ en:
       system_update: "OpenProject system update:"
       total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
       total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      work_package_children_changed_values: "Updated automatically"
       work_package_duplicate_closed: "Duplicate work package updated:"
       work_package_parent_deleted: "Parent removed"
 
@@ -7605,8 +7605,6 @@ en:
         text: >
           This will make this project-specific variant a global one that is available to all
           projects. The project admin will no longer be able to edit it.
-        workflow_text: >
-          Its workflow "%{name}" belongs to this project and becomes global as well.
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: "Convert"
@@ -7961,8 +7959,6 @@ en:
       note_placeholder: "Why are you setting this reminder?"
       success_deletion_message: "Reminder deleted successfully."
       success_update_message: "Reminder updated successfully."
-    updated_automatically_by_child_changes: |
-      _Updated automatically by changing values within child work package %{child}_
   work_package_relations_tab:
     index:
       action_bar_title: "Add relations to other work packages to create a link between them."
