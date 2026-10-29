@@ -170,6 +170,16 @@ RSpec.describe Import::JiraCreateLabelsJob do
       end
     end
 
+    context "when the labels field is not an array" do
+      let(:jira_issue_payload) do
+        super().tap { |payload| payload["fields"]["labels"] = "backend" }
+      end
+
+      it "creates nothing" do
+        expect { create_labels }.not_to change(Label, :count)
+      end
+    end
+
     context "when label names are padded, blank or null" do
       let(:jira_issue_payload) do
         super().tap { |payload| payload["fields"]["labels"] = ["  backend  ", "   ", nil] }

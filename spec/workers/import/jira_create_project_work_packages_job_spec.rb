@@ -478,6 +478,22 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
           end
         end
 
+        context "when the labels field is not an array" do
+          let(:jira_issue_payload) do
+            super().tap { |payload| payload["fields"]["labels"] = "backend" }
+          end
+
+          it "imports the work package without labels and does not log a missing one" do
+            allow(Rails.logger).to receive(:warn)
+
+            create_labels
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6").labels).to be_empty
+            expect(Rails.logger).not_to have_received(:warn).with(/backend/)
+          end
+        end
+
         context "when the labels stage did not run" do
           it "imports the work package without labels and logs them" do
             allow(Rails.logger).to receive(:warn)

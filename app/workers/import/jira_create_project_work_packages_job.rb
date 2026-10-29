@@ -277,12 +277,18 @@ module Import
     end
 
     def label_attrs(jira_issue)
-      names = Array(jira_issue.payload.dig("fields", "labels")).filter_map { it.to_s.squish.presence }
-      issue_labels = names.index_with { find_label(it) }
+      issue_labels = jira_label_names(jira_issue).index_with { find_label(it) }
       log_missing_labels(issue_labels)
 
       label_ids = issue_labels.values.compact.map(&:id)
       label_ids.any? ? { label_ids: } : {}
+    end
+
+    def jira_label_names(jira_issue)
+      labels = jira_issue.payload.dig("fields", "labels")
+      return [] unless labels.is_a?(Array)
+
+      labels.filter_map { it.to_s.squish.presence }
     end
 
     def log_missing_labels(issue_labels)
