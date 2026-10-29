@@ -82,8 +82,8 @@ module Colors
     # Consumed by the highlighting stylesheet to decide contrasting text.
     # Must stay in step with the client-side copy in
     # frontend/src/stimulus/controllers/dynamic/color-contrast.controller.ts
-    # so the contrast preview flips text colour at the same threshold as
-    # the saved colour.
+    # so the contrast preview flips text color at the same threshold as
+    # the saved color.
     def perceived_lightness
       r, g, b = rgb_colors
       (((r * 0.2126) + (g * 0.7152) + (b * 0.0722)) / 255).round(4)

@@ -34,7 +34,7 @@ RSpec.describe Colors::ContrastPreviewRowComponent, type: :component do
     render_inline(described_class.new(mode: "light", usage: "foreground", hexcode_id: "color_hexcode"))
   end
 
-  it "lists the colour values as a definition list", :aggregate_failures do
+  it "lists the color values as a definition list", :aggregate_failures do
     expect(rendered_component).to have_element :dl do |list|
       expect(list).to have_element :dt, text: "Text"
       expect(list).to have_element :dd, "data-contrast-value": "foreground"
