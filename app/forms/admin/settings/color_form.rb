@@ -42,17 +42,13 @@ module Admin
           name: :hexcode,
           label: attribute_name(:hexcode),
           required: true,
-          input_width: :small,
+          input_width: :medium,
           data: {
             color_contrast_target: "hexcode",
             invalid_message: hexcode_invalid_message,
             action: "input->color-contrast#update change->color-contrast#check"
           }
         )
-
-        color_form.html_content do
-          render Colors::ContrastPreviewComponent.new(hexcode_id: @builder.field_id(:hexcode))
-        end
 
         color_form.group(layout: :horizontal) do |button_group|
           button_group.button(
