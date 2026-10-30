@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,6 +58,23 @@ RSpec.describe PlaceholderUser do
 
     it "is empty for someone who may not allocate" do
       expect(described_class.allocatable(bystander)).to be_empty
+    end
+  end
+
+  describe "#destroy" do
+    let(:placeholder_user) { create(:placeholder_user) }
+
+    it "is prevented while the placeholder user is used in a resource allocation" do
+      allocation = create(:resource_allocation, placeholder_user:, principal: nil)
+
+      expect(placeholder_user.destroy).to be(false)
+      expect(placeholder_user.errors.details[:base]).to include(error: :"restrict_dependent_destroy.has_many",
+                                                                record: anything)
+      expect(allocation.reload.placeholder_user).to eq(placeholder_user)
+    end
+
+    it "succeeds when the placeholder user is not used in any resource allocation" do
+      expect(placeholder_user.destroy).to be_destroyed
     end
   end
 end

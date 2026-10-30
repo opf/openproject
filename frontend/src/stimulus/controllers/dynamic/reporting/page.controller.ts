@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -77,8 +76,6 @@ interface IControls {
   clear_query:(e:Event) => void;
   observe_click:(elementId:string, callback:(e:Event) => void) => void;
   update_result_table:(response:string) => void;
-  toggle_delete_form:(e:Event) => void;
-  toggle_save_as_form:(e:Event) => void;
 }
 
 interface IRestoreQuery {
@@ -92,6 +89,9 @@ export default class PageController extends Controller {
   private controls!:IControls;
   private restoreQueryModule!:IRestoreQuery;
 
+  static targets = ['table'];
+  declare readonly tableTarget:HTMLTableElement;
+
   connect() {
     this.initializeReportingEngine();
     this.initializeFilters();
@@ -103,6 +103,24 @@ export default class PageController extends Controller {
 
   disconnect() {
     // Clean up event handlers if needed
+  }
+
+  tableTargetConnected(table:HTMLTableElement) {
+    jQuery(table)
+      .tablesorter({
+        sortList: [[0, 0]],
+        widgets: ['saveSort'],
+        widgetOptions: {
+          storage_storageType: 's',
+        },
+        textExtraction(node:HTMLElement) {
+          return node.getAttribute('raw-data');
+        },
+      });
+  }
+
+  tableTargetDisconnected(table:HTMLTableElement) {
+    jQuery(table).trigger('destroy', [false]);
   }
 
   // Called from data-action
@@ -207,7 +225,6 @@ export default class PageController extends Controller {
     jQuery.metadata = undefined;
 
     // Override the default texts to enable translations
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     jQuery.tablesorter.language = {
       sortAsc: I18n.t('js.sort.sorted_asc'),
       sortDesc: I18n.t('js.sort.sorted_dsc'),
@@ -217,20 +234,6 @@ export default class PageController extends Controller {
       nextDesc: I18n.t('js.sort.activate_dsc'),
       nextNone: I18n.t('js.sort.activate_no'),
     };
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    jQuery('#sortable-table')
-      .not('.tablesorter')
-      .tablesorter({
-        sortList: [[0, 0]],
-        widgets: ['saveSort'],
-        widgetOptions: {
-          storage_storageType: 's',
-        },
-        textExtraction(node:HTMLElement) {
-          return node.getAttribute('raw-data');
-        },
-      });
   }
 
   private flash(string:string, type = 'error') {
@@ -681,39 +684,16 @@ export default class PageController extends Controller {
         jQuery('#result-table').html(response);
         this.initTableSorter();
       },
-
-      toggle_delete_form: (e:Event) => {
-        e.preventDefault();
-        const offset = jQuery('#query-icon-delete').offset()?.left ?? 0;
-        jQuery('#delete_form').css('left', `${offset}px`).toggle();
-      },
-
-      toggle_save_as_form: (e:Event) => {
-        e.preventDefault();
-        const offset = jQuery('#query-icon-save-as').offset()?.left ?? 0;
-        jQuery('#save_as_form').css('left', `${offset}px`).toggle();
-      },
     };
 
     // Bind control events
     if (jQuery('#query_saved_name').length) {
       if (jQuery('#query_saved_name').attr('data-is_new')) {
-        if (jQuery('#query-icon-delete').length) {
-          this.controls.observe_click('query-icon-delete', this.controls.toggle_delete_form);
-          this.controls.observe_click('query-icon-delete-cancel', this.controls.toggle_delete_form);
-          jQuery('#delete_form').hide();
-        }
-
         if (jQuery('#query-breadcrumb-save').length) {
           this.controls.attach_settings_callback(jQuery('#query-breadcrumb-save'), this.controls.update_result_table);
         }
       }
     }
-
-    this.controls.observe_click('query-icon-save-as', this.controls.toggle_save_as_form);
-    this.controls.observe_click('query-icon-save-as-cancel', this.controls.toggle_save_as_form);
-
-    jQuery('#save_as_form').hide();
 
     this.controls.attach_settings_callback(jQuery('#query-icon-save-button'), (newLocation:string) => {
       document.location.href = newLocation;

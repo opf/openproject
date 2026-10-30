@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,7 +32,7 @@ module WorkPackages
     module CSV
       # Something about the file as a whole that stops it being imported, rather than a column or a
       # row. It has no column and no header, which is what tells it apart from a HeaderMap::Problem
-      # once both have been serialised into the job status payload.
+      # once both have been serialized into the job status payload.
       FileProblem = Data.define(:message)
     end
   end

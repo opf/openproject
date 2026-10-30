@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -109,12 +108,6 @@ RSpec.describe WorkPackageTypes::CreateVariantService, "owning project" do
 
       expect(variant.workflow.status_transitions.pluck(:old_status_id, :new_status_id))
         .to contain_exactly([status_a.id, status_b.id])
-    end
-
-    it "copies nothing into a workflow of the project's own" do
-      call(user: project_admin, project:)
-
-      expect(Workflow.owned_by(project)).to be_empty
     end
   end
 end

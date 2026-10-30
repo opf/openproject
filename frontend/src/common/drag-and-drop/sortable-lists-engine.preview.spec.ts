@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -37,7 +36,7 @@ import { vi } from 'vitest';
 import { NativeDragSimulation } from 'core-common/drag-and-drop/testing/native-drag-simulation';
 import type { createSortableRoot as createSortableRootFn } from './sortable-lists-engine';
 
-// `doMock` is not hoisted, so this initialises before the factory below runs
+// `doMock` is not hoisted, so this initializes before the factory below runs
 // and a plain const does the job `vi.hoisted()` used to.
 const previewCalls:{
   getOffset?:(args:{ container:HTMLElement }) => { x:number; y:number };

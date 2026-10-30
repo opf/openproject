@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -43,8 +42,8 @@ export class WorkPackageRelationsHierarchyService {
   protected apiV3Service = inject(ApiV3Service);
 
 
-  public changeParent(workPackage:WorkPackageResource, parentId:string|null) {
-    const payload:any = {
+  public changeParent(workPackage:WorkPackageResource, parentId:string|null, options:{ reportError?:boolean } = {}) {
+    const payload:{ lockVersion:number, _links?:{ parent:{ href:string|null } } } = {
       lockVersion: workPackage.lockVersion,
     };
 
@@ -79,8 +78,8 @@ export class WorkPackageRelationsHierarchyService {
 
         return wp;
       })
-      .catch((error) => {
-        this.notificationService.handleRawError(error, workPackage);
+      .catch((error:unknown) => {
+        if (options.reportError !== false) this.notificationService.handleRawError(error, workPackage);
         return Promise.reject(error);
       });
   }

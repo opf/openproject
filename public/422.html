@@ -1,59 +1,87 @@
-<!---- copyright
-OpenProject is a project management system.
-Copyright (C) the OpenProject GmbH
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License version 3.
-
-OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-Copyright (C) 2006-2017 Jean-Philippe Lang
-Copyright (C) 2010-2013 the ChiliProject Team
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
-See doc/COPYRIGHT.rdoc for more details.
-
-++-->
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-  <title>The change you wanted was rejected (422)</title>
-	<style type="text/css">
-		body { background-color: #fff; color: #666; text-align: center; font-family: arial, sans-serif; }
-		div.dialog {
-			width: 25em;
-			padding: 0 4em;
-			margin: 4em auto 0 auto;
-			border: 1px solid #ccc;
-			border-right-color: #999;
-			border-bottom-color: #999;
-		}
-		h1 { font-size: 100%; color: #f00; line-height: 1.5em; }
-	</style>
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>422 Unprocessable Entity</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    body {
+      background-color: #1a67a3;
+      color: #ffffff;
+      font-family: -apple-system, "system-ui", "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    img.logo {
+      width: 297px;
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      margin-bottom: 16px;
+    }
+
+    h1 span {
+      display: block;
+    }
+
+    .status-code {
+      font-size: 72px;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 12px;
+      opacity: 0.9;
+    }
+
+    .status-text {
+      font-size: 22px;
+      font-weight: 500;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      max-width: 480px;
+      opacity: 0.85;
+      margin-bottom: 32px;
+    }
+
+    a {
+      color: inherit;
+      font-weight: bold;
+    }
+
+    hr {
+      width: 48px;
+      height: 2px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border: 0;
+      margin: 24px auto;
+    }
+  </style>
+</head>
 <body>
-  <!-- This file lives in public/422.html -->
-  <div class="dialog">
-    <h1>The change you wanted was rejected.</h1>
-    <p>Maybe you tried to change something you didn't have access to.</p>
-  </div>
+  <header>
+    <img class="logo" src="data:image/png;base64,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" alt="OpenProject logo">
+    <h1>
+      <span class="status-code">422</span>
+      <span class="status-text">Unprocessable Entity</span>
+    </h1>
+  </header>
+  <hr>
+  <article>
+    <p>The change you wanted was rejected. Maybe you tried to change something you didn't have access to.</p>
+    <p>If the problem persists, <a href="mailto:support@openproject.com">contact our support team</a>.</p>
+  </article>
 </body>
 </html>

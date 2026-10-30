@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -48,6 +47,9 @@ export class WorkPackageAuthorization {
         break;
       case 'copy_link_to_clipboard':
         link = this.shortLink();
+        break;
+      case 'view_markdown':
+        link = this.shortLink({ format: 'md' });
         break;
       case 'copy_numeric_id_to_clipboard':
         link = this.workPackage.id!.toString();
@@ -88,8 +90,8 @@ export class WorkPackageAuthorization {
     return this.PathHelper.workPackageCopyPath(this.project.identifier, this.workPackage.displayId);
   }
 
-  private shortLink() {
-    return this.PathHelper.workPackageShortPath(this.workPackage.displayId);
+  private shortLink(options?:{ format?:string }) {
+    return this.PathHelper.workPackageShortPath(this.workPackage.displayId, options);
   }
 
   private bulkCopyLink():string {

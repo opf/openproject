@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -46,34 +45,23 @@ module WorkPackageTypes
     end
 
     class_methods do
-      def project_owned? = reflect_on_association(:project).present?
-
       def defaultable? = column_names.include?("is_default")
 
       def variant_reflection = reflect_on_association(:type_variants).inverse_of
 
-      def build_with_available_name(base, project: nil, **attributes)
-        new(name: available_name(base, project:), **{ project: }.compact, **attributes)
-      end
-
-      def implicit_name(source, project: nil)
+      def implicit_name(source)
         base = source.to_s.strip.presence
-        available_name(base && I18n.t("name.implicit", scope: model_name.plural, name: base), project:)
+        available_name(base && I18n.t("name.implicit", scope: model_name.plural, name: base))
       end
 
-      def available_name(base, project: nil)
+      def available_name(base)
         base = base.to_s.strip.presence || I18n.t("name.fallback", scope: model_name.plural)
-        taken = name_scope(project)
-        return base unless taken.exists?(["LOWER(name) = LOWER(?)", base])
+        return base unless exists?(["LOWER(name) = LOWER(?)", base])
 
         suffix = 2
-        suffix += 1 while taken.exists?(["LOWER(name) = LOWER(?)", "#{base} (#{suffix})"])
+        suffix += 1 while exists?(["LOWER(name) = LOWER(?)", "#{base} (#{suffix})"])
         "#{base} (#{suffix})"
       end
-
-      def name_scope(_project) = all
-
-      def available_in(_project) = all
     end
 
     def marked_default? = self.class.defaultable? && is_default?

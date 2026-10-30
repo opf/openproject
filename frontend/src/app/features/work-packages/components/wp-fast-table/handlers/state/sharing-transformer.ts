@@ -20,12 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Injector } from '@angular/core';
 import { filter, map } from 'rxjs/operators';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
@@ -43,6 +43,7 @@ export class SharingTransformer {
     this.actions$
       .ofType(shareModalUpdated)
       .pipe(
+        takeUntilDestroyed(table.destroyRef),
         map((action) => action.workPackageId),
         filter((id) => !!this.table.renderedRows.find((el:RenderedWorkPackage) => el.workPackageId === id)),
       )

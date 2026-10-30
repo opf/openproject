@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,17 +48,8 @@ module WorkPackageTypes
     attr_reader :variant
 
     def assign(name)
-      convert_own_workflow
       variant.project = nil
       variant.variant_name = name unless name.nil?
-    end
-
-    def convert_own_workflow
-      workflow = variant.workflow
-      return unless workflow&.project_specific? && workflow.project_id == variant.project_id
-
-      workflow.project = nil
-      workflow.name = Workflow.available_name(workflow.name)
     end
   end
 end

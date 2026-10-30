@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -94,7 +93,7 @@ RSpec.describe WorkPackageTypes::PatternResolver do
     let(:multi_value_field) { create(:multi_list_wp_custom_field) }
     let(:custom_field_not_configured) { create(:string_wp_custom_field) }
     let(:type) { create(:type).tap { |t| t.default_variant.update!(custom_fields: [custom_field, multi_value_field]) } }
-    let(:project) { create(:project, types: [type], work_package_custom_fields: [custom_field, multi_value_field]) }
+    let(:project) { create(:project, types: [type]) }
     let(:project_custom_field) { create(:project_custom_field, projects: [project], field_format: "string") }
 
     let(:subject_pattern) do
@@ -133,11 +132,53 @@ RSpec.describe WorkPackageTypes::PatternResolver do
     end
   end
 
+  context "when the pattern has custom fields with project-specific values" do
+    let(:list_field) do
+      create(:list_wp_custom_field, :project_specific_allowlist, possible_values: %w[A B], multi_value:)
+    end
+    let(:multi_value) { false }
+    let(:option_a) { list_field.custom_options.find_by!(value: "A") }
+    let(:option_b) { list_field.custom_options.find_by!(value: "B") }
+    let(:type) { create(:type).tap { |t| t.default_variant.update!(custom_fields: [list_field]) } }
+    let(:project) { create(:project, types: [type]) }
+    let(:subject_pattern) { "Value: {{custom_field_#{list_field.id}}}" }
+    let(:work_package) { create(:work_package, type:, project:, custom_values: { list_field.id => stored_values }) }
+
+    before do
+      create(:project_specific_value_restriction, project:, custom_option: option_a)
+    end
+
+    context "with a value usable in the project" do
+      let(:stored_values) { option_a.id.to_s }
+
+      it "resolves the value" do
+        expect(subject.resolve(work_package)).to eq("Value: A")
+      end
+    end
+
+    context "with a value no longer usable in the project" do
+      let(:stored_values) { option_b.id.to_s }
+
+      it "does not disclose the value" do
+        expect(subject.resolve(work_package)).to eq("Value: N/A")
+      end
+    end
+
+    context "with multiple values of which one is no longer usable in the project" do
+      let(:multi_value) { true }
+      let(:stored_values) { [option_a.id.to_s, option_b.id.to_s] }
+
+      it "does not disclose the values" do
+        expect(subject.resolve(work_package)).to eq("Value: N/A")
+      end
+    end
+  end
+
   context "when the variant inherits its form configuration from its base" do
     let(:source_cf) { create(:string_wp_custom_field) }
     let(:root_type) { create(:type).tap { |t| t.default_variant.update!(custom_fields: [source_cf]) } }
     let(:variant) { create(:type_variant, type: root_type) }
-    let(:project) { create(:project, types: [variant], work_package_custom_fields: [source_cf]) }
+    let(:project) { create(:project, types: [variant]) }
     let(:subject_pattern) { "CF: {{custom_field_#{source_cf.id}}}" }
 
     let(:work_package) do

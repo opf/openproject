@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -73,7 +73,7 @@ ka:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: There is one work package that was not completed in this sprint.
+                one: There is %{count} work package that was not completed in this sprint.
                 other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: is not active so it cannot be closed.
@@ -135,9 +135,17 @@ ka:
       details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
       title: Delete backlog bucket?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Set start and end date for the sprint to generate a burndown chart.
         blankslate_title: No burndown data available
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Units
     excluded_work_package_types_caption: 'Choose which work package types to hide from the backlog. Items of the selected types will not appear in the backlog automatically, keeping it focused on the work that matters to your team. For example, types like Epics or Milestones that are managed at a higher level can be hidden to keep the backlog focused on actionable items.
 
@@ -161,7 +169,7 @@ ka:
       drop_zone_label: Drop here to add this item
       label_actions: Inbox actions
       show_more:
-        one: Show 1 more item
+        one: Show %{count} more item
         other: Show %{count} more items
       title: Inbox
     index_subheader_component:
@@ -186,6 +194,7 @@ ka:
     remaining_hours: დარჩენილი სამუშაო
     sharing: Sprint sharing
     show_burndown_chart: Burndown chart
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: Work packages within the sprint
     sprint_component:
       action_menu:
@@ -209,6 +218,9 @@ ka:
       shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
       shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: Report
         title: "%{sprint} report"
@@ -237,6 +249,46 @@ ka:
           resolved_summary:
             one: "%{percentage}% (%{resolved} of %{total} work package)"
             other: "%{percentage}% (%{resolved} of %{total} work packages)"
+        work_package_table:
+          added:
+            blankslate:
+              empty:
+                description: Work packages that were added after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show added work packages.
+              not_started:
+                description: Added work packages will appear here after the sprint starts.
+            title: Scope increase after sprint start
+          blankslate:
+            heading: No work packages to display
+          completed:
+            blankslate:
+              empty:
+                description: Work packages that were completed in the sprint will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show completed work packages.
+              not_started:
+                description: Completed work packages will appear here after the sprint starts.
+            title: Completed work
+          removed:
+            blankslate:
+              empty:
+                description: Work packages that were removed after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show removed work packages.
+              not_started:
+                description: Removed work packages will appear here after the sprint starts.
+            title: Scope decrease after sprint start
+          unfinished:
+            blankslate:
+              empty:
+                description: All work packages in this sprint are completed.
+                heading: Wow, all done!
+              no_dates:
+                description: Sprint start and finish dates are necessary to show unfinished work packages.
+              not_started:
+                description: Unfinished work packages will appear here after the sprint starts.
+            title: Unfinished work
     sprints:
       row_component:
         action_menu:
@@ -266,7 +318,6 @@ ka:
       header_backlogs: Backlogs module
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Copy URL to clipboard
         copy_work_package_id: Copy work package ID
         move_menu: Move to position
         move_to_backlog_bucket: Move to backlog bucket
@@ -293,9 +344,9 @@ ka:
       update_service:
         invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
         missing_target: list_type or list_id must be present.
-  burndown:
-    story_points: Story points
-    story_points_ideal: Story points (ideal)
+  created_resolved:
+    wp_created: Created
+    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: Multiple active sprints

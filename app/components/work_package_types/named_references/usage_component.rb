@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,7 +32,6 @@ module WorkPackageTypes
     class UsageComponent < ApplicationComponent
       include Translatable
       include OpPrimer::ComponentHelpers
-      include WorkPackageTypes::VariantRoutes
 
       def initialize(record:, model_class:, list_users: true)
         super()
@@ -64,25 +62,11 @@ module WorkPackageTypes
         reference_translate("usage.used_by_types", count: variants.size)
       end
 
-      def types = variants.select(&:is_default_variant?)
-
-      def named_variants = variants.reject(&:is_default_variant?)
-
       def banner_scheme = unused? ? :default : :warning
-
-      def dialog_id = "#{dom_class(model_class)}-usage-dialog"
 
       def test_selector(part) = "#{dom_class(model_class)}-usage-#{part}"
 
-      def dialog_caption
-        reference_translate("usage.dialog.caption_html", name: content_tag(:strong, record.name))
-      end
-
-      def variant_link(variant)
-        href = variant_reference_path(nil, variant, model_class, action: :edit)
-
-        render(Primer::Beta::Link.new(href:)) { variant.display_name }
-      end
+      def types_dialog_path = helpers.polymorphic_path(record, action: :types_dialog)
     end
   end
 end

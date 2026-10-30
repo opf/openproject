@@ -3,6 +3,7 @@ hy:
   activerecord:
     attributes:
       placeholder_user:
+        resource_allocations: Resource allocations
         user_filter: Filter criteria
       resource_allocation:
         allocated_hours: Ժամեր
@@ -28,6 +29,8 @@ hy:
         allocated_time: Allocated
     errors:
       models:
+        placeholder_user:
+          used_in_resource_allocations: This placeholder user is still used in resource allocations. Reassign or remove these allocations before deleting it.
         resource_allocation:
           attributes:
             end_date:
@@ -104,20 +107,22 @@ hy:
       criteria:
         empty: No criteria set.
         label: Criteria
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
         partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
       outside_dates:
         description: Ընտրված ռեսուրսի ամսաթվերը՝ %{resource_dates}, դուրս են աշխատանքային փաթեթի ամսաթվերից՝ %{work_package_dates}։
       overbooking:
-        capacity_summary: "%{available} հասանելի · %{scheduled} պլանավորված"
         description: Ընտրված օգտատիրոջ՝ %{user}-ի հատկացումն այս ժամանակահատվածում կգերազանցի նրա աշխատանքային ժամերը։
-        hidden_work: Այլ հատկացումներ
+        overtime_summary_html: This allocation adds %{hours} between %{start_date} and %{end_date}, <strong>causing %{overtime} of overtime between %{overtime_start_date} and %{overtime_end_date}</strong>.
         schedule_availability: "%{schedule} (%{factor}% հասանելի է նախագծային աշխատանքի համար)"
         schedule_change: մինչև %{date}, ապա %{schedule}
         schedule_note: Այս օգտատերն աշխատում է %{schedule}։
         submit: Հատկացնել արտաժամյա աշխատանք
         title: Ցանկանո՞ւմ եք օգտատիրոջը հատկացնել արտաժամյա աշխատանք։
+        unplannable: "%{user} has no working day between %{start_date} and %{end_date}, so this allocation cannot be planned."
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Հատկացնել
       success_message: Ռեսուրսը հատկացվել է։
       title: Հատկացնել ռեսուրս
@@ -168,6 +173,8 @@ hy:
     label_new_resource_planner: Նոր ռեսուրսների պլանավորիչ
     label_resource_planner: Ռեսուրսների պլանավորիչ
     label_resource_planner_plural: Ռեսուրսների պլանավորիչներ
+    my_time_management:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Ավելացնել տեսք
     public_caption: Դարձրեք այս տեսքը հանրային նախագծի բոլոր անդամների համար։ Սա չի ազդում աշխատանքային փաթեթների տեսանելիության վրա, որը շարունակում է կախված լինել յուրաքանչյուր օգտատիրոջ թույլտվությունից։
@@ -254,7 +261,8 @@ hy:
       no_work_schedule: Այս օգտատիրոջ համար աշխատանքային ժամանակացույց պլանավորված չէ
       overbooked: Այս օգտատերն ընտրված ժամանակահատվածում գերբեռնված է։
       overbooked_tooltip:
-        range: "%{dates}՝ %{scheduled} պլանավորված, %{available} հասանելի"
+        dates: Beyond working hours on %{dates}
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: Ավելացնել օգտատեր
     view_types:

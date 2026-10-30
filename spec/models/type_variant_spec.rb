@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -79,6 +78,22 @@ RSpec.describe TypeVariant do
 
       expect(build(:type_variant, type: bug, variant_name: "hardware")).not_to be_valid
       expect(build(:type_variant, type: task, variant_name: "Hardware")).to be_valid
+    end
+  end
+
+  describe ".created_by_migration" do
+    subject(:authored) { create(:type_variant, type: bug, variant_name: "Hardware") }
+
+    let!(:converted) do
+      create(:type_variant, type: bug, variant_name: "Converted", created_by_migration: true)
+    end
+
+    it "is false for a variant a user authored" do
+      expect(authored).not_to be_created_by_migration
+    end
+
+    it "lists only the variants a data migration created" do
+      expect(described_class.created_by_migration).to contain_exactly(converted)
     end
   end
 
@@ -246,34 +261,6 @@ RSpec.describe TypeVariant do
     end
   end
 
-  describe "the workflow a variant references" do
-    shared_let(:project) { create(:project) }
-    shared_let(:other_project) { create(:project) }
-
-    it "may be a global workflow" do
-      variant = build(:project_owned_type_variant, type: bug, project:, variant_name: "Internal",
-                                                   workflow: create(:named_workflow))
-
-      expect(variant).to be_valid
-    end
-
-    it "may not belong to another project" do
-      variant = build(:project_owned_type_variant, type: bug, project:, variant_name: "Internal",
-                                                   workflow: create(:project_owned_workflow, project: other_project))
-
-      expect(variant).not_to be_valid
-      expect(variant.errors).to be_added(:workflow, :not_available_to_this_variant)
-    end
-
-    it "may not belong to a project when the variant is global" do
-      variant = build(:type_variant, type: bug, variant_name: "Hardware",
-                                     workflow: create(:project_owned_workflow, project:))
-
-      expect(variant).not_to be_valid
-      expect(variant.errors).to be_added(:workflow, :not_available_to_this_variant)
-    end
-  end
-
   describe "destroying a variant" do
     shared_let(:role) { create(:project_role) }
     shared_let(:old_status) { create(:status) }
@@ -293,6 +280,43 @@ RSpec.describe TypeVariant do
 
       expect(Workflow.where(id: workflow_id)).to be_present
       expect(Workflows::StatusTransition.where(workflow_id:).count).to eq(1)
+    end
+  end
+
+  describe "#configurable_by?" do
+    let(:project) { create(:project) }
+    let(:type) { create(:type) }
+
+    it "lets an administrator configure any variant" do
+      expect(create(:type_variant, type:)).to be_configurable_by(build_stubbed(:admin))
+      expect(create(:project_owned_type_variant, type:, project:)).to be_configurable_by(build_stubbed(:admin))
+    end
+
+    # Only the owning project's URL carries the project segment the controllers authorize against,
+    # so a variant nobody owns is administration's alone.
+    it "refuses a variant no project owns" do
+      user = create(:user, member_with_permissions: { project => %i[manage_project_variants] })
+
+      expect(create(:type_variant, type:)).not_to be_configurable_by(user)
+    end
+
+    it "lets the owning project's manager configure its own variant" do
+      user = create(:user, member_with_permissions: { project => %i[manage_project_variants] })
+
+      expect(create(:project_owned_type_variant, type:, project:)).to be_configurable_by(user)
+    end
+
+    it "refuses a manager of another project" do
+      elsewhere = create(:project)
+      user = create(:user, member_with_permissions: { elsewhere => %i[manage_project_variants] })
+
+      expect(create(:project_owned_type_variant, type:, project:)).not_to be_configurable_by(user)
+    end
+
+    it "refuses a member without the permission" do
+      user = create(:user, member_with_permissions: { project => %i[manage_types] })
+
+      expect(create(:project_owned_type_variant, type:, project:)).not_to be_configurable_by(user)
     end
   end
 end

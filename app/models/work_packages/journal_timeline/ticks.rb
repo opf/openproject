@@ -22,18 +22,22 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 # Builds the points in time a JournalTimeline is sampled at: +from+, every period end in
-# between, and +to+.
+# between, and +to+. Both ends stay exact, so a series always reaches the moment asked for.
 #
-# Period ends are derived in +zone+ rather than UTC, because a "day" is only meaningful
-# relative to a zone and half-hour offsets (e.g. Asia/Kolkata) place hour ends off the UTC
-# hour. The returned instants are absolute and directly comparable to a tstzrange.
+# Sampling at period ends rather than starts means a tick carries everything that happened
+# during its period, so the last day of an interval is whole however the interval is stepped.
+# Presentation renames them -- an hour end reads as the hour it opens -- but the series must
+# not, or two series stepped differently would stop a second apart.
+#
+# Period ends are derived in +zone+ rather than UTC, because a "day" is only meaningful relative
+# to a zone and half-hour offsets (e.g. Asia/Kolkata) place hour ends off the UTC hour.
+# The returned instants are absolute and directly comparable to a tstzrange.
 class WorkPackages::JournalTimeline::Ticks
   STEPS = %i[hour day].freeze
 

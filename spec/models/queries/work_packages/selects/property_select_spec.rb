@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -110,6 +109,32 @@ RSpec.describe Queries::WorkPackages::Selects::PropertySelect do
         expect(Array(column.sortable)).to all include("kind = 'observed_in'")
         expect(column.groupable).to include("work_package_versions")
         expect(column.groupable).to include("kind = 'observed_in'")
+      end
+    end
+
+    describe "labels column", with_flag: { work_package_labels: true } do
+      it "is displayable, sortable and groupable" do
+        column = described_class.instances.find { it.name == :labels }
+
+        expect(column).to be_displayable
+        expect(column).to be_sortable
+        expect(column).to be_groupable
+        expect(column.caption).to eq WorkPackage.human_attribute_name(:labels)
+      end
+
+      it "sorts and groups via the labelings join rows, scoped to work packages" do
+        column = described_class.instances.find { it.name == :labels }
+
+        expect(Array(column.sortable)).to all include("labelings")
+        expect(Array(column.sortable)).to all include("labelable_type = 'WorkPackage'")
+        expect(column.groupable).to include("labelings")
+        expect(column.groupable).to include("labelable_type = 'WorkPackage'")
+      end
+
+      context "when the feature flag is inactive", with_flag: { work_package_labels: false } do
+        it "is not offered" do
+          expect(described_class.instances.map(&:name)).not_to include :labels
+        end
       end
     end
   end

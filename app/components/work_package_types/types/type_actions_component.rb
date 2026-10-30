@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,10 +37,13 @@ module WorkPackageTypes
         "type-#{type.id}-action-menu"
       end
 
-      def initialize(type:)
+      def initialize(type:, page_args: {}, expanded_type_id: nil, filtered: false)
         super()
 
         @type = type
+        @page_args = page_args
+        @expanded_type_id = expanded_type_id
+        @filtered = filtered
       end
 
       def menu_id
@@ -50,7 +52,7 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :type
+      attr_reader :type, :page_args, :expanded_type_id, :filtered
 
       def type_actions(menu)
         configure_action(menu)
@@ -148,15 +150,14 @@ module WorkPackageTypes
       end
 
       def reorderable?
-        !(type.first? && type.last?)
+        !filtered && !(type.first? && type.last?)
       end
 
       def move_action(menu)
         menu.with_item(
           component_klass: Primer::Alpha::ActionMenu::SubMenuItem,
           label: t(:button_move),
-          select_variant: :none,
-          form_arguments: {}
+          select_variant: :none
         ) do |submenu|
           submenu.with_leading_visual_icon(icon: :"op-arrow-in")
 
@@ -175,8 +176,9 @@ module WorkPackageTypes
       def move_item(submenu, move_to, label, icon)
         submenu.with_item(
           label:,
-          href: move_types_path(type, type: { move_to: }),
-          form_arguments: { method: :post }
+          tag: :button,
+          href: move_type_path(type, **page_args, expand: expanded_type_id),
+          form_arguments: { method: :put, inputs: [{ name: "move_to", value: move_to.to_s }] }
         ) do |item|
           item.with_leading_visual_icon(icon:)
         end

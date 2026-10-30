@@ -3,6 +3,7 @@ es:
   activerecord:
     attributes:
       placeholder_user:
+        resource_allocations: Resource allocations
         user_filter: Criterios de filtrado
       resource_allocation:
         allocated_hours: Horas
@@ -28,6 +29,8 @@ es:
         allocated_time: Allocated
     errors:
       models:
+        placeholder_user:
+          used_in_resource_allocations: This placeholder user is still used in resource allocations. Reassign or remove these allocations before deleting it.
         resource_allocation:
           attributes:
             end_date:
@@ -104,20 +107,22 @@ es:
       criteria:
         empty: No se han establecido criterios.
         label: Criterios
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: El usuario seleccionado no tiene configuradas horas de trabajo para estas fechas, por lo que se considera que no tiene disponibilidad.
         partial: El usuario seleccionado no tiene configuradas horas de trabajo para %{dates}, por lo que se considera que no tiene disponibilidad en esas fechas.
       outside_dates:
         description: Las fechas del recurso seleccionado, %{resource_dates}, están fuera de las fechas del paquete de trabajo, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} disponible · %{scheduled} programado"
         description: El usuario seleccionado, %{user}, sería asignado más allá de su horario laboral durante este periodo.
-        hidden_work: Otras asignaciones
+        overtime_summary_html: This allocation adds %{hours} between %{start_date} and %{end_date}, <strong>causing %{overtime} of overtime between %{overtime_start_date} and %{overtime_end_date}</strong>.
         schedule_availability: "%{schedule} (%{factor}% disponible para trabajo de proyecto)"
         schedule_change: hasta %{date}, luego %{schedule}
         schedule_note: Este usuario trabaja %{schedule}.
         submit: Asignar horas extra
         title: "¿Quieres asignar horas extra al usuario?"
+        unplannable: "%{user} has no working day between %{start_date} and %{end_date}, so this allocation cannot be planned."
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Asignar
       success_message: Recurso asignado.
       title: Asignar recurso
@@ -168,6 +173,8 @@ es:
     label_new_resource_planner: Nuevo planificador de recursos
     label_resource_planner: Planificador de recursos
     label_resource_planner_plural: Planificadores de recursos
+    my_time_management:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Añadir vista
     public_caption: Haga que esta vista sea pública para todos los miembros del proyecto. Esto no afecta a la visibilidad de los paquetes de trabajo, que sigue dependiendo de los permisos de cada usuario.
@@ -254,7 +261,8 @@ es:
       no_work_schedule: No hay ningún cronograma de trabajo previsto para este usuario
       overbooked: Este usuario ha superado su asignación total en el periodo seleccionado.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} programado, %{available} disponible"
+        dates: Beyond working hours on %{dates}
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: Añadir usuario
     view_types:

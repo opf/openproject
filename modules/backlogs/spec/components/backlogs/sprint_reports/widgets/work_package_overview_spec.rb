@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,30 +38,31 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
                                     started_at: 1.week.ago)
   end
 
-  subject(:rendered_component) { render_inline(described_class.new(sprint, project)) }
+  let(:breakdown) { Sprints::WorkPackageBreakdown.new(sprint:, project:) }
+
+  subject(:rendered_component) { render_inline(described_class.new(sprint, project, breakdown)) }
 
   context "when the sprint has started" do
     current_user { build_stubbed(:user) }
 
-    let(:breakdown) { instance_double(SprintWorkPackageBreakdown) }
+    let(:breakdown) { instance_double(Sprints::WorkPackageBreakdown) }
     let(:planned) do
-      SprintWorkPackageBreakdown::Block.new(work_package_count: 5, story_points: 13)
+      Sprints::WorkPackageBreakdown::Block.new(work_package_count: 5, story_points: 13)
     end
     let(:changed) do
-      SprintWorkPackageBreakdown::ChangeBlock.new(added_count: 4, removed_count: 1, added_story_points: 6,
-                                                  removed_story_points: 2)
+      Sprints::WorkPackageBreakdown::ChangeBlock.new(added_count: 4, removed_count: 1, added_story_points: 6,
+                                                     removed_story_points: 2)
     end
     let(:completed) do
-      SprintWorkPackageBreakdown::Block.new(work_package_count: 3, story_points: 8)
+      Sprints::WorkPackageBreakdown::Block.new(work_package_count: 3, story_points: 8)
     end
     let(:unfinished) do
-      SprintWorkPackageBreakdown::Block.new(work_package_count: 2, story_points: 5)
+      Sprints::WorkPackageBreakdown::Block.new(work_package_count: 2, story_points: 5)
     end
 
     before do
       mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
 
-      allow(SprintWorkPackageBreakdown).to receive(:new).with(sprint:, project:).and_return(breakdown)
       allow(breakdown).to receive_messages(
         initially_planned: planned,
         changed_after_start: changed,
@@ -103,6 +103,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
 
         expect(query_props).to all(include("f" => include(include("n" => "sprintId"))))
         expect(query_props).to all(include("ts"))
+        expect(query_props).to all(include("is" => false))
       end
     end
 

@@ -20,14 +20,15 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { buildTable, TableHarness } from '../../../testing/table-harness';
+import { groupOccurrenceKey } from '../../../rendered-occurrence-ledger';
+import { groupedRowClassName } from './grouped-rows-helpers';
 
 const newStatus = { href: '/api/v3/statuses/1' };
 const inProgressStatus = { href: '/api/v3/statuses/2' };
@@ -103,5 +104,73 @@ describe('Grouped table collapse', () => {
     expect(harness.row('5')).toBeVisible();
     expect(harness.rowIds()).toEqual(['1', '5', '3', '6']);
     expect(harness.renderedState()).toEqual([['1', false], ['5', false], ['3', false], ['6', false]]);
+  });
+
+  it('publishes a fresh rendered state on toggle', async () => {
+    const before = harness.querySpace.tableRendered.value;
+
+    toggleGroup(0);
+
+    await waitFor(() => expect(harness.row('1')).not.toBeVisible());
+    expect(harness.querySpace.tableRendered.value).not.toBe(before);
+    expect(harness.renderedState()).toEqual([['1', true], ['2', true], ['3', false], ['4', false]]);
+  });
+
+  it('ignores a foreign unstamped row in the collapsed group', async () => {
+    const foreign = document.createElement('tr');
+    foreign.className = `wp-table--row ${groupedRowClassName(0)}`;
+    harness.tbody.prepend(foreign);
+
+    toggleGroup(0);
+
+    await waitFor(() => expect(harness.row('1')).not.toBeVisible());
+    expect(harness.querySpace.tableRendered.value).toHaveLength(harness.table.ledger.size);
+    expect(harness.renderedState()).toEqual([['1', true], ['2', true], ['3', false], ['4', false]]);
+  });
+
+  it('re-registers the replaced group header without reordering', async () => {
+    const firstKey = harness.table.ledger.keyAt(0);
+
+    toggleGroup(0);
+
+    await waitFor(() => expect(harness.row('1')).not.toBeVisible());
+    const header = harness.groupHeader(0);
+    expect(header).toHaveAttribute('data-occurrence-key', groupOccurrenceKey(0, 'header'));
+    expect(harness.table.ledger.byElement(header)?.key).toBe(groupOccurrenceKey(0, 'header'));
+    expect(harness.table.ledger.keyAt(0)).toBe(firstKey);
+  });
+});
+
+describe('Grouped table collapse on a keyboard-enabled table', () => {
+  let harness:TableHarness;
+
+  afterEach(() => harness.destroy());
+
+  it('projects the collapse onto row expansion and hidden state', async () => {
+    harness = buildTable({
+      workPackages: [
+        { id: '1', attributes: { status: newStatus } },
+        { id: '2', attributes: { status: inProgressStatus } },
+      ],
+      groups: [
+        { value: 'New', href: newStatus.href, count: 1 },
+        { value: 'In progress', href: inProgressStatus.href, count: 1 },
+      ],
+      configuration: { keyboardNavigationEnabled: true },
+    });
+    await harness.render();
+    expect(harness.groupHeader(0)).toHaveAttribute('aria-expanded', 'true');
+
+    fireEvent.click(harness.groupHeader(0).querySelector('.expander')!);
+
+    await waitFor(() => expect(harness.groupHeader(0)).toHaveAttribute('aria-expanded', 'false'));
+    expect(harness.row('1')).not.toBeVisible();
+    expect(harness.row('1')).not.toHaveAttribute('aria-hidden');
+    expect(harness.row('2')).toBeVisible();
+
+    fireEvent.click(harness.groupHeader(0).querySelector('.expander')!);
+
+    await waitFor(() => expect(harness.groupHeader(0)).toHaveAttribute('aria-expanded', 'true'));
+    expect(harness.row('1')).toBeVisible();
   });
 });

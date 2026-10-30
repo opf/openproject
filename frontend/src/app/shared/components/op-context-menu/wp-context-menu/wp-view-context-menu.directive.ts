@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -176,7 +175,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     void this.turboRequests.request(this.pathHelper.workPackagesBulkDeleteDialogPath(ids, backUrl), { method: 'GET' });
   }
 
-  private editSelectedWorkPackages(link:any) {
+  private editSelectedWorkPackages(link:string) {
     const selected = this.getSelectedWorkPackages();
 
     if (selected.length > 1) {
@@ -184,7 +183,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     }
   }
 
-  private copySelectedWorkPackages(link:any) {
+  private copySelectedWorkPackages(link:string) {
     const selected = this.getSelectedWorkPackages();
 
     if (selected.length > 1) {

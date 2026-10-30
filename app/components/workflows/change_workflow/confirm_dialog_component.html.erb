@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -47,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
 
     <% unless target_empty? %>
-      <%= render(OpPrimer::InsetBoxComponent.new(mb: 3, test_selector: "change-workflow-missing-statuses")) do %>
+      <%= render(Primer::OpenProject::InsetBox.new(mb: 3, test_selector: "change-workflow-missing-statuses")) do %>
         <% missing_statuses.each do |status| %>
           <%= render(Primer::Beta::Text.new(tag: :div, font_weight: :bold)) { status.name } %>
         <% end %>

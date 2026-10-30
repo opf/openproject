@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,6 +42,7 @@ class TimeEntry < ApplicationRecord
   MIN_TIME = 0 # => 00:00
   MAX_TIME = (60 * 24) - 1 # => 23:59
   SECONDS_PER_HOUR = 3600.0
+  COMMENTS_MAX_LENGTH = 1_000
 
   acts_as_customizable validate_unless: ->(te) { te.new_record? && te.ongoing? }
 
@@ -62,7 +62,7 @@ class TimeEntry < ApplicationRecord
             allow_nil: true
 
   validates :comments,
-            length: { maximum: 1_000 },
+            length: { maximum: COMMENTS_MAX_LENGTH },
             allow_blank: true
 
   validates :start_time,

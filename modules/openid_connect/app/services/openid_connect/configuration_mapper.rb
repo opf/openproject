@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,6 +54,7 @@ module OpenIDConnect
         "limit_self_registration" => options["limit_self_registration"],
         "use_graph_api" => options["use_graph_api"],
         "acr_values" => options["acr_values"],
+        "additional_form_action_urls" => options["additional_form_action_urls"],
         "scope" => extract_scope(options["scope"]),
         "authorization_endpoint" => extract_url(options, "authorization_endpoint"),
         "token_endpoint" => extract_url(options, "token_endpoint"),

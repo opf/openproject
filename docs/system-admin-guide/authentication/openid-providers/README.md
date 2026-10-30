@@ -221,7 +221,10 @@ In the next section, fill out the client credentials provided from your OpenID C
 - Fill out **Client ID** and **Client secret**
 - If you want users to be redirected to a separate endpoint _after logging out_ at the identity provider, set **Post Logout Redirect URI**.
 - If you want this login mechanism to respect the global setting for self registration limits, check **Limit self registration**.
+- If your provider redirects the browser to other servers during the login, set **Additional allowed login redirect URLs**. See below.
 - Click **Continue**.
+
+The optional **Additional allowed login redirect URLs** field is for identity providers that redirect the browser to other servers during the login, for example an ADFS that forwards to a federation broker. Browsers block such redirects unless OpenProject allows them. If the login fails and the browser console shows a blocked `form-action` redirect, enter the blocked URL here, one URL per line. OpenProject then allows redirects to the hosts of these URLs, only during the login with this provider.
 
 #### Step 6: Optional attribute mapping
 
@@ -236,7 +239,7 @@ For example: Keycloak allows you to map custom properties of the user. This allo
 OpenProject can optionally synchronize groups of users when they log in. If you want to enable this, you have to enable the checkbox "Synchronize groups". OpenProject will expect a claim with an array of group names that the user is a member of. By default this claim
 is expected to be named `groups`, but you can change this if desired.
 
-The default behaviour of OpenProject is to create a new group for each unknown group listed in this claim. It will match existing groups by their name before creating a new group. You can later rename groups created this way in the group management UI, they will still be linked
+The default behavior of OpenProject is to create a new group for each unknown group listed in this claim. It will match existing groups by their name before creating a new group. You can later rename groups created this way in the group management UI, they will still be linked
 to the ID with which they are referenced in OpenID Connect claims and recognized that way.
 
 Once this option is enabled, the identity provider becomes fully responsible for managing group assignments. Each time a user logs in through this provider, only the group memberships declared by the identity provider will be assigned to that user. Any group memberships not declared by the identity provider will be removed.
@@ -444,6 +447,9 @@ OPENPROJECT_OPENID__CONNECT_KEYCLOAK_SCHEME="https"
 
 # Optional: Where to redirect the user after a completed logout flow
 OPENPROJECT_OPENID__CONNECT_LOCALKEYCLOAK_POST__LOGOUT__REDIRECT__URI="http://example.com"
+
+# Optional: URLs of other servers that your provider redirects the browser to during the login
+OPENPROJECT_OPENID__CONNECT_KEYCLOAK_ADDITIONAL__FORM__ACTION__URLS="['https://broker.example.com/login']"
 
 # Optional: if you have created the client scope mapper as shown above
 OPENPROJECT_OPENID__CONNECT_KEYCLOAK_ATTRIBUTE__MAP_LOGIN="preferred_username"

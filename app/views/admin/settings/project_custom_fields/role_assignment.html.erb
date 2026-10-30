@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -44,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(Projects::Settings::CustomFieldRoleAssignmentForm.new(f)) %>
 
   <% if @custom_field_usages.any? %>
-    <%= render OpPrimer::InsetBoxComponent.new(mt: 3, display: :none, data: { "admin--custom-field-role-assignment-target": "previewHintBox" }) do |box|
+    <%= render Primer::OpenProject::InsetBox.new(mt: 3, display: :none, data: { "admin--custom-field-role-assignment-target": "previewHintBox" }) do |box|
           box.with_action_button(data: { action: "click->admin--custom-field-role-assignment#showPreviewModal" }, "aria-label": t("custom_fields.admin.role_assignment.review_button")) do
             t("custom_fields.admin.role_assignment.review_button")
           end

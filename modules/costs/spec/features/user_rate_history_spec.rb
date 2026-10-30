@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,8 +39,8 @@ RSpec.describe "rate history on the user rates tab" do
 
   shared_let(:rateless_project) { create(:project, name: "Rateless project", member_with_permissions: { user => [] }) }
 
-  shared_let(:member_rate) { create(:hourly_rate, user:, project: member_project) }
-  shared_let(:former_member_rate) { create(:hourly_rate, user:, project: former_member_project) }
+  shared_let(:member_rate) { create(:hourly_rate, principal: user, project: member_project) }
+  shared_let(:former_member_rate) { create(:hourly_rate, principal: user, project: former_member_project) }
   shared_let(:default_rate) { create(:default_hourly_rate, principal: user, rate: 30) }
 
   def rate_history_for(project)

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Workflows
   class MatrixEditorComponent < ApplicationComponent
@@ -48,6 +47,13 @@ module Workflows
 
     delegate :variant, :workflow, :tab, :roles, :eligible_roles, :statuses, :variant_tab?, :readonly?, to: :context
 
+    def role_groups
+      @role_groups ||= begin
+        used_roles = context.used_roles.to_a
+        eligible_roles.partition { used_roles.include?(it) }
+      end
+    end
+
     def state_id = STATE_ID
 
     def copy_button_label = I18n.t(:label_copy_workflow_from_role)
@@ -55,7 +61,7 @@ module Workflows
     def workflow_button_label = I18n.t("admin.workflows.workflow_button")
 
     def workflow_candidates
-      @workflow_candidates ||= Workflow.available_in(variant.project).in_display_order.to_a
+      @workflow_candidates ||= Workflow.in_display_order.to_a
     end
 
     def workflow_page_path = url_helpers.edit_workflow_path(workflow)
@@ -102,6 +108,7 @@ module Workflows
     def data_attributes
       {
         controller: "admin--workflow-role-select",
+        action: "input->admin--workflow-role-select#filterGroups",
         "admin--workflow-role-select-base-url-value": context.matrix_path(tab:),
         "admin--workflow-role-select-current-role-ids-value": roles.map(&:id),
         "admin--workflow-role-select-admin--workflow-checkbox-state-outlet": "##{STATE_ID}"

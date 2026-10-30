@@ -1,4 +1,6 @@
-# -- copyright
+# frozen_string_literal: true
+
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -20,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module API
   module V3
@@ -53,8 +54,11 @@ module API
           version
           target_versions
           observed_in_versions
+          labels
           parent
         ].freeze
+
+        MULTI_VALUED_LINK_PROPERTIES = %w[target_versions observed_in_versions labels].freeze
 
         SUPPORTED_CUSTOM_PROPERTIES = [/^custom_field_\d+$/].freeze
 
@@ -86,7 +90,7 @@ module API
 
         def rendered_properties
           @rendered_properties ||= begin
-            properties = changed_properties_as_api_name.select(&method(:property_supported?)) + STATIC_NON_LINK_PROPERTIES
+            properties = changed_properties_as_api_name.select { |prop| property_supported?(prop) } + STATIC_NON_LINK_PROPERTIES
 
             if represented.exists_at_timestamp?
               properties + STATIC_LINK_PROPERTIES
@@ -103,7 +107,7 @@ module API
         # contains the lower camel-cased names.
         def rendered_properties_for_links
           @rendered_properties_for_links ||= rendered_properties.map do |property|
-            if property.starts_with?("custom_field_") || %w[target_versions observed_in_versions].include?(property)
+            if property.starts_with?("custom_field_") || MULTI_VALUED_LINK_PROPERTIES.include?(property)
               API::Utilities::PropertyNameConverter.from_ar_name(property)
             else
               property

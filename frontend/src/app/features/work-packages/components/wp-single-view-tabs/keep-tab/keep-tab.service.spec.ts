@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -32,8 +31,6 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 describe('keepTab service', () => {
-  let pathHelper:any;
-  let currentProject:any;
   let keepTab:KeepTabService;
 
   beforeEach(() => {
@@ -44,10 +41,8 @@ describe('keepTab service', () => {
     TestBed.configureTestingModule({
       providers: [
         KeepTabService,
-        /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-        { provide: PathHelperService, useValue: pathHelper },
-        { provide: CurrentProjectService, useValue: currentProject },
-        /* eslint-enable @typescript-eslint/no-unsafe-assignment */
+        { provide: PathHelperService, useValue: undefined },
+        { provide: CurrentProjectService, useValue: undefined },
       ],
     });
 

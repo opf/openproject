@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -68,6 +67,9 @@ RSpec.describe "Roles index", :js do
   def expect_roles_listed(*names)
     expect(page).to have_css("[id^='role-']", count: names.size)
     expect(role_names_in_order).to eq(names)
+    names.each.with_index(2) do |name, rowindex|
+      expect(page).to have_selector(:row, name, rowindex:)
+    end
   end
 
   def search_roles(term)
@@ -152,7 +154,7 @@ RSpec.describe "Roles index", :js do
       expect_roles_listed("Alpha global")
     end
 
-    # A move is relative to the neighbouring rows, and a filtered list hides them.
+    # A move is relative to the neighboring rows, and a filtered list hides them.
     it "takes away reordering while a filter is active" do
       visit roles_path
 

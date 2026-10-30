@@ -18,7 +18,7 @@ Hovering on the icon will show a tooltip. Clicking on the icon will open the
 Attribute help text modal. Depending on permissions, an Edit button may be
 displayed.
 
-<%= embed OpenProject::Common::AttributeHelpTextComponentPreview, :dialog_component %>
+<%= embed OpPrimer::AttributeHelpTextComponentPreview, :dialog_component %>
 
 ## Attribute help texts with forms
 
@@ -138,12 +138,12 @@ You should also add an accompanying spec to
 input method supports help text-related arguments.
 
 Under-the-hood, automatic display of help texts for fields relies on rendering
-an `OpenProject::Common::AttributeLabelComponent`. There may be times when you
+an `OpPrimer::AttributeLabelComponent`. There may be times when you
 need to create a component that has Form-field like behavior or visuals, but
 that does not use the Primer Forms API (i.e. components that extend
 `ApplicationComponent`/`ViewComponent::Base` rather than `Primer:Forms::Dsl::Input`).
 In such cases, you can use `AttributeLabelComponent` directly.
-For captions you can use `OpenProject::Common::AttributeHelpTextCaptionComponent`:
+For captions you can use `OpPrimer::AttributeHelpTextCaptionComponent`:
 
 <%= image_tag("lookbook/attribute_help_text_example2.png") %>
 
@@ -158,7 +158,7 @@ For captions you can use `OpenProject::Common::AttributeHelpTextCaptionComponent
 
           flex.with_column(mr: 2) do
             render(
-              OpenProject::Common::AttributeLabelComponent.new(
+              OpPrimer::AttributeLabelComponent.new(
                 attribute: :name,
                 model: project,
                 current_user: user
@@ -170,7 +170,7 @@ For captions you can use `OpenProject::Common::AttributeHelpTextCaptionComponent
 
       container.with_row do
         render(
-          OpenProject::Common::AttributeHelpTextCaptionComponent.new(
+          OpPrimer::AttributeHelpTextCaptionComponent.new(
             help_text: helpers.help_text_for(project, :name, current_user: :user)
           )
         )
@@ -179,7 +179,7 @@ For captions you can use `OpenProject::Common::AttributeHelpTextCaptionComponent
 %>
 ```
 
-By default the label is wrapped in a `span`. This can overriden by passing the
+By default the label is wrapped in a `span`. This can be overridden by passing the
 `tag:` argument. Passing `tag: nil` will remove the wrapper.
 
 ## Attribute help texts outside of forms
@@ -196,7 +196,7 @@ This component only renders an icon and optional additional text (via the
 `additional_label` slot). It renders without a wrapper and the caller is
 responsible for finding and passing an instance of `AttributeHelpText`.
 
-<%= embed OpenProject::Common::AttributeHelpTextComponentPreview, :playground, panels: %i[source] %>
+<%= embed OpPrimer::AttributeHelpTextComponentPreview, :playground, panels: %i[source] %>
 
 ### Angular (deprecated)
 

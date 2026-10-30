@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -114,6 +113,10 @@ module Projects
             owned_by_project?(variant) && manageable?
           end
 
+          def convertible?(variant)
+            owned_by_project?(variant) && User.current.admin?
+          end
+
           def manageable?
             User.current.allowed_in_project?(:manage_project_variants, project)
           end
@@ -153,6 +156,7 @@ module Projects
             return unless configurable?(variant)
 
             edit_action(menu, variant)
+            convert_action(menu, variant) if convertible?(variant)
             menu.with_divider
             delete_action(menu, variant)
           end
@@ -160,6 +164,17 @@ module Projects
           def edit_action(menu, variant)
             menu.with_item(label: t(:button_edit), href: edit_variant_path(variant)) do |entry|
               entry.with_leading_visual_icon(icon: :pencil)
+            end
+          end
+
+          # Converting is a global operation, so it doesn't pass in_project_id
+          def convert_action(menu, variant)
+            menu.with_item(
+              label: t("types.index.convert_to_global"),
+              href: convert_to_global_dialog_type_variant_path(type_id: variant.type_id, id: variant.id),
+              content_arguments: { data: { controller: "async-dialog" } }
+            ) do |entry|
+              entry.with_leading_visual_icon(icon: :"stack-check")
             end
           end
 

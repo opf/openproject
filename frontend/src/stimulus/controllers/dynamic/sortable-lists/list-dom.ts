@@ -20,13 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { reindexAriaRowsAfter } from './aria-row-indices';
 
 // Sortable lists use a DOM contract shared by the root and item controllers:
 // the root has data-controller~="sortable-lists"; lists are sortable-lists--list
@@ -56,7 +56,7 @@ export const sortableItemMobilityAttribute = 'data-sortable-lists--item-mobility
  */
 export type ItemMobility = 'fixed'|'confined'|'free';
 
-const recognisedMobilities = new Set<string>(['fixed', 'confined', 'free']);
+const recognizedMobilities = new Set<string>(['fixed', 'confined', 'free']);
 
 // Rows are the direct children of the list's resolved rows container. The
 // rows container itself (a nested <ul>, the list element, ...) is decided by the list
@@ -91,7 +91,7 @@ export const sortableItemTypeAttribute = 'data-sortable-lists--item-type-value';
  * The item's mobility.
  *
  * An absent attribute means `free`, so a consumer that renders no mobility
- * keeps working. A present but unrecognised value fails closed to `fixed`: a
+ * keeps working. A present but unrecognized value fails closed to `fixed`: a
  * typo must not hand the user a draggable card, live move actions and a
  * selectable row that only fail once the request comes back.
  */
@@ -102,8 +102,8 @@ export function itemMobility(itemElement:Element):ItemMobility {
     return 'free';
   }
 
-  if (!recognisedMobilities.has(value)) {
-    debugLog(`sortable-lists: unrecognised mobility "${value}", treating the item as fixed`);
+  if (!recognizedMobilities.has(value)) {
+    debugLog(`sortable-lists: unrecognized mobility "${value}", treating the item as fixed`);
     return 'fixed';
   }
 
@@ -263,18 +263,25 @@ export function captureRowPositions(rows:HTMLElement[]):RowPlacement[] {
 }
 
 export function restoreRowPositions(positions:RowPlacement[]):void {
-  for (let i = positions.length - 1; i >= 0; i -= 1) {
-    const { row, parent, nextElementSibling } = positions[i];
-    // A list-refresh morph can replace the captured parent mid-request; restoring
-    // into a detached node would drop the row out of the live DOM until the next
-    // reload. Skip it and let the pending refresh reconcile the position.
-    if (!parent?.isConnected) {
-      continue;
-    }
+  const containers = [
+    ...rowContainers(positions.map(({ row }) => row)),
+    ...positions.flatMap(({ parent }) => (parent ? [parent] : [])),
+  ];
 
-    const insertionPoint = nextElementSibling?.parentNode === parent ? nextElementSibling : null;
-    parent.insertBefore(row, insertionPoint);
-  }
+  reindexAriaRowsAfter(containers, () => {
+    for (let i = positions.length - 1; i >= 0; i -= 1) {
+      const { row, parent, nextElementSibling } = positions[i];
+      // A list-refresh morph can replace the captured parent mid-request; restoring
+      // into a detached node would drop the row out of the live DOM until the next
+      // reload. Skip it and let the pending refresh reconcile the position.
+      if (!parent?.isConnected) {
+        continue;
+      }
+
+      const insertionPoint = nextElementSibling?.parentNode === parent ? nextElementSibling : null;
+      parent.insertBefore(row, insertionPoint);
+    }
+  });
 }
 
 // A rollback may only reinsert rows it still owns: if a concurrent morph
@@ -300,17 +307,23 @@ export function reorderRows({
   rowsContainer:HTMLElement;
   previousItemId:string|null;
 }):void {
-  let anchor:Element|null = previousItemId ? resolveAnchorRow(rowsContainer, previousItemId) : null;
+  reindexAriaRowsAfter([...rowContainers(rows), rowsContainer], () => {
+    let anchor:Element|null = previousItemId ? resolveAnchorRow(rowsContainer, previousItemId) : null;
 
-  for (const row of rows) {
-    if (anchor) {
-      anchor.after(row);
-    } else {
-      insertAtListTop(rowsContainer, row);
+    for (const row of rows) {
+      if (anchor) {
+        anchor.after(row);
+      } else {
+        insertAtListTop(rowsContainer, row);
+      }
+
+      anchor = row;
     }
+  });
+}
 
-    anchor = row;
-  }
+function rowContainers(rows:HTMLElement[]):Element[] {
+  return rows.flatMap((row) => (row.parentElement ? [row.parentElement] : []));
 }
 
 // Insert before the first existing row, keeping the moved row among its
@@ -455,7 +468,7 @@ export function resolveMoveAvailability({
   };
 }
 
-// The item's row neighbourhood, scanned once and shared by the per-direction
+// The item's row neighborhood, scanned once and shared by the per-direction
 // resolutions above.
 interface RowContext {
   rows:Element[];

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -64,8 +63,10 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
       let(:sprint) { build_stubbed(:sprint, project:, status: :in_planning, name: "Planning sprint") }
 
       it "links to the backlog filtered by sprint" do
-        expect(rendered_component).to have_link("Planning sprint",
-                                                href: project_backlogs_backlog_path(project, sprint_ids: [sprint.id]))
+        expect(rendered_component).to have_link(
+          "Planning sprint",
+          href: project_backlogs_backlog_path(project, sprint_ids: [sprint.id.to_s].to_json)
+        )
       end
     end
 
@@ -102,7 +103,8 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
         query_props = {
           f: [{ n: "sprintId", o: "=", v: ["123"] }],
           t: "position:asc",
-          c: %w[id subject sprint]
+          c: %w[id subject sprint],
+          is: false
         }.to_json
 
         expect(rendered_component).to have_link(

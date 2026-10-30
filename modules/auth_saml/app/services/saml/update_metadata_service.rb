@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,12 +55,11 @@ module Saml
     private
 
     def apply_metadata(metadata)
-      new_options = provider.options.merge(metadata)
       last_metadata_update = metadata.blank? ? nil : Time.current
 
       Saml::Providers::SetAttributesService
         .new(model: @provider, user: User.current, contract_class: Saml::Providers::UpdateContract)
-        .call({ options: new_options, last_metadata_update: })
+        .call({ options: metadata, last_metadata_update: })
     end
 
     def fetch_metadata

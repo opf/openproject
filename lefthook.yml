@@ -19,6 +19,12 @@ pre-commit:
       files: git diff --name-only --staged
       glob: "*.{js,ts,jsx,tsx}"
       run: npx eslint {staged_files}
+    eslint_json:
+      files: git diff --name-only --staged
+      glob: "*.json"
+      exclude:
+        - "extensions/**"
+      run: npx eslint --no-warn-ignored {staged_files}
     rubocop:
       files: git diff --name-only --staged
       glob: "*.rb"
@@ -43,7 +49,15 @@ pre-commit:
         if command -v yamllint > /dev/null 2>&1; then
           yamllint {files}
         else
-          echo "warning: yamllint is not installed, skipping" >&2
+          echo "warning: yamllint is not installed, skipping (https://yamllint.readthedocs.io/en/stable/quickstart.html#installing-yamllint)" >&2
+        fi
+    typos:
+      files: git diff --name-only --staged --diff-filter=ACMR
+      run: |
+        if command -v typos > /dev/null 2>&1; then
+          typos --force-exclude --format brief -- {files}
+        else
+          echo "warning: typos is not installed, skipping (https://github.com/crate-ci/typos#install)" >&2
         fi
 
 # Autofix counterpart of the pre-commit checks. Run explicitly:
@@ -52,18 +66,24 @@ pre-commit:
 #     lefthook run fix
 #
 #     # fix files changed since origin/dev (excluding deleted ones)
-#     lefthook run fix --files-from-stdin < <(git diff --name-only --diff-filter=d origin/dev)
+#     lefthook run fix --files-from-stdin < <(git diff -z --name-only --diff-filter=d origin/dev)
 #
 #     # fix all files in the repository
 #     lefthook run fix --all-files
 fix:
-  parallel: true
+  parallel: false
   commands:
     eslint:
       root: "frontend/"
       files: git diff --name-only --staged
       glob: "*.{js,ts,jsx,tsx}"
       run: npx eslint --fix {files}
+    eslint_json:
+      files: git diff --name-only --staged
+      glob: "*.json"
+      exclude:
+        - "extensions/**"
+      run: npx eslint --no-warn-ignored --fix {files}
     rubocop:
       files: git diff --name-only --staged
       glob: "*.rb"
@@ -81,3 +101,11 @@ fix:
         - "modules/*/config/locales/en.yml"
         - "modules/*/config/locales/js-en.yml"
       run: script/order_yaml -i {files}
+    typos:
+      files: git diff --name-only --staged --diff-filter=ACMR
+      run: |
+        if command -v typos > /dev/null 2>&1; then
+          typos --force-exclude --write-changes -- {files}
+        else
+          echo "warning: typos is not installed, skipping (https://github.com/crate-ci/typos#install)" >&2
+        fi

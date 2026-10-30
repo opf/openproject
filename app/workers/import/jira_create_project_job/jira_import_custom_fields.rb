@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,29 @@ module Import
   class JiraCreateProjectJob
     module JiraImportCustomFields
       JIRA_IMPORT_GROUP_KEY = "Jira import"
+      SYSTEM_FIELD_CUSTOM_FIELDS = {
+        "resolutiondate" => { name: "Resolution Date", field_format: "datetime" }
+      }.freeze
+
+      def create_system_field_custom_fields
+        SYSTEM_FIELD_CUSTOM_FIELDS.each do |field, options|
+          next if exclude_system_field?(field)
+          next unless Import::JiraIssue.where(jira_import_id: @jira_import.id).with_field_set(field).any?
+
+          OpenProject::Mutex.with_advisory_lock(@jira_import, lock_key) do
+            find_or_create_system_field_custom_field(field, **options)
+          end
+        end
+      end
+
+      def exclude_system_field?(field)
+        field == "resolutiondate" && @jira_import.exclude_resolution_fields?
+      end
+
+      def system_field_custom_field(field_key)
+        id = @jira_import.system_field_custom_fields[field_key]
+        WorkPackageCustomField.find(id) if id
+      end
 
       def collect_custom_field_attributes(custom_field_registry, jira_issue)
         custom_field_registry.each_with_object({}) do |entry, attrs|
@@ -292,10 +314,9 @@ module Import
       # Custom fields are created once per run by JiraCreateCustomFieldsJob, which records the
       # mapping the per-project jobs read instead of creating anything themselves. A per-project
       # job only gets here when that mapping is missing, eg. Jira < 9.3, and those jobs run concurrently,
-      # so creation still has to be serialised.
+      # so creation still has to be serialized.
       def locked_find_or_create_custom_field(jira_field, builder)
         jira_import = jira_field.jira_import
-        lock_key = "jira_import_#{jira_import.id}_find_or_create_custom_field"
         OpenProject::Mutex.with_advisory_lock(jira_import, lock_key) do
           find_or_create_custom_field(jira_field, builder)
         end
@@ -347,6 +368,9 @@ module Import
       end
 
       def reuse_custom_field(custom_field, jira_field)
+        Rails.logger.tagged("jira_object_type:customField", "jira_object_id_or_name:#{custom_field.name}") do
+          Rails.logger.debug "Reusing custom field"
+        end
         unless Import::JiraOpenProjectReference.exists?(op_entity_id: custom_field.id,
                                                         op_entity_class: custom_field.class.to_s,
                                                         jira_import_id: @jira_import.id)
@@ -357,26 +381,47 @@ module Import
 
       def create_custom_field(jira_field, builder)
         name, field_format = builder.custom_field_settings
-        params = {
-          type: "WorkPackageCustomField",
+        custom_field = create_work_package_custom_field(
           name:,
           field_format:,
-          is_required: false,
-          is_for_all: false,
+          error_name: jira_field.payload["name"],
           **builder.custom_field_parameters
-        }
-        service_call = CustomFields::CreateService.new(user: @system_user).call(**params)
-        unless service_call.success?
-          raise I18n.t(
-            "admin.jira.errors.custom_field_creation_failed",
-            name: jira_field.payload["name"],
-            message: service_call.message
-          )
-        end
-
-        custom_field = service_call.result
+        )
         create_reference!(op_leg: custom_field, jira_leg: jira_field, jira_import: @jira_import, uses_existing: false)
         builder.custom_field_post_processing(custom_field)
+        custom_field
+      end
+
+      def create_work_package_custom_field(error_name:, **params)
+        Rails.logger.tagged("jira_object_type:customField", "jira_object_id_or_name:#{params[:name]}") do
+          Rails.logger.debug "Creating custom field"
+          service_call = CustomFields::CreateService
+            .new(user: @system_user)
+            .call(type: "WorkPackageCustomField", is_required: false, is_for_all: false, **params)
+          return service_call.result if service_call.success?
+
+          message = I18n.t("admin.jira.errors.custom_field_creation_failed", name: error_name, message: service_call.message)
+          Rails.logger.error message
+          raise message
+        end
+      end
+
+      def find_or_create_system_field_custom_field(field, name:, field_format:)
+        compatible = CustomFieldNames.candidates(name).select { it.field_format == field_format }
+        existing_cf = CustomFieldNames.best_match(compatible, name)
+        custom_field = existing_cf ? reuse_custom_field(existing_cf, nil) : create_system_field_custom_field(name:, field_format:)
+        @jira_import.update!(
+          system_field_custom_fields: @jira_import.system_field_custom_fields.merge(field => custom_field.id)
+        )
+      end
+
+      def create_system_field_custom_field(name:, field_format:)
+        custom_field = create_work_package_custom_field(
+          name: CustomFieldNames.unique_name(name),
+          field_format:,
+          error_name: name
+        )
+        create_reference!(op_leg: custom_field, jira_leg: nil, jira_import: @jira_import, uses_existing: false)
         custom_field
       end
 
@@ -404,6 +449,10 @@ module Import
       def scope_applies?(scope, value)
         scope = Array(scope)
         scope.empty? || scope.include?(value)
+      end
+
+      def lock_key
+        "jira_import_#{@jira_import.id}_find_or_create_custom_field"
       end
     end
   end

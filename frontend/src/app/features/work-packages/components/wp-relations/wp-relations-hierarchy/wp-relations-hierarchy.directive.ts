@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -70,7 +69,7 @@ export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin 
 
   public canAddRelation:boolean;
 
-  public childrenQueryProps:any;
+  public childrenQueryProps:{ filters:string, 'columns[]':string[], showHierarchies:boolean };
 
   public text = {
     parentHeadline: this.I18n.t('js.relations_hierarchy.parent_headline'),

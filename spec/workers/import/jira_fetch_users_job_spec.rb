@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -80,6 +79,35 @@ RSpec.describe Import::JiraFetchUsersJob do
     end
   end
 
+  describe "#collect_worklog_user_keys" do
+    it "adds the author key of every worklog" do
+      payload = {
+        "worklog" => {
+          "worklogs" => [
+            { "id" => "1", "author" => { "key" => "JIRAUSER100" } },
+            { "id" => "2", "author" => { "key" => "JIRAUSER200" } },
+            { "id" => "3", "author" => { "key" => "JIRAUSER100" } }
+          ]
+        }
+      }
+
+      job.send(:collect_worklog_user_keys, user_keys, payload)
+      expect(user_keys).to contain_exactly("JIRAUSER100", "JIRAUSER200")
+    end
+
+    it "skips worklogs without an author" do
+      payload = { "worklog" => { "worklogs" => [{ "id" => "1" }, { "id" => "2", "author" => { "key" => nil } }] } }
+
+      job.send(:collect_worklog_user_keys, user_keys, payload)
+      expect(user_keys).to be_empty
+    end
+
+    it "handles issues without worklogs" do
+      expect { job.send(:collect_worklog_user_keys, user_keys, {}) }.not_to raise_error
+      expect(user_keys).to be_empty
+    end
+  end
+
   describe "#collect_user_keys_from_issue" do
     let(:mention_usernames) { Set.new }
     let(:issue) do
@@ -94,7 +122,10 @@ RSpec.describe Import::JiraFetchUsersJob do
                           },
                           "attachment" => [
                             { "filename" => "a.png", "author" => { "key" => "JIRAUSER_UPLOADER" } }
-                          ]
+                          ],
+                          "worklog" => {
+                            "worklogs" => [{ "id" => "1", "author" => { "key" => "JIRAUSER_WORKER" } }]
+                          }
                         },
                         "changelog" => {
                           "histories" => [{ "author" => { "key" => "JIRAUSER_EDITOR" }, "items" => [] }]
@@ -102,7 +133,7 @@ RSpec.describe Import::JiraFetchUsersJob do
                       })
     end
 
-    it "collects attachment authors alongside the other involved users" do
+    it "collects attachment and worklog authors alongside the other involved users" do
       job.send(:collect_user_keys_from_issue, user_keys, mention_usernames, issue)
 
       expect(user_keys).to include("JIRAUSER_UPLOADER")
@@ -112,8 +143,50 @@ RSpec.describe Import::JiraFetchUsersJob do
         "JIRAUSER_ASSIGNEE",
         "JIRAUSER_COMMENTER",
         "JIRAUSER_UPLOADER",
+        "JIRAUSER_WORKER",
         "JIRAUSER_EDITOR"
       )
+    end
+  end
+
+  describe "#collect_markup_mentions" do
+    let(:mention_usernames) { Set.new }
+
+    def mentions_in(markup)
+      job.send(:collect_markup_mentions, markup, mention_usernames)
+      mention_usernames
+    end
+
+    it "collects a mention from a paragraph" do
+      expect(mentions_in("hello [~jdoe]")).to contain_exactly("jdoe")
+    end
+
+    it "collects mentions from header and data cells of a table" do
+      expect(mentions_in("||[~alice]||B||\n|[~bob]|2|")).to contain_exactly("alice", "bob")
+    end
+
+    it "collects a mention from a headerless table" do
+      expect(mentions_in("|[~jdoe]|2|")).to contain_exactly("jdoe")
+    end
+
+    it "collects a mention nested in markup inside a cell" do
+      expect(mentions_in("|*see [~jdoe]*|b|")).to contain_exactly("jdoe")
+    end
+
+    it "collects mentions from every line of a multi-line quote" do
+      expect(mentions_in("{quote}\n[~alice]\nand [~bob]\n{quote}")).to contain_exactly("alice", "bob")
+    end
+
+    it "collects a mention nested in markup inside a quote" do
+      expect(mentions_in("{quote}\n*see [~jdoe]*\n{quote}")).to contain_exactly("jdoe")
+    end
+
+    it "collects a mention from a panel body" do
+      expect(mentions_in("{panel:title=T}\n[~jdoe]\n{panel}")).to contain_exactly("jdoe")
+    end
+
+    it "collects a mention from a panel inside a table cell" do
+      expect(mentions_in("|{panel}[~jdoe]{panel}|b|")).to contain_exactly("jdoe")
     end
   end
 
@@ -147,10 +220,10 @@ RSpec.describe Import::JiraFetchUsersJob do
         expect(user_keys).to contain_exactly("JIRAUSER100")
       end
 
-      it "logs the error" do
-        allow(Rails.logger).to receive(:info)
+      it "logs a warning" do
+        allow(Rails.logger).to receive(:warn)
         job.send(:resolve_mention_user_keys, %w[alice ghost], user_keys, jira_client)
-        expect(Rails.logger).to have_received(:info).with(a_string_including("ghost"))
+        expect(Rails.logger).to have_received(:warn).with(a_string_including("ghost"))
       end
     end
 

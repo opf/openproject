@@ -13,6 +13,7 @@ el:
         icon: Προσαρμοσμένο εικονίδιο
         identifier: Αναγνωριστικό
         idp_cert: Δημόσιο πιστοποιητικό του Παρόχου Ταυτότητας (IdP)
+        idp_cert_fingerprint: Identity provider certificate fingerprint
         idp_entity_id: Identity provider entity ID
         idp_slo_service_url: Τερματικό σημείο αποσύνδεσης Παρόχου Ταυτότητας (IdP Logout)
         idp_sso_service_url: Τερματικό σημείο σύνδεσης Παρόχου Ταυτότητας (IdP Login)
@@ -152,6 +153,9 @@ el:
       metadata_too_large: The metadata file exceeds the maximum allowed size.
       success: Η διαμόρφωση ενημερώθηκε επιτυχώς με χρήση των μεταδεδομένων του παρόχου ταυτότητας.
     providers:
+      apply_metadata:
+        expired: This metadata preview has expired or is invalid. Refresh the metadata again to review the latest configuration.
+        provider_changed: The provider configuration has changed since this preview. Refresh the metadata again to review the latest configuration.
       attribute_mapping: Χαρτογράφηση χαρακτηριστικού
       attribute_mapping_text: 'Τα ακόλουθα πεδία ελέγχουν ποια χαρακτηριστικά που παρέχονται από τον πάροχο ταυτότητας SAML χρησιμοποιούνται για την απόδοση των χαρακτηριστικών χρήστη στο OpenProject.
 
@@ -171,9 +175,19 @@ el:
       label_uid: Εσωτερικό ID χρήστη
       metadata:
         dialog: 'Αυτή είναι η διεύθυνση URL όπου είναι διαθέσιμα τα μεταδεδομένα του OpenProject SAML. Προαιρετικά χρησιμοποιήστε την για να ρυθμίσετε τον πάροχο ταυτότητας:'
+      metadata_changes:
+        table_component:
+          current_value: Current value
+          mobile_title: Metadata changes
+          new_value: New value
       no_results_table: Δεν έχουν οριστεί ακόμη πάροχοι ταυτότητας SAML.
       notice_created: A new SAML identity provider was successfully created.
       plural: Πάροχοι ταυτότητας SAML
+      refresh_metadata:
+        apply: Apply changes
+        description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
+        no_changes: The metadata matches the current configuration.
+        title: Review metadata changes
       request_attributes:
         format: Μορφή χαρακτηριστικών
         legend: 'Αυτά τα χαρακτηριστικά προστίθενται στα μεταδεδομένα SAML XML για να δηλώσουν στον πάροχο ταυτοποίησης ποια χαρακτηριστικά απαιτεί το OpenProject. Ενδέχεται να χρειαστεί να ρυθμίσετε ρητά τον πάροχο ταυτότητας ώστε να στέλνει αυτά τα χαρακτηριστικά. Ανατρέξτε στην τεκμηρίωση του παρόχου ταυτότητάς σας.
@@ -197,6 +211,10 @@ el:
         metadata_form_banner: 'Η επεξεργασία των μεταδεδομένων μπορεί να παρακάμψει τις υπάρχουσες τιμές σε άλλες ενότητες. '
         requested_attributes: Καθορίστε το σύνολο των χαρακτηριστικών που θα ζητούνται στην αίτηση SAML που αποστέλλεται στον πάροχο ταυτότητας.
       seeded_from_env: Αυτός ο πάροχος τροφοδοτήθηκε από τη διαμόρφωση του περιβάλλοντος. Δεν μπορεί να επεξεργαστεί.
+      side_panel:
+        refresh_metadata_component:
+          button: Refresh metadata
+          description: You can check if the configuration fetched from your identity provider has changed.
       singular: Πάροχος ταυτότητας SAML
       upsell:
         description: Συνδέστε το OpenProject με έναν πάροχο ταυτότητας SAML

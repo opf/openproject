@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -73,7 +73,7 @@ ko:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                other: 이 스프린트에서 완료되지 않은 %{count}개 작업 패키지가 있습니다.
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: "- 활성화되어 있지 않으므로 닫을 수 없습니다."
         sprint_goal:
@@ -131,9 +131,17 @@ ko:
       details: 백로그 버킷 '%{name}'이(가) 삭제되고 모든 작업 패키지가 백로그 받은 편지함으로 이동됩니다. 작업 패키지는 삭제되지 않습니다.
       title: 백로그 버킷을 삭제하시겠습니까?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: 스프린트의 시작 날짜와 종료 날짜를 설정하여 번다운 차트를 생성합니다.
         blankslate_title: 사용 가능한 번다운 데이터 없음
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Units
     excluded_work_package_types_caption: '백로그에서 숨길 작업 패키지 유형을 선택합니다. 선택한 유형의 항목은 백로그에 자동으로 표시되지 않으므로 팀에 중요한 작업에 집중할 수 있습니다. 예를 들어, 상위 수준에서 관리되는 에픽이나 마일스톤과 같은 유형은 백로그를 실행 가능한 항목에 집중할 수 있도록 숨길 수 있습니다.
 
@@ -157,7 +165,7 @@ ko:
       drop_zone_label: 이 항목을 추가하려면 여기에 놓으세요
       label_actions: 받은 편지함 액션
       show_more:
-        other: "%{count}개 항목 더 보기"
+        other: Show %{count} more items
       title: 받은 편지함
     index_subheader_component:
       label_search_by_subject: 주제별로 작업 패키지 검색
@@ -180,6 +188,7 @@ ko:
     remaining_hours: 남은 작업
     sharing: 스프린트 공유
     show_burndown_chart: 번다운 차트
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: 스프린트 내의 작업 패키지
     sprint_component:
       action_menu:
@@ -203,6 +212,9 @@ ko:
       shared_sprint_info_banner: 공유 스프린트입니다. 수정 사항은 이 스프린트를 사용하는 모든 프로젝트에 반영됩니다.
       shared_sprint_warning_banner: 공유 스프린트입니다. 이 스프린트를 편집하는 데 필요한 권한이 없습니다.
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: 보고서
         title: "%{sprint} 보고서"
@@ -230,6 +242,46 @@ ko:
           closed_work_packages: 마감된 작업 패키지
           resolved_summary:
             other: "%{percentage}%(%{resolved}/%{total} 작업 패키지)"
+        work_package_table:
+          added:
+            blankslate:
+              empty:
+                description: Work packages that were added after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show added work packages.
+              not_started:
+                description: Added work packages will appear here after the sprint starts.
+            title: Scope increase after sprint start
+          blankslate:
+            heading: No work packages to display
+          completed:
+            blankslate:
+              empty:
+                description: Work packages that were completed in the sprint will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show completed work packages.
+              not_started:
+                description: Completed work packages will appear here after the sprint starts.
+            title: Completed work
+          removed:
+            blankslate:
+              empty:
+                description: Work packages that were removed after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show removed work packages.
+              not_started:
+                description: Removed work packages will appear here after the sprint starts.
+            title: Scope decrease after sprint start
+          unfinished:
+            blankslate:
+              empty:
+                description: All work packages in this sprint are completed.
+                heading: Wow, all done!
+              no_dates:
+                description: Sprint start and finish dates are necessary to show unfinished work packages.
+              not_started:
+                description: Unfinished work packages will appear here after the sprint starts.
+            title: Unfinished work
     sprints:
       row_component:
         action_menu:
@@ -258,7 +310,6 @@ ko:
       header_backlogs: 백로그 모듈
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: 클립보드에 URL 복사
         copy_work_package_id: 작업 패키지 ID 복사
         move_menu: 위치로 이동
         move_to_backlog_bucket: 백로그 버킷으로 이동
@@ -285,9 +336,9 @@ ko:
       update_service:
         invalid_target_type: 'list_type은 다음 중 하나여야 합니다: list_id가 있는 backlog_bucket, list_id가 있는 sprint 또는 list_id가 없는 inbox.'
         missing_target: list_type 또는 list_id가 있어야 합니다.
-  burndown:
-    story_points: 스토리 포인트
-    story_points_ideal: 스토리 포인트(적합함)
+  created_resolved:
+    wp_created: Created
+    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: 여러 활성 스프린트

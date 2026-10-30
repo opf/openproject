@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -171,6 +170,8 @@ module WorkPackage::Versions
 
   def effective_target_versions = effective_versions("target")
   def effective_observed_in_versions = effective_versions("observed_in")
+
+  def lowest_target_version = target_versions.first
 
   # An override can also originate from the system, e.g. when versions that are
   # not shared with the (new) project are cleared on a project change. Such

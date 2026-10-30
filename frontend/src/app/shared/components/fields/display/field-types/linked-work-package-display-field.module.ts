@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -51,7 +50,7 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
 
   private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.keepTab, this.currentProject, this.pathHelper, this.urlParams);
 
-  public render(element:HTMLElement, displayText:string):void {
+  public render(element:HTMLElement, _displayText:string):void {
     if (this.isEmpty()) {
       element.innerText = this.placeholder;
       return;
@@ -59,7 +58,7 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
 
     const routingId = this.wpRoutingId;
     const link = this.uiStateBuilder.linkToShow(
-      this.wpId,
+      this.wpId!,
       this.text.linkTitle,
       this.valueString,
       routingId,

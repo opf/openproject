@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -78,7 +77,7 @@ describe('BudgetByCostTypeComponent', () => {
       opacity,
       caretX: 50,
       caretY: 40,
-      dataPoints: [{ label: 'Labour', parsed: 10 }],
+      dataPoints: [{ label: 'Labor', parsed: 10 }],
       labelColors: [{ backgroundColor: '#123456' }],
     },
   } as unknown as PieTooltipContext);
@@ -171,7 +170,7 @@ describe('BudgetByCostTypeComponent', () => {
 
     const popover = element.querySelector<HTMLElement>('anchored-position')!;
     expect(popover.matches(':popover-open')).toBe(true);
-    expect(within(popover).getByText('Labour')).toBeInTheDocument();
+    expect(within(popover).getByText('Labor')).toBeInTheDocument();
     expect(document.body.querySelector(':scope > anchored-position')).toBeNull();
   });
 });

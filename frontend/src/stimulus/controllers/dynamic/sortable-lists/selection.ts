@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -145,6 +144,19 @@ export function orderedSelectedItemElements(root:HTMLElement, keys:ReadonlySet<S
     const identity = itemIdentity(item);
     return identity !== null && keys.has(selectionKey(identity));
   });
+}
+
+// One document query per call; never kept, so a morph cannot leave it
+// stale. Keyed on type as well as id: ids collide across source tables.
+export function itemElementsByKey(root:HTMLElement):Map<SelectionKey, HTMLElement> {
+  const map = new Map<SelectionKey, HTMLElement>();
+  orderedItemElements(root).forEach((element) => {
+    const identity = itemIdentity(element);
+    if (identity) {
+      map.set(selectionKey(identity), element);
+    }
+  });
+  return map;
 }
 
 export function liveOrderableItems(root:HTMLElement):SelectionItem[] {
@@ -317,7 +329,7 @@ function listItems(root:HTMLElement, from:HTMLElement):HTMLElement[] {
 
 // Arrows step through the list as rendered, fixed cards included. Not
 // symmetric with listBoundaryItem below, which does filter.
-export function neighbourItem(root:HTMLElement, from:HTMLElement, offset:1|-1):HTMLElement|null {
+export function neighborItem(root:HTMLElement, from:HTMLElement, offset:1|-1):HTMLElement|null {
   const items = listItems(root, from);
   const index = items.indexOf(from);
 

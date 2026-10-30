@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -144,13 +143,11 @@ export class KeyboardShortcutService {
       return;
     }
 
-    const rows:HTMLElement[] = Array.from(list.querySelectorAll('tbody > tr'));
-    let index:number;
-    if (document.activeElement) {
-      index = rows.indexOf(document.activeElement as HTMLElement);
-      const target = rows[index + offset];
-      target?.focus();
-    }
+    const rows = Array.from(list.querySelectorAll<HTMLElement>('tbody > tr'))
+      .filter((row) => row.checkVisibility());
+    const current = document.activeElement?.closest<HTMLElement>('tr') ?? null;
+    const index = current ? rows.indexOf(current) : -1;
+    rows[index + offset]?.focus();
   }
 
   focusNextItem():void {

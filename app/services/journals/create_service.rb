@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,7 +39,7 @@
 #
 # for this purpose.
 
-# rubocop:disable Rails/SquishedSQLHeredocs
+# rubocop:disable-next Rails/SquishedSQLHeredocs
 module Journals
   class CreateService
     include Helpers
@@ -114,6 +113,8 @@ module Journals
     # * New entries in the customizable_journals table, one for every custom value the journable has at the time.
     # * New entries in the storages_file_links_journals table, one for file link value the journable has at the time.
     # * New entries in the meeting_agenda_item_journals table, one for agenda_item the journable has at the time.
+    # * New entries in the meeting_section_journals table, one for each section the journable has at the time.
+    # * New entries in the meeting_outcome_journals table, one for each outcome the journable has at the time.
     #
     # It consists of a couple of parts that are kept as individual queries (as CTEs) but
     # are all executed within a single database call.
@@ -135,6 +136,10 @@ module Journals
     # * the journable's file_links are compared to the storages_file_links_journals entries being associated with the most
     #   recent journal.
     # * the journable's meeting_agenda_items are compared to the meeting_agenda_item_journals entries being associated with the
+    #   most recent journal.
+    # * the journable's meeting_sections are compared to the meeting_section_journals entries being associated with the
+    #   most recent journal.
+    # * the journable's meeting_outcomes are compared to the meeting_outcome_journals entries being associated with the
     #   most recent journal.
     # When comparing text based values, newlines are normalized as otherwise users having a different OS might change a text value
     # without intending to.
@@ -606,7 +611,7 @@ module Journals
     end
 
     def only_one_or_same_cause?(predecessor, cause)
-      predecessor.cause.empty? || cause.blank? || predecessor.cause == cause
+      predecessor.cause.empty? || predecessor.cause == cause
     end
 
     def only_one_note?(predecessor, notes)
@@ -626,4 +631,3 @@ module Journals
     end
   end
 end
-# rubocop:enable Rails/SquishedSQLHeredocs

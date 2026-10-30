@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,7 +51,7 @@ class Workflows::Copies::FromRolesController < ApplicationController
 
   private
 
-  def standalone? = params[:workflow_id].present?
+  def standalone? = variant_scope_project.nil? && params[:workflow_id].present?
 
   # A stale dialog can name a source that is gone; #create answers that with a flash rather
   # than a 404, so a miss has to arrive here as nil.

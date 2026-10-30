@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -68,7 +67,7 @@ module WorkPackageTypes
 
       def current_id = variant[model_class.variant_reflection.foreign_key]
 
-      def candidates = @candidates ||= model_class.available_in(variant.project).in_display_order.to_a
+      def candidates = @candidates ||= model_class.in_display_order.to_a
     end
   end
 end

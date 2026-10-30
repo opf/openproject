@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,9 +43,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageSumsRepresenter do
       remaining_hours: 10,
       estimated_hours: 5,
       done_ratio: 50,
-      material_costs: 5,
-      labor_costs: 10,
-      overall_costs: 15,
       custom_field_1: 5,
       available_custom_fields: [custom_field]
     )
@@ -82,27 +78,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageSumsRepresenter do
   describe "storyPoints" do
     it "is represented" do
       expect(subject).to be_json_eql(sums.story_points.to_json).at_path("storyPoints")
-    end
-  end
-
-  describe "materialCosts" do
-    it "is represented" do
-      expected = "5.00 €"
-      expect(subject).to be_json_eql(expected.to_json).at_path("materialCosts")
-    end
-  end
-
-  describe "laborCosts" do
-    it "is represented" do
-      expected = "10.00 €"
-      expect(subject).to be_json_eql(expected.to_json).at_path("laborCosts")
-    end
-  end
-
-  describe "overallCosts" do
-    it "is represented" do
-      expected = "15.00 €"
-      expect(subject).to be_json_eql(expected.to_json).at_path("overallCosts")
     end
   end
 

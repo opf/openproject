@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Projects
   class RowComponent < ::RowComponent
     include CalculatedValues::ErrorsHelper
@@ -111,7 +111,7 @@ module Projects
       comment = cf.comment_for(project)&.text
       return nil if comment.blank?
 
-      render OpenProject::Common::AttributeComponent.new(
+      render OpPrimer::AttributeComponent.new(
         "dialog-#{project.id}-cfc-#{cf.id}",
         column.caption,
         comment,
@@ -195,24 +195,16 @@ module Projects
     def project_status
       return nil unless user_can_view_project_attributes?
 
-      status_code = project.status_code
-      if status_code
-        classes = helpers.project_status_css_class(status_code)
-
-        capture do
-          concat content_tag(:span, "", class: "project-status--bulb -inline #{classes}")
-          concat content_tag(:span, helpers.project_status_name(status_code), class: "project-status--name #{classes}")
-        end
-      end
+      render(Projects::StatusBadgeComponent.new(project:))
     end
 
     def status_explanation
       return nil unless user_can_view_project_attributes?
 
       if project.status_explanation.present? && project.status_explanation
-        render OpenProject::Common::AttributeComponent.new("dialog-#{project.id}-status-explanation",
-                                                           I18n.t("activerecord.attributes.project.status_explanation"),
-                                                           project.status_explanation)
+        render OpPrimer::AttributeComponent.new("dialog-#{project.id}-status-explanation",
+                                                I18n.t("activerecord.attributes.project.status_explanation"),
+                                                project.status_explanation)
       end
     end
 
@@ -220,9 +212,9 @@ module Projects
       return nil unless user_can_view_project_attributes?
 
       if project.description.present?
-        render OpenProject::Common::AttributeComponent.new("dialog-#{project.id}-description",
-                                                           I18n.t("activerecord.attributes.project.description"),
-                                                           project.description)
+        render OpPrimer::AttributeComponent.new("dialog-#{project.id}-description",
+                                                I18n.t("activerecord.attributes.project.description"),
+                                                project.description)
       end
     end
 
@@ -333,7 +325,7 @@ module Projects
 
     def format_custom_field_value(cf, custom_value)
       if cf.field_format == "text" && custom_value.present?
-        render OpenProject::Common::AttributeComponent.new(
+        render OpPrimer::AttributeComponent.new(
           "dialog-#{project.id}-cf-#{cf.id}",
           cf.name,
           custom_value,

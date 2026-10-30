@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -45,15 +45,21 @@ de:
         not_selectable: Auswahl unverändert. Dieses Arbeitspaket hat keinen Einfluss auf die Reihenfolge dieser Liste.
         range_blocked: Auswahl unverändert. Sie enthält ein Arbeitspaket ohne Einfluss auf die Reihenfolge dieser Liste.
         range_restarted:
-          one: Die Auswahl konnte nicht erweitert werden. 1 Arbeitspaket ausgewählt.
-          other: Die Auswahl konnte nicht erweitert werden. %{count} Arbeitspakete ausgewählt.
+          one: Could not extend the range. %{count} work package selected.
+          other: Could not extend the range. %{count} work packages selected.
         range_unavailable: Auswahl unverändert. Erweitern Sie diese Liste, um diesen Bereich auszuwählen.
         selected:
-          one: 1 Arbeitspaket ausgewählt.
+          one: "%{count} Arbeitspaket ausgewählt."
           other: "%{count} Arbeitspakete ausgewählt."
-    burndown:
-      day: Tag
-      points: Punkte
+    burndown_chart:
+      chart_day: 'Day %{day}: %{values}'
+      chart_label: Burndown chart
+      chart_summary: 'Burndown chart data: %{days}.'
+      chart_value: "%{label}: %{value}"
+      non_working_day: Non-working day
+      story_points: Story points
+    created_resolved:
+      work_packages: Work packages
     work_packages:
       properties:
         storyPoints: Story Punkte

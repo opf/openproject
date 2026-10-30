@@ -1,0 +1,77 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<%= render(
+      OpPrimer::BorderBoxListComponent.new(
+        container: "project-time-entry-activities"
+      )
+    ) do |list| %>
+  <% list.with_header(title: TimeEntryActivity.model_name.human(count: 2)) %>
+
+  <% activities.each do |activity| %>
+    <% list.with_item do %>
+      <%=
+        flex_layout(
+          align_items: :center, justify_content: :space_between,
+          classes: "op-project-time-entry-activity",
+          data: { test_selector: "project-time-entry-activity-#{activity.id}" }
+        ) do |row|
+          row.with_column(flex: 1) do
+            if User.current.admin?
+              render(
+                Primer::Beta::Link.new(font_weight: :bold, href: edit_admin_settings_time_entry_activity_path(activity))
+              ) { activity.name }
+            else
+              render(Primer::Beta::Text.new) { activity.name }
+            end
+          end
+
+          row.with_column(py: 1, mr: 2) do
+            render(
+              Primer::Alpha::ToggleSwitch.new(
+                src: toggle_path(activity),
+                csrf_token: form_authenticity_token,
+                data: toggle_data_attributes(activity),
+                checked: toggle_checked?(activity),
+                size: :small,
+                status_label_position: :start,
+                classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator"
+              )
+            )
+          end
+        end
+      %>
+    <% end %>
+  <% end %>
+
+  <% list.with_empty_state(
+       title: I18n.t("cost_types.settings.time_entry_activities.heading"),
+       description: I18n.t("projects.settings.activities.no_results_title_text"),
+       icon: :checklist
+     ) %>
+<% end %>

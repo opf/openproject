@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -53,7 +52,7 @@ RSpec.describe "hourly rates on user edit", :js do
   end
 
   context "with rates" do
-    let!(:rate) { create(:default_hourly_rate, user:, rate: 42) }
+    let!(:rate) { create(:default_hourly_rate, principal: user, rate: 42) }
 
     before do
       view_rates

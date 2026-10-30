@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -183,18 +182,18 @@ RSpec.describe "Sprint index", :js do
     sprints_page.visit!
 
     sprints_page.expect_pagination_range(from: 1, to: 2, total: 4)
-    sprints_page.expect_sprint_present(other_sprint)
-    sprints_page.expect_sprint_present(sprint)
-    sprints_page.expect_sprint_not_present(past_sprint)
-    sprints_page.expect_sprint_not_present(past_sprint_with_other_name)
+    sprints_page.expect_sprint_present(past_sprint)
+    sprints_page.expect_sprint_present(past_sprint_with_other_name)
+    sprints_page.expect_sprint_not_present(sprint)
+    sprints_page.expect_sprint_not_present(other_sprint)
 
     sprints_page.go_to_page!(2)
 
     sprints_page.expect_pagination_range(from: 3, to: 4, total: 4)
-    sprints_page.expect_sprint_present(past_sprint)
-    sprints_page.expect_sprint_present(past_sprint_with_other_name)
-    sprints_page.expect_sprint_not_present(other_sprint)
-    sprints_page.expect_sprint_not_present(sprint)
+    sprints_page.expect_sprint_present(sprint)
+    sprints_page.expect_sprint_present(other_sprint)
+    sprints_page.expect_sprint_not_present(past_sprint)
+    sprints_page.expect_sprint_not_present(past_sprint_with_other_name)
   end
 
   context "when there are no sprints" do
@@ -235,8 +234,10 @@ RSpec.describe "Sprint index", :js do
       sprints_page.visit!
 
       sprints_page.expect_sprint_present(shared_sprint)
-      sprints_page.expect_sprint_name_link(shared_sprint,
-                                           href: project_backlogs_backlog_path(receiving_project, sprint_ids: [shared_sprint.id]))
+      sprints_page.expect_sprint_name_link(
+        shared_sprint,
+        href: project_backlogs_backlog_path(receiving_project, sprint_ids: [shared_sprint.id.to_s].to_json)
+      )
     end
   end
 
@@ -279,8 +280,10 @@ RSpec.describe "Sprint index", :js do
     it "links the sprint name according to status" do
       sprints_page.visit!
 
-      sprints_page.expect_sprint_name_link(planning_sprint,
-                                           href: project_backlogs_backlog_path(project, sprint_ids: [planning_sprint.id]))
+      sprints_page.expect_sprint_name_link(
+        planning_sprint,
+        href: project_backlogs_backlog_path(project, sprint_ids: [planning_sprint.id.to_s].to_json)
+      )
       sprints_page.expect_sprint_name_link(active_sprint, href: project_backlogs_sprint_taskboard_path(project, active_sprint))
 
       default_columns = Setting.work_package_list_default_columns.map(&:to_s)
@@ -289,7 +292,8 @@ RSpec.describe "Sprint index", :js do
         query_props: {
           f: [{ n: "sprintId", o: "=", v: [completed_sprint.id.to_s] }],
           t: "position:asc",
-          c: default_columns | ["sprint"]
+          c: default_columns | ["sprint"],
+          is: false
         }.to_json
       )
 

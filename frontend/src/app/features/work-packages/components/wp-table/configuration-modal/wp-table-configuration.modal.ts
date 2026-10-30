@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -47,7 +46,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 
-export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
+export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<unknown>>('WpTableConfigurationModalPrependComponent');
 
 @Component({
   templateUrl: './wp-table-configuration.modal.html',
@@ -107,7 +106,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
 
     this.loadingIndicator.indicator('modal').promise = this.loadForm()
       .then(() => {
-        const initialTabName = this.locals.initialTab;
+        const initialTabName = this.locals.initialTab as string|undefined;
         const initialTab = this.availableTabs.find((el) => el.id === initialTabName);
         this.switchTo(initialTab || this.availableTabs[0]);
         this.cdRef.detectChanges();

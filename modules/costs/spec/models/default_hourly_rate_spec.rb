@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,28 +32,28 @@ RSpec.describe DefaultHourlyRate do
   let(:user) { create(:user) }
   let(:rate) do
     build(:default_hourly_rate, project:,
-                                user:)
+                                principal: user)
   end
 
-  describe "#user" do
+  describe "#principal" do
     describe "WHEN an existing user is provided" do
       before do
-        rate.user = user
+        rate.principal = user
         rate.save!
       end
 
-      it { expect(rate.user).to eq(user) }
+      it { expect(rate.principal).to eq(user) }
     end
 
     describe "WHEN a non existing user is provided (i.e. the user is deleted)" do
       before do
-        rate.user = user
+        rate.principal = user
         rate.save!
         user.destroy
         rate.reload
       end
 
-      it { expect(rate.user).to eq(DeletedUser.first) }
+      it { expect(rate.principal).to eq(DeletedUser.first) }
     end
   end
 
@@ -72,7 +71,7 @@ RSpec.describe DefaultHourlyRate do
                           hours: 1, spent_on: Date.new(2025, 6, 1))
     end
     let!(:default_rate) do
-      create(:default_hourly_rate, user: rated_user, rate: 100, valid_from: Date.new(2025, 1, 1))
+      create(:default_hourly_rate, principal: rated_user, rate: 100, valid_from: Date.new(2025, 1, 1))
     end
 
     it "costs only the entries the rate is in effect for" do

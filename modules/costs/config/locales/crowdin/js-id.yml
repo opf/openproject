@@ -25,8 +25,6 @@ id:
     button_log_costs: Log biaya unit
     label_hour: jam
     label_hours: jam
-    myTimeTracking:
-      noSpecificTime: Tidak ada waktu khusus
     text_are_you_sure: Apakah anda yakin?
     work_packages:
       properties:

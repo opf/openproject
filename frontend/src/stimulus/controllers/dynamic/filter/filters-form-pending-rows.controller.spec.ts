@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -286,9 +285,10 @@ describe('Filters form pending rows', () => {
           <select aria-label="Dates interval operator" data-filter-name="dates_interval" data-filter--filters-form-target="operator">
             <option value="<>d">between</option>
           </select>
-          <div data-filter-name="dates_interval" data-filter--filters-form-target="filterValueContainer">
+          <div data-filter-name="dates_interval" data-filter--filters-form-target="filterValueContainer"
+            data-value-fields='{"<>d":"dateRange"}'>
             <input id="dates_interval" aria-label="Dates interval range" value="${rangeValue}"
-              data-filter--filters-form-target="dateRange">
+              data-filter-name="dates_interval" data-filter--filters-form-target="dateRange">
           </div>
         </div>
       </div>`;
@@ -364,12 +364,13 @@ describe('Filters form pending rows', () => {
           <option value=""></option>
           <option value="${FILTER_NAME}">Created on</option>
         </select>
-        <div data-filter-name="${FILTER_NAME}" data-filter-type="datetime_past" hidden data-filter--filters-form-target="filter">
+        <div data-filter-name="${FILTER_NAME}" data-filter-type="date" hidden data-filter--filters-form-target="filter">
           <select aria-label="Created on operator" data-filter-name="${FILTER_NAME}" data-filter--filters-form-target="operator">
             <option value="=d">on</option>
             <option value="<>d">between</option>
           </select>
-          <div data-filter-name="${FILTER_NAME}" data-filter--filters-form-target="filterValueContainer">
+          <div data-filter-name="${FILTER_NAME}" data-filter--filters-form-target="filterValueContainer"
+            data-value-fields='{"=d":"singleDay","<>d":"dateRange"}'>
             <primer-multi-input>
               <div>
                 <input id="${FILTER_NAME}" value=""

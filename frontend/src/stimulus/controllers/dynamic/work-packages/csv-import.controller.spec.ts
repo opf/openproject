@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -36,8 +35,6 @@ const IDENTIFIER = 'work-packages--csv-import';
 const STATUS_URL = '/projects/seed/settings/work_packages_import/status?job=abc';
 const CLEAR_URL = '/projects/seed/settings/work_packages_import';
 const CLEAR_STREAM_URL = '/projects/seed/settings/work_packages_import/status';
-const MAX_SIZE = 1024;
-const TOO_LARGE = 'This file is larger than the 1 kB this instance accepts.';
 
 const loginPage = () => new Response(
   '<html lang="en"><body>Sign in</body></html>',
@@ -94,23 +91,13 @@ describe('Work package CSV import controller', () => {
     );
   }
 
+  // The drop zone itself (picking, dragging, naming the file) belongs to the generic file-field
+  // controller and is covered by its own spec; this one only needs the hidden input it shares.
   const form = () => `
     <div id="import_form">
       <input type="file" hidden
              data-${IDENTIFIER}-target="file"
              data-action="change->${IDENTIFIER}#fileChosen">
-
-      <button type="button"
-              data-${IDENTIFIER}-target="dropBox"
-              data-action="click->${IDENTIFIER}#openFilePicker
-                           dragover->${IDENTIFIER}#dragOver
-                           dragleave->${IDENTIFIER}#dragLeave
-                           drop->${IDENTIFIER}#dropFile">
-        <span data-${IDENTIFIER}-target="filename"
-              data-empty="Drop a CSV file here or click to select one.">Drop a CSV file here or click to select one.</span>
-      </button>
-
-      <p hidden data-${IDENTIFIER}-target="sizeError"></p>
 
       <input type="checkbox" name="dry_run" checked
              data-${IDENTIFIER}-target="dryRun"
@@ -128,9 +115,7 @@ describe('Work package CSV import controller', () => {
 
   async function mount(report = '') {
     await ctx.mount(`
-      <div data-controller="${IDENTIFIER}"
-           data-${IDENTIFIER}-max-size-value="${MAX_SIZE}"
-           data-${IDENTIFIER}-too-large-value="${TOO_LARGE}">
+      <div data-controller="${IDENTIFIER}">
         <div id="import_report">${report}</div>
         ${form()}
       </div>`);
@@ -142,8 +127,8 @@ describe('Work package CSV import controller', () => {
   const submit = () => target('submit') as HTMLButtonElement;
   const hasTarget = (name:string) => !!ctx.container.querySelector(`[data-${IDENTIFIER}-target="${name}"]`);
 
-  function csv(name = 'sprint-43.csv', size = 10) {
-    return new File(['a'.repeat(size)], name, { type: 'text/csv' });
+  function csv(name = 'sprint-43.csv') {
+    return new File(['a'.repeat(10)], name, { type: 'text/csv' });
   }
 
   async function choose(file:File) {
@@ -231,22 +216,23 @@ describe('Work package CSV import controller', () => {
   });
 
   describe('choosing a file', () => {
-    it('names the file on the drop box and lets the run be started', async () => {
+    it('lets the run be started once a file lands on the input', async () => {
       await mount();
 
       await choose(csv());
 
-      expect(target('filename').textContent).toEqual('sprint-43.csv');
       expect(submit().disabled).toBe(false);
     });
 
-    it('refuses a file over the limit rather than uploading it', async () => {
+    it('disables the run again once the file list is cleared', async () => {
       await mount();
+      await choose(csv());
+      expect(submit().disabled).toBe(false);
 
-      await choose(csv('huge.csv', MAX_SIZE + 1));
+      fileInput().files = new DataTransfer().files;
+      fileInput().dispatchEvent(new Event('change', { bubbles: true }));
+      await ctx.nextFrame();
 
-      expect(target('sizeError').textContent).toEqual(TOO_LARGE);
-      expect(target('sizeError').hidden).toBe(false);
       expect(submit().disabled).toBe(true);
     });
 
@@ -259,19 +245,6 @@ describe('Work package CSV import controller', () => {
       await ctx.nextFrame();
 
       expect(submit().textContent).toEqual('Import file');
-    });
-
-    it('puts a dropped file on the field the form actually submits', async () => {
-      await mount();
-      const dataTransfer = new DataTransfer();
-      dataTransfer.items.add(csv());
-
-      target('dropBox').dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer }));
-      await ctx.nextFrame();
-
-      expect(fileInput().files?.[0].name).toEqual('sprint-43.csv');
-      expect(target('filename').textContent).toEqual('sprint-43.csv');
-      expect(submit().disabled).toBe(false);
     });
   });
 

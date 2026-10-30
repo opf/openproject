@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,6 +54,7 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "rendering" do
     [:edit_time_entries]
   end
   let(:work_package_visible) { true }
+  let(:meeting_visible) { true }
   let(:representer) do
     described_class.create(time_entry, current_user:, embed_links:)
   end
@@ -65,6 +65,7 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "rendering" do
     mock_permissions_for(current_user) do |mock|
       mock.allow_in_project *permissions, project: workspace if workspace
       mock.allow_in_project :view_work_packages, project: workspace if work_package_visible && workspace
+      mock.allow_in_project :view_meetings, project: workspace if meeting_visible && workspace
     end
 
     allow(time_entry)
@@ -164,6 +165,24 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "rendering" do
       end
     end
 
+    context "with a time entry logged on a meeting not visible to the user" do
+      let(:meeting_visible) { false }
+
+      before do
+        time_entry.entity = meeting
+      end
+
+      it_behaves_like "has a titled link" do
+        let(:link) { "entity" }
+        let(:href) { API::V3::URN_UNDISCLOSED }
+        let(:title) { I18n.t(:"api_v3.undisclosed.workPackage") }
+      end
+
+      it "does not embed the meeting" do
+        expect(subject).not_to have_json_path("_embedded/entity")
+      end
+    end
+
     it_behaves_like "has a titled link" do
       let(:link) { "user" }
       let(:href) { api_v3_paths.user user.id }
@@ -181,16 +200,17 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "rendering" do
       let(:href) { api_v3_paths.time_entry_schema }
     end
 
-    context "custom value" do
+    context "with a user custom value" do
       let(:custom_field) do
         build_stubbed(:time_entry_custom_field, :user)
       end
       let(:custom_value) do
-        double("CustomValue",
-               custom_field:,
-               customized: time_entry,
-               value: "1",
-               typed_value: user)
+        instance_double(CustomValue,
+                        custom_field:,
+                        customized: time_entry,
+                        value: "1",
+                        typed_value: user,
+                        available_in_project?: true)
       end
       let(:user) do
         build_stubbed(:user)

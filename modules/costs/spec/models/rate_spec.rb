@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -121,12 +120,36 @@ RSpec.describe Rate do
   end
 
   describe "#principal" do
+    let(:deprecation_instance) do
+      instance_double(ActiveSupport::Deprecation, warn: nil)
+    end
+
+    before do
+      allow(ActiveSupport::Deprecation).to receive(:new).and_return(deprecation_instance)
+    end
+
     it "is reachable under the deprecated user alias" do
       user = build(:user)
       rate.user = user
 
       expect(rate.principal).to eq(user)
       expect(rate.user).to eq(user)
+
+      expect(deprecation_instance)
+            .to have_received(:warn)
+                  .with(
+                    a_string_matching("user= is deprecated and will be removed in a future OpenProject version"),
+                    an_instance_of(Array)
+                  )
+                  .once
+
+      expect(deprecation_instance)
+            .to have_received(:warn)
+                  .with(
+                    a_string_matching("user is deprecated and will be removed in a future OpenProject version"),
+                    an_instance_of(Array)
+                  )
+                  .once
     end
 
     # The rate outlives the principal so already booked costs stay explainable.
@@ -139,7 +162,7 @@ RSpec.describe Rate do
     end
   end
 
-  # Behavioural coverage for the entry lookups the rate callbacks drive. Written
+  # Behavioral coverage for the entry lookups the rate callbacks drive. Written
   # against the returned entries only, so it holds regardless of how the queries
   # are built.
   describe Rate::Methods do
@@ -150,10 +173,10 @@ RSpec.describe Rate do
     shared_let(:unrelated_project) { create(:project) }
 
     shared_let(:hourly_rate) do
-      create(:hourly_rate, user: rated_user, project: parent_project, valid_from: 3.years.ago, rate: 10)
+      create(:hourly_rate, principal: rated_user, project: parent_project, valid_from: 3.years.ago, rate: 10)
     end
     shared_let(:default_rate) do
-      create(:default_hourly_rate, user: rated_user, valid_from: 3.years.ago, rate: 5)
+      create(:default_hourly_rate, principal: rated_user, valid_from: 3.years.ago, rate: 5)
     end
 
     subject(:methods) { described_class.new(hourly_rate) }

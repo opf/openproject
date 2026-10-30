@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,7 +28,7 @@
 // Latin layouts use the key's meaning (AZERTY's Ctrl+A is physical KeyQ).
 // Non-Latin layouts use the physical key (Cyrillic ф or Greek α on KeyA).
 export function isSelectAllShortcut(event:KeyboardEvent, applePlatform:boolean):boolean {
-  if (event.isComposing || event.altKey || event.getModifierState('AltGraph')) return false;
+  if (event.isComposing || event.altKey || event.shiftKey || event.getModifierState('AltGraph')) return false;
   if (!(applePlatform ? event.metaKey : event.ctrlKey)) return false;
   return event.key === 'a' || event.key === 'A'
     || (event.code === 'KeyA' && /^\p{L}$/u.test(event.key) && !/^\p{Script=Latin}$/u.test(event.key));

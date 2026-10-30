@@ -106,7 +106,6 @@ sv:
   plugin_openproject_reporting:
     description: Med detta tillägg kan du skapa anpassade kostnadsrapporter med filtrering och gruppering som skapats av tillägget OpenProject Time and costs.
     name: OpenProject rapportering
-  project_module_reporting_module: Kostnadsrapporter
   reporting:
     group_by:
       selected_columns: Valda kolumner

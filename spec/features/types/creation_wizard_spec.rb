@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -102,15 +101,21 @@ RSpec.describe "Type creation wizard", :js do
     expect_step_saved(:defaults)
 
     expect(page).to have_heading("Form")
-    expect(page).to have_css("[data-test-selector='form_configuration-choice-new']:checked", visible: :all)
+    expect(page).to have_css("[data-test-selector='form_configuration-choice-existing']:checked", visible: :all)
     click_on I18n.t(:button_continue)
+    within_dialog I18n.t("form_configurations.form.edit_title") do
+      expect(page).to have_field("Form name", with: "Incident form")
+      fill_in "Form name", with: "Incident intake"
+      click_on I18n.t(:button_save)
+    end
+
     expect_step_saved(:form_configuration)
 
     expect(page).to have_heading("Project attributes")
     click_on I18n.t(:button_continue)
     expect_step_saved(:project_attributes)
 
-    expect(page).to have_heading("Workflows")
+    expect(page).to have_heading("Workflow")
     expect(page).to have_text(I18n.t("admin.workflows.tabs.always"))
     click_on I18n.t(:button_continue)
     within_dialog I18n.t("workflows.form.edit_title") do
@@ -123,12 +128,13 @@ RSpec.describe "Type creation wizard", :js do
     click_on I18n.t(:button_continue)
     expect_step_saved(:projects)
 
-    expect(page).to have_heading("PDF generation")
+    expect(page).to have_heading("Generate PDF")
     click_on I18n.t("types.creation_wizard.finish")
 
     expect_flash(message: I18n.t("types.creation_wizard.success"))
     expect(page).to have_current_path(types_path)
     expect(type.reload.name).to eq("Incident")
+    expect(type.default_variant.form_configuration.name).to eq("Incident intake")
   end
 
   it "creates a type with the core settings editable" do
@@ -176,7 +182,7 @@ RSpec.describe "Type creation wizard", :js do
       expect_step_saved(:details)
       variant = bug_type.variants.reload.find_by!(variant_name: "Hardware")
 
-      within_test_selector("wizard-step-details") { click_on I18n.t("types.creation_wizard.steps.details") }
+      find_test_selector("wizard-step-details").click
 
       expect(page).to have_text(I18n.t("types.creation_wizard.add_variant", name: bug_type.name))
       expect(page).to have_field(TypeVariant.human_attribute_name(:variant_name), with: "Hardware")

@@ -3,6 +3,7 @@ zh-CN:
   activerecord:
     attributes:
       placeholder_user:
+        resource_allocations: Resource allocations
         user_filter: 筛选条件
       resource_allocation:
         allocated_hours: 小时
@@ -28,6 +29,8 @@ zh-CN:
         allocated_time: Allocated
     errors:
       models:
+        placeholder_user:
+          used_in_resource_allocations: This placeholder user is still used in resource allocations. Reassign or remove these allocations before deleting it.
         resource_allocation:
           attributes:
             end_date:
@@ -98,20 +101,22 @@ zh-CN:
       criteria:
         empty: 尚未设置条件。
         label: 条件
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: 所选用户在这些日期没有配置工作时数，因此被计为没有产能。
         partial: 所选用户在 %{dates}没有配置工作时数，因此这些日期被计为没有产能。
       outside_dates:
         description: 所选资源日期 %{resource_dates} 在工作包日期 %{work_package_dates} 之外。
       overbooking:
-        capacity_summary: "%{available} 可用 - %{scheduled} 预定"
         description: 为所选用户 %{user} 分配的任务将超出其在此期间的工作时数。
-        hidden_work: 其他分配
+        overtime_summary_html: This allocation adds %{hours} between %{start_date} and %{end_date}, <strong>causing %{overtime} of overtime between %{overtime_start_date} and %{overtime_end_date}</strong>.
         schedule_availability: "%{schedule}（%{factor}% 可用于项目工作）"
         schedule_change: 截至 %{date}，然后%{schedule}
         schedule_note: 此用户%{schedule}工作。
         submit: 分配加班时间
         title: 是否要为用户分配加班时间？
+        unplannable: "%{user} has no working day between %{start_date} and %{end_date}, so this allocation cannot be planned."
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: 分配
       success_message: 资源已分配。
       title: 分配资源
@@ -162,6 +167,8 @@ zh-CN:
     label_new_resource_planner: 新建资源规划工具
     label_resource_planner: 资源规划工具
     label_resource_planner_plural: 资源规划工具
+    my_time_management:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: 添加视图
     public_caption: 向该项目的所有成员公开此视图。这不会影响工作包的可见性，工作包的可见性仍然取决于每位用户的权限。
@@ -248,7 +255,8 @@ zh-CN:
       no_work_schedule: 没有为此用户计划的工作时间表
       overbooked: 此用户在所选期间内被超额指定。
       overbooked_tooltip:
-        range: "%{dates}：计划量为 %{scheduled}，可用量为 %{available}"
+        dates: Beyond working hours on %{dates}
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: 添加用户
     view_types:

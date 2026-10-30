@@ -32,6 +32,10 @@ id:
         labels: Label
       gitlab_pipeline:
         ci_details: Rincian CI
+      gitlab_user:
+        avatar_url: Avatar URL
+        name: Name
+        username: Username
     errors:
       models:
         gitlab_issue:
@@ -56,13 +60,10 @@ id:
   attributes:
     commit: Tetapkan
     gitlab: Tanda pengenal GitLab
-    gitlab_avatar_url: URL avatar
     gitlab_html_url: URL HTML GitLab
     gitlab_merge_request: Permintaan penggabungan
-    gitlab_name: Nama GitLab
     gitlab_updated_at: Diperbarui pada
     gitlab_user_avatar_url: URL avatar GitLab
-    gitlab_username: Nama pengguna GitLab
   gitlab_integration:
     branch_component:
       copy_name: Copy branch name

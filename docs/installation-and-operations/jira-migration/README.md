@@ -35,6 +35,7 @@ The Jira Migrator is currently in beta and supports the following data:
 - Issues
 - Issue identifiers
 - Issue descriptions, history, comments, and attachments
+- Logged work (worklogs) as time entries
 - A subset of custom fields (see [Custom fields migration](./custom-fields/))
 - Involved users and groups
 - Statuses
@@ -86,6 +87,8 @@ Provide the following details:
 - A name for the import configuration
 - Your Jira URL
 - A Personal Access Token. The migration tool requires a token with admin permissions. Otherwise, you will get a 403 error during the import process.
+
+Optionally, select **Exclude resolution fields for this configuration** if you do not want to import Jira's resolution and resolution date. See [Field mapping](field-mapping/) for how these fields are imported otherwise.
 
 ### Test configuration
 

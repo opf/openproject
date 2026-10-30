@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,23 +28,15 @@
 import { Controller } from '@hotwired/stimulus';
 import { renderStreamMessage } from '@hotwired/turbo';
 
-const DRAGGING_OVER = 'op-file-section--drop-box_dragging-over';
 const STREAM_TYPE = 'text/vnd.turbo-stream.html';
 const POLLING_INTERVAL = 2000;
 
 export default class CsvImportController extends Controller<HTMLElement> {
-  static targets = ['submit', 'dryRun', 'file', 'filename', 'dropBox', 'sizeError', 'poll', 'finished'];
-
-  static values = { maxSize: Number, tooLarge: String };
+  static targets = ['submit', 'dryRun', 'file', 'poll', 'finished'];
 
   declare readonly submitTarget:HTMLButtonElement;
   declare readonly dryRunTarget:HTMLInputElement;
   declare readonly fileTarget:HTMLInputElement;
-  declare readonly filenameTarget:HTMLElement;
-  declare readonly dropBoxTarget:HTMLButtonElement;
-  declare readonly sizeErrorTarget:HTMLElement;
-  declare readonly maxSizeValue:number;
-  declare readonly tooLargeValue:string;
 
   interval?:ReturnType<typeof setInterval>;
 
@@ -76,39 +67,12 @@ export default class CsvImportController extends Controller<HTMLElement> {
     void this.reset(link.href, link.dataset.streamUrl ?? link.href);
   }
 
-  openFilePicker() {
-    this.fileTarget.click();
-  }
-
-  dragOver(event:DragEvent) {
-    event.preventDefault();
-    this.dropBoxTarget.classList.add(DRAGGING_OVER);
-  }
-
-  dragLeave() {
-    this.dropBoxTarget.classList.remove(DRAGGING_OVER);
-  }
-
-  dropFile(event:DragEvent) {
-    event.preventDefault();
-    this.dropBoxTarget.classList.remove(DRAGGING_OVER);
-
-    const file = event.dataTransfer?.files?.[0];
-    if (!file) { return; }
-
-    // The form submits the input, not the drop event, so the dropped file has to be put there.
-    const transfer = new DataTransfer();
-    transfer.items.add(file);
-    this.fileTarget.files = transfer.files;
-
-    this.fileChosen();
-  }
-
+  // Picking the file, dragging it onto the drop zone, naming it in the placeholder, and rejecting
+  // it for a wrong type or an oversize are all handled by the generic file-field Stimulus
+  // controller wrapping this field; by the time this runs, the hidden input either holds a file
+  // that passed those checks or was already cleared.
   fileChosen() {
-    const file = this.fileTarget.files?.[0];
-
-    this.filenameTarget.textContent = file ? file.name : this.filenameTarget.dataset.empty ?? '';
-    this.checkFile(file);
+    this.submitTarget.disabled = !this.fileTarget.files?.length;
   }
 
   nameTheAction() {
@@ -160,14 +124,6 @@ export default class CsvImportController extends Controller<HTMLElement> {
     }
 
     return response.text();
-  }
-
-  private checkFile(file:File|undefined) {
-    const tooLarge = !!file && this.maxSizeValue > 0 && file.size > this.maxSizeValue;
-
-    this.sizeErrorTarget.textContent = tooLarge ? this.tooLargeValue : '';
-    this.sizeErrorTarget.hidden = !tooLarge;
-    this.submitTarget.disabled = !file || tooLarge;
   }
 
   private stopPolling() {

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -124,6 +123,10 @@ module Settings
       attachments_grace_period: {
         description: "Time in minutes to wait before uploaded files not attached to any container are removed",
         default: 180
+      },
+      attachments_cleanup_period_hours: {
+        description: "Time in hours to wait before deleting up uploaded files that were not cleaned up before",
+        default: 2
       },
       antivirus_scan_available: {
         description: "Virus scanning option selectable in the UI",
@@ -384,14 +387,7 @@ module Settings
         allowed: -> { Redmine::I18n.all_languages }
       },
       default_projects_modules: {
-        default: -> {
-          base_modules = %w[calendar board_view work_package_tracking gantt news costs]
-          if Setting.real_time_text_collaboration_enabled?
-            base_modules + %w[documents]
-          else
-            base_modules
-          end
-        },
+        default: -> { OpenProject::AccessControl.default_project_modules.map(&:to_s) },
         allowed: -> { OpenProject::AccessControl.available_project_modules.map(&:to_s) }
       },
       default_projects_public: {
@@ -615,6 +611,13 @@ module Settings
         writable: false,
         default: true
       },
+      good_job_shutdown_timeout: {
+        description: "Seconds that the worker waits for running jobs to finish before it stops them. " \
+                     "Set it to less than the time the container platform waits before it kills the worker.",
+        format: :integer,
+        writable: false,
+        default: 30
+      },
       good_job_cleanup_preserved_jobs_before_seconds_ago: {
         description: "",
         format: :integer,
@@ -760,11 +763,6 @@ module Settings
       },
       ldap_users_sync_status: {
         description: "Enable user status (locked/unlocked) synchronization from LDAP",
-        format: :boolean,
-        default: false
-      },
-      llm_features_enabled: {
-        description: "Enable the AI features backed by the configured LLM connection",
         format: :boolean,
         default: false
       },

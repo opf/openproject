@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -342,7 +341,7 @@ RSpec.describe "Projects", "editing settings", :js do
         general_page.expect_field_label_with_help_text "Subproject of"
       end
 
-      it "shows help text link next to status button", :selenium do
+      it "shows help text link next to status button" do
         within_section "Status" do
           button = find_button("Edit status")
           expect(page).to have_link accessible_name: "Show help text", right_of: button

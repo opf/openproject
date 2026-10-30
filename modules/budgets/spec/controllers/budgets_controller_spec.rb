@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -172,7 +171,7 @@ RSpec.describe BudgetsController do
     before { login_as(current_user) }
 
     context "when the referenced user is a project member" do
-      let!(:hourly_rate) { create(:hourly_rate, user: project_member, project:, rate: 100.0, valid_from: Time.zone.today) }
+      let!(:hourly_rate) { create(:hourly_rate, principal: project_member, project:, rate: 100.0, valid_from: Time.zone.today) }
 
       it "calculates costs based on the member's hourly rate" do
         get :update_labor_budget_item,
@@ -248,7 +247,7 @@ RSpec.describe BudgetsController do
     end
 
     context "when the referenced user is not a project member" do
-      let!(:hourly_rate) { create(:hourly_rate, user: non_member, project:, rate: 100.0, valid_from: Time.zone.today) }
+      let!(:hourly_rate) { create(:hourly_rate, principal: non_member, project:, rate: 100.0, valid_from: Time.zone.today) }
 
       it "returns zero costs" do
         get :update_labor_budget_item,

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -375,7 +374,6 @@ RSpec.describe "API v3 Work package resource",
 
           before do
             project.project_types.create!(type: target_type)
-            project.work_package_custom_fields << custom_field
             target_type.default_variant.custom_field_ids |= [custom_field.id]
           end
 
@@ -456,7 +454,6 @@ RSpec.describe "API v3 Work package resource",
           let(:params) { valid_params.merge(project_parameter).merge(custom_field_parameter) }
 
           before do
-            target_project.work_package_custom_fields << custom_field
             work_package.type.default_variant.custom_field_ids |= [custom_field.id]
           end
 
@@ -604,7 +601,7 @@ RSpec.describe "API v3 Work package resource",
           end
         end
 
-        context "assingee" do
+        context "for the assignee" do
           it_behaves_like "handling people", "assignee"
         end
 
@@ -807,6 +804,32 @@ RSpec.describe "API v3 Work package resource",
           end
         end
 
+        context "with a new title from a user who may edit the work package but not create labels" do
+          let(:label_links) { [{ href: nil, title: "Needs triage" }] }
+          let(:current_user) do
+            create(:user).tap do |user|
+              create(:work_package_member,
+                     principal: user,
+                     entity: work_package,
+                     roles: [create(:edit_work_package_role)])
+            end
+          end
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:unprocessable_entity) }
+
+          it "reports the labels as unauthorized" do
+            expect(response.body)
+              .to be_json_eql("Labels #{I18n.t('activerecord.errors.messages.error_unauthorized')}".to_json)
+                    .at_path("message")
+          end
+
+          it "creates no label" do
+            expect(Label.count).to eq(0)
+          end
+        end
+
         context "when another attribute of the same request is invalid" do
           let(:params) { valid_params.merge(subject: "", _links: { labels: label_links }) }
 
@@ -815,6 +838,77 @@ RSpec.describe "API v3 Work package resource",
           it { expect(response).to have_http_status(:unprocessable_entity) }
 
           it "does not assign the label" do
+            expect(work_package.reload.labels).to be_empty
+          end
+        end
+
+        context "with a title for a label that does not exist yet" do
+          let(:label_links) { [{ href: nil, title: "Needs triage" }] }
+          let(:created_label) { Label.find_by!(name: "Needs triage") }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "creates the label as the current user and assigns it" do
+            expect(created_label.author).to eq(current_user)
+            expect(work_package.reload.labels).to contain_exactly(created_label)
+          end
+
+          it "responds with the href of the created label" do
+            expect(response.body)
+              .to be_json_eql(api_v3_paths.label(created_label.id).to_json)
+                    .at_path("_links/labels/0/href")
+          end
+        end
+
+        context "with a title matching an existing label in different casing" do
+          let!(:label) { create(:label, name: "Needs triage") }
+          let(:label_links) { [{ href: nil, title: "NEEDS TRIAGE" }] }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "reuses the existing label" do
+            expect(Label.count).to eq(1)
+            expect(work_package.reload.labels).to contain_exactly(label)
+          end
+        end
+
+        context "with a title and another attribute of the same request being invalid" do
+          let(:params) { valid_params.merge(subject: "", _links: { labels: [{ href: nil, title: "Needs triage" }] }) }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:unprocessable_entity) }
+
+          it "does not create the label" do
+            expect(Label.where(name: "Needs triage")).not_to exist
+          end
+        end
+
+        context "with the feature flag off", with_flag: { work_package_labels: false } do
+          let(:label_links) { [{ href: nil, title: "Needs triage" }] }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "creates no label" do
+            expect(Label.count).to eq(0)
+          end
+        end
+
+        context "with a null href and no title" do
+          let(:label_links) { [{ href: nil }] }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "creates no label and assigns none" do
+            expect(Label.count).to eq(0)
             expect(work_package.reload.labels).to be_empty
           end
         end
@@ -834,6 +928,22 @@ RSpec.describe "API v3 Work package resource",
 
           it "does not assign the label" do
             expect(work_package.reload.labels).to be_empty
+          end
+
+          context "with a title for a label that does not exist yet" do
+            let(:label_links) { [{ href: nil, title: "Needs triage" }] }
+
+            it { expect(response).to have_http_status(:unprocessable_entity) }
+
+            it "has a readonly error" do
+              expect(response.body)
+                .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyIsReadOnly".to_json)
+                      .at_path("errorIdentifier")
+            end
+
+            it "does not create the label" do
+              expect(Label.where(name: "Needs triage")).not_to exist
+            end
           end
         end
       end
@@ -933,7 +1043,6 @@ RSpec.describe "API v3 Work package resource",
 
         before do
           allow(User).to receive(:current).and_return current_user
-          work_package.project.work_package_custom_fields << custom_field
           work_package.type.default_variant.custom_field_ids |= [custom_field.id]
         end
 
@@ -1062,7 +1171,6 @@ RSpec.describe "API v3 Work package resource",
                    field_format: "string",
                    name: "Department",
                    is_required: true,
-                   projects: [project],
                    types: [work_package.type])
           end
 
@@ -1153,6 +1261,55 @@ RSpec.describe "API v3 Work package resource",
             end
 
             it_behaves_like "lock version updated"
+          end
+        end
+
+        context "with a datetime custom field" do
+          let!(:datetime_custom_field) do
+            create(:wp_custom_field,
+                   :datetime,
+                   name: "Detected at",
+                   types: [work_package.type])
+          end
+          let(:params) { valid_params.merge(datetime_custom_field.attribute_name(:camel_case) => value) }
+
+          context "when the value has an offset" do
+            let(:value) { "2026-10-01T14:30:00+02:00" }
+
+            include_context "patch request"
+
+            it "responds with the value in UTC" do
+              expect(response).to have_http_status(:ok)
+              expect(response.body)
+                .to be_json_eql("2026-10-01T12:30:00.000Z".to_json)
+                .at_path(datetime_custom_field.attribute_name(:camel_case))
+            end
+          end
+
+          context "when the value is not ISO 8601" do
+            let(:value) { "01.10.2026 14:30" }
+
+            include_context "patch request"
+
+            it_behaves_like "constraint violation" do
+              let(:message) { "Detected at is not a valid date time." }
+            end
+          end
+
+          context "when the value is cleared" do
+            let(:value) { nil }
+
+            before do
+              work_package.custom_field_values = { datetime_custom_field.id => "2026-10-01T12:30:00Z" }
+              work_package.save!
+            end
+
+            include_context "patch request"
+
+            it "removes the value" do
+              expect(response).to have_http_status(:ok)
+              expect(work_package.reload.typed_custom_value_for(datetime_custom_field)).to be_nil
+            end
           end
         end
       end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -51,8 +50,10 @@ RSpec.describe Admin::Labels::RowComponent, type: :component do
       expect(rendered_component).to have_test_selector("label-name", text: "Bug")
     end
 
-    it "renders the pluralised usage count" do
-      expect(rendered_component).to have_test_selector("label-usage", text: "3 work packages")
+    it "links the pluralized usage count to the work package table filtered by the label" do
+      query_props = { f: [{ n: "label", o: "=", v: [record.id.to_s] }] }.to_json
+
+      expect(rendered_component).to have_link("3 work packages", href: work_packages_path(query_props:), target: "_blank")
     end
   end
 
@@ -61,8 +62,9 @@ RSpec.describe Admin::Labels::RowComponent, type: :component do
 
     let(:label) { Label.with_usage_count.find(record.id) }
 
-    it "renders a dash instead of a count" do
+    it "renders a plain dash instead of a count" do
       expect(rendered_component).to have_test_selector("label-usage", text: "-")
+      expect(rendered_component).to have_no_link("-")
     end
   end
 

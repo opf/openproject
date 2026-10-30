@@ -116,7 +116,7 @@ sl:
     not_recommended: ni priporočeno
     recommended: Priporočeno
     x_bcf_issues:
-      one: Ena BCF napaka
+      one: "%{count} BCF issue"
       other: "%{count} BCF napake"
       zero: Ni BCF napak
   bim:
@@ -154,8 +154,10 @@ sl:
       processing_default: 'Naslednji privzeti modeli IFC se še vedno obdelujejo in zato še niso na voljo:'
   oauth:
     scopes:
-      bcf_v2_1: Popoln dostop do BCF v2.1 API
+      bcf_v2_1: Access to the BCF v2.1 API
       bcf_v2_1_text: Aplikacija prejme popoln dostop za branje in pisanje do OpenProject BCF API v2.1 za izvajanje dejanj v vašem imenu.
+      explanations_admin:
+        bcf_v2_1: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on the user's behalf.
   permission_delete_bcf: Izbriši BCF probleme
   permission_manage_bcf: Uvozite in upravljajte BCF težave
   permission_manage_bcf_explanation: |

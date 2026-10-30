@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -190,25 +189,25 @@ RSpec.describe "Statuses admin page", :js do
         create(:status, name: "Archived")
         visit statuses_page.path
         statuses_page.go_to_page(2)
-        statuses_page.expect_listed("Done", "Archived")
+        statuses_page.expect_listed("Done", "Archived", first_rowindex: 4)
 
         wait_for_turbo_stream { statuses_page.drag_status(from_index: 1, to_index: 0) }
 
-        statuses_page.expect_listed("Archived", "Done")
+        statuses_page.expect_listed("Archived", "Done", first_rowindex: 4)
         expect(Status.order(:position).pluck(:name)).to eq(["New", "In Progress", "Archived", "Done"])
 
         statuses_page.reload!
-        statuses_page.expect_listed("Archived", "Done")
+        statuses_page.expect_listed("Archived", "Done", first_rowindex: 4)
       end
 
       it "moves to the global top through the menu on page two" do
         statuses_page.visit!
         statuses_page.go_to_page(2)
-        statuses_page.expect_listed("Done")
+        statuses_page.expect_listed("Done", first_rowindex: 4)
 
         wait_for_turbo_stream { statuses_page.click_status_action(status_done, action: "Move to top") }
 
-        statuses_page.expect_listed("In Progress")
+        statuses_page.expect_listed("In Progress", first_rowindex: 4)
         expect(Status.order(:position).pluck(:name)).to eq(["Done", "New", "In Progress"])
       end
 
@@ -216,11 +215,11 @@ RSpec.describe "Statuses admin page", :js do
         statuses_page.visit!
         statuses_page.go_to_page(2)
 
-        statuses_page.expect_listed("Done")
+        statuses_page.expect_listed("Done", first_rowindex: 4)
 
         statuses_page.click_status_action(status_done, action: "Move up")
 
-        statuses_page.expect_listed("In Progress")
+        statuses_page.expect_listed("In Progress", first_rowindex: 4)
         expect(Status.order(:position).pluck(:name)).to eq(["New", "Done", "In Progress"])
       end
     end
@@ -247,7 +246,7 @@ RSpec.describe "Statuses admin page", :js do
       end
     end
 
-    context "with commmunity edition", with_ee: false do
+    context "with community edition", with_ee: false do
       it "has 'is read-only' checkbox always disabled" do
         visit new_status_path
 
@@ -299,7 +298,7 @@ RSpec.describe "Statuses admin page", :js do
       end
     end
 
-    context "with commmunity edition", with_ee: false do
+    context "with community edition", with_ee: false do
       it "has 'is read-only' checkbox always disabled" do
         visit statuses_path
 

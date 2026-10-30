@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,7 +42,7 @@
 #     <%= render(Filters::FilterFormComponent.new(builder: f, query: @query)) %>
 #   <% end %>
 #
-# Customise the set of advertised filters by passing `allowed_filters:` (used
+# Customize the set of advertised filters by passing `allowed_filters:` (used
 # by `Filter::FilterComponent` subclasses that restrict or reorder the list).
 # To keep the default set but drop a few entries, pass `excluded_filters:` a
 # list of filter names (e.g. `%i[project_id]`); they are removed from the
@@ -196,8 +195,10 @@ class Filters::FilterFormComponent < ApplicationComponent
       Filters::Inputs::AutocompleteForm
     elsif filter.type.in? %i[list list_optional list_all]
       Filters::Inputs::ListForm
-    elsif filter.type.in? %i[datetime_past date]
+    elsif filter.type == :date
       Filters::Inputs::DateForm
+    elsif filter.type.in? %i[datetime_past datetime]
+      Filters::Inputs::DateTimeForm
     else
       Filters::Inputs::TextForm
     end

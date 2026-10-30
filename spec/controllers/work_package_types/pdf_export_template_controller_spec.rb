@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,12 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-#
+#++
 
 require "spec_helper"
 
@@ -80,8 +78,9 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
 
       it "reorder a template" do
         first = variant.pdf_export_templates.list.first
-        put_reload :drop, { id: first.id, position: 2 } # drop index starts at 1
-        variant.pdf_export_templates.list[1].id == first.id
+        second = variant.pdf_export_templates.list[1]
+        put_reload :move, { id: first.id, list_type: "pdf_export_templates", list_id: "", prev_id: second.id }
+        expect(variant.pdf_export_templates.list[1].id).to eq(first.id)
       end
 
       it "toggles enabled/disabled for a template" do
@@ -127,9 +126,14 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
         expect(response).to have_http_status(:forbidden)
       end
 
-      it "refuses drop with a forbidden turbo-stream flash" do
+      it "refuses move with a forbidden turbo-stream flash" do
         first = linked_variant.pdf_export_templates.list.first
-        expect { put_reload :drop, { variant_id: linked_variant.id, id: first.id, position: 2 } }.not_to raise_error
+        second = linked_variant.pdf_export_templates.list[1]
+        expect do
+          put_reload :move,
+                     { variant_id: linked_variant.id, id: first.id, list_type: "pdf_export_templates", list_id: "",
+                       prev_id: second.id }
+        end.not_to raise_error
         expect(response).to have_http_status(:forbidden)
       end
     end
@@ -137,7 +141,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
     describe "#edit" do
       render_views
 
-      it "renders the export configuration page including the artefact export form" do
+      it "renders the export configuration page including the artifact export form" do
         get :edit, params: { type_id: wp_type.id }
 
         expect(response).to have_http_status(:ok)
@@ -232,7 +236,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
         expect(response).to have_http_status(:not_found)
       end
 
-      it "stores the artefact template's lifecycle/budget defaults and resets them" do
+      it "stores the artifact template's lifecycle/budget defaults and resets them" do
         artefact_template = variant.pdf_export_templates.find("artefact")
 
         patch :update_settings,
@@ -282,7 +286,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
     describe "#update_artefact_export" do
       let(:param_key) { variant.model_name.param_key.to_sym }
 
-      it "stores a valid artefact export mode and responds with a turbo stream" do
+      it "stores a valid artifact export mode and responds with a turbo stream" do
         put :update_artefact_export,
             params: { type_id: wp_type.id, param_key => { artefact_export_mode: Type::ArtefactExport::FILE_LINK } },
             as: :turbo_stream

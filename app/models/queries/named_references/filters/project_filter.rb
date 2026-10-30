@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,14 +39,6 @@ class Queries::NamedReferences::Filters::ProjectFilter < Queries::Filters::Base
     used_in = member_exists_sql("applications.project_id IN (:project_ids)",
                                 extra_joins: "JOIN project_types applications ON applications.variant_id = members.id")
 
-    honouring_negation(conditions(used_in).join(" OR "), { project_ids: integer_values })
-  end
-
-  private
-
-  def conditions(used_in)
-    return [used_in] unless model.project_owned?
-
-    [used_in, "COALESCE(#{model.table_name}.project_id IN (:project_ids), FALSE)"]
+    honoring_negation(used_in, { project_ids: integer_values })
   end
 end

@@ -39,8 +39,6 @@ en:
           chart_value: "%{label}: %{value}"
     label_hour: "hour"
     label_hours: "hours"
-    myTimeTracking:
-      noSpecificTime: "No specific time"
     text_are_you_sure: "Are you sure?"
     work_packages:
       properties:

@@ -22,14 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 class WorkPackages::UpdateService < BaseServices::Update
   include ::WorkPackages::Shared::UpdateAncestors
+  include ::WorkPackages::Shared::FindOrCreateLabels
   include Attachments::ReplaceAttachments
   include Types::ApplyPatterns
 
@@ -41,6 +41,15 @@ class WorkPackages::UpdateService < BaseServices::Update
   end
 
   private
+
+  def after_validate(call)
+    labels_call = find_or_create_labels(call.result)
+    return super if labels_call.success?
+
+    call.success = false
+    call.errors = labels_call.errors
+    call
+  end
 
   def after_perform(service_call)
     # TODO: code smell here: saving the automatically generated subject depends

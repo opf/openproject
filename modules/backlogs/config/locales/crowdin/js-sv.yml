@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -45,15 +45,21 @@ sv:
         not_selectable: Markeringen är oförändrad. Det här arbetspaketet ingår inte i listans sorteringsordning.
         range_blocked: Markeringen är oförändrad. Intervallet innehåller ett arbetspaket som inte ingår i listans sorteringsordning.
         range_restarted:
-          one: Det gick inte att utöka intervallet. 1 arbetspaket markerat.
-          other: Det gick inte att utöka intervallet. %{count} arbetspaket markerade.
+          one: Could not extend the range. %{count} work package selected.
+          other: Could not extend the range. %{count} work packages selected.
         range_unavailable: Markeringen är oförändrad. Expandera listan för att markera intervallet.
         selected:
-          one: 1 arbetspaket markerat.
-          other: "%{count} arbetspaket markerade."
-    burndown:
-      day: Dag
-      points: Poäng
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
+    burndown_chart:
+      chart_day: 'Day %{day}: %{values}'
+      chart_label: Burndown chart
+      chart_summary: 'Burndown chart data: %{days}.'
+      chart_value: "%{label}: %{value}"
+      non_working_day: Non-working day
+      story_points: Story points
+    created_resolved:
+      work_packages: Work packages
     work_packages:
       properties:
         storyPoints: Berättelsepoäng

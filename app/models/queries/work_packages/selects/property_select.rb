@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -53,6 +52,27 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
          FROM work_package_versions wpv
          INNER JOIN versions v ON v.id = wpv.version_id
         WHERE wpv.work_package_id = work_packages.id AND wpv.kind = '#{kind}')
+    SQL
+  end
+
+  def self.labels_sortable
+    [
+      <<~SQL.squish,
+        (SELECT STRING_AGG(LOWER(l.name), ' ' ORDER BY LOWER(l.name), l.id)
+           FROM labelings lg
+           INNER JOIN labels l ON l.id = lg.label_id
+          WHERE lg.labelable_id = work_packages.id AND lg.labelable_type = 'WorkPackage')
+      SQL
+      labels_groupable
+    ]
+  end
+
+  def self.labels_groupable
+    <<~SQL.squish
+      (SELECT STRING_AGG(l.id::text, '.' ORDER BY LOWER(l.name), l.id)
+         FROM labelings lg
+         INNER JOIN labels l ON l.id = lg.label_id
+        WHERE lg.labelable_id = work_packages.id AND lg.labelable_type = 'WorkPackage')
     SQL
   end
 
@@ -128,6 +148,7 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
       # The lowest-id target version represents the work package, matching the
       # version_id mirror column and the cost report's single-version join;
       # the sort key is that version's name.
+      value_method: :lowest_target_version,
       sortable: <<~SQL.squish,
         (SELECT LOWER(v.name)
            FROM work_package_versions wpv
@@ -216,6 +237,11 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
     shared_with_users: {
       sortable: false,
       groupable: false
+    },
+    labels: {
+      if: -> { OpenProject::FeatureDecisions.work_package_labels_active? },
+      sortable: labels_sortable,
+      groupable: labels_groupable
     }
   }
 

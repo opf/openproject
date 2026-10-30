@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -47,6 +46,16 @@ module Saml
           disabled: provider.seeded_from_env?,
           required: true,
           input_width: :large
+        )
+        f.text_area(
+          name: :additional_form_action_urls,
+          rows: 3,
+          label: Saml::Provider.human_attribute_name(:additional_form_action_urls),
+          caption: I18n.t("authentication.instructions.additional_form_action_urls"),
+          disabled: provider.seeded_from_env?,
+          required: false,
+          input_width: :large,
+          value: provider.additional_form_action_urls.join("\n")
         )
         f.text_field(
           name: :idp_slo_service_url,

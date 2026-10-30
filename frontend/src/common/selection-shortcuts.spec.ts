@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -40,6 +39,10 @@ describe('isSelectAllShortcut', () => {
     [false, { key: 'Dead', code: 'KeyA', ctrlKey: true }, false],
     [false, { key: 'a', ctrlKey: true, isComposing: true }, false],
     [false, { key: 'a', ctrlKey: true, altKey: true }, false],
+    [false, { key: 'A', ctrlKey: true }, true],
+    [false, { key: 'A', ctrlKey: true, shiftKey: true }, false],
+    [true, { key: 'A', metaKey: true, shiftKey: true }, false],
+    [false, { key: 'Ф', code: 'KeyA', ctrlKey: true, shiftKey: true }, false],
   ] as [boolean, KeyboardEventInit, boolean][])(
     'recognizes Select All on Apple=%s with %j', (apple, init, expected) => {
       expect(isSelectAllShortcut(new KeyboardEvent('keydown', init), apple)).toBe(expected);

@@ -83,6 +83,7 @@ register_auth_providers do
         name: 'my_provider',
         display_name: 'Optional Label', # (optional) provider's name as shown in OpenProject
         icon: 'my_auth_plugin/optional_provider_icon.png', # (optional) provider icon
+        form_action_urls: ['https://idp.example.com/authorize'], # (required) URLs the browser is redirected to during the login
         # example options depending on your strategy:
         host: Setting.plugin_openproject_my_auth_plugin["auth_server_address"]
       }
@@ -90,6 +91,13 @@ register_auth_providers do
   end
 end
 ```
+
+OpenProject starts the login with a form that sends a POST request to `/auth/my_provider`.
+Your strategy then redirects the browser to the identity provider.
+Browsers apply the Content Security Policy `form-action` directive to this redirect.
+Set `form_action_urls` to the URL that your strategy redirects to, so that OpenProject can allow its origin.
+If the identity provider redirects the browser to other servers, add those URLs to the list too.
+If `form_action_urls` contains no absolute HTTP(S) URL, the login fails with an error.
 
 OmniAuth will try to look up a strategy based on the passed symbol `:my_auth_plugin_strategy`, meaning that in this case it would expect a strategy class to be defined as follows:
 
@@ -122,12 +130,10 @@ All that’s that left to do is declaring your plugin in the file `Gemfile.plugi
 If you haven’t published it as a gem yet you can also use a local copy:
 
 ```ruby
-  gem "openproject-auth_plugins", :git => 'https://github.com/opf/openproject-auth_plugins.git', :branch => 'dev'
   gem 'openproject-my_auth_plugin', :path => 'plugins/openproject-my_auth_plugin'
 ```
 
 Also don’t forget to include the `openproject-auth_plugins` as a dependency in your plugin’s gem specification (`openproject-my_auth_plugin.gemspec`).
-The first line in the snippet shown above is only necessary because the `openproject-auth_plugins` plugin itself has not been published as a gem yet.
 
 ### Profit
 

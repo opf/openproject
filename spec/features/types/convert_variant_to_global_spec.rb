@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -58,36 +57,6 @@ RSpec.describe "Convert a project-owned variant to global", :js do
 
     expect_flash(type: :success, message: I18n.t("types.index.convert_to_global_notice", name: owned.composite_name))
     expect(owned.reload.project_id).to be_nil
-  end
-
-  it "warns that the project's workflow becomes global too, and converts it" do
-    workflow = create(:project_owned_workflow, project:, name: "Bookshop flow")
-    owned.update!(workflow:)
-
-    within(find_test_selector("type-variant-#{owned.id}")) { find("action-menu > button").click }
-    click_on convert_action
-
-    within_dialog(confirm_dialog) do
-      expect(page).to have_text(%(Its workflow "#{workflow.name}" belongs to this project))
-      click_on I18n.t("types.index.convert_to_global_dialog.confirm")
-    end
-
-    expect_flash(type: :success, message: I18n.t("types.index.convert_to_global_notice", name: owned.composite_name))
-    expect(workflow.reload.project_id).to be_nil
-  end
-
-  context "when the variant uses a global workflow" do
-    before { owned.update!(workflow: create(:named_workflow, name: "Standard flow")) }
-
-    it "says nothing about the workflow" do
-      within(find_test_selector("type-variant-#{owned.id}")) { find("action-menu > button").click }
-      click_on convert_action
-
-      within_dialog(confirm_dialog) do
-        expect(page).to have_text("The project admin will no longer be able to edit it")
-        expect(page).to have_no_text("belongs to this project")
-      end
-    end
   end
 
   context "when a global variant already carries the name" do

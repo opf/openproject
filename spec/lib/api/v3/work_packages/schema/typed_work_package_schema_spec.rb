@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -139,8 +138,8 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
     let(:variant) { create(:type_variant, type: root_type) }
     let(:project) { create(:project, types: [variant]) }
 
-    let!(:root_cf) { create(:integer_wp_custom_field, projects: [project], types: [root_type]) }
-    let!(:variant_cf) { create(:integer_wp_custom_field, projects: [project], types: [variant]) }
+    let!(:root_cf) { create(:integer_wp_custom_field, types: [root_type]) }
+    let!(:variant_cf) { create(:integer_wp_custom_field, types: [variant]) }
 
     subject { described_class.new(project:, type: root_type) }
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -168,7 +167,7 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
 
         it "still renders the shared selection description" do
           get "/projects/#{project.identifier}/backlogs/backlog",
-              params: { bucket_ids: [backlog_bucket.id] },
+              params: { bucket_ids: backlog_bucket.id.to_s.to_json },
               headers: { "Turbo-Frame" => "backlogs_container" }
 
           expect(response).to have_http_status(:ok)

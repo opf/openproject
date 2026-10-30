@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -54,7 +53,7 @@ module Members::CurrentRateColumn
   #   2) a user's rate in one of the given project's parents
   #   3) a user's default rate
   #
-  # This mirrors the behaviour as implemented in `HourlyRate#at_date_for_user_in_project`.
+  # This mirrors the behavior as implemented in `HourlyRate#at_date_for_user_in_project`.
   def join_rate(query)
     query.joins(
       ActiveRecord::Base.sanitize_sql_array(

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -240,56 +239,6 @@ RSpec.describe ApplicationHelper do
     end
   end
 
-  describe "#all_lang_options_for_select" do
-    it 'has all languages translated ("English" should appear only once)' do
-      impostor_locales =
-        all_lang_options_for_select
-          .reject { |_lang, locale| locale == "en" }
-          .select { |lang, _locale| lang == "English" }
-          .map { |_lang, locale| locale }
-      expect(impostor_locales.count).to eq(0), <<~ERR
-        The locales #{impostor_locales.to_sentence} display themselves as "English"!
-
-        Probably because new languages were added, and the translation for their language is not
-        available, so it fallbacks to the English translation.
-
-        To fix it, generate translation files from CLDR by running
-
-            script/i18n/generate_languages_translations
-
-        And commit the yml files added in "config/locales/generated/*.yml".
-      ERR
-    end
-
-    it "has distinct languages translation" do
-      duplicate_langs =
-        all_lang_options_for_select
-          .map { |lang, _locale| lang }
-          .tally
-          .reject { |_lang, count| count == 1 }
-          .map { |lang, _count| lang }
-      duplicate_options =
-        all_lang_options_for_select
-          .filter { |lang, _locale| duplicate_langs.include?(lang) }
-          .sort
-
-      expect(duplicate_options.count).to eq(0), <<~ERR
-        Some identical language names are used for different locales!
-
-          duplicates: #{duplicate_options}
-
-        This happens when a new language is added to Crowdin: new translation files are
-        generated and the new language is available in Setting.all_languages, but there
-        is no translation for its name yet, and so it falls back to "English".
-
-        To fix it:
-          - run the script "script/i18n/generate_languages_translations"
-          - commit the additional translation file generated in
-            "config/locales/generated/*.yml".
-      ERR
-    end
-  end
-
   describe "#back_url_to_current_page" do
     context "when back_url param is provided" do
       it "returns the provided back_url" do
@@ -336,6 +285,50 @@ RSpec.describe ApplicationHelper do
         expect(subject).to be_html_eql %{
           <a target="_top" aria-label="Работайте усердно!" aria-current="page" href="/work_packages/10">Пакет работ</a>
         }
+      end
+    end
+  end
+
+  describe "#initial_main_menu_width" do
+    subject { helper.initial_main_menu_width }
+
+    {
+      nil => nil,
+      "" => nil,
+      "0" => 0,
+      "00" => nil,
+      "5" => nil,
+      "10" => nil,
+      "11" => 11,
+      "320" => 320,
+      "0320" => 320,
+      "-320" => nil,
+      "320.5" => nil,
+      "320px" => nil,
+      "wide" => nil,
+      "320\n" => nil
+    }.each do |cookie, expected|
+      it "returns #{expected.inspect} with the cookie #{cookie.inspect}" do
+        helper.request.cookies[described_class::MAIN_MENU_WIDTH_COOKIE] = cookie unless cookie.nil?
+        expect(subject).to eq(expected)
+      end
+    end
+  end
+
+  describe "#pwa_service_worker_attributes" do
+    context "with the progressive web app flag on", with_flag: { progressive_web_app: true } do
+      it "wires the registration controller to the worker url and the instance scope" do
+        expect(helper.pwa_service_worker_attributes).to eq(
+          controller: "pwa-service-worker",
+          pwa_service_worker_url_value: "/service-worker",
+          pwa_service_worker_scope_value: "/"
+        )
+      end
+    end
+
+    context "with the progressive web app flag off", with_flag: { progressive_web_app: false } do
+      it "wires nothing" do
+        expect(helper.pwa_service_worker_attributes).to eq({})
       end
     end
   end

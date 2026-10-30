@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -77,19 +76,18 @@ export class OPContextMenuService {
       return true;
     });
 
-    const that = this;
     const wrapper = document.getElementById('wrapper');
     if (wrapper) {
       // Listen to any click and close the active context menu
       wrapper.addEventListener('click', (evt:Event) => {
-        if (that.active && !that.portalHostElement.contains(evt.target as Element)) {
-          that.close();
+        if (this.active && !this.portalHostElement.contains(evt.target as Element)) {
+          this.close();
         }
       });
       // Listen if it scrolles then close the active context menu
       wrapper.addEventListener('scroll', (evt:Event) => {
-        if (that.active && !that.portalHostElement.contains(evt.target as Element)) {
-          that.close();
+        if (this.active && !this.portalHostElement.contains(evt.target as Element)) {
+          this.close();
         }
       }, true);
     }

@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -29,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do %>
   <%= render(WorkPackageTypes::NamedReferences::ChoiceComponent.new(variant: model, model_class: ::FormConfiguration, back_url: @back_url)) %>
-  <%= render(WorkPackageTypes::Wizard::StepDescriptionComponent.new(step: :form_configuration)) %>
+  <%= render(WorkPackageTypes::AspectDescriptionComponent.new(variant: model, aspect: :form_configuration, form_mode:)) %>
   <%= render(WorkPackageTypes::FormConfiguration::ReadOnlyBannerComponent.new(context:)) %>
   <%= render(WorkPackageTypes::FormConfigurationComponent.new(context:, form_attributes: helpers.form_configuration_groups(context), no_filter_query:)) %>
 <% end %>

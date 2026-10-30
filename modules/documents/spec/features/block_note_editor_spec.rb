@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -69,6 +68,34 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
 
     expect(page).to have_test_selector("blocknote-document-description")
     expect(find("op-block-note", visible: false)["project-id"]).to eq(document.project_id.to_s)
+  end
+
+  it "formats tables with header rows, cell colors and merged cells" do
+    visit document_path(document)
+    expect(page).to have_test_selector("blocknote-document-description")
+
+    editor.insert_table
+    send_keys("Name", :tab, "Status", :tab, "Owner")
+
+    editor.open_table_row_menu
+    editor.click_table_menu_item("Header row")
+    expect(editor.element).to have_css("table th", count: 3)
+
+    editor.open_table_cell_menu(editor.element.find("table th", text: "Status"))
+    editor.pick_table_cell_color("Blue", background: true)
+    editor.open_table_cell_menu(editor.element.find("table th", text: "Owner"))
+    editor.pick_table_cell_color("Red")
+
+    editor.element.first("table td").click
+    send_keys(%i[shift right])
+    editor.click_formatting_toolbar_button("Merge cells")
+
+    page.refresh
+    expect(page).to have_test_selector("blocknote-document-description")
+    expect(editor.element).to have_css("table th", count: 3)
+    expect(editor.element).to have_css("table th[data-background-color='blue']", text: "Status")
+    expect(editor.element).to have_css("table th[data-text-color='red']", text: "Owner")
+    expect(editor.element).to have_css("table td[colspan='2']")
   end
 
   context "when real time text collaboration is disabled",
@@ -292,7 +319,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
       let(:project) { create(:project, name: "Documented project", types: [create(:type_bug), type]) }
       let(:document) { create(:document, :collaborative, project:) }
       let!(:release_note) do
-        create(:string_wp_custom_field, name: "Release note", is_required: true, types: [type], projects: [project])
+        create(:string_wp_custom_field, name: "Release note", is_required: true, types: [type])
       end
       let!(:default_status) { create(:status, is_default: true) }
       let!(:default_priority) { create(:priority, is_default: true) }

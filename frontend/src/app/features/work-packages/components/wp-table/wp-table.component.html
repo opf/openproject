@@ -5,6 +5,10 @@
         class="keyboard-accessible-list generic-table work-package-table"
         data-controller="table-highlighting"
         [class.op-table-baseline]="baselineEnabled"
+        [attr.role]="configuration.keyboardNavigationEnabled ? 'treegrid' : null"
+        [attr.aria-multiselectable]="configuration.keyboardNavigationEnabled ? 'true' : null"
+        [attr.aria-label]="configuration.keyboardNavigationEnabled ? text.tableName : null"
+        [attr.aria-describedby]="configuration.keyboardNavigationEnabled && sortDescription ? sortDescriptionId : null"
         >
           <colgroup>
             @if (configuration.dragAndDropEnabled) {
@@ -20,20 +24,30 @@
             @if (configuration.columnMenuEnabled) {
               <col>
             }
-            @if (!configuration.columnMenuEnabled) {
+            @if (!configuration.columnMenuEnabled && trailingColumnRendered) {
               <col data-highlight="false">
             }
           </colgroup>
-          <caption class="sr-only">
-            <span>{{text.tableSummary}}</span>
-            <span id="wp-table-sort-summary"></span>
-            <span>{{text.tableSummaryHints}}</span>
-          </caption>
-          <thead class="-sticky">
-            <tr>
+          @if (configuration.keyboardNavigationEnabled) {
+            <caption class="sr-only">
+              <span [attr.id]="sortDescriptionId">{{sortDescription}}</span>
+            </caption>
+          } @else {
+            <caption class="sr-only">
+              <span>{{text.tableSummary}}</span>
+              <span id="wp-table-sort-summary"></span>
+              <span>{{text.tableSummaryHints}}</span>
+            </caption>
+          }
+          <thead class="-sticky" [attr.role]="configuration.keyboardNavigationEnabled ? 'rowgroup' : null">
+            <tr
+              [attr.role]="configuration.keyboardNavigationEnabled ? 'row' : null"
+              [attr.aria-level]="configuration.keyboardNavigationEnabled ? 1 : null">
               @if (configuration.dragAndDropEnabled) {
-                <th class="wp-table--manual-sort-th -short hide-when-print">
+                <th class="wp-table--manual-sort-th -short hide-when-print"
+                  [attr.role]="configuration.keyboardNavigationEnabled ? 'columnheader' : null">
                   <div class="generic-table--empty-header">
+                    <span class="sr-only">{{text.sorting}}</span>
                     @if (manualSortEnabled) {
                       <op-icon icon-classes="icon-sort-by" />
                     }
@@ -41,7 +55,9 @@
                 </th>
               }
               @if (baselineEnabled) {
-                <th class="wp-table--baseline-th -short hide-when-print">
+                <th class="wp-table--baseline-th -short hide-when-print"
+                  [attr.role]="configuration.keyboardNavigationEnabled ? 'columnheader' : null"
+                  [attr.aria-label]="configuration.keyboardNavigationEnabled ? text.baselineHeader : null">
                   <div class="generic-table--empty-header op-table-baseline--column-header">
                     <svg op-baseline-icon size="small" />
                   </div>
@@ -51,7 +67,10 @@
                 <th
                   [attr.aria-label]="column.name"
                   [ngClass]="{'-max': column.id === 'subject', '-min-200': ['estimatedTime', 'remainingTime'].includes(column.id) }"
-                  class="wp-table--table-header">
+                  class="wp-table--table-header"
+                  [class.wp-table--navigable-cell]="configuration.keyboardNavigationEnabled"
+                  [attr.role]="configuration.keyboardNavigationEnabled ? 'columnheader' : null"
+                  [attr.aria-sort]="ariaSort(column)">
                   <sortHeader [headerColumn]="column"
                     [locale]="column.custom_field && column.custom_field.name_locale || locale"
                     [table]="workPackageTable"
@@ -62,10 +81,12 @@
               }
               @if (configuration.columnMenuEnabled || configuration.actionsColumnEnabled) {
                 <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th -short hide-when-print"
-                  >
+                  [class.wp-table--navigable-cell]="configuration.keyboardNavigationEnabled"
+                  [attr.role]="configuration.keyboardNavigationEnabled ? 'columnheader' : null"
+                  [attr.aria-label]="configuration.keyboardNavigationEnabled ? (configuration.columnMenuEnabled ? text.configurationHeader : text.actionsHeader) : null">
                   @if (configuration.columnMenuEnabled) {
                     <div class="generic-table--sort-header-outer">
-                      <wp-table-config-menu />
+                      <wp-table-config-menu [keyboardNavigationEnabled]="configuration.keyboardNavigationEnabled" />
                     </div>
                   }
                 </th>
@@ -73,9 +94,13 @@
             </tr>
           </thead>
           @if (!isEmbedded && query && results.count === 0) {
-            <tbody class="work-package--empty-tbody">
-              <tr id="empty-row-notification">
-                <td [attr.colspan]="numTableColumns">
+            <tbody class="work-package--empty-tbody"
+              [attr.role]="configuration.keyboardNavigationEnabled ? 'rowgroup' : null">
+              <tr id="empty-row-notification"
+                [attr.role]="configuration.keyboardNavigationEnabled ? 'row' : null"
+                [attr.aria-level]="configuration.keyboardNavigationEnabled ? 1 : null">
+                <td [attr.colspan]="numTableColumns"
+                  [attr.role]="configuration.keyboardNavigationEnabled ? 'gridcell' : null">
                   <span>
                     <op-icon icon-classes="icon-info1 icon-context" />
                     <span>

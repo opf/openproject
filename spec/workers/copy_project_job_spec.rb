@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -135,10 +134,9 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
       }
     end
 
-    let(:params) { { name: "Copy", identifier: "copy", work_package_custom_field_ids: [custom_field.id] } }
+    let(:params) { { name: "Copy", identifier: "copy" } }
 
     before do
-      source_project.work_package_custom_fields << custom_field
       type.default_variant.custom_field_ids |= [custom_field.id]
     end
 
@@ -206,6 +204,7 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
     before do
       allow(User).to receive(:current).and_return(admin)
       allow(Projects::CopyService).to receive(:new).and_return(->(*) { raise "Gen. Failure reporting for duty!" })
+      allow(OpenProject.logger).to receive(:error)
     end
 
     it "renders a error when unexpected errors occur" do
@@ -226,6 +225,9 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
       expect(copy_job.job_status[:status]).to eq "failure"
       expect(copy_job.job_status[:message]).to include "Cannot copy project #{source_project.name}"
       expect(copy_job.job_status[:payload]).to eq("title" => "Copy project")
+      expect(OpenProject.logger)
+        .to have_received(:error)
+        .with("Failed to finish copy project job", exception: an_instance_of(RuntimeError))
     end
   end
 

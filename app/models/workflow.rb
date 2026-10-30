@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,25 +30,13 @@
 class Workflow < ApplicationRecord
   include WorkPackageTypes::NamedReference
 
-  # The project owning this workflow, or nil for a workflow every project may use.
-  belongs_to :project, optional: true
-
   has_many :type_variants, dependent: :restrict_with_error, inverse_of: :workflow
   has_many :status_transitions,
            class_name: "Workflows::StatusTransition",
            inverse_of: :workflow,
            dependent: :delete_all
 
-  validates :name, uniqueness: { scope: :project_id, case_sensitive: false }
-
-  scope :global, -> { where(project_id: nil) }
-  scope :project_owned, -> { where.not(project_id: nil) }
-  scope :owned_by, ->(project) { where(project:) }
-  scope :available_in, ->(project) { where(project: [nil, project]) }
-
-  # A name only has to be free within the scope that will hold it, so a project may reuse one
-  # administration already has.
-  def self.name_scope(project) = owned_by(project)
+  validates :name, uniqueness: { case_sensitive: false }
 
   def self.statuses(workflows, role: nil, tab: nil) # rubocop:disable Metrics/AbcSize
     transition_table, status_table = [Workflows::StatusTransition, Status].map(&:arel_table)
@@ -90,5 +77,7 @@ class Workflow < ApplicationRecord
     Status.where(id: transitions.select(:old_status_id)).or(Status.where(id: transitions.select(:new_status_id)))
   end
 
-  def project_specific? = project_id.present?
+  def in_use? = type_variants.exists?
+
+  def replacement_targets = self.class.in_display_order.where.not(id:)
 end

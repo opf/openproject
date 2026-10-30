@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -134,6 +133,14 @@ RSpec.describe OpenIDConnect::ConfigurationMapper, type: :model do
 
       it { is_expected.not_to have_key("issuer") }
     end
+  end
+
+  describe "additional_form_action_urls" do
+    subject { result["additional_form_action_urls"] }
+
+    let(:configuration) { { additional_form_action_urls: ["https://idp.example.com/login"] } }
+
+    it { is_expected.to eq ["https://idp.example.com/login"] }
   end
 
   describe "claims" do

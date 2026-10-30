@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -231,9 +230,12 @@ RSpec.describe "Projects autocomplete page", :js do
 
       top_menu.expect_result visible_grandparent.name
       top_menu.expect_no_result invisible_parent.name
-      top_menu.expect_item_with_hierarchy_level hierarchy_level: 2,
-                                                item_name: visible_grandchild.name
     end
+
+    top_menu.expand_node_for visible_grandparent.name
+    top_menu.expect_no_result invisible_parent.name
+    top_menu.expect_item_with_hierarchy_level hierarchy_level: 2,
+                                              item_name: visible_grandchild.name
   end
 
   it "displays workspace type badges for portfolios and programs" do

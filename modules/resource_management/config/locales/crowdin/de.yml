@@ -3,6 +3,7 @@ de:
   activerecord:
     attributes:
       placeholder_user:
+        resource_allocations: Ressourcenzuweisungen
         user_filter: Filterkriterien
       resource_allocation:
         allocated_hours: Stunden
@@ -24,10 +25,12 @@ de:
         public: Öffentlich
         start_date: Anfangstermin
       work_package:
-        allocated_principals: Allocated resources
-        allocated_time: Allocated
+        allocated_principals: Zugewiesene Ressourcen
+        allocated_time: Zugewiesen
     errors:
       models:
+        placeholder_user:
+          used_in_resource_allocations: Dieser Platzhalterbenutzer wird weiterhin bei der Ressourcenplanung verwendet. Bitte ordnen Sie diese Zuweisungen neu zu oder entfernen Sie sie, bevor Sie den Benutzer löschen.
         resource_allocation:
           attributes:
             end_date:
@@ -66,7 +69,7 @@ de:
         other: Arbeitspaket-Zeitleisten
   api_v3:
     undisclosed:
-      allocatedPrincipal: Undisclosed - The allocated user is invisible because of lacking permissions.
+      allocatedPrincipal: Unbekannt - Der zugewiesene Benutzer ist wegen fehlender Berechtigungen nicht sichtbar.
   button_next: Weiter
   ee:
     features:
@@ -78,8 +81,8 @@ de:
   label_resource_management: Ressourcenmanagement
   permission_allocate_user_resources: Benutzer-Ressourcen zuweisen
   permission_allocate_user_resources_explanation: Ermöglicht Benutzern das Erstellen, Aktualisieren und Löschen von Ressourcenzuweisungen innerhalb eines Ressourcenplaners. Dazu gehört die Zuweisung von Benutzern (oder Benutzerfiltern) zu einem Planer und die Anpassung des zugewiesenen Zeit- und Datumsbereichs.
-  permission_assign_users_to_generic_allocations: Benutzer an generische Zuweisungen zuordnen
-  permission_assign_users_to_generic_allocations_explanation: Ermöglicht es Benutzern, über die Ansicht „Personalplanung“ echte Benutzer generischen (filterbasierten) Ressourcenzuweisungen zuzuordnen, denen noch kein Benutzer zugewiesen ist. Das Erstellen oder Bearbeiten von Zuweisungen ist nicht möglich.
+  permission_assign_users_to_generic_allocations: Benutzer an Platzhalter zuweisen
+  permission_assign_users_to_generic_allocations_explanation: Ermöglicht es Benutzern, über die Ansicht „Personalplanung“ echte Benutzer an einen Platzhalter zuzuordnen, denen noch kein Benutzer zugewiesen ist. Das Erstellen oder Bearbeiten von Zuweisungen ist nicht möglich.
   permission_manage_public_global_resource_planners: Öffentliche projektübergreifende Ressourcenplaner verwalten
   permission_manage_public_global_resource_planners_explanation: Ermöglicht es Benutzern, ihre eigenen projektübergreifenden Ressourcenplaner zu veröffentlichen und projektübergreifende Ressourcenplaner zu verwalten, die andere Benutzer öffentlich freigegeben haben. Es ist Benutzern nicht gestattet, projektübergreifende Ressourcenplaner einzusehen, die nicht öffentlich freigegeben sind.
   permission_manage_public_resource_planners: Öffentliche Ressourcenplaner verwalten
@@ -104,20 +107,22 @@ de:
       criteria:
         empty: Es wurden keine Kriterien festgelegt.
         label: Kriterien
+      deleted_assignee: Der zugewiesene Benutzer wurde gelöscht. Sie können die Zuweisung so beibehalten, wie sie ist, oder einen anderen Benutzer auswählen.
       missing_working_hours:
         none: Für den ausgewählten Benutzer sind für den ausgewählten Zeitraum keine Arbeitszeiten konfiguriert, daher kann keine Kapazität ermittelt werden.
         partial: Für den ausgewählten Benutzer sind für den Zeitraum %{dates} keine Arbeitszeiten konfiguriert, daher kann keine Kapazität ermittelt werden.
       outside_dates:
         description: Die ausgewählten Zeiten (%{resource_dates}) liegen außerhalb der geplanten Zeiten des Arbeitspakets (%{work_package_dates}).
       overbooking:
-        capacity_summary: "%{available} verfügbar · %{scheduled} geplant"
         description: Der ausgewählte Benutzer, %{user}, würde in diesem Zeitraum über seine Arbeitszeit hinaus verplant werden.
-        hidden_work: Sonstige Zuweisungen
+        overtime_summary_html: Diese Zuweisung fügt %{hours} zwischen dem %{start_date} und %{end_date} hinzu, <strong>was zu %{overtime} Überstunden zwischen dem %{overtime_start_date} und dem %{overtime_end_date} führt</strong>.
         schedule_availability: "%{schedule} (%{factor}% für Projektarbeit verfügbar)"
         schedule_change: bis %{date}, dann %{schedule}
         schedule_note: Dieser Benutzer arbeitet %{schedule}.
         submit: Überstunden zuweisen
         title: Möchten Sie dem Benutzer Überstunden zuweisen?
+        unplannable: "%{user} hat keinen Arbeitstag zwischen %{start_date} und %{end_date}, daher kann diese Zuordnung nicht geplant werden."
+      staffed_from: Aus dem Platzhalter %{placeholder} besetzt
       submit: Zuweisen
       success_message: Ressource zugewiesen.
       title: Ressourcen zuweisen
@@ -168,6 +173,8 @@ de:
     label_new_resource_planner: Ressourcenplaner erstellen
     label_resource_planner: Ressourcenplaner
     label_resource_planner_plural: Ressourcenplaner
+    my_time_management:
+      hidden_work_package: Nicht sichtbares Arbeitspaket
     new_view_dialog:
       title: Ansicht hinzufügen
     public_caption: Machen Sie diese Ansicht für alle Mitglieder des Projekts öffentlich. Dies hat keine Auswirkungen auf die Sichtbarkeit von Arbeitspaketen, die immer noch von den jeweiligen Benutzerrechten abhängt.
@@ -254,7 +261,8 @@ de:
       no_work_schedule: Für den Benutzer ist kein Arbeitszeitplan hinterlegt
       overbooked: Dieser Benutzer ist im ausgewählten Zeitraum überbucht.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} geplant, %{available} verfügbar"
+        dates: Außerhalb der Arbeitszeiten am %{dates}
+        unplannable: Dieser Benutzer hat keinen Arbeitstag in diesem Zeitraum.
       subheader:
         add_user: Benutzer hinzufügen
     view_types:
@@ -321,7 +329,7 @@ de:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} Mitglied dieses Projekts entspricht den Filterkriterien der Zuweisung."
+          one: "%{count} Mitglied dieses Projekts entspricht dem Platzhalter."
           other: "%{count} Mitglieder dieses Projekts entsprechen den Filterkriterien der Zuweisung."
       blank:
         add_work_package: Arbeitspaket hinzufügen

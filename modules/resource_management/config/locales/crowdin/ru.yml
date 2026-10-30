@@ -3,6 +3,7 @@ ru:
   activerecord:
     attributes:
       placeholder_user:
+        resource_allocations: Resource allocations
         user_filter: Критерии фильтрации
       resource_allocation:
         allocated_hours: Часы
@@ -28,6 +29,8 @@ ru:
         allocated_time: Allocated
     errors:
       models:
+        placeholder_user:
+          used_in_resource_allocations: This placeholder user is still used in resource allocations. Reassign or remove these allocations before deleting it.
         resource_allocation:
           attributes:
             end_date:
@@ -116,20 +119,22 @@ ru:
       criteria:
         empty: Критерии не заданы.
         label: Критерий
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: Для выбранного пользователя на эти даты не настроены рабочие часы, поэтому считается, что у него отсутствует рабочая загрузка.
         partial: Для выбранного пользователя не настроены рабочие часы в системе %{dates}, поэтому эти дни учитываются как дни без доступности.
       outside_dates:
         description: Выбранные даты ресурса, %{resource_dates}, вне дат пакета работ, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} доступно · %{scheduled} запланировано"
         description: Выбранный пользователь, %{user}, будет задействован в течение данного периода в нерабочее время.
-        hidden_work: Другие распределения
+        overtime_summary_html: This allocation adds %{hours} between %{start_date} and %{end_date}, <strong>causing %{overtime} of overtime between %{overtime_start_date} and %{overtime_end_date}</strong>.
         schedule_availability: "%{schedule} (%{factor}% доступно для работы над проектом)"
         schedule_change: до %{date}, затем %{schedule}
         schedule_note: Этот пользователь работает с %{schedule}.
         submit: Выделить сверхурочную работу
         title: Вы хотите выделить сверхурочную работу пользователю?
+        unplannable: "%{user} has no working day between %{start_date} and %{end_date}, so this allocation cannot be planned."
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Распределить
       success_message: Ресурсы выделены.
       title: Выделить ресурс
@@ -180,6 +185,8 @@ ru:
     label_new_resource_planner: Новый планировщик ресурсов
     label_resource_planner: Планировщик ресурсов
     label_resource_planner_plural: Планировщики ресурсов
+    my_time_management:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Добавить представление
     public_caption: Сделать публичным для всех участников проекта. Это не влияет на видимость пакетов работ, которые все еще зависят от разрешения каждого пользователя.
@@ -266,7 +273,8 @@ ru:
       no_work_schedule: Для этого пользователя не запланирован график работы
       overbooked: У этого пользователя превышен лимит за выбранный период.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} запланирован, %{available} доступно"
+        dates: Beyond working hours on %{dates}
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: Добавить пользователя
     view_types:

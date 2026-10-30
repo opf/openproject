@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -211,7 +210,6 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
     let!(:float_cf) do
       create(:float_wp_custom_field,
              name: "float field") do |cf|
-        project.work_package_custom_fields << cf
         work_package.type.default_variant.custom_field_ids |= [cf.id]
       end
     end
@@ -389,7 +387,6 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
     end
     let!(:custom_field) do
       create(:string_wp_custom_field, name: "Searchable field") do |cf|
-        project.work_package_custom_fields << cf
         project.enabled_variants.first.custom_field_ids |= [cf.id]
       end
     end

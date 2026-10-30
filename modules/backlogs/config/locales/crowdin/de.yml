@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -26,7 +26,7 @@ de:
       project:
         allow_multiple_active_sprints: Mehrere aktive Sprints zulassen
         backlog_excluded_types: Ausgeschlossene Arbeitspaket-Typen
-        estimation_unit: Unit
+        estimation_unit: Stück
         sprint_sharing: Sprints teilen
         statuses_considered_closed: Als abgeschlossen geltende Status
       sprint:
@@ -73,7 +73,7 @@ de:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: Es gibt ein Arbeitspaket, das in diesem Sprint nicht abgeschlossen wurde.
+                one: Es gibt %{count} Arbeitspaket, das in diesem Sprint nicht abgeschlossen wurde.
                 other: Es gibt %{count} Arbeitspakete, die in diesem Sprint nicht abgeschlossen wurden.
             status:
               not_active: ist nicht aktiv und kann deshalb nicht geschlossen werden.
@@ -135,9 +135,17 @@ de:
       details: Der Backlog Bucket '%{name}' wird gelöscht und alle Arbeitspakete werden in den Eingangs Backlog verschoben. Kein Arbeitspaket wird gelöscht.
       title: Backlog Bucket löschen?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Legen Sie Start- und Enddatum für den Sprint fest, um ein Burndown-Diagramm zu erstellen.
         blankslate_title: Keine Burndown-Daten verfügbar
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Units
     excluded_work_package_types_caption: 'Wählen Sie, welche Arbeitspaket-Typen Sie aus dem Backlog ausblenden möchten. Elemente der ausgewählten Typen erscheinen nicht automatisch im Backlog und sind so auf die Arbeit konzentriert, die für Ihr Team wichtig ist. Typen wie Epics oder Milestones, die auf einer höheren Ebene verwaltet werden, können beispielsweise ausgeblendet werden, damit sich das Backlog auf umsetzbare Aufgaben konzentriert.
 
@@ -161,7 +169,7 @@ de:
       drop_zone_label: Hier ablegen um das Arbeitspaket hinzuzufügen
       label_actions: Posteingang-Aktionen
       show_more:
-        one: Zeige ein weiteres Element
+        one: Zeige %{count} weiteres Element
         other: Zeige %{count} weitere Elemente
       title: Posteingang
     index_subheader_component:
@@ -186,6 +194,7 @@ de:
     remaining_hours: Verbleibender Aufwand
     sharing: Sprints teilen
     show_burndown_chart: Burndown-Diagramm
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: Arbeitspakete innerhalb des Sprints
     sprint_component:
       action_menu:
@@ -209,6 +218,9 @@ de:
       shared_sprint_info_banner: Dies ist ein geteilter Sprint. Änderungen werden in allen Projekten, die diesen Sprint nutzen, übernommen.
       shared_sprint_warning_banner: Dies ist ein geteilter Sprint. Sie verfügen nicht über die erforderlichen Berechtigungen, um ihn zu bearbeiten.
     sprint_reports:
+      navigation_component:
+        next: Weiter
+        previous: Zurück
       page_header_component:
         breadcrumb: Bericht
         title: "%{sprint} Bericht"
@@ -237,6 +249,46 @@ de:
           resolved_summary:
             one: "%{percentage}% (%{resolved} von %{total} Arbeitspaket)"
             other: "%{percentage}% (%{resolved} von %{total} Arbeitspaketen)"
+        work_package_table:
+          added:
+            blankslate:
+              empty:
+                description: Work packages that were added after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show added work packages.
+              not_started:
+                description: Added work packages will appear here after the sprint starts.
+            title: Scope increase after sprint start
+          blankslate:
+            heading: No work packages to display
+          completed:
+            blankslate:
+              empty:
+                description: Work packages that were completed in the sprint will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show completed work packages.
+              not_started:
+                description: Completed work packages will appear here after the sprint starts.
+            title: Completed work
+          removed:
+            blankslate:
+              empty:
+                description: Work packages that were removed after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show removed work packages.
+              not_started:
+                description: Removed work packages will appear here after the sprint starts.
+            title: Scope decrease after sprint start
+          unfinished:
+            blankslate:
+              empty:
+                description: All work packages in this sprint are completed.
+                heading: Wow, all done!
+              no_dates:
+                description: Sprint start and finish dates are necessary to show unfinished work packages.
+              not_started:
+                description: Unfinished work packages will appear here after the sprint starts.
+            title: Unfinished work
     sprints:
       row_component:
         action_menu:
@@ -266,7 +318,6 @@ de:
       header_backlogs: Backlog-Modul
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: URL in die Zwischenablage kopieren
         copy_work_package_id: Arbeitspaket-ID kopieren
         move_menu: Zu Position verschieben
         move_to_backlog_bucket: In Backlog Bucket verschieben
@@ -293,9 +344,9 @@ de:
       update_service:
         invalid_target_type: "„list_type“ muss einer der folgenden Werte sein: „backlog_bucket“ mit einer „list_id“, „sprint“ mit einer „list_id“ oder „inbox“ ohne „list_id“."
         missing_target: "„list_type“ oder „list_id“ muss vorhanden sein."
-  burndown:
-    story_points: Story-Points
-    story_points_ideal: Story-Points (ideal)
+  created_resolved:
+    wp_created: Erstellt
+    wp_resolved: Gelöst
   ee:
     features:
       multiple_active_sprints: Mehrere aktive Sprints
@@ -352,14 +403,14 @@ de:
         estimation_unit: Unit
         options:
           none:
-            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
-            label: None
+            caption: Die Anzahl der Arbeitspakete wird in den Diagrammen als Standardeinheit verwendet. Einige Diagramme aus den Sprintberichten werden nicht angezeigt.
+            label: Keine
           story_points:
             caption: The cards and charts will display story points.
             label: Story points
           time:
             caption: The cards and charts will display work time estimates.
-            label: Work time estimate
+            label: Arbeitszeitschätzung
       backlog_sharing:
         options:
           no_sharing:

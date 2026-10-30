@@ -1,4 +1,4 @@
-FROM ruby:4.0.7-trixie AS develop
+FROM ruby:4.0.9-trixie AS develop
 LABEL org.opencontainers.image.authors="operations@openproject.com"
 
 ARG DEV_UID=1000
@@ -6,7 +6,7 @@ ARG DEV_GID=1001
 
 ENV USER=dev
 ENV RAILS_ENV=development
-ENV NODE_MAJOR=22
+ENV NODE_MAJOR=24
 
 # `--no-log-init` is required as a workaround to avoid disk exhaustion.
 #

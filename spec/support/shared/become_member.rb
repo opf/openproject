@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,6 +41,12 @@ module BecomeMember
 
     def become_member(project, user)
       become_member_with_permissions(project, user, [])
+    end
+
+    def grant_global_permissions(user, permissions)
+      role = create(:global_role, permissions: Array(permissions))
+
+      create(:global_member, principal: user, roles: [role])
     end
 
     def add_user_to_project!(user:, project:, role: nil, permissions: nil)

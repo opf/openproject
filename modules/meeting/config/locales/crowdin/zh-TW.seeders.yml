@@ -13,18 +13,18 @@ zh-TW:
           meeting_agenda_items:
             item_0:
               title: 好消息！
-              notes: What went well this week?
+              notes: 這週有哪些事情做得不錯呢？
             item_1:
-              title: Team updates
-              notes: News and focused topics for the upcoming week.
+              title: 團隊最新動態
+              notes: 下週的新聞與焦點話題。
             item_2:
-              notes: "**Today's topic**: Organizing the open-source conference."
+              notes: "**今天的話題**：籌辦開源會議。"
             item_3:
-              title: Review of quarterly goals
-              notes: Assessing the status and progress of the defined quarterly goals.
+              title: 季度目標檢討
+              notes: 評估既定季度目標的現況與進度。
             item_4:
-              title: Core values feedback
-              notes: Highlight employees who have lived the core values this week.
+              title: 核心價值反饋
+              notes: 請表揚本週實踐核心價值觀的員工。
             item_5:
-              title: General topics
-              notes: Solving or discussing topics together.
+              title: 一般主題
+              notes: 一起解決或討論相關議題。

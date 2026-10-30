@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,43 +51,14 @@ RSpec.describe WorkPackageTypes::ConvertToGlobalService do
       expect(TypeVariant.available_in(other_project)).to include(variant)
     end
 
-    context "when the project owns the workflow too" do
-      let(:workflow) { create(:project_owned_workflow, project:, name: "Ours") }
-
-      before { variant.update!(workflow:) }
-
-      it "converts the workflow along with the variant" do
-        expect(service.call).to be_success
-
-        expect(workflow.reload.project_id).to be_nil
-        expect(variant.reload.workflow_id).to eq(workflow.id)
-      end
-
-      it "renames it when a global workflow already carries the name" do
-        create(:named_workflow, name: "Ours")
-
-        expect(service.call).to be_success
-
-        expect(workflow.reload).to have_attributes(project_id: nil, name: "Ours (2)")
-      end
-
-      it "converts it once and leaves the project's other variants pointing at it" do
-        sharer = create(:project_owned_type_variant, type:, project:, variant_name: "Sharer", workflow:)
-
-        expect(service.call).to be_success
-
-        expect(workflow.reload.project_id).to be_nil
-        expect(sharer.reload.workflow_id).to eq(workflow.id)
-      end
-    end
-
     it "leaves a global workflow alone" do
       global = create(:named_workflow, name: "Standard flow")
       variant.update!(workflow: global)
 
       expect(service.call).to be_success
 
-      expect(global.reload).to have_attributes(project_id: nil, name: "Standard flow")
+      expect(variant.reload.workflow).to eq(global)
+      expect(global.reload.name).to eq("Standard flow")
     end
 
     it "keeps the owning project using it unchanged" do

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -71,25 +70,79 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
     end
   end
 
-  describe "widget area", with_ee: %i[sprint_report_pro_widgets] do
+  describe "navigation between reports" do
+    let!(:previous_sprint) do
+      create(:sprint,
+             project:,
+             name: "Sprint 41",
+             start_date: 20.days.ago,
+             finish_date: 10.days.ago,
+             status: :completed)
+    end
+
     before { visit_sprint_report }
 
-    let(:widget_boxes) { page.all(".widget-boxes .widget-box", minimum: 3) }
+    it "navigates to the chronologically previous report" do
+      expect(page).to have_test_selector("sprint-report-previous")
+      expect(page).to have_no_test_selector("sprint-report-next")
 
-    it "renders the sprint goal widget first" do
-      expect(widget_boxes[0]).to have_text("Add sprint goal widget")
+      click_on "Previous"
+
+      expect(page).to have_heading("Sprint 41 report", level: 2)
+      expect(page).to have_test_selector("sprint-report-next", text: "Next")
+      expect(page).to have_no_test_selector("sprint-report-previous")
+    end
+  end
+
+  describe "widget area" do
+    let(:core_widgets) do
+      [
+        [:text, "Add sprint goal widget"],
+        [:text, "Work packages within the sprint"],
+        [:css, "opce-wp-overview-graph"],
+        [:css, "opce-burndown-chart"]
+      ]
     end
 
-    it "renders the work package overview widget second" do
-      expect(widget_boxes[1]).to have_text("Work packages within the sprint")
+    let(:pro_widgets) do
+      [
+        [:css, "opce-created-resolved-chart"],
+        [:text, "Completed work"],
+        [:text, "Unfinished work"],
+        [:text, "Scope increase after sprint start"],
+        [:text, "Scope decrease after sprint start"]
+      ]
     end
 
-    it "renders the work package graph widget third" do
-      expect(widget_boxes[2]).to have_css("opce-wp-overview-graph")
+    before { visit_sprint_report }
+
+    shared_examples "sprint report widgets" do
+      let(:widget_boxes) { page.all(".widget-boxes .widget-box", count: expected_widgets.count) }
+
+      it "renders the widgets in order", :aggregate_failures do
+        expected_widgets.each_with_index do |(matcher, expected), index|
+          expect(widget_boxes[index]).to send("have_#{matcher}", expected)
+        end
+      end
     end
 
-    it "renders the burndown chart widget fourth" do
-      expect(widget_boxes[3]).to have_css("opce-burndown-chart")
+    context "without enterprise token" do
+      let(:expected_widgets) { core_widgets }
+
+      it_behaves_like "sprint report widgets"
+    end
+
+    context "with baseline_comparison", with_ee: :baseline_comparison do
+      let(:expected_widgets) { core_widgets }
+
+      it_behaves_like "sprint report widgets"
+    end
+
+    context "with baseline_comparison and sprint_report_pro_widgets",
+            with_ee: %i[baseline_comparison sprint_report_pro_widgets] do
+      let(:expected_widgets) { core_widgets + pro_widgets }
+
+      it_behaves_like "sprint report widgets"
     end
   end
 end

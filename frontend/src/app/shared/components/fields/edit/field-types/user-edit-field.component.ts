@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -63,7 +62,6 @@ export class UserEditFieldComponent extends EditFieldComponent implements OnInit
       // We fake a HalResource here because we're using a plain JS object, but the schema loading and editing
       // is part of the older HalResource stack
       const newUser = { ...user };
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       this.value = this.halResourceService.createHalResourceOfType('user', newUser);
     } else {
       this.value = null;

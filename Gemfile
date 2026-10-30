@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,8 +36,7 @@ source "https://rubygems.org", cooldown: 7
 ruby File.read(File.expand_path(".ruby-version", __dir__)).strip
 
 gem "actionpack-xml_parser", "~> 2.0.0"
-gem "activemodel-serializers-xml", "~> 1.0.1"
-gem "activerecord-import", "~> 2.3.0"
+gem "activerecord-import", "~> 3.0.0"
 gem "activerecord-session_store", "~> 2.3.0"
 gem "ox"
 gem "rails", "~> 8.1.3", ">= 8.1.3.1"
@@ -50,7 +48,7 @@ gem "connection_pool", "~> 3.0.2"
 
 gem "rdoc", ">= 2.4.2"
 
-gem "doorkeeper", "~> 5.9.7"
+gem "doorkeeper", "~> 5.9.9"
 gem "omniauth", "~> 2.1"
 gem "omniauth-rails_csrf_protection", "~> 2.0"
 gem "request_store", "~> 1.7.0"
@@ -74,7 +72,7 @@ gem "rubytree", "~> 2.2.2"
 gem "addressable", "~> 2.9.0"
 
 # Remove whitespace from model input
-gem "auto_strip_attributes", "~> 2.5"
+gem "auto_strip_attributes", "~> 3.0"
 
 # Provide timezone info for TZInfo used by AR
 gem "tzinfo-data", "~> 1.2026.4"
@@ -101,9 +99,6 @@ gem "rouge", "~> 5.1.0"
 gem "sanitize", "~> 7.0.0"
 # HTML autolinking for mails and urls (replaces autolink)
 gem "rinku", "~> 2.0.4", require: %w[rinku rails_rinku]
-# Version parsing with semver
-gem "semantic", "~> 1.6.1"
-
 # generates SVG Graphs
 # used for statistics on svn repositories
 gem "svg-graph", "~> 2.2.0"
@@ -125,7 +120,6 @@ gem "bcrypt", "~> 3.1.22"
 
 gem "multi_json", "~> 1.21.2"
 
-gem "daemons"
 gem "good_job", "~> 4.19.3" # update should be done manually in sync with saas-openproject version.
 
 gem "rack-protection", "~> 3.2.0"
@@ -143,7 +137,7 @@ gem "browser", "~> 6.2.0"
 gem "okcomputer", "~> 1.20.0"
 
 # Lograge to provide sane and non-verbose logging
-gem "lograge", "~> 0.15.0"
+gem "lograge", "~> 0.15.1"
 
 # Structured warnings to selectively disable them in production
 gem "structured_warnings", "~> 0.5.0"
@@ -160,14 +154,14 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 1.5.0"
+gem "mcp", "~> 1.7.0"
 
 gem "meta-tags", "~> 2.24.0"
 
 gem "paper_trail", "~> 17.0.0"
 
 # State machine with audit trail
-gem "statesman", "~> 13.3.0"
+gem "statesman", "~> 13.4.0"
 
 gem "job-iteration"
 
@@ -182,13 +176,16 @@ gem "ice_cube", "~> 0.17.0"
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.6+
-  gem "dalli", "~> 5.1.0"
+  gem "dalli", "~> 5.2.2"
   gem "redis", "~> 6.0.0"
 end
 
 gem "i18n-js", "~> 4.2.4"
 gem "rails-i18n", "~> 8.1.0"
 
+# Binding json to a version below 3 as sprockets does not
+# limit the json version but fails with 3+.
+gem "json", "< 3"
 gem "sprockets", "~> 3.7.2" # lock sprockets below 4.0
 gem "sprockets-rails", "~> 3.5.1"
 
@@ -205,11 +202,11 @@ gem "ssrf_filter", "~> 1.6"
 
 gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.229"
+gem "aws-sdk-s3", "~> 1.233"
 
-gem "openproject-token", "~> 8.13.0"
+gem "openproject-token", "~> 8.15.0"
 
-gem "plaintext", "~> 0.3.7"
+gem "plaintext", "~> 0.4.0"
 
 gem "ruby-progressbar", "~> 1.13.0", require: false
 
@@ -226,7 +223,7 @@ gem "dry-validation"
 gem "store_attribute", "~> 2.2"
 
 # Appsignal integration
-gem "appsignal", "~> 4.10", require: false
+gem "appsignal", "~> 5.0", require: false
 
 # Yabeda integration
 gem "yabeda-activerecord"
@@ -235,11 +232,15 @@ gem "yabeda-puma-plugin"
 gem "yabeda-rails"
 
 # opentelemetry
-gem "opentelemetry-exporter-otlp", "~> 0.36.0", require: false
-gem "opentelemetry-instrumentation-all", "~> 0.96.0", require: false
+gem "opentelemetry-exporter-otlp", "~> 0.37.0", require: false
+gem "opentelemetry-instrumentation-all", "~> 0.99.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
+gem "openproject-octicons", "~>19.38.0"
+gem "openproject-octicons_helper", "~>19.38.0"
+gem "openproject-primer_view_components", "~> 0.95.0"
 gem "view_component", "~> 4.15.0"
+
 # Lookbook
 gem "lookbook", "2.3.15"
 
@@ -253,29 +254,20 @@ gem "factory_bot_rails", "~> 6.5.0", require: false
 gem "turbo_power", "~> 0.8.0"
 gem "turbo-rails", "~> 2.0.20"
 
-gem "httpx", "~> 1.8.4"
-
-# Provider adapters and a model metadata registry for the AI features. Used as
-# transport and as a source of published model capabilities; what a given
-# connection actually offers is tracked per connection, never in RubyLLM's
-# application-wide registry.
-gem "ruby_llm", "~> 1.16"
-
-# Brings actual deep-freezing to most ruby objects
-gem "ice_nine"
+gem "httpx", "~> 1.9.0"
 
 group :test do
   gem "launchy", "~> 3.1.0"
   gem "rack-test", "~> 2.2.0"
-  gem "shoulda-context", "~> 2.0"
 
   # Test prof provides factories from code
   # and other niceties
-  gem "test-prof", "~> 1.6.3"
+  gem "test-prof", "~> 1.6.4"
   gem "turbo_tests", github: "opf/turbo_tests", ref: "with-patches"
 
   gem "rack_session_access"
   gem "rspec", "~> 3.13.2"
+  gem "simplecov", "~> 1.3.2", require: false
   # also add to development group, so 'spec' rake task gets loaded
   gem "rspec-rails", "~> 8.0.4", group: :development
 
@@ -301,10 +293,10 @@ group :test do
   gem "capybara", "~> 3.40.0"
   gem "capybara_accessible_selectors", git: "https://github.com/citizensadvice/capybara_accessible_selectors", tag: "v0.16.0"
   gem "capybara-screenshot", "~> 1.0.17"
-  gem "cuprite", "~> 0.18.0"
+  gem "cuprite", "~> 0.19.0"
   gem "rspec-wait"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.49"
+  gem "selenium-webdriver", "~> 4.51"
 
   gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"
@@ -312,7 +304,7 @@ group :test do
   # Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.
   gem "vcr"
   # Mock backend requests (for ruby tests)
-  gem "webmock", "~> 3.26", require: false
+  gem "webmock", "~> 3.32", require: false
 
   # Mock selenium requests through proxy (for feature tests)
   gem "puffing-billy", "~> 4.0.0"
@@ -326,7 +318,7 @@ group :test do
 end
 
 group :ldap do
-  gem "net-ldap", "~> 0.20.0"
+  gem "net-ldap", "~> 0.21.0"
 end
 
 group :development do
@@ -346,6 +338,7 @@ group :development, :test do
 
   # Tracing and profiling gems
   gem "flamegraph", require: false
+  gem "memory_profiler", require: false
   gem "rack-mini-profiler", require: false
   gem "ruby-prof", require: false
   gem "stackprof", require: false
@@ -380,13 +373,13 @@ group :development, :test do
   gem "erblint-github", require: false
 
   # Brakeman scanner
-  gem "brakeman", "~> 8.0.6"
+  gem "brakeman", "~> 8.1.0"
 
   # i18n-tasks helps find and manage missing and unused translations.
   gem "i18n-tasks", "~> 1.1.0", require: false
 
   # Active Record Doctor helps to keep the database in good shape.
-  gem "active_record_doctor", "~> 2.0.1"
+  gem "active_record_doctor", "~> 2.1.0"
 end
 
 # API gems
@@ -411,7 +404,7 @@ gem "dentaku", "~> 3.5", git: "https://github.com/opf/dentaku", ref: "78eece45bf
 gem "counter_culture", "~> 3.14"
 
 group :postgres do
-  gem "pg", "~> 1.6.2"
+  gem "pg", "~> 1.7.0"
 end
 
 # Support application loading when no database exists yet.
@@ -431,11 +424,4 @@ gemfiles.each do |file|
   # We use send to allow dependabot to function
   # don't use eval_gemfile(file) here as it will break dependabot!
   send(:eval_gemfile, file) if File.readable?(file)
-end
-
-# Set cooldown 0 for our own gems
-source "https://rubygems.org", cooldown: 0 do
-  gem "openproject-octicons", "~>19.37.0"
-  gem "openproject-octicons_helper", "~>19.37.0"
-  gem "openproject-primer_view_components", "~>0.91.4"
 end

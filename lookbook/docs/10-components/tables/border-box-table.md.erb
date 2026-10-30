@@ -6,7 +6,7 @@
 
 **Note:** The BorderBoxTable is based on the `Primer::Beta::BorderBox` with a CSS grid applied inside to align individual rows and make it look like a table.
 
-It [implements WAI-ARIA table semantics](https://www.w3.org/WAI/ARIA/apg/patterns/table/examples/table/) to provide basic support for users of Assistive Technologies (AT). However, since it doesn't use a native HTML table element, there may be usability limitations (e.g., automatic column width adjustment) that developers should consider.
+It [implements WAI-ARIA table semantics](https://www.w3.org/WAI/ARIA/apg/patterns/table/examples/table/) to provide basic support for users of Assistive Technologies (AT), including `aria-rowcount` on the table and `aria-rowindex` on every row so positions are announced correctly across pages. However, since it doesn't use a native HTML table element, there may be usability limitations (e.g., automatic column width adjustment) that developers should consider.
 
 For full table functionality without these limitations, please use the [TableComponent docs](./tables)
 
@@ -59,7 +59,7 @@ mobile_labels :users
 
 On mobile, the usual table headers are replaced with a single `mobile_title` property that you have to set on the table.
 
-### Text wrapping behaviour
+### Text wrapping behavior
 
 By default, text longer than the column width will truncate with ellipsis. Only the main column has text that wraps around to display the full string.
 
@@ -75,6 +75,12 @@ columns :title, :users, :created_at
 main_column :title
 ```
 Note: Ideally, only one main column will be present for each table.
+
+### Action column
+
+When `has_actions?` is true, the action column is not part of the evenly distributed columns. It is as wide as the
+widest action cell in any row, so a single icon button, an action menu or a button with text all fit without
+further configuration. The header and all rows share the same column tracks through CSS subgrid.
 
 ### Footer
 

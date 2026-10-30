@@ -48,7 +48,7 @@ de:
   documents:
     active_editors: Aktive Bearbeiter
     active_editors_count:
-      one: Ein aktiver Bearbeiter
+      one: "%{count} aktiver Bearbeiter"
       other: "%{count} aktive Bearbeiter"
     admin:
       collaboration_settings:
@@ -118,7 +118,7 @@ de:
       currently_offline: Sie sind derzeit offline.
     label_attachment_author: Autor des Dokuments
     label_categories: Kategorien
-    last_updated_at_html: Last saved %{time}.
+    last_updated_at_html: Zuletzt gespeichert %{time}.
     menu:
       all: Alle Dokumente
       collaboration_settings: Echtzeit-Kollaboration

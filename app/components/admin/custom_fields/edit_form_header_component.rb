@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,58 +30,47 @@
 module Admin
   module CustomFields
     class EditFormHeaderComponent < ApplicationComponent
-      def initialize(custom_field:, selected:, **)
+      include ::CustomFields::AdminRoutes
+
+      def initialize(custom_field:, selected:, section_label:, page_title:, project: nil, **)
         @custom_field = custom_field
         @selected = selected
+        @section_label = section_label
+        @page_title = page_title
+        @project = project
         super(custom_field, **)
       end
 
       def tabs
-        tabs = [
-          {
-            name: "edit",
-            path: edit_custom_field_path(@custom_field),
-            label: t(:label_details)
-          }
-        ]
-
-        if @custom_field.hierarchical_list?
-          tabs << {
-            name: "items",
-            path: custom_field_items_path(@custom_field),
-            label: t(:label_item_plural)
-          }
-        elsif @custom_field.list?
-          tabs << {
-            name: "items",
-            path: list_items_custom_field_path(@custom_field),
-            label: t(:label_item_plural)
-          }
-        end
-
-        if @custom_field.is_a?(WorkPackageCustomField) ||
-           @custom_field.is_a?(ProjectCustomField)
-          tabs <<
-            {
-              name: "custom_field_projects",
-              path: custom_field_projects_path(@custom_field),
-              label: t(:label_project_plural)
-            }
-
-          tabs <<
-            {
-              name: "attribute_help_text",
-              path: attribute_help_text_custom_field_path(@custom_field),
-              label: AttributeHelpText.human_attribute_name(:help_text)
-            }
-        end
-
-        tabs
+        [details_tab, items_tab, *extra_tabs].compact
       end
 
       private
 
-      def page_title
+      def details_tab
+        { name: "edit", path: edit_path(@custom_field), label: t(:label_details) }
+      end
+
+      def items_tab
+        if @custom_field.hierarchical_list?
+          { name: "items", path: custom_field_items_path(@custom_field), label: t(:label_item_plural) }
+        elsif @custom_field.list?
+          { name: "items", path: list_item_path(@custom_field), label: t(:label_item_plural) }
+        end
+      end
+
+      def extra_tabs
+        return [] unless @custom_field.is_a?(WorkPackageCustomField)
+
+        [{ name: "projects", path: projects_path(@custom_field), label: t(:label_project_plural) },
+         { name: "attribute_help_text", path: attribute_help_text_path(@custom_field),
+           label: AttributeHelpText.human_attribute_name(:help_text) },
+         { name: "forms", path: forms_path(@custom_field), label: t("custom_fields.show.tabs.forms") },
+         { name: "types_and_variants", path: types_and_variants_path(@custom_field),
+           label: t("custom_fields.show.tabs.types_and_variants") }]
+      end
+
+      def header_title
         concat @custom_field.attribute_in_database("name")
         concat render(Primer::Beta::Text.new(color: :muted)) { " (#{helpers.label_for_custom_field_format(@custom_field.field_format)})" }
       end
@@ -90,11 +78,23 @@ module Admin
       def breadcrumbs_items
         [
           { href: admin_index_path, text: t(:label_administration) },
-          { href: custom_fields_path, text: t(:label_custom_field_plural) },
-          { href: custom_fields_path(tab: @custom_field.type), text: I18n.t(@custom_field.type_name) },
-          helpers.nested_breadcrumb_element(helpers.label_for_custom_field_format(model.field_format),
-                                            @custom_field.attribute_in_database("name"))
+          { href: index_path(@custom_field), text: @section_label },
+          { href: index_path(@custom_field), text: @page_title },
+          *custom_field_breadcrumbs_items
         ]
+      end
+
+      def custom_field_breadcrumbs_items
+        name = @custom_field.attribute_in_database("name")
+
+        if @project
+          [
+            { href: projects_path(@custom_field), text: name },
+            helpers.nested_breadcrumb_element(Project.model_name.human, @project.name)
+          ]
+        else
+          [helpers.nested_breadcrumb_element(helpers.label_for_custom_field_format(model.field_format), name)]
+        end
       end
     end
   end

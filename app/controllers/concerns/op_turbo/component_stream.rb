@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -105,6 +104,10 @@ module OpTurbo
 
     def add_before_via_turbo_stream(component:, target_component:)
       turbo_streams << -> { target_component.insert_as_turbo_stream(component:, view_context:, action: :before) }
+    end
+
+    def add_after_via_turbo_stream(component:, target_component:)
+      turbo_streams << -> { target_component.insert_as_turbo_stream(component:, view_context:, action: :after) }
     end
 
     def render_success_flash_message_via_turbo_stream(message:, **)
@@ -189,6 +192,15 @@ module OpTurbo
       turbo_streams << OpTurbo::StreamComponent
         .new(action: :dispatchEvent, target: nil, "event-name": name, detail: detail.to_json)
         .render_in(view_context)
+    end
+
+    # For elements outside the page layout.
+    def append_to_body_via_turbo_stream(component:)
+      turbo_streams << lambda {
+        OpTurbo::StreamComponent
+          .new(action: :append, target: nil, targets: "body", template: component.render_in(view_context))
+          .render_in(view_context)
+      }
     end
 
     def turbo_streams

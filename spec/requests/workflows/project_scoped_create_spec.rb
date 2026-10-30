@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -71,21 +70,19 @@ RSpec.describe "Creating a workflow for a project-owned variant", :skip_csrf, ty
       expect(response).to have_http_status(:ok)
     end
 
-    it "creates a workflow the project owns and assigns it to the variant" do
+    it "creates a workflow and assigns it to the variant" do
       expect { create_workflow(in_administration) }.to change(Workflow, :count).by(1)
 
       created = Workflow.find_by(name: "Release flow")
       expect(response).to redirect_to(edit_workflow_path(created))
-      expect(created.project).to eq(project)
       expect(variant.reload.workflow).to eq(created)
     end
 
-    it "may reuse a name administration already holds" do
+    it "may not reuse the name of another workflow" do
       create(:named_workflow, name: "Release flow")
 
-      expect { create_workflow(in_administration) }.to change(Workflow, :count).by(1)
-
-      expect(Workflow.owned_by(project).find_by(name: "Release flow")).to be_present
+      expect { post in_administration, params: { workflow: { name: "Release flow" } }, as: :turbo_stream }
+        .not_to change(Workflow, :count)
     end
   end
 

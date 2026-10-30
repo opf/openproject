@@ -1,11 +1,5 @@
 <% html_title t(:label_administration), t("project_module_storages") %>
 
-<% button_block = lambda do |button|
-     button.with_leading_visual_icon(icon: :plus)
-     button.with_trailing_action_icon(icon: :"triangle-down")
-     I18n.t("storages.label_storage")
-   end %>
-
 <% content_for :content_header do %>
   <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
     <% header.with_title { t("external_file_storages") } %>
