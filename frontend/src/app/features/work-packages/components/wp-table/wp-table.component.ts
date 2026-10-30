@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { WorkPackageStateLinkEvent } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewEncapsulation, OnDestroy, DestroyRef, inject } from '@angular/core';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -90,14 +91,14 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
   readonly wpTableSums = inject(WorkPackageViewSumService);
   readonly wpTableBaseline = inject(WorkPackageViewBaselineService);
 
-  @Input() projectIdentifier:string;
+  @Input() projectIdentifier:string|null|undefined;
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
 
   @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();
 
-  @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
+  @Output() stateLinkClicked = new EventEmitter<WorkPackageStateLinkEvent>();
 
   public configuration:WorkPackageTableConfiguration;
 

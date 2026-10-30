@@ -41,7 +41,7 @@ import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
-import { WorkPackageTableConfigurationObject } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -119,10 +119,10 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   public baselineEnabled:boolean;
 
   /** */
-  readonly wpTableConfiguration:WorkPackageTableConfigurationObject = {
+  readonly wpTableConfiguration = new WorkPackageTableConfiguration({
     dragAndDropEnabled: true,
     keyboardNavigationEnabled: true,
-  };
+  });
 
   ngOnInit() {
     // If a work package is open in the split view (per the URL), select its row.
