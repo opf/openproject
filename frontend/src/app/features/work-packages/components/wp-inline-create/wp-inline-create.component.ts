@@ -86,7 +86,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
   @Input() table:WorkPackageTable;
 
-  @Input() projectIdentifier:string;
+  @Input() projectIdentifier:string|null|undefined;
 
   @Output() showing = new EventEmitter<boolean>();
 
@@ -301,7 +301,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   }
 
   @HostListener('keydown.escape', ['$event'])
-  public cancelOnEscape(event:KeyboardEvent) {
+  public cancelOnEscape(event:Event) {
     if (this.mode === 'inactive') {
       return;
     }

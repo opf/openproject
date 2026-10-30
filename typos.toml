@@ -67,7 +67,7 @@ extend-ignore-re = [
   "\"Aluminium \\(0\\.4\\)\"", # value shown in the release notes screenshot
   "(?m)^\\s+favoured:|help_texts\\.views\\.favoured", # i18n key
   "\\btrialling\\?", # public EnterpriseToken.trialling?; follow-up
-  "\\btrialling\\(", # public BannersService#trialling; follow-up
+  "\\btrialling(\\(|:)", # public BannersService#trialling and its mocks; follow-up
   "\\bsignalled(<|\\(|:)", # public APIv3 resource method and its mocks; follow-up
   "aria-labelledby", # HTML attribute
   "4-project-organisation-and-roles", # docs directory, part of public URLs

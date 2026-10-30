@@ -53,7 +53,7 @@ export class WorkPackageSplitViewToolbarComponent implements OnInit {
 
   @Input() displayNotificationsButton:boolean;
 
-  public displayShareButton$:false|Observable<boolean> = false;
+  public displayShareButton$:Observable<boolean> = of(false);
   public displayReminderButton$:Observable<boolean> = of(false);
 
   public text = {

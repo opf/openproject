@@ -61,7 +61,7 @@ import { HalSource } from 'core-app/features/hal/interfaces';
 export interface FieldDescriptor {
   name:string;
   label:string;
-  field?:DisplayField;
+  field:DisplayField;
   fields?:DisplayField[];
   spanAll:boolean;
   multiple:boolean;
@@ -383,20 +383,13 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    * combined 'start' and 'due' date field.
    */
   private getDateField(change:WorkPackageChangeset):FieldDescriptor {
-    const object:FieldDescriptor = {
+    return {
       name: 'date',
       label: this.I18n.t('js.work_packages.properties.date'),
       spanAll: false,
       multiple: false,
+      field: this.displayField(change, change.schema.ofProperty('date') ? 'date' : 'combinedDate'),
     };
-
-    if (change.schema.ofProperty('date')) {
-      object.field = this.displayField(change, 'date');
-    } else {
-      object.field = this.displayField(change, 'combinedDate');
-    }
-
-    return object;
   }
 
   /**

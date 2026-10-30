@@ -140,9 +140,23 @@ describe('OpBreadcrumbsComponent', () => {
       .toEqual('text:Board 48:2');
   });
 
+  it('retains navigation when a project label is unavailable', () => {
+    fixture.componentRef.setInput('items', [
+      { href: '/projects/sp', text: null },
+      { href: '/projects/sp/boards', text: 'Boards' },
+      'Board 48',
+    ]);
+    fixture.detectChanges();
+    const links = (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLAnchorElement>('a');
+
+    expect(links[0].getAttribute('href')).toBe('/projects/sp');
+    expect(links[0].textContent?.trim()).toBe('');
+    expect(links[1].getAttribute('href')).toBe('/projects/sp/boards');
+  });
+
   function breadcrumbItems() {
     return fixture.debugElement.queryAll(By.css('[data-test-selector="op-breadcrumbs--item"]'));
   }
 });
 
-type BreadcrumbLink = Extract<BreadcrumbItem, { href:string; text:string }>;
+type BreadcrumbLink = Extract<BreadcrumbItem, { href:string }>;
