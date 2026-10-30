@@ -31,12 +31,12 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
+import { SelectionControl } from 'core-app/shared/components/autocompleter/selection/selection-adapter';
+import { createQueryFilterSelectionAdapter } from '../filter-selection';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { QueryFilterInstanceResource, QueryFilterValue, isQueryFilterValue } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryFilterInstanceResource, QueryFilterValue } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { compareByHref } from 'core-app/shared/helpers/angular/tracking-functions';
-import { isRecord } from 'core-app/shared/helpers/type-guards';
 
 @Component({
   selector: 'op-filter-toggled-multiselect-value',
@@ -59,24 +59,21 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
 
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 
+  readonly selection = createQueryFilterSelectionAdapter('toggled');
+
   @ViewChild('ngSelectInstance', { static: true }) ngSelectInstance:NgSelectComponent;
 
   public availableOptions:HalResource[] = [];
 
-  itemTracker = (item:unknown):unknown => {
-    if (!isRecord(item)) return undefined;
-    if (item.href) return item.href;
-    if (item.id) return item.id;
-    return item.name;
-  };
-
-  compareByHref = compareByHref;
+  itemTracker = this.selection.bridge.trackBy;
 
   readonly text = {
     placeholder: this.I18n.t('js.placeholders.selection'),
   };
 
   ngOnInit():void {
+    this.selection.bridge.load(this.filter.values);
+
     const values = (this.filter.currentSchema!.values!.allowedValues as HalResource[]);
     this.availableOptions = this.halSorting.sort(values);
   }
@@ -88,18 +85,19 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
   }
 
   public get value():QueryFilterValue[] {
-    return this.filter.values;
+    const { state } = this.selection;
+    return state.kind === 'invalid' ? state.lastAccepted ?? this.filter.values : this.filter.values;
   }
 
-  public setValues(val:unknown):void {
+  public setValues(val:unknown, control?:SelectionControl):void {
     if (val === undefined) { return; }
-    const values:unknown[] = Array.isArray(val) ? val : [val];
-    if (!values.every(isQueryFilterValue)) {
-      return;
-    }
 
-    this.filter.values = values;
-    this.filterChanged.emit(this.filter);
+    this.selection.bridge.accept(val, control);
+    const { state } = this.selection;
+    if (state.kind === 'ready') {
+      this.filter.values = state.value;
+      this.filterChanged.emit(this.filter);
+    }
     this.cdRef.detectChanges();
   }
 }

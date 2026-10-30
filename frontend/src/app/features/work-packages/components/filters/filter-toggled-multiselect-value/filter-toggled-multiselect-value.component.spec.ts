@@ -42,6 +42,7 @@ describe('FilterToggledMultiselectValueComponent', () => {
   let filterChanged:Mock<(filter:QueryFilterInstanceResource) => void>;
 
   beforeEach(() => {
+    vi.stubGlobal('ErrorReporter', { captureMessage: vi.fn() });
     TestBed.configureTestingModule({
       providers: [
         { provide: HalResourceService, useValue: {} },

@@ -25,13 +25,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, OnInit, Output, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Output, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { decodeEntityReference } from 'core-app/shared/types/entity-reference';
 import { QueryFilterInstanceResource, queryFilterValueId } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { createProjectFilterSelectionAdapter } from '../filter-selection';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { firstValueFrom } from 'rxjs';
@@ -47,6 +47,7 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
   readonly I18n = inject(I18nService);
   readonly apiV3Service = inject(ApiV3Service);
   readonly currentProjectService = inject(CurrentProjectService);
+  readonly cdRef = inject(ChangeDetectorRef);
 
   @Input() public shouldFocus = false;
 
@@ -54,9 +55,13 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
 
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this), 0);
 
+  readonly selection = createProjectFilterSelectionAdapter();
+
   additionalProjectApiFilters:IAPIFilter[] = [];
 
   ngOnInit():void {
+    this.selection.bridge.load(this.filter.values);
+
     const projectID = this.currentProjectService.id;
 
     this.additionalProjectApiFilters.push({ name: 'active', operator: '=', values: ['t'] });
@@ -66,19 +71,26 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
     }
   }
 
+  get model():unknown {
+    const { state } = this.selection;
+    return state.kind === 'invalid' ? state.lastAccepted ?? this.filter.values : this.filter.values;
+  }
+
   async onChange(val:unknown):Promise<void> {
-    if (val === this.filter.values || val === undefined || !Array.isArray(val)) {
+    if (val === this.filter.values || val === undefined) {
       return;
     }
 
-    if (val.length === 0) {
+    this.selection.bridge.accept(val);
+    const { state } = this.selection;
+    if (state.kind !== 'ready') {
+      this.cdRef.markForCheck();
+      return;
+    }
+
+    if (state.value.length === 0) {
       this.filter.values.length = 0;
       this.filterChanged.emit(this.filter);
-      return;
-    }
-
-    const references = val.map((value) => decodeEntityReference(value));
-    if (!references.every((reference) => reference !== null)) {
       return;
     }
 
@@ -87,12 +99,13 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
     const projects = await firstValueFrom(
       this.apiV3Service.projects.list({
         filters: [
-          ['id', '=', references.flatMap((reference) => queryFilterValueId(reference) ?? []).map(String)],
+          ['id', '=', state.value.flatMap((reference) => queryFilterValueId(reference) ?? []).map(String)],
         ],
       }),
     );
 
     this.filter.values = projects.elements;
     this.filterChanged.emit(this.filter);
+    this.cdRef.markForCheck();
   }
 }

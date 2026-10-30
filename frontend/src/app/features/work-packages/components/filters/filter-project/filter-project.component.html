@@ -2,7 +2,7 @@
   class="inline-label ng-select-container"
   id="div-values-{{filter.id}}"
 >
-  <op-project-autocompleter [model]="filter.values"
+  <op-project-autocompleter [model]="model"
     [focusDirectly]="shouldFocus"
     [multiple]="true"
     [id]="'values-' + filter.id"
@@ -10,4 +10,7 @@
     (change)="onChange($event)"
     [filters]="additionalProjectApiFilters"
    />
+  @if (selection.state.kind === 'invalid') {
+    <op-selection-error />
+  }
 </div>

@@ -182,6 +182,7 @@ import {
 import {
   WorkPackagesListInvalidQueryService,
 } from 'core-app/features/work-packages/components/wp-list/wp-list-invalid-query.service';
+import { SelectionErrorComponent } from 'core-app/shared/components/autocompleter/selection/selection-error.component';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import {
   WorkPackageWatchersService,
@@ -419,6 +420,7 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     NgSelectModule,
     // Display + Edit field functionality
     OpenprojectFieldsModule,
+    SelectionErrorComponent,
     // CKEditor
     OpenprojectEditorModule,
 

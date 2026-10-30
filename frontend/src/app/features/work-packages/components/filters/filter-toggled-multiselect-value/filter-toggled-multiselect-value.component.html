@@ -2,7 +2,7 @@
   class="inline-label ng-select-container"
   id="div-values-{{filter.id}}"
 >
-  <op-autocompleter
+  <op-autocompleter #valuesAutocompleter
     class="advanced-filters--ng-select -multi-select"
     [id]="'values-' + filter.id"
     [items]="availableOptions"
@@ -13,9 +13,13 @@
     [hideSelected]="true"
     [multiple]="true"
     [model]="value"
-    [compareWith]="compareByHref"
+    [compareWith]="selection.bridge.compareWith"
     [trackByFn]="itemTracker"
     bindLabel="name"
-    (change)="setValues($event)"
+    (change)="setValues($event, valuesAutocompleter)"
    />
+
+  @if (selection.state.kind === 'invalid') {
+    <op-selection-error />
+  }
 </div>

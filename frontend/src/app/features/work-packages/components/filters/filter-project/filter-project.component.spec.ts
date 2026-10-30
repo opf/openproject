@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { ChangeDetectorRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import type { Mock } from 'vitest';
 import { Observable, of } from 'rxjs';
@@ -39,12 +40,14 @@ describe('FilterProjectComponent', () => {
   let listProjects:Mock<(params:unknown) => Observable<{ elements:unknown[] }>>;
 
   beforeEach(() => {
+    vi.stubGlobal('ErrorReporter', { captureMessage: vi.fn() });
     listProjects = vi.fn(() => of({ elements: [] }));
     TestBed.configureTestingModule({
       providers: [
         { provide: I18nService, useValue: { t: (key:string) => key } },
         { provide: ApiV3Service, useValue: { projects: { list: listProjects } } },
         { provide: CurrentProjectService, useValue: {} },
+        { provide: ChangeDetectorRef, useValue: { markForCheck: vi.fn() } },
       ],
     });
     component = TestBed.runInInjectionContext(() => new FilterProjectComponent());
