@@ -13,7 +13,7 @@ export interface WorkPackageAttributeProps {
 
 export interface WorkPackageAttributeExternalData {
   attrs:{
-    'data-inline-content-type':'openProjectWorkPackageAttribute';
+    'data-inline-content-type':'openProjectWorkPackageAttributeInline';
     'data-wpid':string;
     'data-display-id':string;
     'data-attribute':string;
@@ -52,7 +52,7 @@ export function computeWorkPackageAttributeExternalData(
   const text = display === 'label' ? label : display === 'value' ? value : `${label}: ${value}`;
   return {
     attrs: {
-      'data-inline-content-type': 'openProjectWorkPackageAttribute',
+      'data-inline-content-type': 'openProjectWorkPackageAttributeInline',
       'data-wpid': wpid,
       'data-display-id': displayId,
       'data-attribute': attribute,
@@ -77,7 +77,7 @@ export function buildWorkPackageAttributeExternalDOM(
 export function parseWorkPackageAttributeExternalHTML(
   element:HTMLElement,
 ):WorkPackageAttributeProps | undefined {
-  if (element.getAttribute('data-inline-content-type') !== 'openProjectWorkPackageAttribute') {
+  if (element.getAttribute('data-inline-content-type') !== 'openProjectWorkPackageAttributeInline') {
     return undefined;
   }
   return {

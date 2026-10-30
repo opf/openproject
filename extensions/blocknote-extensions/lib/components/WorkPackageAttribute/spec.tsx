@@ -6,7 +6,7 @@ import {
   parseWorkPackageAttributeExternalHTML,
 } from './externalHtml';
 
-export const openProjectWorkPackageAttributeSpec = createReactInlineContentSpec(
+export const openProjectWorkPackageAttributeInlineSpec = createReactInlineContentSpec(
   attributeInlineConfig,
   {
     render: ({ inlineContent }) => (
