@@ -59,9 +59,10 @@ class Workflows::CopiesController < ApplicationController
 
   def copy_submit_path
     if standalone?
-      workflow_copy_from_role_path(workflow, source_role_id: @source_role&.id)
+      workflow_copy_from_role_path(workflow, source_role_id: @source_role&.id, tab: params[:tab])
     else
-      variant_workflow_copy_from_role_path(@source_variant, source_role_id: @source_role&.id)
+      variant_workflow_copy_from_role_path(@source_variant, source_role_id: @source_role&.id,
+                                                            tab: params[:tab], wizard: params[:wizard].presence)
     end
   end
 
