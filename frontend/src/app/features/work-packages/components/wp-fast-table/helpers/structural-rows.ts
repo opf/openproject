@@ -26,9 +26,15 @@
 //++
 
 import type { WorkPackageTable } from '../wp-fast-table';
+import { placeholderOccurrenceKey, type RenderedOccurrence } from '../rendered-occurrence-ledger';
 import { inlineCreateSelector } from '../handlers/state/keyboard/roving-tabindex';
 
 const totalsRowSelector = 'tr.wp-table--sums-row';
+
+export type OccurrenceRowKind = 'workPackage'|'groupHeader'|'sums'|'placeholder'|'foreign';
+
+/** Every body or trailing row of the table; `foreign` is a row no producer declared. */
+export type TableRowKind = OccurrenceRowKind|'totals'|'create'|'empty'|'unexposed';
 
 /** The `thead` row of the table, when rendered. */
 export function headerRowOf(table:WorkPackageTable):HTMLTableRowElement|null {
@@ -59,4 +65,21 @@ export function isExposedRow(row:HTMLTableRowElement):boolean {
   return !row.hidden
     && row.getAttribute('aria-hidden') !== 'true'
     && row.parentElement?.getAttribute('aria-hidden') !== 'true';
+}
+
+export function occurrenceRowKind(occurrence:RenderedOccurrence):OccurrenceRowKind {
+  if (occurrence.key === placeholderOccurrenceKey()) return 'placeholder';
+  if (occurrence.key.startsWith('group:')) return occurrence.key.endsWith(':sums') ? 'sums' : 'groupHeader';
+  return occurrence.workPackageId === null ? 'foreign' : 'workPackage';
+}
+
+/** Rendered occurrences keep their kind even while hidden; other rows count only while exposed. */
+export function classifyRow(table:WorkPackageTable, row:HTMLTableRowElement):TableRowKind {
+  const occurrence = table.ledger.byElement(row);
+  if (occurrence) return occurrenceRowKind(occurrence);
+  if (!isExposedRow(row)) return 'unexposed';
+  if (isEmptyResultsRow(row)) return 'empty';
+  if (isTotalsRow(table, row)) return 'totals';
+  if (isInlineCreateRow(row)) return 'create';
+  return 'foreign';
 }

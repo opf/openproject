@@ -30,8 +30,9 @@ import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packag
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { isSelectableOccurrence } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
-import { expansionStateOf, rowKindOf } from '../helpers/row-expansion';
-import { placeholderOccurrenceKey, type RenderedOccurrence } from '../rendered-occurrence-ledger';
+import { expansionStateOf } from '../helpers/row-expansion';
+import { occurrenceRowKind, type OccurrenceRowKind } from '../helpers/structural-rows';
+import type { RenderedOccurrence } from '../rendered-occurrence-ledger';
 import type { WorkPackageTable } from '../wp-fast-table';
 
 export function setOrRemove(element:Element, name:string, value:string|null):void {
@@ -83,13 +84,14 @@ export class TreegridSemantics {
     const row = occurrence.element;
     if (!row) return;
 
-    if (occurrence.key === placeholderOccurrenceKey()) {
+    const kind = occurrenceRowKind(occurrence);
+    if (kind === 'placeholder') {
       setOrRemove(row, 'aria-hidden', 'true');
       return;
     }
 
     paintRowRole(row, occurrence.level);
-    setOrRemove(row, 'aria-expanded', this.expansionOf(occurrence));
+    setOrRemove(row, 'aria-expanded', this.expansionOf(occurrence, kind));
     this.paintSelected(occurrence);
   }
 
@@ -99,9 +101,8 @@ export class TreegridSemantics {
     }
   }
 
-  private expansionOf(occurrence:RenderedOccurrence):string|null {
-    const kind = rowKindOf(occurrence);
-    const expanded = kind === null ? null : expansionStateOf(this.table, this.wpTableHierarchies, occurrence, kind);
+  private expansionOf(occurrence:RenderedOccurrence, kind:Exclude<OccurrenceRowKind, 'placeholder'>):string|null {
+    const expanded = kind === 'foreign' ? null : expansionStateOf(this.table, this.wpTableHierarchies, occurrence, kind);
     return expanded === null ? null : String(expanded);
   }
 }

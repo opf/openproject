@@ -34,7 +34,7 @@ import type { GroupObject, WorkPackageCollectionResource } from 'core-app/featur
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { groupOccurrenceKey, placeholderOccurrenceKey, wpOccurrenceKey, type RenderDraft } from '../rendered-occurrence-ledger';
 import type { WorkPackageTable } from '../wp-fast-table';
-import { isEmptyResultsRow, isExposedRow, isInlineCreateRow, isTotalsRow } from '../helpers/structural-rows';
+import { classifyRow } from '../helpers/structural-rows';
 import { setOrRemove } from './treegrid-semantics';
 import { bodyRowPositions, draftAgrees, type BodyRowPositions, type PositionGroup } from './body-row-positions';
 
@@ -47,8 +47,6 @@ export interface CapturedRowPositions {
 
 // Group counts are computed from the unscoped query results, so only the primary collections carry trustworthy aggregates.
 const UNSCOPED_COLLECTION_HREF = /\/api\/v3\/(?:(?:projects|workspaces)\/[^/]+\/)?work_packages(?:\?|$)/;
-
-type ProjectedRowKind = 'ledger'|'skipped'|'empty'|'totals'|'create'|'foreign';
 
 export class TableRowPositions {
   @LazyInject(WorkPackageViewHierarchiesService) private readonly hierarchies:WorkPackageViewHierarchiesService;
@@ -155,25 +153,25 @@ export class TableRowPositions {
 
     const indices = new Map<HTMLTableRowElement, number>([[header[0], 1]]);
     const trailers:HTMLTableRowElement[] = [];
-    const seen = new Set<ProjectedRowKind>();
+    const seen = new Set<'totals'|'create'>();
     let emptySurrogate:HTMLTableRowElement|null = null;
     for (const row of rows) {
       if (row === header[0]) continue;
-      const kind = this.classify(row);
-      if (kind === 'skipped') continue;
-      if (kind === 'ledger') {
-        const ordinal = body.ordinals.get(this.table.ledger.byElement(row)!.key);
-        if (ordinal === undefined) return null;
-        indices.set(row, ordinal + 1);
-      } else if (kind === 'empty') {
+      const kind = classifyRow(this.table, row);
+      if (kind === 'foreign') return null;
+      if (kind === 'placeholder' || kind === 'unexposed') continue;
+      if (kind === 'empty') {
         if (body.count !== 0 || emptySurrogate) return null;
         emptySurrogate = row;
       } else if (kind === 'totals' || kind === 'create') {
+        if (row.cells.length === 0) continue;
         if (seen.has(kind)) return null;
         seen.add(kind);
         trailers.push(row);
       } else {
-        return null;
+        const ordinal = body.ordinals.get(this.table.ledger.byElement(row)!.key);
+        if (ordinal === undefined) return null;
+        indices.set(row, ordinal + 1);
       }
     }
 
@@ -192,15 +190,5 @@ export class TableRowPositions {
       previous = position;
     }
     return { count: snapshot.kind === 'query' ? count : null, indices };
-  }
-
-  private classify(row:HTMLTableRowElement):ProjectedRowKind {
-    const occurrence = this.table.ledger.byElement(row);
-    if (occurrence) return occurrence.key === placeholderOccurrenceKey() ? 'skipped' : 'ledger';
-    if (!isExposedRow(row)) return 'skipped';
-    if (isEmptyResultsRow(row)) return 'empty';
-    if (isTotalsRow(this.table, row)) return row.cells.length === 0 ? 'skipped' : 'totals';
-    if (isInlineCreateRow(row)) return row.cells.length === 0 ? 'skipped' : 'create';
-    return 'foreign';
   }
 }
