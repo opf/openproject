@@ -87,7 +87,7 @@ module Labelable
   end
 
   def normalize_label_names(names)
-    Array.wrap(names).map { it.to_s.squish }.compact_blank.uniq(&:downcase)
+    Array.wrap(names).map { Label.normalize_value_for(:name, it.to_s) }.compact_blank.uniq(&:downcase)
   end
 
   def labels_for_names_to_assign

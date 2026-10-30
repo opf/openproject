@@ -177,6 +177,42 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter, "parsing" d
       end
     end
 
+    context "with a pending name only" do
+      let(:labels_links) { [{ "href" => nil, "title" => "Needs triage" }] }
+
+      it "sets the name and no ids" do
+        expect(subject.label_ids).to eq([])
+        expect(subject.label_names).to eq(["Needs triage"])
+      end
+    end
+
+    context "with an empty-string href and a title" do
+      let(:labels_links) { [{ "href" => "", "title" => "X" }] }
+
+      it "treats it as a pending name" do
+        expect(subject.label_ids).to eq([])
+        expect(subject.label_names).to eq(["X"])
+      end
+    end
+
+    context "with an existing label followed by an entry without an href key" do
+      let(:labels_links) { [{ "href" => api_v3_paths.label(label.id) }, { "title" => "Y" }] }
+
+      it "does not reuse the previous id for the pending entry" do
+        expect(subject.label_ids).to eq([label.id.to_s])
+        expect(subject.label_names).to eq(["Y"])
+      end
+    end
+
+    context "with an entry carrying both href and title" do
+      let(:labels_links) { [{ "href" => api_v3_paths.label(label.id), "title" => "Ignored" }] }
+
+      it "only contributes its id" do
+        expect(subject.label_ids).to eq([label.id.to_s])
+        expect(subject.to_h).not_to have_key(:label_names)
+      end
+    end
+
     context "with an entry lacking both href and title" do
       let(:labels_links) { [{ "href" => nil }] }
 
