@@ -85,11 +85,6 @@ RSpec.describe "form query configuration", :js do
       visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
     end
 
-    it "can save an empty query group" do
-      form.add_query_group("Empty test", :children, expect: false)
-      form.expect_group("Empty test", "Empty test")
-    end
-
     it "can edit a query group by clicking the related work packages table link" do
       form.add_query_group("Link test", :children, expect: false)
       form.expect_group("Link test", "Link test")
@@ -145,8 +140,10 @@ RSpec.describe "form query configuration", :js do
       filters.save
       wait_for_network_idle
 
-      visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
-      wait_for_network_idle
+      within("[data-group-key='#{group_name}']") do
+        expect(page).to have_element(:dt, text: "Filters")
+        expect(page).to have_element(:dd, text: "Project is (OR) #{project.name}")
+      end
       form.edit_query_group(group_name)
 
       modal.switch_to "Filters"
@@ -170,6 +167,9 @@ RSpec.describe "form query configuration", :js do
         archived.update_attribute(:active, false)
 
         visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
+        within("[data-group-key='Archived project']") do
+          expect(page).to have_text("Unavailable value")
+        end
         form.edit_query_group("Archived project")
 
         # Expect we now get the valid subset without the invalid project
@@ -238,13 +238,11 @@ RSpec.describe "form query configuration", :js do
     shared_examples_for "query group" do
       it do
         form.add_query_group("Subtasks", frontend_relation_type) do |modal|
-          # Expect disabled tabs for timelines and display mode
-          modal.expect_disabled_tab "Gantt chart"
-          modal.expect_disabled_tab "Display settings"
-
           # Restrict filters to type_task
           modal.expect_open
           modal.switch_to "Filters"
+          modal.expect_no_tab "Gantt chart"
+          modal.expect_no_tab "Display settings"
           # the templated filter should be hidden in the Filters tab
           filters.expect_filter_count 1
           filters.add_filter_by("Type", "is (OR)", type_task.name)
@@ -305,7 +303,7 @@ RSpec.describe "form query configuration", :js do
       end
     end
 
-    context "children table" do
+    context "with a children table" do
       it_behaves_like "query group"
     end
 

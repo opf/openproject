@@ -129,6 +129,7 @@ module WorkPackageTypes
           icon: "kebab-horizontal",
           scheme: :invisible,
           size: :small,
+          tooltip_direction: :w,
           classes: "type-form-configuration-page--actions-button",
           test_selector: "type-form-configuration-attribute-actions-#{@attribute[:key]}",
           "aria-label": t("types.edit.form_configuration.row_actions")
