@@ -96,6 +96,8 @@ en:
         progress: "%{percentage}% done"
       start_indexing:
         not_indexable: "This Semantic Index is already being indexed."
+      stop_indexing:
+        not_indexing: "This semantic index is not being indexed."
     llm_connections:
       delete_api_key:
         configured_from_env: "This connection is configured through the environment and cannot be changed here."
