@@ -35,6 +35,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { groupOccurrenceKey, placeholderOccurrenceKey, wpOccurrenceKey, type RenderDraft, type RenderedOccurrence } from '../rendered-occurrence-ledger';
 import type { WorkPackageTable } from '../wp-fast-table';
 import { isEmptyResultsRow, isExposedRow, isInlineCreateRow, isTotalsRow } from '../helpers/structural-rows';
+import { setOrRemove } from './treegrid-semantics';
 import { bodyRowPositions, draftAgrees, type BodyRowPositions, type PositionGroup } from './body-row-positions';
 
 export interface CapturedRowPositions {
@@ -48,14 +49,6 @@ export interface CapturedRowPositions {
 const UNSCOPED_COLLECTION_HREF = /\/api\/v3\/(?:(?:projects|workspaces)\/[^/]+\/)?work_packages(?:\?|$)/;
 
 type ProjectedRowKind = 'ledger'|'skipped'|'empty'|'totals'|'create'|'foreign';
-
-function setIfChanged(element:Element, name:string, value:string|null):void {
-  if (value === null) {
-    if (element.hasAttribute(name)) element.removeAttribute(name);
-  } else if (element.getAttribute(name) !== value) {
-    element.setAttribute(name, value);
-  }
-}
 
 export class TableRowPositions {
   @LazyInject(WorkPackageViewHierarchiesService) private readonly hierarchies:WorkPackageViewHierarchiesService;
@@ -112,10 +105,10 @@ export class TableRowPositions {
     if (!element) return;
     const rows = Array.from(element.rows);
     const projection = this.project(element, rows);
-    setIfChanged(element, 'aria-rowcount', projection ? String(projection.count ?? -1) : null);
+    setOrRemove(element, 'aria-rowcount', projection ? String(projection.count ?? -1) : null);
     rows.forEach((row) => {
       const position = projection?.indices.get(row);
-      setIfChanged(row, 'aria-rowindex', position === undefined ? null : String(position));
+      setOrRemove(row, 'aria-rowindex', position === undefined ? null : String(position));
     });
   }
 

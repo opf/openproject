@@ -34,10 +34,10 @@ import { expansionStateOf, rowKindOf } from '../helpers/row-expansion';
 import { placeholderOccurrenceKey, type RenderedOccurrence } from '../rendered-occurrence-ledger';
 import type { WorkPackageTable } from '../wp-fast-table';
 
-function setOrRemove(element:HTMLElement, name:string, value:string|null):void {
+export function setOrRemove(element:Element, name:string, value:string|null):void {
   if (value === null) {
-    element.removeAttribute(name);
-  } else {
+    if (element.hasAttribute(name)) element.removeAttribute(name);
+  } else if (element.getAttribute(name) !== value) {
     element.setAttribute(name, value);
   }
 }
@@ -84,7 +84,7 @@ export class TreegridSemantics {
     if (!row) return;
 
     if (occurrence.key === placeholderOccurrenceKey()) {
-      row.setAttribute('aria-hidden', 'true');
+      setOrRemove(row, 'aria-hidden', 'true');
       return;
     }
 
