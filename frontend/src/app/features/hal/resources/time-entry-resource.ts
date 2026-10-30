@@ -50,7 +50,7 @@ export class TimeEntryResource extends HalResource {
 
   hours:string;
 
-  delete:CallableHalLink;
+  delete?:CallableHalLink|null;
 
   public get state():InputState<this> {
     return this.states.timeEntries.get(this.id!) as unknown as InputState<this>;

@@ -39,7 +39,7 @@ import {
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { TimeEntryCacheService } from 'core-app/core/apiv3/endpoints/time-entries/time-entry-cache.service';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
-import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { TimeEntrySchemaResource } from 'core-app/features/hal/resources/time-entry-schema-resource';
 import { ApiV3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
 
 export class ApiV3TimeEntriesPaths
@@ -56,7 +56,7 @@ export class ApiV3TimeEntriesPaths
   public readonly form = this.subResource('form', ApiV3FormResource);
 
   // /api/v3/time_entries/schema
-  readonly schema = this.subResource<ApiV3GettableResource<SchemaResource>>('schema');
+  readonly schema = this.subResource<ApiV3GettableResource<TimeEntrySchemaResource>>('schema');
 
   /**
    * Load a list of time entries with a given list parameter filter

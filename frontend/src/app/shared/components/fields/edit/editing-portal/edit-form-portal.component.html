@@ -1,7 +1,7 @@
 @if (handler) {
   <div
     class="inline-edit--active-field inplace-edit {{ handler.fieldName }}"
-    [ngClass]="{'-error': handler.isErrorenous }">
+    [ngClass]="{'-error': hasErrors }">
     <form (submit)="handler.handleUserSubmit()"
       role="form"
       autocomplete="off"

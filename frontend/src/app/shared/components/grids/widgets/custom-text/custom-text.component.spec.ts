@@ -30,6 +30,7 @@ import { CommonModule } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -118,4 +119,39 @@ describe('WidgetCustomTextComponent editing attachments', () => {
     expect(fixture.nativeElement.querySelector('legend')).toHaveTextContent('js.label_attachments');
   });
 
+  it('uploads to the grid and waits for editor submit callbacks before saving', async () => {
+    await activate();
+    const attachments = fixture.debugElement.query(By.directive(OpAttachmentsComponent)).componentInstance as OpAttachmentsComponent;
+    expect(attachments.resource).toBe(grid);
+    const files = new DataTransfer();
+    const file = new File(['Attachment'], 'notes.txt', { type: 'text/plain' });
+    files.items.add(file);
+    attachments.filePicker.nativeElement.files = files.files;
+    attachments.filePicker.nativeElement.dispatchEvent(new Event('change'));
+    expect(attachFiles).toHaveBeenCalledWith(grid, [file]);
+    const component = fixture.componentInstance;
+    const changed = vi.spyOn(component.resourceChanged, 'emit');
+    let finish!:() => void;
+    component.handler.registerOnSubmit(() => new Promise<void>((resolve) => { finish = resolve; }));
+    component.handler.changeset.setValue('text', { raw: 'Saved text' });
+    const save = component.handler.handleUserSubmit();
+    expect(component.active).toBe(true);
+    expect(changed).not.toHaveBeenCalled();
+    finish();
+    await save;
+    expect(changed).toHaveBeenCalledOnce();
+    expect(component.active).toBe(false);
+  });
+
+  it('cancels without emitting a resource change', async () => {
+    await activate();
+    const changed = vi.spyOn(fixture.componentInstance.resourceChanged, 'emit');
+    fixture.componentInstance.handler.changeset.setValue('text', { raw: 'Discard' });
+    fixture.componentInstance.handler.handleUserCancel();
+    fixture.changeDetectorRef.markForCheck();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.active).toBe(false);
+    expect(changed).not.toHaveBeenCalled();
+    expect(fixture.nativeElement.querySelector('fieldset')).toBeNull();
+  });
 });
