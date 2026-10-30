@@ -30,8 +30,9 @@ import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packag
 import { WorkPackageViewRelationColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
-import type { GroupObject, WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import type { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { groupOccurrenceKey, placeholderOccurrenceKey, wpOccurrenceKey, type RenderDraft } from '../rendered-occurrence-ledger';
 import type { WorkPackageTable } from '../wp-fast-table';
 import { classifyRow } from '../helpers/structural-rows';
@@ -65,11 +66,17 @@ export class TableRowPositions {
 
   public capture(draft:RenderDraft):CapturedRowPositions|null {
     const source = this.table.querySpace.results.value;
-    if (!source || this.withdrawnByMode() || !this.matchesRenderedRows(source)) return null;
+    if (!source) return null;
+    if (this.withdrawnByMode()) return this.notOffered('expanded relation columns');
+    if (!this.matchesRenderedRows(source)) return this.notOffered('rows await a matching collection');
 
     const groups = this.table.querySpace.groups.value ?? [];
-    if (this.hierarchies.isEnabled) return groups.length > 0 ? null : this.capturePage(source, draft);
-    if (groups.length > 0 && !this.trustsGroupedAggregates(source, groups)) return null;
+    if (this.hierarchies.isEnabled) return groups.length > 0 ? this.notOffered('grouped hierarchy') : this.capturePage(source, draft);
+    if (groups.length > 0) {
+      if (this.baseline.isActive()) return this.notOffered('grouped baseline');
+      if (source.groups !== groups) return this.withdraw('group objects differ from collection');
+      if (!UNSCOPED_COLLECTION_HREF.test(source.href ?? '')) return this.withdraw('untrusted collection href');
+    }
 
     const positionGroups:PositionGroup[] = groups.map((group, index) => ({
       headerKey: groupOccurrenceKey(index, 'header'),
@@ -84,12 +91,12 @@ export class TableRowPositions {
       primaryKeys: this.table.originalRows.map(wpOccurrenceKey),
       groups: positionGroups,
     });
-    if (!body) return null;
+    if (!body) return this.withdraw('inconsistent collection counts');
 
     const rows = draft.occurrences
       .filter((occurrence) => occurrence.key !== placeholderOccurrenceKey())
       .map((occurrence) => ({ key: occurrence.key, member: occurrence.workPackageId !== null }));
-    return draftAgrees(body, rows, positionGroups) ? { kind: 'query', source, body } : null;
+    return draftAgrees(body, rows, positionGroups) ? { kind: 'query', source, body } : this.withdraw('rows disagree with collection');
   }
 
   public commit(snapshot:CapturedRowPositions|null):void {
@@ -116,13 +123,13 @@ export class TableRowPositions {
     const firstRank = (offset - 1) * pageSize;
     if (!Number.isSafeInteger(offset) || offset < 1 || !Number.isSafeInteger(pageSize) || pageSize < 1
       || !Number.isSafeInteger(firstRank)) {
-      return null;
+      return this.withdraw('invalid pagination');
     }
     const keys = draft.occurrences
       .filter((occurrence) => occurrence.key !== placeholderOccurrenceKey())
       .map((occurrence) => occurrence.key);
     const ordinals = new Map(keys.map((key, index) => [key, firstRank + index + 1]));
-    if (ordinals.size !== keys.length) return null;
+    if (ordinals.size !== keys.length) return this.withdraw('duplicate occurrence keys');
     return { kind: 'page', source, body: { count: firstRank + keys.length, ordinals } };
   }
 
@@ -138,18 +145,13 @@ export class TableRowPositions {
       && source.elements.every((wp, index) => wp.id === originalRows[index]);
   }
 
-  private trustsGroupedAggregates(source:WorkPackageCollectionResource, groups:GroupObject[]):boolean {
-    return source.groups === groups
-      && !this.baseline.isActive()
-      && UNSCOPED_COLLECTION_HREF.test(source.href ?? '');
-  }
-
   private project(element:HTMLTableElement, rows:HTMLTableRowElement[]) {
     const snapshot = this.snapshot;
-    if (!snapshot || snapshot.source !== this.table.querySpace.results.value) return null;
+    if (!snapshot) return null;
+    if (snapshot.source !== this.table.querySpace.results.value) return this.notOffered('collection changed before render');
     const { body } = snapshot;
     const header = element.tHead?.rows;
-    if (header?.length !== 1) return null;
+    if (header?.length !== 1) return this.withdraw('header rows');
 
     const indices = new Map<HTMLTableRowElement, number>([[header[0], 1]]);
     const trailers:HTMLTableRowElement[] = [];
@@ -158,19 +160,19 @@ export class TableRowPositions {
     for (const row of rows) {
       if (row === header[0]) continue;
       const kind = classifyRow(this.table, row);
-      if (kind === 'foreign') return null;
+      if (kind === 'foreign') return this.withdraw('foreign row');
       if (kind === 'placeholder' || kind === 'unexposed') continue;
       if (kind === 'empty') {
-        if (body.count !== 0 || emptySurrogate) return null;
+        if (body.count !== 0 || emptySurrogate) return this.withdraw('unexpected empty-results row');
         emptySurrogate = row;
       } else if (kind === 'totals' || kind === 'create') {
         if (row.cells.length === 0) continue;
-        if (seen.has(kind)) return null;
+        if (seen.has(kind)) return this.withdraw(`duplicate ${kind} row`);
         seen.add(kind);
         trailers.push(row);
       } else {
         const ordinal = body.ordinals.get(this.table.ledger.byElement(row)!.key);
-        if (ordinal === undefined) return null;
+        if (ordinal === undefined) return this.withdraw('row outside the collection');
         indices.set(row, ordinal + 1);
       }
     }
@@ -180,15 +182,25 @@ export class TableRowPositions {
       count += 1;
       indices.set(row, count);
     }
-    if (!Number.isSafeInteger(count)) return null;
+    if (!Number.isSafeInteger(count)) return this.withdraw('unsafe count');
 
     let previous = 0;
     for (const row of rows) {
       const position = indices.get(row);
       if (position === undefined) continue;
-      if (!Number.isSafeInteger(position) || position <= previous || position > count) return null;
+      if (!Number.isSafeInteger(position) || position <= previous || position > count) return this.withdraw('non-monotonic');
       previous = position;
     }
     return { count: snapshot.kind === 'query' ? count : null, indices };
+  }
+
+  private withdraw(inconsistency:string):null {
+    debugLog(`Row positions withdrawn: ${inconsistency}`);
+    return null;
+  }
+
+  private notOffered(mode:string):null {
+    debugLog(`Row positions not offered: ${mode}`);
+    return null;
   }
 }

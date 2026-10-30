@@ -31,8 +31,9 @@ import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packag
 import { waitFor } from '@testing-library/dom';
 import { nextTask } from 'core-common/testing/timing';
 import { States } from 'core-app/core/states/states.service';
-import { groupOccurrenceKey } from '../rendered-occurrence-ledger';
+import { groupOccurrenceKey, type RenderDraft } from '../rendered-occurrence-ledger';
 import { buildWorkPackage } from '../testing/work-package-fixture';
+import { environment } from '../../../../../../environments/environment';
 
 function deferred<T>() {
   let resolve!:(value:T) => void;
@@ -93,6 +94,100 @@ describe('TableRowPositions', () => {
     extra.insertCell().textContent = 'Unclassified';
     harness.table.rowPositions!.paint();
     harness.expectNoRowPositions();
+  });
+
+  describe('when withdrawing', () => {
+    const status = { href: '/api/v3/statuses/1' };
+    const grouped = { workPackages: [{ id: '1', attributes: { status } }], pagination: { offset: 1, pageSize: 20, total: 1 }, groups: [{ value: 'G', href: status.href, count: 1 }] };
+    const hierarchy = { workPackages: [{ id: '1' }, { id: '2', ancestors: [{ id: '1' }] }], showHierarchies: true };
+    const recapture = (draft:RenderDraft = harness.table.ledger.beginRender()) => {
+      const positions = harness.table.rowPositions!;
+      positions.commit(positions.capture(draft));
+      positions.paint();
+    };
+    const withdrawals:[string, () => Promise<unknown>][] = [
+      ['withdrawn: foreign row', async () => {
+        await mount();
+        table().createTBody().insertRow().insertCell().textContent = 'Unclassified';
+        harness.table.rowPositions!.paint();
+      }],
+      ['withdrawn: untrusted collection href', () => mount({
+        workPackages: [{ id: '1', attributes: { status } }],
+        pagination: { offset: 1, pageSize: 20, total: 1 },
+        groups: [{ value: 'G', href: status.href, count: 1 }],
+        collectionHref: '/api/v3/versions/3/work_packages',
+      })],
+      ['withdrawn: non-monotonic', async () => {
+        await mount({ workPackages: [{ id: '1' }, { id: '2', ancestors: [{ id: '1' }] }], showHierarchies: true });
+        harness.row('1').before(harness.row('2'));
+        harness.table.rowPositions!.paint();
+      }],
+      ['withdrawn: group objects differ from collection', async () => {
+        await mount(grouped);
+        harness.querySpace.groups.putValue([...harness.querySpace.groups.value!]);
+        recapture();
+      }],
+      ['withdrawn: invalid pagination', async () => {
+        await mount(hierarchy);
+        harness.querySpace.results.value!.offset = 0;
+        recapture();
+      }],
+      ['withdrawn: duplicate occurrence keys', async () => {
+        await mount(hierarchy);
+        recapture({ occurrences: [{ key: 'wp:1' }, { key: 'wp:1' }] } as unknown as RenderDraft);
+      }],
+      ['withdrawn: header rows', async () => {
+        await mount();
+        table().tHead!.insertRow();
+        harness.table.rowPositions!.paint();
+      }],
+      ['withdrawn: unsafe count', async () => {
+        await mount();
+        const ordinals = new Map([['wp:21', 21], ['wp:22', 22]]);
+        harness.table.rowPositions!.commit({ kind: 'query', source: harness.querySpace.results.value!, body: { count: Number.MAX_SAFE_INTEGER, ordinals } });
+        harness.table.rowPositions!.paint();
+      }],
+      ['not offered: rows await a matching collection', async () => {
+        await mount();
+        harness.table.originalRows.reverse();
+        recapture();
+      }],
+      ['not offered: collection changed before render', async () => {
+        await mount();
+        vi.spyOn(harness.table.uiWork, 'frame').mockImplementation(() => undefined);
+        void harness.render([{ id: '31' }]);
+        harness.table.rowPositions!.paint();
+      }],
+      ['not offered: grouped hierarchy', () => mount({ ...grouped, showHierarchies: true })],
+      ['not offered: grouped baseline', () => mount({ ...grouped, baseline: true })],
+      ['not offered: expanded relation columns', async () => {
+        harness = buildTable({
+          workPackages: [{ id: '21' }], productionMarkup: true,
+          pagination: { offset: 2, pageSize: 20, total: 100 },
+          columns: ['id', 'subject', { id: 'children', children: true }],
+          configuration: { keyboardNavigationEnabled: true },
+        });
+        harness.expand('999', 'children');
+        await harness.render();
+      }],
+    ];
+
+    const originalProduction = environment.production;
+    let log:ReturnType<typeof vi.spyOn>;
+    beforeEach(() => {
+      environment.production = false;
+      log = vi.spyOn(console, 'log').mockImplementation(() => undefined);
+    });
+    afterEach(() => {
+      environment.production = originalProduction;
+      log.mockRestore();
+    });
+
+    it.each(withdrawals)('logs the reason %s', async (reason, withdraw) => {
+      await withdraw();
+      harness.expectNoRowPositions();
+      expect(log).toHaveBeenCalledWith(`[DEBUG] Row positions ${reason}`);
+    });
   });
 
   it('keeps group continuation and collapsed gaps global', async () => {
