@@ -74,15 +74,8 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     switch (column.id) {
       case internalContextMenuColumn.id:
         return this.buildCancelButton();
-      default: {
-        const cell = super.buildCell(workPackage, column);
-
-        if (cell && this.hostsCancelLink(column)) {
-          this.appendCancelLink(cell);
-        }
-
-        return cell;
-      }
+      default:
+        return super.buildCell(workPackage, column);
     }
   }
 
@@ -93,12 +86,24 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     return [this.paintStructuralRow(row), hidden];
   }
 
+  public buildEmpty(workPackage:WorkPackageResource):[HTMLTableRowElement, boolean] {
+    const [row, hidden] = super.buildEmpty(workPackage);
+    this.placeCancelLink(row);
+
+    return [row, hidden];
+  }
+
   public refreshRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):HTMLTableRowElement {
     const refreshed = super.refreshRow(workPackage, row);
-    const lastColumn = this.augmentedColumns.at(-1)!;
-    const host = this.hostsCancelLink(lastColumn) ? refreshed.querySelector<HTMLTableCellElement>(`td.${lastColumn.id}`) : null;
+    this.placeCancelLink(refreshed);
 
-    refreshed.querySelectorAll<HTMLTableCellElement>(`td.${cancelLinkHostClassName}`).forEach((cell) => {
+    return this.paintStructuralRow(refreshed);
+  }
+
+  private placeCancelLink(row:HTMLTableRowElement):void {
+    const host = this.cancelLinkHost(row);
+
+    row.querySelectorAll<HTMLTableCellElement>(`td.${cancelLinkHostClassName}`).forEach((cell) => {
       if (cell !== host) {
         cell.classList.remove(cancelLinkHostClassName);
         cell.querySelector(`.${inlineCreateCancelClassName}`)?.remove();
@@ -107,12 +112,15 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     if (host) {
       this.appendCancelLink(host);
     }
-
-    return this.paintStructuralRow(refreshed);
   }
 
-  private hostsCancelLink(column:QueryColumn):boolean {
-    return !this.augmentedColumns.includes(internalContextMenuColumn) && column === this.augmentedColumns.at(-1);
+  private cancelLinkHost(row:HTMLTableRowElement):HTMLTableCellElement|null {
+    if (this.augmentedColumns.includes(internalContextMenuColumn)) {
+      return null;
+    }
+
+    const lastColumn = this.augmentedColumns.at(-1)!;
+    return row.querySelector<HTMLTableCellElement>(`td.${lastColumn.id}`);
   }
 
   private appendCancelLink(cell:HTMLTableCellElement) {
