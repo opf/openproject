@@ -32,6 +32,7 @@ module Wikis::Admin
     columns :name, :provider_type, :created_at
     main_column :name
     mobile_columns :name, :provider_type
+    mobile_labels :provider_type
 
     def row_class
       ::Wikis::Admin::RowComponent
