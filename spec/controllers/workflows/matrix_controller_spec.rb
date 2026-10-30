@@ -144,6 +144,7 @@ RSpec.describe Workflows::MatrixController do
                       workflow: variant.workflow,
                       variant:,
                       readonly?: false,
+                      wizard?: false,
                       tab: "always",
                       roles: [role],
                       requested_status_ids: [status.id],
