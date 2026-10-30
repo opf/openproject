@@ -7027,6 +7027,10 @@ en:
         No attributes can be changed with the exception of the status.
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+      used_by_workflows:
+        one: "This status is used by %{count} workflow."
+        other: "This status is used by %{count} workflows."
+      view_workflows_button: "View workflows"
     index:
       could_not_be_moved: "Status could not be moved."
       headers:

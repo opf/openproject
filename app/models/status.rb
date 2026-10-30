@@ -91,6 +91,10 @@ class Status < ApplicationRecord
     workflow_ids.slice(*ids).transform_values(&:size)
   end
 
+  def workflow_count
+    Workflows::StatusTransition.touching_statuses(id).distinct.count(:workflow_id)
+  end
+
   def self.can_readonly?
     EnterpriseToken.allows_to?(:readonly_work_packages)
   end
