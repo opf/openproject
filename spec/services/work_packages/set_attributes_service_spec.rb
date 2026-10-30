@@ -141,12 +141,15 @@ RSpec.describe WorkPackages::SetAttributesService,
   end
 
   context "when writing a read-only attribute via attributes" do
-    let(:call_attributes) { { created_at: 2.days.ago } }
+    {
+      "created_at" => -> { { created_at: 2.days.ago } },
+      "author_id" => -> { { author_id: work_package.author_id + 1 } }
+    }.each do |attribute, attributes|
+      it "journals writing #{attribute} as a default attribute written cause" do
+        instance.call(instance_exec(&attributes))
 
-    it "journals the write as a default attribute written cause" do
-      instance.call(call_attributes)
-
-      expect(work_package.journal_cause).to be_an_instance_of(Journal::CausedByDefaultAttributeWritten)
+        expect(work_package.journal_cause).to be_an_instance_of(Journal::CausedByDefaultAttributeWritten)
+      end
     end
   end
 
