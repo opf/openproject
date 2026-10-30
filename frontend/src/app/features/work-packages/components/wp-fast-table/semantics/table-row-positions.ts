@@ -46,7 +46,10 @@ export interface CapturedRowPositions {
   readonly body:BodyRowPositions;
 }
 
-// Group counts are computed from the unscoped query results, so only the primary collections carry trustworthy aggregates.
+// Group counts are computed from the unscoped query results, so grouped positions trust only the query collections:
+// `/api/v3/work_packages` and `/api/v3/workspaces/:id/work_packages` (the self links
+// `WorkPackageCollectionFromQueryService` emits), plus the `projects/:id` alias of the latter.
+// A new collection route that renders this table must be added here, or its grouped views withdraw positions.
 const UNSCOPED_COLLECTION_HREF = /\/api\/v3\/(?:(?:projects|workspaces)\/[^/]+\/)?work_packages(?:\?|$)/;
 
 export class TableRowPositions {
