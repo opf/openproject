@@ -1692,6 +1692,8 @@ en:
             title: "Create custom fields"
           JiraCreateLabelsJob:
             title: "Create labels"
+          JiraCreateParentChildRelationsFromSubtasksJob:
+            title: "Create parent-child relations for '%{jira_project_name}'"
           JiraCreateProjectJob:
             title: "Create project '%{jira_project_name}'"
           JiraCreateProjectRoleJob:
@@ -1910,6 +1912,9 @@ en:
             "10":
               rest_line_text: "Creating time entries for %{projects_number} more projects"
               title: "Create time entries"
+            "11":
+              rest_line_text: "Downloading attachments for %{projects_number} more projects"
+              title: "Download attachments"
             "2":
               rest_line_text: "Fetching issues and versions for %{projects_number} more projects"
               title: "Fetch project issues and versions"
@@ -1932,8 +1937,8 @@ en:
               rest_line_text: "Creating work packages for %{projects_number} more projects"
               title: "Create work packages"
             "9":
-              rest_line_text: "Downloading attachments for %{projects_number} more projects"
-              title: "Download attachments"
+              rest_line_text: "Creating parent-child relations from subtasks for %{projects_number} more projects"
+              title: "Create parent-child relations from subtasks"
       test:
         api_error: "Jira API returned error status %{status}. Please check your Jira instance URL and credentials."
         basic_auth_password_invalid: "Invalid basic auth password. Please check your credentials in the configuration."
