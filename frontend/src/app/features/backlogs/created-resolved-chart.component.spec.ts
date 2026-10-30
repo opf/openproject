@@ -114,7 +114,7 @@ describe('CreatedResolvedComponent', () => {
     expect(element.querySelector('canvas')).toBeNull();
   });
 
-  // The payload drops a series that has no points, so styling by dataset position would colour
+  // The payload drops a series that has no points, so styling by dataset position would color
   // the wrong line as soon as one is absent.
   it('styles a series by its id rather than its position', () => {
     renderWith([bothSeries()[1]]);

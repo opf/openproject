@@ -201,7 +201,7 @@ describe('BurndownChartComponent', () => {
     );
   });
 
-  // Story points are whole, so the axis is labelled in whole ones -- a sprint holding a single
+  // Story points are whole, so the axis is labeled in whole ones -- a sprint holding a single
   // point was otherwise drawn against fifths of one. The guideline divides those points across
   // working days and does carry fractions, but it is a line between the labels rather than one
   // of them, so it is left to the tooltip to report its decimal.
