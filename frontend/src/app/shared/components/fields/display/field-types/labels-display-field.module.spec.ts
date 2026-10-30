@@ -51,7 +51,7 @@ describe('LabelsDisplayField', () => {
       injector: mockInjector,
       container,
       options: {},
-    } as unknown as DisplayFieldContext);
+    });
 
     field.apply(resource, { type: '[]Label' } as IFieldSchema);
 
@@ -62,7 +62,7 @@ describe('LabelsDisplayField', () => {
   }
 
   function labelTexts(element:HTMLElement):string[] {
-    return Array.from(element.querySelectorAll('.Label')).map((label) => label.textContent!);
+    return Array.from(element.querySelectorAll('.Label')).map((label) => label.textContent);
   }
 
   it('renders every label as a large Primer label in the single view', () => {
