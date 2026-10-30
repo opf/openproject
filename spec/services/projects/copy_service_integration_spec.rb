@@ -201,17 +201,6 @@ RSpec.describe(
           copied = project_copy.project_types.find_by(type: owned_type).variant
 
           expect(copied.workflow).to eq(shared_workflow)
-          expect(copied.workflow).not_to be_project_specific
-        end
-
-        context "when the source variant owns its workflow" do
-          before { owned_variant.update!(workflow: create(:project_owned_workflow, project: source)) }
-
-          it "copies the project", pending: "Blocked until variants reference named workflows" do
-            expect(owned_variant.reload.workflow).to be_project_specific
-
-            expect(subject).to be_success
-          end
         end
       end
 

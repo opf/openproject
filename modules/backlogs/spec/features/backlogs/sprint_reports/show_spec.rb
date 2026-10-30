@@ -102,6 +102,7 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
       [
         [:text, "Add sprint goal widget"],
         [:text, "Work packages within the sprint"],
+        [:css, "opce-velocity-chart"],
         [:css, "opce-burndown-chart"],
         [:css, "opce-wp-overview-graph"]
       ]
@@ -111,6 +112,7 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
       [
         [:text, "Add sprint goal widget"],
         [:text, "Work packages within the sprint"],
+        [:css, "opce-velocity-chart"],
         [:css, "opce-burndown-chart"],
         [:css, "opce-created-resolved-chart"],
         [:text, "Epic progress"],

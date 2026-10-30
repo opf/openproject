@@ -34,7 +34,8 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
 import { WeekdayResourceService } from 'core-app/core/state/days/weekday.service';
-import { QuerySortByResource, QUERY_SORT_BY_ASC } from 'core-app/features/hal/resources/query-sort-by-resource';
+import { QuerySortByResource, QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
@@ -43,6 +44,7 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { nextTask } from 'core-common/testing/timing';
 import { buildQuery, buildTable, FakeDragAndDropService, harnessProviders, initializeViewServices, TableHarness } from '../../wp-fast-table/testing/table-harness';
 import { SortHeaderDirective } from './sort-header.directive';
+import { primarySortDirection } from './primary-sort-direction';
 
 describe('SortHeaderDirective input readiness', () => {
   let fixture:ComponentFixture<SortHeaderDirective>;
@@ -176,6 +178,25 @@ describe('SortHeaderDirective input readiness', () => {
     expect(detect).toHaveBeenCalledTimes(1);
   });
 
+  it('marks its column only while it is the primary criterion', async () => {
+    fixture.detectChanges();
+    await nextTask();
+    const column = fixture.componentInstance.headerColumn;
+    const status = { id: 'status', href: '/api/v3/queries/columns/status' } as QueryColumn;
+    const sortBy = TestBed.inject(WorkPackageViewSortByService);
+
+    sortBy.update([
+      { column: status, direction: { href: QUERY_SORT_BY_ASC } },
+      { column, direction: { href: QUERY_SORT_BY_DESC } },
+    ] as QuerySortByResource[]);
+    expect(fixture.nativeElement).not.toHaveClass('active-column');
+    expect(fixture.componentInstance.directionClass).toBe('');
+
+    sortBy.update([{ column, direction: { href: QUERY_SORT_BY_DESC } }] as QuerySortByResource[]);
+    expect(fixture.nativeElement).toHaveClass('active-column');
+    expect(fixture.componentInstance.directionClass).toBe('desc');
+  });
+
   it.each(['header', 'table'])('stops all header streams after destroying the %s', async (owner) => {
     fixture.detectChanges();
     await nextTask();
@@ -192,5 +213,25 @@ describe('SortHeaderDirective input readiness', () => {
     expect(detect).not.toHaveBeenCalled();
     expect(dom).not.toHaveBeenCalled();
     expect(baselineEffects).not.toHaveBeenCalled();
+  });
+});
+
+describe('primarySortDirection', () => {
+  const subject = { id: 'subject', href: '/api/v3/queries/columns/subject' } as QueryColumn;
+  const status = { id: 'status', href: '/api/v3/queries/columns/status' } as QueryColumn;
+  const criterion = (column:QueryColumn, href:string) => ({ column, direction: { href } }) as QuerySortByResource;
+
+  it.each([
+    [QUERY_SORT_BY_ASC, 'asc'],
+    [QUERY_SORT_BY_DESC, 'desc'],
+  ])('reads the primary criterion %s as %s', (href, expected) => {
+    expect(primarySortDirection([criterion(subject, href), criterion(status, QUERY_SORT_BY_ASC)], subject)).toBe(expected);
+  });
+
+  it('ignores secondary criteria and unsorted columns', () => {
+    const sortBy = [criterion(subject, QUERY_SORT_BY_ASC), criterion(status, QUERY_SORT_BY_DESC)];
+
+    expect(primarySortDirection(sortBy, status)).toBeNull();
+    expect(primarySortDirection([], subject)).toBeNull();
   });
 });

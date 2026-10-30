@@ -264,6 +264,11 @@ module Import
       get("/rest/api/2/issue/#{issue_id_or_key}/editmeta")
     end
 
+    # Jira returns all the issue's worklogs at once and ignores paging and filter params.
+    def issue_worklogs(issue_id_or_key)
+      get("/rest/api/2/issue/#{issue_id_or_key}/worklog")
+    end
+
     def users_search(username: ".", start_at: 0, max_results: 50)
       get("/rest/api/2/user/search", params:
         {

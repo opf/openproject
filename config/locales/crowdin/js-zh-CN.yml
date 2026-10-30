@@ -1091,6 +1091,13 @@ zh-CN:
         title: 共享工作包
       table:
         configure_button: 配置工作包表
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: 行为工作包且列为工作包属性的表格。
         text_inline_edit: 大多数此表格的单元格为激活工作包属性的直接编辑功能的按钮。
         text_select_hint: 请使用Alt+方向键打开选择框。

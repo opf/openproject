@@ -1109,6 +1109,13 @@ sk:
         title: Share work package
       table:
         configure_button: Konfigurovať tabuľku pracovného balíčka
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabuľka s riadkami pracovného balíka a so stĺpcami pracovného balíka atribútov.
         text_inline_edit: Väčšina buniek tabuľky sú tlačidlá, ktoré aktivujú funkcionalitu inline editácie tohto atribútu.
         text_select_hint: Výber polí by sa mal otvoriť pomocou klávesov "ALT" a šípkami.

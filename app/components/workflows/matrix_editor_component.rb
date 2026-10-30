@@ -61,7 +61,7 @@ module Workflows
     def workflow_button_label = I18n.t("admin.workflows.workflow_button")
 
     def workflow_candidates
-      @workflow_candidates ||= Workflow.available_in(variant.project).in_display_order.to_a
+      @workflow_candidates ||= Workflow.in_display_order.to_a
     end
 
     def workflow_page_path = url_helpers.edit_workflow_path(workflow)

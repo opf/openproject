@@ -52,7 +52,7 @@ nl:
           one: "%{count} work package selected."
           other: "%{count} work packages selected."
     burndown_chart:
-      chart_day: 'Day %{day}: %{values}'
+      chart_day: 'Dag %{day}: %{values}'
       chart_label: Burndown chart
       chart_summary: 'Burndown chart data: %{days}.'
       chart_value: "%{label}: %{value}"

@@ -38,6 +38,7 @@ module Import
                       delete_groups
                       delete_project_roles
                       delete_custom_fields
+                      delete_labels
                       delete_references
                       delete_jira_objects].freeze
 
@@ -237,6 +238,32 @@ module Import
         rescue Import::JiraOpenProjectReference::LegNotFoundError
           Rails.logger.tagged("jira_object_type:customField", "jira_object_id_or_name:#{ref.op_entity_id}") do
             Rails.logger.warn "OpenProject custom field no longer exists, skipping its deletion"
+          end
+          next
+        end
+    end
+
+    # rubocop:disable-next Metrics/AbcSize
+    def delete_labels
+      Import::JiraOpenProjectReference
+        .where(jira_import_id: @jira_import.id, uses_existing: false)
+        .where(op_entity_class: "Label")
+        .find_each do |ref|
+          op_leg = ref.op_leg
+          # label is used by something outside this import run, keep it
+          next if op_leg.labelings.exists?
+
+          Rails.logger.tagged("jira_object_type:label", "jira_object_id_or_name:#{ref.op_entity_id}") do
+            Rails.logger.debug "Deleting label"
+            service_call = ::Labels::DeleteService.new(user: @user, model: op_leg).call
+            if service_call.failure?
+              Rails.logger.error service_call.message
+              raise service_call.message
+            end
+          end
+        rescue Import::JiraOpenProjectReference::LegNotFoundError
+          Rails.logger.tagged("jira_object_type:label", "jira_object_id_or_name:#{ref.op_entity_id}") do
+            Rails.logger.warn "OpenProject label no longer exists, skipping its deletion"
           end
           next
         end

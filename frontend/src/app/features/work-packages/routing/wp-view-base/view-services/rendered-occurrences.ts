@@ -45,8 +45,12 @@ export function sameOccurrence(a:RenderedWorkPackage, b:RenderedWorkPackage):boo
   return a.workPackageId === b.workPackageId && a.classIdentifier === b.classIdentifier;
 }
 
+export function isSelectableOccurrence<T extends Pick<RenderedWorkPackage, 'workPackageId'>>(row:T):row is T & { workPackageId:string } {
+  return row.workPackageId !== null;
+}
+
 export function selectableOccurrences(rows:readonly RenderedWorkPackage[]):RenderedWorkPackage[] {
-  return rows.filter((row) => row.workPackageId !== null);
+  return rows.filter(isSelectableOccurrence);
 }
 
 export function anchoredOccurrence(

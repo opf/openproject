@@ -103,6 +103,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
 
         expect(query_props).to all(include("f" => include(include("n" => "sprintId"))))
         expect(query_props).to all(include("ts"))
+        expect(query_props).to all(include("is" => false))
       end
     end
 

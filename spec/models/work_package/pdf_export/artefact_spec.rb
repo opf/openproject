@@ -307,7 +307,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     let!(:cost_rate) { create(:cost_rate, cost_type:, rate: 1000.0, valid_from: 1.year.ago.to_date) }
     let(:labor_user) { create(:user, firstname: "Alice", lastname: "Anderson") }
     let!(:hourly_rate) do
-      create(:hourly_rate, user: labor_user, project:, rate: 400.0, valid_from: 1.year.ago.to_date)
+      create(:hourly_rate, principal: labor_user, project:, rate: 400.0, valid_from: 1.year.ago.to_date)
     end
     let(:budget) { create(:budget, project:, subject: "Phase 1 rollout", fixed_date: Date.current) }
     let!(:material_item) { create(:material_budget_item, budget:, cost_type:, units: 2.0) }
