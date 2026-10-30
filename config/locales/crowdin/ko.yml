@@ -953,8 +953,6 @@ ko:
               invalid_tokens: 필드 내의 특성이 하나 이상 유효하지 않습니다. 특성을 수정한 후에 저장하세요.
             variant:
               must_belong_to_the_type: "- 이 유형의 변형이어야 합니다."
-            workflow:
-              not_available_to_this_variant: "- 이 프로젝트가 사용할 수 있는 워크플로여야 합니다."
         user:
           attributes:
             base:
@@ -1559,10 +1557,14 @@ ko:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1714,7 +1716,7 @@ ko:
                   subtitle: '가져온 프로젝트에 참여함 '
                 work_packages:
                   label: 작업 패키지
-                  subtitle: 첨부 파일 있음
+                  subtitle: With attachments and logged time
               title: 가져오기 실행 결과
             import_scope:
               button_continue: 계속
@@ -1730,6 +1732,7 @@ ko:
                 issue_details: 이슈 설명, 기록, 코멘트 및 첨부 파일
                 issue_ids: 이슈 식별자
                 issues: 이슈
+                logged_time: Logged time
                 permissions: 권한
                 project_ids: 프로젝트 식별자
                 project_versions: Project versions
@@ -1762,6 +1765,9 @@ ko:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -2218,6 +2224,7 @@ ko:
       schema: 스키마
     undisclosed:
       ancestor: 숨겨짐 - 권한이 없어 상위 항목을 볼 수 없습니다.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: 숨겨짐 - 권한이 없어 프로젝트를 볼 수 없습니다.
       definingWorkspace: 숨겨짐 - 권한이 없으므로 워크스페이스를 볼 수 없습니다.
       parent: 숨겨짐 - 권한이 없어 부모를 볼 수 없습니다.
@@ -3679,6 +3686,7 @@ ko:
       total_percent_complete_mode_changed_to_work_weighted_average: 작업이 없는 자식 작업 패키지는 무시됩니다.
       unaccessable_work_package_changed: 관련 작업 패키지에 대한 변경 사항 기준
       work_package_children_changed_times: 자식 %{link}에 대한 변경 사항 기준
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: 중복 작업 패키지에 의해 자동으로 상태가 업데이트되었습니다(%{link})
       work_package_parent_changed_times: 부모 %{link}에 대한 변경 사항 기준
       work_package_parent_deleted: 상위 작업 패키지가 삭제되었기 때문에
@@ -3711,6 +3719,7 @@ ko:
       system_update: 'OpenProject 시스템 업데이트:'
       total_percent_complete_mode_changed_to_simple_average: 이제 완료 % 합계 계산은 완료 % 값의 단순 평균만을 기반으로 합니다.
       total_percent_complete_mode_changed_to_work_weighted_average: 이제 완료 % 합계 계산에는 작업별로 가중치가 적용됩니다.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: '중복 작업 패키지가 업데이트되었습니다:'
       work_package_parent_deleted: 부모 제거됨
     changes_retracted: 변경 사항이 취소되었습니다.
@@ -7188,9 +7197,6 @@ ko:
         text: '이렇게 하면 이 프로젝트별 변형이 모든 프로젝트에 사용 가능한 글로벌 변형이 됩니다. 프로젝트 관리자는 더 이상 이 변형을 편집할 수 없게 됩니다.
 
           '
-        workflow_text: '해당 워크플로 "%{name}"은(는) 이 프로젝트에 속하고, 또한 글로벌 워크플로가 됩니다.
-
-          '
       convert_to_global_notice: "%{name}은(는) 이제 글로벌 변형입니다."
       convert_to_global_rename:
         confirm: 변환
@@ -7517,9 +7523,6 @@ ko:
       note_placeholder: 이 미리 알림을 설정하는 이유는 무엇입니까?
       success_deletion_message: 미리 알림이 삭제되었습니다.
       success_update_message: 미리 알림이 업데이트되었습니다.
-    updated_automatically_by_child_changes: '_자식 작업 패키지 %{child} 내에서 값을 변경하여 자동으로 업데이트됨_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: 다른 작업 패키지에 관계를 추가하여 이러한 항목 간에 링크를 만드세요.

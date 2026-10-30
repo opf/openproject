@@ -1133,6 +1133,13 @@ hu:
         title: Share work package
       table:
         configure_button: Feladatcsoport táblázat beállítása
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Táblázat melynek sorai munkacsomagok és oszlopai munkacsomag attribútumok.
         text_inline_edit: A legtöbb mezője ennek a táblázatnak olyan gomb, mely aktiválja a soron belüli szerkesztését az attribútumnak.
         text_select_hint: Válassza ki a megnyitni kíván mezőket és használja az "ALT" és nyílgombokat.

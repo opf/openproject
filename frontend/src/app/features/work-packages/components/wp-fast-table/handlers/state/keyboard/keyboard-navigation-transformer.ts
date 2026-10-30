@@ -41,11 +41,12 @@ import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import type { TableEventComponent } from '../../table-handler-registry';
 import { activateTableField } from '../../cell/edit-cell-handler';
 import { activateRow } from '../../row/click-handler';
+import { rowKindOf } from '../../../helpers/row-expansion';
 import {
   FocusPosition, initialPosition, NavigableRow, NavKey, nearestPosition, computeNextPosition, reconcilePosition,
 } from './focus-position';
 import {
-  buildNavigableRows, headerRowKey, headerRowOf, rowKindOf, totalsRowKey, totalsRowOf,
+  buildNavigableRows, headerRowKey, headerRowOf, totalsRowKey, totalsRowOf,
 } from './navigable-rows';
 import { insideGrid, navigableCellClassName, navigableCells, paintRovingTabindex } from './roving-tabindex';
 

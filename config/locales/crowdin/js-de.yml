@@ -1099,6 +1099,13 @@ de:
         title: Arbeitspaket teilen
       table:
         configure_button: Arbeitspaket-Tabelle konfigurieren
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen dieser Arbeitspakete.
         text_inline_edit: Die meisten Zellen dieser Tabelle sind Schalter, über die Sie einzelne Attribute direkt bearbeiten können.
         text_select_hint: Auswahlfelder können mit 'ALT' und Pfeiltasten geöffnet werden.

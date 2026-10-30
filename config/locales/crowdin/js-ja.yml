@@ -1091,6 +1091,13 @@ ja:
         title: ワークパッケージを共有する
       table:
         configure_button: ワークパッケージテーブルを設定する
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: ワークパッケージの行と、ワークパッケージの属性の列から成る表。
         text_inline_edit: この表のほとんどのセルは、属性のインライン編集機能を有効にするボタンです。
         text_select_hint: 選択ボックスは 'ALT'と矢印キーで開きます。

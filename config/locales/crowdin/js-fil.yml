@@ -1097,6 +1097,13 @@ fil:
         title: Share work package
       table:
         configure_button: Configure work package table
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Talaab sa mga hilera ng work package at mga hanay na katangian ng work package.
         text_inline_edit: Karamihan sa mga cell ng talaan na ito ay nga pindutan na aktibo sa pag-andar ng inline-editing sa katangian na iyon.
         text_select_hint: Pumili ng mga kahon na maaring mabukasan sa 'ALT' at mga arrow key.

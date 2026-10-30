@@ -954,8 +954,6 @@ it:
               invalid_tokens: Uno o più attributi all'interno del campo non sono validi. Correggi gli attributi prima di salvare.
             variant:
               must_belong_to_the_type: deve essere una variante di questo tipo.
-            workflow:
-              not_available_to_this_variant: deve essere un flusso di lavoro utilizzabile da questo progetto.
         user:
           attributes:
             base:
@@ -1669,10 +1667,14 @@ it:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1831,7 +1833,7 @@ it:
                   subtitle: 'Coinvolto in progetti di importazione '
                 work_packages:
                   label: Macro-attività
-                  subtitle: Con allegati
+                  subtitle: With attachments and logged time
               title: Importa i risultati dell'esecuzione
             import_scope:
               button_continue: Continua
@@ -1848,6 +1850,7 @@ it:
                 issue_details: Descrizione della segnalazione, cronologia, commenti e allegati
                 issue_ids: Identificatori del problema
                 issues: Problemi
+                logged_time: Logged time
                 permissions: Permessi
                 project_ids: Identificatori di progetto
                 project_versions: Project versions
@@ -1880,6 +1883,9 @@ it:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -2344,6 +2350,7 @@ it:
       schema: Schema
     undisclosed:
       ancestor: Non divulgato - L'antenato è invisibile a causa della mancanza dei permessi.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Non divulgato - Il progetto è invisibile a causa della mancanza dei permessi.
       definingWorkspace: Non visibile - Lo spazio di lavoro è invisibile a causa della mancanza di autorizzazioni.
       parent: Non divulgato - Il genitore è invisibile a causa della mancanza dei permessi.
@@ -3836,6 +3843,7 @@ it:
       total_percent_complete_mode_changed_to_work_weighted_average: Le macro-attività figlie senza Lavoro vengono ignorate.
       unaccessable_work_package_changed: da modifiche a macro-attività correlata
       work_package_children_changed_times: da modifiche al figlio %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: Lo stato è stato aggiornato automaticamente dalla macro-attività duplicata %{link}
       work_package_parent_changed_times: da modifiche al genitore %{link}
       work_package_parent_deleted: perché la macro-attività genitore è stata eliminata
@@ -3868,6 +3876,7 @@ it:
       system_update: 'Aggiornamento del sistema OpenProject:'
       total_percent_complete_mode_changed_to_simple_average: Il calcolo dei totali della % completamento si basa ora su una media semplice dei soli valori della % completamento.
       total_percent_complete_mode_changed_to_work_weighted_average: Il calcolo dei totali della % completamento è ora ponderato in base al Lavoro.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'Macro-attività duplicata aggiornata:'
       work_package_parent_deleted: Genitore rimosso
     changes_retracted: Le modifiche sono state annullate.
@@ -7372,9 +7381,6 @@ it:
         text: 'Questa operazione trasformerà la variante specifica del progetto in una variante globale disponibile per tutti i progetti. L''amministratore del progetto non potrà più modificarla.
 
           '
-        workflow_text: 'Anche il relativo flusso di lavoro "%{name}" appartiene a questo progetto e diventerà globale.
-
-          '
       convert_to_global_notice: "%{name} è ora una variante globale."
       convert_to_global_rename:
         confirm: Converti
@@ -7706,9 +7712,6 @@ it:
       note_placeholder: Perché stai impostando questo promemoria?
       success_deletion_message: Promemoria eliminato con successo.
       success_update_message: Promemoria aggiornato con successo.
-    updated_automatically_by_child_changes: '_Aggiornata automaticamente cambiando i valori all''interno della macro-attività figlia %{child}_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: Aggiungi relazioni ad altre macro-attività per creare un collegamento tra di esse.

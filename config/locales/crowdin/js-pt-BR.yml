@@ -1097,6 +1097,13 @@ pt-BR:
         title: Compartilhar pacote de trabalho
       table:
         configure_button: Configurar a tabela de pacote de trabalho
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabela com linhas de pacote de trabalho e colunas com atributos do pacote de trabalho.
         text_inline_edit: A maioria das células desta tabela são botões que ativam a funcionalidade de edição em linha do atributo.
         text_select_hint: Caixas de seleção devem ser abertas com 'ALT' e teclas de seta.

@@ -1097,6 +1097,13 @@ bg:
         title: Share work package
       table:
         configure_button: Configure work package table
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Таблица с атрибути от редове и колони на работен пакет.
         text_inline_edit: Повечето клетки на тази таблица са бутони, които активират инлайн редактиране функционалност на този атрибут.
         text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
