@@ -48,12 +48,8 @@ module CauseOfChange
       to_hash == other.to_hash
     end
 
-    def aggregatable_with?(_predecessor_cause)
-      false
-    end
-
-    def aggregate_with(_predecessor_cause)
-      self
+    def merge_into(_predecessor_cause)
+      nil
     end
   end
 end

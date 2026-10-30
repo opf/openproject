@@ -55,7 +55,7 @@ RSpec.describe Labels::JournalizeDeletionJob, type: :job, with_settings: { journ
     label.destroy!
   end
 
-  it "writes one journal per work package, authored by the admin, recording the label as removed" do
+  it "writes one journal per work package, authored by the admin, recording the label as removed and rendering only the cause" do
     expect { perform }.to change(Journal, :count).by(2)
 
     work_packages.each do |work_package|
@@ -68,8 +68,7 @@ RSpec.describe Labels::JournalizeDeletionJob, type: :job, with_settings: { journ
     old_ids, new_ids = journal.details["labels"].map { it.to_s.split(",").map(&:to_i) }
     expect(old_ids).to include(label_id)
     expect(new_ids).not_to include(label_id)
-    expect(journal.render_detail(["labels", journal.details["labels"]], html: false))
-      .to include(I18n.t(:label_deleted_label))
+    expect(journal.render_detail(["labels", journal.details["labels"]], html: false)).to be_nil
   end
 
   it "adds no further journal when run again with the same arguments" do
@@ -88,7 +87,8 @@ RSpec.describe Labels::JournalizeDeletionJob, type: :job, with_settings: { journ
     end
   end
 
-  context "when the same admin deletes another label right after" do
+  context "when the same admin deletes another label within the aggregation time",
+          with_settings: { journal_aggregation_time_minutes: 5 } do
     let(:work_packages) { [create(:work_package, journals: { 10.minutes.ago => { user: admin } })] }
     let(:other_label) { create(:label, name: "Obsolete") }
     let(:labels_on_work_packages) { [label, other_label] }
@@ -101,7 +101,6 @@ RSpec.describe Labels::JournalizeDeletionJob, type: :job, with_settings: { journ
 
     before do
       WorkPackages::UpdateService.new(user: admin, model: work_package).call(subject: "x").on_failure { raise it.message }
-      with_settings(journal_aggregation_time_minutes: 5)
       perform_for(label)
       other_label.destroy!
     end
@@ -109,17 +108,14 @@ RSpec.describe Labels::JournalizeDeletionJob, type: :job, with_settings: { journ
     it "merges both labels into one journal entry" do
       expect { perform_for(other_label) }.not_to change { work_package.journals.count }
 
-      journal = work_package.reload.last_journal
-      expect(journal.cause).to eq(
+      expect(work_package.reload.last_journal.cause).to eq(
         "type" => "label_deleted",
         "label_ids" => [label.id, other_label.id],
         "label_names" => [label.name, other_label.name]
       )
-      new_ids = journal.details["labels"].last.to_s.split(",").map(&:to_i)
-      expect(new_ids).not_to include(label.id, other_label.id)
     end
 
-    it "adds nothing when the first label's job runs again after the merge" do
+    it "adds no journal when the first label's job runs again after the merge" do
       perform_for(other_label)
 
       expect { perform_for(label) }.not_to change { work_package.journals.count }

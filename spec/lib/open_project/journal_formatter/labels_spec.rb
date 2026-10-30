@@ -88,6 +88,36 @@ RSpec.describe OpenProject::JournalFormatter::Labels do
       end
     end
 
+    context "when the journal was written for a label deletion" do
+      let(:cause) { Journal::CausedByLabelDeletion.new(label_ids: [label.id], label_names: [label.name]).to_hash }
+      let(:journal) { build_stubbed(:work_package_journal, journable: work_package, cause:) }
+
+      it "renders nothing when only that label was removed" do
+        expect(instance.render(:labels, [label.id.to_s, nil])).to be_nil
+      end
+
+      it "renders the change when another label was removed as well" do
+        expect(instance.render(:labels, ["#{label.id},#{other_label.id}", nil]))
+          .to eq(I18n.t(:text_journal_deleted, label: label_text, old: "<strike><i>A, B</i></strike>"))
+      end
+
+      it "renders the change when another label was added as well" do
+        expect(instance.render(:labels, [label.id.to_s, other_label.id.to_s]))
+          .to eq(I18n.t(:text_journal_changed_plain,
+                        label: label_text,
+                        linebreak: nil,
+                        old: "<i>A</i>",
+                        new: "<i>B</i>"))
+      end
+    end
+
+    context "when the journal has no cause and the same label was removed" do
+      it "renders the change" do
+        expect(instance.render(:labels, [label.id.to_s, nil]))
+          .to eq(I18n.t(:text_journal_deleted, label: label_text, old: "<strike><i>A</i></strike>"))
+      end
+    end
+
     context "with html: false" do
       it "renders plain text" do
         expect(instance.render(:labels, [label.id.to_s, other_label.id.to_s], html: false))

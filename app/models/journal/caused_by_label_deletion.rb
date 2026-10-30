@@ -32,18 +32,22 @@ class Journal::CausedByLabelDeletion < CauseOfChange::Base
     super("label_deleted", "label_ids" => label_ids, "label_names" => label_names)
   end
 
-  def aggregatable_with?(predecessor_cause)
-    predecessor_cause["type"] == type
-  end
+  # Labels deleted in quick succession by the same user are merged into the same cause
+  def merge_into(predecessor_cause)
+    return unless label_deletion?(predecessor_cause)
 
-  def aggregate_with(predecessor_cause)
-    self.class.new(label_ids: predecessor_cause["label_ids"] | label_ids,
-                   label_names: predecessor_cause["label_names"] | label_names)
+    merged = names_by_id(predecessor_cause).merge(names_by_id(to_hash))
+
+    self.class.new(label_ids: merged.keys, label_names: merged.values)
   end
 
   private
 
-  def label_ids = additional_attributes["label_ids"]
+  def label_deletion?(cause)
+    cause["type"] == type
+  end
 
-  def label_names = additional_attributes["label_names"]
+  def names_by_id(cause)
+    cause["label_ids"].zip(cause["label_names"]).to_h
+  end
 end

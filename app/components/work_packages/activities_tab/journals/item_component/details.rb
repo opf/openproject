@@ -61,13 +61,7 @@ module WorkPackages
         # A formatter may render a change as nothing, so what is worth heading is
         # what comes out of them rather than what went in.
         def rendered_details
-          @rendered_details ||= journal_details
-            .reject { |attribute, _| hidden_by_cause?(attribute) }
-            .filter_map { |detail| journal.render_detail(detail).presence }
-        end
-
-        def hidden_by_cause?(attribute)
-          attribute.to_s == "labels" && journal.cause_type == "label_deleted"
+          @rendered_details ||= journal_details.filter_map { |detail| journal.render_detail(detail).presence }
         end
 
         def has_details?
