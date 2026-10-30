@@ -34,6 +34,10 @@ const Block = styled.div.attrs({ className: 'op-bn-extensions', 'data-testid': '
   border-radius: var(--bn-border-radius);
   box-shadow: ${({ $selected }) => ($selected ? CHIP_STYLES.focusShadow : 'none')};
   ${({ $pending }) => $pending && 'position: relative;'}
+
+  .ProseMirror-selectednode > .bn-block-content > &::after {
+    content: none;
+  }
 `;
 
 const BlockCardWrapper = styled.div`
@@ -68,10 +72,10 @@ export const BlockWorkPackageComponent = ({
   // The hook handles triggering re-renders when data arrives.
   useColors();
 
-  // BlockNote applies ProseMirror-selectednode (and its built-in outline CSS) only when ProseMirror creates a NodeSelection.
+  // BlockNote applies ProseMirror-selectednode (and its built-in highlight CSS) only when ProseMirror creates a NodeSelection.
   // When the cursor is in a paragraph above the WP block and the user clicks the block, ProseMirror resolves the click
   // as a TextSelection at the end of that paragraph rather than a NodeSelection on the block. The class is never applied
-  // and the outline never appears. So we set the outline ourselves.
+  // and the highlight never appears. So we draw the border ourselves and hide BlockNote's highlight on the block.
   const selectedBlocks = useSelectedBlocks(editor);
   const isBlockSelected = selectedBlocks.some((b) => b.id === block.id);
   const options = useOptionsMenu();
