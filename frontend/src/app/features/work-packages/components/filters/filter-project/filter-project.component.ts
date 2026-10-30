@@ -30,6 +30,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
+import { decodeEntityReference } from 'core-app/shared/types/entity-reference';
 import { QueryFilterInstanceResource, queryFilterValueId } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
@@ -76,12 +77,17 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
       return;
     }
 
+    const references = val.map((value) => decodeEntityReference(value));
+    if (!references.every((reference) => reference !== null)) {
+      return;
+    }
+
     // The project autocompleter does not return HalResources, but most filters want them.
     // Here we change from one to the other
     const projects = await firstValueFrom(
       this.apiV3Service.projects.list({
         filters: [
-          ['id', '=', val.flatMap(value => queryFilterValueId(value) ?? []).map(String)],
+          ['id', '=', references.flatMap((reference) => queryFilterValueId(reference) ?? []).map(String)],
         ],
       }),
     );

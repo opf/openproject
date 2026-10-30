@@ -51,9 +51,15 @@ describe('FilterProjectComponent', () => {
     component.filter = { values: [] } as unknown as QueryFilterInstanceResource;
   });
 
-  it('looks up the chosen projects by ID, skipping those without one', async () => {
-    await component.onChange([{ id: 4 }, { href: '/api/v3/projects/5' }, { name: 'Unresolved' }]);
+  it('looks up the chosen projects by their ID or link', async () => {
+    await component.onChange([{ id: 4 }, { href: '/api/v3/projects/5' }]);
 
     expect(listProjects).toHaveBeenCalledExactlyOnceWith({ filters: [['id', '=', ['4', '5']]] });
+  });
+
+  it('ignores a selection holding a project without an ID or link', async () => {
+    await component.onChange([{ id: 4 }, { name: 'Unresolved' }]);
+
+    expect(listProjects).not.toHaveBeenCalled();
   });
 });

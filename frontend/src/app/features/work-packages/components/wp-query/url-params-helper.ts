@@ -30,12 +30,12 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { serializeQueryFilterValue } from 'core-app/features/hal/helpers/query-filter-value';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { Injectable, inject } from '@angular/core';
 import { QueryFilterInstanceResource, QueryFilterValue } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { ApiV3Filter, ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 
 export interface QueryPropsFilter {
@@ -214,7 +214,7 @@ export class UrlParamsHelperService {
       const filterProps:QueryPropsFilter[] = filters.map((filter) => ({
         n: filter.id,
         o: filter.operator.id,
-        v: filter.values.map((value) => this.queryFilterValueToParam(value)),
+        v: this.queryFilterValuesToParams(filter.values),
       }));
 
       return { f: filterProps };
@@ -376,31 +376,23 @@ export class UrlParamsHelperService {
     return Object.assign(additionalParams, queryData);
   }
 
-  public queryFilterValueToParam(value:QueryFilterValue|boolean):string {
-    if (typeof (value) === 'boolean') {
-      return value ? 't' : 'f';
-    }
-
-    if (!value) {
+  public queryFilterValueToParam(value:QueryFilterValue|boolean):string|null {
+    if (typeof value !== 'boolean' && !value) {
       return '';
     }
 
-    if (typeof value === 'string' || typeof value === 'number') {
-      return value.toString();
+    const result = serializeQueryFilterValue(value);
+
+    if (!result.ok) {
+      window.ErrorReporter.captureMessage(`query-filter-value:${result.code}`);
+      return null;
     }
 
-    if (value.id) {
-      return value.id.toString();
-    }
-    if (value.href) {
-      return value.href.split('/').pop()!;
-    }
+    return result.param;
+  }
 
-    if (value instanceof HalResource) {
-      return value.toString();
-    }
-
-    return String(value.id ?? '');
+  private queryFilterValuesToParams(values:readonly (QueryFilterValue|boolean)[]):string[] {
+    return values.flatMap((value) => this.queryFilterValueToParam(value) ?? []);
   }
 
   private buildV3GetColumnsFromQueryResource(query:QueryResource):string[] {
@@ -462,7 +454,7 @@ export class UrlParamsHelperService {
 
   public buildV3GetValuesFromFilter(filter:QueryFilterInstanceResource|QueryFilterResource):string[] {
     if (filter.values) {
-      return (filter.values as (QueryFilterValue|boolean)[]).map((v) => this.queryFilterValueToParam(v));
+      return this.queryFilterValuesToParams(filter.values as (QueryFilterValue|boolean)[]);
     }
     return (filter._links as { values:QueryValueLink[] }).values.map((v) => idFromLink(v.href));
   }

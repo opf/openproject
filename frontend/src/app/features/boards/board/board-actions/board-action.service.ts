@@ -150,7 +150,10 @@ export abstract class BoardActionService {
       return;
     }
 
-    const value = filter.values[0];
+    const value = filter.values.at(0);
+    if (value === undefined) {
+      return;
+    }
 
     if (value instanceof HalResource) {
       return getHref ? value.href! : value.id!;
