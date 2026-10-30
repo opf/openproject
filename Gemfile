@@ -36,8 +36,7 @@ source "https://rubygems.org", cooldown: 7
 ruby File.read(File.expand_path(".ruby-version", __dir__)).strip
 
 gem "actionpack-xml_parser", "~> 2.0.0"
-gem "activemodel-serializers-xml", "~> 1.0.1"
-gem "activerecord-import", "~> 2.3.0"
+gem "activerecord-import", "~> 3.0.0"
 gem "activerecord-session_store", "~> 2.3.0"
 gem "ox"
 gem "rails", "~> 8.1.3", ">= 8.1.3.1"
@@ -100,9 +99,6 @@ gem "rouge", "~> 5.1.0"
 gem "sanitize", "~> 7.0.0"
 # HTML autolinking for mails and urls (replaces autolink)
 gem "rinku", "~> 2.0.4", require: %w[rinku rails_rinku]
-# Version parsing with semver
-gem "semantic", "~> 1.6.1"
-
 # generates SVG Graphs
 # used for statistics on svn repositories
 gem "svg-graph", "~> 2.2.0"
@@ -124,7 +120,6 @@ gem "bcrypt", "~> 3.1.22"
 
 gem "multi_json", "~> 1.21.2"
 
-gem "daemons"
 gem "good_job", "~> 4.19.3" # update should be done manually in sync with saas-openproject version.
 
 gem "rack-protection", "~> 3.2.0"
@@ -166,7 +161,7 @@ gem "meta-tags", "~> 2.24.0"
 gem "paper_trail", "~> 17.0.0"
 
 # State machine with audit trail
-gem "statesman", "~> 13.3.0"
+gem "statesman", "~> 13.4.0"
 
 gem "job-iteration"
 
@@ -188,6 +183,9 @@ end
 gem "i18n-js", "~> 4.2.4"
 gem "rails-i18n", "~> 8.1.0"
 
+# Binding json to a version below 3 as sprockets does not
+# limit the json version but fails with 3+.
+gem "json", "< 3"
 gem "sprockets", "~> 3.7.2" # lock sprockets below 4.0
 gem "sprockets-rails", "~> 3.5.1"
 
@@ -235,12 +233,12 @@ gem "yabeda-rails"
 
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.37.0", require: false
-gem "opentelemetry-instrumentation-all", "~> 0.98.0", require: false
+gem "opentelemetry-instrumentation-all", "~> 0.99.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
-gem "openproject-octicons", "~>19.37.0"
-gem "openproject-octicons_helper", "~>19.37.0"
-gem "openproject-primer_view_components", "~>0.94.0"
+gem "openproject-octicons", "~>19.38.0"
+gem "openproject-octicons_helper", "~>19.38.0"
+gem "openproject-primer_view_components", "~> 0.95.0"
 gem "view_component", "~> 4.15.0"
 
 # Lookbook
@@ -256,15 +254,11 @@ gem "factory_bot_rails", "~> 6.5.0", require: false
 gem "turbo_power", "~> 0.8.0"
 gem "turbo-rails", "~> 2.0.20"
 
-gem "httpx", "~> 1.8.4"
-
-# Brings actual deep-freezing to most ruby objects
-gem "ice_nine"
+gem "httpx", "~> 1.9.0"
 
 group :test do
   gem "launchy", "~> 3.1.0"
   gem "rack-test", "~> 2.2.0"
-  gem "shoulda-context", "~> 2.0"
 
   # Test prof provides factories from code
   # and other niceties
@@ -299,7 +293,7 @@ group :test do
   gem "capybara", "~> 3.40.0"
   gem "capybara_accessible_selectors", git: "https://github.com/citizensadvice/capybara_accessible_selectors", tag: "v0.16.0"
   gem "capybara-screenshot", "~> 1.0.17"
-  gem "cuprite", "~> 0.18.0"
+  gem "cuprite", "~> 0.19.0"
   gem "rspec-wait"
   gem "selenium-devtools"
   gem "selenium-webdriver", "~> 4.51"

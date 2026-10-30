@@ -180,7 +180,7 @@ RSpec.describe Principals::DeleteJob, type: :model do
     shared_examples_for "hourly_rate handling" do
       let(:hourly_rate) do
         build(:hourly_rate,
-              user: principal,
+              principal: principal,
               project:)
       end
 

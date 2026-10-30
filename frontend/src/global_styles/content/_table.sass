@@ -271,6 +271,19 @@ thead.-sticky th
   top: 0
   background: var(--body-background)
 
+// Sticky cells paint over their row's outline, so they draw the row's focus ring
+thead.-sticky tr:focus-visible > th
+  --row-focus-ring: var(--focus-outlineColor, #0969da)
+  box-shadow: inset var(--row-focus-left, 0) 0 0 var(--row-focus-ring), inset var(--row-focus-right, 0) 0 0 var(--row-focus-ring), inset 0 2px 0 var(--row-focus-ring), inset 0 -2px 0 var(--row-focus-ring)
+
+  &:first-child:dir(ltr),
+  &:last-child:dir(rtl)
+    --row-focus-left: 2px
+
+  &:last-child:dir(ltr),
+  &:first-child:dir(rtl)
+    --row-focus-right: -2px
+
 
 .generic-table--footer-outer
   padding:      0 6px

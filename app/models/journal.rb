@@ -115,6 +115,7 @@ class Journal < ApplicationRecord
     system_update
     total_percent_complete_mode_changed_to_work_weighted_average
     work_package_children_changed_times
+    work_package_children_changed_values
     work_package_parent_changed_times
     work_package_parent_deleted
     work_package_predecessor_changed_times

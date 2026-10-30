@@ -142,7 +142,7 @@ describe('Paste work package URL', () => {
 
     await userEvent.keyboard('HERE');
 
-    await expect.element(textbox).toHaveTextContent(/before[\s\S]*#123[\s\S]*HERE/);
+    await expect.element(textbox).toMatchTextContent(/before[\s\S]*#123[\s\S]*HERE/);
   });
 
   it('leaves the cursor between the created card and a card right below it', async () => {
@@ -167,7 +167,7 @@ describe('Paste work package URL', () => {
 
     await userEvent.keyboard('HERE');
 
-    await expect.element(textbox).toHaveTextContent(/#123[\s\S]*HERE[\s\S]*#456/);
+    await expect.element(textbox).toMatchTextContent(/#123[\s\S]*HERE[\s\S]*#456/);
   });
 
   it('leaves the cursor after the link when the work package cannot be reached', async () => {
@@ -185,7 +185,7 @@ describe('Paste work package URL', () => {
 
     await userEvent.keyboard('HERE');
 
-    await expect.element(textbox).toHaveTextContent('http://localhost:3000/wp/GONE-1HERE');
+    await expect.element(textbox).toMatchTextContent('http://localhost:3000/wp/GONE-1HERE');
     // Typing must not extend the link itself.
     expect(document.querySelector('[contenteditable] a')?.textContent)
       .toBe('http://localhost:3000/wp/GONE-1');

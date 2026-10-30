@@ -96,7 +96,7 @@ module Import
 
     def each_iteration(issues_and_total, jira_import_id, jira_project_id)
       issues = issues_and_total["issues"]
-      issues_and_total["total"]
+      issues.each { |payload| fetch_missing_worklogs(payload) }
       issues_upsert_data = tagged_log("jira_import_id:#{jira_import_id}",
                                       "jira_project_id:#{jira_project_key(jira_project_id)}",
                                       "jira_object_type:issue") do
@@ -117,5 +117,16 @@ module Import
       Import::JiraIssue.upsert_all(issues_upsert_data, unique_by: %i[jira_import_id origin_id])
     end
     # rubocop:enable Metrics/AbcSize
+
+    private
+
+    # Jira only returns 20 worklogs with an issue, so fetch the full list when there are more.
+    def fetch_missing_worklogs(payload)
+      worklog = payload.dig("fields", "worklog")
+
+      return if worklog.blank? || worklog["total"] <= worklog["worklogs"].size
+
+      worklog.merge!(@jira_client.issue_worklogs(payload.fetch("id")))
+    end
   end
 end

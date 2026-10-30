@@ -229,14 +229,14 @@ RSpec.describe "Work package index accessibility" do
     describe "work package context menu", :js do
       it_behaves_like "context menu" do
         let(:target_link) { "#work-package-context-menu a.detailsViewMenuItem" }
-        let(:source_link) { ".work-package-table--container tr.issue td.id a" }
+        let(:source_link) { ".work-package-table--container tr.issue td.subject" }
         let(:keys) { %i[shift alt f10] }
         let(:sets_focus) { true }
       end
 
       it_behaves_like "context menu" do
         let(:target_link) { "#work-package-context-menu a.openFullScreenView" }
-        let(:source_link) { ".work-package-table--container tr.issue td.id a" }
+        let(:source_link) { ".work-package-table--container tr.issue td.subject" }
         let(:keys) { %i[shift alt f10] }
         let(:sets_focus) { false }
       end

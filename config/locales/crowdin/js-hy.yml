@@ -1097,6 +1097,13 @@ hy:
         title: Համօգտագործել աշխատանքային փաթեթը
       table:
         configure_button: Կազմաձևել աշխատանքային փաթեթների աղյուսակը
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Աղյուսակ՝ աշխատանքային փաթեթների տողերով և աշխատանքային փաթեթների հատկանիշների սյունակներով։
         text_inline_edit: Այս աղյուսակի բջիջների մեծ մասը կոճակներ են, որոնք ակտիվացնում են տվյալ հատկանիշի տեղում խմբագրման գործառույթը։
         text_select_hint: Ընտրության դաշտերը պետք է բացվեն 'ALT' և սլաքների ստեղներով։

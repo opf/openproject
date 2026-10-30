@@ -2,10 +2,13 @@
   @if (mode === 'inactive') {
     <tr
       class="wp-inline-create-button-row hide-when-print"
+      [attr.role]="treegrid ? 'row' : null"
+      [attr.aria-level]="treegrid ? 1 : null"
       >
       <td
         [attr.colspan]="colspan"
         class="wp-inline-create-button-td"
+        [attr.role]="treegrid ? 'gridcell' : null"
         >
         @if (canAdd) {
           <button
@@ -41,10 +44,13 @@
   @if (hasReferenceClass && mode === 'reference') {
     <tr
       class="wp-inline-create-button-row hide-when-print"
+      [attr.role]="treegrid ? 'row' : null"
+      [attr.aria-level]="treegrid ? 1 : null"
       >
       <td
         [attr.colspan]="colspan"
         class="wp-inline-reference-row-td -no-highlighting"
+        [attr.role]="treegrid ? 'gridcell' : null"
         >
         <ng-container *ngComponentOutlet="referenceClass; injector: injector" />
       </td>

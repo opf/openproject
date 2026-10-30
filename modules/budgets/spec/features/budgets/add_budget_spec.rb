@@ -127,7 +127,7 @@ RSpec.describe "adding a new budget", :js do
 
     before do
       create(:cost_rate, cost_type:, rate: 50.0, valid_from: 1.year.ago)
-      create(:default_hourly_rate, user:, rate: 25.0, valid_from: 1.year.ago)
+      create(:default_hourly_rate, principal: user, rate: 25.0, valid_from: 1.year.ago)
     end
 
     context "with german locale" do

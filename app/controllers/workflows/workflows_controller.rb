@@ -126,7 +126,7 @@ module Workflows
     def start_dialog(error: nil)
       WorkPackageTypes::NamedReferences::StartDialogComponent.new(model_class:,
                                                                   url: configure_workflows_path,
-                                                                  candidates: Workflow.global.in_display_order.to_a,
+                                                                  candidates: Workflow.in_display_order.to_a,
                                                                   error:)
     end
 

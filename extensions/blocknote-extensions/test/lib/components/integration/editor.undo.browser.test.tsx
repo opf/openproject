@@ -18,11 +18,11 @@ describe('Undo (Ctrl+Z)', () => {
     const editor = page.getByRole('textbox');
     await userEvent.click(editor);
     await userEvent.type(editor, 'hello');
-    await expect.element(editor).toHaveTextContent('hello');
+    await expect.element(editor).toMatchTextContent('hello');
 
     await ctrl_z();
 
-    await expect.element(editor).not.toHaveTextContent('hello');
+    await expect.element(editor).not.toMatchTextContent('hello');
   });
 
   it('multiple undos work sequentially', async () => {
@@ -34,11 +34,11 @@ describe('Undo (Ctrl+Z)', () => {
     await userEvent.type(editor, 'second');
 
     await ctrl_z(); 
-    await expect.element(editor).not.toHaveTextContent('second');
+    await expect.element(editor).not.toMatchTextContent('second');
 
     await ctrl_z(); 
     await ctrl_z(); 
-    await expect.element(editor).not.toHaveTextContent('first');
+    await expect.element(editor).not.toMatchTextContent('first');
   });
 
   it('undoes chip inserted via slash menu — chip is gone', async () => {
@@ -128,9 +128,9 @@ describe('Undo (Ctrl+Z)', () => {
     await userEvent.type(editor, 'hello');
 
     await ctrl_z();
-    await expect.element(editor).not.toHaveTextContent('hello');
+    await expect.element(editor).not.toMatchTextContent('hello');
 
     await userEvent.keyboard('{Control>}y{/Control}');
-    await expect.element(editor).toHaveTextContent('hello');
+    await expect.element(editor).toMatchTextContent('hello');
   });
 });
