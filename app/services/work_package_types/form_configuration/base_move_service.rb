@@ -48,8 +48,7 @@ module WorkPackageTypes
           record = fresh_record
           record ? move(record) : invalid_move
         end
-      rescue ActiveRecord::ActiveRecordError => e
-        OpenProject.logger.error(e, reference: :form_configuration_move, form_configuration_id: form_configuration.id)
+      rescue ActiveRecord::ActiveRecordError
         ServiceResult.failure(message: I18n.t("types.edit.form_configuration.move_failed"))
       end
 

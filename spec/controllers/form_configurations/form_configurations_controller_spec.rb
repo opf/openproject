@@ -54,6 +54,19 @@ RSpec.describe FormConfigurations::FormConfigurationsController do
       expect(OpenProject::Mutex).to have_received(:with_advisory_lock_transaction).with(form, "layout")
     end
 
+    context "when the form is deleted while the layout lock is held" do
+      before do
+        allow(OpenProject.logger).to receive(:error)
+        allow(OpenProject::Mutex).to receive(:with_advisory_lock_transaction).and_raise(ActiveRecord::RecordNotFound)
+      end
+
+      it "is reported as a missing record" do
+        patch :reset, params: { id: form.id }
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
     context "with an account that is not an administrator" do
       let(:user) { create(:user) }
 

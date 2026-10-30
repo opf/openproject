@@ -7474,6 +7474,7 @@ en:
         reset_title: "Reset form"
         reset_to_defaults: "Reset form"
         row_actions: "Row actions"
+        save_failed: "The change could not be saved. Please reload the page and try again."
         tab: "Form"
         untitled_group: "Untitled group"
       overview:
