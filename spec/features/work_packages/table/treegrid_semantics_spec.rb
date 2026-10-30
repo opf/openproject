@@ -62,6 +62,7 @@ RSpec.describe "Work package table treegrid semantics", :js do
                                                      accessible_name: "Alpha row", exact: true, count: 1)
       expect(wp_table.treegrid).to have_no_element(:td, role: "rowheader")
       expect(wp_table.treegrid).to have_no_element(:th, scope: "row", role: "gridcell")
+      expect(wp_table.treegrid).to have_element(:tr, role: "row", accessible_name: "Alpha row", exact: true)
 
       columns = Components::WorkPackages::Columns.new
       columns.remove("Subject")
@@ -69,12 +70,18 @@ RSpec.describe "Work package table treegrid semantics", :js do
                                                                      exact: true, count: 1)
       expect(wp_table.treegrid).to have_no_selector(:role, "rowheader", accessible_name: "Alpha row",
                                                                         exact: true, visible: :all)
+      expect(wp_table.treegrid).to have_element(:tr, role: "row", accessible_name: work_package.display_id.to_s,
+                                                     exact: true)
 
       columns.remove("ID")
       expect(wp_table.treegrid).to have_no_selector(:role, "rowheader", visible: :all)
+      expect(wp_table.treegrid).to have_element(:tr, role: "row", accessible_name: work_package.status.name)
+      expect(wp_table.treegrid).to have_no_element(:tr, role: "row", accessible_name: work_package.display_id.to_s,
+                                                        exact: true)
 
       columns.add("Subject")
       expect(wp_table.treegrid).to have_selector(:role, "rowheader", accessible_name: "Alpha row", exact: true)
+      expect(wp_table.treegrid).to have_element(:tr, role: "row", accessible_name: "Alpha row", exact: true)
 
       wp_table.visit_query(id_query)
       expect(wp_table.treegrid).to have_selector(:role, "rowheader", accessible_name: work_package.reload.display_id.to_s,
