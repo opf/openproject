@@ -612,7 +612,7 @@ module Journals
     end
 
     def only_one_or_same_cause?(predecessor, cause)
-      predecessor.cause.empty? || predecessor.cause == cause || cause.merge_into(predecessor.cause).present?
+      predecessor.cause.empty? || predecessor.cause == cause || cause.mergeable_into?(predecessor.cause)
     end
 
     def aggregate_cause(predecessor, cause)

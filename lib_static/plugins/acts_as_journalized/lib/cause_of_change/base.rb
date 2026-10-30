@@ -51,5 +51,9 @@ module CauseOfChange
     def merge_into(_predecessor_cause)
       nil
     end
+
+    def mergeable_into?(predecessor_cause)
+      !merge_into(predecessor_cause).nil?
+    end
   end
 end
