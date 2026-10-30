@@ -61,6 +61,14 @@ describe('LabelsAutocompleterComponent', () => {
     component = TestBed.createComponent(LabelsAutocompleterComponent).componentInstance;
   });
 
+  it('retains label tracking keys for empty href/name and synthetic values', () => {
+    expect(component.trackByFn?.({ href: '/labels/1', name: 'Label' })).toBe('/labels/1');
+    expect(component.trackByFn?.({ href: '', name: 'Label' })).toBe('');
+    expect(component.trackByFn?.({ href: null, name: '' })).toBe('');
+    expect(component.trackByFn?.({ token: 'custom' })).toBeUndefined();
+    expect(component.trackByFn?.(false)).toBeUndefined();
+  });
+
   it('does not offer to create a blank term', () => {
     expect(component.createLabel('   ')).toBeUndefined();
   });

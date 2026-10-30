@@ -27,11 +27,10 @@
 
 import { ChangeDetectionStrategy, Component, Input, Output, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryFilterInstanceResource, QueryFilterValue } from 'core-app/features/hal/resources/query-filter-instance-resource';
 
 @Component({
   selector: 'op-filter-string-value',
@@ -55,11 +54,11 @@ export class FilterStringValueComponent extends UntilDestroyedMixin {
     enter_text: this.I18n.t('js.work_packages.description_enter_text'),
   };
 
-  public get value():HalResource|string {
+  public get value():QueryFilterValue {
     return this.filter.values[0];
   }
 
-  public set value(val) {
+  public set value(val:string) {
     if (val.length) {
       this.filter.values[0] = val;
     } else {
