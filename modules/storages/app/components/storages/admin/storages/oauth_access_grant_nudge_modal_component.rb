@@ -58,7 +58,7 @@ module Storages
         def provider_type = I18n.t("storages.provider_types.#{storage}.name")
 
         def login_button_aria_label
-          I18n.t("storages.oauth_grant_nudge_modal.login_button_aria_label", storage: storage.name)
+          I18n.t("storages.oauth_grant_nudge_modal.login_button_aria_label", provider_type:, storage: storage.name)
         end
 
         def confirm_button_url
