@@ -76,6 +76,15 @@ export function findPendingInlineChip(doc:ProsemirrorNode, wpid:string):FoundInl
   return found;
 }
 
+/** Removes a pending chip, if it is still in the document, and says whether it was. */
+export function removePendingInlineChip(editor:AnyEditor, wpid:string):boolean {
+  return editor.transact((tr) => {
+    const found = findPendingInlineChip(tr.doc, wpid);
+    if (found) tr.delete(found.position, found.position + found.node.nodeSize);
+    return found !== null;
+  });
+}
+
 /** The inline content one chip is inserted from. */
 export function chipContentOf(workPackage:WorkPackage, size:InlineWpSize):ChipContent {
   return {

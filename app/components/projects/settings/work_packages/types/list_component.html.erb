@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= component_wrapper do %>
   <% active_project_types.each do |project_type| %>
     <%= render(
-          OpenProject::Common::BorderBoxListComponent.new(
+          OpPrimer::BorderBoxListComponent.new(
             container: "project-types-group-#{project_type.type.id}",
             collapsible: true,
             empty_state_behavior: :none,
@@ -107,7 +107,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
   <% if active_project_types.empty? %>
-    <%= render(OpenProject::Common::BorderBoxListComponent.new(container: "project-settings-types")) do |list| %>
+    <%= render(OpPrimer::BorderBoxListComponent.new(container: "project-settings-types")) do |list| %>
       <% list.with_empty_state(
            title: t("projects.settings.types.empty_state.title"),
            description: t("projects.settings.types.empty_state.description"),

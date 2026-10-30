@@ -58,6 +58,13 @@ export async function chooseCreateCommand() {
   await expect.element(page.getByTestId('create-wp-modal')).toBeVisible();
 }
 
+// The entry a work package search ends with, from the search popover and the hash menu alike.
+export async function chooseCreateFromSearch() {
+  await expect.element(page.getByTestId('create-wp-option')).toBeVisible();
+  await userEvent.click(page.getByTestId('create-wp-option'));
+  await expect.element(page.getByTestId('create-wp-modal')).toBeVisible();
+}
+
 export async function openCreateModal(before = '') {
   const editorEl = page.getByRole('textbox');
   await userEvent.click(editorEl);

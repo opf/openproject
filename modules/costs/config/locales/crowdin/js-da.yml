@@ -22,7 +22,7 @@
 ---
 da:
   js:
-    button_log_costs: Registrér enhedsomkostninger
+    button_log_costs: Registrer enhedsomkostninger
     label_hour: time
     label_hours: timer
     text_are_you_sure: Er du sikker?

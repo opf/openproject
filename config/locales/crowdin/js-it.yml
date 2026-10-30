@@ -1097,6 +1097,13 @@ it:
         title: Condividi macro-attività
       table:
         configure_button: Configura la tabella della macro-attività
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabella con righe di macro-attività e colonne dei loro attributi.
         text_inline_edit: Molte celle di questa tabella sono pulsanti che attivano le funzionalità di modifica in linea di tale attributo.
         text_select_hint: Le caselle di selezione devono essere aperte con ' ALT ' e i tasti freccia.

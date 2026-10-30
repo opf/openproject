@@ -42,7 +42,6 @@ class CustomValue < ApplicationRecord
   after_create :activate_custom_field_in_customized_project, if: -> { customized.is_a?(Project) }
 
   delegate :typed_value,
-           :formatted_value,
            to: :strategy
 
   delegate :editable?,
@@ -76,6 +75,19 @@ class CustomValue < ApplicationRecord
   def default?
     value_is_included_in_multi_value_default? \
       || value_is_same_as_default?
+  end
+
+  def formatted_value
+    return I18n.t(:label_custom_value_no_longer_available) unless available_in_project?
+
+    strategy.formatted_value
+  end
+
+  def available_in_project?
+    return true if custom_field.nil? || custom_field.project_specific_value_restriction.nil?
+    return true if customized.nil? || value.blank?
+
+    custom_field.usable_value_id?(customized.project, value)
   end
 
   def activate_custom_field_in_customized_project

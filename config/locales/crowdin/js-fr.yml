@@ -1097,6 +1097,13 @@ fr:
         title: Partager le lot de travaux
       table:
         configure_button: Configurer le tableau des lots de travaux
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tableau dont les lignes correspondent aux lots de travaux et les colonnes à leurs attributs.
         text_inline_edit: La plupart des cellules de ce tableau sont des boutons qui permettent de modifier en ligne l'attribut correspondant.
         text_select_hint: Les listes de sélection doivent être ouvertes avec la touche « ALT » et les flèches directionnelles.

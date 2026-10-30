@@ -205,6 +205,7 @@ public readonly injector:Injector,
         workPackageId: null,
         renderType: 'primary',
         hidden: false,
+        level: 1,
       });
     }
   }
@@ -221,6 +222,7 @@ workPackage:WorkPackageResource,
     row:HTMLTableRowElement,
     additionalClasses:string[] = [],
     hidden = false,
+    level = 1,
 ) {
     this.registerAppended(row, {
       key: wpOccurrenceKey(workPackage.id!),
@@ -230,6 +232,7 @@ workPackage:WorkPackageResource,
       workPackageId: workPackage.id!,
       renderType: 'primary',
       hidden,
+      level,
     });
   }
 
@@ -245,6 +248,8 @@ workPackage:WorkPackageResource,
     classIdentifier:string,
     additionalClasses:string[] = [],
     hidden = false,
+    groupIdentifier?:string,
+    level = 1,
   ) {
     row.classList.add(classIdentifier);
     this.registerAppended(row, {
@@ -255,6 +260,8 @@ workPackage:WorkPackageResource,
       workPackageId: null,
       renderType: 'primary',
       hidden,
+      level,
+      groupIdentifier,
     });
   }
 

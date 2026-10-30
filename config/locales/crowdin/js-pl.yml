@@ -1109,6 +1109,13 @@ pl:
         title: Udostępnij pakiet roboczy
       table:
         configure_button: Konfiguruj tabelę pakietów roboczych
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabela, której wiersze zawierają pakiety pracy, a kolumny ich atrybuty.
         text_inline_edit: Większość komórek w tej tabeli to przyciski uruchamiające edycję danego atrybutu.
         text_select_hint: Zaznacz boxy które powinny zostać otwarte poprzez jednoczesne użycie klawisza 'ALT' oraz strzałek.

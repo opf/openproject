@@ -26,6 +26,8 @@
 //++
 
 import { DestroyRef, Injector } from '@angular/core';
+import { Subject } from 'rxjs';
+import { generateId } from 'core-app/shared/helpers/dom-helpers';
 import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { TableUiWork } from './table-ui-work';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -46,6 +48,8 @@ import type { PrimaryRenderPass, RenderPassOptions } from './builders/primary-re
 import { type OccurrenceKey, RenderedOccurrenceLedger } from './rendered-occurrence-ledger';
 import { WorkPackageTableEditingContext } from './wp-table-editing';
 import type { WorkPackageTableRow } from './wp-table.interfaces';
+import type { KeyboardNavigation } from './handlers/state/keyboard/keyboard-navigation-transformer';
+import { TreegridSemantics } from './semantics/treegrid-semantics';
 
 interface PendingRender {
   readonly pass:PrimaryRenderPass;
@@ -62,6 +66,8 @@ export class WorkPackageTable {
   @LazyInject() I18n!:I18nService;
 
   @LazyInject() workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService;
+
+  public readonly domId = generateId('wp-table');
 
   public originalRows:string[] = [];
 
@@ -90,6 +96,15 @@ export class WorkPackageTable {
 
   public readonly ledger = new RenderedOccurrenceLedger();
 
+  public keyboardNavigation:KeyboardNavigation|null = null;
+
+  public readonly semantics:TreegridSemantics|null = this.configuration.keyboardNavigationEnabled ? new TreegridSemantics(this) : null;
+
+  private readonly rowsRefreshedSubject = new Subject<string>();
+
+  /** Emits a work package id after `refreshRows` replaced at least one of its rendered rows, or an edge row key after that row re-rendered. */
+  public readonly rowsRefreshed$ = this.rowsRefreshedSubject.asObservable();
+
   private readonly requestedRelationTargets = new Set<string>();
 
   private pendingRender:PendingRender|null = null;
@@ -113,12 +128,18 @@ export class WorkPackageTable {
     return this.destroyRef.destroyed;
   }
 
+  /** True between scheduling a full render and its frame commit. */
+  public get hasPendingRender():boolean {
+    return this.pendingRender !== null;
+  }
+
   public destroy():void {
     if (this.destroyed) return;
     try {
       this.lifetimeInjector.destroy();
     } finally {
       runCleanup(() => this.editing.reset());
+      this.rowsRefreshedSubject.complete();
     }
   }
 
@@ -190,9 +211,17 @@ export class WorkPackageTable {
 
   public setHidden(updates:ReadonlyMap<OccurrenceKey, boolean>):void {
     if (this.destroyed) return;
+    this.rebuildPendingRenderForSemantics();
     if (updates.size === 0) return;
+    this.keyboardNavigation?.captureOwnership();
     this.ledger.setHidden(updates);
     this.publishRendered();
+  }
+
+  private rebuildPendingRenderForSemantics():void {
+    if (this.semantics && this.pendingRender) {
+      this.performRenderPass({ timeline: this.pendingRender.timeline });
+    }
   }
 
   /**
@@ -206,12 +235,24 @@ export class WorkPackageTable {
       return;
     }
 
+    this.keyboardNavigation?.captureOwnership();
+    let replaced = 0;
     this.ledger.byWorkPackageId(workPackage.id!).forEach((occurrence) => {
       const replacement = pass.refresh(occurrence, workPackage);
       if (replacement) {
         this.ledger.replaceElement(occurrence.key, replacement);
+        replaced += 1;
       }
     });
+
+    if (replaced > 0) {
+      this.semantics?.paintWorkPackage(workPackage.id!);
+      this.notifyRowsRefreshed(workPackage.id!);
+    }
+  }
+
+  public notifyRowsRefreshed(key:string):void {
+    this.rowsRefreshedSubject.next(key);
   }
 
   /**
@@ -224,6 +265,7 @@ export class WorkPackageTable {
   }
 
   private performRenderPass({ timeline }:RenderPassOptions):void {
+    this.keyboardNavigation?.captureOwnership();
     this.editing.reset();
     const promoted = timeline || this.pendingRender?.timeline === true;
     const pending:PendingRender = { pass: this.rowBuilder.buildRows({ timeline: promoted }), timeline: promoted };
@@ -246,15 +288,21 @@ export class WorkPackageTable {
   }
 
   private publishRendered():void {
+    this.semantics?.paint();
     this.querySpace.tableRendered.putValue(this.ledger.snapshot());
   }
 
   setGroupsCollapseState(newState:Record<string, boolean>) {
     if (this.destroyed) return;
+    this.keyboardNavigation?.captureOwnership();
     this.querySpace.collapsedGroups.putValue(newState);
 
     const t0 = performance.now();
-    this.groupedRowsBuilder.refreshExpansionState();
+    const updates = this.groupedRowsBuilder.refreshExpansionState();
+    this.setHidden(updates);
+    if (updates.size === 0) {
+      this.publishRendered();
+    }
     const t1 = performance.now();
 
     debugLog(`Group redraw took ${t1 - t0} milliseconds.`);

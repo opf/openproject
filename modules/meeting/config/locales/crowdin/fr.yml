@@ -331,13 +331,13 @@ fr:
       manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
       remove_thumbs_down: Retirer le vote négatif
       remove_thumbs_up: Retirer le vote positif
-      sidebar_title: Agenda sorting
+      sidebar_title: Tri de l'agenda
       sorted_by_votes: Ordre du jour classé par nombre de votes.
       thumbs_down: Voter contre
       thumbs_up: Voter pour
       title: Mode de tri
       vote_based: Basé sur les votes
-      vote_based_description: 'Participants can vote agenda items up or down. Items with the most votes are put on top within each section. Sections remain manually sorted.
+      vote_based_description: 'Les participants peuvent voter pour ou contre les points à l''ordre du jour. Les points ayant recueilli le plus grand nombre de voix sont placés en tête de chaque section. Le classement des sections reste manuel.
 
         '
       votes: 'Votes : %{count}'
@@ -349,7 +349,7 @@ fr:
       desc: Vous pouvez créer une nouvelle réunion ou modifier les critères de filtrage
       title: Il n'y a pas de réunions à afficher
     cancel:
-      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_caption: Cette information figurera dans l'e-mail d'annulation envoyé aux participants lorsque les notifications sont activées.
       reason_label: Raison de l'annulation
     copied: 'Copié depuis la réunion #%{id}'
     copy:
