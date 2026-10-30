@@ -92,6 +92,15 @@ describe('EditFieldControlsComponent input contracts', () => {
     expect(emit).toHaveBeenCalledOnce();
   });
 
+  it.each([true, false])('disables Save while the selection is invalid (%s)', (invalid) => {
+    const fixture = TestBed.createComponent(EditFieldControlsComponent);
+    fixture.componentRef.setInput('fieldController', { required: false });
+    fixture.componentRef.setInput('invalid', invalid);
+    fixture.detectChanges();
+
+    expect((fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>('button')!.disabled).toBe(invalid);
+  });
+
   it.each([true, false])('disables a required field only when empty (%s)', (empty) => {
     const fixture = TestBed.createComponent(EditFieldControlsComponent);
     const isEmpty = vi.fn(() => empty);

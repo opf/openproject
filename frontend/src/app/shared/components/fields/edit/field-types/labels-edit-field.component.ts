@@ -25,49 +25,101 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, OnInit, inject,
+} from '@angular/core';
 import {
   AutocompleterEditFieldComponent,
 } from 'core-app/shared/components/fields/edit/field-types/autocompleter-edit-field.component';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
-import { isRecord } from 'core-app/shared/helpers/type-guards';
+import {
+  LabelSelection,
+  createLabelSelectionAdapter,
+  labelSelectionToResources,
+  labelSelectionsToModel,
+} from 'core-app/shared/components/autocompleter/selection/label-selection';
+
+const unloaded = Symbol('unloaded');
+const noLabels:unknown[] = [];
 
 @Component({
   templateUrl: './labels-edit-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class LabelsEditFieldComponent extends AutocompleterEditFieldComponent {
+export class LabelsEditFieldComponent extends AutocompleterEditFieldComponent implements OnInit {
+  readonly apiV3Service = inject(ApiV3Service);
   readonly halResourceService = inject(HalResourceService);
+
+  readonly selection = createLabelSelectionAdapter();
 
   isNew = isNewResource(this.resource);
 
   url:string;
+
+  displayModel:unknown[] = noLabels;
+
+  private loadedValue:unknown = unloaded;
+
+  private writing = false;
 
   public text = {
     save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
     cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name }),
   };
 
+  ngOnInit():void {
+    this.selection.changes$
+      .pipe(this.untilDestroyed())
+      .subscribe((values) => this.onSelectionChange(values));
+
+    this.selection.stateChanges$
+      .pipe(this.untilDestroyed())
+      .subscribe(() => {
+        this.refreshDisplayModel();
+        this.cdRef.markForCheck();
+      });
+
+    super.ngOnInit();
+  }
+
   initialize():void {
     const link = this.schema.allowedValues as CallableHalLink|undefined;
     if (link) {
       this.url = link.$link.href!;
     }
+
+    if (!this.writing && this.value !== this.loadedValue) {
+      this.loadedValue = this.value;
+      this.selection.bridge.load(this.value);
+    }
   }
 
-  public onModelChange(labels:unknown):void {
-    if (labels !== undefined && !Array.isArray(labels)) { return; }
-    const values:unknown[] = labels ?? [];
-    if (!values.every(isRecord)) { return; }
-    this.value = values.map(
-      label => this.halResourceService.createHalResourceOfType('Label', {
-        id: label.id,
-        name: label.name,
-        href: label.href,
-      }),
-    );
+  onSelectionChange(values:LabelSelection[]):void {
+    this.writing = true;
+    try {
+      this.value = labelSelectionToResources(values, {
+        halResourceService: this.halResourceService,
+        apiV3Service: this.apiV3Service,
+      });
+    } finally {
+      this.writing = false;
+    }
+    this.loadedValue = this.value;
+  }
+
+  private refreshDisplayModel():void {
+    const { model } = this.selection.bridge;
+    if (Array.isArray(model)) {
+      this.displayModel = model as unknown[];
+      return;
+    }
+
+    const { state } = this.selection;
+    const selections = state.kind === 'ready' ? state.value : [];
+    this.displayModel = selections.length > 0 ? labelSelectionsToModel(selections) : noLabels;
   }
 }
