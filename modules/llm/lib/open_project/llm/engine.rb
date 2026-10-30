@@ -54,8 +54,17 @@ module OpenProject::Llm
     # RubyLLM's legacy acts_as API warns on boot unless the new one is chosen,
     # and the choice has to be made before its railtie reaches ActiveRecord.
     # OpenProject uses the plain client rather than either ActiveRecord API.
+    #
+    # RubyLLM.logger memoizes the global logger and ignores a per-call
+    # context's. Its Faraday middleware logs with "bodies: RubyLLM.logger.debug?",
+    # so with RUBYLLM_DEBUG set, prompts, answers and error bodies that echo the
+    # credential would reach stdout, bypassing Llm::Errors.log.
     config.before_initialize do
-      RubyLLM.configure { |llm| llm.use_new_acts_as = true }
+      RubyLLM.configure do |llm|
+        llm.use_new_acts_as = true
+        llm.logger = Logger.new(IO::NULL)
+        llm.log_stream_debug = false
+      end
     end
 
     initializer "openproject_llm.feature_decisions" do

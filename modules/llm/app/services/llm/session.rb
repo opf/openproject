@@ -128,12 +128,6 @@ module Llm
 
         config.openproject_custom_headers = connection.custom_headers
         apply_request_options(config)
-        # Not Rails.logger: RubyLLM wires its Faraday logger middleware with
-        # "bodies: RubyLLM.logger.debug?", so an instance running at debug level
-        # would write full request and response bodies through a path
-        # Llm::Errors.log never sees, including an error body that echoes the
-        # credential.
-        config.logger = Logger.new(IO::NULL)
       end
     end
 
@@ -142,10 +136,8 @@ module Llm
       # RubyLLM retries POSTs three times by default, so one completion can be
       # billed four times. Callers state what they are willing to pay for.
       config.max_retries = max_retries
-      # RubyLLM sends instructions with the "developer" role, which
-      # OpenAI-compatible servers such as vLLM or Ollama drop, and the
-      # instructions with it. OpenAI itself treats "system" as "developer" for
-      # its reasoning models.
+      # OpenAI-compatible servers such as vLLM or Ollama drop the "developer"
+      # role, and the instructions with it.
       config.openai_use_system_role = true
     end
 
