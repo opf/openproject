@@ -39,7 +39,7 @@ class LlmFeatureBinding < ApplicationRecord
   validates :feature_key, presence: true, uniqueness: { scope: :llm_connection_id }
   validate :feature_registered
   validate :model_offered_by_connection, if: :model_id_changed?
-  validate :semantic_index_activatable, if: :semantic_index_id_changed?
+  validate :semantic_index_only_for_embedding, if: :semantic_index_id_changed?
 
   def feature
     OpenProject::Llm::Features[feature_key]
@@ -85,13 +85,10 @@ class LlmFeatureBinding < ApplicationRecord
     errors.add(:model_id, :not_available)
   end
 
-  def semantic_index_activatable
+  def semantic_index_only_for_embedding
     return if semantic_index.nil?
+    return if feature&.embedding?
 
-    if !feature&.embedding?
-      errors.add(:semantic_index, :not_for_chat_feature)
-    elsif !semantic_index.ready?
-      errors.add(:semantic_index, :not_ready)
-    end
+    errors.add(:semantic_index, :not_for_chat_feature)
   end
 end

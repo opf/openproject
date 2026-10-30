@@ -40,11 +40,8 @@ module SemanticIndexes
     protected
 
     def perform
-      unless user.admin? && user.active?
-        return ServiceResult.failure(result: model, message: I18n.t(:notice_not_authorized))
-      end
-
-      return pgvector_missing unless OpenProject::Llm::Pgvector.available?
+      return failure(I18n.t(:notice_not_authorized)) unless authorized?
+      return failure(I18n.t("admin.semantic_indexes.indexing.not_ready.pgvector_missing")) unless OpenProject::Llm::Pgvector.available?
 
       binding = SemanticIndex.semantic_search_binding
       binding.semantic_index = model
@@ -58,9 +55,8 @@ module SemanticIndexes
 
     private
 
-    def pgvector_missing
-      ServiceResult.failure(result: model,
-                            message: I18n.t("admin.semantic_indexes.indexing.not_ready.pgvector_missing"))
-    end
+    def authorized? = user.admin? && user.active?
+
+    def failure(message) = ServiceResult.failure(result: model, message:)
   end
 end
