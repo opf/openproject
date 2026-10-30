@@ -24,14 +24,15 @@ tr:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sorting mode
         duration: Süre
         end_time: End time
         location: Yer
         notes: Notlar
         notify: Send notifications
         participant:
-          one: 1 Katılımcı
-          other: "%{count} Katılımcı"
+          one: "%{count} Participant"
+          other: "%{count} Participants"
         participants: Katılımcılar
         participants_added: 'Participants added:'
         participants_attended: Katılımcılar
@@ -88,14 +89,18 @@ tr:
         invalid_time_format: 'geçerli bir zaman değil. Gerekli format: SS:DD'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Section does not belong to the same meeting.
           user_invalid: geçerli bir katılımcı değildir.
+          vote_based_sorting_required: Voting requires vote-based agenda sorting.
         meeting_participant:
           user_invalid: geçerli bir katılımcı değildir.
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: Seride yeni zamanlamaya uymayan ve açık bir toplantı bulunmakta. Mevcut toplantıları kapsaması için zamanlayın.
+            one: There is %{count} open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
             other: Seride yeni zamanlamaya uymayan ve açık %{count} toplantı bulunmakta. Mevcut toplantıları kapsaması için zamanlayın.
         recurring_meeting_interim_response:
           not_an_occurrence: yinelenen toplantı için geçerli bir gerçekleşme zamanı değil
@@ -152,6 +157,10 @@ tr:
     meeting_agenda_opened: Toplantı gündemi açıldı
     meeting_minutes: Toplantı dakikaları düzenlendi
     meeting_minutes_created: Toplantı tutanakları oluşturuldu
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Toplantıya ekle
   label_add_work_package_to_meeting_dialog_title: Toplantı seç
   label_add_work_package_to_meeting_section_label: Bölüm
@@ -160,6 +169,8 @@ tr:
   label_agenda_backlog_clear_title: Gündemdeki birikmiş iş listesi temizlensin mi?
   label_agenda_item_actions: Gündem maddeleri için eylemler
   label_agenda_item_add: Gündem maddesi ekle
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Not ekle
   label_agenda_item_add_outcome: Sonuç ekle
   label_agenda_item_convert_to_work_package: Convert to work package
@@ -167,6 +178,7 @@ tr:
   label_agenda_item_duplicate: Çoğalt
   label_agenda_item_duplicate_in_next: Bir sonraki toplantıda tekrarlayın
   label_agenda_item_duplicate_in_next_title: Bir sonraki toplantıda tekrarlansın mı?
+  label_agenda_item_include_outcomes: Include outcomes
   label_agenda_item_move: Taşı
   label_agenda_item_move_down: Aşağı taşı
   label_agenda_item_move_to_backlog: Birikmiş iş listesine taşı
@@ -230,8 +242,8 @@ tr:
   label_meeting_last_updated: Son güncelleme
   label_meeting_minutes: Dakika
   label_meeting_more:
-    one: Bir toplantı daha var.
-    other: "%{count} toplantı daha var."
+    one: There is %{count} more meeting.
+    other: There are %{count} more meetings.
   label_meeting_new: Yeni Toplantı
   label_meeting_new_dynamic: Tek seferlik yeni toplantı
   label_meeting_new_recurring: Yeni yinelenen toplantı
@@ -276,11 +288,11 @@ tr:
   label_recurring_meeting_delete: İptal et
   label_recurring_meeting_duplicate: Tek seferlik toplantı olarak çoğaltın
   label_recurring_meeting_more:
-    one: Planlanmış bir toplantı daha var (%{schedule}).
-    other: "%{count} ek planlanmış toplantı bulunmaktadır (%{schedule})."
+    one: There is %{count} more scheduled meeting (%{schedule}).
+    other: There are %{count} more scheduled meetings (%{schedule}).
   label_recurring_meeting_more_past:
-    one: Geçmiş bir toplantı daha var.
-    other: "%{count} toplantı daha var."
+    one: There is %{count} more past meeting.
+    other: There are %{count} more past meetings.
   label_recurring_meeting_new: Yeni yinelenen toplantı
   label_recurring_meeting_next_occurrence: Sonraki gerçekleşme
   label_recurring_meeting_no_end_date: Daha fazla planlanmış toplantı var (%{schedule}).
@@ -310,6 +322,25 @@ tr:
   label_view_meeting_series: Toplantı serisini görüntüle
   label_write_outcome: Sonuç yazın
   meeting:
+    agenda_sorting:
+      change: Change sorting mode
+      current_mode: Currently in %{mode} mode
+      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      manual: Manual
+      manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
+      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
+      remove_thumbs_down: Remove downvote
+      remove_thumbs_up: Remove upvote
+      sidebar_title: Agenda sorting
+      sorted_by_votes: Agenda sorted by votes.
+      thumbs_down: Downvote
+      thumbs_up: Upvote
+      title: Sorting mode
+      vote_based: Vote-based
+      vote_based_description: 'Participants can vote agenda items up or down. Items with the most votes are put on top within each section. Sections remain manually sorted.
+
+        '
+      votes: 'Votes: %{count}'
     attachments:
       onetime_template: These attached files will be included in all future meetings using this template.
       series_template: These attached files will be included in all future meetings in the series.
@@ -317,6 +348,9 @@ tr:
     blankslate:
       desc: Yeni bir toplantı oluşturabilir veya filtre kriterlerini değiştirebilirsiniz
       title: Gösterilecek toplantı yok
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: "#%{id} numaralı toplantıdan kopyalandı"
     copy:
       agenda: Gündemi kopyala
@@ -360,6 +394,7 @@ tr:
         header: 'İptal edildi: Toplantı ''%{title}'''
         header_occurrence: 'İptal edildi: Toplantı ''%{title}'''
         header_series: 'İptal edildi: Toplantı serisi ''%{title}'''
+        reason: Reason for cancellation
         summary: "'%{title}' %{actor}tarafından iptal edildi veya katılımcı olarak çıkarıldınız"
         summary_occurrence: Bir '%{title}' oluşumu %{actor}tarafından iptal edildi veya katılımcı olarak çıkarıldınız
         summary_series: Toplantı serisi '%{title}' %{actor}tarafından iptal edildi veya katılımcı olarak çıkarıldınız
@@ -484,6 +519,7 @@ tr:
       no_items: Gündem maddesi yok
       no_items_flash: Sunulacak herhangi bir gündem maddesi bulunmamaktadır.
       previous: Önceki
+      slide_progress: Slide %{current}/%{total}
       title: Sunum modu
       total_items: "%{current} / %{total}"
     types:
@@ -560,13 +596,15 @@ tr:
     caption:
       ends_on: This results in a series ending on %{date}
       occurrences:
-        one: This results in 1 upcoming occurrence
+        one: This results in %{count} upcoming occurrence
         other: This results in %{count} upcoming occurrences
       occurrences_capped: This results in more than %{count} upcoming occurrences
     day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
     delete_dialog:
       confirmation_message_html:
-        one: "<strong>%{title}</strong> toplantı serisini silmek ayrıca gerçekleşen bir toplantıyı da silecektir. Bu işlem geri alınamaz. Lütfen dikkatli olun.\n"
+        one: 'Deleting <strong>%{title}</strong> will also delete %{count} occurrence in this series. This action is not reversible. Please proceed with caution.
+
+          '
         other: "<strong>%{title}</strong> toplantı serisini silmek ayrıca gerçekleşen %{count} toplantıyı da silecektir. Bu işlem geri alınamaz. Lütfen dikkatli olun.\n"
         zero: "<strong>%{title}</strong> toplantı serisinde herhangi bir toplantıya gerçekleşmedi. Seri herkesten silinecek. Lütfen dikkatli olun.\n"
       heading: Bu toplantı serisi kalıcı olarak silinsin mi?
@@ -625,7 +663,7 @@ tr:
       error_no_next: Bu seri için bir toplantı yoktur.
       error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Bu toplantı serisinin ilk toplantısı zaten oluşturulmuş.
-      first_created: 'Şablondan ilk toplantı oluşturuldu. Gelecek toplantılar önceki gerçekleşenin saatinde oluşturulacak.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Bu toplantı, yinelenen bir toplantı serisinin parçasıdır.
@@ -687,9 +725,10 @@ tr:
   text_agenda_item_dialog_skipping_closed_many: "%{count} kapalı toplantılar"
   text_agenda_item_dialog_skipping_closed_one: "%{date} adresinde kapalı toplantı"
   text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
-  text_agenda_item_duplicate_in_next_meeting: "%{time}Bu gündem maddesinin bir kopyasını %{date} adresindeki bir sonraki toplantıya eklemek istediğinizden emin misiniz? Sonuçlar çoğaltılmayacaktır."
+  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}?
   text_agenda_item_duplicated_in_next_meeting: Gündem maddesi bir sonraki toplantıda tekrarlandı, %{date}adresinde
   text_agenda_item_move_next_meeting: Bu madde %{date} tarihindeki %{time} saatli bir sonraki toplantıya taşınacaktır.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Gündem maddesi %{date} tarihli sonraki toplantıya taşındı
   text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
   text_agenda_item_no_notes: Not verilmemiştir

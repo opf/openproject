@@ -54,7 +54,7 @@ ms:
 
           '
       label_n_groups_found:
-        one: 1 kumpulan ditemui penyaring
+        one: "%{count} group found by the filter"
         other: "%{count} kumpulan ditemui penyaring"
         zero: Tiada kumpulan yang ditemui penyaring
       plural: Penyaring sinkronisasi Kumpulan LDAP
@@ -89,7 +89,7 @@ ms:
       plural: Kumpulan-kumpulan LDAP yang diselaraskan
       singular: Kumpulan LDAP yang diselaraskan
       upsell:
-        description: Manfaatkan kumpulan LDAP yang diselaraskan untuk mengurus pengguna-pengguna, menukar kebenaran mereka dan memudahkan pengurusan pengguna di kalangan kumpulan.
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: Penyelarasan keahlian kumpulan LDAP
     name: Kumpulan LDAP OpenProject

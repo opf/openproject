@@ -48,7 +48,7 @@ da:
   documents:
     active_editors: Aktive redaktører
     active_editors_count:
-      one: 1 aktiv redaktør
+      one: "%{count} aktiv redaktør"
       other: "%{count} aktive redaktører"
     admin:
       collaboration_settings:
@@ -64,9 +64,9 @@ da:
           invalid_scheme: Skal anvende en WebSocket-protokol (ws:// eller wss://).
           label: URL til Hocuspocus-server
         page_header:
-          description: |-
+          description_html: |-
             Når samarbejde i realtid er slået til, kan flere brugere redigere et dokument på samme tid.
-            Det kræver en fungerende %{hocuspocus_server_link}.
+            Det kræver en fungerende [Hocuspocus-server](hocuspocus_server_link).
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: Jeg forstår, at jeg kan miste data permanent
         confirmation_message: |-
@@ -121,7 +121,7 @@ da:
       currently_offline: Du er offline i øjeblikket.
     label_attachment_author: Forfatter til vedhæftet fil
     label_categories: Kategorier
-    last_updated_at: Senest gemt %{time}.
+    last_updated_at_html: Senest gemt %{time}.
     menu:
       all: Alle dokumenter
       collaboration_settings: Samarbejde i realtid

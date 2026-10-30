@@ -110,7 +110,7 @@ ro:
     not_recommended: Recomandat
     recommended: recomandat
     x_bcf_issues:
-      one: O problemă BCF
+      one: "%{count} BCF issue"
       other: "%{count} Probleme BCF"
       zero: Nu există probleme legate de BCF
   bim:
@@ -148,8 +148,10 @@ ro:
       processing_default: 'Următoarele modele IFC implicite sunt încă în curs de procesare și, prin urmare, nu sunt încă disponibile:'
   oauth:
     scopes:
-      bcf_v2_1: Acces complet la API BCF v2.1
+      bcf_v2_1: Access to the BCF v2.1 API
       bcf_v2_1_text: Aplicația va primi acces complet de citire și scriere la OpenProject BCF API v2.1 pentru a efectua acțiuni în numele dumneavoastră.
+      explanations_admin:
+        bcf_v2_1: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on the user's behalf.
   permission_delete_bcf: Ștergerea problemelor BCF
   permission_manage_bcf: Importați și gestionați problemele BCF
   permission_manage_bcf_explanation: |
