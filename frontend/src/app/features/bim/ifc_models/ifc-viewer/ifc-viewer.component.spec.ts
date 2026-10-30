@@ -25,8 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { fireEvent, screen, waitFor } from '@testing-library/dom';
 import { page, userEvent } from 'vitest/browser';
@@ -38,6 +37,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
 import { IFCViewerService } from 'core-app/features/bim/ifc_models/ifc-viewer/ifc-viewer.service';
 import { IFCViewerComponent } from './ifc-viewer.component';
+import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
 
 describe('IFCViewerComponent keyboard warning', () => {
   let fixture:ComponentFixture<IFCViewerComponent>;
@@ -127,5 +127,69 @@ describe('IFCViewerComponent keyboard warning', () => {
     expect(setKeyboardEnabled).toHaveBeenCalledExactlyOnceWith(true);
     expect(focus).toHaveBeenCalledOnce();
     expect(canvas()).toHaveFocus();
+  });
+});
+
+describe('IFCViewerComponent keyboard targeting', () => {
+  let component:IFCViewerComponent;
+  const setKeyboardEnabled = vi.fn();
+  const destroy = vi.fn();
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({ providers: [
+      { provide: IfcModelsDataService, useValue: { models: [{}], allowed: () => true } },
+      { provide: I18nService, useValue: { t: (key:string) => key } },
+      { provide: CurrentUserService, useValue: {} },
+      { provide: CurrentProjectService, useValue: {} },
+      { provide: IFCViewerService, useValue: { inspectorVisible$: new BehaviorSubject(false), setKeyboardEnabled, destroy } },
+    ] });
+    setKeyboardEnabled.mockClear();
+    destroy.mockClear();
+    component = TestBed.runInInjectionContext(() => new IFCViewerComponent());
+    component.outerContainer = new ElementRef(document.createElement('div'));
+    component.modelCanvas = new ElementRef(document.createElement('canvas'));
+    component.outerContainer.nativeElement.append(component.modelCanvas.nativeElement);
+    component.enableKeyBoard();
+    setKeyboardEnabled.mockClear();
+  });
+
+  it('keeps keyboard input enabled for a canvas target inside the viewer', () => {
+    component.disableKeyboard(component.modelCanvas.nativeElement);
+    expect(component.keyboardEnabled).toBe(true);
+    expect(setKeyboardEnabled).not.toHaveBeenCalled();
+  });
+
+  it('disables keyboard input for an element outside the viewer', () => {
+    component.disableKeyboard(document.createElement('button'));
+    expect(component.keyboardEnabled).toBe(false);
+    expect(setKeyboardEnabled).toHaveBeenCalledWith(false);
+  });
+
+  it.each([null, new EventTarget(), document.createTextNode('text')])('ignores a non-element event target %s', (target) => {
+    component.disableKeyboard(target);
+    expect(component.keyboardEnabled).toBe(true);
+    expect(setKeyboardEnabled).not.toHaveBeenCalled();
+  });
+
+  it('keeps the icon activation from reaching the window handler', () => {
+    component.keyboardEnabled = false;
+    const event = new MouseEvent('mousedown');
+    const stop = vi.spyOn(event, 'stopImmediatePropagation');
+    expect(component.enableFromIcon(event)).toBe(false);
+    expect(component.keyboardEnabled).toBe(true);
+    expect(stop).toHaveBeenCalledOnce();
+  });
+
+  it('does not enable or disable keyboard input without models', () => {
+    component.modelCount = 0;
+    component.keyboardEnabled = false;
+    component.enableKeyBoard();
+    component.disableKeyboard(document.createElement('button'));
+    expect(setKeyboardEnabled).not.toHaveBeenCalled();
+  });
+
+  it('destroys its viewer service on teardown', () => {
+    component.ngOnDestroy();
+    expect(destroy).toHaveBeenCalledOnce();
   });
 });

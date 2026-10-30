@@ -27,9 +27,11 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 import { screen } from '@testing-library/dom';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { Board } from 'core-app/features/boards/board/board';
 import { BoardsMenuButtonComponent } from './boards-menu-button.component';
 
 describe('BoardsMenuButtonComponent', () => {
@@ -46,6 +48,7 @@ describe('BoardsMenuButtonComponent', () => {
       .compileComponents();
 
     const fixture = TestBed.createComponent(BoardsMenuButtonComponent);
+    fixture.componentRef.setInput('board$', of({} as Board));
     fixture.detectChanges();
     await fixture.whenStable();
 

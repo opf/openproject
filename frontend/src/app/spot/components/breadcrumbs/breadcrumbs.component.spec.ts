@@ -27,10 +27,13 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { screen } from '@testing-library/dom';
+import { fireEvent, screen } from '@testing-library/dom';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { BreadcrumbsContent } from './breadcrumbs-content';
 import { SpotBreadcrumbsComponent } from './breadcrumbs.component';
+import { By } from '@angular/platform-browser';
+import { userEvent } from 'vitest/browser';
+import { OpSpotModule } from '../../spot.module';
 
 describe('SpotBreadcrumbsComponent', () => {
   let fixture:ComponentFixture<SpotBreadcrumbsComponent>;
@@ -70,5 +73,41 @@ describe('SpotBreadcrumbsComponent', () => {
 
     expect(screen.queryAllByRole('button')).toHaveLength(0);
     expect(fixture.nativeElement.querySelectorAll('tool-tip')).toHaveLength(0);
+  });
+});
+
+describe('SpotBreadcrumbsComponent activation', () => {
+  beforeEach(() => TestBed.configureTestingModule({ imports: [OpSpotModule] }));
+
+  it('allows a breadcrumb without a navigation callback', () => {
+    const fixture = TestBed.createComponent(SpotBreadcrumbsComponent);
+    fixture.componentRef.setInput('content', { crumbs: [{ text: 'Parent' }, { text: 'Current' }] });
+    fixture.detectChanges();
+    expect(() => fixture.debugElement.query(By.css('button')).triggerEventHandler('click', new MouseEvent('click'))).not.toThrow();
+  });
+
+  it('keeps a native button and invokes its optional callback once without cancelling activation', () => {
+    const fixture = TestBed.createComponent(SpotBreadcrumbsComponent);
+    const navigate = vi.fn();
+    fixture.componentRef.setInput('content', { crumbs: [{ text: 'Parent', navigate }, { text: 'Current' }] });
+    fixture.detectChanges();
+    const button = screen.getByRole('button', { name: 'Parent' });
+
+    const notPrevented = fireEvent.click(button, { ctrlKey: true });
+
+    expect(button).toHaveAttribute('type', 'button');
+    expect(navigate).toHaveBeenCalledOnce();
+    expect(notPrevented).toBe(true);
+  });
+
+  it.each(['{Enter}', ' '])('preserves native keyboard activation for %s', async (key) => {
+    const fixture = TestBed.createComponent(SpotBreadcrumbsComponent);
+    const navigate = vi.fn();
+    fixture.componentRef.setInput('content', { crumbs: [{ text: 'Parent', navigate }, { text: 'Current' }] });
+    fixture.detectChanges();
+    const button:HTMLButtonElement = fixture.debugElement.query(By.css('button')).nativeElement;
+    button.focus();
+    await userEvent.keyboard(key);
+    expect(navigate).toHaveBeenCalledOnce();
   });
 });
