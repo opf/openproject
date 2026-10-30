@@ -759,7 +759,7 @@ GEM
     jmespath (1.6.2)
     job-iteration (1.16.0)
       activejob (>= 7.1)
-    json (2.21.2)
+    json (3.0.2)
     json-jwt (1.17.2)
       activesupport (>= 4.2)
       aes_key_wrap
@@ -1671,7 +1671,7 @@ DEPENDENCIES
   ice_cube (~> 0.17.0)
   inline_svg (~> 1.10.0)
   job-iteration
-  json (< 3)
+  json (< 4)
   json_schemer (~> 2.5.0)
   json_spec (~> 1.1.4)
   ladle
@@ -2021,7 +2021,7 @@ CHECKSUMS
   iso8601 (0.13.0) sha256=298c2b15b7be5fa95a1372813d36a2257656cd8e906dfbc1f5cb409851425aa2
   jmespath (1.6.2) sha256=238d774a58723d6c090494c8879b5e9918c19485f7e840f2c1c7532cf84ebcb1
   job-iteration (1.16.0) sha256=4465e6a1ebcd1b8dcbea35d1262cdfb3dfc5b24473d997a9de2fe5ba0307c1e0
-  json (2.21.2) sha256=1f1d3b7cf2b3ba1a69beca0bb6db13d5438b80bff3cd54cdaaa620b9b07c1c6a
+  json (3.0.2) sha256=8e6d7e7b11384c21230430cef90b71f14849a34a1f4452796670f7c981bd19df
   json-jwt (1.17.2) sha256=97e37c1c3e22e9e1d74a1c0d77319c5cdc8a636226e5dbb1664b0b34eddcf1c9
   json-schema (6.2.1) sha256=c0bf6113d772348bfd159fb096950beeb1e1e25aaeea50b676bd45191d8dbdf3
   json_schemer (2.5.0) sha256=2f01fb4cce721a4e08dd068fc2030cffd0702a7f333f1ea2be6e8991f00ae396
