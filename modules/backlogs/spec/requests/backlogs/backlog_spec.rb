@@ -98,7 +98,7 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
     end
 
     it "passes all=true to the frame src but keeps it off the move URL template" do
-      get "/projects/#{project.identifier}/backlogs/backlog", params: { all: "1" }
+      get "/projects/#{project.identifier}/backlogs/backlog", params: { all: "true" }
 
       expect(response).to have_http_status(:ok)
       expect(response).to have_turbo_frame "backlogs_container",

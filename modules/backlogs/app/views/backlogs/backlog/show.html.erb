@@ -61,7 +61,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% content_for :content_body do %>
   <%= turbo_frame_tag :backlogs_container,
                       refresh: :morph,
-                      src: project_backlogs_backlog_path(@project, backlog_filter_params),
+                      src: backlogs_container_src(@project),
                       class: "op-backlogs-page",
                       data: {
                         controller: "backlogs--list-refresh backlogs--split-view-sync sortable-lists",
