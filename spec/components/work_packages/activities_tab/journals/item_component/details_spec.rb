@@ -88,7 +88,7 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent::Details, ty
       let(:journal) { build_stubbed(:work_package_journal, journable: work_package, user:, version: 2, cause:) }
       let(:details) { { "labels" => ["1", nil], cause: [nil, cause] } }
       let(:rendered) do
-        { ["labels", ["1", nil]] => "Labels deleted A", [:cause, [nil, cause]] => "Label removed: 'A' was deleted" }
+        { ["labels", ["1", nil]] => nil, [:cause, [nil, cause]] => "Label removed: 'A' was deleted" }
       end
 
       it "renders the cause but not the labels line", :aggregate_failures do

@@ -27,8 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Skips work packages that already carry the deletion journal, so a retried job adds no second entry.
-# Deletions by the same admin inside the aggregation window merge into one entry listing every label.
 class Labels::JournalizeDeletionJob < ApplicationJob
   queue_with_priority :below_normal
 
@@ -36,25 +34,22 @@ class Labels::JournalizeDeletionJob < ApplicationJob
     user = User.find_by(id: user_id) || DeletedUser.first
     cause = Journal::CausedByLabelDeletion.new(label_ids: [label_id], label_names: [label_name])
 
-    WorkPackage.where(id: pending_ids(work_package_ids, label_id)).find_each(batch_size: 100) do |work_package|
-      journalize(work_package, user, cause)
+    WorkPackage.where(id: work_package_ids).find_each(batch_size: 100) do |work_package|
+      journalize(work_package, user, cause, label_id)
     end
   end
 
   private
 
-  def pending_ids(ids, label_id)
-    journalized = Journal
-                    .where(journable_type: WorkPackage.name, journable_id: ids)
-                    .where("journals.cause @> ?", { type: "label_deleted", label_ids: [label_id] }.to_json)
-                    .pluck(:journable_id)
-
-    ids - journalized
-  end
-
-  def journalize(work_package, user, cause)
+  def journalize(work_package, user, cause, label_id)
     OpenProject::Mutex.with_advisory_lock_transaction(work_package) do
+      next if journalized?(work_package, label_id)
+
       Journals::CreateService.new(work_package, user).call(cause:)
     end
+  end
+
+  def journalized?(work_package, label_id)
+    work_package.journals.exists?(["journals.cause @> ?", { type: "label_deleted", label_ids: [label_id] }.to_json])
   end
 end

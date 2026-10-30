@@ -1199,6 +1199,13 @@ RSpec.describe WorkPackage do
           .to eq("type" => "label_deleted", "label_ids" => [1, 2], "label_names" => %w[A B])
       end
 
+      it "keeps one name per deleted label when labels share a name" do
+        journalize(Journal::CausedByLabelDeletion.new(label_ids: [2], label_names: ["A"]))
+
+        expect(journable.journals.reload.last.cause)
+          .to eq("type" => "label_deleted", "label_ids" => [1, 2], "label_names" => %w[A A])
+      end
+
       it "does not aggregate an unrelated cause into the label deletion journal" do
         expect { journalize(Journal::CausedByWorkPackageParentDeletion.new) }
           .to change { journable.journals.count }.by(1)

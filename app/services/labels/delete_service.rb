@@ -32,13 +32,8 @@ module Labels
     protected
 
     def persist(service_result)
-      @labeled_work_package_ids = labeled_work_package_ids
-      super
-    end
-
-    def after_persist(service_result)
-      enqueue_journalization if @labeled_work_package_ids.any?
-      super
+      ids = labeled_work_package_ids
+      super.tap { |result| enqueue_journalization(ids) if result.success? && ids.any? }
     end
 
     private
@@ -47,8 +42,8 @@ module Labels
       Labeling.where(label_id: model.id, labelable_type: WorkPackage.name).pluck(:labelable_id)
     end
 
-    def enqueue_journalization
-      Labels::JournalizeDeletionJob.perform_later(work_package_ids: @labeled_work_package_ids,
+    def enqueue_journalization(work_package_ids)
+      Labels::JournalizeDeletionJob.perform_later(work_package_ids:,
                                                   label_id: model.id,
                                                   label_name: model.name,
                                                   user_id: user.id)

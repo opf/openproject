@@ -716,10 +716,18 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
         ).to_hash
       end
 
-      it "lists every label name and pluralises the verb" do
+      it "lists every label name and pluralizes the verb" do
         expect(cause).to render_html_variant(
           "<strong>Label removed:</strong> 'Frontend', 'Backend', 'Middleware' were deleted"
         )
+      end
+    end
+
+    context "when no label names are recorded" do
+      subject(:cause) { Journal::CausedByLabelDeletion.new(label_ids: [], label_names: []).to_hash }
+
+      it "renders only the caption" do
+        expect(cause).to render_raw_variant("Label removed: ")
       end
     end
 

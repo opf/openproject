@@ -131,7 +131,9 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   end
 
   def label_deleted_message
-    names = Array(cause["label_names"])
+    names = cause["label_names"]
+    return if names.blank?
+
     label_names = names.map { |name| "'#{html? ? h(name) : name}'" }.join(", ")
 
     I18n.t("journals.cause_descriptions.label_deleted", count: names.size, label_names:)
