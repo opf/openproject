@@ -2,15 +2,3 @@
   background-color: var(--bgColor-default)
   color: var(--fgColor-default)
   min-height: 88px
-
-  @each $mode in light, dark
-    &[data-color-mode="#{$mode}"]
-      .__hl_foreground,
-      .__hl_background
-        @include hl_color_variables($mode)
-
-      .__hl_foreground
-        @include hl_foreground_styles($mode)
-
-      .__hl_background
-        @include hl_background_styles($mode)

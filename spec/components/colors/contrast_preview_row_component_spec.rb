@@ -35,12 +35,11 @@ RSpec.describe Colors::ContrastPreviewRowComponent, type: :component do
   end
 
   it "lists the color values as a definition list", :aggregate_failures do
-    expect(rendered_component).to have_element :dl do |list|
-      expect(list).to have_element :dt, text: "Text"
-      expect(list).to have_element :dd, "data-contrast-value": "foreground"
-      expect(list).to have_element :dt, text: "Background"
-      expect(list).to have_element :dd, "data-contrast-value": "background"
+    expect(rendered_component).to have_element :dl
+    pairs = page.all("dl > div").map do |item|
+      [item.find("dt").text, item.find("dd span")["data-contrast-value"]]
     end
+    expect(pairs).to eq([["Text", "foreground"], ["Background", "background"]])
   end
 
   it "reports the verdict and ratio as a quiet output of the hex code" do
