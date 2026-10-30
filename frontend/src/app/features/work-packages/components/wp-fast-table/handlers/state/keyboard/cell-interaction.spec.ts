@@ -27,12 +27,14 @@
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { userEvent } from 'vitest/browser';
-import { States } from 'core-app/core/states/states.service';
 import { buildTable, TableHarness, TableHarnessOptions } from '../../../testing/table-harness';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
+import { States } from 'core-app/core/states/states.service';
 import { insideGrid, navigableCells } from './roving-tabindex';
 import { cellTargets, rowControls } from './cell-interaction';
 import { activateTableField } from '../../cell/edit-cell-handler';
+import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
+import { OpUnlinkTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/actions/unlink-table-action';
 
 describe('CellInteraction', () => {
   const harnesses:TableHarness[] = [];
@@ -43,7 +45,7 @@ describe('CellInteraction', () => {
       editing: {},
       productionMarkup: true,
       ...options,
-      configuration: { keyboardNavigationEnabled: true, ...options.configuration },
+      configuration: { inlineCreateEnabled: true, ...options.configuration },
     });
     harnesses.push(table);
     await table.render();
@@ -101,6 +103,88 @@ describe('CellInteraction', () => {
 
     expect(click).toHaveBeenCalledOnce();
     expect(cell).toHaveFocus();
+  });
+
+  describe('with an unlink action', () => {
+    const mountWithUnlink = async () => {
+      const unlink = vi.fn();
+      const table = await mount({
+        configuration: { actionsColumnEnabled: true },
+        providers: [{
+          provide: OpTableActionsService,
+          useFactory: () => {
+            const actions = new OpTableActionsService();
+            actions.setActions(OpUnlinkTableAction.factoryFor('remove-child-action', 'Remove child', unlink));
+            return actions;
+          },
+        }],
+      });
+      const link = within(table.row('1')).getByRole('link', { name: 'Remove child' });
+      table.table.keyboardNavigation!.focusPosition(positionOf(table, link.closest('td')!));
+      return { table, unlink, link, cell: link.closest('td')! };
+    };
+
+    it('focuses the unlink control on Enter and activates it on a second Enter', async () => {
+      const { table, unlink, link } = await mountWithUnlink();
+
+      await userEvent.keyboard('{Enter}');
+
+      expect(link).toHaveFocus();
+      expect(unlink).not.toHaveBeenCalled();
+
+      await userEvent.keyboard('{Enter}');
+
+      expect(unlink).toHaveBeenCalledExactlyOnceWith(table.injector.get(States).workPackages.get('1').value);
+    });
+
+    it('cancels a repeated Enter on a destructive control', async () => {
+      const { table, unlink, link } = await mountWithUnlink();
+      await userEvent.keyboard('{Enter}');
+      expect(link).toHaveFocus();
+
+      const repeated = new KeyboardEvent('keydown', { key: 'Enter', repeat: true, bubbles: true, cancelable: true });
+      link.dispatchEvent(repeated);
+
+      expect(repeated.defaultPrevented).toBe(true);
+      expect(unlink).not.toHaveBeenCalled();
+
+      await userEvent.keyboard('{Enter}');
+
+      expect(unlink).toHaveBeenCalledExactlyOnceWith(table.injector.get(States).workPackages.get('1').value);
+    });
+
+    it('returns from the focused unlink control to its cell with Escape and continues the walk with Tab', async () => {
+      const { table, link, cell } = await mountWithUnlink();
+      await userEvent.keyboard('{Enter}');
+      expect(link).toHaveFocus();
+
+      await userEvent.keyboard('{Escape}');
+      expect(cell).toHaveFocus();
+
+      await userEvent.keyboard('{Enter}');
+      expect(link).toHaveFocus();
+      await userEvent.tab({ shift: true });
+      expect(cell).toHaveFocus();
+
+      await userEvent.keyboard('{Enter}');
+      await userEvent.tab();
+      expect(within(table.container).getByRole('button', { name: 'Create new work package' })).toHaveFocus();
+    });
+
+    it('still activates the ID link of the same row without moving focus', async () => {
+      const { table } = await mountWithUnlink();
+      const idCell = navigableCells(table.row('1'))[0];
+      const idLink = idCell.appendChild(document.createElement('a'));
+      idLink.href = '#';
+      idLink.textContent = '1';
+      const click = vi.spyOn(idLink, 'click').mockImplementation(() => undefined);
+      table.table.keyboardNavigation!.focusPosition(positionOf(table, idCell));
+
+      await userEvent.keyboard('{Enter}');
+
+      expect(click).toHaveBeenCalledOnce();
+      expect(idCell).toHaveFocus();
+    });
   });
 
   it('focuses the first control of a several-control cell', async () => {

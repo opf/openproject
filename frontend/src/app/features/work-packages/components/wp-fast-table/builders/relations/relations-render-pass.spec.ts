@@ -118,7 +118,6 @@ describe('RelationsRenderPass', () => {
         relations,
         columns,
         translations,
-        configuration: { keyboardNavigationEnabled: true },
       });
       harness.expand('1', 'follows');
 
@@ -135,7 +134,6 @@ describe('RelationsRenderPass', () => {
         relations,
         columns,
         translations,
-        configuration: { keyboardNavigationEnabled: true },
       });
       harness.expand('1', 'follows');
       await harness.render();
@@ -158,7 +156,6 @@ describe('RelationsRenderPass', () => {
         ],
         columns: ['id', 'subject', { id: 'follows', relationType: 'follows' }],
         translations,
-        configuration: { keyboardNavigationEnabled: true },
       });
       harness.expand('1', 'follows');
       harness.expand('2', 'follows');
@@ -177,7 +174,6 @@ describe('RelationsRenderPass', () => {
         relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
         columns: ['id', 'subject', { id: 'follows', relationType: 'follows' }, { id: 'blocks', relationType: 'blocks' }],
         translations,
-        configuration: { keyboardNavigationEnabled: true },
       });
       harness.expand('1', 'follows');
 
@@ -198,7 +194,6 @@ describe('RelationsRenderPass', () => {
         columns: ['id', 'subject', { id: 'follows', relationType: 'follows' }],
         showHierarchies: true,
         translations,
-        configuration: { keyboardNavigationEnabled: true },
       });
       harness.injector.get(WorkPackageViewHierarchiesService).collapse('1');
       harness.expand('1', 'follows');
@@ -209,21 +204,6 @@ describe('RelationsRenderPass', () => {
       expect(harness.row('1')).toHaveAttribute('aria-expanded', 'false');
     });
 
-    it('keeps the span indicator when keyboard navigation is off', async () => {
-      harness = buildTable({
-        workPackages: [{ id: '1' }, { id: '2' }],
-        relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
-        columns: ['id', 'subject', { id: 'follows', relationType: 'follows' }],
-        translations,
-      });
-
-      await harness.render();
-
-      const indicator = harness.row('1').querySelector('.wp-table--relation-indicator')!;
-      expect(indicator.tagName).toBe('SPAN');
-      expect(indicator).toHaveAttribute('aria-hidden', 'true');
-    });
-
     it('redraws the expanded state once asynchronous child loading completes', async () => {
       let resolveLoad!:() => void;
       const loaded = new Promise<void>((resolve) => { resolveLoad = resolve; });
@@ -232,7 +212,6 @@ describe('RelationsRenderPass', () => {
         columns: ['id', 'subject', { id: 'children', children: true }],
         loadChildren: false,
         translations,
-        configuration: { keyboardNavigationEnabled: true },
         requireAll: async (ids) => {
           await loaded;
           return ids.map((id) => {

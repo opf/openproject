@@ -103,9 +103,9 @@ export class WorkPackageTable {
 
   public selectionFeedback:TableSelectionFeedback|null = null;
 
-  public readonly semantics:TreegridSemantics|null = this.configuration.keyboardNavigationEnabled ? new TreegridSemantics(this) : null;
+  public readonly semantics = new TreegridSemantics(this);
 
-  public readonly rowPositions:TableRowPositions|null = this.configuration.keyboardNavigationEnabled ? new TableRowPositions(this) : null;
+  public readonly rowPositions = new TableRowPositions(this);
 
   private readonly rowsRefreshedSubject = new Subject<string>();
 
@@ -218,15 +218,15 @@ export class WorkPackageTable {
 
   public setHidden(updates:ReadonlyMap<OccurrenceKey, boolean>):void {
     if (this.destroyed) return;
-    this.rebuildPendingRenderForSemantics();
+    this.rebuildPendingRender();
     if (updates.size === 0) return;
     this.keyboardNavigation?.captureOwnership();
     this.ledger.setHidden(updates);
     this.publishRendered();
   }
 
-  private rebuildPendingRenderForSemantics():void {
-    if (this.semantics && this.pendingRender) {
+  private rebuildPendingRender():void {
+    if (this.pendingRender) {
       this.performRenderPass({ timeline: this.pendingRender.timeline });
     }
   }
@@ -249,27 +249,26 @@ export class WorkPackageTable {
       const replacement = pass.refresh(occurrence, workPackage);
       if (replacement) {
         this.ledger.replaceElement(occurrence.key, replacement);
-        if (previous) this.rowPositions?.carry(previous, replacement);
+        if (previous) this.rowPositions.carry(previous, replacement);
         replaced += 1;
       }
     });
 
     if (replaced > 0) {
-      this.semantics?.paintWorkPackage(workPackage.id!);
+      this.semantics.paintWorkPackage(workPackage.id!);
       this.rowsRefreshedSubject.next(workPackage.id!);
     }
   }
 
   public notifyRowsRefreshed(key:string):void {
-    this.rowPositions?.paint();
+    this.rowPositions.paint();
     this.rowsRefreshedSubject.next(key);
   }
 
   /** Re-exposes a structural section whose rows changed outside the render pass. */
   public reconcileSection(section:HTMLTableSectionElement):void {
-    if (!this.semantics) return;
     paintSectionExposure(section);
-    this.rowPositions?.paint();
+    this.rowPositions.paint();
   }
 
   /**
@@ -286,7 +285,7 @@ export class WorkPackageTable {
     this.editing.reset();
     const promoted = timeline || this.pendingRender?.timeline === true;
     const pass = this.rowBuilder.buildRows({ timeline: promoted });
-    const pending:PendingRender = { pass, timeline: promoted, positions: this.rowPositions?.capture(pass.draft) ?? null };
+    const pending:PendingRender = { pass, timeline: promoted, positions: this.rowPositions.capture(pass.draft) };
     this.pendingRender = pending;
     this.uiWork.frame(() => this.commitRender(pending));
   }
@@ -301,14 +300,14 @@ export class WorkPackageTable {
       this.timelineBody.replaceChildren(timelinePass.timelineBody);
     }
     this.ledger.commit(pass.draft);
-    this.rowPositions?.commit(pending.positions);
+    this.rowPositions.commit(pending.positions);
     this.lastRenderPass = pass;
     this.publishRendered();
   }
 
   private publishRendered():void {
-    this.semantics?.paint();
-    this.rowPositions?.paint();
+    this.semantics.paint();
+    this.rowPositions.paint();
     this.querySpace.tableRendered.putValue(this.ledger.snapshot());
   }
 

@@ -49,7 +49,6 @@ import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing
 import { HalResourceEditingService, ResourceChangesetCommit } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { buildQuery, buildTable, TableHarness, TableHarnessOptions } from '../wp-fast-table/testing/table-harness';
 import { buildWorkPackage } from '../wp-fast-table/testing/work-package-fixture';
@@ -399,7 +398,6 @@ describe('TableEditForm origin', () => {
       workPackages: [{ id: '1' }],
       editing: {},
       productionMarkup: true,
-      configuration: { keyboardNavigationEnabled: true },
     });
     await harness.render();
     const wp = harness.injector.get(States).workPackages.get('1').value!;
@@ -427,7 +425,6 @@ describe('TableEditForm origin', () => {
         workPackages: [{ id: '1' }, { id: '2' }],
         editing: {},
         productionMarkup: true,
-        configuration: { keyboardNavigationEnabled: true },
       });
       await harness.render();
       harness.table.keyboardNavigation!.recordPosition({ key: wpOccurrenceKey('2'), cell: 0, desiredColumn: 0 });
@@ -480,13 +477,12 @@ describe('TableEditForm focus return', () => {
   let harness:TableHarness;
   const outside = document.createElement('button');
 
-  const mount = async (options:Partial<TableHarnessOptions> = {}, keyboardNavigationEnabled = true) => {
+  const mount = async (options:Partial<TableHarnessOptions> = {}) => {
     harness = buildTable({
       workPackages: [{ id: '1' }, { id: '2' }],
       editing: {},
       productionMarkup: true,
       ...options,
-      configuration: { keyboardNavigationEnabled },
     });
     await harness.render();
   };
@@ -889,16 +885,5 @@ describe('TableEditForm focus return', () => {
     harness.table.editing.forms['1'].closeEditFields();
 
     expect(document.body).toHaveFocus();
-  });
-
-  it('flag off: reset still focuses the cell through FocusHelper', async () => {
-    await mount({}, false);
-    const focus = vi.spyOn(harness.injector.get(FocusHelperService), 'focus');
-    const handler = await openEditor();
-
-    handler.handleUserCancel();
-
-    expect(focus).toHaveBeenCalledWith(subjectCell().querySelector('.inline-edit--container'));
-    expect(subjectCell()).not.toHaveFocus();
   });
 });

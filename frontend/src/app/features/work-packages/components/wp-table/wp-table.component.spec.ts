@@ -68,7 +68,7 @@ import { WorkPackagesTableComponent } from './wp-table.component';
 class ListViewStandInComponent {
   showTable = signal(true);
 
-  configuration:Record<string, boolean> = {
+  configuration:Record<string, boolean|string> = {
     actionsColumnEnabled: false,
     columnMenuEnabled: false,
     contextMenuEnabled: false,
@@ -361,11 +361,10 @@ describe('WorkPackagesTableComponent physical columns', () => {
   const spannedColumns = (row:HTMLTableRowElement) => Array.from(row.cells)
     .reduce((total, cell) => total + cell.colSpan, 0);
 
-  describe.each([true, false])('on an enabled table with drag and drop %s', (drag) => {
+  describe.each([true, false])('with drag and drop %s', (drag) => {
     describe.each([true, false])('and baseline %s', (baseline) => {
       it.each([true, false])('renders the same columns in header, colgroup and rows with a trailing column %s', async (trailing) => {
         const { element, component } = await mount({
-          keyboardNavigationEnabled: true,
           dragAndDropEnabled: drag,
           actionsColumnEnabled: trailing,
         }, baseline);
@@ -380,14 +379,6 @@ describe('WorkPackagesTableComponent physical columns', () => {
       });
     });
   });
-
-  it('keeps the column arithmetic of a capability-off table', async () => {
-    const { element, component } = await mount({ dragAndDropEnabled: true }, true);
-
-    expect(element.querySelectorAll('thead th')).toHaveLength(queryColumns + 2);
-    expect(element.querySelectorAll('colgroup col')).toHaveLength(queryColumns + 2 + 1);
-    expect(component.numTableColumns).toBe(queryColumns + 2 + 1);
-  });
 });
 
 @Component({
@@ -396,15 +387,12 @@ describe('WorkPackagesTableComponent physical columns', () => {
 })
 class ReferenceStandInComponent {}
 
-/** Shows an enabled and a capability-off table on one page. */
 @Component({
   template: '@for (configuration of configurations; track $index) { <wp-table [configuration]="configuration" /> }',
   standalone: false,
 })
 class TwoTablesStandInComponent {
-  private readonly disabled:Record<string, boolean> = { ...new ListViewStandInComponent().configuration };
-
-  configurations = [{ ...this.disabled, keyboardNavigationEnabled: true }, this.disabled];
+  configurations = [{ ...new ListViewStandInComponent().configuration }, { ...new ListViewStandInComponent().configuration }];
 }
 
 describe('WorkPackagesTableComponent treegrid structure', () => {
@@ -412,7 +400,6 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     'js.label_work_package_plural': 'Work packages',
     'js.label_sorting': 'Sorting',
     'js.toolbar.settings.configure_view': 'Configure view',
-    'js.work_packages.table.summary': 'Table with rows of work package and columns of work package attributes.',
     'js.work_packages.table.grid_actions_header': 'Actions',
     'js.work_packages.table.grid_baseline_header': 'Comparison status',
     'js.work_packages.table.sorted_by': 'Sorted by %{criteria}.',
@@ -422,7 +409,6 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     'js.inplace.errors.messages_on_field': 'This field is invalid: %{messages}',
     'js.button_cancel': 'Cancel',
   };
-  const enabled = { keyboardNavigationEnabled: true };
   let baselineActive:boolean;
   let canAdd:BehaviorSubject<boolean>;
   let canReference:BehaviorSubject<boolean>;
@@ -524,7 +510,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       .toHaveLength(fixtures.length));
   }
 
-  async function mount(configuration:Record<string, boolean>, fixtures:WorkPackageFixture[] = [{ id: '1' }, { id: '2' }]) {
+  async function mount(configuration:Record<string, boolean|string>, fixtures:WorkPackageFixture[] = [{ id: '1' }, { id: '2' }]) {
     const listView = TestBed.createComponent(ListViewStandInComponent);
     fixture = listView;
     listView.componentInstance.configuration = { ...listView.componentInstance.configuration, ...configuration };
@@ -533,17 +519,6 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     registerTables();
     await render(fixtures);
     return tables()[0];
-  }
-
-  async function replaceTable(configuration:Record<string, boolean>) {
-    const listView = fixture as ComponentFixture<ListViewStandInComponent>;
-    listView.componentInstance.showTable.set(false);
-    listView.detectChanges();
-    listView.componentInstance.configuration = { ...new ListViewStandInComponent().configuration, ...configuration };
-    listView.componentInstance.showTable.set(true);
-    listView.detectChanges();
-    registerTables();
-    await render([{ id: '1' }]);
   }
 
   function sortBy(...criteria:[string, string][]) {
@@ -564,38 +539,26 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
   }
 
   describe('naming', () => {
-    it('names the enabled table and drops the legacy caption', async () => {
-      await mount(enabled);
+    it('names the table', async () => {
+      await mount({});
       const grid = screen.getByRole('treegrid', { name: 'Work packages' });
 
       expect(grid).toHaveAttribute('aria-multiselectable', 'true');
-      expect(within(grid).queryByText(translations['js.work_packages.table.summary'])).not.toBeInTheDocument();
     });
 
-    it('keeps the legacy caption and native table on a capability-off table', async () => {
-      await mount({});
-      const table = screen.getByRole('table');
+    it('takes the name from the referenced heading instead of aria-label', async () => {
+      await mount({ labelledBy: 'heading' });
+      const grid = screen.getByRole('treegrid');
 
-      expect(table).not.toHaveAttribute('role');
-      expect(table).not.toHaveAttribute('aria-multiselectable');
-      expect(table).not.toHaveAttribute('aria-label');
-      expect(table).not.toHaveAttribute('aria-describedby');
-      expect(within(table).getByText(translations['js.work_packages.table.summary'])).toBeInTheDocument();
-      expect(table.querySelector('#wp-table-sort-summary')).toBeInTheDocument();
-      expect(table.querySelector('thead')).not.toHaveAttribute('role');
-      expect(table.querySelector('thead tr')).not.toHaveAttribute('role');
-      expect(table.querySelector('thead tr')).not.toHaveAttribute('aria-level');
-      table.querySelectorAll('thead th').forEach((header) => {
-        expect(header).not.toHaveAttribute('role');
-        expect(header).not.toHaveAttribute('aria-sort');
-      });
+      expect(grid).toHaveAttribute('aria-labelledby', 'heading');
+      expect(grid).not.toHaveAttribute('aria-label');
     });
   });
 
   it('repaints positions after Angular updates the header', async () => {
-    const component = await mount(enabled);
+    const component = await mount({});
     const painted:string[] = [];
-    vi.spyOn(component.workPackageTable.rowPositions!, 'paint').mockImplementation(() => {
+    vi.spyOn(component.workPackageTable.rowPositions, 'paint').mockImplementation(() => {
       painted.push(headerRow().getAttribute('aria-label') ?? headerRow().textContent ?? '');
       expect(headerRow().querySelector('[aria-sort="descending"]')).not.toBeNull();
     });
@@ -607,7 +570,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
 
   describe('header structure', () => {
     it('exposes a level 1 header row inside a rowgroup', async () => {
-      await mount(enabled);
+      await mount({});
 
       expect(headerRow().parentElement).toHaveAttribute('role', 'rowgroup');
       expect(headerRow()).toHaveAttribute('role', 'row');
@@ -618,7 +581,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
 
     it('names the drag, baseline, query and actions column headers', async () => {
       baselineActive = true;
-      await mount({ ...enabled, dragAndDropEnabled: true, actionsColumnEnabled: true });
+      await mount({ dragAndDropEnabled: true, actionsColumnEnabled: true });
       const headers = within(headerRow()).getAllByRole('columnheader');
 
       expect(headers).toHaveLength(5);
@@ -627,14 +590,23 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       });
     });
 
+    it('gives the actions header text instead of a label when it holds no configuration control', async () => {
+      await mount({ actionsColumnEnabled: true });
+      const actions = within(headerRow()).getAllByRole('columnheader').at(-1)!;
+
+      expect(actions).toHaveAccessibleName('Actions');
+      expect(actions).toHaveTextContent('Actions');
+      expect(actions).not.toHaveAttribute('aria-label');
+    });
+
     it('names the trailing header after the configuration control', async () => {
-      await mount({ ...enabled, columnMenuEnabled: true });
+      await mount({ columnMenuEnabled: true });
 
       expect(within(headerRow()).getAllByRole('columnheader').at(-1)).toHaveAccessibleName('Configure view');
     });
 
     it('draws the focus ring of the header row on its sticky cells', async () => {
-      await mount(enabled);
+      await mount({});
       const shadows = () => within(headerRow()).getAllByRole('columnheader').map((header) => getComputedStyle(header).boxShadow);
 
       expect(shadows().every((shadow) => shadow === 'none')).toBe(true);
@@ -658,7 +630,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     }
 
     it('marks only the primary criterion and describes all criteria in order', async () => {
-      await mount(enabled);
+      await mount({});
 
       sortBy(['subject', QUERY_SORT_BY_ASC], ['id', QUERY_SORT_BY_DESC]);
       expect(sortStates()).toEqual([null, 'ascending']);
@@ -670,7 +642,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     });
 
     it('describes a primary criterion whose column is not displayed', async () => {
-      await mount(enabled);
+      await mount({});
 
       sortBy(['status', QUERY_SORT_BY_ASC], ['id', QUERY_SORT_BY_ASC], ['subject', QUERY_SORT_BY_DESC]);
 
@@ -680,7 +652,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     });
 
     it('describes manual sorting', async () => {
-      await mount(enabled);
+      await mount({});
 
       sortBy(['manualSorting', QUERY_SORT_BY_ASC]);
 
@@ -690,20 +662,21 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
   });
 
   describe('instances', () => {
-    it('clears treegrid semantics when a capability-off table replaces an enabled one', async () => {
-      const previous = await mount(enabled);
-      sortBy(['subject', QUERY_SORT_BY_ASC]);
-      const previousId = previous.workPackageTable.domId;
 
-      await replaceTable({});
+    it('gives each table a unique id once its table is registered', async () => {
+      fixture = TestBed.createComponent(TwoTablesStandInComponent);
+      document.body.appendChild(fixture.nativeElement as HTMLElement);
+      expect(() => fixture.detectChanges()).not.toThrow();
+      registerTables();
+      await render([{ id: '1' }]);
 
-      expect(screen.queryByRole('treegrid')).not.toBeInTheDocument();
-      expect(screen.getByRole('table')).not.toHaveAttribute('role');
-      expect(document.querySelector(`[id^="${previousId}"]`)).not.toBeInTheDocument();
-      expect(referencedIds(document).filter((id) => id.startsWith(previousId))).toEqual([]);
+      const ids = Array.from(document.querySelectorAll('table.work-package-table')).map((table) => table.id);
+      expect(ids).toHaveLength(2);
+      ids.forEach((id) => expect(id).toMatch(/^wp-table-/));
+      expect(ids[0]).not.toEqual(ids[1]);
     });
 
-    it('keeps a capability-off table beside an enabled one native, with unique references', async () => {
+    it('gives two tables on one page their own references', async () => {
       fixture = TestBed.createComponent(TwoTablesStandInComponent);
       document.body.appendChild(fixture.nativeElement as HTMLElement);
       fixture.detectChanges();
@@ -711,24 +684,13 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       await render([{ id: '1' }]);
       sortBy(['subject', QUERY_SORT_BY_ASC]);
 
-      const [grid] = screen.getAllByRole('treegrid');
-      const [table] = screen.getAllByRole('table');
-      await waitFor(() => [grid, table].forEach((element) => {
-        expect(element.querySelectorAll('tr.wp-table--row[data-work-package-id="1"]')).toHaveLength(1);
+      const grids = screen.getAllByRole('treegrid');
+      expect(grids).toHaveLength(2);
+      await waitFor(() => grids.forEach((grid) => {
+        expect(grid.querySelectorAll('tr.wp-table--row[data-work-package-id="1"]')).toHaveLength(1);
       }));
-      expect(screen.getAllByRole('treegrid')).toHaveLength(1);
-      expect(grid).toHaveAccessibleDescription('Sorted by subject ascending.');
-      expect(table).not.toHaveAttribute('aria-describedby');
-      expect(table.querySelectorAll('thead, tbody, tr, th, td')).not.toHaveLength(0);
-      table.querySelectorAll('thead, tbody, tr, th, td').forEach((element) => {
-        expect(element).not.toHaveAttribute('role');
-        expect(element).not.toHaveAttribute('aria-level');
-      });
-      table.querySelectorAll('thead, tbody, tr').forEach((element) => {
-        expect(element).not.toHaveAttribute('aria-selected');
-        expect(element).not.toHaveAttribute('aria-expanded');
-        expect(element).not.toHaveAttribute('aria-hidden');
-      });
+      grids.forEach((grid) => expect(grid).toHaveAccessibleDescription('Sorted by subject ascending.'));
+      expect(grids[0].getAttribute('aria-describedby')).not.toEqual(grids[1].getAttribute('aria-describedby'));
 
       const references = referencedIds(document);
       expect(references).not.toHaveLength(0);
@@ -759,7 +721,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     }
 
     it('exposes the message row and hides the results section until results return', async () => {
-      await mount(enabled, []);
+      await mount({}, []);
       expectEmpty();
 
       await render([{ id: '1' }]);
@@ -773,19 +735,10 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expectPopulated();
       expect(within(resultsSection()).getByRole('row')).toHaveAttribute('aria-level', '1');
     });
-
-    it('keeps the native message row on a capability-off table', async () => {
-      await mount({}, []);
-
-      expect(emptySection()).not.toHaveAttribute('role');
-      expect(emptySection()!.querySelector('tr')).not.toHaveAttribute('role');
-      expect(emptySection()!.querySelector('tr')).not.toHaveAttribute('aria-level');
-      expect(emptySection()!.querySelector('td')).not.toHaveAttribute('role');
-    });
   });
 
   describe('inline create', () => {
-    const inlineCreate = { ...enabled, inlineCreateEnabled: true, actionsColumnEnabled: true };
+    const inlineCreate = { inlineCreateEnabled: true, actionsColumnEnabled: true };
     const createSection = () => document.querySelector<HTMLTableSectionElement>('tbody[wpInlineCreate]')!;
     const createRow = () => createSection().querySelector<HTMLTableRowElement>('.wp-inline-create-row');
 
@@ -826,7 +779,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     it('repaints positions after permission and reference template changes', async () => {
       canReference.next(true);
       const component = await mount(inlineCreate);
-      const painted = vi.spyOn(component.workPackageTable.rowPositions!, 'paint');
+      const painted = vi.spyOn(component.workPackageTable.rowPositions, 'paint');
       painted.mockImplementation(() => {
         expect(createSection()).not.toHaveAttribute('aria-hidden');
       });
@@ -852,7 +805,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(row).toHaveAttribute('aria-rowindex', '4');
       const editor = within(row).getByRole('textbox');
       editor.focus();
-      component.workPackageTable.rowPositions!.paint();
+      component.workPackageTable.rowPositions.paint();
       expect(document.activeElement).toBe(editor);
 
       fireEvent.keyDown(editor, { key: 'Escape' });
@@ -866,7 +819,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     it('withdraws positions while the button row and the editing row coexist', async () => {
       const component = await mount(inlineCreate);
       const table = component.workPackageTable.tbody.closest('table')!;
-      const positions = component.workPackageTable.rowPositions!;
+      const positions = component.workPackageTable.rowPositions;
       const paint = positions.paint.bind(positions);
       const counts:(string|null)[] = [];
       vi.spyOn(positions, 'paint').mockImplementation(() => {
@@ -882,7 +835,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
 
     it('stops repainting a removed table on permission changes', async () => {
       const component = await mount(inlineCreate);
-      const painted = vi.spyOn(component.workPackageTable.rowPositions!, 'paint');
+      const painted = vi.spyOn(component.workPackageTable.rowPositions, 'paint');
       const listView = fixture as ComponentFixture<ListViewStandInComponent>;
       listView.componentInstance.showTable.set(false);
       listView.detectChanges();
@@ -897,7 +850,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
 
     it('repaints positions after imperative create append and removal', async () => {
       const component = await mount(inlineCreate);
-      const painted = vi.spyOn(component.workPackageTable.rowPositions!, 'paint');
+      const painted = vi.spyOn(component.workPackageTable.rowPositions, 'paint');
       painted.mockImplementation(() => {
         expect(createRow()).toBeInTheDocument();
       });
@@ -907,10 +860,10 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       editor.focus();
       const focused = document.activeElement;
       painted.mockRestore();
-      component.workPackageTable.rowPositions!.paint();
+      component.workPackageTable.rowPositions.paint();
       expect(document.activeElement).toBe(focused);
 
-      const removed = vi.spyOn(component.workPackageTable.rowPositions!, 'paint').mockImplementation(() => {
+      const removed = vi.spyOn(component.workPackageTable.rowPositions, 'paint').mockImplementation(() => {
         expect(createRow()).not.toBeInTheDocument();
       });
       fireEvent.keyDown(editor, { key: 'Escape' });
@@ -967,7 +920,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     });
 
     it('keeps the Cancel link in a gridcell when no trailing column renders', async () => {
-      await mount({ ...enabled, inlineCreateEnabled: true });
+      await mount({ inlineCreateEnabled: true });
       const row = await openCreateRow();
 
       expect(within(row).getByRole('link', { name: 'Cancel' }).closest('td')).toHaveAttribute('role', 'gridcell');
@@ -1015,27 +968,6 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
 
       canAdd.next(false);
       expect(createSection()).toHaveAttribute('aria-hidden', 'true');
-    });
-
-    it('keeps the native create section on a capability-off table', async () => {
-      await mount({ inlineCreateEnabled: true });
-      const row = createSection().querySelector('tr')!;
-
-      expect(createSection()).not.toHaveAttribute('role');
-      expect(createSection()).not.toHaveAttribute('aria-hidden');
-      expect(row).not.toHaveAttribute('role');
-      expect(row).not.toHaveAttribute('aria-level');
-      expect(row.querySelector('td')).not.toHaveAttribute('role');
-    });
-
-    it('keeps the native active create row on a capability-off table', async () => {
-      await mount({ inlineCreateEnabled: true });
-      const row = await openCreateRow();
-
-      expect(row).not.toHaveAttribute('role');
-      expect(row).not.toHaveAttribute('aria-level');
-      Array.from(row.cells).forEach((cell) => expect(cell).not.toHaveAttribute('role'));
-      expect(createSection()).not.toHaveAttribute('role');
     });
   });
 });

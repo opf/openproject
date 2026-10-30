@@ -25,13 +25,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { fireEvent, waitFor, within } from '@testing-library/dom';
+import { waitFor, within } from '@testing-library/dom';
 import { DisplayFieldRenderer } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { buildWorkPackage } from '../../../testing/work-package-fixture';
-import { buildTable, TableHarness } from '../../../testing/table-harness';
+import {
+  buildTable, ConsumerName, consumerConfiguration, TableHarness,
+} from '../../../testing/table-harness';
 import { QueryColumn, queryColumnTypes } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageTableConfiguration, WorkPackageTableConfigurationObject } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import {
@@ -68,7 +70,6 @@ describe('roving tabindex', () => {
   let harness:TableHarness|undefined;
 
   const mount = async (
-    keyboardNavigationEnabled:boolean,
     extra:Parameters<typeof buildTable>[0]['configuration'] = {},
     options:Partial<Parameters<typeof buildTable>[0]> = {},
   ) => {
@@ -78,7 +79,7 @@ describe('roving tabindex', () => {
       productionMarkup: true,
       editing: {},
       groups: [{ value: 'Open', href: '/api/v3/statuses/1', count: 2, sums: { estimatedTime: 'PT1H' } as never }],
-      configuration: { keyboardNavigationEnabled, ...extra },
+      configuration: { inlineCreateEnabled: true, ...extra },
       ...options,
     });
     await harness.render();
@@ -96,7 +97,7 @@ describe('roving tabindex', () => {
 
   describe('stray Tab stops', () => {
     it('sweeps a Tab stop a custom element added after the display field rendered', async () => {
-      const table = await mount(true);
+      const table = await mount();
       const late = document.createElement('span');
       late.setAttribute('tabindex', '0');
       table.row('1').querySelector('td.subject')!.appendChild(late);
@@ -107,7 +108,7 @@ describe('roving tabindex', () => {
     });
 
     it('leaves the inline-create button and an engaged editor input alone', async () => {
-      const table = await mount(true);
+      const table = await mount();
       const editor = document.createElement('div');
       editor.className = 'inline-edit--active-field';
       const input = document.createElement('input');
@@ -123,118 +124,124 @@ describe('roving tabindex', () => {
     });
   });
 
-  describe('with the flag off', () => {
-    it('keeps rows and editable fields tabbable', async () => {
-      const table = await mount(false);
-
-      expect(table.row('1')).toHaveAttribute('tabindex', '0');
-      expect(subjectField(table)).toHaveAttribute('tabindex', '0');
-      expect(subjectField(table)).toHaveAttribute('role', 'button');
-      expect(table.container.querySelector(`.${navigableCellClassName}`)).toBeNull();
-    });
-
-    it.each([
-      ['the BCF list', { dragAndDropEnabled: false }],
-      ['an embedded table', { isEmbedded: true }],
-    ])('keeps today\'s Tab stops and handles no keys in %s', async (_name, configuration) => {
+  describe.each<ConsumerName>(['search', 'macro', 'widget', 'queryGroup', 'bcf'])('the %s consumer preset', (name) => {
+    const mountConsumer = () => {
       harness = buildTable({
         workPackages: [{ id: '1' }, { id: '2' }],
         productionMarkup: true,
         editing: {},
-        configuration,
+        configuration: consumerConfiguration(name),
       });
-      await harness.render();
-      harness.row('1').focus();
+      return harness.render().then(() => harness!);
+    };
 
-      expect(harness.table.configuration.keyboardNavigationEnabled).toBe(false);
-      expect(harness.row('1')).toHaveAttribute('tabindex', '0');
-      expect(harness.row('2')).toHaveAttribute('tabindex', '0');
-      expect(subjectField(harness)).toHaveAttribute('tabindex', '0');
-      expect(subjectField(harness)).toHaveAttribute('role', 'button');
-      expect(harness.table.keyboardNavigation).toBeNull();
-      expect(fireEvent.keyDown(harness.row('1'), { key: 'ArrowDown' })).toBe(true);
-      expect(harness.row('1')).toHaveFocus();
-    });
+    it('leaves the first row as the only Tab stop, with editable fields out of the Tab order', async () => {
+      const table = await mountConsumer();
 
-    it('leaves the header sort link without a tabindex', async () => {
-      const table = await mount(false);
-
-      expect(table.headerCells()[0].querySelector('a')).not.toHaveAttribute('tabindex');
-    });
-  });
-
-  describe('with the flag on', () => {
-    it('leaves the first work package row as the only Tab stop inside the table', async () => {
-      const table = await mount(true, { dragAndDropEnabled: true, columnMenuEnabled: true });
-
-      expect(tabbables(table.container)).toEqual([table.row('1')]);
-    });
-
-    it('leaves no native Tab stop but the first row, links included', async () => {
-      harness = buildTable({
-        workPackages: [{ id: '1' }],
-        productionMarkup: true,
-        configuration: { keyboardNavigationEnabled: true, columnMenuEnabled: true },
-      });
-      harness.injector.get(DisplayFieldService).addFieldType(AnchorDisplayField, 'text', ['String']);
-      await harness.render();
-
-      expect(harness.row('1').querySelector('a[href]')).toHaveAttribute('tabindex', '-1');
-      expect(Array.from(harness.container.querySelectorAll('[tabindex="0"], a[href]:not([tabindex="-1"]), button:not([tabindex="-1"])'))
-        .filter((element) => !element.closest('tbody[wpInlineCreate]'))).toEqual([harness.row('1')]);
-    });
-
-    it('takes a link out of the Tab order when its href is set after render', async () => {
-      harness = buildTable({
-        workPackages: [{ id: '1' }],
-        productionMarkup: true,
-        configuration: { keyboardNavigationEnabled: true },
-      });
-      harness.injector.get(DisplayFieldService).addFieldType(LateLinkDisplayField, 'text', ['String']);
-      await harness.render();
-      const link = harness.row('1').querySelector('td.subject a')!;
-
-      await waitFor(() => expect(link).toHaveAttribute('href', '#'));
-      expect(link).toHaveAttribute('tabindex', '-1');
-    });
-
-    it('takes the hierarchy and leaf indicators out of the Tab order', async () => {
-      harness = buildTable({
-        workPackages: [{ id: '1' }, { id: '2', ancestors: [{ id: '1' }] }],
-        showHierarchies: true,
-        configuration: { keyboardNavigationEnabled: true },
-      });
-      await harness.render();
-      const indicators = harness.container.querySelectorAll('.wp-table--hierarchy-indicator, .wp-table--leaf-indicator');
-
-      expect(indicators.length).toBeGreaterThan(1);
-      indicators.forEach((indicator) => expect(indicator).toHaveAttribute('tabindex', '-1'));
-    });
-
-    it('drops the tabindex and button role from editable fields', async () => {
-      const table = await mount(true);
-
+      expect(table.row('1')).toHaveAttribute('tabindex', '0');
+      expect(table.row('2')).toHaveAttribute('tabindex', '-1');
       expect(subjectField(table)).not.toHaveAttribute('tabindex');
       expect(subjectField(table)).not.toHaveAttribute('role');
     });
 
-    it('excludes the drag handle cell from the navigable cells', async () => {
-      const table = await mount(true, { dragAndDropEnabled: true });
-      const cells = navigableCells(table.row('1'));
+    it('takes the header sort link out of the Tab order', async () => {
+      const table = await mountConsumer();
 
-      expect(cells.length).toBeGreaterThan(0);
-      expect(cells.every((cell) => cell.classList.contains(navigableCellClassName))).toBe(true);
-      expect(cells.some((cell) => cell.classList.contains('wp-table--sort-td'))).toBe(false);
-      expect(table.row('1').querySelectorAll('td')).toHaveLength(cells.length + 1);
+      expect(table.headerCells()[0].querySelector('a')).toHaveAttribute('tabindex', '-1');
     });
 
-    it('marks the header, totals and context menu cells as navigable', async () => {
-      const table = await mount(true, { columnMenuEnabled: true });
+    it('marks the data cells navigable', async () => {
+      const table = await mountConsumer();
 
-      expect(table.headerCells().every((cell) => cell.classList.contains(navigableCellClassName))).toBe(true);
-      expect(navigableCells(table.totalsRow()).length).toBeGreaterThan(0);
-      expect(navigableCells(table.row('1')).at(-1)).toHaveClass('hide-when-print');
+      expect(navigableCells(table.row('1')).length).toBeGreaterThan(0);
     });
+
+    it('renders the configuration header control only when the column menu is on', async () => {
+      const table = await mountConsumer();
+      const trigger = table.container.querySelector('th.wp-table--configuration-modal--trigger');
+
+      expect(trigger !== null).toBe(name === 'queryGroup' || consumerConfiguration(name).columnMenuEnabled === true);
+      expect(trigger?.querySelector('button.wp-table--columns-selection') != null).toBe(consumerConfiguration(name).columnMenuEnabled === true);
+    });
+
+    it('renders the inline-create body only when inline create is on', async () => {
+      const table = await mountConsumer();
+      const createButton = within(table.container).queryByRole('button', { name: 'Create new work package' });
+      const inlineCreateEnabled = consumerConfiguration(name).inlineCreateEnabled === true;
+
+      expect(table.container.querySelector('tbody[wpInlineCreate]') !== null).toBe(inlineCreateEnabled);
+      expect(createButton !== null).toBe(inlineCreateEnabled);
+    });
+  });
+
+  it('leaves the first work package row as the only Tab stop inside the table', async () => {
+    const table = await mount({ dragAndDropEnabled: true, columnMenuEnabled: true });
+
+    expect(tabbables(table.container)).toEqual([table.row('1')]);
+  });
+
+  it('leaves no native Tab stop but the first row, links included', async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }],
+      productionMarkup: true,
+      configuration: { columnMenuEnabled: true },
+    });
+    harness.injector.get(DisplayFieldService).addFieldType(AnchorDisplayField, 'text', ['String']);
+    await harness.render();
+
+    expect(harness.row('1').querySelector('a[href]')).toHaveAttribute('tabindex', '-1');
+    expect(Array.from(harness.container.querySelectorAll('[tabindex="0"], a[href]:not([tabindex="-1"]), button:not([tabindex="-1"])'))
+      .filter((element) => !element.closest('tbody[wpInlineCreate]'))).toEqual([harness.row('1')]);
+  });
+
+  it('takes a link out of the Tab order when its href is set after render', async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }],
+      productionMarkup: true,
+    });
+    harness.injector.get(DisplayFieldService).addFieldType(LateLinkDisplayField, 'text', ['String']);
+    await harness.render();
+    const link = harness.row('1').querySelector('td.subject a')!;
+
+    await waitFor(() => expect(link).toHaveAttribute('href', '#'));
+    expect(link).toHaveAttribute('tabindex', '-1');
+  });
+
+  it('takes the hierarchy and leaf indicators out of the Tab order', async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }, { id: '2', ancestors: [{ id: '1' }] }],
+      showHierarchies: true,
+    });
+    await harness.render();
+    const indicators = harness.container.querySelectorAll('.wp-table--hierarchy-indicator, .wp-table--leaf-indicator');
+
+    expect(indicators.length).toBeGreaterThan(1);
+    indicators.forEach((indicator) => expect(indicator).toHaveAttribute('tabindex', '-1'));
+  });
+
+  it('drops the tabindex and button role from editable fields', async () => {
+    const table = await mount();
+
+    expect(subjectField(table)).not.toHaveAttribute('tabindex');
+    expect(subjectField(table)).not.toHaveAttribute('role');
+  });
+
+  it('excludes the drag handle cell from the navigable cells', async () => {
+    const table = await mount({ dragAndDropEnabled: true });
+    const cells = navigableCells(table.row('1'));
+
+    expect(cells.length).toBeGreaterThan(0);
+    expect(cells.every((cell) => cell.classList.contains(navigableCellClassName))).toBe(true);
+    expect(cells.some((cell) => cell.classList.contains('wp-table--sort-td'))).toBe(false);
+    expect(table.row('1').querySelectorAll('td')).toHaveLength(cells.length + 1);
+  });
+
+  it('marks the header, totals and context menu cells as navigable', async () => {
+    const table = await mount({ columnMenuEnabled: true });
+
+    expect(table.headerCells().every((cell) => cell.classList.contains(navigableCellClassName))).toBe(true);
+    expect(navigableCells(table.totalsRow()).length).toBeGreaterThan(0);
+    expect(navigableCells(table.row('1')).at(-1)).toHaveClass('hide-when-print');
   });
 
   describe('isNavigableColumn', () => {
@@ -261,7 +268,7 @@ describe('roving tabindex', () => {
     const groupSumsRow = (table:TableHarness) => table.container.querySelector<HTMLTableRowElement>('tbody.work-package--results-tbody tr.wp-table--sums-row')!;
 
     it('marks the same cells navigable in body, group sums and totals rows with drag and drop on', async () => {
-      const table = await mount(true, { dragAndDropEnabled: true });
+      const table = await mount({ dragAndDropEnabled: true });
       const body = navigableCells(table.row('1'));
       const sums = navigableCells(groupSumsRow(table));
       const totals = navigableCells(table.totalsRow());
@@ -273,7 +280,7 @@ describe('roving tabindex', () => {
     });
 
     it('never marks the drag placeholder before the handle render pass replaces it', async () => {
-      const table = await mount(true, { dragAndDropEnabled: true }, {
+      const table = await mount({ dragAndDropEnabled: true }, {
         beforeAttach: (injector) => {
           vi.spyOn(injector.get(WorkPackageViewOrderService), 'positionsFor').mockReturnValue(new Promise(() => undefined));
         },
@@ -283,7 +290,7 @@ describe('roving tabindex', () => {
     });
 
     it('marks the relation cells of an expanded relation row and takes its row out of the Tab order', async () => {
-      const table = await mount(true, {}, {
+      const table = await mount({}, {
         columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
         relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
         groups: undefined,
@@ -297,13 +304,6 @@ describe('roving tabindex', () => {
       expect(relationRow.querySelector('td.relationsOfTypeFollows')).toHaveClass(navigableCellClassName);
       expect(relationRow.querySelector('[tabindex="0"]')).toBeNull();
     });
-
-    it('adds nothing when the flag is off', async () => {
-      const table = await mount(false, { dragAndDropEnabled: true });
-
-      expect(table.container.querySelector(`.${navigableCellClassName}`)).toBeNull();
-      expect(table.container.querySelector('tr.wp-table--relations-additional-row[tabindex]')).toBeNull();
-    });
   });
 
   describe('paintRovingTabindex', () => {
@@ -312,7 +312,7 @@ describe('roving tabindex', () => {
       ['a body row', (table:TableHarness) => table.row('2')],
       ['a body cell', (table:TableHarness) => navigableCells(table.row('2'))[1]],
     ])('marks exactly %s', async (_name, pick) => {
-      const table = await mount(true);
+      const table = await mount();
       const target = pick(table);
 
       paintRovingTabindex(table.container, target);
@@ -323,7 +323,7 @@ describe('roving tabindex', () => {
     });
 
     it('exempts only the exact engaged inner editor', async () => {
-      const table = await mount(true);
+      const table = await mount();
       const outer = document.createElement('div');
       const engaged = document.createElement('div');
       engaged.className = 'inline-edit--active-field';
@@ -345,7 +345,7 @@ describe('roving tabindex', () => {
     });
 
     it('marks nothing when no element is focused', async () => {
-      const table = await mount(true);
+      const table = await mount();
 
       paintRovingTabindex(table.container, null);
 
@@ -355,7 +355,7 @@ describe('roving tabindex', () => {
 
   describe('DisplayFieldRenderer', () => {
     it('stays tabbable for the details pane by default', async () => {
-      const table = await mount(true);
+      const table = await mount();
       const span = new DisplayFieldRenderer(table.injector, 'single-view').render(buildWorkPackage({ id: '1' }), 'subject', null);
 
       expect(span).toHaveAttribute('tabindex', '0');

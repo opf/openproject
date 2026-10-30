@@ -33,13 +33,12 @@ describe('RelationsCellHandler', () => {
   const translations = { 'js.work_packages.table.relations_button': 'Relations in %{column} for %{work_package}' };
   let harness:TableHarness;
 
-  const mount = async (keyboardNavigationEnabled:boolean) => {
+  const mount = async () => {
     harness = buildTable({
       workPackages: [{ id: '1' }, { id: '2' }],
       relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
       columns: ['id', 'subject', { id: 'follows', relationType: 'follows' }],
       translations,
-      configuration: { keyboardNavigationEnabled },
     });
     await harness.render();
     const service = harness.injector.get(WorkPackageViewRelationColumnsService);
@@ -52,7 +51,7 @@ describe('RelationsCellHandler', () => {
   afterEach(() => harness.destroy());
 
   it('toggles once on a pointer click', async () => {
-    const spies = await mount(true);
+    const spies = await mount();
     const button = within(harness.row('1')).getByRole('button', { name: 'Relations in follows for #1' });
 
     fireEvent.click(button);
@@ -62,7 +61,7 @@ describe('RelationsCellHandler', () => {
   });
 
   it('toggles once for Enter keydown followed by its synthesized click', async () => {
-    const spies = await mount(true);
+    const spies = await mount();
     const button = within(harness.row('1')).getByRole('button', { name: 'Relations in follows for #1' });
 
     fireEvent.keyDown(button, { key: 'Enter' });
@@ -70,14 +69,5 @@ describe('RelationsCellHandler', () => {
 
     expect(spies.setExpandFor).toHaveBeenCalledTimes(1);
     expect(spies.collapse).not.toHaveBeenCalled();
-  });
-
-  it('still toggles the disabled-capability span on Enter keydown', async () => {
-    const spies = await mount(false);
-    const indicator = harness.row('1').querySelector<HTMLElement>('.wp-table--relation-indicator')!;
-
-    fireEvent.keyDown(indicator, { key: 'Enter' });
-
-    expect(spies.setExpandFor).toHaveBeenCalledTimes(1);
   });
 });

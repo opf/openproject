@@ -30,18 +30,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { paintRowSelection } from '../../builders/rows/row-selection-painter';
-import { locateTableRow, scrollTableRowIntoView } from '../../helpers/wp-table-row-helpers';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { selectionGesture, TableSelectionFeedback } from './selection-feedback';
-import {
-  registerWorkPackageDeselectAll,
-  registerWorkPackageSelectAll,
-} from 'core-app/features/work-packages/routing/wp-view-base/event-handling/wp-selection-keyboard';
+import { registerWorkPackageDeselectAll } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/wp-selection-keyboard';
 
 export class SelectionTransformer {
   @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
@@ -50,15 +45,12 @@ export class SelectionTransformer {
 
   @LazyInject() public querySpace:IsolatedQuerySpace;
 
-  @LazyInject() public FocusHelper:FocusHelperService;
-
   constructor(public readonly injector:Injector,
     public readonly table:WorkPackageTable) {
     const destroyRef = table.destroyRef;
 
-    if (table.configuration.keyboardNavigationEnabled) {
-      table.selectionFeedback = new TableSelectionFeedback(this.wpTableSelection, destroyRef);
-    }
+    const selectionFeedback = new TableSelectionFeedback(this.wpTableSelection, destroyRef);
+    table.selectionFeedback = selectionFeedback;
 
     this.querySpace.tableRendered.values$()
       .pipe(
@@ -66,22 +58,7 @@ export class SelectionTransformer {
       )
       .subscribe((rows) => {
         if (table.ledger.generation > 0) {
-          const retain = () => this.wpTableSelection.retainRendered(rows);
-          if (table.selectionFeedback) {
-            table.selectionFeedback.prune(retain);
-          } else {
-            retain();
-          }
-        }
-        if (!table.configuration.keyboardNavigationEnabled) {
-          this.wpTableFocus.ifShouldFocus((wpId:string) => {
-            const root = table.tableAndTimelineContainer;
-            const element = locateTableRow(wpId, root);
-            if (element) {
-              scrollTableRowIntoView(wpId, root);
-              this.FocusHelper.focus(element);
-            }
-          });
+          selectionFeedback.prune(() => this.wpTableSelection.retainRendered(rows));
         }
       });
 
@@ -97,15 +74,6 @@ export class SelectionTransformer {
       )
       .subscribe(() => this.paintRows());
 
-    if (!table.configuration.keyboardNavigationEnabled) {
-      onDestroySafely(destroyRef, registerWorkPackageSelectAll({
-        root: table.tableAndTimelineContainer,
-        focusSelector: '.wp-table--row',
-        occurrenceSelector: '.wp-table--row[data-work-package-id][data-class-identifier]',
-        rendered: () => table.renderedRows,
-        selectAll: (rows, anchor) => this.wpTableSelection.selectAll(rows, anchor),
-      }));
-    }
     const unregisterDeselectAll = registerWorkPackageDeselectAll({
       root: table.tableAndTimelineContainer,
       hasState: () => this.wpTableSelection.hasSelectionState,
@@ -124,6 +92,6 @@ export class SelectionTransformer {
           pressed: this.wpTableFocus.isFocused(workPackageId),
         });
       });
-    this.table.semantics?.paintSelection();
+    this.table.semantics.paintSelection();
   }
 }

@@ -28,7 +28,6 @@
 import { Injector } from '@angular/core';
 import { TableEventComponent } from 'core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry';
 import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
-import { keyboardNavigationEnabled } from '../state/keyboard/roving-tabindex';
 import { ContextMenuHandler } from './context-menu-handler';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
@@ -52,10 +51,8 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
     }
 
     const target = evt.target as HTMLElement;
-    const keyboardNavigation = keyboardNavigationEnabled(configuration);
 
-    if (!this.isMenuChord(evt, keyboardNavigation)
-      || (keyboardNavigation && (this.isEditing(target) || target.closest(`.${uiStateLinkClass}`)))) {
+    if (!this.isMenuChord(evt) || this.isEditing(target) || target.closest(`.${uiStateLinkClass}`)) {
       return true;
     }
 
@@ -85,11 +82,7 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
     return false;
   }
 
-  private isMenuChord(evt:KeyboardEvent, keyboardNavigation:boolean):boolean {
-    if (!keyboardNavigation) {
-      return evt.key === 'F10' && evt.shiftKey && evt.altKey;
-    }
-
+  private isMenuChord(evt:KeyboardEvent):boolean {
     if (evt.key === 'ContextMenu') {
       return true;
     }

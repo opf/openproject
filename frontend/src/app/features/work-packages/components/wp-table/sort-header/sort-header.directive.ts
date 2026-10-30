@@ -76,8 +76,6 @@ export class SortHeaderDirective implements AfterViewInit {
 
   private currentTable:WorkPackageTable;
 
-  keyboardNavigationEnabled = false;
-
   private viewReady = false;
 
   private initializedTable?:WorkPackageTable;
@@ -90,7 +88,6 @@ export class SortHeaderDirective implements AfterViewInit {
     runCleanup(() => this.releaseTableCallback?.());
     this.releaseTableCallback = undefined;
     this.currentTable = table;
-    this.keyboardNavigationEnabled = table?.configuration.keyboardNavigationEnabled ?? false;
     this.initializedTable = undefined;
     if (table && !table.destroyed && !this.destroyRef.destroyed) {
       this.releaseTableCallback = onDestroySafely(table.destroyRef, () => this.uiWork.cancel());

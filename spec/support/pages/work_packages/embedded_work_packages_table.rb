@@ -37,13 +37,27 @@ module Pages
 
     attr_reader :container
 
-    def initialize(container, project = nil)
+    def initialize(container, project = nil, entry_control: nil, table_name: nil)
       super(project)
       @container = container
+      @entry_control = entry_control
+      @table_name = table_name
+    end
+
+    def table_name
+      @table_name || super
+    end
+
+    def entry_control
+      @entry_control ? @entry_control.call : super
     end
 
     def table_container
       container.find("table.work-package-table", wait: 10)
+    end
+
+    def axe_scope
+      "##{container.find('table.work-package-table[id]', wait: 10)[:id]}"
     end
 
     def click_reference_inline_create

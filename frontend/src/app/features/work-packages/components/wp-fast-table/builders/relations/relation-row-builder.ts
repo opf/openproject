@@ -32,7 +32,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { States } from 'core-app/core/states/states.service';
 import { commonRowClassName, SingleRowBuilder, tableRowClassName } from '../rows/single-row-builder';
 import { tdClassName } from '../cell-builder';
-import { keyboardNavigationEnabled, navigableCellClassName } from '../../handlers/state/keyboard/roving-tabindex';
+import { navigableCellClassName } from '../../handlers/state/keyboard/roving-tabindex';
 import { removeTabStops } from 'core-app/shared/helpers/dom/remove-tab-stops';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { isRelationColumn, QueryColumn } from '../../../wp-query/query-column';
@@ -96,9 +96,7 @@ public readonly injector:Injector,
     const tr = document.createElement('tr');
     tr.dataset.workPackageId = to.id!;
     tr.dataset.classIdentifier = identifier;
-    if (keyboardNavigationEnabled(this.workPackageTable.configuration)) {
-      tr.setAttribute('tabindex', '-1');
-    }
+    tr.setAttribute('tabindex', '-1');
 
     tr.classList.add(
       commonRowClassName,
@@ -135,17 +133,13 @@ relationGroupClass(from.id!),
     row.querySelector(`.${relationCellClassName}`)!.innerHTML = '';
     const labelCell = row.querySelector<HTMLElement>(`.${relationCellClassName}.${columnId}`)!;
     labelCell.append(relationLabel);
-    if (keyboardNavigationEnabled(this.workPackageTable.configuration)) {
-      removeTabStops(labelCell);
-    }
+    removeTabStops(labelCell);
   }
 
   protected emptyRelationCell(column:QueryColumn) {
     const cell = document.createElement('td');
     cell.classList.add(relationCellClassName, tdClassName, column.id);
-    if (keyboardNavigationEnabled(this.workPackageTable.configuration)) {
-      cell.classList.add(navigableCellClassName);
-    }
+    cell.classList.add(navigableCellClassName);
 
     return cell;
   }

@@ -127,6 +127,7 @@ extend-ignore-identifiers-re = [
   "^localised_(other_)?name$", # methods in a shipped migration
   "^marshalling_format_version$", # Rails configuration option
   "(?i)^aria_?labelledby$", # aria-labelledby attribute
+  "^labelled[Bb]y$", # mirrors the aria-labelledby attribute
   "^will_remove_all_(group|user)_access_priveleges$", # i18n keys
 ]
 

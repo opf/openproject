@@ -52,7 +52,7 @@ describe('structural rows', () => {
   });
 
   it('classifies the create and empty-results rows by their sections', async () => {
-    harness = buildTable({ workPackages: [], productionMarkup: true });
+    harness = buildTable({ workPackages: [], productionMarkup: true, configuration: { inlineCreateEnabled: true } });
     await harness.render();
     const createRow = harness.table.tbody.closest('table')!.querySelector<HTMLTableRowElement>('tbody[wpInlineCreate] tr')!;
     const empty = document.createElement('tbody');
@@ -89,6 +89,7 @@ describe('structural rows', () => {
         workPackages: [{ id: '1', attributes: { status } }],
         productionMarkup: true,
         groups: [{ value: 'G', href: status.href, count: 1, sums: { storyPoints: 1 } }],
+        configuration: { inlineCreateEnabled: true },
       });
       await harness.render();
       const kind = (row:HTMLTableRowElement) => classifyRow(harness.table, row);

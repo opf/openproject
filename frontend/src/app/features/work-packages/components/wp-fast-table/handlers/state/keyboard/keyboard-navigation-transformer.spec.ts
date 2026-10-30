@@ -26,6 +26,8 @@
 //++
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
+import { ChangeDetectorRef, ElementRef, Injector, runInInjectionContext } from '@angular/core';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { userEvent } from 'vitest/browser';
 import { usePlatform } from 'core-common/testing/platform';
 import { States } from 'core-app/core/states/states.service';
@@ -37,13 +39,32 @@ import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helpe
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
-import { buildQuery, buildTable, TableHarness, TableHarnessOptions } from '../../../testing/table-harness';
-import { buildGroup } from '../../../testing/work-package-fixture';
+import { registerContextMenu } from 'core-app/shared/components/op-context-menu/testing/register-context-menu';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { internalContextMenuColumn, internalSortColumn } from '../../../builders/internal-sort-columns';
+import {
+  buildQuery, buildTable, ConsumerName, consumerConfiguration, TableHarness, TableHarnessOptions,
+} from '../../../testing/table-harness';
+import { buildGroup, buildWorkPackage } from '../../../testing/work-package-fixture';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import {
+  OpEditingPortalChangesetToken,
+  OpEditingPortalHandlerToken,
+  OpEditingPortalSchemaToken,
+} from 'core-app/shared/components/fields/edit/edit-field.component';
+import { DatePickerEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/date-picker-edit-field.component';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { DeviceService } from 'core-app/core/browser/device.service';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import { KeyboardNavigation } from './keyboard-navigation-transformer';
 import { headerRowKey, totalsRowKey } from './navigable-rows';
 import { expansionStateOf } from '../../../helpers/row-expansion';
-import { insideGrid, navigableCells } from './roving-tabindex';
+import { insideGrid, isNavigableColumn, navigableCells } from './roving-tabindex';
+
+class TableDateField extends DatePickerEditFieldComponent {}
 
 class AnchorDisplayField extends TextDisplayField {
   public render(element:HTMLElement, displayText:string):void {
@@ -78,7 +99,7 @@ describe('KeyboardNavigationTransformer', () => {
       workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }],
       productionMarkup: true,
       ...options,
-      configuration: { keyboardNavigationEnabled: true, ...options.configuration },
+      configuration: { inlineCreateEnabled: true, ...options.configuration },
     });
     harnesses.push(table);
     beforeRender?.(table);
@@ -219,14 +240,10 @@ describe('KeyboardNavigationTransformer', () => {
     expect(table.row('3')).toHaveFocus();
   });
 
-  it('takes the scroll container and its wrapper out of the Tab order only when enabled', async () => {
-    const enabled = await mount();
-    expect(enabled.table.scrollContainer).toHaveAttribute('tabindex', '-1');
-    expect(enabled.table.tableAndTimelineContainer).toHaveAttribute('tabindex', '-1');
-
-    const disabled = await mount({ configuration: { keyboardNavigationEnabled: false } });
-    expect(disabled.table.scrollContainer).not.toHaveAttribute('tabindex');
-    expect(disabled.table.tableAndTimelineContainer).not.toHaveAttribute('tabindex');
+  it('takes the scroll container and its wrapper out of the Tab order', async () => {
+    const table = await mount();
+    expect(table.table.scrollContainer).toHaveAttribute('tabindex', '-1');
+    expect(table.table.tableAndTimelineContainer).toHaveAttribute('tabindex', '-1');
   });
 
   it('ArrowDown/ArrowUp walk visible rows and reach the header and totals rows', async () => {
@@ -373,7 +390,7 @@ describe('KeyboardNavigationTransformer', () => {
   });
 
   it('Enter on a header cell clicks its sort link; on the configuration cell clicks the button', async () => {
-    const table = await mount();
+    const table = await mount({ configuration: { columnMenuEnabled: true } });
     const [idHeader, , configurationHeader] = table.headerCells();
     const linkClicked = vi.fn((event:Event) => event.preventDefault());
     const buttonClicked = vi.fn();
@@ -591,16 +608,6 @@ describe('KeyboardNavigationTransformer', () => {
     expect(table.focus.focusedWorkPackage).toBe('2');
     table.click('3', { shiftKey: true });
     expect(selectedIds(table)).toEqual(['2', '3']);
-  });
-
-  it('flag off: no keydown handling', async () => {
-    const table = await mount({ configuration: { keyboardNavigationEnabled: false } });
-    table.row('1').focus();
-
-    expect(press(table.row('1'), 'ArrowDown')).toBe(true);
-
-    expect(table.table.keyboardNavigation).toBeNull();
-    expect(table.row('1')).toHaveFocus();
   });
 
   it('returnFocus ignores a vanished origin and focus that left the table', async () => {
@@ -1267,7 +1274,7 @@ describe('KeyboardNavigationTransformer', () => {
       expect(selectedIds(table)).toEqual([]);
     });
 
-    it('handle Ctrl+A once on a capability-on table', async () => {
+    it('handle Ctrl+A once', async () => {
       const table = await mount();
       const selectAll = vi.spyOn(table.selection, 'selectAll');
       table.row('1').focus();
@@ -1281,7 +1288,7 @@ describe('KeyboardNavigationTransformer', () => {
     it.each([
       ['Ctrl+D', { code: 'KeyD', ctrlKey: true }],
       ['Meta+D', { code: 'KeyD', metaKey: true }],
-    ])('leave %s to the browser on a capability-on table', async (_chord, init) => {
+    ])('leave %s to the browser', async (_chord, init) => {
       const table = await mount();
       table.row('1').focus();
       expect(pressActive(' ', { shiftKey: true })).toBe(false);
@@ -1292,15 +1299,244 @@ describe('KeyboardNavigationTransformer', () => {
       expect(selectedIds(table)).toEqual(['1']);
       expect(table.row('1')).toHaveFocus();
     });
+  });
 
-    it('still select all through the legacy registration on a capability-off table', async () => {
-      const table = await mount({ configuration: { keyboardNavigationEnabled: false } });
-      const selectAll = vi.spyOn(table.selection, 'selectAll');
+  describe.each<ConsumerName>(['search', 'macro', 'widget', 'queryGroup', 'bcf'])('the %s consumer', (name) => {
+    const mountConsumer = (options:Partial<TableHarnessOptions> = {}) => mount({
+      ...options,
+      configuration: { ...consumerConfiguration(name), ...options.configuration },
+    });
 
-      expect(press(table.row('1'), 'a', { code: 'KeyA', ctrlKey: true })).toBe(false);
+    it('renders as many header cells as data cells', async () => {
+      const table = await mountConsumer();
 
-      expect(selectAll).toHaveBeenCalledTimes(1);
-      expect(selectedIds(table)).toEqual(['1', '2', '3']);
+      expect(table.headerCells()).toHaveLength(table.row('1').cells.length);
+    });
+
+    it('leaves the first row as the only Tab stop', async () => {
+      const table = await mountConsumer();
+
+      expect(Array.from(table.container.querySelectorAll('[tabindex="0"]'))).toEqual([table.row('1')]);
+    });
+
+    it('marks exactly the cells isNavigableColumn names', async () => {
+      const table = await mountConsumer();
+      const configuration = new WorkPackageTableConfiguration(consumerConfiguration(name));
+      const columns = [
+        ...(configuration.dragAndDropEnabled ? [internalSortColumn] : []),
+        { id: 'id' } as QueryColumn,
+        { id: 'subject' } as QueryColumn,
+        internalContextMenuColumn,
+      ];
+
+      expect(navigableCells(table.row('1'))).toHaveLength(columns.filter((column) => isNavigableColumn(column, configuration)).length);
+    });
+
+    it.each([
+      ['Shift+F10', { key: 'F10', shiftKey: true }],
+      ['Menu', { key: 'ContextMenu' }],
+    ])('opens the context menu on %s only for the BCF list', async (_chord, init) => {
+      const table = await mountConsumer();
+      vi.spyOn(table.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([]);
+      const show = vi.spyOn(table.injector.get(OPContextMenuService), 'show').mockImplementation(() => undefined);
+      table.row('1').focus();
+
+      fireEvent.keyDown(table.row('1'), init);
+
+      expect(show).toHaveBeenCalledTimes(name === 'bcf' ? 1 : 0);
+    });
+
+    it('selects the focused row on Shift+Space', async () => {
+      const table = await mountConsumer();
+      table.row('2').focus();
+
+      expect(pressActive(' ', { shiftKey: true })).toBe(false);
+
+      expect(selectedIds(table)).toEqual(['2']);
+    });
+  });
+
+  describe('two consumer tables on one page', () => {
+    const mountPair = async (options:Partial<TableHarnessOptions> = {}) => {
+      const states = new States();
+      const first = await mount({ states, providers: [OPContextMenuService], configuration: consumerConfiguration('bcf'), ...options });
+      const second = await mount({ states, configuration: consumerConfiguration('bcf'), ...options });
+      return [first, second] as const;
+    };
+
+    const tabindexes = (table:TableHarness) => Array.from(table.container.querySelectorAll('[tabindex]'))
+      .map((element) => [element, element.getAttribute('tabindex')]);
+
+    it('a re-render of one leaves the roving tabindex of the other unchanged', async () => {
+      const [first, second] = await mountPair();
+      const before = tabindexes(second);
+      first.row('2').focus();
+
+      await first.render();
+      first.table.refreshRows(resource(first, '1'));
+
+      expect(before.length).toBeGreaterThan(0);
+      expect(tabindexes(second)).toEqual(before);
+    });
+
+    it('a re-render of one leaves an active create input of the other focused', async () => {
+      const [first, second] = await mountPair();
+      first.row('2').focus();
+      expect(navigation(first).position?.key).toBe(wpOccurrenceKey('2'));
+      const input = document.createElement('input');
+      second.addInlineCreateRow().cells[0].append(input);
+      input.focus();
+
+      await first.render();
+
+      expect(input).toHaveFocus();
+      expect(navigation(first).position?.key).toBe(wpOccurrenceKey('2'));
+    });
+
+    it('closing a menu with Escape keeps the other selection until a plain Escape clears both', async () => {
+      const [first, second] = await mountPair();
+      const page = document.createElement('div');
+      page.id = 'wrapper';
+      document.body.append(page);
+      const unregister = registerContextMenu(first.injector.get(OPContextMenuService));
+      vi.spyOn(first.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions')
+        .mockReturnValue([{ key: 'test-action', text: 'Test action', link: '#' }]);
+      try {
+        first.click('1');
+        second.click('2');
+        first.row('1').focus();
+        fireEvent.keyDown(first.row('1'), { key: 'F10', shiftKey: true });
+        await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
+
+        fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+        await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toBeNull());
+
+        expect(selectedIds(first)).toEqual(['1']);
+        expect(selectedIds(second)).toEqual(['2']);
+
+        fireEvent.keyDown(document.body, { key: 'Escape' });
+
+        expect(selectedIds(first)).toEqual([]);
+        expect(selectedIds(second)).toEqual([]);
+      } finally {
+        first.injector.get(OPContextMenuService).close();
+        unregister();
+        page.remove();
+      }
+    });
+
+    it('Ctrl+A with focus in one table selects only that table', async () => {
+      const [first, second] = await mountPair();
+      second.row('1').focus();
+
+      expect(pressActive('a', { code: 'KeyA', ctrlKey: true })).toBe(false);
+
+      expect(selectedIds(second)).toEqual(['1', '2', '3']);
+      expect(selectedIds(first)).toEqual([]);
+    });
+  });
+
+  describe('a query group beside the main list', () => {
+    const mountListAndGroup = async (options:Partial<TableHarnessOptions> = {}) => {
+      const states = new States();
+      const list = await mount({ states, configuration: consumerConfiguration('list') });
+      const group = await mount({
+        states,
+        workPackages: [{ id: '4' }, { id: '5' }],
+        ...options,
+        configuration: consumerConfiguration('queryGroup'),
+      });
+      return [list, group] as const;
+    };
+
+    const openEditor = async (table:TableHarness, id:string, fieldName:string) => {
+      const target = table.row(id).querySelector<HTMLElement>(`td.${fieldName}`)!;
+      navigation(table).focusPosition(navigation(table).positionOfCell(target)!);
+      fireEvent.keyDown(target, { key: 'Enter' });
+      await waitFor(() => expect(within(target).getByRole('textbox')).toHaveFocus());
+      return { cell: target, handler: table.table.editing.forms[id].activeFields[fieldName] };
+    };
+
+    const openDatePicker = (table:TableHarness, handler:EditFieldHandler) => {
+      const overlay = document.body.appendChild(document.createElement('div'));
+      overlay.className = 'spot-modal-overlay spot-modal-overlay_active';
+      overlay.setAttribute('role', 'dialog');
+      const element = overlay.appendChild(document.createElement('div'));
+      const apply = element.appendChild(document.createElement('button'));
+      apply.textContent = 'Save';
+      const modal = { closingEvent: new Subject<void>(), element, closeMe: vi.fn() };
+      const injector = Injector.create({
+        parent: table.injector,
+        providers: [
+          { provide: OpEditingPortalHandlerToken, useValue: handler },
+          {
+            provide: OpEditingPortalChangesetToken,
+            useValue: {
+              projectedResource: resource(table, '4'),
+              schema: { ofProperty: () => ({}), mappedName: (name:string) => name, isMilestone: false },
+              state: null,
+            },
+          },
+          { provide: OpEditingPortalSchemaToken, useValue: {} },
+          { provide: ElementRef, useValue: new ElementRef(handler.element) },
+          { provide: ChangeDetectorRef, useValue: { markForCheck: () => undefined, detectChanges: () => undefined } },
+          { provide: OpModalService, useValue: { show: () => of(modal), activeModalInstance$: new BehaviorSubject<unknown>(null) } },
+          { provide: TimezoneService, useValue: {} },
+          { provide: DeviceService, useValue: {} },
+        ],
+      });
+      const field = runInInjectionContext(injector, () => new TableDateField());
+      field.showDatePickerModal();
+      apply.focus();
+      return { overlay, apply, close: () => modal.closingEvent.next() };
+    };
+
+    it('keeps a date editor overlay of the group owned by the group while the list re-renders and sees Escape', async () => {
+      const [list, group] = await mountListAndGroup({
+        columns: ['id', 'subject', 'startDate'],
+        editing: { fields: ['startDate', 'combinedDate'] },
+      });
+      const { handler } = await openEditor(group, '4', 'startDate');
+      const { overlay, apply, close } = openDatePicker(group, handler);
+      try {
+        expect(apply).toHaveFocus();
+        expect(group.table.editing.owns(overlay)).toBe(true);
+        expect(list.table.editing.owns(overlay)).toBe(false);
+
+        await list.render();
+        fireEvent.keyDown(apply, { key: 'Escape' });
+
+        expect(apply).toHaveFocus();
+        expect(overlay).toBeInTheDocument();
+        expect(group.table.editing.forms['4'].activeFields.startDate).toBe(handler);
+        expect(group.table.editing.owns(overlay)).toBe(true);
+
+        close();
+
+        expect(group.table.editing.forms['4'].activeFields.startDate).toBeUndefined();
+        expect(group.row('4').querySelector('td.startDate')).toHaveFocus();
+      } finally {
+        overlay.remove();
+      }
+    });
+
+    it('leaves focus in the list when a pending save of the group completes', async () => {
+      let resolveSave!:(value:{ resource:WorkPackageResource; wasNew:boolean }) => void;
+      const [list, group] = await mountListAndGroup({
+        editing: { save: () => new Promise((resolve) => { resolveSave = resolve; }) },
+      });
+      const { cell, handler } = await openEditor(group, '4', 'subject');
+      const submission = handler.handleUserSubmit();
+      await waitFor(() => expect(resolveSave).toBeDefined());
+
+      list.row('2').focus();
+      const saved = buildWorkPackage({ id: '4', subject: 'Changed' });
+      group.injector.get(States).workPackages.get('4').putValue(saved);
+      resolveSave({ resource: saved, wasNew: false });
+      await submission;
+
+      expect(list.row('2')).toHaveFocus();
+      expect(cell).not.toHaveFocus();
     });
   });
 });

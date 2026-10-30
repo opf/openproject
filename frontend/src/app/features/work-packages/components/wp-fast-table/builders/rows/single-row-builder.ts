@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { isNavigableColumn, keyboardNavigationEnabled, navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
+import { isNavigableColumn, navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { locateTableRowByIdentifier } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
@@ -79,16 +79,16 @@ export class SingleRowBuilder {
   protected cellBuilder = new CellBuilder(this.injector, this.workPackageTable.configuration);
 
   // Relation cell builder instance
-  protected relationCellBuilder = new RelationCellbuilder(this.injector, this.workPackageTable.configuration);
+  protected relationCellBuilder = new RelationCellbuilder(this.injector);
 
   // Share cell builder instance
-  protected shareCellBuilder = new ShareCellbuilder(this.injector, this.workPackageTable.configuration);
+  protected shareCellBuilder = new ShareCellbuilder(this.injector);
 
   // Details Link builder
-  protected contextLinkBuilder = new TableActionRenderer(this.injector, this.workPackageTable.configuration);
+  protected contextLinkBuilder = new TableActionRenderer(this.injector);
 
   // Baseline column builder
-  protected baselineColumnBuilder = new BaselineColumnBuilder(this.injector, this.workPackageTable.configuration);
+  protected baselineColumnBuilder = new BaselineColumnBuilder(this.injector);
 
   // Build the augmented columns set to render with
   protected readonly augmentedColumns:QueryColumn[] = this.buildAugmentedColumns();
@@ -111,31 +111,14 @@ export class SingleRowBuilder {
    * we add for buttons and timeline.
    */
   protected buildAugmentedColumns():QueryColumn[] {
-    const { configuration } = this.workPackageTable;
-    const baselineActive = this.wpTableBaseline.isActive();
+    const rendered = renderedColumns(this.workPackageTable.configuration, this.wpTableBaseline.isActive());
 
-    if (keyboardNavigationEnabled(configuration)) {
-      const rendered = renderedColumns(configuration, baselineActive);
-
-      return [
-        ...(rendered.drag ? [internalSortColumn] : []),
-        ...(rendered.baseline ? [internalBaselineColumn] : []),
-        ...this.columns,
-        ...(rendered.trailing ? [internalContextMenuColumn] : []),
-      ];
-    }
-
-    const columns = [...this.columns, internalContextMenuColumn];
-
-    if (baselineActive) {
-      columns.unshift(internalBaselineColumn);
-    }
-
-    if (configuration.dragAndDropEnabled) {
-      columns.unshift(internalSortColumn);
-    }
-
-    return columns;
+    return [
+      ...(rendered.drag ? [internalSortColumn] : []),
+      ...(rendered.baseline ? [internalBaselineColumn] : []),
+      ...this.columns,
+      ...(rendered.trailing ? [internalContextMenuColumn] : []),
+    ];
   }
 
   public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLTableCellElement|null {
@@ -157,8 +140,7 @@ export class SingleRowBuilder {
         if (this.workPackageTable.configuration.columnMenuEnabled) {
           const td = document.createElement('td');
           td.classList.add('hide-when-print');
-          if (keyboardNavigationEnabled(this.workPackageTable.configuration)
-            && isNavigableColumn(column, this.workPackageTable.configuration)) {
+          if (isNavigableColumn(column, this.workPackageTable.configuration)) {
             td.classList.add(navigableCellClassName);
           }
           return td;
@@ -189,7 +171,7 @@ export class SingleRowBuilder {
   public createEmptyRow(workPackage:WorkPackageResource) {
     const identifier = this.classIdentifier(workPackage);
     const tr = document.createElement('tr');
-    tr.setAttribute('tabindex', keyboardNavigationEnabled(this.workPackageTable.configuration) ? '-1' : '0');
+    tr.setAttribute('tabindex', '-1');
     tr.dataset.workPackageId = workPackage.id!;
     tr.dataset.classIdentifier = identifier;
     tr.classList.add(
@@ -261,11 +243,7 @@ export class SingleRowBuilder {
   }
 
   private retainsOnRefresh(column:QueryColumn):boolean {
-    if (column.id === internalBaselineColumn.id && keyboardNavigationEnabled(this.workPackageTable.configuration)) {
-      return false;
-    }
-
-    return column.id.startsWith('__internal');
+    return column.id !== internalBaselineColumn.id && column.id.startsWith('__internal');
   }
 
   protected isColumnBeingEdited(workPackage:WorkPackageResource, column:QueryColumn) {

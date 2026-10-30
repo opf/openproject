@@ -29,6 +29,7 @@ import {
   contextColumnIcon,
   OpTableAction,
   OpTableActionFactory,
+  destructiveControlAttribute,
 } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
 import { Injector } from '@angular/core';
@@ -73,6 +74,7 @@ export class OpUnlinkTableAction extends OpTableAction {
     element.href = '#';
     element.classList.add(contextColumnIcon, 'wp-table-action--unlink');
     element.dataset.workPackageId = this.workPackage.id!;
+    element.setAttribute(destructiveControlAttribute, '');
     element.appendChild(opIconElement('icon', 'icon-close'));
     element.addEventListener('click', (event) => {
       event.preventDefault();

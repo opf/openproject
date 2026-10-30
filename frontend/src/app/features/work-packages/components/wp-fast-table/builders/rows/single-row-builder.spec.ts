@@ -97,11 +97,10 @@ describe('SingleRowBuilder physical columns', () => {
     await harness.render();
   };
 
-  describe.each([true, false])('on an enabled table with drag and drop %s', (drag) => {
+  describe.each([true, false])('with drag and drop %s', (drag) => {
     describe.each([true, false])('and baseline %s', (baseline) => {
       it.each([true, false])('spans the same columns in every row with a trailing column %s', async (trailing) => {
         await mount({
-          keyboardNavigationEnabled: true,
           dragAndDropEnabled: drag,
           columnMenuEnabled: trailing,
         }, baseline);
@@ -113,13 +112,6 @@ describe('SingleRowBuilder physical columns', () => {
         expect(new SingleRowBuilder(harness.injector, harness.table).placeholderRow.cells[0].colSpan).toBe(expected);
       });
     });
-  });
-
-  it('keeps the augmented columns of a capability-off table', async () => {
-    await mount({ dragAndDropEnabled: true, columnMenuEnabled: false, actionsColumnEnabled: false }, true);
-
-    expect(harness.row('1').cells).toHaveLength(3 + 1 + 1);
-    expect(new SingleRowBuilder(harness.injector, harness.table).placeholderRow.cells[0].colSpan).toBe(3 + 1 + 1 + 1);
   });
 });
 
@@ -134,7 +126,7 @@ describe('SingleRowBuilder baseline status text', () => {
     updated: 'Modified within the comparison time period',
   };
 
-  const mount = async (keyboardNavigationEnabled:boolean) => {
+  const mount = async () => {
     harness = buildTable({
       workPackages: [{ id: '1', baseline: 'added' }, { id: '2', baseline: 'removed' }, { id: '3', baseline: 'updated' }, { id: '4' }],
       baseline: true,
@@ -143,7 +135,6 @@ describe('SingleRowBuilder baseline status text', () => {
         'js.work_packages.baseline.removal_label': labels.removed,
         'js.work_packages.baseline.modification_label': labels.updated,
       },
-      configuration: { keyboardNavigationEnabled },
     });
     await harness.render();
   };
@@ -155,13 +146,13 @@ describe('SingleRowBuilder baseline status text', () => {
     ['2', 'removed'],
     ['3', 'updated'],
   ] as const)('names row %s with its %s status', async (workPackageId, state) => {
-    await mount(true);
+    await mount();
 
     expect(harness.row(workPackageId)).toHaveAccessibleName(expect.stringContaining(labels[state]));
   });
 
   it('adds no status text to unchanged rows', async () => {
-    await mount(true);
+    await mount();
 
     expect(baselineCell('4')).toBeEmptyDOMElement();
     Object.values(labels).forEach((label) => {
@@ -170,7 +161,7 @@ describe('SingleRowBuilder baseline status text', () => {
   });
 
   it('rebuilds icon and status text together when the baseline state changes', async () => {
-    await mount(true);
+    await mount();
 
     harness.table.refreshRows(buildWorkPackage({ id: '1', baseline: 'removed' }));
 
@@ -179,16 +170,6 @@ describe('SingleRowBuilder baseline status text', () => {
     expect(harness.row('1')).toHaveAccessibleName(expect.stringContaining(labels.removed));
     expect(harness.row('1')).not.toHaveAccessibleName(expect.stringContaining(labels.added));
     expect(baselineCell('1')).toHaveAttribute('role', 'gridcell');
-  });
-
-  it('keeps the baseline cell of a capability-off table on refresh', async () => {
-    await mount(false);
-    const cell = baselineCell('1');
-
-    harness.table.refreshRows(buildWorkPackage({ id: '1', baseline: 'removed' }));
-
-    expect(baselineCell('1')).toBe(cell);
-    expect(within(cell).queryByText(labels.added)).not.toBeInTheDocument();
   });
 });
 
@@ -202,7 +183,6 @@ describe('SingleRowBuilder refresh with an active editor', () => {
       workPackages: [{ id: '1' }],
       editing: {},
       productionMarkup: true,
-      configuration: { keyboardNavigationEnabled: true },
     });
     await harness.render();
     const subjectCell = harness.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
@@ -225,7 +205,7 @@ describe('SingleRowBuilder refresh with an active editor', () => {
       workPackages: [{ id: '1' }],
       editing: {},
       productionMarkup: true,
-      configuration: { keyboardNavigationEnabled: true, actionsColumnEnabled: false, columnMenuEnabled: true },
+      configuration: { actionsColumnEnabled: false, columnMenuEnabled: true },
     });
     await harness.render();
     const subjectCell = harness.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
@@ -246,7 +226,6 @@ describe('SingleRowBuilder refresh with an active editor', () => {
       workPackages: [{ id: '1' }],
       editing: {},
       productionMarkup: true,
-      configuration: { keyboardNavigationEnabled: true },
     });
     await harness.render();
     const row = harness.addInlineCreateRow();
@@ -270,7 +249,6 @@ describe('SingleRowBuilder refresh with an active editor', () => {
       columns: ['id', 'subject', 'location'],
       editing: { fields: ['subject', 'location'] },
       productionMarkup: true,
-      configuration: { keyboardNavigationEnabled: true },
     });
     await harness.render();
     const wp = harness.injector.get(States).workPackages.get('1').value!;
@@ -308,7 +286,6 @@ describe('SingleRowBuilder refresh with an active editor', () => {
     harness = buildTable({
       workPackages: [{ id: '1' }, { id: '2' }],
       editing: {},
-      configuration: { keyboardNavigationEnabled: true },
     });
     await harness.render();
     harness.click('1');
