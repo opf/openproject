@@ -1,0 +1,150 @@
+<select-panel
+  #selectPanel
+  data-select-variant="multiple"
+  data-fetch-strategy="local"
+  anchor-align="start"
+  anchor-side="outside-bottom"
+  data-view-component="true"
+  [attr.id]="panelId"
+  (click)="$event.stopPropagation()"
+  (invokerClicked)="resetSelection()"
+  (itemActivated)="onItemActivated($event)"
+  (panelClosed)="resetSelection()"
+>
+  <dialog-helper>
+    <button
+      type="button"
+      class="Button Button--secondary Button--medium"
+      data-view-component="true"
+      aria-haspopup="dialog"
+      aria-expanded="false"
+      [attr.id]="buttonId"
+      [attr.aria-controls]="dialogId"
+    >
+      <span class="Button-content">
+        <span class="Button-label">{{ label() }}</span>
+        <span class="Button-visual Button-trailingAction">
+          <svg octicon [icon]="'triangle-down'" size="small"></svg>
+        </span>
+      </span>
+    </button>
+
+    <dialog
+      class="Overlay Overlay-whenNarrow Overlay--size-medium-portrait"
+      data-target="select-panel.dialog"
+      data-view-component="true"
+      style="position: absolute"
+      [attr.id]="dialogId"
+      [attr.aria-labelledby]="titleId"
+    >
+      <div class="Overlay-header Overlay-header--divided" data-view-component="true">
+        <div class="Overlay-headerContentWrap">
+          <div class="Overlay-titleWrap">
+            <h1 class="Overlay-title" [attr.id]="titleId">{{ label() }}</h1>
+          </div>
+          <div class="Overlay-actionWrap">
+            <button
+              type="button"
+              class="close-button Overlay-closeButton"
+              [attr.data-close-dialog-id]="dialogId"
+              [attr.aria-label]="closeLabel"
+            >
+              <svg octicon [icon]="'x'" size="small"></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="Overlay-headerFilter" data-view-component="true">
+          <div data-target="select-panel.bannerErrorElement" hidden></div>
+          <remote-input data-target="select-panel.remoteInput" [attr.aria-owns]="bodyId">
+            <primer-text-field class="FormControl width-full FormControl--fullWidth">
+              <label class="sr-only FormControl-label position-absolute" [attr.for]="filterId">
+                {{ filterLabel }}
+              </label>
+              <div class="FormControl-input-wrap FormControl-input-wrap--leadingVisual">
+                <span class="FormControl-input-leadingVisualWrap">
+                  <svg
+                    octicon
+                    class="FormControl-input-leadingVisual"
+                    data-target="primer-text-field.leadingVisual"
+                    [icon]="'search'"
+                    size="small"
+                  ></svg>
+                </span>
+                <input
+                  type="search"
+                  name="filter"
+                  class="FormControl-input FormControl-medium"
+                  data-target="primer-text-field.inputElement select-panel.filterInputTextField"
+                  autocomplete="off"
+                  autofocus
+                  [attr.id]="filterId"
+                  [attr.aria-label]="filterLabel"
+                />
+              </div>
+            </primer-text-field>
+          </remote-input>
+        </div>
+      </div>
+
+      <div class="Overlay-body p-0 tmp-p-0" data-view-component="true">
+        <focus-group direction="vertical" mnemonics retain>
+          <live-region data-target="select-panel.liveRegion"></live-region>
+          <div data-fetch-strategy="local" data-target="select-panel.list" data-view-component="true">
+            <div [attr.id]="bodyId">
+              <action-list>
+                <div data-view-component="true">
+                  <ul
+                    class="ActionListWrap p-2 tmp-p-2"
+                    role="listbox"
+                    [attr.id]="listId"
+                    [attr.aria-label]="label()"
+                  >
+                    @for (option of options(); track option) {
+                      <li class="ActionListItem" role="none" data-view-component="true">
+                        <button
+                          type="button"
+                          class="ActionListContent"
+                          role="option"
+                          data-view-component="true"
+                          [attr.data-value]="option"
+                          [attr.aria-selected]="pendingValue() === option"
+                        >
+                          <span class="ActionListItem-visual ActionListItem-action--leading">
+                            <span class="FormControl-checkbox"></span>
+                          </span>
+                          <span class="ActionListItem-label" data-view-component="true">
+                            {{ labels()[option] }}
+                          </span>
+                        </button>
+                      </li>
+                    }
+                  </ul>
+                </div>
+              </action-list>
+            </div>
+            <div class="SelectPanel-emptyPanel" data-target="select-panel.noResults" hidden>
+              <h2 class="v-align-middle m-3 f5">{{ noResultsLabel }}</h2>
+            </div>
+          </div>
+        </focus-group>
+      </div>
+
+      <div
+        class="Overlay-footer Overlay-footer--alignEnd Overlay-footer--divided"
+        data-view-component="true"
+      >
+        <button
+          type="button"
+          class="Button Button--primary Button--medium"
+          data-view-component="true"
+          (click)="apply()"
+        >
+          <span class="Button-content">
+            <span class="Button-label">{{ applyLabel }}</span>
+          </span>
+        </button>
+      </div>
+    </dialog>
+  </dialog-helper>
+</select-panel>

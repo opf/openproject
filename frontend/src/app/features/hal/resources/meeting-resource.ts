@@ -28,6 +28,7 @@
 import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { HalResource, HalResourceLinks } from 'core-app/features/hal/resources/hal-resource';
 import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 
 interface MeetingResourceLinks {
   addAttachment:CallableHalLink;
@@ -35,7 +36,8 @@ interface MeetingResourceLinks {
 
 class MeetingBaseResource extends HalResource {
   title:string;
-  project:HalResource;
+  project:ProjectResource;
+  updatedAt:Date;
   public $links:MeetingResourceLinks & HalResourceLinks;
 }
 

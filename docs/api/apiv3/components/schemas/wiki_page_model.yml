@@ -12,9 +12,19 @@ properties:
   title:
     type: string
     description: The wiki page's title
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of the most recent change to the wiki page
+    readOnly: true
   _links:
     type: object
     properties:
+      showWikiPage:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: Open this wiki page in the web application
+          readOnly: true
       addAttachment:
         allOf:
         - "$ref": "./link.yml"
@@ -29,6 +39,7 @@ example:
   _type: WikiPage
   id: 72
   title: A wiki page with a name
+  updatedAt: '2026-09-05T12:00:00Z'
   _embedded:
     project:
       _type: Project...
