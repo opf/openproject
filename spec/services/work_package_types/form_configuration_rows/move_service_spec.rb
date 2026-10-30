@@ -136,6 +136,17 @@ RSpec.describe WorkPackageTypes::FormConfigurationRows::MoveService do
     expect(OpenProject::Mutex).to have_received(:with_advisory_lock_transaction).with(form, "layout")
   end
 
+  context "with a non-admin user" do
+    let(:user) { create(:user) }
+
+    it "refuses the move" do
+      call = move(priority, **into(other, category.id.to_s))
+
+      expect(call).to be_failure
+      expect(call.message).to eq(I18n.t("activerecord.errors.messages.error_unauthorized"))
+    end
+  end
+
   describe "refusals" do
     let(:foreign_group) { create(:form_configuration_group, label: "Elsewhere") }
     let!(:query_group) { create(:form_configuration_group, :query, form_configuration: form, label: "Table") }
