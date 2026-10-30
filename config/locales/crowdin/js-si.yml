@@ -1097,6 +1097,13 @@ si:
         title: Share work package
       table:
         configure_button: වැඩ පැකේජ වගුව සකසන්න
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: වැඩ පැකේජයේ පේළි සහ වැඩ පැකේජ ගුණාංගවල තීරු සහිත වගුව.
         text_inline_edit: මෙම වගුවේ බොහෝ සෛල එම ගුණාංගයේ පේලි-සංස්කරණ ක්රියාකාරිත්වය සක්රිය කරන බොත්තම් වේ.
         text_select_hint: තෝරන්න පෙට්ටි 'ALT' සහ ඊතල යතුරු සමඟ විවෘත කළ යුතුය.

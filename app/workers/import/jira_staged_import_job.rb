@@ -80,6 +80,7 @@ module Import
           batch.enqueue(stage: 5) do
             Import::JiraCreateProjectRoleJob.set(good_job_labels: ["stage_5"]).perform_later(jira_import.id)
             Import::JiraCreateCustomFieldsJob.set(good_job_labels: ["stage_5"]).perform_later(jira_import.id)
+            Import::JiraCreateLabelsJob.set(good_job_labels: ["stage_5"]).perform_later(jira_import.id)
           end
         elsif batch.properties[:stage] == 5
           Rails.logger.info "Starting stage 6"

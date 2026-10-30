@@ -1091,6 +1091,13 @@ vi:
         title: Chia sẻ gói công việc
       table:
         configure_button: Cấu hình bảng gói công việc
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Bảng có các hàng gói công việc và các cột thuộc tính gói công việc.
         text_inline_edit: Hầu hết các ô của bảng này là các nút kích hoạt chức năng chỉnh sửa nội tuyến của thuộc tính đó.
         text_select_hint: Các hộp chọn phải được mở bằng 'ALT' và phím mũi tên.

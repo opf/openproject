@@ -1690,6 +1690,8 @@ en:
         jobs:
           JiraCreateCustomFieldsJob:
             title: "Create custom fields"
+          JiraCreateLabelsJob:
+            title: "Create labels"
           JiraCreateParentChildRelationsFromSubtasksJob:
             title: "Create parent-child relations for '%{jira_project_name}'"
           JiraCreateProjectJob:
@@ -2392,6 +2394,7 @@ en:
 
     undisclosed:
       ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Undisclosed - The project is invisible because of lacking permissions.
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
       parent: Undisclosed - The parent is invisible because of lacking permissions.

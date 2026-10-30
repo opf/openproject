@@ -82,6 +82,7 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
 
           expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectRoleJob").count).to eq(0)
           expect(GoodJob::Job.where(job_class: "Import::JiraCreateCustomFieldsJob").count).to eq(0)
+          expect(GoodJob::Job.where(job_class: "Import::JiraCreateLabelsJob").count).to eq(0)
         end
 
         it "transitions the import to import_error" do
@@ -216,11 +217,12 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
     describe "stage 4" do
       let(:stage) { 4 }
 
-      it "enqueues the project role and custom fields creation jobs" do
+      it "enqueues the project role, custom fields and labels creation jobs" do
         run_callback
 
         expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectRoleJob").count).to eq(1)
         expect(GoodJob::Job.where(job_class: "Import::JiraCreateCustomFieldsJob").count).to eq(1)
+        expect(GoodJob::Job.where(job_class: "Import::JiraCreateLabelsJob").count).to eq(1)
       end
 
       it "labels enqueued jobs with stage_5" do
@@ -228,6 +230,7 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
 
         expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectRoleJob").last.labels).to include("stage_5")
         expect(GoodJob::Job.where(job_class: "Import::JiraCreateCustomFieldsJob").last.labels).to include("stage_5")
+        expect(GoodJob::Job.where(job_class: "Import::JiraCreateLabelsJob").last.labels).to include("stage_5")
       end
     end
 

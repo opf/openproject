@@ -954,8 +954,6 @@ pt-PT:
               invalid_tokens: Um ou mais atributos dentro do campo não são válidos. Corrija os atributos antes de os guardar.
             variant:
               must_belong_to_the_type: deve ser uma variante deste tipo.
-            workflow:
-              not_available_to_this_variant: tem de ser um fluxo de trabalho que este projeto possa utilizar.
         user:
           attributes:
             base:
@@ -1669,10 +1667,14 @@ pt-PT:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1831,7 +1833,7 @@ pt-PT:
                   subtitle: 'Envolvido em projetos importados '
                 work_packages:
                   label: Pacotes de trabalho
-                  subtitle: Com anexos
+                  subtitle: With attachments and logged time
               title: Importar resultados de execução
             import_scope:
               button_continue: Continuar
@@ -1848,6 +1850,7 @@ pt-PT:
                 issue_details: Descrição da ocorrência, historial, comentários e anexos
                 issue_ids: Identificadores de ocorrências
                 issues: Ocorrências
+                logged_time: Logged time
                 permissions: Permissões
                 project_ids: Identificadores do projeto
                 project_versions: Project versions
@@ -1880,6 +1883,9 @@ pt-PT:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -2344,6 +2350,7 @@ pt-PT:
       schema: Esquema
     undisclosed:
       ancestor: Não revelado - O ancestral está invisível devido a falta de permissões.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Não revelado - O projeto está invisível devido a falta de permissões.
       definingWorkspace: Não revelado - O espaço de trabalho está invisível devido a falta de permissões.
       parent: Não revelado - O parente está invisível devido a falta de permissões.
@@ -3838,6 +3845,7 @@ pt-PT:
       total_percent_complete_mode_changed_to_work_weighted_average: Os pacotes de trabalho para crianças sem Trabalho são ignorados.
       unaccessable_work_package_changed: por alterações num pacote de trabalho relacionado
       work_package_children_changed_times: por alterações no %{link} secundário
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: O estado foi automaticamente atualizado pelo pacote de trabalho duplicado %{link}
       work_package_parent_changed_times: por alterações no %{link} principal
       work_package_parent_deleted: porque o pacote de trabalho principal foi eliminado
@@ -3870,6 +3878,7 @@ pt-PT:
       system_update: 'Atualização do sistema OpenProject:'
       total_percent_complete_mode_changed_to_simple_average: O cálculo dos totais da % de conclusão baseia-se agora numa média simples de apenas os valores da % de conclusão.
       total_percent_complete_mode_changed_to_work_weighted_average: O cálculo dos totais da % de conclusão é agora ponderado pelo Trabalho.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'Pacote de trabalho duplicado atualizado:'
       work_package_parent_deleted: Elemento principal removido
     changes_retracted: As mudanças foram retraídas.
@@ -7365,9 +7374,6 @@ pt-PT:
         text: 'Isto tornará esta variante específica do projeto numa variante global, disponível para todos os projetos. O administrador do projeto deixará de poder editá-la.
 
           '
-        workflow_text: 'O seu fluxo de trabalho "%{name}" faz parte deste projeto e passa também a ser global.
-
-          '
       convert_to_global_notice: "%{name} é agora uma variante global."
       convert_to_global_rename:
         confirm: Converter
@@ -7699,9 +7705,6 @@ pt-PT:
       note_placeholder: Porque está a definir este lembrete?
       success_deletion_message: Lembrete eliminado com sucesso.
       success_update_message: Lembrete atualizado com sucesso.
-    updated_automatically_by_child_changes: '_Atualizado automaticamente através da alteração de valores no pacote de trabalho filho %{child}_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: Adicione relações a outros pacotes de trabalho para criar uma ligação entre eles.

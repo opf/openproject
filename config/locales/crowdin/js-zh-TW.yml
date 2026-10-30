@@ -1091,6 +1091,13 @@ zh-TW:
         title: 參與工作套件
       table:
         configure_button: 設定工作套件
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: 由工作套件和工作套件屬性列組成的表格。
         text_inline_edit: 該表中的大多數單元格都內嵌可以編輯屬性的按鈕。
         text_select_hint: 請使用Alt+方向鍵打開選擇框。
