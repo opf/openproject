@@ -1,0 +1,83 @@
+# Schema: CollaborationTokenModel
+---
+type: object
+description: |-
+  A short-lived token granting access to a document on the real-time collaboration (Hocuspocus) server.
+
+  The token is opaque: it is encrypted and can only be read by the collaboration server.
+  It must neither be stored nor logged. Pass it as the `token` of a Hocuspocus provider
+  whose `name` is the `documentName`, connecting to the `collaborationServer` link.
+required:
+  - _type
+  - token
+  - documentName
+  - expiresAt
+  - expiresInSeconds
+  - _links
+properties:
+  _type:
+    type: string
+    enum:
+      - CollaborationToken
+    readOnly: true
+  token:
+    type: string
+    description: The opaque, encrypted token to hand to the collaboration server.
+    readOnly: true
+  documentName:
+    type: string
+    format: uri
+    description: The name of the document on the collaboration server. It is the absolute API URL of the document.
+    readOnly: true
+  expiresAt:
+    type: string
+    format: date-time
+    description: The time the token expires at.
+    readOnly: true
+  expiresInSeconds:
+    type: integer
+    description: The number of seconds until the token expires.
+    readOnly: true
+  _links:
+    type: object
+    required:
+      - document
+      - createCollaborationToken
+      - collaborationServer
+    readOnly: true
+    properties:
+      document:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              The document the token grants access to
+
+              **Resource**: Document
+            readOnly: true
+      createCollaborationToken:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Creates a new token. Send this token as `token` to revoke it.
+            readOnly: true
+      collaborationServer:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              The WebSocket URL of the real-time collaboration server
+            readOnly: true
+example:
+  _type: CollaborationToken
+  token: "Q2lwaGVydGV4dA==--SXZJdlZJdg==--QXV0aFRhZw=="
+  documentName: "https://openproject.example.com/api/v3/documents/1"
+  expiresAt: '2025-01-04T09:05:00Z'
+  expiresInSeconds: 300
+  _links:
+    document:
+      href: "/api/v3/documents/1"
+      title: Some document
+    createCollaborationToken:
+      href: "/api/v3/documents/1/collaboration_token"
+      method: post
+    collaborationServer:
+      href: "wss://hocuspocus.example.com"
