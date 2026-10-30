@@ -55,6 +55,17 @@ RSpec.describe SemanticIndexes::StartIndexingService, with_good_job_batches: [Ll
     end
   end
 
+  context "when pgvector is unavailable" do
+    before { allow(OpenProject::Llm::Pgvector).to receive(:available?).and_return(false) }
+
+    it "fails without enqueuing" do
+      expect(result).to be_failure
+      expect(result.message).to eq(I18n.t("admin.semantic_indexes.indexing.not_ready.pgvector_missing"))
+      expect(semantic_index.reload).to be_not_indexed
+      expect(index_jobs).to be_empty
+    end
+  end
+
   context "as a regular user" do
     let(:user) { build_stubbed(:user) }
 
