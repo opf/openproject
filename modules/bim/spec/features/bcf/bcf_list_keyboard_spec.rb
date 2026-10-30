@@ -49,7 +49,7 @@ RSpec.describe "BCF list keyboard navigation", :js, with_config: { edition: "bim
     if view_name == "Table"
       -> { find(:button, "More actions") }
     else
-      -> { find(:link, "Use this link to upload and manage your IFC models") }
+      -> { find_link("Use this link to upload and manage your IFC models") }
     end
   end
   let(:wp_table) { Pages::EmbeddedWorkPackagesTable.new(page, project, entry_control:) }
