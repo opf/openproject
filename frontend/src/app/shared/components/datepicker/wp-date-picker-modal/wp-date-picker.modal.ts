@@ -27,16 +27,11 @@
 
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { isDatePickerCreateResponse, ModalCreateResponse } from 'core-app/shared/components/fields/edit/modal-with-turbo-content/modal-create-response';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-
-interface DatePickerModalResource {
-  id:string;
-  startDate:string|null;
-  dueDate:string|null;
-  duration:string|null;
-  includeNonWorkingDays:boolean|null;
-}
 
 @Component({
   templateUrl: './wp-date-picker.modal.html',
@@ -55,7 +50,20 @@ export class OpWpDatePickerModalComponent extends OpModalComponent implements On
     this.updateFrameSrc();
   }
 
-  public handleSuccessfulCreate(JSONResponse:{ duration:number, startDate:Date, dueDate:Date, includeNonWorkingDays:boolean, scheduleManually:boolean }):void {
+  public get resource():HalResource {
+    const resource = this.locals.resource;
+    if (!(resource instanceof HalResource)) throw new Error('Date picker requires a work package');
+    return resource;
+  }
+
+  public get change():ResourceChangeset {
+    const change = this.locals.change;
+    if (!(change instanceof ResourceChangeset)) throw new Error('Date picker requires a changeset');
+    return change;
+  }
+
+  public handleSuccessfulCreate(JSONResponse:ModalCreateResponse):void {
+    if (!isDatePickerCreateResponse(JSONResponse)) return;
     document.dispatchEvent(
       new CustomEvent('date-picker-modal:create', {
         detail: JSONResponse,
@@ -82,7 +90,8 @@ export class OpWpDatePickerModalComponent extends OpModalComponent implements On
   }
 
   public updateFrameSrc():void {
-    const resource = this.locals.resource as DatePickerModalResource;
+    const { resource } = this;
+    if (resource.id === null) throw new Error('Date picker requires a work package ID');
     const url = new URL(
       this.pathHelper.workPackageDatepickerDialogContentPath(resource.id),
       window.location.origin,
@@ -105,9 +114,12 @@ export class OpWpDatePickerModalComponent extends OpModalComponent implements On
     this.turboFrameSrc = url.toString();
   }
 
-  private nullAsEmptyStringFormatter(value:null|undefined|string|boolean):string {
+  private nullAsEmptyStringFormatter(value:unknown):string {
     if (value === undefined || value === null) {
       return '';
+    }
+    if (typeof value !== 'string' && typeof value !== 'boolean' && typeof value !== 'number') {
+      throw new Error('Invalid date picker parameter');
     }
     return String(value);
   }

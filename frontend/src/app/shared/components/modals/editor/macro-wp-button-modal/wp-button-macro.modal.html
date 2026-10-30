@@ -23,7 +23,7 @@
               id="selected-type"
               tabindex="1"
               name="selected-type"
-              (change)="selectedType = $event.target.value"
+              (change)="selectedType = typeSelect.value"
               class="form--select">
               <option [textContent]="text.none"
                 [selected]="!selectedType"

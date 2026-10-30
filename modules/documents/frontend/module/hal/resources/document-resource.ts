@@ -36,6 +36,8 @@ export interface DocumentResourceLinks {
 }
 
 class DocumentBaseResource extends HalResource {
+    public project:HalResource;
+
     public $links:DocumentResourceLinks & HalResourceLinks;
 
     private attachmentsBackend = false;
