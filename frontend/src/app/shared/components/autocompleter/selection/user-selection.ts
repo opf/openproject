@@ -31,7 +31,17 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import {
   IUserAutocompleteItem,
 } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
-import { EntityId, EntityReference, decodeEntityReference, isEntityId } from 'core-app/shared/types/entity-reference';
+import { EntityId, decodeEntityReference, isEntityId } from 'core-app/shared/types/entity-reference';
+import {
+  compareByIdentity,
+  decodeSingleEntity,
+  entitySelectionToModel,
+  halNameOf,
+  invalidShape,
+  readProperty,
+  referenceSource,
+  trackByIdentity,
+} from './entity-selection';
 import { DecodeResult, EntitySelection, SelectionAdapter } from './selection-adapter';
 
 export type UserSelection = EntitySelection<IUserAutocompleteItem>|null;
@@ -42,12 +52,6 @@ interface UserFields {
   href:string|null|undefined;
   email:string|null|undefined;
   avatar:string|null|undefined;
-}
-
-const invalidShape:DecodeResult<UserSelection> = { ok: false, issue: { code: 'invalid-shape' } };
-
-function readProperty(raw:object, key:keyof UserFields):unknown {
-  return Reflect.get(raw, key) as unknown;
 }
 
 function isOptionalText(value:unknown):value is string|null|undefined {
@@ -72,7 +76,7 @@ function fieldsOf(raw:object):UserFields|null {
 function halFieldsOf(resource:HalResource):UserFields|null {
   return fieldsOf({
     id: resource.id ?? undefined,
-    name: resource.name || undefined,
+    name: halNameOf(resource),
     href: resource.href,
     email: readProperty(resource, 'email'),
     avatar: readProperty(resource, 'avatar'),
@@ -109,78 +113,11 @@ function classify(fields:UserFields):DecodeResult<UserSelection> {
 }
 
 export function decodeUserSelection(raw:unknown):DecodeResult<UserSelection> {
-  if (raw == null) {
-    return { ok: true, value: null };
-  }
-  if (Array.isArray(raw)) {
-    return { ok: false, issue: { code: 'wrong-cardinality' } };
-  }
-  if (isEntityId(raw)) {
-    return { ok: true, value: { kind: 'reference', reference: { id: raw } } };
-  }
-  if (typeof raw !== 'object') {
-    return invalidShape;
-  }
-
-  const fields = raw instanceof HalResource ? halFieldsOf(raw) : fieldsOf(raw);
-  return fields ? classify(fields) : invalidShape;
-}
-
-function identityOf(raw:unknown):{ href?:string; id?:EntityId } {
-  if (typeof raw !== 'object' || raw === null) {
-    return {};
-  }
-
-  const href = readProperty(raw, 'href');
-  const id = readProperty(raw, 'id');
-  return {
-    ...(typeof href === 'string' && href.length > 0 && { href }),
-    ...(isEntityId(id) && { id }),
-  };
-}
-
-function compareUsers(a:unknown, b:unknown):boolean {
-  const left = identityOf(a);
-  const right = identityOf(b);
-
-  if (left.href !== undefined && right.href !== undefined) {
-    return left.href === right.href;
-  }
-  if (left.id !== undefined && right.id !== undefined) {
-    return String(left.id) === String(right.id);
-  }
-  return false;
-}
-
-function trackUser(raw:unknown):EntityId|undefined {
-  const { href, id } = identityOf(raw);
-  return href ?? id;
-}
-
-function userSelectionToModel(value:UserSelection):unknown {
-  if (value === null) {
-    return null;
-  }
-  return value.kind === 'option' ? value.option : value.reference;
+  return decodeSingleEntity<UserFields, IUserAutocompleteItem>(raw, { fieldsOf, halFieldsOf, classify });
 }
 
 export function createUserSelectionAdapter():SelectionAdapter<UserSelection> {
-  return new SelectionAdapter<UserSelection>(decodeUserSelection, null, userSelectionToModel, compareUsers, trackUser);
-}
-
-function referenceHref(reference:EntityReference, apiV3Service:ApiV3Service):string|null {
-  if (reference.href) {
-    return reference.href;
-  }
-  return reference.id != null ? apiV3Service.users.id(reference.id).path : null;
-}
-
-function referenceSource(reference:EntityReference, apiV3Service:ApiV3Service) {
-  return {
-    ...(reference.id != null && { id: reference.id }),
-    href: referenceHref(reference, apiV3Service),
-    ...(reference.name !== undefined && { name: reference.name }),
-  };
+  return new SelectionAdapter<UserSelection>(decodeUserSelection, null, entitySelectionToModel, compareByIdentity, trackByIdentity);
 }
 
 export function userSelectionToResource(
@@ -191,10 +128,14 @@ export function userSelectionToResource(
     return null;
   }
 
+  const pathFor = (id:EntityId):string => deps.apiV3Service.users.id(id).path;
+
   switch (value.kind) {
     case 'option':
-      return deps.halResourceService.createHalResourceOfType('user', { ...value.option });
+      return deps.halResourceService.createHalResourceOfType('user', value.option.href
+        ? { ...value.option }
+        : { ...value.option, ...referenceSource({ id: value.option.id }, pathFor) });
     case 'reference':
-      return deps.halResourceService.createHalResourceOfType('user', referenceSource(value.reference, deps.apiV3Service));
+      return deps.halResourceService.createHalResourceOfType('user', referenceSource(value.reference, pathFor));
   }
 }

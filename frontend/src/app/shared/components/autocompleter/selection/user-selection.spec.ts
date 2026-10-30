@@ -68,6 +68,19 @@ describe('decodeUserSelection', () => {
     expect(decoded).toEqual({ ok: true, value: { kind: 'option', option: { id: 7, name: 'Ada', href: null } } });
   });
 
+  it('keeps the empty name of a HAL user', () => {
+    const user = halResourceService.createHalResourceOfType('user', {
+      id: 7,
+      name: '',
+      _links: { self: { href: '/api/v3/users/7' } },
+    });
+
+    expect(decodeUserSelection(user)).toEqual({
+      ok: true,
+      value: { kind: 'option', option: { id: '7', name: '', href: '/api/v3/users/7' } },
+    });
+  });
+
   it('decodes an identity without a name as a reference', () => {
     expect(decodeUserSelection({ id: 7, href: '/api/v3/users/7' })).toEqual({
       ok: true,
@@ -245,5 +258,12 @@ describe('userSelectionToResource', () => {
 
     expect(resource?.href).toBe('/api/v3/placeholder_users/3');
     expect(resource?.name).toBe('Placeholder');
+  });
+
+  it('builds the href of an option without one from the users path', () => {
+    const resource = userSelectionToResource({ kind: 'option', option: { id: 7, name: 'Ada', href: null } }, deps);
+
+    expect(resource?.href).toBe('/api/v3/users/7');
+    expect(resource?.name).toBe('Ada');
   });
 });

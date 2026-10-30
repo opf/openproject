@@ -77,6 +77,19 @@ describe('decodeProjectSelection', () => {
     });
   });
 
+  it('keeps the empty name of a HAL project', () => {
+    const project = halResourceService.createHalResourceOfType('project', {
+      id: 7,
+      name: '',
+      _links: { self: { href: '/api/v3/projects/7' } },
+    });
+
+    expect(decodeProjectSelection(project)).toEqual({
+      ok: true,
+      value: { kind: 'option', option: { id: '7', name: '', href: '/api/v3/projects/7' } },
+    });
+  });
+
   it('decodes an identity without a name as a reference', () => {
     expect(decodeProjectSelection({ id: 7, href: '/api/v3/projects/7' })).toEqual({
       ok: true,

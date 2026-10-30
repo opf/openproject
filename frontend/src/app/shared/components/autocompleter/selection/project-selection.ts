@@ -31,7 +31,17 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import {
   IProjectAutocompleterData,
 } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter.component';
-import { EntityId, EntityReference, decodeEntityReference, isEntityId } from 'core-app/shared/types/entity-reference';
+import { EntityId, decodeEntityReference, isEntityId } from 'core-app/shared/types/entity-reference';
+import {
+  compareByIdentity,
+  decodeSingleEntity,
+  entitySelectionToModel,
+  halNameOf,
+  invalidShape,
+  readProperty,
+  referenceSource,
+  trackByIdentity,
+} from './entity-selection';
 import { DecodeResult, EntitySelection, SelectionAdapter } from './selection-adapter';
 
 export type ProjectSelection = EntitySelection<IProjectAutocompleterData>|null;
@@ -40,12 +50,6 @@ interface ProjectFields {
   id:EntityId|null|undefined;
   name:string|undefined;
   href:string|null|undefined;
-}
-
-const invalidShape:DecodeResult<ProjectSelection> = { ok: false, issue: { code: 'invalid-shape' } };
-
-function readProperty(raw:object, key:string):unknown {
-  return Reflect.get(raw, key) as unknown;
 }
 
 function fieldsOf(raw:object):ProjectFields|null {
@@ -63,7 +67,7 @@ function fieldsOf(raw:object):ProjectFields|null {
 function halFieldsOf(resource:HalResource):ProjectFields|null {
   return fieldsOf({
     id: resource.id ?? undefined,
-    name: resource.name || undefined,
+    name: halNameOf(resource),
     href: resource.href,
   });
 }
@@ -89,84 +93,17 @@ function classify({ id, name, href }:ProjectFields):DecodeResult<ProjectSelectio
 }
 
 export function decodeProjectSelection(raw:unknown):DecodeResult<ProjectSelection> {
-  if (raw == null) {
-    return { ok: true, value: null };
-  }
-  if (Array.isArray(raw)) {
-    return { ok: false, issue: { code: 'wrong-cardinality' } };
-  }
-  if (isEntityId(raw)) {
-    return { ok: true, value: { kind: 'reference', reference: { id: raw } } };
-  }
-  if (typeof raw !== 'object') {
-    return invalidShape;
-  }
-
-  const fields = raw instanceof HalResource ? halFieldsOf(raw) : fieldsOf(raw);
-  return fields ? classify(fields) : invalidShape;
-}
-
-function identityOf(raw:unknown):{ href?:string; id?:EntityId } {
-  if (typeof raw !== 'object' || raw === null) {
-    return {};
-  }
-
-  const href = readProperty(raw, 'href');
-  const id = readProperty(raw, 'id');
-  return {
-    ...(typeof href === 'string' && href.length > 0 && { href }),
-    ...(isEntityId(id) && { id }),
-  };
-}
-
-function compareProjects(a:unknown, b:unknown):boolean {
-  const left = identityOf(a);
-  const right = identityOf(b);
-
-  if (left.href !== undefined && right.href !== undefined) {
-    return left.href === right.href;
-  }
-  if (left.id !== undefined && right.id !== undefined) {
-    return String(left.id) === String(right.id);
-  }
-  return false;
-}
-
-function trackProject(raw:unknown):EntityId|undefined {
-  const { href, id } = identityOf(raw);
-  return href ?? id;
-}
-
-function projectSelectionToModel(value:ProjectSelection):unknown {
-  if (value === null) {
-    return null;
-  }
-  return value.kind === 'option' ? value.option : value.reference;
+  return decodeSingleEntity<ProjectFields, IProjectAutocompleterData>(raw, { fieldsOf, halFieldsOf, classify });
 }
 
 export function createProjectSelectionAdapter():SelectionAdapter<ProjectSelection> {
   return new SelectionAdapter<ProjectSelection>(
     decodeProjectSelection,
     null,
-    projectSelectionToModel,
-    compareProjects,
-    trackProject,
+    entitySelectionToModel,
+    compareByIdentity,
+    trackByIdentity,
   );
-}
-
-function referenceHref(reference:EntityReference, apiV3Service:ApiV3Service):string|null {
-  if (reference.href) {
-    return reference.href;
-  }
-  return reference.id != null ? apiV3Service.projects.id(reference.id).path : null;
-}
-
-function referenceSource(reference:EntityReference, apiV3Service:ApiV3Service) {
-  return {
-    ...(reference.id != null && { id: reference.id }),
-    href: referenceHref(reference, apiV3Service),
-    ...(reference.name !== undefined && { name: reference.name }),
-  };
 }
 
 export function projectSelectionToResource(
@@ -181,6 +118,6 @@ export function projectSelectionToResource(
     case 'option':
       return deps.halResourceService.createHalResourceOfType('project', { ...value.option });
     case 'reference':
-      return deps.halResourceService.createHalResourceOfType('project', referenceSource(value.reference, deps.apiV3Service));
+      return deps.halResourceService.createHalResourceOfType('project', referenceSource(value.reference, (id) => deps.apiV3Service.projects.id(id).path));
   }
 }
