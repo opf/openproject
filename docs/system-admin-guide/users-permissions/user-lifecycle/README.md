@@ -15,7 +15,7 @@ OpenProject.
 ---
 title: OpenProject user lifecycle
 ---
-%%{init: {'theme':'neutral'}}%%
+%%{init: {'theme':'neutral', 'layout':'elk'}}%%
 
 stateDiagram-v2
   direction TB
