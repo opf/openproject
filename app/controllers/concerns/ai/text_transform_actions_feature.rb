@@ -31,6 +31,9 @@ module AI
   module TextTransformActionsFeature
     extend ActiveSupport::Concern
 
+    # TODO(AI-166): replace :mcp_server once openproject-token ships a text actions key
+    ENTERPRISE_FEATURE = :mcp_server
+
     private
 
     def require_ai_text_transform_actions_feature
