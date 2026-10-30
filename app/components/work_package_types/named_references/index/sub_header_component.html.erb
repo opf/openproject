@@ -49,5 +49,8 @@ See COPYRIGHT and LICENSE files for more details.
       <%= render(type_filter_component) %>
       <%= render(projects_filter_component) %>
     <% end %>
+
+    <% sub_header.with_filter_component { render(filter_button_component) } %>
+    <% sub_header.with_bottom_pane_component { render(filter_panel_component) } %>
   <% end %>
 <% end %>

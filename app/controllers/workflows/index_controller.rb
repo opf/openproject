@@ -79,10 +79,17 @@ module Workflows
       @query = ::Queries::Workflows::WorkflowQuery.new
 
       @query.where(:name, "~", [name_term]) if name_term.present?
-      @query.where(:type_id, "=", filtered_type_ids) if filtered_type_ids.any?
-      @query.where(:project_id, "=", filtered_project_ids) if filtered_project_ids.any?
+      list_filters.each { |key, ids| @query.where(key, "=", ids) if ids.any? }
 
       @query
+    end
+
+    def list_filters
+      {
+        type_id: filtered_type_ids,
+        project_id: filtered_project_ids,
+        status_id: filtered_status_ids
+      }
     end
 
     def name_term = @name_term ||= values_for(::Queries::Workflows::Filters::NameFilter.key).first.to_s.strip
@@ -90,6 +97,8 @@ module Workflows
     def filtered_type_ids = @filtered_type_ids ||= values_for(::Queries::Workflows::Filters::TypeFilter.key)
 
     def filtered_project_ids = @filtered_project_ids ||= values_for(::Queries::Workflows::Filters::ProjectFilter.key)
+
+    def filtered_status_ids = @filtered_status_ids ||= values_for(::Queries::Workflows::Filters::StatusFilter.key)
 
     def values_for(filter_key)
       requested_filters
