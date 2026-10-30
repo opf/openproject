@@ -37,7 +37,7 @@ module AI
       class << self
         attr_accessor :factory
 
-        def build = factory&.call || NullGateway.new
+        def build = Gateway.factory&.call || NullGateway.new
       end
     end
   end

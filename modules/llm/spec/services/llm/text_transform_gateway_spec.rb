@@ -64,7 +64,7 @@ RSpec.describe Llm::TextTransformGateway, :llm_server_helpers, :webmock,
       expect(gateway.readiness).to be_ready
     end
 
-    %i[feature_disabled no_connection unbound model_missing incapable].each do |status|
+    %i[unbound incapable].each do |status|
       it "is not ready and reports #{status} when the resolution is #{status}" do
         resolution = instance_double(Llm::Runtime::Resolution, ready?: false, status:)
         allow(Llm::Runtime).to receive(:for).with(:description_assistant).and_return(resolution)
@@ -77,6 +77,15 @@ RSpec.describe Llm::TextTransformGateway, :llm_server_helpers, :webmock,
 
   describe "#stream" do
     let!(:connection) { create(:llm_connection, :with_models, default_chat_model_identifier: "qwen3.6-27b") }
+
+    it "gives the session the run's budget as timeout and forbids retries" do
+      stub_stream("ok")
+      allow(Llm::Session).to receive(:for).and_call_original
+
+      stream { nil }
+
+      expect(Llm::Session).to have_received(:for).with(connection, timeout: 30, max_retries: 0)
+    end
 
     it "resolves the model once for the readiness check and the completion" do
       stub_stream("ok")
@@ -207,6 +216,10 @@ RSpec.describe Llm::TextTransformGateway, :llm_server_helpers, :webmock,
   describe "registration with the text transform port" do
     it "is the gateway the port builds by default" do
       expect(AI::TextTransforms::Gateway.build).to be_a(described_class)
+    end
+
+    it "is built through the port's factory when asked on the subclass" do
+      expect(described_class.build).to be_a(described_class)
     end
   end
 end

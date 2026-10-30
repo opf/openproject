@@ -50,6 +50,19 @@ RSpec.describe OpenProject::Llm::Patches::RubyLLMStreamErrorStatus, :webmock do
 
   it "applies to every provider" do
     expect(RubyLLM::Provider.ancestors).to include(described_class)
+    expect(RubyLLM::Provider.private_method_defined?(:build_stream_error_response)).to be(true)
+  end
+
+  it "takes exactly the statuses that RubyLLM's error middleware classifies beyond a bad request" do
+    classified = (400..599).select do |status|
+      RubyLLM::ErrorMiddleware.parse_error(provider: nil, response: Struct.new(:status, :body).new(status, ""))
+    rescue RubyLLM::BadRequestError
+      false
+    rescue RubyLLM::Error => e
+      !e.instance_of?(RubyLLM::Error)
+    end
+
+    expect(classified).to match_array(described_class::CLASSIFIED_STATUSES)
   end
 
   it "reports a 429 whose error type the provider does not know as a rate limit" do
