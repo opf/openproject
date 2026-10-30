@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { isDatePickerCreateResponse } from 'core-app/shared/components/fields/edit/modal-with-turbo-content/modal-create-response';
 import { Directive, OnDestroy, OnInit, inject } from '@angular/core';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import {
@@ -98,13 +99,10 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
       });
   }
 
-  public handleSuccessfulCreate(event:CustomEvent):void {
-    const { detail: {
-      duration,
-      startDate,
-      dueDate,
-      includeNonWorkingDays,
-      scheduleManually } } = event as { detail:{ duration:number, startDate:Date, dueDate:Date, includeNonWorkingDays:boolean, scheduleManually:boolean } };
+  public handleSuccessfulCreate(event:Event):void {
+    if (!(event instanceof CustomEvent) || !isDatePickerCreateResponse(event.detail)) return;
+
+    const { duration, startDate, dueDate, includeNonWorkingDays, scheduleManually } = event.detail;
 
     this.resource.duration = duration ? this.timezoneService.toISODuration(duration, 'days') : null;
     // debugger;

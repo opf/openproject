@@ -36,6 +36,10 @@ export interface StorageFileListItemCheckbox {
 }
 
 export class StorageFileListItem {
+  get id():IStorageFile['id'] {
+    return this.storageFile.id;
+  }
+
   get name():string {
     return this.storageFile.name;
   }

@@ -29,7 +29,7 @@
   }
 
   <div class="op-file-section">
-    @if ((fileLinks | async)?.length > 0) {
+    @if (((fileLinks | async)?.length ?? 0) > 0) {
       <ul
         class="spot-list spot-list_compact op-file-list"
         [ngClass]="{
@@ -44,7 +44,7 @@
             data-test-selector="file-list--item"
             op-file-link-list-item
             [fileLink]="fileLink"
-            [disabled]="disabled | async"
+            [disabled]="(disabled | async) === true"
             [allowEditing]="allowLinking"
             (removeFileLink)="removeFileLink(fileLink)"
           ></li>

@@ -32,6 +32,7 @@ import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { isDatePickerCreateResponse, isProgressCreateResponse, ModalCreateResponse } from './modal-create-response';
 import type { TurboBeforeFrameRenderEvent, TurboSubmitEndEvent } from '@hotwired/turbo';
 
 @Directive({
@@ -49,7 +50,7 @@ export class ModalWithTurboContentDirective implements AfterViewInit, OnDestroy 
   @Input() resource:HalResource;
   @Input() change:ResourceChangeset<HalResource>;
 
-  @Output() successfulCreate= new EventEmitter<unknown>();
+  @Output() successfulCreate= new EventEmitter<ModalCreateResponse>();
   @Output() successfulUpdate= new EventEmitter();
   @Output() cancel= new EventEmitter();
 
@@ -117,6 +118,8 @@ export class ModalWithTurboContentDirective implements AfterViewInit, OnDestroy 
     if (fetchResponse?.succeeded) {
       if (!fetchResponse.response.body) return;
       const JSONresponse:unknown = await this.extractJSONFromResponse(fetchResponse.response.body);
+
+      if (!isDatePickerCreateResponse(JSONresponse) && !isProgressCreateResponse(JSONresponse)) return;
 
       this.successfulCreate.emit(JSONresponse);
 
