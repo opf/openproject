@@ -62,9 +62,11 @@ module Workflows
 
     def variant_tab? = !standalone? && !wizard?
 
-    def readonly? = @readonly || variant_tab? || (wizard? && reused?)
+    def readonly? = @readonly || variant_tab? || (wizard? && (reused? || project_variant?))
 
     def reused? = !workflow.used_by_one_variant?
+
+    def project_variant? = variant&.project_id.present?
 
     def matrix_path(**)
       if standalone?
@@ -78,7 +80,7 @@ module Workflows
       if standalone?
         routes.status_dialog_workflow_matrix_path(workflow, **)
       else
-        status_dialog_variant_workflow_matrix_path(scope_project, variant, **wizard_params, **)
+        status_dialog_variant_workflow_matrix_path(variant, **wizard_params, **)
       end
     end
 
@@ -86,14 +88,14 @@ module Workflows
       if standalone?
         routes.confirm_statuses_workflow_matrix_path(workflow, **)
       else
-        confirm_statuses_variant_workflow_matrix_path(scope_project, variant, **wizard_params, **)
+        confirm_statuses_variant_workflow_matrix_path(variant, **wizard_params, **)
       end
     end
 
     def copy_path(**)
       return routes.new_workflow_copy_path(workflow, **) if standalone?
 
-      new_variant_workflow_copy_path(scope_project, variant, **wizard_params, **)
+      new_variant_workflow_copy_path(variant, **wizard_params, **)
     end
 
     def eligible_roles

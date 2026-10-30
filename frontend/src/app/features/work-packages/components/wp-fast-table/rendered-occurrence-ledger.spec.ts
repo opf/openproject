@@ -44,6 +44,7 @@ function draftOccurrence(key:OccurrenceKey, overrides:Partial<DraftOccurrence> =
     workPackageId: '1',
     renderType: 'primary',
     hidden: false,
+    level: 1,
     element: null,
     additionalClasses: [],
     workPackage: null,
@@ -228,6 +229,18 @@ describe('RenderedOccurrenceLedger', () => {
     expect(ledger.byKey('a')?.hidden).toBe(true);
     expect(ledger.indexOfKey('a')).toBe(0);
     expect(ledger.generation).toBe(generation);
+  });
+
+  it('keeps the level through commit, setHidden and replaceElement', () => {
+    const ledger = new RenderedOccurrenceLedger();
+    commitKeys(ledger, draftOccurrence('a', { level: 3, element: document.createElement('tr') }));
+    expect(ledger.byKey('a')?.level).toBe(3);
+
+    ledger.setHidden(new Map([['a', true]]));
+    expect(ledger.byKey('a')?.level).toBe(3);
+
+    ledger.replaceElement('a', document.createElement('tr'));
+    expect(ledger.byKey('a')?.level).toBe(3);
   });
 
   it('looks up occurrences by element', () => {

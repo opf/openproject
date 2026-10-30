@@ -954,8 +954,6 @@ sv:
               invalid_tokens: Ett eller flera attribut i fältet är ogiltiga. Korrigera attributen innan du sparar.
             variant:
               must_belong_to_the_type: måste vara en variant av den här typen.
-            workflow:
-              not_available_to_this_variant: måste vara ett arbetsflöde som det här projektet får använda.
         user:
           attributes:
             base:
@@ -1669,10 +1667,14 @@ sv:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1831,7 +1833,7 @@ sv:
                   subtitle: Involverade i importerade projekt
                 work_packages:
                   label: Arbetspaket
-                  subtitle: Med bilagor
+                  subtitle: With attachments and logged time
               title: Resultat för importkörning
             import_scope:
               button_continue: Fortsätt
@@ -1848,6 +1850,7 @@ sv:
                 issue_details: Ärendebeskrivning, historik, kommentarer och bilagor
                 issue_ids: Ärendeidentifierare
                 issues: Problem
+                logged_time: Logged time
                 permissions: Behörigheter
                 project_ids: Projektidentifierare
                 project_versions: Project versions
@@ -1880,6 +1883,9 @@ sv:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -2344,6 +2350,7 @@ sv:
       schema: Schema
     undisclosed:
       ancestor: Ej visad – Den överordnade posten är osynlig på grund av otillräckliga behörigheter.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Ej visad – Projektet är osynligt på grund av otillräckliga behörigheter.
       definingWorkspace: Ej visad – Arbetsytan är osynlig på grund av otillräckliga behörigheter.
       parent: Ej visad – Den överordnade posten är osynlig på grund av otillräckliga behörigheter.
@@ -3836,6 +3843,7 @@ sv:
       total_percent_complete_mode_changed_to_work_weighted_average: Underordnade arbetspaket utan Arbete ignoreras.
       unaccessable_work_package_changed: genom ändringar i ett relaterat arbetspaket
       work_package_children_changed_times: genom ändringar i underordnad %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: Statusen uppdaterades automatiskt av det duplicerade arbetspaketet %{link}
       work_package_parent_changed_times: genom ändringar i överordnad %{link}
       work_package_parent_deleted: eftersom det överordnade arbetspaketet togs bort
@@ -3868,6 +3876,7 @@ sv:
       system_update: 'OpenProject-systemuppdatering:'
       total_percent_complete_mode_changed_to_simple_average: Beräkningen av totalsummor för % klart baseras nu på ett enkelt medelvärde av endast värden för % klart.
       total_percent_complete_mode_changed_to_work_weighted_average: Beräkningen av totalsummor för % klart viktas nu efter Arbete.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'Duplicerat arbetspaket uppdaterat:'
       work_package_parent_deleted: Överordnad borttagen
     changes_retracted: Förändringarna drogs tillbaka.
@@ -7360,9 +7369,6 @@ sv:
         text: 'Detta gör den projektspecifika varianten global och tillgänglig för alla projekt. Projektadministratören kan då inte längre redigera den.
 
           '
-        workflow_text: 'Dess arbetsflöde ”%{name}” tillhör det här projektet och blir också globalt.
-
-          '
       convert_to_global_notice: "%{name} är nu en global variant."
       convert_to_global_rename:
         confirm: Omvandla
@@ -7694,9 +7700,6 @@ sv:
       note_placeholder: Varför ställer du in den här påminnelsen?
       success_deletion_message: Påminnelsen har tagits bort.
       success_update_message: Påminnelsen har uppdaterats.
-    updated_automatically_by_child_changes: '_Uppdateras automatiskt genom att ändra värdena för underarbetspaket %{child} _
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: Lägg till relationer till andra arbetspaket för att skapa en länk mellan dem.

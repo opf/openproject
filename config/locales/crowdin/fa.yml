@@ -952,8 +952,6 @@ fa:
               invalid_tokens: یک یا چند ویژگی داخل فیلد معتبر نیستند. لطفاً پیش از ذخیره آن‌ها را اصلاح کنید.
             variant:
               must_belong_to_the_type: باید گونه‌ای از این نوع باشد.
-            workflow:
-              not_available_to_this_variant: باید گردش کاری‌ای باشد که این پروژه بتواند از آن استفاده کند.
         user:
           attributes:
             base:
@@ -1667,10 +1665,14 @@ fa:
         jobs:
           JiraCreateCustomFieldsJob:
             title: ایجاد فیلدهای سفارشی
+          JiraCreateLabelsJob:
+            title: Create labels
           JiraCreateProjectJob:
             title: ایجاد پروژه «%{jira_project_name}»
           JiraCreateProjectRoleJob:
             title: ایجاد نقش پروژه «JiraMember»
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: ایجاد نسخه‌ها برای «%{jira_project_name}»
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1829,7 +1831,7 @@ fa:
                   subtitle: درگیر در پروژه‌های واردشده
                 work_packages:
                   label: بسته‌های کاری
-                  subtitle: همراه با پیوست‌ها
+                  subtitle: With attachments and logged time
               title: نتایج اجرای Import
             import_scope:
               button_continue: ادامه
@@ -1846,6 +1848,7 @@ fa:
                 issue_details: توضیحات Issue، تاریخچه، دیدگاه‌ها و پیوست‌ها
                 issue_ids: شناسه‌های Issue
                 issues: Issueها
+                logged_time: Logged time
                 permissions: مجوزها
                 project_ids: شناسه‌های پروژه
                 project_versions: نسخه‌های پروژه
@@ -1878,6 +1881,9 @@ fa:
             '1':
               rest_line_text: ''
               title: دریافت پیکربندی Jira
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
             '2':
               rest_line_text: در حال دریافت مسائل و نسخه‌های %{projects_number} پروژه دیگر
               title: دریافت مسائل و نسخه‌های پروژه‌ها
@@ -2342,6 +2348,7 @@ fa:
       schema: شِما
     undisclosed:
       ancestor: نمایش‌داده‌نشده - جد به‌دلیل نبود مجوز قابل مشاهده نیست.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: نمایش‌داده‌نشده - پروژه به‌دلیل نبود مجوز قابل مشاهده نیست.
       definingWorkspace: نمایش‌داده‌نشده - فضای کاری به‌دلیل نبود مجوز قابل مشاهده نیست.
       parent: نمایش‌داده‌نشده - والد به‌دلیل نبود مجوز قابل مشاهده نیست.
@@ -3834,6 +3841,7 @@ fa:
       total_percent_complete_mode_changed_to_work_weighted_average: بسته‌های کاری فرزند بدون کار نادیده گرفته می‌شوند.
       unaccessable_work_package_changed: به‌دلیل تغییرات یک بسته کاری مرتبط
       work_package_children_changed_times: به‌دلیل تغییرات فرزند %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: وضعیت به‌طور خودکار توسط بسته کاری تکثیرشده %{link} به‌روزرسانی شد
       work_package_parent_changed_times: به‌دلیل تغییرات والد %{link}
       work_package_parent_deleted: زیرا بسته کاری والد حذف شد
@@ -3866,6 +3874,7 @@ fa:
       system_update: 'به‌روزرسانی سیستم OpenProject:'
       total_percent_complete_mode_changed_to_simple_average: محاسبه مجموع ٪ تکمیل اکنون براساس میانگین ساده فقط مقادیر ٪ تکمیل انجام می‌شود.
       total_percent_complete_mode_changed_to_work_weighted_average: محاسبه مجموع ٪ تکمیل اکنون براساس کار وزن‌دهی می‌شود.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'بسته کاری تکثیرشده به‌روزرسانی شد:'
       work_package_parent_deleted: والد حذف شد
     changes_retracted: تغییرات پس گرفته شدند.
@@ -7376,9 +7385,6 @@ fa:
         text: 'با این کار، این گونه ویژه پروژه به یک گونه سراسری تبدیل می‌شود که برای همه پروژه‌ها در دسترس است. مدیر پروژه دیگر نمی‌تواند آن را ویرایش کند.
 
           '
-        workflow_text: 'گردش کاری «%{name}» متعلق به این پروژه است و آن نیز سراسری خواهد شد.
-
-          '
       convert_to_global_notice: "%{name} اکنون یک گونه سراسری است."
       convert_to_global_rename:
         confirm: تبدیل
@@ -7710,9 +7716,6 @@ fa:
       note_placeholder: چرا این یادآوری را تنظیم می‌کنید؟
       success_deletion_message: یادآوری با موفقیت حذف شد.
       success_update_message: یادآوری با موفقیت به‌روزرسانی شد.
-    updated_automatically_by_child_changes: '_به‌طور خودکار با تغییر مقادیر در بسته کاری فرزند %{child} به‌روزرسانی شد_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: برای ایجاد پیوند، روابطی با بسته‌های کاری دیگر اضافه کنید.

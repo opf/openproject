@@ -46,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
   <% dialog.with_additional_details(display: :block) do %>
-    <%= render(OpPrimer::InsetBoxComponent.new(test_selector: "type-projects-switching")) do %>
+    <%= render(Primer::OpenProject::InsetBox.new(test_selector: "type-projects-switching")) do %>
       <% switching.each do |project_type| %>
         <%= render(Primer::Beta::Text.new(tag: :div)) do %>
           <%= project_type.project.name %>

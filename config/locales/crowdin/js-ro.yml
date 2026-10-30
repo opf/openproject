@@ -1103,6 +1103,13 @@ ro:
         title: Share work package
       table:
         configure_button: Configurarea tabelului pachetului de lucru
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabel cu pachete de lucru pe rânduri şi câmpurile pachetelor pe coloane.
         text_inline_edit: Majoritatea celulelor din acest tabel sunt butoane care activează editarea "inline" a câmpului respectiv.
         text_select_hint: Casetele de selectare ar trebui să fie deschise cu 'ALT' si tastele săgeată.

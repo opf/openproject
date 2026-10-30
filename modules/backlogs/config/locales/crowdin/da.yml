@@ -241,7 +241,7 @@ da:
             initially_planned:
               heading: Oprindeligt planlagt
             unfinished:
-              heading: Ikke færdige
+              heading: Ufærdige
           breakdown_block:
             blocks:
               show_all: Vis alle
@@ -253,42 +253,42 @@ da:
           added:
             blankslate:
               empty:
-                description: Work packages that were added after the sprint start date will appear here.
+                description: Arbejdspakker, der er tilføjet efter sprintens startdato, vises her.
               no_dates:
-                description: Sprint start and finish dates are necessary to show added work packages.
+                description: Sprinten skal have en start- og slutdato, før tilføjede arbejdspakker kan vises.
               not_started:
-                description: Added work packages will appear here after the sprint starts.
-            title: Scope increase after sprint start
+                description: Tilføjede arbejdspakker vises her, når sprinten er startet.
+            title: Øget omfang efter sprintstart
           blankslate:
-            heading: No work packages to display
+            heading: Ingen arbejdspakker at vise
           completed:
             blankslate:
               empty:
-                description: Work packages that were completed in the sprint will appear here.
+                description: Arbejdspakker, der er gjort færdige i sprinten, vises her.
               no_dates:
-                description: Sprint start and finish dates are necessary to show completed work packages.
+                description: Sprinten skal have en start- og slutdato, før færdige arbejdspakker kan vises.
               not_started:
-                description: Completed work packages will appear here after the sprint starts.
-            title: Completed work
+                description: Færdige arbejdspakker vises her, når sprinten er startet.
+            title: Færdigt arbejde
           removed:
             blankslate:
               empty:
-                description: Work packages that were removed after the sprint start date will appear here.
+                description: Arbejdspakker, der er fjernet efter sprintens startdato, vises her.
               no_dates:
-                description: Sprint start and finish dates are necessary to show removed work packages.
+                description: Sprinten skal have en start- og slutdato, før fjernede arbejdspakker kan vises.
               not_started:
-                description: Removed work packages will appear here after the sprint starts.
-            title: Scope decrease after sprint start
+                description: Fjernede arbejdspakker vises her, når sprinten er startet.
+            title: Reduceret omfang efter sprintstart
           unfinished:
             blankslate:
               empty:
-                description: All work packages in this sprint are completed.
-                heading: Wow, all done!
+                description: Alle arbejdspakker i denne sprint er færdige.
+                heading: Flot, alt er færdigt!
               no_dates:
-                description: Sprint start and finish dates are necessary to show unfinished work packages.
+                description: Sprinten skal have en start- og slutdato, før ufærdige arbejdspakker kan vises.
               not_started:
-                description: Unfinished work packages will appear here after the sprint starts.
-            title: Unfinished work
+                description: Ufærdige arbejdspakker vises her, når sprinten er startet.
+            title: Ufærdigt arbejde
     sprints:
       row_component:
         action_menu:

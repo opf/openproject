@@ -953,8 +953,6 @@ zh-CN:
               invalid_tokens: 字段内的一个或多个特性无效。请先修正特性，然后再保存。
             variant:
               must_belong_to_the_type: 必须是此类型的变体。
-            workflow:
-              not_available_to_this_variant: 必须是此项目可以使用的工作流。
         user:
           attributes:
             base:
@@ -1559,10 +1557,14 @@ zh-CN:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1714,7 +1716,7 @@ zh-CN:
                   subtitle: '参与导入的项目 '
                 work_packages:
                   label: 工作包
-                  subtitle: 包含附件
+                  subtitle: With attachments and logged time
               title: 导入运行结果
             import_scope:
               button_continue: 继续
@@ -1730,6 +1732,7 @@ zh-CN:
                 issue_details: 问题描述、历史、评论和附件
                 issue_ids: 问题标识符
                 issues: 问题
+                logged_time: Logged time
                 permissions: 权限
                 project_ids: 项目标识符
                 project_versions: Project versions
@@ -1762,6 +1765,9 @@ zh-CN:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -2218,6 +2224,7 @@ zh-CN:
       schema: 方案
     undisclosed:
       ancestor: 未公开 - 由于缺少权限，上级不可见。
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: 未公开 - 由于缺少权限，项目不可见。
       definingWorkspace: 未公开 - 由于缺少权限，工作空间不可见。
       parent: 未公开 - 由于缺少权限，父项不可见。
@@ -3677,6 +3684,7 @@ zh-CN:
       total_percent_complete_mode_changed_to_work_weighted_average: 无工时的子工作包被忽略。
       unaccessable_work_package_changed: 通过对相关工作包的更改
       work_package_children_changed_times: 通过对子级的更改 %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: 重复的工作包自动更新了状态 %{link}
       work_package_parent_changed_times: 通过对父级的更改 %{link}
       work_package_parent_deleted: 因为父工作包已被删除
@@ -3709,6 +3717,7 @@ zh-CN:
       system_update: OpenProject 系统更新：
       total_percent_complete_mode_changed_to_simple_average: 完成% 总数的计算现在仅基于完成% 值的简单平均值。
       total_percent_complete_mode_changed_to_work_weighted_average: 现在按工作加权计算的 完成% 总数。
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 重复的工作包已更新：
       work_package_parent_deleted: 父项已移除
     changes_retracted: 更改已撤回。
@@ -7182,9 +7191,6 @@ zh-CN:
         text: '此操作会将这一项目特定变体转换为对所有项目可用的全局变体。项目管理员将无法再对其进行编辑。
 
           '
-        workflow_text: '其工作流“%{name}”属于该项目，同时也会成为全局工作流。
-
-          '
       convert_to_global_notice: "%{name} 现在是全局变体。"
       convert_to_global_rename:
         confirm: 转换
@@ -7511,9 +7517,6 @@ zh-CN:
       note_placeholder: 您为什么要设置此提醒？
       success_deletion_message: 提醒已成功删除。
       success_update_message: 提醒更新成功。
-    updated_automatically_by_child_changes: '_自动更新源于改变子工作包 %{child} 内的值_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: 将关系添加到其他工作包以创建它们之间的链接。

@@ -956,8 +956,6 @@ pl:
               invalid_tokens: Co najmniej jeden atrybut wewnątrz pola jest nieprawidłowy. Popraw atrybuty przed zapisaniem.
             variant:
               must_belong_to_the_type: musi być wariantem tego typu.
-            workflow:
-              not_available_to_this_variant: musi być przepływem dokumentów, którego ten projekt może używać.
         user:
           attributes:
             base:
@@ -1889,10 +1887,14 @@ pl:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -2065,7 +2067,7 @@ pl:
                   subtitle: 'Uczestniczące w importowanych projektach '
                 work_packages:
                   label: Pakiety robocze
-                  subtitle: Z załącznikami
+                  subtitle: With attachments and logged time
               title: Wyniki importu
             import_scope:
               button_continue: Kontynuuj
@@ -2084,6 +2086,7 @@ pl:
                 issue_details: Opis problemu, historia, komentarze i załączniki
                 issue_ids: Identyfikatory problemów
                 issues: Problemy
+                logged_time: Logged time
                 permissions: Uprawnienia
                 project_ids: Identyfikatory projektów
                 project_versions: Project versions
@@ -2116,6 +2119,9 @@ pl:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -2592,6 +2598,7 @@ pl:
       schema: Schemat
     undisclosed:
       ancestor: Nie ujawniono — przodek jest niewidoczny ze względu na brak uprawnień.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Nie ujawniono — projekt jest niewidoczny ze względu na brak uprawnień.
       definingWorkspace: Nie ujawniono — przestrzeń robocza jest niewidoczna ze względu na brak uprawnień.
       parent: Nie ujawniono — element nadrzędny jest niewidoczny ze względu na brak uprawnień.
@@ -4146,6 +4153,7 @@ pl:
       total_percent_complete_mode_changed_to_work_weighted_average: Podrzędne pakiety robocze bez parametru Praca są ignorowane.
       unaccessable_work_package_changed: poprzez zmiany powiązanego pakietu roboczego
       work_package_children_changed_times: przez zmiany elementu podrzędnego %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: Status został automatycznie zaktualizowany przez zduplikowany pakiet roboczy %{link}
       work_package_parent_changed_times: przez zmiany elementu nadrzędnego %{link}
       work_package_parent_deleted: ponieważ nadrzędny pakiet roboczy został usunięty
@@ -4178,6 +4186,7 @@ pl:
       system_update: 'Aktualizacja systemu OpenProjekt:'
       total_percent_complete_mode_changed_to_simple_average: Obliczanie % Ukończenia opiera się teraz na średniej arytmetycznej % Ukończenia.
       total_percent_complete_mode_changed_to_work_weighted_average: Obliczanie % Ukończenia jest teraz ważone parametrem Praca.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'Zaktualizowano zduplikowany pakiet roboczy:'
       work_package_parent_deleted: Element nadrzędny został usunięty
     changes_retracted: Zmiany zostały wycofane.
@@ -7729,9 +7738,6 @@ pl:
         text: 'Spowoduje to, że ten wariant specyficzny dla projektu stanie się wariantem globalnym, dostępnym dla wszystkich projektów. Administrator projektu nie będzie już mógł go edytować.
 
           '
-        workflow_text: 'Jego przepływ pracy „%{name}” należy do tego projektu i również stanie się globalny.
-
-          '
       convert_to_global_notice: "%{name} jest obecnie wariantem globalnym."
       convert_to_global_rename:
         confirm: Konwertuj
@@ -8073,9 +8079,6 @@ pl:
       note_placeholder: Dlaczego ustawiasz to przypomnienie?
       success_deletion_message: Przypomnienie zostało usunięte.
       success_update_message: Przypomnienie zostało zaktualizowane.
-    updated_automatically_by_child_changes: '_Zaktualizowane automatycznie przez zmianę wartości wewnątrz podrzędnego pakietu roboczego %{child}_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: Dodaj relacje do innych pakietów roboczych, aby utworzyć powiązanie między nimi.

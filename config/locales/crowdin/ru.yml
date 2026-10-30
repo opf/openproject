@@ -956,8 +956,6 @@ ru:
               invalid_tokens: Один или несколько атрибутов внутри поля недействительны. Пожалуйста, исправьте атрибуты перед сохранением.
             variant:
               must_belong_to_the_type: должен быть вариантом данного типа.
-            workflow:
-              not_available_to_this_variant: должен быть рабочим процессом, который может использовать проект.
         user:
           attributes:
             base:
@@ -1889,10 +1887,14 @@ ru:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -2065,7 +2067,7 @@ ru:
                   subtitle: 'Участие в импортированных проектах '
                 work_packages:
                   label: Пакеты работ
-                  subtitle: Содержит вложение
+                  subtitle: With attachments and logged time
               title: Результаты запуска импорта
             import_scope:
               button_continue: Продолжить
@@ -2084,6 +2086,7 @@ ru:
                 issue_details: Описание задачи, история, комментарии и вложения
                 issue_ids: Идентификаторы задач
                 issues: Задачи
+                logged_time: Logged time
                 permissions: Разрешения
                 project_ids: Идентификаторы проекта
                 project_versions: Project versions
@@ -2116,6 +2119,9 @@ ru:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -2592,6 +2598,7 @@ ru:
       schema: Схема
     undisclosed:
       ancestor: Неизвестный - выбранный родитель невидим из-за отсутствия разрешений.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Нераскрыто - Проект невидим из-за отсутствия разрешений.
       definingWorkspace: Нераскрыто - Рабочее пространство невидимо из-за отсутствия разрешений.
       parent: Нераскрыто - Родитель невидим из-за отсутствия разрешений.
@@ -4152,6 +4159,7 @@ ru:
       total_percent_complete_mode_changed_to_work_weighted_average: Дочерние пакеты работ без Работы игнорируются.
       unaccessable_work_package_changed: внесением изменений в связанный пакет работ
       work_package_children_changed_times: внесением изменений в дочерний элемент %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: Статус был автоматически обновлен дубликатом пакета работ %{link}
       work_package_parent_changed_times: внесением изменений в родительский %{link}
       work_package_parent_deleted: потому что родительский пакет работ был удален
@@ -4184,6 +4192,7 @@ ru:
       system_update: 'Обновление системы OpenProject:'
       total_percent_complete_mode_changed_to_simple_average: Вычисление общего % завершения теперь осуществляется по среднему арифметическому значений % завершения.
       total_percent_complete_mode_changed_to_work_weighted_average: Вычисление общего % завершения теперь осуществляется по средневзвешенным значениям Предполагаемого времени.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'Дубликат пакета работ обновлён:'
       work_package_parent_deleted: Родитель удален
     changes_retracted: Изменения отменены.
@@ -7725,9 +7734,6 @@ ru:
         text: 'В результате данный вариант, относящийся к конкретному проекту, станет глобальным и будет доступен для всех проектов. Администратор проекта больше не сможет его редактировать.
 
           '
-        workflow_text: 'Рабочий процесс «%{name}» относится к данному проекту и также приобретает глобальный статус.
-
-          '
       convert_to_global_notice: "%{name} теперь является глобальным вариантом."
       convert_to_global_rename:
         confirm: Преобразовать
@@ -8069,9 +8075,6 @@ ru:
       note_placeholder: Причина установки напоминания
       success_deletion_message: Напоминание успешно удалено.
       success_update_message: Напоминание успешно обновлено.
-    updated_automatically_by_child_changes: '_Обновлено автоматически в связи с изменением значения в пакете работ потомка %{child}_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: Добавьте отношения к другим рабочим пакетам, чтобы создать связь между ними.

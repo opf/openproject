@@ -954,8 +954,6 @@ de:
               invalid_tokens: Ein oder mehrere Attribute des Feldes sind ungültig. Bitte korrigieren Sie die Attribute vor dem Speichern.
             variant:
               must_belong_to_the_type: muss eine Variante dieses Typs sein.
-            workflow:
-              not_available_to_this_variant: muss ein Workflow sein, den dieses Projekt nutzen kann.
         user:
           attributes:
             base:
@@ -1669,10 +1667,14 @@ de:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Benutzerdefinierte Felder erstellen
+          JiraCreateLabelsJob:
+            title: Create labels
           JiraCreateProjectJob:
             title: Projekt ‚%{jira_project_name}‘ erstellen
           JiraCreateProjectRoleJob:
             title: Projektrolle ‚JiraMember‘ erstellen
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Versionen für ‚%{jira_project_name}‘ erstellen
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1831,7 +1833,7 @@ de:
                   subtitle: 'An importierten Projekten beteiligt '
                 work_packages:
                   label: Arbeitspakete
-                  subtitle: Mit Anhängen
+                  subtitle: With attachments and logged time
               title: Importlauf-Ergebnisse
             import_scope:
               button_continue: Fortfahren
@@ -1848,6 +1850,7 @@ de:
                 issue_details: Beschreibung, Verlauf, Kommentare und Anhänge
                 issue_ids: Ticketkennungen
                 issues: Tickets
+                logged_time: Logged time
                 permissions: Berechtigungen
                 project_ids: Projektkennungen
                 project_versions: Projektversionen
@@ -1880,6 +1883,9 @@ de:
             '1':
               rest_line_text: ''
               title: Jira-Konfiguration abrufen
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -2344,6 +2350,7 @@ de:
       schema: Schema
     undisclosed:
       ancestor: Unbekannt - Das übergeordnete Element ist wegen fehlender Berechtigungen nicht sichtbar.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Unbekannt - Das Projekt ist wegen fehlender Berechtigungen nicht sichtbar.
       definingWorkspace: Unbekannt - Der Arbeitsbereich ist wegen fehlender Berechtigungen nicht sichtbar.
       parent: Unbekannt - Das übergeordnete Element ist wegen fehlender Berechtigungen nicht sichtbar.
@@ -3836,6 +3843,7 @@ de:
       total_percent_complete_mode_changed_to_work_weighted_average: Unteraufgaben ohne Arbeit werden ignoriert.
       unaccessable_work_package_changed: nach Änderungen an einem zugehörigen Arbeitspaket
       work_package_children_changed_times: durch Änderungen an Unteraufgabe %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: Der Status wurde automatisch durch das als Duplikat markierte Arbeitspaket %{link} aktualisiert
       work_package_parent_changed_times: durch Änderungen am übergeordneten Arbeitspaket %{link}
       work_package_parent_deleted: da das übergeordnete Arbeitspaket gelöscht wurde
@@ -3868,6 +3876,7 @@ de:
       system_update: 'OpenProject-Systemaktualisierung:'
       total_percent_complete_mode_changed_to_simple_average: Die Berechnung der Gesamtwerte für % abgeschlossen basiert jetzt auf dem einfachen Durchschnitt der % abgeschlossen-Werte.
       total_percent_complete_mode_changed_to_work_weighted_average: Die Berechnung der Gesamtwerte für % abgeschlossen wird jetzt nach Aufwand gewichtet.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'Dupliziertes Arbeitspaket aktualisiert:'
       work_package_parent_deleted: Elternelement entfernt
     changes_retracted: Die Änderungen wurden zurückgezogen.
@@ -7378,9 +7387,6 @@ de:
         text: 'Dadurch wird diese projektspezifische Variante zu einer globalen Variante, die für alle Projekte verfügbar ist. Der Projektadministrator kann sie dann nicht mehr bearbeiten.
 
           '
-        workflow_text: 'Der Workflow "%{name}" gehört zu diesem Projekt und wird ebenfalls global.
-
-          '
       convert_to_global_notice: "%{name} ist jetzt eine globale Variante."
       convert_to_global_rename:
         confirm: Umwandeln
@@ -7712,9 +7718,6 @@ de:
       note_placeholder: Warum richten Sie diese Erinnerung ein?
       success_deletion_message: Erinnerung erfolgreich gelöscht.
       success_update_message: Erinnerung aktualisiert erfolgreich.
-    updated_automatically_by_child_changes: '_Automatisch durch die Änderungen in Unteraufgabe %{child} aktualisiert_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: Fügen Sie eine Beziehung mit einem anderen Arbeitspaket hinzu, um eine Verbindung zwischen ihnen herzustellen.

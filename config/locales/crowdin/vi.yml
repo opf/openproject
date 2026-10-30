@@ -953,8 +953,6 @@ vi:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
             variant:
               must_belong_to_the_type: must be a variant of this type.
-            workflow:
-              not_available_to_this_variant: must be a workflow this project can use.
         user:
           attributes:
             base:
@@ -1559,10 +1557,14 @@ vi:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1714,7 +1716,7 @@ vi:
                   subtitle: 'Involved in imported projects '
                 work_packages:
                   label: Work packages
-                  subtitle: With attachments
+                  subtitle: With attachments and logged time
               title: Import run results
             import_scope:
               button_continue: Continue
@@ -1730,6 +1732,7 @@ vi:
                 issue_details: Issue description, history, comments and attachments
                 issue_ids: Issue identifiers
                 issues: Issues
+                logged_time: Logged time
                 permissions: Permissions
                 project_ids: Project identifiers
                 project_versions: Project versions
@@ -1762,6 +1765,9 @@ vi:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -2220,6 +2226,7 @@ vi:
       schema: Lược đồ
     undisclosed:
       ancestor: Không được tiết lộ - Tổ tiên là vô hình vì thiếu quyền.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Không được tiết lộ - Dự án vô hình vì thiếu quyền.
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
       parent: Không được tiết lộ - Phụ huynh ẩn danh vì thiếu quyền.
@@ -3681,6 +3688,7 @@ vi:
       total_percent_complete_mode_changed_to_work_weighted_average: Các gói công việc con không có Công việc sẽ bị bỏ qua.
       unaccessable_work_package_changed: bằng cách thay đổi gói công việc liên quan
       work_package_children_changed_times: bởi những thay đổi đối với con %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: Trạng thái được cập nhật tự động bởi gói công việc trùng lặp %{link}
       work_package_parent_changed_times: bằng những thay đổi đối với cha mẹ %{link}
       work_package_parent_deleted: because the parent work package was deleted
@@ -3713,6 +3721,7 @@ vi:
       system_update: 'Cập nhật hệ thống OpenProject:'
       total_percent_complete_mode_changed_to_simple_average: Tính toán tổng số % Hoàn thành hiện dựa trên mức trung bình đơn giản chỉ là các giá trị % Hoàn thành.
       total_percent_complete_mode_changed_to_work_weighted_average: Tính toán % tổng số hoàn thành hiện được tính theo Công việc.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'Gói công việc trùng lặp được cập nhật:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Những thay đổi đã bị rút lại
@@ -7207,9 +7216,6 @@ vi:
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
 
           '
-        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
-
-          '
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: Convert
@@ -7536,9 +7542,6 @@ vi:
       note_placeholder: Tại sao bạn đặt lời nhắc này?
       success_deletion_message: Đã xóa lời nhắc thành công.
       success_update_message: Đã cập nhật lời nhắc thành công.
-    updated_automatically_by_child_changes: '_Được cập nhật tự động bằng cách thay đổi các giá trị trong gói công việc con %{child}_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: Thêm quan hệ vào các gói công việc khác để tạo liên kết giữa chúng.
