@@ -78,17 +78,7 @@ export class CellInteraction {
 
     const open = this.table.editing.fieldForCell(cell);
     if (open) {
-      open.form.engageOrigin(open.handler.fieldName);
-      this.engageEditor(open.handler);
-      const overlayTarget = this.overlayFocusTarget(open.handler);
-      if (overlayTarget) {
-        overlayTarget.focus({ preventScroll: true });
-      } else {
-        open.handler.focus();
-        if (!open.handler.element?.contains(document.activeElement)) {
-          this.editorTabStops(open.handler)[0]?.focus({ preventScroll: true });
-        }
-      }
+      this.focusEditor(open.handler);
       return true;
     }
 
@@ -136,6 +126,20 @@ export class CellInteraction {
         tabbable.removeAttribute(originalTabindex);
       });
     });
+  }
+
+  public focusEditor(handler:EditFieldHandler):void {
+    this.engageEditor(handler);
+    const overlayTarget = this.overlayFocusTarget(handler);
+    if (overlayTarget) {
+      overlayTarget.focus({ preventScroll: true });
+      return;
+    }
+
+    handler.focus();
+    if (!handler.element?.contains(document.activeElement)) {
+      this.editorTabStops(handler)[0]?.focus({ preventScroll: true });
+    }
   }
 
   public engageFocusedEditor(target:EventTarget|null):void {
