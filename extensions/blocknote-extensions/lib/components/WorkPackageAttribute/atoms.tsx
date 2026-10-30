@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
-import { colorDotStyles, defaultWpVariables, nonSelectableStyles } from '../WorkPackage/atoms';
+import { colorDotStyles, defaultWpVariables, nonSelectableStyles, WorkPackageId, WorkPackageType } from '../WorkPackage/atoms';
 import { FieldLabel, PickerControl } from '../CreateWorkPackage/atoms';
 
 // Drawn inward, so that it adds nothing to the height.
@@ -141,10 +141,18 @@ export const PreviewPlaceholder = styled.span`
 
 export const WorkPackageReference = styled.span`
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
   gap: var(--spacer-m);
   flex-shrink: 0;
   white-space: nowrap;
+
+  ${WorkPackageId} {
+    font-size: inherit;
+  }
+
+  ${WorkPackageType} {
+    font-size: 0.8em;
+  }
 `;
 
 // Drawn over the empty field: a plain input cannot color the type.
@@ -250,17 +258,24 @@ export const ValueDot = styled.span.attrs({ className: 'op-bn-wp-attribute--dot'
   vertical-align: middle;
 `;
 
-export const Avatar = styled.span.attrs({ className: 'op-bn-wp-attribute--avatar', 'aria-hidden': true })<{ $color:string }>`
+export const AvatarSlot = styled.span`
   position: relative;
-  display: inline-flex;
+  padding-left: 1.05em;
+  margin-right: 0.3em;
+  font-size: ${CHIP_STYLES.fontSize};
+`;
+
+export const Avatar = styled.span.attrs({ className: 'op-bn-wp-attribute--avatar', 'aria-hidden': true })<{ $color:string }>`
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  left: 0;
+  aspect-ratio: 1;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.15em;
-  height: 1.15em;
-  margin-right: 0.25em;
   border-radius: 50%;
   overflow: hidden;
-  vertical-align: middle;
   background: ${({ $color }) => $color};
   color: #ffffff;
   font-weight: 600;
@@ -268,7 +283,7 @@ export const Avatar = styled.span.attrs({ className: 'op-bn-wp-attribute--avatar
 
   &::before {
     content: attr(data-initials);
-    font-size: 0.5em;
+    font-size: 0.6em;
   }
 `;
 
