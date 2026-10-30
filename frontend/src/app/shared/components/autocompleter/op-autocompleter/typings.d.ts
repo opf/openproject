@@ -39,3 +39,22 @@ export interface IOPAutocompleterOption {
 }
 
 export type TOpAutocompleterResource = 'work_packages' | 'users' | 'principals' | 'projects' | 'portfolios' | 'programs';
+
+export type AutocompleterResource = TOpAutocompleterResource | 'parent-child' | 'assignee' | 'subproject' | 'version' | 'status' | 'default';
+
+
+export interface AutocompleterSearchContext {
+  search:string|null;
+}
+
+export interface AutocompleterOptionContext extends AutocompleterSearchContext {
+  $implicit:unknown;
+  index?:number;
+}
+
+export interface AutocompleterLabelContext {
+  $implicit:unknown;
+  clear:(item:unknown) => void;
+}
+
+export type AutocompleterDropdownContext = AutocompleterSearchContext;

@@ -25,12 +25,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { screen } from '@testing-library/dom';
 import { userEvent } from 'vitest/browser';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpSpotModule } from 'core-app/spot/spot.module';
+import { SpotDropModalComponent } from './drop-modal.component';
 
 @Component({
   template: `
@@ -65,5 +66,98 @@ describe('SpotDropModalComponent', () => {
 
     await userEvent.tab();
     expect(screen.getByRole('button', { name: 'After' })).toHaveFocus();
+  });
+});
+
+@Component({
+  template: `
+    <spot-drop-modal (closed)="closed()">
+      <button slot="trigger" (click)="modal.opened = true">Open menu</button>
+      <div slot="body">
+        <button (click)="activated()">Activate</button>
+        <a href="#drop-modal-target">Native link</a>
+      </div>
+    </spot-drop-modal>
+    <opce-spot-drop-modal-portal />
+  `,
+  imports: [OpSpotModule],
+})
+class DropModalHostComponent {
+  @ViewChild(SpotDropModalComponent) modal:SpotDropModalComponent;
+
+  activated = vi.fn();
+  closed = vi.fn();
+}
+
+describe('SpotDropModalComponent activation', () => {
+  let fixture:ComponentFixture<DropModalHostComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ imports: [DropModalHostComponent] }).compileComponents();
+    fixture = TestBed.createComponent(DropModalHostComponent);
+    fixture.detectChanges();
+    await userEvent.click(fixture.nativeElement.querySelector('button'));
+    await vi.waitUntil(() => screen.queryByRole('button', { name: 'Activate' }) === document.activeElement);
+  });
+
+  afterEach(() => fixture.destroy());
+
+  it('keeps pointer activation inside open and closes on an outside click', async () => {
+    const button = document.querySelector<HTMLButtonElement>('.spot-drop-modal--body button')!;
+    await userEvent.click(button);
+    expect(fixture.componentInstance.activated).toHaveBeenCalledOnce();
+    expect(fixture.componentInstance.modal.opened).toBe(true);
+    document.body.click();
+    expect(fixture.componentInstance.closed).toHaveBeenCalledOnce();
+    expect(fixture.componentInstance.modal.opened).toBe(false);
+    expect(document.activeElement).toBe(fixture.nativeElement.querySelector('[tabindex="-1"]'));
+  });
+
+  it.each(['{Enter}', ' '])('preserves native button activation for %s', async (key) => {
+    const button = document.querySelector<HTMLButtonElement>('.spot-drop-modal--body button')!;
+    button.focus();
+    await userEvent.keyboard(key);
+    expect(fixture.componentInstance.activated).toHaveBeenCalledOnce();
+    expect(fixture.componentInstance.modal.opened).toBe(true);
+  });
+
+  it('does not cancel native modifier-link or keyboard defaults', () => {
+    const link = document.querySelector<HTMLAnchorElement>('.spot-drop-modal--body a')!;
+    const click = new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true });
+    const enter = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true });
+    const space = new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true });
+    const defaults:boolean[] = [];
+    const body = link.closest('.spot-drop-modal--body')!;
+    body.addEventListener('click', (event) => {
+      defaults.push(event.defaultPrevented);
+      event.preventDefault();
+    });
+    body.addEventListener('keydown', event => defaults.push(event.defaultPrevented));
+    link.dispatchEvent(click);
+    link.dispatchEvent(enter);
+    link.dispatchEvent(space);
+    expect(defaults).toEqual([false, false, false]);
+    expect(fixture.componentInstance.modal.opened).toBe(true);
+  });
+
+  it('keeps native keyboard navigation of links inside the open modal', async () => {
+    const link = document.querySelector<HTMLAnchorElement>('.spot-drop-modal--body a')!;
+    const originalURL = window.location.href;
+    try {
+      link.focus();
+      await userEvent.keyboard('{Enter}');
+      expect(window.location.hash).toBe('#drop-modal-target');
+      expect(fixture.componentInstance.modal.opened).toBe(true);
+    } finally {
+      window.history.replaceState(window.history.state, '', originalURL);
+    }
+  });
+
+  it('closes on Escape and restores focus', async () => {
+    await userEvent.keyboard('{Escape}');
+    await vi.waitUntil(() => !fixture.componentInstance.modal.opened);
+    expect(fixture.componentInstance.closed).toHaveBeenCalledOnce();
+    expect(fixture.componentInstance.modal.opened).toBe(false);
+    expect(document.activeElement).toBe(fixture.nativeElement.querySelector('[tabindex="-1"]'));
   });
 });

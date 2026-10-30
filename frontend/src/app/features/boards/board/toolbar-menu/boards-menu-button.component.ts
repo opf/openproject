@@ -32,12 +32,14 @@ import { Observable } from 'rxjs';
 
 @Component({
   template: `
-    <button title="{{ text.button_more }}"
-            class="button last board--settings-dropdown toolbar-icon"
-            boardsToolbarMenu
-            [boardsToolbarMenu-resource]="board$ | async">
-      <op-icon icon-classes="button--icon icon-show-more" />
-    </button>
+    @if (board$ | async; as board) {
+      <button title="{{ text.button_more }}"
+              class="button last board--settings-dropdown toolbar-icon"
+              boardsToolbarMenu
+              [boardsToolbarMenu-resource]="board">
+        <op-icon icon-classes="button--icon icon-show-more" />
+      </button>
+    }
   `,
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.

@@ -49,6 +49,8 @@ export class BoardHighlightingTabComponent implements TabComponent, OnInit {
   // Highlighting mode
   public highlightingMode:CardHighlightingMode = 'none';
 
+  public readonly entireCardAttributes = ['type', 'priority'] as const;
+
   public entireCardMode = false;
 
   public lastEntireCardAttribute:CardHighlightingMode = 'type';

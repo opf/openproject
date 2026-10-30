@@ -9,7 +9,7 @@
         <label class="option-label">
           <input type="radio"
             [(ngModel)]="sortingMode"
-            (change)="updateSortingMode($event.target.value)"
+            (change)="updateSortingMode('manual')"
             name="sorting_mode_switch"
             value="manual">
           {{ text.sorting_mode.manually }}
@@ -20,7 +20,7 @@
       <label class="option-label">
         <input type="radio"
           [(ngModel)]="sortingMode"
-          (change)="updateSortingMode($event.target.value)"
+          (change)="updateSortingMode('automatic')"
           name="sorting_mode_switch"
           value="automatic">
         {{ text.sorting_mode.automatic }}
@@ -43,10 +43,10 @@
           </label>
           <div class="form--field-container">
             <div class="form--select-container">
-              <select
+              <select #sortSelect
                 id="modal-sorting-attribute-{{index}}"
                 name="modal-sorting-attribute-{{index}}"
-                (change)="updateSelection(sort, $event.target.value)"
+                (change)="updateSelection(sort, sortSelect.value)"
                 class="form--select">
                 @if (!!sort.column.href) {
                   <option

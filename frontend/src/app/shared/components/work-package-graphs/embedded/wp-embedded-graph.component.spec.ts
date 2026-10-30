@@ -30,6 +30,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { NoResultsComponent } from 'core-app/shared/components/no-results/no-results.component';
 import { OpSharedModule } from 'core-app/shared/shared.module';
+import { CHART_TYPE_IDENTIFIERS } from '../chart-type';
 import {
   WorkPackageEmbeddedGraphComponent,
   WorkPackageEmbeddedGraphDataset,
@@ -135,6 +136,18 @@ describe('WorkPackageEmbeddedGraphComponent', () => {
 
     expect(element.querySelector('canvas')).toBeNull();
     expect(element.querySelector(`#${fixture.componentInstance.chartDescriptionId}`)).toBeNull();
+  });
+
+  it.each(CHART_TYPE_IDENTIFIERS)('maps supported %s to a chart registry key', (type) => {
+    const fixture = TestBed.createComponent(WorkPackageEmbeddedGraphComponent);
+    fixture.componentRef.setInput('chartType', type);
+    expect(fixture.componentInstance.mappedChartType).toBe(type === 'horizontalBar' ? 'bar' : type);
+  });
+
+  it('falls back to bar for an unsupported external chart type', () => {
+    const fixture = TestBed.createComponent(WorkPackageEmbeddedGraphComponent);
+    fixture.componentRef.setInput('chartType', 'unsupported');
+    expect(fixture.componentInstance.mappedChartType).toBe('bar');
   });
 
   it('renders the no-results message after an empty dataset refresh', () => {

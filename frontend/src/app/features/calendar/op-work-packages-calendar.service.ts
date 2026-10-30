@@ -329,7 +329,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     Turbo.visit(this.pathHelper.workPackagePath(resolveRoutingId(this.states, id)));
   }
 
-  public onCardClicked({ workPackageId, event }:{ workPackageId:string, event:MouseEvent }):void {
+  public onCardClicked({ workPackageId, event }:{ workPackageId:string, event:MouseEvent|KeyboardEvent }):void {
     if (isClickedWithModifier(event)) {
       return;
     }

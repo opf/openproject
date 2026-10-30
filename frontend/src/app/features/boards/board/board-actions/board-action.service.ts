@@ -47,6 +47,7 @@ import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/que
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { AutocompleterResource } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
@@ -103,7 +104,7 @@ export abstract class BoardActionService {
   /**
    * The action resource name for the autocompleter
    */
-  resourceName:string;
+  resourceName:AutocompleterResource;
 
   /**
    * The icon used in tile
@@ -155,7 +156,8 @@ export abstract class BoardActionService {
       return getHref ? value.href! : value.id!;
     }
 
-    return value;
+    const id = typeof value === 'object' && value !== null ? value[getHref ? 'href' : 'id'] : value;
+    return typeof id === 'string' || typeof id === 'number' ? String(id) : undefined;
   }
 
   /**

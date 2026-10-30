@@ -36,6 +36,8 @@ export interface OpContextMenuItem {
   disabled?:boolean;
   hidden?:boolean;
   icon?:string;
+  postIcon?:string|null;
+  postIconTitle?:string|null;
   href?:string;
   class?:string;
   ariaLabel?:string;

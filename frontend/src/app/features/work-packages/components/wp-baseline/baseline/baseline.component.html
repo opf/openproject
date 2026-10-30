@@ -23,11 +23,12 @@
       <div slot="input">
         <select
           name="op-baseline-filter"
+          #baselineFilter
           class="op-baseline--filter"
-          (change)="filterChange($event.target.value)"
+          (change)="filterChange(baselineFilter.value)"
           >
           <option [textContent]="text.drop_down_none_option"
-            [selected]="!filterSelected"
+            [selected]="!selectedFilter"
           value=""></option>
           @for (availableValue of baselineAvailableValues; track availableValue.value) {
             <option
@@ -51,8 +52,9 @@
         <input
           slot="input"
           name="op-baseline-date"
+          #baselineDate
           [value]="selectedDates[0] || ''"
-          (input)="dateChange([$event.target.value])"
+          (input)="dateChange([baselineDate.value])"
           type="text"
           class="op-baseline--date-input"/>
       </spot-form-field>
@@ -64,8 +66,9 @@
         <input
           slot="input"
           name="op-baseline-time"
+          #baselineTime
           [value]="selectedTimes[0]"
-          (change)="timesChange([$event.target.value])"
+          (change)="timesChange([baselineTime.value])"
           type="time"
           class="op-baseline--time-input"/>
         <span
@@ -91,8 +94,9 @@
           <input
             slot="input"
             name="op-baseline-from-date"
+            #baselineFromDate
             [value]="selectedDates[0] || ''"
-            (input)="dateChange([$event.target.value, selectedDates[1] || ''])"
+            (input)="dateChange([baselineFromDate.value, selectedDates[1] || ''])"
             type="text"
             class="op-baseline--date-input"/>
           <button
@@ -109,8 +113,9 @@
           <input
             slot="input"
             name="op-baseline-to-date"
+            #baselineToDate
             [value]="selectedDates[1] || ''"
-            (input)="dateChange([selectedDates[0] || '', $event.target.value])"
+            (input)="dateChange([selectedDates[0] || '', baselineToDate.value])"
             type="text"
             class="op-baseline--date-input"/>
           <button
@@ -126,16 +131,16 @@
           <input
             slot="input"
             name="op-baseline-from-time"
+            #baselineFromTime
             [value]="selectedTimes[0] || ''"
-            (change)="timesChange([$event.target.value, selectedTimes[1]])"
+            (change)="timesChange([baselineFromTime.value, selectedTimes[1]])"
             type="time"
             class="op-baseline--time-input"/>
           <spot-tooltip
             slot="input"
             class="op-baseline--time-tooltip op-baseline--time-help spot-body-small"
             [alignment]="tooltipPosition"
-            [disabled]="false"
-            [light]="true">
+            [disabled]="false">
             <span slot="trigger" class="op-baseline--time-zone" [textContent]="mappedOffset(selectedOffsets[0])"></span>
             <span slot="body" class="spot-body-small op-baseline--time-tooltip-body">{{ text.help_description }}</span>
           </spot-tooltip>
@@ -149,16 +154,16 @@
           <input
             slot="input"
             name="op-baseline-to-time"
+            #baselineToTime
             [value]="selectedTimes[1] || ''"
-            (change)="timesChange([selectedTimes[0], $event.target.value])"
+            (change)="timesChange([selectedTimes[0], baselineToTime.value])"
             type="time"
             class="op-baseline--time-input"/>
           <spot-tooltip
             slot="input"
             class="op-baseline--time-tooltip op-baseline--time-help spot-body-small"
             [alignment]="tooltipPosition"
-            [disabled]="false"
-            [light]="true">
+            [disabled]="false">
             <span slot="trigger" class="op-baseline--time-zone" [textContent]="mappedOffset(selectedOffsets[1])"></span>
             <span slot="body" class="spot-body-small op-baseline--time-tooltip-body">{{ text.help_description }}</span>
           </spot-tooltip>

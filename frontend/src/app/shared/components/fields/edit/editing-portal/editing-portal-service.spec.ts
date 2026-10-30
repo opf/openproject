@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { CommonModule } from '@angular/common';
 import { ApplicationRef, ComponentRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ComponentPortal, DomPortalOutlet } from '@angular/cdk/portal';
@@ -52,10 +53,10 @@ describe('EditingPortalService table ownership', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
+      imports: [CommonModule],
       declarations: [EditFormPortalComponent],
       providers: [{ provide: EditFieldService, useValue: { getSpecificClassFor: () => undefined } }],
     });
-    TestBed.overrideComponent(EditFormPortalComponent, { set: { template: '' } });
     harness = buildTable({ workPackages: [{ id: '1' }], editing: {}, providers: [EditingPortalService] });
     await harness.render();
     const wp = harness.injector.get(States).workPackages.get('1').value!;
@@ -114,6 +115,14 @@ describe('EditingPortalService table ownership', () => {
     expect(external).toHaveFocus();
     expect(notices).not.toHaveBeenCalled();
     expect(cleanupReport.mock.calls).toEqual(throwing ? [['UI cleanup failed', blurError]] : []);
+  });
+
+  it('renders handler errors through the real edit portal', async () => {
+    const handler = await form.activate('subject') as HalResourceEditFieldHandler;
+    handler.setErrors(['Required']);
+    expect(harness.row('1').querySelector('edit-form-portal .inline-edit--active-field')).toHaveClass('-error');
+    handler.setErrors([]);
+    expect(harness.row('1').querySelector('edit-form-portal .inline-edit--active-field')).not.toHaveClass('-error');
   });
 
   it('still blurs live modal focus outside the field element', async () => {

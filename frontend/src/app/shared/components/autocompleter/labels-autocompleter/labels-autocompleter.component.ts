@@ -134,7 +134,11 @@ export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabe
     };
   }
 
-  protected defaultTrackByFunction():(item:{ href:unknown, name:unknown }) => unknown {
-    return (item) => item.href ?? item.name;
+  protected defaultTrackByFunction():(item:unknown) => unknown {
+    return (item) => {
+      if (typeof item !== 'object' || item === null) return undefined;
+      const option = item as Record<string, unknown>;
+      return option.href ?? option.name;
+    };
   }
 }

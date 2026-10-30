@@ -27,12 +27,12 @@
 
     @switch (loading$ | async) {
       @case ('success') {
-        @if ((listItems$ | async).length > 0) {
+        @if (((listItems$ | async)?.length ?? 0) > 0) {
           <ul
             class="spot-list spot-list_compact op-file-list op-file-picker--scrollable-content"
             data-test-selector="op-files-picker-modal--file-list"
           >
-            @for (file of listItems$ | async; track file.storageFile.id) {
+            @for (file of listItems$ | async; track file.id) {
               <li
                 class="spot-list--item op-file-list--item"
                 data-test-selector="op-file-list--item"

@@ -33,7 +33,7 @@ import { WpTableConfigurationService } from 'core-app/features/work-packages/com
 import { RestrictedWpTableConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/restricted-wp-table-configuration.service';
 import { ExternalQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.service';
 import { OpQueryConfigurationLocalsToken } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.constants';
-import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import { QueryRequestParams, UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
@@ -63,14 +63,19 @@ export class ExternalQueryConfigurationComponent implements OnInit, AfterViewIni
   readonly urlParamsHelper = inject(UrlParamsHelperService);
   readonly cdRef = inject(ChangeDetectorRef);
 
-  queryProps:string|object;
+  queryProps:Partial<QueryRequestParams>;
 
   ngOnInit() {
     if (this.locals.urlParams) {
-      const currentQuery = typeof this.locals.currentQuery === 'string' ? this.locals.currentQuery : null;
+      const currentQuery = typeof this.locals.currentQuery === 'string'
+        ? this.locals.currentQuery
+        : this.locals.currentQuery == null ? null : JSON.stringify(this.locals.currentQuery);
       this.queryProps = this.urlParamsHelper.buildV3GetQueryFromJsonParams(currentQuery);
     } else {
-      this.queryProps = this.locals.currentQuery as object;
+      const currentQuery:unknown = typeof this.locals.currentQuery === 'string'
+        ? JSON.parse(this.locals.currentQuery)
+        : this.locals.currentQuery;
+      this.queryProps = currentQuery !== null && typeof currentQuery === 'object' ? currentQuery : {};
     }
   }
 

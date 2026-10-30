@@ -38,6 +38,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { forkJoin, Observable, of } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import {
+  AutocompleterResource,
   IAPIFilter,
   TOpAutocompleterResource,
 } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
@@ -66,24 +67,24 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
   }
 
   // A method for fetching the object for a provided value using the API
-  public loadValue(id:string | string[], resource:TOpAutocompleterResource, multiple:boolean):Observable<HalResource | HalResource[]> {
+  public loadValue(id:string|number|(string|number)[], resource:TOpAutocompleterResource, multiple:boolean):Observable<HalResource | HalResource[]> {
     if (multiple) {
-      const calls = (id as string[])
+      const calls = (id as (string|number)[])
         .map((singleId) => this.loadSingleValue(singleId, resource));
       return forkJoin(calls);
     }
 
-    return this.loadSingleValue(id as string, resource);
+    return this.loadSingleValue(id as string|number, resource);
   }
 
-  protected loadSingleValue(id:string, resource:TOpAutocompleterResource) {
+  protected loadSingleValue(id:string|number, resource:TOpAutocompleterResource) {
     return (this.apiV3Service[resource] as
       ApiV3ResourceCollection<UserResource | WorkPackageResource | ProjectResource, ApiV3UserPaths | ApiV3WorkPackagePaths | ApiV3ProjectPaths>)
-      .id(id)
+      .id(String(id))
       .get();
   }
 
-  protected createParams(resource:TOpAutocompleterResource):Record<string, string> {
+  protected createParams(resource:AutocompleterResource|null|undefined):Record<string, string> {
     if (resource === 'work_packages') {
       return {
         // Fields are listed in op-autocompleter/op-autocompleter.component.html. `_type` is the
@@ -130,7 +131,7 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
 
   // A method for returning data based on a custom URL (i.e. in time logging we have a special endpoint for retrieving
   // work packages)
-  public loadFromUrl(url:string, matching:string|null, resource:TOpAutocompleterResource, filters?:IAPIFilter[], searchKey?:string, allowEmpty = false) {
+  public loadFromUrl(url:string, matching:string|null, resource:AutocompleterResource|null|undefined, filters?:IAPIFilter[], searchKey?:string, allowEmpty = false) {
     // Exit early if the query string is empty as there is no typeahead
     if (!allowEmpty && (matching === null || matching.length === 0)) {
       return of([]);

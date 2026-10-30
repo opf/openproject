@@ -44,6 +44,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
+import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 
 export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<unknown>>('WpTableConfigurationModalPrependComponent');
@@ -126,8 +127,11 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     return this.tabPortalHost.currentTab;
   }
 
-  public switchTo(tab:TabInterface):void {
-    this.tabPortalHost.switchTo(tab);
+  public switchTo(tab:TabDefinition):void {
+    const definition = this.availableTabs.find((available) => available.id === tab.id);
+    if (definition) {
+      this.tabPortalHost.switchTo(definition);
+    }
   }
 
   public saveChanges():void {

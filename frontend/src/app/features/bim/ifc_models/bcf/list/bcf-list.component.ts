@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import {
   ChangeDetectionStrategy, Component, Input, OnInit,
 } from '@angular/core';
@@ -84,9 +85,9 @@ export class BcfListComponent extends WorkPackageListViewComponent implements Un
 
   @LazyInject() bcfApi:BcfApiService;
 
-  public wpTableConfiguration = {
+  public wpTableConfiguration = new WorkPackageTableConfiguration({
     dragAndDropEnabled: false,
-  };
+  });
 
   public showViewPointInFlight:boolean;
 

@@ -33,7 +33,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryFilterInstanceResource, QueryFilterValue, isQueryFilterValue } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { compareByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 
@@ -62,7 +62,13 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
 
   public availableOptions:HalResource[] = [];
 
-  itemTracker = (item:HalResource):string => item.href || item.id || item.name;
+  itemTracker = (item:unknown):unknown => {
+    if (typeof item !== 'object' || item === null) return undefined;
+    const option = item as Record<string, unknown>;
+    if (option.href) return option.href;
+    if (option.id) return option.id;
+    return option.name;
+  };
 
   compareByHref = compareByHref;
 
@@ -81,12 +87,17 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
     }
   }
 
-  public get value():unknown[] {
+  public get value():QueryFilterValue[] {
     return this.filter.values;
   }
 
-  public setValues(val:HalResource[]|string[]|string|HalResource):void {
-    this.filter.values = (Array.isArray(val) ? val : [val]) as HalResource[]|string[];
+  public setValues(val:unknown):void {
+    if (val === undefined) { return; }
+    const values:unknown[] = Array.isArray(val) ? val : [val];
+    if (!values.every(isQueryFilterValue)) {
+      throw new TypeError('Unsupported query filter value');
+    }
+    this.filter.values = values;
     this.filterChanged.emit(this.filter);
     this.cdRef.detectChanges();
   }

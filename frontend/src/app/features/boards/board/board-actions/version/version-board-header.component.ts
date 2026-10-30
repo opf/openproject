@@ -45,7 +45,7 @@ export class VersionBoardHeaderComponent {
   readonly pathHelper = inject(PathHelperService);
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('resource') public version:VersionResource;
+  @Input('resource') public version:VersionResource|undefined;
 
   public text = {
     isLocked: this.I18n.t('js.boards.version.is_locked'),
