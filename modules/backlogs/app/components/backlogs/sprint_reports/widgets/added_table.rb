@@ -36,9 +36,7 @@ module Backlogs
 
         def i18n_key = :added
 
-        def work_package_ids
-          @work_package_ids ||= breakdown.added_after_start_ids
-        end
+        def work_package_ids = breakdown.added_after_start_ids
       end
     end
   end
