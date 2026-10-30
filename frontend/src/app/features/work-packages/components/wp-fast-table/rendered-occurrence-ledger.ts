@@ -147,7 +147,7 @@ export class RenderedOccurrenceLedger {
     this.keyByElement = new Map();
     this.records.forEach((record, index) => {
       this.byKeyIndex.set(record.key, index);
-      if (record.element) this.keyByElement.set(record.element, record.key);
+      if (record.element) this.indexElement(record.element, record.key);
     });
     this.currentGeneration += 1;
   }
@@ -165,9 +165,15 @@ export class RenderedOccurrenceLedger {
     assertInDevMode(record !== undefined, `Cannot replace element of unknown occurrence key: ${key}`);
     if (record) {
       if (record.element) this.keyByElement.delete(record.element);
-      if (element) this.keyByElement.set(element, key);
+      if (element) this.indexElement(element, key);
       record.element = element;
     }
+  }
+
+  private indexElement(element:HTMLTableRowElement, key:OccurrenceKey):void {
+    const owner = this.keyByElement.get(element);
+    assertInDevMode(owner === undefined || owner === key, `Element already belongs to occurrence key: ${owner}`);
+    this.keyByElement.set(element, key);
   }
 
   byKey(key:OccurrenceKey):RenderedOccurrence|undefined {

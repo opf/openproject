@@ -243,6 +243,16 @@ describe('RenderedOccurrenceLedger', () => {
     expect(ledger.byKey('a')?.level).toBe(3);
   });
 
+  it('throws in dev mode when two occurrences share one element', () => {
+    const ledger = new RenderedOccurrenceLedger();
+    const el = document.createElement('tr');
+    expect(() => commitKeys(ledger, draftOccurrence('a', { element: el }), draftOccurrence('b', { element: el }))).toThrow();
+
+    commitKeys(ledger, draftOccurrence('a', { element: el }), draftOccurrence('b'));
+    expect(() => ledger.replaceElement('b', el)).toThrow();
+    expect(() => ledger.replaceElement('a', el)).not.toThrow();
+  });
+
   it('looks up occurrences by element', () => {
     const ledger = new RenderedOccurrenceLedger();
     const el = document.createElement('tr');
