@@ -13,7 +13,7 @@
         type="button"
         class="spot-link spot-breadcrumbs--crumb-action-item"
         [title]="crumb.text"
-        (click)="crumb.navigate()"
+        (click)="crumb.navigate?.()"
       >
         @if (crumb.icon) {
           <ng-container [ngTemplateOutlet]="crumbIcon" [ngTemplateOutletContext]="{icon:crumb.icon}" />

@@ -18,17 +18,17 @@
     <div class="form--field">
       <div class="form--field-container">
         <div class="form--select-container">
-          <select (change)="updateMode($event.target.value)"
+          <select #selectedAttribute
+                  (change)="updateMode(entireCardAttributes[selectedAttribute.selectedIndex])"
                   id="selected_attribute"
                   name="selected_attribute"
                   [disabled]="highlightingMode === 'none'"
                   class="form--select form--inline-select option-label--select">
-            <option [textContent]="text.highlighting_mode.type"
-                    [selected]="lastEntireCardAttribute === 'type'"
-                    value="type"></option>
-            <option [textContent]="text.highlighting_mode.priority"
-                    [selected]="lastEntireCardAttribute === 'priority'"
-                    value="priority"></option>
+            @for (attribute of entireCardAttributes; track attribute) {
+              <option [textContent]="text.highlighting_mode[attribute]"
+                      [selected]="lastEntireCardAttribute === attribute"
+                      [value]="attribute"></option>
+            }
           </select>
         </div>
       </div>
@@ -39,7 +39,7 @@
         <label class="option-label">
           <input type="radio"
                  [(ngModel)]="highlightingMode"
-                 (change)="updateMode($event.target.value)"
+                 (change)="updateMode('none')"
                  value="none"
                  name="highlighting_mode_switch">
           <span [textContent]="text.highlighting_mode.none"></span>

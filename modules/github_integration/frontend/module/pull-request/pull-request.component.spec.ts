@@ -125,7 +125,7 @@ describe('PullRequestComponent', () => {
     component = fixture.componentInstance;
     element = fixture.debugElement;
     // @ts-ignore
-    component.pullRequest = pullRequestStub;
+    component.pullRequest = { ...pullRequestStub };
 
     fixture.detectChanges();
   });
@@ -150,5 +150,16 @@ describe('PullRequestComponent', () => {
     expect(checkRuns.length).toBe(1);
     expect(checkRunElement.textContent).toContain(pullRequestStub._embedded.checkRuns[0].name);
     expect(checkRunLinkElement.href).toContain(pullRequestStub._embedded.checkRuns[0].detailsUrl);
+  });
+
+  it.each([
+    ['open', false, false, 'open'],
+    ['open', true, false, 'draft'],
+    ['closed', false, false, 'closed'],
+    ['closed', false, true, 'merged'],
+    ['deployed', false, true, 'deployed'],
+  ])('renders the %s state with draft=%s and merged=%s', (state, draft, merged, expected) => {
+    Object.assign(component.pullRequest, { state, draft, merged });
+    expect(component.state).toBe(expected);
   });
 });
