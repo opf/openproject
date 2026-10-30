@@ -54,6 +54,8 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   // Current errors of the field
   public errors:string[];
 
+  private deactivated = false;
+
   // Fires when errors are updated, so portals can trigger their own CD
   private readonly _errorsChanged$ = new Subject<void>();
   public readonly errorsChanged$:Observable<void> = this._errorsChanged$.asObservable();
@@ -90,6 +92,10 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
     return false;
   }
 
+  public override allowsAutofocus():boolean {
+    return this.form.allowsFieldAutofocus(this.fieldName);
+  }
+
   public get inEditMode() {
     return this.form.editMode;
   }
@@ -106,7 +112,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
       return;
     }
 
-    // Focus the input
+    this.syncErrorState();
     target.focus();
 
     // Set selection state if input element
@@ -117,7 +123,19 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
 
   public setErrors(newErrors:string[]) {
     this.errors = newErrors;
-    this.element.classList.toggle('-error', this.isErrorenous);
+    this.syncErrorState();
+  }
+
+  public syncErrorState():void {
+    const erroneous = this.isErrorenous;
+    this.element.classList.toggle('-error', erroneous);
+    this.element.querySelectorAll<HTMLElement>('.inline-edit--field').forEach((field) => {
+      if (erroneous) {
+        field.setAttribute('aria-invalid', 'true');
+      } else {
+        field.removeAttribute('aria-invalid');
+      }
+    });
     this._errorsChanged$.next();
   }
 
@@ -137,7 +155,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
 
     return this
       .onSubmit()
-      .then(() => this.form.submit())
+      .then(() => this.form.submit(this.fieldName))
       .then(() => {
         this.blurActiveField();
         this.form.onSubmitComplete();
@@ -154,14 +172,14 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
     // Only handle submission in edit mode
     if (this.inEditMode && !onlyCancel) {
       if (event.key === 'Enter') {
-        await this.form.submit();
+        await this.form.submit(this.fieldName);
         return false;
       }
       return true;
     }
 
     // Escape editing when not in edit mode
-    if (event.key === 'Escape') {
+    if (event.key === 'Escape' && !event.defaultPrevented) {
       this.handleUserCancel();
       return false;
     }
@@ -191,20 +209,23 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   /**
    * Close the field, resetting it with its display value.
    */
-  public deactivate(focus = false) {
+  public deactivate(focus = false, userEnded = false) {
+    if (this.deactivated) return;
+    this.deactivated = true;
+
     if (this.ownerDestroyRef?.destroyed) {
       runCleanup(() => this.blurActiveField());
       runCleanup(() => { delete this.form.activeFields[this.fieldName]; });
       runCleanup(() => this.onDestroy.next());
       runCleanup(() => this.onDestroy.complete());
-      runCleanup(() => this.form.reset(this.fieldName, focus));
+      runCleanup(() => this.form.reset(this.fieldName, focus, userEnded, this));
       return;
     }
     this.blurActiveField();
     delete this.form.activeFields[this.fieldName];
     this.onDestroy.next();
     this.onDestroy.complete();
-    this.form.reset(this.fieldName, focus);
+    this.form.reset(this.fieldName, focus, userEnded, this);
   }
 
   /**
@@ -214,9 +235,9 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
    */
   public blurActiveField() {
     const active = document.activeElement;
-    if (!(active instanceof HTMLElement)) return;
-    if (this.ownerDestroyRef?.destroyed && !this.element.contains(active)) return;
-    active.blur();
+    if (active instanceof HTMLElement && this.owns(active)) {
+      active.blur();
+    }
   }
 
   /**

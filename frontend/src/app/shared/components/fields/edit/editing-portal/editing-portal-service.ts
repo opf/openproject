@@ -117,6 +117,7 @@ export class EditingPortalService {
     return lastValueFrom(ready, { defaultValue: undefined }).then(() => {
       if (released || destroyRef?.destroyed) throw new EditActivationCancelled();
       ref.changeDetectorRef.detectChanges(); // ensure error classes applied in zoneless mode
+      fieldHandler.syncErrorState();
       return fieldHandler;
     });
   }

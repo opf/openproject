@@ -226,35 +226,37 @@ export class SingleRowBuilder {
    * Refresh a row that is currently being edited, that is, some edit fields may be open
    */
   public refreshRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):HTMLTableRowElement {
-    // Detach all current edit cells
-    const cells = Array.from(row.querySelectorAll<HTMLTableCellElement>(`.${tdClassName}`))
-      .map((el) => el.parentNode!.removeChild(el));
-
-    // Remember the order of all new edit cells
-    const newCells:HTMLTableCellElement[] = [];
+    const oldCells = Array.from(row.querySelectorAll<HTMLTableCellElement>(':scope > td'));
+    const retained = new Map<string, HTMLTableCellElement>();
 
     this.augmentedColumns.forEach((column:QueryColumn) => {
-      const oldTd = cells.find((cell) => cell.matches(`td.${column.id}`));
-
-      // Treat internal columns specially
-      // and skip the replacement of the column if this is being edited.
-      // But only do that, if the column existed before. Sometimes, e.g. when lacking permissions
-      // the column was not correctly created (with the intended classes). This code then
-      // increases the robustness.
-      if ((this.retainsOnRefresh(column) || this.isColumnBeingEdited(workPackage, column)) && oldTd) {
-        newCells.push(oldTd);
-        return;
-      }
-
-      // Otherwise, refresh that cell and append it
-      const cell = this.buildCell(workPackage, column);
-
-      if (cell) {
-        newCells.push(cell);
+      const oldTd = oldCells.find((cell) => cell.matches(`td.${column.id}`));
+      if (oldTd && (this.retainsOnRefresh(column) || this.isColumnBeingEdited(workPackage, column))) {
+        retained.set(column.id, oldTd);
       }
     });
 
-    row.prepend(...newCells);
+    const retainedCells = new Set(retained.values());
+    oldCells.filter((cell) => !retainedCells.has(cell)).forEach((cell) => cell.remove());
+
+    let anchor:ChildNode|null = null;
+    [...this.augmentedColumns].reverse().forEach((column:QueryColumn) => {
+      const retainedCell = retained.get(column.id);
+      if (retainedCell) {
+        if (retainedCell.nextSibling !== anchor) {
+          row.insertBefore(retainedCell, anchor);
+        }
+        anchor = retainedCell;
+        return;
+      }
+
+      const cell = this.buildCell(workPackage, column);
+      if (cell) {
+        row.insertBefore(cell, anchor);
+        anchor = cell;
+      }
+    });
+
     return row;
   }
 

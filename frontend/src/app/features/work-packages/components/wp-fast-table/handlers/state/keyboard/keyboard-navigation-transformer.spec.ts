@@ -144,6 +144,17 @@ describe('KeyboardNavigationTransformer', () => {
     expect(insideGrid(table.table.scrollContainer, document.activeElement)).toBe(false);
   });
 
+  it.each([
+    ['header row', (table:TableHarness) => table.headerRow()],
+    ['header cell', (table:TableHarness) => table.headerCells()[0]],
+  ])('Tab from the %s leaves the table natively', async (_, origin) => {
+    const table = await mount();
+    origin(table).focus();
+
+    expect(pressActive('Tab')).toBe(true);
+    expect(origin(table)).toHaveFocus();
+  });
+
   it('Shift+Tab from a row sweeps late controls too', async () => {
     const table = await mount();
     const late = document.createElement('span');
@@ -166,6 +177,46 @@ describe('KeyboardNavigationTransformer', () => {
     table.table.refreshRows(resource(table, '2'));
 
     await waitFor(() => expect(button).toHaveFocus());
+  });
+
+  it('remembers a created row after render without moving Create focus', async () => {
+    const table = await mount();
+    const create = within(table.container).getByRole('button', { name: 'Create new work package' });
+    create.focus();
+    navigation(table).rememberWorkPackageAfterRender('2');
+
+    const rendered = table.nextRender();
+    table.table.redrawTable();
+    await rendered;
+
+    expect(create).toHaveFocus();
+    expect(table.row('2')).toHaveAttribute('tabindex', '0');
+    expect(table.row('2')).not.toHaveFocus();
+    expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('2'), cell: null, desiredColumn: null });
+    await userEvent.tab({ shift: true });
+    expect(table.row('2')).toHaveFocus();
+  });
+
+  it('discards a create remembrance after a newer user position', async () => {
+    const table = await mount();
+    const create = within(table.container).getByRole('button', { name: 'Create new work package' });
+    navigation(table).rememberWorkPackageAfterRender('2');
+    navigation(table).recordPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    table.row('1').focus();
+    pressActive('ArrowDown');
+    pressActive('ArrowDown');
+    create.focus();
+
+    const rendered = table.nextRender();
+    table.table.redrawTable();
+    await rendered;
+
+    expect(create).toHaveFocus();
+    expect(table.row('3')).toHaveAttribute('tabindex', '0');
+    expect(table.row('2')).toHaveAttribute('tabindex', '-1');
+    expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('3'), cell: null, desiredColumn: null });
+    await userEvent.tab({ shift: true });
+    expect(table.row('3')).toHaveFocus();
   });
 
   it('takes the scroll container and its wrapper out of the Tab order only when enabled', async () => {
@@ -298,6 +349,29 @@ describe('KeyboardNavigationTransformer', () => {
     expect(selectedIds(table)).toEqual([]);
   });
 
+  it('F2 on a work package row keeps the selection', async () => {
+    const table = await mount();
+    table.click('1');
+    table.click('3', { ctrlKey: true });
+    table.row('2').focus();
+
+    expect(pressActive('F2')).toBe(true);
+
+    expect(selectedIds(table)).toEqual(['1', '3']);
+    expect(table.row('2')).toHaveFocus();
+  });
+
+  it('F2 on a group header leaves it expanded', async () => {
+    const table = await mount(grouped);
+    const collapsedGroups = table.injector.get(WorkPackageViewCollapsedGroupsService);
+    const identifier = table.groupHeader(0).dataset.groupIdentifier!;
+    table.groupHeader(0).focus();
+
+    expect(pressActive('F2')).toBe(true);
+
+    expect(collapsedGroups.config.state[identifier]).toBeFalsy();
+  });
+
   it('Enter on a header cell clicks its sort link; on the configuration cell clicks the button', async () => {
     const table = await mount();
     const [idHeader, , configurationHeader] = table.headerCells();
@@ -421,19 +495,31 @@ describe('KeyboardNavigationTransformer', () => {
     });
   });
 
-  it('focus moving onto an inner control from inside the table stays there', async () => {
+  it('focus moving onto an inner control adopts its cell without moving focus', async () => {
     const table = await mount({
       workPackages: [{ id: '1', children: [{ id: '2' }] }, { id: '2', ancestors: [{ id: '1' }] }],
       showHierarchies: true,
     });
     const toggle = table.row('1').querySelector<HTMLElement>('.wp-table--hierarchy-indicator')!;
     cell(table.row('2'), 0).focus();
-    const position = navigation(table).position;
-
     toggle.focus();
 
     expect(toggle).toHaveFocus();
-    expect(navigation(table).position).toEqual(position);
+    expect(navigation(table).position).toEqual(navigation(table).positionOfCell(toggle));
+  });
+
+  it.each(['row', 'cell'])('Tab into a control preserves its %s walk origin', async (entry) => {
+    const table = await mount({ configuration: { actionsColumnEnabled: true } });
+    const link = within(table.row('1')).getByRole('link', { name: 'js.label_open_context_menu' });
+    const originElement = entry === 'row' ? table.row('1') : link.closest<HTMLElement>('td')!;
+    originElement.focus();
+    const origin = navigation(table).position;
+
+    await userEvent.tab();
+
+    expect(link).toHaveFocus();
+    expect(navigation(table).position).toEqual(origin);
+    expect(navigation(table).originForControl(link)).toEqual(origin);
   });
 
   it('focus from a pointer press on an inner control stays there until the press ends', async () => {
@@ -540,6 +626,7 @@ describe('KeyboardNavigationTransformer', () => {
       expect(cell(table.row('1'), 0)).toHaveFocus();
       navigation(table).returnFocus(origin);
       expect(cell(table.row('1'), 0)).toHaveFocus();
+      navigation(table).recordPosition(origin);
       cell(table.row('1'), 0).blur();
       navigation(table).returnFocus(origin);
       expect(cell(table.row('2'), 1)).toHaveFocus();
@@ -633,6 +720,33 @@ describe('KeyboardNavigationTransformer', () => {
       navigation(table).returnFocus(moved);
 
       expect(document.body).toHaveFocus();
+    });
+
+    it('does not restore an old menu origin after another cell received focus and blurred', async () => {
+      const table = await mount();
+      const menuItem = visitMenu(table);
+      const newerCell = cell(table.row('3'), 1);
+      newerCell.focus();
+      newerCell.blur();
+      menuItem.remove();
+
+      navigation(table).returnFocusFromMenu(origin);
+
+      expect(document.body).toHaveFocus();
+      expect(navigation(table).position).toEqual(navigation(table).positionOfCell(newerCell));
+    });
+
+    it('returns to the recovered position when a render removed the origin row', async () => {
+      const table = await mount();
+      const menuItem = visitMenu(table);
+      await table.render([{ id: '1' }, { id: '3' }]);
+      menuItem.remove();
+      expect(document.body).toHaveFocus();
+
+      navigation(table).returnFocusFromMenu(origin);
+
+      expect(navigation(table).position).toMatchObject({ key: wpOccurrenceKey('3') });
+      expect(table.row('3')).toHaveFocus();
     });
 
     it('does nothing after the table is destroyed', async () => {
@@ -792,6 +906,23 @@ describe('KeyboardNavigationTransformer', () => {
       expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('3'), cell: null, desiredColumn: null });
     });
 
+    it('returns to the origin when a full render retires an editor focused in its overlay', async () => {
+      const table = await mount({ editing: {} });
+      cell(table.row('2'), 1).focus();
+      pressActive('Enter');
+      await waitFor(() => expect(table.table.editing.forms['2'].activeFields.subject).toBeDefined());
+      const handler = table.table.editing.forms['2'].activeFields.subject;
+      const overlay = document.body.appendChild(document.createElement('button'));
+      handler.registerOverlay(overlay);
+      handler.onDestroy.subscribe(() => overlay.remove());
+      overlay.focus();
+
+      await table.render();
+
+      expect(overlay).not.toBeInTheDocument();
+      expect(cell(table.row('2'), 1)).toHaveFocus();
+    });
+
     it('a re-render while focus is in another table does not steal focus', async () => {
       const states = new States();
       const first = await mount({ states });
@@ -882,6 +1013,47 @@ describe('KeyboardNavigationTransformer', () => {
       await waitFor(() => expect(table.row('3')).not.toBeVisible());
       expect(table.row('1')).toHaveFocus();
       expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    });
+
+    it('returns a menu to the parent a collapse moved focus to', async () => {
+      const table = await mount({
+        workPackages: [
+          { id: '1', children: [{ id: '2' }, { id: '3' }] },
+          { id: '2', ancestors: [{ id: '1' }] },
+          { id: '3', ancestors: [{ id: '1' }] },
+          { id: '4' },
+        ],
+        showHierarchies: true,
+      });
+      table.row('3').focus();
+      table.injector.get(WorkPackageViewHierarchiesService).collapse('1');
+      await waitFor(() => expect(table.row('1')).toHaveFocus());
+      const menuItem = document.createElement('button');
+      document.body.append(menuItem);
+      menuItem.focus();
+      menuItem.remove();
+      expect(document.body).toHaveFocus();
+
+      navigation(table).returnFocusFromMenu({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+
+      expect(table.row('1')).toHaveFocus();
+    });
+
+    it('focuses a created row after render when focus had returned to the grid', async () => {
+      const table = await mount();
+      table.row('1').focus();
+      const create = within(table.container).getByRole('button', { name: 'Create new work package' });
+      create.focus();
+      navigation(table).rememberWorkPackageAfterRender('2');
+      await userEvent.tab({ shift: true });
+      expect(table.row('1')).toHaveFocus();
+
+      const rendered = table.nextRender();
+      table.table.redrawTable();
+      await rendered;
+
+      expect(table.row('2')).toHaveFocus();
+      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('2'), cell: null, desiredColumn: null });
     });
 
     it('filtering to zero rows moves focus to the header row', async () => {

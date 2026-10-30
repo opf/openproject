@@ -97,6 +97,61 @@ RSpec.describe "Progress modal", :js do
   end
 
   describe "work based mode" do
+    it "returns keyboard-opened progress save to its field origin" do
+      visit_progress_query_displaying_work_package
+      work_package_table.focus_cell_by_keyboard(work_package, :estimatedTime)
+      work_package_table.press_keys(:enter)
+      progress_popover.expect_focused(:work)
+      progress_popover.set_values(work: "12")
+      progress_popover.save
+      work_package_table.expect_toast(message: "Successful update.")
+      work_package_table.expect_focus_on_cell(work_package, :estimatedTime)
+    end
+
+    it "returns keyboard-opened progress cancel to its field origin" do
+      visit_progress_query_displaying_work_package
+      work_package_table.focus_cell_by_keyboard(work_package, :remainingTime)
+      work_package_table.press_keys(:enter)
+      progress_popover.expect_focused(:remaining_work)
+      progress_popover.close
+      work_package_table.expect_focus_on_cell(work_package, :remainingTime)
+    end
+
+    it "keeps Tab inside an open progress editor" do
+      visit_progress_query_displaying_work_package
+      work_package_table.focus_cell_by_keyboard(work_package, :estimatedTime)
+      work_package_table.press_keys(:enter)
+      progress_popover.expect_focused(:work)
+
+      10.times { work_package_table.press_keys(:tab) }
+      expect(page).to have_css(".spot-drop-modal--body:focus-within")
+      10.times { work_package_table.press_keys(%i[shift tab]) }
+      expect(page).to have_css(".spot-drop-modal--body:focus-within")
+    end
+
+    it "returns to the cell when a table reload retires an open progress editor" do
+      visit_progress_query_displaying_work_package
+      hold_requests("/api/v3/queries/#{progress_query.id}") do |held|
+        work_package_table.focus_cell_by_keyboard(work_package, :estimatedTime)
+        work_package_table.press_keys(:enter)
+        progress_popover.expect_focused(:work)
+        progress_popover.set_values(work: "12")
+        progress_popover.save
+        work_package_table.expect_toast(message: "Successful update.")
+        reload = held.pop(timeout: 10)
+        expect(reload).not_to be_nil
+        work_package_table.focus_cell_by_keyboard(work_package, :remainingTime)
+        work_package_table.press_keys(:enter)
+        progress_popover.expect_focused(:remaining_work)
+        reload.continue
+
+        expect(page).to have_no_css(ProgressEditField::MODAL_SELECTOR)
+        work_package_table.expect_focus_on_cell(work_package, :remainingTime)
+      end
+      work_package_table.press_keys(:enter)
+      progress_popover.expect_focused(:remaining_work)
+    end
+
     it "formats the values on input field blur" do
       visit_progress_query_displaying_work_package
 
