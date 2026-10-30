@@ -40,11 +40,10 @@ See COPYRIGHT and LICENSE files for more details.
         )
       ) { t("colors.contrast.sample") } %>
 <% end %>
-<%= render OpPrimer::DefinitionListComponent.new(display: :flex, direction: :column, mt: 3, mb: 0, classes: "gap-2") do |list| %>
+<%= render OpPrimer::AttributesGroupComponent.new(mt: 3) do |group| %>
   <% { foreground: :text, background: :background }.each do |value, label_key| %>
-    <% list.with_item(display: :flex, justify_content: :space_between, align_items: :center) do |item| %>
-      <% item.with_term(font_size: :small, color: :muted) { t("colors.contrast.#{label_key}") } %>
-      <% item.with_description(font_family: :mono, font_size: :small, data: { contrast_value: value }) %>
+    <% group.with_attribute(key: t("colors.contrast.#{label_key}")) do %>
+      <%= tag.span(data: { contrast_value: value }) %>
     <% end %>
   <% end %>
 <% end %>

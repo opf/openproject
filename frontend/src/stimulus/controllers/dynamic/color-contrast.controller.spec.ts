@@ -248,18 +248,35 @@ describe('ColorContrastController', () => {
       expect(cards().map(valuesOf).every((value) => value.ratio !== '')).toBe(true);
     });
 
-    it('reports foreground, background, ratio and verdict per theme and usage', () => {
-      hexcode().value = '#FF69B4';
-      fireEvent.change(hexcode());
+    it.each(['light', 'dark', 'light_high_contrast', 'dark_high_contrast'])(
+      'reports standard preview results on a %s page',
+      (theme) => {
+        const originalAttributes = ['data-color-mode', 'data-light-theme', 'data-dark-theme'].map((name) => (
+          [name, document.body.getAttribute(name)] as const
+        ));
+        document.body.dataset.colorMode = theme.startsWith('dark') ? 'dark' : 'light';
+        document.body.dataset.lightTheme = theme === 'light_high_contrast' ? theme : 'light';
+        document.body.dataset.darkTheme = theme === 'dark_high_contrast' ? theme : 'dark';
 
-      expect(cards().map(valuesOf)).toEqual([
-        { foreground: '#FF1A8C', background: '#FFFFFF', ratio: '3.63:1', verdict: 'Fail' },
-        { foreground: '#000000', background: '#FF69B4', ratio: '7.93:1', verdict: 'Pass' },
-        { foreground: '#FF7EBF', background: '#0D1117', ratio: '8.11:1', verdict: 'Pass' },
-        { foreground: '#FF7EBF', background: '#392133', ratio: '6.27:1', verdict: 'Pass' },
-      ]);
-      expect(ctx.screen.getByText('3 of 4 pass')).toBeVisible();
-    });
+        try {
+          hexcode().value = '#FF69B4';
+          fireEvent.change(hexcode());
+
+          expect(cards().map(valuesOf)).toEqual([
+            { foreground: '#FF1A8C', background: '#FFFFFF', ratio: '3.63:1', verdict: 'Fail' },
+            { foreground: '#000000', background: '#FF69B4', ratio: '7.93:1', verdict: 'Pass' },
+            { foreground: '#FF7EBF', background: '#0D1117', ratio: '8.11:1', verdict: 'Pass' },
+            { foreground: '#FF7EBF', background: '#392133', ratio: '6.27:1', verdict: 'Pass' },
+          ]);
+          expect(ctx.screen.getByText('3 of 4 pass')).toBeVisible();
+        } finally {
+          originalAttributes.forEach(([name, value]) => {
+            if (value === null) document.body.removeAttribute(name);
+            else document.body.setAttribute(name, value);
+          });
+        }
+      },
+    );
 
     it('replaces the previous results while typing', () => {
       hexcode().value = '#FF69B4';
