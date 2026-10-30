@@ -28,11 +28,21 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_backlogs) %>
 
-<%# Dialogs like "new work package" redirect back here. As a morphing refresh, that reloads
-    the lists in place instead of starting over with the skeleton. %>
-<% turbo_refreshes_with method: :morph, scroll: :preserve %>
-<%# A cached preview would show the loaded lists, which the response's skeleton then replaces. %>
-<% turbo_exempts_page_from_preview %>
+<%
+  # Dialogs like "new work package" redirect back here. A morphing refresh reloads the lists
+  # in place instead of starting over with the skeleton.
+  turbo_refreshes_with method: :morph, scroll: :preserve
+%>
+
+<%
+  # When this page is reached via a link and Turbo has a cached copy of it, Turbo shows that copy
+  # as a preview while it fetches the page, including the list loaded into `backlogs_container`.
+  # The fetched response will only have the skeleton in `backlogs_container`, which then loads the
+  # list itself. So the page would flicker from the cached list to the skeleton and back to the list.
+  # Exempting the page from preview skips the cached copy on link visits. The page is still
+  # cached, so back and forward still restore it instantly.
+  turbo_exempts_page_from_preview
+%>
 
 <% content_for :content_header do %>
   <%=
