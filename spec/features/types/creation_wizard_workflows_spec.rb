@@ -115,6 +115,17 @@ RSpec.describe "Type creation wizard workflows step", :js do
     end
   end
 
+  it "keeps the first role's transitions when continuing from another role's empty tab" do
+    visit_workflow_wizard(roles: [role2])
+
+    expect(page).to have_heading "No status transitions configured"
+
+    name_workflow_and_continue("Empty tab flow")
+
+    expect(page).to have_current_path(type_creation_wizard_path(type, step: :projects))
+    expect(workflows_for(type, role).count).to be 1
+  end
+
   context "when switching tabs" do
     let!(:author_workflow) do
       create(:workflow, role_id: role.id, type_id: type.id,
