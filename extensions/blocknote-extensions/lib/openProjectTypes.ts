@@ -50,16 +50,6 @@ export interface TypeCollection {
   };
 }
 
-export interface OpenProjectResponse {
-  _embedded?:{
-    elements?:{
-      id:string;
-      name:string;
-      _links?:{ self:{ href:string } };
-    }[];
-  };
-}
-
 export interface HalLink {
   href:string | null;
   title?:string;

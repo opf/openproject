@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { cacheColors, colorOfType } from '../../../lib/services/colors';
 
-vi.mock('../../../lib/services/openProjectApi', () => ({
+vi.mock('../../../lib/services/openProjectApi/resources', () => ({
   fetchTypes: () => Promise.resolve({
     _embedded: { elements: [{ id: '1', color: '#D35400' }, { id: '2' }] },
   }),
