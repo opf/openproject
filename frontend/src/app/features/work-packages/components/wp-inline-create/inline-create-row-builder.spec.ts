@@ -148,5 +148,28 @@ describe('InlineCreateRowBuilder', () => {
       expect(row.lastElementChild!.querySelector(`.${inlineCreateCancelClassName}`)).not.toBeNull();
       expect(editedCell).not.toHaveClass('wp-table--cancel-create-host');
     });
+
+    it('moves the Cancel link onto the edited cell when the column after it is removed', async () => {
+      const table = await mount('macro', {});
+      const columns = table.injector.get(WorkPackageViewColumnsService);
+      const original = columns.getColumns();
+      const getColumns = vi.spyOn(columns, 'getColumns').mockReturnValue([...original, buildColumn('status') as QueryColumn]);
+      const row = table.addInlineCreateRow();
+      const form = Object.values(table.table.editing.forms)[0];
+      const handler = await form.activate('subject');
+      handler!.focus();
+      const editedCell = row.querySelector<HTMLTableCellElement>('td.subject')!;
+      await waitFor(() => expect(editedCell.querySelector('input.inline-edit--field')).toHaveFocus());
+      expect(editedCell.querySelector(`.${inlineCreateCancelClassName}`)).toBeNull();
+      getColumns.mockReturnValue(original);
+      const builder = new InlineCreateRowBuilder(table.injector, table.table);
+
+      builder.refreshRow(table.injector.get(States).workPackages.get(HAL_NEW_RESOURCE_ID).value!, row);
+
+      expect(row.lastElementChild).toBe(editedCell);
+      expect(cancelLinks(row)).toHaveLength(1);
+      expect(within(editedCell).getByRole('link', { name: 'Cancel' })).toHaveClass(inlineCreateCancelClassName);
+      expect(editedCell).toHaveClass('wp-table--cancel-create-host');
+    });
   });
 });
