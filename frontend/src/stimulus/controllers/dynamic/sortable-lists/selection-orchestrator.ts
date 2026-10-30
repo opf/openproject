@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import type { ActionScope } from './action-scope';
 import { BatchSelection, type SelectionAnchor, type SelectionKey } from 'core-common/batch-selection';
 import { announce } from '@primer/live-region-element';
 import { resolveItemId, resolveItemType } from './list-dom';
@@ -59,10 +60,6 @@ export interface SelectionHost {
   // list's rows are.
   ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null;
 }
-
-export type ActionScope =
-  | { kind:'batch'; items:HTMLElement[] }
-  | { kind:'refused'; items:[] };
 
 // What resolving an action scope does to the selection: nothing, replace it
 // with the card alone only when the card is outside it, or replace it
@@ -367,6 +364,8 @@ export class SelectionOrchestrator {
       event,
       () => this.selection.size > 0 || this.selection.anchor !== null,
       () => {
+        if (this.host.busy) return;
+
         this.selection.clear();
         this.renderSelection('selection');
       },

@@ -55,6 +55,7 @@ import {
   type MoveAvailability,
   type MoveDirection,
 } from './list-dom';
+import type { ActionScope } from './action-scope';
 
 // Shared with the global generic-drag-and-drop controller and its row
 // styles, so it is not scoped to sortable lists.
@@ -121,9 +122,16 @@ export interface SortableListData extends Record<string|symbol, unknown> {
 export interface SortableListsRoot {
   readonly element:HTMLElement;
   readonly busy:boolean;
+  actionScopeFor(itemElement:HTMLElement):ActionScope;
+  selectForAction(itemElement:HTMLElement):ActionScope;
+  availableDestinations(scope:ActionScope, candidates:DestinationIdentity[]):DestinationIdentity[];
+  moveToDestination(itemElement:HTMLElement, target:DestinationIdentity):void;
   moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void;
   // A snapshot for menu gating; the click path re-resolves against the live DOM.
   moveAvailability(itemElement:HTMLElement):MoveAvailability|null;
+  // The element of the list an item currently belongs to; null outside any
+  // registered list. Items carry no list reference, so the root resolves it.
+  ownerListElementOf(itemElement:HTMLElement):HTMLElement|null;
   // The rows container of the item's innermost owning list, or null when the
   // item is not (yet) inside a list the root knows about.
   ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null;
