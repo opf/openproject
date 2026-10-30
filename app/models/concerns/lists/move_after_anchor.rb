@@ -28,10 +28,12 @@
 #++
 
 module Lists
-  # Anchor-based reordering for acts_as_list models: moves the record
+  # Anchor-based reordering for acts_as_list models: places the record
   # directly below another record of the same list, addressed by id.
   module MoveAfterAnchor
-    # A positive Integer or its canonical decimal String; nil for anything else.
+    # ActiveRecord casts "7junk", "07", " 7" and true alike to integers, so an
+    # id has to be vetted before it reaches find_by, or it matches a record the
+    # request never pointed at.
     def self.canonical_id(value)
       case value
       when Integer then value if value.positive?
@@ -39,49 +41,30 @@ module Lists
       end
     end
 
-    # Moves the record below the record identified by `prev_id` within
-    # `scope` (a relation over the same acts_as_list list). `nil` or an
-    # empty string moves the record to the top; otherwise `prev_id` must
-    # be a positive Integer or its canonical decimal String.
-    #
-    # Returns false without mutating for any other `prev_id`, or when the
-    # anchor is unknown, outside the scope, or the record itself.
-    def move_after_anchor(prev_id, scope:)
-      if prev_id.nil? || prev_id == ""
-        move_to_top
-        return true
-      end
-
-      anchor_id = anchor_id_from(prev_id)
-      return false if anchor_id.nil?
-
-      anchor = scope.find_by(id: anchor_id)
-      return false if anchor.nil? || anchor.id == id
-
-      # Removing the record first shifts the anchor up by one when the
-      # record currently sits above it, so the target slot differs by
-      # direction of travel.
-      insert_at(position > anchor.position ? anchor.position + 1 : anchor.position)
-      true
-    end
-
-    # The position a record entering `scope` from another list takes when
-    # placed below `prev_id`: 1 for `nil` or an empty string. Returns nil
-    # under the conditions that make {#move_after_anchor} return false.
+    # The position a record takes when it enters `scope` below `prev_id`: 1 for
+    # `nil` or an empty string, nil when `prev_id` is anything but a positive
+    # Integer or its canonical decimal String, is unknown to `scope`, or is
+    # this record itself.
     def position_after_anchor(prev_id, scope:)
       return 1 if prev_id.nil? || prev_id == ""
 
-      anchor_id = anchor_id_from(prev_id)
-      return if anchor_id.nil?
+      anchor_id = MoveAfterAnchor.canonical_id(prev_id)
+      return if anchor_id.nil? || anchor_id == id
 
       anchor = scope.find_by(id: anchor_id)
-      return if anchor.nil? || anchor.id == id
-
-      anchor.position + 1
+      anchor.position + 1 if anchor
     end
 
-    private
+    # Moves this record, already a member of `scope`, below `prev_id`. Returns
+    # false without mutating wherever #position_after_anchor returns nil.
+    def move_after_anchor(prev_id, scope:)
+      target = position_after_anchor(prev_id, scope:)
+      return false if target.nil?
 
-    def anchor_id_from(prev_id) = Lists::MoveAfterAnchor.canonical_id(prev_id)
+      # insert_at numbers the list with this record pulled out of it, so the
+      # target slips up a slot whenever the record currently sits above it.
+      insert_at(position < target ? target - 1 : target)
+      true
+    end
   end
 end
