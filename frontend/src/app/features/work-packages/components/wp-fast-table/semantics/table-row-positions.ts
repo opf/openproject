@@ -120,6 +120,16 @@ export class TableRowPositions {
     });
   }
 
+  /** A refreshed row replaces its predecessor in place under the same occurrence key, so it inherits that row's index. */
+  public carry(previous:HTMLTableRowElement, replacement:HTMLTableRowElement):void {
+    if (this.table.destroyed) return;
+    if (!this.currentSnapshot()) {
+      this.paint();
+      return;
+    }
+    setOrRemove(replacement, 'aria-rowindex', previous.getAttribute('aria-rowindex'));
+  }
+
   /** Contextual ancestors make the query-wide total unknowable, so rendered rows count from the page's first rank. */
   private capturePage(source:WorkPackageCollectionResource, draft:RenderDraft):CapturedRowPositions|null {
     const { offset, pageSize } = source;

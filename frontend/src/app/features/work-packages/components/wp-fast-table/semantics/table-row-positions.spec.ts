@@ -379,6 +379,37 @@ describe('TableRowPositions', () => {
     expect(scanned).not.toHaveBeenCalled();
   });
 
+  it('carries indices through many row refreshes without rescanning the table', async () => {
+    await mount();
+    const original = harness.row('21');
+    vi.spyOn(harness.table.lastRenderPass!, 'refresh').mockImplementation((occurrence) => {
+      const replacement = occurrence.element!.cloneNode(true) as HTMLTableRowElement;
+      replacement.removeAttribute('aria-rowindex');
+      occurrence.element!.replaceWith(replacement);
+      return replacement;
+    });
+    const painted = vi.spyOn(harness.table.rowPositions!, 'paint');
+    for (let refresh = 0; refresh < 50; refresh += 1) {
+      harness.table.refreshRows(harness.table.originalRowIndex[refresh % 2 ? '22' : '21'].object);
+    }
+    expect(painted).not.toHaveBeenCalled();
+    expect(harness.row('21')).not.toBe(original);
+    harness.expectRowPositions(['1', '22', '23', '102', '103'], '103');
+  });
+
+  it('withdraws instead of carrying an index once the collection changed', async () => {
+    await mount();
+    vi.spyOn(harness.table.lastRenderPass!, 'refresh').mockImplementation((occurrence) => {
+      const replacement = occurrence.element!.cloneNode(true) as HTMLTableRowElement;
+      occurrence.element!.replaceWith(replacement);
+      return replacement;
+    });
+    vi.spyOn(harness.table.uiWork, 'frame').mockImplementation(() => undefined);
+    void harness.render([{ id: '21' }, { id: '22' }]);
+    harness.table.refreshRows(harness.table.originalRowIndex['21'].object);
+    harness.expectNoRowPositions();
+  });
+
   it('stops painting after teardown', async () => {
     await mount();
     await harness.destroy();

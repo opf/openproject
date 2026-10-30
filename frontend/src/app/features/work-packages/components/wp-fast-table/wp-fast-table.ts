@@ -242,16 +242,18 @@ export class WorkPackageTable {
     this.keyboardNavigation?.captureOwnership();
     let replaced = 0;
     this.ledger.byWorkPackageId(workPackage.id!).forEach((occurrence) => {
+      const previous = occurrence.element;
       const replacement = pass.refresh(occurrence, workPackage);
       if (replacement) {
         this.ledger.replaceElement(occurrence.key, replacement);
+        if (previous) this.rowPositions?.carry(previous, replacement);
         replaced += 1;
       }
     });
 
     if (replaced > 0) {
       this.semantics?.paintWorkPackage(workPackage.id!);
-      this.notifyRowsRefreshed(workPackage.id!);
+      this.rowsRefreshedSubject.next(workPackage.id!);
     }
   }
 
