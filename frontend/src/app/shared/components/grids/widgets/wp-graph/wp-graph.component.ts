@@ -42,8 +42,6 @@ import { WpGraphConfiguration } from 'core-app/shared/components/work-package-gr
   standalone: false,
 })
 export class WidgetWpGraphComponent extends AbstractWidgetComponent implements OnInit, OnDestroy {
-  protected override readonly hasWidgetHeading = true;
-
   protected cdr = inject(ChangeDetectorRef);
   protected readonly graphConfiguration = inject(WpGraphConfigurationService);
 

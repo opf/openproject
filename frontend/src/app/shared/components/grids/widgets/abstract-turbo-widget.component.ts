@@ -32,8 +32,6 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 
 @Directive()
 export abstract class AbstractTurboWidgetComponent extends AbstractWidgetComponent {
-  protected override readonly hasWidgetHeading = true;
-
   protected readonly currentProject = inject(CurrentProjectService);
   protected readonly pathHelper = inject(PathHelperService);
 

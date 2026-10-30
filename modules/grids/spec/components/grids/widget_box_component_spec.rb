@@ -44,7 +44,7 @@ RSpec.describe Grids::WidgetBoxComponent, type: :component do
 
   it "labels the widget box with its visible heading" do
     expect(rendered_component).to have_css(
-      ".widget-box[role='group']",
+      ".widget-box[role='region']",
       aria: { labelledby: "cool_widget-header" }
     )
     expect(rendered_component).to have_css(
@@ -80,7 +80,7 @@ RSpec.describe Grids::WidgetBoxComponent, type: :component do
     rendered_component = render_inline(described_class.new(key: "cool_widget", title: "")) { "Content" }
 
     expect(rendered_component).to have_css(".widget-box", text: "Content")
-    expect(rendered_component).to have_no_css(".widget-box[role='group']")
+    expect(rendered_component).to have_no_css(".widget-box[role='region']")
     expect(rendered_component).to have_css(".widget-box", aria: { labelledby: nil })
   end
 

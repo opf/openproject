@@ -40,8 +40,6 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
   standalone: false,
 })
 export class WidgetWpCalendarComponent extends AbstractWidgetComponent {
-  protected override readonly hasWidgetHeading = true;
-
   protected readonly currentProject = inject(CurrentProjectService);
   protected readonly currentUser = inject(CurrentUserService);
 

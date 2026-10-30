@@ -34,7 +34,4 @@ import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widget
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class WidgetWpOverviewComponent extends AbstractWidgetComponent {
-  protected override readonly hasWidgetHeading = true;
-
-}
+export class WidgetWpOverviewComponent extends AbstractWidgetComponent {}

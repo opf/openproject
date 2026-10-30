@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   WorkPackageEmbeddedGraphComponent,
@@ -33,9 +33,6 @@ import {
 } from 'core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component';
 
 describe('WorkPackageEmbeddedGraphComponent', () => {
-  let fixture:ComponentFixture<WorkPackageEmbeddedGraphComponent>;
-  let element:HTMLElement;
-
   const i18nStub = {
     t(key:string, options:Record<string, string> = {}) {
       const translations:Record<string, string> = {
@@ -73,18 +70,20 @@ describe('WorkPackageEmbeddedGraphComponent', () => {
         { provide: I18nService, useValue: i18nStub },
       ],
     }).compileComponents();
-
-    fixture = TestBed.createComponent(WorkPackageEmbeddedGraphComponent);
-    element = fixture.nativeElement as HTMLElement;
   });
 
-  const renderWith = (datasets:WorkPackageEmbeddedGraphDataset[]) => {
+  const renderGraph = (datasets:WorkPackageEmbeddedGraphDataset[]) => {
+    const fixture = TestBed.createComponent(WorkPackageEmbeddedGraphComponent);
+    const element = fixture.nativeElement as HTMLElement;
+
     fixture.componentRef.setInput('datasets', datasets);
     fixture.detectChanges();
+
+    return { fixture, element };
   };
 
   it('provides a translated name and detailed description for the chart', () => {
-    renderWith([dataset('All work packages', 2)]);
+    const { element } = renderGraph([dataset('All work packages', 2)]);
 
     const canvas = element.querySelector('canvas')!;
     const descriptionId = canvas.getAttribute('aria-describedby')!;
@@ -98,29 +97,29 @@ describe('WorkPackageEmbeddedGraphComponent', () => {
   });
 
   it('uses a unique description ID for each graph', () => {
-    renderWith([dataset('First query', 2)]);
-    const secondFixture = TestBed.createComponent(WorkPackageEmbeddedGraphComponent);
-    const secondElement = secondFixture.nativeElement as HTMLElement;
+    const first = renderGraph([dataset('First query', 2)]);
+    const second = renderGraph([dataset('Second query', 3)]);
 
-    secondFixture.componentRef.setInput('datasets', [dataset('Second query', 3)]);
-    secondFixture.detectChanges();
+    const firstCanvas = first.element.querySelector('canvas')!;
+    const secondCanvas = second.element.querySelector('canvas')!;
+    const firstDescriptionId = firstCanvas.getAttribute('aria-describedby');
+    const secondDescriptionId = secondCanvas.getAttribute('aria-describedby');
 
-    const firstDescriptionId = element.querySelector('canvas')!.getAttribute('aria-describedby');
-    const secondDescriptionId = secondElement.querySelector('canvas')!.getAttribute('aria-describedby');
-
-    expect(firstDescriptionId).toEqual(fixture.componentInstance.chartDescriptionId);
-    expect(secondDescriptionId).toEqual(secondFixture.componentInstance.chartDescriptionId);
+    expect(firstDescriptionId).toEqual(first.fixture.componentInstance.chartDescriptionId);
+    expect(secondDescriptionId).toEqual(second.fixture.componentInstance.chartDescriptionId);
     expect(firstDescriptionId).not.toEqual(secondDescriptionId);
+    expect(firstCanvas).toHaveAccessibleDescription('Bar chart showing work packages which are 2 Open.');
+    expect(secondCanvas).toHaveAccessibleDescription('Bar chart showing work packages which are 3 Open.');
   });
 
   it('describes values from multiple datasets', () => {
-    renderWith([dataset('First query', 2), dataset('Second query', 3)]);
+    const { fixture } = renderGraph([dataset('First query', 2), dataset('Second query', 3)]);
 
     expect(fixture.componentInstance.chartDescription).toEqual('Open: 2 First query, 3 Second query');
   });
 
   it('does not render chart semantics without data', () => {
-    renderWith([]);
+    const { fixture, element } = renderGraph([]);
 
     expect(element.querySelector('canvas')).toBeNull();
     expect(element.querySelector(`#${fixture.componentInstance.chartDescriptionId}`)).toBeNull();

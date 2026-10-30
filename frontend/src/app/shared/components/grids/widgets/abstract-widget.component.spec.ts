@@ -34,15 +34,21 @@ import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widget
   template: '<h3 [id]="headingId">Widget title</h3>',
   standalone: true,
 })
-class TestWidgetComponent extends AbstractWidgetComponent {
-  protected override readonly hasWidgetHeading = true;
-}
+class TestWidgetComponent extends AbstractWidgetComponent {}
 
 @Component({
   template: '<div>Transparent wrapper</div>',
   standalone: true,
 })
-class TestWrapperComponent extends AbstractWidgetComponent {}
+class TestWrapperComponent extends AbstractWidgetComponent {
+  public override get role():string|null {
+    return null;
+  }
+
+  public override get ariaLabelledBy():string|null {
+    return null;
+  }
+}
 
 describe('AbstractWidgetComponent', () => {
   beforeEach(async () => {
@@ -54,15 +60,15 @@ describe('AbstractWidgetComponent', () => {
     }).compileComponents();
   });
 
-  it('labels the widget group with its heading', () => {
+  it('labels the widget region with its heading', () => {
     const fixture = TestBed.createComponent(TestWidgetComponent);
 
     fixture.detectChanges();
 
     const host = fixture.nativeElement as HTMLElement;
-    const heading = host.querySelector<HTMLHeadingElement>('h3')!;
+    const heading = host.querySelector('h3')!;
 
-    expect(host).toHaveAttribute('role', 'group');
+    expect(host).toHaveAttribute('role', 'region');
     expect(host).toHaveAttribute('aria-labelledby', heading.id);
     expect(host).toHaveAccessibleName('Widget title');
     expect(heading.id).toMatch(/^widget-heading-/);
@@ -75,7 +81,7 @@ describe('AbstractWidgetComponent', () => {
     expect(firstFixture.componentInstance.headingId).not.toEqual(secondFixture.componentInstance.headingId);
   });
 
-  it('does not add heading semantics unless the component opts in', () => {
+  it('does not add heading semantics when the component opts out', () => {
     const fixture = TestBed.createComponent(TestWrapperComponent);
 
     fixture.detectChanges();

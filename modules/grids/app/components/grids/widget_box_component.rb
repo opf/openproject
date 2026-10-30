@@ -99,7 +99,7 @@ module Grids
     private
 
     def configure_accessibility
-      @system_arguments[:role] ||= :group
+      @system_arguments[:role] ||= :region
       @system_arguments[:aria] = { labelledby: @header_id }.merge(@system_arguments[:aria] || {})
     end
 

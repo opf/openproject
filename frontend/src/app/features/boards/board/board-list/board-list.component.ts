@@ -116,6 +116,14 @@ export interface DisabledButtonPlaceholder {
   standalone: false,
 })
 export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy {
+  public override get role():string|null {
+    return null;
+  }
+
+  public override get ariaLabelledBy():string|null {
+    return null;
+  }
+
   readonly apiv3Service = inject(ApiV3Service);
   readonly cdRef = inject(ChangeDetectorRef);
   readonly boardFilters = inject(BoardFiltersService);
