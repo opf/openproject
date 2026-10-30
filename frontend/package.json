@@ -87,6 +87,7 @@
     "@atlaskit/pragmatic-drag-and-drop-hitbox": "^2.0.0",
     "@blocknote/core": "^0.55.0",
     "@blocknote/mantine": "^0.55.0",
+    "@blocknote/math-block": "^0.55.0",
     "@blocknote/react": "^0.55.0",
     "@braintree/sanitize-url": "^7.1.2",
     "@datorama/akita": "^8.0.1",
@@ -154,6 +155,7 @@
     "jquery": "^4.0.0",
     "jquery-migrate": "^4.0.2",
     "json5": "^2.2.2",
+    "katex": "^0.18.11",
     "lit-html": "^3.3.3",
     "lodash-es": "^4.17.21",
     "luxon": "^3.7.2",
@@ -218,6 +220,9 @@
     "@angular/build": {
       ".": "$@angular/build",
       "piscina": "5.3.2"
+    },
+    "@blocknote/math-block": {
+      "katex": "$katex"
     }
   },
   "allowScripts": {
