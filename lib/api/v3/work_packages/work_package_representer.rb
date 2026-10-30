@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,9 +39,11 @@ module API
         include ::API::V3::Attachments::AttachableRepresenterMixin
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
         include TimestampedRepresenter
+        include ::WorkPackageTypes::VariantRoutes
 
         cached_representer key_parts: %i(project),
-                           disabled: false
+                           disabled: false,
+                           dependencies: -> { historic_state? }
 
         attr_accessor :timestamps, :query
 
@@ -64,6 +65,8 @@ module API
 
         link :update,
              cache_if: -> { current_user_update_allowed? } do
+          next if historic_state?
+
           {
             href: api_v3_paths.work_package_form(represented.id),
             method: :post
@@ -78,6 +81,8 @@ module API
 
         link :updateImmediately,
              cache_if: -> { current_user_update_allowed? } do
+          next if historic_state?
+
           {
             href: api_v3_paths.work_package(represented.id),
             method: :patch
@@ -89,16 +94,6 @@ module API
           {
             href: api_v3_paths.work_package(represented.id),
             method: :delete
-          }
-        end
-
-        link :logTime,
-             cache_if: -> { log_time_allowed? } do
-          next if represented.new_record?
-
-          {
-            href: api_v3_paths.time_entries,
-            title: "Log time on work package '#{represented.subject}'"
           }
         end
 
@@ -157,6 +152,16 @@ module API
           }
         end
 
+        link :markdown do
+          next if represented.new_record?
+
+          {
+            href: work_package_path(id: represented.id, format: :md),
+            type: "text/markdown",
+            title: I18n.t(:label_markdown_version)
+          }
+        end
+
         link :availableRelationCandidates do
           next if represented.new_record?
 
@@ -166,23 +171,13 @@ module API
           }
         end
 
-        link :customFields,
-             cache_if: -> { current_user.allowed_in_project?(:select_custom_fields, represented.project) } do
-          next if represented.project.nil?
-
-          {
-            href: project_settings_custom_fields_path(represented.project.identifier),
-            type: "text/html",
-            title: "Custom fields"
-          }
-        end
-
         link :configureForm,
-             cache_if: -> { current_user.admin? } do
-          next unless represented.type_id
+             cache_if: -> { configure_form_allowed? } do
+          variant = represented.type_variant
+          next unless variant
 
           {
-            href: edit_type_form_configuration_path(represented.type_id),
+            href: edit_variant_form_configuration_path(variant.project, variant),
             type: "text/html",
             title: "Configure form"
           }
@@ -303,21 +298,6 @@ module API
           {
             href: api_v3_paths.render_markup(link: api_v3_paths.work_package(represented.id)),
             method: :post
-          }
-        end
-
-        link :timeEntries,
-             cache_if: -> { view_time_entries_allowed? } do
-          next if represented.new_record?
-
-          filters = [
-            { entity_type: { operator: "=", values: ["WorkPackage"] } },
-            { entity_id: { operator: "=", values: [represented.id.to_s] } }
-          ]
-
-          {
-            href: api_v3_paths.path_for(:time_entries, filters:),
-            title: "Time entries"
           }
         end
 
@@ -455,16 +435,6 @@ module API
 
         property :ignore_non_working_days
 
-        property :spent_time,
-                 exec_context: :decorator,
-                 getter: ->(*) do
-                   datetime_formatter.format_duration_from_hours(represented.spent_hours)
-                 end,
-                 if: ->(*) {
-                   view_time_entries_allowed?
-                 },
-                 uncacheable: true
-
         property :done_ratio,
                  as: :percentageDone,
                  render_nil: true
@@ -579,7 +549,7 @@ module API
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
                               .create_link_lambda(:assigned_to)
 
-        # Deprecated in favour of `targetVersions`
+        # Deprecated in favor of `targetVersions`
         # Removed from the API if multiple_versions is enabled on the instance
         associated_resource :version,
                             v3_path: :version,
@@ -661,6 +631,38 @@ module API
                                represented.observed_in_version_ids = parse_link_ids_from_fragment(fragment, :version).compact
                              end
 
+        associated_resources :labels,
+                             skip_render: ->(*) { !OpenProject::FeatureDecisions.work_package_labels_active? },
+                             getter: ->(*) {
+                               next unless embed_link?(:labels)
+
+                               represented.effective_labels.reject(&:new_record?).map do |label|
+                                 ::API::V3::Labels::LabelRepresenter.create(label, current_user:)
+                               end
+                             },
+                             link: ->(*) {
+                               next unless OpenProject::FeatureDecisions.work_package_labels_active?
+
+                               represented.effective_labels.map do |label|
+                                 ::API::Decorators::LinkObject
+                                   .new(label,
+                                        property_name: :itself,
+                                        path: :label,
+                                        getter: :id,
+                                        title_attribute: :name)
+                                   .to_hash
+                               end
+                             },
+                             setter: ->(fragment:, **) do
+                               next unless OpenProject::FeatureDecisions.work_package_labels_active?
+
+                               with_href, without_href = fragment.partition { |link| link["href"].present? }
+                               represented.label_ids = parse_link_ids_from_fragment(with_href, :label)
+
+                               names = without_href.filter_map { |link| link["title"].presence if link["title"].is_a?(String) }
+                               represented.label_names = names if names.any?
+                             end
+
         associated_resource :parent,
                             v3_path: :work_package,
                             representer: ::API::V3::WorkPackages::WorkPackageRepresenter,
@@ -699,20 +701,6 @@ module API
 
                               represented.parent = new_parent
                             end
-
-        associated_resource :budget,
-                            as: :budget,
-                            v3_path: :budget,
-                            link_title_attribute: :subject,
-                            representer: ::API::V3::Budgets::BudgetRepresenter,
-                            uncacheable_link: true,
-                            skip_link: ->(*) { represented.budget_id.present? && !view_budgets_allowed? },
-                            undisclosed: true,
-                            getter: ->(*) {
-                              if embed_link?(:budget) && represented.budget && view_budgets_allowed?
-                                ::API::V3::Budgets::BudgetRepresenter.create(represented.budget, current_user:)
-                              end
-                            }
 
         resources :customActions,
                   uncacheable_link: true,
@@ -755,44 +743,15 @@ module API
           @current_user_watcher = represented.watchers.any? { |w| w.user_id == current_user.id }
         end
 
+        def historic_state?
+          timestamps.last&.historic? || false
+        end
+
         def current_user_update_allowed?
           return @current_user_update_allowed if defined?(@current_user_update_allowed)
 
           @current_user_update_allowed = ::WorkPackages::UpdateContract.update_allowed?(user: current_user,
                                                                                         work_package: represented)
-        end
-
-        def view_time_entries_allowed?
-          return @view_time_entries_allowed if defined?(@view_time_entries_allowed)
-
-          @view_time_entries_allowed =
-            current_user.allowed_in_project?(:view_time_entries, represented.project) ||
-            view_own_time_entries_allowed?
-        end
-
-        def view_own_time_entries_allowed?
-          return @view_own_time_entries_allowed if defined?(@view_own_time_entries_allowed)
-
-          @view_own_time_entries_allowed = if represented.new_record?
-                                             current_user.allowed_in_any_work_package?(:view_own_time_entries,
-                                                                                       in_project: represented.project)
-                                           else
-                                             current_user.allowed_in_work_package?(:view_own_time_entries, represented)
-                                           end
-        end
-
-        def log_time_allowed?
-          return @log_time_allowed if defined?(@log_time_allowed)
-
-          @log_time_allowed =
-            current_user.allowed_in_project?(:log_time, represented.project) ||
-              current_user.allowed_in_work_package?(:log_own_time, represented)
-        end
-
-        def view_budgets_allowed?
-          return @view_budgets_allowed if defined?(@view_budgets_allowed)
-
-          @view_budgets_allowed = current_user.allowed_in_project?(:view_budgets, represented.project)
         end
 
         def view_project_phase_allowed?
@@ -811,6 +770,12 @@ module API
           return @add_work_packages_allowed if defined?(@add_work_packages_allowed)
 
           @add_work_packages_allowed = current_user.allowed_in_project?(:add_work_packages, represented.project)
+        end
+
+        def configure_form_allowed?
+          return @configure_form_allowed if defined?(@configure_form_allowed)
+
+          @configure_form_allowed = !!represented.type_variant&.configurable_by?(current_user)
         end
 
         def project_phase
@@ -865,10 +830,6 @@ module API
             datetime_formatter.parse_duration_to_hours(value, "derivedRemainingTime", allow_nil: true)
         end
 
-        def spent_time=(value)
-          # noop
-        end
-
         def duration=(value)
           represented.duration = datetime_formatter.parse_duration_to_days(value,
                                                                            "duration",
@@ -886,9 +847,9 @@ module API
                                 type
                                 watchers
                                 attachments
-                                budget
                                 target_versions
-                                observed_in_versions]
+                                observed_in_versions
+                                labels]
 
         # The dynamic class generation introduced because of the custom fields interferes with
         # the class naming as well as prevents calls to super

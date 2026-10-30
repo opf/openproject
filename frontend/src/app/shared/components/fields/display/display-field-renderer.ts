@@ -20,18 +20,19 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { removeTabStops } from 'core-app/shared/helpers/dom/remove-tab-stops';
 import { escape } from 'lodash-es';
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import {
   DisplayFieldContext,
+  DisplayFieldContextOptions,
   DisplayFieldService,
 } from 'core-app/shared/components/fields/display/display-field.service';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
@@ -39,7 +40,7 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import {
   HalResourceEditingService,
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
@@ -51,6 +52,10 @@ export const placeholderClassName = '-placeholder';
 export const displayClassName = 'inline-edit--display-field';
 export const displayTriggerLink = 'inline-edit--display-trigger';
 export const editFieldContainerClass = 'inline-edit--container';
+
+export interface DisplayFieldRendererOptions extends DisplayFieldContextOptions {
+  tabbable?:boolean;
+}
 
 export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   @LazyInject() displayFieldService:DisplayFieldService;
@@ -67,7 +72,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   constructor(
     public readonly injector:Injector,
     public readonly container:'table'|'single-view'|'timeline',
-    public readonly options:Record<string, unknown> = {},
+    public readonly options:DisplayFieldRendererOptions = {},
   ) {
   }
 
@@ -84,6 +89,10 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
 
     this.setSpanAttributes(span, field, name, resource, change);
 
+    if (this.options.tabbable === false) {
+      removeTabStops(span);
+    }
+
     return span;
   }
 
@@ -95,8 +104,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     const span = document.createElement('span');
     const schema = this.schema(resource, change);
     const attributeName = this.attributeName(requestedAttribute, schema);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    const fieldSchema = schema.ofProperty(attributeName) as IFieldSchema;
+    const fieldSchema = schema.ofProperty(attributeName);
 
     // If the resource does not have that field, return an empty
     // span (e.g., for the table).
@@ -151,8 +159,12 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     span.classList.add(displayClassName, name);
     span.dataset.fieldName = name;
 
-    // Make span tabbable unless it's an id field
-    span.setAttribute('tabindex', name === 'id' ? '-1' : '0');
+    const tabbable = this.options.tabbable !== false;
+
+    if (tabbable) {
+      // Make span tabbable unless it's an id field
+      span.setAttribute('tabindex', name === 'id' ? '-1' : '0');
+    }
 
     if (field.required) {
       span.classList.add(requiredClassName);
@@ -165,23 +177,25 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     const schema = this.schema(resource, change);
     if (this.isAttributeEditable(schema, name)) {
       span.classList.add(editableClassName);
-      span.setAttribute('role', 'button');
+
+      if (tabbable) {
+        span.setAttribute('role', 'button');
+      }
     } else {
       span.classList.add(readOnlyClassName);
     }
   }
 
-  private isAttributeEditable(schema:SchemaResource, fieldName:string):boolean {
+  private isAttributeEditable(schema:ISchemaProxy, fieldName:string):boolean {
     // We need to handle start/due date cases like they were combined dates
     if (['startDate', 'dueDate', 'date'].includes(fieldName)) {
       fieldName = 'combinedDate';
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    return schema.isAttributeEditable(fieldName) as boolean;
+    return schema.isAttributeEditable(fieldName);
   }
 
-  private getAriaLabel(field:DisplayField, schema:SchemaResource):string {
+  private getAriaLabel(field:DisplayField, schema:ISchemaProxy):string {
     let titleContent;
     const labelContent = this.getLabelContent(field);
 
@@ -198,7 +212,6 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
       titleContent = labelContent;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     if (field.writable && !!schema.isAttributeEditable(field.name)) {
       return this.I18n.t('js.inplace.button_edit', { attribute: `${field.displayName} ${titleContent}` });
     }
@@ -219,22 +232,21 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
    * @param schema
    * @param attribute
    */
-  private attributeName(attribute:string, schema:SchemaResource):string {
+  private attributeName(attribute:string, schema:ISchemaProxy):string {
     if (schema.mappedName) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      return schema.mappedName(attribute) as string;
+      return schema.mappedName(attribute);
     }
 
     return attribute;
   }
 
-  private schema(resource:T, change:ResourceChangeset<T>|null):SchemaResource {
+  private schema(resource:T, change:ResourceChangeset<T>|null):ISchemaProxy {
     if (change) {
       return change.schema;
     }
 
     if (this.halEditing.typedState(resource).hasValue()) {
-      const val = this.halEditing.typedState(resource).value as { schema:SchemaResource };
+      const val = this.halEditing.typedState(resource).value as { schema:ISchemaProxy };
       return val.schema;
     }
 

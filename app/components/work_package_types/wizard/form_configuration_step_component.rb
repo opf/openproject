@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,29 +33,28 @@ module WorkPackageTypes
     # its own turbo endpoints; the wizard only navigates between steps.
     class FormConfigurationStepComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
-      def initialize(variant:)
+      def initialize(variant:, back_url: nil)
         super(variant)
-      end
 
-      def call
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseMode::SectionComponent.new(
-                   variant: model,
-                   aspect: TypeVariant::FORM_CONFIGURATION
-                 )) +
-            render(WorkPackageTypes::FormConfigurationComponent.new(
-                     variant: model,
-                     form_attributes: helpers.form_configuration_groups(model),
-                     no_filter_query:
-                   ))
-        end
+        @back_url = back_url
       end
 
       private
 
+      def context
+        @context ||= WorkPackageTypes::FormConfiguration::EditorContext
+                       .for_variant(model, scope_project: helpers.variant_scope_project)
+      end
+
       def reload_url
-        type_creation_wizard_path(**model.path_args, step: :form_configuration)
+        @back_url || variant_creation_wizard_path(helpers.variant_scope_project, model, step: :form_configuration)
+      end
+
+      def form_mode
+        started_id = helpers.params[:started_form_configuration_id].presence&.to_i
+        model.form_configuration_id == started_id ? :new : :existing
       end
 
       def no_filter_query

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -34,6 +33,7 @@ import { WpGraphConfigurationService } from 'core-app/shared/components/work-pac
 import { WpGraphConfiguration } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'widget-wp-graph',
   templateUrl: './wp-graph.component.html',
   styleUrls: ['../wp-table/wp-table.component.sass'],
@@ -52,11 +52,15 @@ export class WidgetWpGraphComponent extends AbstractWidgetComponent implements O
     this.loadQueriesInitially();
   }
 
+  public get chartType() {
+    return this.graphConfiguration.chartType;
+  }
+
   public set chartType(type:string) {
     this.resource.options.chartType = type;
   }
 
-  public updateGraph(config:any) {
+  public updateGraph():void {
     this.graphConfiguration.persistAndReload()
       .then(() => {
         this.repaint();
@@ -101,9 +105,5 @@ export class WidgetWpGraphComponent extends AbstractWidgetComponent implements O
 
   public get chartOptions():ChartOptions {
     return this.graphConfiguration.chartOptions;
-  }
-
-  public get chartType() {
-    return this.graphConfiguration.chartType;
   }
 }

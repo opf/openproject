@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -107,10 +106,10 @@ RSpec.describe "Role creation", :js do
     # Workflow should be copied over from the source role.
     new_role = Role.find_by!(name: "New role name")
     expect(
-      Workflow.exists?(role_id: new_role.id,
-                       type_variant_id: type.default_variant.id,
-                       old_status_id: existing_workflow.old_status_id,
-                       new_status_id: existing_workflow.new_status_id)
+      Workflows::StatusTransition.exists?(role_id: new_role.id,
+                                          workflow_id: type.default_variant.workflow_id,
+                                          old_status_id: existing_workflow.old_status_id,
+                                          new_status_id: existing_workflow.new_status_id)
     ).to be true
   end
 end

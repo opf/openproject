@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -62,6 +61,117 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent, type: :comp
 
         expect(page).to have_text(format_time(created_at))
         expect(page).to have_no_text(format_time(updated_at))
+      end
+    end
+  end
+
+  describe "journal state" do
+    shared_let(:user) { create(:user) }
+    shared_let(:other_user) { create(:user) }
+    shared_let(:work_package) { create(:work_package, author: user) }
+
+    let(:journal) do
+      create(:work_package_journal, journable: work_package, user:, notes: "A comment", version: 2)
+    end
+
+    current_user { user }
+
+    subject(:rendered_component) do
+      notification
+      render_inline(
+        described_class.new(
+          journal:,
+          filter: WorkPackages::ActivitiesTab::Filters::ALL,
+          grouped_emoji_reactions: {}
+        )
+      )
+    end
+
+    context "with an unread notification for the current user" do
+      let(:notification) do
+        create(:notification, recipient: user, resource: work_package, journal:, reason: :mentioned)
+      end
+
+      it "renders the notification marker" do
+        rendered_component
+
+        expect(page).to have_test_selector("op-journal-unread-notification")
+      end
+    end
+
+    context "with a read notification for the current user" do
+      let(:notification) do
+        create(:notification, recipient: user, resource: work_package, journal:, reason: :mentioned, read_ian: true)
+      end
+
+      it "does not render the notification marker" do
+        rendered_component
+
+        expect(page).to have_no_test_selector("op-journal-unread-notification")
+      end
+    end
+
+    context "with an unread notification for another user" do
+      let(:notification) do
+        create(:notification, recipient: other_user, resource: work_package, journal:, reason: :mentioned)
+      end
+
+      it "does not render the notification marker" do
+        rendered_component
+
+        expect(page).to have_no_test_selector("op-journal-unread-notification")
+      end
+    end
+
+    context "with an internal comment" do
+      let(:journal) do
+        create(:work_package_journal, journable: work_package, user:, notes: "Internal comment", internal: true, version: 2)
+      end
+
+      let(:notification) { nil }
+
+      it "renders the internal-comment state" do
+        rendered_component
+
+        expect(page).to have_test_selector("op-journal-internal-icon")
+        expect(page).to have_css(".work-packages-activities-tab-journals-item-component--container__internal-comment")
+        expect(page).to have_css(".work-packages-activities-tab-journals-item-component--header__internal-comment")
+        expect(page).to have_css(".work-packages-activities-tab-journals-item-component--journal-notes-body__internal-comment")
+      end
+    end
+
+    context "with a retracted journal" do
+      let!(:previous_journal) do
+        create(:work_package_journal, journable: work_package, user:, notes: "A comment", version: 2)
+      end
+
+      let(:journal) do
+        create(:work_package_journal, journable: work_package, user:, notes: "", version: 3)
+      end
+
+      let(:notification) { nil }
+
+      it "renders the retracted state" do
+        rendered_component
+
+        expect(page).to have_text(I18n.t(:"journals.changes_retracted"))
+      end
+    end
+
+    context "with a comment retraction cause" do
+      let(:journal) do
+        create(:work_package_journal, journable: work_package, user:, notes: "", version: 2,
+                                      cause: Journal::CausedByCommentRetraction.new.to_hash)
+      end
+
+      let(:notification) { nil }
+
+      it "renders the retraction as a detail instead of a comment" do
+        rendered_component
+
+        expect(page).to have_no_test_selector("op-journal-notes-body")
+        expect(page).to have_no_text(I18n.t(:"journals.changes_retracted"))
+        expect(page).to have_text(I18n.t("journals.caused_changes.comment_retracted"))
       end
     end
   end

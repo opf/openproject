@@ -1,0 +1,85 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% if workflow.in_use? %>
+  <%= render(
+        Primer::OpenProject::DangerDialog.new(
+          id: DIALOG_ID,
+          title:,
+          size: :large,
+          classes: "Overlay--size-large-portrait",
+          confirm_button_text: t("workflows.delete.button"),
+          form_arguments: { action: url, method: :delete, data: { turbo: true } }
+        )
+      ) do |dialog| %>
+    <% dialog.with_confirmation_message do |message| %>
+      <% message.with_heading(tag: :h2) { title } %>
+      <% message.with_description { t("workflows.delete.body_in_use", count: variant_names.size) } %>
+    <% end %>
+
+    <% dialog.with_additional_details(display: :block) do %>
+      <%= render(Primer::OpenProject::InsetBox.new(mb: 3)) do %>
+        <%= render(Primer::Box.new(tag: :ul, m: 0, pl: 3)) do %>
+          <% variant_names.each do |name| %>
+            <%= content_tag(:li, name) %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <%= render(
+            Primer::Alpha::Select.new(
+              name: :target_id,
+              label: t("workflows.delete.replace_label"),
+              caption: t("workflows.delete.replace_caption"),
+              include_blank: t("workflows.delete.replace_placeholder"),
+              validation_message:,
+              data: { test_selector: "workflow-replacement-select" }
+            )
+          ) do |select| %>
+        <% candidates.each do |candidate| %>
+          <% select.option(value: candidate.id, label: candidate.name) %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% dialog.with_confirmation_check_box_content(t("workflows.delete.confirmation_checkbox_label")) %>
+  <% end %>
+<% else %>
+  <%= render(
+        Primer::OpenProject::DangerDialog.new(
+          id: DIALOG_ID,
+          title:,
+          confirm_button_text: t("workflows.delete.button"),
+          form_arguments: { action: url, method: :delete, data: { turbo: true } }
+        )
+      ) do |dialog| %>
+    <% dialog.with_confirmation_message do |message| %>
+      <% message.with_heading(tag: :h2) { title } %>
+      <% message.with_description { t("workflows.delete.body_not_in_use") } %>
+    <% end %>
+  <% end %>
+<% end %>

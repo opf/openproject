@@ -27,7 +27,7 @@ The following Jira custom field types are imported:
 | Text field                   | Text (short)           | 
 | Text area                    | Text (long)            | 
 | Date picker                  | Date                   | 
-| Date Time Picker             | Date — **the time-of-day is not migrated, only the date** (planned: [JIM-1](https://community.openproject.org/projects/JIM/work_packages/JIM-1)) | 
+| Date Time Picker             | Date and time          |
 | Number                       | Float                  |  
 | URL                          | Link (URL)             |  
 | User picker                  | User                   |
@@ -75,14 +75,14 @@ Jira cascading select fields have two import modes depending on your OpenProject
 
 ### Date Time Picker
 
-> **This is not a 1:1 migration.** Jira's Date Time Picker custom field type is imported as an OpenProject **Date**
-> custom field, and the time-of-day component is dropped entirely — only the date carries over. If the exact time
-> matters for your data, do not assume this field migrates cleanly.
+Jira's Date Time Picker custom field type is imported as an OpenProject **Date and time** custom field. The date
+and the time of day carry over. Values are stored in UTC and shown in each user's time zone. Seconds are kept, but
+milliseconds are dropped.
 
 A ScriptRunner scripted field that reports a datetime return type in Jira's field metadata will also be picked up
-and imported the same way, as a Date field. This is based only on the field's reported type, not on any
+and imported the same way, as a Date and time field. This is based only on the field's reported type, not on any
 ScriptRunner-specific handling — the actual value a script produces at runtime can vary, and whether it converts
-into a usable date has not been verified. If you use ScriptRunner fields, test this specifically with your own
+into a usable date and time has not been verified. If you use ScriptRunner fields, test this specifically with your own
 data before relying on it. Scripted fields reporting any other return type are not supported.
 
 ### Labels and lists
@@ -141,6 +141,9 @@ If an OpenProject custom field with the same name and format already exists (fro
 the migrator reuses it instead of creating a duplicate. The existing custom field is linked to the import and its values are preserved.
 
 If a name collision exists but the formats differ, the migrator appends a numeric suffix to the new field name (e.g., `My Field (2)`).
+Such a numeric suffix is disregarded when the migrator looks for a field to reuse, so a later run reuses `My Field (2)`
+instead of creating `My Field (3)`. Only a numeric suffix is treated this way - the project-key suffixes described under
+[Field contexts](#field-contexts) stay part of the name.
 
 For **Hierarchy** and **List** fields, deduplication is attempted but not guaranteed because option lists may differ. 
 A new custom field with a numeric suffix may be created for these types.

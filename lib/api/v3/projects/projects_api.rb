@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -62,7 +61,7 @@ module API
               # TODO: This should be scoped to only allow actual projects.
               # But since it and especially the NestedAPIs are established routes,
               # we keep it intact for all kinds of workspaces for 17.0.
-              # This behaviour is not documented in the API docs to nudge users to switch.
+              # This behavior is not documented in the API docs to nudge users to switch.
               @project = if current_user.admin?
                            Project
                          else
@@ -72,6 +71,7 @@ module API
 
             mount API::V3::Projects::Copy::CopyAPI
             mount API::V3::Projects::Configuration::ProjectConfigurationAPI
+            mount ::API::V3::AI::TextTransformActionsByProjectAPI
 
             mount ::API::V3::Workspaces::InstanceApis
             mount ::API::V3::Workspaces::NestedApis

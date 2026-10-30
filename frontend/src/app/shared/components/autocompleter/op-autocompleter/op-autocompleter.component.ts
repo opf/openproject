@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -65,7 +64,7 @@ import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 export interface IAutocompleteItem {
-  id:ID;
+  id:ID|null;
   href:string|null;
 }
 
@@ -74,6 +73,8 @@ export interface IAutocompleterTemplateComponent {
   headerTemplate?:TemplateRef<Element>;
   labelTemplate?:TemplateRef<Element>;
   footerTemplate?:TemplateRef<Element>;
+  notFoundTemplate?:TemplateRef<Element>;
+  tagTemplate?:TemplateRef<Element>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-redundant-type-constituents
@@ -128,6 +129,8 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
   @Input() public focusDirectly?:boolean = true;
 
   @Input() public fetchDataDirectly?:boolean = false;
+
+  @Input() public deferFetchUntilOpened?:boolean = false;
 
   @Input() public labelRequired?:boolean = true;
 
@@ -290,9 +293,15 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   public loading$ = new Subject<boolean>();
 
+  private hasBeenOpened = false;
+
   @ViewChild('ngSelectInstance') ngSelectInstance:NgSelectComponent;
 
   @ViewChild('syncedInput') syncedInput:ElementRef<HTMLInputElement>;
+
+  // Exposed so other autocompleter consumers (e.g. global search) can render
+  // work package results with the exact same markup/styling.
+  @ViewChild('workPackageOption') public workPackageOption:TemplateRef<Element>;
 
   @ContentChild(OpAutocompleterOptionTemplateDirective, { read: TemplateRef })
   projectedOptionTemplate:TemplateRef<Element>;
@@ -313,6 +322,10 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
   projectedFooterTemplate:TemplateRef<Element>;
 
   footerTemplate:TemplateRef<Element>;
+
+  notFoundTemplate:TemplateRef<Element>;
+
+  tagTemplate:TemplateRef<Element>;
 
   readonly opAutocompleterService = inject(OpAutocompleterService);
 
@@ -394,6 +407,11 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
   }
 
   public opened():void {
+    if (this.deferFetchUntilOpened && !this.hasBeenOpened) {
+      this.hasBeenOpened = true;
+      this.typeahead?.next(this.ngSelectInstance.searchTerm ?? '');
+    }
+
     this.repositionDropdown();
     this.open.emit();
   }
@@ -486,6 +504,9 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
     return this.typeahead.pipe(
       filter(() => [this.defaultData, this.url, this.getOptionsFn].some(Boolean)),
+      // Must precede distinctUntilChanged, which would otherwise dedupe the term
+      // replayed by opened() against the suppressed initial one.
+      filter(() => !this.deferFetchUntilOpened || this.hasBeenOpened),
       distinctUntilChanged(),
       tap(() => this.loading$.next(true)),
       debounceTime(this.debounceTimeForCurrentEnvironment),
@@ -551,7 +572,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
     componentRef.changeDetectorRef.detectChanges();
 
-    ['optionTemplate', 'headerTemplate', 'labelTemplate', 'footerTemplate'].forEach((name:keyof IAutocompleterTemplateComponent) => {
+    ['optionTemplate', 'headerTemplate', 'labelTemplate', 'footerTemplate', 'notFoundTemplate', 'tagTemplate'].forEach((name:keyof IAutocompleterTemplateComponent) => {
       const template = componentRef.instance[name];
       if (template) {
         this[name] = template;

@@ -4,14 +4,18 @@ allOf:
   - $ref: "./custom_field_properties.yml"
   - type: object
     required:
+      - id
       - subject
+      - _type
       - _links
     properties:
       id:
         type: integer
         description: Work package id
-        readOnly: true
-        minimum: 1
+      _type:
+        type: string
+        enum:
+          - WorkPackage
       displayId:
         type: string
         description: |-
@@ -19,19 +23,12 @@ allOf:
           Its format depends on the `work_packages_identifier` setting.
           When set to `semantic`: the project-based identifier (e.g. "PROJ-42").
           When set to `classic`: the numeric ID as a string (e.g. "123").
-        readOnly: true
       lockVersion:
         type: integer
         description: The version of the item as used for optimistic locking
-        readOnly: true
       subject:
         type: string
         description: Work package subject
-      _type:
-        type: string
-        enum:
-          - WorkPackage
-        readOnly: true
       description:
         allOf:
           - $ref: "./formattable.yml"
@@ -48,7 +45,6 @@ allOf:
       hasProjectAttributes:
         type: boolean
         description: If true, the work package's type has at least one project custom field activated and visible to the current user.
-        readOnly: true
       startDate:
         type:
           - "string"
@@ -75,7 +71,6 @@ allOf:
         description: Similar to start date but is not set by a client but rather deduced
           by the work packages' descendants. If manual scheduleManually is active, the
           two dates can deviate.
-        readOnly: true
       derivedDueDate:
         type:
           - "string"
@@ -84,7 +79,6 @@ allOf:
         description: Similar to due date but is not set by a client but rather deduced
           by the work packages' descendants. If manual scheduleManually is active, the
           two dates can deviate.
-        readOnly: true
       duration:
         type:
           - "string"
@@ -93,7 +87,6 @@ allOf:
         description: |-
           **(NOT IMPLEMENTED)** The amount of time in hours the work package needs to be completed.
           Not available for milestone type of work packages.
-        readOnly: true
       estimatedTime:
         type:
           - "string"
@@ -106,13 +99,11 @@ allOf:
           - "null"
         format: duration
         description: Time a work package likely needs to be completed including its descendants
-        readOnly: true
       ignoreNonWorkingDays:
         type: boolean
         description: |-
           **(NOT IMPLEMENTED)** When scheduling, whether or not to ignore the non working days being defined.
           A work package with the flag set to true will be allowed to be scheduled to a non working day.
-        readOnly: true
       position:
         type:
           - "integer"
@@ -123,7 +114,6 @@ allOf:
           # Conditions
 
           **Permission** Backlogs needs to be enabled in the work package's project and the work package's type is configured to be a backlog type.
-        readOnly: true
       spentTime:
         type: string
         format: duration
@@ -133,7 +123,15 @@ allOf:
           # Conditions
 
           **Permission** view time entries
-        readOnly: true
+      allocatedTime:
+        type: string
+        format: duration
+        description: |-
+          The sum of the confirmed resource allocations of this work package
+
+          # Conditions
+
+          **Permission** view resource planners, requires the resource management module and an enterprise token
       storyPoints:
         type:
           - "integer"
@@ -157,19 +155,16 @@ allOf:
           - "integer"
           - "null"
         description: Amount of total completion for a work package derived from itself and its descendant work packages
-        readOnly: true
         minimum: 0
         maximum: 100
       createdAt:
         type: string
         format: date-time
         description: Time of creation. Can be writable by admins with the `apiv3_write_readonly_attributes` setting enabled.
-        readOnly: true
       updatedAt:
         type: string
         format: date-time
         description: Time of the most recent change to the work package.
-        readOnly: true
       _links:
         type: object
         required:
@@ -191,7 +186,6 @@ allOf:
                   # Conditions
 
                   **Permission**: add work package notes
-                readOnly: true
           addRelation:
             allOf:
               - $ref: "./link.yml"
@@ -201,7 +195,6 @@ allOf:
                   # Conditions
 
                   **Permission**: manage wp relations
-                readOnly: true
           addWatcher:
             allOf:
               - $ref: "./link.yml"
@@ -211,10 +204,17 @@ allOf:
                   # Conditions
 
                   **Permission**: add watcher
-                readOnly: true
+          allocateResource:
+            allOf:
+              - $ref: "./link.yml"
+              - description: |-
+                  A request returning the dialog to add a resource allocation to this work package. It is used by the frontend and not intended for API users.
+
+                  # Conditions
+
+                  **Permission**: allocate user resources, requires the resource management module and an enterprise token
           customActions:
             type: array
-            readOnly: true
             items:
               allOf:
                 - $ref: "./link.yml"
@@ -222,13 +222,11 @@ allOf:
                     A predefined action that can be applied to the work package.
 
                     **Resource**: CustomAction
-                  readOnly: true
           previewMarkup:
             allOf:
               - $ref: "./link.yml"
               - description: Post markup (in markdown) here to receive an HTML-rendered
                   response
-                readOnly: true
           removeWatcher:
             allOf:
               - $ref: "./link.yml"
@@ -238,7 +236,6 @@ allOf:
                   # Conditions
 
                   **Permission**: delete watcher
-                readOnly: true
           delete:
             allOf:
               - $ref: "./link.yml"
@@ -248,7 +245,6 @@ allOf:
                   # Conditions
 
                   **Permission**: delete_work_packages
-                readOnly: true
           logTime:
             allOf:
               - $ref: "./link.yml"
@@ -258,7 +254,6 @@ allOf:
                   # Conditions
 
                   **Permission**: log_time or log_own_time
-                readOnly: true
           move:
             allOf:
               - $ref: "./link.yml"
@@ -268,7 +263,6 @@ allOf:
                   # Conditions
 
                   **Permission**: move_work_packages
-                readOnly: true
           copy:
             allOf:
               - $ref: "./link.yml"
@@ -278,7 +272,6 @@ allOf:
                   # Conditions
 
                   **Permission**: add_work_packages
-                readOnly: true
           unwatch:
             allOf:
               - $ref: "./link.yml"
@@ -288,7 +281,6 @@ allOf:
                   # Conditions
 
                   logged in; watching
-                readOnly: true
           update:
             allOf:
               - $ref: "./link.yml"
@@ -298,7 +290,6 @@ allOf:
                   # Conditions
 
                   **Permission**: edit work package
-                readOnly: true
           updateImmediately:
             allOf:
               - $ref: "./link.yml"
@@ -308,7 +299,6 @@ allOf:
                   # Conditions
 
                   **Permission**: edit work package
-                readOnly: true
           watch:
             allOf:
               - $ref: "./link.yml"
@@ -318,7 +308,6 @@ allOf:
                   # Conditions
 
                   logged in; not watching
-                readOnly: true
           self:
             allOf:
               - $ref: "./link.yml"
@@ -326,7 +315,6 @@ allOf:
                   This work package
 
                   **Resource**: WorkPackage
-                readOnly: true
           schema:
             allOf:
               - $ref: "./link.yml"
@@ -334,10 +322,23 @@ allOf:
                   The schema of this work package
 
                   **Resource**: Schema
-                readOnly: true
+          allocatedPrincipals:
+            type: array
+            items:
+              allOf:
+                - $ref: "./link.yml"
+                - description: |-
+                    A user or placeholder user with a confirmed resource allocation on this work package. Each principal
+                    is listed once. Allocated users the current user may not see are summarized in a single entry
+                    with the undisclosed urn `urn:openproject-org:api:v3:undisclosed` as its href.
+
+                    **Resource**: User or PlaceholderUser
+
+                    # Conditions
+
+                    **Permission** view resource planners, requires the resource management module and an enterprise token
           ancestors:
             type: array
-            readOnly: true
             items:
               allOf:
                 - $ref: "./link.yml"
@@ -349,7 +350,6 @@ allOf:
                     # Conditions
 
                     **Permission** view work packages
-                  readOnly: true
           attachments:
             allOf:
               - $ref: "./link.yml"
@@ -370,7 +370,6 @@ allOf:
                   # Conditions
 
                   - **Permission**: edit work package
-                readOnly: true
           prepareAttachment:
             allOf:
               - $ref: "./link.yml"
@@ -380,7 +379,6 @@ allOf:
                   # Conditions
 
                   - **Setting**: direct uploads enabled
-                readOnly: true
           author:
             allOf:
               - $ref: "./link.yml"
@@ -388,7 +386,6 @@ allOf:
                   The person that created the work package
 
                   **Resource**: User
-                readOnly: true
           assignee:
             allOf:
               - $ref: "./link.yml"
@@ -407,7 +404,6 @@ allOf:
                   # Conditions
 
                   **Permission** add work package watchers
-                readOnly: true
           budget:
             allOf:
               - $ref: "./link.yml"
@@ -428,7 +424,6 @@ allOf:
                   **Resource**: Category
           children:
             type: array
-            readOnly: true
             items:
               allOf:
                 - $ref: "./link.yml"
@@ -440,7 +435,6 @@ allOf:
                     # Conditions
 
                     **Permission** view work packages
-                  readOnly: true
           addFileLink:
             allOf:
               - $ref: './link.yml'
@@ -459,6 +453,14 @@ allOf:
                   # Conditions
 
                   **Permission**: view_file_links
+          labels:
+            type: array
+            items:
+              $ref: "./link.yml"
+            description: |-
+              List of labels attached to the work package
+
+              **Resource**: Collection of Label
           parent:
             allOf:
               - $ref: "./link.yml"
@@ -512,7 +514,6 @@ allOf:
                   # Conditions
 
                   **Permission** view work packages
-                readOnly: true
           revisions:
             allOf:
               - $ref: "./link.yml"
@@ -524,7 +525,6 @@ allOf:
                   # Conditions
 
                   **Permission** view changesets
-                readOnly: true
           status:
             allOf:
               - $ref: "./link.yml"
@@ -543,6 +543,17 @@ allOf:
                   # Conditions
 
                   **Permission** view sprints
+          showResourceAllocations:
+            allOf:
+              - $ref: "./link.yml"
+              - description: |-
+                  A request returning the dialog showing the resource allocations of this work package. It is used by the frontend and not intended for API users.
+
+                  **Resource**: N/A
+
+                  # Conditions
+
+                  **Permission** view resource planners, requires the resource management module and an enterprise token
           timeEntries:
             allOf:
               - $ref: "./link.yml"
@@ -554,7 +565,6 @@ allOf:
                   # Conditions
 
                   **Permission** view time entries
-                readOnly: true
           type:
             allOf:
               - $ref: "./link.yml"
@@ -595,7 +605,7 @@ allOf:
             items:
               $ref: "./link.yml"
             description: |-
-              List of versions in which the behaviour described by the work package was observed
+              List of versions in which the behavior described by the work package was observed
 
               **Resource**: Collection of Version
           watchers:
@@ -609,150 +619,3 @@ allOf:
                   # Conditions
 
                   **Permission** view work package watchers
-                readOnly: true
-
-example:
-  _type: WorkPackage
-  _links:
-    self:
-      href: "/api/v3/work_packages/1528"
-      title: Develop API
-    schema:
-      href: "/api/v3/work_packages/schemas/11-2"
-    update:
-      href: "/api/v3/work_packages/1528"
-      method: patch
-      title: Update Develop API
-    delete:
-      href: "/work_packages/bulk?ids=1528"
-      method: delete
-      title: Delete Develop API
-    logTime:
-      href: "/work_packages/1528/time_entries/new"
-      type: text/html
-      title: Log time on Develop API
-    move:
-      href: "/work_packages/1528/move/new"
-      type: text/html
-      title: Move Develop API
-    attachments:
-      href: "/api/v3/work_packages/1528/attachments"
-    addAttachment:
-      href: "/api/v3/work_packages/1528/attachments"
-      method: post
-    author:
-      href: "/api/v3/users/1"
-      title: OpenProject Admin - admin
-    customActions:
-      - href: "/api/v3/work_packages/1528/custom_actions/153/execute"
-        method: post
-        title: Reset
-      - href: "/api/v3/work_packages/1528/custom_actions/94/execute"
-        method: post
-        title: Forward to accounting
-    responsible:
-      href: "/api/v3/users/23"
-      title: Laron Leuschke - Alaina5788
-    relations:
-      href: "/api/v3/work_packages/1528/relations"
-      title: Show relations
-    revisions:
-      href: "/api/v3/work_packages/1528/revisions"
-    assignee:
-      href: "/api/v3/users/11"
-      title: Emmie Okuneva - Adele5450
-    priority:
-      href: "/api/v3/priorities/2"
-      title: Normal
-    project:
-      href: "/api/v3/portfolio/1"
-      title: A Test Portfolio
-    status:
-      href: "/api/v3/statuses/1"
-      title: New
-    type:
-      href: "/api/v3/types/1"
-      title: A Type
-    version:
-      href: "/api/v3/versions/1"
-      title: Version 1
-    targetVersions:
-      - href: "/api/v3/versions/1"
-        title: Version 1
-    observedInVersions:
-      - href: "/api/v3/versions/1"
-        title: Version 1
-    availableWatchers:
-      href: "/api/v3/work_packages/1528/available_watchers"
-    watch:
-      href: "/api/v3/work_packages/1528/watchers"
-      method: post
-      payload:
-        user:
-          href: "/api/v3/users/1"
-    addWatcher:
-      href: "/api/v3/work_packages/1528/watchers"
-      method: post
-      payload:
-        user:
-          href: "/api/v3/users/{user_id}"
-      templated: true
-    removeWatcher:
-      href: "/api/v3/work_packages/1528/watchers/{user_id}"
-      method: delete
-      templated: true
-    addRelation:
-      href: "/api/v3/relations"
-      method: post
-      title: Add relation
-    changeParent:
-      href: "/api/v3/work_packages/694"
-      method: patch
-      title: Change parent of Bug in OpenProject
-    addComment:
-      href: "/api/v3/work_packages/1528/activities"
-      method: post
-      title: Add comment
-    parent:
-      href: "/api/v3/work_packages/1298"
-      title: nisi eligendi officiis eos delectus quis voluptas dolores
-    category:
-      href: "/api/v3/categories/1298"
-      title: eligend isi
-    children:
-      - href: "/api/v3/work_packages/1529"
-        title: Write API documentation
-    ancestors:
-      - href: "/api/v3/work_packages/1290"
-        title: Root node of hierarchy
-      - href: "/api/v3/work_packages/1291"
-        title: Intermediate node of hierarchy
-      - href: "/api/v3/work_packages/1298"
-        title: nisi eligendi officiis eos delectus quis voluptas dolores
-    timeEntries:
-      href: "/work_packages/1528/time_entries"
-      type: text/html
-      title: Time entries
-    watchers:
-      href: "/api/v3/work_packages/1528/watchers"
-    customField3:
-      href: api/v3/users/14
-  id: 1528
-  subject: Develop API
-  description:
-    format: markdown
-    raw: Develop super cool OpenProject API.
-    html: "<p>Develop super cool OpenProject API.</p>"
-  scheduleManually: false
-  readonly: false
-  startDate:
-  dueDate:
-  derivedStartDate:
-  derivedDueDate:
-  estimatedTime: PT2H
-  derivedEstimatedTime: PT10H
-  percentageDone: 0
-  customField1: Foo
-  customField2: 42
-  createdAt: '2014-08-29T12:40:53.373Z'
-  updatedAt: '2014-08-29T12:44:41.981Z'

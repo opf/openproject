@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -60,7 +59,7 @@ export class WpButtonMacroModalComponent extends OpModalComponent implements Aft
 
   @ViewChild('typeSelect', { static: true }) typeSelect:ElementRef<HTMLSelectElement>;
 
-  public text:any = {
+  public text = {
     title: this.I18n.t('js.editor.macro.work_package_button.button'),
     none: this.I18n.t('js.label_none'),
     selected_type: this.I18n.t('js.editor.macro.work_package_button.type'),
@@ -74,8 +73,8 @@ export class WpButtonMacroModalComponent extends OpModalComponent implements Aft
   constructor() {
     super();
 
-    this.selectedType = this.type = this.locals.type;
-    this.classes = this.locals.classes;
+    this.selectedType = this.type = this.locals.type as string;
+    this.classes = this.locals.classes as string;
     this.buttonStyle = this.classes === 'button';
 
     this
@@ -85,7 +84,7 @@ export class WpButtonMacroModalComponent extends OpModalComponent implements Aft
       .form
       .post({})
       .subscribe((form:FormResource) => {
-        this.availableTypes = form.schema.type.allowedValues;
+        this.availableTypes = form.schema.type!.allowedValues as TypeResource[];
         this.cdRef.detectChanges();
       });
   }

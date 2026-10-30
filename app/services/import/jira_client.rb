@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,7 +64,8 @@ module Import
       def initialize(message, status:, response_body:, response_headers:)
         super(message)
         @status = status
-        @response_body = response_body
+        # Net::HTTP returns bodies as BINARY, whatever charset the response declares.
+        @response_body = response_body.to_s.dup.force_encoding(Encoding::UTF_8).scrub
         @response_headers = response_headers.slice(*SAFE_RESPONSE_HEADERS)
       end
 
@@ -88,13 +88,30 @@ module Import
     CUSTOM_FIELD_OPTIONS_PAGE_SIZE = 10_000
     CUSTOM_FIELD_OPTIONS_PAGE_LIMIT = 100
 
-    def initialize(url:, personal_access_token:)
-      raise Error.new(I18n.t(:"admin.jira.test.token_error")) if personal_access_token.nil?
+    # rubocop:disable-next Metrics/AbcSize
+    def initialize(url:,
+                   auth_method: "bearer",
+                   personal_access_token: nil,
+                   basic_auth_username: nil,
+                   basic_auth_password: nil)
+      auth_header = case auth_method
+                    when "bearer"
+                      raise Error.new(I18n.t(:"admin.jira.test.personal_access_token_invalid")) if personal_access_token.blank?
+
+                      "Bearer #{personal_access_token}"
+                    when "basic"
+                      raise Error.new(I18n.t(:"admin.jira.test.basic_auth_username_invalid")) if basic_auth_username.blank?
+                      raise Error.new(I18n.t(:"admin.jira.test.basic_auth_password_invalid")) if basic_auth_password.blank?
+
+                      "Basic #{Base64.strict_encode64("#{basic_auth_username}:#{basic_auth_password}")}"
+                    else
+                      raise Error.new(I18n.t(:"admin.jira.api_client.unknown_auth_method"))
+                    end
 
       @url = url.chomp("/")
       @headers = {
         "Accept" => "application/json",
-        "Authorization" => "Bearer #{personal_access_token}"
+        "Authorization" => auth_header
       }
     end
 
@@ -246,6 +263,11 @@ module Import
     # An edit screen only reports the fields it shows, so its option sets can be incomplete.
     def issue_editmeta(issue_id_or_key)
       get("/rest/api/2/issue/#{issue_id_or_key}/editmeta")
+    end
+
+    # Jira returns all the issue's worklogs at once and ignores paging and filter params.
+    def issue_worklogs(issue_id_or_key)
+      get("/rest/api/2/issue/#{issue_id_or_key}/worklog")
     end
 
     def users_search(username: ".", start_at: 0, max_results: 50)
@@ -405,7 +427,7 @@ module Import
         raise ApiError.new(
           I18n.t("admin.jira.client.#{status}_error", status:, default: :"admin.jira.client.api_error"),
           status:,
-          response_body: response.body.to_s,
+          response_body: response.body,
           response_headers: response.to_hash
         )
       end

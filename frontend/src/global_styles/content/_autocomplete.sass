@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -71,6 +70,7 @@ div.autocomplete
 .ng-select
   width: 100%
   font-size: var(--body-font-size)
+  border-radius: var(--borderRadius-medium)
 
   &.-error
     .ng-select-container
@@ -99,7 +99,7 @@ div.autocomplete
       padding-left: 0px
 
   .ng-select-container
-    border-radius: 2px
+    border-radius: var(--borderRadius-medium)
     z-index: auto !important
     height: 30px !important
     min-height: 30px !important
@@ -116,10 +116,15 @@ div.autocomplete
       input
         height: 100%
         padding: 0
+        line-height: normal
         -webkit-box-sizing: border-box !important
         -moz-box-sizing: border-box !important
         box-sizing: border-box !important
         color: var(--body-font-color) !important
+
+  &.ng-select-single .ng-select-container .ng-value-container .ng-input
+    top: 0
+    height: 100%
 
   .ng-value
     @include text-shortener
@@ -164,10 +169,7 @@ div.autocomplete
     // We subtract the width and right padding of the dropdown arrow
     max-width: calc(100% - 25px - 5px)
 
-// Ensure dropdown is above modals
 .ng-dropdown-panel
-  z-index: 9500 !important
-
   // Overrides for the ng-footer-tmp option
   .ng-footer-text
     font-size: 0.9rem

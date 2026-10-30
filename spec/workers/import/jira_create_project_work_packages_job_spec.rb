@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,16 +31,22 @@ require "spec_helper"
 
 # The import only produces valid data with semantic identifiers enabled: Jira project keys are
 # uppercase, which Projects::Identifier rejects in classic mode.
-RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
-               :webmock,
+RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
                with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
   include_context "with a jira demo issue"
+
+  let(:resolution_date_cf) { create(:wp_custom_field, name: "Resolution Date (2)", field_format: "datetime") }
+
+  def stage_5_resolution_date_cf
+    jira_import.update!(system_field_custom_fields: { "resolutiondate" => resolution_date_cf.id })
+  end
 
   describe "#perform" do
     context "when importing a full project with issues and comments" do
       before do
         create_project_role
         create_project
+        stage_5_resolution_date_cf
       end
 
       it "updates the project work package sequence counter to the highest imported sequence number" do
@@ -102,7 +107,11 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                                    "fieldtype" => "jira", "fromString" => nil }], "author_name" => "Pavel Balashou"
                    }] }
         expect(work_package.journals.where(cause: cause2).count).to be 1
-        notes1 = "## Environment\n| Field | Details |\n| --- | --- |\n| Environment | Production |\n| --- | --- |\n| Browser | Chrome 120.0 |\n| --- | --- |\n| OS | Windows 11 |\n| --- | --- |\n| App Version | v3.2.1 |\n| --- | --- |"
+        notes1 = "## Environment\n<table><thead><tr><th>Field</th><th>Details</th></tr></thead>" \
+                 "<tbody><tr><th>Environment</th><th>Production</th></tr>" \
+                 "<tr><th>Browser</th><th>Chrome 120.0</th></tr>" \
+                 "<tr><th>OS</th><th>Windows 11</th></tr>" \
+                 "<tr><th>App Version</th><th>v3.2.1</th></tr></tbody></table>\n"
         expect(work_package.journals.where(notes: notes1).count).to be 1
         cause3 = { "type" => "import",
                    "import_history" => [{
@@ -119,7 +128,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
         cause5 = { "type" => "import",
                    "import_history" => [{
                      "items" => [{ "to" => nil, "from" => nil, "field" => "description",
-                                   "toString" => "#  \n# Demo Issue\n## Summary\n\n\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\n## Description\n\n\nThis issue serves as a **template** and *reference example* for how to write well-structured Jira descriptions.\n## Steps to Reproduce\n1. Navigate to the application homepage\n1. Log in with valid credentials\n1. Click on the **Settings** icon in the top-right corner\n1. Select *Account Preferences* from the dropdown menu\n1. Observe the unexpected behavior\n\n\n## Expected Behavior\n\n\nThe application should display the account preferences page with all user settings loaded correctly.\n## Actual Behavior\n\n\nThe page fails to load and displays the following error:\n```java\nError 500: Internal Server Error\nFailed to retrieve user preferences. Please try again later.\n```\n## Environment\n| Field | Details |\n| --- | --- |\n| Environment | Production |\n| --- | --- |\n| Browser | Chrome 120.0 |\n| --- | --- |\n| OS | Windows 11 |\n| --- | --- |\n| App Version | v3.2.1 |\n| --- | --- |\n## Attachments / Notes\n- Screenshot of the error has been attached\n- Issue occurs **consistently** — reproduced 5/5 times\n- Related to ticket: [DEMO-101]\n\n\n## Priority & Impact\n\n\n**High Priority** — Affects all users attempting to access account settings.", "fieldtype" => "jira", "fromString" => "# Demo Issue\n\n\n## Summary\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\n\n\n## Description\nThis issue serves as a **template** and *reference example* for how to write well-structured Jira descriptions.\n\n\n## Steps to Reproduce\n1. Navigate to the application homepage\n1. Log in with valid credentials\n1. Click on the **Settings** icon in the top-right corner\n1. Select *Account Preferences* from the dropdown menu\n1. Observe the unexpected behavior\n\n\n## Expected Behavior\nThe application should display the account preferences page with all user settings loaded correctly.\n\n\n## Actual Behavior\nThe page fails to load and displays the following error:\n```\nError 500: Internal Server Error\nFailed to retrieve user preferences. Please try again later.\n```\n\n\n## Environment\n| Field | Details |\n| --- | --- |\n| Environment | Production |\n| --- | --- |\n| Browser | Chrome 120.0 |\n| --- | --- |\n| OS | Windows 11 |\n| --- | --- |\n| App Version | v3.2.1 |\n| --- | --- |\n\n\n## Attachments / Notes\n- Screenshot of the error has been attached\n- Issue occurs **consistently** — reproduced 5/5 times\n- Related to ticket: [DEMO-101]\n\n\n## Priority & Impact\n**High Priority** — Affects all users attempting to access account settings." }], "author_name" => "Dominic Bräunlein"
+                                   "toString" => "#  \n# Demo Issue\n## Summary\n\n\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\n## Description\n\n\nThis issue serves as a **template** and *reference example* for how to write well-structured Jira descriptions.\n## Steps to Reproduce\n1. Navigate to the application homepage\n1. Log in with valid credentials\n1. Click on the **Settings** icon in the top-right corner\n1. Select *Account Preferences* from the dropdown menu\n1. Observe the unexpected behavior\n\n\n## Expected Behavior\n\n\nThe application should display the account preferences page with all user settings loaded correctly.\n## Actual Behavior\n\n\nThe page fails to load and displays the following error:\n```java\nError 500: Internal Server Error\nFailed to retrieve user preferences. Please try again later.\n```\n## Environment\n<table><thead><tr><th>Field</th><th>Details</th></tr></thead><tbody><tr><th>Environment</th><th>Production</th></tr><tr><th>Browser</th><th>Chrome 120.0</th></tr><tr><th>OS</th><th>Windows 11</th></tr><tr><th>App Version</th><th>v3.2.1</th></tr></tbody></table>\n\n## Attachments / Notes\n- Screenshot of the error has been attached\n- Issue occurs **consistently** — reproduced 5/5 times\n- Related to ticket: [DEMO-101]\n\n\n## Priority & Impact\n\n\n**High Priority** — Affects all users attempting to access account settings.", "fieldtype" => "jira", "fromString" => "# Demo Issue\n\n\n## Summary\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\n\n\n## Description\nThis issue serves as a **template** and *reference example* for how to write well-structured Jira descriptions.\n\n\n## Steps to Reproduce\n1. Navigate to the application homepage\n1. Log in with valid credentials\n1. Click on the **Settings** icon in the top-right corner\n1. Select *Account Preferences* from the dropdown menu\n1. Observe the unexpected behavior\n\n\n## Expected Behavior\nThe application should display the account preferences page with all user settings loaded correctly.\n\n\n## Actual Behavior\nThe page fails to load and displays the following error:\n```\nError 500: Internal Server Error\nFailed to retrieve user preferences. Please try again later.\n```\n\n\n## Environment\n<table><thead><tr><th>Field</th><th>Details</th></tr></thead><tbody><tr><th>Environment</th><th>Production</th></tr><tr><th>Browser</th><th>Chrome 120.0</th></tr><tr><th>OS</th><th>Windows 11</th></tr><tr><th>App Version</th><th>v3.2.1</th></tr></tbody></table>\n\n\n\n## Attachments / Notes\n- Screenshot of the error has been attached\n- Issue occurs **consistently** — reproduced 5/5 times\n- Related to ticket: [DEMO-101]\n\n\n## Priority & Impact\n**High Priority** — Affects all users attempting to access account settings." }], "author_name" => "Dominic Bräunlein"
                    }] }
         expect(work_package.journals.where(cause: cause5).count).to be 1
       end
@@ -130,10 +139,62 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
           .to change(Import::JiraOpenProjectReference, :count).by_at_least(4)
       end
 
-      context "when the issue carries no updated timestamp" do
-        let(:jira_issue_payload) do
-          super().tap { |payload| payload["fields"].delete("updated") }
+      context "when finding or creating a status" do
+        it "takes a transaction scoped lock when creating a status" do
+          allow(OpenProject::Mutex).to receive(:with_advisory_lock).and_call_original
+          expect { create_work_packages }.to change(Status, :count).by(1)
+          expect(OpenProject::Mutex).to have_received(:with_advisory_lock)
+            .with(Status, "jira_import_create_status_in_progress", transaction: true)
+            .once
         end
+
+        it "does not lock when the status already exists" do
+          create(:status, name: "IN PROGRESS")
+          allow(OpenProject::Mutex).to receive(:with_advisory_lock).and_call_original
+
+          expect { create_work_packages }.to not_change(Status, :count)
+          expect(OpenProject::Mutex).not_to have_received(:with_advisory_lock).with(Status, any_args)
+        end
+      end
+
+      context "when finding or creating a type" do
+        it "takes a transaction scoped lock when creating a type" do
+          allow(OpenProject::Mutex).to receive(:with_advisory_lock).and_call_original
+          expect { create_work_packages }.to change(Type, :count).by(1)
+          expect(OpenProject::Mutex).to have_received(:with_advisory_lock)
+            .with(Type, "jira_import_create_type_bug", transaction: true)
+            .once
+        end
+
+        it "does not lock when the type already exists" do
+          create(:type, name: "BUG")
+          allow(OpenProject::Mutex).to receive(:with_advisory_lock).and_call_original
+
+          expect { create_work_packages }.to not_change(Type, :count)
+          expect(OpenProject::Mutex).not_to have_received(:with_advisory_lock).with(Type, any_args)
+        end
+      end
+
+      context "when finding or creating a priority" do
+        it "takes a transaction scoped lock when creating a priority" do
+          allow(OpenProject::Mutex).to receive(:with_advisory_lock).and_call_original
+          expect { create_work_packages }.to change(IssuePriority, :count).by(1)
+          expect(OpenProject::Mutex).to have_received(:with_advisory_lock)
+            .with(IssuePriority, "jira_import_create_issue_priority_highest", transaction: true)
+            .once
+        end
+
+        it "does not lock when the priority already exists" do
+          create(:issue_priority, name: "HIGHEST")
+          allow(OpenProject::Mutex).to receive(:with_advisory_lock).and_call_original
+
+          expect { create_work_packages }.to not_change(IssuePriority, :count)
+          expect(OpenProject::Mutex).not_to have_received(:with_advisory_lock).with(IssuePriority, any_args)
+        end
+      end
+
+      context "when the issue carries no updated timestamp" do
+        let(:jira_issue_payload) { super().tap { |payload| payload["fields"].delete("updated") } }
 
         it "still replays the changelog and the comments" do
           create_work_packages
@@ -145,9 +206,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
       end
 
       context "if Jira status is done" do
-        let(:jira_issue_payload) do
-          super().tap { |payload| payload["fields"]["status"]["statusCategory"]["key"] = "done" }
-        end
+        let(:jira_issue_payload) { super().tap { |payload| payload["fields"]["status"]["statusCategory"]["key"] = "done" } }
 
         it "creates workpackage with closed status" do
           create_work_packages
@@ -157,10 +216,58 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
         end
       end
 
-      context "if priority is nil or hidden in jira filed configuration" do
-        let(:jira_issue_payload) { JSON.parse(Rails.root.join("spec/fixtures/import/jira/issue_without_priority.json").read) }
+      context "when importing the due date" do
+        before { week_with_saturday_and_sunday_as_weekend }
 
-        it "creates work_packge with default priority if it exists" do
+        context "when it falls on a working day" do
+          it "keeps the work package scheduled on working days only" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: Date.new(2031, 5, 29), ignore_non_working_days: false)
+          end
+        end
+
+        context "when it falls on a weekend" do
+          let(:jira_issue_payload) { super().deep_merge("fields" => { "duedate" => "2031-05-31" }) }
+
+          it "keeps the due date by including non-working days" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: Date.new(2031, 5, 31), ignore_non_working_days: true)
+          end
+        end
+
+        context "when it falls on a non-working day of the instance" do
+          before { create(:non_working_day, date: Date.new(2031, 5, 29)) }
+
+          it "keeps the due date by including non-working days" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: Date.new(2031, 5, 29), ignore_non_working_days: true)
+          end
+        end
+
+        context "when the issue has none" do
+          let(:jira_issue_payload) { super().deep_merge("fields" => { "duedate" => nil }) }
+
+          it "keeps the work package scheduled on working days only" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: nil, ignore_non_working_days: false)
+          end
+        end
+      end
+
+      context "if priority is nil or hidden in jira filed configuration" do
+        let(:jira_issue_payload) do
+          JSON.parse(Rails.root.join("spec/fixtures/import/jira/issue_without_priority.json").read)
+        end
+
+        it "creates work package with default priority if it exists" do
           priority = create(:default_priority)
           create_work_packages
 
@@ -223,7 +330,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
         before do
           jira_user.destroy!
           jira_user_reference.destroy!
-          allow(Rails.logger).to receive(:info)
+          allow(Rails.logger).to receive(:warn)
         end
 
         it "uses DeletedUser as a fallback for author and assignee" do
@@ -234,10 +341,10 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
           expect(work_package.assigned_to).to eq(DeletedUser.first)
         end
 
-        it "logs an info message about the missing user" do
+        it "logs a warning about the missing user" do
           create_work_packages
 
-          expect(Rails.logger).to have_received(:info).with(
+          expect(Rails.logger).to have_received(:warn).with(
             /Import::JiraUser with jira_user_key JIRAUSER10000 not found! Using DeletedUser instead\./
           ).at_least(:once)
         end
@@ -342,6 +449,206 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
           work_package = WorkPackage.find("DPPP-6")
           expect(work_package.target_versions).to be_empty
+        end
+      end
+
+      context "with labels" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"]["labels"] = %w[backend urgent] }
+        end
+
+        it "attaches the jira labels to the work package" do
+          create_labels
+          create_work_packages
+
+          expect(WorkPackage.find("DPPP-6").labels.pluck(:name)).to contain_exactly("backend", "urgent")
+        end
+
+        it "records the labels in the work package journal" do
+          create_labels
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.journals.last.label_journals.pluck(:label_id)).to match_array(work_package.label_ids)
+        end
+
+        context "when a label with the same name already exists in a different case" do
+          let!(:existing_label) { create(:label, name: "Backend") }
+
+          it "attaches the existing label instead of a second one" do
+            create_labels
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6").labels).to include(existing_label)
+            expect(Label.named("backend").count).to eq(1)
+          end
+        end
+
+        context "when a second issue carries the same label" do
+          let!(:jira_issue2) do
+            payload = jira_issue_payload.deep_dup
+            payload["id"] = "10406"
+            payload["key"] = "DPPP-7"
+            payload["fields"]["labels"] = %w[backend]
+            create(:jira_issue, jira_import:, origin_id: "10406", jira_project:, payload:)
+          end
+
+          it "attaches the one label to both work packages" do
+            create_labels
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-7").labels.pluck(:name)).to eq(["backend"])
+            expect(WorkPackage.find("DPPP-6").labels).to include(Label.named("backend").first)
+          end
+        end
+
+        context "when the issue has no labels" do
+          let(:jira_issue_payload) { super().tap { |payload| payload["fields"]["labels"] = [] } }
+
+          it "leaves the work package without labels" do
+            create_labels
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6").labels).to be_empty
+          end
+        end
+
+        context "when the labels field is hidden in the jira field configuration" do
+          let(:jira_issue_payload) { super().tap { |payload| payload["fields"].delete("labels") } }
+
+          it "imports the work package without labels" do
+            create_labels
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6").labels).to be_empty
+          end
+        end
+
+        context "when the labels field is not an array" do
+          let(:jira_issue_payload) do
+            super().tap { |payload| payload["fields"]["labels"] = "backend" }
+          end
+
+          it "imports the work package without labels and does not log a missing one" do
+            allow(Rails.logger).to receive(:warn)
+
+            create_labels
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6").labels).to be_empty
+            expect(Rails.logger).not_to have_received(:warn).with(/backend/)
+          end
+        end
+
+        context "when the labels stage did not run" do
+          it "imports the work package without labels and logs them" do
+            allow(Rails.logger).to receive(:warn)
+
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6").labels).to be_empty
+            expect(Rails.logger).to have_received(:warn).with(/backend, urgent/)
+          end
+        end
+      end
+
+      context "with resolution fields" do
+        context "when an issue's resolution is set" do
+          let(:jira_issue_payload) do
+            super().tap do |payload|
+              payload["fields"]["status"]["name"] = "Done"
+              payload["fields"]["resolution"] = { "name" => "Fixed" }
+            end
+          end
+
+          it "appends the resolution value to the status" do
+            expect { create_work_packages }.to change(Status, :count).by(1)
+            work_package = WorkPackage.find("DPPP-6")
+            expect(work_package.status.name).to eq("Done - Fixed")
+          end
+
+          it "does not add a resolution date field when no issue has the field set" do
+            create_work_packages
+            work_package = WorkPackage.find("DPPP-6")
+            expect(work_package.type.default_variant.custom_field_ids).not_to include(resolution_date_cf.id)
+          end
+
+          context "when the status with resolution already exists" do
+            let!(:existing_status) { create(:status, name: "Done - Fixed") }
+
+            it "does not create a new status" do
+              expect { create_work_packages }.not_to change(Status, :count)
+
+              work_package = WorkPackage.find("DPPP-6")
+              expect(work_package.status.name).to eq("Done - Fixed")
+            end
+          end
+
+          context "when the import is configured to exclude resolution fields" do
+            let(:jira) { create(:jira, exclude_resolution_fields: true) }
+
+            it "ignores the resolution for the status" do
+              expect { create_work_packages }.to change(Status, :count).by(1)
+              work_package = WorkPackage.find("DPPP-6")
+              expect(work_package.status.name).to eq("Done")
+            end
+          end
+        end
+
+        context "when an issue's resolutiondate is set" do
+          let(:jira_issue_payload) do
+            super().tap do |payload|
+              payload["fields"]["resolutiondate"] = "2026-09-12T12:18:05.851+0000"
+            end
+          end
+
+          it "stores the resolutiondate in a datetime custom field" do
+            create_work_packages
+            work_package = WorkPackage.find("DPPP-6")
+            resolution_date = work_package.send(resolution_date_cf.attribute_getter)
+            expect(resolution_date).to eq(Time.utc(2026, 9, 12, 12, 18, 5))
+          end
+
+          context "when only some issues have a resolutiondate" do
+            let!(:jira_issue2) do
+              payload = jira_issue_payload.deep_dup
+              payload["id"] = "10406"
+              payload["key"] = "DPPP-7"
+              payload["fields"]["resolutiondate"] = nil
+              create(:jira_issue, jira_import:, origin_id: "10406", jira_project:, payload:)
+            end
+
+            it "adds the Resolution Date field to all work packages' type" do
+              create_work_packages
+
+              wp_with_date = WorkPackage.find("DPPP-6")
+              wp_without_date = WorkPackage.find("DPPP-7")
+
+              expect(wp_without_date.type.default_variant.custom_field_ids).to include(resolution_date_cf.id)
+              expect(wp_without_date.send(resolution_date_cf.attribute_getter)).to be_nil
+              expect(wp_with_date.send(resolution_date_cf.attribute_getter)).to eq(Time.utc(2026, 9, 12, 12, 18, 5))
+            end
+          end
+
+          context "when the custom field from stage 5 is missing" do
+            before { jira_import.update!(system_field_custom_fields: {}) }
+
+            it "ignores the resolution date field" do
+              create_work_packages
+              work_package = WorkPackage.find("DPPP-6")
+              expect(work_package.type.default_variant.custom_field_ids).not_to include(resolution_date_cf.id)
+            end
+          end
+
+          context "when the import is configured to exclude resolution fields" do
+            let(:jira) { create(:jira, exclude_resolution_fields: true) }
+
+            it "ignores the field" do
+              create_work_packages
+              work_package = WorkPackage.find("DPPP-6")
+              expect(work_package.type.default_variant.custom_field_ids).not_to include(resolution_date_cf.id)
+            end
+          end
         end
       end
     end

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -52,6 +51,8 @@ interface GridPatchPayload {
   widgets?:GridWidgetPayload[];
   [key:string]:unknown;
 }
+
+type ScrollIntoViewIfNeededElement = HTMLElement&{ scrollIntoViewIfNeeded?:() => void };
 
 @Injectable()
 export class GridAreaService {
@@ -207,10 +208,10 @@ export class GridAreaService {
   // But as scrollIntoView will always readjust the viewport, the result would be an unbearable flicker
   // which causes e.g. dragging to be impossible.
   public scrollPlaceholderIntoView() {
-    const placeholder = document.querySelector<HTMLElement>('.grid--area.-placeholder');
+    const placeholder = document.querySelector<ScrollIntoViewIfNeededElement>('.grid--area.-placeholder')!;
 
-    if ((placeholder as any).scrollIntoViewIfNeeded) {
-      setTimeout(() => (placeholder as any).scrollIntoViewIfNeeded());
+    if (placeholder.scrollIntoViewIfNeeded) {
+      setTimeout(() => placeholder.scrollIntoViewIfNeeded!());
     }
   }
 
@@ -469,7 +470,7 @@ export class GridAreaService {
   }
 
   public get widgetResources() {
-    return (this.resource && this.resource.widgets) || [];
+    return this.resource?.widgets || [];
   }
 
   private rowWidgets(row:number) {

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,22 +28,22 @@
 import { type autoScrollForElements as autoScrollForElementsFn } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/element';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type ScrollableControllerType from './scrollable.controller';
-import type { sortableItemData as sortableItemDataFn, SortableListsRoot } from './drag-and-drop';
+import type { sortableDragSourceData as sortableDragSourceDataFn, SortableListsRoot } from './drag-and-drop';
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
+vi.doMock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
   autoScrollForElements: vi.fn(() => vi.fn()),
 }));
 
 describe('Sortable lists scrollable controller', () => {
   let autoScrollForElements:typeof autoScrollForElementsFn;
   let ScrollableController:typeof ScrollableControllerType;
-  let sortableItemData:typeof sortableItemDataFn;
+  let sortableDragSourceData:typeof sortableDragSourceDataFn;
   let ctx:StimulusTestContext;
 
   beforeAll(async () => {
     ({ autoScrollForElements } = await import('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element'));
     ({ default: ScrollableController } = await import('./scrollable.controller'));
-    ({ sortableItemData } = await import('./drag-and-drop'));
+    ({ sortableDragSourceData } = await import('./drag-and-drop'));
   });
 
   beforeEach(async () => {
@@ -72,8 +71,10 @@ describe('Sortable lists scrollable controller', () => {
       busy: false,
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
-      ownerListElementOf: vi.fn(() => null),
       ownerRowsContainer: vi.fn(() => null),
+      beginDrag: vi.fn(),
+      dragSession: null,
+      ownerDestinationOf: vi.fn(() => null),
     };
   }
 
@@ -97,7 +98,7 @@ describe('Sortable lists scrollable controller', () => {
   it('refuses to scroll before a root is connected', async () => {
     const { element } = await mount();
     const options = vi.mocked(autoScrollForElements).mock.lastCall?.[0];
-    expect(options?.canScroll?.(scrollArgs(element, sortableItemData({ itemId: '1', type: 'work_package', rootElement: element })))).toBe(false);
+    expect(options?.canScroll?.(scrollArgs(element, sortableDragSourceData({ itemId: '1', type: 'work_package', rootElement: element })))).toBe(false);
   });
 
   it('scrolls only for sortable items owned by the connected root', async () => {
@@ -106,8 +107,8 @@ describe('Sortable lists scrollable controller', () => {
     controller.connectRoot(stubRoot(root));
     const options = vi.mocked(autoScrollForElements).mock.lastCall?.[0];
 
-    expect(options?.canScroll?.(scrollArgs(element, sortableItemData({ itemId: '1', type: 'work_package', rootElement: root })))).toBe(true);
-    expect(options?.canScroll?.(scrollArgs(element, sortableItemData({ itemId: '1', type: 'work_package', rootElement: document.createElement('div') })))).toBe(false);
+    expect(options?.canScroll?.(scrollArgs(element, sortableDragSourceData({ itemId: '1', type: 'work_package', rootElement: root })))).toBe(true);
+    expect(options?.canScroll?.(scrollArgs(element, sortableDragSourceData({ itemId: '1', type: 'work_package', rootElement: document.createElement('div') })))).toBe(false);
     expect(options?.canScroll?.(scrollArgs(element, { type: 'unrelated' }))).toBe(false);
   });
 
@@ -118,7 +119,7 @@ describe('Sortable lists scrollable controller', () => {
     expect(options?.getConfiguration?.(scrollArgs(element, { type: 'x' }))).toEqual({ maxScrollSpeed: 'standard' });
   });
 
-  it('honours valid overrides and falls back on invalid ones', async () => {
+  it('honors valid overrides and falls back on invalid ones', async () => {
     const valid = await mount('data-sortable-lists--scrollable-allowed-axis-value="horizontal" data-sortable-lists--scrollable-max-scroll-speed-value="fast"');
     let options = vi.mocked(autoScrollForElements).mock.lastCall?.[0];
     expect(options?.getAllowedAxis?.(scrollArgs(valid.element, { type: 'x' }))).toEqual('horizontal');

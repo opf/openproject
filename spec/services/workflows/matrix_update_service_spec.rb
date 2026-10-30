@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe Workflows::MatrixUpdateService, type: :model do
-  shared_let(:variant) { create(:type).default_variant }
+  shared_let(:workflow) { create(:type).default_variant.workflow }
   shared_let(:role) { create(:project_role) }
   shared_let(:other_role) { create(:project_role) }
   shared_let(:status_a) { create(:status) }
@@ -41,7 +40,7 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
   subject(:service_call) { instance.call(**call_params) }
 
   let(:instance) { described_class.new(context:) }
-  let(:context) { Workflows::MatrixContext.new(variant:, role_ids:, tab:) }
+  let(:context) { Workflows::MatrixContext.new(workflow:, role_ids:, tab:) }
   let(:roles) { [role] }
   let(:role_ids) { roles.map(&:id) }
   let(:tab) { "always" }
@@ -49,8 +48,8 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
   let(:status) { { status_a.id.to_s => { status_b.id.to_s => ["always"] } } }
 
   def transitions_for(a_role, author: false, assignee: false)
-    Workflow
-      .where(type_variant_id: variant.id, role_id: a_role.id, author:, assignee:)
+    Workflows::StatusTransition
+      .where(workflow_id: workflow.id, role_id: a_role.id, author:, assignee:)
       .pluck(:old_status_id, :new_status_id)
   end
 
@@ -60,8 +59,8 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
   end
 
   it "replaces transitions that are no longer submitted" do
-    create(:workflow, role_id: role.id, type_variant_id: variant.id,
-                      old_status_id: status_b.id, new_status_id: status_c.id)
+    create(:status_transition, role_id: role.id, workflow_id: workflow.id,
+                               old_status_id: status_b.id, new_status_id: status_c.id)
 
     expect(service_call).to be_success
     expect(transitions_for(role)).to contain_exactly([status_a.id, status_b.id])
@@ -83,8 +82,8 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
       end
 
       before do
-        create(:workflow, role_id: role.id, type_variant_id: variant.id,
-                          old_status_id: status_b.id, new_status_id: status_c.id)
+        create(:status_transition, role_id: role.id, workflow_id: workflow.id,
+                                   old_status_id: status_b.id, new_status_id: status_c.id)
       end
 
       it "keeps the transition for the role that had it and does not add it to the others" do
@@ -103,7 +102,7 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
           .to receive(:new).and_call_original
 
         allow(Workflows::BulkUpdateService)
-          .to receive(:new).with(role: other_role, variant:, tab:)
+          .to receive(:new).with(role: other_role, workflow:, tab:)
           .and_return(instance_double(Workflows::BulkUpdateService, call: ServiceResult.failure))
       end
 
@@ -127,8 +126,8 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
 
   describe "without an explicit selection" do
     before do
-      create(:workflow, role_id: role.id, type_variant_id: variant.id,
-                        old_status_id: status_b.id, new_status_id: status_c.id)
+      create(:status_transition, role_id: role.id, workflow_id: workflow.id,
+                                 old_status_id: status_b.id, new_status_id: status_c.id)
     end
 
     context "without a tab" do
@@ -147,18 +146,6 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
         expect(service_call).to be_failure
         expect(transitions_for(role)).to contain_exactly([status_b.id, status_c.id])
       end
-    end
-  end
-
-  describe "when the workflows aspect is linked to a source variant" do
-    shared_let(:source_variant) { create(:type).default_variant }
-
-    before { variant.update!(workflows_source: source_variant) }
-    after { variant.update!(workflows_source: nil) }
-
-    it "persists nothing and reports success" do
-      expect(service_call).to be_success
-      expect(transitions_for(role)).to be_empty
     end
   end
 
@@ -193,8 +180,8 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
       let(:call_params) { {} }
 
       before do
-        create(:workflow, role_id: role.id, type_variant_id: variant.id,
-                          old_status_id: status_a.id, new_status_id: status_b.id)
+        create(:status_transition, role_id: role.id, workflow_id: workflow.id,
+                                   old_status_id: status_a.id, new_status_id: status_b.id)
       end
 
       it "clears the tab's transitions" do

@@ -10,6 +10,7 @@ jobs:
     # Only run in the private fork, never in the public repo
     if: github.repository == 'opf/openproject-internal-fork'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: write
     steps:

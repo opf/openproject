@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,12 +30,19 @@
 require "mini_magick"
 
 module Exports::PDF::Common::Attachments
+  # Deliberately not MiniMagick::Image#resize: that shells out to `mogrify`, which
+  # since ImageMagick 7.1.2-32 writes to a randomized temp name (`<file>-<hex>~`).
+  # ImageMagick derives the coder from that name's extension, so the module policy in
+  # config/imagemagick/policy.xml denies it.
+  # https://github.com/ImageMagick/ImageMagick/issues/8995
   def resize_image(file_path)
     tmp_file = temp_image_file(File.extname(file_path))
 
-    image = MiniMagick::Image.open(file_path)
-    image.resize("x800>")
-    image.write(tmp_file)
+    MiniMagick.convert do |convert|
+      convert << file_path
+      convert.resize("x800>")
+      convert << tmp_file
+    end
 
     tmp_file
   end
@@ -125,7 +131,7 @@ module Exports::PDF::Common::Attachments
         # followed by the frame image data as a VP8 / VP8L / VP8X chunk.
         # Wrap it in a minimal RIFF/WEBP container to create a single-frame WebP.
         frame_chunk = data[pos + 8 + 16, chunk_size - 16]
-        # Reject frames whose payload isn't a recognised WebP bitstream type
+        # Reject frames whose payload isn't a recognized WebP bitstream type
         next unless webp_type.map(&:b).include?(frame_chunk[0, 4])
 
         riff_size = 4 + frame_chunk.bytesize # "WEBP" + frame data
@@ -147,7 +153,7 @@ module Exports::PDF::Common::Attachments
   def attachment_by_api_content_src(src)
     return if src.empty?
 
-    # we accept absolut linked images
+    # we accept absolute linked images
     # (but not hot-linked from elsewhere: https://example.com/another_api/attachments/1/somefile.png)
     #
     # #{api_url_helpers.root_path}api/v3/attachments/:id/content (our default api path)

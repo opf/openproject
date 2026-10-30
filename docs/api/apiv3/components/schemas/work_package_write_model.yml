@@ -131,9 +131,24 @@ properties:
         items:
           $ref: './link.yml'
         description: |-
-          List of versions in which the behaviour described by the work package was observed
+          List of versions in which the behavior described by the work package was observed
 
           **Resource**: Collection of Version
+      labels:
+        type: array
+        items:
+          $ref: './link.yml'
+        description: |-
+          List of labels attached to the work package
+
+          An entry whose `href` is `null` and whose `title` is a non-blank name creates that label when the work package
+          is saved, or reuses an existing label with the same name (case-insensitive). The form endpoint echoes such
+          entries back without creating anything. Creating a label requires the user to be allowed to edit work
+          packages in at least one project, as for `POST /api/v3/labels`. Names are limited to 255 characters, and a
+          single request may contain at most 50 entries without an `href`. A `title` is ignored on entries that have
+          an `href`.
+
+          **Resource**: Collection of Label
       parent:
         allOf:
           - $ref: './link.yml'

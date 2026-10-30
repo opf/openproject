@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -259,6 +258,47 @@ RSpec.describe Import::JiraRevertImportJob do
     end
   end
 
+  describe "#delete_labels" do
+    let(:label) { create(:label) }
+    let!(:reference) { reference_for(label, "Label") }
+
+    it "deletes the referenced label" do
+      expect { job.send(:delete_labels) }.to change(Label, :count).by(-1)
+    end
+
+    context "when the label is already gone" do
+      before { label.destroy }
+
+      it "skips the dangling reference" do
+        expect { job.send(:delete_labels) }.not_to raise_error
+      end
+    end
+
+    context "when the label existed before the import" do
+      let(:pre_existing_label) { create(:label) }
+
+      before { reference_for(pre_existing_label, "Label", uses_existing: true) }
+
+      it "keeps it" do
+        job.send(:delete_labels)
+
+        expect(Label).to exist(pre_existing_label.id)
+      end
+    end
+
+    context "when the label is still attached to a work package outside the import" do
+      let(:work_package) { create(:work_package) }
+
+      before { create(:labeling, label:, labelable: work_package) }
+
+      it "keeps it" do
+        job.send(:delete_labels)
+
+        expect(Label).to exist(label.id)
+      end
+    end
+  end
+
   describe "#delete_references" do
     let(:other_import) { create(:jira_import, jira:, author:) }
 
@@ -342,15 +382,15 @@ RSpec.describe Import::JiraRevertImportJob do
 
   describe "#progress" do
     it "is 0 while no step has been completed" do
-      expect(job.progress).to eq({ current: 0, percentage: 0, total: 8 })
+      expect(job.progress).to eq({ current: 0, percentage: 0, total: 9 })
     end
 
     it "grows with every completed step" do
       jira_import.set_job_cursor(job, :delete_projects)
-      expect(job.progress).to eq({ current: 1, percentage: 12.5, total: 8 })
+      expect(job.progress).to eq({ current: 1, percentage: 11.11, total: 9 })
 
       jira_import.set_job_cursor(job, :delete_jira_objects)
-      expect(job.progress).to eq({ current: 8, percentage: 100, total: 8 })
+      expect(job.progress).to eq({ current: 9, percentage: 100, total: 9 })
     end
   end
 

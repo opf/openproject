@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "support/pages/page"
 
 module Pages
@@ -67,7 +67,7 @@ module Pages
     def open_full_screen_by_doubleclick(work_package)
       retry_block do
         loading_indicator_saveguard
-        page.driver.browser.action.double_click(card(work_package).native).perform
+        card(work_package).double_click
 
         # Ensure we show the subject field
         page.find(".work-packages--subject-type-row")
@@ -108,28 +108,22 @@ module Pages
     def deselect_work_package(work_package)
       element = find("wp-single-card[data-work-package-id='#{work_package.id}']")
 
-      page.driver.browser.action.key_down(:command)
-        .click(element.native)
-        .key_up(:command)
-        .perform
+      element.click(:command)
     end
 
     def select_work_package_with_shift(work_package)
       element = find("wp-single-card[data-work-package-id='#{work_package.id}']")
 
-      page.driver.browser.action.key_down(:shift)
-        .click(element.native)
-        .key_up(:shift)
-        .perform
+      element.click(:shift)
     end
 
     def select_all_work_packages
-      find("body").send_keys [:control, "a"]
+      send_select_all(page.first('.op-wp-single-card[tabindex="0"]', minimum: 1))
       expect(page).to have_no_css "#work-package-context-menu"
     end
 
     def deselect_all_work_packages
-      find("body").send_keys [:control, "d"]
+      find("body").send_keys :escape
       expect(page).to have_no_css "#work-package-context-menu"
     end
 

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -37,7 +36,7 @@ import {
 // over the filter map): the `filters` getter and `toFilterObject`.
 describe('ApiV3FilterBuilder', () => {
   describe('add() and the filters getter', () => {
-    it('serialises each entry of the filter map to a single-key object', () => {
+    it('serializes each entry of the filter map to a single-key object', () => {
       const builder = new ApiV3FilterBuilder()
         .add('status', '=', ['1'])
         .add('subject', '~', ['foo']);

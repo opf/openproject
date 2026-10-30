@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -131,6 +130,7 @@ module ApplicationHelper
                            class: :user_status_class)
   end
 
+  # An optional block is rendered next to each label, e.g. to attach a per-entry action.
   def labeled_check_box_tags(name, collection, options = {}) # rubocop:disable Metrics/AbcSize
     fields = collection.sort.map do |object|
       id = name.gsub(/[\[\]]+/, "_") + object.id.to_s
@@ -141,11 +141,14 @@ module ApplicationHelper
       end
 
       object_options[:class] = Array(object_options[:class]) + %w(form--label-with-check-box)
+      object_options[:class] += %w(pr-0) if block_given?
 
-      content_tag :div, class: "form--field" do
-        label_tag(id, object, object_options) do
+      content_tag :div, class: class_names("form--field", "d-flex flex-items-center gap-1" => block_given?) do
+        label = label_tag(id, object, object_options) do
           styled_check_box_tag(name, object.id, false, id:) + object.to_s
         end
+
+        block_given? ? safe_join([label, capture { yield object }]) : label
       end
     end
 
@@ -194,6 +197,7 @@ module ApplicationHelper
   def syntax_highlight(name, content)
     highlighted = OpenProject::SyntaxHighlighting.highlight_by_filename(content, name)
     highlighted.each_line do |line|
+      # OG: each_line drops SafeBuffer; lines are already escaped Rouge HTML.
       yield highlighted.html_safe? ? line.html_safe : line
     end
   end
@@ -262,12 +266,6 @@ module ApplicationHelper
     options
   end
 
-  def all_lang_options_for_select
-    all_languages
-      .map { |lang| translate_language(lang) }
-      .sort_by(&:first)
-  end
-
   def blank_select_option
     content_tag(:option,
                 "--- #{t(:actionview_instancetag_blank_option)} ---",
@@ -288,8 +286,11 @@ module ApplicationHelper
   end
 
   def body_data_attributes(local_assigns)
+    service_worker = pwa_service_worker_attributes
+
     {
       controller: ["application auto-theme-switcher hover-card-trigger beforeunload external-links highlight-target-element",
+                   service_worker[:controller],
                    stimulus_body_controller].compact.join(" "),
       relative_url_root: root_path,
       overflowing_identifier: ".__overflowing_body",
@@ -297,7 +298,18 @@ module ApplicationHelper
       rendered_at: Time.zone.now.iso8601,
       turbo: local_assigns[:turbo_opt_out] ? "false" : nil
     }.merge(user_theme_data_attributes)
+     .merge(service_worker.except(:controller))
      .compact
+  end
+
+  def pwa_service_worker_attributes
+    return {} unless OpenProject::FeatureDecisions.progressive_web_app_active?
+
+    {
+      controller: "pwa-service-worker",
+      pwa_service_worker_url_value: pwa_service_worker_path,
+      pwa_service_worker_scope_value: root_path
+    }
   end
 
   def user_theme_data_attributes
@@ -307,7 +319,8 @@ module ApplicationHelper
     theme_options = {
       auto_theme_switcher_theme_value: theme,
       auto_theme_switcher_desktop_light_high_contrast_logo_class: "op-logo--link_high_contrast",
-      auto_theme_switcher_mobile_white_logo_class: "op-logo--icon_white"
+      auto_theme_switcher_mobile_white_logo_class: "op-logo--icon_white",
+      auto_theme_switcher_mobile_logo_modes_value: mobile_logo_modes.to_json
     }
 
     if pref.sync_with_os_theme?
@@ -345,7 +358,7 @@ module ApplicationHelper
   end
 
   def check_all_links(form_id = nil, &)
-    render(OpenProject::Common::CheckAllComponent.new(checkable_id: form_id), &)
+    render(OpPrimer::CheckAllComponent.new(checkable_id: form_id), &)
   end
 
   def current_layout
@@ -422,18 +435,34 @@ module ApplicationHelper
     end
   end
 
-  # To avoid FOUC (menu flickering / dark mode on logout), hide page
-  # wrapper on load except in test environment.
-  def initial_menu_styles
-    Rails.env.test? || "display:none"
+  MAIN_MENU_WIDTH_COOKIE = "op_main_menu_width"
+  # Must match DeviceService.smallDesktopWidthThreshold and $breakpoint-lg.
+  SMALL_DESKTOP_WIDTH_THRESHOLD = 1012
+
+  # Must match MainMenuToggleService.minOpenWidth.
+  MAIN_MENU_MIN_OPEN_WIDTH = 11
+  MAIN_MENU_COLLAPSED_WIDTH = 0
+
+  def initial_main_menu_width
+    value = cookies[MAIN_MENU_WIDTH_COOKIE]
+    return MAIN_MENU_COLLAPSED_WIDTH if value == MAIN_MENU_COLLAPSED_WIDTH.to_s
+    return unless value&.match?(/\A\d+\z/)
+
+    width = value.to_i
+    width if width >= MAIN_MENU_MIN_OPEN_WIDTH
   end
 
-  def initial_menu_classes(side_displayed, show_decoration)
-    classes = "can-hide-navigation"
-    classes += " nosidebar" unless side_displayed
-    classes += " nomenus" unless show_decoration
+  def initial_html_styles(main_menu_displayed, width)
+    "--main-menu-width: #{width}px" if main_menu_displayed && width
+  end
 
-    classes
+  def initial_menu_classes(side_displayed, show_decoration, width)
+    class_names(
+      "can-hide-navigation",
+      nosidebar: !side_displayed,
+      nomenus: !show_decoration,
+      "hidden-navigation": side_displayed && show_decoration && width == MAIN_MENU_COLLAPSED_WIDTH
+    )
   end
 
   # Add a HTML meta tag to control robots (web spiders)

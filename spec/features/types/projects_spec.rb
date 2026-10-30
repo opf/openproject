@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants: true } do
+RSpec.describe "Work package type projects tab", :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:hardware) { create(:type_variant, type:, variant_name: "Hardware") }
@@ -84,7 +83,7 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     visit edit_type_projects_path(type_id: type.id)
     expect_listed(on_base, on_hardware, on_firmware)
 
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
     expect_listed(on_hardware)
   end
 
@@ -169,7 +168,7 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
   def add_projects(project, include_sub_items:)
     find_test_selector("type-projects-add-button").click
 
-    within("##{WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID}") do
+    within_test_selector(WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID) do
       check I18n.t("filterable_tree_view.include_sub_items") if include_sub_items
       find("[role='treeitem'][data-node-id='#{project.id}']").click
       click_link_or_button I18n.t(:button_add)
@@ -181,13 +180,13 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
   end
 
   it "adds a parent with its sub-projects when one of them is already on the variant" do
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
 
     add_projects_including_sub_items(parent)
 
     expect_flash(message: I18n.t(:notice_successful_update))
 
-    expect(page).to have_no_css("##{WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID}", visible: :visible)
+    expect(page).to have_no_test_selector(WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID)
 
     within "#project-table" do
       expect(page).to have_text(parent.name)
@@ -197,6 +196,33 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     expect(parent.reload.type_variant(type)).to eq(hardware)
   end
 
+  it "asks before moving a project off another variant, back to the picker if cancelled" do
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
+
+    add_projects(on_firmware, include_sub_items: false)
+
+    within_test_selector(WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID) do
+      expect(page).to have_text("Laboratory").and have_text("Firmware")
+      click_link_or_button "Cancel"
+    end
+
+    within_test_selector(WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID) do
+      expect(page).to have_css("[role='treeitem'][data-node-id='#{on_firmware.id}'][aria-checked='true']")
+      click_link_or_button "Add"
+    end
+
+    within_test_selector(WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID) do
+      click_link_or_button "Change"
+    end
+
+    expect_flash(message: I18n.t(:notice_successful_update))
+    expect(page).to have_no_test_selector(WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID)
+    expect(page).to have_no_test_selector(WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID)
+    within("#project-table") { expect(page).to have_text(on_firmware.name) }
+
+    expect(on_firmware.reload.type_variant(type)).to eq(hardware)
+  end
+
   describe "enabling the type in all projects" do
     shared_let(:elsewhere) { create(:project, name: "Warehouse") }
 
@@ -204,6 +230,11 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
       visit edit_type_projects_path(type_id: type.id)
 
       click_link_or_button I18n.t("types.edit.projects.enable_all")
+
+      within_test_selector(WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID) do
+        expect(page).to have_text("Foundry").and have_text("Laboratory")
+        click_link_or_button "Change"
+      end
 
       expect(page).to have_test_selector("type-projects-enable-all",
                                          text: I18n.t("types.edit.projects.disable_all"))
@@ -221,7 +252,7 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     outside = create(:project, name: "Shipyard")
     inside = create(:project, name: "Annex", parent: outside)
 
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
 
     add_projects(outside, include_sub_items: false)
 
@@ -240,7 +271,7 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     visit edit_type_projects_path(type_id: type.id)
     expect(page).to have_test_selector("quick-filter-select-panel-button")
 
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
     expect(page).to have_no_test_selector("quick-filter-select-panel-button")
     expect(page).to have_test_selector("type-projects-add-button")
   end

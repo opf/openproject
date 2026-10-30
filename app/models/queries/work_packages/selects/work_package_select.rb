@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -122,7 +121,7 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
   end
 
   def value(model)
-    model.send name
+    model.send(@value_method || name)
   end
 
   def initialize(name, options = {})
@@ -143,6 +142,7 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
       group_by_class_name
       null_handling
       default_order
+      value_method
     ].each do |attribute|
       instance_variable_set(:"@#{attribute}", options[attribute])
     end

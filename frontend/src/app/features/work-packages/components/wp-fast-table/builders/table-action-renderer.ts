@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,12 +32,15 @@ import { contextMenuSpanClassName, contextMenuTdClassName } from 'core-app/featu
 import { internalContextMenuColumn } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { tdClassName } from './cell-builder';
+import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { keyboardNavigationEnabled, navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
+import { removeTabStops } from 'core-app/shared/helpers/dom/remove-tab-stops';
 
 export class TableActionRenderer {
   // Injections
   @LazyInject() tableActionsService:OpTableActionsService;
 
-  constructor(public readonly injector:Injector) {
+  constructor(public readonly injector:Injector, private readonly configuration?:WorkPackageTableConfiguration) {
   }
 
   public build(workPackage:WorkPackageResource):HTMLTableCellElement{
@@ -57,6 +59,12 @@ export class TableActionRenderer {
       });
 
     td.appendChild(span);
+
+    if (keyboardNavigationEnabled(this.configuration)) {
+      td.classList.add(navigableCellClassName);
+      removeTabStops(td);
+    }
+
     return td;
   }
 }

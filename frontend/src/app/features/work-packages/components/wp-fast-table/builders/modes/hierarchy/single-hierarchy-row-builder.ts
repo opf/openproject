@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -32,12 +31,14 @@ import { SingleRowBuilder } from 'core-app/features/work-packages/components/wp-
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { States } from 'core-app/core/states/states.service';
 import {
+  ancestorClassIdentifier,
   collapsedGroupClass,
   hierarchyGroupClass,
   hierarchyRootClass,
 } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { keyboardNavigationEnabled } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 
 export const indicatorCollapsedClass = '-hierarchy-collapsed';
 export const hierarchyCellClassName = 'wp-table--hierarchy-span';
@@ -131,11 +132,13 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
    * Append an additional ancestor row that is not yet loaded
    */
   public buildAncestorRow(ancestor:WorkPackageResource,
-    ancestorGroups:string[],
-    index:number):[HTMLTableRowElement, boolean] {
+    _ancestorGroups:string[],
+    _index:number):[HTMLTableRowElement, boolean] {
     const workPackage = this.states.workPackages.get(ancestor.id!).value!;
     const [tr, hidden] = this.buildEmpty(workPackage);
-    tr.classList.add(additionalHierarchyRowClassName);
+    const identifier = ancestorClassIdentifier(ancestor.id!);
+    tr.classList.add(additionalHierarchyRowClassName, identifier, `${identifier}-table`);
+    tr.dataset.classIdentifier = identifier;
     return [tr, hidden];
   }
 
@@ -148,7 +151,8 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   private appendHierarchyIndicator(workPackage:WorkPackageResource, row:HTMLTableRowElement, level?:number):void {
     const ancestors = workPackage.getAncestors();
     const hierarchyLevel = level === undefined || null ? ancestors.length : level;
-    const hierarchyElement = this.buildHierarchyIndicator(workPackage, row, hierarchyLevel);
+    const labelLevel = keyboardNavigationEnabled(this.workPackageTable.configuration) ? hierarchyLevel + 1 : hierarchyLevel;
+    const hierarchyElement = this.buildHierarchyIndicator(workPackage, row, hierarchyLevel, labelLevel);
 
     const subjectCell = row.querySelector<HTMLTableCellElement>('td.subject');
     if (!subjectCell) return;
@@ -165,11 +169,12 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   }
 
   /**
-   * Build the hierarchy indicator at the given indentation level.
+   * Build the hierarchy indicator at the given indentation level, reading `labelLevel` in its text.
    */
-  private buildHierarchyIndicator(workPackage:WorkPackageResource, row:HTMLTableRowElement, level:number):HTMLElement {
+  private buildHierarchyIndicator(workPackage:WorkPackageResource, row:HTMLTableRowElement, level:number, labelLevel:number):HTMLElement {
     const hierarchyIndicator = document.createElement('span');
     const collapsed = this.wpTableHierarchies.collapsed(workPackage.id!);
+    const tabindex = keyboardNavigationEnabled(this.workPackageTable.configuration) ? '-1' : '0';
     const indicatorWidth = `${hierarchyBaseIndentation + (hierarchyIndentation * level)}px`;
     hierarchyIndicator.classList.add(hierarchyCellClassName);
     hierarchyIndicator.style.width = indicatorWidth;
@@ -178,20 +183,20 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
     if (this.parentsWithVisibleChildren[workPackage.id!]) {
       const className = collapsed ? indicatorCollapsedClass : '';
       hierarchyIndicator.innerHTML = `
-            <a href tabindex="0" role="button" class="wp-table--hierarchy-indicator ${className}">
+            <a href tabindex="${tabindex}" role="button" class="wp-table--hierarchy-indicator ${className}">
               <span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>
               <span class="wp-table--hierarchy-indicator-expanded sr-only">${this.text.expanded(
-    level,
+    labelLevel,
   )}</span>
               <span class="wp-table--hierarchy-indicator-collapsed sr-only">${this.text.collapsed(
-    level,
+    labelLevel,
   )}</span>
             </a>
         `;
     } else {
       hierarchyIndicator.innerHTML = `
-            <span tabindex="0" class="wp-table--leaf-indicator">
-              <span class="sr-only">${this.text.leaf(level)}</span>
+            <span tabindex="${tabindex}" class="wp-table--leaf-indicator">
+              <span class="sr-only">${this.text.leaf(labelLevel)}</span>
             </span>
         `;
     }

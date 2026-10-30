@@ -20,15 +20,15 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injector } from '@angular/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
@@ -37,7 +37,7 @@ import { TableDragActionService } from 'core-app/features/work-packages/componen
 import { States } from 'core-app/core/states/states.service';
 import { DragAndDropService, DragIntent } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -45,6 +45,7 @@ import { isInsideCollapsedGroup, locateTableRow } from 'core-app/features/work-p
 import { collapsedGroupClass } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
 import { reorderById, type Edge } from 'core-common/drag-and-drop/reorder';
 import { WorkPackageTable } from '../../wp-fast-table';
+import { selectionGesture } from './selection-feedback';
 import { firstValueFrom } from 'rxjs';
 
 export class DragAndDropTransformer {
@@ -60,7 +61,7 @@ export class DragAndDropTransformer {
 
   @LazyInject() private readonly wpTableOrder:WorkPackageViewOrderService;
 
-  @LazyInject() private readonly wpTableSelection:WorkPackageViewSelectionService;
+  @LazyInject() private readonly selectionGestures:WorkPackageViewSelectionGesturesService;
 
   @LazyInject() private readonly apiV3Service:ApiV3Service;
 
@@ -74,29 +75,40 @@ export class DragAndDropTransformer {
     public table:WorkPackageTable) {
     // The DragService may not have been provided
     // in which case we do not provide drag and drop
-    if (this.dragService === null) {
+    if (table.destroyed) return;
+    const dragService = this.dragService;
+    if (dragService === null) {
       return;
     }
 
+    onDestroySafely(table.destroyRef, () => dragService.remove(table.tbody));
+
     this.inlineCreateService.newInlineWorkPackageCreated
-      .pipe(takeUntil(this.querySpace.stopAllSubscriptions))
-      .subscribe(async (wpId) => {
-        const newOrder = await this.wpTableOrder.add(this.currentOrder, wpId);
-        this.updateRenderedOrder(newOrder);
+      .pipe(takeUntilDestroyed(table.destroyRef))
+      .subscribe((wpId) => {
+        const notification = this.halNotification;
+        const querySpace = this.querySpace;
+        const query = querySpace.query.value;
+        const orderService = this.wpTableOrder;
+        const api = this.apiV3Service;
+        const order = this.currentOrder;
+        const isCurrent = () => !table.destroyed && querySpace.query.value === query;
+        if (!query || !isCurrent()) return;
+        void (async () => {
+          const prepared = await orderService.prepareAdd(query, order, wpId, isCurrent);
+          if (!isCurrent()) return;
+          await prepared.persist();
+          await this.updateRenderedOrder(prepared.order, isCurrent, api);
+        })().catch((error:unknown) => notification.handleRawError(error));
       });
 
-    this.querySpace.stopAllSubscriptions
-      .pipe(take(1))
-      .subscribe(() => {
-        this.dragService!.remove(this.table.tbody);
-      });
-
-    this.dragService.register({
+    dragService.register({
       dragContainer: this.table.tbody,
       scrollContainers: [this.table.scrollContainer],
-      itemIdOf: (row) => row.dataset.workPackageId ?? null,
-      accepts: () => true,
+      itemIdOf: (row) => (table.destroyed ? null : row.dataset.workPackageId ?? null),
+      accepts: () => !table.destroyed,
       canPickup: (row, handle) => {
+        if (table.destroyed) return false;
         if (!handle?.classList.contains('wp-table--drag-and-drop-handle')) {
           return false;
         }
@@ -108,6 +120,7 @@ export class DragAndDropTransformer {
       // A detached `<tr>` clone loses its column widths and drags the row's
       // selection background along with it, so the preview is built fresh.
       renderPreview: (row, preview) => {
+        if (table.destroyed) return;
         const wpId:string = row.dataset.workPackageId!;
         const workPackage = this.states.workPackages.get(wpId).value;
         if (!workPackage) {
@@ -129,45 +142,78 @@ export class DragAndDropTransformer {
     });
   }
 
-  /** Reduce a multi-row selection to just the picked-up row (see onDragStarted). */
   private collapseSelectionTo(row:HTMLElement):void {
+    if (this.table.destroyed) return;
     const wpId = row.dataset.workPackageId;
-    if (!wpId) {
-      return;
-    }
-
-    // `getSelectedWorkPackageIds`, not `selectionCount`: the count also
-    // includes false-valued entries a deselect leaves behind.
-    const selected = this.wpTableSelection.getSelectedWorkPackageIds();
-    const soleSelection = selected.length === 1 && selected[0] === wpId;
-    if (selected.length > 0 && !soleSelection) {
-      this.wpTableSelection.setSelection(wpId, this.currentOrder.indexOf(wpId));
+    if (wpId) {
+      selectionGesture(this.table, 'navigation', () => {
+        this.selectionGestures.collapseTo(wpId, this.table.renderedRows, row.dataset.classIdentifier);
+      });
     }
   }
 
-  /**
-   * Resolve and persist a same-list move, then re-render from the
-   * persisted order. `complete` must always be called to settle the
-   * transaction.
-   */
+  /** Prepare against the live view, then finish every accepted persistence phase. */
   private performMove(intent:DragIntent, complete:(success:boolean) => void):void {
+    const table = this.table;
+    if (table.destroyed) {
+      complete(false);
+      return;
+    }
+    const notification = this.halNotification;
+    const api = this.apiV3Service;
+    const orderService = this.wpTableOrder;
+    const listService = this.wpListService;
+    const actionService = this.actionService;
+    const querySpace = this.querySpace;
+    const sortService = this.wpTableSortBy;
+    const originalQuery = querySpace.query.value;
+    const wpId = intent.sourceId;
+    let workPackage = this.states.workPackages.get(wpId).value;
+    const isCurrent = () => !table.destroyed && querySpace.query.value === originalQuery;
+    let recoverIfCurrent:() => void = () => undefined;
+
     void (async () => {
-      const wpId = intent.sourceId;
-
       try {
-        const workPackage = await firstValueFrom(this.apiV3Service.work_packages.id(wpId).get());
-
-        // Read the order only once the fetch has settled: a query refresh
-        // during it can drop the dragged row, and persisting against the
-        // pre-refresh order would write a position for a row that is gone.
-        const order = this.currentOrder;
-        if (!order.includes(wpId)) {
+        if (!originalQuery) {
           complete(false);
           return;
         }
-
+        workPackage = await firstValueFrom(api.work_packages.id(wpId).get());
+        if (!isCurrent()) {
+          complete(false);
+          return;
+        }
+        // A refresh while loading may remove either endpoint of the intent.
+        const order = this.currentOrder;
+        if (!order.includes(wpId) || (intent.targetId !== null && !order.includes(intent.targetId))) {
+          complete(false);
+          return;
+        }
         const { targetId, edge } = this.resolveEffectiveTarget(intent);
-
+        const renderPass = table.lastRenderPass;
+        const source = locateTableRow(wpId, table.tableAndTimelineContainer);
+        const target = targetId ? locateTableRow(targetId, table.tableAndTimelineContainer) : null;
+        if (!source || (targetId !== null && !target)) {
+          complete(false);
+          return;
+        }
+        const { parentNode, nextSibling } = source;
+        const stillEligible = () => isCurrent()
+          && table.lastRenderPass === renderPass
+          && source.parentNode === table.tbody
+          && (!target || target.parentNode === table.tbody)
+          && this.currentOrder.length === order.length
+          && this.currentOrder.every((id, index) => id === order[index])
+          && actionService.canPickup(workPackage!);
+        recoverIfCurrent = () => {
+          if (!isCurrent() || table.lastRenderPass !== renderPass || source.parentNode !== parentNode) return;
+          parentNode?.insertBefore(source, nextSibling?.parentNode === parentNode ? nextSibling : null);
+          table.rowPositions?.paint();
+        };
+        if (!stillEligible()) {
+          complete(false);
+          return;
+        }
         const newOrder = reorderById({
           list: order,
           getId: (id) => id,
@@ -176,74 +222,65 @@ export class DragAndDropTransformer {
           closestEdge: edge,
           axis: 'vertical',
         });
-        // Returned by identity when the target vanished too, or the drop
-        // changed nothing — either way there is nothing to persist.
+        // A valid unchanged order remains a successful no-op.
         if (newOrder === order) {
           complete(true);
           return;
         }
-        const rowIndex = newOrder.indexOf(wpId);
-
-        const persistedOrder = await this.wpTableOrder.move([...order], wpId, rowIndex);
-
-        const el = locateTableRow(wpId);
-        await this.withRowAtTarget(el, targetId, edge, async () => {
-          if (el) {
-            await this.actionService.handleDrop(workPackage, el);
-          }
-        });
-
-        // Awaited so the transaction (and the engine's busy gate) stays open
-        // across the rebuild, not just the DOM-order computation above.
-        await this.updateRenderedOrder(persistedOrder);
-        this.actionService.onNewOrder(persistedOrder);
-
-        // Save the query when switching to manual
-        const query = this.querySpace.query.value;
-        if (query && this.wpTableSortBy.switchToManualSorting(query)) {
-          await this.wpListService.createOrSave(query);
+        const manualSort = !sortService.isManualSortingMode
+          ? sortService.available.find((sort) => sort.column.href?.endsWith('/manualSorting'))
+          : undefined;
+        const preparedOrder = await orderService.prepareMove(originalQuery, order, wpId, newOrder.indexOf(wpId), isCurrent);
+        if (!stillEligible()) {
+          complete(false);
+          return;
         }
+        // Only preparation observes the staged neighbors. Persistence captures no row.
+        if (target) table.tbody.insertBefore(source, edge === 'top' ? target : target.nextSibling);
+        else table.tbody.appendChild(source);
+        table.rowPositions?.paint();
+        const preparedAction = await actionService.prepareDrop(workPackage, source);
+        if (!stillEligible()) {
+          recoverIfCurrent();
+          complete(false);
+          return;
+        }
+        const ownsQuery = (expectedQuery = originalQuery) => !table.destroyed && querySpace.query.value === expectedQuery;
+        const preparedQuery = manualSort ? await listService.prepareSave(originalQuery, ownsQuery) : undefined;
+        if (!stillEligible()) {
+          recoverIfCurrent();
+          complete(false);
+          return;
+        }
+        const refreshLiveView = async (ids:readonly string[]) => {
+          if (!isCurrent()) return;
+          const resources = await Promise.all(Array.from(new Set(ids)).map(
+            (id) => firstValueFrom(api.work_packages.id(id).get()),
+          ));
+          if (!isCurrent()) return;
+          table.initialSetup(resources);
+          actionService.onNewOrder([...ids]);
+        };
+        const reportUiFailure = (error:unknown) => notification.handleRawError(error, workPackage);
 
+        // Acceptance begins at the first write: navigation cannot cancel later phases.
+        await preparedOrder.persist();
+        await preparedAction.persist();
+        recoverIfCurrent = () => {
+          if (isCurrent()) void refreshLiveView(preparedOrder.order).catch(reportUiFailure);
+        };
+        if (preparedQuery && manualSort) {
+          originalQuery.setSortBy([manualSort]);
+          await preparedQuery.persist();
+        }
         complete(true);
-      } catch (e) {
-        this.halNotification.handleRawError(e);
+        recoverIfCurrent();
+      } catch (error:unknown) {
+        recoverIfCurrent();
+        notification.handleRawError(error, workPackage);
         complete(false);
       }
     })();
-  }
-
-  /**
-   * The hierarchy/group-by action services infer the drop's new parent or
-   * group from the row's DOM neighbors (`previousElementSibling` etc). The
-   * engine itself never relocates the row, so it is moved to the resolved
-   * position for the span of `fn`. Restored ONLY on failure — on success
-   * `updateRenderedOrder` tears the row back out via `replaceChildren()`
-   * moments later, so restoring first would visibly snap it back before
-   * that rebuild moves it again.
-   */
-  private async withRowAtTarget(el:HTMLElement|null, targetId:string|null, edge:Edge|null, fn:() => Promise<void>):Promise<void> {
-    if (!el) {
-      await fn();
-      return;
-    }
-
-    const { parentNode, nextSibling } = el;
-    const targetRow = targetId ? locateTableRow(targetId) : null;
-
-    if (targetRow) {
-      this.table.tbody.insertBefore(el, edge === 'top' ? targetRow : targetRow.nextSibling);
-    } else {
-      this.table.tbody.appendChild(el);
-    }
-
-    try {
-      await fn();
-    } catch (e) {
-      // `fn` may have moved or removed the anchor; insertBefore throws on one
-      // that is no longer a child, so fall back to appending.
-      parentNode?.insertBefore(el, nextSibling?.parentNode === parentNode ? nextSibling : null);
-      throw e;
-    }
   }
 
   /**
@@ -254,7 +291,7 @@ export class DragAndDropTransformer {
    */
   private resolveEffectiveTarget(intent:DragIntent):{ targetId:string|null; edge:Edge|null } {
     const siblingId = this.siblingIdFor(intent);
-    const siblingRow = siblingId ? locateTableRow(siblingId) : null;
+    const siblingRow = siblingId ? locateTableRow(siblingId, this.table.tableAndTimelineContainer) : null;
 
     if (!isInsideCollapsedGroup(siblingRow)) {
       return { targetId: intent.targetId, edge: intent.edge };
@@ -285,17 +322,12 @@ export class DragAndDropTransformer {
   /**
    * Update current rendered order
    */
-  private async updateRenderedOrder(order:string[]) {
-    order = Array.from(new Set(order));
-
-    const mappedOrder = await Promise.all(
-      order.map(
-        (wpId) => firstValueFrom(this.apiV3Service.work_packages.id(wpId).get()),
-      ),
-    );
-
-    /** Re-render the table */
-    this.table.initialSetup(mappedOrder);
+  private async updateRenderedOrder(order:readonly string[], isCurrent:() => boolean, api:ApiV3Service):Promise<void> {
+    if (!isCurrent()) return;
+    const resources = await Promise.all(Array.from(new Set(order)).map(
+      (id) => firstValueFrom(api.work_packages.id(id).get()),
+    ));
+    if (isCurrent()) this.table.initialSetup(resources);
   }
 
   protected get actionService():TableDragActionService {

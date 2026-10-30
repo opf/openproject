@@ -1,0 +1,54 @@
+@import "helpers"
+@import "fullcalendar_frame"
+@import "time_entry_card"
+
+.my-time-management-stack-view
+  height: 100%
+  +fc-frame-grid
+
+  .my-time-management-stack-view--body
+    flex-grow: 1
+    min-height: 0
+    overflow-x: auto
+
+  .my-time-management-stack-view--entries
+    height: 100%
+
+  .my-time-management-stack-view--canvas
+    height: 100%
+    min-width: 800px
+    +fc-frame-container
+
+  .fc-timegrid-col-events
+    margin: 0
+
+  .fc-event
+    margin-right: 8px
+    margin-bottom: var(--base-size-4)
+    margin-left: 8px
+
+  .fc-timegrid-slot.fc-timegrid-slot-minor
+    border-top: 0
+
+  // FullCalendar measures the axis content and writes the resulting width onto the
+  // colgroup, so the label has to carry the width rather than the cell.
+  .fc-timegrid-slot-label-cushion
+    min-width: 52px
+    padding-right: 8px
+    color: var(--fgColor-muted)
+
+  .te-stack--time-entry
+    +te-time-entry-event
+
+  .te-stack--allocation
+    +te-allocation-event
+
+  +te-entry-card
+
+  .te-entry-card
+    height: 100%
+
+  .fc-timegrid-event-short
+    +te-entry-card-condensed
+
+  +fc-day-total

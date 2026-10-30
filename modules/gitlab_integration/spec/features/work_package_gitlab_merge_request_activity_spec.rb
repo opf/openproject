@@ -11,8 +11,8 @@ RSpec.describe "Work Package Activity Tab",
   shared_let(:project) { create(:project, enabled_module_names: Setting.default_projects_modules + %w[activity]) }
   shared_let(:work_package) { create(:work_package, project:) }
 
-  shared_let(:merge_request_author) { create(:gitlab_user, gitlab_username: "i_am_the_author") }
-  shared_let(:merge_request_merging_user) { create(:gitlab_user, gitlab_username: "i_merged") }
+  shared_let(:merge_request_author) { create(:gitlab_user, username: "i_am_the_author") }
+  shared_let(:merge_request_merging_user) { create(:gitlab_user, username: "i_merged") }
   shared_let(:gitlab_html_url) { "http://79dfcd98b723/root/hot_do/-/merge_requests/4" }
   shared_let(:merge_request) do
     create(:gitlab_merge_request, gitlab_html_url:, gitlab_user: merge_request_author)
@@ -37,10 +37,10 @@ RSpec.describe "Work Package Activity Tab",
       "event_type" => "merge_request",
       "user" => {
         "id" => merge_request_merging_user.gitlab_id,
-        "name" => merge_request_merging_user.gitlab_name,
-        "username" => merge_request_merging_user.gitlab_username,
-        "avatar_url" => merge_request_merging_user.gitlab_avatar_url,
-        "email" => merge_request_merging_user.gitlab_email
+        "name" => merge_request_merging_user.name,
+        "username" => merge_request_merging_user.username,
+        "avatar_url" => merge_request_merging_user.avatar_url,
+        "email" => "[REDACTED]"
       },
       "object_attributes" => {
         "action" => gitlab_action,
@@ -68,7 +68,7 @@ RSpec.describe "Work Package Activity Tab",
     }
   end
 
-  let(:work_package_page) { Pages::SplitWorkPackage.new(work_package, project) }
+  let(:work_package_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
   let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
 
   context "when there is a merge request event" do
@@ -87,7 +87,7 @@ RSpec.describe "Work Package Activity Tab",
       let(:expected_comment) do
         "MR Merged: Merge request #{merge_request.gitlab_id} " \
           "#{merge_request.title} for #{merge_request.repository} has been merged by " \
-          "#{merge_request_merging_user.gitlab_name}."
+          "#{merge_request_merging_user.name}."
       end
 
       it "renders a comment referencing the Merge Request" do

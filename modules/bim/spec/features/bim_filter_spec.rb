@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,7 +30,7 @@ require "spec_helper"
 require_relative "../support/pages/ifc_models/show"
 require_relative "../support/pages/ifc_models/show_default"
 
-RSpec.describe "BIM filter spec", :js, :selenium, with_config: { edition: "bim" } do
+RSpec.describe "BIM filter spec", :js, with_config: { edition: "bim" } do
   let(:project) { create(:project, enabled_module_names: %w(bim work_package_tracking)) }
   let(:open_status) { create(:status, is_closed: false) }
   let(:closed_status) { create(:status, is_closed: true) }
@@ -87,12 +86,18 @@ RSpec.describe "BIM filter spec", :js, :selenium, with_config: { edition: "bim" 
       card_view.expect_work_package_listed wp2
       card_view.expect_work_package_not_listed wp1
 
-      # Using the browser back will reload the filter and the work packages
+      # Using the browser back will reload the filter and the work packages.
+      # turbo-angular-wrapper.ts rebuilds the whole Angular app asynchronously on
+      # every turbo:load (including a plain browser back) - wait for that rebuild
+      # to fully settle before interacting with the (freshly rebuilt) filter panel,
+      # otherwise opening it here can race the rebuild and end up closed again.
       page.go_back
       loading_indicator_saveguard
+      expect_angular_frontend_initialized
 
       filters.expect_loaded
       filters.expect_filter_count 1
+      filters.open
       filters.expect_filter_by("Status", "open", nil)
 
       card_view.expect_work_package_listed wp1
@@ -108,7 +113,7 @@ RSpec.describe "BIM filter spec", :js, :selenium, with_config: { edition: "bim" 
       card_view.expect_work_package_not_listed wp1
 
       # Reload and the filter is still correctly applied
-      page.driver.browser.navigate.refresh
+      page.refresh
 
       filters.expect_loaded
       filters.expect_filter_count 1

@@ -38,7 +38,7 @@ Configuring OpenProject through environment variables is described in detail [in
 
 ### One container per process installation
 
-Create a file `docker-compose.override.yml` next to `docker-compose.yml` file. Docker Compose will automatically merge those files, for more information, [see](https://docs.docker.com/compose/multiple-compose-files/merge/).
+Create a file `docker-compose.override.yml` next to `docker-compose.yml` file. Docker Compose will automatically merge those files, for more information, [see Docker Docs](https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/).
 Add your custom configuration to `docker-compose.override.yml`.
 
 In the compose folder you will also find the file `docker-compose.yml` which shall **NOT** be edited.
@@ -461,7 +461,7 @@ This example in the old `configuration.yml` looked like this:
 auth_source_sso:
   header: X-Remote-User
   # Optional secret to be passed by the header in form
-  # of a colon-separted userinfo string
+  # of a colon-separated userinfo string
   # e.g., X-Remote-User "username:s3cret"
   secret: s3cr3t
   # Uncomment to make the header optional.
@@ -780,7 +780,7 @@ OPENPROJECT_RATE_LIMITING_LOGIN_BAN__PERIOD="3600"
 > application-level setting counts only **failed** attempts and operates over a longer rolling window.
 > If you lower `brute_force_block_after_failed_logins` below `BURST_LIMIT` (default 20), the
 > application-level lockout will fire before this rule does. Keep the two thresholds consistent to
-> avoid surprising behaviour. For example, set `BURST_LIMIT` to match or be lower than
+> avoid surprising behavior. For example, set `BURST_LIMIT` to match or be lower than
 > `brute_force_block_after_failed_logins`.
 
 ##### Lost password rate limiting (disabled by default)
@@ -858,7 +858,7 @@ _default: "repositories"_
 Remote git repositories will be checked out here.
 
 ```yaml
-note: to be verified, maybe option was removed, not in environement variables list
+note: to be verified, maybe option was removed, not in environment variables list
 ```
 
 ### APIv3 enable basic auth

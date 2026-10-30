@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,9 +64,10 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     set_factory_default(:priority, priority)
     set_factory_default(:project_with_types, project)
     set_factory_default(:status, status)
-    set_factory_default(:type, type)
     set_factory_default(:user, user)
   end
+  before { set_factory_default(:type, type) }
+
   let(:work_package) do
     create(:work_package,
            subject: "work_package")
@@ -172,6 +172,82 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
         expect(TimeEntry.where(id: time_entries.map(&:id)).pluck(:project_id).uniq)
           .to contain_exactly(target_project.id)
+      end
+    end
+
+    describe "time entry costs" do
+      shared_let(:logging_user) { create(:user) }
+
+      let!(:source_rate) do
+        create(:hourly_rate, principal: logging_user, project:, rate: 10.0, valid_from: 2.years.ago)
+      end
+      let!(:target_rate) do
+        create(:hourly_rate, principal: logging_user, project: target_project, rate: 99.0, valid_from: 2.years.ago)
+      end
+      let!(:time_entry) do
+        create(:time_entry,
+               project:,
+               entity: work_package,
+               user: logging_user,
+               logged_by: logging_user,
+               hours: 2.0)
+      end
+
+      it "recalculates the costs using the target project's rate", :aggregate_failures do
+        expect(time_entry.reload.costs).to eq(20.0)
+
+        expect(subject)
+          .to be_success
+
+        time_entry.reload
+
+        expect(time_entry.project_id).to eq(target_project.id)
+        expect(time_entry.rate).to eq(target_rate)
+        expect(time_entry.costs).to eq(198.0)
+      end
+
+      it "journals the move on the time entry",
+         :aggregate_failures,
+         with_settings: { journal_aggregation_time_minutes: 0 } do
+        expect { subject }
+          .to change { time_entry.journals.reload.count }
+          .by(1)
+
+        journal = time_entry.journals.last.data
+
+        expect(journal.project_id).to eq(target_project.id)
+        expect(journal.rate_id).to eq(target_rate.id)
+        expect(journal.costs).to eq(198.0)
+      end
+
+      context "when the target project's rate changed after the time was logged" do
+        let!(:historic_source_rate) do
+          create(:hourly_rate, principal: logging_user, project:, rate: 5.0, valid_from: 4.years.ago)
+        end
+        let!(:historic_target_rate) do
+          create(:hourly_rate, principal: logging_user, project: target_project, rate: 50.0, valid_from: 4.years.ago)
+        end
+        let!(:time_entry) do
+          create(:time_entry,
+                 project:,
+                 entity: work_package,
+                 user: logging_user,
+                 logged_by: logging_user,
+                 hours: 2.0,
+                 spent_on: 3.years.ago.to_date)
+        end
+
+        it "re-rates using the rate valid on spent_on, not the current one", :aggregate_failures do
+          expect(time_entry.reload.costs).to eq(10.0)
+
+          expect(subject)
+            .to be_success
+
+          time_entry.reload
+
+          expect(time_entry.rate).to eq(historic_target_rate)
+          expect(time_entry.costs).to eq(100.0)
+        end
       end
     end
 
@@ -440,8 +516,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
   end
 
-  describe "changing the type when the project resolves it to a variant",
-           with_flag: { type_variants: true } do
+  describe "changing the type when the project resolves it to a variant" do
     shared_let(:family_root) { create(:type, name: "Family root") }
     shared_let(:variant) { create(:type_variant, type: family_root, variant_name: "Variant") }
     shared_let(:root_only_status) { create(:status, name: "root_only_status") }
@@ -450,7 +525,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     let(:attributes) { { type: family_root } }
 
     before do
-      unlink_configuration(variant, aspect: TypeVariant::WORKFLOWS)
+      variant.update!(workflow: create(:named_workflow))
 
       create(:workflow, type: family_root, role:,
                         old_status_id: root_only_status.id, new_status_id: root_only_status.id)
@@ -1258,15 +1333,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
     context "with work packages having automatically generated subjects, " \
             "when the work package is automatically scheduled, has a child and no dates" do
-      # rubocop:disable RSpec/BeforeAfterAll
-      before_all do
-        set_factory_default(:type, autosubject_type)
-      end
-
-      after(:all) do
-        set_factory_default(:type, type)
-      end
-      # rubocop:enable RSpec/BeforeAfterAll
+      before { set_factory_default(:type, autosubject_type) }
 
       let_work_packages(<<~TABLE)
         hierarchy              | MTWTFSS        | scheduling mode | predecessors
@@ -1322,15 +1389,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
 
     context "with work packages having automatically generated subjects" do
-      # rubocop:disable RSpec/BeforeAfterAll
-      before_all do
-        set_factory_default(:type, autosubject_type)
-      end
-
-      after(:all) do
-        set_factory_default(:type, type)
-      end
-      # rubocop:enable RSpec/BeforeAfterAll
+      before { set_factory_default(:type, autosubject_type) }
 
       let_work_packages(<<~TABLE)
         | hierarchy      | MTWTFSS | scheduling mode
@@ -1835,20 +1894,111 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
   end
 
-  context "with a type whose subject configuration is linked to a source type",
-          with_flag: { type_variants: true } do
-    shared_let(:linked_type) do
-      create(:type, name: "Linked").tap do |t|
-        link_configuration(t, source: autosubject_type, aspect: TypeVariant::DEFAULTS)
-        project.project_types.create!(type: t)
+  describe "creating labels typed into the work package", with_flag: { work_package_labels: true } do
+    let(:attributes) { { label_names: %w[charlie Alpha bravo] } }
+    let(:saved_work_package) { work_package.reload }
+    let(:service_result) { subject }
+
+    before { work_package }
+
+    def stub_first_label_lookup_miss
+      calls = 0
+      allow(Label).to receive(:named).and_wrap_original do |original, *args|
+        (calls += 1) == 1 ? Label.none : original.call(*args)
       end
     end
 
-    shared_let(:work_package, reload: true) { create(:work_package, type: linked_type, project:) }
+    it "creates the labels in case-insensitive name order" do
+      expect(service_result).to be_success
+
+      created = Label.where(name: %w[bravo Alpha charlie]).order(:id).pluck(:name)
+      expect(created).to eq(%w[Alpha bravo charlie])
+    end
+
+    it "reuses a label another save created after validation" do
+      other = create(:label, name: "bravo")
+      stub_first_label_lookup_miss
+
+      expect(service_result).to be_success
+      expect(Label.where("LOWER(name) = 'bravo'").count).to eq(1)
+      expect(saved_work_package.labels).to include(other)
+    end
+
+    it "rolls the created labels back when the work package cannot be saved" do
+      allow_any_instance_of(WorkPackage).to receive(:save).and_return(false) # rubocop:disable RSpec/AnyInstance
+
+      expect { service_result }.not_to change(Label, :count)
+      expect(service_result).to be_failure
+    end
+
+    context "when a label cannot be created" do
+      let(:failure) do
+        ServiceResult.failure(result: nil).tap { it.errors.add(:name, :blank) }
+      end
+
+      before do
+        service = instance_double(Labels::FindOrCreateService, call: failure)
+        allow(Labels::FindOrCreateService).to receive(:new).and_return(service)
+      end
+
+      it "fails with a labels error and leaves the labels alone" do
+        expect(service_result).to be_failure
+        expect(service_result.errors.symbols_for(:labels)).to contain_exactly(:blank)
+        expect(work_package.reload.labels).to be_empty
+      end
+    end
+  end
+
+  context "with an automatically generated subject containing labels", with_flag: { work_package_labels: true } do
+    shared_let(:labels_type) do
+      create(:type, name: "Labeled autosubject",
+                    patterns: { subject: { blueprint: "\#{{id}} [{{labels}}]", enabled: true } }).tap do |type|
+        project.project_types.create!(type:)
+      end
+    end
+    shared_let(:frontend_label) { create(:label, name: "Frontend") }
+    shared_let(:bug_label) { create(:label, name: "Bug") }
+    shared_let(:work_package, reload: true) { create(:work_package, type: labels_type, project:) }
+
+    context "when only the labels are updated" do
+      let(:attributes) { { label_ids: [frontend_label.id, bug_label.id] } }
+
+      it "regenerates the subject with the new labels" do
+        expect(subject).to be_success
+
+        expect(work_package.reload.subject).to eq("##{work_package.id} [Frontend, Bug]")
+      end
+    end
+
+    context "when the labels are removed" do
+      let(:attributes) { { label_ids: [] } }
+
+      before do
+        create(:labeling, labelable: work_package, label: frontend_label)
+      end
+
+      it "regenerates the subject without the labels" do
+        expect(subject).to be_success
+
+        expect(work_package.reload.subject).to eq("##{work_package.id} [[Labels]]")
+      end
+    end
+  end
+
+  context "with a variant inheriting its subject configuration from its base" do
+    shared_let(:variant) do
+      create(:type_variant, type: autosubject_type, variant_name: "Inheriting").tap do |v|
+        link_configuration(v, aspect: TypeVariant::DEFAULTS)
+      end
+    end
+
+    shared_let(:work_package, reload: true) { create(:work_package, type: autosubject_type, project:) }
 
     let(:attributes) { { description: "new description" } }
 
-    it "generates the subject from the linked source type's pattern" do
+    before { project.project_types.find_by(type: autosubject_type).update!(variant:) }
+
+    it "generates the subject from the inherited pattern" do
       expect(subject).to be_success
 
       expect(work_package.reload).to have_attributes(
@@ -1990,8 +2140,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
     let!(:custom_field) do
       create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
-        project.enabled_variants.first.custom_fields << cf
-        project.work_package_custom_fields << cf
+        project.enabled_variants.first.custom_field_ids |= [cf.id]
       end
     end
     let!(:sibling) do
@@ -2016,8 +2165,8 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
 
     it "removes the parent successfully and reschedules the parent" do
-      # Unload the `ancestor_hierarchies` association so that we don't validate the associatied
-      # records. `closure_tree`'s behaviour is to reload the associations after save, even if they
+      # Unload the `ancestor_hierarchies` association so that we don't validate the associated
+      # records. `closure_tree`'s behavior is to reload the associations after save, even if they
       # weren't loaded, see: https://github.com/ClosureTree/closure_tree/blob/
       # 509f6dfa58da18bb4bff6ded0469263216579a90/lib/closure_tree/hierarchy_maintenance.rb#L44-L45
       #
@@ -2063,8 +2212,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     # The work package does not have a required custom field set.
     let(:mandatory_custom_field) do
       create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
-        project.enabled_variants.first.custom_fields << cf
-        project.work_package_custom_fields << cf
+        project.enabled_variants.first.custom_field_ids |= [cf.id]
       end
     end
     let(:attributes) { { subject: "A new subject" } }
@@ -2102,14 +2250,12 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     let(:new_type) { create(:type) }
     let!(:custom_field_of_current_type) do
       create(:integer_wp_custom_field, default_value: nil) do |cf|
-        type.default_variant.custom_fields << cf
-        project.work_package_custom_fields << cf
+        type.default_variant.custom_field_ids |= [cf.id]
       end
     end
     let!(:custom_field_of_new_type) do
       create(:integer_wp_custom_field, default_value: 8) do |cf|
-        new_type.default_variant.custom_fields << cf
-        project.work_package_custom_fields << cf
+        new_type.default_variant.custom_field_ids |= [cf.id]
       end
     end
     let(:attributes) do

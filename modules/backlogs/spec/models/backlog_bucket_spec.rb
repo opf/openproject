@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -96,6 +95,16 @@ RSpec.describe BacklogBucket do
     end
   end
 
+  describe "order by name" do
+    it "orders numbers naturally" do
+      bucket10 = create(:backlog_bucket, project:, name: "Bucket 10")
+      bucket2 = create(:backlog_bucket, project:, name: "Bucket 2")
+      bucket1 = create(:backlog_bucket, project:, name: "Bucket 1")
+
+      expect(described_class.order(:name)).to eq([bucket1, bucket2, bucket10])
+    end
+  end
+
   describe ".order_alphabetically" do
     it "returns buckets sorted by name" do
       bucket3 = create(:backlog_bucket, project:, name: "foo")
@@ -103,6 +112,14 @@ RSpec.describe BacklogBucket do
       bucket2 = create(:backlog_bucket, project:, name: "baz")
 
       expect(described_class.order_alphabetically).to eq([bucket1, bucket2, bucket3])
+    end
+
+    it "orders numbers naturally" do
+      bucket10 = create(:backlog_bucket, project:, name: "Bucket 10")
+      bucket2 = create(:backlog_bucket, project:, name: "Bucket 2")
+      bucket1 = create(:backlog_bucket, project:, name: "Bucket 1")
+
+      expect(described_class.order_alphabetically).to eq([bucket1, bucket2, bucket10])
     end
   end
 

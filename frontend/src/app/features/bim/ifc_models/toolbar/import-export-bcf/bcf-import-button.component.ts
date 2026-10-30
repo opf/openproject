@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,16 +29,29 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-helper.service';
+import { generateId } from 'core-app/shared/helpers/dom-helpers';
 
 @Component({
   template: `
-    <a [title]="text.import_hover"
+    <button type="button"
+      [attr.id]="buttonId"
+      [attr.aria-describedby]="tooltipId"
       (click)="handleClick()"
       class="button import-bcf-button">
       <op-icon icon-classes="button--icon icon-import" />
       <span class="button--text"> {{text.import}} </span>
-    </a>
+    </button>
+    <tool-tip
+      class="sr-only position-absolute"
+      [attr.for]="buttonId"
+      [attr.id]="tooltipId"
+      popover="manual"
+      data-direction="s"
+      data-type="description"
+      [textContent]="text.import_hover"
+      />
   `,
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'bcf-import-button',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.
@@ -51,6 +63,10 @@ export class BcfImportButtonComponent {
   readonly I18n = inject(I18nService);
   readonly currentProject = inject(CurrentProjectService);
   readonly bcfPathHelper = inject(BcfPathHelperService);
+
+  readonly buttonId = generateId('bcf-import-button');
+
+  readonly tooltipId = generateId('tooltip');
 
   public text = {
     import: this.I18n.t('js.bcf.import'),

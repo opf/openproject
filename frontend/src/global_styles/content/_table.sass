@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -197,7 +196,7 @@ table.generic-table
       input[type="radio"]:not(.FormControl-radio)
         margin-top: -0.25rem
 
-      // In the interactive table the behaviour is like this:
+      // In the interactive table the behavior is like this:
       // * if there is more space available than is required to render
       //   all columns, the container width is set to 100%.
       //   Then, td.-max will take up all space available and it will cause all other
@@ -271,6 +270,19 @@ thead.-sticky th
   position: sticky
   top: 0
   background: var(--body-background)
+
+// Sticky cells paint over their row's outline, so they draw the row's focus ring
+thead.-sticky tr:focus-visible > th
+  --row-focus-ring: var(--focus-outlineColor, #0969da)
+  box-shadow: inset var(--row-focus-left, 0) 0 0 var(--row-focus-ring), inset var(--row-focus-right, 0) 0 0 var(--row-focus-ring), inset 0 2px 0 var(--row-focus-ring), inset 0 -2px 0 var(--row-focus-ring)
+
+  &:first-child:dir(ltr),
+  &:last-child:dir(rtl)
+    --row-focus-left: 2px
+
+  &:last-child:dir(ltr),
+  &:first-child:dir(rtl)
+    --row-focus-right: -2px
 
 
 .generic-table--footer-outer

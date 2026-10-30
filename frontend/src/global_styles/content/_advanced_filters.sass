@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -45,6 +44,7 @@ $advanced-filters--value-min-width: 256px
   overflow-y: auto
   position: relative
   margin: 0 0 10px 0
+  border-radius: var(--borderRadius-medium)
 
   &.collapsed
     display: none
@@ -110,6 +110,9 @@ $advanced-filters--value-min-width: 256px
 
 .advanced-filters--tooltip-trigger[data-tooltip]
   @extend .advanced-filters--affix, .tooltip--right
+
+.advanced-filters--filter-value:has(.advanced-filters--tooltip-trigger)
+  overflow: visible
 
 .advanced-filters--remove-filter
   text-align: right

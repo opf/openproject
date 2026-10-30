@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -139,10 +138,12 @@ module API
         def create_setter_lambda(name)
           ->(fragment:, **) {
             # TODO: Accept meetings as entity once time tracking on meetings is released.
-            id = ::API::Utilities::ResourceLinkParser.parse_id(fragment["href"],
-                                                               property: name,
-                                                               expected_namespace: "work_packages")
+            linked_id = ::API::Utilities::ResourceLinkParser.parse_id(fragment["href"],
+                                                                      property: name,
+                                                                      expected_namespace: "work_packages")
 
+            id = WorkPackage.find_by_display_id(linked_id)&.id if WorkPackage::SemanticIdentifier.semantic_id?(linked_id)
+            id ||= linked_id
             represented.public_send("#{name}_id=", id)
             represented.public_send("#{name}_type=", "WorkPackage")
           }

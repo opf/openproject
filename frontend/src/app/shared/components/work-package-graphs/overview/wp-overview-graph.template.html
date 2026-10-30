@@ -1,9 +1,11 @@
-<select [(ngModel)]="groupBy"
-  (ngModelChange)="setQueryProps()">
-  @for (option of availableGroupBy; track option.key) {
-    <option [ngValue]="option.key">{{option.label}}</option>
-  }
-</select>
+@if (showGroupByOptions()) {
+  <select [(ngModel)]="groupBy"
+          (ngModelChange)="setQueryProps()">
+    @for (option of availableGroupBy; track option.key) {
+      <option [ngValue]="option.key">{{option.label}}</option>
+    }
+  </select>
+}
 
 @if (error) {
   <div
@@ -17,13 +19,13 @@
 @if (displayMulti) {
   <op-wp-embedded-graph #wpEmbeddedGraphMulti
     [datasets]="datasets"
-    [chartOptions]="chartOptions"
+    [chartOptions]="chartOptions()"
      />
 }
 
 @if (displaySingle) {
   <op-wp-embedded-graph #wpEmbeddedGraphSingle
     [datasets]="datasets"
-    [chartOptions]="chartOptions"
+    [chartOptions]="chartOptions()"
      />
 }

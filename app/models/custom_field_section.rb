@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -66,7 +65,7 @@ class CustomFieldSection < ApplicationRecord
   # for a blank prev_key. Idempotent for key (any existing occurrence is
   # removed first). Returns false without mutating when prev_key does not
   # resolve to another key in the order.
-  def insert_after_key(key, prev_key) # rubocop:disable Naming/PredicateMethod -- verb command, not a query
+  def insert_after_key(key, prev_key)
     keys = attribute_order.reject { |k| k == key }
 
     if prev_key.blank?

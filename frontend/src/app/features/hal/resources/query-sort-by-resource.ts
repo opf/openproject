@@ -20,19 +20,18 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalResource, HalResourceEmbedded } from 'core-app/features/hal/resources/hal-resource';
 
 export const QUERY_SORT_BY_ASC = 'urn:openproject-org:api:v3:queries:directions:asc';
 export const QUERY_SORT_BY_DESC = 'urn:openproject-org:api:v3:queries:directions:desc';
 
-export interface QuerySortByResourceEmbedded {
+export interface QuerySortByResourceEmbedded extends HalResourceEmbedded {
   column:QueryColumn;
   direction:QuerySortByDirection;
 }

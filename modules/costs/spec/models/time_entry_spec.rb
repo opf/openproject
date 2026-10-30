@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -47,12 +46,12 @@ RSpec.describe TimeEntry do
   let(:user2) { create(:user) }
   let(:date) { Time.zone.today }
   let(:rate) { build(:cost_rate) }
-  let!(:hourly_one) { create(:hourly_rate, valid_from: 2.days.ago, project:, user:) }
-  let!(:hourly_three) { create(:hourly_rate, valid_from: 4.days.ago, project:, user:) }
-  let!(:hourly_five) { create(:hourly_rate, valid_from: 6.days.ago, project:, user:) }
-  let!(:default_hourly_one) { create(:default_hourly_rate, valid_from: 2.days.ago, project:, user: user2) }
-  let!(:default_hourly_three) { create(:default_hourly_rate, valid_from: 4.days.ago, project:, user: user2) }
-  let!(:default_hourly_five) { create(:default_hourly_rate, valid_from: 6.days.ago, project:, user: user2) }
+  let!(:hourly_one) { create(:hourly_rate, valid_from: 2.days.ago, project:, principal: user) }
+  let!(:hourly_three) { create(:hourly_rate, valid_from: 4.days.ago, project:, principal: user) }
+  let!(:hourly_five) { create(:hourly_rate, valid_from: 6.days.ago, project:, principal: user) }
+  let!(:default_hourly_one) { create(:default_hourly_rate, valid_from: 2.days.ago, project:, principal: user2) }
+  let!(:default_hourly_three) { create(:default_hourly_rate, valid_from: 4.days.ago, project:, principal: user2) }
+  let!(:default_hourly_five) { create(:default_hourly_rate, valid_from: 6.days.ago, project:, principal: user2) }
   let(:hours) { 5.0 }
   let(:start_time) { 10 * 60 } # 10:00
   let(:time_entry) do
@@ -174,7 +173,7 @@ RSpec.describe TimeEntry do
       (hourly = HourlyRate.new.tap do |hr|
         hr.valid_from = 1.day.ago
         hr.rate       = 1.0
-        hr.user       = User.current
+        hr.principal  = User.current
         hr.project    = hourly_one.project
       end).save!
       time_entry.reload
@@ -191,7 +190,7 @@ RSpec.describe TimeEntry do
       (hourly = HourlyRate.new.tap do |hr|
         hr.valid_from = 3.days.ago.to_date
         hr.rate       = 1.0
-        hr.user       = User.current
+        hr.principal  = User.current
         hr.project    = hourly_one.project
       end).save!
       time_entry.reload
@@ -256,7 +255,7 @@ RSpec.describe TimeEntry do
       (hourly = DefaultHourlyRate.new.tap do |dhr|
         dhr.valid_from = 1.day.ago.to_date
         dhr.rate       = 1.0
-        dhr.user       = user2
+        dhr.principal  = user2
       end).save!
       default_example.reload
       expect(default_example.rate).not_to eq(default_hourly_one)
@@ -272,7 +271,7 @@ RSpec.describe TimeEntry do
       (hourly = DefaultHourlyRate.new.tap do |dhr|
         dhr.valid_from = 3.days.ago.to_date
         dhr.rate       = 1.0
-        dhr.user       = user2
+        dhr.principal  = user2
       end).save!
       default_example.reload
       expect(default_example.rate).not_to eq(default_hourly_three)
@@ -311,7 +310,7 @@ RSpec.describe TimeEntry do
       (rate = HourlyRate.new.tap do |hr|
         hr.valid_from = 10.days.ago.to_date
         hr.rate       = 1337.0
-        hr.user       = default_example.user
+        hr.principal  = default_example.user
         hr.project    = project
       end).save!
 
@@ -684,57 +683,6 @@ RSpec.describe TimeEntry do
       context "with the setting disabled", with_settings: { time_entries_prohibit_logging_for_past_months: false } do
         it { expect(described_class).not_to be_prohibit_logging_for_past_months }
       end
-    end
-  end
-
-  describe "deprecated work package association" do
-    it "ignores the deprecated work package association" do
-      expect(described_class.ignored_columns).to include("work_package_id")
-    end
-
-    it "allows access to the work package" do
-      allow(OpenProject::Deprecation).to receive(:replaced)
-
-      time_entry.entity = work_package
-      expect(time_entry.work_package).to eq(work_package)
-
-      time_entry.entity = create(:meeting)
-      expect(time_entry.work_package).to be_nil
-
-      expect(OpenProject::Deprecation).to have_received(:replaced).twice.with(:work_package, :entity, any_args)
-    end
-
-    it "allows access to the work package ID" do
-      allow(OpenProject::Deprecation).to receive(:replaced)
-
-      time_entry.entity = work_package
-      expect(time_entry.work_package_id).to eq(work_package.id)
-
-      time_entry.entity = create(:meeting)
-      expect(time_entry.work_package_id).to be_nil
-
-      expect(OpenProject::Deprecation).to have_received(:replaced).twice.with(:work_package_id, :entity_id, any_args)
-    end
-
-    it "allows setting the work package" do
-      allow(OpenProject::Deprecation).to receive(:replaced)
-
-      time_entry.work_package = work_package
-      expect(time_entry.entity).to eq(work_package)
-
-      expect(OpenProject::Deprecation).to have_received(:replaced).with(:work_package=, :entity=, any_args)
-    end
-
-    it "allows setting the work package ID" do
-      allow(OpenProject::Deprecation).to receive(:replaced)
-
-      time_entry.entity_type = nil # to make sure that we properly set it
-      time_entry.work_package_id = work_package.id
-      expect(time_entry.entity).to eq(work_package)
-      expect(time_entry.entity_type).to eq("WorkPackage")
-      expect(time_entry.entity_id).to eq(work_package.id)
-
-      expect(OpenProject::Deprecation).to have_received(:replaced).with(:work_package_id=, :entity_id=, any_args)
     end
   end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -79,11 +78,12 @@ RSpec.describe ResourceAllocation do
         expect(allocation.last_journal.details).to include("allocated_time" => [2400, 999])
       end
 
-      it "tracks filter_name changes" do
-        allocation.update!(principal_explicit: false, filter_name: "Full stack Developer (DE-EN)")
+      it "tracks the requested user resource" do
+        placeholder = create(:placeholder_user, name: "Full stack Developer (DE-EN)")
+        allocation.update!(placeholder_user: placeholder)
 
-        expect(allocation.last_journal.data.filter_name).to eq("Full stack Developer (DE-EN)")
-        expect(allocation.last_journal.details).to include("filter_name" => [nil, "Full stack Developer (DE-EN)"])
+        expect(allocation.last_journal.data.placeholder_user_id).to eq(placeholder.id)
+        expect(allocation.last_journal.details).to include("placeholder_user_id" => [nil, placeholder.id])
       end
 
       it "renders the allocated_time change in hours, not minutes" do

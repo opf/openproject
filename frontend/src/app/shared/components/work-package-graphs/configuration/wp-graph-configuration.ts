@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,21 +28,15 @@
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { ChartOptions } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { QueryFormPayload } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-form';
 
 export interface WpGraphQueryParams {
   id?:string;
-  props?:any;
+  props?:object;
   name?:string;
 }
 
-export interface WpGraphConfiguration {
-  queries:QueryResource[];
-  queryParams:WpGraphQueryParams[];
-  chartType:string;
-  chartOptions:ChartOptions;
-}
-
-export class WpGraphConfiguration implements WpGraphConfiguration {
+export class WpGraphConfiguration {
   public queries:QueryResource[] = [];
 
   constructor(
@@ -54,7 +47,7 @@ export class WpGraphConfiguration implements WpGraphConfiguration {
     this.chartType = this.chartType || 'bar';
   }
 
-  public static queryCreationParams(i18n:I18nService, isPublic:boolean):unknown {
+  public static queryCreationParams(i18n:I18nService, isPublic:boolean):QueryFormPayload {
     return {
       public: isPublic,
       name: i18n.t('js.grid.widgets.work_packages_graph.title'),

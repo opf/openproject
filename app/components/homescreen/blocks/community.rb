@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,19 +22,52 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Homescreen
   module Blocks
     class Community < Grids::WidgetComponent
-      include StaticLinksHelper
-
       def title
         I18n.t(:"homescreen.blocks.community")
+      end
+
+      def wrapper_arguments
+        { content_padding: :condensed }
+      end
+
+      def links
+        [
+          { path: :user_guides },
+          { path: :shortcuts },
+          { path: :forums },
+          { path: EnterpriseToken.active? ? :enterprise_support : :enterprise_support_as_community },
+          { path: :website,
+            label: I18n.t("label_openproject_website"),
+            url_params: { utm_source: "unknown", utm_medium: "op-instance", utm_campaign: "website-home-screen" } },
+          { path: :security_alerts,
+            label: I18n.t("homescreen.links.security_alerts"),
+            url_params: { utm_source: "unknown", utm_medium: "op-instance", utm_campaign: "security-alerts-home-screen" } },
+          { path: :newsletter,
+            label: I18n.t("homescreen.links.newsletter"),
+            url_params: { utm_source: "unknown", utm_medium: "op-instance", utm_campaign: "newsletter-home-screen" } },
+          { path: :blog },
+          { path: :release_notes },
+          { path: :report_bug },
+          { path: :roadmap },
+          { path: :crowdin },
+          { path: :api_docs }
+        ]
+      end
+
+      def link_href(link)
+        OpenProject::Static::Links.url_for(link[:path], url_params: link[:url_params] || {})
+      end
+
+      def link_label(link)
+        link[:label] || OpenProject::Static::Links.label_for(link[:path])
       end
     end
   end

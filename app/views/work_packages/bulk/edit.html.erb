@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -33,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { t(:label_bulk_edit_selected_work_packages) }
     header.with_breadcrumbs(
-      [*([href: project_overview_path(@project.id), text: @project.name] if @project),
+      [*([{ href: project_overview_path(@project.id), text: @project.name }] if @project),
        { href: (@project ? project_work_packages_path(@project) : work_packages_path), text: t(:label_work_package_plural) },
        t(:label_bulk_edit_selected_work_packages)]
     )
@@ -175,11 +174,25 @@ See COPYRIGHT and LICENSE files for more details.
               </div>
             </div>
           <% end %>
+          <% if OpenProject::FeatureDecisions.work_package_labels_active? %>
+            <div class="form--field">
+              <%= styled_label_tag :work_package_label_ids, WorkPackage.human_attribute_name(:labels) %>
+              <div class="form--field-container">
+                <%= styled_select_tag(
+                      "work_package[label_ids][]",
+                      content_tag("option", t(:label_none), value: "none") +
+                      options_from_collection_for_select(Label.order(Arel.sql("LOWER(name)")), :id, :name),
+                      include_blank: t(:label_no_change_option),
+                      multiple: true
+                    ) %>
+              </div>
+            </div>
+          <% end %>
           <% @custom_fields.each do |custom_field| %>
             <div class="form--field">
               <%= blank_custom_field_label_tag("work_package", custom_field) %>
               <div class="form--field-container">
-                <%= custom_field_tag_for_bulk_edit("work_package", custom_field, @project) %>
+                <%= custom_field_tag_for_bulk_edit("work_package", custom_field, @project, usable_in: @projects) %>
               </div>
             </div>
           <% end %>

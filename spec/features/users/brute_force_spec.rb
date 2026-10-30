@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe "Loggin (with brute force protection)" do
+RSpec.describe "Login (with brute force protection)" do
   let(:login) { "my_user" }
   let(:password) { "PassW0rd!!!" }
   let(:invalid_password) { password[0..-2] }
@@ -44,7 +43,7 @@ RSpec.describe "Loggin (with brute force protection)" do
   def new_login_attempt(login_attempt, password_attempt)
     # The login name already provided is retained
     expect(page)
-      .to have_field "Username", with: login_attempt
+      .to have_field "Username or email", with: login_attempt
 
     login_with(login_attempt, password_attempt)
   end

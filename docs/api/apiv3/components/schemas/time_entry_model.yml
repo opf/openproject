@@ -110,6 +110,21 @@ allOf:
                   The project the time entry is bundled in. The project might be different from the work package's project once the workPackage is moved.
 
                   **Resource**: Project
+          workPackage:
+            deprecated: true
+            allOf:
+              - "$ref": "./link.yml"
+              - description: |-
+                  The work package the time entry is created on
+
+                  **Resource**: WorkPackage
+
+                  # Conditions
+
+                  Only rendered if the entity the time entry is created on is a work package.
+
+                  **Deprecated**: this field is being replaced by `entity`, which also supports meetings.
+                  Read and write `entity` instead.
           entity:
             allOf:
               - "$ref": "./link.yml"
@@ -162,6 +177,9 @@ allOf:
         project:
           href: "/api/v3/projects/11"
           title: DeathStarV2
+        workPackage:
+          href: "/api/v3/work_packages/77"
+          title: Build new hangar
         entity:
           href: "/api/v3/work_packages/77"
           title: Build new hangar

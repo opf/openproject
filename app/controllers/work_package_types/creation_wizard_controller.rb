@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,16 +32,17 @@ module WorkPackageTypes
   class CreationWizardController < ApplicationController
     include AddressesVariant
     include ::WorkPackageTypes::ConfiguredInScope
-    include TypeVariantsFeature
+    include ::WorkPackageTypes::VariantRoutes
+    include OpTurbo::ComponentStream
 
     layout "no_menu"
 
     helper_method :adding_variant?
-    before_action :require_type_variants_feature
     before_action :find_type, only: %i[show update]
     before_action :find_variant, only: %i[show update]
     before_action :set_current_step, only: %i[show update]
     before_action :set_back_url
+    before_action :set_started_form_configuration_id
 
     def show; end
 
@@ -53,18 +53,15 @@ module WorkPackageTypes
 
         @variant = @type.variants.new(project: variant_scope_project)
       else
-        return render_404 if variant_scope_project # a type itself is created in administration
-
         @type = Type.new
       end
 
-      @current_step = Wizard::Steps.first
+      @current_step = params[:step].to_s == Wizard::Steps::FIRST_EDITABLE.to_s ? Wizard::Steps::FIRST_EDITABLE : Wizard::Steps.first
       render :show
     end
 
     def create
       return create_variant if params[:type_id]
-      return render_404 if variant_scope_project # a type itself is created in administration
 
       create_type
     end
@@ -75,6 +72,8 @@ module WorkPackageTypes
         update_details
       when :defaults
         update_defaults
+      when :form_configuration
+        update_form_configuration
       when :workflows
         update_workflows
       else
@@ -89,11 +88,39 @@ module WorkPackageTypes
       @type = @variant = service_call.result
 
       if service_call.success?
-        redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first, @variant)
+        reuse_existing_workflow
+        reuse_existing_form
+        redirect_to_step Wizard::Steps.next_after(Wizard::Steps::FIRST_EDITABLE, @variant)
       else
-        @current_step = Wizard::Steps.first
+        @current_step = Wizard::Steps::FIRST_EDITABLE
         render :show, status: :unprocessable_entity
       end
+    end
+
+    def reuse_existing_workflow
+      variant = @type.default_variant
+      started_id = variant.workflow_id
+      reusable = reusable_workflow(started_id)
+      return if reusable.nil?
+
+      variant.update!(workflow: reusable)
+      # Read back rather than reusing the built instance, whose type_variants are still in memory.
+      Workflow.find(started_id).destroy
+    end
+
+    def reusable_workflow(started_id)
+      candidates = Workflow.where.not(id: started_id).in_display_order
+      candidates.where(id: TypeVariant.select(:workflow_id)).first || candidates.first
+    end
+
+    def reuse_existing_form
+      variant = @type.default_variant
+      started_id = variant.form_configuration_id
+      reusable = ::FormConfiguration.where.not(id: started_id).in_display_order.first
+      return if reusable.nil?
+
+      variant.update!(form_configuration: reusable)
+      ::FormConfiguration.find(started_id).destroy!
     end
 
     def create_variant
@@ -104,9 +131,9 @@ module WorkPackageTypes
       @variant = service_call.result
 
       if service_call.success?
-        redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first, @variant)
+        redirect_to_step Wizard::Steps.next_after(Wizard::Steps::FIRST_EDITABLE, @variant)
       else
-        @current_step = Wizard::Steps.first
+        @current_step = Wizard::Steps::FIRST_EDITABLE
         render :show, status: :unprocessable_entity
       end
     end
@@ -155,25 +182,65 @@ module WorkPackageTypes
       end
     end
 
+    def update_form_configuration
+      return advance if @variant.project_owned?
+
+      form = @variant.form_configuration
+      return name_reference(form, ::FormConfigurations::UpdateService) if params[:form_configuration].present?
+      return advance unless form&.used_by_one_variant?
+
+      ask_for_name(form)
+    end
+
+    def update_workflows
+      return advance if @variant.project_owned?
+
+      workflow = @variant.workflow
+      return name_reference(workflow, ::Workflows::UpdateService) if params[:workflow].present?
+      return advance unless workflow&.used_by_one_variant?
+      return render :show, status: :unprocessable_entity unless update_matrix.success?
+
+      ask_for_name(workflow)
+    end
+
+    def ask_for_name(record)
+      respond_with_dialog(naming_dialog(record)) { |format| format.html { advance } }
+    end
+
+    def name_reference(record, service_class)
+      service_call = service_class.new(user: current_user, model: record).call(**naming_params(record))
+      return advance if service_call.success?
+
+      respond_with_dialog naming_dialog(service_call.result), status: :unprocessable_entity
+    end
+
+    def naming_dialog(record)
+      url = variant_creation_wizard_path(variant_scope_project, wizard_variant, step: @current_step, **carried_params)
+
+      NamedReferences::NameDialogComponent.new(record:,
+                                               model_class: record.class,
+                                               ask_copy_source: false,
+                                               url:)
+    end
+
+    def naming_params(record)
+      params.expect(record.model_name.param_key => %i[name description]).to_h.symbolize_keys
+    end
+
     # The matrix submits its inputs with the wizard form, along with the roles and
     # transition tab it was showing, so that only that slice is rewritten. Without a tab
     # the lazily loaded matrix never rendered, and there is nothing to persist.
-    def update_workflows
-      return advance unless params.key?(:tab)
+    def update_matrix
+      return ServiceResult.success unless params.key?(:tab)
 
-      service_call = ::Workflows::MatrixUpdateService
-                       .new(context: submitted_matrix_context)
-                       .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
+      context = ::Workflows::MatrixContext.new(workflow: @variant.workflow,
+                                               variant: @variant,
+                                               tab: params[:tab],
+                                               role_ids: params[:role_ids])
 
-      if service_call.success?
-        advance
-      else
-        render :show, status: :unprocessable_entity
-      end
-    end
-
-    def submitted_matrix_context
-      ::Workflows::MatrixContext.new(variant: @variant, tab: params[:tab], role_ids: params[:role_ids])
+      ::Workflows::MatrixUpdateService
+        .new(context:)
+        .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
     end
 
     def advance
@@ -182,10 +249,11 @@ module WorkPackageTypes
 
     def redirect_to_step(step)
       if step
-        redirect_to type_creation_wizard_path(**variant_path_args, step:, back_url: @back_url), status: :see_other
+        redirect_to variant_creation_wizard_path(variant_scope_project, wizard_variant, step:, **carried_params),
+                    status: :see_other
       else
         flash[:notice] = t("types.creation_wizard.success")
-        redirect_back_or_default(finished_path, status: :see_other)
+        redirect_back_or_default(helpers.variant_scope_types_path, status: :see_other)
       end
     end
 
@@ -195,17 +263,15 @@ module WorkPackageTypes
       @back_url = RedirectPolicy.new(params[:back_url], hostname: request.host, default: nil).redirect_url
     end
 
-    # types_path carries no project, so naming it while scoped would append the project as a query
-    # parameter and land on a screen the caller cannot open.
-    def finished_path
-      return types_path if variant_scope_project.nil?
+    def carried_params = { back_url: @back_url, started_form_configuration_id: @started_form_configuration_id }.compact
 
-      project_settings_work_packages_types_path(variant_scope_project)
+    def set_started_form_configuration_id
+      @started_form_configuration_id = params[:started_form_configuration_id].presence&.to_i
     end
 
     # @variant is the type itself while a type is being created until there is a variant to be used
-    def variant_path_args
-      adding_variant? ? @variant.path_args : { type_id: @type.id }
+    def wizard_variant
+      adding_variant? ? @variant : @type.default_variant
     end
 
     def adding_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?

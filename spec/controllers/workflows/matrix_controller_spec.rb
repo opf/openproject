@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -84,7 +83,8 @@ RSpec.describe Workflows::MatrixController do
               }
 
           expect(response).to redirect_to(
-            edit_type_workflow_path(type_id: variant.type_id, variant_id: variant.id, role_ids: [role.id.to_s], tab: "always")
+            edit_type_variant_workflow_path(type_id: variant.type_id, variant_id: variant.id, role_ids: [role.id.to_s],
+                                            tab: "always")
           )
         end
 
@@ -99,7 +99,8 @@ RSpec.describe Workflows::MatrixController do
               }
 
           expect(response).to redirect_to(
-            edit_type_workflow_path(type_id: variant.type_id, variant_id: variant.id, role_ids: [role.id.to_s], tab: "always")
+            edit_type_variant_workflow_path(type_id: variant.type_id, variant_id: variant.id, role_ids: [role.id.to_s],
+                                            tab: "always")
           )
           expect(response.location).not_to include("status_ids")
         end
@@ -125,8 +126,8 @@ RSpec.describe Workflows::MatrixController do
               }
 
           expect(response).to redirect_to(
-            edit_type_workflow_path(type_id: variant.type_id, variant_id: variant.id, role_ids: [role.id.to_s, role2.id.to_s],
-                                    tab: "always")
+            edit_type_variant_workflow_path(type_id: variant.type_id, variant_id: variant.id,
+                                            role_ids: [role.id.to_s, role2.id.to_s], tab: "always")
           )
         end
       end
@@ -140,11 +141,14 @@ RSpec.describe Workflows::MatrixController do
     # it rather than through a status_ids/displayed_status_ids fixture.
     let(:matrix_context) do
       instance_double(Workflows::MatrixContext,
+                      workflow: variant.workflow,
                       variant:,
+                      readonly?: false,
                       tab: "always",
                       roles: [role],
                       requested_status_ids: [status.id],
-                      removed_displayed_status_ids:)
+                      removed_displayed_status_ids:,
+                      matrix_path: "/types/1/workflow/matrix")
     end
 
     def submit_statuses
@@ -208,7 +212,8 @@ RSpec.describe Workflows::MatrixController do
     # Statuses remain, so the response is the flash alone — the blankslate replacement is
     # covered by the feature specs.
     let(:matrix_context) do
-      instance_double(Workflows::MatrixContext, roles:, tab: "always", statuses: [build_stubbed(:status)])
+      instance_double(Workflows::MatrixContext, roles:, tab: "always", readonly?: false,
+                                                statuses: [build_stubbed(:status)])
     end
 
     def submit_matrix

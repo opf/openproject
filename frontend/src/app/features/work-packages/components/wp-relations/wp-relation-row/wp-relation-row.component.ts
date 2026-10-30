@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -37,9 +36,11 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { WorkPackageRelationsService } from '../wp-relations.service';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-relation-row',
   templateUrl: './wp-relation-row.template.html',
   standalone: false,
@@ -134,7 +135,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
   }
 
   public get relationReady() {
-    return this.relatedWorkPackage && this.relatedWorkPackage.$loaded;
+    return this.relatedWorkPackage?.$loaded;
   }
 
   public startDescriptionEdit() {
@@ -185,7 +186,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
     }
   }
 
-  public cancelRelationTypeEditOnEscape(evt:KeyboardEvent) {
+  public cancelRelationTypeEditOnEscape(_evt:KeyboardEvent) {
     this.userInputs.showRelationTypesForm = false;
   }
 
@@ -204,7 +205,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
         this.userInputs.showRelationTypesForm = false;
         this.cdRef.detectChanges();
       })
-      .catch((error:any) => this.notificationService.handleRawError(error, this.workPackage));
+      .catch((error:unknown) => this.notificationService.handleRawError(error, this.workPackage));
   }
 
   public toggleUserDescriptionForm() {
@@ -230,11 +231,20 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
 
         this.notificationService.showSave(this.relatedWorkPackage);
       })
-      .catch((err:any) => this.notificationService.handleRawError(err,
+      .catch((err:unknown) => this.notificationService.handleRawError(err,
         this.relatedWorkPackage));
   }
 
   public highlightingClassForWpType():string {
-    return Highlighting.inlineClass('type', this.relatedWorkPackage.type.id!);
+    return Highlighting.typeClass(this.relatedWorkPackage.type.id!);
+  }
+
+  public get relatedWorkPackagePath():string {
+    const relatedProject = this.relatedWorkPackage.project as ProjectResource;
+    return this.PathHelper.genericWorkPackagePath(
+      relatedProject.identifier,
+      this.relatedWorkPackage.displayId,
+      'relations',
+    );
   }
 }

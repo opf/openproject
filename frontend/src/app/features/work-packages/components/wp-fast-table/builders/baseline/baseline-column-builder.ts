@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -36,6 +35,8 @@ import { QueryColumn } from 'core-app/features/work-packages/components/wp-query
 import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { keyboardNavigationEnabled } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { getBaselineState } from '../../../wp-baseline/baseline-helpers';
 import {
   opArrowInIconData,
@@ -44,6 +45,24 @@ import {
 } from '@openproject/octicons-angular';
 
 export const baselineCellName = 'op-table-baseline--column-cell';
+
+const baselineChanges = {
+  added: {
+    icon: opArrowInIconData,
+    className: 'op-table-baseline--icon-added',
+    label: 'js.work_packages.baseline.addition_label',
+  },
+  removed: {
+    icon: replyIconData,
+    className: 'op-table-baseline--icon-removed',
+    label: 'js.work_packages.baseline.removal_label',
+  },
+  updated: {
+    icon: opTriangleDeltaIconData,
+    className: 'op-table-baseline--icon-changed',
+    label: 'js.work_packages.baseline.modification_label',
+  },
+};
 
 export class BaselineColumnBuilder {
   @LazyInject() states:States;
@@ -54,7 +73,10 @@ export class BaselineColumnBuilder {
 
   @LazyInject() I18n:I18nService;
 
-  constructor(public readonly injector:Injector) {
+  constructor(
+    public readonly injector:Injector,
+    private readonly configuration:WorkPackageTableConfiguration,
+  ) {
   }
 
   public build(workPackage:WorkPackageResource, column:QueryColumn) {
@@ -69,40 +91,22 @@ export class BaselineColumnBuilder {
       return td;
     }
 
-    // Check if added
-    const icon = this.changeIcon(workPackage);
-    if (icon) {
-      td.appendChild(icon);
+    const state = getBaselineState(workPackage, this.schemaCache);
+    if (!state) {
+      return td;
+    }
+
+    const { icon, className, label } = baselineChanges[state];
+    const text = this.I18n.t(label);
+    td.appendChild(octiconElement(icon, 'small', className, text));
+
+    if (keyboardNavigationEnabled(this.configuration)) {
+      const status = document.createElement('span');
+      status.classList.add('sr-only');
+      status.textContent = text;
+      td.appendChild(status);
     }
 
     return td;
-  }
-
-  private changeIcon(
-    workPackage:WorkPackageResource,
-  ):HTMLElement|null {
-    const state = getBaselineState(workPackage, this.schemaCache);
-    if (state === 'added') {
-      return octiconElement(opArrowInIconData,
-        'small',
-        'op-table-baseline--icon-added',
-        this.I18n.t('js.work_packages.baseline.addition_label'));
-    }
-
-    if (state === 'removed') {
-      return octiconElement(replyIconData,
-        'small',
-        'op-table-baseline--icon-removed',
-        this.I18n.t('js.work_packages.baseline.removal_label'));
-    }
-
-    if (state === 'updated') {
-      return octiconElement(opTriangleDeltaIconData,
-        'small',
-        'op-table-baseline--icon-changed',
-        this.I18n.t('js.work_packages.baseline.modification_label'));
-    }
-
-    return null;
   }
 }

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -42,11 +41,13 @@ import {
 import {
   GroupHeaderBuilder,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/group-header-builder';
+import { buildTable, TableHarness } from 'core-app/features/work-packages/components/wp-fast-table/testing/table-harness';
+import { RenderedOccurrenceLedger } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 
 class TestGroupedRenderPass extends GroupedRenderPass {
   public renderRows():this {
     this.tableBody = document.createDocumentFragment();
-    this.renderedOrder = [];
+    this.draft = this.workPackageTable.ledger.beginRender();
     this.doRender();
 
     return this;
@@ -81,7 +82,8 @@ describe('GroupedRenderPass', () => {
     expect(rows).toHaveLength(2);
     expect(rows[0].getAttribute('data-test-selector')).toBe('group-header');
     expect(rows[1].classList.contains(groupedRowClassName(group.index))).toBe(true);
-    expect(pass.result).toEqual([
+    pass.workPackageTable.ledger.commit(pass.draft);
+    expect(pass.workPackageTable.ledger.snapshot()).toEqual([
       { classIdentifier: 'group-custom-field-16-options', workPackageId: null, hidden: false },
       { classIdentifier: 'wp-row-1', workPackageId: '1', hidden: false },
     ]);
@@ -108,9 +110,31 @@ describe('GroupedRenderPass', () => {
     expect(rows).toHaveLength(1);
     expect(rows[0].getAttribute('data-test-selector')).toBe('work-package-row');
     expect(rows[0].classList.contains(groupedRowClassName(group.index))).toBe(false);
-    expect(pass.result).toEqual([
+    pass.workPackageTable.ledger.commit(pass.draft);
+    expect(pass.workPackageTable.ledger.snapshot()).toEqual([
       { classIdentifier: 'wp-row-1', workPackageId: '1', hidden: false },
     ]);
+  });
+});
+
+describe('GroupedRenderPass levels', () => {
+  let harness:TableHarness;
+
+  afterEach(() => harness.destroy());
+
+  it('assigns semantic levels to every occurrence', async () => {
+    const status = { href: '/api/v3/statuses/1' };
+    harness = buildTable({
+      workPackages: [{ id: '1', attributes: { status } }],
+      groups: [{ value: 'New', href: status.href, count: 1, sums: { storyPoints: 13 } }],
+    });
+
+    await harness.render();
+
+    const { ledger } = harness.table;
+    expect(ledger.byKey('group:0:header')!.level).toBe(1);
+    expect(ledger.byKey('wp:1')!.level).toBe(2);
+    expect(ledger.byKey('group:0:sums')!.level).toBe(2);
   });
 });
 
@@ -134,6 +158,7 @@ function buildWorkPackageTable(rows:WorkPackageTableRow[]):WorkPackageTable {
     configuration: {
       dragAndDropEnabled: false,
     },
+    ledger: new RenderedOccurrenceLedger(),
   } as unknown as WorkPackageTable;
 }
 
@@ -154,7 +179,6 @@ function buildTableRow(workPackage:WorkPackageResource):WorkPackageTableRow {
     object: workPackage,
     workPackageId: workPackage.id!,
     position: 0,
-    group: null,
   };
 }
 

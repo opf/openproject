@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,8 +36,8 @@ RSpec.describe Workflows::SummariesController do
     let(:counts) { [] }
 
     before do
-      allow(Workflow)
-        .to receive(:count_by_type_variant_and_role)
+      allow(Workflows::StatusTransition)
+        .to receive(:count_by_workflow_and_role)
         .and_return(counts)
 
       get :show
@@ -60,10 +59,10 @@ RSpec.describe Workflows::SummariesController do
     end
 
     context "when counts is present" do
-      let(:type) { build_stubbed(:type) }
+      let(:workflow) { build_stubbed(:named_workflow) }
       let(:project_role) { build_stubbed(:project_role) }
       let(:global_role) { build_stubbed(:global_role) }
-      let(:counts) { [[type, [[project_role, 25], [global_role, 0]]]] }
+      let(:counts) { [[workflow, [[project_role, 25], [global_role, 0]]]] }
 
       it "assigns the workflows by type and role" do
         expect(assigns[:workflow_counts]).to eql counts

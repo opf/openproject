@@ -11,7 +11,7 @@ properties:
     description: Relation ID
   name:
     type: string
-    description: The internationalised name of this type of relation
+    description: The internationalized name of this type of relation
   type:
     type: string
     description: The relation type.

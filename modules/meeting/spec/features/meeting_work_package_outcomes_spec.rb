@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -158,9 +157,9 @@ RSpec.describe "Work package meeting outcomes", :js do
             click_on "Create"
           end
 
-          wait_for_network_idle
-
-          expect(page).to have_no_selector(:dialog, I18n.t(:label_work_package_new), wait: 10)
+          using_wait_time(10) do
+            expect(page).to have_no_selector(:dialog, I18n.t(:label_work_package_new))
+          end
 
           created_wp = WorkPackage.find_by(subject: "New WP from meeting outcome")
           expect(created_wp).to be_present
@@ -189,9 +188,7 @@ RSpec.describe "Work package meeting outcomes", :js do
             click_on "Create"
           end
 
-          wait_for_network_idle
-
-          expect(page).to have_text("Subject can't be blank")
+          expect(page).to have_text("Subject can't be blank", wait: 10)
 
           expect(page).to have_dialog(I18n.t(:label_work_package_new))
           expect(WorkPackage.find_by(subject: "")).to be_nil

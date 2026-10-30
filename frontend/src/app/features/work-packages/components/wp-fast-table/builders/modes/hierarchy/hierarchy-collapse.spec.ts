@@ -1,0 +1,400 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { fireEvent, waitFor, within } from '@testing-library/dom';
+import { buildTable, TableHarness } from '../../../testing/table-harness';
+import { WorkPackageFixture } from '../../../testing/work-package-fixture';
+import { States } from 'core-app/core/states/states.service';
+import { hierarchyGroupClass } from '../../../helpers/wp-table-hierarchy-helpers';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+
+const parent = { id: '1' };
+const child = { id: '2', ancestors: [parent] };
+
+describe('Hierarchy table collapse', () => {
+  let harness:TableHarness;
+
+  const renderHierarchy = async (workPackages:WorkPackageFixture[]) => {
+    harness = buildTable({ workPackages, showHierarchies: true });
+    await harness.render();
+  };
+
+  const toggle = (workPackageId:string) => {
+    fireEvent.click(within(harness.row(workPackageId)).getByRole('button'));
+  };
+
+  afterEach(() => harness?.destroy());
+
+  describe('with parent, child, grandchild and an unrelated row', () => {
+    beforeEach(() => renderHierarchy([
+      parent,
+      child,
+      { id: '3', ancestors: [parent, child] },
+      { id: '4' },
+    ]));
+
+    it('hides the descendants of a collapsed parent and restores their order', async () => {
+      expect(harness.rowIds()).toEqual(['1', '2', '3', '4']);
+
+      toggle('1');
+
+      await waitFor(() => expect(harness.row('2')).not.toBeVisible());
+      expect(harness.row('3')).not.toBeVisible();
+      expect(harness.row('1')).toBeVisible();
+      expect(harness.row('4')).toBeVisible();
+      expect(harness.renderedState()).toEqual([['1', false], ['2', true], ['3', true], ['4', false]]);
+
+      toggle('1');
+
+      await waitFor(() => expect(harness.row('2')).toBeVisible());
+      expect(harness.row('3')).toBeVisible();
+      expect(harness.rowIds()).toEqual(['1', '2', '3', '4']);
+      expect(harness.renderedState()).toEqual([['1', false], ['2', false], ['3', false], ['4', false]]);
+    });
+
+    it('keeps nested collapse state independent of the parent', async () => {
+      toggle('2');
+      await waitFor(() => expect(harness.row('3')).not.toBeVisible());
+
+      toggle('1');
+      await waitFor(() => expect(harness.row('2')).not.toBeVisible());
+
+      toggle('1');
+      await waitFor(() => expect(harness.row('2')).toBeVisible());
+      expect(harness.row('3')).not.toBeVisible();
+      expect(harness.renderedState()).toEqual([['1', false], ['2', false], ['3', true], ['4', false]]);
+
+      toggle('2');
+      await waitFor(() => expect(harness.row('3')).toBeVisible());
+      expect(harness.renderedState()).toEqual([['1', false], ['2', false], ['3', false], ['4', false]]);
+
+      // Parent collapsed over an explicitly expanded child: both entries are processed.
+      toggle('1');
+      await waitFor(() => expect(harness.row('2')).not.toBeVisible());
+      expect(harness.row('3')).not.toBeVisible();
+      expect(harness.renderedState()).toEqual([['1', false], ['2', true], ['3', true], ['4', false]]);
+    });
+
+    it('keeps a grandchild hidden under a collapsed parent and an expanded child', async () => {
+      const hierarchies = harness.injector.get(WorkPackageViewHierarchiesService);
+
+      hierarchies.expand('2');
+      hierarchies.collapse('1');
+
+      await waitFor(() => expect(harness.row('2')).not.toBeVisible());
+      expect(hierarchies.current.collapsed).toEqual({ 1: true, 2: false });
+      expect(harness.row('3')).not.toBeVisible();
+      expect(harness.renderedState()).toEqual([['1', false], ['2', true], ['3', true], ['4', false]]);
+    });
+
+    it('keeps a parent collapsed across a rerender with changed descendants', async () => {
+      toggle('1');
+      await waitFor(() => expect(harness.row('2')).not.toBeVisible());
+
+      await harness.render([
+        { id: '1', subject: 'Renamed parent' },
+        child,
+        { id: '5', ancestors: [parent] },
+        { id: '4' },
+      ]);
+
+      expect(harness.rowIds()).toEqual(['1', '2', '5', '4']);
+      expect(harness.row('1')).toHaveTextContent('Renamed parent');
+      expect(harness.row('2')).not.toBeVisible();
+      expect(harness.row('5')).not.toBeVisible();
+      expect(harness.row('4')).toBeVisible();
+      expect(harness.renderedState()).toEqual([['1', false], ['2', true], ['5', true], ['4', false]]);
+
+      toggle('1');
+
+      await waitFor(() => expect(harness.row('2')).toBeVisible());
+      expect(harness.row('5')).toBeVisible();
+      expect(harness.renderedState()).toEqual([['1', false], ['2', false], ['5', false], ['4', false]]);
+    });
+
+    it('publishes a fresh rendered state on toggle', async () => {
+      const before = harness.querySpace.tableRendered.value;
+
+      toggle('1');
+
+      await waitFor(() => expect(harness.row('2')).not.toBeVisible());
+      expect(harness.querySpace.tableRendered.value).not.toBe(before);
+      expect(harness.renderedState()).toEqual([['1', false], ['2', true], ['3', true], ['4', false]]);
+    });
+
+    it('ignores a foreign unstamped row in the collapsed hierarchy', async () => {
+      const foreign = document.createElement('tr');
+      foreign.className = `wp-table--row ${hierarchyGroupClass('1')}`;
+      harness.tbody.prepend(foreign);
+
+      toggle('1');
+
+      await waitFor(() => expect(harness.row('2')).not.toBeVisible());
+      expect(harness.querySpace.tableRendered.value).toHaveLength(harness.table.ledger.size);
+      expect(harness.renderedState()).toEqual([['1', false], ['2', true], ['3', true], ['4', false]]);
+    });
+  });
+
+  describe('with a contextual ancestor outside the results', () => {
+    beforeEach(() => renderHierarchy([
+      { id: '2', ancestors: [parent] },
+      { id: '3', ancestors: [parent] },
+      { id: '4' },
+    ]));
+
+    it('collapses and expands the real descendant rows', async () => {
+      expect(harness.row('1')).toHaveAttribute('data-class-identifier', 'wp-ancestor-row-1');
+      expect(harness.rowIds()).toEqual(['1', '2', '3', '4']);
+
+      toggle('1');
+
+      await waitFor(() => expect(harness.row('2')).not.toBeVisible());
+      expect(harness.row('3')).not.toBeVisible();
+      expect(harness.row('1')).toBeVisible();
+      expect(harness.row('4')).toBeVisible();
+      expect(harness.renderedState()).toEqual([['1', false], ['2', true], ['3', true], ['4', false]]);
+
+      toggle('1');
+
+      await waitFor(() => expect(harness.row('2')).toBeVisible());
+      expect(harness.row('3')).toBeVisible();
+      expect(harness.renderedState()).toEqual([['1', false], ['2', false], ['3', false], ['4', false]]);
+    });
+  });
+
+  describe('with two tables showing the same hierarchy in different positions', () => {
+    const unrelated = { id: '9' };
+    const harnesses:TableHarness[] = [];
+    let first:TableHarness;
+    let second:TableHarness;
+
+    const mountHierarchy = async (workPackages:WorkPackageFixture[], states:States) => {
+      const table = buildTable({
+        workPackages, showHierarchies: true, timelineVisible: true, states,
+      });
+      harnesses.push(table);
+      await table.render();
+      return table;
+    };
+
+    const toggleIn = (table:TableHarness, workPackageId:string) => {
+      fireEvent.click(within(table.row(workPackageId)).getByRole('button'));
+    };
+
+    const indicator = (table:TableHarness, workPackageId:string) => within(table.row(workPackageId)).getByRole('button');
+
+    beforeEach(async () => {
+      const states = new States();
+      first = await mountHierarchy([unrelated, parent, child], states);
+      second = await mountHierarchy([parent, child, unrelated], states);
+    });
+
+    afterEach(async () => {
+      await Promise.all(harnesses.splice(0).map((table) => table.destroy()));
+    });
+
+    it('collapses a hierarchy and its timeline only in its own table', async () => {
+      toggleIn(first, '1');
+
+      await waitFor(() => expect(first.row('2')).not.toBeVisible());
+      expect(first.timelineRow('2')).not.toBeVisible();
+      expect(first.timelineRow('1')).toHaveClass('__hierarchy-root-collapsed');
+      expect(first.renderedState()).toEqual([['9', false], ['1', false], ['2', true]]);
+
+      expect(second.row('2')).toBeVisible();
+      expect(second.timelineRow('2')).toBeVisible();
+      expect(second.timelineRow('1')).not.toHaveClass('__hierarchy-root-collapsed');
+      expect(indicator(second, '1')).not.toHaveClass('-hierarchy-collapsed');
+      expect(second.renderedState()).toEqual([['1', false], ['2', false], ['9', false]]);
+    });
+
+    it('keeps a collapsed hierarchy when the other table expands its own', async () => {
+      toggleIn(first, '1');
+      await waitFor(() => expect(first.row('2')).not.toBeVisible());
+
+      toggleIn(second, '1');
+      await waitFor(() => expect(second.row('2')).not.toBeVisible());
+      expect(second.renderedState()).toEqual([['1', false], ['2', true], ['9', false]]);
+
+      toggleIn(second, '1');
+      await waitFor(() => expect(second.row('2')).toBeVisible());
+      expect(second.timelineRow('2')).toBeVisible();
+      expect(second.timelineRow('1')).not.toHaveClass('__hierarchy-root-collapsed');
+
+      expect(first.row('2')).not.toBeVisible();
+      expect(first.timelineRow('2')).not.toBeVisible();
+      expect(first.timelineRow('1')).toHaveClass('__hierarchy-root-collapsed');
+      expect(indicator(first, '1')).toHaveClass('-hierarchy-collapsed');
+      expect(first.renderedState()).toEqual([['9', false], ['1', false], ['2', true]]);
+    });
+
+    it('scrolls the toggled row into view in its own table', async () => {
+      [first, second].forEach((table) => {
+        // A fixed height makes the table side overflow, so it is the scroll parent the helper picks.
+        table.container.style.height = '20px';
+        table.container.scrollTop = table.container.scrollHeight;
+      });
+      const firstScroll = first.container.scrollTop;
+      expect(second.container.scrollTop).toBeGreaterThan(0);
+
+      toggleIn(second, '1');
+
+      await waitFor(() => expect(second.container.scrollTop).toBe(second.row('1').offsetTop));
+      expect(first.container.scrollTop).toBe(firstScroll);
+    });
+  });
+});
+
+describe('Hierarchy table collapse on a keyboard-enabled table', () => {
+  let harness:TableHarness;
+
+  afterEach(() => harness.destroy());
+
+  it('projects the collapse onto row expansion and hidden state', async () => {
+    harness = buildTable({
+      workPackages: [parent, child, { id: '3', ancestors: [parent, child] }, { id: '4' }],
+      showHierarchies: true,
+      configuration: { keyboardNavigationEnabled: true },
+    });
+    await harness.render();
+    expect(harness.row('1')).toHaveAttribute('aria-expanded', 'true');
+    expect(harness.row('3')).not.toHaveAttribute('aria-expanded');
+
+    fireEvent.click(within(harness.row('1')).getByRole('button'));
+
+    await waitFor(() => expect(harness.row('1')).toHaveAttribute('aria-expanded', 'false'));
+    expect(harness.row('2')).not.toBeVisible();
+    expect(harness.row('3')).not.toBeVisible();
+    expect(harness.row('4')).toBeVisible();
+    [2, 3, 4].forEach((id) => expect(harness.row(String(id))).not.toHaveAttribute('aria-hidden'));
+
+    fireEvent.click(within(harness.row('1')).getByRole('button'));
+
+    await waitFor(() => expect(harness.row('1')).toHaveAttribute('aria-expanded', 'true'));
+    expect(harness.row('2')).toBeVisible();
+    expect(harness.row('3')).toBeVisible();
+  });
+});
+
+describe('Hierarchy table levels', () => {
+  let harness:TableHarness;
+
+  afterEach(() => harness.destroy());
+
+  it('assigns semantic levels to every occurrence', async () => {
+    const outerAncestor = { id: '9' };
+    const innerAncestor = { id: '10', ancestors: [outerAncestor] };
+    harness = buildTable({
+      workPackages: [
+        parent,
+        child,
+        { id: '3', ancestors: [parent, child] },
+        { id: '5', ancestors: [outerAncestor, innerAncestor] },
+      ],
+      showHierarchies: true,
+    });
+
+    await harness.render();
+
+    const levelOf = (key:string) => harness.table.ledger.byKey(key)!.level;
+    expect(levelOf('wp:1')).toBe(1);
+    expect(levelOf('wp:2')).toBe(2);
+    expect(levelOf('wp:3')).toBe(3);
+    expect(levelOf('ancestor:9')).toBe(1);
+    expect(levelOf('ancestor:10')).toBe(2);
+    expect(levelOf('wp:5')).toBe(3);
+  });
+});
+
+describe('Hierarchy indicator text', () => {
+  const harnesses:TableHarness[] = [];
+
+  afterEach(async () => {
+    await Promise.all(harnesses.splice(0).map((table) => table.destroy()));
+  });
+
+  const mount = async (keyboardNavigationEnabled:boolean) => {
+    const harness = buildTable({
+      workPackages: [parent, child, { id: '3', ancestors: [parent, child] }],
+      showHierarchies: true,
+      translations: {
+        'js.work_packages.hierarchy.children_expanded': 'Hierarchy level %{level}, expanded.',
+        'js.work_packages.hierarchy.children_collapsed': 'Hierarchy level %{level}, collapsed.',
+        'js.work_packages.hierarchy.leaf': 'Work package leaf at level %{level}.',
+      },
+      configuration: { keyboardNavigationEnabled },
+    });
+    harnesses.push(harness);
+    await harness.render();
+    return harness;
+  };
+
+  const indicator = (harness:TableHarness, workPackageId:string) => harness.row(workPackageId).querySelector<HTMLElement>('.wp-table--hierarchy-span')!;
+  const subjectCell = (harness:TableHarness, workPackageId:string) => harness.row(workPackageId).querySelector<HTMLElement>('td.subject')!;
+  const levelText = (level:string|null) => new RegExp(`(Hierarchy level|leaf at level) ${level}[,.]`);
+
+  const geometry = (harness:TableHarness, workPackageId:string) => ({
+    width: indicator(harness, workPackageId).style.width,
+    indentation: indicator(harness, workPackageId).dataset.indentation,
+    minWidth: subjectCell(harness, workPackageId).style.minWidth,
+    containerWidth: subjectCell(harness, workPackageId).querySelector<HTMLElement>('.wp-table--cell-container')?.style.width,
+  });
+
+  it('reads the row level on an enabled table, also after a refresh', async () => {
+    const harness = await mount(true);
+
+    expect(harness.row('1')).toHaveAccessibleName(expect.stringContaining('Hierarchy level 1,'));
+    ['1', '2', '3'].forEach((id) => {
+      expect(indicator(harness, id)).toHaveTextContent(levelText(harness.row(id).getAttribute('aria-level')));
+    });
+    expect(indicator(harness, '3')).toHaveTextContent('Work package leaf at level 3.');
+
+    ['1', '2', '3'].forEach((id) => harness.table.refreshRows(harness.injector.get(States).workPackages.get(id).value!));
+
+    expect(indicator(harness, '1')).toHaveTextContent('Hierarchy level 1,');
+    expect(indicator(harness, '2')).toHaveTextContent('Hierarchy level 2,');
+    expect(indicator(harness, '3')).toHaveTextContent('Work package leaf at level 3.');
+  });
+
+  it('keeps the zero-based text of a capability-off table', async () => {
+    const harness = await mount(false);
+
+    expect(indicator(harness, '1')).toHaveTextContent('Hierarchy level 0,');
+    expect(indicator(harness, '2')).toHaveTextContent('Hierarchy level 1,');
+    expect(indicator(harness, '3')).toHaveTextContent('Work package leaf at level 2.');
+  });
+
+  it('indents an enabled table exactly like a capability-off table', async () => {
+    const enabled = await mount(true);
+    const disabled = await mount(false);
+
+    ['1', '2', '3'].forEach((id) => {
+      expect(geometry(enabled, id)).toEqual(geometry(disabled, id));
+    });
+    expect(geometry(enabled, '3').containerWidth).toBeTruthy();
+  });
+});

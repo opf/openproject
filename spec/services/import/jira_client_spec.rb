@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,17 +30,77 @@
 require "spec_helper"
 
 RSpec.describe Import::JiraClient do
-  subject(:client) { described_class.new(url:, personal_access_token:) }
+  subject(:client) { described_class.new(url:, auth_method:, personal_access_token:, basic_auth_username:, basic_auth_password:) }
 
   let(:url) { "https://jira.example.com" }
+  let(:auth_method) { "bearer" }
   let(:personal_access_token) { "test-token" }
+  let(:basic_auth_username) { nil }
+  let(:basic_auth_password) { nil }
 
   describe "#initialize" do
-    context "when personal_access_token is nil" do
-      let(:personal_access_token) { nil }
+    context "with bearer auth" do
+      let(:auth_method) { "bearer" }
 
-      it "raises ApiError" do
-        expect { client }.to raise_error(Import::JiraClient::Error)
+      context "when personal_access_token is nil" do
+        let(:personal_access_token) { nil }
+
+        it "raises Error" do
+          expect { client }.to raise_error(Import::JiraClient::Error, /personal access token/i)
+        end
+      end
+
+      context "when personal_access_token is blank" do
+        let(:personal_access_token) { "" }
+
+        it "raises Error" do
+          expect { client }.to raise_error(Import::JiraClient::Error, /personal access token/i)
+        end
+      end
+
+      context "when personal_access_token is present" do
+        let(:personal_access_token) { "valid-token" }
+
+        it "creates the client successfully" do
+          expect { client }.not_to raise_error
+        end
+      end
+    end
+
+    context "with basic auth" do
+      let(:auth_method) { "basic" }
+      let(:personal_access_token) { nil }
+      let(:basic_auth_username) { "user" }
+      let(:basic_auth_password) { "pass" }
+
+      context "when basic_auth_username is blank" do
+        let(:basic_auth_username) { "" }
+
+        it "raises Error" do
+          expect { client }.to raise_error(Import::JiraClient::Error, /basic auth username/i)
+        end
+      end
+
+      context "when basic_auth_password is blank" do
+        let(:basic_auth_password) { "" }
+
+        it "raises Error" do
+          expect { client }.to raise_error(Import::JiraClient::Error, /basic auth password/i)
+        end
+      end
+
+      context "when both username and password are present" do
+        it "creates the client successfully" do
+          expect { client }.not_to raise_error
+        end
+      end
+    end
+
+    context "with unknown auth method" do
+      let(:auth_method) { "unknown" }
+
+      it "raises Error" do
+        expect { client }.to raise_error(Import::JiraClient::Error, /Unknown authentication method/i)
       end
     end
   end
@@ -139,7 +198,7 @@ RSpec.describe Import::JiraClient do
         .to_return do |request|
           page = CGI.parse(URI(request.uri).query).fetch("page").first.to_i
           { status: 200,
-            body: { options: [option(10_200 + page, "Colour #{page}")] }.to_json,
+            body: { options: [option(10_200 + page, "Color #{page}")] }.to_json,
             headers: { "Content-Type" => "application/json" } }
         end
 
@@ -179,6 +238,35 @@ RSpec.describe Import::JiraClient do
       stub_request(:get, options_url).with(query: hash_including({})).to_return(status: 500)
 
       expect { client.custom_field_options(10264) }.to raise_error(Import::JiraClient::ApiError)
+    end
+  end
+
+  describe Import::JiraClient::ApiError do
+    subject(:error) { described_class.new("Jira error", status: 404, response_body:, response_headers: {}) }
+
+    context "when the response body holds non-ASCII UTF-8 text as BINARY" do
+      let(:response_body) { %({"errorMessages":["Benutzer 'jöhn' existiert nicht"]}).b }
+
+      it "can be interpolated next to non-ASCII text" do
+        expect("Error fetching user data for user key jöhn: #{error.message}")
+          .to include("Benutzer 'jöhn' existiert nicht")
+      end
+    end
+
+    context "when the response body holds bytes that are not valid UTF-8" do
+      let(:response_body) { "M\xFCller".b }
+
+      it "replaces them" do
+        expect(error.response_body).to eq("M\uFFFDller")
+      end
+    end
+
+    context "when there is no response body" do
+      let(:response_body) { nil }
+
+      it "keeps an empty body" do
+        expect(error.response_body).to eq("")
+      end
     end
   end
 

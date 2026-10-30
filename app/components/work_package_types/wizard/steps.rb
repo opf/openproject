@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,7 +32,9 @@ module WorkPackageTypes
     # The steps of the variant creation wizard, in order. Every step submits its form
     # through the wizard controller, which persists it and advances.
     module Steps
-      ALL = %i[details defaults form_configuration project_attributes workflows projects pdf].freeze
+      ALL = %i[start details defaults form_configuration project_attributes workflows projects pdf].freeze
+
+      FIRST_EDITABLE = :details
 
       # Keyed off the variant, not off where it is configured from: a variant a project owns may
       # only ever be used there, for an administrator too.

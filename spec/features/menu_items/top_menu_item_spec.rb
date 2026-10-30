@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -80,11 +79,11 @@ RSpec.describe "Top menu items", :js do
     shared_let(:team_planners_item) { menu_link_item.new(I18n.t("team_planner.label_team_planner_plural"), team_planners_path) }
     shared_let(:boards_item) { menu_link_item.new(I18n.t(:project_module_board_view), work_package_boards_path) }
     shared_let(:news_item) { menu_link_item.new(I18n.t(:label_news_plural), news_index_path) }
-    shared_let(:reporting_item) { menu_link_item.new(I18n.t(:cost_reports_title), "/cost_reports") }
+    shared_let(:reporting_item) { menu_link_item.new(I18n.t(:cost_reports_title), "/reporting/cost_reports") }
     shared_let(:meetings_item) { menu_link_item.new(I18n.t(:label_meeting_plural), "/meetings") }
     shared_let(:my_page_item) { menu_link_item.new(I18n.t("my_page.label"), my_page_path) }
     shared_let(:home_item) { menu_link_item.new(I18n.t(:label_home), home_path) }
-    shared_let(:my_time_tracking_item) { menu_link_item.new(I18n.t(:label_my_time_tracking), "/my/time-tracking") }
+    shared_let(:my_time_item) { menu_link_item.new(I18n.t(:label_my_time), "/my/time") }
 
     shared_let(:all_items) do
       [
@@ -99,7 +98,7 @@ RSpec.describe "Top menu items", :js do
         meetings_item,
         my_page_item,
         home_item,
-        my_time_tracking_item
+        my_time_item
       ]
     end
 

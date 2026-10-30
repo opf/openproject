@@ -20,13 +20,14 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
+// vi.doMock is not hoisted above imports, unlike vi.mock, so the subject
+// below is imported dynamically further down, after these calls run.
+vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
   draggable: vi.fn(() => vi.fn()),
   dropTargetForElements: vi.fn(() => vi.fn()),
   monitorForElements: vi.fn(() => vi.fn()),
@@ -35,7 +36,8 @@ vi.mock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
 import type { dropTargetForElements as dropTargetForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type ListControllerType from './list.controller';
-import type { sortableItemData as sortableItemDataFn, SortableListsRoot } from './drag-and-drop';
+import type { sortableDragSourceData as sortableDragSourceDataFn, SortableListsRoot } from './drag-and-drop';
+import type { DestinationIdentity } from './list-dom';
 
 // The list controller is tested in ISOLATION: the root drives the outlet
 // hand-over in production (sortable-lists.controller.ts), so here we render only
@@ -44,7 +46,7 @@ import type { sortableItemData as sortableItemDataFn, SortableListsRoot } from '
 describe('Sortable lists list controller', () => {
   let dropTargetForElements:typeof dropTargetForElementsFn;
   let ListController:typeof ListControllerType;
-  let sortableItemData:typeof sortableItemDataFn;
+  let sortableDragSourceData:typeof sortableDragSourceDataFn;
 
   let ctx:StimulusTestContext;
   let fixture:HTMLElement;
@@ -52,7 +54,7 @@ describe('Sortable lists list controller', () => {
   beforeAll(async () => {
     ({ dropTargetForElements } = await import('@atlaskit/pragmatic-drag-and-drop/element/adapter'));
     ({ default: ListController } = await import('./list.controller'));
-    ({ sortableItemData } = await import('./drag-and-drop'));
+    ({ sortableDragSourceData } = await import('./drag-and-drop'));
   });
 
   beforeEach(async () => {
@@ -76,8 +78,10 @@ describe('Sortable lists list controller', () => {
       busy,
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
-      ownerListElementOf: vi.fn(() => null),
       ownerRowsContainer: vi.fn(() => null),
+      beginDrag: vi.fn(),
+      dragSession: null,
+      ownerDestinationOf: vi.fn(() => null),
     };
   }
 
@@ -119,10 +123,10 @@ describe('Sortable lists list controller', () => {
   function source(
     rootElement:HTMLElement|null,
     type = 'work_package',
-    { confined = false, sourceListElement = null }:{ confined?:boolean; sourceListElement?:HTMLElement|null } = {},
+    { permittedDestinations = null }:{ permittedDestinations?:DestinationIdentity[]|null } = {},
   ) {
     return {
-      data: sortableItemData({ itemId: '1', type, rootElement, confined, sourceListElement }),
+      data: sortableDragSourceData({ itemId: '1', type, rootElement, permittedDestinations }),
       element: document.createElement('li'),
     } as never;
   }
@@ -239,7 +243,7 @@ describe('Sortable lists list controller', () => {
     expect(dropTargetOptionsFor(list)?.canDrop?.({
       element: list,
       input: {} as never,
-      source: source(root, 'work_package', { confined: true, sourceListElement: document.createElement('ul') }),
+      source: source(root, 'work_package', { permittedDestinations: [{ type: 'sprint', id: '9' }] }),
     })).toBe(true);
   });
 
@@ -288,7 +292,7 @@ describe('Sortable lists list controller', () => {
     const options = dropTargetOptionsFor(list);
 
     options?.onDrag?.({
-      location: locationOver({ data: sortableItemData({ itemId: '1', type: 'work_package', rootElement: null }) }),
+      location: locationOver({ data: sortableDragSourceData({ itemId: '1', type: 'work_package', rootElement: null }) }),
       source: source(rootElement),
     } as never);
 
@@ -302,7 +306,7 @@ describe('Sortable lists list controller', () => {
 
     options?.onDragEnter?.({
       location: locationOver(),
-      source: source(rootElement, 'work_package', { confined: true, sourceListElement: document.createElement('ul') }),
+      source: source(rootElement, 'work_package', { permittedDestinations: [{ type: 'sprint', id: '9' }] }),
     } as never);
 
     expect(list.dataset.dropContainer).toEqual('refused');
@@ -315,7 +319,7 @@ describe('Sortable lists list controller', () => {
 
     options?.onDragEnter?.({
       location: locationOver(),
-      source: source(rootElement, 'work_package', { confined: true, sourceListElement: list }),
+      source: source(rootElement, 'work_package', { permittedDestinations: [{ type: 'sprint', id: '7' }] }),
     } as never);
 
     expect(list.dataset.dropContainer).toEqual('active');
@@ -328,7 +332,7 @@ describe('Sortable lists list controller', () => {
 
     options?.onDragEnter?.({
       location: locationOver(),
-      source: source(rootElement, 'work_package', { confined: true, sourceListElement: document.createElement('ul') }),
+      source: source(rootElement, 'work_package', { permittedDestinations: [{ type: 'sprint', id: '9' }] }),
     } as never);
     expect(list.dataset.dropContainer).toEqual('refused');
 
@@ -345,7 +349,7 @@ describe('Sortable lists list controller', () => {
     expect(list.dataset.dropContainer).toEqual('active');
 
     options?.onDrag?.({
-      location: locationOver({ data: sortableItemData({ itemId: '1', type: 'work_package', rootElement: null }) }),
+      location: locationOver({ data: sortableDragSourceData({ itemId: '1', type: 'work_package', rootElement: null }) }),
       source: source(rootElement),
     } as never);
     expect(list.dataset.dropContainer).toBeUndefined();

@@ -20,26 +20,28 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injector } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import { takeUntil } from 'rxjs/operators';
+import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
-import {
-  WorkPackageViewSelectionService,
-  WorkPackageViewSelectionState,
-} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
-import { checkedClassName, pressedClassName } from '../../builders/ui-state-link-builder';
+import { paintRowSelection } from '../../builders/rows/row-selection-painter';
 import { locateTableRow, scrollTableRowIntoView } from '../../helpers/wp-table-row-helpers';
 import { WorkPackageTable } from '../../wp-fast-table';
+import { selectionGesture, TableSelectionFeedback } from './selection-feedback';
+import {
+  registerWorkPackageDeselectAll,
+  registerWorkPackageSelectAll,
+} from 'core-app/features/work-packages/routing/wp-view-base/event-handling/wp-selection-keyboard';
 
 export class SelectionTransformer {
   @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
@@ -52,70 +54,76 @@ export class SelectionTransformer {
 
   constructor(public readonly injector:Injector,
     public readonly table:WorkPackageTable) {
-    // Focus a single selection when active
+    const destroyRef = table.destroyRef;
+
+    if (table.configuration.keyboardNavigationEnabled) {
+      table.selectionFeedback = new TableSelectionFeedback(this.wpTableSelection, destroyRef);
+    }
+
     this.querySpace.tableRendered.values$()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
+        takeUntilDestroyed(destroyRef),
       )
-      .subscribe(() => {
-        this.wpTableFocus.ifShouldFocus((wpId:string) => {
-          const element = locateTableRow(wpId);
-          if (element) {
-            scrollTableRowIntoView(wpId);
-            this.FocusHelper.focus(element);
+      .subscribe((rows) => {
+        if (table.ledger.generation > 0) {
+          const retain = () => this.wpTableSelection.retainRendered(rows);
+          if (table.selectionFeedback) {
+            table.selectionFeedback.prune(retain);
+          } else {
+            retain();
           }
-        });
+        }
+        if (!table.configuration.keyboardNavigationEnabled) {
+          this.wpTableFocus.ifShouldFocus((wpId:string) => {
+            const root = table.tableAndTimelineContainer;
+            const element = locateTableRow(wpId, root);
+            if (element) {
+              scrollTableRowIntoView(wpId, root);
+              this.FocusHelper.focus(element);
+            }
+          });
+        }
       });
 
-    // Update selection state
     this.wpTableSelection.live$()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
+        takeUntilDestroyed(destroyRef),
       )
-      .subscribe((state:WorkPackageViewSelectionState) => {
-        this.renderSelectionState(state);
-      });
+      .subscribe(() => this.paintRows());
 
-    // Update pressed state when the focused (details-panel) WP changes
     this.wpTableFocus.whenChanged()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
+        takeUntilDestroyed(destroyRef),
       )
-      .subscribe((focusedId:string) => {
-        this.renderPressedState(focusedId);
-      });
+      .subscribe(() => this.paintRows());
 
-    this.wpTableSelection.registerSelectAllListener(() => table.renderedRows);
-    this.wpTableSelection.registerDeselectAllListener();
-  }
-
-  /**
-   * Update all currently visible rows to match the selection state.
-   */
-  private renderSelectionState(state:WorkPackageViewSelectionState) {
-    const context = this.table.tableAndTimelineContainer;
-
-    context.querySelectorAll(`.${tableRowClassName}.${checkedClassName}`).forEach((el) => el.classList.remove(checkedClassName));
-
-    Object.entries(state.selected).forEach(([workPackageId, selected]) => {
-      context.querySelectorAll(`.${tableRowClassName}[data-work-package-id="${workPackageId}"]`).forEach((el) => {
-        el.classList.toggle(checkedClassName, selected);
-      });
-    });
-  }
-
-  /**
-   * Update the pressed state to reflect the currently focused (details-panel) row.
-   */
-  private renderPressedState(focusedId:string|null) {
-    const context = this.table.tableAndTimelineContainer;
-
-    context.querySelectorAll(`.${tableRowClassName}.${pressedClassName}`).forEach((el) => el.classList.remove(pressedClassName));
-
-    if (focusedId) {
-      context.querySelectorAll(`.${tableRowClassName}[data-work-package-id="${focusedId}"]`).forEach((el) => {
-        el.classList.add(pressedClassName);
-      });
+    if (!table.configuration.keyboardNavigationEnabled) {
+      onDestroySafely(destroyRef, registerWorkPackageSelectAll({
+        root: table.tableAndTimelineContainer,
+        focusSelector: '.wp-table--row',
+        occurrenceSelector: '.wp-table--row[data-work-package-id][data-class-identifier]',
+        rendered: () => table.renderedRows,
+        selectAll: (rows, anchor) => this.wpTableSelection.selectAll(rows, anchor),
+      }));
     }
+    const unregisterDeselectAll = registerWorkPackageDeselectAll({
+      root: table.tableAndTimelineContainer,
+      hasState: () => this.wpTableSelection.hasSelectionState,
+      clear: () => selectionGesture(table, 'selection', () => this.wpTableSelection.reset()),
+    });
+    onDestroySafely(destroyRef, unregisterDeselectAll);
+  }
+
+  private paintRows():void {
+    this.table.tableAndTimelineContainer
+      .querySelectorAll<HTMLElement>(`.${tableRowClassName}[data-work-package-id]`)
+      .forEach((row) => {
+        const workPackageId = row.dataset.workPackageId!;
+        paintRowSelection(row, {
+          selected: this.wpTableSelection.isSelected(workPackageId),
+          pressed: this.wpTableFocus.isFocused(workPackageId),
+        });
+      });
+    this.table.semantics?.paintSelection();
   }
 }

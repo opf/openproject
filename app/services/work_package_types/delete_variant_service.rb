@@ -21,6 +21,9 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
@@ -28,8 +31,7 @@ module WorkPackageTypes
   # Removes a named variant.
   #
   # What refuses it is on the model, where the database constraints it mirrors also are: a
-  # project applying the variant, or another variant borrowing configuration from it. Both
-  # arrive here as errors on the record.
+  # project applying the variant arrives here as an error on the record.
   class DeleteVariantService < ::BaseServices::Delete
     protected
 

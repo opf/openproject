@@ -1,3 +1,32 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 module XlsExport
   module Concerns
     module SpreadsheetBuilder
@@ -55,17 +84,25 @@ module XlsExport
 
       def column_values(object)
         columns.collect do |column|
-          format_attribute(object, column[:name], :csv)
+          format_attribute(object, column[:name], :xls)
         end
       end
 
       def set_column_format_options!(spreadsheet)
         columns.each_with_index do |column, i|
-          options = formatter_for(column[:name], :csv)
+          options = formatter_for(column[:name], :xls)
                       .format_options
 
-          spreadsheet.add_format_option_to_column i, options
+          column_format_indexes(i).each do |index|
+            spreadsheet.add_format_option_to_column index, options
+          end
         end
+      end
+
+      # The sheet columns the i-th exported column is written to.
+      # Exporters which shift or repeat the column block override this.
+      def column_format_indexes(index)
+        [index]
       end
 
       def spreadsheet_builder
@@ -73,6 +110,13 @@ module XlsExport
       end
 
       def headers
+        record_headers
+      end
+
+      # The headers of a single exported record. Exporters appending columns to
+      # #row extend this; exporters which shift or repeat the column block
+      # arrange them in #headers.
+      def record_headers
         columns.pluck(:caption)
       end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -60,8 +59,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   shared_let(:project) do
     create(:project,
            name: "Foo Bla. Report No. 4/2021 with/for Case 42",
-           types:,
-           work_package_custom_fields: [list_custom_field, text_custom_field_a, text_custom_field_b, link_custom_field])
+           types:)
   end
   shared_let(:user) do
     create(:user,
@@ -263,6 +261,31 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
         end
       end
 
+      context "when grouped by version", with_settings: { work_package_multiple_versions: false } do
+        let!(:version_two) { create(:version, project:, name: "2.0") }
+        let!(:version_one) { create(:version, project:, name: "1.0") }
+        let(:query_attributes) { { group_by: "version" } }
+
+        before do
+          create(:work_package_version, work_package: work_package_parent, version: version_two)
+          create(:work_package_version, work_package: work_package_parent, version: version_one)
+          create(:work_package_version, work_package: work_package_child, version: version_one)
+        end
+
+        it "groups each work package under its lowest-id target version" do
+          strings = pdf_strings_without_footers(1)
+          expect(strings).to eq [
+            query.name,
+            version_one.name,
+            *column_titles,
+            *work_package_columns(work_package_child),
+            version_two.name,
+            *column_titles,
+            *work_package_columns(work_package_parent)
+          ].join(" ")
+        end
+      end
+
       context "when grouped by target versions", with_settings: { work_package_multiple_versions: true } do
         let!(:version_two) { create(:version, project:, name: "2.0") }
         let!(:version_one) { create(:version, project:, name: "1.0") }
@@ -344,7 +367,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     describe "grouped by a hierarchy custom field", with_ee: %i[custom_field_hierarchies] do
       let!(:hierarchy_custom_field) do
-        create(:hierarchy_wp_custom_field, name: "Location", types: [type_task, type_bug], projects: [project])
+        create(:hierarchy_wp_custom_field, name: "Location", types: [type_task, type_bug])
       end
       let!(:hierarchy_items) do
         service = CustomFields::Hierarchy::HierarchicalItemService.new
@@ -399,7 +422,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     describe "grouped by a multi value hierarchy custom field with sums", with_ee: %i[custom_field_hierarchies] do
       let!(:multi_hierarchy_custom_field) do
-        create(:multi_hierarchy_wp_custom_field, name: "Locations", types: [type_task, type_bug], projects: [project])
+        create(:multi_hierarchy_wp_custom_field, name: "Locations", types: [type_task, type_bug])
       end
       let!(:multi_hierarchy_items) do
         service = CustomFields::Hierarchy::HierarchicalItemService.new

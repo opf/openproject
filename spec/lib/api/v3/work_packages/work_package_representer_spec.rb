@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,6 +30,8 @@
 require "spec_helper"
 
 RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
+  include WorkPackageTypes::VariantRoutes
+
   include API::V3::Utilities::PathHelper
 
   let(:member) { build_stubbed(:user) }
@@ -54,7 +55,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
   let(:spent_hours) { 0 }
   let(:derived_start_date) { Time.zone.today - 4.days }
   let(:derived_due_date) { Time.zone.today - 5.days }
-  let(:budget) { build_stubbed(:budget, project: workspace) }
   let(:duration) { nil }
   let(:ignore_non_working_days) { true }
   let(:work_package) do
@@ -73,7 +73,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
                   responsible:,
                   estimated_hours:,
                   derived_estimated_hours:,
-                  budget:,
                   ignore_non_working_days:,
                   status:) do |wp|
       allow(wp).to receive_messages(available_custom_fields:,
@@ -961,105 +960,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "budget" do
-      context "with the user having the view_budgets permission" do
-        let(:permissions) { [:view_budgets] }
-
-        it_behaves_like "has a titled link" do
-          let(:link) { "budget" }
-          let(:href) { "/api/v3/budgets/#{budget.id}" }
-          let(:title) { budget.subject }
-        end
-
-        it "has the budget embedded" do
-          expect(subject)
-            .to be_json_eql(budget.subject.to_json)
-                  .at_path("_embedded/budget/subject")
-        end
-
-        context "when a non-privileged user's response is cached before the current user reads it" do
-          let(:non_privileged_user) { build_stubbed(:user) }
-          let(:non_privileged_representer) do
-            described_class.create(work_package, current_user: non_privileged_user, embed_links:)
-          end
-
-          before do
-            # Non-privileged user renders first, warming the shared cache key
-            non_privileged_representer.to_json
-          end
-
-          it "still renders the real budget link for the user having view_budgets (regression AGILE-296)" do
-            expect(subject)
-              .to be_json_eql("/api/v3/budgets/#{budget.id}".to_json)
-                    .at_path("_links/budget/href")
-
-            expect(subject)
-              .to be_json_eql(budget.subject.to_json)
-                    .at_path("_links/budget/title")
-          end
-        end
-      end
-
-      context "with the user lacking the view_budgets permission" do
-        it "renders an undisclosed budget link" do
-          expect(subject)
-            .to be_json_eql(API::V3::URN_UNDISCLOSED.to_json)
-                  .at_path("_links/budget/href")
-
-          expect(subject)
-            .to be_json_eql(I18n.t(:"api_v3.undisclosed.budget").to_json)
-                  .at_path("_links/budget/title")
-        end
-
-        it "does not disclose the budget subject" do
-          expect(subject).not_to include(budget.subject)
-        end
-
-        it "has no budget embedded" do
-          expect(subject)
-            .not_to have_json_path("_embedded/budget")
-        end
-
-        it "does not instantiate a budget representer" do
-          allow(API::V3::Budgets::BudgetRepresenter).to receive(:create)
-          subject
-          expect(API::V3::Budgets::BudgetRepresenter).not_to have_received(:create)
-        end
-
-        context "when no budget is assigned" do
-          let(:budget) { nil }
-
-          it "renders an empty budget link" do
-            expect(subject)
-              .to be_json_eql(nil.to_json)
-                    .at_path("_links/budget/href")
-
-            expect(subject).not_to have_json_path("_links/budget/title")
-          end
-        end
-      end
-
-      context "when a privileged user's response is cached before the current user reads it" do
-        let(:privileged_user) { build_stubbed(:admin) }
-        let(:privileged_representer) do
-          described_class.create(work_package, current_user: privileged_user, embed_links:)
-        end
-
-        before do
-          # Privileged user renders first, warming the shared cache key
-          privileged_representer.to_json
-        end
-
-        it "renders an undisclosed budget link to the user lacking view_budgets (regression AGILE-296)" do
-          expect(subject)
-            .to be_json_eql(API::V3::URN_UNDISCLOSED.to_json)
-                  .at_path("_links/budget/href")
-
-          expect(subject).not_to include(budget.subject)
-        end
-      end
-    end
-
     describe "schema" do
       it_behaves_like "has an untitled link" do
         let(:link) { "schema" }
@@ -1260,30 +1160,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "timeEntries" do
-      context "when the user has the permission to view time entries" do
-        it_behaves_like "has a titled link" do
-          let(:link) { "timeEntries" }
-          let(:href) do
-            api_v3_paths.path_for(:time_entries,
-                                  filters: [
-                                    { entity_type: { operator: "=", values: ["WorkPackage"] } },
-                                    { entity_id: { operator: "=", values: [work_package.id.to_s] } }
-                                  ])
-          end
-          let(:title) { "Time entries" }
-        end
-      end
-
-      context "when the user does not have the permission to view time entries" do
-        let(:permissions) { all_permissions - [:view_time_entries] }
-
-        it "does not have a link to timeEntries" do
-          expect(subject).not_to have_json_path("_links/timeEntries/href")
-        end
-      end
-    end
-
     describe "linked relations" do
       let(:project) { create(:project, public: false) }
       let(:forbidden_project) { create(:project, public: false) }
@@ -1419,15 +1295,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       let(:permission) { :delete_work_packages }
     end
 
-    describe "logTime" do
-      it_behaves_like "has a titled action link" do
-        let(:link) { "logTime" }
-        let(:permission) { %i(log_time log_own_time) }
-        let(:href) { api_v3_paths.time_entries }
-        let(:title) { "Log time on work package '#{work_package.subject}'" }
-      end
-    end
-
     describe "move" do
       it_behaves_like "has a titled action link" do
         let(:link) { "move" }
@@ -1498,10 +1365,22 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "markdown" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "markdown" }
+        let(:href) { "/work_packages/#{work_package.id}.md" }
+        let(:title) { "Markdown version" }
+      end
+
+      it "has the Markdown media type" do
+        expect(subject).to be_json_eql("text/markdown".to_json).at_path("_links/markdown/type")
+      end
+    end
+
     # The HAL contract surface stays numeric in semantic mode so clients
     # can correlate work packages by comparing href strings (one
     # resource's `self` === another's `parent`, etc.). Auxiliary
-    # endpoints (`pdf`, `generate_pdf`, `atom`) follow the same convention.
+    # endpoints (`pdf`, `generate_pdf`, `atom`, `markdown`) follow the same convention.
     context "with semantic identifier mode active",
             with_settings: { work_packages_identifier: "semantic", feeds_enabled?: true } do
       let(:work_package) { build_stubbed(:work_package, identifier: "PROJ-7", project: workspace) }
@@ -1526,6 +1405,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         expect(subject).to be_json_eql("/work_packages/#{work_package.id}.atom".to_json)
                              .at_path("_links/atom/href")
       end
+
+      it "markdown href stays numeric" do
+        expect(subject).to be_json_eql("/work_packages/#{work_package.id}.md".to_json)
+                             .at_path("_links/markdown/href")
+      end
     end
 
     describe "changeParent" do
@@ -1543,15 +1427,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let(:link) { "availableWatchers" }
         let(:href) { api_v3_paths.available_watchers(work_package.id) }
         let(:permission) { :add_work_package_watchers }
-      end
-    end
-
-    describe "customFields" do
-      it_behaves_like "has a titled action link" do
-        let(:link) { "customFields" }
-        let(:permission) { :select_custom_fields }
-        let(:href) { project_settings_custom_fields_path(work_package.project.identifier) }
-        let(:title) { "Custom fields" }
       end
     end
 
@@ -1596,31 +1471,82 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "formConfiguration" do
+    describe "configureForm" do
       context "when not admin" do
         it_behaves_like "has no link" do
-          let(:link) { "formConfiguration" }
+          let(:link) { "configureForm" }
         end
       end
 
       context "when admin" do
         let(:current_user) { build_stubbed(:admin) }
+        # A stubbed type carries no base variant, and the link addresses the variant in force.
+        let(:type) { create(:type) }
+        let(:workspace) { create(:project, types: [type]) }
+        let(:work_package) { create(:work_package, project: workspace, type:) }
 
         it_behaves_like "has a titled link" do
           let(:link) { "configureForm" }
           let(:href) { edit_type_form_configuration_path(work_package.type_id) }
           let(:title) { "Configure form" }
         end
+
+        context "when the project applies a variant of the type" do
+          let(:variant) { create(:type_variant, type: create(:type), variant_name: "Mobile") }
+          let(:workspace) { create(:project, types: [variant]) }
+          let(:work_package) { create(:work_package, project: workspace, type: variant.type) }
+
+          it "points at the configuration in force rather than the type's own" do
+            expect(generated)
+              .to be_json_eql(edit_variant_form_configuration_path(variant.project, variant).to_json)
+                    .at_path("_links/configureForm/href")
+          end
+
+          context "when the project owns that variant" do
+            before { variant.update!(project: workspace) }
+
+            it "addresses it through the owning project" do
+              href = "/projects/#{workspace.identifier}/settings/work_packages" \
+                     "/types/#{variant.type_id}/variants/#{variant.id}/form_configuration/edit"
+
+              expect(generated).to be_json_eql(href.to_json).at_path("_links/configureForm/href")
+            end
+          end
+        end
+      end
+
+      context "when allowed to manage the project's own variants" do
+        let(:permissions) { all_permissions + [:manage_project_variants] }
+        let(:variant) { create(:type_variant, type: create(:type), variant_name: "Mobile") }
+        let(:workspace) { create(:project, types: [variant]) }
+        let(:work_package) { create(:work_package, project: workspace, type: variant.type) }
+
+        context "when the project owns the applied variant" do
+          before { variant.update!(project: workspace) }
+
+          it_behaves_like "has a titled link" do
+            let(:link) { "configureForm" }
+            let(:href) { edit_variant_form_configuration_path(variant.project, variant) }
+            let(:title) { "Configure form" }
+          end
+        end
+
+        # The type-level URL these resolve to is administration's alone, so a link would only 403.
+        context "when the applied variant belongs to no project" do
+          it_behaves_like "has no link" do
+            let(:link) { "configureForm" }
+          end
+        end
       end
     end
 
     describe "customActions" do
       it "has a collection of customActions" do
-        unassign_action = build_stubbed(:custom_action,
-                                        actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
+        unassign_action = build_stubbed(:automation, :with_button_trigger,
+                                        actions: [Automations::Actions::AssignedTo.new],
                                         name: "Unassign")
         allow(work_package)
-          .to receive(:custom_actions)
+          .to receive(:automations)
                 .and_return([unassign_action])
 
         expected = [
@@ -1731,11 +1657,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
     describe "customActions" do
       it "has an array of customActions" do
-        unassign_action = build_stubbed(:custom_action,
-                                        actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
+        unassign_action = build_stubbed(:automation, :with_button_trigger,
+                                        actions: [Automations::Actions::AssignedTo.new],
                                         name: "Unassign")
         allow(work_package)
-          .to receive(:custom_actions)
+          .to receive(:automations)
                 .and_return([unassign_action])
 
         expect(subject)
@@ -1905,6 +1831,84 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           it "does not have this meta field without a query given" do
             expect(subject)
               .not_to have_json_path("_meta/matchesFilters")
+          end
+        end
+      end
+
+      describe "update links" do
+        context "when the last timestamp is the current one" do
+          let(:timestamps) { [Timestamp.new(1.week.ago), Timestamp.now] }
+
+          it_behaves_like "has an untitled link" do
+            let(:link) { "update" }
+            let(:href) { api_v3_paths.work_package_form(work_package.id) }
+          end
+
+          it_behaves_like "has an untitled link" do
+            let(:link) { "updateImmediately" }
+            let(:href) { api_v3_paths.work_package(work_package.id) }
+          end
+        end
+
+        context "when the last timestamp is historic" do
+          let(:timestamps) { [Timestamp.new(1.week.ago)] }
+
+          it_behaves_like "has no link" do
+            let(:link) { "update" }
+          end
+
+          it_behaves_like "has no link" do
+            let(:link) { "updateImmediately" }
+          end
+        end
+
+        context "when both timestamps are historic" do
+          let(:timestamps) { [Timestamp.new(2.weeks.ago), Timestamp.new(1.week.ago)] }
+
+          it_behaves_like "has no link" do
+            let(:link) { "update" }
+          end
+
+          it_behaves_like "has no link" do
+            let(:link) { "updateImmediately" }
+          end
+        end
+
+        context "when just rendered without timestamps" do
+          before do
+            described_class
+              .create(work_package, current_user:, embed_links:, timestamps: [], query: nil)
+              .to_json
+          end
+
+          let(:timestamps) { [Timestamp.new(1.hour.ago)] }
+
+          it_behaves_like "has no link" do
+            let(:link) { "update" }
+          end
+
+          it_behaves_like "has no link" do
+            let(:link) { "updateImmediately" }
+          end
+        end
+
+        context "when just rendered with timestamps" do
+          before do
+            described_class
+              .create(work_package, current_user:, embed_links:, timestamps: [Timestamp.new(1.hour.ago)], query: nil)
+              .to_json
+          end
+
+          let(:timestamps) { [] }
+
+          it_behaves_like "has an untitled link" do
+            let(:link) { "update" }
+            let(:href) { api_v3_paths.work_package_form(work_package.id) }
+          end
+
+          it_behaves_like "has an untitled link" do
+            let(:link) { "updateImmediately" }
+            let(:href) { api_v3_paths.work_package(work_package.id) }
           end
         end
       end

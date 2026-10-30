@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -106,6 +105,22 @@ RSpec.describe Import::JiraUser do
         fallback = I18n.t(described_class::FALLBACK_NAME_KEY)
         expect(attributes[:firstname]).to eq(fallback)
         expect(attributes[:lastname]).to eq(fallback)
+      end
+    end
+
+    context "with a time zone OpenProject offers under another name" do
+      let(:payload) { { "displayName" => "Alice Smith", "name" => "asmith", "timeZone" => "Asia/Calcutta" } }
+
+      it "sets the time zone by its canonical name" do
+        expect(attributes[:pref]).to eq(time_zone: "Asia/Kolkata")
+      end
+    end
+
+    context "with a time zone OpenProject does not offer" do
+      let(:payload) { { "displayName" => "Alice Smith", "name" => "asmith", "timeZone" => "America/Toronto" } }
+
+      it "leaves the time zone to OpenProject's default" do
+        expect(attributes[:pref]).to be_empty
       end
     end
   end

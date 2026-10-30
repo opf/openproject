@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -48,7 +47,8 @@ module Import
         firstname: firstname.presence || I18n.t(FALLBACK_NAME_KEY),
         lastname: lastname.presence || I18n.t(FALLBACK_NAME_KEY),
         mail:,
-        status: :locked
+        status: :locked,
+        pref: { time_zone: }.compact
       }
     end
 
@@ -61,6 +61,20 @@ module Import
     end
 
     private
+
+    def time_zone
+      canonical_time_zone_name.presence_in(assignable_time_zone_names)
+    end
+
+    def canonical_time_zone_name
+      return if payload["timeZone"].blank?
+
+      ActiveSupport::TimeZone[payload["timeZone"]]&.tzinfo&.canonical_identifier
+    end
+
+    def assignable_time_zone_names
+      UserPreferences::UpdateContract.assignable_time_zones.map { |zone| zone.tzinfo.canonical_identifier }
+    end
 
     def sanitize_name(name)
       name.gsub(User::INVALID_NAME_REGEX, "").strip

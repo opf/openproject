@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -50,18 +49,11 @@ module Storages::Admin::ManagedProjectFolders
     private
 
     def application_password_caption
-      I18n.t(:"storages.instructions.managed_project_folders_application_password_caption",
-             provider_type_link:).html_safe
-    end
-
-    def provider_type_link
-      render(
-        Primer::Beta::Link.new(
-          href: Storages::UrlBuilder.url(@storage.uri, "settings/admin/openproject"),
-          underline: true,
-          target: "_blank"
-        )
-      ) { I18n.t("storages.instructions.#{@storage}.integration") }
+      helpers.link_translate(
+        "storages.instructions.managed_project_folders_application_password_caption_html",
+        i18n_args: { integration: I18n.t("storages.instructions.#{@storage}.integration") },
+        links: { provider_settings: Storages::UrlBuilder.url(@storage.uri, "settings/admin/openproject") }
+      )
     end
   end
 end

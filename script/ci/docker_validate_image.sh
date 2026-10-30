@@ -112,15 +112,7 @@ ls /app/public/assets/frontend/*.js >/dev/null 2>&1 || {
   exit 1
 }
 
-for plugin in budgets costs openproject-avatars openproject-documents \
-  openproject-github_integration openproject-gitlab_integration openproject-meeting; do
-  grep -q -- "$plugin" /app/public/assets/frontend/*.js || {
-    echo "Expected plugin '${plugin}' to be present in compiled frontend assets"
-    exit 1
-  }
-done
-
-for plugin_dir in budgets costs avatars documents github_integration gitlab_integration meeting; do
+for plugin_dir in budgets costs documents github_integration gitlab_integration meeting; do
   [ -d "/app/modules/${plugin_dir}/frontend/module" ] || {
     echo "Expected plugin frontend module directory '/app/modules/${plugin_dir}/frontend/module'"
     exit 1

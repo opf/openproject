@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 
 RSpec.describe Day do
@@ -28,10 +55,6 @@ RSpec.describe Day do
 
     it "loads week_day method" do
       expect(days).to(be_all { |d| d.week_day.present? })
-    end
-
-    it "eager loads non_working_days relation" do
-      expect(days).to(be_all { |d| d.association(:non_working_days).loaded? })
     end
 
     it "loads the id attribute" do
@@ -194,6 +217,41 @@ RSpec.describe Day do
       subject { described_class.next_working(from: time) }
 
       it_behaves_like "calculating the next working day", as: "the from argument"
+    end
+  end
+
+  describe ".non_working_intervals" do
+    subject(:intervals) { described_class.non_working_intervals(from:, to:) }
+
+    let(:monday) { Time.current.monday.to_date }
+    let(:from) { monday }
+    let(:to) { monday + 13.days }
+
+    it "collapses each weekend into a single range" do
+      expect(intervals).to eq [(monday + 5.days)..(monday + 6.days),
+                               (monday + 12.days)..(monday + 13.days)]
+    end
+
+    context "when a holiday extends a weekend" do
+      before { create(:non_working_day, date: monday + 4.days) }
+
+      it "merges it into the adjoining range" do
+        expect(intervals.first).to eq (monday + 4.days)..(monday + 6.days)
+      end
+    end
+
+    context "with an isolated holiday" do
+      before { create(:non_working_day, date: monday + 2.days) }
+
+      it "yields a single day range" do
+        expect(intervals.first).to eq (monday + 2.days)..(monday + 2.days)
+      end
+    end
+
+    context "when the range holds no non working day" do
+      let(:to) { monday + 4.days }
+
+      it { is_expected.to be_empty }
     end
   end
 

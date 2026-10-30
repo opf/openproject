@@ -22,26 +22,18 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Workflows
-  # Rewrites one tab of a variant's transition matrix for every selected role, delegating
-  # the per-role write to BulkUpdateService so that either all roles are updated or none.
-  #
-  # Accepts the matrix straight from the submitted form, so that every context showing
-  # the matrix — the workflow tab, the type creation wizard — persists it identically.
   class MatrixUpdateService
     def initialize(context:)
       @context = context
     end
 
-    # A linked variant reuses its source's transitions and must never have its own rewritten.
     def call(status: nil, indeterminate_status: nil)
-      return ServiceResult.success if variant.linked?(TypeVariant::WORKFLOWS)
       return ServiceResult.failure unless context.explicit_selection?
 
       persist(transitions: matrix(status), indeterminate: matrix(indeterminate_status))
@@ -51,12 +43,12 @@ module Workflows
 
     attr_reader :context
 
-    delegate :variant, :roles, :tab, to: :context
+    delegate :workflow, :roles, :tab, to: :context
 
     def persist(transitions:, indeterminate:)
       results = []
 
-      Workflow.transaction do
+      Workflows::StatusTransition.transaction do
         results = roles.map { update_role(it, transitions, indeterminate) }
         raise ActiveRecord::Rollback unless results.all?(&:success?)
       end
@@ -71,7 +63,7 @@ module Workflows
                            restore_indeterminate(transitions, indeterminate, role)
                          end
 
-      BulkUpdateService.new(role:, variant:, tab:).call(role_transitions)
+      BulkUpdateService.new(role:, workflow:, tab:).call(role_transitions)
     end
 
     # With several roles selected, a transition only some of them share renders as an
@@ -98,8 +90,9 @@ module Workflows
     # read once up front rather than per cell. Safe to reuse across roles even as they are
     # written: a role's write only ever touches its own rows.
     def saved_transitions
-      @saved_transitions ||= Workflow
-                               .where(type_variant_id: variant.id, role_id: roles.map(&:id), author: author?, assignee: assignee?)
+      @saved_transitions ||= Workflows::StatusTransition
+                               .where(workflow_id: workflow.id, role_id: roles.map(&:id),
+                                      author: author?, assignee: assignee?)
                                .pluck(:role_id, :old_status_id, :new_status_id)
                                .to_set
     end

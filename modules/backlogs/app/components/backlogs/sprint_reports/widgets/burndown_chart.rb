@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Backlogs
   module SprintReports
@@ -39,10 +38,14 @@ module Backlogs
           t("backlogs.show_burndown_chart")
         end
 
+        # Timestamps go out as UTC; the chart renders them in the viewer's zone. They sit at
+        # period ends, so the chart needs the step to label them the way a reader expects.
         def chart_data
           {
-            labels: xaxis_labels(burndown),
-            datasets: dataseries(burndown)
+            step: burndown.step,
+            range: charted_range,
+            series: series,
+            nonWorkingIntervals: non_working_intervals
           }.to_json
         end
 
@@ -55,27 +58,33 @@ module Backlogs
         def burndown
           return nil unless sprint.date_range_set?
 
-          @burndown ||= Burndown.new(sprint, project)
+          @burndown ||= ::Sprints::Burndown.new(sprint:, project:)
         end
 
-        def xaxis_labels(burndown)
-          # 14 entries (plus the axis label) have come along as the best value for a good optical result.
-          # Thus it is enough space between the entries.
-          entries_displayed = (burndown.days.length / 14.0).ceil
-          burndown.days.enum_for(:each_with_index).map do |d, i|
-            if (i % entries_displayed) == 0
-              ["#{::I18n.t('date.abbr_day_names')[d.wday % 7]} #{d.strftime('%d/%m')}"]
-            end
-          end
+        def series
+          { remaining: burndown.remaining,
+            guideline: burndown.guideline,
+            projection: burndown.projection }
+            .reject { |_, points| points.empty? }
+            .map { |id, points| { id:, label: t("backlogs.burndown_chart.series.#{id}"), data: points_for(points) } }
         end
 
-        def dataseries(burndown)
-          burndown.series.map do |s|
-            {
-              label: I18n.t("burndown.#{s.first}"),
-              data: s.last.enum_for(:each)
-            }
-          end
+        # Both coordinates are cut to what the chart can read: milliseconds, and a thousandth of a
+        # story point. The guideline and the projection divide a sum across the working days left,
+        # so without the rounding they would go out carrying every digit that division produced into the JSON.
+        def points_for(points)
+          points.map { { x: it.at.utc.iso8601(3), y: it.value.round(3) } }
+        end
+
+        # Could also use the timespan covered by the data, but this way is simpler.
+        # The goal is for all time-based charts to cover the same timespan.
+        def charted_range
+          { from: burndown.charted_range.first.utc.iso8601(3),
+            to: burndown.charted_range.last.utc.iso8601(3) }
+        end
+
+        def non_working_intervals
+          burndown.non_working_intervals.map { { from: it.first.iso8601, to: it.last.iso8601 } }
         end
       end
     end

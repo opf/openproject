@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,16 +48,14 @@ RSpec.describe "Work package index sums", :js do
   end
   let!(:int_cf) do
     create(:integer_wp_custom_field) do |cf|
-      project.work_package_custom_fields << cf
-      type_bug.default_variant.custom_fields << cf
-      type_task.default_variant.custom_fields << cf
+      type_bug.default_variant.custom_field_ids |= [cf.id]
+      type_task.default_variant.custom_field_ids |= [cf.id]
     end
   end
   let!(:float_cf) do
     create(:float_wp_custom_field) do |cf|
-      project.work_package_custom_fields << cf
-      type_bug.default_variant.custom_fields << cf
-      type_task.default_variant.custom_fields << cf
+      type_bug.default_variant.custom_field_ids |= [cf.id]
+      type_task.default_variant.custom_field_ids |= [cf.id]
     end
   end
   let!(:work_package1) do
@@ -86,7 +83,7 @@ RSpec.describe "Work package index sums", :js do
   # labor costs
   let!(:hourly_rate) do
     create(:default_hourly_rate,
-           user:,
+           principal: user,
            rate: 10.00)
   end
   let!(:time_entry) do
@@ -301,6 +298,7 @@ RSpec.describe "Work package index sums", :js do
 
       # Expect 2 work packages shown
       expect(page).to have_row("WorkPackage", count: 2) # works because the subject name includes "WorkPackage"
+      expect(page).to have_row("Total sum", count: 1)
 
       # Expect the total sums row to have changed
       aggregate_failures do
