@@ -35,7 +35,7 @@ class FormConfigurationAttribute < ApplicationRecord
              class_name: "FormConfigurationGroup",
              foreign_key: :form_configuration_group_id,
              optional: true,
-             inverse_of: :members
+             inverse_of: :form_attributes
   belongs_to :custom_field, class_name: "WorkPackageCustomField", optional: true
 
   acts_as_list scope: :form_configuration_group, add_new_at: nil

@@ -34,18 +34,18 @@ RSpec.describe "Moving form configuration groups and attributes", :skip_csrf, ty
   let(:form) { create(:form_configuration) }
   let!(:details) { create(:form_configuration_group, form_configuration: form, label: "Details") }
   let!(:other) { create(:form_configuration_group, form_configuration: form, label: "Other") }
-  let!(:assignee) { membership("assignee", details, 1) }
-  let!(:priority) { membership("priority", details, 2) }
+  let!(:assignee) { form_attribute("assignee", details, 1) }
+  let!(:priority) { form_attribute("priority", details, 2) }
   let(:headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
 
   current_user { admin }
 
-  def membership(key, group = nil, position = nil)
+  def form_attribute(key, group = nil, position = nil)
     create(:form_configuration_attribute, form_configuration: form, group:, position:, attribute_key: key)
   end
 
   def group_order = form.form_groups.reload.map(&:label)
-  def members(group) = group.members.reload.map(&:key)
+  def attribute_keys(group) = group.form_attributes.reload.map(&:key)
 
   describe "PUT /forms/:id/groups/:id/move" do
     def move_group(group, params)
@@ -110,7 +110,7 @@ RSpec.describe "Moving form configuration groups and attributes", :skip_csrf, ty
 
       expect(response).to have_http_status(:ok)
       expect(response.body.scan('method="morph"').size).to eq(2)
-      expect(members(other)).to eq(%w[priority])
+      expect(attribute_keys(other)).to eq(%w[priority])
     end
 
     it "deactivates into the inactive list", :aggregate_failures do
@@ -133,11 +133,11 @@ RSpec.describe "Moving form configuration groups and attributes", :skip_csrf, ty
         move_attribute(priority, params.call(self))
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(members(details)).to eq(%w[assignee priority])
+        expect(attribute_keys(details)).to eq(%w[assignee priority])
       end
     end
 
-    it "reconciles the form's memberships before moving", :aggregate_failures do
+    it "reconciles the form's attribute records before moving", :aggregate_failures do
       custom_field = create(:wp_custom_field)
       expect(form.form_attributes.where(custom_field:)).to be_empty
 
@@ -147,7 +147,7 @@ RSpec.describe "Moving form configuration groups and attributes", :skip_csrf, ty
       expect(form.form_attributes.where(custom_field:)).to contain_exactly(an_object_having_attributes(active?: false))
     end
 
-    it "answers 404 for a membership of another form" do
+    it "answers 404 for an attribute of another form" do
       move_attribute(create(:form_configuration_attribute), list_type: "inactive_attribute")
 
       expect(response).to have_http_status(:not_found)
@@ -161,18 +161,18 @@ RSpec.describe "Moving form configuration groups and attributes", :skip_csrf, ty
 
       before { custom_field.destroy! }
 
-      it "answers 404 when its row is dragged" do
+      it "answers 404 when its attribute is dragged" do
         put("/forms/#{form.id}/attributes/#{stale.id}/move",
             params: { list_type: "attribute", list_id: other.id.to_s, prev_id: "" }, headers:)
 
         expect(response).to have_http_status(:not_found)
       end
 
-      it "answers 422 when its row is the anchor", :aggregate_failures do
+      it "answers 422 when its attribute is the anchor", :aggregate_failures do
         move_attribute(assignee, list_type: "attribute", list_id: details.id.to_s, prev_id: stale.id.to_s)
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(members(details)).to eq(%w[assignee priority])
+        expect(attribute_keys(details)).to eq(%w[assignee priority])
       end
     end
   end

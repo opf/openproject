@@ -102,7 +102,7 @@ RSpec.describe FormConfiguration do
 
       form.update!(attribute_groups: [["Planning", %w[date]], [:details, %w[priority assignee]]])
 
-      expect(form.reload.form_groups.find_by(default_key: "details").members.map(&:id)).to include(assignee.id)
+      expect(form.reload.form_groups.find_by(default_key: "details").form_attributes.map(&:id)).to include(assignee.id)
     end
 
     it "keeps the row of an attribute taken off the form, as inactive" do

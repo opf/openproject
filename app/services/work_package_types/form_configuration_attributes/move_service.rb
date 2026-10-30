@@ -28,7 +28,7 @@
 #++
 
 module WorkPackageTypes
-  module FormConfigurationRows
+  module FormConfigurationAttributes
     class MoveService < ::WorkPackageTypes::FormConfiguration::BaseMoveService
       SortableTypes = ::WorkPackageTypes::FormConfiguration::SortableTypes
 
@@ -38,37 +38,37 @@ module WorkPackageTypes
         form_configuration.form_attributes.find_by(id: @record.id)
       end
 
-      def move(membership)
+      def move(attribute)
         case params[:list_type]
-        when SortableTypes::INACTIVE_ATTRIBUTE then deactivate(membership)
-        when SortableTypes::ATTRIBUTE then place(membership)
+        when SortableTypes::INACTIVE_ATTRIBUTE then deactivate(attribute)
+        when SortableTypes::ATTRIBUTE then place(attribute)
         else invalid_move
         end
       end
 
-      def deactivate(membership)
+      def deactivate(attribute)
         return invalid_move if params[:list_id].present?
 
-        membership.deactivate!
-        ServiceResult.success(result: membership)
+        attribute.deactivate!
+        ServiceResult.success(result: attribute)
       end
 
-      def place(membership)
+      def place(attribute)
         group = target_group
-        return invalid_move if group.nil? || !params.key?(:prev_id) || !offered?(membership)
+        return invalid_move if group.nil? || !params.key?(:prev_id) || !offered?(attribute)
 
-        placed?(membership, group) ? ServiceResult.success(result: membership) : invalid_move
+        placed?(attribute, group) ? ServiceResult.success(result: attribute) : invalid_move
       end
 
-      def placed?(membership, group)
-        if membership.form_configuration_group_id == group.id
-          return membership.move_after_anchor(params[:prev_id], scope: group.members)
+      def placed?(attribute, group)
+        if attribute.form_configuration_group_id == group.id
+          return attribute.move_after_anchor(params[:prev_id], scope: group.form_attributes)
         end
 
-        position = membership.position_after_anchor(params[:prev_id], scope: group.members)
+        position = attribute.position_after_anchor(params[:prev_id], scope: group.form_attributes)
         return false if position.nil?
 
-        membership.place!(group:, position:)
+        attribute.place!(group:, position:)
         true
       end
 
@@ -78,8 +78,8 @@ module WorkPackageTypes
         form_configuration.form_groups.kind_attribute.find_by(id:) if id
       end
 
-      def offered?(membership)
-        form_configuration.work_package_attributes.key?(membership.key)
+      def offered?(attribute)
+        form_configuration.work_package_attributes.key?(attribute.key)
       end
     end
   end

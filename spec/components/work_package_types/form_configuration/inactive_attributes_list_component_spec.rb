@@ -32,8 +32,8 @@ require "rails_helper"
 RSpec.describe WorkPackageTypes::FormConfiguration::InactiveAttributesListComponent, type: :component do
   include_context "with a form configuration editor context"
 
-  let(:membership) { create(:form_configuration_attribute, form_configuration: variant.form_configuration) }
-  let(:attribute) { { id: membership.id, key: "assignee", is_cf: false, translation: "Assignee" } }
+  let(:form_attribute) { create(:form_configuration_attribute, form_configuration: variant.form_configuration) }
+  let(:attribute) { { id: form_attribute.id, key: "assignee", is_cf: false, translation: "Assignee" } }
 
   def render_list(inactive_attributes)
     render_inline(described_class.new(context: editor_context, inactive_attributes:))
@@ -42,7 +42,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::InactiveAttributesListCompon
   it "lists each inactive attribute as a sortable attribute item", :aggregate_failures do
     render_list([attribute])
 
-    expect(page).to have_sortable_item(membership, type: "attribute", label: "Assignee")
+    expect(page).to have_sortable_item(form_attribute, type: "attribute", label: "Assignee")
     expect(page).to have_button(accessible_name: "Drag to reorder", count: 1) do |handle|
       handle["data-sortable-lists--item-target"] == "handle"
     end

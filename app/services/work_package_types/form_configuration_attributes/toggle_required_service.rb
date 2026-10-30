@@ -28,13 +28,13 @@
 #++
 
 module WorkPackageTypes
-  module FormConfigurationRows
+  module FormConfigurationAttributes
     class ToggleRequiredService < ::BaseServices::BaseCallable
-      def initialize(user:, variant:, row_key:)
+      def initialize(user:, variant:, attribute_key:)
         super()
         @user = user
         @variant = variant
-        @row_key = row_key.to_s.strip
+        @attribute_key = attribute_key.to_s.strip
       end
 
       def perform
@@ -52,7 +52,7 @@ module WorkPackageTypes
 
       def on_form?
         variant.form_attribute_groups.any? do |group|
-          group.group_type == :attribute && group.attributes.any? { |attribute| attribute.to_s.strip == @row_key }
+          group.group_type == :attribute && group.attributes.any? { |attribute| attribute.to_s.strip == @attribute_key }
         end
       end
 
@@ -74,8 +74,8 @@ module WorkPackageTypes
       def custom_field
         return @custom_field if defined?(@custom_field)
 
-        @custom_field = if CustomField.custom_field_attribute?(@row_key)
-                          WorkPackageCustomField.find_by(id: @row_key.delete_prefix("custom_field_").to_i)
+        @custom_field = if CustomField.custom_field_attribute?(@attribute_key)
+                          WorkPackageCustomField.find_by(id: @attribute_key.delete_prefix("custom_field_").to_i)
                         end
       end
 
@@ -93,7 +93,7 @@ module WorkPackageTypes
       def next_required_attributes
         current = variant[:required_attributes].map(&:to_s)
 
-        current.include?(@row_key) ? current - [@row_key] : current | [@row_key]
+        current.include?(@attribute_key) ? current - [@attribute_key] : current | [@attribute_key]
       end
     end
   end

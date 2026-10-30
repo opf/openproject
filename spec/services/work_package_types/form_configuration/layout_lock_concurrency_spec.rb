@@ -45,7 +45,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::LayoutLock, "concurrent move
 
   def move_to_top_of_other(record)
     ActiveRecord::Base.connection_pool.with_connection do
-      WorkPackageTypes::FormConfigurationRows::MoveService
+      WorkPackageTypes::FormConfigurationAttributes::MoveService
         .new(user: admin, form_configuration: FormConfiguration.find(form.id), record:)
         .call(list_type: "attribute", list_id: other.id.to_s, prev_id: "")
     end
@@ -83,9 +83,9 @@ RSpec.describe WorkPackageTypes::FormConfiguration::LayoutLock, "concurrent move
     results = [first, second].map { it.join(5)&.value }
 
     expect(results).to all(be_success)
-    expect(other.members.reload.map(&:key)).to eq(%w[date priority])
-    expect(other.members.map(&:position)).to eq([1, 2])
-    expect(details.members.reload).to be_empty
+    expect(other.form_attributes.reload.map(&:key)).to eq(%w[date priority])
+    expect(other.form_attributes.map(&:position)).to eq([1, 2])
+    expect(details.form_attributes.reload).to be_empty
   ensure
     release_first&.set
     [first, second].compact.each { it.join(5) || it.kill }

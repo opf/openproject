@@ -138,7 +138,7 @@ RSpec.describe FormConfigurationGroup do
       expect { group.destroy! }.to change(Query, :count).by(-1)
     end
 
-    it "refuses to destroy a group that still holds active members" do
+    it "refuses to destroy a group that still holds active attributes" do
       group = create(:form_configuration_group, form_configuration: form)
       create(:form_configuration_attribute, form_configuration: form, group:, position: 1, attribute_key: "subject")
 

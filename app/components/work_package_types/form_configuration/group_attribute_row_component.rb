@@ -93,13 +93,13 @@ module WorkPackageTypes
         else
           arguments.merge(
             tag: :a,
-            href: row_toggle_required_path,
+            href: attribute_toggle_required_path,
             data: { turbo_method: :put, turbo_stream: true }
           )
         end
       end
 
-      def row_toggle_required_path
+      def attribute_toggle_required_path
         @context.toggle_required_path(@attribute[:key])
       end
 
@@ -132,8 +132,8 @@ module WorkPackageTypes
         }
       end
 
-      def row_destroy_path
-        @context.row_path(row_key: @attribute[:key])
+      def destroy_path
+        @context.attribute_path(attribute_key: @attribute[:key])
       end
     end
   end

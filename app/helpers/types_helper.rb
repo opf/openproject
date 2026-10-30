@@ -143,11 +143,11 @@ module ::TypesHelper
     # This way attributes that were created after the las group definitions
     # will fall back into the inactives group.
     inactive = available.clone
-    membership_ids = variant.try(:membership_ids) || {}
+    record_ids = variant.try(:record_ids_by_key) || {}
 
-    active_form = get_active_groups(variant, available, inactive, membership_ids)
+    active_form = get_active_groups(variant, available, inactive, record_ids)
     inactive_form = inactive
-                      .map { |key, attribute| attr_form_map(key, attribute, id: membership_ids[key.to_s]) }
+                      .map { |key, attribute| attr_form_map(key, attribute, id: record_ids[key.to_s]) }
                       .sort_by { |attr| attr[:translation] }
 
     {
@@ -156,12 +156,12 @@ module ::TypesHelper
     }
   end
 
-  def active_group_attributes_map(group, available, inactive, required_keys: [], membership_ids: {})
+  def active_group_attributes_map(group, available, inactive, required_keys: [], record_ids: {})
     return nil unless group.group_type == :attribute
 
     group.attributes
          .select { |key| inactive.delete(key) }
-         .map! { |key| attr_form_map(key, available[key], id: membership_ids[key.to_s], required_keys:) }
+         .map! { |key| attr_form_map(key, available[key], id: record_ids[key.to_s], required_keys:) }
   end
 
   def query_to_query_props(group)
@@ -185,7 +185,7 @@ module ::TypesHelper
   # Collect active attributes from the current form configuration.
   # Using the available attributes from +work_package_attributes+,
   # determines which attributes are not used
-  def get_active_groups(variant, available, inactive, membership_ids = {})
+  def get_active_groups(variant, available, inactive, record_ids = {})
     required_keys = variant.required_attributes.map(&:to_s)
 
     variant.attribute_groups.map do |group|
@@ -195,7 +195,7 @@ module ::TypesHelper
         type: group.group_type,
         name: group.translated_key,
         element_key: exclusion_element_key(group),
-        attributes: active_group_attributes_map(group, available, inactive, required_keys:, membership_ids:),
+        attributes: active_group_attributes_map(group, available, inactive, required_keys:, record_ids:),
         query: query_to_query_props(group)
       }
     end

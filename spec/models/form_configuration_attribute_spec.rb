@@ -102,7 +102,7 @@ RSpec.describe FormConfigurationAttribute do
       expect(in_query_group.errors[:group]).to be_present
     end
 
-    it "keeps one membership per attribute and owner at the database level" do
+    it "keeps one record per attribute and owner at the database level" do
       create(:form_configuration_attribute, form_configuration: form, attribute_key: "date")
       create(:form_configuration_attribute, form_configuration: form, custom_field:)
 
@@ -113,50 +113,50 @@ RSpec.describe FormConfigurationAttribute do
     end
 
     it "is removed when its custom field is deleted" do
-      membership = create(:form_configuration_attribute, form_configuration: form, custom_field:)
+      form_attribute = create(:form_configuration_attribute, form_configuration: form, custom_field:)
 
       custom_field.destroy!
 
-      expect(described_class.where(id: membership.id)).not_to exist
+      expect(described_class.where(id: form_attribute.id)).not_to exist
     end
   end
 
   describe "placement" do
-    let!(:subject_row) do
+    let!(:subject_attribute) do
       create(:form_configuration_attribute, form_configuration: form, group:, position: 1, attribute_key: "subject")
     end
-    let!(:date_row) do
+    let!(:date_attribute) do
       create(:form_configuration_attribute, form_configuration: form, group:, position: 2, attribute_key: "date")
     end
-    let!(:inactive_row) { create(:form_configuration_attribute, form_configuration: form, attribute_key: "priority") }
+    let!(:inactive_attribute) { create(:form_configuration_attribute, form_configuration: form, attribute_key: "priority") }
 
     it "is created inactive without a position when no group is given" do
-      expect(inactive_row).not_to be_active
-      expect(inactive_row.position).to be_nil
-      expect(described_class.inactive).to contain_exactly(inactive_row)
+      expect(inactive_attribute).not_to be_active
+      expect(inactive_attribute.position).to be_nil
+      expect(described_class.inactive).to contain_exactly(inactive_attribute)
       check_deferred_constraints!
     end
 
-    it "scopes active memberships to the placed rows" do
-      expect(described_class.active).to contain_exactly(subject_row, date_row)
+    it "scopes active records to the placed attributes" do
+      expect(described_class.active).to contain_exactly(subject_attribute, date_attribute)
       check_deferred_constraints!
     end
 
     it "activates into a group at the requested position and shifts the neighbors" do
-      id = inactive_row.id
-      inactive_row.place!(group:, position: 1)
+      id = inactive_attribute.id
+      inactive_attribute.place!(group:, position: 1)
 
-      expect(group.members.reload.pluck(:attribute_key, :position))
+      expect(group.form_attributes.reload.pluck(:attribute_key, :position))
         .to eq [["priority", 1], ["subject", 2], ["date", 3]]
       expect(described_class.find(id)).to have_attributes(form_configuration_group_id: group.id, position: 1)
       check_deferred_constraints!
     end
 
     it "moves within the group with place! and keeps its id" do
-      id = date_row.id
-      date_row.place!(group:, position: 1)
+      id = date_attribute.id
+      date_attribute.place!(group:, position: 1)
 
-      expect(group.members.reload.pluck(:attribute_key, :position)).to eq [["date", 1], ["subject", 2]]
+      expect(group.form_attributes.reload.pluck(:attribute_key, :position)).to eq [["date", 1], ["subject", 2]]
       expect(described_class.find(id)).to have_attributes(form_configuration_group_id: group.id, position: 1)
       check_deferred_constraints!
     end
@@ -166,60 +166,60 @@ RSpec.describe FormConfigurationAttribute do
       create(:form_configuration_attribute, form_configuration: form, group: other_group, position: 1,
                                             attribute_key: "assignee")
 
-      subject_row.place!(group: other_group, position: 1)
+      subject_attribute.place!(group: other_group, position: 1)
 
-      expect(group.members.reload.pluck(:attribute_key, :position)).to eq [["date", 1]]
-      expect(other_group.members.reload.pluck(:attribute_key, :position)).to eq [["subject", 1], ["assignee", 2]]
+      expect(group.form_attributes.reload.pluck(:attribute_key, :position)).to eq [["date", 1]]
+      expect(other_group.form_attributes.reload.pluck(:attribute_key, :position)).to eq [["subject", 1], ["assignee", 2]]
       check_deferred_constraints!
     end
 
     it "deactivates, compacting the group it left, and leaves an empty group intact" do
-      subject_row.deactivate!
-      date_row.deactivate!
+      subject_attribute.deactivate!
+      date_attribute.deactivate!
 
-      expect(subject_row.reload).not_to be_active
-      expect(subject_row.position).to be_nil
-      expect(group.reload.members).to be_empty
+      expect(subject_attribute.reload).not_to be_active
+      expect(subject_attribute.position).to be_nil
+      expect(group.reload.form_attributes).to be_empty
       expect(form.form_groups).to include(group)
       check_deferred_constraints!
     end
 
     it "leaves an inactive record untouched when deactivated" do
-      expect { inactive_row.deactivate! }.not_to raise_error
+      expect { inactive_attribute.deactivate! }.not_to raise_error
 
-      expect(inactive_row.reload).to have_attributes(form_configuration_group_id: nil, position: nil)
-      expect(inactive_row.errors).to be_empty
+      expect(inactive_attribute.reload).to have_attributes(form_configuration_group_id: nil, position: nil)
+      expect(inactive_attribute.errors).to be_empty
       check_deferred_constraints!
     end
 
     it "compacts from the database position, not from a stale loaded instance" do
-      priority = inactive_row
+      priority = inactive_attribute
       priority.place!(group:, position: 3)
       assignee = create(:form_configuration_attribute, form_configuration: form, group:, position: 4,
                                                        attribute_key: "assignee")
-      loaded_date = described_class.find(date_row.id)
+      loaded_date = described_class.find(date_attribute.id)
 
-      subject_row.deactivate!
+      subject_attribute.deactivate!
       loaded_date.deactivate!
 
-      expect(group.members.reload.pluck(:attribute_key, :position)).to eq [["priority", 1], ["assignee", 2]]
+      expect(group.form_attributes.reload.pluck(:attribute_key, :position)).to eq [["priority", 1], ["assignee", 2]]
       expect(assignee.reload.position).to eq 2
       check_deferred_constraints!
     end
 
     it "refuses to place a record that carries unsaved changes" do
-      inactive_row.attribute_key = "changed"
+      inactive_attribute.attribute_key = "changed"
 
-      expect { inactive_row.place!(group:, position: 1) }.to raise_error(RuntimeError, /unpersisted changes/)
+      expect { inactive_attribute.place!(group:, position: 1) }.to raise_error(RuntimeError, /unpersisted changes/)
       check_deferred_constraints!
     end
 
     it "reorders with move_after_anchor within the group" do
-      date_row.move_after_anchor(nil, scope: group.members)
-      expect(group.members.reload.pluck(:attribute_key)).to eq %w[date subject]
+      date_attribute.move_after_anchor(nil, scope: group.form_attributes)
+      expect(group.form_attributes.reload.pluck(:attribute_key)).to eq %w[date subject]
 
-      date_row.move_after_anchor(subject_row.id.to_s, scope: group.members)
-      expect(group.members.reload.pluck(:attribute_key)).to eq %w[subject date]
+      date_attribute.move_after_anchor(subject_attribute.id.to_s, scope: group.form_attributes)
+      expect(group.form_attributes.reload.pluck(:attribute_key)).to eq %w[subject date]
       check_deferred_constraints!
     end
   end

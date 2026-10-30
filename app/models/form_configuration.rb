@@ -42,11 +42,11 @@ class FormConfiguration < ApplicationRecord
                                                   inverse_of: :form_configuration,
                                                   dependent: :destroy
 
-  has_many :custom_field_memberships, -> { active.where.not(custom_field_id: nil) },
+  has_many :custom_field_form_attributes, -> { active.where.not(custom_field_id: nil) },
            class_name: "FormConfigurationAttribute",
            inverse_of: :form_configuration,
            dependent: nil
-  has_many :custom_fields, through: :custom_field_memberships
+  has_many :custom_fields, through: :custom_field_form_attributes
 
   validates :name, uniqueness: { case_sensitive: false }
 

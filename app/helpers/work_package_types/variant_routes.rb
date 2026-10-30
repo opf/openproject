@@ -78,12 +78,12 @@ module WorkPackageTypes
                     project_scoped: :edit_project_type_variant_form_configuration_path)
     end
 
-    def toggle_required_variant_form_configuration_row_path(project, variant, row_key)
+    def toggle_required_variant_form_configuration_attribute_path(project, variant, attribute_key)
       variant_route(project, variant,
-                    base: :toggle_required_type_form_configuration_row_path,
-                    named: :toggle_required_type_variant_form_configuration_row_path,
-                    project_scoped: :toggle_required_project_type_variant_form_configuration_row_path,
-                    row_key:)
+                    base: :toggle_required_type_form_configuration_attribute_path,
+                    named: :toggle_required_type_variant_form_configuration_attribute_path,
+                    project_scoped: :toggle_required_project_type_variant_form_configuration_attribute_path,
+                    attribute_key:)
     end
 
     def edit_variant_project_attributes_path(project, variant)

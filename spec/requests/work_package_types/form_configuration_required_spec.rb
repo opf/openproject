@@ -58,12 +58,12 @@ RSpec.describe "Work package type required attributes",
     login_as(given_user)
   end
 
-  def toggle(variant, in_project: nil, row_key: custom_field.attribute_name)
-    args = { type_id: type.id, variant_id: variant.id, row_key: }
+  def toggle(variant, in_project: nil, attribute_key: custom_field.attribute_name)
+    args = { type_id: type.id, variant_id: variant.id, attribute_key: }
     path = if in_project
-             toggle_required_project_type_variant_form_configuration_row_path(project_id: in_project, **args)
+             toggle_required_project_type_variant_form_configuration_attribute_path(project_id: in_project, **args)
            else
-             toggle_required_type_variant_form_configuration_row_path(**args)
+             toggle_required_type_variant_form_configuration_attribute_path(**args)
            end
 
     put path, headers: { "Accept" => "text/vnd.turbo-stream.html" }
@@ -168,12 +168,12 @@ RSpec.describe "Work package type required attributes",
     end
   end
 
-  describe "a row the form does not carry" do
+  describe "an attribute the form does not carry" do
     context "when admin" do
       let(:given_user) { admin }
 
       it "is unprocessable rather than a silent success", :aggregate_failures do
-        toggle(global_variant, row_key: "custom_field_#{custom_field.id + 1000}")
+        toggle(global_variant, attribute_key: "custom_field_#{custom_field.id + 1000}")
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(required_on(global_variant)).to be_empty

@@ -84,11 +84,11 @@ module Pages
       end
 
       def expect_inactive(*keys)
-        keys.each { expect(inactive_list).to have_css(row_selector(it)) }
+        keys.each { expect(inactive_list).to have_css(attribute_selector(it)) }
       end
 
       def expect_hidden_in_inactive(key)
-        expect(inactive_list).to have_css(row_selector(key), visible: :hidden)
+        expect(inactive_list).to have_css(attribute_selector(key), visible: :hidden)
       end
 
       def drag_group(name, below:)
@@ -120,14 +120,14 @@ module Pages
       def drag_attribute(key, to_group: nil, to_inactive: false)
         target = to_inactive ? inactive_list : group(to_group).find("ul")
 
-        perform_native_drag(source: drag_handle(row(key)), target:)
+        perform_native_drag(source: drag_handle(attribute(key)), target:)
       end
 
       def drag_attribute_beside(key, above: nil, below: nil)
-        target = row(above || below)
+        target = attribute(above || below)
         edge = (target.native.rect.height / 2) - 4
 
-        perform_native_drag(source: drag_handle(row(key)), target:, offset_y: above ? -edge : edge)
+        perform_native_drag(source: drag_handle(attribute(key)), target:, offset_y: above ? -edge : edge)
       end
 
       def move_group(name, label)
@@ -179,11 +179,11 @@ module Pages
         page.find(".type-form-configuration-page--inactive-list")
       end
 
-      def row(key)
-        page.find(row_selector(key))
+      def attribute(key)
+        page.find(attribute_selector(key))
       end
 
-      def row_selector(key)
+      def attribute_selector(key)
         "li[data-attr-key='#{key}']"
       end
 
@@ -199,7 +199,7 @@ module Pages
       end
 
       def within_attribute_menu(key, &)
-        button = row(key).find(:button, accessible_name: I18n.t("types.edit.form_configuration.row_actions"))
+        button = attribute(key).find(:button, accessible_name: I18n.t("types.edit.form_configuration.row_actions"))
 
         within(open_controlled_menu(button), &)
       end

@@ -40,8 +40,8 @@ module WorkPackageTypes
     def edit; end
 
     def toggle_required
-      call = ::WorkPackageTypes::FormConfigurationRows::ToggleRequiredService
-        .new(user: current_user, variant: @variant, row_key: params[:row_key])
+      call = ::WorkPackageTypes::FormConfigurationAttributes::ToggleRequiredService
+        .new(user: current_user, variant: @variant, attribute_key: params[:attribute_key])
         .call
 
       if call.success?

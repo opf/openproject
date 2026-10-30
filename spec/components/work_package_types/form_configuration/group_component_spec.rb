@@ -33,7 +33,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupComponent, type: :compo
   include_context "with a form configuration editor context"
 
   let(:record) { create(:form_configuration_group, form_configuration: variant.form_configuration, label: "Details") }
-  let(:membership) do
+  let(:form_attribute) do
     create(:form_configuration_attribute, form_configuration: variant.form_configuration, group: record, position: 1,
                                           attribute_key: "assignee")
   end
@@ -44,7 +44,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupComponent, type: :compo
       name: "Details",
       type: :attribute,
       attributes: [
-        { id: membership.id, key: "assignee", is_cf: false, required_globally: false, required_for_variant: false,
+        { id: form_attribute.id, key: "assignee", is_cf: false, required_globally: false, required_for_variant: false,
           translation: "Assignee", field_format_label: "Built-in field" }
       ],
       query: nil
@@ -71,7 +71,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupComponent, type: :compo
                                  "data-sortable-lists--item-mobility-value": "fixed")
   end
 
-  it "keeps the key data of a row without a record but makes it no item", :aggregate_failures do
+  it "keeps the key data of an attribute without a record but makes it no item", :aggregate_failures do
     group[:attributes].first[:id] = nil
     render_group
 
@@ -91,7 +91,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupComponent, type: :compo
         expect(list["data-sortable-lists--list-id-value"]).to eq(record.id.to_s)
         expect(list["data-sortable-lists--item-target"]).to eq("preview")
       end
-      expect(rendered_component).to have_sortable_item(membership, type: "attribute", label: "Assignee")
+      expect(rendered_component).to have_sortable_item(form_attribute, type: "attribute", label: "Assignee")
     end
   end
 

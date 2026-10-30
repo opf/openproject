@@ -51,7 +51,7 @@ module WorkPackageTypes
         ::FormConfiguration.transaction do
           source.default_attribute_groups(**{ custom_field_ids: @custom_field_ids }.compact)
                 .each { |key, members| create_group(key, members) }
-          EnsureAttributeMembershipService.new(form).call
+          EnsureAttributeRecordsService.new(form).call
         end
       end
 

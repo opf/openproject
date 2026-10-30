@@ -63,7 +63,7 @@
             test_selector: "type-form-configuration-delete-attribute-#{@attribute[:key]}",
             scheme: :danger,
             tag: :a,
-            href: row_destroy_path,
+            href: destroy_path,
             content_arguments: { data: { turbo_method: :delete, turbo_stream: true } }
           ) do |item|
             item.with_leading_visual_icon(icon: :trash)

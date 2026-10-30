@@ -67,11 +67,11 @@ module WorkPackageTypes
         end
       end
 
-      def find_row(row_key)
+      def find_attribute(attribute_key)
         active_groups
           .select { |group| group.group_type == :attribute }
           .each do |group|
-            index = group.attributes.index { |attribute| attribute_identifier_match?(attribute, row_key) }
+            index = group.attributes.index { |attribute| attribute_identifier_match?(attribute, attribute_key) }
             return { group:, index: } if index
           end
 

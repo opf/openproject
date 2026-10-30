@@ -59,7 +59,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::LayoutLock, with_ee: %i[edit
     call = rename_service(stale_form).call(name: "Specifics")
 
     expect(call).to be_success
-    expect(other.members.reload.map(&:key)).to eq(%w[priority])
+    expect(other.form_attributes.reload.map(&:key)).to eq(%w[priority])
     expect(details.reload.label).to eq("Specifics")
   end
 
@@ -114,9 +114,9 @@ RSpec.describe WorkPackageTypes::FormConfiguration::LayoutLock, with_ee: %i[edit
       WorkPackageTypes::FormConfigurationGroups::DeleteService
         .new(user:, form_configuration: form, group_key: "Other").call
     },
-    "removing a row" => lambda { |form, user|
-      WorkPackageTypes::FormConfigurationRows::DeleteService
-        .new(user:, form_configuration: form, row_key: "priority").call
+    "removing an attribute" => lambda { |form, user|
+      WorkPackageTypes::FormConfigurationAttributes::DeleteService
+        .new(user:, form_configuration: form, attribute_key: "priority").call
     },
     "renaming a group" => lambda { |form, user|
       WorkPackageTypes::FormConfigurationGroups::UpdateService
