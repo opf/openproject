@@ -75,6 +75,7 @@ ko:
     omniauth_login: 계정을 활성화하려면 로그인하시기 바랍니다.
     signup_title: "%{app_title}에서 계정 만들기"
     signup_with_external_account: 외부 계정으로 가입
+    username_or_email: Username or email
   actionview_instancetag_blank_option: 선택하십시오
   activemodel:
     attributes:
@@ -952,8 +953,6 @@ ko:
               invalid_tokens: 필드 내의 특성이 하나 이상 유효하지 않습니다. 특성을 수정한 후에 저장하세요.
             variant:
               must_belong_to_the_type: "- 이 유형의 변형이어야 합니다."
-            workflow:
-              not_available_to_this_variant: "- 이 프로젝트가 사용할 수 있는 워크플로여야 합니다."
         user:
           attributes:
             base:
@@ -1036,6 +1035,8 @@ ko:
             identifier:
               must_not_be_changed: "- 수동으로 변경해서는 안 됩니다. 작업 패키지 식별자는 자동으로 할당되며 별칭 테이블을 통해 확인되므로, 수동으로 변경하면 링크와 식별자 기록이 손상됩니다. 의도적으로 변경하는 경우, `save(context: :%{context})`를 사용하여 저장하고 work_package_semantic_aliases 테이블의 일관성을 유지하세요."
               semantic_identifier_incomplete: 및 sequence_number를 동시에 둘 다 설정해야 합니다.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -1556,10 +1557,14 @@ ko:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1711,7 +1716,7 @@ ko:
                   subtitle: '가져온 프로젝트에 참여함 '
                 work_packages:
                   label: 작업 패키지
-                  subtitle: 첨부 파일 있음
+                  subtitle: With attachments and logged time
               title: 가져오기 실행 결과
             import_scope:
               button_continue: 계속
@@ -1727,6 +1732,7 @@ ko:
                 issue_details: 이슈 설명, 기록, 코멘트 및 첨부 파일
                 issue_ids: 이슈 식별자
                 issues: 이슈
+                logged_time: Logged time
                 permissions: 권한
                 project_ids: 프로젝트 식별자
                 project_versions: Project versions
@@ -1759,6 +1765,9 @@ ko:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -2084,10 +2093,11 @@ ko:
         save: 변경 사항을 저장하고 계속하기
         title: 변경 사항을 저장한 후에 계속하시겠습니까?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: '역할: %{role}'
         no_role: 역할 선택
@@ -2214,6 +2224,7 @@ ko:
       schema: 스키마
     undisclosed:
       ancestor: 숨겨짐 - 권한이 없어 상위 항목을 볼 수 없습니다.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: 숨겨짐 - 권한이 없어 프로젝트를 볼 수 없습니다.
       definingWorkspace: 숨겨짐 - 권한이 없으므로 워크스페이스를 볼 수 없습니다.
       parent: 숨겨짐 - 권한이 없어 부모를 볼 수 없습니다.
@@ -3412,10 +3423,11 @@ ko:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
@@ -3674,6 +3686,7 @@ ko:
       total_percent_complete_mode_changed_to_work_weighted_average: 작업이 없는 자식 작업 패키지는 무시됩니다.
       unaccessable_work_package_changed: 관련 작업 패키지에 대한 변경 사항 기준
       work_package_children_changed_times: 자식 %{link}에 대한 변경 사항 기준
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: 중복 작업 패키지에 의해 자동으로 상태가 업데이트되었습니다(%{link})
       work_package_parent_changed_times: 부모 %{link}에 대한 변경 사항 기준
       work_package_parent_deleted: 상위 작업 패키지가 삭제되었기 때문에
@@ -3706,6 +3719,7 @@ ko:
       system_update: 'OpenProject 시스템 업데이트:'
       total_percent_complete_mode_changed_to_simple_average: 이제 완료 % 합계 계산은 완료 % 값의 단순 평균만을 기반으로 합니다.
       total_percent_complete_mode_changed_to_work_weighted_average: 이제 완료 % 합계 계산에는 작업별로 가중치가 적용됩니다.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: '중복 작업 패키지가 업데이트되었습니다:'
       work_package_parent_deleted: 부모 제거됨
     changes_retracted: 변경 사항이 취소되었습니다.
@@ -4024,6 +4038,7 @@ ko:
   label_interface_colors_description: '이러한 색상은 애플리케이션의 모양을 제어합니다. 색상을 수정하면 테마가 자동으로 사용자 지정 테마로 변경되지만, 접근성 대비 최소값(WCAG 2.1)을 준수하는지 확인할 수 없습니다. '
   label_internal: 내부
   label_introduction_video: 시작하기 동영상
+  label_invalid_file_type: This file type is not supported.
   label_invitation: 초대
   label_invite_user: 사용자 초대
   label_item: 항목
@@ -5150,21 +5165,20 @@ ko:
           tb: TB
   oauth:
     application:
+      basic_details: Basic details
       builtin: 기본 제공 인스턴스 애플리케이션
       client_credentials: 클라이언트 자격 증명
       confidential: 기밀
-      default_scopes: "(기본 범위)"
       instructions:
-        client_credential_user_id: 클라이언트가 이 애플리케이션을 사용할 때 가장하기 위한 선택적 사용자 ID입니다. 공용 액세스만 허용하려면 비워두세요.
-        confidential: 클라이언트 비밀번호를 기밀로 유지할 수 있는 위치에서 애플리케이션이 사용되는지 여부를 확인합니다. 네이티브 모바일 앱과 싱글 페이지 앱은 기밀로 간주되지 않습니다.
-        default_scopes: ''
-        enabled: 이 애플리케이션을 활성화하여 사용자가 이 애플리케이션으로 권한 부여를 수행할 수 있도록 합니다.
-        name: 애플리케이션 이름입니다. 권한 부여 시 다른 사용자에게 표시됩니다.
-        redirect_uri_html: '허용된 URL 인증 사용자로 리디렉션될 수 있습니다. 라인별로 하나의 항목이 있습니다. <br/> 데스크톱 애플리케이션을 등록하려면 다음 URL을 사용하세요.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: OpenProject용 OAuth API 클라이언트 애플리케이션을 개발할 경우 이 양식을 사용하여 모든 사용자가 사용할 수 있도록 등록할 수 있습니다.
-        scopes: 애플리케이션이 액세스 권한을 부여할 범위를 확인하세요. 범위를 확인하지 않으면 api_v3로 가정됩니다.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: OAuth 애플리케이션 '%{name}'
       new: 새로운 OAuth 애플리케이션
       non_confidential: 기밀 아님
@@ -5181,7 +5195,7 @@ ko:
         '
     authorization_error: 권한 부여 오류가 발생했습니다.
     client_credentials: 클라이언트 자격 증명에 사용된 사용자
-    client_credentials_impersonation_html: '기본적으로, OpenProject는 %{authorization_code_flow_link}에서 OAuth 2.0 인증을 제공합니다. 선택적으로 %{client_credentials_flow_link}을(를) 활성화할 수 있지만, 대신하여 요청을 수행할 대상 사용자를 제공해야 합니다.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: '클라이언트 자격 증명 사용자 설정:'
@@ -5206,9 +5220,12 @@ ko:
       other_applications: 기타 OAuth 애플리케이션
     my_registered_applications: 등록된 OAuth 애플리케이션
     scopes:
-      api_v3: 전체 API v3 액세스
+      api_v3: Access to APIv3
       api_v3_text: 애플리케이션은 사용자를 대신하여 작업을 수행하기 위해 OpenProject API v3에 대한 전체 읽기 및 쓰기 액세스 권한을 받습니다.
-      mcp: MCP에 대한 액세스 권한
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: 애플리케이션은 OpenProject MCP 엔드포인트에 대한 액세스 권한을 받게 됩니다. 이러한 엔드포인트는 APIv3의 제한된 하위 집합이며, AI 에이전트와 함께 사용하도록 맞춤화되었습니다.
   oauth_client:
     errors:
@@ -5316,16 +5333,15 @@ ko:
       parent: 부모
       short: 짧은 이름
       weight: 가중치
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: 새 탭에서 링크 열기
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: 드래그하여 재정렬
-        menu:
-          label_actions: 작업 패키지 액션
-        parent: 부모
-        undisclosed: 숨겨짐
   page:
     text: 텍스트
   pagination:
@@ -7181,9 +7197,6 @@ ko:
         text: '이렇게 하면 이 프로젝트별 변형이 모든 프로젝트에 사용 가능한 글로벌 변형이 됩니다. 프로젝트 관리자는 더 이상 이 변형을 편집할 수 없게 됩니다.
 
           '
-        workflow_text: '해당 워크플로 "%{name}"은(는) 이 프로젝트에 속하고, 또한 글로벌 워크플로가 됩니다.
-
-          '
       convert_to_global_notice: "%{name}은(는) 이제 글로벌 변형입니다."
       convert_to_global_rename:
         confirm: 변환
@@ -7510,9 +7523,6 @@ ko:
       note_placeholder: 이 미리 알림을 설정하는 이유는 무엇입니까?
       success_deletion_message: 미리 알림이 삭제되었습니다.
       success_update_message: 미리 알림이 업데이트되었습니다.
-    updated_automatically_by_child_changes: '_자식 작업 패키지 %{child} 내에서 값을 변경하여 자동으로 업데이트됨_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: 다른 작업 패키지에 관계를 추가하여 이러한 항목 간에 링크를 만드세요.

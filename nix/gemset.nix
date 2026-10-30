@@ -106,17 +106,6 @@
     };
     version = "6.1.3.1";
   };
-  activemodel-serializers-xml = {
-    dependencies = ["activemodel" "activesupport" "builder"];
-    groups = ["default"];
-    platforms = [];
-    source = {
-      remotes = ["https://rubygems.org"];
-      sha256 = "1pk5qrxxhgxlihim8qkdk805nq584ms71hmcg1766iwhx0v2x3r2";
-      type = "gem";
-    };
-    version = "1.0.2";
-  };
   activerecord = {
     dependencies = ["activemodel" "activesupport"];
     groups = ["default" "opf_plugins" "test"];
@@ -726,16 +715,6 @@
       type = "gem";
     };
     version = "0.6.0";
-  };
-  daemons = {
-    groups = ["default"];
-    platforms = [];
-    source = {
-      remotes = ["https://rubygems.org"];
-      sha256 = "0l5gai3vd4g7aqff0k1mp41j9zcsvm2rbwmqn115a325k9r7pf4w";
-      type = "gem";
-    };
-    version = "1.3.1";
   };
   dalli = {
     groups = ["production"];
@@ -3222,16 +3201,6 @@
       type = "gem";
     };
     version = "4.3.1";
-  };
-  shoulda-context = {
-    groups = ["test"];
-    platforms = [];
-    source = {
-      remotes = ["https://rubygems.org"];
-      sha256 = "0d1clcp92jv8756h09kbc55qiqncn666alx0s83za06q5hs4bpvs";
-      type = "gem";
-    };
-    version = "2.0.0";
   };
   shoulda-matchers = {
     dependencies = ["activesupport"];

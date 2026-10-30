@@ -32,6 +32,7 @@ module Import
     include Import::JiraOpenProjectReferenceCreation
     include ::Import::JiraCreateProjectJob::JiraImportCustomFields
     include Import::JiraJobUtils
+    include Import::JiraProjectIssuesJob
 
     on_complete do
       # Update project.wp_sequence_counter to max sequence_number found in migrated from jira work_packages
@@ -49,20 +50,6 @@ module Import
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
-    end
-
-    def progress
-      jira_import = Import::JiraImport.find(arguments[0])
-      cursor = jira_import.get_job_cursor(self)
-      if cursor.present?
-        issues = Import::JiraIssue.where(jira_import:, jira_project_id: arguments[1])
-        total = issues.count
-        current = issues.where(id: ..cursor).count
-        percentage = (current.to_f / total * 100).round(2)
-        { current:, total:, percentage: }
-      else
-        { current: 0, total: 0, percentage: 0 }
-      end
     end
 
     # rubocop:disable-next Metrics/AbcSize
@@ -276,6 +263,34 @@ module Import
       { @resolution_date_cf.attribute_getter => Time.zone.parse(raw).iso8601 }
     end
 
+    def label_attrs(jira_issue)
+      issue_labels = jira_label_names(jira_issue).index_with { find_label(it) }
+      log_missing_labels(issue_labels)
+
+      label_ids = issue_labels.values.compact.map(&:id)
+      label_ids.any? ? { label_ids: } : {}
+    end
+
+    def jira_label_names(jira_issue)
+      labels = jira_issue.payload.dig("fields", "labels")
+      return [] unless labels.is_a?(Array)
+
+      labels.filter_map { it.to_s.squish.presence }
+    end
+
+    def log_missing_labels(issue_labels)
+      missing = issue_labels.filter_map { |name, label| name if label.nil? }
+      return if missing.empty?
+
+      Rails.logger.warn("Skipping jira labels without an OpenProject label: #{missing.join(', ')}")
+    end
+
+    def find_label(name) = labels_by_name[name.downcase]
+
+    def labels_by_name
+      @labels_by_name ||= Hash.new { |cache, name| cache[name] = Label.named(name).first }
+    end
+
     def update_workflows(type)
       Rails.logger.tagged("jira_object_type:issueType", "jira_object_id_or_name:#{type.name}") do
         statuses = Status.all
@@ -347,6 +362,7 @@ module Import
             estimated_hours: (original_estimate_seconds / 3600.0 if original_estimate_seconds),
             remaining_hours: (remaining_estimate_seconds / 3600.0 if remaining_estimate_seconds),
             skip_semantic_id_allocation: true,
+            **label_attrs(jira_issue),
             **custom_field_attrs
           )
       unless service_call.success?
@@ -405,23 +421,6 @@ module Import
       end
 
       journal_service.call(updated_at: jira_issue.payload.dig("fields", "updated"))
-    end
-
-    def create_member(project, member)
-      service_call = Members::CreateService
-                       .new(user: @system_user, contract_class: EmptyContract)
-                       .call(
-                         project:,
-                         roles: [@project_role],
-                         user_id: member.id,
-                         principal: member
-                       )
-      return if service_call.success?
-
-      if service_call.errors.find { |error| error.type == :taken }.blank?
-        Rails.logger.error service_call.message
-        raise service_call.message
-      end
     end
 
     def find_user(jira_user_key)

@@ -1097,6 +1097,13 @@ tr:
         title: İş paketini paylaş
       table:
         configure_button: İş paketi tablosunu kopyala
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: İş paketi satır tabloları ve iş paketi nitelik sütunları.
         text_inline_edit: Bu tablodaki çoğu hücre o öznitelikteki satır içi düzenleme işlevselliğini etkinleşirme düğmeleridir.
         text_select_hint: Seçim kutuları 'ALT' ve ok tuşları ile açılmalıdır.

@@ -66,7 +66,7 @@ See COPYRIGHT and LICENSE files for more details.
             ) %>
       <% end %>
     <% end %>
-    <%= render(OpPrimer::InsetBoxComponent.new) do %>
+    <%= render(Primer::OpenProject::InsetBox.new) do %>
       <% work_packages.each do |wp| %>
         <%= render WorkPackages::InfoLineComponent.new(
               work_package: wp,

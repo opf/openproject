@@ -179,10 +179,10 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       shared_let(:logging_user) { create(:user) }
 
       let!(:source_rate) do
-        create(:hourly_rate, user: logging_user, project:, rate: 10.0, valid_from: 2.years.ago)
+        create(:hourly_rate, principal: logging_user, project:, rate: 10.0, valid_from: 2.years.ago)
       end
       let!(:target_rate) do
-        create(:hourly_rate, user: logging_user, project: target_project, rate: 99.0, valid_from: 2.years.ago)
+        create(:hourly_rate, principal: logging_user, project: target_project, rate: 99.0, valid_from: 2.years.ago)
       end
       let!(:time_entry) do
         create(:time_entry,
@@ -222,10 +222,10 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
       context "when the target project's rate changed after the time was logged" do
         let!(:historic_source_rate) do
-          create(:hourly_rate, user: logging_user, project:, rate: 5.0, valid_from: 4.years.ago)
+          create(:hourly_rate, principal: logging_user, project:, rate: 5.0, valid_from: 4.years.ago)
         end
         let!(:historic_target_rate) do
-          create(:hourly_rate, user: logging_user, project: target_project, rate: 50.0, valid_from: 4.years.ago)
+          create(:hourly_rate, principal: logging_user, project: target_project, rate: 50.0, valid_from: 4.years.ago)
         end
         let!(:time_entry) do
           create(:time_entry,

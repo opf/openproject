@@ -52,22 +52,29 @@ export class GroupSumsBuilder extends SingleRowBuilder {
     const tr:HTMLTableRowElement = document.createElement('tr');
     tr.classList.add('wp-table--sums-row', 'wp-table--row', groupedRowClassName(group.index));
 
-    this.renderColumns(group.sums, tr);
+    this.renderColumns(group.sums, tr, group.index);
 
     return tr;
   }
 
-  public renderColumns(sums:GroupObject['sums'], tr:HTMLTableRowElement) {
+  public renderColumns(sums:GroupObject['sums'], tr:HTMLTableRowElement, labelSuffix:number|'total') {
+    const { configuration } = this.workPackageTable;
+    const labelId = keyboardNavigationEnabled(configuration) ? `${this.workPackageTable.domId}-sum-${labelSuffix}` : null;
+
     this.augmentedColumns.forEach((column, i:number) => {
       const td = document.createElement('td');
-      const { configuration } = this.workPackageTable;
-      if (keyboardNavigationEnabled(configuration) && isNavigableColumn(column, configuration)) {
+      const navigable = keyboardNavigationEnabled(configuration) && isNavigableColumn(column, configuration);
+      if (navigable) {
         td.classList.add(navigableCellClassName);
       }
       const div = this.renderContent(sums, column.id, this.sumsSchema[column.id] as IFieldSchema);
 
+      if (navigable && labelId && div.hasChildNodes()) {
+        td.setAttribute('aria-describedby', labelId);
+      }
+
       if (i === 0) {
-        this.appendFirstLabel(div);
+        this.appendFirstLabel(div, labelId);
       }
 
       td.appendChild(div);
@@ -75,10 +82,13 @@ export class GroupSumsBuilder extends SingleRowBuilder {
     });
   }
 
-  private appendFirstLabel(div:HTMLElement) {
+  private appendFirstLabel(div:HTMLElement, id:string|null) {
     const span = document.createElement('span');
     span.textContent = `${this.text.sum}`;
     span.title = `${this.text.sum}`;
+    if (id) {
+      span.id = id;
+    }
     div.prepend(span);
   }
 

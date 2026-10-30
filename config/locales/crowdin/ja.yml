@@ -75,6 +75,7 @@ ja:
     omniauth_login: アカウントをアクティブにするのにログインしてください。
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
+    username_or_email: Username or email
   actionview_instancetag_blank_option: 選択してください
   activemodel:
     attributes:
@@ -954,8 +955,6 @@ ja:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
             variant:
               must_belong_to_the_type: must be a variant of this type.
-            workflow:
-              not_available_to_this_variant: must be a workflow this project can use.
         user:
           attributes:
             base:
@@ -1038,6 +1037,8 @@ ja:
             identifier:
               must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -1558,10 +1559,14 @@ ja:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1713,7 +1718,7 @@ ja:
                   subtitle: 'Involved in imported projects '
                 work_packages:
                   label: Work packages
-                  subtitle: With attachments
+                  subtitle: With attachments and logged time
               title: Import run results
             import_scope:
               button_continue: Continue
@@ -1729,6 +1734,7 @@ ja:
                 issue_details: Issue description, history, comments and attachments
                 issue_ids: Issue identifiers
                 issues: Issues
+                logged_time: Logged time
                 permissions: Permissions
                 project_ids: Project identifiers
                 project_versions: Project versions
@@ -1761,6 +1767,9 @@ ja:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -2088,10 +2097,11 @@ ja:
         save: Save changes and continue
         title: Save changes before continuing?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'Role: %{role}'
         no_role: Select role
@@ -2218,6 +2228,7 @@ ja:
       schema: スキーマ
     undisclosed:
       ancestor: 未公開 - アクセス許可がないため、祖先は見えません。
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Undisclosed - The project is invisible because of lacking permissions.
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
       parent: Undisclosed - The parent is invisible because of lacking permissions.
@@ -3416,10 +3427,11 @@ ja:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
@@ -3678,6 +3690,7 @@ ja:
       total_percent_complete_mode_changed_to_work_weighted_average: "「予定時間」が含まれていない子ワークパッケージは無視されます。"
       unaccessable_work_package_changed: 関連するワークパッケージに変更を加えることで
       work_package_children_changed_times: 子 %{link}への変更によって
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: このステータスは重複したワークパッケージ %{link}によって自動的に更新されました
       work_package_parent_changed_times: 親の%{link}の変更により
       work_package_parent_deleted: because the parent work package was deleted
@@ -3710,6 +3723,7 @@ ja:
       system_update: OpenProject システムの更新：
       total_percent_complete_mode_changed_to_simple_average: "%の計算 完全な合計は、単純な平均のみに基づいています。"
       total_percent_complete_mode_changed_to_work_weighted_average: 作業で加重された全体合計の%を計算します。
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 重複ワークパッケージの更新：
       work_package_parent_deleted: Parent removed
     changes_retracted: 変更は取り下げられました。
@@ -4028,6 +4042,7 @@ ja:
   label_interface_colors_description: 'これらの色は、アプリケーションの外観を制御します。 それらを変更すると、テーマは自動的にカスタムテーマに変更されます。 しかし、アクセシビリティコントラストの最小値(WCAG 2)の遵守は保証できません。 ). '
   label_internal: 社内
   label_introduction_video: Getting started video
+  label_invalid_file_type: This file type is not supported.
   label_invitation: 案内
   label_invite_user: ユーザを招待
   label_item: 項目
@@ -5148,21 +5163,20 @@ ja:
           tb: TB
   oauth:
     application:
+      basic_details: Basic details
       builtin: 内蔵サイト・アプリケーション
       client_credentials: クライアント認証
       confidential: 機密
-      default_scopes: "(既定の範囲)"
       instructions:
-        client_credential_user_id: クライアントがこのアプリケーションを使用するときに偽装するためのオプションのユーザーIDです。 パブリックアクセスのみを許可するには空のままにします
-        confidential: クライアントシークレットを機密にできる場所でアプリケーションが使用されるかどうかを確認します。 ネイティブモバイルアプリとシングルページアプリは機密とはみなされません。
-        default_scopes: ''
-        enabled: このアプリケーションを有効にし、ユーザがこのアプリケーションで認証付与を実行できるようにする。
-        name: アプリケーションの名前。これは承認時に他のユーザーに表示されます。
-        redirect_uri_html: '許可されたURLで承認されたユーザーにリダイレクトできます。 1行に1エントリ。<br/>デスクトップアプリケーションを登録する場合は、次のURLを使用してください。
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: OpenProject用のOAuth APIクライアントアプリケーションを開発している場合は、このフォームを使用してすべてのユーザーが使用できるように登録できます。
-        scopes: アプリケーションにアクセスを許可するスコープをチェックします。チェックされていない場合、api_v3になる。
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: OAuthアプリケーション '%{name}'
       new: 新しいOAuthアプリケーション
       non_confidential: 非公開
@@ -5179,7 +5193,7 @@ ja:
         '
     authorization_error: 認証エラーが発生しました。
     client_credentials: クライアントの資格情報を使用するユーザー
-    client_credentials_impersonation_html: 'デフォルトでは、OpenProjectは %{authorization_code_flow_link} を介してOAuth 2.0認証を提供します。 オプションで %{client_credentials_flow_link} を有効にすることもできますが、その代わりにユーザーに代わってリクエストが実行されるようにする必要があります。
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: クライアントの資格情報をユーザーに設定
@@ -5204,9 +5218,12 @@ ja:
       other_applications: その他のOAuthアプリケーション
     my_registered_applications: 登録済みのOAuthアプリケーション
     scopes:
-      api_v3: Full API v3アクセス
+      api_v3: Access to APIv3
       api_v3_text: アプリケーションはアクションを実行するためのOpenProject API v3へのフルアクセスが許可されます。
-      mcp: Access to MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
   oauth_client:
     errors:
@@ -5316,16 +5333,15 @@ ja:
       parent: 親項目
       short: ショートネーム
       weight: Weight
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Open link in a new tab
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Drag to reorder
-        menu:
-          label_actions: Work package actions
-        parent: Parent
-        undisclosed: Undisclosed
   page:
     text: テキスト（本文）
   pagination:
@@ -7189,9 +7205,6 @@ ja:
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
 
           '
-        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
-
-          '
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: Convert
@@ -7518,9 +7531,6 @@ ja:
       note_placeholder: なぜこのリマインダーを設定しているのですか？
       success_deletion_message: リマインダーは正常に削除されました。
       success_update_message: リマインダーが正常に更新されました。
-    updated_automatically_by_child_changes: '_子ワークパッケージ %{child} の変更によって自動更新されました_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: 他のワークパッケージにリレーションを追加して、その間にリンクを作成します。

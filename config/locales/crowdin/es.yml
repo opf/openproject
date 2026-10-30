@@ -75,6 +75,7 @@ es:
     omniauth_login: Por favor inicie sesión para activar su cuenta.
     signup_title: Cree una cuenta en %{app_title}
     signup_with_external_account: Regístrese con una cuenta externa
+    username_or_email: Username or email
   actionview_instancetag_blank_option: Por favor, elija
   activemodel:
     attributes:
@@ -953,8 +954,6 @@ es:
               invalid_tokens: Uno o más atributos dentro del campo no son válidos. Corrija los atributos antes de guardar.
             variant:
               must_belong_to_the_type: debe ser una variante de este tipo.
-            workflow:
-              not_available_to_this_variant: debe ser un flujo de trabajo que este proyecto pueda utilizar.
         user:
           attributes:
             base:
@@ -1038,6 +1037,8 @@ es:
             identifier:
               must_not_be_changed: 'no se debe modificar manualmente. Los identificadores de los paquetes de trabajo se asignan automáticamente y se resuelven a través de la tabla de alias, por lo que cambiarlos a mano rompe los enlaces y el historial de identificadores. Si este cambio es a propósito, guarda con ''save(context: :%{context})'' y mantén la tabla ''work_package_semantic_aliases'' coherente.'
               semantic_identifier_incomplete: y «sequence_number» deben configurarse al mismo tiempo.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -1666,10 +1667,14 @@ es:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1828,7 +1833,7 @@ es:
                   subtitle: 'Participa en proyectos de importación '
                 work_packages:
                   label: Paquetes de trabajo
-                  subtitle: Con adjuntos
+                  subtitle: With attachments and logged time
               title: Importar resultados de ejecución
             import_scope:
               button_continue: Continuar
@@ -1845,6 +1850,7 @@ es:
                 issue_details: Descripción de la incidencia, historial, comentarios y archivos adjuntos
                 issue_ids: Identificadores de incidencias
                 issues: Incidencias
+                logged_time: Logged time
                 permissions: Permisos
                 project_ids: Identificadores de proyecto
                 project_versions: Project versions
@@ -1877,6 +1883,9 @@ es:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -2208,10 +2217,11 @@ es:
         save: Guardar cambios y continuar
         title: "¿Guardar los cambios antes de continuar?"
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'Rol: %{role}'
         no_role: Seleccionar rol
@@ -2340,6 +2350,7 @@ es:
       schema: Esquema
     undisclosed:
       ancestor: No revelado - El antepasado es invisible por falta de permisos.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: 'Oculto: el proyecto no se muestra porque no tiene los permisos necesarios.'
       definingWorkspace: 'Oculto: el espacio de trabajo no se muestra porque no tiene los permisos necesarios.'
       parent: 'Oculto: el elemento primario no se muestra porque no tiene los permisos necesarios.'
@@ -3556,10 +3567,11 @@ es:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
@@ -3825,6 +3837,7 @@ es:
       total_percent_complete_mode_changed_to_work_weighted_average: Los paquetes de trabajo para niños sin Trabajo se ignoran.
       unaccessable_work_package_changed: por cambios en un paquete de trabajo relacionado
       work_package_children_changed_times: por cambios en el secundario %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: El estado fue actualizado automáticamente por el paquete de trabajo duplicado %{link}
       work_package_parent_changed_times: por cambios al %{link} principal
       work_package_parent_deleted: porque se ha eliminado el paquete de trabajo principal
@@ -3857,6 +3870,7 @@ es:
       system_update: 'Actualización del sistema OpenProject:'
       total_percent_complete_mode_changed_to_simple_average: El cálculo de los totales de % completado se basa ahora en una media simple de solo los valores de % completado.
       total_percent_complete_mode_changed_to_work_weighted_average: El cálculo de los totales de % completado ahora se pondera por Trabajo.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'Paquete de trabajo duplicado actualizado:'
       work_package_parent_deleted: Elemento principal eliminado
     changes_retracted: Se deshicieron los cambios.
@@ -4175,6 +4189,7 @@ es:
   label_interface_colors_description: 'Estos colores controlan el aspecto de la aplicación. Si los modifica, el tema cambiará automáticamente a Tema personalizado, pero no podemos asegurar el cumplimiento de los mínimos de contraste de accesibilidad (WCAG 2.1). '
   label_internal: Interno
   label_introduction_video: Vídeo de primeros pasos
+  label_invalid_file_type: This file type is not supported.
   label_invitation: Invitación
   label_invite_user: Invitar usuario
   label_item: Elemento
@@ -5307,21 +5322,20 @@ es:
           tb: TB
   oauth:
     application:
+      basic_details: Basic details
       builtin: Aplicación de instancia incorporada
       client_credentials: Credenciales de cliente
       confidential: Confidencial
-      default_scopes: "(Ámbitos por defecto)"
       instructions:
-        client_credential_user_id: ID de usuario opcional para representar a clientes que usan esta aplicación. No necesita rellenarse si permites un acceso público
-        confidential: Comprueba que la aplicación puede ser usada en donde la clave de cliente secreta puede seguir siendo confidencial. Las aplicaciones nativas del móvil y las aplicaciones de páginas particulares se consideran no confidenciales.
-        default_scopes: ''
-        enabled: Habilite esta aplicación, permitiendo a los usuarios realizar concesiones de autorización con ella.
-        name: El nombre de tu aplicación. Se mostrará a otros usuarios tras previa autorización.
-        redirect_uri_html: 'Las URLs permitidas a las que los usuarios autorizados serán redirigidos. Una entrada por línea. <br/> Si estás registrando una aplicación de escritorio, usa la siguiente URL.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: Si estás desarrollando una aplicación de cliente API de OAuth para OpenProject, puedes registrarla usando este formulario para todos los usuarios.
-        scopes: Marque los ámbitos a los que desea que la aplicación otorgue acceso. Si no se verifica el alcance, api_v3 se supone.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: Aplicación OAuth '%{name}'
       new: Nueva aplicación OAuth
       non_confidential: No confidencial
@@ -5338,7 +5352,7 @@ es:
         '
     authorization_error: Se ha generado un error de autorización.
     client_credentials: Usuario empleado para credenciales de Cliente
-    client_credentials_impersonation_html: 'Por defecto, OpenProject proporciona autorización a OAuth 2.0 a través de %{authorization_code_flow_link}. Puedes activar %{client_credentials_flow_link} de manera óptima, aunque necesitas aportar un usuario en cuya representación se harán las peticiones.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: Usuario de credenciales de Cliente establecido como
@@ -5364,9 +5378,12 @@ es:
       other_applications: Otras aplicaciones OAuth
     my_registered_applications: Aplicaciones OAuth Registradas
     scopes:
-      api_v3: Acceso API v3 completo
+      api_v3: Access to APIv3
       api_v3_text: "La aplicación recibirá acceso completo de lectura y escritura al Proyecto Abierto API v3 \npara realizar acciones en su nombre."
-      mcp: Acceso a MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: La aplicación tendrá acceso a los puntos finales de OpenProject MCP. Se trata de un subconjunto limitado de APIv3, diseñado específicamente para su uso con agentes de IA.
   oauth_client:
     errors:
@@ -5476,16 +5493,15 @@ es:
       parent: Principal
       short: Nombre corto
       weight: Peso
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Abrir vínculo en un nuevo panel
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Arrastra para reordenar
-        menu:
-          label_actions: Acciones del paquete de trabajo
-        parent: Principal
-        undisclosed: No revelado
   page:
     text: Texto
   pagination:
@@ -7354,9 +7370,6 @@ es:
         text: 'De este modo, esta variante específica del proyecto pasará a ser global y estará disponible para todos los proyectos. El administrador del proyecto ya no podrá editarla.
 
           '
-        workflow_text: 'Su flujo de trabajo «%{name}» pertenece a este proyecto y también pasará a ser global.
-
-          '
       convert_to_global_notice: "%{name} ahora es una variante global."
       convert_to_global_rename:
         confirm: Convertir
@@ -7688,9 +7701,6 @@ es:
       note_placeholder: "¿Por qué establece este recordatorio?"
       success_deletion_message: Recordatorio eliminado correctamente.
       success_update_message: Recordatorio actualizado con éxito.
-    updated_automatically_by_child_changes: '_Actualizado automáticamente cambiando los valores en el paquete de trabajo hijo %{child}_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: Añada relaciones a otros paquetes de trabajo para crear un vínculo entre ellos.

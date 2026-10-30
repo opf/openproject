@@ -151,7 +151,8 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   private appendHierarchyIndicator(workPackage:WorkPackageResource, row:HTMLTableRowElement, level?:number):void {
     const ancestors = workPackage.getAncestors();
     const hierarchyLevel = level === undefined || null ? ancestors.length : level;
-    const hierarchyElement = this.buildHierarchyIndicator(workPackage, row, hierarchyLevel);
+    const labelLevel = keyboardNavigationEnabled(this.workPackageTable.configuration) ? hierarchyLevel + 1 : hierarchyLevel;
+    const hierarchyElement = this.buildHierarchyIndicator(workPackage, row, hierarchyLevel, labelLevel);
 
     const subjectCell = row.querySelector<HTMLTableCellElement>('td.subject');
     if (!subjectCell) return;
@@ -168,9 +169,9 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   }
 
   /**
-   * Build the hierarchy indicator at the given indentation level.
+   * Build the hierarchy indicator at the given indentation level, reading `labelLevel` in its text.
    */
-  private buildHierarchyIndicator(workPackage:WorkPackageResource, row:HTMLTableRowElement, level:number):HTMLElement {
+  private buildHierarchyIndicator(workPackage:WorkPackageResource, row:HTMLTableRowElement, level:number, labelLevel:number):HTMLElement {
     const hierarchyIndicator = document.createElement('span');
     const collapsed = this.wpTableHierarchies.collapsed(workPackage.id!);
     const tabindex = keyboardNavigationEnabled(this.workPackageTable.configuration) ? '-1' : '0';
@@ -185,17 +186,17 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
             <a href tabindex="${tabindex}" role="button" class="wp-table--hierarchy-indicator ${className}">
               <span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>
               <span class="wp-table--hierarchy-indicator-expanded sr-only">${this.text.expanded(
-    level,
+    labelLevel,
   )}</span>
               <span class="wp-table--hierarchy-indicator-collapsed sr-only">${this.text.collapsed(
-    level,
+    labelLevel,
   )}</span>
             </a>
         `;
     } else {
       hierarchyIndicator.innerHTML = `
             <span tabindex="${tabindex}" class="wp-table--leaf-indicator">
-              <span class="sr-only">${this.text.leaf(level)}</span>
+              <span class="sr-only">${this.text.leaf(labelLevel)}</span>
             </span>
         `;
     }

@@ -75,6 +75,7 @@ fa:
     omniauth_login: برای فعال‌سازی حساب خود لطفاً وارد شوید.
     signup_title: ایجاد حساب در %{app_title}
     signup_with_external_account: ثبت‌نام با حساب خارجی
+    username_or_email: Username or email
   actionview_instancetag_blank_option: لطفا انتخاب کنید
   activemodel:
     attributes:
@@ -951,8 +952,6 @@ fa:
               invalid_tokens: یک یا چند ویژگی داخل فیلد معتبر نیستند. لطفاً پیش از ذخیره آن‌ها را اصلاح کنید.
             variant:
               must_belong_to_the_type: باید گونه‌ای از این نوع باشد.
-            workflow:
-              not_available_to_this_variant: باید گردش کاری‌ای باشد که این پروژه بتواند از آن استفاده کند.
         user:
           attributes:
             base:
@@ -1036,6 +1035,8 @@ fa:
             identifier:
               must_not_be_changed: 'نباید به‌صورت دستی تغییر کند. شناسه‌های بسته کاری به‌طور خودکار تخصیص داده می‌شوند و از طریق جدول alias حل می‌شوند؛ تغییر دستی آن‌ها پیوندها و تاریخچه شناسه را می‌شکند. اگر این تغییر عمدی است، با `save(context: :%{context})` ذخیره کنید و جدول work_package_semantic_aliases را سازگار نگه دارید.'
               semantic_identifier_incomplete: و sequence_number باید هر دو هم‌زمان تنظیم شوند.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -1664,10 +1665,14 @@ fa:
         jobs:
           JiraCreateCustomFieldsJob:
             title: ایجاد فیلدهای سفارشی
+          JiraCreateLabelsJob:
+            title: Create labels
           JiraCreateProjectJob:
             title: ایجاد پروژه «%{jira_project_name}»
           JiraCreateProjectRoleJob:
             title: ایجاد نقش پروژه «JiraMember»
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: ایجاد نسخه‌ها برای «%{jira_project_name}»
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1826,7 +1831,7 @@ fa:
                   subtitle: درگیر در پروژه‌های واردشده
                 work_packages:
                   label: بسته‌های کاری
-                  subtitle: همراه با پیوست‌ها
+                  subtitle: With attachments and logged time
               title: نتایج اجرای Import
             import_scope:
               button_continue: ادامه
@@ -1843,6 +1848,7 @@ fa:
                 issue_details: توضیحات Issue، تاریخچه، دیدگاه‌ها و پیوست‌ها
                 issue_ids: شناسه‌های Issue
                 issues: Issueها
+                logged_time: Logged time
                 permissions: مجوزها
                 project_ids: شناسه‌های پروژه
                 project_versions: نسخه‌های پروژه
@@ -1875,6 +1881,9 @@ fa:
             '1':
               rest_line_text: ''
               title: دریافت پیکربندی Jira
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
             '2':
               rest_line_text: در حال دریافت مسائل و نسخه‌های %{projects_number} پروژه دیگر
               title: دریافت مسائل و نسخه‌های پروژه‌ها
@@ -2206,10 +2215,11 @@ fa:
         save: ذخیره تغییرات و ادامه
         title: تغییرات پیش از ادامه ذخیره شوند؟
       read_only:
-        edit_action: ویرایش گردش کاری
-        text_html: 'شما از یک گردش کاری موجود استفاده می‌کنید. برای ایجاد تغییر، یا گردش کاری اصلی را ویرایش کنید یا برای ساخت یک گردش کاری جدید روی <b>+ %{action}</b> در بالا کلیک کنید.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'نقش: %{role}'
         no_role: انتخاب نقش
@@ -2338,6 +2348,7 @@ fa:
       schema: شِما
     undisclosed:
       ancestor: نمایش‌داده‌نشده - جد به‌دلیل نبود مجوز قابل مشاهده نیست.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: نمایش‌داده‌نشده - پروژه به‌دلیل نبود مجوز قابل مشاهده نیست.
       definingWorkspace: نمایش‌داده‌نشده - فضای کاری به‌دلیل نبود مجوز قابل مشاهده نیست.
       parent: نمایش‌داده‌نشده - والد به‌دلیل نبود مجوز قابل مشاهده نیست.
@@ -3560,10 +3571,11 @@ fa:
       title: پیکربندی فرم جدید
     tab:
       read_only:
-        banner_html: 'شما از یک فرم موجود استفاده می‌کنید. برای اعمال تغییرات، فرم اصلی را ویرایش کنید یا روی <strong>+ فرم</strong> در بالا کلیک کنید تا فرم جدیدی بسازید.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: ویرایش فرم
+        title: Important changes
     usage:
       dialog:
         button: مشاهده انواع وابسته
@@ -3829,6 +3841,7 @@ fa:
       total_percent_complete_mode_changed_to_work_weighted_average: بسته‌های کاری فرزند بدون کار نادیده گرفته می‌شوند.
       unaccessable_work_package_changed: به‌دلیل تغییرات یک بسته کاری مرتبط
       work_package_children_changed_times: به‌دلیل تغییرات فرزند %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: وضعیت به‌طور خودکار توسط بسته کاری تکثیرشده %{link} به‌روزرسانی شد
       work_package_parent_changed_times: به‌دلیل تغییرات والد %{link}
       work_package_parent_deleted: زیرا بسته کاری والد حذف شد
@@ -3861,6 +3874,7 @@ fa:
       system_update: 'به‌روزرسانی سیستم OpenProject:'
       total_percent_complete_mode_changed_to_simple_average: محاسبه مجموع ٪ تکمیل اکنون براساس میانگین ساده فقط مقادیر ٪ تکمیل انجام می‌شود.
       total_percent_complete_mode_changed_to_work_weighted_average: محاسبه مجموع ٪ تکمیل اکنون براساس کار وزن‌دهی می‌شود.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'بسته کاری تکثیرشده به‌روزرسانی شد:'
       work_package_parent_deleted: والد حذف شد
     changes_retracted: تغییرات پس گرفته شدند.
@@ -4179,6 +4193,7 @@ fa:
   label_interface_colors_description: این رنگ‌ها ظاهر برنامه را کنترل می‌کنند. اگر آن‌ها را تغییر دهید، پوسته به‌طور خودکار به پوسته سفارشی تغییر خواهد کرد، اما نمی‌توانیم رعایت حداقل‌های کنتراست دسترس‌پذیری (WCAG 2.1) را تضمین کنیم.
   label_internal: داخلی
   label_introduction_video: ویدیوی شروع کار
+  label_invalid_file_type: This file type is not supported.
   label_invitation: دعوت نامه
   label_invite_user: دعوت کاربر
   label_item: مورد
@@ -5312,21 +5327,20 @@ fa:
           tb: ترابایت
   oauth:
     application:
+      basic_details: Basic details
       builtin: برنامه داخلی نمونه
       client_credentials: اعتبارنامه‌های کلاینت
       confidential: محرمانه
-      default_scopes: "(Scopeهای پیش‌فرض)"
       instructions:
-        client_credential_user_id: شناسه کاربر اختیاری برای Impersonate کردن هنگام استفاده کلاینت‌ها از این برنامه. برای اجازه فقط دسترسی عمومی، خالی بگذارید
-        confidential: اگر برنامه در جایی استفاده می‌شود که Client Secret می‌تواند محرمانه نگه داشته شود، این گزینه را فعال کنید. برنامه‌های Native موبایل و Single Page Appها غیرمحرمانه فرض می‌شوند.
-        default_scopes: ''
-        enabled: این برنامه را فعال کنید تا کاربران بتوانند Authorization Grant را از طریق آن انجام دهند.
-        name: نام برنامه شما. هنگام مجوزدهی به کاربران دیگر نمایش داده می‌شود.
-        redirect_uri_html: 'URLهای مجازی که کاربران مجاز می‌توانند به آن‌ها Redirect شوند. هر ورودی در یک خط. <br/> اگر برنامه دسکتاپ ثبت می‌کنید، از URL زیر استفاده کنید.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: اگر در حال توسعه یک برنامه OAuth API Client برای OpenProject هستید، می‌توانید آن را با این فرم ثبت کنید تا همه کاربران بتوانند استفاده کنند.
-        scopes: Scopeهایی را که می‌خواهید برنامه اجازه دسترسی به آن‌ها را بدهد انتخاب کنید. اگر هیچ Scopeای انتخاب نشود، api_v3 فرض می‌شود.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: برنامه OAuth «%{name}»
       new: برنامه OAuth جدید
       non_confidential: غیرمحرمانه
@@ -5343,7 +5357,7 @@ fa:
         '
     authorization_error: خطایی در مجوزدهی رخ داده است.
     client_credentials: کاربر مورد استفاده برای Client Credentials
-    client_credentials_impersonation_html: 'به‌طور پیش‌فرض، OpenProject مجوزدهی OAuth 2.0 را از طریق %{authorization_code_flow_link} ارائه می‌کند. می‌توانید %{client_credentials_flow_link} را نیز فعال کنید، اما باید کاربری را مشخص کنید که درخواست‌ها از طرف او انجام شوند.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: کاربر Client Credentials تنظیم‌شده روی
@@ -5369,9 +5383,12 @@ fa:
       other_applications: سایر برنامه‌های OAuth
     my_registered_applications: برنامه‌های OAuth ثبت‌شده
     scopes:
-      api_v3: دسترسی کامل API v3
+      api_v3: Access to APIv3
       api_v3_text: برنامه برای انجام اقدامات از طرف شما، دسترسی کامل خواندن و نوشتن به OpenProject API v3 دریافت خواهد کرد.
-      mcp: دسترسی به MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: برنامه به نقاط پایانی MCP در OpenProject دسترسی خواهد داشت. این‌ها زیرمجموعه محدودی از APIv3 هستند که برای استفاده با Agentهای هوش مصنوعی طراحی شده‌اند.
   oauth_client:
     errors:
@@ -5481,16 +5498,15 @@ fa:
       parent: والد
       short: نام کوتاه
       weight: وزن
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: بازکردن پیوند در Tab جدید
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: برای تغییر ترتیب Drag کنید
-        menu:
-          label_actions: اقدام‌های بسته کاری
-        parent: والد
-        undisclosed: نمایش‌داده‌نشده
   page:
     text: متن
   pagination:
@@ -7369,9 +7385,6 @@ fa:
         text: 'با این کار، این گونه ویژه پروژه به یک گونه سراسری تبدیل می‌شود که برای همه پروژه‌ها در دسترس است. مدیر پروژه دیگر نمی‌تواند آن را ویرایش کند.
 
           '
-        workflow_text: 'گردش کاری «%{name}» متعلق به این پروژه است و آن نیز سراسری خواهد شد.
-
-          '
       convert_to_global_notice: "%{name} اکنون یک گونه سراسری است."
       convert_to_global_rename:
         confirm: تبدیل
@@ -7703,9 +7716,6 @@ fa:
       note_placeholder: چرا این یادآوری را تنظیم می‌کنید؟
       success_deletion_message: یادآوری با موفقیت حذف شد.
       success_update_message: یادآوری با موفقیت به‌روزرسانی شد.
-    updated_automatically_by_child_changes: '_به‌طور خودکار با تغییر مقادیر در بسته کاری فرزند %{child} به‌روزرسانی شد_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: برای ایجاد پیوند، روابطی با بسته‌های کاری دیگر اضافه کنید.
