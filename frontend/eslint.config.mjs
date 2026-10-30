@@ -32,11 +32,13 @@ import vitest from '@vitest/eslint-plugin';
 import angular from 'angular-eslint';
 import stylistic from '@stylistic/eslint-plugin';
 import headers from 'eslint-plugin-headers';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
 import json from '@eslint/json';
 
 import { defineConfig, globalIgnores } from 'eslint/config';
 import { copyrightHeaderOptions } from './copyright.mjs';
 import { jsonConfig } from './eslint-json.mjs';
+import { jsxA11yConfig } from './eslint-jsx-a11y.mjs';
 
 export default defineConfig([
   {
@@ -282,6 +284,7 @@ export default defineConfig([
       '@stylistic/spaced-comment': 'off',
     },
   },
+  jsxA11yConfig(jsxA11y),
   jsonConfig(json),
   globalIgnores([
     '**/.eslintrc.js',

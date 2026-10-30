@@ -31,7 +31,7 @@ function renderDateField(kind:FieldKind, initial = '', onKeyDown?:(key:string) =
     );
   };
 
-  render(<div onKeyDown={(event) => onKeyDown?.(event.key)}><Harness /></div>);
+  render(<div role="presentation" onKeyDown={(event) => onKeyDown?.(event.key)}><Harness /></div>);
   return { input: page.getByLabelText(LABEL), lastChange: () => changes[changes.length - 1] };
 }
 
