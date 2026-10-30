@@ -236,7 +236,8 @@ module WorkPackageTypes
       context = ::Workflows::MatrixContext.new(workflow: @variant.workflow,
                                                variant: @variant,
                                                tab: params[:tab],
-                                               role_ids: params[:role_ids])
+                                               role_ids: params[:role_ids],
+                                               wizard: true)
 
       ::Workflows::MatrixUpdateService
         .new(context:)

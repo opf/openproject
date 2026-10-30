@@ -34,7 +34,7 @@ module Workflows
     end
 
     def call(status: nil, indeterminate_status: nil)
-      return ServiceResult.failure unless context.explicit_selection?
+      return ServiceResult.failure if context.readonly? || !context.explicit_selection?
 
       persist(transitions: matrix(status), indeterminate: matrix(indeterminate_status))
     end
