@@ -33,6 +33,17 @@ const decodeNumber:Decoder<number> = (raw) => (
     : { ok: false, issue: { code: 'invalid-shape' } }
 );
 
+const captureMessage = vi.fn();
+
+beforeEach(() => {
+  captureMessage.mockReset();
+  vi.stubGlobal('ErrorReporter', { captureMessage });
+});
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
+
 const createAdapter = () => new SelectionAdapter<number>(
   decodeNumber,
   null,
@@ -66,7 +77,7 @@ describe('SelectionAdapter', () => {
     expect(adapter.bridge.model).toBe(2);
   });
 
-  it('accept of an invalid value keeps the last accepted value and the raw model', () => {
+  it('accept of an invalid value displays the last accepted value and keeps the payload as rejected', () => {
     const adapter = createAdapter();
     const emitted:number[] = [];
     adapter.changes$.subscribe((value) => emitted.push(value));
@@ -75,8 +86,32 @@ describe('SelectionAdapter', () => {
     adapter.bridge.accept('x');
 
     expect(adapter.state).toEqual({ kind: 'invalid', issue: { code: 'invalid-shape' }, lastAccepted: 1 });
-    expect(adapter.bridge.model).toBe('x');
+    expect(adapter.bridge.model).toBe(1);
+    expect(adapter.bridge.rejected).toBe('x');
     expect(emitted).toEqual([]);
+  });
+
+  it('accept of an invalid value without a last accepted value displays the empty model', () => {
+    const adapter = new SelectionAdapter<number>(decodeNumber, 'empty', (value) => value, () => true, () => undefined);
+
+    adapter.bridge.accept('x');
+
+    expect(adapter.bridge.model).toBe('empty');
+    expect(adapter.bridge.rejected).toBe('x');
+  });
+
+  it.each([
+    ['a valid accept', (adapter:SelectionAdapter<number>) => adapter.bridge.accept(2)],
+    ['a valid load', (adapter:SelectionAdapter<number>) => adapter.bridge.load(2)],
+    ['setValue', (adapter:SelectionAdapter<number>) => adapter.setValue(2)],
+  ])('clears the rejected payload on %s', (_name, recover) => {
+    const adapter = createAdapter();
+    adapter.bridge.accept('x');
+
+    recover(adapter);
+
+    expect(adapter.bridge.rejected).toBeUndefined();
+    expect(adapter.bridge.model).toBe(2);
   });
 
   it('keeps the last accepted value across consecutive invalid input', () => {
@@ -128,6 +163,34 @@ describe('SelectionAdapter', () => {
     expect(adapter.bridge.trackBy).toBe(trackBy);
     expect(compareWith(1, 1)).toBe(true);
     expect(trackBy(3)).toBe(3);
+  });
+});
+
+describe('SelectionAdapter error reporting', () => {
+  it('reports only the issue code of an invalid accept', () => {
+    const adapter = createAdapter();
+    adapter.bridge.load(1);
+
+    adapter.bridge.accept({ secret: 'payload' });
+
+    expect(captureMessage).toHaveBeenCalledExactlyOnceWith('selection:invalid-shape');
+  });
+
+  it('reports only the issue code of an invalid load', () => {
+    const adapter = createAdapter();
+
+    adapter.bridge.load({ secret: 'payload' });
+
+    expect(captureMessage).toHaveBeenCalledExactlyOnceWith('selection:invalid-shape');
+  });
+
+  it('does not report valid loads and accepts', () => {
+    const adapter = createAdapter();
+
+    adapter.bridge.load(1);
+    adapter.bridge.accept(2);
+
+    expect(captureMessage).not.toHaveBeenCalled();
   });
 });
 
