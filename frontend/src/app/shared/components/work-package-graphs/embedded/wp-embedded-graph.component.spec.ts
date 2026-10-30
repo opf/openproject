@@ -27,6 +27,9 @@
 
 import { TestBed } from '@angular/core/testing';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { NoResultsComponent } from 'core-app/shared/components/no-results/no-results.component';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import {
   WorkPackageEmbeddedGraphComponent,
   WorkPackageEmbeddedGraphDataset,
@@ -64,13 +67,21 @@ describe('WorkPackageEmbeddedGraphComponent', () => {
   });
 
   beforeEach(async () => {
+    vi.stubGlobal('ErrorReporter', { addHook: vi.fn() });
+    TestBed.overrideModule(OpSharedModule, {
+      set: { imports: [], declarations: [NoResultsComponent], exports: [NoResultsComponent], providers: [] },
+    });
     await TestBed.configureTestingModule({
       imports: [WorkPackageEmbeddedGraphComponent],
       providers: [
         { provide: I18nService, useValue: i18nStub },
+        { provide: CurrentProjectService, useValue: {} },
       ],
+      errorOnUnknownElements: true,
     }).compileComponents();
   });
+
+  afterEach(() => vi.unstubAllGlobals());
 
   const renderGraph = (datasets:WorkPackageEmbeddedGraphDataset[]) => {
     const fixture = TestBed.createComponent(WorkPackageEmbeddedGraphComponent);
@@ -124,5 +135,13 @@ describe('WorkPackageEmbeddedGraphComponent', () => {
 
     expect(element.querySelector('canvas')).toBeNull();
     expect(element.querySelector(`#${fixture.componentInstance.chartDescriptionId}`)).toBeNull();
+  });
+
+  it('renders the no-results message after an empty dataset refresh', () => {
+    const { fixture, element } = renderGraph([]);
+    fixture.componentRef.setInput('datasets', []);
+    fixture.detectChanges();
+
+    expect(element.querySelector('op-no-results')).toHaveTextContent('No results');
   });
 });
