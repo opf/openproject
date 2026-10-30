@@ -45,10 +45,15 @@ export type DecodeResult<S> = { ok:true; value:S } | { ok:false; issue:Selection
 
 export type Decoder<S> = (raw:unknown, phase:'load'|'change') => DecodeResult<S>;
 
+export interface SelectionControl {
+  writeValue(value:unknown):void;
+}
+
 export interface SelectionBridge {
   readonly model:unknown;
+  readonly rejected:unknown;
   load(raw:unknown):void;
-  accept(raw:unknown):void;
+  accept(raw:unknown, control?:SelectionControl):void;
   readonly compareWith:(a:unknown, b:unknown) => boolean;
   readonly trackBy:(v:unknown) => string|number|undefined;
 }
@@ -79,6 +84,8 @@ export class SelectionAdapter<S> {
 
   private model:unknown;
 
+  private rejected:unknown;
+
   private readonly stateSubject:BehaviorSubject<SelectionState<S>>;
 
   private readonly changesSubject = new Subject<S>();
@@ -96,10 +103,12 @@ export class SelectionAdapter<S> {
     this.stateChanges$ = this.stateSubject.asObservable();
 
     const readModel = ():unknown => this.model;
+    const readRejected = ():unknown => this.rejected;
     this.bridge = {
       get model() { return readModel(); },
+      get rejected() { return readRejected(); },
       load: (raw) => this.load(raw),
-      accept: (raw) => this.accept(raw),
+      accept: (raw, control) => this.accept(raw, control),
       compareWith,
       trackBy,
     };
@@ -111,25 +120,43 @@ export class SelectionAdapter<S> {
 
   setValue(value:S):void {
     this.model = this.toModel(value);
+    this.rejected = undefined;
     this.stateSubject.next({ kind: 'ready', value });
   }
 
   private load(raw:unknown):void {
     const result = this.decode(raw, 'load');
-    this.model = result.ok ? raw : this.emptyModel;
-    this.stateSubject.next(this.stateFor(result));
-  }
-
-  private accept(raw:unknown):void {
-    const result = this.decode(raw, 'change');
-    this.model = raw;
 
     if (result.ok) {
+      this.model = raw;
+      this.rejected = undefined;
+      this.stateSubject.next({ kind: 'ready', value: result.value });
+    } else {
+      this.reject(raw, result.issue, this.emptyModel);
+      this.stateSubject.next({ kind: 'invalid', issue: result.issue });
+    }
+  }
+
+  private accept(raw:unknown, control?:SelectionControl):void {
+    const result = this.decode(raw, 'change');
+
+    if (result.ok) {
+      this.model = raw;
+      this.rejected = undefined;
       this.stateSubject.next({ kind: 'ready', value: result.value });
       this.changesSubject.next(result.value);
     } else {
-      this.stateSubject.next({ kind: 'invalid', issue: result.issue, lastAccepted: this.lastAccepted() });
+      const lastAccepted = this.lastAccepted();
+      this.reject(raw, result.issue, lastAccepted === undefined ? this.emptyModel : this.toModel(lastAccepted));
+      control?.writeValue(this.model);
+      this.stateSubject.next({ kind: 'invalid', issue: result.issue, lastAccepted });
     }
+  }
+
+  private reject(raw:unknown, issue:SelectionIssue, model:unknown):void {
+    this.model = model;
+    this.rejected = raw;
+    window.ErrorReporter.captureMessage(`selection:${issue.code}`);
   }
 
   private stateFor(result:DecodeResult<S>):SelectionState<S> {
