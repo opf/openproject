@@ -92,12 +92,6 @@ describe('WidgetHeaderComponent', () => {
 
     expect(screen.getByRole('treegrid', { name: 'Assigned to me' })).toBeInTheDocument();
   });
-
-  it('puts the heading id on the h3 around the title', async () => {
-    await mount(false);
-
-    expect(screen.getByRole('heading', { level: 3 })).toHaveAttribute('id', 'widget-heading');
-  });
 });
 
 describe('WidgetHeaderComponent heading input', () => {

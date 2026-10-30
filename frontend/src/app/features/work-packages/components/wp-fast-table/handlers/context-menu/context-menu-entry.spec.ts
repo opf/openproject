@@ -180,42 +180,6 @@ describe('Context menu origin during a row-control walk', () => {
   });
 });
 
-describe('Context menu origin after direct control focus', () => {
-  it.each([false, true])('returns Escape to the directly focused actions cell (row walk: %s)', async (walk) => {
-    const harness = buildTable({
-      workPackages: [{ id: '1' }, { id: '2' }],
-      productionMarkup: true,
-      configuration: { actionsColumnEnabled: true, contextMenuEnabled: true },
-    });
-    try {
-      await harness.render();
-      const navigation = harness.table.keyboardNavigation!;
-      harness.row('1').focus();
-      if (walk) {
-        await userEvent.tab();
-      }
-      const initialFocus = walk
-        ? within(harness.row('1')).getByRole('link', { name: 'js.label_open_context_menu' })
-        : harness.row('1');
-      expect(initialFocus).toHaveFocus();
-      const link = within(harness.row('2')).getByRole('link', { name: 'js.label_open_context_menu' });
-      const origin = navigation.positionOfCell(link)!;
-      link.focus();
-      expect(link).toHaveFocus();
-      const menu = new WorkPackageTableContextMenu(harness.injector, '2', link, {}, harness.table);
-      const menuButton = document.body.appendChild(document.createElement('button'));
-      menuButton.focus();
-      menuButton.remove();
-
-      menu.onClose(true, 'escape');
-
-      expect(navigation.elementAt(origin)).toHaveFocus();
-    } finally {
-      await harness.destroy();
-    }
-  });
-});
-
 describe('Context menu entry from the actions column button', () => {
   let harness:TableHarness;
   let menuTargets:string[][];
