@@ -32,6 +32,9 @@ module Backlogs
   module SprintReports
     module Widgets
       class ScopeChangeTable < WorkPackageTable
+        # Cleanup filters from invalid values, to not fail filter validation.
+        def query_props = { **super, valid_subset: true }
+
         private
 
         def empty? = work_package_ids.empty?
