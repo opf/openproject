@@ -170,6 +170,23 @@ RSpec.describe Backlogs::CommonHelper do
     end
   end
 
+  describe "#backlogs_container_src" do
+    let(:project) { build_stubbed(:project) }
+
+    it "is the backlog path without a query" do
+      expect(helper.backlogs_container_src(project)).to eq(helper.project_backlogs_backlog_path(project))
+    end
+
+    context "with a query" do
+      before { helper.request.env["QUERY_STRING"] = "filters=subject+%7E+%22foo%22&all=1" }
+
+      it "keeps the query encoded as the browser sent it" do
+        expect(helper.backlogs_container_src(project))
+          .to eq("#{helper.project_backlogs_backlog_path(project)}?filters=subject+%7E+%22foo%22&all=1")
+      end
+    end
+  end
+
   describe "#filtered_buckets_for" do
     let(:project) { create(:project) }
     let!(:bucket_a) { create(:backlog_bucket, project:) }
