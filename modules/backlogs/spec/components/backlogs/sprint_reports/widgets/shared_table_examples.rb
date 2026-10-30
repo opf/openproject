@@ -92,12 +92,10 @@ RSpec.shared_context "with a sprint report work package table" do
     it "names the table with its visible widget heading" do
       configuration = JSON.parse(table_element["data-configuration"])
       labels = rendered_component.css("##{configuration.fetch('labelledBy')}")
-      headings = labels.first.css("h3")
 
       expect(labels.size).to eq(1)
-      expect(headings.size).to eq(1)
+      expect(labels.first.name).to eq("h3")
       expect(labels.first.text.squish).to eq(widget_name)
-      expect(headings.first.text.squish).to eq(widget_name)
     end
 
     it "renders a filtered work packages table" do

@@ -113,7 +113,7 @@ RSpec.describe "Sprint report work package table accessibility", :js, with_ee: %
         table.expect_row_positions(rowcount: 2, rows: [1, 2])
         label_id = table.treegrid["aria-labelledby"]
         expect(page).to have_css("##{label_id}", count: 1)
-        expect(find("##{label_id}")).to have_heading(title, level: 3, exact: true)
+        expect(find("##{label_id}")).to match_selector(:heading, title, level: 3, exact: true)
 
         header.click
         expect(row).to have_no_selector(:role, "textbox")
