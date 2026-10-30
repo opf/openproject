@@ -27,7 +27,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_examples "an embedded keyboard table" do |editable: true, drag_and_drop_enabled: false|
+RSpec.shared_examples "an embedded keyboard table" do |editable: true, drag_and_drop_enabled: false, letter_shortcuts: true|
   include_context "with axe on Cuprite"
 
   let(:context_menu_enabled) { false }
@@ -46,6 +46,16 @@ RSpec.shared_examples "an embedded keyboard table" do |editable: true, drag_and_
     wp_table.press_keys(%i[shift tab])
 
     expect(wp_table.entry_control).to match_selector(:css, ":focus")
+  end
+
+  if letter_shortcuts
+    it "enters on the first row with j from the control before the table" do
+      wp_table.entry_control.execute_script("this.focus()")
+
+      wp_table.press_keys("j")
+
+      wp_table.expect_focus_on_row(rows.first)
+    end
   end
 
   it "walks the first row's controls with Tab, leaves to the next control and re-enters on the row" do
