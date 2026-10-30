@@ -248,16 +248,16 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
 
       get ai_text_transform_pane_path(run.uuid, **pane_params, after: 0), headers: stream
 
-      expect(response.body).to include("<strong>done</strong>", "<template>**done**</template>", "Replace",
+      expect(response.body).to include("<strong>done</strong>", 'value="**done**"', "Replace",
                                        'data-state="done"', apply_ai_text_transform_pane_path(run.uuid))
     end
 
-    it "keeps markup in the raw text inside its template" do
+    it "keeps markup in the raw text of the copy button" do
       run = run_with_events(:succeeded, ["completed", { "text" => %(a < b "quoted" </template><img src=x>) }])
 
       get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
 
-      expect(response.body).to include("a &lt; b &quot;quoted&quot; &lt;/template&gt;&lt;img src=x&gt;")
+      expect(response.body).to include('value="a &lt; b &quot;quoted&quot; &lt;/template&gt;&lt;img src=x&gt;"')
       expect(response.body).not_to include("<img src=x>")
     end
 
@@ -355,6 +355,16 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       expect(response.body).to include('action="dispatchEvent"', "op-dispatched:ai-text-transform:accepted")
       detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
       expect(detail).to eq("requestId" => request_id, "scope" => "selection", "text" => text)
+    end
+
+    it "hands over only what the preview shows" do
+      text = %(Fixed <macro class="toc"></macro> ![chart](https://example.com/a.png))
+      run = run_with_events(:succeeded, ["completed", { "text" => text }])
+
+      post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
+      expect(detail["text"]).to eq("Fixed  [Image: chart](https://example.com/a.png)")
     end
 
     context "without the permission to edit the work package any more" do
