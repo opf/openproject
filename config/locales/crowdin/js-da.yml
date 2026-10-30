@@ -61,6 +61,7 @@ da:
         single: Vælg "%{name}"
       remove: Fjern %{name}
     autocompleter:
+      create_label: Opret mærkat
       notFoundText: Ingen elementer fundet
       placeholder: Skriv for at søge
       project:
@@ -162,6 +163,7 @@ da:
     button_stop_timer: Stop tidtagning
     button_uncheck_all: Fjern alle markeringer
     button_update: Opdater
+    button_view_markdown: Vis Markdown
     caption_rate_history: Satshistorik
     card:
       add_new: Tilføj nyt kort
@@ -202,6 +204,7 @@ da:
     description_subwork_package: 'Underordnet arbejdspakke #%{id}'
     editor:
       ckeditor_error: Der opstod en fejl i CKEditor
+      ckeditor_error_reload: Editoren holdt op med at virke. Din tekst er her stadig, men du kan ikke ændre den. Kopiér den tekst, som du vil beholde, og genindlæs derefter siden.
       error_saving_failed: 'Dokumentet kunne ikke gemmes på grund af følgende fejl: %{error}'
       macro:
         attribute_reference:
@@ -358,7 +361,7 @@ da:
     ical_sharing_modal:
       copy_url_label: Kopiér URL
       description: Du kan bruge URL'en (iCalendar) til at abonnere på kalenderen i et eksternt program og se opdaterede oplysninger om arbejdspakker derfra.
-      ical_generation_error_text: Der opstod en fejl under oprettelse af kalender-URL'en.
+      ical_generation_error_text: Der opstod en fejl under dannelsen af kalenderens URL.
       inital_setup_error_message: Der opstod en fejl under hentning af data.
       success_message: URL'en "%{name}" er kopieret til udklipsholderen. Indsæt den i dit kalenderprogram for at gøre abonnementet færdigt.
       title: Abonner på kalender
@@ -551,6 +554,8 @@ da:
     label_reset: Nulstil
     label_resize_project_menu: Tilpas størrelsen på projektmenuen
     label_save_as: Gem som
+    label_scroll_left: Rul til venstre
+    label_scroll_right: Rul til højre
     label_search_columns: Søg efter en kolonne
     label_select_watcher: Vælg en følger...
     label_selected_filter_list: Valgte filtre
@@ -623,7 +628,7 @@ da:
     notifications:
       center:
         and_more_users:
-          one: og 1 anden
+          one: og %{count} anden
           other: og %{count} andre
         empty_state:
           no_notification: Det ser ud til, at du er helt opdateret.
@@ -720,6 +725,7 @@ da:
     placeholders:
       default: "-"
       description: 'Beskrivelse: Klik for at redigere...'
+      description_double_click: 'Beskrivelse: Dobbeltklik for at redigere...'
       relation_description: Klik for at tilføje en beskrivelse af relationen
       selection: Vælg
       subject: Skriv emnet her
@@ -806,12 +812,32 @@ da:
       sorting_disabled: sortering er deaktiveret
     sortable_lists:
       announcements:
+        batch_too_large: "%{count} elementer kan ikke flyttes på én gang. Vælg højst %{max}."
         fallback_item_label: Element
         fallback_list_name: en anden liste
         move_failed_check_position: Flytningen mislykkedes. Tjek elementets aktuelle placering.
+        move_failed_check_positions_batch:
+          other: Flytningen mislykkedes. Tjek elementernes aktuelle placeringer.
         move_failed_rolled_back: Flytningen mislykkedes. %{label} er sat tilbage på sin tidligere placering.
+        move_failed_rolled_back_batch:
+          other: Flytningen mislykkedes. %{count} elementer er sat tilbage på deres tidligere placeringer.
         moved: "%{label} er flyttet til placering %{position} af %{total}"
+        moved_batch:
+          other: "%{count} elementer er flyttet til placering %{first} til %{last} af %{total}"
+        moved_batch_to_list:
+          other: "%{count} elementer er flyttet til %{list}, placering %{first} til %{last} af %{total}"
         moved_to_list: "%{label} er flyttet til %{list}, placering %{position} af %{total}"
+      selection:
+        cleared: Valget er ryddet.
+        not_selectable: Valget er uændret. Elementet indgår ikke i listens rækkefølge.
+        range_blocked: Valget er uændret. Området indeholder et element, der ikke indgår i listens rækkefølge.
+        range_restarted:
+          one: Området kunne ikke udvides. %{count} element valgt.
+          other: Området kunne ikke udvides. %{count} elementer valgt.
+        range_unavailable: Valget er uændret. Fold listen ud for at vælge området.
+        selected:
+          one: "%{count} element valgt."
+          other: "%{count} elementer valgt."
     spot:
       drop_modal:
         close: Luk dialogboks
@@ -825,9 +851,7 @@ da:
     text_user_wrote: "%{value} skrev:"
     text_work_packages_destroy_confirmation: Er du sikker på, at du vil slette de valgte arbejdspakker?
     time_entry:
-      stop: Stop
       title: Registrer tid
-      tracking: Tidsregistrering
       work_package_required: Kræver, at du først vælger en arbejdspakke.
     timer:
       button_stop: Stop aktuel tidtagning
@@ -862,19 +886,19 @@ da:
       label_two_factor_authentication: To-faktor-godkendelse
     units:
       child_work_packages:
-        one: én underordnet arbejdspakke
+        one: "%{count} underordnet arbejdspakke"
         other: "%{count} underordnede arbejdspakker"
       day:
-        one: 1 dag
+        one: "%{count} dag"
         other: "%{count} dage"
         zero: 0 dage
       hour:
-        one: 1 t
+        one: "%{count} t"
         other: "%{count} t"
         zero: 0 t
       hour_string: "%{hours} t"
       word:
-        one: 1 ord
+        one: "%{count} ord"
         other: "%{count} ord"
       workPackage:
         one: arbejdspakke
@@ -1073,6 +1097,13 @@ da:
         title: Del arbejdspakke
       table:
         configure_button: Konfigurer tabellen med arbejdspakker
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabel med arbejdspakker som rækker og deres attributter som kolonner.
         text_inline_edit: De fleste celler i tabellen er knapper, der gør det muligt at redigere attributten direkte i tabellen.
         text_select_hint: Rullelister åbnes med 'ALT' og piletasterne.

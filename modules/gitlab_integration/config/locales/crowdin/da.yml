@@ -24,10 +24,18 @@
 da:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: GitLab-projekt
+        namespace: GitLab-namespace
+        project_html_url: GitLab-projektets URL
       gitlab_merge_request:
         labels: Etiketter
       gitlab_pipeline:
         ci_details: CI-oplysninger
+      gitlab_user:
+        avatar_url: Avatar-URL
+        name: Navn
+        username: Brugernavn
     errors:
       models:
         gitlab_issue:
@@ -39,6 +47,9 @@ da:
             labels:
               invalid_schema: 'skal være en liste af hashes med nøglerne: color, title'
     models:
+      gitlab_branch:
+        one: GitLab-branch
+        other: GitLab-branches
       gitlab_issue:
         one: GitLab-issue
         other: GitLab-issues
@@ -54,19 +65,61 @@ da:
   attributes:
     commit: Commit
     gitlab: GitLab-id
-    gitlab_avatar_url: Avatar-URL
-    gitlab_email: GitLab-e-mail
     gitlab_html_url: GitLab HTML-URL
     gitlab_merge_request: Merge request
-    gitlab_name: GitLab-navn
     gitlab_updated_at: Opdateret
     gitlab_user_avatar_url: GitLab-avatar-URL
-    gitlab_username: GitLab-brugernavn
   gitlab_integration:
+    branch_component:
+      copy_name: Kopiér navn på branch
+      create_merge_request: Opret merge request
+      updated_at: Opdateret %{date_time}.
+      updated_by: Senest opdateret af %{name}.
+    commit_component:
+      authored_at: Skrevet %{date_time}.
+      copy_sha: Kopiér SHA til udklipsholderen
+      created_by: Oprettet af %{name}.
+      empty_message: "<tom commit-besked>"
+    git_snippets_dialog_component:
+      branch_name: Navn på branch
+      commit_message: Commit-besked
+      copy_branch_name: Kopiér navn på branch
+      copy_commit_message: Kopiér commit-besked
+      copy_create_branch_command: Kopiér kommando til at oprette en branch med tomt commit
+      create_branch_with_empty_commit: Opret branch med tomt commit
+      title: Hurtige Git-kodestykker
     issue_closed_referenced_comment: "**Issue lukket:** Issue %{issue_number} [%{issue_title}](%{issue_url}) i [%{repository}](%{repository_url}) er lukket af [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_component:
+      states:
+        closed: Lukket
+        opened: Åben
+      updated_at: Opdateret %{date_time}.
+      updated_by: Senest opdateret af %{name}.
     issue_opened_referenced_comment: "**Issue åbnet:** Issue %{issue_number} [%{issue_title}](%{issue_url}) i [%{repository}](%{repository_url}) er åbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_reopened_referenced_comment: "**Issue genåbnet:** Issue %{issue_number} [%{issue_title}](%{issue_url}) i [%{repository}](%{repository_url}) er genåbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_closed_comment: "**MR lukket:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}) er lukket af [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_component:
+      pipeline_statuses:
+        canceled: Annulleret
+        canceling: Annullerer
+        created: Oprettet
+        failed: Mislykkedes
+        manual: Manuel
+        pending: Afventer
+        preparing: Forbereder
+        running: Kører
+        scheduled: Planlagt
+        skipped: Sprunget over
+        success: Lykkedes
+        waiting_for_callback: Venter på callback
+        waiting_for_resource: Venter på ressource
+      states:
+        closed: Lukket
+        locked: Låst
+        merged: Flettet
+        opened: Åben
+      updated_at: Opdateret %{date_time}.
+      updated_by: Senest opdateret af %{name}.
     merge_request_merged_comment: "**MR flettet:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}) er flettet af [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_opened_comment: "**MR åbnet:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}) er åbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_reopened_comment: "**MR genåbnet:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}) er genåbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
@@ -79,6 +132,27 @@ da:
     push_multiple_commits_comment: "**Pushet i MR:** [%{gitlab_user}](%{gitlab_user_url}) pushede flere commits [%{commit_number}](%{commit_url}) til [%{repository}](%{repository_url}) %{commit_timestamp}: %{commit_note}\n"
     push_single_commit_comment: "**Pushet i MR:** [%{gitlab_user}](%{gitlab_user_url}) pushede [%{commit_number}](%{commit_url}) til [%{repository}](%{repository_url}) %{commit_timestamp}: %{commit_note}\n"
     push_single_commit_comment_with_ref: "**Pushet i %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushede [%{commit_number}](%{commit_url}) til [%{repository}](%{repository_url}) %{commit_timestamp}: %{commit_note}\n"
+    work_package_gitlab_tab_component:
+      blank_slates:
+        branches:
+          description_html: Link en branch ved at navngive den, så navnet starter med %{code} eller kun %{identifier}.
+          title: Ingen branches
+        commits:
+          description_html: Link et commit ved at tilføje koden %{code} eller %{url} i commit-beskeden.
+          title: Ingen commits
+        issues:
+          description_html: Link et issue ved at tilføje koden %{code} i titlen eller beskrivelsen.
+          title: Ingen issues
+        merge_requests:
+          description_html: Link en merge request ved at tilføje koden %{code} i titlen eller beskrivelsen.
+          title: Ingen merge requests
+      branches: Branches
+      commits: Commits
+      description_html: Link et eksisterende GitLab-element ved at tilføje koden %{code} i titlen eller beskrivelsen.
+      git_snippets: Git-kodestykker
+      issues: Issues
+      merge_requests: Merge requests
+      snippets_button_label: Git-kodestykker
   label_gitlab_actor: GitLab-aktør
   label_gitlab_integration: GitLab-integration
   label_gitlab_webhook_secret: Webhook-hemmelighed

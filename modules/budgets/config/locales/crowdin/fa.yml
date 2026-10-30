@@ -61,6 +61,8 @@ fa:
   attributes:
     budget: بودجه
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: در %{date} نرخ ساعتی وجود ندارد
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -106,7 +108,7 @@ fa:
   events:
     budget: بودجه ویرایش شد
   help_click_to_edit: برای ویرایش اینجا کلیک کنید.
-  help_currency_format: فرمت مقادیر واحدهای پولی نمایش داده شده به این صورت است که %n با مقدار واحد پولی جایگزین می‌شود و %u با واحد پولی جایگزین می‌شود.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: در صورت ورود یک مقدار در قسمت، نرخ (ضریب پرداختی) پیش‌فرض نادیده گرفته می شود.
   label_budget_available: بودجه موجود
   label_budget_details: جزئیات بودجه

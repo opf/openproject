@@ -61,7 +61,7 @@
         item_2:
           name: BIM -ledere
         item_3:
-          name: BIM utviklere
+          name: BIM Modelers
         item_4:
           name: Ledende BIM-koordinatorer
         item_5:
@@ -515,18 +515,18 @@
               description: Denne typen er hierarkisk overordnet typene &quot;Konflikt&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
               children:
                 item_0:
-                  subject: Modellere innledende BIM-modell
+                  subject: Modeling initial BIM model
                   description: |-
-                    # Mål
+                    # Goal
 
-                    * Modellering av den innledende BIM-modellen
-                    * Opprette en BIM-modell for hele prosjektteamet
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # Beskrivelse
+                    # Description
 
-                    * Ifølge innsamlede data fra kunden vil den innledende modellen modelleres
-                    * Modellen skal modelleres etter LOD-matrisene og inneholde informasjonen som trengs
-                    * ...
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
+                    *   ...
                 item_1:
                   subject: Innledende, intern modellkontroll og revisjon
                   description: |-
@@ -542,23 +542,23 @@
                   subject: Send innledende BIM-modell
                   description: Denne typen er hierarkisk overordnet typene &quot;Konflikt&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
             item_4:
-              subject: Modellering, første syklus
+              subject: Modeling, first cycle
               description: Denne typen er hierarkisk overordnet typene &quot;Konflikt&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
               children:
                 item_0:
                   subject: Referere eksterne BIM-modeller
                   description: |-
-                    # Mål
+                    # Goal
 
-                    *  Ha et fundament for å utvikle den interne modellen/ tilby løsninger
-                    *  Bruke den eskterne modellen til å utvikle den interne modellen
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    ## Beskrivelse
+                    # Description
 
-                    *  Den eskterne modellen vil bli referert i BIM-plattformen, slik at den kan bli brukt til å lage den interne modellen
-                    *  ...
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
+                    *   ...
                 item_1:
-                  subject: Utvikle BIM-modellen
+                  subject: Modeling the BIM model
                   description: |-
                     # Mål
 
@@ -606,19 +606,19 @@
                   subject: Fullfører koordinasjon, første syklus
                   description: Denne typen er hierarkisk overordnet typene &quot;Konflikt&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
             item_6:
-              subject: Modellering & koordinering, andre syklus
+              subject: Modeling & coordinating, second cycle
               description: "## Mål\r\n\r\n* ...\r\n\r\n## Beskrivelse\r\n\r\n* \\ ..."
             item_7:
-              subject: Modellering og koordinering, ... syklus
+              subject: Modeling & coordinating, ... cycle
               description: Denne typen er hierarkisk overordnet typene &quot;Konflikt&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
             item_8:
-              subject: Modellering & koordinering, (n-th minus 1) syklus
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## Mål\r\n\r\n* ...\r\n\r\n## Beskrivelse\r\n\r\n* \\ ..."
             item_9:
-              subject: Modellering & koordinering, n-th syklus
+              subject: Modeling & coordinating n-th cycle
               description: Denne typen er hierarkisk overordnet typene &quot;Konflikt&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
             item_10:
-              subject: Sluttføre modellering & koordinering, n-th syklus
+              subject: Finishing modeling & coordinating, n-th cycle
               description: Denne typen er hierarkisk overordnet typene &quot;Konflikt&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
             item_11:
               subject: Bruke modell for byggefase

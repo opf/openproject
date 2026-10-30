@@ -196,10 +196,10 @@ ru:
         all: Все wiki-страницы
         main: Основные страницы вики
       sub_pages_count:
-        one: 1 подстраница
-        few: "%{count} подстраницы"
-        many: "%{count} подстраниц"
-        other: "%{count} подстраниц"
+        one: "%{count} sub-page"
+        few: "%{count} sub-pages"
+        many: "%{count} sub-pages"
+        other: "%{count} sub-pages"
     inline_wiki_page_dialog:
       title_add: Добавить существующую страницу вики
       title_create: Создать новую страницу вики
