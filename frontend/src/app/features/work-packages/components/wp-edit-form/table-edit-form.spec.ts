@@ -564,6 +564,7 @@ describe('TableEditForm focus return', () => {
 
     expect(harness.row('1').querySelector(':scope > .wp-table--cell-td.id')).not.toBe(idCell);
     expect(within(harness.row('1')).getByRole('rowheader')).toHaveAccessibleName('Changed');
+    expect(harness.row('1')).toHaveAccessibleName('Changed');
     expect(within(harness.row('1')).getByRole('rowheader')).toHaveFocus();
   });
 
