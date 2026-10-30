@@ -120,13 +120,13 @@ RSpec.describe "Enabling a work package type in all projects", :skip_csrf,
 
   describe "the toggle label after the project set changes some other way" do
     def add(project)
-      post link_type_projects_path(type_id: type.id),
+      post type_projects_link_path(type_id: type.id),
            params: { project_ids: [{ nodeId: project.id.to_s }.to_json] },
            as: :turbo_stream
     end
 
     def remove(project)
-      delete unlink_type_projects_path(type_id: type.id, project_id: project.id), as: :turbo_stream
+      delete type_projects_link_path(type_id: type.id, project_ids: [project.id]), as: :turbo_stream
     end
 
     it "offers to disable once the last remaining project has been added" do

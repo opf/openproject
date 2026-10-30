@@ -32,9 +32,21 @@ module WorkPackageTypes
     class RowComponent < OpPrimer::BorderBoxRowComponent
       include WorkPackageTypes::VariantRoutes
 
+      SELECTION_TYPE = "type_project"
+
       alias_method :project, :model
 
-      def row_data = { test_selector: "type-projects-row-#{project.id}" }
+      def row_data
+        {
+          test_selector: "type-projects-row-#{project.id}",
+          controller: "sortable-lists--item contextual-action-menu",
+          sortable_lists__item_id_value: project.id,
+          sortable_lists__item_type_value: SELECTION_TYPE,
+          sortable_lists__item_label_value: project.name
+        }
+      end
+
+      def row_tabindex = 0
 
       def name
         render(Projects::InfoLineComponent.new(project:))
@@ -71,6 +83,8 @@ module WorkPackageTypes
           menu.with_show_button(icon: "kebab-horizontal", "aria-label": t(:label_more), scheme: :invisible)
           switch_variant_item(menu) if table.switchable?
           remove_item(menu)
+          bulk_switch_item(menu) if table.switchable?
+          bulk_remove_item(menu)
         end
       end
 
@@ -78,8 +92,9 @@ module WorkPackageTypes
         menu.with_item(
           label: I18n.t("types.edit.projects.actions.switch_variant"),
           tag: :a,
-          href: new_switch_variant_projects_path(table_variant, project_id: project.id),
-          content_arguments: { data: { controller: "async-dialog" } }
+          href: new_variant_projects_switch_path(table_variant, project_ids: [project.id]),
+          content_arguments: { data: { controller: "async-dialog" } },
+          data: { type_projects_selection_scope: "single" }
         ) do |item|
           item.with_leading_visual_icon(icon: :"list-ordered")
         end
@@ -90,8 +105,37 @@ module WorkPackageTypes
           label: I18n.t("types.edit.projects.actions.remove_from_project"),
           scheme: :danger,
           tag: :a,
-          href: unlink_variant_projects_path(table_variant, project_id: project.id, page: table.rows.current_page),
-          content_arguments: { data: { turbo_method: :delete, turbo_confirm: confirm_removal } }
+          href: variant_projects_link_path(table_variant, project_ids: [project.id], page: table.rows.current_page),
+          content_arguments: { data: { turbo_method: :delete, turbo_confirm: confirm_removal } },
+          data: { type_projects_selection_scope: "single" }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :trash)
+        end
+      end
+
+      # The selection's ids are only known in the browser, which completes these links when the menu opens.
+      def bulk_switch_item(menu)
+        menu.with_item(
+          label: I18n.t("types.edit.projects.actions.switch_variant"),
+          tag: :a,
+          href: new_variant_projects_switch_path(table_variant),
+          content_arguments: { data: { controller: "async-dialog", type_projects_selection_action: "switch" } },
+          data: { type_projects_selection_scope: "batch" },
+          hidden: true
+        ) do |item|
+          item.with_leading_visual_icon(icon: :"list-ordered")
+        end
+      end
+
+      def bulk_remove_item(menu)
+        menu.with_item(
+          label: I18n.t("types.edit.projects.actions.remove_from_projects"),
+          scheme: :danger,
+          tag: :a,
+          href: new_variant_projects_link_deletion_path(table_variant),
+          content_arguments: { data: { controller: "async-dialog", type_projects_selection_action: "remove" } },
+          data: { type_projects_selection_scope: "batch" },
+          hidden: true
         ) do |item|
           item.with_leading_visual_icon(icon: :trash)
         end

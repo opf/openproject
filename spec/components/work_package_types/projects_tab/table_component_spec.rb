@@ -87,6 +87,40 @@ RSpec.describe WorkPackageTypes::ProjectsTab::TableComponent, type: :component d
       .to have_css(".color-fg-muted", exact_text: I18n.t("projects.settings.types.project_specific_variant"))
   end
 
+  it "lets rows be selected but not dragged" do
+    table = page.find_by_id("project-table")
+
+    expect(table["data-sortable-lists-selection-enabled-value"]).to eq("true")
+    expect(table["data-sortable-lists-drag-enabled-value"]).to eq("false")
+  end
+
+  it "makes each row a focusable selection item identified by its project" do
+    expect(base_row["data-sortable-lists--item-id-value"]).to eq(on_base.id.to_s)
+    expect(base_row["tabindex"]).to eq("0")
+  end
+
+  it "offers switching and removal for the row's own project" do
+    expect(base_row).to have_css(".ActionListItem", text: "Switch variant")
+    expect(base_row).to have_css(".ActionListItem", text: "Remove type from this project")
+  end
+
+  it "points the selection's menu actions at the bulk dialogs" do
+    table = page.find_by_id("project-table")
+
+    expect(table["data-controller"]).to include("admin--type-projects-selection")
+    expect(table["data-admin--type-projects-selection-switch-url-value"])
+      .to eq(new_type_projects_switch_path(type_id: type.id))
+    expect(table["data-admin--type-projects-selection-remove-url-value"])
+      .to eq(new_type_projects_link_deletion_path(type_id: type.id))
+  end
+
+  it "holds the plural actions back until the row's menu acts on a selection" do
+    batch_items = base_row.all("[data-type-projects-selection-scope='batch']", visible: :all)
+
+    expect(batch_items.map { it.text(:all).strip }).to eq(["Switch variant", "Remove type from these projects"])
+    expect(batch_items).to all(match_selector("[hidden]", visible: :all))
+  end
+
   context "without any project" do
     let(:projects) { Project.none }
 

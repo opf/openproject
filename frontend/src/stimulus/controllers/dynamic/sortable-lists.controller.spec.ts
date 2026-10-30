@@ -2237,6 +2237,18 @@ describe('Sortable lists controller', () => {
     });
   });
 
+  describe('selection without dragging', () => {
+    it('still selects items when dragEnabled is false', async () => {
+      const { root, items } = renderSelectableRoot();
+      root.setAttribute('data-sortable-lists-drag-enabled-value', 'false');
+      await ctx.nextFrame();
+
+      click(items[0], { ctrlKey: true }); click(items[1], { ctrlKey: true });
+
+      expect(items.filter(isSelected)).toEqual([items[0], items[1]]);
+    });
+  });
+
   function morphRoot(root:HTMLElement) {
     root.dispatchEvent(new CustomEvent('turbo:morph-element', { bubbles: true }));
   }

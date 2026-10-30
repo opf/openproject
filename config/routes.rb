@@ -176,14 +176,19 @@ Rails.application.routes.draw do
       resource :projects, controller: "projects_tab", only: %i[edit update] do
         collection do
           post :enable_all, to: "projects_tab#enable_all_projects"
+        end
 
-          get :new_link
-          get :tree
-          post :link
-          delete :unlink
+        scope module: :projects_tab do
+          resource :link, only: %i[new create destroy] do
+            scope module: :links do
+              resource :deletion, only: %i[new]
+              resources :candidates, only: %i[index]
+            end
+          end
 
-          get :new_switch
-          post :switch
+          resource :switch, only: %i[new create] do
+            resource :confirmation, only: %i[new], module: :switches
+          end
         end
       end
     end
