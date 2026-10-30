@@ -83,6 +83,14 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
   describe "GET /admin/llm_feature_bindings" do
     before { login_as admin }
 
+    it "shows the shared header description" do
+      create(:llm_connection, :with_models, base_url:)
+
+      get llm_feature_bindings_path
+
+      expect(response.body).to include(I18n.t("admin.llm_connections.header_description"))
+    end
+
     it "sends the administrator to the settings while no connection is stored" do
       get llm_feature_bindings_path
 
@@ -128,13 +136,6 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         expect(page).to have_css("[data-test-selector='llm-settings--tabs'] a[href='#{llm_connection_path}']")
         expect(page).to have_css("[data-test-selector='llm-settings--tabs'] a[href='#{llm_models_path}']")
         expect(page).to have_css("[data-test-selector='llm-settings--tabs'] a[href='#{llm_feature_bindings_path}']")
-      end
-
-      it "points at the page where the default models are chosen" do
-        get llm_feature_bindings_path
-
-        expect(response.body).to include("use the default models set on the")
-        expect(response.body).to include(llm_models_path)
       end
 
       it "names the default model a feature inherits" do
