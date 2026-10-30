@@ -50,6 +50,8 @@ export interface OpContextMenuItem {
   icon?:string;
   /** Octicon name, rendered instead of the legacy `icon` class. */
   octicon?:DynamicIconName;
+  postIcon?:string|null;
+  postIconTitle?:string|null;
   href?:string;
   class?:string;
   ariaLabel?:string;
