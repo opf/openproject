@@ -49,14 +49,9 @@ export abstract class AbstractWidgetComponent extends UntilDestroyedMixin {
 
   readonly headingId = generateId('widget-heading');
 
-  // eslint-disable-next-line @typescript-eslint/class-literal-property-style
-  @HostBinding('attr.role') get role():string|null {
-    return 'region';
-  }
+  @HostBinding('attr.role') readonly role:string|null = 'region';
 
-  @HostBinding('attr.aria-labelledby') get ariaLabelledBy():string|null {
-    return this.headingId;
-  }
+  @HostBinding('attr.aria-labelledby') readonly ariaLabelledBy:string|null = this.headingId;
 
   @Input() resource:GridWidgetResource;
 

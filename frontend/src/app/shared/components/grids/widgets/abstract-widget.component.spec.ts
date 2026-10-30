@@ -41,13 +41,9 @@ class TestWidgetComponent extends AbstractWidgetComponent {}
   standalone: true,
 })
 class TestWrapperComponent extends AbstractWidgetComponent {
-  public override get role():string|null {
-    return null;
-  }
+  override readonly role:string|null = null;
 
-  public override get ariaLabelledBy():string|null {
-    return null;
-  }
+  override readonly ariaLabelledBy:string|null = null;
 }
 
 describe('AbstractWidgetComponent', () => {

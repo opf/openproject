@@ -99,6 +99,7 @@ describe('WorkPackageEmbeddedGraphComponent', () => {
   it('uses a unique description ID for each graph', () => {
     const first = renderGraph([dataset('First query', 2)]);
     const second = renderGraph([dataset('Second query', 3)]);
+    document.body.append(first.element, second.element);
 
     const firstCanvas = first.element.querySelector('canvas')!;
     const secondCanvas = second.element.querySelector('canvas')!;
