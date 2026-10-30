@@ -323,6 +323,13 @@ module Pages
       page.driver.browser.keyboard.type(*keys)
     end
 
+    # Ferrum maps no symbol to the Menu key, so dispatch it from its own key table.
+    def press_menu_key
+      key = Ferrum::Keyboard::KEYS.fetch("ContextMenu").transform_keys(&:to_sym)
+      page.driver.browser.page.command("Input.dispatchKeyEvent", type: "rawKeyDown", **key)
+      page.driver.browser.page.command("Input.dispatchKeyEvent", type: "keyUp", **key)
+    end
+
     # Expects the "Create new work package" button below the results to be rendered.
     def expect_inline_create_button
       expect(table_container).to have_button("Create new work package")

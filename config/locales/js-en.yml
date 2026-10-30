@@ -1160,6 +1160,14 @@ en:
       scheduling:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+      selection:
+        all_selected:
+          one: "All %{count} work package on this page selected."
+          other: "All %{count} work packages on this page selected."
+        cleared: "Selection cleared."
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: "Show all users with whom the work package has been shared with"
         title: "Share work package"
