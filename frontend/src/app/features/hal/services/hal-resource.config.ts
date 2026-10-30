@@ -70,6 +70,7 @@ const halResourceDefaultConfig:Record<string, HalResourceFactoryConfigInterface>
   WorkPackage: {
     cls: WorkPackageResource,
     attrTypes: {
+      author: 'User',
       parent: 'WorkPackage',
       ancestors: 'WorkPackage',
       children: 'WorkPackage',

@@ -29,7 +29,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, NgModule, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
-import { config, EMPTY, of } from 'rxjs';
+import { config, EMPTY, of, Subject } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { userEvent } from 'vitest/browser';
@@ -255,5 +255,25 @@ describe('project inclusion interaction', () => {
     expect(fixture.componentInstance.selected()).toEqual([]);
     expect(input).not.toBeChecked();
     expect(updates).toHaveBeenCalledExactlyOnceWith([]);
+  });
+
+  it('passes false for unresolved subproject inclusion and follows boolean emissions', () => {
+    const fixture = TestBed.createComponent(OpProjectIncludeComponent);
+    const includeSubprojects$ = new Subject<boolean>();
+    Object.defineProperty(fixture.componentInstance, 'includeSubprojects$', { value: includeSubprojects$ });
+    fixture.componentInstance.projects$ = of([project('parent', [project('child')])]);
+    fixture.componentInstance.selectedProjects = ['/api/v3/projects/parent'];
+    fixture.detectChanges();
+    const list = fixture.debugElement.query(By.directive(OpProjectIncludeListComponent)).componentInstance as OpProjectIncludeListComponent;
+    expect(list.includeSubprojects).toBe(false);
+    includeSubprojects$.next(true);
+    fixture.detectChanges();
+    expect(list.includeSubprojects).toBe(true);
+    expect((fixture.nativeElement as HTMLElement).querySelector('[data-qa-project-include-id="child"] input')).toBeChecked();
+    includeSubprojects$.next(false);
+    fixture.detectChanges();
+    expect(list.includeSubprojects).toBe(false);
+    expect((fixture.nativeElement as HTMLElement).querySelector('[data-qa-project-include-id="child"] input')).not.toBeChecked();
+    fixture.destroy();
   });
 });

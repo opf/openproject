@@ -3,6 +3,6 @@
   class="advanced-filters--date-field"
   [opAutofocus]="shouldFocus"
   (valueChange)="valueChanged($event)"
-  [value]="formatter(value)"
+  [value]="formatter(value) ?? ''"
   [required]="true"
  />

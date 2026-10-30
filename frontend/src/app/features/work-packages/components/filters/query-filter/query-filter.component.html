@@ -107,17 +107,19 @@
            />
         }
         @default {
-          @if (filter.currentSchema.loadedAllowedValues()) {
-            <op-filter-toggled-multiselect-value (filterChanged)="onFilterUpdated($event)"
-              [shouldFocus]="shouldFocus"
-              [filter]="filter"
-             />
-          }
-          @if (!filter.currentSchema.loadedAllowedValues()) {
-            <op-filter-searchable-multiselect-value (filterChanged)="onFilterUpdated($event)"
-              [shouldFocus]="shouldFocus"
-              [filter]="filter"
-             />
+          @if (filter.currentSchema; as schema) {
+            @if (schema.loadedAllowedValues()) {
+              <op-filter-toggled-multiselect-value (filterChanged)="onFilterUpdated($event)"
+                [shouldFocus]="shouldFocus"
+                [filter]="filter"
+               />
+            }
+            @if (!schema.loadedAllowedValues()) {
+              <op-filter-searchable-multiselect-value (filterChanged)="onFilterUpdated($event)"
+                [shouldFocus]="shouldFocus"
+                [filter]="filter"
+               />
+            }
           }
         }
       }

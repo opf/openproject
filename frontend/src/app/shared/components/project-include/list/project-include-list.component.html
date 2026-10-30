@@ -2,7 +2,6 @@
   <li
     class="spot-list--item op-project-include-list--item"
     data-test-selector="op-project-include-list--item"
-    [attr.data-list-selector]="projectListItemIdentifier"
     >
     <spot-tooltip
       class="op-project-include-list--tooltip"
@@ -19,7 +18,6 @@
             'spot-list--item-action_disabled': project.disabled,
             'spot-list--item-action_active': (searchableProjectListService.selectedItemID$ | async) === project.id
           }"
-          [attr.data-list-selector]="projectListActionIdentifier"
           [attr.data-list-disabled]="project.disabled || undefined"
           >
           <spot-checkbox [tabindex]="-1"
