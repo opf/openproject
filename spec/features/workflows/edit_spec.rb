@@ -160,6 +160,34 @@ RSpec.describe "Workflow edit", :js do
     end
   end
 
+  it "keeps the default transitions when saving a tab without transitions" do
+    visit_workflow_edit(roles: [role], tab: "author")
+
+    expect(page).to have_heading "No status transitions configured"
+
+    click_button "Save"
+
+    expect_flash(message: "Successful update.")
+
+    expect_transition(role, 0, 1, exist: true)
+  end
+
+  context "with a second role without transitions" do
+    let!(:other_role) { create(:project_role) }
+
+    it "keeps the first role's transitions when saving the second role's empty tab" do
+      visit_workflow_edit(roles: [other_role])
+
+      expect(page).to have_heading "No status transitions configured"
+
+      click_button "Save"
+
+      expect_flash(message: "Successful update.")
+
+      expect_transition(role, 0, 1, exist: true)
+    end
+  end
+
   context "when switching tabs", :js do
     let!(:author_workflow) do
       create(:workflow, role_id: role.id, type_id: type.id,
@@ -234,6 +262,42 @@ RSpec.describe "Workflow edit", :js do
       expect(page).to have_css("#workflow_form_author")
 
       expect_transition(role, 1, 0, exist: true)
+    end
+
+    it "saves to the author tab after switching to it from the default tab" do
+      switch_transition_tab "User is author"
+
+      within "#workflow_form_author" do
+        check workflow_checkbox(2, 1)
+      end
+
+      click_button "Save"
+
+      expect_flash(message: "Successful update.")
+
+      expect_transition(role, 2, 1, exist: true, author: true)
+      expect_transition(role, 1, 2, exist: true, author: true)
+      expect_transition(role, 0, 1, exist: true)
+      expect_transition(role, 2, 1, exist: false)
+    end
+
+    it "saves to the default tab after switching to it from the author tab" do
+      visit_workflow_edit(roles: [role], tab: "author")
+
+      switch_transition_tab "Default transitions"
+
+      within "#workflow_form_always" do
+        check workflow_checkbox(1, 0)
+      end
+
+      click_button "Save"
+
+      expect_flash(message: "Successful update.")
+
+      expect_transition(role, 1, 0, exist: true)
+      expect_transition(role, 0, 1, exist: true)
+      expect_transition(role, 1, 2, exist: true, author: true)
+      expect_transition(role, 1, 0, exist: false, author: true)
     end
 
     it "keeps unsaved changes and stays on the same tab when closing the dialog via 'X'" do

@@ -156,16 +156,13 @@ module WorkPackageTypes
     end
 
     # The matrix submits its inputs with the wizard form, along with the roles and
-    # transition tab it was showing, so that only that slice is rewritten.
+    # transition tab it was showing, so that only that slice is rewritten. Without a tab
+    # the lazily loaded matrix never rendered, and there is nothing to persist.
     def update_workflows
-      matrix_context = ::Workflows::MatrixContext.new(
-        variant: @variant,
-        tab: params[:tab],
-        role_ids: params[:role_ids]
-      )
+      return advance unless params.key?(:tab)
 
       service_call = ::Workflows::MatrixUpdateService
-                       .new(variant: @variant, roles: matrix_context.roles, tab: matrix_context.tab)
+                       .new(context: submitted_matrix_context)
                        .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
 
       if service_call.success?
@@ -173,6 +170,10 @@ module WorkPackageTypes
       else
         render :show, status: :unprocessable_entity
       end
+    end
+
+    def submitted_matrix_context
+      ::Workflows::MatrixContext.new(variant: @variant, tab: params[:tab], role_ids: params[:role_ids])
     end
 
     def advance

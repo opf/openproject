@@ -35,22 +35,23 @@ module Workflows
   # Accepts the matrix straight from the submitted form, so that every context showing
   # the matrix — the workflow tab, the type creation wizard — persists it identically.
   class MatrixUpdateService
-    def initialize(variant:, roles:, tab:)
-      @variant = variant
-      @roles = roles
-      @tab = tab
+    def initialize(context:)
+      @context = context
     end
 
     # A linked variant reuses its source's transitions and must never have its own rewritten.
     def call(status: nil, indeterminate_status: nil)
       return ServiceResult.success if variant.linked?(TypeVariant::WORKFLOWS)
+      return ServiceResult.failure unless context.explicit_selection?
 
       persist(transitions: matrix(status), indeterminate: matrix(indeterminate_status))
     end
 
     private
 
-    attr_reader :variant, :roles, :tab
+    attr_reader :context
+
+    delegate :variant, :roles, :tab, to: :context
 
     def persist(transitions:, indeterminate:)
       results = []

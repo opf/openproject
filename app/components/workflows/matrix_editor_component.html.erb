@@ -167,6 +167,11 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     <% end %>
   <% else %>
+    <% roles.each do |role| %>
+      <%= hidden_field_tag "role_ids[]", role.id %>
+    <% end %>
+    <%= hidden_field_tag "tab", tab %>
+
     <%= render Workflows::BlankslateComponent.new(context:) %>
   <% end %>
 <% end %>
