@@ -26,6 +26,7 @@
 //++
 
 import type { WorkPackageTable } from '../wp-fast-table';
+import { inlineCreateSelector } from '../handlers/state/keyboard/roving-tabindex';
 
 const totalsRowSelector = 'tr.wp-table--sums-row';
 
@@ -46,7 +47,7 @@ export function totalsRowOf(table:WorkPackageTable):HTMLTableRowElement|null {
 }
 
 export function isInlineCreateRow(row:HTMLTableRowElement):boolean {
-  return row.parentElement?.hasAttribute('wpInlineCreate') === true;
+  return row.parentElement?.matches(inlineCreateSelector) === true;
 }
 
 export function isEmptyResultsRow(row:HTMLTableRowElement):boolean {
