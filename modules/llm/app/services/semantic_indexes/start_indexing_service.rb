@@ -42,6 +42,8 @@ module SemanticIndexes
     def perform
       return failure(I18n.t(:notice_not_authorized)) unless authorized?
 
+      return pgvector_missing unless OpenProject::Llm::Pgvector.available?
+
       model.start_indexing!
       model.update!(indexing_batch_id: indexing_batch.id)
 
@@ -55,6 +57,10 @@ module SemanticIndexes
     def authorized? = user.admin? && user.active?
 
     def indexing_batch = Llm::IndexWorkPackagesJob.enqueue_for(model)
+
+    def pgvector_missing
+      failure(I18n.t("admin.semantic_indexes.indexing.not_ready.pgvector_missing"))
+    end
 
     def failure(message) = ServiceResult.failure(result: model, message:)
   end
