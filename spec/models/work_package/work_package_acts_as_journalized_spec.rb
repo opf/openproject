@@ -1098,10 +1098,7 @@ RSpec.describe WorkPackage do
 
       include_examples "journaled values for",
                        new_values_set: {
-                         "journal_cause" => {
-                           "type" => "The good cause",
-                           "some_reference" => 42
-                         }
+                         "journal_cause" => CauseOfChange::Base.new("The good cause", "some_reference" => 42)
                        },
                        expected_values: {},
                        expected_cause: {
@@ -1115,16 +1112,16 @@ RSpec.describe WorkPackage do
       shared_let(:journable) do
         create(:work_package,
                journals: {
-                 4.minutes.ago => { user:, cause: "XYZ" }
+                 4.minutes.ago => { user:, cause: { "type" => "import" } }
                })
       end
 
       include_examples "journaled values for",
                        new_values_set: {
-                         "journal_cause" => "ABC"
+                         "journal_cause" => CauseOfChange::Base.new("system_update")
                        },
                        expected_values: {},
-                       expected_cause: "ABC",
+                       expected_cause: { "type" => "system_update" },
                        expect_new_journal: true
     end
 
@@ -1134,20 +1131,20 @@ RSpec.describe WorkPackage do
                subject: "Initial subject",
                journals: {
                  10.minutes.ago => { user: },
-                 4.minutes.ago => { user:, cause: "ABC" }
+                 4.minutes.ago => { user:, cause: { "type" => "system_update" } }
                })
       end
 
       # Adding the change to subject here to show that the whole change is aggregated
       include_examples "journaled values for",
                        new_values_set: {
-                         "journal_cause" => "ABC",
+                         "journal_cause" => CauseOfChange::Base.new("system_update"),
                          "subject" => "Changed subject"
                        },
                        expected_values: {
                          "subject" => ["Initial subject", "Changed subject"]
                        },
-                       expected_cause: "ABC",
+                       expected_cause: { "type" => "system_update" },
                        expect_new_journal: false
     end
 
@@ -1157,7 +1154,7 @@ RSpec.describe WorkPackage do
                subject: "Initial subject",
                journals: {
                  10.minutes.ago => { user: },
-                 4.minutes.ago => { user:, cause: "ABC" }
+                 4.minutes.ago => { user:, cause: { "type" => "system_update" } }
                })
       end
 
@@ -1174,7 +1171,7 @@ RSpec.describe WorkPackage do
         journable.subject = "Changed subject"
         journable.save!
 
-        expect(journable.journals.reload[-2].cause).to eq("ABC")
+        expect(journable.journals.reload[-2].cause).to eq("type" => "system_update")
       end
     end
 
@@ -1258,10 +1255,7 @@ RSpec.describe WorkPackage do
                        new_values_set: {
                          "subject" => "Changed subject",
                          "journal_notes" => "Some notes",
-                         "journal_cause" => {
-                           "type" => "The good cause",
-                           "some_reference" => 42
-                         }
+                         "journal_cause" => CauseOfChange::Base.new("The good cause", "some_reference" => 42)
                        },
                        expected_values: {
                          "subject" => ["Initial subject", "Changed subject"]
@@ -1288,10 +1282,7 @@ RSpec.describe WorkPackage do
                        new_values_set: {
                          "subject" => "Changed subject",
                          "journal_notes" => "Some notes",
-                         "journal_cause" => {
-                           "type" => "The good cause",
-                           "some_reference" => 42
-                         }
+                         "journal_cause" => CauseOfChange::Base.new("The good cause", "some_reference" => 42)
                        },
                        expected_values: {
                          "subject" => ["Initial subject", "Changed subject"]
@@ -1318,10 +1309,7 @@ RSpec.describe WorkPackage do
                        new_values_set: {
                          "subject" => "Changed subject",
                          "journal_notes" => "Some notes",
-                         "journal_cause" => {
-                           "type" => "The good cause",
-                           "some_reference" => 42
-                         }
+                         "journal_cause" => CauseOfChange::Base.new("The good cause", "some_reference" => 42)
                        },
                        expected_values: {
                          "subject" => ["Initial subject", "Changed subject"]
@@ -1383,10 +1371,10 @@ RSpec.describe WorkPackage do
 
       include_examples "journaled values for",
                        new_values_set: {
-                         "journal_cause" => "ABC"
+                         "journal_cause" => CauseOfChange::Base.new("system_update")
                        },
                        expected_values: {},
-                       expected_cause: "ABC",
+                       expected_cause: { "type" => "system_update" },
                        expect_new_journal: true
     end
 
@@ -1402,10 +1390,10 @@ RSpec.describe WorkPackage do
 
       include_examples "journaled values for",
                        new_values_set: {
-                         "journal_cause" => "ABC"
+                         "journal_cause" => CauseOfChange::Base.new("system_update")
                        },
                        expected_values: {},
-                       expected_cause: "ABC",
+                       expected_cause: { "type" => "system_update" },
                        expect_new_journal: true,
                        expect_journable_update_at_changed: false
     end
