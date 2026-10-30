@@ -9,7 +9,7 @@ import { render } from 'vitest-browser-react';
 import {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
-  openProjectWorkPackageAttributeSpec,
+  openProjectWorkPackageAttributeInlineSpec,
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
   OpenProjectHashMenu,
@@ -26,7 +26,7 @@ const defaultSchema = BlockNoteSchema.create().extend({
   },
   inlineContentSpecs: {
     openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
-    openProjectWorkPackageAttribute: openProjectWorkPackageAttributeSpec,
+    openProjectWorkPackageAttributeInline: openProjectWorkPackageAttributeInlineSpec,
   },
 });
 
