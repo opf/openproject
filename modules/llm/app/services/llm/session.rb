@@ -127,17 +127,18 @@ module Llm
         apply_credentials(config)
 
         config.openproject_custom_headers = connection.custom_headers
-        config.request_timeout = timeout
-        # RubyLLM retries POSTs three times by default, so one completion can be
-        # billed four times. Callers state what they are willing to pay for.
-        config.max_retries = max_retries
-        # Not Rails.logger: RubyLLM wires its Faraday logger middleware with
-        # "bodies: RubyLLM.logger.debug?", so an instance running at debug level
-        # would write full request and response bodies through a path
-        # Llm::Errors.log never sees, including an error body that echoes the
-        # credential.
-        config.logger = Logger.new(IO::NULL)
+        apply_request_options(config)
       end
+    end
+
+    def apply_request_options(config)
+      config.request_timeout = timeout
+      # RubyLLM retries POSTs three times by default, so one completion can be
+      # billed four times. Callers state what they are willing to pay for.
+      config.max_retries = max_retries
+      # OpenAI-compatible servers such as vLLM or Ollama drop the "developer"
+      # role, and the instructions with it.
+      config.openai_use_system_role = true
     end
 
     def apply_credentials(config)
