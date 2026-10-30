@@ -60,8 +60,8 @@ export interface KeyboardNavigation {
   focusPosition(position:FocusPosition):void;
   /** Remembers the position without painting or focusing it. */
   recordPosition(position:FocusPosition):void;
-  /** Focuses the origin again, or the row hiding it, unless the user has since moved elsewhere, an editor is open or focus rests on a live control. */
-  returnFocus(origin:FocusPosition):void;
+  /** Focuses the origin again, or the row hiding it, unless the user has since moved elsewhere, an editor is open or focus rests on a live control; true when it focused. */
+  returnFocus(origin:FocusPosition):boolean;
   /** Returns focus to `origin` after a menu closed, though focus visited the menu portal; same userPosition guard as returnFocus, and never takes focus from a control outside the table. */
   returnFocusFromMenu(origin:FocusPosition):void;
   /** The position of the navigable cell or row enclosing `cell`, or null when it is not a rendered occurrence. */
@@ -222,10 +222,6 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     }
   }
 
-  public returnFocus(origin:FocusPosition):void {
-    this.restoreFocus(origin);
-  }
-
   public returnFocusFromMenu(origin:FocusPosition):void {
     if (this.table.destroyed || !this.focusAtRest()) {
       return;
@@ -233,14 +229,14 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
     const focusLeftTable = this.focusLeftTable;
     this.focusLeftTable = false;
-    if (this.restoreFocus(origin)) {
+    if (this.returnFocus(origin)) {
       this.owned = true;
     } else {
       this.focusLeftTable = focusLeftTable;
     }
   }
 
-  private restoreFocus(origin:FocusPosition):boolean {
+  public returnFocus(origin:FocusPosition):boolean {
     const user = this.userPosition;
     if (user && (user.key !== origin.key || user.cell !== origin.cell)) {
       return false;
