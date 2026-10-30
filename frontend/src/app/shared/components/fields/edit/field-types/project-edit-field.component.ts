@@ -39,6 +39,13 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { IAPIFilter } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import {
+  ProjectSelection,
+  createProjectSelectionAdapter,
+  projectSelectionToResource,
+} from 'core-app/shared/components/autocompleter/selection/project-selection';
+
+const unloaded = Symbol('unloaded');
 
 @Component({
   templateUrl: './project-edit-field.component.html',
@@ -52,11 +59,32 @@ export class ProjectEditFieldComponent extends AutocompleterEditFieldComponent i
   readonly http = inject(HttpClient);
   readonly halResourceService = inject(HalResourceService);
 
+  readonly selection = createProjectSelectionAdapter();
+
   isNew = isNewResource(this.resource);
 
   url:string;
 
+  private loadedValue:unknown = unloaded;
+
+  ngOnInit():void {
+    this.selection.changes$
+      .pipe(this.untilDestroyed())
+      .subscribe((value) => this.onSelectionChange(value));
+
+    this.selection.stateChanges$
+      .pipe(this.untilDestroyed())
+      .subscribe(() => this.cdRef.markForCheck());
+
+    super.ngOnInit();
+  }
+
   initialize():void {
+    if (this.value !== this.loadedValue) {
+      this.loadedValue = this.value;
+      this.selection.bridge.load(this.value);
+    }
+
     if (this.schema.allowedValues) {
       this.setUrl();
     } else {
@@ -64,19 +92,14 @@ export class ProjectEditFieldComponent extends AutocompleterEditFieldComponent i
     }
   }
 
-  public onModelChange(project:unknown):unknown {
-    if (project !== undefined && (typeof project !== 'object' || Array.isArray(project))) { return; }
-    if (project) {
-      // We fake a HalResource here because we're using a plain JS object, but the schema loading and editing
-      // is part of the older HalResource stack
-      const newProject = { ...project };
-      const fakeProjectHal = this.halResourceService.createHalResourceOfType('project', newProject);
-      this.value = fakeProjectHal;
-    } else {
-      this.value = null;
-    }
+  onSelectionChange(value:ProjectSelection):void {
+    this.value = projectSelectionToResource(value, {
+      halResourceService: this.halResourceService,
+      apiV3Service: this.apiV3Service,
+    });
+    this.loadedValue = this.value;
 
-    return this.handler.handleUserSubmit();
+    void this.handler.handleUserSubmit();
   }
 
   public get APIFilters():IAPIFilter[] {
