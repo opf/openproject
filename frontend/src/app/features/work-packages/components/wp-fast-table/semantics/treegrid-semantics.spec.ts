@@ -118,6 +118,8 @@ describe('TreegridSemantics', () => {
     expect(headers[0]).not.toHaveAttribute('role');
     expect(headers[0]).toHaveClass(header);
     expect(headers[0]).toHaveAccessibleName(name);
+    expect(row).toHaveAttribute('aria-labelledby', headers[0].id);
+    expect(row).toHaveAccessibleName(name);
 
     Array.from(row.cells).filter((cell) => !headers.includes(cell)).forEach((cell) => {
       expect(cell).toHaveAttribute('role', 'gridcell');
@@ -132,6 +134,7 @@ describe('TreegridSemantics', () => {
     const row = harness.row('17');
     expect(within(row).queryAllByRole('rowheader')).toEqual([]);
     expect(row.querySelectorAll(':scope > th')).toHaveLength(0);
+    expect(row).not.toHaveAttribute('aria-labelledby');
     Array.from(row.cells).forEach((cell) => {
       expect(cell).toHaveAttribute('role', 'gridcell');
       expect(cell).not.toHaveAttribute('aria-label');
@@ -170,17 +173,20 @@ describe('TreegridSemantics', () => {
     mount({ workPackages: [{ id: '17', subject: 'Alpha' }], columns: ['id', 'subject', 'status'] });
     await harness.render();
     expect(within(harness.row('17')).getByRole('rowheader', { name: 'Alpha' })).toHaveClass('subject');
+    expect(harness.row('17')).toHaveAccessibleName('Alpha');
 
     let rendered = harness.nextRender();
     harness.setColumns(['status', 'id']);
     await rendered;
     expect(within(harness.row('17')).getByRole('rowheader', { name: '17' })).toHaveClass('id');
     expect(within(harness.row('17')).queryByRole('rowheader', { name: 'Alpha', hidden: true })).toBeNull();
+    expect(harness.row('17')).toHaveAccessibleName('17');
 
     rendered = harness.nextRender();
     harness.setColumns(['status']);
     await rendered;
     expect(within(harness.row('17')).queryAllByRole('rowheader', { hidden: true })).toEqual([]);
+    expect(harness.row('17')).not.toHaveAttribute('aria-labelledby');
     Array.from(harness.row('17').cells).forEach((cell) => {
       expect(cell).toHaveAttribute('role', 'gridcell');
       expect(cell).not.toHaveAttribute('aria-label');
@@ -191,6 +197,7 @@ describe('TreegridSemantics', () => {
     harness.setColumns(['status', 'subject', 'id']);
     await rendered;
     expect(within(harness.row('17')).getByRole('rowheader', { name: 'Alpha' })).toHaveClass('subject');
+    expect(harness.row('17')).toHaveAccessibleName('Alpha');
   });
 
   it('reprojects names when query view services are reinitialized', async () => {
@@ -217,8 +224,26 @@ describe('TreegridSemantics', () => {
     harness.table.semantics.paintWorkPackage('1');
     expect(within(harness.row('1')).getByRole('rowheader', { name: 'Work package 1' })).toHaveClass('subject');
     [groupHeader(0), groupHeader(1), sumsRow(0), sumsRow(1), harness.totalsRow(), harness.headerRow()]
-      .forEach((row) => expect(within(row).queryAllByRole('rowheader', { hidden: true })).toEqual([]));
+      .forEach((row) => {
+        expect(within(row).queryAllByRole('rowheader', { hidden: true })).toEqual([]);
+        expect(row).not.toHaveAttribute('aria-labelledby');
+      });
     expect(within(harness.headerRow()).getAllByRole('columnheader').length).toBeGreaterThan(0);
+  });
+
+  it('drops a stale row name from column header and header-less rows', async () => {
+    mount({ workPackages: [{ id: '17', subject: 'Alpha' }], columns: ['id', 'subject'] });
+    await harness.render();
+    const row = harness.row('17');
+    row.setAttribute('aria-labelledby', 'stale');
+    paintRowRole(row, 1, 'columnheader');
+    expect(row).not.toHaveAttribute('aria-labelledby');
+
+    const sums = harness.tbody.insertRow();
+    sums.insertCell().textContent = '42';
+    sums.setAttribute('aria-labelledby', 'stale');
+    paintRowRole(sums, 1);
+    expect(sums).not.toHaveAttribute('aria-labelledby');
   });
 
   it('excludes hierarchy and baseline decoration from the name', async () => {
@@ -256,6 +281,9 @@ describe('TreegridSemantics', () => {
 
       expect(within(harness.row('17')).getByRole('rowheader', { name: 'Alpha' })).toHaveClass('subject');
       expect(within(second.row('17')).getByRole('rowheader', { name: '17' })).toHaveClass('id');
+      expect(harness.row('17').getAttribute('aria-labelledby')).not.toBe(second.row('17').getAttribute('aria-labelledby'));
+      expect(harness.row('17')).toHaveAccessibleName('Alpha');
+      expect(second.row('17')).toHaveAccessibleName('17');
 
       states.workPackages.get('17').putValue(buildWorkPackage({ id: '17', subject: 'Renamed' }));
 
@@ -263,6 +291,7 @@ describe('TreegridSemantics', () => {
         expect(within(harness.row('17')).getByRole('rowheader', { name: 'Renamed' })).toHaveClass('subject');
         expect(within(second.row('17')).getByRole('rowheader', { name: '17' })).toHaveClass('id');
       });
+      expect(harness.row('17')).toHaveAccessibleName('Renamed');
 
       const rendered = harness.nextRender();
       harness.setColumns(['status']);
@@ -280,6 +309,7 @@ describe('TreegridSemantics', () => {
         const currentSecondHeader = within(second.row('17')).getByRole('rowheader', { name: '17' });
         expect(currentSecondHeader).not.toBe(previousSecondHeader);
         expect(currentSecondHeader).toHaveClass('id');
+        expect(second.row('17')).toHaveAttribute('aria-labelledby', currentSecondHeader.id);
       });
     } finally {
       await second.destroy();
@@ -527,6 +557,7 @@ describe('TreegridSemantics', () => {
     });
     expect(within(harness.row('1')).getByRole('rowheader', { hidden: true })).toBe(harness.row('1').cells[1]);
     expect(harness.row('1').cells[1]).toHaveAttribute('aria-label', 'Work package 1');
+    expect(document.getElementById(harness.row('1').getAttribute('aria-labelledby')!)).toBe(harness.row('1').cells[1]);
   });
 
   it('hides the results rowgroup when it holds only the drag placeholder', async () => {

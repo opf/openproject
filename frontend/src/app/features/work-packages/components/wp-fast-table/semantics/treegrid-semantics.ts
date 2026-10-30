@@ -30,6 +30,8 @@ import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packag
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { isSelectableOccurrence } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { ensureId } from 'core-app/shared/helpers/dom-helpers';
+import { baselineStatusName } from '../builders/baseline/baseline-column-builder';
 import { expansionStateOf } from '../helpers/row-expansion';
 import { occurrenceRowKind, type OccurrenceRowKind } from '../helpers/structural-rows';
 import type { RenderedOccurrence } from '../rendered-occurrence-ledger';
@@ -50,8 +52,10 @@ export function paintRowRole(
 ):void {
   row.setAttribute('role', 'row');
   row.setAttribute('aria-level', String(level));
+  let header:HTMLTableCellElement|undefined;
   Array.from(row.cells).forEach((cell) => {
     if (cellRole === 'gridcell' && cell.matches('th[scope="row"]')) {
+      header = cell;
       cell.removeAttribute('role');
       cell.removeAttribute('aria-labelledby');
       cell.setAttribute('aria-label', cell.dataset.rowHeaderName!);
@@ -59,6 +63,9 @@ export function paintRowRole(
       cell.setAttribute('role', cellRole);
     }
   });
+  const status = header ? row.querySelector<HTMLElement>(`:scope > td .${baselineStatusName}`) : null;
+  setOrRemove(row, 'aria-labelledby', header ? ensureId(header, 'wp-row-header') : null);
+  setOrRemove(row, 'aria-describedby', status ? ensureId(status, 'wp-row-status') : null);
 }
 
 export function paintSectionExposure(section:HTMLTableSectionElement):void {

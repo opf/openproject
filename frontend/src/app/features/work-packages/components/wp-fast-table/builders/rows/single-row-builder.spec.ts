@@ -147,19 +147,29 @@ describe('SingleRowBuilder baseline status text', () => {
     ['1', 'added'],
     ['2', 'removed'],
     ['3', 'updated'],
-  ] as const)('names row %s with its %s status', async (workPackageId, state) => {
+  ] as const)('describes row %s with its %s status', async (workPackageId, state) => {
     await mount();
 
-    expect(harness.row(workPackageId)).toHaveAccessibleName(expect.stringContaining(labels[state]));
+    expect(harness.row(workPackageId)).toHaveAccessibleName(`Work package ${workPackageId}`);
+    expect(harness.row(workPackageId)).toHaveAccessibleDescription(labels[state]);
+  });
+
+  it('keeps the status in the content name of rows without a header', async () => {
+    await mount();
+    const rendered = harness.nextRender();
+    harness.setColumns(['status']);
+    await rendered;
+
+    expect(harness.row('1')).toHaveAccessibleName(expect.stringContaining(labels.added));
+    expect(harness.row('1')).not.toHaveAttribute('aria-describedby');
   });
 
   it('adds no status text to unchanged rows', async () => {
     await mount();
 
     expect(baselineCell('4')).toBeEmptyDOMElement();
-    Object.values(labels).forEach((label) => {
-      expect(harness.row('4')).not.toHaveAccessibleName(expect.stringContaining(label));
-    });
+    expect(harness.row('4')).toHaveAccessibleName('Work package 4');
+    expect(harness.row('4')).not.toHaveAttribute('aria-describedby');
   });
 
   it('rebuilds icon and status text together when the baseline state changes', async () => {
@@ -169,8 +179,8 @@ describe('SingleRowBuilder baseline status text', () => {
 
     expect(baselineCell('1').querySelector('.op-table-baseline--icon-removed')).toBeInTheDocument();
     expect(baselineCell('1').querySelector('.op-table-baseline--icon-added')).not.toBeInTheDocument();
-    expect(harness.row('1')).toHaveAccessibleName(expect.stringContaining(labels.removed));
-    expect(harness.row('1')).not.toHaveAccessibleName(expect.stringContaining(labels.added));
+    expect(harness.row('1')).toHaveAccessibleName('Work package 1');
+    expect(harness.row('1')).toHaveAccessibleDescription(labels.removed);
     expect(baselineCell('1')).toHaveAttribute('role', 'gridcell');
   });
 });
@@ -340,12 +350,16 @@ describe('SingleRowBuilder refresh with an active editor', () => {
     harness.expand('3', 'children');
     await harness.render();
 
-    for (const row of [harness.row('2'), harness.relationRow('1', '2'), harness.relationRow('3', '2', 'children')]) {
+    const originalRows = [harness.row('2'), harness.relationRow('1', '2'), harness.relationRow('3', '2', 'children')];
+    for (const row of originalRows) {
       expect(within(row).getAllByRole('rowheader')).toHaveLength(1);
       const header = within(row).getByRole('rowheader', { name: 'Original' });
       expect(header.tagName).toBe('TH');
       expect(header).toHaveAttribute('scope', 'row');
+      expect(row).toHaveAttribute('aria-labelledby', header.id);
+      expect(row).toHaveAccessibleName('Original');
     }
+    expect(new Set(originalRows.map((row) => row.getAttribute('aria-labelledby'))).size).toBe(3);
 
     const origin = harness.row('2').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
     const siblingCells = [
@@ -389,11 +403,15 @@ describe('SingleRowBuilder refresh with an active editor', () => {
 
     expect(origin).toHaveFocus();
     expect(origin.querySelector('.inline-edit--display-field')).toHaveTextContent('Renamed');
-    for (const row of [harness.row('2'), harness.relationRow('1', '2'), harness.relationRow('3', '2', 'children')]) {
+    const renamedRows = [harness.row('2'), harness.relationRow('1', '2'), harness.relationRow('3', '2', 'children')];
+    for (const row of renamedRows) {
       expect(within(row).getAllByRole('rowheader')).toHaveLength(1);
       const header = within(row).getByRole('rowheader', { name: 'Renamed' });
       expect(header.tagName).toBe('TH');
       expect(header).toHaveAttribute('scope', 'row');
+      expect(row).toHaveAttribute('aria-labelledby', header.id);
+      expect(row).toHaveAccessibleName('Renamed');
     }
+    expect(new Set(renamedRows.map((row) => row.getAttribute('aria-labelledby'))).size).toBe(3);
   });
 });

@@ -110,6 +110,7 @@ describe('InlineCreateRowBuilder', () => {
       if (refresh) builder.refreshRow(workPackage, row);
       expect(Array.from(row.cells).every((cell) => cell.tagName === 'TD')).toBe(true);
       expect(within(row).queryAllByRole('rowheader')).toEqual([]);
+      expect(row).not.toHaveAttribute('aria-labelledby');
       expect(within(row.lastElementChild as HTMLElement).getByRole('link', { name: 'Cancel' })).toHaveAttribute('href', '#');
     }
   });
