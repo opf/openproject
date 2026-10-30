@@ -55,13 +55,21 @@ describe('TableRowPositions', () => {
     return harness.render();
   };
   const table = () => harness.tbody.closest('table')!;
+  const captureMessage = vi.fn();
   const index = (row:Element) => row.getAttribute('aria-rowindex');
   const createRow = () => table().querySelector<HTMLTableRowElement>('tbody[wpInlineCreate] tr')!;
   const expectIndices = (rows:Element[], indices:string[]) => {
     expect(rows).toHaveLength(indices.length);
     rows.forEach((row, position) => expect(row).toHaveAttribute('aria-rowindex', indices[position]));
   };
-  afterEach(() => harness?.destroy());
+  beforeEach(() => {
+    captureMessage.mockReset();
+    vi.stubGlobal('ErrorReporter', { captureMessage });
+  });
+  afterEach(async () => {
+    vi.unstubAllGlobals();
+    await harness?.destroy();
+  });
 
   it('uses global positions and includes trailing totals and Create', async () => {
     await mount();
@@ -94,6 +102,14 @@ describe('TableRowPositions', () => {
     extra.insertCell().textContent = 'Unclassified';
     harness.table.rowPositions!.paint();
     harness.expectNoRowPositions();
+  });
+
+  it('reports a foreign row once per table', async () => {
+    await mount();
+    table().createTBody().insertRow().insertCell().textContent = 'Unclassified';
+    harness.table.rowPositions!.paint();
+    harness.table.rowPositions!.paint();
+    expect(captureMessage).toHaveBeenCalledExactlyOnceWith('Row positions withdrawn: foreign row', 'warning');
   });
 
   describe('when withdrawing', () => {

@@ -65,6 +65,8 @@ export class TableRowPositions {
 
   private snapshot:CapturedRowPositions|null = null;
 
+  private foreignRowReported = false;
+
   constructor(private readonly table:WorkPackageTable) {}
 
   public capture(draft:RenderDraft):CapturedRowPositions|null {
@@ -173,7 +175,10 @@ export class TableRowPositions {
     for (const row of rows) {
       if (row === header[0]) continue;
       const kind = classifyRow(this.table, row);
-      if (kind === 'foreign') return this.withdraw('foreign row');
+      if (kind === 'foreign') {
+        this.reportForeignRow();
+        return this.withdraw('foreign row');
+      }
       if (kind === 'placeholder' || kind === 'unexposed') continue;
       if (kind === 'empty') {
         if (body.count !== 0 || emptySurrogate) return this.withdraw('unexpected empty-results row');
@@ -214,6 +219,12 @@ export class TableRowPositions {
   private withdraw(inconsistency:string):null {
     debugLog(`Row positions withdrawn: ${inconsistency}`);
     return null;
+  }
+
+  private reportForeignRow():void {
+    if (this.foreignRowReported) return;
+    this.foreignRowReported = true;
+    window.ErrorReporter.captureMessage('Row positions withdrawn: foreign row', 'warning');
   }
 
   private notOffered(mode:string):null {
