@@ -281,7 +281,10 @@ export class CellInteraction {
   }
 
   public originForControl(control:HTMLElement):FocusPosition|null {
-    return this.tabWalkOrigin ?? this.navigation.positionOfCell(control);
+    const origin = this.tabWalkOrigin;
+    if (origin && this.walkFrom(origin).includes(control)) return origin;
+
+    return this.navigation.positionOfCell(control);
   }
 
   public clearWalk():void {

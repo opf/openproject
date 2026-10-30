@@ -35,21 +35,26 @@ import { wpOccurrenceKey } from '../../rendered-occurrence-ledger';
 describe('WorkPackageStateLinksHandler', () => {
   const harnesses:TableHarness[] = [];
 
-  const mount = async (keyboardNavigationEnabled:boolean) => {
+  const addLink = (cell:HTMLElement, workPackageId:string) => {
+    const link = document.createElement('a');
+    link.href = '#';
+    link.classList.add(uiStateLinkClass);
+    link.dataset.wpState = 'show';
+    link.dataset.workPackageId = workPackageId;
+    cell.append(link);
+    return link;
+  };
+
+  const mount = async (keyboardNavigationEnabled:boolean, ids = ['1']) => {
     const table = buildTable({
-      workPackages: [{ id: '1' }],
+      workPackages: ids.map((id) => ({ id })),
       productionMarkup: true,
       configuration: { keyboardNavigationEnabled },
     });
     harnesses.push(table);
     await table.render();
     const cell = keyboardNavigationEnabled ? navigableCells(table.row('1'))[0] : table.row('1').cells[0];
-    const link = document.createElement('a');
-    link.href = '#';
-    link.classList.add(uiStateLinkClass);
-    link.dataset.wpState = 'show';
-    link.dataset.workPackageId = '1';
-    cell.append(link);
+    const link = addLink(cell, '1');
     return { table, cell, link };
   };
 
@@ -70,6 +75,20 @@ describe('WorkPackageStateLinksHandler', () => {
     expect(table.row('1')).toHaveFocus();
     expect(document.body).not.toHaveFocus();
     expect(clicked).toHaveBeenCalledWith({ workPackageId: '1', requestedState: 'show' });
+  });
+
+  it('returns a link focused outside the walk to its own cell', async () => {
+    const { table, link } = await mount(true, ['1', '2']);
+    const otherCell = navigableCells(table.row('2'))[0];
+    const other = addLink(otherCell, '2');
+    table.table.keyboardNavigation!.focusPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    await userEvent.tab();
+    expect(link).toHaveFocus();
+    other.focus();
+
+    fireEvent.click(other);
+
+    expect(otherCell).toHaveFocus();
   });
 
   it('returns a pointer-activated state link to its enclosing cell', async () => {
