@@ -99,7 +99,6 @@ menu's `<li>`, not on the button inside it:
 ```erb
 <%%= render(Primer::Alpha::ActionMenu.new) do |menu| %>
   <%% menu.with_show_button(icon: "kebab-horizontal", scheme: :invisible, "aria-label": action.label) %>
-  <%% menu.with_divider(data: { sortable_lists__item_target: "moveDivider" }) %>
   <%% menu.with_item(
         label: "Move up",
         tag: :button,
@@ -115,9 +114,9 @@ menu's `<li>`, not on the button inside it:
 `move` looks up the row's `<action-menu>` element and asks it whether that
 `<li>` is disabled or hidden before moving anything; the click reaches the
 `<li>` by bubbling up from the button. A row without an `ActionMenu` still
-drags, its `move` action just does nothing. The `moveDivider` target on the
-divider above the group lets the controller hide it together with the
-actions when none applies.
+drags, its `move` action just does nothing. For menus combining singular
+and batch actions, use `invokerGroup`, `batchGroup`, and `groupDivider`
+targets as described in the API reference tab.
 
 Availability is recomputed every time the menu opens: the first row has no
 "up", the last no "down". Unavailable actions are hidden; set
