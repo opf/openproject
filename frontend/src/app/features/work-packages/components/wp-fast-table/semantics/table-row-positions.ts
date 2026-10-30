@@ -110,7 +110,7 @@ export class TableRowPositions {
   public paint():void {
     if (this.table.destroyed) return;
     const element = this.table.tbody.closest('table');
-    if (!element) return;
+    if (!element || (!this.currentSnapshot() && !element.hasAttribute('aria-rowcount'))) return;
     const rows = Array.from(element.rows);
     const projection = this.project(element, rows);
     setOrRemove(element, 'aria-rowcount', projection ? String(projection.count ?? -1) : null);
@@ -149,9 +149,9 @@ export class TableRowPositions {
   }
 
   private project(element:HTMLTableElement, rows:HTMLTableRowElement[]) {
-    const snapshot = this.snapshot;
-    if (!snapshot) return null;
-    if (snapshot.source !== this.table.querySpace.results.value) return this.notOffered('collection changed before render');
+    if (!this.snapshot) return null;
+    const snapshot = this.currentSnapshot();
+    if (!snapshot) return this.notOffered('collection changed before render');
     const { body } = snapshot;
     const header = element.tHead?.rows;
     if (header?.length !== 1) return this.withdraw('header rows');
@@ -195,6 +195,10 @@ export class TableRowPositions {
       previous = position;
     }
     return { count: snapshot.kind === 'query' ? count : null, indices };
+  }
+
+  private currentSnapshot():CapturedRowPositions|null {
+    return this.snapshot?.source === this.table.querySpace.results.value ? this.snapshot : null;
   }
 
   private withdraw(inconsistency:string):null {

@@ -369,6 +369,16 @@ describe('TableRowPositions', () => {
     harness.expectRowPositions(['1', '22', '23', '102', '103'], '103');
   });
 
+  it('skips the row scan while positions stay withdrawn', async () => {
+    await mount();
+    harness.table.rowPositions!.commit(null);
+    harness.table.rowPositions!.paint();
+    harness.expectNoRowPositions();
+    const scanned = vi.spyOn(table(), 'rows', 'get');
+    harness.table.rowPositions!.paint();
+    expect(scanned).not.toHaveBeenCalled();
+  });
+
   it('stops painting after teardown', async () => {
     await mount();
     await harness.destroy();
