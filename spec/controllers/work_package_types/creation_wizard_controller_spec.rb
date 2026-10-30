@@ -118,6 +118,12 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
 
           expect(response).to redirect_to(type_creation_wizard_path(type, step: :projects))
         end
+
+        it "refuses a matrix submitted without roles" do
+          patch :update, params: { type_id: type.id, step: :workflows, tab: "always" }
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
       end
 
       describe "PATCH update on the last step" do

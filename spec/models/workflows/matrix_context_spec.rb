@@ -72,6 +72,33 @@ RSpec.describe Workflows::MatrixContext do
     end
   end
 
+  describe "#explicit_selection?" do
+    it "is true for a known tab and eligible roles" do
+      expect(described_class.new(variant:, tab: "author", role_ids: [role.id.to_s, other_role.id.to_s]))
+        .to be_explicit_selection
+    end
+
+    it "is false without a tab" do
+      expect(described_class.new(variant:, role_ids: [role.id])).not_to be_explicit_selection
+    end
+
+    it "is false for an unknown tab" do
+      expect(described_class.new(variant:, tab: "bogus", role_ids: [role.id])).not_to be_explicit_selection
+    end
+
+    it "is false without roles" do
+      expect(described_class.new(variant:, tab: "always")).not_to be_explicit_selection
+    end
+
+    it "is false when a requested role is not eligible" do
+      expect(described_class.new(variant:, tab: "always", role_ids: [role.id, 0])).not_to be_explicit_selection
+    end
+
+    it "is false when no requested role is eligible" do
+      expect(described_class.new(variant:, tab: "always", role_ids: [0])).not_to be_explicit_selection
+    end
+  end
+
   describe "#statuses" do
     before { create_transition(old_status: status_a, new_status: status_b) }
 

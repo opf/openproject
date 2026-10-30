@@ -53,6 +53,14 @@ module Workflows
       @tab ||= TABS.include?(@requested_tab.to_s) ? @requested_tab.to_s : DEFAULT_TAB
     end
 
+    # Rendering falls back to a default tab and role. Persisting must not: a write without an
+    # explicit tab and roles would rewrite transitions the user was never shown.
+    def explicit_selection?
+      TABS.include?(@requested_tab.to_s) &&
+        requested_role_ids.any? &&
+        roles.map(&:id).sort == requested_role_ids
+    end
+
     def readonly? = variant.linked?(TypeVariant::WORKFLOWS)
 
     def eligible_roles
@@ -122,6 +130,10 @@ module Workflows
 
     def status_ids_from(ids)
       Array(ids).flatten.map(&:to_i)
+    end
+
+    def requested_role_ids
+      Array(@requested_role_ids).map(&:to_i).uniq.sort
     end
 
     def belongs_to_tab?(workflow)
