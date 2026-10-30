@@ -52,6 +52,6 @@ export class CausedUpdatesService {
   }
 
   private cacheValue(query:QueryResource) {
-    return query.updatedAt + query.href;
+    return `${query.updatedAt}${query.id}`;
   }
 }

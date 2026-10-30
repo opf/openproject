@@ -105,6 +105,23 @@ export interface DisabledButtonPlaceholder {
   icon:string;
 }
 
+export function listNeedsReload(
+  actionHref:string|null|undefined,
+  rendered:{ id:string|null }[],
+  workPackageId:string,
+  change:ChangeItem,
+):boolean {
+  if (!actionHref) {
+    return false;
+  }
+
+  const hrefsOf = (value:unknown) => [value].flat().map((resource) => (resource as HalResource|undefined)?.href);
+  const belongsHere = hrefsOf(change.to).includes(actionHref);
+  const affected = belongsHere || hrefsOf(change.from).includes(actionHref);
+
+  return affected && belongsHere !== rendered.some((wp) => wp.id === workPackageId);
+}
+
 @Component({
   selector: 'board-list',
   templateUrl: './board-list.component.html',
@@ -140,6 +157,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   readonly boardService = inject(BoardService);
   readonly boardActionRegistry = inject(BoardActionsRegistryService);
   readonly causedUpdates = inject(CausedUpdatesService);
+  readonly cardDragDrop = inject(WorkPackageCardDragAndDropService);
   readonly keepTab = inject(KeepTabService);
   readonly currentProject = inject(CurrentProjectService);
   readonly pathHelper = inject(PathHelperService);
@@ -198,9 +216,16 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   /** Initially focus the list */
   public initiallyFocused = false;
 
+  private readonly savingWorkPackageIds = new Set<string>();
+
   /** Editing handler to be passed into card component */
   public workPackageAddedHandler = async (workPackage:WorkPackageResource):Promise<WorkPackageAddedResult> => {
-    await this.addWorkPackage(workPackage);
+    this.savingWorkPackageIds.add(workPackage.id!);
+    try {
+      await this.addWorkPackage(workPackage);
+    } finally {
+      this.savingWorkPackageIds.delete(workPackage.id!);
+    }
 
     return { membershipPersisted: this.board.isAction };
   };
@@ -512,20 +537,12 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         map((event:HalEvent) => {
           const changes = event.commit?.changes;
           const attribute = this.actionService!.watchedAttributes.find((name) => changes?.[name]);
-          return attribute && changes ? changes[attribute] : undefined;
+          return attribute && changes ? { id: event.id, value: changes[attribute] } : undefined;
         }),
-        filter((value) => !!value),
-        filter((value:ChangeItem) => {
-          // Compare the from and to values from the committed changes
-          // with the current actionResource. Multi value attributes
-          // contribute the values of each of their versions.
-          const current = this.actionResource?.href;
-          const changed = [value.to, value.from]
-            .flat()
-            .map((resource) => (resource as HalResource|undefined)?.href);
-
-          return !!current && changed.includes(current);
-        }),
+        filter((change):change is { id:string, value:ChangeItem } => !!change),
+        filter(({ id }) => !this.savingWorkPackageIds.has(id)),
+        filter(({ id, value }) => listNeedsReload(this.actionResource?.href, this.cardDragDrop.workPackages ?? [], id, value)),
+        this.untilDestroyed(),
       )
       .subscribe(() => {
         this.updateQuery(true);
