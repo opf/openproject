@@ -1111,6 +1111,13 @@ ru:
         title: Поделиться пакетом работ
       table:
         configure_button: Настроить таблицу пакета работ
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Таблица с названиями пакетов работ в строках и атрибутами пакетов работ в столбцах.
         text_inline_edit: Большинство ячеек этой таблицы являются кнопками, которые активируют встроенную функцию редактирования этого атрибута.
         text_select_hint: Чек-боксы могут быть открыты с использованием «ALT» и клавиш со стрелками.

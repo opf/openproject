@@ -1091,6 +1091,13 @@ ko:
         title: 작업 패키지 공유
       table:
         configure_button: 작업 패키지 테이블 구성
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: 작업 패키지의 행 및 작업 패키지 특성의 열이 있는 테이블.
         text_inline_edit: 이 테이블의 셀 대부분은 해당 특성의 인라인 편집 기능을 활성화하는 버튼입니다.
         text_select_hint: 선택 상자는 'ALT'와 화살표 키로 열어야 합니다.

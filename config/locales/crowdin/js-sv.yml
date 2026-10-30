@@ -1097,6 +1097,13 @@ sv:
         title: Dela arbetspaket
       table:
         configure_button: Konfigurera arbetspaketstabell
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabell med ett arbetspaket för varje rad och kolumner för varje arbetspaketsattribut.
         text_inline_edit: Du kan klicka på de flesta celler i den här tabellen för att redigera attributens funktion.
         text_select_hint: Valda celler öppnas med 'ALT' och piltangenterna.

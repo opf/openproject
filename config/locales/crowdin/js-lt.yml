@@ -1109,6 +1109,13 @@ lt:
         title: Dalintis darbo paketu
       table:
         configure_button: Sukonfigūruokite darbų paketo lentelę
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Lentelė su eilutėmis, sudarytomis iš darbų paketų, ir stulpeliais, sudarytais iš darbų paketų atributų.
         text_inline_edit: Dauguma langelių šioje lentelėje yra mygtukai, kurie aktyvuoja to atributo redagavimą eilutėje.
         text_select_hint: Pažymėjimo langeliai turi būti atidaryti nuspaudus 'Alt' ir krypčių rodykles.

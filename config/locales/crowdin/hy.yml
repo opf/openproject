@@ -954,8 +954,6 @@ hy:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
             variant:
               must_belong_to_the_type: must be a variant of this type.
-            workflow:
-              not_available_to_this_variant: must be a workflow this project can use.
         user:
           attributes:
             base:
@@ -1669,10 +1667,14 @@ hy:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1831,7 +1833,7 @@ hy:
                   subtitle: 'Ներգրավված են ներմուծված նախագծերում '
                 work_packages:
                   label: Աշխատանքային փաթեթներ
-                  subtitle: Կցորդներով
+                  subtitle: With attachments and logged time
               title: Ներմուծման գործարկման արդյունքներ
             import_scope:
               button_continue: Շարունակել
@@ -1848,6 +1850,7 @@ hy:
                 issue_details: Խնդրի նկարագրություն, պատմություն, մեկնաբանություններ և կցորդներ
                 issue_ids: Խնդիրների նույնացուցիչներ
                 issues: Խնդիրներ
+                logged_time: Logged time
                 permissions: Թույլտվություններ
                 project_ids: Նախագծերի նույնացուցիչներ
                 project_versions: Project versions
@@ -1880,6 +1883,9 @@ hy:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -2342,6 +2348,7 @@ hy:
       schema: Սխեմա
     undisclosed:
       ancestor: Չբացահայտված - Նախնին անտեսանելի է բացակայող թույլտվությունների պատճառով։
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Չբացահայտված - Նախագիծն անտեսանելի է բացակայող թույլտվությունների պատճառով։
       definingWorkspace: Չբացահայտված - Աշխատանքային տարածքն անտեսանելի է բացակայող թույլտվությունների պատճառով։
       parent: Չբացահայտված - Ծնողն անտեսանելի է բացակայող թույլտվությունների պատճառով։
@@ -3834,6 +3841,7 @@ hy:
       total_percent_complete_mode_changed_to_work_weighted_average: Առանց «Աշխատանք» արժեքի դուստր աշխատանքային փաթեթներն անտեսվում են։
       unaccessable_work_package_changed: կապակցված աշխատանքային փաթեթի փոփոխությունների հետևանքով
       work_package_children_changed_times: դուստր %{link}-ի փոփոխությունների հետևանքով
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: Կարգավիճակն ավտոմատ կերպով թարմացվել է կրկնօրինակված %{link} աշխատանքային փաթեթի կողմից
       work_package_parent_changed_times: ծնող %{link}-ի փոփոխությունների հետևանքով
       work_package_parent_deleted: քանի որ ծնող աշխատանքային փաթեթը ջնջվել է
@@ -3866,6 +3874,7 @@ hy:
       system_update: OpenProject-ի համակարգային թարմացում՝
       total_percent_complete_mode_changed_to_simple_average: "«Կատարման %» ընդհանուր արժեքների հաշվարկն այժմ հիմնված է միայն «Կատարման %» արժեքների պարզ միջինի վրա։"
       total_percent_complete_mode_changed_to_work_weighted_average: "«Կատարման %» ընդհանուր արժեքների հաշվարկն այժմ կշռվում է ըստ «Աշխատանք» արժեքի։"
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: Կրկնօրինակ աշխատանքային փաթեթը թարմացվել է՝
       work_package_parent_deleted: Ծնողը հեռացվել է
     changes_retracted: Փոփոխությունները հետ են վերցվել։
@@ -7374,9 +7383,6 @@ hy:
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
 
           '
-        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
-
-          '
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: Convert
@@ -7708,9 +7714,6 @@ hy:
       note_placeholder: Ինչո՞ւ եք սահմանում այս հիշեցումը։
       success_deletion_message: Հիշեցումը հաջողությամբ ջնջվել է։
       success_update_message: Հիշեցումը հաջողությամբ թարմացվել է։
-    updated_automatically_by_child_changes: '_Ինքնաշխատ թարմացվել է %{child} դուստր աշխատանքային փաթեթում արժեքների փոփոխման հետևանքով_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: Ավելացրեք կապեր այլ աշխատանքային փաթեթների հետ՝ դրանց միջև հղում ստեղծելու համար։
