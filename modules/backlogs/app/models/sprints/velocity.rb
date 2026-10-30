@@ -60,7 +60,11 @@ module Sprints
 
     def preceding_sprints
       @preceding_sprints ||= begin
-        ids = Sprint.for_project(project).visible.order_by_date.pluck(:id)
+        ids = Sprint.for_project(project)
+                    .visible
+                    .where("COALESCE(sprints.completed_at, sprints.finish_date) IS NOT NULL")
+                    .order_by_date
+                    .pluck(:id)
         position = ids.index(sprint.id)
         position ? Sprint.find(ids.first(position).last(SPRINT_COUNT - 1)) : []
       end

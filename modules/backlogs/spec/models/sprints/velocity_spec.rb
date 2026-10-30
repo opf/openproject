@@ -174,6 +174,24 @@ RSpec.describe Sprints::Velocity do
       end
     end
 
+    context "with a sprint lacking both a completion and a finish date" do
+      let!(:first) do
+        completed_sprint(started_at: start_of_history, completed_at: start_of_history + 2.weeks)
+      end
+      let!(:open_ended) do
+        create(:sprint,
+               project:,
+               status: "in_planning",
+               start_date: (start_of_history + 2.weeks).to_date,
+               finish_date: nil)
+      end
+      let(:sprint) { active_sprint(started_at: start_of_history + 4.weeks) }
+
+      it "leaves it out" do
+        expect(velocity.sprints).to eq [first, sprint]
+      end
+    end
+
     context "with sprints of another project" do
       let!(:foreign) do
         create(:sprint,
