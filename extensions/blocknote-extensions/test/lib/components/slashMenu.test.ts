@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 
 import { describe, it, expect, beforeEach, afterAll, vi } from 'vitest';
+import { CodeSquareIcon } from '@primer/octicons-react';
 import { getOpenProjectSlashMenuItems } from '../../../lib/components/SlashMenu';
 import { probeCreateWorkPackagePermission } from '../../../lib/services/openProjectApi';
 import i18n from '../../../lib/services/i18n';
@@ -96,5 +97,10 @@ describe('getOpenProjectSlashMenuItems', () => {
 
     expect(attributeItem.aliases).toContain('openproject work package attribute');
     expect(attributeItem.aliases).toContain('wp attribute op');
+  });
+
+  it('shows the attribute item with the code-square icon', () => {
+    const attributeItem = getOpenProjectSlashMenuItems({} as any).at(-1)!;
+    expect(attributeItem.icon.type).toBe(CodeSquareIcon);
   });
 });

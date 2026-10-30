@@ -51,6 +51,7 @@ const DISPLAY_LABEL_ID = 'op-bn-wp-attribute-display';
 const EDITOR_VARIABLES = [
   '--bn-colors-editor-text',
   '--bn-colors-editor-background',
+  '--bn-colors-highlights-gray-text',
   '--bn-border-radius',
 ];
 
