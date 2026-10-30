@@ -32,7 +32,6 @@ module Backlogs
   module SprintReports
     module Widgets
       class CreatedResolvedChart < Grids::WidgetComponent
-        include Redmine::I18n
         include Backlogs::CommonHelper
 
         param :sprint
@@ -42,10 +41,14 @@ module Backlogs
           t("backlogs.show_created_resolved_chart")
         end
 
+        # Timestamps go out as UTC; the chart renders them in the viewer's zone. They sit at
+        # period ends, so the chart needs the step to label them the way a reader expects.
         def chart_data
           {
-            labels: xaxis_labels(created_resolved),
-            datasets: dataseries(created_resolved)
+            step: created_resolved.step,
+            range: charted_range,
+            series: series,
+            nonWorkingIntervals: non_working_intervals
           }.to_json
         end
 
@@ -62,22 +65,29 @@ module Backlogs
         def created_resolved
           return nil unless sprint.date_range_set?
 
-          @created_resolved ||= CreatedResolved.new(sprint, project)
+          @created_resolved ||= ::Sprints::CreatedResolved.new(sprint:, project:)
         end
 
-        def xaxis_labels(created_resolved)
-          created_resolved.days.map do |d|
-            [format_date(d, format: I18n.t("date.formats.short")).to_s]
-          end
+        def series
+          { created: created_resolved.created, resolved: created_resolved.resolved }
+            .reject { |_, points| points.empty? }
+            .map { |id, points| { id:, label: t("backlogs.created_resolved_chart.series.#{id}"), data: points_for(points) } }
         end
 
-        def dataseries(created_resolved)
-          created_resolved.series.map do |s|
-            {
-              label: I18n.t("created_resolved.#{s.first}"),
-              data: s.last.enum_for(:each)
-            }
-          end
+        # Milliseconds are as fine as the chart's axis reads, and the counts are whole anyway.
+        def points_for(points)
+          points.map { { x: it.at.utc.iso8601(3), y: it.value } }
+        end
+
+        # Always use the sprints range rather than the data. Data does not exist for this chart yet
+        # if the sprint is still running.
+        def charted_range
+          { from: created_resolved.charted_range.first.utc.iso8601(3),
+            to: created_resolved.charted_range.last.utc.iso8601(3) }
+        end
+
+        def non_working_intervals
+          created_resolved.non_working_intervals.map { { from: it.first.iso8601, to: it.last.iso8601 } }
         end
       end
     end

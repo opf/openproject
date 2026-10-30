@@ -23,25 +23,12 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Backlogs::CreatedResolved
-  class Series
-    UNITS = %i[workpackages].freeze
-
-    attr_reader :name, :unit, :data
-    attr_accessor :display
-
-    def initialize(name, unit, args)
-      @unit = unit
-      @name = name.to_sym
-      @data = Array.new(args)
-      @display = true
-
-      raise ArgumentError, "Unsupported unit '#{@unit}'- should be one of: #{UNITS.join(', ')}" unless UNITS.include? @unit
-    end
-  end
+# What a sprint chart's series are made of: a value at an instant.
+module Sprints
+  ChartPoint = Data.define(:at, :value)
 end
