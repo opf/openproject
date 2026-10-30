@@ -95,7 +95,7 @@ describe('ActualCostsComponent', () => {
     fixture.componentRef.setInput('currency', 'EUR');
     renderWith(
       [
-        { label: 'Labour', data: [1_000, 1_200] },
+        { label: 'Labor', data: [1_000, 1_200] },
         { label: 'Materials', data: [500, 0] },
       ],
       ['2026-01-01', '2026-02-01'],
@@ -109,7 +109,7 @@ describe('ActualCostsComponent', () => {
     expect(canvas).toHaveAccessibleName('Actual costs by month chart');
     expect(description).not.toBeVisible();
     expect(description).toHaveTextContent(
-      'Actual costs by month: January 2026: Labour: €1,000, Materials: €500; February 2026: Labour: €1,200, Materials: €0.',
+      'Actual costs by month: January 2026: Labor: €1,000, Materials: €500; February 2026: Labor: €1,200, Materials: €0.',
     );
     expect(canvas).toHaveTextContent(description.textContent.trim());
   });
@@ -117,7 +117,7 @@ describe('ActualCostsComponent', () => {
   it('formats description values using the selected locale', () => {
     i18nStub.locale = 'de';
     fixture.componentRef.setInput('currency', 'EUR');
-    renderWith([{ label: 'Labour', data: [1_000] }]);
+    renderWith([{ label: 'Labor', data: [1_000] }]);
 
     const descriptionId = element.querySelector('canvas')!.getAttribute('aria-describedby')!;
     const description = element.querySelector<HTMLElement>(`#${descriptionId}`)!;
@@ -127,17 +127,17 @@ describe('ActualCostsComponent', () => {
       maximumFractionDigits: 0,
     }).format(1_000);
 
-    expect(description.textContent).toContain(`Labour: ${formattedValue}`);
+    expect(description.textContent).toContain(`Labor: ${formattedValue}`);
   });
 
   it('uses a unique description ID for each chart', () => {
-    renderWith([{ label: 'Labour', data: [10] }]);
+    renderWith([{ label: 'Labor', data: [10] }]);
     const secondFixture = TestBed.createComponent(ActualCostsComponent);
     const secondElement = secondFixture.nativeElement as HTMLElement;
 
     secondFixture.componentRef.setInput('chartData', JSON.stringify({
       labels: ['2026-01-01'],
-      datasets: [{ label: 'Labour', data: [20] }],
+      datasets: [{ label: 'Labor', data: [20] }],
     }));
     secondFixture.detectChanges();
 

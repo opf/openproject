@@ -66,7 +66,7 @@ describe('BudgetByCostTypeComponent', () => {
     element = fixture.nativeElement as HTMLElement;
   });
 
-  const renderWith = (datasets:unknown[], labels = ['Labour']) => {
+  const renderWith = (datasets:unknown[], labels = ['Labor']) => {
     fixture.componentRef.setInput('chartData', JSON.stringify({ labels, datasets }));
     fixture.detectChanges();
   };
@@ -92,7 +92,7 @@ describe('BudgetByCostTypeComponent', () => {
 
   it('provides a translated name and detailed description for the chart', () => {
     fixture.componentRef.setInput('currency', 'EUR');
-    renderWith([{ data: [10_000, 4_000] }], ['Labour', 'Materials']);
+    renderWith([{ data: [10_000, 4_000] }], ['Labor', 'Materials']);
 
     const canvas = element.querySelector('canvas')!;
     const descriptionId = canvas.getAttribute('aria-describedby')!;
@@ -101,7 +101,7 @@ describe('BudgetByCostTypeComponent', () => {
     expect(canvas).toHaveAttribute('role', 'img');
     expect(canvas).toHaveAccessibleName('Budget by cost type chart');
     expect(description).not.toBeVisible();
-    expect(description).toHaveTextContent('Budget amounts by cost type: Labour: €10,000; Materials: €4,000.');
+    expect(description).toHaveTextContent('Budget amounts by cost type: Labor: €10,000; Materials: €4,000.');
     expect(canvas).toHaveTextContent(description.textContent.trim());
   });
 
@@ -118,7 +118,7 @@ describe('BudgetByCostTypeComponent', () => {
       maximumFractionDigits: 0,
     }).format(10_000);
 
-    expect(description.textContent).toContain(`Labour: ${formattedValue}`);
+    expect(description.textContent).toContain(`Labor: ${formattedValue}`);
   });
 
   it('uses a unique description ID for each chart', () => {
@@ -126,7 +126,7 @@ describe('BudgetByCostTypeComponent', () => {
     const secondFixture = TestBed.createComponent(BudgetByCostTypeComponent);
     const secondElement = secondFixture.nativeElement as HTMLElement;
 
-    secondFixture.componentRef.setInput('chartData', JSON.stringify({ labels: ['Labour'], datasets: [{ data: [20] }] }));
+    secondFixture.componentRef.setInput('chartData', JSON.stringify({ labels: ['Labor'], datasets: [{ data: [20] }] }));
     secondFixture.detectChanges();
 
     const firstDescriptionId = element.querySelector('canvas')!.getAttribute('aria-describedby');
