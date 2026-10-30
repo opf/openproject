@@ -96,25 +96,25 @@ module Import
 
     def each_iteration(issues_and_total, jira_import_id, jira_project_id)
       issues = issues_and_total["issues"]
-      issues.each { |payload| fetch_missing_worklogs(payload) }
-      issues_upsert_data = tagged_log("jira_import_id:#{jira_import_id}",
-                                      "jira_project_id:#{jira_project_key(jira_project_id)}",
-                                      "jira_object_type:issue") do
-        issues.map do |payload|
+      tagged_log("jira_import_id:#{jira_import_id}", "jira_project_id:#{jira_project_key(jira_project_id)}",
+                 "jira_object_type:issue") do
+        issues.each do |payload|
           Rails.logger.tagged("jira_issue_key:#{payload['key']}") do
             Rails.logger.debug "Fetched issue"
+            fetch_missing_worklogs(payload)
+            fetch_watchers(payload)
           end
-          origin_id = payload.fetch("id")
-          payload["watchers"] = fetch_watchers(origin_id) if has_watchers?(payload)
-          {
-            payload:,
-            jira_project_id:,
-            origin_id:,
-            jira_import_id:,
-            created_at: @created_at,
-            updated_at: @updated_at
-          }
         end
+      end
+      issues_upsert_data = issues.map do |payload|
+        {
+          payload:,
+          jira_project_id:,
+          origin_id: payload.fetch("id"),
+          jira_import_id:,
+          created_at: @created_at,
+          updated_at: @updated_at
+        }
       end
       Import::JiraIssue.upsert_all(issues_upsert_data, unique_by: %i[jira_import_id origin_id])
     end
@@ -135,15 +135,18 @@ module Import
       issue_payload.dig("fields", "watches", "watchCount").to_i > 0
     end
 
-    def fetch_watchers(issue_id)
+    def fetch_watchers(payload)
+      return unless has_watchers?(payload)
+
+      issue_id = payload.fetch("id")
       watchers = @jira_client.issue_watchers(issue_id).fetch("watchers")
       Rails.logger.debug { "Fetched #{watchers.size} watchers" }
-      watchers
+      payload["watchers"] = watchers
     rescue JiraClient::ApiError => e
       raise unless e.status == 404
 
       Rails.logger.warn "Watchers for issue ID #{issue_id} not found (#{e.message}), skipping"
-      []
+      payload["watchers"] = []
     end
   end
 end
