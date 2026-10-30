@@ -85,6 +85,24 @@ RSpec.describe "Admin text transform actions", :skip_csrf, type: :rails_request,
     end
   end
 
+  context "without an enterprise token", with_ee: false do
+    it "redirects the form action new to the index" do
+      get new_admin_text_transform_action_path
+
+      expect(response).to redirect_to(admin_text_transform_actions_path)
+    end
+
+    it "redirects the write action create to the index without creating" do
+      expect do
+        post admin_text_transform_actions_path,
+             params: { ai_text_transform_action: { label: "Translate", prompt: "Translate the text.",
+                                                   usage_scope: "all_work_package_types" } }
+      end.not_to change(AI::TextTransformAction, :count)
+
+      expect(response).to redirect_to(admin_text_transform_actions_path)
+    end
+  end
+
   describe "POST /admin/text_transform_actions" do
     it "creates an action with types for the specific scope" do
       post admin_text_transform_actions_path,
