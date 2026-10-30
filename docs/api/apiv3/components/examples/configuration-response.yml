@@ -1,0 +1,39 @@
+description: |-
+  An example response for a configuration request.
+value:
+  _type: Configuration
+  maximumAttachmentFileSize: 1073741824
+  maximumAPIV3PageSize: 1000
+  perPageOptions:
+    - 20
+    - 100
+  dateFormat: null
+  durationFormat: hours_only
+  timeFormat: null
+  userDefaultTimezone: null
+  startOfWeek: null
+  hoursPerDay: 8
+  daysPerMonth: 20
+  hostName: openproject.internal
+  activeFeatureFlags:
+    - workPackageLabels
+    - semanticSearch
+  availableFeatures:
+    - scim_api
+    - calculated_values
+    - ldap_groups
+  triallingFeatures: [ ]
+  allowedLinkProtocols:
+    - http
+    - https
+    - mailto
+  wikisAvailable: true
+  _embedded:
+    userPreferences:
+      _type: UserPreferences
+      _hint: User preference resource shortened for brevity
+  _links:
+    self:
+      href: '/api/v3/configuration'
+    userPreferences:
+      href: '/api/v3/users/4/preferences'
