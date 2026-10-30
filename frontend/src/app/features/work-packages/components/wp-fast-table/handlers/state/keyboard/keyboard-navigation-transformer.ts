@@ -74,7 +74,8 @@ export interface KeyboardNavigation {
   captureOwnership():void;
   /** Keeps the return path open when an editor registers an overlay that already holds focus. */
   adoptOverlay(overlay:HTMLElement):void;
-  engageEditor?(handler:EditFieldHandler):void;
+  /** Engages a parked editor and focuses its overlay or first focusable control. */
+  focusEditor(handler:EditFieldHandler):void;
   repaintCurrentPosition():void;
   navigateFrom(position:FocusPosition, event:KeyboardEvent):boolean;
   scrollControlIntoView(control:HTMLElement):void;
@@ -257,8 +258,8 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     };
   }
 
-  public engageEditor(handler:EditFieldHandler):void {
-    this.interaction.engageEditor(handler);
+  public focusEditor(handler:EditFieldHandler):void {
+    this.interaction.focusEditor(handler);
   }
 
   public captureOwnership():void {

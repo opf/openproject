@@ -249,10 +249,14 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
       return;
     }
 
+    const navigation = this.table.keyboardNavigation;
     this.engageOrigin(handler.fieldName);
-    this.table.keyboardNavigation?.engageEditor?.(handler);
-    handler.focus();
-    this.table.keyboardNavigation?.repaintCurrentPosition();
+    if (navigation) {
+      navigation.focusEditor(handler);
+      navigation.repaintCurrentPosition();
+    } else {
+      handler.focus();
+    }
   }
 
   private validationMayFocus():boolean {

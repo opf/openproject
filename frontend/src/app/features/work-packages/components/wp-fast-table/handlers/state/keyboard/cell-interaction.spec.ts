@@ -671,6 +671,30 @@ describe('CellInteraction', () => {
     expect(input).toHaveFocus();
   });
 
+  it('focuses the input of a parked invalid field whose host is not focusable', async () => {
+    const table = await mount();
+    const cell = navigableCells(table.row('1'))[1];
+    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    fireEvent.keyDown(cell, { key: 'Enter' });
+    await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
+    const form = table.table.editing.forms['1'];
+    const input = within(cell).getByRole<HTMLInputElement>('textbox');
+    const host = document.createElement('div');
+    host.className = input.className;
+    input.className = '';
+    input.replaceWith(host);
+    host.append(input);
+    input.focus();
+    await userEvent.tab({ shift: true });
+    expect(cell).toHaveFocus();
+    form.activeFields.subject.setErrors(['Required']);
+
+    (form as unknown as { focusOnFirstError():void }).focusOnFirstError();
+
+    expect(input).toHaveFocus();
+    expect(input).not.toHaveAttribute('tabindex', '-1');
+  });
+
   it('restores a control that was disabled while its editor was parked', async () => {
     const table = await mount();
     const cell = navigableCells(table.row('1'))[1];
