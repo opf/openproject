@@ -439,7 +439,7 @@ module Import
       watchers = jira_issue.payload.fetch("watchers", [])
       return unless watchers.any?
 
-      users = watchers.filter_map { find_user(it["key"]) }.grep_v(DeletedUser)
+      users = watchers.filter_map { find_imported_user(it["key"]) }
       return unless users.any?
 
       users.each { create_member(project, it) }
@@ -449,30 +449,6 @@ module Import
     def watchers_insert_data(users, work_package)
       users.map do |user|
         { user_id: user.id, watchable_type: work_package.class.name, watchable_id: work_package.id }
-      end
-    end
-
-    def find_user(jira_user_key)
-      return if jira_user_key.blank?
-
-      Rails.logger.tagged("jira_object_type:user", "jira_object_id_or_name:#{jira_user_key}") do
-        jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
-        if jira_user
-          ref = JiraOpenProjectReference.find_by(
-            jira_entity_class: "Import::JiraUser",
-            jira_entity_id: jira_user.id
-          )
-          if ref.present?
-            ref.op_leg
-          else
-            log_message = "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
-            Rails.logger.error log_message
-            raise log_message
-          end
-        else
-          Rails.logger.warn "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
-          DeletedUser.first
-        end
       end
     end
   end
