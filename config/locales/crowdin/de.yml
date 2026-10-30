@@ -2145,6 +2145,7 @@ de:
       schema: Schema
     undisclosed:
       ancestor: Unbekannt - Das übergeordnete Element ist wegen fehlender Berechtigungen nicht sichtbar.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Unbekannt - Das Projekt ist wegen fehlender Berechtigungen nicht sichtbar.
       definingWorkspace: Unbekannt - Der Arbeitsbereich ist wegen fehlender Berechtigungen nicht sichtbar.
       parent: Unbekannt - Das übergeordnete Element ist wegen fehlender Berechtigungen nicht sichtbar.

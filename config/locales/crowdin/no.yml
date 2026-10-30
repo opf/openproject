@@ -2145,6 +2145,7 @@
       schema: Skjema
     undisclosed:
       ancestor: Ukjent - den valgte overordnet er usynlig på grunn av manglende tillatelser.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Undisclosed - The project is invisible because of lacking permissions.
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
       parent: Undisclosed - The parent is invisible because of lacking permissions.

@@ -2030,6 +2030,7 @@ zh-TW:
       schema: 架構
     undisclosed:
       ancestor: 未公開 - 由於缺少權限，上級不可見。
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Undisclosed - 專案因缺乏權限而不見。
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
       parent: Undisclosed - 專案因缺乏權限而不見。

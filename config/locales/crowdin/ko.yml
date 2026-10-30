@@ -2022,6 +2022,7 @@ ko:
       schema: 스키마
     undisclosed:
       ancestor: 숨겨짐 - 권한이 없어 상위 항목을 볼 수 없습니다.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: 숨겨짐 - 권한이 없어 프로젝트를 볼 수 없습니다.
       definingWorkspace: 숨겨짐 - 권한이 없으므로 워크스페이스를 볼 수 없습니다.
       parent: 숨겨짐 - 권한이 없어 부모를 볼 수 없습니다.

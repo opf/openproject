@@ -2145,6 +2145,7 @@ pt-BR:
       schema: Esquema
     undisclosed:
       ancestor: Não revelado - O ancestral está invisível devido à falta de permissões.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Não revelado - O projeto está invisível devido à falta de permissões.
       definingWorkspace: Não revelado - O espaço de trabalho está invisível devido à falta de permissões.
       parent: Não revelado - O pai está invisível devido à falta de permissões.

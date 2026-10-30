@@ -2151,6 +2151,7 @@ tr:
       schema: Şema
     undisclosed:
       ancestor: Gizlendi - Seçilen en üst öge, eksik izinler nedeniyle görünmez.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Undisclosed - The project is invisible because of lacking permissions.
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
       parent: Undisclosed - The parent is invisible because of lacking permissions.

@@ -2145,6 +2145,7 @@ ca:
       schema: Esquema
     undisclosed:
       ancestor: No revelat - L'ancestre és invisible per falta de permisos.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Undisclosed - The project is invisible because of lacking permissions.
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
       parent: Undisclosed - The parent is invisible because of lacking permissions.

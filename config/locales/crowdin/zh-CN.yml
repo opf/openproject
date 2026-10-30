@@ -2026,6 +2026,7 @@ zh-CN:
       schema: 方案
     undisclosed:
       ancestor: 未公开 - 由于缺少权限，上级不可见。
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: 未公开 - 由于缺少权限，项目不可见。
       definingWorkspace: 未公开 - 由于缺少权限，工作空间不可见。
       parent: 未公开 - 由于缺少权限，父项不可见。

@@ -2145,6 +2145,7 @@ sv:
       schema: Schema
     undisclosed:
       ancestor: Ej visad – Den överordnade posten är osynlig på grund av otillräckliga behörigheter.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Ej visad – Projektet är osynligt på grund av otillräckliga behörigheter.
       definingWorkspace: Ej visad – Arbetsytan är osynlig på grund av otillräckliga behörigheter.
       parent: Ej visad – Den överordnade posten är osynlig på grund av otillräckliga behörigheter.

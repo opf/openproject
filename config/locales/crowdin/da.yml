@@ -2145,6 +2145,7 @@ da:
       schema: Skema
     undisclosed:
       ancestor: Skjult – det overordnede element er ikke synlig på grund af manglende tilladelser.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Skjult – projektet er ikke synlig på grund af manglende tilladelser.
       definingWorkspace: Skjult – arbejdsområdet er ikke synlig på grund af manglende tilladelser.
       parent: Skjult – det overordnede element er ikke synlig på grund af manglende tilladelser.

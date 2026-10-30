@@ -156,7 +156,7 @@ nl:
         add_new_work_package: Add new work package
       blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
       blankslate_title: Backlog inbox is empty
-      drop_zone_label: Drop here to add this item
+      drop_zone_label: Hier neerzetten om dit voorwerp toe te voegen
       label_actions: Acties in postvak in
       show_more:
         one: Nog 1 item weergeven

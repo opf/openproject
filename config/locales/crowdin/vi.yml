@@ -2024,6 +2024,7 @@ vi:
       schema: Lược đồ
     undisclosed:
       ancestor: Không được tiết lộ - Tổ tiên là vô hình vì thiếu quyền.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Không được tiết lộ - Dự án vô hình vì thiếu quyền.
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
       parent: Không được tiết lộ - Phụ huynh ẩn danh vì thiếu quyền.

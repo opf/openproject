@@ -2028,6 +2028,7 @@ ms:
       schema: Skema
     undisclosed:
       ancestor: Tidak didedahkan - Leluhur tidak kelihatan kerana kurang kebenaran.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Undisclosed - The project is invisible because of lacking permissions.
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
       parent: Undisclosed - The parent is invisible because of lacking permissions.

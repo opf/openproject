@@ -2387,6 +2387,7 @@ pl:
       schema: Schemat
     undisclosed:
       ancestor: Nie ujawniono — przodek jest niewidoczny ze względu na brak uprawnień.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Nie ujawniono — projekt jest niewidoczny ze względu na brak uprawnień.
       definingWorkspace: Nie ujawniono — przestrzeń robocza jest niewidoczna ze względu na brak uprawnień.
       parent: Nie ujawniono — element nadrzędny jest niewidoczny ze względu na brak uprawnień.

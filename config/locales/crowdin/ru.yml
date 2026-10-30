@@ -2387,6 +2387,7 @@ ru:
       schema: Схема
     undisclosed:
       ancestor: Неизвестный - выбранный родитель невидим из-за отсутствия разрешений.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Нераскрыто - Проект невидим из-за отсутствия разрешений.
       definingWorkspace: Нераскрыто - Рабочее пространство невидимо из-за отсутствия разрешений.
       parent: Нераскрыто - Родитель невидим из-за отсутствия разрешений.

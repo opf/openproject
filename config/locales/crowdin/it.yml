@@ -2149,6 +2149,7 @@ it:
       schema: Schema
     undisclosed:
       ancestor: Non divulgato - L'antenato è invisibile a causa della mancanza dei permessi.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Non divulgato - Il progetto è invisibile a causa della mancanza dei permessi.
       definingWorkspace: Non visibile - Lo spazio di lavoro è invisibile a causa della mancanza di autorizzazioni.
       parent: Non divulgato - Il genitore è invisibile a causa della mancanza dei permessi.

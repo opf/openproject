@@ -2391,6 +2391,7 @@ uk:
       schema: Схема
     undisclosed:
       ancestor: Нерозкритий – предок невидимий через відсутність дозволів.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: 'Нерозкритий: проєкт невидимий через відсутність дозволів.'
       definingWorkspace: 'Нерозкритий: робочий простір невидимий через відсутність дозволів.'
       parent: 'Нерозкритий: батьківський елемент невидимий через відсутність дозволів.'

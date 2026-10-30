@@ -2026,6 +2026,7 @@ ja:
       schema: スキーマ
     undisclosed:
       ancestor: 未公開 - アクセス許可がないため、祖先は見えません。
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Undisclosed - The project is invisible because of lacking permissions.
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
       parent: Undisclosed - The parent is invisible because of lacking permissions.

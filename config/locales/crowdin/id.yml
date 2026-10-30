@@ -2031,6 +2031,7 @@ id:
       schema: Schema
     undisclosed:
       ancestor: Dirahasiakan - Leluhur tidak terlihat karena tidak memiliki izin.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Undisclosed - The project is invisible because of lacking permissions.
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
       parent: Undisclosed - The parent is invisible because of lacking permissions.

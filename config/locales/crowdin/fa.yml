@@ -2143,6 +2143,7 @@ fa:
       schema: شِما
     undisclosed:
       ancestor: نمایش‌داده‌نشده - جد به‌دلیل نبود مجوز قابل مشاهده نیست.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: نمایش‌داده‌نشده - پروژه به‌دلیل نبود مجوز قابل مشاهده نیست.
       definingWorkspace: نمایش‌داده‌نشده - فضای کاری به‌دلیل نبود مجوز قابل مشاهده نیست.
       parent: نمایش‌داده‌نشده - والد به‌دلیل نبود مجوز قابل مشاهده نیست.
