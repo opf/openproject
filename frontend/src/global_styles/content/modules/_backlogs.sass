@@ -44,6 +44,11 @@
   container-name: backlogsListsContainer
   container-type: inline-size
 
+body:has(#global-loading-indicator:not([hidden])) .op-backlogs-page
+  opacity: 0.4
+  pointer-events: none
+  cursor: progress
+
 .op-sprint-planning-container
   display: flex
   flex-direction: row

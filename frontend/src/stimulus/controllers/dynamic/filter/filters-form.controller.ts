@@ -29,15 +29,14 @@ import { Controller } from '@hotwired/stimulus';
 import {
   renderStreamMessage,
   visit,
+  type FrameElement,
   type TurboBeforeMorphAttributeEvent,
   type TurboBeforeMorphElementEvent,
 } from '@hotwired/turbo';
 import { debounce } from 'lodash-es';
-import {
-  hideElement,
-  showElement,
-} from 'core-app/shared/helpers/dom-helpers';
+import { showElement } from 'core-app/shared/helpers/dom-helpers';
 import { escapeFilterValue } from 'core-stimulus/helpers/filter-helpers';
+import { withLoadingIndicator } from 'core-stimulus/helpers/request-helpers';
 import { getMetaValue } from 'core-app/core/setup/globals/global-helpers';
 import { endOfDayISO, startOfDayISO } from 'core-common/local-datetime';
 import { PrimerMultiInputElement } from '@primer/view-components/app/lib/primer/forms/primer_multi_input';
@@ -146,6 +145,7 @@ export default class FiltersFormController extends Controller {
   private boundListener:() => void;
   private abortController?:AbortController;
   private sentFilters:string|null = null;
+  private streamAbortController:AbortController|null = null;
 
   initialize() {
     // Initialize runs anytime an element with a controller connected to the DOM for the first time
@@ -332,6 +332,10 @@ export default class FiltersFormController extends Controller {
 
   private get liveUpdatesEnabled():boolean {
     return this.turboStreamRequestValue || this.hasTurboFrameRequestValue || this.hasFiltersInputTarget;
+  }
+
+  private get turboFrame():FrameElement|null {
+    return document.getElementById(this.turboFrameRequestValue) as FrameElement|null;
   }
 
   private addChangeListener(target:HTMLElement) {
@@ -613,48 +617,44 @@ export default class FiltersFormController extends Controller {
     const browserUrl = `${window.location.pathname}${search ? `?${search}` : ''}${window.location.hash}`;
 
     if (this.hasTurboFrameRequestValue) {
-      // Turbo Drive shows its own progress bar for visits, so there is no need to
-      // toggle the global loading indicator here as the other branches below do.
       visit(url, { frame: this.turboFrameRequestValue, action: 'advance' });
+      const { turboFrame } = this;
+      if (turboFrame) void withLoadingIndicator(turboFrame.loaded);
       return;
     }
 
-    const loadingIndicator = document.querySelector<HTMLElement>('#global-loading-indicator')!;
-    showElement(loadingIndicator);
-
     if (this.turboStreamRequestValue) {
-      const previousFilters = this.sentFilters;
-      this.sentFilters = newFilters;
-
-      fetch(url, {
-        headers: {
-          Accept: 'text/vnd.turbo-stream.html',
-        },
-      })
-        .then((response:Response) => response.text())
-        .then((html:string) => {
-          if (this.sentFilters !== newFilters) return;
-
-          if (this.buildFiltersParam(this.currentFilters()) !== newFilters) {
-            this.sentFilters = previousFilters;
-            hideElement(loadingIndicator);
-            return;
-          }
-
-          renderStreamMessage(html);
-          window.history.replaceState(window.history.state, '', browserUrl);
-          hideElement(loadingIndicator);
-        })
-        .catch((error:Error) => {
-          if (this.sentFilters !== newFilters) return;
-
-          this.sentFilters = previousFilters;
-          console.error('Error:', error);
-          hideElement(loadingIndicator);
-        });
+      void withLoadingIndicator(this.renderStreamResponse(url, newFilters, browserUrl));
     } else {
+      showElement(document.querySelector<HTMLElement>('#global-loading-indicator')!);
       window.location.href = url;
     }
+  }
+
+  private async renderStreamResponse(url:string, newFilters:string, browserUrl:string) {
+    this.streamAbortController?.abort();
+    this.streamAbortController = new AbortController();
+    const { signal } = this.streamAbortController;
+
+    const previousFilters = this.sentFilters;
+    this.sentFilters = newFilters;
+
+    try {
+      const response = await fetch(url, { signal, headers: { Accept: 'text/vnd.turbo-stream.html' } });
+      const html = await response.text();
+
+      if (this.buildFiltersParam(this.currentFilters()) === newFilters) {
+        renderStreamMessage(html);
+        window.history.replaceState(window.history.state, '', browserUrl);
+        return;
+      }
+    } catch (error) {
+      // Like a cancelled Turbo frame request: never settle, the newer request owns the indicator.
+      if (signal.aborted) await new Promise<never>(() => {});
+      console.error('Error:', error);
+    }
+
+    this.sentFilters = previousFilters;
   }
 
   private writeFiltersToHiddenInput() {
