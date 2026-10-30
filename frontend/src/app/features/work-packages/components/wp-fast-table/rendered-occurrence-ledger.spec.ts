@@ -252,6 +252,18 @@ describe('RenderedOccurrenceLedger', () => {
     expect(ledger.byElement(document.createElement('tr'))).toBeUndefined();
   });
 
+  it('finds the current occurrence by element across setHidden and commit', () => {
+    const ledger = new RenderedOccurrenceLedger();
+    const el = document.createElement('tr');
+    commitKeys(ledger, draftOccurrence('a', { element: el }));
+
+    ledger.setHidden(new Map([['a', true]]));
+    expect(ledger.byElement(el)?.hidden).toBe(true);
+
+    commitKeys(ledger, draftOccurrence('b'));
+    expect(ledger.byElement(el)).toBeUndefined();
+  });
+
   it('does not expose an uncommitted draft', () => {
     const ledger = new RenderedOccurrenceLedger();
     commitKeys(ledger, draftOccurrence('a'));

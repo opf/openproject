@@ -32,7 +32,7 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/r
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import type { GroupObject, WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
-import { groupOccurrenceKey, placeholderOccurrenceKey, wpOccurrenceKey, type RenderDraft, type RenderedOccurrence } from '../rendered-occurrence-ledger';
+import { groupOccurrenceKey, placeholderOccurrenceKey, wpOccurrenceKey, type RenderDraft } from '../rendered-occurrence-ledger';
 import type { WorkPackageTable } from '../wp-fast-table';
 import { isEmptyResultsRow, isExposedRow, isInlineCreateRow, isTotalsRow } from '../helpers/structural-rows';
 import { setOrRemove } from './treegrid-semantics';
@@ -153,19 +153,16 @@ export class TableRowPositions {
     const header = element.tHead?.rows;
     if (header?.length !== 1) return null;
 
-    const occurrences = new Map(this.table.ledger.occurrences
-      .filter((occurrence) => occurrence.element !== null)
-      .map((occurrence) => [occurrence.element!, occurrence]));
     const indices = new Map<HTMLTableRowElement, number>([[header[0], 1]]);
     const trailers:HTMLTableRowElement[] = [];
     const seen = new Set<ProjectedRowKind>();
     let emptySurrogate:HTMLTableRowElement|null = null;
     for (const row of rows) {
       if (row === header[0]) continue;
-      const kind = this.classify(row, occurrences);
+      const kind = this.classify(row);
       if (kind === 'skipped') continue;
       if (kind === 'ledger') {
-        const ordinal = body.ordinals.get(occurrences.get(row)!.key);
+        const ordinal = body.ordinals.get(this.table.ledger.byElement(row)!.key);
         if (ordinal === undefined) return null;
         indices.set(row, ordinal + 1);
       } else if (kind === 'empty') {
@@ -197,8 +194,8 @@ export class TableRowPositions {
     return { count: snapshot.kind === 'query' ? count : null, indices };
   }
 
-  private classify(row:HTMLTableRowElement, occurrences:Map<HTMLTableRowElement, RenderedOccurrence>):ProjectedRowKind {
-    const occurrence = occurrences.get(row);
+  private classify(row:HTMLTableRowElement):ProjectedRowKind {
+    const occurrence = this.table.ledger.byElement(row);
     if (occurrence) return occurrence.key === placeholderOccurrenceKey() ? 'skipped' : 'ledger';
     if (!isExposedRow(row)) return 'skipped';
     if (isEmptyResultsRow(row)) return 'empty';

@@ -266,6 +266,14 @@ describe('TableRowPositions', () => {
     expect(observed).toBe('22');
   });
 
+  it('finds rendered rows without scanning the ledger', async () => {
+    await mount();
+    const scanned = vi.spyOn(harness.table.ledger, 'occurrences', 'get');
+    harness.table.rowPositions!.paint();
+    expect(scanned).not.toHaveBeenCalled();
+    harness.expectRowPositions(['1', '22', '23', '102', '103'], '103');
+  });
+
   it('stops painting after teardown', async () => {
     await mount();
     await harness.destroy();
