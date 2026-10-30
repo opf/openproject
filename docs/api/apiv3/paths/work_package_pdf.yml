@@ -1,0 +1,143 @@
+# /api/v3/work_packages/{id}/pdf
+---
+get:
+  summary: Export a work package as PDF
+  operationId: export_work_package_pdf
+  tags:
+    - Work Packages
+  description: |-
+    Renders a single work package as a PDF document and returns it as a file download.
+
+    The document is rendered from one of the PDF export templates that an administrator enabled for the
+    type of the work package:
+
+    | Template     | Content                                                                                      |
+    |:------------:|----------------------------------------------------------------------------------------------|
+    | `attributes` | The attributes and the description of the work package.                                       |
+    | `contract`   | The description of the work package, rendered as a document with a cover, headers and footers. |
+    | `artefact`   | The attributes and the description of the work package, together with the attributes, the phases and the budgets of its project. |
+
+    Every option left out of the request falls back to the value an administrator stored for that template
+    on the type, which is the same value the *Generate PDF* dialog offers in the user interface.
+
+    **Required permission:** view work packages. As in the user interface, no export permission is needed
+    to render a single work package.
+  parameters:
+    - name: id
+      in: path
+      description: Work package id
+      example: 1
+      required: true
+      schema:
+        type: integer
+    - name: template
+      in: query
+      description: |-
+        The template to render. Defaults to the first template enabled for the type of the work package.
+      required: false
+      example: attributes
+      schema:
+        type: string
+        enum:
+          - attributes
+          - contract
+          - artefact
+    - name: footerText
+      in: query
+      description: The text printed in the footer of every page. Only used by the `attributes` template.
+      required: false
+      schema:
+        type: string
+    - name: pageOrientation
+      in: query
+      description: The orientation of the pages. Only used by the `attributes` template.
+      required: false
+      schema:
+        type: string
+        enum:
+          - portrait
+          - landscape
+    - name: headerTextRight
+      in: query
+      description: The text printed on the right hand side of the header. Only used by the `contract` template.
+      required: false
+      schema:
+        type: string
+    - name: footerTextCenter
+      in: query
+      description: The text printed in the center of the footer. Only used by the `contract` template.
+      required: false
+      schema:
+        type: string
+    - name: toc
+      in: query
+      description: Whether a table of contents is rendered. Only used by the `artefact` template.
+      required: false
+      schema:
+        type: boolean
+    - name: includeLifecycle
+      in: query
+      description: Whether the phases of the project are rendered. Only used by the `artefact` template.
+      required: false
+      schema:
+        type: boolean
+    - name: includeBudget
+      in: query
+      description: |-
+        Whether the budgets of the project are rendered. Only used by the `artefact` template and only
+        applied if the budgets module is active and visible to the user.
+      required: false
+      schema:
+        type: boolean
+    - name: hyphenation
+      in: query
+      description: Whether long text is hyphenated.
+      required: false
+      schema:
+        type: boolean
+    - name: hyphenationLanguage
+      in: query
+      description: |-
+        The language the hyphenation rules are taken from, as an ISO 639-1 code. Defaults to the language
+        of the current user. Only applied if `hyphenation` is enabled.
+      required: false
+      example: en
+      schema:
+        type: string
+  responses:
+    '200':
+      description: |-
+        Returned if the request was successful. The body is the PDF document, the `Content-Disposition`
+        header carries the file name it is to be saved under.
+      headers:
+        Content-Disposition:
+          schema:
+            type: string
+          example: attachment; filename="Demo-project_Task_42_Setup-the-server_2026-01-31_09-15.pdf"
+      content:
+        application/pdf:
+          schema:
+            type: string
+            format: binary
+    '400':
+      description: |-
+        Returned if the requested template does not exist, or if it is not enabled for the type of the
+        work package.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:BadRequest
+            message: "Bad request: The PDF export template 'contract' is not enabled for the type of this work package."
+    '404':
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to
+        see it.
+
+        **Required permission:** view work packages
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
