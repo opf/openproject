@@ -6,15 +6,14 @@ sidebar_navigation:
 
 # OpenProject on Docker all-in-one container
 
-[Docker](https://www.docker.com) is a way to distribute self-contained applications easily. We provide a Docker image for the Community edition that you can very easily
-install and upgrade on your servers. However, contrary to the manual or package-based installation, your machine needs to have the Docker Engine
+[Docker](https://www.docker.com) is a way to distribute self-contained applications easily. We provide a Docker image for the Community edition that you can easily install and upgrade on your servers. However, unlike manual or package-based installations, your machine needs to have the Docker Engine
 installed first, which usually requires a recent operating system. Please see the [Docker Engine installation page](https://docs.docker.com/install/) if you don't have Docker installed.
 
 ***
 
 ## Supported architectures
 
-Starting with OpenProject 12.5.6 we publish our containers for two architectures.
+Starting with OpenProject 12.5.6, we publish our containers for two architectures.
 
 1. AMD64 (x86)
 2. ARM64
@@ -32,8 +31,8 @@ For that feature to work, you need to use the packaged installation method.
 
 OpenProject provides two container flavors with a number of target tags:
 
-- **slim**:  Contains just the application image and application server used for starting behind a proxy, or within the [OpenProject for Docker compose](../docker-compose/) or [OpenProject Helm chart](../helm-chart/) installation methods. We recommend using this image for production systems.
-- **all-in-one**: Starts internal PostgreSQL, memcached servers alongside the application in order to provide a quick-start for testing or getting started with OpenProject. The lower part of this documentation focused on this installation method.
+- **slim**:  Contains just the application image and application server used for starting behind a proxy, or within the [OpenProject for Docker Compose](../docker-compose/) or [OpenProject Helm chart](../helm-chart/) installation methods. We recommend using this image for production systems.
+- **all-in-one**: Starts internal PostgreSQL, memcached servers alongside the application in order to provide a quick-start for testing or getting started with OpenProject. The remainder of this guide focuses on this installation method.
 
 OpenProject follows semantic versioning, and tags are pushed on [Docker Hub openproject/openproject](https://hub.docker.com/r/openproject/openproject/tags) in the following way:
 
@@ -66,17 +65,17 @@ cosign verify-attestation \
   --type https://cyclonedx.org/bom/v1.6 \
   --certificate-identity-regexp 'https://github.com/.*/.github/workflows/.*' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com \
-  openproject/openproject:16
+  openproject/openproject:17
 ```
 
-Repeat with the other predicate types from the table to verify the release attestation and the VEX documents. For production, pin the check to an immutable digest (`openproject/openproject@sha256:...`) instead of a tag. To list everything attached to an image, run `cosign tree openproject/openproject:16`.
+Repeat with the other predicate types from the table to verify the release attestation and the VEX documents. For production, pin the check to an immutable digest (`openproject/openproject@sha256:...`) instead of a tag. To list everything attached to an image, run `cosign tree openproject/openproject:17`.
 
 ### Read the Bill of Materials
 
 The SBOM lists every component and version in the image. You can view it with Docker Scout:
 
 ```shell
-docker scout sbom openproject/openproject:16
+docker scout sbom openproject/openproject:17
 ```
 
 The signed copy lives in the SBOM attestation above, so an operator can confirm the component list has not been altered.
@@ -88,7 +87,7 @@ OpenProject scans its published images with [Docker Scout](https://www.docker.co
 To apply OpenProject's triage when you scan an image yourself, tell Scout to trust the OpenProject author:
 
 ```shell
-docker scout cves openproject/openproject:16 \
+docker scout cves openproject/openproject:17 \
   --vex-author 'OpenProject Foundation <operations@openproject.com>'
 ```
 
@@ -98,15 +97,15 @@ The process itself and how it is produced are described in the [secure coding gu
 
 OpenProject's docker setup can be launched in two ways:
 
-### One container per process (recommend)
+### One container per process (recommended)
 
-This is the recommended approach for using OpenProject with Docker, where each component has a single container inside, orchestrated using a Compose file. Allows to easily choose which services you want to run, and simplifies scaling and monitoring aspects.
+This is the recommended approach for using OpenProject with Docker, where each component has a single container inside, orchestrated using a Compose file. This allows you to choose which services to run and simplifies scaling and monitoring.
 
-Please follow the [OpenProject for Docker compose](../docker-compose/) documentation for this installation method
+Please follow the [OpenProject for Docker Compose](../docker-compose/) documentation for this installation method
 
 ### Single docker container
 
-This guide will show you to install OpenProject in one container with all the processes inside. This allows for a very quick start but is not recommended for production as it hinders upgradability of the different components such as the database.
+This guide will show you how to install OpenProject in one container with all the processes inside. This allows for a very quick start but is not recommended for production as it hinders upgradability of the different components such as the database.
 
 ## All-in-one container
 
@@ -124,16 +123,15 @@ docker run -it -p 8080:80 \
   openproject/openproject:17
 ```
 
-Explanation of the used configuration values:
+Explanation of the configuration values:
 
-- `-p 8080:80` binds the port 80 of the container to 8080 on the machine running docker.
+- `-p 8080:80` binds port 80 of the container to 8080 on the machine running docker.
 - `SECRET_KEY_BASE` sets the secret key base for Rails. Replace `<your-secret-key-base>` with a strong, random value (for example generated with `openssl rand -hex 64`). Treat it like a password and **store it securely** — the same value must be reused on every container start, otherwise existing sessions and encrypted database content become unreadable. OpenProject will refuse to start with a default or weak value.
 - `OPENPROJECT_HOST__NAME` sets the host name of the application. This value is used for generating forms and links in emails, and needs to match the external request host name (The value users are seeing in their browsers).
 - `OPENPROJECT_HTTPS=false` disables the on-by-default HTTPS mode of OpenProject so you can access the instance over HTTP-only. For all production systems we strongly advise not to set this to false, and instead set up a proper TLS/SSL termination on your outer web server.
 - `OPENPROJECT_DEFAULT__LANGUAGE` does two things. It controls for the very first installation, in which language basic data (such as types, status names, etc.) and demo data is being created in. It also sets the default fallback language for new users.
 
-This will take a bit of time the first time you launch it, but after a few
-minutes you should see a success message indicating the default administration
+The first launch may take a few minutes, after which you should see a success message indicating the default administration
 password (login: `admin`, password: `admin`).
 
 You can then launch a browser and access your new OpenProject installation at
@@ -154,7 +152,8 @@ docker run -d -p 8080:80 \
   openproject/openproject:17
 ```
 
-**Note**: We've had reports of people being unable to start OpenProject this way
+> [!NOTE]
+> We've had reports of people being unable to start OpenProject this way
 because of an [issue regarding pseudo-TTY allocations](https://github.com/moby/moby/issues/31243#issuecomment-406825071)
 and permissions to write to `/dev/stdout`. If you run into this, a workaround
 seems to be to add `-t` to your run command, even if you run in detached mode.
@@ -189,9 +188,13 @@ docker run -d -p 8080:80 --name openproject \
 Please make sure you set the correct public facing hostname in `OPENPROJECT_HOST__NAME`. If you don't have a load-balancing or proxying web server in front of your docker container,
 you will otherwise be vulnerable to [HOST header injections](https://portswigger.net/web-security/host-header), as the internal server has no way of identifying the correct host name. We strongly recommend you use an external load-balancing or proxying web server for termination of TLS/SSL and general security hardening.
 
-**Note**: Make sure to replace `<your-secret-key-base>` with a random string. One way to generate one is to run `openssl rand -hex 64`. Store this value securely — it must remain the same across container restarts, otherwise sessions and encrypted database content will be lost.
+> [!NOTE]
+>
+> Make sure to replace `<your-secret-key-base>` with a random string. One way to generate one is to run `openssl rand -hex 64`. Store this value securely — it must remain the same across container restarts, otherwise sessions and encrypted database content will be lost.
 
-**Note**: MacOS users might encounter an "Operation not permitted" error on the mounted directories. The fix for this is to create the two directories in a user-owned directory of the host machine.
+> [!NOTE]
+>
+> macOS users might encounter an "Operation not permitted" error on the mounted directories. The fix for this is to create the two directories in a user-owned directory of the host machine.
 
 Since we named the container, you can now stop it by running:
 
@@ -205,7 +208,7 @@ And start it again:
 docker start openproject
 ```
 
-If you want to destroy the container, run the following commands
+To remove the container, run the following commands:
 
 ```shell
 docker stop openproject
@@ -218,10 +221,11 @@ Please see the [advanced configuration guide's docker paragraphs](../../configur
 
 #### Disabling HTTPS mode
 
-By default, OpenProject will expect a HTTPS request in production systems.
+By default, OpenProject will expect an HTTPS request in production systems.
 In most cases, you will have an external web server or load balancer terminating the SSL/TLS connection and proxy/reverse-proxy to the docker container. You will then have to set up the web server to forward the protocol information (usually, this is `X-Forwarded-Proto` but depends on your web server).
 
-> **NOTE**: This does not imply the docker container itself is running on SSL.
+> [!NOTE]
+> This does not imply the docker container itself is running on SSL.
 
 If you _really_ want to disable HTTPS responses by OpenProject, you will need to add the environment variable `OPENPROJECT_HTTPS=false`. Note that this will disable secure cookies for session cookies, and is strongly discouraged for any production system.
 
@@ -237,11 +241,11 @@ For more advanced configuration, please have a look at the [Advanced configurati
 
 ### Reverse Proxy Setup
 
-The containers above are not meant as public facing endpoints.
+The containers above are not meant as public-facing endpoints.
 Always use an existing proxying web server or load balancer to provide access to OpenProject.
 
-There are two ways to run OpenProject. We'll cover each configuration in a separate of the following sections.
-Moreover we're going to give basic configurations for both the [Apache](https://httpd.apache.org/)
+There are two ways to run OpenProject. We'll cover each configuration in the following sections.
+We also provide basic configurations for both the [Apache](https://httpd.apache.org/)
 and [nginx](https://nginx.org/en/) web servers.
 
 **Apache**
@@ -270,7 +274,8 @@ All examples are based on the following assumptions:
 
 _Important:_ Once OpenProject is running make sure to also set the host name accordingly under Administration -> System Settings or set it directly during startup by setting `OPENPROJECT_HOST__NAME`.
 
-> **NOTE:** There is [another example](../packaged/#external-ssltls-termination) for external SSL/TLS termination for **packaged** installations
+> [!NOTE]
+> There is [another example](../packaged/#external-ssltls-termination) for external SSL/TLS termination for **packaged** installations
 
 #### 1) Virtual host root
 
@@ -296,7 +301,7 @@ The **apache** configuration for this looks as follows.
 
     SSLEngine on
     SSLCertificateFile /etc/ssl/crt/server.crt
-    SSLCertificateKeyFile /etc/ssl/crt//server.key
+    SSLCertificateKeyFile /etc/ssl/crt/server.key
 
     RewriteEngine on
     RewriteRule "^$" "/" [R,L]
@@ -457,7 +462,7 @@ RUN ./docker/prod/setup/precompile-assets.sh
 ```
 
 The file is based on the normal OpenProject docker image.
-All the Dockerfile does is copy your custom plugins gemfile into the image, install the gems and precompile any new assets.
+All the Dockerfile does is copy your custom plugin Gemfile into the image, install the gems and precompile any new assets.
 
 **slim image**
 
@@ -498,7 +503,7 @@ To actually build the docker image run:
 docker build --pull -t openproject-with-slack .
 ```
 
-The `-t` option is the tag for your image. You can choose what ever you want.
+The `-t` option is the tag for your image. You can choose whatever name you want.
 
 **5. Run the image**
 
@@ -507,16 +512,20 @@ You just have to use your chosen tag instead of `openproject/openproject:17`.
 To just give it a quick try you can run this:
 
 ```shell
-docker run -p 8080:80 --rm -it openproject-with-slack
+docker run -p 8080:80 --rm -it \
+  -e SECRET_KEY_BASE=<your-secret-key-base> \
+  -e OPENPROJECT_HOST__NAME=localhost:8080 \
+  -e OPENPROJECT_HTTPS=false \
+  openproject-with-slack
 ```
 
 After which you can access OpenProject under `http://localhost:8080`.
 
 ## Import self-signed root certificate
 
-If you want to connect OpenProject to an external server as example SMTP-Server or a Nextcloud-Server that uses a self-signed certificate, you need to import the root certificate that was used to create the self-signed certificate. There are two ways to archive this.
+If you want to connect OpenProject to an external server such as an SMTP server or a Nextcloud server that uses a self-signed certificate, you need to import the root certificate that was used to create the self-signed certificate. There are two ways to achieve this.
 
-The first way is to mount the root certificate via the ```--mount``` option into the container and add the  certificate to the ```SSL_CERT_FILE``` variable.
+The first way is to mount the root certificate via the ```--mount``` option into the container and add the certificate to the ```SSL_CERT_FILE``` variable.
 
 ```shell
 sudo docker run -it -p 8080:80 \
@@ -524,8 +533,8 @@ sudo docker run -it -p 8080:80 \
   -e OPENPROJECT_HOST__NAME=localhost:8080 \
   -e OPENPROJECT_HTTPS=false \
   -e OPENPROJECT_DEFAULT__LANGUAGE=en \
-  --mount type=bind,source=$(pwd)/my_root.crt,target=/tmp/my_root.crt \ #mount my_root.crt to /tmp
-  -e SSL_CERT_FILE=/tmp/my_root.crt \ #set the SSL_CERT_FILE to the path of my_root.crt
+  --mount type=bind,source="$(pwd)/my_root.crt",target=/tmp/my_root.crt \
+  -e SSL_CERT_FILE=/tmp/my_root.crt \
   openproject/openproject:17
 ```
 
@@ -550,7 +559,7 @@ If you are using the -slim tag, you will need to do the following to import your
 FROM openproject/openproject:17-slim
 
 USER root
-COPY ./smtp.local_rootCA.crt /usr/local/share/ca-certificates/
+COPY ./my_root.crt /usr/local/share/ca-certificates/
 RUN update-ca-certificates
 USER $APP_USER
 ```
@@ -561,7 +570,7 @@ USER $APP_USER
 docker build --pull -t openproject-with-custom-ca .
 ```
 
-The `-t` option is the tag for your image. You can choose what ever you want.
+The `-t` option is the tag for your image. You can choose whatever name you want.
 
 **5. Run the image**
 
@@ -569,44 +578,47 @@ You can run the image just like the normal OpenProject image (as shown [here](#q
 
 ## Offline/air-gapped installation
 
-It's possible to run the docker image on an a system with no internet access using `docker save` and `docker load`.
-The installation works the same as described above. The only difference is that you don't download the image the usual way.
+It's possible to run the OpenProject Docker image on a system without internet access using `docker save` and `docker load`.
+
+The installation works as described above. The only difference is that the Docker image must be downloaded and transferred manually.
 
 **1) Save the image**
 
-On a system that has access to the internet run the following.
+On a system with internet access, run:
 
 ```shell
-docker pull openproject/openproject:17 && docker save openproject/openproject:17 | gzip > openproject-stable.tar.gz
+docker pull openproject/openproject:17
+docker save openproject/openproject:17 | gzip > openproject-17.tar.gz
 ```
 
-This creates a compressed archive containing the latest OpenProject docker image.
-The file will have a size of around 700mb.
+This creates a compressed archive containing the OpenProject 17 Docker image. The file size may vary depending on the image version and architecture.
 
-**2) Transfer the file onto the system**
 
-Copy the file onto the target system by any means that works.
-This could be sftp, scp or even via a USB stick in case of a truly air-gapped system.
+**2) Transfer the file to the target system**
+
+Copy `openproject-17.tar.gz` to the target system using a suitable method, such as SFTP, SCP, or a USB drive for a fully air-gapped environment.
 
 **3) Load the image**
 
-Once the file is on the system you can load it like this:
+Once the file is on the target system, load it using:
 
 ```shell
-gunzip openproject-12.tar.gz && docker load -i openproject-12.tar
+gunzip -c openproject-17.tar.gz | docker load
 ```
 
-This extracts the archive and loads the contained image layers into docker.
-The .tar file can be deleted after this.
+This decompresses the archive and loads the contained image layers into Docker. The compressed archive is preserved and can be deleted if no longer needed.
 
 **4) Proceed with the installation**
 
-After this both installation and later upgrades work just as usual.
-You only replaced `docker-compose pull` or the normal, implicit download of the image with the steps described here.
+After loading the image, proceed with the installation as described above.
+
+Make sure your Docker Compose configuration references the same image tag (`openproject/openproject:17`).
+
+For subsequent upgrades, repeat these steps with the desired image version before restarting the containers. Skip `docker compose pull` on the offline system, since the image is already available locally.
 
 ## Docker Swarm
 
-If you need to serve a very large number of users it's time to scale up horizontally.
+If you need to serve a large number of users, you may need to scale horizontally.
 One way to do that is to use your orchestration tool of choice such as [Kubernetes](../kubernetes/) or [Swarm](https://docs.docker.com/engine/swarm/).
 Here we'll cover how to scale up using the latter.
 
@@ -641,10 +653,11 @@ Where `10.0.2.77` is your swarm manager's (advertise) IP address.
 
 ### 2) Setup shared storage
 
-**Note:** This is only relevant if you have more than 1 node in your swarm.
+> [!NOTE]
+> This is only relevant if you have more than 1 node in your swarm.
 
 If your containers run distributed on multiple nodes you will need a shared network storage to store OpenProject's attachments.
-The easiest way for this would be to setup an NFS drive that is shared among all nodes and mounted to the same path on each of them.
+The easiest way for this would be to set up an NFS drive that is shared among all nodes and mounted to the same path on each of them.
 Say `/mnt/openproject/`.
 
 Alternatively, if using S3 is an option, you can use S3 attachments instead.
@@ -656,7 +669,8 @@ To create a stack you need a stack file. The easiest way is to just copy OpenPro
 
 #### Configuring storage
 
-**Note:** This is only necessary if your swarm runs on multiple nodes.
+> [!NOTE]
+> This is only necessary if your swarm runs on multiple nodes.
 
 ##### Attachments
 
@@ -664,7 +678,7 @@ To create a stack you need a stack file. The easiest way is to just copy OpenPro
 
 If you are using NFS to share attachments use a mounted docker volume to share the attachments folder.
 
-Per default the YAML file will include the following section:
+By default the YAML file will include the following section:
 
 ```yaml
 x-op-app: &app
@@ -726,7 +740,7 @@ x-op-app: &app
 
 The database's data directory should also be shared so that the database service can be moved to another node
 in case the original node fails. The easiest way to do this would again be a shared NFS mount present on each node.
-This is also the easiest way to persist the database data so it remains even if you shutdown the whole stack.
+This is also the easiest way to persist the database data so it remains even if you shut down the entire stack.
 
 You could either use a new mounted NFS folder or use a sub-folder in the one we will use for attachments.
 Along the same lines as attachments you could adjust the `pgdata` volume in the `openproject-stack.yml` so it would look something like this:
@@ -744,7 +758,8 @@ x-op-app: &app
     # ...
 ```
 
-**Disclaimer**: This may not be the best possible solution, but it is the most straight-forward one.
+> [!IMPORTANT]
+> This may not be the best possible solution, but it is the most straightforward one.
 
 #### OpenProject Configuration
 
@@ -803,9 +818,9 @@ Even with the database's data directory shared via NFS **you cannot scale up the
 Scaling the database horizontally adds another level of complexity which we won't cover here.
 
 What we can scale is both the proxy, and most importantly the web service.
-For a couple of thousand users we may want to use 6 web service (`openproject_web`) replicas.
-The proxy processes (`openproject_proxy`) in front of the actual OpenProject process does not need as many replicas.
-2 are fine here.
+For a couple of thousand users, we may want to use six web service (`openproject_web`) replicas.
+The proxy processes (`openproject_proxy`) in front of the actual OpenProject process do not need as many replicas.
+Two replicas should be sufficient here.
 
 Also at least 2 worker (`openproject_worker`) replicas make sense to handle the increased number of background tasks.
 If you find that it takes too long for those tasks (such as sending emails or work package exports) to complete
@@ -826,7 +841,7 @@ cvgd4c4at61i        openproject_db       replicated          1/1                
 uvtfnc9dnlbn        openproject_proxy    replicated          2/2                 openproject/openproject:17   *:8080->80/tcp
 g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/openproject:17
 canb3m7ilkjn        openproject_web      replicated          6/6                 openproject/openproject:17
-7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/openproject:17
+7ovn0sbu8a7w        openproject_worker   replicated          2/2                 openproject/openproject:17
 ```
 
 Docker swarm handles the networking necessary to distribute the load among the nodes.
@@ -838,7 +853,7 @@ Now as mentioned earlier you can simply use the manager node's endpoint in a rev
 But that will be a single point of failure if the manager node goes down.
 
 To make this more redundant you can use the load balancer directive in your proxy configuration.
-For instance for apache this could look like this:
+For instance, for Apache this could look like this:
 
 ```apache
 <Proxy balancer://swarm>
