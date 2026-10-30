@@ -54,7 +54,7 @@ module OpPrimer
                                                       readonly:,
                                                       disabled:,
                                                       button_arguments: {
-                                                        title: "Edit",
+                                                        description: "Edit status",
                                                         size:
                                                       })
 
@@ -80,7 +80,7 @@ module OpPrimer
       component = OpPrimer::StatusButtonComponent.new(current_status: status,
                                                       items: items,
                                                       readonly: false,
-                                                      button_arguments: { size:, title: "foo" })
+                                                      button_arguments: { size:, description: "Edit status" })
 
       render(component)
     end
@@ -106,7 +106,7 @@ module OpPrimer
       component = OpPrimer::StatusButtonComponent.new(current_status: status,
                                                       items: items,
                                                       readonly: false,
-                                                      button_arguments: { size:, title: "foo" })
+                                                      button_arguments: { size:, description: "Edit status" })
 
       render(component)
     end
