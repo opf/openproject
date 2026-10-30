@@ -57,10 +57,9 @@ RSpec.describe SemanticIndexes::ActivateService do
   context "when the Semantic Index is not ready" do
     let(:semantic_index) { create(:semantic_index, state: "failed") }
 
-    it "fails" do
-      expect(result).to be_failure
-      expect(result.message).to eq("Semantic Index must be ready before it can be activated.")
-      expect(active_semantic_index).to be_nil
+    it "activates it anyway" do
+      expect(result).to be_success
+      expect(active_semantic_index).to eq(semantic_index)
     end
   end
 

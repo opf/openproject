@@ -71,7 +71,6 @@ en:
               not_available: "is not offered by the configured LLM server."
             semantic_index:
               not_for_chat_feature: "only applies to features that create embeddings."
-              not_ready: "must be ready before it can be activated."
         llm_model:
           attributes:
             external_id:

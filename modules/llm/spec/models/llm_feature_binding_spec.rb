@@ -91,32 +91,29 @@ RSpec.describe LlmFeatureBinding do
     end
   end
 
-  describe "the active Semantic Index" do
+  describe "the Semantic Index for an embedding feature" do
     include_context "with an embedding model offered"
 
     let(:binding) { connection.feature_bindings.new(feature_key: "semantic_search") }
 
-    it "may be a ready one" do
-      binding.semantic_index = create(:semantic_index, state: "ready")
-
-      expect(binding).to be_valid
-    end
-
-    %w[not_indexed indexing failed].each do |state|
-      it "must not be #{state.humanize(capitalize: false)}" do
+    %w[ready not_indexed indexing failed].each do |state|
+      it "may be #{state.humanize(capitalize: false)}" do
         binding.semantic_index = create(:semantic_index, state:)
 
-        expect(binding).not_to be_valid
-        expect(binding.errors.details[:semantic_index]).to include(error: :not_ready)
+        expect(binding).to be_valid
       end
     end
+  end
 
-    it "only applies to embedding features" do
+  describe "the Semantic Index for a chat feature" do
+    include_context "with an embedding model offered"
+
+    it "is rejected" do
       binding = connection.feature_bindings.new(feature_key: "description_assistant",
                                                 semantic_index: create(:semantic_index, state: "ready"))
 
       expect(binding).not_to be_valid
-      expect(binding.errors.details[:semantic_index]).to include(error: :not_for_chat_feature)
+      expect(binding.errors.details[:semantic_index]).to contain_exactly({ error: :not_for_chat_feature })
     end
   end
 end
