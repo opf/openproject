@@ -38,6 +38,7 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { boardInlineAddScope } from 'core-app/features/boards/board/inline-add/board-inline-add-scope';
 import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -87,28 +88,19 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
     if (results && results.elements.length > 0) {
       filters.add('id', '!', results.elements.map((wp:WorkPackageResource) => wp.id!));
     }
-    // If the column query has a 'project' filter, use the global endpoint and forward
-    // that filter so the autocomplete respects it. Basic boards always have one (added
-    // by the board to show all projects, or narrowed by the user). Action boards may
-    // also have one if the user added it explicitly.
-    // Otherwise stay scoped to the current project and forward the 'subprojectId' filter.
     const query = this.querySpace.query.value;
-    let projectScopeId:string|null = this.CurrentProject.id;
-    if (query?.filters) {
-      const currentFilters = this.urlParamsHelper.buildV3GetFilters(query.filters);
-      if (currentFilters.some((f) => 'project' in f)) {
-        filters.merge(currentFilters, 'project');
-        projectScopeId = null;
-      } else {
-        filters.merge(currentFilters, 'subprojectId');
-      }
-    }
+    const columnFilters = query?.filters ? this.urlParamsHelper.buildV3GetFilters(query.filters) : [];
+    const scope = boardInlineAddScope(columnFilters, this.CurrentProject.id);
+    filters.merge(columnFilters, ...scope.forwardedFilters);
 
     return this
       .apiV3Service
-      .withOptionalProject(projectScopeId)
+      .withOptionalProject(scope.projectId)
       .work_packages
-      .filtered(filters, { sortBy: '[["exactMatch","desc"],["updatedAt","desc"]]' })
+      .filtered(filters, {
+        sortBy: '[["exactMatch","desc"],["updatedAt","desc"]]',
+        ...(query && { includeSubprojects: String(query.includeSubprojects) }),
+      })
       .get()
       .pipe(
         map((collection) => collection.elements),

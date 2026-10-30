@@ -101,36 +101,70 @@ RSpec.describe "Board reference work package spec",
       create(:user, member_with_roles: { project => role, child_project => role })
     end
 
-    it "returns the work package when subproject filters is added" do
+    it "offers the work package without a subproject filter" do
       board_view
       board_index.visit!
 
-      # Create new board
       board_page = board_index.create_board
       board_page.rename_list "Unnamed list", "First"
 
-      # Reference an existing work package
-      board_page.expect_not_referencable("First", work_package)
-      sleep 2
-      board_page.expect_card("First", work_package.subject, present: false)
-
-      # Add subproject filter
-      filters.open
-      filters.add_filter_by("subproject", "is not empty", nil, "subprojectId")
-      sleep 2
-
-      # Reference an existing work package
       board_page.reference("First", work_package)
-      sleep 2
-      board_page.expect_card("First", work_package.subject)
 
-      queries = board_page.board(reload: true).contained_queries
-      first = queries.find_by(name: "First")
-      ids = first.ordered_work_packages.pluck(:work_package_id)
-      expect(ids).to contain_exactly(work_package.id)
+      first = board_page.board(reload: true).contained_queries.find_by(name: "First")
+      wait_for { first.reload.ordered_work_packages.pluck(:work_package_id) }.to contain_exactly(work_package.id)
 
       work_package.reload
       expect(work_package.project).to eq(child_project)
+    end
+
+    context "when narrowing the board to one subproject" do
+      let!(:sibling_project) { create(:project, parent: project) }
+      let!(:sibling_work_package) { create(:work_package, subject: "WP SIBLING", project: sibling_project) }
+
+      let(:user) do
+        create(:user, member_with_roles: { project => role, child_project => role, sibling_project => role })
+      end
+
+      it "offers only work packages matching the subproject filter" do
+        board_view
+        board_index.visit!
+
+        board_page = board_index.create_board
+        board_page.rename_list "Unnamed list", "First"
+
+        filters.open
+        filters.add_filter_by("subproject", "is (OR)", child_project.name, "subprojectId")
+
+        board_page.expect_not_referencable("First", sibling_work_package)
+
+        board_page.reference("First", work_package)
+        board_page.expect_card("First", work_package.subject)
+      end
+    end
+
+    context "when narrowing the board to another project" do
+      let!(:other_project) { create(:project) }
+      let!(:project_work_package) { create(:work_package, subject: "WP PARENT", project:) }
+
+      let(:user) do
+        create(:user, member_with_roles: { project => role, child_project => role, other_project => role })
+      end
+
+      it "no longer offers the work package" do
+        board_view
+        board_index.visit!
+
+        board_page = board_index.create_board
+        board_page.rename_list "Unnamed list", "First"
+
+        board_page.reference("First", project_work_package)
+
+        filters.open
+        filters.add_filter_by("Project", "is (OR)", other_project.name)
+        expect(page).to have_no_text(project_work_package.subject)
+
+        board_page.expect_not_referencable("First", work_package)
+      end
     end
   end
 end
