@@ -69,6 +69,12 @@ describe('LabelsAutocompleterComponent', () => {
     expect(component.trackByFn?.(false)).toBeUndefined();
   });
 
+  it('compares labels without throwing on nameless values', () => {
+    expect(component.compareWith({ id: 1 }, { id: 1 })).toBe(true);
+    expect(component.compareWith({}, {})).toBe(false);
+    expect(component.compareWith({ id: null, href: null, name: 'A' }, { id: 2, href: '/2', name: 'a' })).toBe(true);
+  });
+
   it('does not offer to create a blank term', () => {
     expect(component.createLabel('   ')).toBeUndefined();
   });

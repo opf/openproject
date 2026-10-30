@@ -39,6 +39,7 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import {
   LabelsAutocompleterTemplateComponent,
 } from 'core-app/shared/components/autocompleter/labels-autocompleter/labels-autocompleter-template.component';
+import { compareLabels } from 'core-app/shared/components/autocompleter/selection/label-selection';
 
 export const labelsAutocompleterSelector = 'op-labels-autocompleter';
 
@@ -122,16 +123,7 @@ export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabe
   }
 
   protected defaultCompareWithFunction():(option:unknown, selected:unknown) => boolean {
-    return (option, selected) => {
-      const optionLabel = option as ILabelAutocompleteItem|null|undefined;
-      const selectedLabel = selected as ILabelAutocompleteItem|null|undefined;
-
-      if (!optionLabel || !selectedLabel) {
-        return !optionLabel && !selectedLabel;
-      }
-
-      return optionLabel.name.toLowerCase() === selectedLabel.name.toLowerCase();
-    };
+    return compareLabels;
   }
 
   protected defaultTrackByFunction():(item:unknown) => unknown {
