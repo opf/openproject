@@ -12,7 +12,9 @@
       <button
         type="button"
         class="spot-link spot-breadcrumbs--crumb-action-item"
-        [title]="crumb.text"
+        opTooltip
+        [label]="crumb.text"
+        tooltipWhenTruncated=".spot-breadcrumbs--crumb-action-item-text"
         (click)="crumb.navigate()"
       >
         @if (crumb.icon) {

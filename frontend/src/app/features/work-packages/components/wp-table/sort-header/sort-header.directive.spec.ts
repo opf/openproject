@@ -26,8 +26,9 @@
 //++
 
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Injector, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { fireEvent, screen, waitFor } from '@testing-library/dom';
 import { of } from 'rxjs';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -41,8 +42,14 @@ import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/r
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { nextTask } from 'core-common/testing/timing';
 import { buildQuery, buildTable, FakeDragAndDropService, harnessProviders, initializeViewServices, TableHarness } from '../../wp-fast-table/testing/table-harness';
+import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
+import { OpColumnsContextMenu } from 'core-app/shared/components/op-context-menu/handlers/op-columns-context-menu.directive';
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { SortHeaderDirective } from './sort-header.directive';
 import { primarySortDirection } from './primary-sort-direction';
 
@@ -233,5 +240,166 @@ describe('primarySortDirection', () => {
 
     expect(primarySortDirection(sortBy, status)).toBeNull();
     expect(primarySortDirection([], subject)).toBeNull();
+  });
+});
+
+describe('SortHeaderDirective relation columns', () => {
+  let fixture:ComponentFixture<SortHeaderDirective>;
+  let harness:TableHarness;
+
+  const relationColumns = {
+    toType: {
+      id: 'relationsToType1',
+      name: 'Relations to Bug',
+      href: '/api/v3/queries/columns/relationsToType1',
+      _type: 'QueryColumn::RelationToType',
+      type: { name: 'Bug', href: '/api/v3/types/1' },
+    },
+    children: {
+      id: 'children',
+      name: 'Children',
+      href: '/api/v3/queries/columns/children',
+      _type: 'QueryColumn::RelationChild',
+    },
+  };
+
+  async function render(column:object, columnMenuEnabled = true) {
+    await TestBed.configureTestingModule({
+      declarations: [SortHeaderDirective],
+      imports: [CommonModule, OpTooltipDirective],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: harnessProviders(new FakeDragAndDropService(), { workPackages: [] }),
+    }).overrideComponent(SortHeaderDirective, {
+      add: {
+        providers: [
+          WorkPackageViewBaselineService, ConfigurationService, TimezoneService, WeekdayService,
+          { provide: DayResourceService, useValue: { requireNonWorkingYears$: () => of([]) } },
+          { provide: WeekdayResourceService, useValue: { requireCollection: () => of([]) } },
+        ],
+      },
+    }).compileComponents();
+    initializeViewServices(TestBed.inject(Injector), buildQuery(['id', 'subject'], null, false, false));
+    harness = buildTable({ workPackages: [], configuration: { columnMenuEnabled } });
+    fixture = TestBed.createComponent(SortHeaderDirective);
+    fixture.componentRef.setInput('headerColumn', column);
+    fixture.componentRef.setInput('table', harness.table);
+    TestBed.inject(IsolatedQuerySpace).available.sortBy.putValue([]);
+    fixture.detectChanges();
+  }
+
+  afterEach(async () => {
+    fixture.destroy();
+    await harness.destroy();
+  });
+
+  it('describes a type relation column header button with the full column name', async () => {
+    await render(relationColumns.toType);
+
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Bug' })).toHaveAccessibleDescription('Relations to Bug'));
+  });
+
+  it('offers the column name as a label tooltip when the header text is the column name', async () => {
+    await render(relationColumns.children);
+
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Children' })).toBeInTheDocument());
+    expect(screen.getByRole('button', { name: 'Children' })).not.toHaveAccessibleDescription();
+    expect(fixture.nativeElement.querySelector('tool-tip')).toHaveAttribute('data-type', 'label');
+    expect(fixture.nativeElement.querySelector('tool-tip')).toHaveTextContent('Children');
+  });
+
+  it('renders no header button without a column menu', async () => {
+    await render(relationColumns.toType, false);
+
+    await waitFor(() => expect(screen.getByText('Bug')).toHaveAttribute('title', 'Relations to Bug'));
+    expect(screen.queryByRole('button')).not.toBeInTheDocument();
+    expect(fixture.nativeElement.querySelector('tool-tip')).toBeNull();
+  });
+});
+
+@Component({
+  template: `
+    @for (table of tables; track $index) {
+      <sortHeader [headerColumn]="column"
+        [table]="table"
+        opColumnsContextMenu
+        [opColumnsContextMenu-column]="column"
+        [opColumnsContextMenu-table]="table" />
+    }
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
+})
+class TwoTablesHostComponent {
+  column:object;
+
+  tables:WorkPackageTable[];
+}
+
+describe('SortHeaderDirective relation columns in several tables', () => {
+  const column = {
+    id: 'relationsToType1',
+    name: 'Relations to Bug',
+    href: '/api/v3/queries/columns/relationsToType1',
+    _type: 'QueryColumn::RelationToType',
+    type: { name: 'Bug', href: '/api/v3/types/1' },
+  };
+  const tables:TableHarness[] = [];
+  let fixture:ComponentFixture<TwoTablesHostComponent>;
+  let contextMenu:{ show:ReturnType<typeof vi.fn>, close:ReturnType<typeof vi.fn>, isActive:() => boolean };
+
+  beforeEach(async () => {
+    contextMenu = { show: vi.fn(), close: vi.fn(), isActive: () => false };
+    await TestBed.configureTestingModule({
+      declarations: [TwoTablesHostComponent, SortHeaderDirective, OpColumnsContextMenu],
+      imports: [CommonModule, OpTooltipDirective],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [
+        ...harnessProviders(new FakeDragAndDropService(), { workPackages: [] }),
+        WorkPackageViewBaselineService, ConfigurationService, TimezoneService, WeekdayService,
+        { provide: DayResourceService, useValue: { requireNonWorkingYears$: () => of([]) } },
+        { provide: WeekdayResourceService, useValue: { requireCollection: () => of([]) } },
+        { provide: OPContextMenuService, useValue: contextMenu },
+        { provide: OpModalService, useValue: {} },
+        { provide: ConfirmDialogService, useValue: {} },
+      ],
+    }).compileComponents();
+    initializeViewServices(TestBed.inject(Injector), buildQuery(['id', 'subject'], null, false, false));
+    tables.push(
+      buildTable({ workPackages: [], configuration: { columnMenuEnabled: true } }),
+      buildTable({ workPackages: [], configuration: { columnMenuEnabled: true } }),
+    );
+    fixture = TestBed.createComponent(TwoTablesHostComponent);
+    fixture.componentInstance.column = column;
+    fixture.componentInstance.tables = tables.map((harness) => harness.table);
+    TestBed.inject(IsolatedQuerySpace).available.sortBy.putValue([]);
+    fixture.detectChanges();
+  });
+
+  afterEach(async () => {
+    fixture.destroy();
+    await Promise.all(tables.splice(0).map((table) => table.destroy()));
+  });
+
+  it('binds each header tooltip to its own button', async () => {
+    await waitFor(() => expect(screen.getAllByRole('button', { name: 'Bug' })).toHaveLength(2));
+    const buttons = screen.getAllByRole('button', { name: 'Bug' });
+
+    await waitFor(() => buttons.forEach((button) => expect(button).toHaveAccessibleDescription('Relations to Bug')));
+    expect(buttons[0].id).not.toEqual(buttons[1].id);
+    buttons.forEach((button) => {
+      expect(button.nextElementSibling).toHaveAttribute('for', button.id);
+    });
+  });
+
+  it('returns focus to the header button whose column menu closed', async () => {
+    await waitFor(() => expect(screen.getAllByRole('button', { name: 'Bug' })).toHaveLength(2));
+    const second = screen.getAllByRole('button', { name: 'Bug' })[1];
+
+    fireEvent.click(second);
+    expect(contextMenu.show).toHaveBeenCalledTimes(1);
+    const [handler] = contextMenu.show.mock.calls[0] as [OpColumnsContextMenu];
+    handler.onClose();
+
+    expect(second).toHaveFocus();
   });
 });

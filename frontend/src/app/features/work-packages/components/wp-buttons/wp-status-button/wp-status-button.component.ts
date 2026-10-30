@@ -56,7 +56,7 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
   @Input() public small = false;
 
   public text = {
-    explanation: this.I18n.t('js.label_edit_status'),
+    status: this.I18n.t('js.work_packages.properties.status'),
     workPackageReadOnly: this.I18n.t('js.work_packages.message_work_package_read_only'),
     workPackageStatusBlocked: this.I18n.t('js.work_packages.message_work_package_status_blocked'),
   };
@@ -79,13 +79,13 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
       });
   }
 
-  public get buttonTitle() {
+  public get disabledReason():string|null {
     if (this.schema.isReadonly) {
       return this.text.workPackageReadOnly;
     } if (this.schema.isEditable && !this.allowed) {
       return this.text.workPackageStatusBlocked;
     }
-    return '';
+    return null;
   }
 
   public get statusHighlightClass() {

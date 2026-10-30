@@ -225,7 +225,7 @@ RSpec.describe "inline create work package", :js do
       it "renders the work packages, but no create" do
         wp_table.expect_work_package_listed(existing_wp)
         expect(page).to have_no_button(exact_text: "Create new work package")
-        expect(page).to have_css(".add-work-package[disabled]")
+        expect(page).to have_css(".add-work-package[aria-disabled='true']")
       end
     end
   end

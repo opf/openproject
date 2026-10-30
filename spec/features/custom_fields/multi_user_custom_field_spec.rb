@@ -206,7 +206,7 @@ RSpec.describe "multi select custom values", :js do
         cf_edit_field.unset_value "Anton Lupin", multi: true
         cf_edit_field.set_value "Cooper Quatermaine"
 
-        click_on "Reviewer: Save"
+        click_on accessible_name: "Reviewer: Save"
         wp_page.expect_and_dismiss_toaster(message: "Successful update.")
         expect(page).to have_css("#{cf_edit_field.selector} .op-principal", count: 2)
 

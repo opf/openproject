@@ -46,3 +46,14 @@ body
 // Reduce padding of relations icon in relation columns
 .relations-header--icon:before
   padding: 0 2px 0 0
+
+.generic-table--sort-header > .relations-header--button
+  @include unset-button-styles
+  @include text-shortener
+  flex: 1 1
+  width: 100%
+  font-weight: var(--base-text-weight-bold)
+  color: var(--body-font-color)
+  text-transform: inherit
+  letter-spacing: inherit
+  cursor: auto

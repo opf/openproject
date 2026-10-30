@@ -26,7 +26,6 @@
 //++
 
 import {
-  CUSTOM_ELEMENTS_SCHEMA,
   Injector,
   NgModule,
   inject,
@@ -49,6 +48,7 @@ import { BcfNewWpAttributeGroupComponent } from 'core-app/features/bim/bcf/bcf-w
 import { RevitBridgeService } from 'core-app/features/bim/revit_add_in/revit-bridge.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { RefreshButtonComponent } from 'core-app/features/bim/ifc_models/toolbar/import-export-bcf/refresh-button.component';
 
 /**
@@ -71,6 +71,7 @@ export const viewerBridgeServiceFactory = (injector:Injector) => {
   imports: [
     OpSharedModule,
     NgxGalleryModule,
+    OpTooltipDirective,
   ],
   providers: [
     {
@@ -94,7 +95,6 @@ export const viewerBridgeServiceFactory = (injector:Injector) => {
     BcfExportButtonComponent,
     RefreshButtonComponent,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class OpenprojectBcfModule {
   static bootstrapCalled = false;

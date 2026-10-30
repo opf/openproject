@@ -31,7 +31,8 @@
               data-turbo="false"
               [attr.aria-disabled]="item.disabled"
               [attr.aria-label]="item.ariaLabel || item.linkText"
-              [attr.title]="item.title || undefined"
+              opTooltip
+              [description]="item.title || undefined"
               (click)="handleClick(item, $event)"
               >
               @if (item.icon) {
@@ -52,7 +53,8 @@
               [class.inactive]="item.disabled"
               [attr.aria-disabled]="item.disabled"
               [attr.aria-label]="item.ariaLabel || item.linkText"
-              [attr.title]="item.title || undefined"
+              opTooltip
+              [description]="item.title || undefined"
               (click)="handleClick(item, $event)"
               >
               @if (item.icon) {

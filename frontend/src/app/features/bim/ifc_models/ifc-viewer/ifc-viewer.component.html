@@ -76,10 +76,14 @@
       @if (!keyboardEnabled) {
         <div
           class="op-ifc-viewer--focus-warning op-ifc-viewer--model-canvas-overlay">
-          <a class="op-ifc-viewer--keyboard-disabled-icon icon-no-color icon-input-disabled"
+          <button
+            type="button"
+            class="op-ifc-viewer--keyboard-disabled-icon icon-no-color icon-input-disabled"
+            opTooltip
+            [label]="text.keyboard_input_disabled"
             (mousedown)="enableFromIcon($event)"
-            [attr.title]="text.keyboard_input_disabled">
-          </a>
+            (click)="enableFromIcon($event)">
+          </button>
         </div>
       }
       <canvas #navCubeCanvas

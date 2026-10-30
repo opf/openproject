@@ -33,6 +33,8 @@ require "features/work_packages/work_packages_page"
 require "features/page_objects/notification"
 
 RSpec.describe "new work package", :js do
+  include_context "with axe on Cuprite"
+
   let(:type_task) { create(:type_task, default_work_package_description: "# New Task template\n\nHello there") }
   let(:type_feature) { create(:type_feature, default_work_package_description: "") }
   let(:type_bug) { create(:type_bug, default_work_package_description: "# New Bug template\n\nGeneral Kenobi") }
@@ -105,6 +107,8 @@ RSpec.describe "new work package", :js do
     it "shows the template after selection of project and type" do
       visit "/work_packages/new"
       wp_page.expect_fully_loaded
+      expect(page).to have_button(accessible_name: "Settings", exact: true)
+      expect(page).to be_axe_clean.within(".toolbar-items")
 
       subject_field.set_value "Foobar!"
 

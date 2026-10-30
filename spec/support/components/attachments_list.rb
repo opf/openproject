@@ -58,7 +58,7 @@ module Components
     def delete(file_name)
       item = find("#{context_selector} [data-test-selector='op-attachment-list-item']", text: file_name)
       item.hover
-      item.find(:button, title: I18n.t("js.label_remove_file", fileName: file_name)).click
+      item.find(:button, accessible_name: I18n.t("js.label_remove_file", fileName: file_name)).click
       # confirm delete confirmation dialog
       expect(page).to have_content(I18n.t("js.attachments.delete_confirmation"))
       find(:button, text: I18n.t("js.attachments.delete")).click

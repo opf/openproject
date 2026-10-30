@@ -196,6 +196,10 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   enableFromIcon(event:MouseEvent):boolean {
+    if (this.keyboardEnabled) {
+      return false;
+    }
+
     this.enableKeyBoard();
 
     // Focus on the canvas

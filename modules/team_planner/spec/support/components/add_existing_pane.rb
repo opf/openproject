@@ -38,7 +38,7 @@ module Components
     end
 
     def open
-      page.find('[data-test-selector="op-team-planner--add-existing-toggle"]').click
+      click_on accessible_name: "Add existing", exact: true
       expect_open
     end
 

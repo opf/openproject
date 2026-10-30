@@ -33,6 +33,8 @@ RSpec.describe "baseline query saving",
                :js,
                with_ee: %i[baseline_comparison],
                with_settings: { date_format: "%Y-%m-%d" } do
+  include_context "with axe on Cuprite"
+
   shared_let(:project) { create(:project) }
   shared_let(:work_package) { create(:work_package, project:) }
 
@@ -65,6 +67,47 @@ RSpec.describe "baseline query saving",
   shared_let(:tokyo_time_offset) { "+0#{tokyo_hours_offset}:00" }
   # always "UTC+9"
   shared_let(:tokyo_utc_offset) { "UTC+#{tokyo_hours_offset}" }
+
+  it "opens and closes the baseline modal with an accessible trigger", :selenium do
+    login_as berlin_user
+    wp_table.visit!
+
+    expect(page).to have_button(accessible_name: "Baseline", exact: true)
+    expect(page).to be_axe_clean.within(".op-baseline-modal")
+
+    baseline_modal.toggle_drop_modal
+    baseline_modal.expect_open
+
+    page.send_keys(:escape)
+    baseline_modal.expect_closed
+  end
+
+  it "drives the baseline trigger and the modal by keyboard", :selenium do
+    login_as berlin_user
+    wp_table.visit!
+
+    find_button(accessible_name: "Baseline", exact: true).send_keys(%i[shift tab])
+    expect(page).to have_no_css("tool-tip:popover-open")
+
+    page.send_keys(:tab)
+    expect(page).to have_button(accessible_name: "Baseline", exact: true, focused: true)
+
+    page.send_keys(:enter)
+    baseline_modal.expect_open
+    expect(page).to have_field("op-baseline-filter", focused: true)
+    expect(page).to have_no_css("tool-tip:popover-open")
+
+    page.send_keys(:escape)
+    baseline_modal.expect_closed
+
+    page.send_keys(%i[shift tab])
+    expect(page).to have_button(accessible_name: "Baseline", exact: true, focused: true)
+
+    page.send_keys(:escape)
+    expect(page).to have_no_css("tool-tip:popover-open")
+    expect(page).to have_button(accessible_name: "Baseline", exact: true, focused: true)
+    baseline_modal.expect_closed
+  end
 
   it "shows a warning when an incompatible filter is used" do
     login_as berlin_user

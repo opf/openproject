@@ -32,6 +32,7 @@ import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-he
 import { ScrollableTabsComponent } from 'core-app/shared/components/tabs/scrollable-tabs/scrollable-tabs.component';
 import { TabCountComponent } from 'core-app/shared/components/tabs/tab-badges/tab-count.component';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { IconModule } from 'core-app/shared/components/icon/icon.module';
     FocusModule,
     IconModule,
     AttributeHelpTextModule,
+    OpTooltipDirective,
   ],
   exports: [
     ScrollableTabsComponent,

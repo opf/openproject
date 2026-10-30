@@ -85,7 +85,7 @@ RSpec.describe "work package generate PDF dialog", :js do
   end
 
   def open_generate_pdf_dialog!
-    click_link_or_button "More"
+    click_on accessible_name: "More", exact: true
     click_link_or_button "Generate PDF"
     wait_for_size_animation_completion("##{WorkPackages::Exports::Generate::ModalDialogComponent::MODAL_ID}")
   end

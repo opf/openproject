@@ -101,25 +101,25 @@
                       }
                       <td class="buttons">
                         @if (item.entry && item.entry.updateImmediately) {
-                          <a
+                          <button
+                            type="button"
+                            class="op-time-entries-list--action"
                             (click)="editTimeEntry(item.entry)"
-                            (keyup.enter)="editTimeEntry(item.entry)"
-                            (keyup.space)="editTimeEntry(item.entry)"
-                            tabindex="0"
-                            [title]="text.edit"
+                            opTooltip
+                            [label]="text.edit"
                             attr.data-test-selector="edit-time-entry-{{ item.entry.id }}">
                             <op-icon icon-classes="icon-context icon-edit" />
-                          </a>
+                          </button>
                         }
                         @if (item.entry && item.entry.delete) {
-                          <a
-                            tabindex="0"
+                          <button
+                            type="button"
+                            class="op-time-entries-list--action"
                             (click)="deleteIfConfirmed($event, item.entry)"
-                            (keyup.enter)="deleteIfConfirmed($event, item.entry)"
-                            (keyup.space)="deleteIfConfirmed($event, item.entry)"
-                            [title]="text.delete">
+                            opTooltip
+                            [label]="text.delete">
                             <op-icon icon-classes="icon-context icon-delete" />
-                          </a>
+                          </button>
                         }
                       </td>
                     </tr>

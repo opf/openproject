@@ -44,6 +44,8 @@ RSpec.describe("Activation of storages in projects",
                with_settings: { notifications_polling_interval: 1_000 }) do
   include Flash::Expectations
 
+  include_context "with axe on Cuprite"
+
   def open_delete_dialog
     delete_selector = "a.icon-delete[title='#{I18n.t(:button_delete)}']"
     delete_link = wait_for_stimulus_controller(delete_selector, "async-dialog", wait: 20)
@@ -133,6 +135,10 @@ RSpec.describe("Activation of storages in projects",
       location_picker.enter_folder("Folder1")
       location_picker.wait_for_folder_loaded
     end
+    page.within(location_picker.container) do
+      expect(page).to have_button(accessible_name: storage.name, exact: true)
+    end
+    expect(page).to be_axe_clean.within("spot-breadcrumbs")
     location_picker.confirm
 
     # Add storage

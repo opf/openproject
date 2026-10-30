@@ -38,7 +38,8 @@
       [ngClass]="{ '-with-create-button': board.isAction || showAddButton }">
       <div class="op-board-list--button-container">
         @if (showAddButton) {
-          <button [title]="text.addCard"
+          <button opTooltip
+            [label]="text.addCard"
             data-test-selector="op-board-list--card-dropdown-add-button"
             data-tour-selector="op-board-list--card-dropdown-add-button"
             class="op-board-list--add-button op-board-list--card-dropdown-button button"

@@ -273,7 +273,7 @@ RSpec.describe "form query configuration", :js do
         expect(results).to have_no_text "Bug ##{unrelated_task.id} Unrelated bug"
 
         # Cancel that referencing
-        page.find(".wp-create-relation--cancel").click
+        click_on accessible_name: "Abort"
 
         # Reference the task type
         embedded_table.reference_work_package unrelated_task

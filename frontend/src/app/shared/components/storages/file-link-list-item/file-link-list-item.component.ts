@@ -81,7 +81,6 @@ export class FileLinkListItemComponent implements OnInit, OnChanges, AfterViewIn
       openFile: this.i18n.t('js.storages.file_links.open'),
       openFileLocation: this.i18n.t('js.storages.file_links.open_location'),
       removeFileLink: this.i18n.t('js.storages.file_links.remove'),
-      downloadFileLink: '',
     },
     removalTitle: this.i18n.t('js.storages.file_links.remove'),
     removalButtonLabel: this.i18n.t('js.storages.file_links.remove_short'),
@@ -115,11 +114,6 @@ export class FileLinkListItemComponent implements OnInit, OnChanges, AfterViewIn
     this.fileLinkIcon = getIconForMimeType(this.originData.mimeType);
 
     this.tooltip = this.toolTipText();
-
-    this.text.title.downloadFileLink = this.i18n.t(
-      'js.storages.file_links.download',
-      { fileName: this.fileLink.originData.name },
-    );
   }
 
   // Before, the getFloatingActions() method was called in the ngOnInit() method.
@@ -227,7 +221,7 @@ export class FileLinkListItemComponent implements OnInit, OnChanges, AfterViewIn
   private downloadAction():FloatingAction {
     return new FloatingAction(
       'download',
-      this.text.title.downloadFileLink,
+      this.i18n.t('js.storages.file_links.download', { fileName: this.fileLink.originData.name }),
       undefined,
       { url: this.fileLink._links.staticOriginDownload.href, target: '_self' },
     );

@@ -122,7 +122,8 @@
           @if (!!action.href) {
             <a
               class="spot-link spot-link_octicon"
-              [title]="action.title"
+              opTooltip
+              [label]="action.title"
               [href]="action.href.url"
               [target]="action.href.target"
             >
@@ -133,7 +134,8 @@
           } @else if (!!action.action) {
             <button
               class="spot-link spot-link_octicon"
-              [title]="action.title"
+              opTooltip
+              [label]="action.title"
               (click)="action.action()"
             >
               <ng-container [ngTemplateOutlet]="floatingAction"

@@ -105,3 +105,7 @@ export function closestDragBlockingElement(el:Element|null, stopAt:Element|null 
 
   return null;
 }
+
+export function isInsideDisabledControl(el:Element|null):boolean {
+  return el?.closest('[aria-disabled="true"]') != null;
+}
