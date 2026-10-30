@@ -86,7 +86,7 @@ describe('Ancestor row selection', () => {
       table: harness.table,
       classIdentifier: harness.row('1').dataset.classIdentifier,
     });
-    expect(form.findCell('subject')).toBe(harness.row('1').querySelector('td.subject'));
+    expect(form.findCell('subject')).toBe(harness.row('1').querySelector(':scope > .wp-table--cell-td.subject'));
   });
 
   it('retains both lookup identities through a row refresh', () => {

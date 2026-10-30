@@ -156,7 +156,7 @@ describe('KeyboardNavigationTransformer', () => {
     const table = await mount();
     const late = document.createElement('span');
     late.setAttribute('tabindex', '0');
-    table.row('1').querySelector('td.subject')!.appendChild(late);
+    table.row('1').querySelector(':scope > .wp-table--cell-td.subject')!.appendChild(late);
     table.row('1').focus();
 
     await userEvent.tab();
@@ -180,7 +180,7 @@ describe('KeyboardNavigationTransformer', () => {
     const table = await mount();
     const late = document.createElement('span');
     late.setAttribute('tabindex', '0');
-    table.row('2').querySelector('td.subject')!.appendChild(late);
+    table.row('2').querySelector(':scope > .wp-table--cell-td.subject')!.appendChild(late);
     table.row('2').focus();
 
     await userEvent.tab({ shift: true });
@@ -422,7 +422,7 @@ describe('KeyboardNavigationTransformer', () => {
 
   it('Enter on an editable cell opens its inline editor', async () => {
     const table = await mount({ editing: {} });
-    const subjectCell = table.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+    const subjectCell = table.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
     subjectCell.focus();
 
     expect(pressActive('Enter')).toBe(false);
@@ -433,7 +433,7 @@ describe('KeyboardNavigationTransformer', () => {
 
   it('Enter on a read-only cell does nothing', async () => {
     const table = await mount({ editing: {} });
-    const idCell = table.row('1').querySelector<HTMLTableCellElement>('td.id')!;
+    const idCell = table.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.id')!;
     idCell.focus();
 
     expect(pressActive('Enter')).toBe(true);
@@ -475,7 +475,7 @@ describe('KeyboardNavigationTransformer', () => {
     const table = await mount({}, (harness) => {
       harness.injector.get(DisplayFieldService).addFieldType(AnchorDisplayField, 'text', ['String']);
     });
-    const subjectCell = table.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+    const subjectCell = table.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
     subjectCell.focus();
     const link = within(subjectCell).getByRole('link');
 
@@ -501,7 +501,7 @@ describe('KeyboardNavigationTransformer', () => {
     expect(navigation(table).position).toEqual({ key: headerRowKey, cell: 1, desiredColumn: 1 });
 
     const toggle = table.row('1').querySelector<HTMLElement>('.wp-table--hierarchy-indicator')!;
-    const toggleCell = toggle.closest('td')!;
+    const toggleCell = toggle.closest<HTMLTableCellElement>('td, th')!;
     focusFromOutside(toggle);
 
     expect(toggleCell).toHaveFocus();
@@ -545,7 +545,7 @@ describe('KeyboardNavigationTransformer', () => {
       showHierarchies: true,
     });
     const toggle = table.row('1').querySelector<HTMLElement>('.wp-table--hierarchy-indicator')!;
-    const toggleCell = toggle.closest('td')!;
+    const toggleCell = toggle.closest<HTMLTableCellElement>('td, th')!;
     toggle.addEventListener('click', (event) => event.preventDefault());
 
     expect(fireEvent.mouseDown(toggle, { button: 0 })).toBe(true);
@@ -575,12 +575,12 @@ describe('KeyboardNavigationTransformer', () => {
     fireEvent[end](toggle);
     toggle.focus();
 
-    expect(toggle.closest('td')).toHaveFocus();
+    expect(toggle.closest<HTMLTableCellElement>('td, th')).toHaveFocus();
   });
 
   it('focus inside an open inline editor stays where the editor puts it', async () => {
     const table = await mount({ editing: {} });
-    table.row('1').querySelector<HTMLTableCellElement>('td.subject')!.focus();
+    table.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!.focus();
     pressActive('Enter');
     const input = await waitFor(() => within(table.row('1')).getByRole('textbox'));
     const editorControl = document.createElement('span');
@@ -655,7 +655,7 @@ describe('KeyboardNavigationTransformer', () => {
 
   it('returnFocus leaves focus in another open editor of the table', async () => {
     const table = await mount({ editing: {} });
-    table.row('2').querySelector<HTMLTableCellElement>('td.subject')!.focus();
+    table.row('2').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!.focus();
     pressActive('Enter');
     const input = await waitFor(() => within(table.row('2')).getByRole('textbox'));
     await waitFor(() => expect(input).toHaveFocus());
@@ -797,7 +797,7 @@ describe('KeyboardNavigationTransformer', () => {
 
     it('mousedown on a cell records that row and cell without moving DOM focus', async () => {
       const table = await mount();
-      const subject = table.row('2').querySelector<HTMLTableCellElement>('td.subject')!;
+      const subject = table.row('2').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
 
       fireEvent.mouseDown(subject, { button: 0 });
 
@@ -828,13 +828,13 @@ describe('KeyboardNavigationTransformer', () => {
         harness.injector.get(DisplayFieldService).addFieldType(AnchorDisplayField, 'text', ['String', 'Integer']);
       });
       const hierarchies = table.injector.get(WorkPackageViewHierarchiesService);
-      const idCell = table.row('1').querySelector<HTMLTableCellElement>('td.id')!;
+      const idCell = table.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.id')!;
       const link = within(idCell).getByRole('link');
       const toggle = table.row('1').querySelector<HTMLElement>('.wp-table--hierarchy-indicator')!;
       const relation = table.row('1').querySelector<HTMLElement>('td.relationsOfTypeFollows *')!;
 
       expect(fireEvent.mouseDown(link, { button: 0 })).toBe(true);
-      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('1'), cell: cellIndex(table.row('1'), 'td.id'), desiredColumn: cellIndex(table.row('1'), 'td.id') });
+      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('1'), cell: cellIndex(table.row('1'), ':scope > .wp-table--cell-td.id'), desiredColumn: cellIndex(table.row('1'), ':scope > .wp-table--cell-td.id') });
 
       navigation(table).recordPosition({ key: wpOccurrenceKey('2'), cell: null, desiredColumn: null });
       const collapsedBefore = hierarchies.collapsed('1');
@@ -857,7 +857,7 @@ describe('KeyboardNavigationTransformer', () => {
       vi.spyOn(table.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([]);
       let menu:OpContextMenuHandler|undefined;
       vi.spyOn(table.injector.get(OPContextMenuService), 'show').mockImplementation((handler) => { menu = handler; });
-      const subjectCell = table.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+      const subjectCell = table.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
       const field = subjectCell.querySelector<HTMLElement>('.inline-edit--display-field')!;
 
       fireEvent.mouseDown(field, { button: 2 });
@@ -1096,7 +1096,7 @@ describe('KeyboardNavigationTransformer', () => {
       const table = await mount({}, (harness) => {
         harness.injector.get(DisplayFieldService).addFieldType(AnchorDisplayField, 'text', ['String']);
       });
-      const subjectCell = table.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+      const subjectCell = table.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
       const link = within(subjectCell).getByRole('link');
       fireEvent.mouseDown(link, { button: 0 });
       link.focus();
@@ -1242,7 +1242,7 @@ describe('KeyboardNavigationTransformer', () => {
       const table = await mount({}, (harness) => {
         harness.injector.get(DisplayFieldService).addFieldType(AnchorDisplayField, 'text', ['String']);
       });
-      const subjectCell = table.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+      const subjectCell = table.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
       subjectCell.focus();
       const link = within(subjectCell).getByRole('link');
 
@@ -1450,7 +1450,7 @@ describe('KeyboardNavigationTransformer', () => {
     };
 
     const openEditor = async (table:TableHarness, id:string, fieldName:string) => {
-      const target = table.row(id).querySelector<HTMLElement>(`td.${fieldName}`)!;
+      const target = table.row(id).querySelector<HTMLElement>(`:scope > .wp-table--cell-td.${fieldName}`)!;
       navigation(table).focusPosition(navigation(table).positionOfCell(target)!);
       fireEvent.keyDown(target, { key: 'Enter' });
       await waitFor(() => expect(within(target).getByRole('textbox')).toHaveFocus());

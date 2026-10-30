@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { page } from 'vitest/browser';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HalError } from 'core-app/features/hal/services/hal-error';
 import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
@@ -403,7 +404,7 @@ describe('TableEditForm origin', () => {
     const wp = harness.injector.get(States).workPackages.get('1').value!;
     harness.table.editing.startEditing(wp, harness.row('1').dataset.classIdentifier!);
     const form = harness.table.editing.forms['1'];
-    const subject = harness.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+    const subject = harness.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
     const index = Array.from(harness.row('1').cells).filter((cell) => cell.classList.contains('wp-table--navigable-cell')).indexOf(subject);
 
     expect(form.originFor('subject')).toBeNull();
@@ -486,12 +487,13 @@ describe('TableEditForm focus return', () => {
     });
     await harness.render();
   };
-  const subjectCell = (id = '1') => harness.row(id).querySelector<HTMLTableCellElement>('td.subject')!;
+  const subjectCell = (id = '1') => harness.row(id).querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
   const openEditor = async (id = '1', fieldName = 'subject') => {
-    const display = harness.row(id).querySelector<HTMLElement>(`td.${fieldName} .inline-edit--display-field`)!;
+    const display = harness.row(id).querySelector<HTMLElement>(`:scope > .wp-table--cell-td.${fieldName} .inline-edit--display-field`)!;
     fireEvent.mouseDown(display, { button: 0 });
     fireEvent.click(display);
-    await waitFor(() => expect(within(harness.row(id).querySelector(`td.${fieldName}`)!).getByRole('textbox')).toHaveFocus());
+    const cell = harness.row(id).querySelector<HTMLElement>(`:scope > .wp-table--cell-td.${fieldName}`)!;
+    await waitFor(() => expect(within(cell).getByRole('textbox')).toHaveFocus());
     return harness.table.editing.forms[id].activeFields[fieldName];
   };
   const saveAs = (subject:string, id = '1') => () => {
@@ -509,10 +511,14 @@ describe('TableEditForm focus return', () => {
   it('cancelling an editor opened by click returns focus to the origin cell', async () => {
     await mount();
     const handler = await openEditor();
+    const row = harness.row('1');
+    await page.elementLocator(within(row).getByRole('textbox')).fill('Draft subject');
+    expect(within(row).getByRole('rowheader')).toHaveAccessibleName('Work package 1');
 
     handler.handleUserCancel();
 
-    expect(subjectCell()).toHaveFocus();
+    expect(within(row).getByRole('rowheader')).toHaveAccessibleName('Work package 1');
+    expect(within(row).getByRole('rowheader')).toHaveFocus();
   });
 
   it('returns to the origin after a user-ended owned overlay closes', async () => {
@@ -543,14 +549,22 @@ describe('TableEditForm focus return', () => {
   });
 
   it('saving an editor returns focus to the origin cell after the row refresh', async () => {
-    await mount({ editing: { save: saveAs('Changed') } });
+    await mount({ editing: { save: async () => {
+      const result = await saveAs('Changed')();
+      harness.table.editing.forms['1'].resource = result.resource;
+      return result;
+    } } });
     const handler = await openEditor();
-    const idCell = harness.row('1').querySelector('td.id');
+    const idCell = harness.row('1').querySelector(':scope > .wp-table--cell-td.id');
+    const row = harness.row('1');
+    await page.elementLocator(within(row).getByRole('textbox')).fill('Draft subject');
+    expect(within(row).getByRole('rowheader')).toHaveAccessibleName('Work package 1');
 
     await handler.handleUserSubmit();
 
-    expect(harness.row('1').querySelector('td.id')).not.toBe(idCell);
-    expect(subjectCell()).toHaveFocus();
+    expect(harness.row('1').querySelector(':scope > .wp-table--cell-td.id')).not.toBe(idCell);
+    expect(within(harness.row('1')).getByRole('rowheader')).toHaveAccessibleName('Changed');
+    expect(within(harness.row('1')).getByRole('rowheader')).toHaveFocus();
   });
 
   it('an unchanged-value submit returns focus to the origin cell', async () => {
@@ -573,9 +587,12 @@ describe('TableEditForm focus return', () => {
     });
     const handler = await openEditor();
 
+    const row = harness.row('1');
+    await page.elementLocator(within(row).getByRole('textbox')).fill('Draft subject');
     await expect(handler.handleUserSubmit()).rejects.toBe(error);
 
-    const input = within(harness.row('1')).getByRole('textbox');
+    expect(within(row).getByRole('rowheader')).toHaveAccessibleName('Work package 1');
+    const input = within(row).getByRole('textbox');
     await waitFor(() => expect(input).toHaveFocus());
     expect(input).toHaveAttribute('aria-invalid', 'true');
     expect(input.closest('.inline-edit--active-field')).toHaveClass('-error');
@@ -785,12 +802,12 @@ describe('TableEditForm focus return', () => {
 
     it('does not return focus when the user moved to another cell of the same row', async () => {
       const complete = await pendingSave();
-      moveByPointer(harness.row('1').querySelector<HTMLTableCellElement>('td.id')!);
+      moveByPointer(harness.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.id')!);
 
       await complete();
 
       expect(subjectCell()).not.toHaveFocus();
-      expect(harness.row('1').querySelector('td.id')).toHaveAttribute('tabindex', '0');
+      expect(harness.row('1').querySelector(':scope > .wp-table--cell-td.id')).toHaveAttribute('tabindex', '0');
       expect(harness.table.keyboardNavigation!.position).toMatchObject({ key: wpOccurrenceKey('1'), cell: 0 });
     });
 
@@ -829,7 +846,7 @@ describe('TableEditForm focus return', () => {
     });
     const handler = await openEditor();
     const second = await openEditor('1', 'location');
-    const input = within(harness.row('1').querySelector('td.subject')!).getByRole('textbox');
+    const input = within(harness.row('1').querySelector(':scope > .wp-table--cell-td.subject')!).getByRole('textbox');
     fireEvent.mouseDown(input, { button: 0 });
     input.focus();
     fireEvent.mouseUp(input, { button: 0 });

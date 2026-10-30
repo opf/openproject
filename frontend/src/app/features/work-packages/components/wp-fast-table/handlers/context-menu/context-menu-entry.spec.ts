@@ -235,7 +235,7 @@ describe('Context menu entry on the inline-create row', () => {
   const menuShortcut = { key: 'F10', shiftKey: true, altKey: true };
 
   const openSubjectEditor = async () => {
-    fireEvent.click(inlineCreateRow.querySelector<HTMLElement>('td.subject .inline-edit--display-field')!);
+    fireEvent.click(inlineCreateRow.querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject .inline-edit--display-field')!);
     await waitFor(() => expect(within(inlineCreateRow).getByRole('textbox')).toHaveFocus());
 
     return within(inlineCreateRow).getByRole('textbox');
@@ -257,7 +257,7 @@ describe('Context menu entry on the inline-create row', () => {
   afterEach(() => harness.destroy());
 
   it('opens no menu and keeps the selection on right-click of a cell', () => {
-    fireEvent.contextMenu(inlineCreateRow.querySelector('td.subject')!);
+    fireEvent.contextMenu(inlineCreateRow.querySelector(':scope > .wp-table--cell-td.subject')!);
 
     expect(opened).not.toHaveBeenCalled();
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
@@ -356,7 +356,7 @@ describe('Context menu keyboard chords', () => {
 
     it('opens for the row of the focused cell', () => {
       focusKey(wpOccurrenceKey('2'));
-      const cell = harness.row('2').querySelector<HTMLElement>('td.subject')!;
+      const cell = harness.row('2').querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject')!;
       cell.focus();
 
       press(chord, cell);
@@ -426,7 +426,7 @@ describe('Context menu keyboard chords', () => {
       const link = document.createElement('a');
       link.className = uiStateLinkClass;
       link.href = '#';
-      harness.row('1').querySelector('td.subject')!.append(link);
+      harness.row('1').querySelector(':scope > .wp-table--cell-td.subject')!.append(link);
       link.focus();
 
       Object.keys(chords).forEach((chord) => expect(press(chord, link)).toBe(true));
@@ -480,7 +480,7 @@ describe('Context menu keyboard chords', () => {
       fireEvent.contextMenu(harness.row('1'));
       expect(opened).toHaveBeenCalledTimes(1);
 
-      const cell = harness.row('2').querySelector<HTMLElement>('td.subject')!;
+      const cell = harness.row('2').querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject')!;
       cell.focus();
       fireEvent.contextMenu(cell);
       expect(opened).toHaveBeenCalledTimes(2);
@@ -527,7 +527,7 @@ describe('Context menu keyboard chords', () => {
     beforeEach(() => mount({ editing: {} }));
 
     const openSubjectEditor = () => {
-      fireEvent.click(harness.row('1').querySelector<HTMLElement>('td.subject .inline-edit--display-field')!);
+      fireEvent.click(harness.row('1').querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject .inline-edit--display-field')!);
       return within(harness.row('1')).findByRole('textbox');
     };
 
@@ -550,7 +550,7 @@ describe('Context menu keyboard chords', () => {
     it('still opens on right-click of a display cell', async () => {
       await openSubjectEditor();
 
-      fireEvent.contextMenu(harness.row('2').querySelector('td.subject')!);
+      fireEvent.contextMenu(harness.row('2').querySelector(':scope > .wp-table--cell-td.subject')!);
 
       expect(opened).toHaveBeenCalledTimes(1);
       expect(menuTargets).toEqual([['2']]);
@@ -564,11 +564,11 @@ describe('Context menu keyboard chords', () => {
       const element = document.createElement('span');
       element.contentEditable = 'false';
       element.tabIndex = -1;
-      harness.row('1').querySelector('td.subject')!.append(element);
+      harness.row('1').querySelector(':scope > .wp-table--cell-td.subject')!.append(element);
       element.focus();
 
       expect(press('Shift+F10', element)).toBe(false);
-      expect(fireEvent.contextMenu(harness.row('2').querySelector('td.subject')!.appendChild(element))).toBe(false);
+      expect(fireEvent.contextMenu(harness.row('2').querySelector(':scope > .wp-table--cell-td.subject')!.appendChild(element))).toBe(false);
 
       expect(menuTargets).toEqual([['1'], ['2']]);
     });

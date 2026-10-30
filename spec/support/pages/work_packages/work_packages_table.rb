@@ -67,7 +67,7 @@ module Pages
     def expect_work_package_listed(*work_packages)
       within(table_container) do
         work_packages.each do |wp|
-          expect(page).to have_css(".wp-row-#{wp.id} td.subject",
+          expect(page).to have_css(".wp-row-#{wp.id} .wp-table--cell-td.subject",
                                    text: wp.subject,
                                    wait: 20)
         end
@@ -87,7 +87,7 @@ module Pages
           # will happily match cells that contain text.
           text_options = value.to_s.empty? ? { exact_text: "" } : { text: value.to_s }
           expect(page).to have_css(
-            ".wp-row-#{work_package.id} td.#{column.to_s.camelize(:lower)}", **text_options, wait: 20
+            ".wp-row-#{work_package.id} .wp-table--cell-td.#{column.to_s.camelize(:lower)}", **text_options, wait: 20
           )
         end
       end
@@ -121,7 +121,7 @@ module Pages
     # @param subject [String] The subject of the work package.
     def expect_work_package_subject(subject)
       within(table_container) do
-        expect(page).to have_css("td.subject",
+        expect(page).to have_css(".wp-table--cell-td.subject",
                                  text: subject,
                                  wait: 20)
       end
@@ -158,7 +158,7 @@ module Pages
       retry_block(args: { tries: 3, base_interval: 5 }) do
         within(table_container) do
           work_packages.each do |wp|
-            expect(page).to have_no_css(".wp-row-#{wp.id} td.subject", text: wp.subject)
+            expect(page).to have_no_css(".wp-row-#{wp.id} .wp-table--cell-td.subject", text: wp.subject)
           end
         end
       end
@@ -595,7 +595,7 @@ module Pages
     end
 
     def cell_selector(attribute)
-      "td.#{attribute.to_s.camelize(:lower)}"
+      ".wp-table--cell-td.#{attribute.to_s.camelize(:lower)}"
     end
 
     def path

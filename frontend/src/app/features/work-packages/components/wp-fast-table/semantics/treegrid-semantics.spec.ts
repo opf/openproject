@@ -113,6 +113,9 @@ describe('TreegridSemantics', () => {
     const row = harness.row('17');
     const headers = within(row).queryAllByRole('rowheader');
     expect(headers).toHaveLength(1);
+    expect(headers[0].tagName).toBe('TH');
+    expect(headers[0]).toHaveAttribute('scope', 'row');
+    expect(headers[0]).not.toHaveAttribute('role');
     expect(headers[0]).toHaveClass(header);
     expect(headers[0]).toHaveAccessibleName(name);
 
@@ -128,6 +131,7 @@ describe('TreegridSemantics', () => {
     await harness.render();
     const row = harness.row('17');
     expect(within(row).queryAllByRole('rowheader')).toEqual([]);
+    expect(row.querySelectorAll(':scope > th')).toHaveLength(0);
     Array.from(row.cells).forEach((cell) => {
       expect(cell).toHaveAttribute('role', 'gridcell');
       expect(cell).not.toHaveAttribute('aria-label');
@@ -135,12 +139,11 @@ describe('TreegridSemantics', () => {
     });
   });
 
-  it('demotes existing headers without clearing another cell name', async () => {
+  it('preserves the native header and unrelated cell names when repainting', async () => {
     mount({ workPackages: [{ id: '17', subject: 'Alpha' }], columns: ['id', 'subject', 'status'] });
     await harness.render();
     const row = harness.row('17');
     const subject = row.cells[1];
-    const id = row.cells[0];
     const status = row.cells[2];
     const statusText = document.createElement('span');
     statusText.id = 'row-header-test-status';
@@ -150,24 +153,17 @@ describe('TreegridSemantics', () => {
     status.setAttribute('aria-labelledby', statusText.id);
     subject.setAttribute('aria-labelledby', statusText.id);
 
-    paintRowRole(row, 1, 'gridcell', 'subject');
-    expect(subject).toHaveAccessibleName('Alpha');
-    expect(subject).not.toHaveAttribute('aria-labelledby');
-    paintRowRole(row, 1, 'gridcell', 'id');
-    expect(subject).toHaveAttribute('role', 'gridcell');
-    expect(subject).not.toHaveAttribute('aria-label');
-    expect(subject).not.toHaveAttribute('aria-labelledby');
-    expect(id).toHaveAccessibleName('17');
-    expect(id).toHaveAttribute('role', 'rowheader');
-
     paintRowRole(row, 1);
-    expect(id).toHaveAttribute('role', 'gridcell');
-    expect(id).not.toHaveAttribute('aria-label');
-    expect(id).not.toHaveAttribute('aria-labelledby');
+    paintRowRole(row, 1);
+    expect(within(row).getByRole('rowheader')).toBe(subject);
+    expect(subject.tagName).toBe('TH');
+    expect(subject).toHaveAccessibleName('Alpha');
+    expect(subject).toHaveAttribute('scope', 'row');
+    expect(subject).not.toHaveAttribute('role');
+    expect(subject).not.toHaveAttribute('aria-labelledby');
     expect(status).toHaveAttribute('aria-label', 'Retained status label');
     expect(status).toHaveAttribute('aria-labelledby', statusText.id);
     expect(status).toHaveAccessibleName('Status context');
-    expect(within(row).queryAllByRole('rowheader', { hidden: true })).toEqual([]);
   });
 
   it('replaces Subject with ID, removes the header and restores Subject', async () => {
@@ -516,7 +512,7 @@ describe('TreegridSemantics', () => {
       const cells = Array.from(row.cells);
       return {
         rebuiltCells: cells.some((cell) => !previousCells.includes(cell)),
-        cellRoles: cells.map((cell) => cell.getAttribute('role')),
+        cellRoles: cells.map((cell) => ({ tag: cell.tagName, scope: cell.getAttribute('scope'), role: cell.getAttribute('role') })),
         hidden: row.getAttribute('aria-hidden'),
         display: getComputedStyle(row).display,
         level: row.getAttribute('aria-level'),
@@ -527,9 +523,9 @@ describe('TreegridSemantics', () => {
     harness.table.refreshRows(resource('1'));
 
     expect(await refreshed).toEqual({
-      rebuiltCells: true, cellRoles: ['gridcell', 'rowheader'], hidden: null, display: 'none', level: '2', role: 'row', selected: 'false',
+      rebuiltCells: true, cellRoles: [{ tag: 'TD', scope: null, role: 'gridcell' }, { tag: 'TH', scope: 'row', role: null }], hidden: null, display: 'none', level: '2', role: 'row', selected: 'false',
     });
-    expect(harness.row('1').cells[1]).toHaveAttribute('role', 'rowheader');
+    expect(within(harness.row('1')).getByRole('rowheader', { hidden: true })).toBe(harness.row('1').cells[1]);
     expect(harness.row('1').cells[1]).toHaveAttribute('aria-label', 'Work package 1');
   });
 
