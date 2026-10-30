@@ -75,7 +75,7 @@ da:
     omniauth_login: Log venligst ind for at aktivere din konto.
     signup_title: Opret en konto på %{app_title}
     signup_with_external_account: Tilmeld dig med en ekstern konto
-    username_or_email: Username or email
+    username_or_email: Brugernavn eller e-mail
   actionview_instancetag_blank_option: Vælg venligst
   activemodel:
     attributes:
@@ -954,8 +954,6 @@ da:
               invalid_tokens: En eller flere attributter i feltet er ugyldige. Ret attributterne, før du gemmer.
             variant:
               must_belong_to_the_type: skal være en variant af denne type.
-            workflow:
-              not_available_to_this_variant: skal være en arbejdsgang, som dette projekt kan bruge.
         user:
           attributes:
             base:
@@ -1040,7 +1038,7 @@ da:
               must_not_be_changed: 'må ikke ændres manuelt. Arbejdspakkers id''er tildeles automatisk og slås op via aliastabellen, så hvis de ændres manuelt, går links og id-historikken i stykker. Er ændringen tilsigtet, så gem med `save(context: :%{context})`, og hold tabellen work_package_semantic_aliases konsistent.'
               semantic_identifier_incomplete: og sequence_number skal begge angives samtidig.
             labels:
-              too_many: can't include more than %{count} new labels.
+              too_many: må højst indeholde %{count} nye mærkater.
             observed_in_versions:
               error_readonly: kan ikke angives, fordi du ikke har tilladelse til at tildele versioner i dette projekt.
             parent:
@@ -1669,10 +1667,14 @@ da:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Opret brugerdefinerede felter
+          JiraCreateLabelsJob:
+            title: Create labels
           JiraCreateProjectJob:
             title: Opret projektet '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Opret projektrollen 'JiraMember'
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Opret versioner for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1831,7 +1833,7 @@ da:
                   subtitle: 'Involveret i importerede projekter '
                 work_packages:
                   label: Arbejdspakker
-                  subtitle: Med vedhæftede filer
+                  subtitle: With attachments and logged time
               title: Resultater af importkørslen
             import_scope:
               button_continue: Fortsæt
@@ -1848,6 +1850,7 @@ da:
                 issue_details: Sagernes beskrivelse, historik, kommentarer og vedhæftede filer
                 issue_ids: Id'er for sager
                 issues: Sager
+                logged_time: Logged time
                 permissions: Tilladelser
                 project_ids: Projekt-id'er
                 project_versions: Projektversioner
@@ -1880,6 +1883,9 @@ da:
             '1':
               rest_line_text: ''
               title: Hent Jira-konfiguration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
             '2':
               rest_line_text: Henter sager og versioner for %{projects_number} projekter mere
               title: Hent projekternes sager og versioner
@@ -2211,11 +2217,11 @@ da:
         save: Gem ændringer, og fortsæt
         title: Vil du gemme ændringerne, før du fortsætter?
       read_only:
-        edit_action: Edit this workflow
-        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
+        edit_action: Rediger denne arbejdsgang
+        text_html: 'Fra version 18.0 er arbejdsgange genbrugelige objekter, der kan bruges på tværs af flere typer og varianter. De kan ikke længere redigeres direkte i en type. Hvis du vil foretage ændringer, kan du enten redigere den oprindelige arbejdsgang eller klikke på <strong>+ %{action}</strong> ovenfor for at oprette en ny.
 
           '
-        title: Important changes
+        title: Vigtige ændringer
       role_selector:
         label: 'Rolle: %{role}'
         no_role: Vælg rolle
@@ -2344,6 +2350,7 @@ da:
       schema: Skema
     undisclosed:
       ancestor: Skjult – det overordnede element er ikke synlig på grund af manglende tilladelser.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Skjult – projektet er ikke synlig på grund af manglende tilladelser.
       definingWorkspace: Skjult – arbejdsområdet er ikke synlig på grund af manglende tilladelser.
       parent: Skjult – det overordnede element er ikke synlig på grund af manglende tilladelser.
@@ -3568,11 +3575,11 @@ da:
       title: Konfigurer en ny formular
     tab:
       read_only:
-        edit_action: Edit this form
-        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Rediger denne formular
+        text_html: 'Fra version 18.0 er formularer genbrugelige objekter, der kan bruges på tværs af flere typer og varianter. De kan ikke længere redigeres direkte i en type. Hvis du vil foretage ændringer, kan du enten redigere den oprindelige formular eller klikke på <strong>+ Formular</strong> ovenfor for at oprette en ny.
 
           '
-        title: Important changes
+        title: Vigtige ændringer
     usage:
       dialog:
         button: Vis afhængige typer
@@ -3838,6 +3845,7 @@ da:
       total_percent_complete_mode_changed_to_work_weighted_average: Underordnede arbejdspakker uden Arbejde ignoreres.
       unaccessable_work_package_changed: på grund af ændringer i en relateret arbejdspakke
       work_package_children_changed_times: på grund af ændringer i den underordnede %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: Status blev opdateret automatisk af den dublerede arbejdspakke %{link}
       work_package_parent_changed_times: på grund af ændringer i den overordnede %{link}
       work_package_parent_deleted: fordi den overordnede arbejdspakke blev slettet
@@ -3870,6 +3878,7 @@ da:
       system_update: 'Systemopdatering af OpenProject:'
       total_percent_complete_mode_changed_to_simple_average: Beregningen af samlet % færdigt bygger nu på et simpelt gennemsnit af værdierne for % færdigt alene.
       total_percent_complete_mode_changed_to_work_weighted_average: Beregningen af samlet % færdigt vægtes nu efter Arbejde.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'Dubleret arbejdspakke opdateret:'
       work_package_parent_deleted: Overordnet fjernet
     changes_retracted: Ændringerne blev trukket tilbage.
@@ -4188,7 +4197,7 @@ da:
   label_interface_colors_description: 'Disse farver styrer, hvordan programmet ser ud. Hvis du ændrer dem, skifter temaet automatisk til Brugerdefineret tema, men vi kan ikke garantere, at minimumskravene til kontrast i tilgængelighedsstandarden (WCAG 2.1) overholdes. '
   label_internal: Intern
   label_introduction_video: Video om at komme i gang
-  label_invalid_file_type: This file type is not supported.
+  label_invalid_file_type: Filtypen understøttes ikke.
   label_invitation: Invitation
   label_invite_user: Invitér bruger
   label_item: Element
@@ -5323,20 +5332,20 @@ da:
           tb: TB
   oauth:
     application:
-      basic_details: Basic details
+      basic_details: Grundlæggende oplysninger
       builtin: Indbygget program i installationen
       client_credentials: Client Credentials
       confidential: Fortrolig
       instructions:
-        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
-        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
-        enabled: Enable this application, allowing it to obtain access tokens.
-        name: The name of your application. This will be displayed to users upon authorization.
-        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
-        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
+        client_credential_user_id: Valgfrit bruger-id, som klienter optræder som, når de bruger flowet Client Credentials til at hente et adgangstoken. Lad feltet stå tomt for kun at tillade flowet Authorization Code.
+        confidential: Markér feltet, hvis programmet kan holde klienthemmeligheden fortrolig. Indbyggede mobilapps og Single Page Apps kan normalt ikke, men webprogrammer kan.
+        enabled: Aktivér programmet, så det kan hente adgangstokens.
+        name: Navnet på dit program. Det vises for brugerne ved godkendelse.
+        page_description: Med OAuth kan andre programmer integreres med OpenProject og hente adgangstokens på vegne af dine brugere.
+        redirect_uri_html: 'De tilladte URL''er, som godkendte brugere kan omdirigeres til. Én pr. linje. Hvis dit program ikke har brug for en omdirigerings-URL, så brug følgende URL:
 
           '
-        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
+        scopes: Vælg de omfang, du vil tillade for programmet. Hvis intet omfang er markeret, bruges api_v3.
       named: OAuth-programmet '%{name}'
       new: Nyt OAuth-program
       non_confidential: Ikke fortrolig
@@ -5353,7 +5362,7 @@ da:
         '
     authorization_error: Der opstod en fejl under godkendelsen.
     client_credentials: Bruger til Client Credentials
-    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
+    client_credentials_impersonation: 'Som standard tilbyder OpenProject OAuth 2.0-godkendelse via [flowet Authorization Code](authorization_code). Du kan også aktivere [flowet Client Credentials](client_credentials), men så skal du angive en bruger, som forespørgslerne udføres på vegne af.
 
       '
     client_credentials_impersonation_set_to: Bruger til Client Credentials er sat til
@@ -5379,12 +5388,12 @@ da:
       other_applications: Andre OAuth-programmer
     my_registered_applications: Registrerede OAuth-programmer
     scopes:
-      api_v3: Access to APIv3
+      api_v3: Adgang til APIv3
       api_v3_text: Programmet får fuld læse- og skriveadgang til OpenProjects API v3 for at udføre handlinger på dine vegne.
       explanations_admin:
-        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
-        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
-      mcp: Access to Model Context Protocol
+        api_v3: Programmet får fuld læse- og skriveadgang til OpenProjects API v3 for at udføre handlinger på brugerens vegne.
+        mcp: Programmet får adgang til OpenProjects MCP-endepunkter. De er en begrænset del af APIv3, der er tilpasset brug med AI-agenter.
+      mcp: Adgang til Model Context Protocol
       mcp_text: Programmet får adgang til OpenProjects MCP-slutpunkter. De er et begrænset udsnit af APIv3, der er tilpasset brug med AI-agenter.
   oauth_client:
     errors:
@@ -5495,11 +5504,11 @@ da:
   op_primer:
     work_package_card_component:
       drag_handle:
-        label: Drag to reorder
+        label: Træk for at ændre rækkefølgen
       menu:
-        label_actions: Work package actions
-      parent: Parent
-      undisclosed: Undisclosed
+        label_actions: Handlinger for arbejdspakke
+      parent: Overordnet
+      undisclosed: Skjult
   open_link_in_a_new_tab: Åbn link i en ny fane
   page:
     text: Tekst
@@ -7371,9 +7380,6 @@ da:
         text: 'Den projektspecifikke variant bliver global og tilgængelig for alle projekter. Projektadministratoren kan ikke længere redigere den.
 
           '
-        workflow_text: 'Dens arbejdsgang "%{name}" hører til dette projekt og bliver også global.
-
-          '
       convert_to_global_notice: "%{name} er nu en global variant."
       convert_to_global_rename:
         confirm: Konvertér
@@ -7705,9 +7711,6 @@ da:
       note_placeholder: Hvorfor angiver du påmindelsen?
       success_deletion_message: Påmindelsen er slettet.
       success_update_message: Påmindelsen er opdateret.
-    updated_automatically_by_child_changes: '_Opdateret automatisk ved at ændre værdier i underordnet arbejdspakke %{child} _
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: Tilføj relationer til andre arbejdspakker for at forbinde dem.

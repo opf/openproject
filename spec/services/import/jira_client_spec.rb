@@ -241,6 +241,35 @@ RSpec.describe Import::JiraClient do
     end
   end
 
+  describe Import::JiraClient::ApiError do
+    subject(:error) { described_class.new("Jira error", status: 404, response_body:, response_headers: {}) }
+
+    context "when the response body holds non-ASCII UTF-8 text as BINARY" do
+      let(:response_body) { %({"errorMessages":["Benutzer 'jöhn' existiert nicht"]}).b }
+
+      it "can be interpolated next to non-ASCII text" do
+        expect("Error fetching user data for user key jöhn: #{error.message}")
+          .to include("Benutzer 'jöhn' existiert nicht")
+      end
+    end
+
+    context "when the response body holds bytes that are not valid UTF-8" do
+      let(:response_body) { "M\xFCller".b }
+
+      it "replaces them" do
+        expect(error.response_body).to eq("M\uFFFDller")
+      end
+    end
+
+    context "when there is no response body" do
+      let(:response_body) { nil }
+
+      it "keeps an empty body" do
+        expect(error.response_body).to eq("")
+      end
+    end
+  end
+
   describe "SSRF protection" do
     context "when using a loopback address" do
       let(:url) { "http://127.0.0.1" }

@@ -960,8 +960,6 @@ uk:
               invalid_tokens: Один або кілька атрибутів усередині поля недійсні. Виправте їх, перш ніж зберігати.
             variant:
               must_belong_to_the_type: має бути варіантом цього типу.
-            workflow:
-              not_available_to_this_variant: має бути робочим процесом, який може використовувати цей проєкт.
         user:
           attributes:
             base:
@@ -1893,10 +1891,14 @@ uk:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -2069,7 +2071,7 @@ uk:
                   subtitle: 'Залучені до імпортованих проєктів '
                 work_packages:
                   label: Пакети робіт
-                  subtitle: З вкладеннями
+                  subtitle: With attachments and logged time
               title: Результати циклу імпорту
             import_scope:
               button_continue: Продовжити
@@ -2088,6 +2090,7 @@ uk:
                 issue_details: Опис задачі, історія, коментарі й вкладення
                 issue_ids: Ідентифікатори задач
                 issues: Задачі
+                logged_time: Logged time
                 permissions: Дозволи
                 project_ids: Ідентифікатори проєктів
                 project_versions: Project versions
@@ -2120,6 +2123,9 @@ uk:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -2596,6 +2602,7 @@ uk:
       schema: Схема
     undisclosed:
       ancestor: Нерозкритий – предок невидимий через відсутність дозволів.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: 'Нерозкритий: проєкт невидимий через відсутність дозволів.'
       definingWorkspace: 'Нерозкритий: робочий простір невидимий через відсутність дозволів.'
       parent: 'Нерозкритий: батьківський елемент невидимий через відсутність дозволів.'
@@ -4156,6 +4163,7 @@ uk:
       total_percent_complete_mode_changed_to_work_weighted_average: Дочірні пакети робіт без атрибута «Робота» ігноруються.
       unaccessable_work_package_changed: внесенням змін у пов’язаний пакет робіт
       work_package_children_changed_times: внесенням змін у дочірній елемент %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: Статус автоматично оновлено на основі дубліката пакета робіт %{link}
       work_package_parent_changed_times: внесенням змін у батькіський елемент %{link}
       work_package_parent_deleted: оскільки батьківський пакет робіт було видалено
@@ -4188,6 +4196,7 @@ uk:
       system_update: Оновлення системи OpenProject
       total_percent_complete_mode_changed_to_simple_average: Обчислення підсумків атрибута «% завершення» тепер ґрунтується на середньому арифметичному значень лише атрибута «% завершення».
       total_percent_complete_mode_changed_to_work_weighted_average: Під час обчислення підсумків атрибута «% завершення» тепер враховується значення атрибута «Робота».
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'Дублікат пакета робіт оновлено:'
       work_package_parent_deleted: Батьківський об’єкт видалено
     changes_retracted: Зміни було відхилено.
@@ -7744,9 +7753,6 @@ uk:
         text: 'У результаті цей варіант, створений для конкретного проєкту, стане глобальним і буде доступним для всіх проєктів. Адміністратор проєкту більше не зможе його редагувати.
 
           '
-        workflow_text: 'Робочий процес «%{name}» належить до цього проєкту і також набуває глобального статусу.
-
-          '
       convert_to_global_notice: "%{name} тепер є глобальним."
       convert_to_global_rename:
         confirm: Перетворити
@@ -8088,9 +8094,6 @@ uk:
       note_placeholder: Навіщо ви встановлюєте це нагадування?
       success_deletion_message: Нагадування видалено.
       success_update_message: Нагадування оновлено.
-    updated_automatically_by_child_changes: '_Поповнюється автоматично шляхом зміни значень у робочому пакеті для дітей %{child} _
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: Додавайте зв’язки з іншими пакетами робіт.

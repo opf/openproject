@@ -1097,6 +1097,13 @@ fa:
         title: اشتراک‌گذاری بسته کاری
       table:
         configure_button: پیکربندی جدول بسته کاری
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: جدولی با سطرهای بسته کاری و ستون‌های ویژگی‌های بسته کاری.
         text_inline_edit: بیشتر سلول‌های این جدول دکمه‌هایی هستند که ویرایش درون‌خطی آن ویژگی را فعال می‌کنند.
         text_select_hint: کادرهای انتخاب باید با «ALT» و کلیدهای جهت‌نما باز شوند.

@@ -37,7 +37,7 @@ properties:
       | `status`     | `{ "status": "running" }`                     | The job picked up the run.                                                                |
       | `text_delta` | `{ "delta": "<chunk>" }`                      | A chunk of generated text, bundled over roughly half a second. Render it progressively.   |
       | `completed`  | `{ "text": "<full text>" }`                   | The full final text. Build the result and any diff from this, never from the deltas.      |
-      | `error`      | `{ "message": "<text>", "reason": "<code>" }` | The run failed. `message` is translated for the user, `reason` is one of `not_available`, `connection_failed`, `timeout`, `upstream_error`. |
+      | `error`      | `{ "message": "<text>", "reason": "<code>" }` | The run failed. `message` is translated for the user, `reason` is one of `not_available`, `connection_failed`, `timeout`, `rate_limited`, `context_too_long`, `upstream_error`. |
     items:
       type: object
       required:
@@ -79,6 +79,8 @@ properties:
                 - not_available
                 - connection_failed
                 - timeout
+                - rate_limited
+                - context_too_long
                 - upstream_error
   _links:
     type: object

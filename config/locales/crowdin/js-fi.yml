@@ -1097,6 +1097,13 @@ fi:
         title: Share work package
       table:
         configure_button: Configure work package table
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Taulukko jossa tehtävät riveinä ja ominaisuudet sarakkeina.
         text_inline_edit: Useimmat tämän taulukon soluista ovat nappeja jotka aktivoivat suoran syöttömahdollisuuden kentän arvoon.
         text_select_hint: Valintalaatikot tulisi avata "Alt" tai nuolinäppäimillä.

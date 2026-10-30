@@ -82,6 +82,7 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
 
           expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectRoleJob").count).to eq(0)
           expect(GoodJob::Job.where(job_class: "Import::JiraCreateCustomFieldsJob").count).to eq(0)
+          expect(GoodJob::Job.where(job_class: "Import::JiraCreateLabelsJob").count).to eq(0)
         end
 
         it "transitions the import to import_error" do
@@ -216,11 +217,12 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
     describe "stage 4" do
       let(:stage) { 4 }
 
-      it "enqueues the project role and custom fields creation jobs" do
+      it "enqueues the project role, custom fields and labels creation jobs" do
         run_callback
 
         expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectRoleJob").count).to eq(1)
         expect(GoodJob::Job.where(job_class: "Import::JiraCreateCustomFieldsJob").count).to eq(1)
+        expect(GoodJob::Job.where(job_class: "Import::JiraCreateLabelsJob").count).to eq(1)
       end
 
       it "labels enqueued jobs with stage_5" do
@@ -228,6 +230,7 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
 
         expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectRoleJob").last.labels).to include("stage_5")
         expect(GoodJob::Job.where(job_class: "Import::JiraCreateCustomFieldsJob").last.labels).to include("stage_5")
+        expect(GoodJob::Job.where(job_class: "Import::JiraCreateLabelsJob").last.labels).to include("stage_5")
       end
     end
 
@@ -298,16 +301,16 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
                               payload: { "id" => "10012", "key" => "DPPP", "name" => "Demo project" })
       end
 
-      it "enqueues one create attachments job per selected project" do
+      it "enqueues one create parent-child relations job per selected project" do
         run_callback
 
-        expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectWorkPackageAttachmentsJob").count).to eq(1)
+        expect(GoodJob::Job.where(job_class: "Import::JiraCreateParentChildRelationsFromSubtasksJob").count).to eq(1)
       end
 
       it "labels enqueued jobs with stage_9" do
         run_callback
 
-        expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectWorkPackageAttachmentsJob").last.labels)
+        expect(GoodJob::Job.where(job_class: "Import::JiraCreateParentChildRelationsFromSubtasksJob").last.labels)
           .to include("stage_9")
       end
     end
@@ -333,8 +336,29 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
       end
     end
 
-    describe "stage 10 (final stage)" do
+    describe "stage 10" do
       let(:stage) { 10 }
+      let!(:jira_project) do
+        create(:jira_project, jira_import:, origin_id: "10012",
+                              payload: { "id" => "10012", "key" => "DPPP", "name" => "Demo project" })
+      end
+
+      it "enqueues one create attachments job per selected project" do
+        run_callback
+
+        expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectWorkPackageAttachmentsJob").count).to eq(1)
+      end
+
+      it "labels enqueued jobs with stage_11" do
+        run_callback
+
+        expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectWorkPackageAttachmentsJob").last.labels)
+          .to include("stage_11")
+      end
+    end
+
+    describe "stage 11 (final stage)" do
+      let(:stage) { 11 }
 
       it "does not enqueue any more jobs" do
         expect { run_callback }.not_to change(GoodJob::Job, :count)

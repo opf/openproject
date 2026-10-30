@@ -1097,6 +1097,13 @@ ca:
         title: Share work package
       table:
         configure_button: Configura la taula de paquets de treball
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Taula amb fileres de paquets de treball i columnes amb els atributs dels paquets de treball.
         text_inline_edit: La majoria de les cel·les d'aquesta taula són botons que activen la funcionalitat d'edició en línia de l'atribut.
         text_select_hint: Les caixes seleccionades es poden obrir amb la tecla "ALT" i les fletxes.

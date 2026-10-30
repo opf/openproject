@@ -72,8 +72,11 @@ module Exports::PDF::Common::Attachments
     return if local_file.nil?
 
     filename = local_file.path
-    filename = convert_gif_to_png(filename) if attachment.content_type == "image/gif"
-    filename = convert_webp_to_png(filename) if attachment.content_type == "image/webp"
+    content_type = OpenProject::ContentTypeDetector.detect(filename)
+    return unless pdf_embeddable?(content_type)
+
+    filename = convert_gif_to_png(filename) if content_type == "image/gif"
+    filename = convert_webp_to_png(filename) if content_type == "image/webp"
     filename ? resize_image(filename) : nil
   end
 
@@ -163,11 +166,16 @@ module Exports::PDF::Common::Attachments
     attachment = Attachment.find_by(id: attachments_id.to_i)
     return if attachment.nil?
     return unless attachment.visible?
+    return unless upload_completed?(attachment)
 
     attachment
   rescue StandardError
     # if the attachment is not found or the id is invalid, we return nil
     Rails.logger.error "Failed to access attachment #{src}"
     nil
+  end
+
+  def upload_completed?(attachment)
+    attachment.status_scanned? || (attachment.status_uploaded? && !attachment.pending_virus_scan?)
   end
 end

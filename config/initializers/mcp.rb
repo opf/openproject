@@ -55,6 +55,7 @@ Rails.application.config.to_prepare do
                     McpTools::ListWorkPackageRelations,
                     McpTools::SearchCustomFields,
                     McpTools::SearchCustomFieldItems,
+                    McpTools::SearchLabels,
                     McpTools::SearchPortfolios,
                     McpTools::SearchPrograms,
                     McpTools::SearchProjects,
@@ -66,6 +67,7 @@ Rails.application.config.to_prepare do
 
   McpResources.register McpResources::CurrentUser,
                         McpResources::CustomField,
+                        McpResources::Label,
                         McpResources::Project,
                         McpResources::Status,
                         McpResources::StatusList,

@@ -45,6 +45,7 @@ import { isInsideCollapsedGroup, locateTableRow } from 'core-app/features/work-p
 import { collapsedGroupClass } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
 import { reorderById, type Edge } from 'core-common/drag-and-drop/reorder';
 import { WorkPackageTable } from '../../wp-fast-table';
+import { selectionGesture } from './selection-feedback';
 import { firstValueFrom } from 'rxjs';
 
 export class DragAndDropTransformer {
@@ -145,7 +146,9 @@ export class DragAndDropTransformer {
     if (this.table.destroyed) return;
     const wpId = row.dataset.workPackageId;
     if (wpId) {
-      this.selectionGestures.collapseTo(wpId, this.table.renderedRows, row.dataset.classIdentifier);
+      selectionGesture(this.table, 'navigation', () => {
+        this.selectionGestures.collapseTo(wpId, this.table.renderedRows, row.dataset.classIdentifier);
+      });
     }
   }
 
@@ -205,6 +208,7 @@ export class DragAndDropTransformer {
         recoverIfCurrent = () => {
           if (!isCurrent() || table.lastRenderPass !== renderPass || source.parentNode !== parentNode) return;
           parentNode?.insertBefore(source, nextSibling?.parentNode === parentNode ? nextSibling : null);
+          table.rowPositions?.paint();
         };
         if (!stillEligible()) {
           complete(false);
@@ -234,6 +238,7 @@ export class DragAndDropTransformer {
         // Only preparation observes the staged neighbors. Persistence captures no row.
         if (target) table.tbody.insertBefore(source, edge === 'top' ? target : target.nextSibling);
         else table.tbody.appendChild(source);
+        table.rowPositions?.paint();
         const preparedAction = await actionService.prepareDrop(workPackage, source);
         if (!stillEligible()) {
           recoverIfCurrent();

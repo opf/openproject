@@ -1091,6 +1091,13 @@ ms:
         title: Kongsi pakej kerja
       table:
         configure_button: Konfigurasi jadual pakej kerja
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Jadual dengan baris pakej kerja dan kolum atribut pakej kerja.
         text_inline_edit: Kebanyakkan sel jadual ini ialah butang yang mengaktifkan kefungsian edit sebaris bagi atribut tersebut.
         text_select_hint: Pilih kotak yang sepatutnya dibuka dengan 'ALT' dan kekunci anak panah.

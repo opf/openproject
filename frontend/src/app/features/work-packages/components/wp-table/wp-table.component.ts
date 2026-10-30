@@ -238,7 +238,7 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
         this.scrollSync.update(timelines.visible);
       }
 
-      this.cdRef.detectChanges();
+      this.renderHeader();
     });
 
     this.cdRef.detectChanges();
@@ -293,7 +293,12 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
     hover.activate();
     scroll.update(this.timelineVisible);
 
+    this.renderHeader();
+  }
+
+  private renderHeader():void {
     this.cdRef.detectChanges();
+    this.workPackageTable?.rowPositions?.paint();
   }
 
   public get isEmbedded() {

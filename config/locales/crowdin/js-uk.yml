@@ -1109,6 +1109,13 @@ uk:
         title: Надати доступ до пакета робіт
       table:
         configure_button: Налаштуйте таблицю робочих пакетів
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Таблиця з рядками пакетів робіт і стовпцями атрибутів пакетів робіт.
         text_inline_edit: Більшість секцій цієї таблиці - це кнопки, які активують функціонал інлайн-редагування відповідного атрибуту.
         text_select_hint: Прапорці можуть бути відкриті використовуючи «ALT» та клавіш зі стрілками.

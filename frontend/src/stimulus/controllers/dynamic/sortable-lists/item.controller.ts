@@ -41,12 +41,15 @@ import { Controller, type ActionEvent } from '@hotwired/stimulus';
 import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
 import { closestDragBlockingElement } from 'core-stimulus/helpers/interactive-element-helper';
 import {
+  clearDragSource,
+  isDragSource,
+  markDragSource,
   permittedDestinationsAllowDrop,
   isItemFromRoot,
-  sortableItemData,
+  sortableDragSourceData,
   sortableItemIdentity,
   type RootAwareChild,
-  type SortableItemData,
+  type SortableDragSourceData,
   type SortableListsRoot,
 } from './drag-and-drop';
 import {
@@ -56,6 +59,7 @@ import {
   resolveItemExternalUrl,
   resolveItemLabel,
   sortableItemSelector,
+  type DestinationIdentity,
 } from './list-dom';
 import { webLinkHref } from './external-data';
 import { renderDragPreview } from './preview';
@@ -226,29 +230,42 @@ export default class ItemController extends Controller<HTMLElement> implements R
       } : {}),
       canDrag: ({ input }) => {
         const { root } = this;
-        if (root == null || root.busy || root.dragRefused(this.element)) {
+        if (root == null || root.busy || !this.canDragFromPoint(input.clientX, input.clientY)) {
           return false;
         }
-        return this.canDragFromPoint(input.clientX, input.clientY);
+
+        // After the point check: a press on a button inside the card must
+        // not announce an oversized batch for a drag that never starts.
+        return !root.beginDrag(this.element).refused;
       },
       getInitialData: () => this.getItemData(),
       onDragStart: () => {
-        this.root?.markDragBatch();
+        // The root's monitor starts its session and marks the batch. The item
+        // marks itself only when the root lost its session after permitting
+        // the drag, such as a disconnect in between.
+        if (!this.root?.dragSession) {
+          markDragSource(this.element);
+        }
         // Cancels drops landing outside registered drop targets. This also
         // guards the external data channel: a misdropped card carrying
         // text/uri-list would otherwise navigate the current tab to that URL.
         preventUnhandled.start();
-        this.element.setAttribute('data-dragging', 'source');
       },
       onDrop: () => {
         preventUnhandled.stop();
         this.clearDropIndicator();
-        this.element.removeAttribute('data-dragging');
+        // The root's monitor ends the session and clears every mark under
+        // it; the item cleans up only the mark it set itself above.
+        if (!this.root?.dragSession) {
+          clearDragSource(this.element);
+        }
       },
       onGenerateDragPreview: ({ location, nativeSetDragImage }) => {
-        // Pragmatic dispatches this before onDragStart, so the batch has to
-        // be frozen by the time the preview renders.
-        const batchSize = this.root?.freezeDragBatch(this.element) ?? 1;
+        // Pragmatic dispatches this before onDragStart, so the batch is
+        // frozen here, in time for the preview to show its size.
+        const dragSession = this.root?.dragSession;
+        dragSession?.freeze();
+        const batchSize = dragSession?.frozenSize ?? 1;
 
         if (!this.hasPreviewTarget) {
           return;
@@ -302,7 +319,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
         return isItemFromRoot(root.element, source.data)
           && source.data.itemId !== this.idValue
           && source.data.type === this.typeValue
-          && !this.element.hasAttribute('data-dragging')
+          && !isDragSource(this.element)
           && permittedDestinationsAllowDrop(source.data, this.root?.ownerDestinationOf(this.element) ?? null);
       },
       // Only the identity a drop needs; the batch-aware fields are computed
@@ -364,7 +381,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   // Every member of the prospective batch, so an external drop receives the
   // whole block; text/html joins in as one link per labeled member.
   private externalDragData():Record<string, string> {
-    const members = this.root?.externalDragItems(this.element) ?? [this.element];
+    const members = this.root?.dragSession?.members ?? [this.element];
     const entries = members
       .map((member) => ({ url: resolveItemExternalUrl(member), label: resolveItemLabel(member) }))
       .filter((entry):entry is { url:string; label:string|null } => entry.url !== null);
@@ -391,18 +408,23 @@ export default class ItemController extends Controller<HTMLElement> implements R
     return data;
   }
 
-  private getItemData():SortableItemData {
-    return sortableItemData({
+  private getItemData():SortableDragSourceData {
+    const dragSession = this.root?.dragSession;
+
+    return sortableDragSourceData({
       itemId: this.idValue,
       type: this.typeValue,
       rootElement: this.root?.element ?? null,
-      // A rootless item can carry no batch, so its own mobility is the
-      // whole answer, and it can name no list either: anything short of free
-      // movement leaves it accepting nothing.
-      permittedDestinations: this.root
-        ? this.root.dragPermittedDestinations(this.element)
-        : (itemMobility(this.element) === 'free' ? null : []),
+      permittedDestinations: dragSession
+        ? dragSession.permittedDestinations()
+        : this.unbatchedPermittedDestinations(),
     });
+  }
+
+  // Without a session the item cannot name its own list, so anything short
+  // of free movement leaves it accepting nothing.
+  private unbatchedPermittedDestinations():DestinationIdentity[]|null {
+    return itemMobility(this.element) === 'free' ? null : [];
   }
 
   private renderDropIndicator(edge:Edge|null) {
@@ -432,7 +454,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     }
 
     let next = this.element.nextElementSibling;
-    while (next instanceof HTMLElement && next.matches(sortableItemSelector) && next.hasAttribute('data-dragging')) {
+    while (next instanceof HTMLElement && next.matches(sortableItemSelector) && isDragSource(next)) {
       next = next.nextElementSibling;
     }
 
