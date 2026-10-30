@@ -315,6 +315,20 @@ RSpec.describe ResourceWorkPackageList do
         expect(filters.first).to include(name: "id", operator: "=")
         expect(filters.first[:values]).to contain_exactly(picked.id.to_s)
       end
+
+      context "when a picked work package moves to another project" do
+        let(:other_project) { create(:project, enabled_module_names: %w[resource_management work_package_tracking]) }
+
+        before do
+          create(:member, principal: user, project: other_project,
+                          roles: [create(:project_role, permissions: %i[view_work_packages])])
+          picked.update_column(:project_id, other_project.id)
+        end
+
+        it "drops it from the project planner" do
+          expect(view.work_packages).to be_empty
+        end
+      end
     end
 
     it "leaves the user picker unconstrained" do

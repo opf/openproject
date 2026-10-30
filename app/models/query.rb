@@ -449,7 +449,7 @@ class Query < ApplicationRecord
   end
 
   def project_limiting_filter
-    return if project_filter_set?
+    return if project_filter_set? || manual_sort_filter_set?
 
     subproject_filter = Queries::WorkPackages::Filter::SubprojectFilter.create!
     subproject_filter.context = self
@@ -496,6 +496,10 @@ class Query < ApplicationRecord
       filter.is_a?(::Queries::WorkPackages::Filter::SubprojectFilter) ||
         filter.is_a?(::Queries::WorkPackages::Filter::ProjectFilter)
     end
+  end
+
+  def manual_sort_filter_set?
+    filters.any?(::Queries::WorkPackages::Filter::ManualSortFilter)
   end
 
   def for_all?
