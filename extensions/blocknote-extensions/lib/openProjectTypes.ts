@@ -113,6 +113,22 @@ export interface WorkPackageForm {
   };
 }
 
+export interface OpenProjectConfiguration {
+  dateFormat:string | null;
+  timeFormat:string | null;
+  startOfWeek:number | null;
+  _embedded?:{ userPreferences?:{ timeZone?:string | null } };
+}
+
+export interface Weekday {
+  day:number;
+  working:boolean;
+}
+
+export interface NonWorkingDay {
+  date:string;
+}
+
 export interface OpenProjectApiErrorEntry {
   message?:string;
   /*  The attribute is camelized, as in the schema.  */

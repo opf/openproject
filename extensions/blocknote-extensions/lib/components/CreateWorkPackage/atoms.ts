@@ -1,4 +1,5 @@
-import styled, { css, keyframes } from 'styled-components';
+import styled, { createGlobalStyle, css, keyframes } from 'styled-components';
+import flatpickrStyles from 'flatpickr/dist/flatpickr.css?inline';
 import { defaultWpVariables } from '../WorkPackage/atoms';
 import { defaultColorStyles, typeTextColor } from '../../services/colors';
 
@@ -817,5 +818,174 @@ export const TrailingButton = styled.button.attrs({ type: 'button', tabIndex: -1
 
   &&:hover {
     background: var(--op-create-wp-action-hover);
+  }
+`;
+
+const calendarRadius = '5px';
+const calendarDayOff = 'var(--bgColor-disabled, var(--op-create-wp-neutral-hover))';
+const calendarChecked = 'var(--control-checked-color, var(--bgColor-accent-emphasis, #0969da))';
+const calendarCheckedHover = 'var(--control-checked-color--major2, var(--fgColor-accent, #0550ae))';
+
+export const CalendarStyles = createGlobalStyle`
+  ${flatpickrStyles}
+
+  .flatpickr-calendar.op-bn-create-wp-calendar {
+    position: fixed;
+    z-index: 1;
+    width: max-content;
+    padding: var(--spacer-xs, 4px);
+    border-radius: ${radius};
+    background: ${surfaceColor};
+    box-shadow: var(--shadow-floating-small, var(--op-create-wp-shadow));
+    color: ${textColor};
+    font-family: inherit;
+    font-size: 0.75rem;
+
+    &::before, &::after {
+      display: none;
+    }
+
+    .flatpickr-months {
+      display: flex;
+      align-items: flex-start;
+      min-height: 45px;
+    }
+
+    .flatpickr-month, .flatpickr-weekday {
+      color: ${textColor};
+      fill: ${textColor};
+    }
+
+    .flatpickr-current-month {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      font-weight: 600;
+
+      .numInputWrapper {
+        position: relative;
+        left: 0;
+      }
+
+      .flatpickr-monthDropdown-months {
+        background-image: none;
+        color: inherit;
+      }
+    }
+
+    .flatpickr-prev-month, .flatpickr-next-month {
+      position: static;
+      color: ${textColor};
+      fill: ${textColor};
+
+      &:hover svg {
+        fill: ${calendarChecked};
+      }
+    }
+
+    .flatpickr-weekdaycontainer {
+      padding: 0;
+    }
+
+    .flatpickr-days {
+      width: auto;
+    }
+
+    .flatpickr-days .dayContainer {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      justify-items: center;
+      width: 283px;
+      min-width: 283px;
+      max-width: 283px;
+      padding: 0;
+      box-shadow: none;
+    }
+
+    .flatpickr-day {
+      width: 100%;
+      max-width: unset;
+      height: 30px;
+      margin: 0;
+      border-radius: 0;
+      background: ${surfaceColor};
+      box-shadow: none;
+      color: ${textColor};
+      line-height: 28px;
+
+      &:hover, &:focus {
+        border-color: var(--op-create-wp-muted);
+        border-radius: ${calendarRadius};
+        background: ${surfaceColor};
+      }
+
+      &.prevMonthDay {
+        width: 0;
+        height: 0;
+        visibility: hidden;
+      }
+
+      &.nextMonthDay {
+        display: none;
+      }
+
+      &.flatpickr-non-working-day_enabled {
+        background: ${calendarDayOff};
+      }
+
+      &.today:not(.selected) {
+        border: var(--border-attention-muted, 1px solid rgba(212, 167, 44, 0.4));
+        border-radius: ${calendarRadius};
+        background: var(--bgColor-attention-muted, #fff8c5);
+        color: var(--fgColor-attention, #9a6700);
+
+        &:hover {
+          border-color: var(--borderColor-attention-emphasis, #9a6700);
+        }
+      }
+
+      &.selected {
+        border-color: ${calendarChecked};
+        border-radius: ${calendarRadius};
+        background: ${calendarChecked};
+        color: var(--fgColor-onEmphasis, #ffffff);
+
+        &:hover {
+          border-color: ${calendarCheckedHover};
+          background: ${calendarCheckedHover};
+        }
+      }
+    }
+
+    .flatpickr-time {
+      border-top-color: ${borderColor};
+
+      input, .flatpickr-am-pm, .flatpickr-time-separator {
+        color: ${textColor};
+      }
+
+      input:hover, input:focus, .flatpickr-am-pm:hover, .flatpickr-am-pm:focus {
+        background: var(--bgColor-neutral-muted, var(--op-create-wp-action-hover));
+      }
+    }
+
+    .numInputWrapper {
+      &:hover {
+        background: var(--bgColor-neutral-muted, var(--op-create-wp-action-hover));
+      }
+
+      span {
+        border-color: ${borderColor};
+      }
+
+      span.arrowUp::after {
+        border-bottom-color: ${textColor};
+      }
+
+      span.arrowDown::after {
+        border-top-color: ${textColor};
+      }
+    }
   }
 `;

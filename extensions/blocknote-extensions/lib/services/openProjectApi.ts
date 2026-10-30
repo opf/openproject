@@ -2,10 +2,13 @@
 import type {
   HalCollection,
   HalResource,
+  NonWorkingDay,
   OpenProjectApiErrorBody,
+  OpenProjectConfiguration,
   OpenProjectResponse,
   StatusCollection,
   TypeCollection,
+  Weekday,
   WorkPackage,
   WorkPackageForm,
   WorkPackagePayload,
@@ -204,6 +207,23 @@ export function fetchTypes():Promise<TypeCollection> {
     // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
     return Promise.reject(error);
   });
+}
+
+export function fetchConfiguration():Promise<OpenProjectConfiguration> {
+  return get<OpenProjectConfiguration>('/api/v3/configuration');
+}
+
+export async function fetchWeekdays():Promise<Weekday[]> {
+  const data = await get<HalCollection<Weekday>>('/api/v3/days/week');
+  return data._embedded?.elements ?? [];
+}
+
+export async function fetchNonWorkingDays(year:number):Promise<string[]> {
+  const filters = [{ date: { operator: '<>d', values: [`${year}-01-01`, `${year}-12-31`] } }];
+  const params = new URLSearchParams({ filters: JSON.stringify(filters) });
+
+  const data = await get<HalCollection<NonWorkingDay>>(`/api/v3/days/non_working?${params.toString()}`);
+  return (data._embedded?.elements ?? []).map((day) => day.date);
 }
 
 /*  Beyond one page of them a listing is searched rather than browsed.  */
