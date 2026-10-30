@@ -102,6 +102,20 @@ describe('Insert work package attribute', () => {
     expect(marked.map((option) => option.textContent)).toEqual([expect.stringContaining('Public beta')]);
   });
 
+  it('sets the id of a result in grey and its type smaller than the subject', async () => {
+    await openWorkPackageAttributeDialog();
+    await userEvent.type(page.getByPlaceholder(SEARCH_PLACEHOLDER), 'Redesign');
+    await expect.element(page.getByRole('option', { name: /Redesign onboarding flow/ })).toBeVisible();
+
+    const option = page.getByRole('option', { name: /Redesign onboarding flow/ }).element();
+    const style = (selector:string) => getComputedStyle(option.querySelector(selector)!);
+    const subject = getComputedStyle(page.getByRole('option').getByText('Redesign onboarding flow').element());
+
+    expect(style('.op-bn-work-package--id').color).not.toBe(subject.color);
+    expect(style('.op-bn-work-package--id').fontSize).toBe(subject.fontSize);
+    expect(parseFloat(style('.op-bn-work-package--type').fontSize)).toBeLessThan(parseFloat(subject.fontSize));
+  });
+
   it('keeps the reference of a result with a long subject on one line', async () => {
     answerSearchWith([{ ...mockAttributeWorkPackage, subject: 'Test'.repeat(40) }]);
     await openWorkPackageAttributeDialog();

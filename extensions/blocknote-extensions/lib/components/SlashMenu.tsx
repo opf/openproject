@@ -1,5 +1,5 @@
 import type { BlockNoteEditor } from '@blocknote/core';
-import { LinkIcon, PlusIcon, TagIcon } from '@primer/octicons-react';
+import { CodeSquareIcon, LinkIcon, PlusIcon } from '@primer/octicons-react';
 import i18n from '../services/i18n.ts';
 import { getAliases } from '../services/slashMenuAliases';
 import { registerInlineWpCallbacks, clearInlineWpCallbacks, makePendingWpid } from './InlineWorkPackage/callbacks';
@@ -122,7 +122,7 @@ const workPackageAttributeSlashMenu = (editor:BlockNoteEditor<any>) => ({
   onItemClick: () => insertPendingAttribute(editor),
   aliases: [...getAliases('attribute')],
   group: 'OpenProject',
-  icon: <TagIcon size={18} />,
+  icon: <CodeSquareIcon size={18} />,
   subtext: i18n.t('slashMenu.attribute.subtext'),
 });
 
