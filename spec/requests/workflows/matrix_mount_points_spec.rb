@@ -54,7 +54,19 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
     expect(response.body).to include("Default transitions")
     expect(response.body).to include("status[#{status_a.id}][#{status_b.id}]")
     expect(response.body).to include(Workflows::MatrixEditorComponent::STATE_ID)
+    expect(response.body).to have_field("tab", type: :hidden, with: "always")
+    expect(response.body).to have_field("role_ids[]", type: :hidden, with: role.id.to_s)
     expect(response.body).not_to include("<form")
+  end
+
+  it "carries the tab and roles in the frame when the tab has no transitions" do
+    get type_workflow_matrix_path(type, tab: "author", role_ids: [role.id]),
+        headers: { "Turbo-Frame" => "workflow-table" }
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include(I18n.t("admin.workflows.blankslate.title"))
+    expect(response.body).to have_field("tab", type: :hidden, with: "author")
+    expect(response.body).to have_field("role_ids[]", type: :hidden, with: role.id.to_s)
   end
 
   it "renders the type edit page shell with the form and Save around the lazy frame" do
@@ -62,7 +74,7 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
 
     expect(response).to have_http_status(:ok)
     expect(response.body).to include("turbo-frame")
-    expect(response.body).to include("action=\"#{type_workflow_matrix_path(type, tab: 'always')}\"")
+    expect(response.body).to include("action=\"#{type_workflow_matrix_path(type)}\"")
     expect(response.body).to have_css(".workflow-save-bar button[type=submit]", text: I18n.t(:button_save))
   end
 
