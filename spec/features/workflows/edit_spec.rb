@@ -160,6 +160,34 @@ RSpec.describe "Workflow edit", :js do
     end
   end
 
+  it "keeps the default transitions when saving a tab without transitions" do
+    visit_workflow_edit(roles: [role], tab: "author")
+
+    expect(page).to have_heading "No status transitions configured"
+
+    click_button "Save"
+
+    expect_flash(message: "Successful update.")
+
+    expect_transition(role, 0, 1, exist: true)
+  end
+
+  context "with a second role without transitions" do
+    let!(:other_role) { create(:project_role) }
+
+    it "keeps the first role's transitions when saving the second role's empty tab" do
+      visit_workflow_edit(roles: [other_role])
+
+      expect(page).to have_heading "No status transitions configured"
+
+      click_button "Save"
+
+      expect_flash(message: "Successful update.")
+
+      expect_transition(role, 0, 1, exist: true)
+    end
+  end
+
   context "when switching tabs", :js do
     let!(:author_workflow) do
       create(:workflow, role_id: role.id, type_id: type.id,
