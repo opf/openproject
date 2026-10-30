@@ -51,6 +51,7 @@ RSpec.describe Settings::UserCustomFieldSections::IndexComponent, type: :compone
     move_url_templates = JSON.parse(root["data-sortable-lists-move-url-templates-value"])
 
     expect(move_url_templates["user_custom_field_section"]).to include("/admin/settings/user_custom_field_sections/{id}/drop")
+    expect(move_url_templates["user_field"]).to include("/admin/settings/user_custom_field_section_fields/{id}/drop")
   end
 
   it "wires the root's outlet selectors so they actually resolve to the rendered list/items" do
@@ -95,18 +96,9 @@ RSpec.describe Settings::UserCustomFieldSections::IndexComponent, type: :compone
     end
   end
 
-  # The section's own sortable-lists wiring has no generic-drag-and-drop
-  # remnants; its rendered ShowComponent still carries them for its field
-  # list until that is migrated too (see show_component_spec.rb).
-  it "has no generic-drag-and-drop remnants on the sections list itself" do
+  it "has no generic-drag-and-drop remnants" do
     subject
 
-    root = page.find("[data-controller='sortable-lists']", visible: :all)
-    expect(root["data-controller"]).to eq("sortable-lists")
-    list = page.find(
-      "[data-controller~='sortable-lists--list'][data-sortable-lists--list-type-value='user_custom_field_section']",
-      visible: :all
-    )
-    expect(list[:class].to_s).not_to include("dragula-container")
+    expect(page.native.to_html).not_to match(/generic-drag-and-drop|dragula/)
   end
 end
