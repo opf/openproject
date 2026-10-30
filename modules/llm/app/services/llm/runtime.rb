@@ -143,7 +143,9 @@ module Llm
     end
 
     def binding_model_id
-      binding&.model_id.presence
+      return binding&.model_id.presence unless feature.embedding?
+
+      binding&.semantic_index&.model_id
     end
 
     def connection_default
