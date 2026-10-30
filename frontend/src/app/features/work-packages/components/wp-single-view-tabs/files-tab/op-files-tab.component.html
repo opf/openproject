@@ -29,8 +29,8 @@
       >
       <op-storage [resource]="workPackage"
         [projectStorage]="storage"
-        [allowUploading]="allowManageFileLinks$ | async"
-        [allowLinking]="allowManageFileLinks$ | async"
+        [allowUploading]="(allowManageFileLinks$ | async) === true"
+        [allowLinking]="(allowManageFileLinks$ | async) === true"
         (fileRemoved)="attachmentRemoved()"
         (fileAdded)="attachmentAdded()"
        />

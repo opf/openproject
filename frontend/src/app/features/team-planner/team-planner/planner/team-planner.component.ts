@@ -228,7 +228,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       this.untilDestroyed(),
       map((queryFilters) => {
         const assigneeFilter = queryFilters.find((queryFilter) => queryFilter.id === 'assignee');
-        return ((assigneeFilter?.values || []) as HalResource[]).map((p) => p.id);
+        return ((assigneeFilter?.values ?? []) as HalResource[])
+          .map((principal) => principal.id)
+          .filter((id) => id !== null);
       }),
     );
 
@@ -281,10 +283,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     .pipe(
       this.untilDestroyed(),
       filter((ids) => ids.length > 0),
-      map((ids) => ({
+      map((ids):ApiV3ListParameters => ({
         filters: [['id', '=', ids]],
         pageSize: MAGIC_PAGE_NUMBER,
-      }) as ApiV3ListParameters),
+      })),
     );
 
   isEmpty$ = combineLatest([
@@ -809,10 +811,21 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   // Allow triggering the select from a event, as
   // this is otherwise not testable from selenium
-  @HostListener(
-    'document:teamPlannerSelectDate',
-    ['$event.detail.start', '$event.detail.end', '$event.detail.assignee'],
-  )
+  @HostListener('document:teamPlannerSelectDate', ['$event'])
+  selectDateFromEvent(event:Event):void {
+    if (!(event instanceof CustomEvent)) {
+      return;
+    }
+
+    const detail:unknown = event.detail;
+    if (typeof detail === 'object' && detail !== null
+      && 'start' in detail && typeof detail.start === 'string'
+      && 'end' in detail && typeof detail.end === 'string'
+      && 'assignee' in detail && typeof detail.assignee === 'string') {
+      this.openNewSplitCreate(detail.start, detail.end, detail.assignee);
+    }
+  }
+
   openNewSplitCreate(start:string, end:string, resourceHref:string, nonWorkingDays?:boolean):void {
     const basePath = this.urlParams.basePathWithoutDetails();
     const search = new URLSearchParams(window.location.search);
@@ -835,7 +848,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     }
   }
 
-  onCardClicked({ workPackageId, event }:{ workPackageId:string, event:MouseEvent }):void {
+  onCardClicked({ workPackageId, event }:{ workPackageId:string, event:MouseEvent|KeyboardEvent }):void {
     this.workPackagesCalendar.onCardClicked({ workPackageId, event });
   }
 

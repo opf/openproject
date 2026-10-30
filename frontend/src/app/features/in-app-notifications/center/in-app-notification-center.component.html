@@ -23,17 +23,18 @@
            />
         </cdk-virtual-scroll-viewport>
       } @else {
+        @let totalCount = totalCount$ | async;
         <div class="op-ian-center--loading-indicator">
           <img [src]="image.no_notification" class="op-ian-center-loading-image" alt=""/>
           <p class="op-ian-center-loading-text">
-            <span [textContent]="noNotificationText((totalCount$ | async) > 0)"></span>
+            <span [textContent]="noNotificationText(totalCount !== null && totalCount > 0)"></span>
           </p>
-          @if ((totalCount$ | async) > 0) {
+          @if (totalCount !== null && totalCount > 0) {
             <span
               [textContent]="text.no_results.with_current_filter"
             ></span>
           }
-          @if ((totalCount$ | async) === 0) {
+          @if (totalCount === 0) {
             <p>
               <span [textContent]="text.no_results.at_all"></span>
               <br/>
