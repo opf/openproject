@@ -40,8 +40,12 @@ import { PositionArgs } from 'core-app/shared/components/op-context-menu/wp-cont
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 
-/** Window in which a `contextmenu` following a keyboard-opened menu on the same table is its companion, not a new request. */
-export const companionContextMenuWindowMs = 500;
+/**
+ * Shift+F10 and the Menu key open the row menu on keydown, and the browser then fires its own `contextmenu` for the
+ * same key press, possibly only on key release. That event is absorbed when it arrives within this many milliseconds;
+ * it bounds browser event timing and has nothing to do with any CSS transition.
+ */
+const menuKeyCompanionWindowMs = 500;
 
 const keyboardOpens = new WeakMap<WorkPackageTable, { row:HTMLElement, at:number }>();
 const forgetOnTeardown = new WeakSet<WorkPackageTable>();
@@ -105,7 +109,7 @@ export abstract class ContextMenuHandler implements TableEventHandler {
     const open = keyboardOpens.get(table);
     keyboardOpens.delete(table);
 
-    return !!open && performance.now() - open.at <= companionContextMenuWindowMs && open.row.contains(target);
+    return !!open && performance.now() - open.at <= menuKeyCompanionWindowMs && open.row.contains(target);
   }
 
   protected openContextMenu(table:WorkPackageTable, evt:Event, row:HTMLElement, positionArgs:PositionArgs = {}):void {
