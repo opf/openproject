@@ -34,6 +34,7 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IAutocompleterTemplateComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
+import { AutocompleterOptionContext, AutocompleterLabelContext } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
 
 @Component({
   templateUrl: './project-autocompleter-template.component.html',
@@ -41,8 +42,8 @@ import { IAutocompleterTemplateComponent } from 'core-app/shared/components/auto
   standalone: false,
 })
 export class ProjectAutocompleterTemplateComponent implements IAutocompleterTemplateComponent {
-  @ViewChild('optionTemplate') optionTemplate:TemplateRef<Element>;
-  @ViewChild('labelTemplate') labelTemplate?:TemplateRef<Element>;
+  @ViewChild('optionTemplate') optionTemplate:TemplateRef<AutocompleterOptionContext>;
+  @ViewChild('labelTemplate') labelTemplate?:TemplateRef<AutocompleterLabelContext>;
 
   readonly I18n = inject(I18nService);
 }

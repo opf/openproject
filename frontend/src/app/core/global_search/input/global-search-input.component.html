@@ -48,7 +48,7 @@
     [virtualScroll]="false"
     (focus)="onFocus()"
     (blur)="onFocusOut()"
-    (search)="search($event)"
+    (search)="search()"
     (close)="onClose()"
     (change)="followItem($event)"
     (keydown.enter)="onEnterBeforeResultsLoaded()"
@@ -64,8 +64,8 @@
         <div>{{text.recently_viewed}}</div>
       }
     </ng-template>
-    <ng-template op-autocompleter-option-tmp let-item let-index="index" let-search="searchTerm">
-      @if (!item.id) {
+    <ng-template op-autocompleter-option-tmp let-item let-index="index" let-search="search">
+      @if (isSearchOption(item)) {
         <div>
           <a tabindex="0"
              href="#"
@@ -77,7 +77,7 @@
             <div class="global-search--project-scope" title="{{ item.projectScope }}">{{ item.text }} ↵</div>
           </a>
         </div>
-      } @else {
+      } @else if (isWorkPackage(item)) {
         <a
           class="global-search--option"
           [href]="wpPath(item.displayId)"

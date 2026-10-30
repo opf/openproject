@@ -70,6 +70,24 @@ describe('UrlParamsHelper', () => {
     });
   });
 
+  describe('queryFilterValueToParam', () => {
+    it.each([
+      [true, 't'],
+      [false, 'f'],
+      ['', ''],
+      [0, ''],
+      ['7', '7'],
+      [7, '7'],
+      [{ id: 3 }, '3'],
+      [{ id: 0 }, '0'],
+      [{ id: 3, href: '/api/v3/users/9' }, '3'],
+      [{ href: '/api/v3/users/me' }, 'me'],
+      [{ href: '/api/v3/work_packages/{id}' }, '{id}'],
+    ])('encodes %j as %j', (value, expected) => {
+      expect(UrlParamsHelper.queryFilterValueToParam(value)).toBe(expected);
+    });
+  });
+
   describe('encodeQueryJsonParams', () => {
     let query:any;
     let additional:any;

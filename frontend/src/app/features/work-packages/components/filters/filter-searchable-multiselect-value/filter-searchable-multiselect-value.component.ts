@@ -45,7 +45,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
-import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryFilterInstanceResource, QueryFilterValue, isQueryFilterValue } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -89,7 +89,11 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   initialRequest$:Observable<CollectionResource>;
 
-  itemTracker = (item:HalResource):string => item.href ?? item.id ?? item.name;
+  itemTracker = (item:unknown):unknown => {
+    if (typeof item !== 'object' || item === null) return undefined;
+    const option = item as Record<string, unknown>;
+    return option.href ?? option.id ?? option.name;
+  };
 
   groupByFn = (item:HalResource):string|null => {
     if (!this.isVersionResource) return null;
@@ -99,13 +103,13 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   compareByHref = compareByHref;
 
-  resourceType:string|null = null;
+  resourceType:'work_packages'|null = null;
 
   readonly text = {
     placeholder: this.I18n.t('js.placeholders.selection'),
   };
 
-  public get value():string[]|HalResource[] {
+  public get value():QueryFilterValue[] {
     return this.filter.values;
   }
 
@@ -197,8 +201,9 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
     return filters;
   }
 
-  public setValues(val:string|HalResource|HalResource[]) {
-    let values:string[]|HalResource[];
+  public setValues(val:unknown) {
+    if (val === undefined) { return; }
+    let values:unknown[];
 
     if (typeof val === 'string') {
       values = val.length > 0 ? [val] : [];
@@ -206,6 +211,9 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
       values = Array.isArray(val) ? val : [val];
     }
 
+    if (!values.every(isQueryFilterValue)) {
+      throw new TypeError('Unsupported query filter value');
+    }
     this.filter.values = values;
     this.filterChanged.emit(this.filter);
     this.cdRef.detectChanges();

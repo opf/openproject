@@ -170,8 +170,13 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
     };
   }
 
-  protected defaultTrackByFunction():(item:{ href:unknown, name:unknown }) => unknown {
-    return (item) => item.href || item.name;
+  protected defaultTrackByFunction():(item:unknown) => unknown {
+    return (item) => {
+      if (typeof item !== 'object' || item === null) return undefined;
+      const option = item as Record<string, unknown>;
+      if (option.href) return option.href;
+      return option.name;
+    };
   }
 
   protected defaultCompareWithFunction():(a:unknown, b:unknown) => boolean {

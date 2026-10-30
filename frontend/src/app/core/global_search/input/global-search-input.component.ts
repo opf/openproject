@@ -52,25 +52,12 @@ import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter
 import { announce } from '@primer/live-region-element';
 import { NgOption } from '@ng-select/ng-select';
 
-interface SearchResultItem {
-  id:string;
-  subject:string;
-  status:string;
-  statusId:string;
-  href:string;
-  project:string;
-  author:HalResource;
-}
-
 interface SearchOptionItem {
   projectScope:string;
   text:string;
 }
 
-interface SearchResultItems {
-  items:SearchResultItem[]|SearchOptionItem[];
-  term:string;
-}
+type GlobalSearchOption = WorkPackageResource|SearchOptionItem;
 
 @Component({
   selector: 'opce-global-search',
@@ -102,7 +89,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('btn', { static: true }) btn:ElementRef<HTMLButtonElement>;
 
-  @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent;
+  @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent<GlobalSearchOption>;
 
   public expanded = false;
 
@@ -123,11 +110,11 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     map((items) => (items.length > 0)),
   );
 
-  getAutocompleterData = ():Observable<unknown[]> => this.autocompleteWorkPackages();
+  getAutocompleterData = ():Observable<GlobalSearchOption[]> => this.autocompleteWorkPackages();
 
   public autocompleterOptions = {
     filters: [],
-    resource: 'work_packages',
+    resource: 'work_packages' as const,
     searchKey: 'subjectOrId',
     getOptionsFn: this.getAutocompleterData,
   };
@@ -135,7 +122,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   /** Remember the item that best matches the query.
    * That way, it will be highlighted (as we manually mark the selected item) and we can handle enter.
    * */
-  public selectedItem:WorkPackageResource|SearchOptionItem|undefined = undefined;
+  public selectedItem:unknown = undefined;
 
   /** Remember the current value */
   public currentValue = '';
@@ -227,7 +214,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     return this.pathHelperService.workPackagePath(id);
   }
 
-  public search(_$event:SearchResultItems):void {
+  public search():void {
     this.currentValue = this.searchTerm;
   }
 
@@ -275,12 +262,13 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  public followItem(item:WorkPackageResource|SearchOptionItem|undefined):void {
+  public followItem(item:unknown):void {
+    if (Array.isArray(item)) { return; }
     this.selectedItem = item;
     if (item instanceof WorkPackageResource) {
       window.location.href = this.wpPath(item.displayId);
-    } else if (item) {
-      this.searchInScope((item as SearchOptionItem).projectScope);
+    } else if (item && typeof item === 'object' && 'projectScope' in item && typeof item.projectScope === 'string') {
+      this.searchInScope(item.projectScope);
     }
   }
 
@@ -291,8 +279,19 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   }
 
   // return all project scope items and all items which contain the search term
-  public customSearchFn(term:string, item:SearchResultItem):boolean {
-    return item.id === undefined || item.subject.toLowerCase().includes(term.toLowerCase());
+  public customSearchFn(term:string, item:unknown):boolean {
+    return (typeof item === 'object' && item !== null && 'projectScope' in item)
+      || (item instanceof WorkPackageResource && item.subject.toLowerCase().includes(term.toLowerCase()));
+  }
+
+  public isSearchOption(item:unknown):item is SearchOptionItem {
+    return typeof item === 'object' && item !== null
+      && 'projectScope' in item && typeof item.projectScope === 'string'
+      && 'text' in item && typeof item.text === 'string';
+  }
+
+  public isWorkPackage(item:unknown):item is WorkPackageResource {
+    return item instanceof WorkPackageResource;
   }
 
   private autocompleteWorkPackages():Observable<(WorkPackageResource|SearchOptionItem)[]> {

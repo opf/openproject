@@ -42,6 +42,7 @@ import {
   Observable,
 } from 'rxjs';
 import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
+import { AutocompleterResource } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({
@@ -70,8 +71,8 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
       .pipe(tap((values) => (this.warnIfNoOptions(values))));
   };
 
-  public autocompleterOptions = {
-    resource: '',
+  public autocompleterOptions:{ resource:AutocompleterResource|undefined; getOptionsFn:(term:string|null) => Observable<HalResource[]> } = {
+    resource: undefined,
     getOptionsFn: this.getAutocompleterData,
   };
 
@@ -120,10 +121,11 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     this.board = this.locals.board as Board;
     this.active = new Set(this.locals.active as string[]);
     this.actionService = this.boardActions.get(this.board.actionAttribute!);
-    this.autocompleterOptions.resource = this.actionService.resourceName.toLowerCase();
+    this.autocompleterOptions.resource = this.actionService.resourceName;
   }
 
-  onModelChange(element:HalResource) {
+  onModelChange(element:unknown) {
+    if (element !== undefined && !(element instanceof HalResource)) { return; }
     this.selectedAttribute = element;
   }
 

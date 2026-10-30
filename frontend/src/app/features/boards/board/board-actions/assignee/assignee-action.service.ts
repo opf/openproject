@@ -46,7 +46,7 @@ import { map } from 'rxjs/operators';
 export class BoardAssigneeActionService extends CachedBoardActionService {
   filterName = 'assignee';
 
-  resourceName = 'assignee';
+  resourceName = 'assignee' as const;
 
   text = this.I18n.t('js.boards.board_type.board_type_title.assignee');
 
