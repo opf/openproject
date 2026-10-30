@@ -29,6 +29,7 @@ import { ApplicationRef, Injectable, Injector, inject } from '@angular/core';
 import { ComponentPortal, ComponentType, DomPortalOutlet } from '@angular/cdk/portal';
 import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
 import {
+  OpContextMenuCloseReason,
   OpContextMenuLocalsMap,
   OpContextMenuLocalsToken,
 } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
@@ -53,6 +54,8 @@ export class OPContextMenuService {
   private isOpening = false;
   private openSeq = 0;
 
+  private pointerPressedInMenu = false;
+
   public register() {
     const existing = document.querySelector('.op-context-menu--overlay');
     existing?.remove();
@@ -60,6 +63,11 @@ export class OPContextMenuService {
     const hostElement = this.portalHostElement = document.createElement('div');
     hostElement.classList.add('op-context-menu--overlay');
     document.body.appendChild(hostElement);
+    hostElement.addEventListener('pointerdown', () => { this.pointerPressedInMenu = true; });
+    // Keyboard requests also fire a native contextmenu at the menu item that just took focus.
+    hostElement.addEventListener('contextmenu', (evt) => {
+      if (!this.pointerPressedInMenu) evt.preventDefault();
+    });
 
     this.bodyPortalHost = new DomPortalOutlet(
       hostElement,
@@ -70,7 +78,10 @@ export class OPContextMenuService {
     // Listen to keyups on window to close context menus
     window.addEventListener('keydown', (evt) => {
       if (this.active && evt.key === 'Escape') {
-        this.close(true);
+        // Escape may cancel a pending open; a click outside may not, as the opening click itself bubbles to the wrapper.
+        this.openSeq += 1;
+        this.isOpening = false;
+        this.close(true, 'escape');
       }
 
       return true;
@@ -81,13 +92,13 @@ export class OPContextMenuService {
       // Listen to any click and close the active context menu
       wrapper.addEventListener('click', (evt:Event) => {
         if (this.active && !this.portalHostElement.contains(evt.target as Element)) {
-          this.close();
+          this.close(false, 'outside');
         }
       });
       // Listen if it scrolles then close the active context menu
       wrapper.addEventListener('scroll', (evt:Event) => {
         if (this.active && !this.portalHostElement.contains(evt.target as Element)) {
-          this.close();
+          this.close(false, 'scroll');
         }
       }, true);
     }
@@ -103,6 +114,7 @@ export class OPContextMenuService {
   public show(menu:OpContextMenuHandler, event:Event, component:ComponentType<unknown> = OPContextMenuComponent):void {
     this.close();
     this.isOpening = true;
+    this.pointerPressedInMenu = false;
     const seq = this.openSeq += 1;
 
     // Create and attach portal
@@ -152,7 +164,7 @@ export class OPContextMenuService {
   /**
    * Closes all currently open context menus.
    */
-  public close(focus = false):void {
+  public close(focus = false, reason?:OpContextMenuCloseReason):void {
     if (this.isOpening) {
       return;
     }
@@ -160,7 +172,7 @@ export class OPContextMenuService {
     // Detach any component currently in the portal
     this.bodyPortalHost.detach();
     this.portalHostElement.style.display = 'none';
-    this.active?.onClose(focus);
+    this.active?.onClose(focus, reason);
     this.active = null;
   }
 

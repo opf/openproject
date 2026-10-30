@@ -216,6 +216,52 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
         end
       end
 
+      context "when importing the due date" do
+        before { week_with_saturday_and_sunday_as_weekend }
+
+        context "when it falls on a working day" do
+          it "keeps the work package scheduled on working days only" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: Date.new(2031, 5, 29), ignore_non_working_days: false)
+          end
+        end
+
+        context "when it falls on a weekend" do
+          let(:jira_issue_payload) { super().deep_merge("fields" => { "duedate" => "2031-05-31" }) }
+
+          it "keeps the due date by including non-working days" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: Date.new(2031, 5, 31), ignore_non_working_days: true)
+          end
+        end
+
+        context "when it falls on a non-working day of the instance" do
+          before { create(:non_working_day, date: Date.new(2031, 5, 29)) }
+
+          it "keeps the due date by including non-working days" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: Date.new(2031, 5, 29), ignore_non_working_days: true)
+          end
+        end
+
+        context "when the issue has none" do
+          let(:jira_issue_payload) { super().deep_merge("fields" => { "duedate" => nil }) }
+
+          it "keeps the work package scheduled on working days only" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: nil, ignore_non_working_days: false)
+          end
+        end
+      end
+
       context "if priority is nil or hidden in jira filed configuration" do
         let(:jira_issue_payload) do
           JSON.parse(Rails.root.join("spec/fixtures/import/jira/issue_without_priority.json").read)

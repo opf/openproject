@@ -35,6 +35,7 @@ import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.s
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
+import { selectionGesture } from '../state/selection-feedback';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
 export class WorkPackageStateLinksHandler implements TableEventHandler {
@@ -94,7 +95,9 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     if (!row) { return true; }
 
     this.wpTableFocus.updateFocus(workPackageId, false, false);
-    this.selectionGestures.replace(workPackageId, view.workPackageTable.renderedRows, row.dataset.classIdentifier);
+    selectionGesture(view.workPackageTable, 'navigation', () => {
+      this.selectionGestures.replace(workPackageId, view.workPackageTable.renderedRows, row.dataset.classIdentifier);
+    });
 
     view.stateLinkClicked.emit({ workPackageId, requestedState: state });
 
