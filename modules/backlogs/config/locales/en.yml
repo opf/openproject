@@ -220,9 +220,6 @@ en:
     rebuild_positions: "Rebuild positions"
     remaining_hours: "Remaining work"
     sharing: "Sprint sharing"
-    show_burndown_chart: "Burndown chart"
-    show_created_resolved_chart: "Created vs resolved work packages"
-    show_work_package_overview: "Work packages within the sprint"
 
     sprint_component:
       action_menu:
@@ -256,6 +253,20 @@ en:
         breadcrumb: Report
         title: "%{sprint} report"
       widgets:
+        burndown_chart:
+          title: "Burndown chart"
+        created_resolved_chart:
+          title: "Created vs resolved work packages"
+        epic_progress:
+          card:
+            progress_label:
+              one: "%{epic}: %{completed} of %{count} work package completed"
+              other: "%{epic}: %{completed} of %{count} work packages completed"
+            work_package_completed: "(%{percentage})"
+            work_package_counts:
+              one: "%{completed} / %{count} work package"
+              other: "%{completed} / %{count} work packages"
+          title: "Epic progress"
         velocity_chart:
           average:
             one: "Average of previous sprint:"
@@ -291,10 +302,12 @@ en:
           breakdown_block:
             blocks:
               show_all: "View all"
+              show_all_label: "View all: %{heading}"
           closed_work_packages: "Closed work packages"
           resolved_summary:
             one: "%{percentage}% (%{resolved} of %{total} work package)"
             other: "%{percentage}% (%{resolved} of %{total} work packages)"
+          title: "Work packages within the sprint"
         work_package_table:
           added:
             blankslate:

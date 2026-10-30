@@ -1,0 +1,17 @@
+@import helpers
+
+.op-sprint-reports--epic-progress-widget
+  container-type: inline-size
+  max-height: none
+
+  .op-widget-box--header
+    padding-bottom: 0
+
+  .op-sprint-reports--epic-progress
+    @container (min-width: #{$breakpoint-md})
+      .epic-progress--row
+        max-width: 75%
+
+    @container (min-width: #{$breakpoint-xl})
+      .epic-progress--row
+        max-width: 50%

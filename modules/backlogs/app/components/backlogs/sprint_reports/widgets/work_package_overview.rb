@@ -38,7 +38,7 @@ module Backlogs
         param :project
         param :breakdown
 
-        def title = t("backlogs.show_work_package_overview")
+        def title = t(".title")
 
         def render?
           user_allowed?(:view_sprints)

@@ -7,7 +7,13 @@
 
       if render_show_all?
         flex.with_column do
-          render(Primer::Beta::Link.new(href: show_all_href, data: { turbo: false })) do
+          render(
+            Primer::Beta::Link.new(
+              href: show_all_href,
+              data: { turbo: false },
+              aria: { label: t(".blocks.show_all_label", heading:) }
+            )
+          ) do
             t(".blocks.show_all")
           end
         end
