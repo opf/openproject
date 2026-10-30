@@ -215,7 +215,7 @@ export const BlockWorkPackageComponent = ({
   );
 
   return (
-    <Block ref={trackBlockElement} $pending={pendingMode !== undefined} $selected={isBlockSelected} data-selected={isBlockSelected || undefined} draggable="true" onDragStart={handleBlockDragStart}>
+    <Block ref={trackBlockElement} $pending={pendingMode !== undefined} $selected={isBlockSelected && Boolean(block.props.wpid)} data-selected={isBlockSelected || undefined} draggable="true" onDragStart={handleBlockDragStart}>
       <div contentEditable={false}>
         {pendingMode && blockEl && (
           <PendingWorkPackagePopover
