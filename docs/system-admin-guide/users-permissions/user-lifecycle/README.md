@@ -3,7 +3,7 @@ sidebar_navigation:
   title: User lifecycle
   priority: 999
 description: An overview of how users are created and deleted in OpenProject.
-keywords: users, lifecycle, scim
+keywords: users, lifecycle, scim, active, invited, registered, blocked, deleted
 ---
 
 # User lifecycle
