@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
-import { defaultWpVariables, nonSelectableStyles } from '../WorkPackage/atoms';
+import { metaTextColor } from '../../services/colors';
+import { defaultWpVariables, nonSelectableStyles, WorkPackageId, WorkPackageType } from '../WorkPackage/atoms';
 import { FieldLabel, Panel, PickerControl } from '../CreateWorkPackage/atoms';
 
 // Drawn inward, so that it adds nothing to the height.
@@ -64,6 +65,7 @@ export const DisabledControl = styled(PickerControl)`
 
 // The create form's frame with an accent instead of a success colored action.
 export const AttributePanel = styled(Panel)`
+  --op-wp-meta-color: ${metaTextColor};
   --op-create-wp-accent: var(--bgColor-accent-emphasis, #0969da);
   --op-create-wp-accent-hover: color-mix(in srgb, var(--op-create-wp-accent) 88%, black);
   --op-create-wp-disabled: var(--bgColor-disabled, #eff2f5);
@@ -160,6 +162,14 @@ export const WorkPackageReference = styled.span`
   gap: var(--spacer-m);
   flex-shrink: 0;
   white-space: nowrap;
+
+  ${WorkPackageId} {
+    font-size: inherit;
+  }
+
+  ${WorkPackageType} {
+    font-size: 0.8em;
+  }
 `;
 
 // Drawn over the empty field: a plain input cannot color the type.
@@ -273,8 +283,8 @@ export const Avatar = styled.span.attrs({ className: 'op-bn-wp-attribute--avatar
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.15em;
-  height: 1.15em;
+  width: 0.9em;
+  height: 0.9em;
   margin-right: 0.25em;
   border-radius: 50%;
   overflow: hidden;

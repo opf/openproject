@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { http } from 'msw';
+import '@blocknote/core/fonts/inter.css';
 import { renderEditor } from '../../../helpers/renderEditor';
 import { worker } from '../../../mocks/browser';
 import { requestedWorkPackageIds, workPackageCollection } from '../../../mocks/handlers';
@@ -162,6 +163,22 @@ describe('Values of work package attributes', () => {
     await vi.waitFor(() => expect(chip().textContent).toBe('Mira Hofmann'));
     expect(avatars().map((avatar) => avatar.dataset.initials)).toEqual(['MH']);
     await vi.waitFor(() => expect(getComputedStyle(avatars()[0].querySelector('img')!).visibility).toBe('visible'));
+  });
+
+  // Pinned to Inter: under the test browser's default font the avatar clears the border either way.
+  it('keeps the picture clear of the outline of the attribute', async () => {
+    renderAttribute('assignee', 'both');
+    await document.fonts.load('400 12px Inter');
+    await document.fonts.load('600 14px Inter');
+    expect(document.fonts.check('600 14px Inter')).toBe(true);
+    await vi.waitFor(() => expect(avatars()).toHaveLength(1));
+
+    const box = chip().getClientRects()[0];
+    const avatar = avatars()[0].getBoundingClientRect();
+    const border = 1;
+
+    expect.soft(avatar.top - box.top, 'gap above the avatar').toBeGreaterThan(border);
+    expect.soft(box.bottom - avatar.bottom, 'gap below the avatar').toBeGreaterThan(border);
   });
 
   it('shows the initials of everyone without a picture', async () => {
