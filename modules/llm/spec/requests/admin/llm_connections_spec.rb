@@ -181,17 +181,23 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
           expect(response.body).not_to include("sk-original")
         end
 
-        it "marks the stored key in the field itself" do
+        it "shows a disabled masked field instead of the editable one" do
           get llm_connection_path
 
-          expect(page).to have_css("#{api_key_field}[placeholder='API key stored']", visible: :all)
-          expect(page).to have_no_css("#{api_key_field}[value]", visible: :all)
+          expect(page).to have_no_css(api_key_field, visible: :all)
+          expect(page).to have_no_css("[placeholder='API key stored']", visible: :all)
+          expect(page).to have_css("input[name='saved_api_key'][disabled][value='*********']", visible: :all)
         end
 
-        it "offers to remove the key beside the field" do
+        it "offers a trash icon button that opens the delete dialog" do
           get llm_connection_path
 
-          expect(page).to have_css(remove_api_key, text: "Remove key", visible: :all)
+          expect(page).to have_css(
+            "#{remove_api_key}[href='#{delete_api_key_dialog_llm_connection_path}'][data-controller='async-dialog']",
+            visible: :all
+          )
+          expect(page).to have_css("#{remove_api_key} .octicon-trash", visible: :all)
+          expect(page).to have_css("tool-tip", text: "Remove key", visible: :all)
         end
       end
 

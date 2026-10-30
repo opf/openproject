@@ -123,7 +123,7 @@ RSpec.describe "LLM connection administration",
     it "removes the key from beside the field" do
       visit llm_connection_path
 
-      expect(page).to have_field("API key", placeholder: "API key stored")
+      expect(page).to have_field("saved_api_key", disabled: true, with: "*********")
 
       find_test_selector("llm-connection--remove-api-key").click
 
