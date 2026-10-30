@@ -40,7 +40,7 @@
             name="display_mode_switch">
           <svg op-group-icon size="small" [attr.icon-title]="text.label_group_by"></svg>
           <span [textContent]="text.label_group_by"></span>
-          <select (change)="updateGroup($event.target.value)"
+          <select #groupSelect (change)="updateGroup(groupSelect.value)"
             id="selected_grouping"
             name="selected_grouping"
             class="form--select form--inline-select option-label--select">

@@ -20,7 +20,7 @@
       <div
         class="grid--area-content widget-box"
         cdkDrag
-        attr.data-test-selector="grid-widget-{{area.widget?.identifier}}"
+        [attr.data-test-selector]="'grid-widget-' + area.widget.identifier"
         (cdkDragStarted)="drag.start(area)"
         (cdkDragDropped)="drag.drop()"
         [cdkDragDisabled]="isMobileDevice || !drag.isDraggable">

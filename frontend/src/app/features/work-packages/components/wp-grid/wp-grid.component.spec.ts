@@ -25,7 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Injector, NO_ERRORS_SCHEMA, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Injector, NgModule, NO_ERRORS_SCHEMA, signal } from '@angular/core';
+import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of, Subject } from 'rxjs';
@@ -60,28 +62,44 @@ class GridHostComponent {
   configuration = new WorkPackageTableConfiguration(this.tableConfiguration);
 }
 
+@NgModule({
+  declarations: [GridHostComponent],
+  imports: [OpenprojectWorkPackagesModule],
+})
+class GridHostModule {}
+
 describe('WorkPackagesGridComponent lifetime', () => {
   let fixture:ComponentFixture<GridHostComponent>;
   let updates:Subject<number>;
   let updateCount:number;
   let resolveReady:() => void;
+  let ready:Promise<void>;
   let current:{ mode:HighlightingMode };
   let component:WorkPackagesGridComponent;
 
   beforeEach(async () => {
+    vi.spyOn(OpenprojectWorkPackagesModule, 'bootstrapAttributeGroups').mockImplementation(() => undefined);
+    TestBed.overrideModule(OpenprojectWorkPackagesModule, {
+      set: {
+        imports: [CommonModule],
+        declarations: [WorkPackagesGridComponent, WorkPackagesTableComponent],
+        exports: [WorkPackagesGridComponent, WorkPackagesTableComponent],
+        providers: [],
+        schemas: [NO_ERRORS_SCHEMA],
+      },
+    });
     updates = new Subject<number>();
     updateCount = 0;
-    const ready = new Promise<void>((resolve) => { resolveReady = resolve; });
+    ready = new Promise<void>((resolve) => { resolveReady = resolve; });
     current = { mode: 'none' };
     TestBed.overrideComponent(WorkPackagesGridComponent, {
       add: { providers: [{
         provide: WorkPackageViewHighlightingService,
-        useValue: { current, updates$: () => updates, onReady: () => ready },
+        useFactory: () => ({ current, updates$: () => updates, onReady: () => ready }),
       }] },
     });
     await TestBed.configureTestingModule({
-      declarations: [WorkPackagesGridComponent, WorkPackagesTableComponent, GridHostComponent],
-      schemas: [NO_ERRORS_SCHEMA],
+      imports: [GridHostModule],
       providers: [
         ...harnessProviders(new FakeDragAndDropService(), { workPackages: [] }),
         WorkPackageViewSumService,
@@ -100,6 +118,10 @@ describe('WorkPackagesGridComponent lifetime', () => {
     fixture = TestBed.createComponent(GridHostComponent);
     fixture.detectChanges();
     component = fixture.debugElement.query(By.directive(WorkPackagesGridComponent)).componentInstance as WorkPackagesGridComponent;
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   function changeMode(mode:HighlightingMode) {

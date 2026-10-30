@@ -62,7 +62,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { WorkPackageTimelineTableController } from 'core-app/features/work-packages/components/wp-table/timeline/container/wp-timeline-container.directive';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
+import { WorkPackageStateLinkEvent, WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 import { WorkPackageViewBaseService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-base.service';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
@@ -274,7 +274,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
 
   const outputs:WorkPackageViewOutputs = {
     itemClicked: new EventEmitter<{ workPackageId:string, double:boolean }>(),
-    stateLinkClicked: new EventEmitter<{ workPackageId:string, requestedState:string }>(),
+    stateLinkClicked: new EventEmitter<WorkPackageStateLinkEvent>(),
   };
   options.beforeAttach?.(injector);
   new TableHandlerRegistry(injector).attachTo({ workPackageTable: table, ...outputs });
