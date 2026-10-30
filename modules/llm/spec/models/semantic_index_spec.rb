@@ -106,6 +106,23 @@ RSpec.describe SemanticIndex do
     end
   end
 
+  describe "#stop_indexing!" do
+    let(:semantic_index) { create(:semantic_index, state: "indexing", error_message: "Some Error") }
+
+    it "returns to not indexed and clears the error" do
+      semantic_index.stop_indexing!
+
+      expect(semantic_index.reload).to have_attributes(state: "not_indexed", error_message: nil)
+    end
+
+    it "refuses unless indexing" do
+      semantic_index.update!(state: "ready")
+
+      expect { semantic_index.stop_indexing! }.to raise_error(SemanticIndex::InvalidTransitionError)
+      expect(semantic_index.reload).to be_ready
+    end
+  end
+
   describe "#active?" do
     let(:semantic_index) { create(:semantic_index, state: "ready") }
 

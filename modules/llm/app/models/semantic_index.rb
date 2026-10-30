@@ -85,6 +85,10 @@ class SemanticIndex < ApplicationRecord
     end
   end
 
+  def stop_indexing!
+    transition_from_indexing!(state: :not_indexed, error_message: nil)
+  end
+
   def finish_indexing!
     transition_from_indexing!(state: :ready)
   end
