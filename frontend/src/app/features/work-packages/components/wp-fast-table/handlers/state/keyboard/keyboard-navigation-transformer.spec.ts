@@ -495,19 +495,31 @@ describe('KeyboardNavigationTransformer', () => {
     });
   });
 
-  it('focus moving onto an inner control from inside the table stays there', async () => {
+  it('focus moving onto an inner control adopts its cell without moving focus', async () => {
     const table = await mount({
       workPackages: [{ id: '1', children: [{ id: '2' }] }, { id: '2', ancestors: [{ id: '1' }] }],
       showHierarchies: true,
     });
     const toggle = table.row('1').querySelector<HTMLElement>('.wp-table--hierarchy-indicator')!;
     cell(table.row('2'), 0).focus();
-    const position = navigation(table).position;
-
     toggle.focus();
 
     expect(toggle).toHaveFocus();
-    expect(navigation(table).position).toEqual(position);
+    expect(navigation(table).position).toEqual(navigation(table).positionOfCell(toggle));
+  });
+
+  it.each(['row', 'cell'])('Tab into a control preserves its %s walk origin', async (entry) => {
+    const table = await mount({ configuration: { actionsColumnEnabled: true } });
+    const link = within(table.row('1')).getByRole('link', { name: 'js.label_open_context_menu' });
+    const originElement = entry === 'row' ? table.row('1') : link.closest<HTMLElement>('td')!;
+    originElement.focus();
+    const origin = navigation(table).position;
+
+    await userEvent.tab();
+
+    expect(link).toHaveFocus();
+    expect(navigation(table).position).toEqual(origin);
+    expect(navigation(table).originForControl(link)).toEqual(origin);
   });
 
   it('focus from a pointer press on an inner control stays there until the press ends', async () => {
@@ -708,6 +720,20 @@ describe('KeyboardNavigationTransformer', () => {
       navigation(table).returnFocus(moved);
 
       expect(document.body).toHaveFocus();
+    });
+
+    it('does not restore an old menu origin after another cell received focus and blurred', async () => {
+      const table = await mount();
+      const menuItem = visitMenu(table);
+      const newerCell = cell(table.row('3'), 1);
+      newerCell.focus();
+      newerCell.blur();
+      menuItem.remove();
+
+      navigation(table).returnFocusFromMenu(origin);
+
+      expect(document.body).toHaveFocus();
+      expect(navigation(table).position).toEqual(navigation(table).positionOfCell(newerCell));
     });
 
     it('returns to the recovered position when a render removed the origin row', async () => {

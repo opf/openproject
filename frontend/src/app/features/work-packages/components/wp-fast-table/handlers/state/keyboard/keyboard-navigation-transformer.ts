@@ -452,6 +452,16 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
       return;
     }
 
+    if (!fromOutside && !this.table.editing.owns(target)) {
+      this.interaction.reconcileWalk();
+      const origin = this.interaction.originForControl(target);
+      if (origin) {
+        this.current = origin;
+        this.userPosition = origin;
+      }
+      return;
+    }
+
     const enclosing = this.pointerActive || !fromOutside ? null : this.enclosingPositionOf(target);
     if (enclosing) {
       this.moveFocusTo(enclosing);
