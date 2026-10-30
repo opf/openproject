@@ -44,6 +44,8 @@ module WorkPackageTypes
 
       def perform(*)
         with_layout_lock(form_configuration) { perform_locked }
+      rescue ActiveRecord::ActiveRecordError
+        failure_with_message(I18n.t("types.edit.form_configuration.save_failed"))
       end
 
       private

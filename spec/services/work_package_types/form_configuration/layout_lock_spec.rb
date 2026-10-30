@@ -75,6 +75,36 @@ RSpec.describe WorkPackageTypes::FormConfiguration::LayoutLock, with_ee: %i[edit
     expect(details.reload.label).to eq("Details")
   end
 
+  describe "a database error under the lock" do
+    def delete_group(form_configuration)
+      WorkPackageTypes::FormConfigurationGroups::DeleteService
+        .new(user:, form_configuration:, group_key: "Other").call
+    end
+
+    before { allow(OpenProject.logger).to receive(:error) }
+
+    it "is logged and re-raised", :aggregate_failures do
+      host = Class.new { include WorkPackageTypes::FormConfiguration::LayoutLock }.new
+      allow(OpenProject::Mutex).to receive(:with_advisory_lock_transaction).and_raise(ActiveRecord::StatementInvalid, "boom")
+
+      expect { host.send(:with_layout_lock, form) { ServiceResult.success } }
+        .to raise_error(ActiveRecord::StatementInvalid, "boom")
+      expect(OpenProject.logger).to have_received(:error)
+        .with(instance_of(ActiveRecord::StatementInvalid),
+              reference: :form_configuration_layout,
+              form_configuration_id: form.id)
+    end
+
+    it "is reported as a failure when the form was deleted in the meantime", :aggregate_failures do
+      FormConfiguration.where(id: form.id).delete_all
+
+      call = delete_group(form)
+
+      expect(call).to be_failure
+      expect(call.errors.full_messages.to_sentence).to eq(I18n.t("types.edit.form_configuration.save_failed"))
+    end
+  end
+
   {
     "creating a group" => lambda { |form, user|
       WorkPackageTypes::FormConfigurationGroups::CreateService
@@ -87,6 +117,10 @@ RSpec.describe WorkPackageTypes::FormConfiguration::LayoutLock, with_ee: %i[edit
     "removing a row" => lambda { |form, user|
       WorkPackageTypes::FormConfigurationRows::DeleteService
         .new(user:, form_configuration: form, row_key: "priority").call
+    },
+    "renaming a group" => lambda { |form, user|
+      WorkPackageTypes::FormConfigurationGroups::UpdateService
+        .new(user:, form_configuration: form, group_key: "Details").call(name: "Specifics")
     }
   }.each do |description, writer|
     it "locks when #{description}" do
@@ -95,6 +129,16 @@ RSpec.describe WorkPackageTypes::FormConfiguration::LayoutLock, with_ee: %i[edit
       expect(writer.call(form, user)).to be_success
 
       expect(OpenProject::Mutex).to have_received(:with_advisory_lock_transaction).with(form, "layout")
+    end
+
+    it "reports a layout lock failure when #{description}", :aggregate_failures do
+      allow(OpenProject::Mutex).to receive(:with_advisory_lock_transaction).and_raise(ActiveRecord::StatementInvalid, "boom")
+      allow(OpenProject.logger).to receive(:error)
+
+      call = writer.call(form, user)
+
+      expect(call).to be_failure
+      expect(call.errors.full_messages.to_sentence).to eq(I18n.t("types.edit.form_configuration.save_failed"))
     end
   end
 end

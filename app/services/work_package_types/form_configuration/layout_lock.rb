@@ -47,6 +47,9 @@ module WorkPackageTypes
         end
 
         result
+      rescue ActiveRecord::ActiveRecordError => e
+        OpenProject.logger.error(e, reference: :form_configuration_layout, form_configuration_id: form_configuration.id)
+        raise
       end
     end
   end
