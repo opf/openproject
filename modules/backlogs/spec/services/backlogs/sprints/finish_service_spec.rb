@@ -116,6 +116,16 @@ RSpec.describe Backlogs::Sprints::FinishService do
         expect(sprint.reload).to be_completed
         expect(open_wp.reload).to have_attributes(sprint: target_sprint)
       end
+
+      # The burndown measures the sprint up to completed_at. Were that stamped once the moves are
+      # done, the work would already have left and every finished sprint would report nothing
+      # remaining, whatever it actually finished with. Deliberately not frozen in time: the
+      # ordering is what is under test.
+      it "records the completion before the work leaves the sprint" do
+        expect(result).to be_success
+
+        expect(sprint.reload.completed_at).to be < open_wp.reload.journals.last.created_at
+      end
     end
 
     context "when specifying a target sprint not shared with the project" do
