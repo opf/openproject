@@ -49,7 +49,7 @@ module Meetings
           readonly: !edit_enabled? || @meeting.draft?,
           disabled: !edit_enabled? || @meeting.draft?,
           button_arguments: {
-            title: t("label_meeting_state"),
+            description: t("label_meeting_state"),
             size: @size
           },
           menu_arguments: { size: :small }

@@ -156,7 +156,7 @@ module OpPrimer
             "Milestones grouped by owner."
           end
           header.with_menu do |menu|
-            menu.with_show_button(scheme: :primary, aria: { label: "Add delivery item" }) do |button|
+            menu.with_show_button(scheme: :primary) do |button|
               button.with_leading_visual_icon(icon: :plus)
               "Add item"
             end
