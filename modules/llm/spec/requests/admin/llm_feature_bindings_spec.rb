@@ -138,6 +138,15 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         expect(page).to have_css("[data-test-selector='llm-settings--tabs'] a[href='#{llm_feature_bindings_path}']")
       end
 
+      it "labels the model options with the model name and submits the external id" do
+        connection.models.find_by!(external_id: "qwen3.6-27b").update!(display_name: "Qwen 3.6")
+
+        get llm_feature_bindings_path
+
+        items = page.find("form[action='#{llm_feature_binding_path(:description_assistant)}'] opce-autocompleter")["data-items"]
+        expect(JSON.parse(items)).to include(a_hash_including("id" => "qwen3.6-27b", "name" => "Qwen 3.6"))
+      end
+
       it "names the default model a feature inherits" do
         default = connection.models.find_by!(external_id: "qwen3.6-27b")
         default.update!(display_name: "Qwen 3.6")
