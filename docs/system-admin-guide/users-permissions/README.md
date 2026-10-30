@@ -23,3 +23,44 @@ In this section of the System Administration guide you can learn how to manage u
 | [User visibility](user-visibility)         | Understand which users and groups a user can see.            |
 | [Permissions report](permissions-report)   | View and edit permissions assigned to currently existing roles. |
 | [Avatars](avatars)                         | Activate / deactivate user avatars (profile pictures).       |
+
+## User lifecycle
+
+The following diagram shows the lifecycle of a user in OpenProject.
+
+```mermaid
+---
+title: OpenProject user lifecycle
+---
+%%{init: {'theme':'neutral'}}%%
+
+stateDiagram-v2
+  direction TB
+  
+  [*] --> Invited: Project invitation
+  [*] --> Registered: Self-registration
+  [*] --> Active: Automatic activation, SSO, or LDAP sync
+
+  Invited --> Active
+  Registered --> Active
+
+  Active --> Blocked: Too many failed logins
+  Blocked --> Active
+  Blocked --> Locked: Admin
+  Blocked --> Deleted
+
+  Active --> Locked: Admin
+  Locked --> Active
+  Locked --> Deleted
+
+  Invited --> Deleted: Admin deletion
+  Registered --> Deleted: Admin deletion
+  Active --> Deleted: Admin/user deletion
+  Locked --> Deleted: Admin deletion
+
+  Registered: Registered¹
+  Deleted: Deleted²
+```
+
+¹ Requires the [self-registration setting](users/#create-user-via-self-registration)
+² Requires the [user or admin deletion setting](users/#delete-users)
