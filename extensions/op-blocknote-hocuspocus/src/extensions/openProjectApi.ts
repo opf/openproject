@@ -38,6 +38,7 @@ import { TokenExpired, TokenExpiryMissing, unauthorized } from "../closeEvents";
 import { decryptAndValidateToken } from "../services/tokenValidationService";
 import type { ApiResponseDocument } from "../types";
 import { fetchResource } from "../services/resourceService";
+import { loggableUrl, printLog } from "../logger";
 
 export const editorSchema = BlockNoteSchema.create().extend({
   blockSpecs: {
@@ -47,10 +48,6 @@ export const editorSchema = BlockNoteSchema.create().extend({
     openProjectWorkPackageInline: openProjectWorkPackageStaticInlineSpec,
   },
 });
-
-function printLog(message:string) {
-  console.log(`[${new Date().toISOString()}] ${message}`);
-}
 
 export function createEditor() {
   return ServerBlockNoteEditor.create({ schema: editorSchema });
@@ -113,7 +110,7 @@ export class OpenProjectApi implements Extension {
     const response = await fetchResource(resourceUrl, data.context.token);
 
     if (response.status != 200) {
-      console.warn(`Error fetching document (${response.status}: ${response.statusText})`);
+      printLog(`[onLoadDocument] Error fetching ${loggableUrl(resourceUrl)} (${response.status}: ${response.statusText})`);
       return;
     }
 
@@ -133,11 +130,11 @@ export class OpenProjectApi implements Extension {
     const { resourceUrl, readonly } = data.lastContext;
 
     if (!resourceUrl) {
-      console.warn("Missing parameters in context. Skipping store.");
+      printLog("[onStoreDocument] Missing parameters in context. Skipping store.");
       return;
     }
     if (readonly) {
-      console.warn("Readonly user cannot make requests to store the document");
+      printLog(`[onStoreDocument] Readonly user cannot store ${loggableUrl(resourceUrl)}`);
       return;
     }
 
@@ -160,7 +157,7 @@ export class OpenProjectApi implements Extension {
     });
 
     if (response.status != 200) {
-      console.warn(`Error storing document (${response.status}: ${response.statusText})`);
+      printLog(`[onStoreDocument] Error storing ${loggableUrl(resourceUrl)} (${response.status}: ${response.statusText})`);
       return;
     }
 
@@ -201,7 +198,7 @@ export class OpenProjectApi implements Extension {
         connection.context.readonly = isReadOnly;
       }
 
-      printLog(`[onTokenSync] Resource: ${resourceUrl} Readonly: ${result.readonly}`);
+      printLog(`[onTokenSync] Resource: ${loggableUrl(resourceUrl)} Readonly: ${result.readonly}`);
     } catch (error) {
       // Explicitly close connection on validation failure
       const reason = error instanceof Error ? error.message : "Token sync failed";

@@ -25,6 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { randomUUID } from "node:crypto";
+import { loggableUrl, printLog } from "../logger";
+
 const OPENPROJECT_URL = process.env.OPENPROJECT_URL?.trim() || null;
 const OPENPROJECT_HTTPS = process.env.OPENPROJECT_HTTPS?.trim() === 'true';
 
@@ -41,10 +44,14 @@ if (OPENPROJECT_HTTPS) {
   console.log(`using OPENPROJECT_HTTPS: ${OPENPROJECT_HTTPS}`);
 }
 
+const UNREACHABLE_HINT =
+  "Hint: if OpenProject is not reachable from hocuspocus under this URL, configure OPENPROJECT_URL (see README).";
+const ERROR_BODY_MAX_LENGTH = 2_000;
+
 /**
  * Fetches an OpenProject resource while automatically adjusting request URL and host header
  * based on the value of OPENPROJECT_URL in the environment.
- * 
+ *
  * @param resourceUrl URL of OpenProject resource to fetch
  * @param oauthToken OAuth Bearer token to authenticate with
  * @param override Override request init params (e.g. method, headers)
@@ -55,9 +62,11 @@ export async function fetchResource(
   oauthToken: string,
   override?: RequestInit
 ): Promise<Response> {
+  const requestId = randomUUID();
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     "Authorization": `Bearer ${oauthToken}`,
+    "X-Request-Id": requestId,
     ...(OPENPROJECT_URL && OPENPROJECT_HTTPS && { "X-Forwarded-Proto": "https" })
   };
   const url = overrideUrl(resourceUrl);
@@ -67,9 +76,52 @@ export async function fetchResource(
     ...override
   }
 
-  console.log(`[${new Date().toISOString()}] ${init.method} ${url}`);
+  const target = `${init.method} ${loggableUrl(url)} request_id=${requestId}`;
+  const startedAt = performance.now();
+  const elapsed = () => Math.round(performance.now() - startedAt);
 
-  return fetch(url, init);
+  try {
+    const response = await fetch(url, init);
+    const errorDetails = response.ok ? "" : ` ${await describeErrorResponse(response)}`;
+    printLog(`${target} -> ${response.status} (${elapsed()}ms)${errorDetails}`);
+    return response;
+  } catch (error) {
+    printLog(`${target} failed after ${elapsed()}ms: ${describeFetchError(error)}`);
+    printLog(UNREACHABLE_HINT);
+    throw error;
+  }
+}
+
+export async function describeErrorResponse(response: Response): Promise<string> {
+  try {
+    const body = (await response.clone().text()).replace(/\s+/g, " ").trim();
+    return body ? truncate(body, ERROR_BODY_MAX_LENGTH) : "(empty body)";
+  } catch {
+    return "(unreadable body)";
+  }
+}
+
+function truncate(text: string, maxLength: number): string {
+  return text.length > maxLength ? `${text.slice(0, maxLength)}…` : text;
+}
+
+export function describeFetchError(error: unknown): string {
+  if (!(error instanceof Error)) {
+    return String(error);
+  }
+
+  const cause = error.cause as (NodeJS.ErrnoException & { address?: string, port?: number }) | undefined;
+  if (!(cause instanceof Error)) {
+    return `${error.name}: ${error.message}`;
+  }
+
+  const details = [
+    cause.code,
+    cause.syscall,
+    cause.address && `${cause.address}:${cause.port}`,
+  ].filter((detail) => detail && !cause.message.includes(detail));
+
+  return `${error.message} (${cause.message}${details.length ? `; ${details.join(" ")}` : ""})`;
 }
 
 /**
