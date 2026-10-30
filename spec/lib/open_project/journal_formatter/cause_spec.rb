@@ -1141,6 +1141,29 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
+  context "when the change came in by email" do
+    subject(:cause) { { "type" => "email", "sender_address" => "jane@customer.example" } }
+
+    it { expect(cause).to render_html_variant("<strong>Via email</strong> from jane@customer.example") }
+    it { expect(cause).to render_raw_variant("Via email from jane@customer.example") }
+
+    context "with an apostrophe in the sender address" do
+      subject(:cause) { { "type" => "email", "sender_address" => "o'brien@customer.example" } }
+
+      it { expect(cause).to render_html_variant("<strong>Via email</strong> from o&#39;brien@customer.example") }
+      it { expect(cause).to render_raw_variant("Via email from o'brien@customer.example") }
+    end
+
+    context "with markup in the sender address" do
+      subject(:cause) { { "type" => "email", "sender_address" => "<script>alert('xss')</script>@customer.example" } }
+
+      it "escapes it when rendering HTML", :aggregate_failures do
+        expect(cause).to render_html_variant(a_string_including("&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;"))
+        expect(cause).not_to render_html_variant(a_string_including("<script>"))
+      end
+    end
+  end
+
   context "when the change was caused by adding the work package to a meeting" do
     shared_let(:meeting) { create(:meeting, title: "Weekly sync") }
     subject(:cause) do
