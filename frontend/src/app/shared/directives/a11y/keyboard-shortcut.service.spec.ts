@@ -37,6 +37,13 @@ import { KeyboardShortcutService } from './keyboard-shortcut.service';
 describe('KeyboardShortcutService', () => {
   let service:KeyboardShortcutService;
   const harnesses:TableHarness[] = [];
+  const outsideButtons:HTMLButtonElement[] = [];
+
+  const outsideButton = () => {
+    const button = document.createElement('button');
+    outsideButtons.push(button);
+    return button;
+  };
 
   const mountTable = async (ids:string[], options:Partial<TableHarnessOptions> = {}) => {
     const table = buildTable({
@@ -65,6 +72,7 @@ describe('KeyboardShortcutService', () => {
 
   afterEach(async () => {
     await Promise.all(harnesses.splice(0).map((table) => table.destroy()));
+    outsideButtons.splice(0).forEach((button) => button.remove());
   });
 
   describe('focusNextItem', () => {
@@ -79,10 +87,48 @@ describe('KeyboardShortcutService', () => {
       expect(second.row('5')).toHaveAttribute('tabindex', '0');
     });
 
-    it('starts at the first row of the first table when focus is outside every table', async () => {
+    it('starts at the first row of the first table when nothing holds focus', async () => {
       const first = await mountTable(['1', '2', '3']);
       await mountTable(['4', '5', '6']);
       document.body.focus();
+
+      service.focusNextItem();
+
+      expect(first.row('1')).toHaveFocus();
+    });
+
+    it('enters the table that follows focus outside every table', async () => {
+      const first = await mountTable(['1', '2', '3']);
+      const second = await mountTable(['4', '5', '6']);
+      const between = outsideButton();
+      first.tbody.closest('table')!.after(between);
+      between.focus();
+
+      service.focusNextItem();
+
+      expect(second.row('4')).toHaveFocus();
+    });
+
+    it('passes over a hidden table that follows focus', async () => {
+      const first = await mountTable(['1', '2', '3']);
+      const hidden = await mountTable(['4', '5', '6']);
+      const third = await mountTable(['7', '8', '9']);
+      hidden.tbody.closest('table')!.style.display = 'none';
+      const between = outsideButton();
+      first.tbody.closest('table')!.after(between);
+      between.focus();
+
+      service.focusNextItem();
+
+      expect(third.row('7')).toHaveFocus();
+    });
+
+    it('falls back to the first table when no table follows focus', async () => {
+      const first = await mountTable(['1', '2', '3']);
+      await mountTable(['4', '5', '6']);
+      const after = outsideButton();
+      document.body.append(after);
+      after.focus();
 
       service.focusNextItem();
 
@@ -177,6 +223,30 @@ describe('KeyboardShortcutService', () => {
       service.focusPrevItem();
 
       expect(second.row('5')).toHaveFocus();
+    });
+
+    it('enters the table that precedes focus outside every table at its last row', async () => {
+      const first = await mountTable(['1', '2', '3']);
+      await mountTable(['4', '5', '6']);
+      const between = outsideButton();
+      first.tbody.closest('table')!.after(between);
+      between.focus();
+
+      service.focusPrevItem();
+
+      expect(first.row('3')).toHaveFocus();
+    });
+
+    it('enters the last row of the nearest table above focus after every table', async () => {
+      await mountTable(['1', '2', '3']);
+      const second = await mountTable(['4', '5', '6']);
+      const after = outsideButton();
+      document.body.append(after);
+      after.focus();
+
+      service.focusPrevItem();
+
+      expect(second.row('6')).toHaveFocus();
     });
   });
 });
