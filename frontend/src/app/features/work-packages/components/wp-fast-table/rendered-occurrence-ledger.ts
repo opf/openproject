@@ -143,10 +143,12 @@ export class RenderedOccurrenceLedger {
 
   commit(draft:RenderDraft):void {
     this.records = draft.occurrences.map((occ) => ({ ...occ }));
-    this.byKeyIndex = new Map(this.records.map((record, index) => [record.key, index]));
-    this.keyByElement = new Map(this.records
-      .filter((record) => record.element !== null)
-      .map((record) => [record.element!, record.key]));
+    this.byKeyIndex = new Map();
+    this.keyByElement = new Map();
+    this.records.forEach((record, index) => {
+      this.byKeyIndex.set(record.key, index);
+      if (record.element) this.keyByElement.set(record.element, record.key);
+    });
     this.currentGeneration += 1;
   }
 
