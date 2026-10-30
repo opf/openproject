@@ -14,7 +14,7 @@ const documentWithManyWorkPackages = [
   card(123),
   card(456),
   { type: 'paragraph', content: [chip(789), ' and ', chip(999), ' and ', chip(456)] },
-  card(321),
+  card(654),
 ];
 
 function requestedIds(url:string):string[] {
@@ -33,11 +33,11 @@ describe('Loading the work packages of a document', () => {
       await expect.element(page.getByText('Add dark mode').first()).toBeVisible();
       await expect.element(page.getByText('Semantic ID work package')).toBeVisible();
       await expect.element(page.getByText('Freshly created work package')).toBeVisible();
-      await expect.element(page.getByText('#321', { exact: true })).toBeVisible();
+      await expect.element(page.getByText('#654', { exact: true })).toBeVisible();
     });
 
     expect(requests).toHaveLength(1);
-    expect(requestedIds(requests[0]).sort()).toEqual(['123', '321', '456', '789', '999']);
+    expect(requestedIds(requests[0]).sort()).toEqual(['123', '456', '654', '789', '999']);
   });
 
   it('shows the work packages the user cannot see as unavailable and still loads the others together', async () => {
@@ -72,6 +72,6 @@ describe('Loading the work packages of a document', () => {
     await expect.element(page.getByText('#123', { exact: true })).toBeVisible();
     await expect.element(page.getByText('Semantic ID work package')).toBeVisible();
     await expect.element(page.getByText('Freshly created work package')).toBeVisible();
-    await expect.element(page.getByText('#321', { exact: true })).toBeVisible();
+    await expect.element(page.getByText('#654', { exact: true })).toBeVisible();
   });
 });
