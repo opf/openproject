@@ -66,6 +66,7 @@ Write self-explanatory code instead of comments.
 - More than a handful of comments in a file is a smell: extract better-named methods,
   variables, and objects so the code explains itself.
 - When in doubt, delete the comment rather than shortening it.
+- Use en-us spelling.
 
 ## Task-Specific Documentation
 
