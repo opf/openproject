@@ -1,5 +1,5 @@
 export const attributeInlineConfig = {
-  type: 'openProjectWorkPackageAttribute' as const,
+  type: 'openProjectWorkPackageAttributeInline' as const,
   propSchema: {
     wpid: { default: '' },
     displayId: { default: '', type: 'string' },

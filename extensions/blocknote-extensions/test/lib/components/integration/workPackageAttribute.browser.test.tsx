@@ -15,7 +15,7 @@ interface InlineNode { type:string, props?:Record<string, unknown> }
 function attributeProps(editor:{ document:{ content?:InlineNode[] }[] }) {
   return editor.document
     .flatMap((block) => block.content ?? [])
-    .filter((node) => node.type === 'openProjectWorkPackageAttribute')
+    .filter((node) => node.type === 'openProjectWorkPackageAttributeInline')
     .map((node) => node.props);
 }
 
@@ -36,7 +36,7 @@ function renderAttribute(attribute:string, display:string, wpid = '321') {
   renderEditor({
     initialContent: [{
       type: 'paragraph',
-      content: ['See ', { type: 'openProjectWorkPackageAttribute', props: { wpid, displayId: 'PROJ-321', attribute, display } }],
+      content: ['See ', { type: 'openProjectWorkPackageAttributeInline', props: { wpid, displayId: 'PROJ-321', attribute, display } }],
     }],
   });
 }
@@ -69,7 +69,7 @@ describe('Inline work package attribute', () => {
 
   it('loads a work package and its schema in a single request for all of its attributes', async () => {
     const attribute = (name:string) =>
-      ({ type: 'openProjectWorkPackageAttribute', props: { wpid: '321', displayId: 'PROJ-321', attribute: name, display: 'value' } });
+      ({ type: 'openProjectWorkPackageAttributeInline', props: { wpid: '321', displayId: 'PROJ-321', attribute: name, display: 'value' } });
 
     const requested = await requestsDuring('/api/v3/work_packages', async () => {
       renderEditor({

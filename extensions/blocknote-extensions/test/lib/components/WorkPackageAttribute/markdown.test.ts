@@ -5,12 +5,12 @@ import { openProjectWorkPackageAttributeStaticInlineSpec } from '../../../../lib
 
 const schema = BlockNoteSchema.create().extend({
   inlineContentSpecs: {
-    openProjectWorkPackageAttribute: openProjectWorkPackageAttributeStaticInlineSpec,
+    openProjectWorkPackageAttributeInline: openProjectWorkPackageAttributeStaticInlineSpec,
   },
 });
 
 function attribute(attribute:string, display:string) {
-  return { type: 'openProjectWorkPackageAttribute', props: { wpid: '57', displayId: 'PROJ-57', attribute, display } };
+  return { type: 'openProjectWorkPackageAttributeInline', props: { wpid: '57', displayId: 'PROJ-57', attribute, display } };
 }
 
 describe('work package attribute markdown export', () => {
