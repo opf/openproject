@@ -258,8 +258,8 @@ en:
       widgets:
         velocity_chart:
           average:
-            one: "Average of last sprint:"
-            other: "Average of last %{count} sprints:"
+            one: "Average of previous sprint:"
+            other: "Average of previous %{count} sprints:"
           average_legend: "Average"
           committed: "Committed"
           completed: "Completed"

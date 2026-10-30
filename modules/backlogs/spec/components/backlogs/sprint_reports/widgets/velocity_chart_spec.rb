@@ -98,7 +98,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::VelocityChart, type: :component
   end
 
   it "summarizes the average with the number of preceding sprints" do
-    expect(rendered_component).to have_text("Average of last sprint: 14.3 SP", normalize_ws: true)
+    expect(rendered_component).to have_text("Average of previous sprint: 14.3 SP", normalize_ws: true)
   end
 
   context "with a whole-numbered average" do
@@ -114,7 +114,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::VelocityChart, type: :component
     end
 
     it "omits the decimal" do
-      expect(rendered_component).to have_text("Average of last 2 sprints: 8 SP", normalize_ws: true)
+      expect(rendered_component).to have_text("Average of previous 2 sprints: 8 SP", normalize_ws: true)
     end
   end
 

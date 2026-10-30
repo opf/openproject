@@ -83,7 +83,7 @@ RSpec.describe "Velocity chart widget", :js, with_flag: :sprint_reports do
 
     within("#backlogs-sprint-reports-widgets-velocity-chart-box") do
       expect(page).to have_text("Sprint 2: 5 SP")
-      expect(page).to have_text("Average of last sprint: 3 SP")
+      expect(page).to have_text("Average of previous sprint: 3 SP")
       expect(page).to have_css("opce-velocity-chart canvas")
     end
   end
