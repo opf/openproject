@@ -38,7 +38,12 @@ module ITSM
     end
 
     def headers
-      @headers ||= Headers.new(**header_values.transform_values { valid_utf8(it) })
+      @headers ||= begin
+        values = header_values.transform_values { valid_utf8(it) }
+        Headers.new(**values,
+                    to_addresses: email_addresses(values[:to_addresses]),
+                    cc_addresses: email_addresses(values[:cc_addresses]))
+      end
     end
 
     private
@@ -54,8 +59,8 @@ module ITSM
         references: Array(mail.references),
         from_address: Array(mail.from).first,
         from_name:,
-        to_addresses: email_addresses(mail.to),
-        cc_addresses: email_addresses(mail.cc),
+        to_addresses: Array(mail.to),
+        cc_addresses: Array(mail.cc),
         subject: mail.subject
       }
     end
@@ -65,7 +70,7 @@ module ITSM
       field.display_names.first if field.is_a?(Mail::FromField)
     end
 
-    def email_addresses(addresses) = valid_utf8(Array(addresses)).select { EmailValidator.valid?(it) }
+    def email_addresses(addresses) = addresses.select { EmailValidator.valid?(it) }
 
     def content_based_message_id = "#{Digest::SHA256.hexdigest(raw)}@openproject.invalid"
 

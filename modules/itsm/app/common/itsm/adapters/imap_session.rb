@@ -53,6 +53,7 @@ module ITSM
       end
 
       def connect
+        close
         start_deadline
 
         verify_host
@@ -114,6 +115,7 @@ module ITSM
 
       # Net::IMAP has no command timeout yet: https://github.com/ruby/net-imap/issues/278
       def start_deadline
+        @timed_out = false
         @deadline = Concurrent::ScheduledTask.execute(SESSION_TIMEOUT) { time_out }
       end
 

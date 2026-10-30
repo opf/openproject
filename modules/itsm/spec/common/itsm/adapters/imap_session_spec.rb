@@ -145,6 +145,24 @@ RSpec.describe ITSM::Adapters::ImapSession do
         expect(imap_session.connect.failure.code).to eq(:server_error)
       end
     end
+
+    context "when already connected" do
+      let(:first_deadline) { instance_double(Concurrent::ScheduledTask, cancel: true) }
+      let(:second_deadline) { instance_double(Concurrent::ScheduledTask, cancel: true) }
+
+      before do
+        allow(Concurrent::ScheduledTask).to receive(:execute).and_return(first_deadline, second_deadline)
+        imap_session.connect
+      end
+
+      it "closes the previous connection before connecting again" do
+        imap_session.connect
+
+        expect(first_deadline).to have_received(:cancel)
+        expect(imap).to have_received(:logout).once
+        expect(Net::IMAP).to have_received(:new).twice
+      end
+    end
   end
 
   describe "#request" do
