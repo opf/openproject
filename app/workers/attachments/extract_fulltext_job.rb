@@ -42,6 +42,7 @@ module Attachments
 
       return unless OpenProject::Database.allows_tsv?
       return unless @attachment = find_attachment(attachment_id)
+      return if @attachment.prepared?
 
       init
       update
