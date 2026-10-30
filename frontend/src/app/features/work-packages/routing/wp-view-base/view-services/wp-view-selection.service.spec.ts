@@ -147,6 +147,33 @@ describe('WorkPackageViewSelectionService', () => {
     expect(selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);
   });
 
+  it('selectAll with a null anchor selects every selectable occurrence and leaves no anchor', () => {
+    selection.selectAll(rows, null);
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['1', '2', '3', '4']);
+    selection.rangeTo(rows[2], rows);
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['3']);
+  });
+
+  it('selectAll with a null anchor clears an existing anchor', () => {
+    selection.replaceOccurrence(rows[0]);
+    selection.selectAll(rows, null);
+    selection.rangeTo(rows[1], rows);
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['2']);
+  });
+
+  it('selectAll with no anchor argument still falls back to the first selectable', () => {
+    selection.selectAll(rows);
+    selection.rangeTo(rows[1], rows);
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);
+  });
+
+  it('selectAll with a null anchor on a page without selectable rows does nothing', () => {
+    const header:RenderedWorkPackage = { workPackageId: null, classIdentifier: 'group', hidden: false };
+    selection.replaceOccurrence(rows[0]);
+    selection.selectAll([header], null);
+    expect(selection.getSelectedWorkPackageIds()).toEqual(['1']);
+  });
+
   it('ignores group headers and missing gesture occurrences', () => {
     const header:RenderedWorkPackage = { workPackageId: null, classIdentifier: 'group', hidden: false };
     selection.replaceOccurrence(rows[1]);

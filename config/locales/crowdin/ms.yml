@@ -955,8 +955,6 @@ ms:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
             variant:
               must_belong_to_the_type: must be a variant of this type.
-            workflow:
-              not_available_to_this_variant: must be a workflow this project can use.
         user:
           attributes:
             base:
@@ -1563,10 +1561,14 @@ ms:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1718,7 +1720,7 @@ ms:
                   subtitle: 'Involved in imported projects '
                 work_packages:
                   label: Work packages
-                  subtitle: With attachments
+                  subtitle: With attachments and logged time
               title: Import run results
             import_scope:
               button_continue: Continue
@@ -1734,6 +1736,7 @@ ms:
                 issue_details: Issue description, history, comments and attachments
                 issue_ids: Issue identifiers
                 issues: Issues
+                logged_time: Logged time
                 permissions: Permissions
                 project_ids: Project identifiers
                 project_versions: Project versions
@@ -1766,6 +1769,9 @@ ms:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -2224,6 +2230,7 @@ ms:
       schema: Skema
     undisclosed:
       ancestor: Tidak didedahkan - Leluhur tidak kelihatan kerana kurang kebenaran.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Undisclosed - The project is invisible because of lacking permissions.
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
       parent: Undisclosed - The parent is invisible because of lacking permissions.
@@ -3691,6 +3698,7 @@ ms:
       total_percent_complete_mode_changed_to_work_weighted_average: Pakej kerja kanak-kanak tanpa Kerja diabaikan.
       unaccessable_work_package_changed: dengan perubahan pada pakej kerja yang berkaitan
       work_package_children_changed_times: dengan perubahan pada anak %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: Status telah dikemas kini secara automatik oleh pakej kerja pendua %{link}
       work_package_parent_changed_times: dengan perubahan pada induk %{link}
       work_package_parent_deleted: because the parent work package was deleted
@@ -3723,6 +3731,7 @@ ms:
       system_update: 'Kemas kini sistem OpenProject:'
       total_percent_complete_mode_changed_to_simple_average: Pengiraan % Jumlah lengkap sekarang berdasarkan purata mudah hanya % nilai Lengkap.
       total_percent_complete_mode_changed_to_work_weighted_average: Pengiraan % Jumlah lengkap kini ditimbang mengikut Kerja.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'Pakej kerja pendua dikemas kini:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Perubahan telah ditarik balik.
@@ -7207,9 +7216,6 @@ ms:
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
 
           '
-        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
-
-          '
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: Convert
@@ -7536,9 +7542,6 @@ ms:
       note_placeholder: Mengapa anda menetapkan peringatan ini?
       success_deletion_message: Peringatan berjaya dipadamkan.
       success_update_message: Peringatan berjaya dikemas kini.
-    updated_automatically_by_child_changes: '_Dikemas kini secara automatik dengan menukar nilai dalam anak pakej kerja %{child}_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: Tambahkan perhubungan pada pakej kerja lain untuk membuat pautan antara mereka.

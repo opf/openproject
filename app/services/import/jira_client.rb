@@ -64,7 +64,8 @@ module Import
       def initialize(message, status:, response_body:, response_headers:)
         super(message)
         @status = status
-        @response_body = response_body
+        # Net::HTTP returns bodies as BINARY, whatever charset the response declares.
+        @response_body = response_body.to_s.dup.force_encoding(Encoding::UTF_8).scrub
         @response_headers = response_headers.slice(*SAFE_RESPONSE_HEADERS)
       end
 
@@ -426,7 +427,7 @@ module Import
         raise ApiError.new(
           I18n.t("admin.jira.client.#{status}_error", status:, default: :"admin.jira.client.api_error"),
           status:,
-          response_body: response.body.to_s,
+          response_body: response.body,
           response_headers: response.to_hash
         )
       end

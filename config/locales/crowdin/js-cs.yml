@@ -1113,6 +1113,13 @@ cs:
         title: Sdílet pracovní balíček
       table:
         configure_button: Konfigurovat tabulku pracovních balíčků
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabulka s řádky pracovního balíčku a atributy sloupců pracovního balíčku.
         text_inline_edit: Většina buněk v této tabulce jsou tlačítka, která aktivují funkci úpravy inline-editace atributu.
         text_select_hint: Vyberte pole by mělo být otevřeno pomocí kláves "ALT" a šipkami.
