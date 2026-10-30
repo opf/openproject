@@ -3975,6 +3975,7 @@ en:
       comment_retracted: "Comment retracted"
       dates_changed: "Dates changed"
       default_attribute_written: "Read-only attributes written"
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: "Imported"
       meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
