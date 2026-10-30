@@ -173,10 +173,11 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       context "when an API key is stored" do
         let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
 
-        it "says that a key is stored and keeps the field blank" do
+        it "shows no caption and keeps the field blank" do
           get llm_connection_path
 
-          expect(response.body).to include("A key is stored")
+          expect(response.body).not_to include("A key is stored")
+          expect(response.body).not_to include("Leave blank to keep the current key")
           expect(response.body).not_to include("sk-original")
         end
 

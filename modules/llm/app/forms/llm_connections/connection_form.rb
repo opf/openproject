@@ -172,7 +172,7 @@ module LlmConnections
       return I18n.t("admin.llm_connections.form.api_key_caption_env") if read_only?
       return I18n.t("admin.llm_connections.form.api_key_caption_discarded") if model.api_key_changed?
 
-      I18n.t("admin.llm_connections.form.api_key_caption#{'_stored' if model.api_key_stored?}")
+      I18n.t("admin.llm_connections.form.api_key_caption") unless model.api_key_stored?
     end
 
     def api_key_placeholder
