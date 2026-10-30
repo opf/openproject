@@ -70,6 +70,10 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     };
   }
 
+  protected override get rowHeaderColumn():'subject'|'id'|null {
+    return null;
+  }
+
   public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLTableCellElement|null {
     switch (column.id) {
       case internalContextMenuColumn.id:

@@ -40,7 +40,7 @@ RSpec.shared_examples "an embedded keyboard table" do |editable: true, drag_and_
   end
 
   it "exposes one clean Subject row header for each work package" do
-    expect(wp_table.treegrid).to have_selector(:role, "rowheader", count: rows.size)
+    expect(wp_table.treegrid).to have_element(:th, scope: "row", role: "rowheader", count: rows.size)
     rows.each do |work_package|
       expect(wp_table.treegrid).to have_selector(:role, "rowheader", accessible_name: work_package.subject,
                                                                      exact: true, count: 1)

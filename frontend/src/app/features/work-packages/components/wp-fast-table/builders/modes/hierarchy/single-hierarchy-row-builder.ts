@@ -152,7 +152,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
     const hierarchyLevel = level === undefined || null ? ancestors.length : level;
     const hierarchyElement = this.buildHierarchyIndicator(workPackage, row, hierarchyLevel);
 
-    const subjectCell = row.querySelector<HTMLTableCellElement>('td.subject');
+    const subjectCell = Array.from(row.cells).find((cell) => cell.classList.contains('subject'));
     if (!subjectCell) return;
 
     subjectCell.classList.add('-with-hierarchy');

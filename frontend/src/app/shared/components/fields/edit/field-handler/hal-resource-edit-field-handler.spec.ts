@@ -135,7 +135,7 @@ describe('HalResourceEditFieldHandler focus ownership', () => {
   });
 
   it('returns to the origin after an owned overlay closes', () => {
-    const cell = harness.row('1').querySelector<HTMLElement>('td.subject')!;
+    const cell = harness.row('1').querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject')!;
     const origin = harness.table.keyboardNavigation!.positionOfCell(cell)!;
     harness.table.keyboardNavigation!.recordPosition(origin);
     handler.registerOverlay(external);
@@ -148,7 +148,7 @@ describe('HalResourceEditFieldHandler focus ownership', () => {
   });
 
   it('does not return when a foreign overlay owns focus', () => {
-    const cell = harness.row('1').querySelector<HTMLElement>('td.subject')!;
+    const cell = harness.row('1').querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject')!;
     const origin = harness.table.keyboardNavigation!.positionOfCell(cell)!;
     harness.table.keyboardNavigation!.recordPosition(origin);
     external.focus();
@@ -161,7 +161,7 @@ describe('HalResourceEditFieldHandler focus ownership', () => {
   });
 
   it('does not return after focus leaves an owned overlay for an external control', () => {
-    const cell = harness.row('1').querySelector<HTMLElement>('td.subject')!;
+    const cell = harness.row('1').querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject')!;
     const origin = harness.table.keyboardNavigation!.positionOfCell(cell)!;
     harness.table.keyboardNavigation!.recordPosition(origin);
     const overlay = document.createElement('div');

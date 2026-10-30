@@ -352,7 +352,7 @@ describe('Hierarchy indicator text', () => {
   };
 
   const indicator = (harness:TableHarness, workPackageId:string) => harness.row(workPackageId).querySelector<HTMLElement>('.wp-table--hierarchy-span')!;
-  const subjectCell = (harness:TableHarness, workPackageId:string) => harness.row(workPackageId).querySelector<HTMLElement>('td.subject')!;
+  const subjectCell = (harness:TableHarness, workPackageId:string) => harness.row(workPackageId).querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject')!;
   const levelText = (level:string|null) => new RegExp(`(Hierarchy level|leaf at level) ${level}[,.]`);
 
   const geometry = (harness:TableHarness, workPackageId:string) => ({
@@ -378,7 +378,7 @@ describe('Hierarchy indicator text', () => {
 
     expectIdentityAndControls();
     ['1', '2', '3'].forEach((id) => {
-      expect(indicator(harness, id)).toHaveTextContent(levelText(harness.row(id).getAttribute('aria-level')));
+      expect(indicator(harness, id)).toMatchTextContent(levelText(harness.row(id).getAttribute('aria-level')));
     });
     expect(indicator(harness, '3')).toHaveTextContent('Work package leaf at level 3.');
 

@@ -58,7 +58,10 @@ RSpec.describe "Work package table treegrid semantics", :js do
 
     it "updates row headers as columns and saved queries change" do
       wp_table.visit_query(query)
-      expect(wp_table.treegrid).to have_selector(:role, "rowheader", accessible_name: "Alpha row", exact: true, count: 1)
+      expect(wp_table.treegrid).to have_element(:th, scope: "row", role: "rowheader",
+                                                     accessible_name: "Alpha row", exact: true, count: 1)
+      expect(wp_table.treegrid).to have_no_element(:td, role: "rowheader")
+      expect(wp_table.treegrid).to have_no_element(:th, scope: "row", role: "gridcell")
 
       columns = Components::WorkPackages::Columns.new
       columns.remove("Subject")
@@ -84,6 +87,47 @@ RSpec.describe "Work package table treegrid semantics", :js do
       expect(wp_table.treegrid).to have_selector(:role, "rowheader", accessible_name: "Alpha row", exact: true)
 
       expect(page).to be_axe_clean.within(wp_table.axe_scope)
+    end
+
+    it "preserves body cell styling and drop indicators on native row headers" do
+      wp_table.visit_query(query)
+      header = wp_table.treegrid.find(:element, :th, scope: "row", role: "rowheader", accessible_name: "Alpha row")
+      cell = wp_table.row(work_package).find(:element, :td, class: "id", role: "gridcell")
+      properties = %w[font-weight line-height padding-top padding-bottom padding-right vertical-align]
+
+      expect(header[:role]).to be_nil
+      expect(header.style(*properties)).to eq(cell.style(*properties))
+      expect(header.style("line-height", "padding-top", "padding-bottom", "padding-right"))
+        .to eq("line-height" => "24px", "padding-top" => "0px", "padding-bottom" => "0px", "padding-right" => "6px")
+
+      %w[top bottom].each do |position|
+        wp_table.row(work_package).execute_script("this.dataset.dropPosition = arguments[0]", position)
+        properties = %w[background-image background-size background-position]
+        expect(header.style(*properties)).to eq(cell.style(*properties))
+        expect(header.style("background-image")["background-image"]).not_to eq("none")
+      end
+      wp_table.row(work_package).execute_script("delete this.dataset.dropPosition")
+
+      wp_table.focus_row_by_keyboard(work_package)
+      wp_table.press_keys(:enter)
+      wp_table.expect_selected_rows(work_package, among: [work_package])
+      expect(header.style("color")).to eq(cell.style("color"))
+
+      wp_table.press_keys(%i[shift f10])
+      Components::WorkPackages::ContextMenu.new.expect_open
+      expect(header.style("color")).to eq(cell.style("color"))
+      wp_table.press_keys(:escape)
+
+      wp_table.visit_query(id_query)
+      header = wp_table.treegrid.find(:element, :th, scope: "row", role: "rowheader",
+                                                     accessible_name: work_package.reload.display_id.to_s)
+      wp_table.focus_row_by_keyboard(work_package)
+      wp_table.press_keys(:enter)
+      expect(header.find(:link).style("color")).to eq(header.style("color"))
+      wp_table.press_keys(%i[shift f10])
+      Components::WorkPackages::ContextMenu.new.expect_open
+      expect(header.find(:link).style("color")).to eq(header.style("color"))
+      wp_table.press_keys(:escape)
     end
 
     it "updates the committed name after keyboard save and restores it after cancellation" do

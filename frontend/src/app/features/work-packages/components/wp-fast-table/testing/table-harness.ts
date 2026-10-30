@@ -461,7 +461,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
 
     click(workPackageId, init = {}) {
       const row = this.row(workPackageId);
-      const target = row.querySelector('td') ?? row;
+      const target = row.cells[0] ?? row;
       fireEvent.click(target, init);
     },
 

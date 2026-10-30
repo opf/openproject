@@ -120,8 +120,8 @@ describe('CellInteraction', () => {
         }],
       });
       const link = within(table.row('1')).getByRole('link', { name: 'Remove child' });
-      table.table.keyboardNavigation!.focusPosition(positionOf(table, link.closest('td')!));
-      return { table, unlink, link, cell: link.closest('td')! };
+      table.table.keyboardNavigation!.focusPosition(positionOf(table, link.closest('td, th')!));
+      return { table, unlink, link, cell: link.closest('td, th')! };
     };
 
     it('focuses the unlink control on Enter and activates it on a second Enter', async () => {
@@ -663,10 +663,10 @@ describe('CellInteraction', () => {
       configuration: { actionsColumnEnabled: true, contextMenuEnabled: true, dragAndDropEnabled: true },
     });
     const parent = table.row('1');
-    const idLink = parent.querySelector('td.id .inline-edit--container')!.appendChild(document.createElement('a'));
+    const idLink = parent.querySelector(':scope > .wp-table--cell-td.id .inline-edit--container')!.appendChild(document.createElement('a'));
     idLink.href = '/work_packages/1';
     idLink.textContent = '#1';
-    const trigger = parent.querySelector('td.subject .inline-edit--container')!.appendChild(document.createElement('a'));
+    const trigger = parent.querySelector(':scope > .wp-table--cell-td.subject .inline-edit--container')!.appendChild(document.createElement('a'));
     trigger.href = '#';
     trigger.className = 'inline-edit--display-trigger';
     const toggle = within(parent).getByRole('button', { name: /children_expanded/ });

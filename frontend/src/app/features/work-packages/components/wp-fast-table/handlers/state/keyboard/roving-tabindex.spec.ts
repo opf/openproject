@@ -88,7 +88,7 @@ describe('roving tabindex', () => {
 
   const tabbables = (root:HTMLElement) => Array.from(root.querySelectorAll('[tabindex="0"]'));
 
-  const subjectField = (table:TableHarness) => table.row('1').querySelector('td.subject .inline-edit--display-field')!;
+  const subjectField = (table:TableHarness) => table.row('1').querySelector(':scope > .wp-table--cell-td.subject .inline-edit--display-field')!;
 
   afterEach(async () => {
     await harness?.destroy();
@@ -100,7 +100,7 @@ describe('roving tabindex', () => {
       const table = await mount();
       const late = document.createElement('span');
       late.setAttribute('tabindex', '0');
-      table.row('1').querySelector('td.subject')!.appendChild(late);
+      table.row('1').querySelector(':scope > .wp-table--cell-td.subject')!.appendChild(late);
 
       paintRovingTabindex(table.table.scrollContainer, table.row('1'));
 
@@ -113,7 +113,7 @@ describe('roving tabindex', () => {
       editor.className = 'inline-edit--active-field';
       const input = document.createElement('input');
       editor.appendChild(input);
-      table.row('1').querySelector('td.subject')!.appendChild(editor);
+      table.row('1').querySelector(':scope > .wp-table--cell-td.subject')!.appendChild(editor);
       const button = within(table.container).getByRole('button', { name: 'Create new work package' });
 
       paintRovingTabindex(table.table.scrollContainer, table.row('2'), editor);
@@ -201,7 +201,7 @@ describe('roving tabindex', () => {
     });
     harness.injector.get(DisplayFieldService).addFieldType(LateLinkDisplayField, 'text', ['String']);
     await harness.render();
-    const link = harness.row('1').querySelector('td.subject a')!;
+    const link = harness.row('1').querySelector(':scope > .wp-table--cell-td.subject a')!;
 
     await waitFor(() => expect(link).toHaveAttribute('href', '#'));
     expect(link).toHaveAttribute('tabindex', '-1');
@@ -233,7 +233,7 @@ describe('roving tabindex', () => {
     expect(cells.length).toBeGreaterThan(0);
     expect(cells.every((cell) => cell.classList.contains(navigableCellClassName))).toBe(true);
     expect(cells.some((cell) => cell.classList.contains('wp-table--sort-td'))).toBe(false);
-    expect(table.row('1').querySelectorAll('td')).toHaveLength(cells.length + 1);
+    expect(table.row('1').cells).toHaveLength(cells.length + 1);
   });
 
   it('marks the header, totals and context menu cells as navigable', async () => {

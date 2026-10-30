@@ -54,8 +54,9 @@ export class CellBuilder {
     this.fieldRenderer = new DisplayFieldRenderer(this.injector, 'table', { tabbable: false });
   }
 
-  public build(workPackage:WorkPackageResource, column:QueryColumn) {
-    const td = document.createElement('td');
+  public build(workPackage:WorkPackageResource, column:QueryColumn, isRowHeader = false):HTMLTableCellElement {
+    const td = document.createElement(isRowHeader ? 'th' : 'td');
+    if (isRowHeader) td.scope = 'row';
     const attribute = column.id;
     td.classList.add(tdClassName, attribute);
 
@@ -109,7 +110,7 @@ export class CellBuilder {
     if (attribute === 'subject' || attribute === 'id') {
       const name = displayElement.textContent ?? '';
       cell.dataset.rowHeaderName = name;
-      if (cell.getAttribute('role') === 'rowheader') {
+      if (cell.matches('th[scope="row"]')) {
         cell.removeAttribute('aria-labelledby');
         cell.setAttribute('aria-label', name);
       }
