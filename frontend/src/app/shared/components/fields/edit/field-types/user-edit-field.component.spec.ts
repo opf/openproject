@@ -26,6 +26,7 @@
 //++
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { expectTypeOf } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
@@ -48,7 +49,10 @@ import {
   OpEditingPortalHandlerToken,
   OpEditingPortalSchemaToken,
 } from 'core-app/shared/components/fields/edit/edit-field.component';
+import { UserSelection } from 'core-app/shared/components/autocompleter/selection/user-selection';
 import { UserEditFieldComponent } from './user-edit-field.component';
+
+expectTypeOf<UserEditFieldComponent['onSelectionChange']>().parameter(0).toEqualTypeOf<UserSelection>();
 
 @Component({
   imports: [OpenprojectAutocompleterModule, SelectionErrorComponent],
@@ -101,6 +105,14 @@ describe('UserEditFieldComponent', () => {
       fixture.detectChanges();
       expect(screen.getByRole('option', { name: /Ada/ })).toBeTruthy();
     });
+  }
+
+  async function recreateWith(assignee:unknown) {
+    fixture.destroy();
+    resource.assignee = assignee;
+    fixture = TestBed.createComponent(TestUserEditFieldComponent);
+    fixture.detectChanges();
+    await openWithAda();
   }
 
   async function chooseAda() {
@@ -193,6 +205,17 @@ describe('UserEditFieldComponent', () => {
     expect(handler.handleUserSubmit).toHaveBeenCalledOnce();
   });
 
+  it('clears a malformed change from the autocompleter when nothing was selected before', () => {
+    const autocompleter = fixture.debugElement.query(By.directive(UserAutocompleterComponent))
+      .componentInstance as UserAutocompleterComponent;
+
+    autocompleter.changed({ id: '99', name: 99 });
+    fixture.detectChanges();
+
+    expect(autocompleter.model).toBeNull();
+    expect(screen.getByRole('alert')).toBeTruthy();
+  });
+
   it('recovers by choosing the option a malformed change shares its identity with', async () => {
     const autocompleter = fixture.debugElement.query(By.directive(UserAutocompleterComponent))
       .componentInstance as UserAutocompleterComponent;
@@ -209,5 +232,25 @@ describe('UserEditFieldComponent', () => {
     expect(screen.queryByRole('alert')).toBeNull();
     expect(handler.handleUserSubmit).toHaveBeenCalledOnce();
     expect((resource.assignee as HalResource).href).toBe('/api/v3/users/7');
+  });
+
+  it('does not submit when loading options reconciles a link-only value', async () => {
+    await recreateWith({ id: 7, href: '/api/v3/users/7' });
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(handler.handleUserSubmit).not.toHaveBeenCalled();
+    expect(screen.queryByRole('alert')).toBeNull();
+  });
+
+  it('auto-submits null once when the selection is cleared', async () => {
+    await recreateWith({ id: 7, name: 'Ada', href: '/api/v3/users/7' });
+
+    screen.getByRole('button', { name: /clear/i }).click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(handler.handleUserSubmit).toHaveBeenCalledOnce();
+    expect(resource.assignee).toBeNull();
   });
 });

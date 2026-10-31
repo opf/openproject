@@ -26,6 +26,7 @@
 //++
 
 import { ChangeDetectionStrategy, Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { expectTypeOf } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
@@ -46,7 +47,10 @@ import {
   OpEditingPortalHandlerToken,
   OpEditingPortalSchemaToken,
 } from 'core-app/shared/components/fields/edit/edit-field.component';
+import { ProjectSelection } from 'core-app/shared/components/autocompleter/selection/project-selection';
 import { ProjectEditFieldComponent } from './project-edit-field.component';
+
+expectTypeOf<ProjectEditFieldComponent['onSelectionChange']>().parameter(0).toEqualTypeOf<ProjectSelection>();
 
 @Component({
   imports: [OpenprojectAutocompleterModule, SelectionErrorComponent],
@@ -91,8 +95,8 @@ describe('ProjectEditFieldComponent', () => {
     fixture.detectChanges();
   }
 
-  async function configure(options:{ isNew?:boolean; withAllowedValues?:boolean } = {}) {
-    const { isNew = false, withAllowedValues = true } = options;
+  async function configure(options:{ isNew?:boolean; withAllowedValues?:boolean; project?:unknown } = {}) {
+    const { isNew = false, withAllowedValues = true, project = null } = options;
     schema = { name: 'Project', ...(withAllowedValues && { allowedValues }) };
 
     await TestBed.configureTestingModule({
@@ -112,7 +116,7 @@ describe('ProjectEditFieldComponent', () => {
     resource = TestBed.inject(HalResourceService).createHalResource({
       _links: { self: { href: isNew ? null : '/api/v3/work_packages/1' } },
     });
-    resource.project = null;
+    resource.project = project;
     fixture = TestBed.createComponent(TestProjectEditFieldComponent);
     fixture.nativeElement.classList.add('op-wide-autocomplete-wrapper');
     fixture.detectChanges();
@@ -217,6 +221,18 @@ describe('ProjectEditFieldComponent', () => {
       expect(handler.handleUserSubmit).toHaveBeenCalledOnce();
     });
 
+    it('restores the previous project in the autocompleter after a malformed change', () => {
+      const autocompleter = fixture.debugElement.query(By.directive(ProjectAutocompleterComponent))
+        .componentInstance as ProjectAutocompleterComponent;
+      const before = autocompleter.model;
+
+      autocompleter.changed({ id: '99', name: 99 });
+      fixture.detectChanges();
+
+      expect(autocompleter.model).toEqual(before);
+      expect(screen.getByRole('alert')).toBeTruthy();
+    });
+
     it('loads an empty relationship as an empty selection', () => {
       resource.project = { href: null };
       refresh();
@@ -231,6 +247,21 @@ describe('ProjectEditFieldComponent', () => {
       expect(fixture.componentInstance.APIFilters).toEqual([
         { name: 'active', operator: '=', values: ['t'] },
       ]);
+    });
+  });
+
+  describe('with a link-only reference as the initial value', () => {
+    beforeEach(async () => {
+      await configure({ project: { id: 7, href: '/api/v3/projects/7' } });
+      await openWithApollo();
+    });
+
+    it('does not submit when loading options reconciles the value', async () => {
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(handler.handleUserSubmit).not.toHaveBeenCalled();
+      expect(screen.queryByRole('alert')).toBeNull();
     });
   });
 

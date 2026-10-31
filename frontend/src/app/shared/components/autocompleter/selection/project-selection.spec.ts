@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { expectTypeOf } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
@@ -33,10 +34,17 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import {
+  ProjectSelection,
   createProjectSelectionAdapter,
   decodeProjectSelection,
   projectSelectionToResource,
 } from './project-selection';
+import { SelectionAdapter } from './selection-adapter';
+
+expectTypeOf<Date>().not.toExtend<ProjectSelection>();
+expectTypeOf<{ unrelated:true }>().not.toExtend<ProjectSelection>();
+expectTypeOf<{ id:7; name:'Apollo'; href:'/api/v3/projects/7' }[]>().not.toExtend<ProjectSelection>();
+expectTypeOf<SelectionAdapter<ProjectSelection>['setValue']>().parameter(0).toEqualTypeOf<ProjectSelection>();
 
 describe('decodeProjectSelection', () => {
   let halResourceService:HalResourceService;

@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { expectTypeOf } from 'vitest';
 import { Decoder, SelectionAdapter, SelectionIssue, decodeAll } from './selection-adapter';
 
 const decodeNumber:Decoder<number> = (raw) => (
@@ -43,6 +44,11 @@ beforeEach(() => {
 afterEach(() => {
   vi.unstubAllGlobals();
 });
+
+expectTypeOf<SelectionAdapter<number>['setValue']>().parameter(0).toEqualTypeOf<number>();
+expectTypeOf<SelectionAdapter<number>['setValue']>().parameter(0).not.toEqualTypeOf<unknown>();
+expectTypeOf<SelectionAdapter<number>['bridge']['accept']>().parameter(0).toEqualTypeOf<unknown>();
+expectTypeOf<SelectionAdapter<number>['bridge']['load']>().parameter(0).toEqualTypeOf<unknown>();
 
 const createAdapter = () => new SelectionAdapter<number>(
   decodeNumber,
@@ -98,6 +104,18 @@ describe('SelectionAdapter', () => {
 
     expect(adapter.bridge.model).toBe('empty');
     expect(adapter.bridge.rejected).toBe('x');
+  });
+
+  it('resets the control to the restored model only on an invalid accept', () => {
+    const adapter = createAdapter();
+    const control = { writeValue: vi.fn() };
+    adapter.bridge.load(1);
+
+    adapter.bridge.accept(2, control);
+    expect(control.writeValue).not.toHaveBeenCalled();
+
+    adapter.bridge.accept('x', control);
+    expect(control.writeValue).toHaveBeenCalledExactlyOnceWith(2);
   });
 
   it.each([
