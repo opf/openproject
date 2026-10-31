@@ -29,6 +29,9 @@ import { within } from '@testing-library/dom';
 import { buildTable, TableHarness } from './testing/table-harness';
 import { buildWorkPackage } from './testing/work-package-fixture';
 import { Highlighting } from './builders/highlighting/highlighting.functions';
+import { effect } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { wpOccurrenceKey } from './rendered-occurrence-ledger';
 
 describe('WorkPackageTable', () => {
   let harness:TableHarness;
@@ -184,29 +187,85 @@ describe('WorkPackageTable', () => {
     });
   });
 
-  describe('rowsRefreshed$', () => {
+  describe('mutate', () => {
     beforeEach(async () => {
       harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }] });
       await harness.render();
     });
 
-    it('emits the work package id after replacing its row', () => {
-      const emitted:string[] = [];
-      harness.table.rowsRefreshed$.subscribe((id) => emitted.push(id));
+    it('paints the scope and bumps committedRows once for nested calls', () => {
+      const paint = vi.spyOn(harness.table.painter, 'paint');
+      const before = harness.table.committedRows().generation;
+
+      harness.table.mutate(new Set([wpOccurrenceKey('1')]), () => {
+        harness.table.mutate(new Set([wpOccurrenceKey('2')]), () => undefined);
+      });
+
+      expect(paint).toHaveBeenCalledTimes(1);
+      expect(paint).toHaveBeenCalledWith(new Set([wpOccurrenceKey('1'), wpOccurrenceKey('2')]));
+      expect(harness.table.committedRows()).toEqual({
+        generation: before + 1,
+        scope: new Set([wpOccurrenceKey('1'), wpOccurrenceKey('2')]),
+      });
+    });
+
+    it('lets a committedRows consumer react without mutating', () => {
+      const seen:number[] = [];
+      TestBed.runInInjectionContext(() => effect(() => { seen.push(harness.table.committedRows().generation); }));
+      TestBed.tick();
+      const paint = vi.spyOn(harness.table.painter, 'paint');
+
+      harness.table.mutate(new Set(), () => undefined);
+      TestBed.tick();
+
+      expect(seen).toHaveLength(2);
+      expect(seen[1]).toBe(seen[0] + 1);
+      expect(paint).toHaveBeenCalledTimes(1);
+    });
+
+    it('captures ownership on every entry so a late focus entry during a nested mutation is kept', () => {
+      expect(document.body).toHaveFocus();
+
+      harness.table.mutate(new Set(), () => {
+        harness.row('2').focus();
+        harness.table.mutate(new Set(), () => harness.row('2').blur());
+        expect(document.body).toHaveFocus();
+      });
+
+      expect(harness.row('2')).toHaveFocus();
+    });
+
+    it('keeps ownership when a mutation blurs the focused row and then schedules a render', () => {
+      const frames = harness.holdFrames();
+      try {
+        harness.row('2').focus();
+        harness.table.mutate(new Set([wpOccurrenceKey('2')]), () => {
+          harness.row('2').blur();
+          harness.table.redrawTable();
+        });
+        frames.commit();
+      } finally {
+        frames.release();
+      }
+
+      expect(harness.row('2')).toHaveFocus();
+    });
+
+    it('bumps committedRows with the work package keys after replacing its row', () => {
+      const before = harness.table.committedRows().generation;
 
       harness.table.refreshRows(buildWorkPackage({ id: '1', subject: 'Renamed' }));
 
-      expect(emitted).toEqual(['1']);
+      expect(harness.table.committedRows()).toEqual({ generation: before + 1, scope: new Set([wpOccurrenceKey('1')]) });
       expect(harness.table.ledger.byWorkPackageId('1')[0].element).toBe(harness.row('1'));
     });
 
-    it('emits nothing for an unknown work package', () => {
-      const emitted:string[] = [];
-      harness.table.rowsRefreshed$.subscribe((id) => emitted.push(id));
+    it('leaves committedRows unchanged for an unknown work package', () => {
+      const before = harness.table.committedRows();
 
       harness.table.refreshRows(buildWorkPackage({ id: '99' }));
 
-      expect(emitted).toEqual([]);
+      expect(harness.table.committedRows()).toBe(before);
     });
   });
 });

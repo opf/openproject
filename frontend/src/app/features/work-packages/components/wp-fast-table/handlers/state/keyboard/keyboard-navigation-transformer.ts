@@ -26,8 +26,6 @@
 //++
 
 import { Injector } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter } from 'rxjs/operators';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
@@ -38,6 +36,7 @@ import { isApplePlatform } from 'core-common/platform';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import type { WorkPackageTable } from '../../../wp-fast-table';
+import type { MutationExit } from '../../../row-mutations';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import type { TableEventComponent } from '../../table-handler-registry';
 import { activateRow } from '../../row/click-handler';
@@ -72,8 +71,10 @@ export interface KeyboardNavigation {
   originForControl(control:HTMLElement):FocusPosition|null;
   /** The row or cell element at the position, or null when it is not rendered. */
   elementAt(position:FocusPosition):HTMLElement|null;
-  /** Records whether focus is inside the table before a mutation replaces or hides its rows. */
-  captureOwnership():void;
+  /** Records whether focus is inside the table before a mutation replaces or hides its rows; `accumulate` keeps an earlier capture while an outer mutation or a pending render is open. */
+  captureOwnership(accumulate:boolean):void;
+  /** Recovers the focus position after a mutation settled; `full` means a render committed. */
+  rowsChanged(exit:MutationExit):void;
   /** Keeps the return path open when an editor registers an overlay that already holds focus. */
   adoptOverlay(overlay:HTMLElement):void;
   /** Engages a parked editor and focuses its overlay or first focusable control. */
@@ -130,8 +131,6 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }|null = null;
 
   private focusLeftTable = false;
-
-  private capturing = false;
 
   private pointerActive = false;
 
@@ -220,16 +219,6 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
       pointerEndEvents.forEach((type) => document.removeEventListener(type, onPointerEnd));
     });
 
-    this.querySpace.tableRendered.values$()
-      .pipe(
-        filter(() => table.ledger.generation > 0),
-        takeUntilDestroyed(destroyRef),
-      )
-      .subscribe(() => this.recover(this.requestedPosition()));
-
-    table.rowsRefreshed$
-      .pipe(takeUntilDestroyed(destroyRef))
-      .subscribe(() => this.recover(null));
   }
 
   public get position():FocusPosition|null {
@@ -264,19 +253,14 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     this.interaction.focusEditor(handler);
   }
 
-  public captureOwnership():void {
+  public captureOwnership(accumulate:boolean):void {
     const active = document.activeElement;
     const inside = insideGrid(this.table.scrollContainer, active) || this.table.editing.gridFieldOwning(active) !== null;
-    if (this.capturing || this.table.hasPendingRender) {
-      this.owned ||= inside;
-    } else {
-      this.owned = inside;
-    }
+    this.owned = accumulate ? this.owned || inside : inside;
+  }
 
-    if (!this.capturing) {
-      this.capturing = true;
-      queueMicrotask(() => { this.capturing = false; });
-    }
+  public rowsChanged({ full }:MutationExit):void {
+    this.recover(full ? this.requestedPosition() : null);
   }
 
   public adoptOverlay(overlay:HTMLElement):void {

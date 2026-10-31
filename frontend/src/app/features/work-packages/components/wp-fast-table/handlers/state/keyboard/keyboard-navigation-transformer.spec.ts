@@ -1079,11 +1079,11 @@ describe('KeyboardNavigationTransformer', () => {
       document.body.append(outside);
       try {
         table.row('1').focus();
-        navigation(table).captureOwnership();
-        outside.focus();
-        outside.remove();
-
-        table.table.refreshRows(resource(table, '1'));
+        table.table.mutate(new Set(), () => {
+          outside.focus();
+          outside.remove();
+          table.table.refreshRows(resource(table, '1'));
+        });
 
         expect(document.body).toHaveFocus();
         expect(table.row('1')).toHaveAttribute('tabindex', '0');
@@ -1166,9 +1166,9 @@ describe('KeyboardNavigationTransformer', () => {
       const totals = table.totalsRow();
       navigableCells(totals)[1].focus();
 
-      navigation(table).captureOwnership();
-      totals.innerHTML = totals.innerHTML.replaceAll(/ tabindex="[^"]*"/g, '');
-      table.table.notifyRowsRefreshed(totalsRowKey);
+      table.table.mutate(new Set([totalsRowKey]), () => {
+        totals.innerHTML = totals.innerHTML.replaceAll(/ tabindex="[^"]*"/g, '');
+      });
 
       expect(navigableCells(totals)[1]).toHaveFocus();
       expect(navigation(table).position).toEqual({ key: totalsRowKey, cell: 1, desiredColumn: 1 });
@@ -1182,8 +1182,7 @@ describe('KeyboardNavigationTransformer', () => {
         table.table.redrawTableAndTimeline();
         await Promise.resolve();
         table.row('2').blur();
-        navigation(table).captureOwnership();
-        await Promise.resolve();
+        table.table.mutate(new Set(), () => undefined);
 
         frames.commit();
 

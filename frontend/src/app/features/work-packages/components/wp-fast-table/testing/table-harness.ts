@@ -87,6 +87,7 @@ import type { Edge } from 'core-common/drag-and-drop/reorder';
 import { rowGroupClassName } from '../builders/modes/grouped/grouped-classes.constants';
 import { TableHandlerRegistry } from '../handlers/table-handler-registry';
 import { locatePredecessorBySelector } from '../helpers/wp-table-row-helpers';
+import type { MutationExit, PaintScope } from '../row-mutations';
 import { WorkPackageTable } from '../wp-fast-table';
 import {
   buildGroup, buildRelations, buildWorkPackage, GroupFixture, RelationFixture, WorkPackageFixture,
@@ -167,6 +168,14 @@ export interface TableHarnessOptions {
   beforeAttach?:(injector:Injector) => void;
 }
 
+/** The keys of a paint scope for assertions; `'all'` stays a single marker. */
+export function scopeKeys(scope:PaintScope):string[] {
+  return scope === 'all' ? ['all'] : Array.from(scope);
+}
+
+/** A `WorkPackageTable.mutate` stand-in for fakes: runs the change, paints nothing. */
+export const runMutation:WorkPackageTable['mutate'] = (_scope, change) => { change(); };
+
 export interface HeldFrames {
   readonly pending:() => number;
   readonly commit:() => void;
@@ -187,6 +196,8 @@ export interface TableHarness {
   nextRender():Promise<RenderedWorkPackage[]>;
   /** Intercepts the table's frame scheduling until `release()`; `commit()` runs the held frames in order. */
   holdFrames():HeldFrames;
+  /** Resolves after the next outermost mutation settled: rows painted and keyboard navigation notified. */
+  nextMutation():Promise<MutationExit>;
   /** Every rendered work-package row, relation rows included. */
   rows():HTMLTableRowElement[];
   /** Asserts the `aria-rowindex` of every table row in document order and the table's `aria-rowcount`; requires `productionMarkup`. */
@@ -380,6 +391,17 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     },
 
     nextRender,
+    nextMutation() {
+      return new Promise<MutationExit>((resolve) => {
+        const navigation = table.keyboardNavigation!;
+        const original = navigation.rowsChanged.bind(navigation);
+        const spy = vi.spyOn(navigation, 'rowsChanged').mockImplementation((exit) => {
+          spy.mockRestore();
+          original(exit);
+          resolve(exit);
+        });
+      });
+    },
     holdFrames() {
       const held:(() => void)[] = [];
       const spy = vi.spyOn(table.uiWork, 'frame').mockImplementation((callback) => { held.push(callback); });

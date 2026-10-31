@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { TableRowPositions } from './table-row-positions';
 import { buildTable, TableHarness, TableHarnessOptions } from '../testing/table-harness';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
@@ -350,11 +351,10 @@ describe('TableRowPositions', () => {
 
   it('paints replacement work-package rows before refresh notification', async () => {
     await mount();
-    let observed:string|null = null;
-    harness.table.rowsRefreshed$.subscribe(() => { observed = index(harness.row('21')); });
+    const observed = harness.nextMutation().then(() => index(harness.row('21')));
     const resource = harness.table.originalRowIndex['21'].object;
     harness.table.refreshRows(resource);
-    expect(observed).toBe('22');
+    expect(await observed).toBe('22');
   });
 
   it('finds rendered rows without scanning the ledger', async () => {
@@ -384,11 +384,11 @@ describe('TableRowPositions', () => {
       occurrence.element!.replaceWith(replacement);
       return replacement;
     });
-    const painted = vi.spyOn(harness.table.painter, 'paint');
+    const positionsPainted = vi.spyOn(TableRowPositions.prototype, 'paint');
     for (let refresh = 0; refresh < 50; refresh += 1) {
       harness.table.refreshRows(harness.table.originalRowIndex[refresh % 2 ? '22' : '21'].object);
     }
-    expect(painted).not.toHaveBeenCalled();
+    expect(positionsPainted).not.toHaveBeenCalled();
     expect(harness.row('21')).not.toBe(original);
     harness.expectRowPositions(['1', '22', '23', '102', '103'], '103');
   });

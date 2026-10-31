@@ -85,9 +85,7 @@ describe('TreegridSemantics', () => {
     harness.querySpace.tableRendered.values$().pipe(skip(1), take(1), map(read)),
   );
 
-  const atNextRefresh = <T>(read:() => T):Promise<T> => firstValueFrom(
-    harness.table.rowsRefreshed$.pipe(take(1), map(read)),
-  );
+  const atNextRefresh = <T>(read:() => T):Promise<T> => harness.nextMutation().then(read);
 
   const expectHidden = (row:HTMLElement) => expect(row).toHaveAttribute('aria-hidden', 'true');
   const expectExposed = (row:HTMLElement) => expect(row).not.toHaveAttribute('aria-hidden');

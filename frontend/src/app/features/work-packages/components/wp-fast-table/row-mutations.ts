@@ -27,7 +27,7 @@
 
 import type { RowKey } from './row-keys';
 
-/** `'all'` or the keys of the rows whose own attributes changed; row positions are always repainted for the whole table. */
+/** `'all'` or the keys of the rows whose own attributes changed; keyed rows keep their positions, anything else repaints them for the whole table. */
 export type PaintScope = 'all'|ReadonlySet<RowKey>;
 
 export interface MutationExit {

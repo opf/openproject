@@ -30,8 +30,9 @@ import type { WorkPackageTable } from '../wp-fast-table';
 import { TableRowPositions, type RowPositionEvidence } from './table-row-positions';
 import { paintRowRole, paintSectionExposure, setOrRemove, TreegridSemantics } from './treegrid-semantics';
 
-/** `'all'` or the keys of the rows whose own attributes changed; row positions are always repainted for the whole table. */
-export type PaintScope = 'all'|ReadonlySet<string>;
+import type { PaintScope } from '../row-mutations';
+
+export type { PaintScope };
 
 export interface RowReplacement {
   readonly key:string;
@@ -58,7 +59,13 @@ export class RowStatePainter {
       this.semantics.paintKeys(scope);
     }
     this.paintEdgeRows();
+    if (this.carriesPositions(scope)) return { positionsWithdrawn: this.positions.withdrawn };
     return { positionsWithdrawn: this.positions.paint() };
+  }
+
+  /** Rows named by occurrence keys changed in place and keep their indices; anything else (edge rows, an unnamed structural change, a full render) recomputes positions from the DOM order. */
+  private carriesPositions(scope:PaintScope):boolean {
+    return scope !== 'all' && scope.size > 0 && Array.from(scope).every((key) => this.table.ledger.byKey(key) !== undefined);
   }
 
   /** The column header, totals, inline-create and empty-results rows live in their own sections, outside the results body. */
@@ -95,10 +102,9 @@ export class RowStatePainter {
   }
 
   /** Refreshed rows replace their predecessors in place under the same keys, so they inherit those rows' indices instead of repainting positions. */
-  public paintRefreshed(replacements:readonly RowReplacement[]):void {
+  public carryPositions(replacements:readonly RowReplacement[]):void {
     replacements.forEach(({ previous, replacement }) => {
       if (previous) this.positions.carry(previous, replacement);
     });
-    this.semantics.paintKeys(new Set(replacements.map(({ key }) => key)));
   }
 }
