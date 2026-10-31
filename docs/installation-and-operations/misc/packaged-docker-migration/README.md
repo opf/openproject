@@ -117,6 +117,7 @@ Further options and prerequisites are documented under [Step-wise database migra
 
 After Compose has been started at least once, import the (migrated) SQL dump into the `db` container.
 These steps mirror the [Using Docker Compose](../../operation/restoring/#using-docker-compose) section of the restoring guide.
+If the dump uses [pgvector](../../system-requirements/#pgvector), your `db` service needs an image that includes it, such as `pgvector/pgvector:pg17-trixie`.
 
 From the directory that contains your `docker-compose.yml`:
 
