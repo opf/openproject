@@ -92,6 +92,7 @@ class Journal < ApplicationRecord
                    meeting_id
                    source_meeting_id
                    message_id
+                   sender_address
                  ],
                  prefix: true
 
@@ -106,6 +107,7 @@ class Journal < ApplicationRecord
   VALID_CAUSE_TYPES = (%w[
     comment_retracted
     default_attribute_written
+    email
     forum_message
     import
     progress_mode_changed_to_status_based
