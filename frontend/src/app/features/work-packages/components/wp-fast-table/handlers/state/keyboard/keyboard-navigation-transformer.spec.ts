@@ -204,8 +204,8 @@ describe('KeyboardNavigationTransformer', () => {
   });
 
   describe('on a table re-created over the same DOM', () => {
-    const recreate = async () => {
-      const harness = await mount();
+    const recreate = async (options:Partial<TableHarnessOptions> = {}) => {
+      const harness = await mount(options);
       const stale = navigation(harness);
       stale.focusPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
       const source = harness.table;
@@ -238,6 +238,7 @@ describe('KeyboardNavigationTransformer', () => {
       ['positionOfCell', (stale, harness) => stale.positionOfCell(cell(harness.row('3'), 0))],
       ['originForControl', (stale, harness) => stale.originForControl(cell(harness.row('3'), 0))],
       ['elementAt', (stale) => stale.elementAt(elsewhere)],
+      ['navigateFrom', (stale) => stale.navigateFrom(elsewhere, 'ArrowUp')],
       ['captureOwnership', (stale) => stale.captureOwnership(false)],
     ])('does nothing on a destroyed table: %s', async (_name, call) => {
       const { harness, stale, fresh } = await recreate();
@@ -270,6 +271,18 @@ describe('KeyboardNavigationTransformer', () => {
       stale.rowsChanged({ scope: 'all', rendered: true });
 
       expect(ifShouldFocus).not.toHaveBeenCalled();
+      fresh.destroy();
+    });
+
+    it('does not collapse a group from a destroyed table', async () => {
+      const { harness, stale, fresh } = await recreate(grouped);
+      const collapsedGroups = harness.injector.get(WorkPackageViewCollapsedGroupsService);
+      const header = harness.groupHeader(0);
+      const identifier = header.dataset.groupIdentifier!;
+
+      stale.navigateFrom(fresh.keyboardNavigation.positionOfCell(header)!, 'ArrowLeft');
+
+      expect(collapsedGroups.config.state[identifier]).not.toBe(true);
       fresh.destroy();
     });
   });
