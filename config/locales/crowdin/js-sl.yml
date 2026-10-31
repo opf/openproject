@@ -203,6 +203,8 @@ sl:
     description_select_work_package: 'Izberi delovni paket #%{id}'
     description_subwork_package: 'Podrejen delovni paket #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: An error occurred within CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Shranjevanje dokumenta ni uspelo zaradi napake: %{error}'
@@ -1116,11 +1118,30 @@ sl:
       scheduling:
         is_parent: Datumi tega delovnega paketa so samodejno ugotovljeni od njegovih podrazredov. Za nastavitev datumov aktivirajte 'Ročno razvrščanje'.
         is_switched_from_manual_to_automatic: Datumi delovnega paketa se bodo lahko, da morali preračunati po menjavi iz ročnega v samodejno razvrščanje zaradi razmerij z ostalimi delovnimi paketi.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          two: All %{count} work packages on this page selected.
+          few: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          two: "%{count} work packages selected."
+          few: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Show all users with whom the work package has been shared with
         title: Share work package
       table:
         configure_button: Uredi tabelo delovnega paketa
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: 'Tabela z vrsticami delovnega paketa in stolpci atributov delovnega paketa.
 
           '

@@ -203,6 +203,8 @@ it:
     description_select_work_package: 'Seleziona la macro-attività #%{id}'
     description_subwork_package: 'Subordinata alla macro-attività #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: Si è verificato un errore all'interno di CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Il salvataggio del documento è fallito con il seguente errore: %{error}'
@@ -1092,11 +1094,26 @@ it:
       scheduling:
         is_parent: Le date di questa macro-attività vengono automaticamente dedotte dai suoi figli. Attiva 'Programmazione manuale' per impostare le date.
         is_switched_from_manual_to_automatic: Potrebbe essere necessario ricalcolare le date di questa macro-attività dopo il passaggio dalla programmazione manuale alla programmazione automatica a causa delle relazioni con altre macro-attività.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Mostra tutti gli utenti con i quali la macro-attività è stata condivisa
         title: Condividi macro-attività
       table:
         configure_button: Configura la tabella della macro-attività
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabella con righe di macro-attività e colonne dei loro attributi.
         text_inline_edit: Molte celle di questa tabella sono pulsanti che attivano le funzionalità di modifica in linea di tale attributo.
         text_select_hint: Le caselle di selezione devono essere aperte con ' ALT ' e i tasti freccia.

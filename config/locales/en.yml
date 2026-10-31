@@ -963,8 +963,6 @@ en:
               invalid_tokens: "One or more attributes inside the field are not valid. Please, fix the attributes before saving."
             variant:
               must_belong_to_the_type: "must be a variant of this type."
-            workflow:
-              not_available_to_this_variant: "must be a workflow this project can use."
         user:
           attributes:
             base:
@@ -1692,10 +1690,16 @@ en:
         jobs:
           JiraCreateCustomFieldsJob:
             title: "Create custom fields"
+          JiraCreateLabelsJob:
+            title: "Create labels"
+          JiraCreateParentChildRelationsFromSubtasksJob:
+            title: "Create parent-child relations for '%{jira_project_name}'"
           JiraCreateProjectJob:
             title: "Create project '%{jira_project_name}'"
           JiraCreateProjectRoleJob:
             title: "Create 'JiraMember' project role"
+          JiraCreateProjectTimeEntriesJob:
+            title: "Create time entries for '%{jira_project_name}'"
           JiraCreateProjectVersionsJob:
             title: "Create versions for '%{jira_project_name}'"
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1855,7 +1859,7 @@ en:
                   subtitle: "Involved in imported projects "
                 work_packages:
                   label: "Work packages"
-                  subtitle: "With attachments"
+                  subtitle: "With attachments and logged time"
               title: "Import run results"
             import_scope:
               button_continue: "Continue"
@@ -1872,6 +1876,7 @@ en:
                 issue_details: "Issue description, history, comments and attachments"
                 issue_ids: "Issue identifiers"
                 issues: "Issues"
+                logged_time: "Logged time"
                 permissions: "Permissions"
                 project_ids: "Project identifiers"
                 project_versions: "Project versions"
@@ -1904,6 +1909,12 @@ en:
             "1":
               rest_line_text: ""
               title: "Fetch Jira configuration"
+            "10":
+              rest_line_text: "Creating time entries for %{projects_number} more projects"
+              title: "Create time entries"
+            "11":
+              rest_line_text: "Downloading attachments for %{projects_number} more projects"
+              title: "Download attachments"
             "2":
               rest_line_text: "Fetching issues and versions for %{projects_number} more projects"
               title: "Fetch project issues and versions"
@@ -1926,8 +1937,8 @@ en:
               rest_line_text: "Creating work packages for %{projects_number} more projects"
               title: "Create work packages"
             "9":
-              rest_line_text: "Downloading attachments for %{projects_number} more projects"
-              title: "Download attachments"
+              rest_line_text: "Creating parent-child relations from subtasks for %{projects_number} more projects"
+              title: "Create parent-child relations from subtasks"
       test:
         api_error: "Jira API returned error status %{status}. Please check your Jira instance URL and credentials."
         basic_auth_password_invalid: "Invalid basic auth password. Please check your credentials in the configuration."
@@ -2283,7 +2294,9 @@ en:
     text_transform:
       errors:
         connection_failed: "The AI service could not be reached."
+        context_too_long: "The text is too long for the AI model. Shorten it and try again."
         not_available: "The AI assistant is not available."
+        rate_limited: "The AI service is busy. Try again in a moment."
         timeout: "The AI service did not respond in time."
         upstream_error: "The AI service returned an error."
       pane:
@@ -2383,6 +2396,7 @@ en:
 
     undisclosed:
       ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Undisclosed - The project is invisible because of lacking permissions.
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
       parent: Undisclosed - The parent is invisible because of lacking permissions.
@@ -3944,6 +3958,7 @@ en:
         Child work packages without Work are ignored.
       unaccessable_work_package_changed: by changes to a related work package
       work_package_children_changed_times: by changes to child %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       work_package_parent_changed_times: by changes to parent %{link}
       work_package_parent_deleted: because the parent work package was deleted
@@ -3959,6 +3974,7 @@ en:
           working: "%{day} is now working"
     caused_changes:
       budget_deleted: "Budget has been deleted"
+      comment_retracted: "Comment retracted"
       dates_changed: "Dates changed"
       default_attribute_written: "Read-only attributes written"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
@@ -3976,6 +3992,7 @@ en:
       system_update: "OpenProject system update:"
       total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
       total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      work_package_children_changed_values: "Updated automatically"
       work_package_duplicate_closed: "Duplicate work package updated:"
       work_package_parent_deleted: "Parent removed"
 
@@ -7605,8 +7622,6 @@ en:
         text: >
           This will make this project-specific variant a global one that is available to all
           projects. The project admin will no longer be able to edit it.
-        workflow_text: >
-          Its workflow "%{name}" belongs to this project and becomes global as well.
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: "Convert"
@@ -7961,8 +7976,6 @@ en:
       note_placeholder: "Why are you setting this reminder?"
       success_deletion_message: "Reminder deleted successfully."
       success_update_message: "Reminder updated successfully."
-    updated_automatically_by_child_changes: |
-      _Updated automatically by changing values within child work package %{child}_
   work_package_relations_tab:
     index:
       action_bar_title: "Add relations to other work packages to create a link between them."

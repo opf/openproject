@@ -203,6 +203,8 @@
     description_select_work_package: 'Velg arbeidspakke #%{id}'
     description_subwork_package: 'Barn av arbeidspakke #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: Det oppstod en feil i CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Lagring av dokumentet mislyktes med følgende feil: %{error}'
@@ -1092,11 +1094,26 @@
       scheduling:
         is_parent: Datoene for denne arbeidspakken trekkes automatisk fra de underordnede. Aktiver 'Manuell planlegging' for å angi datoene.
         is_switched_from_manual_to_automatic: Datoene for denne arbeidspakken må eventuelt beregnes på nytt etter å ha byttet fra manual til automatisk planlegging på grunn av relasjoner med andre arbeidspakker.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Vis alle brukere som arbeidspakken er delt med
         title: Del arbeidspakke
       table:
         configure_button: Konfigurer tabell for arbeidspakke
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabell med rader for arbeidspakke og kolonner for arbeidspakkeegenskaper.
         text_inline_edit: De fleste celler i denne tabellen er knapper som aktiverer inkorporering av funksjonaliteten til den egenskapen.
         text_select_hint: Velg bokser skal åpnes med 'ALT' og piltaster.

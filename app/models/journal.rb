@@ -104,6 +104,7 @@ class Journal < ApplicationRecord
   ].freeze
 
   VALID_CAUSE_TYPES = (%w[
+    comment_retracted
     default_attribute_written
     forum_message
     import
@@ -112,6 +113,7 @@ class Journal < ApplicationRecord
     system_update
     total_percent_complete_mode_changed_to_work_weighted_average
     work_package_children_changed_times
+    work_package_children_changed_values
     work_package_parent_changed_times
     work_package_parent_deleted
     work_package_predecessor_changed_times
@@ -240,6 +242,9 @@ class Journal < ApplicationRecord
                      .first
   end
 
+  # A noop journal comes from changes reverted within the aggregation window, or from a comment
+  # emptied before Journal::CausedByCommentRetraction existed. Such old comments cannot be told
+  # apart from reverted changes, so they were not migrated and still render as "changes retracted".
   def noop?
     (!notes || notes&.empty?) && get_changes.empty?
   end

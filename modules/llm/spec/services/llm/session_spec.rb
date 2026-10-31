@@ -77,6 +77,16 @@ RSpec.describe Llm::Session, :llm_server_helpers, :webmock do
         .with(headers: { "apikey" => "gateway-secret" })
     end
 
+    it "sends instructions with the system role" do
+      mock_llm_chat_response(base_url)
+
+      described_class.for(connection, max_retries: 0).chat("qwen3.6-27b").with_instructions("Be brief.").ask("ping")
+
+      expect(WebMock).to(have_requested(:post, "#{base_url}/chat/completions").with do |request|
+        JSON.parse(request.body)["messages"].first == { "role" => "system", "content" => "Be brief." }
+      end)
+    end
+
     it "translates a rejected key into an authentication error" do
       mock_llm_chat_response(base_url, response_code: 401)
 
@@ -127,6 +137,17 @@ RSpec.describe Llm::Session, :llm_server_helpers, :webmock do
       expect(RubyLLM.config.openai_api_base).to be_nil
       expect(RubyLLM.config.openai_api_key).to be_nil
       expect(RubyLLM.config.openproject_custom_headers).to be_nil
+    end
+
+    it "keeps prompts and answers out of RubyLLM's logger, even at debug level" do
+      mock_llm_chat_response(base_url, content: "secret answer")
+      level = RubyLLM.logger.level
+      RubyLLM.logger.level = Logger::DEBUG
+
+      expect { described_class.for(connection, max_retries: 0).chat("qwen3.6-27b").ask("secret prompt") }
+        .not_to output.to_stdout_from_any_process
+    ensure
+      RubyLLM.logger.level = level
     end
   end
 end

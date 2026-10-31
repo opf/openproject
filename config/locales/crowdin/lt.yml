@@ -75,6 +75,7 @@ lt:
     omniauth_login: Prisijunkite, norėdami aktyvuoti savo paskyrą.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
+    username_or_email: Username or email
   actionview_instancetag_blank_option: Prašome pasirinkti
   activemodel:
     attributes:
@@ -955,8 +956,6 @@ lt:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
             variant:
               must_belong_to_the_type: must be a variant of this type.
-            workflow:
-              not_available_to_this_variant: must be a workflow this project can use.
         user:
           attributes:
             base:
@@ -1042,6 +1041,8 @@ lt:
             identifier:
               must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -1886,10 +1887,16 @@ lt:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
+          JiraCreateParentChildRelationsFromSubtasksJob:
+            title: Create parent-child relations for '%{jira_project_name}'
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -2062,7 +2069,7 @@ lt:
                   subtitle: 'Involved in imported projects '
                 work_packages:
                   label: Work packages
-                  subtitle: With attachments
+                  subtitle: With attachments and logged time
               title: Import run results
             import_scope:
               button_continue: Continue
@@ -2081,6 +2088,7 @@ lt:
                 issue_details: Issue description, history, comments and attachments
                 issue_ids: Issue identifiers
                 issues: Issues
+                logged_time: Logged time
                 permissions: Permissions
                 project_ids: Project identifiers
                 project_versions: Project versions
@@ -2113,6 +2121,12 @@ lt:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
+            '11':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -2135,8 +2149,8 @@ lt:
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
             '9':
-              rest_line_text: Downloading attachments for %{projects_number} more projects
-              title: Download attachments
+              rest_line_text: Creating parent-child relations from subtasks for %{projects_number} more projects
+              title: Create parent-child relations from subtasks
       test:
         api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
         basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
@@ -2452,10 +2466,11 @@ lt:
         save: Save changes and continue
         title: Save changes before continuing?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'Role: %{role}'
         no_role: Select role
@@ -2496,7 +2511,9 @@ lt:
     text_transform:
       errors:
         connection_failed: The AI service could not be reached.
+        context_too_long: The text is too long for the AI model. Shorten it and try again.
         not_available: The AI assistant is not available.
+        rate_limited: The AI service is busy. Try again in a moment.
         timeout: The AI service did not respond in time.
         upstream_error: The AI service returned an error.
       pane:
@@ -2588,6 +2605,7 @@ lt:
       schema: Schema
     undisclosed:
       ancestor: Nerodoma - tėvas nematomas dėl teisių trūkumo.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Undisclosed - The project is invisible because of lacking permissions.
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
       parent: Undisclosed - The parent is invisible because of lacking permissions.
@@ -3868,10 +3886,11 @@ lt:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
@@ -4151,6 +4170,7 @@ lt:
       total_percent_complete_mode_changed_to_work_weighted_average: Child work packages without Work are ignored.
       unaccessable_work_package_changed: dėl susijusio darbo paketo pakeitimų
       work_package_children_changed_times: dėl vaiko pakeitimų %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       work_package_parent_changed_times: dėl tėvo pakeitimų %{link}
       work_package_parent_deleted: because the parent work package was deleted
@@ -4166,6 +4186,7 @@ lt:
           working: "%{day} dabar yra darbo"
     caused_changes:
       budget_deleted: Budget has been deleted
+      comment_retracted: Comment retracted
       dates_changed: Datos pasikeitė
       default_attribute_written: Tik-skaitymo atributai įrašyti
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
@@ -4183,6 +4204,7 @@ lt:
       system_update: OpenProject sistemos atnaujinimas
       total_percent_complete_mode_changed_to_simple_average: Calculation of % Complete totals now based on a simple average of only % Complete values.
       total_percent_complete_mode_changed_to_work_weighted_average: Calculation of % Complete totals now weighted by Work.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'Duplicate work package updated:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Pakeitimai buvo atšaukti.
@@ -4501,6 +4523,7 @@ lt:
   label_interface_colors_description: 'These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). '
   label_internal: Vidinis
   label_introduction_video: Getting started video
+  label_invalid_file_type: This file type is not supported.
   label_invitation: Pakvietimas
   label_invite_user: Pakviesti vartotoją
   label_item: Item
@@ -5663,21 +5686,20 @@ lt:
           tb: TB
   oauth:
     application:
+      basic_details: Basic details
       builtin: Built-in instance application
       client_credentials: Client credentials
       confidential: Konfidencialu
-      default_scopes: "(Numatytos apimtys)"
       instructions:
-        client_credential_user_id: Neprivalomas naudotojo ID, naudojamas kai klientai naudoja šią aplikaciją. Palikite tuščią, jei norite leisti tik viešą prieigą
-        confidential: Patikrinkite, ar bus naudojama aplikacija, kurioje kliento paslaptis gali likti konfidenciali. Mobilios aplikacijos ir Vieno puslapio aplikacijos laikomos nekonfidencialiomis.
-        default_scopes: ''
-        enabled: Enable this application, allowing users to perform authorization grants with it.
-        name: Jūsų aplikacijos pavadinimas. Bus rodomas kitiems naudotojams autorizacijos metu.
-        redirect_uri_html: 'Leidžiami URL, kur gali būti peradresuojami autorizuoti naudotojai. Po vieną įrašą eilutėje. <br/> Jei jūs registruojate darbastalio aplikaciją, naudokite šį URL.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: Jei kuriate OAuth API kliento aplikaciją skirtą OpenProject, jūs galite registruoti ją visiems naudotojams naudojant šią formą.
-        scopes: Pažymėkite programos sritis, kurioms norite suteikti prieigą. Kai jokia sritis nėra pažymėta, api_v3 yra leidžiama.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: OAuth aplikacija „%{name}“
       new: Nauja OAuth aplikacija
       non_confidential: Non confidential
@@ -5694,7 +5716,7 @@ lt:
         '
     authorization_error: Įvyko autorizacijos klaida.
     client_credentials: Kliento įgaliojimams naudotas naudotojas
-    client_credentials_impersonation_html: 'Pagal nutylėjimą OpenProject teikia OAuth 2.0 autorizaciją per %{authorization_code_flow_link}. Pasirinktinai galite įjungti %{client_credentials_flow_link}, bet privalote pateikti naudotoją, kurio vardu bus vykdomos visos užklausos.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: Kliento įgaliojimų naudotojas nustatytas į
@@ -5722,9 +5744,12 @@ lt:
       other_applications: Other OAuth applications
     my_registered_applications: Registruotos OAuth aplikacijos
     scopes:
-      api_v3: Pilna API v3 prieiga
+      api_v3: Access to APIv3
       api_v3_text: Aplikacija gaus pilną skaitymo ir rašymo prieigą prie OpenProject API v3 vykdyti veiksmus jūsų vardu.
-      mcp: Access to MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
   oauth_client:
     errors:
@@ -5832,16 +5857,15 @@ lt:
       parent: Tėvas
       short: Short name
       weight: Weight
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Open link in a new tab
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Drag to reorder
-        menu:
-          label_actions: Work package actions
-        parent: Parent
-        undisclosed: Undisclosed
   page:
     text: Tekstas
   pagination:
@@ -7736,9 +7760,6 @@ lt:
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
 
           '
-        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
-
-          '
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: Convert
@@ -8080,9 +8101,6 @@ lt:
       note_placeholder: Why are you setting this reminder?
       success_deletion_message: Reminder deleted successfully.
       success_update_message: Reminder updated successfully.
-    updated_automatically_by_child_changes: '_Automatiškai atnaujinta keičiant reikšmes vaiko darbų pakete %{child}_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: Add relations to other work packages to create a link between them.

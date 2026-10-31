@@ -40,6 +40,8 @@ import { WpTableConfigurationModalComponent } from 'core-app/features/work-packa
 import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { computePosition, ComputePositionReturn, flip, shift } from '@floating-ui/dom';
+import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
+import { OpContextMenuCloseReason } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 
 @Directive({
   selector: '[opColumnsContextMenu]',
@@ -61,6 +63,8 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('opColumnsContextMenu-table') public table:WorkPackageTable;
 
+  private origin:FocusPosition|null = null;
+
   public text = {
     confirmDelete: {
       text: this.I18n.t('js.work_packages.table_configuration.sorting_mode.warning'),
@@ -73,7 +77,17 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       return;
     }
     this.buildItems();
+    this.origin = this.table.keyboardNavigation?.positionOfCell(this.element) ?? null;
     this.opContextMenu.show(this, evt);
+  }
+
+  public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {
+    if (this.origin && (reason === 'escape' || reason === 'action')) {
+      this.table.keyboardNavigation?.returnFocusFromMenu(this.origin);
+      return;
+    }
+
+    super.onClose(focus);
   }
 
   public get locals() {
@@ -99,6 +113,18 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
     return this.element.querySelector<HTMLElement>(`#${this.column.id}`)
       ?? this.element.closest<HTMLElement>('th')
       ?? this.element;
+  }
+
+  private followColumn(header:HTMLElement|null):void {
+    const navigation = this.table.keyboardNavigation;
+    const current = navigation?.position;
+    const position = header && navigation?.positionOfCell(header);
+    if (!navigation || !this.origin || !position || current?.key !== this.origin.key || current.cell !== this.origin.cell) {
+      return;
+    }
+
+    navigation.recordPosition(position);
+    this.origin = position;
   }
 
   private buildItems() {
@@ -163,6 +189,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         icon: 'icon-column-left',
         onClick: () => {
           this.wpTableColumns.shift(c, -1);
+          this.followColumn(this.element);
           return true;
         },
       },
@@ -173,6 +200,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         icon: 'icon-column-right',
         onClick: () => {
           this.wpTableColumns.shift(c, 1);
+          this.followColumn(this.element);
           return true;
         },
       },
@@ -182,10 +210,14 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         icon: 'icon-delete',
         onClick: () => {
           const focusColumn = this.wpTableColumns.previous(c) || this.wpTableColumns.next(c);
+          const headerRow = this.element.closest('tr');
           this.wpTableColumns.removeColumn(c);
+          if (focusColumn) {
+            this.followColumn(headerRow?.querySelector<HTMLElement>(`#${CSS.escape(focusColumn.id)}`) ?? null);
+          }
 
           setTimeout(() => {
-            if (focusColumn) {
+            if (focusColumn && !this.origin) {
               document.querySelector<HTMLElement>(`#${focusColumn.id}`)?.focus();
             }
           });

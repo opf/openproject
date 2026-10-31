@@ -49,17 +49,18 @@ de:
           other: Could not extend the range. %{count} work packages selected.
         range_unavailable: Auswahl unverändert. Erweitern Sie diese Liste, um diesen Bereich auszuwählen.
         selected:
-          one: "%{count} work package selected."
-          other: "%{count} work packages selected."
+          one: "%{count} Arbeitspaket ausgewählt."
+          other: "%{count} Arbeitspakete ausgewählt."
     burndown_chart:
       chart_day: 'Day %{day}: %{values}'
       chart_label: Burndown chart
       chart_summary: 'Burndown chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      non_working_day: Non-working day
       story_points: Story points
-    created_resolved:
+    created_resolved_chart:
       work_packages: Work packages
+    sprint_charts:
+      non_working_day: Non-working day
     work_packages:
       properties:
         storyPoints: Story Punkte

@@ -213,6 +213,8 @@ hu:
     description_select_work_package: 'Munkacsomag kiválasztás #%{id}'
     description_subwork_package: 'Munkacsomag gyermeke #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: 'Hiba történt a CKEditorban
 
         '
@@ -1128,11 +1130,26 @@ hu:
         is_switched_from_manual_to_automatic: 'Ennek a munkacsomagnak a dátumait újra kell kalkulálni, miután a kézi üzemmódról az automatikus ütemezésre váltott, más munkacsomagokkal való kapcsolat miatt.
 
           '
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Minden felhasználó mutatása, akivel a munkacsomag megosztásra került
         title: Share work package
       table:
         configure_button: Feladatcsoport táblázat beállítása
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Táblázat melynek sorai munkacsomagok és oszlopai munkacsomag attribútumok.
         text_inline_edit: A legtöbb mezője ennek a táblázatnak olyan gomb, mely aktiválja a soron belüli szerkesztését az attribútumnak.
         text_select_hint: Válassza ki a megnyitni kíván mezőket és használja az "ALT" és nyílgombokat.

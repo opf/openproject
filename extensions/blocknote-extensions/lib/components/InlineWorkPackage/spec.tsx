@@ -5,6 +5,7 @@ import {
   computeWorkPackageInlineExternalData,
   parseWorkPackageInlineExternalHTML,
 } from './externalHtml';
+import { WorkPackageAccessibilityExtension } from '../../plugins/workPackageAccessibilityExtension';
 
 export const openProjectWorkPackageInlineSpec = createReactInlineContentSpec(
   inlineConfig,
@@ -36,5 +37,7 @@ export const openProjectWorkPackageInlineSpec = createReactInlineContentSpec(
     meta: {
       draggable: true,
     },
-  }
+  },
+
+  [WorkPackageAccessibilityExtension()]
 );

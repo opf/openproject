@@ -203,6 +203,8 @@ zh-CN:
     description_select_work_package: '选择工作包 #%{id}'
     description_subwork_package: '子工作包 #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: CKEditor 发生错误
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 保存文档失败，出现以下错误：%{error}
@@ -1086,11 +1088,24 @@ zh-CN:
       scheduling:
         is_parent: 此工作包的日期会自动从其子项推导出。可激活“手动计划”来设置日期。
         is_switched_from_manual_to_automatic: 由于与其他工作包的关系，在从手动计划切换为自动计划后，此工作包的日期可能需要重新计算。
+      selection:
+        all_selected:
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: 显示与之共享工作包的所有用户
         title: 共享工作包
       table:
         configure_button: 配置工作包表
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: 行为工作包且列为工作包属性的表格。
         text_inline_edit: 大多数此表格的单元格为激活工作包属性的直接编辑功能的按钮。
         text_select_hint: 请使用Alt+方向键打开选择框。

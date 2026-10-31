@@ -139,6 +139,9 @@ zh-TW:
         blankslate_description: 設定衝刺的開始和結束日期，以產生燃盡圖表。
         blankslate_title: 沒有可用的燃盡圖資料
     created_resolved_chart:
+      series:
+        created: Created work packages
+        resolved: Resolved work packages
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available
@@ -219,6 +222,19 @@ zh-TW:
         breadcrumb: 報告
         title: "%{sprint} 報告"
       widgets:
+        velocity_chart:
+          average:
+            other: 'Average of previous %{count} sprints:'
+          average_legend: Average
+          committed: Committed
+          completed: Completed
+          story_points: "%{value} SP"
+          summary:
+            other: Bar chart of committed and completed story points of the last %{count} sprints.
+          summary_average: 'Average velocity: %{average}.'
+          title: Velocity chart
+          velocity: "%{sprint}:"
+          y_axis_title: Story points
         work_package_graph:
           title: 工作套件圖表
         work_package_overview:
@@ -242,6 +258,46 @@ zh-TW:
           closed_work_packages: 已關閉的工作項目
           resolved_summary:
             other: "%{percentage}% (%{resolved} 佔 %{total} 工作項目)"
+        work_package_table:
+          added:
+            blankslate:
+              empty:
+                description: Work packages that were added after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show added work packages.
+              not_started:
+                description: Added work packages will appear here after the sprint starts.
+            title: Scope increase after sprint start
+          blankslate:
+            heading: No work packages to display
+          completed:
+            blankslate:
+              empty:
+                description: Work packages that were completed in the sprint will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show completed work packages.
+              not_started:
+                description: Completed work packages will appear here after the sprint starts.
+            title: Completed work
+          removed:
+            blankslate:
+              empty:
+                description: Work packages that were removed after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show removed work packages.
+              not_started:
+                description: Removed work packages will appear here after the sprint starts.
+            title: Scope decrease after sprint start
+          unfinished:
+            blankslate:
+              empty:
+                description: All work packages in this sprint are completed.
+                heading: Wow, all done!
+              no_dates:
+                description: Sprint start and finish dates are necessary to show unfinished work packages.
+              not_started:
+                description: Unfinished work packages will appear here after the sprint starts.
+            title: Unfinished work
     sprints:
       row_component:
         action_menu:
@@ -296,9 +352,6 @@ zh-TW:
       update_service:
         invalid_target_type: list_type 必須為以下其中一種：帶有 list_id 的 backlog_bucket、帶有 list_id 的 sprint，或不帶有 list_id 的 inbox。
         missing_target: 必須包含 list_type 或 list_id。
-  created_resolved:
-    wp_created: Created
-    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: 多個正在進行的衝刺

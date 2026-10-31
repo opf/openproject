@@ -31,7 +31,8 @@ module Storages::Admin
   class TableComponent < OpPrimer::BorderBoxTableComponent
     columns :name, :provider_type, :creator, :created_at
     main_column :name
-    mobile_columns :name, :provider_type, :creator, :created_at
+    mobile_columns :name, :provider_type, :creator
+    mobile_labels :provider_type
 
     def row_class
       ::Storages::Admin::RowComponent

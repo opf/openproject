@@ -75,6 +75,7 @@ vi:
     omniauth_login: Vui lòng đăng nhập để kích hoạt tài khoản của bạn.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
+    username_or_email: Username or email
   actionview_instancetag_blank_option: Vui lòng chọn
   activemodel:
     attributes:
@@ -952,8 +953,6 @@ vi:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
             variant:
               must_belong_to_the_type: must be a variant of this type.
-            workflow:
-              not_available_to_this_variant: must be a workflow this project can use.
         user:
           attributes:
             base:
@@ -1036,6 +1035,8 @@ vi:
             identifier:
               must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -1556,10 +1557,16 @@ vi:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
+          JiraCreateParentChildRelationsFromSubtasksJob:
+            title: Create parent-child relations for '%{jira_project_name}'
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1711,7 +1718,7 @@ vi:
                   subtitle: 'Involved in imported projects '
                 work_packages:
                   label: Work packages
-                  subtitle: With attachments
+                  subtitle: With attachments and logged time
               title: Import run results
             import_scope:
               button_continue: Continue
@@ -1727,6 +1734,7 @@ vi:
                 issue_details: Issue description, history, comments and attachments
                 issue_ids: Issue identifiers
                 issues: Issues
+                logged_time: Logged time
                 permissions: Permissions
                 project_ids: Project identifiers
                 project_versions: Project versions
@@ -1759,6 +1767,12 @@ vi:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
+            '11':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -1781,8 +1795,8 @@ vi:
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
             '9':
-              rest_line_text: Downloading attachments for %{projects_number} more projects
-              title: Download attachments
+              rest_line_text: Creating parent-child relations from subtasks for %{projects_number} more projects
+              title: Create parent-child relations from subtasks
       test:
         api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
         basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
@@ -2086,10 +2100,11 @@ vi:
         save: Save changes and continue
         title: Save changes before continuing?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'Role: %{role}'
         no_role: Select role
@@ -2124,7 +2139,9 @@ vi:
     text_transform:
       errors:
         connection_failed: The AI service could not be reached.
+        context_too_long: The text is too long for the AI model. Shorten it and try again.
         not_available: The AI assistant is not available.
+        rate_limited: The AI service is busy. Try again in a moment.
         timeout: The AI service did not respond in time.
         upstream_error: The AI service returned an error.
       pane:
@@ -2216,6 +2233,7 @@ vi:
       schema: Lược đồ
     undisclosed:
       ancestor: Không được tiết lộ - Tổ tiên là vô hình vì thiếu quyền.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Không được tiết lộ - Dự án vô hình vì thiếu quyền.
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
       parent: Không được tiết lộ - Phụ huynh ẩn danh vì thiếu quyền.
@@ -3414,10 +3432,11 @@ vi:
       title: Configure a new form
     tab:
       read_only:
-        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Edit form
+        title: Important changes
     usage:
       dialog:
         button: View dependent types
@@ -3676,6 +3695,7 @@ vi:
       total_percent_complete_mode_changed_to_work_weighted_average: Các gói công việc con không có Công việc sẽ bị bỏ qua.
       unaccessable_work_package_changed: bằng cách thay đổi gói công việc liên quan
       work_package_children_changed_times: bởi những thay đổi đối với con %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: Trạng thái được cập nhật tự động bởi gói công việc trùng lặp %{link}
       work_package_parent_changed_times: bằng những thay đổi đối với cha mẹ %{link}
       work_package_parent_deleted: because the parent work package was deleted
@@ -3691,6 +3711,7 @@ vi:
           working: "%{day} hiện đang hoạt động"
     caused_changes:
       budget_deleted: Budget has been deleted
+      comment_retracted: Comment retracted
       dates_changed: Ngày đã thay đổi
       default_attribute_written: Thuộc tính chỉ đọc được viết
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
@@ -3708,6 +3729,7 @@ vi:
       system_update: 'Cập nhật hệ thống OpenProject:'
       total_percent_complete_mode_changed_to_simple_average: Tính toán tổng số % Hoàn thành hiện dựa trên mức trung bình đơn giản chỉ là các giá trị % Hoàn thành.
       total_percent_complete_mode_changed_to_work_weighted_average: Tính toán % tổng số hoàn thành hiện được tính theo Công việc.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'Gói công việc trùng lặp được cập nhật:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Những thay đổi đã bị rút lại
@@ -4026,6 +4048,7 @@ vi:
   label_interface_colors_description: Những màu này kiểm soát giao diện của ứng dụng. Nếu bạn sửa đổi chúng, chủ đề sẽ tự động được thay đổi thành Chủ đề tùy chỉnh nhưng chúng tôi không thể đảm bảo việc tuân thủ mức độ tương phản tối thiểu về khả năng truy cập (WCAG 2.1).
   label_internal: Nội bộ
   label_introduction_video: Video bắt đầu
+  label_invalid_file_type: This file type is not supported.
   label_invitation: Thư mời
   label_invite_user: Mời người dùng
   label_item: mục
@@ -5158,21 +5181,20 @@ vi:
           tb: bệnh lao
   oauth:
     application:
+      basic_details: Basic details
       builtin: Ứng dụng phiên bản tích hợp
       client_credentials: Thông tin xác thực của khách hàng
       confidential: bí mật
-      default_scopes: "(Phạm vi mặc định)"
       instructions:
-        client_credential_user_id: ID người dùng tùy chọn để mạo danh khi khách hàng sử dụng ứng dụng này. Để trống để chỉ cho phép truy cập công cộng
-        confidential: Kiểm tra xem ứng dụng sẽ được sử dụng trong khi thông tin mật của khách hàng vẫn được đảm bảo. Các ứng dụng di động và Ứng dụng web được cho là không bảo mật.
-        default_scopes: ''
-        enabled: Kích hoạt ứng dụng này, cho phép người dùng thực hiện cấp phép với nó.
-        name: Tên ứng dụng của bạn. Điều này sẽ được hiển thị cho người dùng khác khi ủy quyền.
-        redirect_uri_html: 'Các URL người dùng được ủy quyền có thể được chuyển hướng đến. Mỗi mục nhập trên một dòng. <br/> Nếu bạn đang đăng ký một ứng dụng máy tính để bàn, hãy sử dụng URL sau.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: Nếu bạn đang phát triển ứng dụng khách API OAuth cho OpenProject, bạn có thể đăng ký ứng dụng đó bằng biểu mẫu này để tất cả người dùng sử dụng.
-        scopes: Kiểm tra phạm vi bạn muốn ứng dụng cấp quyền truy cập. Nếu không có phạm vi nào được chọn, api_v3 sẽ được giả sử.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: Ứng dụng OAuth '%{name}'
       new: Ứng dụng OAuth mới
       non_confidential: Không bí mật
@@ -5189,7 +5211,7 @@ vi:
         '
     authorization_error: Đã xảy ra lỗi ủy quyền.
     client_credentials: Người dùng được sử dụng cho thông tin xác thực của Khách hàng
-    client_credentials_impersonation_html: 'Theo mặc định, OpenProject cung cấp ủy quyền OAuth 2.0 thông qua %{authorization_code_flow_link}. Bạn có thể tùy ý bật %{client_credentials_flow_link}, nhưng bạn phải cung cấp người dùng mà yêu cầu của họ sẽ được thực hiện thay mặt họ.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: Người dùng thông tin đăng nhập của khách hàng được đặt thành
@@ -5214,9 +5236,12 @@ vi:
       other_applications: Các ứng dụng OAuth khác
     my_registered_applications: Ứng dụng OAuth đã đăng ký
     scopes:
-      api_v3: Truy cập đầy đủ API v3
+      api_v3: Access to APIv3
       api_v3_text: Ứng dụng sẽ nhận được quyền truy cập đọc và ghi đầy đủ vào OpenProject API v3 để thay mặt bạn thực hiện các hành động.
-      mcp: Access to MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
   oauth_client:
     errors:
@@ -5324,16 +5349,15 @@ vi:
       parent: cha mẹ
       short: Tên viết tắt
       weight: cân nặng
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Mở liên kết trong tab mới
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Drag to reorder
-        menu:
-          label_actions: Gói công việc (Work Package) actions
-        parent: Parent
-        undisclosed: Undisclosed
   page:
     text: văn bản
   pagination:
@@ -7200,9 +7224,6 @@ vi:
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
 
           '
-        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
-
-          '
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: Convert
@@ -7529,9 +7550,6 @@ vi:
       note_placeholder: Tại sao bạn đặt lời nhắc này?
       success_deletion_message: Đã xóa lời nhắc thành công.
       success_update_message: Đã cập nhật lời nhắc thành công.
-    updated_automatically_by_child_changes: '_Được cập nhật tự động bằng cách thay đổi các giá trị trong gói công việc con %{child}_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: Thêm quan hệ vào các gói công việc khác để tạo liên kết giữa chúng.

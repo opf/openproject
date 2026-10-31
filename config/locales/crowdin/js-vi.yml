@@ -203,6 +203,8 @@ vi:
     description_select_work_package: 'Chọn gói công việc #%{id}'
     description_subwork_package: 'Gói công việc con #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: Đã xảy ra lỗi trong CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Lưu tài liệu không thành công với lỗi sau: %{error}'
@@ -1086,11 +1088,24 @@ vi:
       scheduling:
         is_parent: Ngày của gói công việc này được tự động suy ra từ các phần tử con của nó. Kích hoạt 'Lập lịch thủ công' để đặt ngày.
         is_switched_from_manual_to_automatic: Ngày của gói công việc này có thể cần được tính toán lại sau khi chuyển từ lập lịch thủ công sang lập lịch tự động do mối quan hệ với các gói công việc khác.
+      selection:
+        all_selected:
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Hiển thị tất cả người dùng đã được chia sẻ gói công việc
         title: Chia sẻ gói công việc
       table:
         configure_button: Cấu hình bảng gói công việc
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Bảng có các hàng gói công việc và các cột thuộc tính gói công việc.
         text_inline_edit: Hầu hết các ô của bảng này là các nút kích hoạt chức năng chỉnh sửa nội tuyến của thuộc tính đó.
         text_select_hint: Các hộp chọn phải được mở bằng 'ALT' và phím mũi tên.

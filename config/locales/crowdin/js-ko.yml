@@ -203,6 +203,8 @@ ko:
     description_select_work_package: '작업 패키지 #%{id} 선택'
     description_subwork_package: '작업 패키지 #%{id}의 자식'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: CKEditor에서 오류가 발생했습니다
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: '다음 오류로 인해 문서를 저장하지 못했습니다: %{error}'
@@ -1086,11 +1088,24 @@ ko:
       scheduling:
         is_parent: 이 작업 패키지의 날짜는 자식으로부터 자동으로 추정됩니다. '수동 스케줄링'을 활성화하여 날짜를 설정할 수 있습니다.
         is_switched_from_manual_to_automatic: 다른 작업 패키지와의 관계로 인해 수동 스케줄링에서 자동 스케줄링으로 전환한 후 이 작업 패키지의 날짜를 다시 계산해야 할 수 있습니다.
+      selection:
+        all_selected:
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: 작업 패키지가 공유된 모든 사용자 표시
         title: 작업 패키지 공유
       table:
         configure_button: 작업 패키지 테이블 구성
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: 작업 패키지의 행 및 작업 패키지 특성의 열이 있는 테이블.
         text_inline_edit: 이 테이블의 셀 대부분은 해당 특성의 인라인 편집 기능을 활성화하는 버튼입니다.
         text_select_hint: 선택 상자는 'ALT'와 화살표 키로 열어야 합니다.

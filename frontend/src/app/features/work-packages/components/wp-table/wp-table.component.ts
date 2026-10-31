@@ -52,8 +52,11 @@ import {
 } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { States } from 'core-app/core/states/states.service';
+import { renderedColumns } from 'core-app/features/work-packages/components/wp-fast-table/builders/rendered-columns';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
+import { QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
+import { primarySortDirection } from 'core-app/features/work-packages/components/wp-table/sort-header/primary-sort-direction';
 
 export interface WorkPackageFocusContext {
   /** Work package that was focused */
@@ -121,8 +124,12 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
     noResults:{ title:string; description:string };
     limitedResults:(count:number, total:number) => string;
     sorting:string;
+    tableName:string;
     tableSummary:string;
     tableSummaryHints:string;
+    actionsHeader:string;
+    baselineHeader:string;
+    configurationHeader:string;
   };
 
   public results:WorkPackageCollectionResource;
@@ -133,6 +140,8 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
   public numTableColumns:number;
 
+  public trailingColumnRendered = true;
+
   public timelineVisible:boolean;
 
   public manualSortEnabled:boolean;
@@ -140,6 +149,8 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
   public baselineEnabled:boolean;
 
   public limitedResults = false;
+
+  public sortDescription = '';
 
   // We need to sync certain height difference to the timeline
   // depending on whether inline create or sums rows are being shown
@@ -154,19 +165,23 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
     this.locale = I18n.locale;
 
     this.text = {
-      cancel: I18n.t('js.button_cancel'),
+      cancel: this.I18n.t('js.button_cancel'),
       noResults: {
-        title: I18n.t('js.work_packages.no_results.title'),
-        description: I18n.t('js.work_packages.no_results.description'),
+        title: this.I18n.t('js.work_packages.no_results.title'),
+        description: this.I18n.t('js.work_packages.no_results.description'),
       },
-      limitedResults: (count:number, total:number) => I18n.t('js.work_packages.limited_results', { count, total }),
-      sorting: I18n.t('js.label_sorting'),
-      tableSummary: I18n.t('js.work_packages.table.summary'),
+      limitedResults: (count:number, total:number) => this.I18n.t('js.work_packages.limited_results', { count, total }),
+      sorting: this.I18n.t('js.label_sorting'),
+      tableName: this.I18n.t('js.label_work_package_plural'),
+      tableSummary: this.I18n.t('js.work_packages.table.summary'),
       tableSummaryHints: [
-        I18n.t('js.work_packages.table.text_inline_edit'),
-        I18n.t('js.work_packages.table.text_select_hint'),
-        I18n.t('js.work_packages.table.text_sort_hint'),
+        this.I18n.t('js.work_packages.table.text_inline_edit'),
+        this.I18n.t('js.work_packages.table.text_select_hint'),
+        this.I18n.t('js.work_packages.table.text_sort_hint'),
       ].join(' '),
+      actionsHeader: this.I18n.t('js.work_packages.table.grid_actions_header'),
+      baselineHeader: this.I18n.t('js.work_packages.table.grid_baseline_header'),
+      configurationHeader: this.I18n.t('js.toolbar.settings.configure_view'),
     };
 
     const statesCombined = combineLatest([
@@ -197,15 +212,22 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
       this.baselineEnabled = this.wpTableBaseline.isActive();
       this.limitedResults = this.manualSortEnabled && results.total > results.count;
 
-      // Total columns = all available columns + id + context menu
-      this.numTableColumns = this.columns.length + 2;
+      if (this.configuration.keyboardNavigationEnabled) {
+        this.sortDescription = this.describeSort();
+        const rendered = renderedColumns(this.configuration, this.baselineEnabled);
+        this.trailingColumnRendered = rendered.trailing;
+        this.numTableColumns = rendered.count(this.columns.length);
+      } else {
+        // Total columns = all available columns + id + context menu
+        this.numTableColumns = this.columns.length + 2;
 
-      if (this.manualSortEnabled) {
-        this.numTableColumns += 1;
-      }
+        if (this.manualSortEnabled) {
+          this.numTableColumns += 1;
+        }
 
-      if (this.baselineEnabled) {
-        this.numTableColumns += 1;
+        if (this.baselineEnabled) {
+          this.numTableColumns += 1;
+        }
       }
 
       if (this.workPackageTable) {
@@ -216,7 +238,7 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
         this.scrollSync.update(timelines.visible);
       }
 
-      this.cdRef.detectChanges();
+      this.renderHeader();
     });
 
     this.cdRef.detectChanges();
@@ -271,11 +293,58 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
     hover.activate();
     scroll.update(this.timelineVisible);
 
+    this.renderHeader();
+  }
+
+  private renderHeader():void {
     this.cdRef.detectChanges();
+    this.workPackageTable?.rowPositions?.paint();
   }
 
   public get isEmbedded() {
     return this.configuration.isEmbedded;
+  }
+
+  public get sortDescriptionId():string|null {
+    return this.workPackageTable ? `${this.workPackageTable.domId}-sort` : null;
+  }
+
+  public ariaSort(column:QueryColumn):'ascending'|'descending'|null {
+    if (!this.configuration.keyboardNavigationEnabled) {
+      return null;
+    }
+
+    switch (primarySortDirection(this.wpTableSortBy.current, column)) {
+      case 'asc':
+        return 'ascending';
+      case 'desc':
+        return 'descending';
+      default:
+        return null;
+    }
+  }
+
+  private describeSort():string {
+    const sortBy = this.wpTableSortBy.current;
+
+    if (this.wpTableSortBy.isManualSortingMode) {
+      return this.I18n.t('js.work_packages.table.sorted_manually');
+    }
+
+    if (sortBy.length === 0) {
+      return '';
+    }
+
+    const criteria = sortBy.map(({ column, direction }) => this.I18n.t(
+      direction.href === QUERY_SORT_BY_DESC
+        ? 'js.work_packages.table.sort_criterion_descending'
+        : 'js.work_packages.table.sort_criterion_ascending',
+      { column: column.name },
+    ));
+
+    return this.I18n.t('js.work_packages.table.sorted_by', {
+      criteria: new Intl.ListFormat(this.I18n.locale, { type: 'conjunction' }).format(criteria),
+    });
   }
 
   private getTableAndTimelineElement():[HTMLElement, HTMLElement] {

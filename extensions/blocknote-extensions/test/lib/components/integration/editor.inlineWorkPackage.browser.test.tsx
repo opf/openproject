@@ -53,7 +53,7 @@ describe('Inline chip - resize', () => {
     await insertInlineWorkPackageViaSlashMenu();
 
     await openInlineWorkPackageSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Tiny', exact: true }));
 
     await expect.element(page.getByText('#123')).toBeVisible();
     await expect.element(page.getByTestId('op-bn-work-package--type')).not.toBeInTheDocument();
@@ -66,7 +66,7 @@ describe('Inline chip - resize', () => {
     await insertInlineWorkPackageViaSlashMenu();
 
     await openInlineWorkPackageSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Compact', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Compact', exact: true }));
 
     await expect.element(page.getByText('#123')).toBeVisible();
     await expect.element(page.getByTestId('op-bn-work-package--type')).toBeVisible();
@@ -79,12 +79,23 @@ describe('Inline chip - resize', () => {
     await insertInlineWorkPackageViaHash('##');
 
     await openInlineWorkPackageSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Tiny', exact: true }));
 
     await expect.element(page.getByText('#123')).toBeVisible();
     await expect.element(page.getByTestId('op-bn-work-package--type')).not.toBeInTheDocument();
     await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
     await expect.element(page.getByText('Fix login bug')).not.toBeInTheDocument();
+  });
+
+  it('closes the options once a size is picked', async () => {
+    renderEditor();
+    await insertInlineWorkPackageViaSlashMenu();
+
+    await openInlineWorkPackageSizeMenu();
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Compact', exact: true }));
+
+    await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
+    await expect.element(page.getByTestId('popover-content')).not.toBeInTheDocument();
   });
 });
 

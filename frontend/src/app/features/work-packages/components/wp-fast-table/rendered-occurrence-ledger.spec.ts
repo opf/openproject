@@ -44,6 +44,7 @@ function draftOccurrence(key:OccurrenceKey, overrides:Partial<DraftOccurrence> =
     workPackageId: '1',
     renderType: 'primary',
     hidden: false,
+    level: 1,
     element: null,
     additionalClasses: [],
     workPackage: null,
@@ -230,6 +231,28 @@ describe('RenderedOccurrenceLedger', () => {
     expect(ledger.generation).toBe(generation);
   });
 
+  it('keeps the level through commit, setHidden and replaceElement', () => {
+    const ledger = new RenderedOccurrenceLedger();
+    commitKeys(ledger, draftOccurrence('a', { level: 3, element: document.createElement('tr') }));
+    expect(ledger.byKey('a')?.level).toBe(3);
+
+    ledger.setHidden(new Map([['a', true]]));
+    expect(ledger.byKey('a')?.level).toBe(3);
+
+    ledger.replaceElement('a', document.createElement('tr'));
+    expect(ledger.byKey('a')?.level).toBe(3);
+  });
+
+  it('throws in dev mode when two occurrences share one element', () => {
+    const ledger = new RenderedOccurrenceLedger();
+    const el = document.createElement('tr');
+    expect(() => commitKeys(ledger, draftOccurrence('a', { element: el }), draftOccurrence('b', { element: el }))).toThrow();
+
+    commitKeys(ledger, draftOccurrence('a', { element: el }), draftOccurrence('b'));
+    expect(() => ledger.replaceElement('b', el)).toThrow();
+    expect(() => ledger.replaceElement('a', el)).not.toThrow();
+  });
+
   it('looks up occurrences by element', () => {
     const ledger = new RenderedOccurrenceLedger();
     const el = document.createElement('tr');
@@ -237,6 +260,18 @@ describe('RenderedOccurrenceLedger', () => {
 
     expect(ledger.byElement(el)?.key).toBe('a');
     expect(ledger.byElement(document.createElement('tr'))).toBeUndefined();
+  });
+
+  it('finds the current occurrence by element across setHidden and commit', () => {
+    const ledger = new RenderedOccurrenceLedger();
+    const el = document.createElement('tr');
+    commitKeys(ledger, draftOccurrence('a', { element: el }));
+
+    ledger.setHidden(new Map([['a', true]]));
+    expect(ledger.byElement(el)?.hidden).toBe(true);
+
+    commitKeys(ledger, draftOccurrence('b'));
+    expect(ledger.byElement(el)).toBeUndefined();
   });
 
   it('does not expose an uncommitted draft', () => {

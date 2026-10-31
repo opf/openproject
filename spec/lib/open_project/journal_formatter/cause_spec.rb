@@ -280,6 +280,75 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
+  context "when the change was caused by retracting a comment" do
+    subject(:cause) do
+      {
+        "type" => "comment_retracted"
+      }
+    end
+
+    it do
+      expect(cause).to render_html_variant(
+        "<strong>#{I18n.t('journals.caused_changes.comment_retracted')}</strong>"
+      )
+    end
+
+    it do
+      expect(cause).to render_raw_variant(I18n.t("journals.caused_changes.comment_retracted"))
+    end
+  end
+
+  context "when the change was caused by changing values within a child" do
+    subject(:cause) do
+      {
+        "type" => "work_package_children_changed_values",
+        "work_package_id" => work_package.id
+      }
+    end
+
+    context "when the user is able to access the related work package" do
+      before do
+        allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.where(id: work_package.id))
+      end
+
+      it do
+        link = work_package_html_link
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.work_package_children_changed_values')}</strong> " \
+          "#{I18n.t('journals.cause_descriptions.work_package_children_changed_values', link:)}"
+        )
+      end
+
+      it do
+        link = work_package_raw_link
+        expect(cause).to render_raw_variant(
+          "#{I18n.t('journals.caused_changes.work_package_children_changed_values')} " \
+          "#{I18n.t('journals.cause_descriptions.work_package_children_changed_values', link:)}"
+        )
+      end
+    end
+
+    context "when the user is not able to access the related work package" do
+      before do
+        allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.none)
+      end
+
+      it do
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.work_package_children_changed_values')}</strong> " \
+          "#{I18n.t('journals.cause_descriptions.unaccessable_work_package_changed')}"
+        )
+      end
+
+      it do
+        expect(cause).to render_raw_variant(
+          "#{I18n.t('journals.caused_changes.work_package_children_changed_values')} " \
+          "#{I18n.t('journals.cause_descriptions.unaccessable_work_package_changed')}"
+        )
+      end
+    end
+  end
+
   context "when the change was caused by the deletion of the parent" do
     subject(:cause) do
       {

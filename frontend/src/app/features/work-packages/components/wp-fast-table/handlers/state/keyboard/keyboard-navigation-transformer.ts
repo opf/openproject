@@ -35,18 +35,23 @@ import { WorkPackageViewFocusService } from 'core-app/features/work-packages/rou
 import { displayClassName, editableClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
+import { isApplePlatform } from 'core-common/platform';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import type { WorkPackageTable } from '../../../wp-fast-table';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import type { TableEventComponent } from '../../table-handler-registry';
 import { activateTableField } from '../../cell/edit-cell-handler';
 import { activateRow } from '../../row/click-handler';
+import { rowKindOf } from '../../../helpers/row-expansion';
 import {
   FocusPosition, initialPosition, NavigableRow, NavKey, nearestPosition, computeNextPosition, reconcilePosition,
 } from './focus-position';
 import {
-  buildNavigableRows, headerRowKey, headerRowOf, rowKindOf, totalsRowKey, totalsRowOf,
+  buildNavigableRows, headerRowKey, headerRowOf, totalsRowKey, totalsRowOf,
 } from './navigable-rows';
+import { selectableOccurrences } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
+import { KeyboardSelection, selectionChord } from './keyboard-selection';
 import { insideGrid, navigableCellClassName, navigableCells, paintRovingTabindex } from './roving-tabindex';
 
 export interface KeyboardNavigation {
@@ -55,8 +60,10 @@ export interface KeyboardNavigation {
   focusPosition(position:FocusPosition):void;
   /** Remembers the position without painting or focusing it. */
   recordPosition(position:FocusPosition):void;
-  /** Focuses the origin again, or the row hiding it, unless the user has since moved elsewhere, an editor is open or focus rests on a live control. */
-  returnFocus(origin:FocusPosition):void;
+  /** Focuses the origin again, or the row hiding it, unless the user has since moved elsewhere, an editor is open or focus rests on a live control; true when it focused. */
+  returnFocus(origin:FocusPosition):boolean;
+  /** Returns focus to `origin` after a menu closed, though focus visited the menu portal; same userPosition guard as returnFocus, and never takes focus from a control outside the table. */
+  returnFocusFromMenu(origin:FocusPosition):void;
   /** The position of the navigable cell or row enclosing `cell`, or null when it is not a rendered occurrence. */
   positionOfCell(cell:HTMLElement):FocusPosition|null;
   /** The row or cell element at the position, or null when it is not rendered. */
@@ -100,6 +107,8 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
   @LazyInject() public wpTableFocus:WorkPackageViewFocusService;
 
+  @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
+
   private current:FocusPosition|null = null;
 
   private userPosition:FocusPosition|null = null;
@@ -113,6 +122,8 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   private pointerActive = false;
 
   private rendered:RenderedRows = { rows: [], groupBy: null };
+
+  private selecting!:KeyboardSelection;
 
   public onCellEnter = (position:FocusPosition):boolean => {
     const field = this.elementAt(position)?.querySelector<HTMLElement>(`.${displayClassName}.${editableClassName}`);
@@ -130,6 +141,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
     const { destroyRef, scrollContainer } = table;
     table.keyboardNavigation = this;
+    this.selecting = new KeyboardSelection(table, this.wpTableSelection);
     const removedFromTabOrder = [scrollContainer, table.tableAndTimelineContainer]
       .filter((container, index, containers) => containers.indexOf(container) === index && !container.hasAttribute('tabindex'));
     removedFromTabOrder.forEach((container) => container.setAttribute('tabindex', '-1'));
@@ -210,18 +222,35 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     }
   }
 
-  public returnFocus(origin:FocusPosition):void {
+  public returnFocusFromMenu(origin:FocusPosition):void {
+    if (this.table.destroyed || !this.focusAtRest()) {
+      return;
+    }
+
+    const focusLeftTable = this.focusLeftTable;
+    this.focusLeftTable = false;
+    if (this.returnFocus(origin)) {
+      this.owned = true;
+    } else {
+      this.focusLeftTable = focusLeftTable;
+    }
+  }
+
+  public returnFocus(origin:FocusPosition):boolean {
     const user = this.userPosition;
     if (user && (user.key !== origin.key || user.cell !== origin.cell)) {
-      return;
+      return false;
     }
 
     const rows = buildNavigableRows(this.table);
     const originIndex = rows.findIndex((row) => row.key === origin.key);
     const target = originIndex === -1 ? this.current : reconcilePosition(rows, origin, originIndex);
-    if (target && this.mayRestoreFocus()) {
-      this.focusPosition(target);
+    if (!target || !this.mayRestoreFocus()) {
+      return false;
     }
+
+    this.focusPosition(target);
+    return true;
   }
 
   public positionOfCell(cell:Element):FocusPosition|null {
@@ -415,7 +444,11 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
       return;
     }
 
-    if (!position || this.ignored(event) || event.target !== this.elementAt(position)) {
+    if (!position || event.target !== this.elementAt(position)) {
+      return;
+    }
+
+    if (this.handleSelectionChord(position, event) || this.ignored(event)) {
       return;
     }
 
@@ -425,6 +458,42 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
     if (handled) {
       event.preventDefault();
+    }
+  }
+
+  private handleSelectionChord(position:FocusPosition, event:KeyboardEvent):boolean {
+    const chord = selectionChord(event, isApplePlatform());
+    switch (chord) {
+      case null:
+        return false;
+      case 'toggle':
+        if (this.selecting.occurrenceAt(position)) {
+          event.preventDefault();
+          if (!event.repeat) {
+            this.selecting.toggle(position);
+          }
+        }
+        return true;
+      case 'selectAll':
+        if (selectableOccurrences(this.table.renderedRows).length > 0) {
+          event.preventDefault();
+          if (!event.repeat) {
+            this.selecting.selectAll(position);
+          }
+        }
+        return true;
+      default:
+        event.preventDefault();
+        this.extendSelection(position, event);
+        return true;
+    }
+  }
+
+  private extendSelection(position:FocusPosition, event:KeyboardEvent):void {
+    this.navigate(position, event);
+    const arrived = this.current;
+    if (arrived && (arrived.key !== position.key || arrived.cell !== position.cell)) {
+      this.selecting.extendTo(arrived);
     }
   }
 

@@ -109,7 +109,7 @@ module WorkPackageTypes
     end
 
     def reusable_workflow(started_id)
-      candidates = Workflow.global.where.not(id: started_id).in_display_order
+      candidates = Workflow.where.not(id: started_id).in_display_order
       candidates.where(id: TypeVariant.select(:workflow_id)).first || candidates.first
     end
 
@@ -183,6 +183,8 @@ module WorkPackageTypes
     end
 
     def update_form_configuration
+      return advance if @variant.project_owned?
+
       form = @variant.form_configuration
       return name_reference(form, ::FormConfigurations::UpdateService) if params[:form_configuration].present?
       return advance unless form&.used_by_one_variant?
@@ -191,6 +193,8 @@ module WorkPackageTypes
     end
 
     def update_workflows
+      return advance if @variant.project_owned?
+
       workflow = @variant.workflow
       return name_reference(workflow, ::Workflows::UpdateService) if params[:workflow].present?
       return advance unless workflow&.used_by_one_variant?
@@ -223,14 +227,19 @@ module WorkPackageTypes
       params.expect(record.model_name.param_key => %i[name description]).to_h.symbolize_keys
     end
 
+    # The matrix submits its inputs with the wizard form, along with the roles and
+    # transition tab it was showing, so that only that slice is rewritten. Without a tab
+    # the lazily loaded matrix never rendered, and there is nothing to persist.
     def update_matrix
+      return ServiceResult.success unless params.key?(:tab)
+
       context = ::Workflows::MatrixContext.new(workflow: @variant.workflow,
                                                variant: @variant,
                                                tab: params[:tab],
                                                role_ids: params[:role_ids])
 
       ::Workflows::MatrixUpdateService
-        .new(workflow: @variant.workflow, roles: context.roles, tab: context.tab)
+        .new(context:)
         .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
     end
 

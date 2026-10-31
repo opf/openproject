@@ -34,6 +34,8 @@ import { groupIdentifier } from '../builders/modes/grouped/grouped-rows-helpers'
 export interface WorkPackageFixture {
   id:string;
   subject?:string;
+  /** The identifier the row shows and relation buttons name; defaults to `#<id>`. */
+  formattedId?:string;
   /** Further resource attributes, e.g. a linked `status` the table groups by. */
   attributes?:Record<string, unknown>;
   ancestors?:WorkPackageFixture[];
@@ -41,6 +43,8 @@ export interface WorkPackageFixture {
   type?:string;
   /** Child work packages a `children: true` column expands into child relation rows. */
   children?:WorkPackageFixture[];
+  /** The change a baseline comparison reports for this work package; read by `getBaselineState`. */
+  baseline?:'added'|'removed'|'updated';
 }
 
 /** A relation `from` → `to` of `type`; seen from `to` it reads as `reverseType` (default `type`). */
@@ -59,6 +63,14 @@ export interface GroupFixture {
   sums?:GroupObject['sums'];
 }
 
+function baselineTimestamps(baseline:NonNullable<WorkPackageFixture['baseline']>) {
+  const meta = (present:boolean) => ({ exists: present, matchesFilters: present });
+  const base = { $links: {}, _meta: meta(baseline !== 'added'), ...(baseline === 'updated' ? { subject: 'Before' } : {}) };
+  const compare = { $links: {}, _meta: meta(baseline !== 'removed') };
+
+  return [base, compare];
+}
+
 export function buildWorkPackage(fixture:WorkPackageFixture):WorkPackageResource {
   const subject = fixture.subject ?? `Work package ${fixture.id}`;
   const href = `/api/v3/work_packages/${fixture.id}`;
@@ -68,6 +80,8 @@ export function buildWorkPackage(fixture:WorkPackageFixture):WorkPackageResource
     children: fixture.children?.map(buildWorkPackage),
     ...fixture.attributes,
     id: fixture.id,
+    formattedId: fixture.formattedId ?? `#${fixture.id}`,
+    ...(fixture.baseline ? { attributesByTimestamp: baselineTimestamps(fixture.baseline) } : {}),
     subject,
     href,
     $href: href,

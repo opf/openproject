@@ -37,6 +37,7 @@ import { activeFieldClassName } from 'core-app/shared/components/fields/edit/edi
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
+import { selectionGesture } from '../state/selection-feedback';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
@@ -112,10 +113,14 @@ export function activateRow(
 ):void {
   const { injector } = view.workPackageTable;
 
-  injector.get(WorkPackageViewSelectionGesturesService)
-    .handleClick(wpId, view.workPackageTable.renderedRows, modifiers, element.dataset.classIdentifier);
+  const modified = [modifiers.ctrlKey, modifiers.metaKey, modifiers.shiftKey].some(Boolean);
 
-  if (!(modifiers.ctrlKey || modifiers.metaKey || modifiers.shiftKey)) {
+  selectionGesture(view.workPackageTable, modified ? 'selection' : 'navigation', () => {
+    injector.get(WorkPackageViewSelectionGesturesService)
+      .handleClick(wpId, view.workPackageTable.renderedRows, modifiers, element.dataset.classIdentifier);
+  });
+
+  if (!modified) {
     view.itemClicked.emit({ workPackageId: wpId, double: false });
   }
 

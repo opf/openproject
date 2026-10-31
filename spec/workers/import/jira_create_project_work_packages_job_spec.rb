@@ -216,6 +216,52 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
         end
       end
 
+      context "when importing the due date" do
+        before { week_with_saturday_and_sunday_as_weekend }
+
+        context "when it falls on a working day" do
+          it "keeps the work package scheduled on working days only" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: Date.new(2031, 5, 29), ignore_non_working_days: false)
+          end
+        end
+
+        context "when it falls on a weekend" do
+          let(:jira_issue_payload) { super().deep_merge("fields" => { "duedate" => "2031-05-31" }) }
+
+          it "keeps the due date by including non-working days" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: Date.new(2031, 5, 31), ignore_non_working_days: true)
+          end
+        end
+
+        context "when it falls on a non-working day of the instance" do
+          before { create(:non_working_day, date: Date.new(2031, 5, 29)) }
+
+          it "keeps the due date by including non-working days" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: Date.new(2031, 5, 29), ignore_non_working_days: true)
+          end
+        end
+
+        context "when the issue has none" do
+          let(:jira_issue_payload) { super().deep_merge("fields" => { "duedate" => nil }) }
+
+          it "keeps the work package scheduled on working days only" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: nil, ignore_non_working_days: false)
+          end
+        end
+      end
+
       context "if priority is nil or hidden in jira filed configuration" do
         let(:jira_issue_payload) do
           JSON.parse(Rails.root.join("spec/fixtures/import/jira/issue_without_priority.json").read)
@@ -403,6 +449,106 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
 
           work_package = WorkPackage.find("DPPP-6")
           expect(work_package.target_versions).to be_empty
+        end
+      end
+
+      context "with labels" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"]["labels"] = %w[backend urgent] }
+        end
+
+        it "attaches the jira labels to the work package" do
+          create_labels
+          create_work_packages
+
+          expect(WorkPackage.find("DPPP-6").labels.pluck(:name)).to contain_exactly("backend", "urgent")
+        end
+
+        it "records the labels in the work package journal" do
+          create_labels
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.journals.last.label_journals.pluck(:label_id)).to match_array(work_package.label_ids)
+        end
+
+        context "when a label with the same name already exists in a different case" do
+          let!(:existing_label) { create(:label, name: "Backend") }
+
+          it "attaches the existing label instead of a second one" do
+            create_labels
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6").labels).to include(existing_label)
+            expect(Label.named("backend").count).to eq(1)
+          end
+        end
+
+        context "when a second issue carries the same label" do
+          let!(:jira_issue2) do
+            payload = jira_issue_payload.deep_dup
+            payload["id"] = "10406"
+            payload["key"] = "DPPP-7"
+            payload["fields"]["labels"] = %w[backend]
+            create(:jira_issue, jira_import:, origin_id: "10406", jira_project:, payload:)
+          end
+
+          it "attaches the one label to both work packages" do
+            create_labels
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-7").labels.pluck(:name)).to eq(["backend"])
+            expect(WorkPackage.find("DPPP-6").labels).to include(Label.named("backend").first)
+          end
+        end
+
+        context "when the issue has no labels" do
+          let(:jira_issue_payload) { super().tap { |payload| payload["fields"]["labels"] = [] } }
+
+          it "leaves the work package without labels" do
+            create_labels
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6").labels).to be_empty
+          end
+        end
+
+        context "when the labels field is hidden in the jira field configuration" do
+          let(:jira_issue_payload) { super().tap { |payload| payload["fields"].delete("labels") } }
+
+          it "imports the work package without labels" do
+            create_labels
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6").labels).to be_empty
+          end
+        end
+
+        context "when the labels field is not an array" do
+          let(:jira_issue_payload) do
+            super().tap { |payload| payload["fields"]["labels"] = "backend" }
+          end
+
+          it "imports the work package without labels and does not log a missing one" do
+            allow(Rails.logger).to receive(:warn)
+
+            create_labels
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6").labels).to be_empty
+            expect(Rails.logger).not_to have_received(:warn).with(/backend/)
+          end
+        end
+
+        context "when the labels stage did not run" do
+          it "imports the work package without labels and logs them" do
+            allow(Rails.logger).to receive(:warn)
+
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6").labels).to be_empty
+            expect(Rails.logger).to have_received(:warn).with(/backend, urgent/)
+          end
         end
       end
 

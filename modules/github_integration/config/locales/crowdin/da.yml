@@ -68,7 +68,7 @@ da:
     description: Integrerer OpenProject og GitHub for en bedre arbejdsgang
     name: OpenProject GitHub Integration
   project_module_github: GitHub
-  text_deploy_target_api_key_info: 'En OpenProject [API-nøgle](docs_url) tilhørende en bruger med den globale introspektionstilladelse.
+  text_deploy_target_api_key_info: 'En [API-nøgle](docs_url) til OpenProject, der tilhører en bruger med den globale tilladelse til introspektion.
 
     '
   text_deploy_target_type_info: 'Indtil videre understøttes kun OpenProject selv.
