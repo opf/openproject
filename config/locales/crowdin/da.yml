@@ -2144,12 +2144,12 @@ da:
     resources:
       schema: Skema
     undisclosed:
-      ancestor: Skjult – det overordnede element er ikke synlig på grund af manglende tilladelser.
-      budget: Undisclosed - The budget is invisible because of lacking permissions.
-      definingProject: Skjult – projektet er ikke synlig på grund af manglende tilladelser.
-      definingWorkspace: Skjult – arbejdsområdet er ikke synlig på grund af manglende tilladelser.
-      parent: Skjult – det overordnede element er ikke synlig på grund af manglende tilladelser.
-      project: Skjult – projektet er ikke synlig på grund af manglende tilladelser.
+      ancestor: Skjult – det overordnede element er ikke synligt på grund af manglende tilladelser.
+      budget: Skjult – budgettet er ikke synligt på grund af manglende tilladelser.
+      definingProject: Skjult – projektet er ikke synligt på grund af manglende tilladelser.
+      definingWorkspace: Skjult – arbejdsområdet er ikke synligt på grund af manglende tilladelser.
+      parent: Skjult – det overordnede element er ikke synligt på grund af manglende tilladelser.
+      project: Skjult – projektet er ikke synligt på grund af manglende tilladelser.
       workPackage: Skjult – arbejdspakken er ikke synlig på grund af manglende tilladelser.
   attribute_help_texts:
     add_new: Tilføj hjælpetekst
