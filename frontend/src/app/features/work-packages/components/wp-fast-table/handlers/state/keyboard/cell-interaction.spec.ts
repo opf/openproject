@@ -32,6 +32,7 @@ import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import { States } from 'core-app/core/states/states.service';
 import { insideGrid, navigableCells } from './roving-tabindex';
 import { cellTargets, rowControls } from './cell-interaction';
+import { headerRowKey } from './navigable-rows';
 import { activateTableField } from '../../cell/edit-cell-handler';
 import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
 import { OpUnlinkTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/actions/unlink-table-action';
@@ -372,6 +373,90 @@ describe('CellInteraction', () => {
     await userEvent.tab();
     fireEvent.keyDown(control, { key: 'ArrowDown' });
     expect(table.row('2')).toHaveFocus();
+  });
+
+  describe('walk key matrix', () => {
+    const walk = async () => {
+      const table = await mount({ workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }] });
+      const origin = navigableCells(table.row('2'))[0];
+      const control = document.createElement('button');
+      origin.append(control);
+      table.table.keyboardNavigation.focusPosition(positionOf(table, origin));
+      await userEvent.tab();
+      expect(control).toHaveFocus();
+      return { table, origin, control };
+    };
+
+    const withAltGraph = (init:KeyboardEventInit) => {
+      const event = new KeyboardEvent('keydown', { bubbles: true, cancelable: true, ...init });
+      vi.spyOn(event, 'getModifierState').mockImplementation((key) => key === 'AltGraph');
+      return event;
+    };
+
+    it('moves from the origin with a plain ArrowDown', async () => {
+      const { table, control } = await walk();
+
+      expect(fireEvent.keyDown(control, { key: 'ArrowDown' })).toBe(false);
+
+      expect(navigableCells(table.row('3'))[0]).toHaveFocus();
+    });
+
+    it('returns to the origin with Escape', async () => {
+      const { origin, control } = await walk();
+
+      expect(fireEvent.keyDown(control, { key: 'Escape' })).toBe(false);
+
+      expect(origin).toHaveFocus();
+    });
+
+    it.each<[string, KeyboardEventInit]>([
+      ['Ctrl', { ctrlKey: true }],
+      ['Meta', { metaKey: true }],
+    ])('returns to the origin on a command arrow inside a walk: %s', async (_name, init) => {
+      const { origin, control } = await walk();
+
+      expect(fireEvent.keyDown(control, { key: 'ArrowDown', ...init })).toBe(false);
+
+      expect(origin).toHaveFocus();
+    });
+
+    it('moves as a plain arrow while composing inside a walk', async () => {
+      const { table, control } = await walk();
+
+      expect(fireEvent.keyDown(control, { key: 'ArrowDown', isComposing: true })).toBe(false);
+
+      expect(navigableCells(table.row('3'))[0]).toHaveFocus();
+    });
+
+    it('moves as a plain arrow with AltGraph inside a walk', async () => {
+      const { table, control } = await walk();
+      const event = withAltGraph({ key: 'ArrowDown' });
+
+      control.dispatchEvent(event);
+
+      expect(event.defaultPrevented).toBe(true);
+      expect(navigableCells(table.row('3'))[0]).toHaveFocus();
+    });
+
+    it.each<[string, KeyboardEventInit]>([
+      ['Ctrl+Alt', { ctrlKey: true, altKey: true }],
+      ['Shift', { shiftKey: true }],
+      ['Alt', { altKey: true }],
+    ])('leaves a %s arrow to the control inside a walk', async (_name, init) => {
+      const { control } = await walk();
+
+      expect(fireEvent.keyDown(control, { key: 'ArrowDown', ...init })).toBe(true);
+
+      expect(control).toHaveFocus();
+    });
+
+    it('moves to the first cell of the first row with Ctrl+Home inside a walk', async () => {
+      const { table, control } = await walk();
+
+      expect(fireEvent.keyDown(control, { key: 'Home', ctrlKey: true })).toBe(false);
+
+      expect(table.table.keyboardNavigation.position).toEqual({ key: headerRowKey, cell: 0, desiredColumn: 0 });
+    });
   });
 
   it('parks an editor at the Tab boundary and re-engages the same instance', async () => {
