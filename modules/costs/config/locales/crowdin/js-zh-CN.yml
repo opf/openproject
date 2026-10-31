@@ -23,10 +23,15 @@
 zh-CN:
   js:
     button_log_costs: 记录单位成本
+    costs:
+      widgets:
+        actual_costs:
+          chart_label: Actual costs by month chart
+          chart_month: "%{month}: %{values}"
+          chart_summary: 'Actual costs by month: %{months}.'
+          chart_value: "%{label}: %{value}"
     label_hour: 小时
     label_hours: 小时
-    myTimeTracking:
-      noSpecificTime: 未指定时间
     text_are_you_sure: 是否确定？
     work_packages:
       properties:

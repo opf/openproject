@@ -23,10 +23,15 @@
 it:
   js:
     button_log_costs: Registra unità di costo
+    costs:
+      widgets:
+        actual_costs:
+          chart_label: Actual costs by month chart
+          chart_month: "%{month}: %{values}"
+          chart_summary: 'Actual costs by month: %{months}.'
+          chart_value: "%{label}: %{value}"
     label_hour: ora
     label_hours: ore
-    myTimeTracking:
-      noSpecificTime: Nessun orario specifico
     text_are_you_sure: Sei sicuro/a?
     work_packages:
       properties:

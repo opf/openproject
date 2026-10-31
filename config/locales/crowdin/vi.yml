@@ -40,7 +40,9 @@ vi:
         view: A dynamic link to a view placed using a macro.
         work_package: A dynamic link to a work package placed using a macro.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
+    continue_with_provider: Continue with %{name}
     delete: Xoá tài khoản
     delete_confirmation: Bạn có chắc chắn muốn xoá tài khoản chứ?
     deletion_info:
@@ -65,12 +67,15 @@ vi:
     error_self_registration_limited_provider: 'Đăng ký người dùng bị giới hạn đối với nhà cung cấp dịch vụ đăng nhập một lần ''%{name}''. Vui lòng yêu cầu quản trị viên kích hoạt tài khoản cho bạn hoặc thay đổi giới hạn tự đăng ký cho nhà cung cấp này.
 
       '
-    login_with_auth_provider: hoặc đăng nhập bằng tài khoản hiện tại
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: Continue to sign in
     omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Vui lòng đăng nhập để kích hoạt tài khoản của bạn.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
+    username_or_email: Username or email
   actionview_instancetag_blank_option: Vui lòng chọn
   activemodel:
     attributes:
@@ -118,6 +123,8 @@ vi:
       auth_provider:
         additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: khách hàng SCIM
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: ID tùy chỉnh
         customized_type: Loại tùy chỉnh
@@ -128,8 +135,6 @@ vi:
         repository: Kho lưu trữ
       comment:
         commented: Nhận xét
-      custom_action:
-        actions: hành động
       custom_field:
         admin_only: Chỉ dành cho quản trị viên
         allow_non_open_versions: Cho phép các phiên bản không mở
@@ -148,10 +153,13 @@ vi:
         min_value: Minimum value
         multi_value: Cho phép nhiều lựa chọn
         possible_values: Giá trị có thể
+        project_specific_value_restriction: Project-specific values
         regexp: Biểu thức chính quy
         searchable: Có thể tìm kiếm được
         semantic_key: Semantic meaning
         visible_on_user_card: Show on user card
+      custom_field/project_specific_value_restriction:
+        restriction: Restriction
       custom_value:
         value: Giá trị
       design_color:
@@ -168,6 +176,7 @@ vi:
         uid: ID Khách hàng
       emoji_reaction:
         reactable: Đã phản hồi trên
+        reaction: Reaction
       enterprise_token:
         active_user_count_restriction: Người dùng đang hoạt động
         encoded_token: Mã thông báo hỗ trợ doanh nghiệp
@@ -179,20 +188,44 @@ vi:
         company: công ty
       favorite:
         favorited: mục
+      form_configuration:
+        attribute_groups: Form
+        description: Description
+        name: Name
+        type_variants: Types and variants using this form
+      form_configuration_attribute:
+        attribute_key: Attribute
+        custom_field: Custom field
+        group: Group
+        position: Position
+      form_configuration_group:
+        default_key: Default group
+        kind: Kind
+        label: Label
+        query: Query
       grids/grid:
         column_count: Số cột
         page: Trang
         row_count: Số dòng
         widgets: Tiện ích
       group:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         group_users: Group users
         identity_url: URL nhận dạng
         organizational_unit: Organizational unit
         parent: Parent group
       group_detail:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         organizational_unit: Organizational unit
         parent: Parent group
       import/jira:
+        auth_method: Auth method
+        basic_auth_password: Basic auth password
+        basic_auth_username: Basic auth username
         name: Jira instance name
         personal_access_token: Personal access token
         url: Jira instance URL
@@ -223,6 +256,7 @@ vi:
         title: Tiêu đề
       member:
         blocked: Blocked
+        principal_type: Member type
         roles: Vai trò
       notification:
         read_ian: Đọc trong ứng dụng
@@ -235,6 +269,7 @@ vi:
         position: Position
       persisted_query:
         filters: Filters
+        group_bys: Group results by
         name: Name
         orders: Orders
         selects: Selects
@@ -263,6 +298,7 @@ vi:
         project_creation_wizard_status_when_submitted: Trạng thái khi gửi
         project_creation_wizard_work_package_comment: Nhận xét gói công việc
         project_creation_wizard_work_package_type: Loại gói công việc
+        project_specific_values: Project-specific values
         project_types: Types
         public_value:
           false: riêng tư
@@ -367,6 +403,8 @@ vi:
         ongoing: đang diễn ra
         spent_on: Ngày
         type: Kiểu
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: lịch
         ical_token_query_assignment: Phân công truy vấn
@@ -384,19 +422,17 @@ vi:
       type_variant:
         attribute_groups: Form
         default_work_package_description: Default text for description
-        defaults_source: Defaults source
         enabled_in_new_projects: Active in new projects
-        form_configuration_source: Form source
+        linked_aspects: Inherited configuration
         patterns: Patterns
-        pdf_export_source: PDF export source
-        project_attributes_source: Project attributes source
         project_types: Projects using this variant
         variant: Variant
         variant_name: Name
-        workflows_source: Workflows source
+        workflow: Workflow
       user:
         admin: Người Quản lý
         auth_source: Nguồn xác thực
+        avatar_type: Avatar type
         consented_at: Đồng ý tại
         current_password: Mật khẩu hiện tại
         department: Department
@@ -410,7 +446,7 @@ vi:
         last_name: Họ
         ldap_auth_source: Kết nối LDAP
         new_password: Mật khẩu mới
-        password_confirmation: Xác nhận lại mật khẩu
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: Section
       user_non_working_time:
@@ -419,11 +455,15 @@ vi:
       user_preference:
         auto_hide_popups: Tự động ẩn biểu ngữ thành công
         auto_hide_popups_caption: Khi được bật, biểu ngữ thành công màu xanh sẽ tự động biến mất sau 5 giây.
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         button_update_alerts: Cập nhật cảnh báo
         button_update_look_and_feel: Cập nhật giao diện
         button_update_user_information: Cập nhật hồ sơ
         comments_sorting: Hiển thị hoạt động gói công việc được sắp xếp theo
         daily_reminders: Lời nhắc hàng ngày
+        date_format: Date format
         disable_keyboard_shortcuts: Tắt phím tắt
         dismissed_enterprise_banners: Biểu ngữ doanh nghiệp ẩn
         force_dark_theme_contrast: Buộc độ tương phản cao khi ở chế độ Tối
@@ -434,13 +474,23 @@ vi:
         header_look_and_feel: Nhìn và cảm nhận
         impaired: Viet nam
         increase_contrast: Tăng độ tương phản
-        increase_contrast_caption: Bật chế độ tương phản cao cho chế độ màu đã chọn.
+        increase_contrast_caption: Enables high-contrast mode for the chosen color mode.
         increase_theme_contrast: Tăng độ tương phản chủ đề
         mode_guideline: Một số chế độ sẽ ghi đè màu chủ đề tùy chỉnh để đảm bảo khả năng truy cập và mức độ dễ đọc. Vui lòng chọn Chế độ ánh sáng để được hỗ trợ chủ đề tùy chỉnh đầy đủ.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Chế độ màu
+        time_format: Time format
         time_zone: Múi giờ
         warn_on_leaving_unsaved: Cảnh báo tôi khi rời khỏi gói công việc có những thay đổi chưa được lưu
         workdays: Ngày làm việc
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Availability factor
         days: Working days
@@ -491,6 +541,7 @@ vi:
           title: Ngày làm việc
           true: bao gồm những ngày không làm việc
         journal_internal: Tạp chí nội bộ
+        labels: Labels
         notify: thông báo
         observed_in_versions: Observed in versions
         parent: Cha
@@ -519,6 +570,10 @@ vi:
         work_package: Gói công việc (Work Package)
       work_package_version:
         kind: Kind
+      workflow:
+        description: Description
+        name: Name
+        type_variants: Types and variants using this workflow
     errors:
       messages:
         accepted: phải được đồng ý
@@ -590,6 +645,8 @@ vi:
         regex_invalid: có thể không được xác nhận với các biểu hiện thường xuyên liên kết.
         regex_list_invalid: Không thể phân tích cú pháp các dòng %{invalid_lines} dưới dạng biểu thức chính quy.
         regex_match_failed: không khớp với biểu thức chính quy %{expression}.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         smaller_than_or_equal_to_max_length: phải nhỏ hơn hoặc bằng với chiều dài tối đa
         smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
@@ -612,6 +669,10 @@ vi:
         user_in_ldap_managed_department: This user belongs to a department managed by LDAP synchronization and cannot be moved.
         wrong_length: độ dài không đúng (phải là %{count} ký tự).
       models:
+        ai/text_transform_run:
+          attributes:
+            base:
+              not_available: This action is not available.
         attachment:
           attributes:
             content_type:
@@ -642,6 +703,8 @@ vi:
               invalid: Công thức không hợp lệ.
               invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: Thuộc tính %{custom_fields} không thể được sử dụng vì nó dẫn đến tham chiếu vòng tròn; một thuộc tính phụ thuộc vào thuộc tính khác.
+            project_specific_value_restriction:
+              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
             required:
               cannot_be_true: không thể được đặt thành đúng.
           previous_custom_field_recalculation_unprocessed: Tính toán lại các thay đổi trước đó cho trường tùy chỉnh này chưa được áp dụng, vui lòng thử lại sau vài phút.
@@ -671,6 +734,16 @@ vi:
           general_consent: Vui lòng chấp nhận các điều khoản và điều kiện.
         favorite:
           already_favorited: đã được yêu thích rồi.
+        form_configuration:
+          attributes:
+            attribute_groups:
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              default_undeletable: The default form cannot be deleted. Mark another form as default first.
         grids/grid:
           end_before_start: giá trị kết thúc cần lớn hơn giá trị bắt đầu.
           outside: nằm ngoài bảng dữ liệu.
@@ -688,6 +761,13 @@ vi:
               not_unique: đã được sử dụng. Vui lòng chọn tên khác.
         jira:
           invalid_protocol: Please provide a valid protocol (http or https)
+        label:
+          attributes:
+            name:
+              blank: Name cannot be empty.
+              format: "%{message}"
+              taken: A label with this name already exists. Please use another one.
+              too_long: Name is too long (maximum is %{count} characters).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -743,7 +823,6 @@ vi:
             types:
               cannot_assign_multiple_variants_of_parent: Can only enable a single variant of a Type on the project
               cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
-              cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
               in_use_by_work_packages: 'gói công việc vẫn được sử dụng: %{types}'
               switch_target_blank: Select the variant to switch to
               switch_target_identical: The target type must be different from the type the project uses now
@@ -856,42 +935,24 @@ vi:
               blank: Vui lòng cung cấp tên mã thông báo
               format: "%{message}"
               in_use: Tên mã thông báo này đã được sử dụng, vui lòng chọn tên khác
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
-            attribute_groups:
-              attribute_unknown: Invalid work package attribute used.
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
-              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
-              group_without_name: Group name can't be blank.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
             base:
-              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
               is_default_variant: The default configuration of a type cannot be deleted.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
                 has_many: Cannot be deleted while projects are still using it.
-            defaults_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
             enabled_in_new_projects:
               not_available_to_project_owned_variant: cannot be set on a variant a project owns.
               taken: is already set for another configuration of this type.
-            form_configuration_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
-            pdf_export_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
-            project_attributes_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
             variant:
               must_belong_to_the_type: must be a variant of this type.
-            workflows_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -905,7 +966,7 @@ vi:
               numeric: số (ví dụ như ' 1')
               requirements_not_met: 'Must include characters of the following types: %{rules}'
               reused:
-                other: đã được sử dụng trước đây. Vui lòng chọn một cái khác với %{count} cuối cùng của bạn.
+                other: has been used before. Please choose one that is different from your last %{count}.
               special: đặc biệt (ví dụ như ' %')
               uppercase: chữ hoa (ví dụ như ' A')
             password_confirmation:
@@ -974,6 +1035,10 @@ vi:
             identifier:
               must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            labels:
+              too_many: can't include more than %{count} new labels.
+            observed_in_versions:
+              error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
               cannot_be_in_another_project: không thể có trong một dự án khác.
               cannot_be_milestone: không thể là một cột mốc.
@@ -1001,6 +1066,8 @@ vi:
             status_id:
               status_invalid_in_type: không hợp lệ vì tình trạng hiện tại không tồn tại loại này.
               status_transition_invalid: không hợp lệ vì không tồn tại chuyển đổi hợp lệ từ trạng thái cũ sang trạng thái mới cho vai trò của người dùng hiện tại.
+            target_versions:
+              error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: không thể là một mốc quan trọng vì work package này có trẻ em.
           is_not_a_valid_target_for_time_entries: 'Work package #%{id} không phải là một mục tiêu hợp lệ để gán lại các mục thời gian.'
@@ -1009,7 +1076,7 @@ vi:
       template:
         body: 'Vui lòng kiểm tra các mục sau đây:'
         header:
-          other: "%{count} lỗi đã cấm lưu %{model} này"
+          other: "%{count} errors prohibited this %{model} from being saved"
     models:
       action:
         other: Actions
@@ -1035,6 +1102,8 @@ vi:
         other: Work package attribute help texts
       auth_provider:
         other: Nhà cung cấp xác thực
+      automation:
+        other: Automations
       backup:
         other: Backups
       capability:
@@ -1049,8 +1118,6 @@ vi:
         other: Colors
       comment:
         other: Comments
-      custom_action:
-        other: Custom actions
       custom_field:
         other: Custom fields
       custom_field/hierarchy/item:
@@ -1081,6 +1148,8 @@ vi:
         other: Exports
       export_setting:
         other: Export settings
+      form_configuration:
+        other: Forms
       forum:
         other: Forums
       global_role:
@@ -1093,6 +1162,8 @@ vi:
         other: Health reports
       issue_priority:
         other: ưu tiên
+      label:
+        other: Labels
       ldap_auth_source:
         other: LDAP connections
       mcp_configuration:
@@ -1293,7 +1364,38 @@ vi:
   admin:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
+    custom_fields:
+      delete_dialog_component:
+        heading: Do you want to delete the custom field %{name}?
+        title: Delete custom field %{name}
     custom_styles:
+      branding:
+        desktop:
+          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
+          title: Custom desktop logos
+        favicon:
+          field: Favicon
+          field_description: The image should be 32x32px in PNG format on transparent background.
+          title: Custom favicon
+          title_description: This is the tiny icon that appears next to the page title in the browser. By default the OpenProject favicon is used, but if you upload a new favicon the theme will automatically be changed to Custom theme.
+        mobile:
+          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
+          title: Custom mobile logos
+        modes:
+          dark:
+            description: The app header will be black. We recommend a white logo on transparent background.
+            name: Dark mode logo
+          light:
+            description: Make sure to upload a logo that has enough contrast with the app header color selected.
+            name: Light mode logo
+          light_high_contrast:
+            description: The app header will be grey. We recommend a black logo on transparent background.
+            name: High contrast mode logo
+        touch_icon:
+          field: Touch icon
+          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          title: Custom touch icon
+          title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
         base_colors: Base colors
         main_menu: Main lateral menu
@@ -1311,11 +1413,15 @@ vi:
       default_colors:
         description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
+      export:
+        description: Upload and manage custom image files used in your PDF exports.
+        title: Custom export
       fonts:
         file_is_invalid: không phải là tệp phông chữ TTF hợp lệ.
         file_too_large: quá lớn (kích thước tối đa là %{count} MB).
       instructions:
         accent-color: Màu sắc cho các liên kết và các yếu tố được đánh dấu rõ ràng khác.
+        export_cover_text_color: Color of the text on top of the cover background to ensure readability.
         header-bg-color: Default background color of the app header.
         main-menu-bg-color: Màu nền của trình đơn ở bên trái.
         main-menu-bg-selected-background: Background color of menu items when selected.
@@ -1324,9 +1430,12 @@ vi:
       tab_branding: Xây dựng thương hiệu
       tab_default_colors: Default colors
       tab_interface: Giao diện
-      tab_pdf_export_font: Phông chữ xuất PDF
       tab_pdf_export_styles: Kiểu xuất PDF
-      theme_warning: Thay đổi chủ đề sẽ ghi đè phong cách tùy chỉnh của bạn. Thiết kế sau đó sẽ bị mất. Bạn có chắc chắn muốn tiếp tục không?
+      theme_warning:
+        confirmation: I understand that this action cannot be reversed
+        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
+        heading: Change color theme?
+        title: Change color theme
     enterprise:
       add_token: Tải lên mã thông báo hỗ trợ phiên bản Enterprise
       book_now: Đặt chỗ ngay
@@ -1359,7 +1468,7 @@ vi:
     import:
       title: Import
     info:
-      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatability in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: Bộ cấp phát bộ nhớ Jemalloc
@@ -1367,12 +1476,15 @@ vi:
       actions:
         button_edit: Edit configuration
         button_open: Open runs
+      api_client:
+        unknown_auth_method: Unknown authentication method. Please use 'bearer' or 'basic'.
       banner:
         contribution_callout: 'Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
 
           '
         description: This Jira Migrator is currently in beta. We currently only support Jira Server/Data Center versions 10.x and 11.x. Cloud instances are not supported at this time.
         title: Beta - Try it out!
+      basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
         description: Configure a Jira host to start importing items from Jira to this OpenProject instance.
         title: No Jira hosts configured yet
@@ -1405,16 +1517,30 @@ vi:
           description: Jira uses issue identifiers consisting of a project key and a sequence number (PRJ-123). OpenProject also supports it, but it needs to be enabled [here](link).
           title: Project-based semantic identifiers must be enabled.
       form:
+        auth_method:
+          basic:
+            caption: Use basic auth if you are using a Jira Server version 8 or the instance is configured behind a proxy.
+            label: Basic auth
+          bearer:
+            caption: We recommend using this authentication method.
+            label: Personal access token (PAT)
         button_add: Add cấu hình
-        button_delete_token: Delete token
+        button_delete_basic_auth_password: Delete basic auth password
+        button_delete_personal_access_token: Delete PAT
         button_save: Save cấu hình
-        delete_token_confirm: Are you sure you want to delete the token? This will disable the Jira connection.
+        button_test_connection: Test Connection
+        delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
+        delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          basic_auth_password: Password
+          basic_auth_username: Username
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: Name
-          personal_access_token: Personal Access Token
+          personal_access_token: Personal access token (PAT)
           url: Jira Server/Data Center URL
         label_testing: Testing cấu hình...
-        test_configuration_caption: You can test this configuration by [clicking here](test)
+      personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
           button_edit: Edit run
@@ -1431,10 +1557,16 @@ vi:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
+          JiraCreateParentChildRelationsFromSubtasksJob:
+            title: Create parent-child relations for '%{jira_project_name}'
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1530,7 +1662,7 @@ vi:
             users:
               other: "%{count} users"
             work_packages:
-              other: "%{count} gói công việc (work package)s"
+              other: "%{count} work packages"
           revert_dialog:
             confirm: I understand that this reversion will delete data permanently
             description: This will delete all imported objects (including whole projects).
@@ -1586,7 +1718,7 @@ vi:
                   subtitle: 'Involved in imported projects '
                 work_packages:
                   label: Work packages
-                  subtitle: With attachments
+                  subtitle: With attachments and logged time
               title: Import run results
             import_scope:
               button_continue: Continue
@@ -1602,6 +1734,7 @@ vi:
                 issue_details: Issue description, history, comments and attachments
                 issue_ids: Issue identifiers
                 issues: Issues
+                logged_time: Logged time
                 permissions: Permissions
                 project_ids: Project identifiers
                 project_versions: Project versions
@@ -1634,6 +1767,12 @@ vi:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
+            '11':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -1656,26 +1795,55 @@ vi:
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
             '9':
-              rest_line_text: Downloading attachments for %{projects_number} more projects
-              title: Download attachments
+              rest_line_text: Creating parent-child relations from subtasks for %{projects_number} more projects
+              title: Create parent-child relations from subtasks
       test:
-        api_error: Jira API returned error status %{status}. Please check your Jira instance URL and API token.
+        api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
+        basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
+        basic_auth_username_invalid: Invalid basic auth username. Please check your credentials in the configuration.
         connection_error: 'Connection error: %{message}'
         error: An unexpected error occurred while testing the connection
         failed: 'Connection failed: Unable to retrieve server information'
         invalid_url: Please provide a valid URL
-        missing_credentials: Please provide both URL and Personal Access Token to test the connection
         parse_error: Failed to parse the response from the server. The server may not be a valid Jira instance.
+        personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Successfully connected to %{server} (version %{version})
-        token_error: Invalid API token. Please check your credentials in the cấu hình.
+        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira Migrator
-      token_deleted: Token was successfully deleted.
       user:
         unknown_name: Unknown
     journal_aggregation:
       caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: I understand that this action is not reversible
+        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
+        heading: Delete this label?
+        title: Delete this label?
+      dialog_component:
+        create_title: Create label
+        rename_title: Rename "%{name}"
+      index:
+        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+      row_component:
+        used_in_work_packages:
+          other: "%{count} work packages"
+      sub_header_component:
+        button_add: Label
+        label_add: Add label
+        search_placeholder: Type here to search
+      table_component:
+        blank_slate:
+          description: Labels created by users on work packages will appear here.
+          title: No labels yet
+        headers:
+          name: Label
+          usage: Used in
+        no_matches:
+          description: Try a different search term.
+          title: No labels match your search
     mcp_configurations:
       index:
         description: The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta.
@@ -1706,6 +1874,18 @@ vi:
       update:
         failure: Không thể cập nhật cấu hình MCP.
         success: Cấu hình MCP đã được cập nhật thành công.
+    members:
+      index:
+        blank_description: No membership matches the current filter.
+        blank_title: No memberships
+        filter_label: Search users
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Memberships
+    placeholder_users:
+      index:
+        blank_description: No placeholder user matches the current filter.
+        blank_title: No placeholder users
     plugins:
       no_results_content_text: Xem trang tích hợp và plugin của chúng tôi để biết thêm thông tin.
       no_results_title_text: Hiện tại không có plugin nào được cài đặt.
@@ -1887,7 +2067,7 @@ vi:
         types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
         usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
         label_add_action: Action
         label_aria_add_action: Add text transform action
       index_component:
@@ -1919,12 +2099,20 @@ vi:
         ignore: Ignore changes
         save: Save changes and continue
         title: Save changes before continuing?
+      read_only:
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
+
+          '
+        title: Important changes
       role_selector:
         label: 'Role: %{role}'
         no_role: Select role
         roles:
           other: "%{count} roles selected"
         title: Select roles
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: Status
       statuses_dialog:
         caption: Add or remove statuses you would like to associate with this type. Removing a status will also delete the workflow associated with it.
@@ -1946,7 +2134,32 @@ vi:
           assignee: Additional transitions available to the work package's assignee.
           author: Additional transitions available to the work package's author.
         menu_label: Transitions shown
+      workflow_button: Workflow
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        context_too_long: The text is too long for the AI model. Shorten it and try again.
+        not_available: The AI assistant is not available.
+        rate_limited: The AI service is busy. Try again in a moment.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
+      pane:
+        cancel: Cancel
+        close: Close
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
+    content: Content
     is_active: Đang hiển thị
     is_inactive: hiện tại không hiển thị
     show_until: Xem đến khi
@@ -1954,7 +2167,7 @@ vi:
     deleted_by_admin: Tệp bị cách ly '%{filename}' đã bị quản trị viên xóa.
     deleted_message: Đã phát hiện thấy vi-rút trong tệp '%{filename}'. Tập tin đã bị xóa.
     not_processed_yet_message: Quá trình tải xuống bị chặn do tệp chưa được quét vi-rút. Vui lòng thử lại sau.
-    overridden_by_admin: Việc cách ly tệp '%{filename}' đã bị %{user} xóa. Bây giờ tập tin có thể được truy cập.
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: container
       delete: Xóa tập tin bị cách ly
@@ -2008,10 +2221,6 @@ vi:
       not_found:
         reminder: Lời nhắc bạn đang tìm kiếm không thể tìm thấy hoặc đã bị xóa.
         work_package: Không thể tìm thấy gói công việc bạn đang tìm kiếm hoặc đã bị xóa.
-      render:
-        context_not_parsable: Bối cảnh được cung cấp không phải là một liên kết đến một tài nguyên.
-        context_object_not_found: Không thể tìm thấy tài nguyên được cung cấp làm bối cảnh.
-        unsupported_context: Tài nguyên đã cho không được hỗ trợ dưới dạng ngữ cảnh.
       unable_to_create_attachment: Không thể tạo tệp đính kèm
       unable_to_create_attachment_permissions: Không thể lưu tệp đính kèm do thiếu quyền hệ thống tệp
       user:
@@ -2051,7 +2260,7 @@ vi:
     body: cơ thể
     category: thể loại
     color: màu sắc
-    comment: bình luận
+    comment: Nhận xét
     comments: bình luận
     content: Nội dung
     created_at: Tạo ngày
@@ -2083,6 +2292,7 @@ vi:
     groups: nhóm
     hexcode: Mã hex
     id: ID
+    inexistent: Inexistent
     is_default: Giá trị mặc định
     is_for_all: Cho tất cả các dự án
     issue: Work Package
@@ -2133,6 +2343,7 @@ vi:
     updated_at: Được cập nhật vào lúc
     updated_on: Đã cập nhật vào
     uploader: Tải lên
+    url: URL
     user: người dùng
     username: tên người dùng
     value: giá trị
@@ -2147,6 +2358,29 @@ vi:
 
         '
     login_and_registration: Đăng nhập và đăng ký
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: 'Công việc bị hủy do lỗi: %{message}'
@@ -2275,6 +2509,7 @@ vi:
   button_set_reminder: Đặt lời nhắc
   button_show: Hiện
   button_sort: Sắp xếp
+  button_stop_timer: Dừng hẹn giờ
   button_submit: Gửi
   button_test: Kiểm tra
   button_unarchive: Ngừng lưu trữ
@@ -2341,9 +2576,9 @@ vi:
     text:
       failed: Không thể chép dự án "%{source_project_name}" sang dự án "%{target_project_name}".
       succeeded: Đã sao chép dự án "%{source_project_name}" sang "%{target_project_name}".
-    title: Sao chép dự án "%{source_project_name}"
+    title: Duplicate project "%{source_project_name}"
     x_objects_of_this_type:
-      one: Một đối tượng của loại này
+      one: "%{count} object of this type"
       other: "%{count} đối tượng của loại này"
       zero: Không có đối tượng thuộc loại này
   create_portfolio:
@@ -2381,13 +2616,9 @@ vi:
     plural: Tác vụ tùy chỉnh
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: Trường tùy chỉnh này được bật trong tất cả các dự án vì tùy chọn "Dành cho tất cả dự án" được chọn. Nó không thể bị vô hiệu hóa đối với các dự án riêng lẻ.
-          heading: Đối với tất cả các dự án
       hierarchy:
         subitems:
-          one: 1 mục phụ
+          one: "%{count} sub-item"
           other: "%{count} mục phụ"
           zero: không có mục phụ
       items:
@@ -2408,7 +2639,34 @@ vi:
           short: Tên viết tắt
           weight: cân nặng
       notice:
-        remember_items_and_projects: Hãy nhớ đặt các mục và dự án trong các tab tương ứng cho trường tùy chỉnh này.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
+      projects:
+        changes_heading: Important changes
+        changes_text: 'Starting version 18.0, custom fields are no longer enabled or disabled at a project level. They are included in forms, which are then used in different types and variants. The following list shows projects that use types or variants using forms including this custom field.
+
+          '
+        configure: Configure project-specific values for %{project}
+        disable_all: Disable all
+        editing_values_notice: You are currently editing the list of values visible for this custom field in the project [%{project}](project_url).
+        empty_state:
+          description: Add this custom field to the form of a type that is used in a project.
+          title: No project uses this custom field
+        enable_all: Enable all
+        enabled_values:
+          all: All
+          none: None
+          some: "%{count} of %{total}"
+        filter: Filter by text
+        filter_no_results:
+          description: Change the filters to see more projects.
+          title: No projects match this filter
+        quick_filter:
+          all: All projects
+          with_project_specific_values: With project-specific values
+        types_column: Displayed in type
+        values_empty_state:
+          description: Add values to this custom field to choose which of them are available in this project.
+          title: This custom field has no values yet
       role_assignment:
         description: Bạn có thể tự động cấp một vai trò dự án nhất định cho bất kỳ người dùng nào được gán cho thuộc tính dự án này, bất kể vai trò ban đầu của người dùng đó trong dự án đó là gì.
         dialog:
@@ -2473,16 +2731,52 @@ vi:
     is_enabled_globally: Được kích hoạt trên toàn cầu
     multi_value_more:
       other: and %{count} more
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Không phân công vai trò
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Lựa chọn gói công việc hoặc dự án là bắt buộc trước tiên
+    project_specific_values:
+      all:
+        caption: All projects will show the same list of values for this custom field
+        label: All values will be available in all projects
+      allow:
+        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        label: 'Allow filter: Manually choose which values to activate for each project'
+      block:
+        caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
+        label: 'Block filter: Manually choose which values to deactivate for each project'
+      switch_warning:
+        all: All values will be available in all projects.
+        allow: No values will be available to any project unless you manually activate them in each project individually.
+        block: All values will be available in all projects unless you manually deactivate them in individual projects.
     reorder_alphabetical: Sắp xếp lại các giá trị theo thứ tự bảng chữ cái
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
       job_title: Job title
       none: None
-    tab:
-      no_results_content_text: Tạo trường tùy chỉnh mới
-      no_results_title_text: Không có hiện tại không có trường tùy chỉnh.
+    show:
+      columns:
+        form: Form
+        type_or_variant: Type or variant
+      forms:
+        blank_slate:
+          description: This custom field is not part of any form yet.
+          filtered_description: No form matches the current filter.
+          filtered_title: No matching forms
+          title: No forms
+        filter_placeholder: Filter by form name or description…
+      tabs:
+        forms: Forms
+        types_and_variants: Types and variants
+      types_and_variants:
+        blank_slate:
+          description: No type or variant shows this custom field yet.
+          filtered_description: No type or variant matches the current filters.
+          filtered_title: No matching types or variants
+          title: No types or variants
+        filter_placeholder: Filter by type or variant name…
     text_add_new_custom_field: 'Để thêm các trường tùy chỉnh mới vào một dự án, trước tiên bạn cần tạo chúng trước khi có thể thêm vào dự án này.
 
       '
@@ -2546,40 +2840,40 @@ vi:
   datetime:
     distance_in_words:
       about_x_hours:
-        other: khoảng %{count} giờ
+        other: about %{count} hours
       about_x_months:
-        other: khoảng %{count} tháng
+        other: about %{count} months
       about_x_years:
-        other: khoảng %{count} năm
+        other: about %{count} years
       almost_x_years:
-        other: gần %{count} năm
+        other: almost %{count} years
       half_a_minute: nửa phút
       less_than_x_minutes:
         other: ít hơn %{count} phút
       less_than_x_seconds:
-        other: ít hơn %{count} giây
+        other: less than %{count} seconds
       over_x_years:
-        other: trên %{count} năm
+        other: over %{count} years
       x_days:
-        other: "%{count} ngày"
+        other: "%{count} days"
       x_hours:
-        other: "%{count} giờ"
+        other: "%{count} hours"
       x_hours_abbreviated:
-        other: "%{count} giờ"
+        other: "%{count} hrs"
       x_minutes:
-        other: "%{count} phút"
+        other: "%{count} minutes"
       x_minutes_abbreviated:
-        other: "%{count} phút"
+        other: "%{count} mins"
       x_months:
-        other: "%{count} tháng"
+        other: "%{count} months"
       x_seconds:
-        other: "%{count} giây"
+        other: "%{count} seconds"
       x_seconds_abbreviated:
-        other: "%{count} giây"
+        other: "%{count} s"
       x_weeks:
-        other: "%{count} tuần"
+        other: "%{count} weeks"
       x_years:
-        other: "%{count} năm"
+        other: "%{count} years"
     units:
       day:
         other: ngày
@@ -2714,6 +3008,7 @@ vi:
       portfolio_management: Quản lý danh mục đầu tư
       project_creation_wizard: Yêu cầu khởi tạo dự án
       project_list_sharing: Chia sẻ danh sách dự án
+      project_specific_list_values: Project-specific values for custom fields
       readonly_work_packages: Gói công việc chỉ đọc
       scim_api: API máy chủ SCIM
       sso_auth_providers: Đăng nhập một lần
@@ -2726,7 +3021,7 @@ vi:
     teaser:
       description_html: You have access to all %{trial_plan} features.
       title:
-        other: "%{count} ngày còn lại của %{trial_plan} mã thông báo dùng thử"
+        other: "%{count} days left of %{trial_plan} trial token"
     trial:
       already_retrieved: 'Mã thông báo doanh nghiệp dùng thử của bạn đã được truy xuất. Vui lòng kiểm tra email của bạn để biết mã thông báo được đính kèm. Vui lòng liên hệ với nhóm hỗ trợ của chúng tôi nếu bạn cần một cái mới.
 
@@ -2819,6 +3114,8 @@ vi:
         description: Tạo một trình hướng dẫn từng bước để hỗ trợ các nhà quản lý dự án điền vào đơn yêu cầu khởi tạo dự án.
       project_list_sharing:
         description: Chia sẻ danh sách dự án với người dùng cá nhân.
+      project_specific_list_values:
+        description: Select which values of a list should be visible in individual projects.
       readonly_work_packages:
         description: Đánh dấu các gói công việc là chỉ đọc đối với các trạng thái cụ thể.
       scim_api:
@@ -3063,9 +3360,144 @@ vi:
       selected: đã chọn
     include_sub_items: Bao gồm các mục phụ
     no_results_text: Không có kết quả
+  form_configurations:
+    button: Form
+    change:
+      select:
+        caption: The type shows its work packages with the attribute groups of the form you pick here.
+        label: Form
+        placeholder: Select a form…
+      title: Change form
+    default:
+      label: Default
+      mark: Mark as default
+      marked: "%{name} is now the default form. New types use it."
+      name: Default form
+    form:
+      copy_from:
+        caption: The new form starts with a copy of that form's attribute groups.
+        label: Copy from
+        placeholder: Select a form…
+      description:
+        caption: Add a short description about where and how will this form be used.
+        label: Description
+      edit_title: Edit form
+      name:
+        caption: Pick a name that will let you identify this form later in other places.
+        label: Form name
+      new_title: Create form
+    index:
+      actions:
+        edit: Edit form
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a form to define the attribute groups a type or variant shows on its work packages.
+        filtered_description: No form matches the current filters.
+        filtered_title: No matching forms
+        title: No forms
+      columns:
+        name: Form name
+        projects: Projects
+        types_and_variants: Types and variants
+      description: Every named work package form in this instance, with the types and variants using it.
+      filters:
+        name: Form
+        name_placeholder: Filter by form name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        other: "%{count} projects"
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        other: "%{count} types"
+      variants_count:
+        other: "%{count} variants"
+    name:
+      fallback: Form
+      implicit: "%{name} form"
+    selector:
+      default: "(Default)"
+      prefix: Form
+      same_as_type: "(same as type)"
+      title: Select form
+    start:
+      copy:
+        caption: Start with an existing form, change it as you wish and save it as a new form.
+        label: Start with a copy of an existing form
+        missing: Select the form to copy, or start from scratch instead.
+      label: Starting point
+      scratch:
+        caption: Start with the default attribute groups and arrange them yourself.
+        label: Start from scratch
+      title: Configure a new form
+    tab:
+      read_only:
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+
+          '
+        title: Important changes
+    usage:
+      dialog:
+        button: View dependent types
+        caption_html: The form %{name} is used in the following types and variants.
+        title: Form used in types
+        variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
+        variants: Variants
+      unused: No type or variant uses this form yet.
+      used_by_types:
+        other: This form is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        other: This form is used by %{count} types and variants. Changes apply to all of them.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing form for this type with a pre-defined set of attribute groups.
+          label: Use an existing form
+        new:
+          caption: Arrange the attribute groups of a new form for this type.
+          label: Configure a new form
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: Hiện tại không có bài viết cho diễn đàn.
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -3090,6 +3522,8 @@ vi:
   groups:
     edit:
       synchronized_groups: Nhóm được đồng bộ hóa
+    form:
+      group_attributes: Group attributes
     index:
       description: Bằng cách nhóm người dùng lại với nhau, bạn có thể thêm họ làm thành viên cho cùng một dự án hoặc chỉ định các vai trò chung giống nhau cho họ.
     memberships:
@@ -3115,6 +3549,10 @@ vi:
       leave_project: Leave project
       no_favorite_projects: You have no favorite projects.
       title: Projects
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -3126,7 +3564,7 @@ vi:
       summary:
         failure: Some checks failed and the system does not work as expected.
         success: All connections and systems are working as expected.
-        warning: Some checks returned a warning. This can lead to unexpected behaviour.
+        warning: Some checks returned a warning. This can lead to unexpected behavior.
     result_component:
       status:
         failed: Failed
@@ -3135,7 +3573,7 @@ vi:
         warning: Warning
   help_texts:
     views:
-      favoured: Đánh dấu chế độ xem này là yêu thích và thêm vào thanh bên chế độ xem đã lưu ở bên trái.
+      favoured: Mark this view as favorite and add to the saved views sidebar on the left.
       project: "%{plural} luôn gắn liền với một dự án. Ở đây bạn chỉ có thể chọn các dự án có mô-đun %{plural} đang hoạt động. Sau khi tạo %{singular} bạn có thể thêm các gói công việc từ các dự án khác vào đó.\n"
       public: Xuất bản chế độ xem này, cho phép người dùng khác truy cập vào chế độ xem của bạn. Người dùng có quyền 'Quản lý chế độ xem công khai' có thể sửa đổi hoặc xóa truy vấn công khai. Điều này không ảnh hưởng đến khả năng hiển thị của kết quả gói công việc trong chế độ xem đó và tùy thuộc vào quyền của họ, người dùng có thể thấy các kết quả khác nhau.
   homescreen:
@@ -3158,6 +3596,31 @@ vi:
             line_4: Enter planned labor in hours, days, weeks, or months.
             line_5: See the import progress when using the Jira Migrator.
             line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
+
+            '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3196,8 +3659,10 @@ vi:
   journals:
     cause_descriptions:
       budget_deleted: Budget has been deleted
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "%{field} changed (%{link})"
+        csv: from CSV
         deleted_with_diff: "%{field} deleted (%{link})"
         field_changed: "%{field} changed from %{old_value} to %{new_value}"
         field_removed: "%{field} removed"
@@ -3230,6 +3695,7 @@ vi:
       total_percent_complete_mode_changed_to_work_weighted_average: Các gói công việc con không có Công việc sẽ bị bỏ qua.
       unaccessable_work_package_changed: bằng cách thay đổi gói công việc liên quan
       work_package_children_changed_times: bởi những thay đổi đối với con %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: Trạng thái được cập nhật tự động bởi gói công việc trùng lặp %{link}
       work_package_parent_changed_times: bằng những thay đổi đối với cha mẹ %{link}
       work_package_parent_deleted: because the parent work package was deleted
@@ -3245,8 +3711,10 @@ vi:
           working: "%{day} hiện đang hoạt động"
     caused_changes:
       budget_deleted: Budget has been deleted
+      comment_retracted: Comment retracted
       dates_changed: Ngày đã thay đổi
       default_attribute_written: Thuộc tính chỉ đọc được viết
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Imported
       meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
@@ -3261,6 +3729,7 @@ vi:
       system_update: 'Cập nhật hệ thống OpenProject:'
       total_percent_complete_mode_changed_to_simple_average: Tính toán tổng số % Hoàn thành hiện dựa trên mức trung bình đơn giản chỉ là các giá trị % Hoàn thành.
       total_percent_complete_mode_changed_to_work_weighted_average: Tính toán % tổng số hoàn thành hiện được tính theo Công việc.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'Gói công việc trùng lặp được cập nhật:'
       work_package_parent_deleted: Parent removed
     changes_retracted: Những thay đổi đã bị rút lại
@@ -3399,48 +3868,43 @@ vi:
   label_copy_target: Mục tiêu
   label_copy_workflow_from: Sao chép quy trình từ
   label_copy_workflow_from_role: Copy to other roles
-  label_copy_workflow_from_type: Copy to another type
   label_core_build: Xây dựng cốt lõi
   label_core_version: Phiên bản lõi
   label_created_by: Được tạo bởi %{user}
+  label_criteria: Criteria
   label_current_status: Tình trạng hiện tại
   label_current_version: Phiên bản hiện tại
   label_custom_comment: "%{name} comment"
-  label_custom_export_cover: Nền bìa xuất tùy chỉnh
-  label_custom_export_cover_overlay: Lớp phủ nền bìa xuất tùy chỉnh
-  label_custom_export_cover_text_color: Màu văn bản
+  label_custom_export_cover: Cover background
+  label_custom_export_cover_text_color: Text color for cover background
+  label_custom_export_font: Custom Font
   label_custom_export_font_bold: in đậm
   label_custom_export_font_bold_italic: In nghiêng đậm
-  label_custom_export_font_instructions: 'Tải lên và quản lý phông chữ TrueType (.ttf) tùy chỉnh được sử dụng trong bản xuất PDF của bạn. Để có kết quả tốt nhất, hãy sử dụng các tệp phù hợp từ cùng một họ phông chữ. Nếu không có phông chữ nào được cung cấp thì phông chữ NotoSans mặc định sẽ được sử dụng.
-
-    '
+  label_custom_export_font_colors: Custom font colors
   label_custom_export_font_italic: Nghiêng
   label_custom_export_font_regular: chính quy
-  label_custom_export_footer: Hình ảnh chân trang xuất tùy chỉnh
-  label_custom_export_images_instructions: 'Tải lên và quản lý các tệp hình ảnh tùy chỉnh được sử dụng trong bản xuất PDF của bạn.
-
-    '
-  label_custom_export_logo: Logo xuất khẩu tùy chỉnh
+  label_custom_export_footer: Footer image
+  label_custom_export_logo: Logo
   label_custom_favicon: Favicon tuỳ chỉnh
   label_custom_field_add_no_type: Thêm trường này vào một loại work package
   label_custom_field_default_type: Kiểu rỗng
   label_custom_field_new: Thêm mục tùy biến
   label_custom_field_plural: Trường tùy chỉnh
-  label_custom_logo: Máy tính để bàn logo tùy chỉnh
-  label_custom_logo_mobile: Logo tùy chỉnh di động
   label_custom_pdf_export_settings: Cài đặt xuất PDF tùy chỉnh
   label_custom_style: Thiết kế
   label_custom_style_description: Chọn cách OpenProject hiển thị với bạn bằng các chủ đề, chọn màu mặc định để sử dụng trong ứng dụng và cách xuất sẽ trông như thế nào.
   label_custom_touch_icon: Tùy chỉnh biểu tượng ICON
+  label_custom_value_no_longer_available: "(Value no longer available)"
   label_dashboard: Trang tổng quan
   label_database_version: Phiên bản PostgreSQL
   label_date: ngày
   label_date_and_time: Ngày và giờ
-  label_date_format: Định dạng ngày
+  label_date_and_time_formats: Date and time formats
   label_date_from: Từ
   label_date_from_to: Từ %{start} tới %{end}
   label_date_to: Đến
   label_dates: ngày tháng
+  label_day: ngày
   label_day_plural: ngày
   label_default: Mặc định
   label_defaults: mặc định
@@ -3451,6 +3915,7 @@ vi:
   label_deleted_custom_field: "(đã xóa các mục tùy chỉnh)"
   label_deleted_custom_item: "(mục đã bị xóa)"
   label_deleted_custom_option: "(tùy chọn đã xóa)"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(deleted version)"
   label_departments: Organization
   label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
@@ -3521,6 +3986,7 @@ vi:
   label_float: Số thực
   label_folder: Thư mục
   label_follows: theo dõi
+  label_form_configuration_plural: Forms
   label_formula: Công thức
   label_forum_new: Diễn đàn mới
   label_forum_plural: diễn đàn
@@ -3539,6 +4005,7 @@ vi:
   label_go_forward: Mở menu phụ %{module}
   label_greater_or_equal: ">="
   label_group: nhóm
+  label_group_attributes_plural: Group attributes
   label_group_by: Nhóm theo
   label_group_named: Nhóm %{name}
   label_group_new: Nhóm mới
@@ -3581,6 +4048,7 @@ vi:
   label_interface_colors_description: Những màu này kiểm soát giao diện của ứng dụng. Nếu bạn sửa đổi chúng, chủ đề sẽ tự động được thay đổi thành Chủ đề tùy chỉnh nhưng chúng tôi không thể đảm bảo việc tuân thủ mức độ tương phản tối thiểu về khả năng truy cập (WCAG 2.1).
   label_internal: Nội bộ
   label_introduction_video: Video bắt đầu
+  label_invalid_file_type: This file type is not supported.
   label_invitation: Thư mời
   label_invite_user: Mời người dùng
   label_item: mục
@@ -3590,8 +4058,8 @@ vi:
   label_journal_diff: So sánh mô tả
   label_jump_to_a_project: Chuyển đến một dự án...
   label_keyword_plural: Từ khóa
+  label_label_plural: Labels
   label_language: ngôn ngữ
-  label_language_based: Dựa trên ngôn ngữ của người dùng
   label_languages: ngôn ngữ
   label_last_activity: Hoạt động cuối cùng
   label_last_change_on: Thay đổi cuối trên
@@ -3613,6 +4081,7 @@ vi:
   label_list: danh sách
   label_loading: Đang tải...
   label_locale: Ngôn ngữ và khu vực
+  label_locale_based: Use default for user locale
   label_lock_user: Khóa người dùng
   label_locked: bị khóa
   label_logged_as: Đăng nhập như
@@ -3624,6 +4093,7 @@ vi:
   label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: Kho lưu trữ %{vendor} được quản lý
   label_mapping_for: 'Ánh xạ cho: %{attribute}'
+  label_markdown_version: Markdown version
   label_max_size: Kích thước tối đa
   label_me: tôi
   label_member_all_admin: "(Tất cả các vai trò do tư cách quản trị viên)"
@@ -3642,7 +4112,6 @@ vi:
   label_menu_item_name: Tên món trong thực đơn
   label_message: tin nhắn
   label_message_last: Tin nhắn cuối cùng
-  label_message_new: Tin nhắn mới
   label_message_plural: Tin nhắn
   label_message_posted: Đã thêm tin nhắn
   label_minute_plural: phút
@@ -3654,6 +4123,7 @@ vi:
   label_module_plural: Các Mô-Đun
   label_modules: mô-đun
   label_modules_and_plugins: Mô-đun và Plugin
+  label_month: tháng
   label_months_from: tháng từ
   label_more: Xem thêm
   label_more_information: Thêm thông tin
@@ -3667,6 +4137,7 @@ vi:
   label_my_avatar: Hình đại diện của tôi
   label_my_queries: Các truy vấn tùy biến của tôi
   label_my_security: Security
+  label_my_time: My time
   label_name: tên
   label_never: không bao giờ
   label_new: Mới
@@ -3681,7 +4152,10 @@ vi:
   label_news_singular: Tin tức
   label_news_view_all: Xem tất cả tin
   label_next: Tiếp
+  label_next_day: Ngày hôm sau
+  label_next_month: Tháng tiếp theo
   label_next_week: Tuần tới
+  label_next_workweek: Tuần làm việc tiếp theo
   label_next_year: Next year
   label_no_change_option: "(không đổi)"
   label_no_data: Không có dữ liệu để hiển thị
@@ -3689,6 +4163,7 @@ vi:
   label_no_parent_group: "(No parent group)"
   label_no_parent_page: Không có trang quan hệ
   label_no_start_date: không có ngày bắt đầu
+  label_no_time: Không theo dõi thời gian
   label_nobody: không ai
   label_non_working_days: Availability calendar
   label_non_working_days_summary: Summary
@@ -3755,7 +4230,10 @@ vi:
   label_preview: Xem trước
   label_preview_not_available: Xem trước không có sẵn
   label_previous: Trước đó
+  label_previous_day: Ngày hôm trước
+  label_previous_month: Tháng trước
   label_previous_week: Tuần trước
+  label_previous_workweek: Tuần làm việc trước đó
   label_previous_year: Previous year
   label_principal_invite_via_email: hoặc mời người dùng mới qua email
   label_principal_search: Thêm người dùng hoặc nhóm hiện có
@@ -3874,6 +4352,7 @@ vi:
   label_sort_lowest: Chuyển đến dưới cùng
   label_sorted_by: sắp xếp theo %{value}
   label_spent_time: dành thời gian
+  label_stack: Stack
   label_start_to_end: bắt đầu đến kết thúc
   label_start_to_start: bắt đầu đến bắt đầu
   label_starts_with: starts with
@@ -3893,6 +4372,7 @@ vi:
   label_subtask_plural: Tác vụ con
   label_summary: Tóm tắt
   label_system: Hệ thống
+  label_system_or_language_default: Use system or language based default
   label_system_settings: Cài đặt hệ thống
   label_system_storage: Thông tin lưu trữ
   label_table_of_contents: Mục lục
@@ -3907,6 +4387,7 @@ vi:
   label_time: thời gian
   label_time_entry_activity_plural: Hoạt động dành thời gian
   label_time_entry_plural: dành thời gian
+  label_timer_since: Bắt đầu lúc %{time}
   label_title: tiêu đề
   label_today: hôm nay
   label_today_as_date: Chọn hôm nay làm ngày.
@@ -3942,7 +4423,9 @@ vi:
   label_user_search: Tìm kiếm người dùng
   label_user_settings: Cài đặt người dùng
   label_users_settings: Cài đặt người dùng
+  label_value: Value
   label_value_x: 'Giá trị: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Chỉnh sửa phiên bản
   label_version_new: Phiên bản mới
   label_version_plural: phiên bản
@@ -3955,6 +4438,7 @@ vi:
   label_videos: Các đoạn phim
   label_view_all_revisions: Xem tất cả các phiên bản
   label_view_diff: Xem sự khác biệt
+  label_view_mode_switcher: Thay đổi chế độ xem
   label_view_revisions: Xem các bản điều chỉnh
   label_view_x: 'View: %{x}'
   label_watched_work_packages: Các công việc đã xem
@@ -3978,6 +4462,8 @@ vi:
   label_wiki_start: Trang bắt đầu
   label_wiki_toc: Bảng mục lục
   label_wiki_toc_empty: Mục lục trống vì không có tiêu đề nào.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: làm việc
   label_work_package: Work Package
   label_work_package_attachments: Phần đính kèm công việc
@@ -4000,36 +4486,37 @@ vi:
   label_working_days: Working days
   label_working_days_and_hours: Ngày và giờ làm việc
   label_working_hours: Work schedule
+  label_workweek: tuần làm việc
   label_x_closed_work_packages_abbr:
-    one: 1 đóng
+    one: "%{count} closed"
     other: "%{count} đóng"
     zero: 0 đóng
   label_x_comments:
-    one: 1 bình luận
+    one: "%{count} comment"
     other: "%{count} bình luận"
     zero: Không có bình luận
   label_x_days:
     other: "%{count} days"
   label_x_files:
-    one: 1 tập tin
+    one: "%{count} file"
     other: "%{count} tệp"
     zero: không có tập tin
   label_x_items:
-    one: 1 item
+    one: "%{count} item"
     other: "%{count} items"
     zero: no items
   label_x_items_selected:
     other: "%{count} items selected"
   label_x_open_work_packages_abbr:
-    one: 1 mở
+    one: "%{count} open"
     other: "%{count} mở"
     zero: 0 mở
   label_x_projects:
-    one: một dự án
+    one: "%{count} project"
     other: "%{count} dự án"
     zero: Không có dự án
   label_x_work_packages:
-    one: 1 gói công việc
+    one: "%{count} work package"
     other: "%{count} gói công việc"
     zero: Không có gói công việc
   label_x_working_days:
@@ -4091,7 +4578,7 @@ vi:
       start_tls: BẮT ĐẦU
       start_tls_description: Gửi lệnh STARTTLS sau khi kết nối với cổng LDAP tiêu chuẩn. Được khuyến nghị cho các kết nối được mã hóa.
     tls_options:
-      tls_certificate_description: Nếu chứng chỉ máy chủ LDAP không có trong các nguồn tin cậy của hệ thống này, bạn có thể thêm chứng chỉ đó theo cách thủ công tại đây. Nhập chuỗi chứng chỉ PEM X509.
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: Xác minh chứng chỉ SSL
       verify_peer_description_html: 'Cho phép xác minh SSL nghiêm ngặt của chuỗi chứng chỉ tin cậy. <br> <strong>Cảnh báo:</strong> Việc bỏ chọn tùy chọn này sẽ tắt xác minh SSL của chứng chỉ máy chủ LDAP. Điều này làm lộ mối liên hệ của bạn với các cuộc tấn công của Man in the Middle.
 
@@ -4148,6 +4635,8 @@ vi:
       you_have: bạn có
     logo_alt_text: biểu tượng
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} mentioned you in %{id} - %{subject}"
     notification:
       center: Đến trung tâm thông báo
@@ -4204,7 +4693,7 @@ vi:
       mentioned: Bạn đã được <b>đề cập trong một nhận xét</b>
       mentioned_by: "%{user} đã đề cập đến bạn trong nhận xét"
       more_to_see:
-        other: Có thêm %{count} gói công việc có thông báo.
+        other: There are %{count} more work packages with notifications.
       open_in_browser: Mở trong trình duyệt
       reason:
         assigned: được giao
@@ -4384,6 +4873,12 @@ vi:
           create_button: Tạo
           dialog_body: Mã thông báo này sẽ cho phép các ứng dụng của bên thứ ba giao tiếp với phiên bản của bạn. Để phân biệt mã thông báo API mới, vui lòng đặt tên cho nó.
           dialog_title: Tạo mã thông báo API mới
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            other: "%{count} days (%{date})"
           name_label: Tên mã thông báo
       failed_to_create_token: 'Không tạo được mã thông báo truy cập: %{error}'
       failed_to_reset_token: 'Lỗi cập nhật mã truy cập: %{error}'
@@ -4397,10 +4892,26 @@ vi:
     password_confirmation_dialog:
       confirmation_required: Bạn cần nhập mật khẩu tài khoản của mình để xác nhận thay đổi này.
       title: Xác nhận mật khẩu của bạn để tiếp tục
+    timer:
+      stop: Stop
+      tracking: Time tracking
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: Mã thông báo truy cập
       description: Mã thông báo của nhà cung cấp được OpenProject phát hành, cho phép các ứng dụng khác truy cập vào nó. Mã thông báo của khách hàng được phát hành bởi các ứng dụng khác, cho phép OpenProject truy cập chúng.
+      expired_on: Expired on %{date}
       headers:
         action: Hành động
         expiration: Hết hạn
@@ -4602,7 +5113,6 @@ vi:
   notice_password_confirmation_failed: Mật khẩu đã nhập không chính xác.
   notice_principals_found_multiple: "Có %{number} kết quả được tìm thấy. \n Tab để tập trung vào kết quả đầu tiên."
   notice_principals_found_single: "Có một kết quả. \n Tab để tập trung vào nó."
-  notice_project_cannot_update_custom_fields: 'Bạn không thể cập nhật các mục tùy chỉnh có sẵn của dự án. Dự án không hợp lệ: %{errors}'
   notice_project_not_deleted: Dự án không bị xóa.
   notice_project_not_found: Dự án không được tìm thấy.
   notice_requires_enterprise_token: Mã thông báo doanh nghiệp bị thiếu hoặc không cho phép truy cập vào trang này.
@@ -4612,9 +5122,6 @@ vi:
   notice_successful_create: Sáng tạo thành công.
   notice_successful_delete: Xóa thành công.
   notice_successful_update: Cập nhật thành công.
-  notice_successful_update_custom_fields_added_to_project: |
-    Cập nhật thành công. Các trường tùy chỉnh của các loại đã kích hoạt sẽ tự động được kích hoạt
-    trên biểu mẫu gói công việc. <a href="%{url}" target="_blank">Xem thêm</a>.
   notice_to_many_principals_to_display: |-
     Có quá nhiều kết quả.
     Thu hẹp tìm kiếm bằng cách nhập tên của thành viên (hoặc nhóm) mới.
@@ -4674,21 +5181,20 @@ vi:
           tb: bệnh lao
   oauth:
     application:
+      basic_details: Basic details
       builtin: Ứng dụng phiên bản tích hợp
       client_credentials: Thông tin xác thực của khách hàng
       confidential: bí mật
-      default_scopes: "(Phạm vi mặc định)"
       instructions:
-        client_credential_user_id: ID người dùng tùy chọn để mạo danh khi khách hàng sử dụng ứng dụng này. Để trống để chỉ cho phép truy cập công cộng
-        confidential: Kiểm tra xem ứng dụng sẽ được sử dụng trong khi thông tin mật của khách hàng vẫn được đảm bảo. Các ứng dụng di động và Ứng dụng web được cho là không bảo mật.
-        default_scopes: ''
-        enabled: Kích hoạt ứng dụng này, cho phép người dùng thực hiện cấp phép với nó.
-        name: Tên ứng dụng của bạn. Điều này sẽ được hiển thị cho người dùng khác khi ủy quyền.
-        redirect_uri_html: 'Các URL người dùng được ủy quyền có thể được chuyển hướng đến. Mỗi mục nhập trên một dòng. <br/> Nếu bạn đang đăng ký một ứng dụng máy tính để bàn, hãy sử dụng URL sau.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: Nếu bạn đang phát triển ứng dụng khách API OAuth cho OpenProject, bạn có thể đăng ký ứng dụng đó bằng biểu mẫu này để tất cả người dùng sử dụng.
-        scopes: Kiểm tra phạm vi bạn muốn ứng dụng cấp quyền truy cập. Nếu không có phạm vi nào được chọn, api_v3 sẽ được giả sử.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: Ứng dụng OAuth '%{name}'
       new: Ứng dụng OAuth mới
       non_confidential: Không bí mật
@@ -4705,7 +5211,7 @@ vi:
         '
     authorization_error: Đã xảy ra lỗi ủy quyền.
     client_credentials: Người dùng được sử dụng cho thông tin xác thực của Khách hàng
-    client_credentials_impersonation_html: 'Theo mặc định, OpenProject cung cấp ủy quyền OAuth 2.0 thông qua %{authorization_code_flow_link}. Bạn có thể tùy ý bật %{client_credentials_flow_link}, nhưng bạn phải cung cấp người dùng mà yêu cầu của họ sẽ được thực hiện thay mặt họ.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: Người dùng thông tin đăng nhập của khách hàng được đặt thành
@@ -4730,9 +5236,12 @@ vi:
       other_applications: Các ứng dụng OAuth khác
     my_registered_applications: Ứng dụng OAuth đã đăng ký
     scopes:
-      api_v3: Truy cập đầy đủ API v3
+      api_v3: Access to APIv3
       api_v3_text: Ứng dụng sẽ nhận được quyền truy cập đọc và ghi đầy đủ vào OpenProject API v3 để thay mặt bạn thực hiện các hành động.
-      mcp: Access to MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
   oauth_client:
     errors:
@@ -4785,6 +5294,14 @@ vi:
     welcome: Chào mừng đến với %{app_title}
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: must not be combined with a work package.
+          retry_of:
+            with_action: must not be combined with an action or input.
+          type_id:
+            without_project: must be given together with a project.
       array?: phải là một mảng.
       decimal?: phải là số thập phân.
       defined: không được xác định.
@@ -4792,6 +5309,7 @@ vi:
       filled?: phải được lấp đầy.
       format?: is in invalid format.
       greater_or_equal_zero: phải lớn hơn hoặc bằng 0.
+      gt?: must be greater than %{num}.
       gteq?: phải lớn hơn hoặc bằng %{num}.
       hash?: phải là một hàm băm.
       included_in?:
@@ -4800,11 +5318,10 @@ vi:
           range: 'phải là một trong: %{list_left} - %{list_right}.'
       int?: phải là số nguyên.
       key?: bị thiếu.
+      max_size?: must not be longer than %{num} characters.
       not_found: không tìm thấy.
       respond_to?: không thực hiện phương pháp cần thiết.
       rules:
-        copy_workflow_from:
-          workflow_missing: không có quy trình làm việc riêng.
         custom_field:
           format_not_supported: định dạng '%{field_format}' không được hỗ trợ.
         item:
@@ -4821,10 +5338,10 @@ vi:
       type?: phải là %{type}.
       unexpected_key: is not allowed.
       uri?: is not a valid URI.
+      uuid_v4?: must be a UUID (version 4).
     or: hoặc
     rules:
       blueprint: bản thiết kế hoa văn
-      copy_workflow_from: Loại bản sao quy trình công việc
       depth: Độ sâu
       enabled: đã bật
       item: mục
@@ -4832,16 +5349,15 @@ vi:
       parent: cha mẹ
       short: Tên viết tắt
       weight: cân nặng
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Mở liên kết trong tab mới
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Drag to reorder
-        menu:
-          label_actions: Gói công việc (Work Package) actions
-        parent: Parent
-        undisclosed: Undisclosed
   page:
     text: văn bản
   pagination:
@@ -4896,8 +5412,8 @@ vi:
         label: Table of contents
     page_nr_footer: Trang %{page} trong số %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artefact.
-      label: PMflex Artefact
+      caption: Work package details rendered as a PMflex Artifact.
+      label: PMflex Artifact
     template_attributes:
       caption: All the attributes present in the current form using the default template.
       label: Thuộc tính và mô tả
@@ -4922,7 +5438,7 @@ vi:
   permission_change_work_package_status_explanation: Cho phép thay đổi trạng thái mà không có quyền Chỉnh sửa gói công việc
   permission_comment_news: Chú thích vào tin mới
   permission_commit_access: Quyền truy cập đọc/ghi vào kho lưu trữ (cam kết)
-  permission_copy_projects: Sao chép dự án
+  permission_copy_projects: Duplicate projects
   permission_copy_projects_explanation: Trong các dự án mẫu, quyền này có chức năng phụ, nó cho phép tạo các dự án mới bắt nguồn từ mẫu.
   permission_copy_work_packages: Gói công việc trùng lặp
   permission_create_backup: Tạo bản sao lưu
@@ -4955,6 +5471,7 @@ vi:
   permission_export_projects: Dự án xuất khẩu
   permission_export_work_packages: Xuất gói công việc
   permission_header_for_project_module_work_package_tracking: Gói công việc và biểu đồ Gantt
+  permission_import_work_packages: Import work packages
   permission_invite_members_by_email: Mời thành viên qua email
   permission_invite_members_by_email_explanation: 'Cho phép người dùng mời thành viên mới qua email. Người dùng được mời sẽ nhận được email có liên kết để đặt mật khẩu và kích hoạt tài khoản của họ. Phụ thuộc vào quyền quản lý thành viên
 
@@ -4965,6 +5482,9 @@ vi:
   permission_manage_dashboards: Quản lý trang tổng quan
   permission_manage_forums: Quản lý diễn đàn
   permission_manage_members: Quản lý thành viên
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: Quản lý tin tức
   permission_manage_own_reminders: Tạo lời nhắc riêng
   permission_manage_own_working_times: Manage own working times
@@ -4973,13 +5493,19 @@ vi:
     '
   permission_manage_placeholder_user: Tạo, chỉnh sửa và xóa người dùng giữ chỗ
   permission_manage_project_activities: Quản lý hoạt động dự án
-  permission_manage_project_variants: Manage the project's own type variants
+  permission_manage_project_variants: Manage type variants
+  permission_manage_project_variants_explanation: 'Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
+
+    '
   permission_manage_public_bcf_queries: Quản lý truy vấn BCF công khai
   permission_manage_public_project_queries: Quản lý danh sách dự án công
   permission_manage_public_queries: Quản lý truy vấn công cộng
   permission_manage_repository: Quản lý kho lưu trữ
   permission_manage_subtasks: Quản lý phân cấp gói công việc
   permission_manage_types: Chọn loại
+  permission_manage_types_explanation: 'Select which work package types are available in the project.
+
+    '
   permission_manage_user: Chỉnh sửa người dùng
   permission_manage_versions: Quản lý phiên bản
   permission_manage_wiki: Quản lý wiki
@@ -4993,7 +5519,6 @@ vi:
   permission_save_bcf_queries: Lưu truy vấn BCF
   permission_save_queries: Lưu các chế độ xem
   permission_search_project: Tìm kiếm dự án
-  permission_select_custom_fields: Chọn trường tùy chỉnh
   permission_select_project_custom_fields: Chọn thuộc tính dự án
   permission_select_project_modules: Chọn mô-đun dự án
   permission_select_project_phases: Chọn giai đoạn dự án
@@ -5027,6 +5552,16 @@ vi:
   permission_work_package_assigned: Trở thành người được giao/chịu trách nhiệm
   permission_work_package_assigned_explanation: Các gói công việc có thể được chỉ định cho người dùng và nhóm có vai trò này trong dự án tương ứng
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Xóa người dùng giữ chỗ
     deletion_info:
       data_consequences: 'Tất cả các lần xuất hiện của người dùng giữ chỗ (ví dụ: với tư cách là người được chuyển nhượng, người chịu trách nhiệm hoặc giá trị người dùng khác) sẽ được chỉ định lại cho tài khoản có tên "Người dùng đã xóa". Vì dữ liệu của mọi tài khoản đã xóa được gán lại cho tài khoản này nên sẽ không thể phân biệt dữ liệu người dùng đã tạo với dữ liệu của tài khoản đã xóa khác.
@@ -5048,7 +5583,7 @@ vi:
     name: OmniAuth SAML / Đăng nhập một lần
   portfolio:
     count:
-      one: 1 danh mục đầu tư
+      one: "%{count} portfolio"
       other: "%{count} danh mục đầu tư"
       zero: 0 danh mục đầu tư
     filters:
@@ -5059,7 +5594,7 @@ vi:
         label: Bộ lọc tên danh mục đầu tư
         placeholder: Tìm kiếm danh mục đầu tư
       sub_items_html:
-        other: "<strong>%{count}</strong> mục phụ"
+        other: "<strong>%{count}</strong> sub-items"
     lists:
       active: Danh mục đầu tư đang hoạt động
       archived: Danh mục lưu trữ
@@ -5073,7 +5608,7 @@ vi:
         Nó có thể được sử dụng để làm nổi bật các gói công việc trong bảng.
   program:
     count:
-      one: 1 chương trình
+      one: "%{count} program"
       other: "%{count} chương trình"
       zero: 0 chương trình
     filters:
@@ -5085,7 +5620,7 @@ vi:
       confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Lưu trữ dự án
     count:
-      one: 1 dự án
+      one: "%{count} project"
       other: "%{count} dự án"
       zero: 0 dự án
     destroy:
@@ -5190,11 +5725,11 @@ vi:
           no_status_when_submitted: Failed to enable project initiation request because gói công việc (work package) type %{type} requires at least one status associated with it. Please enable at least one status workflow for this gói công việc (work package) type.
           no_work_package_type: Failed to enable project initiation request because it requires at least one active gói công việc (work package) type and this project has none. Please add at least one gói công việc (work package) type to this project.
         export:
-          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
-          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
+          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Chọn kho lưu trữ tệp bên ngoài được định cấu hình sẽ được sử dụng.
           external_file_storage: Lưu trữ tập tin bên ngoài
-          label_artifact_export: Artefact export
+          label_artifact_export: Artifact export
           label_attachment_export: Lưu dưới dạng tệp đính kèm tệp gói công việc
           label_file_link_export: Tải tệp lên bộ lưu trữ tệp bên ngoài và thêm liên kết tệp vào gói công việc
           pdf_file_storage: lưu trữ tập tin PDF
@@ -5204,6 +5739,12 @@ vi:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: Không không có trường tùy chỉnh.
       forums:
         no_results_content_text: Tạo diễn đàn mới
@@ -5316,7 +5857,7 @@ vi:
         variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Tạo ra một phiên bản mới
-        no_results_title_text: Hiện đang có phiên bản dự án.
+        no_results_title_text: No versions matching the filter criteria were found for this project.
         show_work_packages: Hiển thị các gói công việc
         work_packages_graph: Biểu đồ gói công việc
       work_package_priorities:
@@ -5324,15 +5865,27 @@ vi:
     status:
       button_edit: Chỉnh sửa trạng thái
     wizard:
-      create_artifact_storage_error: Failed to store artefact in file storage
-      create_artifact_work_package_error: Failed to create artefact work package
+      create_artifact_storage_error: Failed to store artifact in file storage
+      create_artifact_work_package_error: Failed to create artifact work package
       no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Thuộc tính này không có văn bản trợ giúp được xác định.
       progress_label: "%{current} trong số %{total}"
       sections: phần
       sidebar_content_title: Nội dung
-      success: Project attributes saved and artefact work package created successfully.
+      success: Project attributes saved and artifact work package created successfully.
       title: Yêu cầu khởi tạo dự án
+  pwa:
+    offline:
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      headline: You’re offline
+      headline_online: You’re back online
+      reloading: Reloading…
+      retry: Retry
+      retrying: Retrying…
+      status_checking: Checking your connection…
+      status_restored: Connection restored. Reloading…
+      status_still: Still offline. We’ll try again in a moment.
+      title: Offline
   queries:
     apply_filter: Áp dụng bộ lọc được cấu hình sẵn
     configure_view:
@@ -5361,7 +5914,7 @@ vi:
     action_title: phản ứng
     add_reaction: Thêm phản ứng
     and_others:
-      other: và %{count} người khác
+      other: and %{count} others
     and_user: và %{user}
     react_with: Phản ứng với %{reaction}
     reaction_by: "%{reaction} bởi"
@@ -5482,6 +6035,26 @@ vi:
     warnings:
       cannot_annotate: Tập tin này không thể được chú thích.
   roles:
+    delete_dialog:
+      confirm: Are you sure you want to delete this role?
+      entry_projects:
+        other: "(Projects: %{projects})"
+      entry_projects_truncated:
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: Are you sure you want to delete the role "%{name}"?
+      losing_project_access:
+        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
+      show_memberships: Show all memberships with this role
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        other: "%{count} projects"
+      summary_users:
+        other: "%{count} users"
+      title: Delete role
     edit:
       default_for_new_projects_warning: 'This role is configured as the default role given to non-admin users who create a project. Do not remove the following permissions, otherwise project creators will be unable to complete the setup of their newly created projects:'
     index:
@@ -5493,6 +6066,14 @@ vi:
     permissions:
       section_check_all_label: Gán tất cả các quyền %{module}
       section_uncheck_all_label: Bỏ gán tất cả quyền %{module}
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Ma trận quyền cho mô-đun %{module}
       matrix_check_all_label: Gán tất cả các quyền %{module} cho tất cả các vai trò
@@ -5597,7 +6178,7 @@ vi:
   setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Số dòng khác biệt tối đa được hiển thị
   setting_disable_password_login: Vô hiệu hóa xác thực mật khẩu
-  setting_display_subprojects_work_packages: Hiển thị các gói công việc của dự án con trên các dự án chính theo mặc định
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: Định dạng thời lượng
   setting_duration_format_days_and_hours: Ngày và giờ
   setting_duration_format_hours_only: Chỉ giờ
@@ -5712,6 +6293,7 @@ vi:
   setting_start_of_week: Tuần Bắt đầu
   setting_sys_api_description: Dịch vụ web quản lý kho lưu trữ cung cấp sự tích hợp và ủy quyền cho người dùng để truy cập vào kho lưu trữ.
   setting_sys_api_enabled: Kích hoạt dịch vụ web quản lý kho lưu trữ
+  setting_sys_api_key: API key
   setting_time_format: thời gian
   setting_total_percent_complete_mode: Tính % tổng số thứ bậc hoàn thành
   setting_total_percent_complete_mode_simple_average: Trung bình đơn giản
@@ -5764,7 +6346,7 @@ vi:
         description_html: 'Chọn chế độ mà tích hợp trình quét antivirus nên hoạt động. <br/> <ul> <li><strong>%{disabled_option}</strong>: Các tệp tải lên sẽ không được quét virus.</li> <li><strong>%{socket_option}</strong>: Bạn đã thiết lập ClamAV trên cùng một máy chủ với OpenProject và daemon quét clamd đang chạy nền</li> <li><strong>%{host_option}</strong>: Bạn đang truyền tệp đến một máy chủ quét virus bên ngoài.</li> </ul>
 
           '
-      remaining_quarantined_files_html: 'Quét virus đã bị vô hiệu hóa. Có %{file_count} tệp vẫn còn trong cách ly. Để xem các tệp đã cách ly, vui lòng truy cập liên kết này: %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: 'Quét virus đã được kích hoạt thành công. Có %{file_count} đã được tải lên trước đó và vẫn cần được quét. Quá trình này đã được lên lịch ở chế độ nền. Các tập tin sẽ vẫn có thể truy cập được trong quá trình quét.
@@ -5775,6 +6357,7 @@ vi:
         '
       title: Quét virus
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Việc tắt tùy chọn này sẽ ẩn danh sách tệp đính kèm trên tab tệp gói công việc cho các dự án mới. Các tệp đính kèm trong phần mô tả của gói công việc sẽ vẫn được tải lên bộ lưu trữ tệp đính kèm nội bộ.
 
         '
@@ -5866,12 +6449,12 @@ vi:
         confirmation_message: Trình hướng dẫn yêu cầu khởi tạo sẽ không còn khả dụng cho các dự án mới dựa trên mẫu này nữa. Người quản lý dự án và chủ sở hữu dự án sẽ cần định cấu hình và điền thông tin liên quan theo cách thủ công trong phần Tổng quan về dự án.
         heading: Tắt yêu cầu bắt đầu dự án này?
         title: Tắt yêu cầu khởi tạo dự án
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
 
         '
       name:
-        artifact_name: Artefact name
-        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
+        artifact_name: Artifact name
+        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
         options:
           project_creation_wizard: Trình hướng dẫn tạo dự án
           project_initiation_request: Yêu cầu khởi tạo dự án
@@ -5891,8 +6474,8 @@ vi:
           Bạn đã gửi yêu cầu bắt đầu dự án cho **%{project_name}**. Bây giờ nó đang chờ xem xét.
           Nhấp vào liên kết bên dưới để truy cập gói công việc với yêu cầu của bạn.
         confirmation_email_text: Văn bản email xác nhận
-        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Gửi email xác nhận cho người dùng đã gửi yêu cầu bắt đầu dự án
         status_when_submitted: Trạng thái khi gửi
         status_when_submitted_caption: Trạng thái của gói công việc được tạo sẽ chuyển sang trạng thái sau khi yêu cầu được gửi.
@@ -5900,7 +6483,7 @@ vi:
         work_package_comment_caption: Người được giao được chọn ở trên sẽ tự động được @đề cập trong nhận xét.
         work_package_comment_default: Yêu cầu bắt đầu dự án cho **%{project_name}** đã được gửi và đang chờ xem xét.
         work_package_type: Loại gói công việc
-        work_package_type_caption: The work package type that should be used to store the completed artefact.
+        work_package_type_caption: The work package type that should be used to store the completed artifact.
       wizard_status_button:
         project_creation_wizard: Mở trình hướng dẫn tạo dự án
         project_initiation_request: Mở yêu cầu bắt đầu dự án
@@ -5920,6 +6503,7 @@ vi:
         heading: Giai đoạn mới
       no_gate: Không có cổng
       non_defined: Hiện tại không có giai đoạn nào được xác định.
+      order_changed: Order successfully changed.
       phase_gates: Cổng pha
       section_header: giai đoạn
       start_gate: Cổng bắt đầu
@@ -5976,7 +6560,7 @@ vi:
       section_work_week: tuần làm việc
   sharing:
     count:
-      one: 1 người dùng
+      one: "%{count} user"
       other: "%{count} người dùng"
       zero: 0 người dùng
     denied: Bạn không có quyền chia sẻ %{entities}.
@@ -6069,19 +6653,19 @@ vi:
         <br>
         <strong>Lưu ý</strong>: Các giá trị được kế thừa (ví dụ: từ con cái hoặc quan hệ) sẽ vẫn được áp dụng.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Bị loại trừ khỏi tổng số
         is_closed: đóng cửa
-        is_default: mặc định
         is_readonly: Chỉ đọc
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Thêm trạng thái mới
       no_results_title_text: Hiện tại không có trạng thái gói công việc.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: và
       skip_last_comma: sai
   text_access_token_hint: Mã thông báo truy cập cho phép bạn cấp cho các ứng dụng bên ngoài quyền truy cập vào tài nguyên trong OpenProject.
-  text_accessibility_hint: Chế độ trợ năng được thiết kế dành cho người dùng bị mù, khuyết tật vận động hoặc có thị lực kém. Đối với các yếu tố tập trung sau này được đánh dấu đặc biệt. Xin lưu ý rằng mô-đun Backlogs không khả dụng ở chế độ này.
   text_analyze: 'Phân tích sâu hơn: %{subject}'
   text_are_you_sure: Bạn có chắc không?
   text_are_you_sure_continue: Bạn có chắc chắn muốn tiếp tục không?
@@ -6124,12 +6708,6 @@ vi:
 
     '
   text_custom_field_possible_values_info: Một dòng cho mỗi giá trị
-  text_custom_logo_instructions: 'Logo tự động chia tỷ lệ để vừa với tiêu đề. Để có kết quả tốt nhất, hãy tải lên biểu tượng màu trắng trên hình ảnh trong suốt có kích thước 130×47px. Bạn có thể thêm bao nhiêu khoảng cách bên trong hình ảnh đó tùy thích.
-
-    '
-  text_custom_logo_mobile_instructions: 'Logo tự động chia tỷ lệ để vừa với tiêu đề. Để có kết quả tốt nhất, hãy tải lên biểu tượng màu trắng trên hình ảnh trong suốt có kích thước 130×33px. Bạn có thể thêm bao nhiêu khoảng cách bên trong hình ảnh đó tùy thích.
-
-    '
   text_custom_touch_icon_instructions: 'Đây là biểu tượng xuất hiện trên điện thoại di động hoặc máy tính bảng của bạn khi bạn đặt dấu trang trên màn hình chính. Nó phải là tệp hình ảnh PNG có kích thước 180 x 180 pixel bình phương. Vui lòng đảm bảo nền của hình ảnh không trong suốt, nếu không nó sẽ trông xấu trên iOS.
 
     '
@@ -6152,6 +6730,7 @@ vi:
     '
   text_form_configuration_required_attribute: Thuộc tính được đánh dấu là bắt buộc và do đó luôn được hiển thị
   text_formatting:
+    image_link: 'Image: %{name}'
     markdown: Gạch dưới
     plain: Văn bản thuần
   text_git_repo_example: một kho lưu trữ trống và cục bộ (trong /git repo, c:\git repo)
@@ -6179,6 +6758,7 @@ vi:
   text_length_between: Độ dài từ %{min} đến %{max} ký tự.
   text_line_separated: Cho phép nhiều giá trị (mỗi giá trị một dòng).
   text_load_default_configuration: Tải cấu hình mặc định
+  text_markdown_login_required: Log in or send an X-OpenProject-API-Key header to read this document.
   text_no_access_tokens_configurable: Không có mã thông báo truy cập nào có thể được cấu hình.
   text_no_configuration_data: |-
     Vai trò, loại, trạng thái gói công việc và quy trình làm việc chưa được định cấu hình.
@@ -6284,6 +6864,67 @@ vi:
   tree_view:
     label_empty_sub_tree: No items
   types:
+    aspect_descriptions:
+      defaults:
+        type: Set the template description text for this type and choose whether subjects are written by users or generated automatically.
+        variant: Set the template description text for this variant and choose whether subjects are written by users or generated automatically.
+      details:
+        type: Set the basic properties of this type, like its name, color and how it appears in projects. Project members always see this name, even when their project uses a variant.
+        variant: Name this variant so admins can tell it apart from other variants. Project members don't see this name, they see the name of the parent type.
+      form_configuration:
+        existing:
+          type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
+        new:
+          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
+          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+      pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
+      project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
+      projects:
+        type: Choose the projects in which this type should be available.
+        variant: Choose the projects in which this variant should be available. In these projects, the variant's settings replace those of its parent type.
+      variants: See all variants of this type, including those created by project admins within their projects.
+      workflows: Define which status changes each role can make in work packages of this type. Workflows can be shared across types and variants.
+    comparison:
+      action: Compare variants
+      blankslate:
+        description: Add a second variant to this type to see what sets them apart.
+        title: There is nothing to compare yet
+      description: Compare the variants of this type with the parent type.
+      labels:
+        duplicate: Possible duplicate
+        duplicate_of: Configured exactly like %{names}
+        duplicate_of_more:
+          other: "%{names} and %{count} more"
+        parent_type: Parent type
+        same_as_type: Same as parent type
+      rows:
+        form:
+          fields: Fields
+          groups: Sections
+          required: Of which required
+          same_as_base: Same as parent type
+        scope:
+          availability: Available to
+          enabled_in_new_projects: Active in new projects
+          projects: Projects
+        workflows:
+          roles: Roles involved
+          same_as_base: Same as parent type
+          statuses: Statuses
+          transitions: Transitions
+      sections:
+        configuration: Configuration overview
+        form: Form
+        scope: Scope
+        workflows: Workflows
+      title: Compare variants
+      title_for_type: Compare variants of %{name}
+      values:
+        global: All projects
+        inheriting_from: Inheriting from
+        project_specific: Project-specific ([%{project}](project_url))
+        same_as_base: Identical to the parent type
     creation_wizard:
       add_variant: Add a variant to %{name}
       create_type: Create type
@@ -6293,14 +6934,40 @@ vi:
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
+      start:
+        next_heading: What happens next?
+        submit: Start
+        type:
+          heading: Create a new type
+          lead_html: You are about to create a new work package type in your instance. A type is a kind of work package, such as a Bug, Task or Milestone, with its own form, workflow and settings.
+          next_steps: You will configure your type in the next steps, choosing the settings that best fit your needs. Once the type exists, you can create variants of it to adapt individual settings without creating another type.
+          objects_description: Form and workflows are standalone objects that can be shared across multiple types and variants. You can select an existing one, create a new one from a copy, or start from scratch.
+          objects_title: Objects
+          options_heading: Settings and objects
+          options_intro: A type is made up of two kinds of building blocks.
+          settings_description: Details, defaults, project attributes, projects and PDF export belong to the type itself. You configure them directly for this type.
+          settings_title: Settings
+        variant:
+          heading: Create a new variant
+          inherit_description: The variant uses the parent type's settings. Any changes to the parent type are automatically reflected in the variant.
+          inherit_title: Use the same settings as the type
+          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance. A variant is an alternative version of a work package type. It starts with the configuration of the original type and lets you adapt individual settings without creating an entirely new type.
+          manual_description: Start with a copy of the parent type's current settings and customize them independently, or start from scratch. Changes to the parent type will not affect this configuration.
+          manual_title: Manual configuration
+          next_steps: You will configure your variant in the next steps, choosing the settings that best fit your needs.
+          objects_description: Workflows and forms are standalone objects that can be shared across multiple types and variants. You can select an existing workflow or form, create a new one from a copy, or start from scratch.
+          objects_heading: Reuse workflow and form objects
+          options_heading: Reuse or customize settings
+          options_intro: For most settings, you can choose whether to use the parent type's configuration or configure it independently. Form and workflows are handled separately below.
       steps:
         defaults: Defaults
         details: Details
         form_configuration: Form
-        pdf: PDF generation
+        pdf: Generate PDF
         project_attributes: Project attributes
         projects: Projects
-        workflows: Workflows
+        start: Start
+        workflows: Workflow
       success: Created successfully.
     edit:
       breadcrumb_variant: 'Variant: %{name}'
@@ -6309,8 +6976,10 @@ vi:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.
           label: Automatically generated subjects
         description:
-          caption: Add the text that will be added to the description field of all new work packages with this type.
-          label: Default description text
+          caption:
+            type: This text is included by default in the description of every new work package of this type.
+            variant: This text is included by default in the description of every new work package of this variant.
+          label: Description template
         manually_editable_subjects:
           caption: Users can manually enter and edit work package subjects without restrictions.
           label: Manually editable subjects
@@ -6339,21 +7008,21 @@ vi:
           file_link:
             caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
             label: Upload file to external file storage and add file link to work package
-          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artefact export mode.
-          label: Automatic artefact export
+          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artifact export mode.
+          label: Automatic artifact export
           off_mode:
             caption: No PDF is generated automatically.
             label: 'Off'
-          section_title: Automatic artefact export
+          section_title: Automatic artifact export
           unavailable: unavailable, no automatically-managed Nextcloud storage is configured
-        intro: Chọn mẫu nào trong số những mẫu có sẵn mà bạn muốn bật cho loại này. Mẫu xác định thiết kế và các thuộc tính hiển thị trong tệp PDF đã xuất của gói công việc sử dụng loại này. Mẫu đầu tiên trong danh sách được chọn theo mặc định.
         pdf_export_templates:
           actions:
             label_disable_all: Vô hiệu hóa tất cả
             label_enable_all: Kích hoạt tất cả
             label_toggle_template: Toggle %{template}
           label: Mẫu xuất PDF
+          order_changed: Order successfully changed.
         tab: Tạo PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.
@@ -6370,6 +7039,8 @@ vi:
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: Delete section
         drag_to_activate: Drag fields from here to activate them
         drag_to_reorder: Drag to reorder
@@ -6391,6 +7062,14 @@ vi:
         query_group_label: Related work packages table
         remove_attribute: Remove from section
         rename_group: Rename section
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required for this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require for this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          unmark: Do not require for this type
         reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
 
           '
@@ -6400,12 +7079,14 @@ vi:
         tab: Form
         untitled_group: Untitled group
       overview:
+        caption: Variants can either use settings from the original type or you can manually configure them to be different. This table shows you where the configuration for each setting comes from.
         configuration_mode: Configuration mode
-        dependents: Dependent types and variants
         mode:
           always_manual: Always manual
-          inheriting_from_html: Inheriting from %{source_name}
+          inheriting_from_html: Using the same as type (%{source_name})
           manual: Manually configured
+          using_form_html: Using form %{name}
+          using_workflow_html: Using workflow %{name}
         settings: Settings
         tab: Overview
       project_attributes:
@@ -6419,12 +7100,12 @@ vi:
           manual:
             description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
             title: No project attributes available
-        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:
           attribute_label: Inherit %{attribute}
         filter: Search by section or name
         tab: Project attributes
+      project_specific_variant_suffix: "(Project-specific variant)"
       projects:
         actions:
           confirm_remove: Remove the type %{type} from %{project}?
@@ -6437,10 +7118,15 @@ vi:
         empty_state:
           description: Add a project to use this configuration there.
           no_results: No matching projects.
+          title: Not used in any project yet
         enable_all: Kích hoạt cho tất cả các dự án
         select_projects: Chọn dự án
         select_projects_description: Chọn các dự án mà bạn muốn sử dụng loại này.
+        switch_dialog:
+          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          title: Replace variants?
         tab: dự án
+        variant_column: Variant or type
       reuse_mode:
         copy:
           confirm_dialog:
@@ -6455,41 +7141,17 @@ vi:
             title: Copy configuration
           invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
           success: The configuration was copied.
-        dependents:
-          blank:
-            description: No other type or variant inherits from this configuration
-            title: No dependent types
-          description:
-            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
-          dialog:
-            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
-            direct_heading: Direct dependents
-            indirect_heading: Dependents through other types
-            title: Dependent types
-            variant_of_html: Variant of %{type_name}
-            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
-            via_html: Inheriting via %{source_name}
-          title:
-            other: "%{count} dependent types"
-          view: View dependent types
         exclusions:
           not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
           unknown_aspect: Unknown configuration section "%{aspect}".
         inherited:
-          change_source: Change source type
           configure_manually: Configure manually
           confirm_dialog:
-            change_source:
-              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              heading: Change source type?
-              title: Change source type
             check_box: I understand that this will override the current settings
             from_manual:
               description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
               heading: Switch configuration mode?
               title: Switch configuration mode
-          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
           dialog:
             description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
             source_label: Source type
@@ -6497,6 +7159,9 @@ vi:
             submit: Switch
             title: Inherit from another type
           invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          mode_description: This variant will use the same settings as the type ([%{source_name}](source_url)). Any changes there will automatically reflect here.
+          mode_description_unlinked: This variant will use the same settings as the type. Any changes there will automatically reflect here.
+          mode_label: Use the same settings as the type
           success: The configuration mode was switched.
           title: Inherited configuration
         manual:
@@ -6505,13 +7170,14 @@ vi:
             description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
             heading: Switch configuration mode?
             title: Switch configuration mode
-          copy_from_type: Copy from another type
           description: No settings are inherited. You can still copy the settings from another type one time.
           dialog:
             submit: Switch
             title: Configure manually
-          inherit_from_type: Inherit from another type
+          inherit_from_type: Inherit from parent
           invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+          mode_description: Manually configure this page. Changes to the parent type will no longer affect it.
+          mode_label: Configure this page manually
           modes:
             copy:
               caption: Start with a one-time copy of the settings that this configuration inherits now.
@@ -6525,12 +7191,16 @@ vi:
           success: The configuration mode was switched.
           title: Manual configuration
         parent_suffix: " (parent)"
+      variant_suffix: "(Variant)"
       variants:
         blankslate:
           description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
 
             '
           title: No variants exist for this type
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: Created in %{project}
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
@@ -6539,23 +7209,48 @@ vi:
         filter_no_results: No variants match this filter
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
       workflow:
-        tab: Workflows
+        tab: Workflow
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Add variant
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
+      created_by_migration: Migrated
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
       duplicate_name: Copy of %{name}
       duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: Active in new projects
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: Activate in new projects
       make_default_notice: "%{name} is now activated in new projects."
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       no_results_content_text: Tạo loại mới
       no_results_title_text: Hiện tại không có loại nào.
       project_variants_count:
@@ -6564,7 +7259,18 @@ vi:
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
       variant_label: Variant
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milestone
+    patterns:
+      formats:
+        hierarchy_default: Default (label and short)
+        hierarchy_label: Label only
+        hierarchy_short: Short only
+        weighted_item_list_default: Default (label and weight)
+        weighted_item_list_weight: Weight only
   unsupported_browser:
     close_warning: Bỏ qua cảnh báo này.
     message: Bạn có thể gặp phải lỗi và trải nghiệm không mong muốn trên trang này.
@@ -6583,7 +7289,7 @@ vi:
     authorization_rejected: Bạn không được phép đăng nhập.
     blocked: bị khóa tạm thời
     blocked_num_failed_logins:
-      other: bị khóa tạm thời (%{count} lần đăng nhập không thành công)
+      other: locked temporarily (%{count} failed login attempts)
     confirm_status_change: Bạn sắp thay đổi trạng thái '%{name}'. Bạn có chắc chắn muốn tiếp tục không?
     deleted: Người dùng đã bị xóa
     department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
@@ -6683,7 +7389,7 @@ vi:
       deletion_warning: Bạn có chắc chắn muốn thu hồi phiên này không? Bạn sẽ đăng xuất trên thiết bị này.
       device: Thiết bị/HĐH
       expires: Hết hạn
-      instructions: Bạn đã đăng nhập vào tài khoản của mình thông qua các thiết bị sau. Thu hồi các phiên mà bạn không nhận ra hoặc từ các thiết bị bạn không kiểm soát.
+      instructions: You are logged in to your account through the following devices. Revoke sessions that you do not recognize or from devices you do not control.
       last_connection: Kết nối cuối cùng
       may_not_delete_current: Bạn không thể xóa phiên hiện tại của mình.
       session_name: "%{browser_name} %{browser_version} trên %{os_name}"
@@ -6749,6 +7455,12 @@ vi:
   version_status_locked: bị khóa
   version_status_open: mở
   versions:
+    filter_status_labels:
+      closed: Closed
+      locked: Locked
+      open: Open
+    index:
+      filter_label: Search versions
     overview:
       no_results_title_text: Hiện tại không có gói công việc nào được gán cho phiên bản này.
       work_packages_in_archived_projects: Phiên bản này được chia sẻ với các dự án đã lưu trữ vẫn có các gói công việc được gán cho phiên bản này. Những nội dung này được tính nhưng sẽ không xuất hiện trong các chế độ xem được liên kết.
@@ -6838,9 +7550,6 @@ vi:
       note_placeholder: Tại sao bạn đặt lời nhắc này?
       success_deletion_message: Đã xóa lời nhắc thành công.
       success_update_message: Đã cập nhật lời nhắc thành công.
-    updated_automatically_by_child_changes: '_Được cập nhật tự động bằng cách thay đổi các giá trị trong gói công việc con %{child}_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: Thêm quan hệ vào các gói công việc khác để tạo liên kết giữa chúng.
@@ -6918,6 +7627,8 @@ vi:
       required_description: Đánh dấu gói công việc này là một yêu cầu đối với gói công việc liên quan
       requires_description: Đánh dấu gói công việc liên quan là yêu cầu đối với gói công việc này
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: Các gói công việc không thể được sao chép.
       could_not_be_deleted: 'The following work packages could not be deleted:'
@@ -7019,6 +7730,137 @@ vi:
         other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
         other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+    import:
+      check_file: Check file
+      checking_file: Checking %{filename}
+      clear: Clear
+      csv:
+        file:
+          empty: This file is empty.
+          expired: This file is no longer available. Upload it again.
+          expired_named: "%{filename} is no longer available. A checked file is kept for a few hours, so this one has to be uploaded again. It is checked once more before anything is created."
+          invalid_encoding: Line %{line} contains bytes that are not valid UTF-8 or UTF-16. Save the file again as CSV (UTF-8/UTF-16) and upload that file instead.
+          malformed: This file could not be read as CSV. Line %{line} opens a quote that is never closed.
+          missing: Choose a CSV file to upload.
+          no_rows: This file has column headers but no lines underneath them.
+          too_large: This file is %{size}. The largest file this instance accepts is %{limit}. Split the lines across several files, or ask an administrator to raise the limit.
+          too_large_before_upload: This file is larger than the %{limit} this instance accepts. Split the lines across several files, or ask an administrator to raise the limit.
+          too_many_rows: This file has more lines than can be imported at once. The most is %{limit}.
+        format:
+          unknown: This is not a UTF-8/UTF-16 CSV file. If it came from a spreadsheet, save it again as CSV (UTF-8/UTF-16) and upload that file instead.
+          wrong_encoding: This file is %{encoding} encoded, not UTF-8 or UTF-16. Choose the CSV UTF-8/UTF-16 format when saving, then upload it again.
+        header:
+          ambiguous: and %{other} both mean %{attribute}. Keep one of them.
+          duplicate: appears more than once. Keep one of them.
+          status_based: cannot be imported while progress is calculated from the status. An administrator changes this under Administration, Work packages, Progress tracking.
+          unknown: cannot be imported.
+          unknown_with_suggestion: cannot be imported. Did you mean %{suggestion}?
+          unnamed: This column has no name. Name it or remove the column.
+        job:
+          checking: Checking the file
+          importing: Importing the file
+        row:
+          created_after_updated: must not be later than the value in Updated on.
+          fractional_percentage: must be a whole number of percent, for example 50.
+          future_timestamp: must not be in the future.
+          invalid_date: must be a date written as YYYY-MM-DD.
+          invalid_timestamp: must be a date and time written as YYYY-MM-DDTHH:MM:SSZ.
+          not_created: could not be created, and no reason was reported.
+          too_many_cells: has %{count} cells but the header has %{expected}. A value containing the separator has to be quoted.
+          unknown: does not exist.
+          unknown_in_project: does not exist in this project.
+          unknown_user: does not match a user. Use the email address the user signs in with.
+        template:
+          example_category: Documentation
+          example_version: '1.0'
+          examples:
+            one:
+              description: Explain what the new page has to do.
+              subject: Write the documentation
+            two:
+              description: The error appears after a failed password reset.
+              subject: Fix the login error
+        view_name: CSV import on %{datetime}
+      download_template: Download the template
+      drop_or_click: Drop a CSV file here or click to select one.
+      dry_run_caption: Every line is validated and reported, but nothing is created. Recommended for a file you have not imported before.
+      dry_run_label: Check the file first, without importing
+      file_label: CSV file
+      guidance:
+        column_reference: Find more here
+        columns_html: "%{link} containing the correct column headers needed for the import to succeed and fill it with the work package data."
+        limits_html: The CSV file imported must be exported in UTF-8/UTF-16 with a limit of %{lines} lines and a size of %{size}.
+        names_html: The column headers and values inside each work package attribute must match existing values. User attributes must match an existing email address. %{link}
+        title: Before you start
+      import_file: Import file
+      importing_file: Importing %{filename}
+      intro: Create many work packages at once from a CSV file. Existing work packages are not changed.
+      menu_title: Work packages importer
+      report:
+        announcement:
+          checked: The file has been checked. The report is below.
+          file_rejected: The file was not imported. The report says what is wrong with its column headers.
+          imported: The import has finished. The report is below.
+          rows_rejected: Nothing was imported. The report lists the problems.
+        checked:
+          heading: Ready to import
+          import: Import %{work_packages}
+          kept: The checked file is kept for a few hours, so importing it does not need a second upload.
+          text: Nothing has been created yet. Review the summary below, then import.
+          title:
+            other: "%{count} lines checked, no problems found"
+        download_problems: Download as CSV
+        file_rejected:
+          heading: Header line
+          line: line 1 of %{filename}
+          nothing: Nothing was imported. Correct the file and upload it again.
+          text: Correct the headers in the file and upload it again.
+          title: The column headers could not be read
+        headline:
+          accounts:
+            label: Accounts
+            subtitle: assignee, accountable and author
+          dated:
+            label: Lines with dates
+            subtitle: a start or finish date
+          types:
+            label: Types
+            subtitle: used in this file
+          work_packages:
+            label: Work packages
+            subtitle: one for every line
+        imported:
+          again: Import another file
+          heading: Import summary
+          link:
+            other: View the %{count} imported work packages
+          notifications: Notifications were not sent for these work packages.
+          text_html: Imported from %{filename} on %{date} at %{time}.
+          title: "%{work_packages} created"
+        problems:
+          all:
+            other: "%{count} problems, all shown."
+          capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
+          heading: Problems
+        rows_rejected:
+          text: Everything was rolled back. Correct the lines below and upload the file again.
+          title: 'Nothing was imported: %{problems} in %{lines}'
+        table:
+          attribute: Column
+          available: Available values
+          column: Column
+          empty: empty
+          header: Header
+          message: Problem
+          row: Line
+          value: Value
+        x_lines:
+          other: "%{count} lines"
+        x_problems:
+          other: "%{count} problems"
+      run_failed: This run did not finish, and nothing was created. Upload the file again.
+      running_note: This runs in the background. Please do not close the page.
+      title: Import work packages
     move:
       bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
@@ -7050,34 +7892,50 @@ vi:
         version:
           no_results_title_text: Hiện tại không sẵn có phiên bản nào.
     x_descendants:
-      other: "%{count} gói sản phẩm phụ thuộc"
+      other: "%{count} work package descendants"
   workflows:
+    change:
+      confirm:
+        consequence: Existing work packages with these statuses will not be affected. They will remain in the current status but transitions to these statuses will no longer be possible.
+        description: 'The following statuses don’t exist in the workflow you have selected ("%{name}"):'
+        description_blank: The new workflow has no transitions. All status transitions of %{type} will be removed.
+        description_empty: The workflow you have selected ("%{name}") has no transitions. All status transitions of %{type} will be removed.
+        title: Use a different workflow for %{name}?
+      select:
+        caption: The type uses the status transitions of the workflow you pick here.
+        label: Workflow
+        placeholder: Select a workflow…
+      title: Change workflow
     copies:
       form:
-        mode:
-          from_role:
-            caption: Copy the current workflow to one or more roles inside the same gói công việc (work package) type. If the selected role already has a workflow the current one will be overwritten.
-            label: Copy to other roles
-          from_type:
-            caption: Copy the current workflow to another gói công việc (work package)s type. If the selected type already has a workflow the current one will be overwritten. This affects all roles.
-            label: Copy to another type
-        source_role_id:
-          label: Source role
         target_role_ids:
           label: Target roles
-        target_variant_ids:
-          label: Target types
       from_roles:
         create:
           notice:
             other: Successfully copied workflow to %{count} roles.
-      from_variants:
-        create:
-          notice:
-            other: Successfully copied workflow to %{count} types.
       new:
-        title: Copy workflow of "%{source_type}"
+        dialog_title: Copy workflow of "%{source}"
+    delete:
+      body_in_use:
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      button: Delete workflow
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      title: Delete workflow %{name}?
     form:
+      copy_from:
+        caption: The new workflow starts with a copy of that workflow's status transitions.
+        label: Copy from
+        placeholder: Select a workflow…
+      description:
+        caption: Add a short description about where and how will this workflow be used.
+        label: Description
+      edit_title: Edit workflow
       matrix_caption: Ma trận quy trình công việc
       matrix_caption_assignee: Ma trận quy trình công việc cho người được giao
       matrix_caption_author: Ma trận quy trình làm việc cho tác giả
@@ -7086,12 +7944,83 @@ vi:
       matrix_check_uncheck_all_in_row_label_html: Chuyển đổi các chuyển đổi từ <em>%{old_status}</em> sang tất cả các trạng thái mới
       matrix_checkbox_label: Cho phép chuyển đổi từ %{old_status} sang %{new_status}
       matrix_uncheck_all_label: Không cho phép tất cả các chuyển đổi
+      name:
+        caption: Pick a name that will let you identify this workflow later in other places.
+        label: Workflow name
+      new_title: Create workflow
     index:
+      actions:
+        create: Workflow
+        edit: Edit transitions
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a workflow to define the status transitions a type or variant may use.
+        filtered_description: No workflow matches the current filters.
+        filtered_title: No matching workflows
+        title: No workflows
+      columns:
+        name: Workflow name
+        projects: Projects
+        roles: Roles
+        types_and_variants: Types and variants
+      description: Every named set of status transitions in this instance, with the types and variants using it.
+      filters:
+        name: Workflow
+        name_placeholder: Filter by workflow name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        other: "%{count} projects"
+      roles_count:
+        other: "%{count} roles"
       type_filter:
         label: Filter by type name…
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        other: "%{count} types"
+      variants_count:
+        other: "%{count} variants"
+    name:
+      fallback: Workflow
+      implicit: "%{name} workflow"
     page_headers:
       index_component:
         description: Configure status transitions for each gói công việc (work package) type.
+    selector:
+      prefix: Workflow
+      same_as_type: "(same as type)"
+      title: Select workflow
+    start:
+      copy:
+        caption: Start with an existing workflow, change it as you wish and save it as a new workflow.
+        label: Start with a copy of an existing workflow
+        missing: Select the workflow to copy, or start from scratch instead.
+      label: Starting point
+      scratch:
+        caption: Start with a blank workflow and build it manually.
+        label: Start from scratch
+      title: New workflow
+    usage:
+      dialog:
+        button: View dependent types
+        caption_html: The workflow %{name} is used in the following types and variants.
+        title: Workflow used in types
+        variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
+        variants: Variants
+      unused: No type or variant uses this workflow yet.
+      used_by_types:
+        other: This workflow is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        other: This workflow is used by %{count} types and variants. Changes apply to all of them.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing workflow for this type with a pre-defined set of status transitions for a set of roles.
+          label: Use an existing workflow
+        new:
+          caption: Manually define a new workflow for this type by choosing which status transitions are allowed for which roles.
+          label: Configure a new workflow
   working_days:
     change_button: Thay đổi ngày làm việc
     dialog:

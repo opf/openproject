@@ -23,10 +23,15 @@
 uk:
   js:
     button_log_costs: Витрати на одиницю
+    costs:
+      widgets:
+        actual_costs:
+          chart_label: Actual costs by month chart
+          chart_month: "%{month}: %{values}"
+          chart_summary: 'Actual costs by month: %{months}.'
+          chart_value: "%{label}: %{value}"
     label_hour: година
     label_hours: годин(и)
-    myTimeTracking:
-      noSpecificTime: Немає визначеного часу
     text_are_you_sure: Ви впевненені?
     work_packages:
       properties:

@@ -61,6 +61,7 @@ pl:
         single: Wybierz %{name}
       remove: Usuń %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Nie znaleziono elementów
       placeholder: Wpisz szukaną frazę
       project:
@@ -162,6 +163,7 @@ pl:
     button_stop_timer: Zatrzymaj zegar
     button_uncheck_all: Odznacz wszystko
     button_update: Aktualizacja
+    button_view_markdown: View Markdown
     caption_rate_history: Historia stawek
     card:
       add_new: Dodaj nową kartę
@@ -201,7 +203,10 @@ pl:
     description_select_work_package: 'Zaznacz zestaw Zadań #%{id}'
     description_subwork_package: 'Otwórz zadanie-dziecko #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: Wystąpił błąd w CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Zapisywanie dokumentu nie powiodło się, błąd: %{error}'
       macro:
         attribute_reference:
@@ -358,8 +363,8 @@ pl:
     ical_sharing_modal:
       copy_url_label: Kopiuj adres URL
       description: Możesz użyć adresu URL (iCalendar), aby subskrybować ten kalendarz w kliencie zewnętrznym i wyświetlać z niego aktualne informacje o pakietach roboczych.
-      ical_generation_error_text: Podczas generowania adresu URL kalendarza wystąpił błąd.
-      inital_setup_error_message: Podczas pobierania danych wystąpił błąd.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: Adres URL „%{name}” został skopiowany do schowka. Wklej go w kliencie kalendarza, aby dokonać subskrypcji.
       title: Subskrybuj kalendarz
       token_name_description_text: Jeśli subskrybujesz ten kalendarz na wielu urządzeniach, nazwa ta pomoże Ci rozróżnić je na liście <a href="%{myAccessTokensUrl}" target="_blank">tokenów dostępu</a>.
@@ -551,6 +556,8 @@ pl:
     label_reset: Reset
     label_resize_project_menu: Zmień rozmiar menu projektu
     label_save_as: Zapisz jako
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Wyszukaj kolumnę
     label_select_watcher: Wybierz obserwatora...
     label_selected_filter_list: Wybrane filtry
@@ -623,10 +630,10 @@ pl:
     notifications:
       center:
         and_more_users:
-          one: i 1 inny
-          few: i %{count} inne
-          many: i %{count} inne
-          other: i %{count} innych
+          one: and %{count} other
+          few: and %{count} others
+          many: and %{count} others
+          other: and %{count} others
         empty_state:
           no_notification: Wygląda na to, że jesteś już na bieżąco.
           no_notification_for_filter: Wygląda na to, że wszystko jest na bieżąco dla tego filtru.
@@ -722,6 +729,7 @@ pl:
     placeholders:
       default: "-"
       description: 'Opis: Kliknij, aby edytować...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Kliknij, aby dodać opis do tej relacji
       selection: Proszę wybrać
       subject: Wpisz tutaj temat
@@ -808,12 +816,36 @@ pl:
       sorting_disabled: sortowanie jest wyłączone
     sortable_lists:
       announcements:
+        batch_too_large: Nie można przenieść %{count} elementów naraz. Wybierz nie więcej niż %{max}.
         fallback_item_label: Element
         fallback_list_name: inna lista
         move_failed_check_position: Przeniesienie nie powiodło się. Sprawdź bieżącą pozycję elementu.
+        move_failed_check_positions_batch:
+          other: Przeniesienie nie powiodło się. Sprawdź bieżące pozycje elementów.
         move_failed_rolled_back: Przeniesienie nie powiodło się. Przywrócono poprzednią pozycję %{label}.
+        move_failed_rolled_back_batch:
+          other: Przeniesienie nie powiodło się. Elementy (%{count}) powróciły na swoje poprzednie pozycje.
         moved: "%{label} przeniesiono do pozycji %{position} z %{total}"
+        moved_batch:
+          other: "%{count} elementy przeniesiono do pozycji od %{first} do %{last} z %{total}"
+        moved_batch_to_list:
+          other: "%{count} elementy przeniesiono do %{list}, pozycje od %{first} do %{last} z %{total}"
         moved_to_list: "%{label} przeniesiono do %{list}, pozycja %{position} z %{total}"
+      selection:
+        cleared: Wyczyszczono wybór.
+        not_selectable: Wybór pozostaje bez zmian. Ten element nie ma wpływu na kolejność pozycji na tej liście.
+        range_blocked: Wybór pozostaje bez zmian. Ten zakres zawiera element, który nie ma wpływu na kolejność pozycji na tej liście.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          few: Could not extend the range. %{count} items selected.
+          many: Could not extend the range. %{count} items selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Wybór pozostaje bez zmian. Rozwiń tę listę, aby wybrać ten zakres.
+        selected:
+          one: "%{count} item selected."
+          few: "%{count} items selected."
+          many: "%{count} items selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Zamknij okno modalne
@@ -827,9 +859,7 @@ pl:
     text_user_wrote: "%{value} napisał(a):"
     text_work_packages_destroy_confirmation: Czy na pewno chcesz usunąć wybrane pakiety robocze?
     time_entry:
-      stop: Zatrzymaj
       title: Rejestruj czas pracy
-      tracking: Zarządzanie czasem
       work_package_required: Wymaga wybrania najpierw pakietu roboczego.
     timer:
       button_stop: Zatrzymaj bieżące odliczanie
@@ -864,24 +894,24 @@ pl:
       label_two_factor_authentication: Uwierzytelnianie dwuskładnikowe
     units:
       child_work_packages:
-        one: jeden potomny pakiet roboczy
-        few: "%{count} potomnych pakietów roboczych"
-        many: "%{count} potomnych pakietów roboczych"
-        other: "%{count} potomnych pakietów roboczych"
+        one: "%{count} child work package"
+        few: "%{count} work package children"
+        many: "%{count} work package children"
+        other: "%{count} work package children"
       day:
-        one: 1 dzień
+        one: "%{count} day"
         other: "%{count} dni"
         zero: 0 dni
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours}h"
       word:
-        one: 1 słowo
-        few: "%{count} słowa"
-        many: "%{count} słów"
-        other: "%{count} słowa"
+        one: "%{count} word"
+        few: "%{count} words"
+        many: "%{count} words"
+        other: "%{count} words"
       workPackage:
         one: pakiet roboczy
         few: pakiety robocze
@@ -1076,11 +1106,30 @@ pl:
       scheduling:
         is_parent: Daty tego pakietu roboczego są automatycznie odejmowane od jego elementów podrzędnych. Włącz funkcję Planowanie ręczne, aby ustawić daty.
         is_switched_from_manual_to_automatic: Po przełączeniu planowania z ręcznego na automatyczne konieczne może być ponowne obliczenie dat tego pakietu roboczego ze względu na jego powiązania z innymi pakietami roboczymi.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          many: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Pokaż wszystkich użytkowników, którym udostępniono pakiet roboczy
         title: Udostępnij pakiet roboczy
       table:
         configure_button: Konfiguruj tabelę pakietów roboczych
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabela, której wiersze zawierają pakiety pracy, a kolumny ich atrybuty.
         text_inline_edit: Większość komórek w tej tabeli to przyciski uruchamiające edycję danego atrybutu.
         text_select_hint: Zaznacz boxy które powinny zostać otwarte poprzez jednoczesne użycie klawisza 'ALT' oraz strzałek.

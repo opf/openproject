@@ -61,6 +61,7 @@ ar:
         single: Select "%{name}"
       remove: Remove %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Type to search
       project:
@@ -162,6 +163,7 @@ ar:
     button_stop_timer: Stop timer
     button_uncheck_all: إلغاء اختيار الكل
     button_update: التحديث
+    button_view_markdown: View Markdown
     caption_rate_history: تاريخ السعر
     card:
       add_new: Add new card
@@ -201,7 +203,10 @@ ar:
     description_select_work_package: 'اختر مجموعة العمل #%{id}'
     description_subwork_package: 'إنتاج مجموعة العمل #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: An error occurred within CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
       macro:
         attribute_reference:
@@ -358,8 +363,8 @@ ar:
     ical_sharing_modal:
       copy_url_label: Copy URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: An error occured while fetching data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
       title: Subscribe to calendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -551,6 +556,8 @@ ar:
     label_reset: إعادة تعيين
     label_resize_project_menu: Resize project menu
     label_save_as: احفظ بشكل
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Search a column
     label_select_watcher: اختر مراقبًا...
     label_selected_filter_list: عوامل التصفية المٌختارة
@@ -624,7 +631,7 @@ ar:
       center:
         and_more_users:
           zero: and %{count} others
-          one: and 1 other
+          one: and %{count} other
           two: and %{count} others
           few: and %{count} others
           many: and %{count} others
@@ -724,6 +731,7 @@ ar:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: انقر لإضافة وصف لهذه العلاقة
       selection: من فضلك اختر
       subject: Enter subject here
@@ -810,12 +818,40 @@ ar:
       sorting_disabled: sorting is disabled
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          zero: Could not extend the range. %{count} items selected.
+          one: Could not extend the range. %{count} item selected.
+          two: Could not extend the range. %{count} items selected.
+          few: Could not extend the range. %{count} items selected.
+          many: Could not extend the range. %{count} items selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          zero: "%{count} items selected."
+          one: "%{count} item selected."
+          two: "%{count} items selected."
+          few: "%{count} items selected."
+          many: "%{count} items selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Close modal
@@ -829,9 +865,7 @@ ar:
     text_user_wrote: "%{value} كتب:"
     text_work_packages_destroy_confirmation: هل أنت متأكد من أنك تريد حذف العناصر المحددة؟
     time_entry:
-      stop: Stop
       title: وقت السجل
-      tracking: تعقب الوقت
       work_package_required: Requires selecting a work package first.
     timer:
       button_stop: Stop current timer
@@ -867,23 +901,23 @@ ar:
     units:
       child_work_packages:
         zero: "%{count} work package children"
-        one: one child work package
+        one: "%{count} child work package"
         two: "%{count} work package children"
         few: "%{count} work package children"
         many: "%{count} work package children"
         other: "%{count} work package children"
       day:
-        one: 1 يوم
+        one: "%{count} day"
         other: "%{count} يوم"
         zero: 0 days
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
         zero: "%{count} words"
-        one: 1 word
+        one: "%{count} word"
         two: "%{count} words"
         few: "%{count} words"
         many: "%{count} words"
@@ -1084,11 +1118,34 @@ ar:
       scheduling:
         is_parent: The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates.
         is_switched_from_manual_to_automatic: The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages.
+      selection:
+        all_selected:
+          zero: All %{count} work packages on this page selected.
+          one: All %{count} work package on this page selected.
+          two: All %{count} work packages on this page selected.
+          few: All %{count} work packages on this page selected.
+          many: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          zero: "%{count} work packages selected."
+          one: "%{count} work package selected."
+          two: "%{count} work packages selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: إظهار كل المستخدمين الذين تم مشاركة حزمة العمل معهم
         title: Share work package
       table:
         configure_button: Configure work package table
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: أسطر الجدول كتب عمل والاعمدة واصفات لكتب العمل.
         text_inline_edit: معظم خلايا الجدول هي أزرار لتنشيط وظائف التحرير المضمنة لتلك الواصفة.
         text_select_hint: يجب فتح الخانات المختارة بمفتاح "ألت" ومفاتيح الأسهم.

@@ -61,6 +61,7 @@ ro:
         single: Selectează "%{name}"
       remove: Elimină ”%{name}”
     autocompleter:
+      create_label: Create label
       notFoundText: Niciun articol găsit
       placeholder: Tastează pentru a căuta
       project:
@@ -161,7 +162,8 @@ ro:
     button_start_timer: Pornește cronometrul
     button_stop_timer: Oprește cronometrul
     button_uncheck_all: Deselectează tot
-    button_update: Actualizează
+    button_update: Actualizare
+    button_view_markdown: View Markdown
     caption_rate_history: Istoric cotă
     card:
       add_new: Adaugă card nou
@@ -201,7 +203,10 @@ ro:
     description_select_work_package: 'Selectează pachet de lucru #%{id}'
     description_subwork_package: 'Copil al pachetului de lucru #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: A apărut o eroare în cadrul CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Salvarea documentului a eșuat cu următoarea eroare: %{error}'
       macro:
         attribute_reference:
@@ -358,8 +363,8 @@ ro:
     ical_sharing_modal:
       copy_url_label: Copiază URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: A apărut o eroare la preluarea datelor.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL-ul "%{name}" a fost copiat cu succes în clipboard-ul tău. Lipiți-l în clientul calendar pentru a finaliza abonamentul.
       title: Abonează-te la calendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -551,6 +556,8 @@ ro:
     label_reset: Resetare
     label_resize_project_menu: Resize project menu
     label_save_as: Salvează ca
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Caută o coloană
     label_select_watcher: Selectează un observator...
     label_selected_filter_list: Filtre selectate
@@ -623,9 +630,9 @@ ro:
     notifications:
       center:
         and_more_users:
-          one: și încă unul
-          few: și %{count} alții
-          other: și %{count} alții
+          one: and %{count} other
+          few: and %{count} others
+          other: and %{count} others
         empty_state:
           no_notification: Se pare că ești cu toate la zi.
           no_notification_for_filter: Looks like you are all caught up for this filter.
@@ -721,6 +728,7 @@ ro:
     placeholders:
       default: "-"
       description: 'Descriere: Clic pentru editare ...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Clic pentru a adăuga o descriere pentru această relație
       selection: Te rog selectează
       subject: Introdu subiectul aici
@@ -807,12 +815,34 @@ ro:
       sorting_disabled: sortarea este dezactivată
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          few: Could not extend the range. %{count} items selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          few: "%{count} items selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Close modal
@@ -826,9 +856,7 @@ ro:
     text_user_wrote: "%{value} a scris:"
     text_work_packages_destroy_confirmation: Ești sigur că vrei să ștergi pachetele de lucru selectate?
     time_entry:
-      stop: Oprire
       title: Registru timp
-      tracking: Monitorizare efort
       work_package_required: Necesită să se selecteze mai întâi un pachet de lucru.
     timer:
       button_stop: Oprește cronometrul curent
@@ -863,20 +891,20 @@ ro:
       label_two_factor_authentication: Autentificare doi factori
     units:
       child_work_packages:
-        one: Un pachet de lucru descendent
-        few: "%{count} descendenți ai pachetului de lucru"
-        other: "%{count} copii din pachetul de lucru"
+        one: "%{count} child work package"
+        few: "%{count} work package children"
+        other: "%{count} work package children"
       day:
-        one: o zi
+        one: "%{count} day"
         other: "%{count} zile"
         zero: 0 zile
       hour:
-        one: 1 oră
+        one: "%{count} h"
         other: "%{count} ora"
         zero: 0 ore
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         few: "%{count} words"
         other: "%{count} words"
       workPackage:
@@ -1072,11 +1100,28 @@ ro:
       scheduling:
         is_parent: Datele acestui pachet de lucru sunt deduse automat din copiii săi. Activați "Programare manuală" pentru a stabili datele.
         is_switched_from_manual_to_automatic: Este posibil ca datele acestui pachet de lucru să trebuiască să fie recalculate după trecerea de la programarea manuală la cea automată din cauza relațiilor cu alte pachete de lucru.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Arată toți utilizatorilor cu care pachetul de lucru a fost partajat
         title: Share work package
       table:
         configure_button: Configurarea tabelului pachetului de lucru
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabel cu pachete de lucru pe rânduri şi câmpurile pachetelor pe coloane.
         text_inline_edit: Majoritatea celulelor din acest tabel sunt butoane care activează editarea "inline" a câmpului respectiv.
         text_select_hint: Casetele de selectare ar trebui să fie deschise cu 'ALT' si tastele săgeată.

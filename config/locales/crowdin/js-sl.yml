@@ -61,6 +61,7 @@ sl:
         single: Izberi "%{name}"
       remove: Odstrani "%{name}"
     autocompleter:
+      create_label: Create label
       notFoundText: Ni najdenih elementov
       placeholder: Iskalni niz
       project:
@@ -162,6 +163,7 @@ sl:
     button_stop_timer: Stop timer
     button_uncheck_all: Odznači vse
     button_update: Posodobi
+    button_view_markdown: View Markdown
     caption_rate_history: Zgodovina tečaja
     card:
       add_new: Dodaj nov card
@@ -201,7 +203,10 @@ sl:
     description_select_work_package: 'Izberi delovni paket #%{id}'
     description_subwork_package: 'Podrejen delovni paket #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: An error occurred within CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Shranjevanje dokumenta ni uspelo zaradi napake: %{error}'
       macro:
         attribute_reference:
@@ -358,8 +363,8 @@ sl:
     ical_sharing_modal:
       copy_url_label: Copy URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: An error occured while fetching data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
       title: Subscribe to calendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -551,6 +556,8 @@ sl:
     label_reset: Ponastavi
     label_resize_project_menu: Resize project menu
     label_save_as: Shrani kot
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Search a column
     label_select_watcher: Izberi opazovalca...
     label_selected_filter_list: Izbrani kriteriji
@@ -625,7 +632,7 @@ sl:
     notifications:
       center:
         and_more_users:
-          one: and 1 other
+          one: and %{count} other
           two: and %{count} others
           few: and %{count} others
           other: and %{count} others
@@ -724,6 +731,7 @@ sl:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Kliknite, da dodate opis za to povezavo
       selection: Prosimo izberite
       subject: Vnesite temo tukaj
@@ -810,12 +818,36 @@ sl:
       sorting_disabled: Razvrščanje je onemogočeno
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          two: Could not extend the range. %{count} items selected.
+          few: Could not extend the range. %{count} items selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          two: "%{count} items selected."
+          few: "%{count} items selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Close modal
@@ -829,9 +861,7 @@ sl:
     text_user_wrote: "%{value} je napisal(a):"
     text_work_packages_destroy_confirmation: Ali ste prepričani, da želite izbrisati izbrane delovne pakete?
     time_entry:
-      stop: Stop
       title: Beleži čas
-      tracking: Sledenje časa
       work_package_required: Najprej izberite opravilo
     timer:
       button_stop: Stop current timer
@@ -866,21 +896,21 @@ sl:
       label_two_factor_authentication: Dvofaktorna avtentikacija
     units:
       child_work_packages:
-        one: en podrejeni delovni paket
-        two: "%{count} podrejeni delovni paketi"
-        few: "%{count} podrejeni delovni paketi"
-        other: "%{count} podrejeni delovni paketi"
+        one: "%{count} child work package"
+        two: "%{count} work package children"
+        few: "%{count} work package children"
+        other: "%{count} work package children"
       day:
-        one: 1 dan
+        one: "%{count} day"
         other: "%{count} dni"
         zero: 0 days
       hour:
-        one: 1 ura
+        one: "%{count} h"
         other: "%{count} ur"
         zero: 0 ur
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         two: "%{count} words"
         few: "%{count} words"
         other: "%{count} words"
@@ -1088,11 +1118,30 @@ sl:
       scheduling:
         is_parent: Datumi tega delovnega paketa so samodejno ugotovljeni od njegovih podrazredov. Za nastavitev datumov aktivirajte 'Ročno razvrščanje'.
         is_switched_from_manual_to_automatic: Datumi delovnega paketa se bodo lahko, da morali preračunati po menjavi iz ročnega v samodejno razvrščanje zaradi razmerij z ostalimi delovnimi paketi.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          two: All %{count} work packages on this page selected.
+          few: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          two: "%{count} work packages selected."
+          few: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Show all users with whom the work package has been shared with
         title: Share work package
       table:
         configure_button: Uredi tabelo delovnega paketa
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: 'Tabela z vrsticami delovnega paketa in stolpci atributov delovnega paketa.
 
           '

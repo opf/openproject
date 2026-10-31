@@ -61,6 +61,7 @@ ca:
         single: Seleccionar "%{name}"
       remove: Eliminar %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Elements no trobats
       placeholder: Escriviu per cercar
       project:
@@ -161,7 +162,8 @@ ca:
     button_start_timer: Start timer
     button_stop_timer: Stop timer
     button_uncheck_all: Desmarca-ho tot
-    button_update: Actualitzar
+    button_update: Actualitza
+    button_view_markdown: View Markdown
     caption_rate_history: Història d'índex
     card:
       add_new: Afegir nova targeta
@@ -201,7 +203,10 @@ ca:
     description_select_work_package: 'Selecciona el paquet de treball #%{id}'
     description_subwork_package: 'Fill del paquet de treball #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: S'ha produït un error amb el CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'No s''ha pogut guardar el document per culpa del següent error: %{error}'
       macro:
         attribute_reference:
@@ -358,8 +363,8 @@ ca:
     ical_sharing_modal:
       copy_url_label: Copia l'URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: S'ha produït un error en carregar les dades.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
       title: Subscribe to calendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -551,6 +556,8 @@ ca:
     label_reset: Reinciar
     label_resize_project_menu: Resize project menu
     label_save_as: Desa com a
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Search a column
     label_select_watcher: Seleccioneu un observador...
     label_selected_filter_list: Filtres seleccionats
@@ -623,8 +630,8 @@ ca:
     notifications:
       center:
         and_more_users:
-          one: " i 1 altre"
-          other: " i %{count} altres"
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Sembla que ja estàs al dia.
           no_notification_for_filter: Looks like you are all caught up for this filter.
@@ -720,6 +727,7 @@ ca:
     placeholders:
       default: "-"
       description: 'Descripció: Fes clic per editar...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Fes clic per afegir una descripció per aquesta relació
       selection: Si us plau, selecciona
       subject: Introdueixi l'assumpte aquí
@@ -806,12 +814,32 @@ ca:
       sorting_disabled: ordenació deshabilitada
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Close modal
@@ -825,9 +853,7 @@ ca:
     text_user_wrote: "%{value} va escriure:"
     text_work_packages_destroy_confirmation: "¿Estàs segur que vols eliminar el(s) paquet(s) de treball seleccionat(s)?"
     time_entry:
-      stop: Aturar
       title: Registrar temps
-      tracking: Seguiment de temps
       work_package_required: Requereix seleccionar un paquet de treball primer.
     timer:
       button_stop: Aturar el temporitzador actual
@@ -862,19 +888,19 @@ ca:
       label_two_factor_authentication: Autentificació en dos passos
     units:
       child_work_packages:
-        one: un paquet de treball fill
-        other: "%{count} paquets de treball fills"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 dia
+        one: "%{count} day"
         other: "%{count} dies"
         zero: 0 dies
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: paquet de treball
@@ -1068,11 +1094,26 @@ ca:
       scheduling:
         is_parent: Les dates d'aquest paquet de treball estan derivades automàticament dels seus fills. Activa la "Planificació manual" per canviar les dates.
         is_switched_from_manual_to_automatic: Pot ser que les dates d'aquest paquet de treball no es tornin a calcular automàticament en canviar de planificació manual a automàtica a causa de les relacions amb altres paquets de treball.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Show all users with whom the work package has been shared with
         title: Share work package
       table:
         configure_button: Configura la taula de paquets de treball
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Taula amb fileres de paquets de treball i columnes amb els atributs dels paquets de treball.
         text_inline_edit: La majoria de les cel·les d'aquesta taula són botons que activen la funcionalitat d'edició en línia de l'atribut.
         text_select_hint: Les caixes seleccionades es poden obrir amb la tecla "ALT" i les fletxes.

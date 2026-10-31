@@ -61,6 +61,7 @@ tr:
         single: '"%{name}" seçeneğini seçin'
       remove: "%{name} öğesini kaldır"
     autocompleter:
+      create_label: Create label
       notFoundText: Hiçbir öge bulunamadı
       placeholder: Aramak için yazın
       project:
@@ -162,6 +163,7 @@ tr:
     button_stop_timer: Zamanlayıcıyı durdur
     button_uncheck_all: Tümünü işaretleme
     button_update: Güncelleştirme
+    button_view_markdown: View Markdown
     caption_rate_history: Değerleme geçmişi
     card:
       add_new: Yeni kart ekleyin
@@ -201,7 +203,10 @@ tr:
     description_select_work_package: "#%{id} nolu iş paketini seçin"
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: CKEditor içinde bir hata oluştu
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Aşağıdaki nedenden dolayı belge kayıt edilemedi: %{error}'
       macro:
         attribute_reference:
@@ -358,8 +363,8 @@ tr:
     ical_sharing_modal:
       copy_url_label: Adresi kopyala
       description: Harici bir istemcide bu takvime abone olmak için URL'yi (iCalendar) kullanabilir ve güncel iş paketi bilgilerini buradan görüntüleyebilirsiniz.
-      ical_generation_error_text: Takvim adresi üretilirken bir hata oldu.
-      inital_setup_error_message: Veri alınırken bir hata oluştu.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: '"%{name}" adresi başarıyla panonuza koplandı. Aboneliği tamamlamak için takvim istemcinize yapıştırın.'
       title: Takvime abone ol
       token_name_description_text: Bu takvime birden fazla cihazdan abone olursanız, bu ad <a href="%{myAccessTokensUrl}" target="_blank">erişim belirteçleri</a> listenizde bunlar arasında ayrım yapmanıza yardımcı olacaktır.
@@ -551,6 +556,8 @@ tr:
     label_reset: Sıfırla
     label_resize_project_menu: Proje menüsünü yeniden boyutlandır
     label_save_as: Farklı Kaydet
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Bir sütunda arama yap
     label_select_watcher: Takipçi seç...
     label_selected_filter_list: Seçilen filtreler
@@ -623,8 +630,8 @@ tr:
     notifications:
       center:
         and_more_users:
-          one: ve 1 diğeri
-          other: ve %{count} tane daha
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Görünüşe göre yapacağınız bir şey kalmadı.
           no_notification_for_filter: Görünüşe göre bu filtre için her şey tamam.
@@ -720,6 +727,7 @@ tr:
     placeholders:
       default: "-"
       description: 'Açıklama: Düzenlemek için tıklayın...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Bu ilişkiye açıklama eklemek için tıklayın
       selection: Lütfen seçin
       subject: Buraya konuyu girin
@@ -806,12 +814,32 @@ tr:
       sorting_disabled: sıralama devre dışı
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Ekranı kapat
@@ -825,9 +853,7 @@ tr:
     text_user_wrote: "%{value} demiş ki:"
     text_work_packages_destroy_confirmation: Seçilen çalışma paket(ler) ini silmek istediğinizden emin misiniz?
     time_entry:
-      stop: Dur
       title: Zaman kaydet
-      tracking: Zaman takibi
       work_package_required: Önce bir iş paketi seçilmesini gerektirir.
     timer:
       button_stop: Geçerli zamanlayıcıyı durdur
@@ -862,20 +888,20 @@ tr:
       label_two_factor_authentication: İki aşamalı kimlik doğrulama
     units:
       child_work_packages:
-        one: bir alt iş paketi
-        other: "%{count} alt iş paketi"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 gün
+        one: "%{count} day"
         other: "%{count} gün"
         zero: 0 gün
       hour:
-        one: 1 saat
+        one: "%{count} h"
         other: "%{count} saat"
         zero: 0 s
       hour_string: "%{hours} saat"
       word:
-        one: 1 kelime
-        other: "%{count} kelime"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: iş paketleri
         other: iş paketleri
@@ -1068,11 +1094,26 @@ tr:
       scheduling:
         is_parent: Bu çalışma paketinin tarihleri otomatik olarak çocuklarından çıkarılır. Tarihleri ayarlamak için 'Manuel zamanlama'yı etkinleştirin.
         is_switched_from_manual_to_automatic: Bu çalışma paketinin tarihlerinin, diğer çalışma paketleriyle olan ilişkiler nedeniyle manuelden otomatik zamanlamaya geçtikten sonra yeniden hesaplanması gerekebilir.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: İş paketinin paylaşıldığı tüm kullanıcıları gösterin
         title: İş paketini paylaş
       table:
         configure_button: İş paketi tablosunu kopyala
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: İş paketi satır tabloları ve iş paketi nitelik sütunları.
         text_inline_edit: Bu tablodaki çoğu hücre o öznitelikteki satır içi düzenleme işlevselliğini etkinleşirme düğmeleridir.
         text_select_hint: Seçim kutuları 'ALT' ve ok tuşları ile açılmalıdır.

@@ -38,7 +38,7 @@ ko:
     changed_files_count: 파일 변경
     comments_count: 코멘트 수
     deletions_count: 삭제 항목 수
-    github: GitHub ID
+    github: GitHub identifier
     github_app_owner_avatar_url: 소유자 아바타 URL
     github_avatar_url: 아바타 URL
     github_html_url: 끌어오기 요청 URL

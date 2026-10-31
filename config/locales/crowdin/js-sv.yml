@@ -61,6 +61,7 @@ sv:
         single: Välj ”%{name}”
       remove: Ta bort %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Inga objekt hittades
       placeholder: Skriv för att söka
       project:
@@ -162,6 +163,7 @@ sv:
     button_stop_timer: Stoppa timer
     button_uncheck_all: Avmarkera alla
     button_update: Uppdatera
+    button_view_markdown: View Markdown
     caption_rate_history: Historiska timpriser
     card:
       add_new: Lägg till kort
@@ -201,7 +203,10 @@ sv:
     description_select_work_package: 'Välj arbetspaket #%{id}'
     description_subwork_package: 'Underordnad till arbetspaket #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: Ett fel inträffade inom CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Misslyckades med att spara dokumentet på grund av följande fel: %{error}'
       macro:
         attribute_reference:
@@ -358,8 +363,8 @@ sv:
     ical_sharing_modal:
       copy_url_label: Kopiera URL
       description: 'Du kan använda URL: en (iCalendar) för att prenumerera på denna kalender i en extern klient och visa aktuell information om arbetspaket därifrån.'
-      ical_generation_error_text: Ett fel uppstod när kalenderns URL genererades.
-      inital_setup_error_message: Ett fel inträffade vid hämtning av data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL "%{name}" har kopierats till ditt urklipp. Klistra in den i din kalenderklient för att slutföra prenumerationen.
       title: Prenumerera på kalender
       token_name_description_text: Om du prenumererar på den här kalendern från flera enheter hjälper namnet dig att skilja dem åt i listan över <a href="%{myAccessTokensUrl}" target="_blank">åtkomsttoken</a>.
@@ -551,6 +556,8 @@ sv:
     label_reset: Återställ
     label_resize_project_menu: Ändra storlek på projektmenyn
     label_save_as: Spara som
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Sök i en kolumn
     label_select_watcher: Välj en bevakare...
     label_selected_filter_list: Valda filter
@@ -623,8 +630,8 @@ sv:
     notifications:
       center:
         and_more_users:
-          one: och 1 annan
-          other: och %{count} andra
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Du är helt uppdaterad.
           no_notification_for_filter: Det ser ut som om du är klar med det här filtret.
@@ -720,6 +727,7 @@ sv:
     placeholders:
       default: "-"
       description: 'Beskrivning: Klicka för att redigera...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Klicka för att ange beskrivning för denna relation
       selection: Välj
       subject: Ange ämne här
@@ -806,12 +814,32 @@ sv:
       sorting_disabled: sortering är inaktiverad
     sortable_lists:
       announcements:
+        batch_too_large: Det går inte att flytta %{count} objekt samtidigt. Välj högst %{max}.
         fallback_item_label: Objekt
         fallback_list_name: en annan lista
         move_failed_check_position: Flytten misslyckades. Kontrollera postens aktuella position.
+        move_failed_check_positions_batch:
+          other: Flytten misslyckades. Kontrollera objektens aktuella positioner.
         move_failed_rolled_back: Flytten misslyckades. %{label} återställdes till sin tidigare position.
+        move_failed_rolled_back_batch:
+          other: Flytten misslyckades. %{count} objekt återställdes till sina tidigare positioner.
         moved: "%{label} flyttades till position %{position} av %{total}"
+        moved_batch:
+          other: "%{count} objekt flyttades till positionerna %{first} till %{last} av %{total}"
+        moved_batch_to_list:
+          other: "%{count} objekt flyttades till %{list}, positionerna %{first} till %{last} av %{total}"
         moved_to_list: "%{label} flyttades till %{list}, position %{position} av %{total}"
+      selection:
+        cleared: Markeringen har rensats.
+        not_selectable: Markeringen är oförändrad. Det här objektet ingår inte i listans sorteringsordning.
+        range_blocked: Markeringen är oförändrad. Intervallet innehåller ett objekt som inte ingår i listans sorteringsordning.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Markeringen är oförändrad. Expandera listan för att markera intervallet.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Stäng modal
@@ -825,9 +853,7 @@ sv:
     text_user_wrote: "%{value} skrev:"
     text_work_packages_destroy_confirmation: Är du säker du vill ta bort det valda arbetspaket(paketen)?
     time_entry:
-      stop: Stoppa
       title: Logga tid
-      tracking: Tidredovisning
       work_package_required: Kräver att man först väljer ett arbetspaket.
     timer:
       button_stop: Stoppa aktuell timer
@@ -862,20 +888,20 @@ sv:
       label_two_factor_authentication: Tvåfaktorsautentisering
     units:
       child_work_packages:
-        one: ett underordnat arbetspaket
-        other: "%{count} underordnade arbetspaket"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: En dag
+        one: "%{count} day"
         other: "%{count} dagar"
         zero: 0 dagar
       hour:
-        one: 1 tim
+        one: "%{count} h"
         other: "%{count} timmar"
         zero: 0 tim
       hour_string: "%{hours} tim"
       word:
-        one: 1 ord
-        other: "%{count} ord"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: arbetspaket
         other: arbetspaket
@@ -1068,11 +1094,26 @@ sv:
       scheduling:
         is_parent: Datumen för det här arbetspaketet härleds automatiskt från dess underordnade objekt. Aktivera "Manuell schemaläggning" för att ange datumen.
         is_switched_from_manual_to_automatic: Datumen för det här arbetspaketet kan behöva räknas om efter byte från manuell till automatisk schemaläggning på grund av relationer till andra arbetspaket.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Visa alla användare med vilka arbetspaketet har delats med
         title: Dela arbetspaket
       table:
         configure_button: Konfigurera arbetspaketstabell
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabell med ett arbetspaket för varje rad och kolumner för varje arbetspaketsattribut.
         text_inline_edit: Du kan klicka på de flesta celler i den här tabellen för att redigera attributens funktion.
         text_select_hint: Valda celler öppnas med 'ALT' och piltangenterna.

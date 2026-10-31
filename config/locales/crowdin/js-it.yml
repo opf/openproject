@@ -61,6 +61,7 @@ it:
         single: Seleziona "%{name}"
       remove: Rimuovi %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Nessun elemento trovato
       placeholder: Digita per cercare
       project:
@@ -162,6 +163,7 @@ it:
     button_stop_timer: Ferma il timer
     button_uncheck_all: Deseleziona tutti
     button_update: Aggiorna
+    button_view_markdown: View Markdown
     caption_rate_history: Cronologia tariffe
     card:
       add_new: Aggiungi una nuova carta
@@ -201,7 +203,10 @@ it:
     description_select_work_package: 'Seleziona la macro-attività #%{id}'
     description_subwork_package: 'Subordinata alla macro-attività #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: Si è verificato un errore all'interno di CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Il salvataggio del documento è fallito con il seguente errore: %{error}'
       macro:
         attribute_reference:
@@ -358,8 +363,8 @@ it:
     ical_sharing_modal:
       copy_url_label: Copia URL
       description: Puoi utilizzare l'URL (iCalendar) per iscriverti a questo calendario su un client esterno e per visualizzare le informazioni sul pacchetto di lavoro aggiornate da lì.
-      ical_generation_error_text: Si è verificato un errore nella creazione dell'URL del calendario.
-      inital_setup_error_message: Si è verificato un errore recuperando i dati.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: L'URL "%{name}" è stato copiato con successo negli appunti. Incollalo nel tuo client di calendario per completare l'iscrizione.
       title: Iscriviti al calendario
       token_name_description_text: Se ti iscrivi a questo calendario da più dispositivi, questo nome ti aiuterà a distinguerli nel tuo elenco di <a href="%{myAccessTokensUrl}" target="_blank">token di accesso</a>.
@@ -551,6 +556,8 @@ it:
     label_reset: Reimposta
     label_resize_project_menu: Ridimensiona il menu del progetto
     label_save_as: Salva come
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Cerca una colonna
     label_select_watcher: Seleziona un osservatore...
     label_selected_filter_list: Filtri selezionati
@@ -623,8 +630,8 @@ it:
     notifications:
       center:
         and_more_users:
-          one: e 1 altro
-          other: e altri %{count}
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Sembra che siate tutti coinvolti.
           no_notification_for_filter: A quanto pare ti piace molto questo filtro.
@@ -720,6 +727,7 @@ it:
     placeholders:
       default: "-"
       description: 'Descrizione: Clicca per modificare...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Clicca per aggiungere una descrizione per la relazione
       selection: Si prega di selezionare
       subject: Inserisci l'oggetto qui
@@ -806,12 +814,32 @@ it:
       sorting_disabled: ordinamento disabilitato
     sortable_lists:
       announcements:
+        batch_too_large: Non è possibile spostare %{count} elementi alla volta. Selezionane al massimo %{max}.
         fallback_item_label: Elemento
         fallback_list_name: un'altra lista
         move_failed_check_position: Spostamento non riuscito. Verifica la posizione attuale dell'elemento.
+        move_failed_check_positions_batch:
+          other: Spostamento non riuscito. Controlla le posizioni attuali degli elementi.
         move_failed_rolled_back: Spostamento non riuscito. %{label} è tornato alla posizione precedente.
+        move_failed_rolled_back_batch:
+          other: Spostamento non riuscito. %{count} elementi sono tornati alle posizioni precedenti.
         moved: "%{label} spostato in posizione %{position} di %{total}"
+        moved_batch:
+          other: "%{count} elementi spostati nelle posizioni da %{first} a %{last} di %{total}"
+        moved_batch_to_list:
+          other: "%{count} elementi spostati in %{list}, nelle posizioni da %{first} a %{last} di %{total}"
         moved_to_list: "%{label} spostato in %{list}, posizione %{position} di %{total}"
+      selection:
+        cleared: Selezione azzerata.
+        not_selectable: Selezione invariata. Questo elemento non partecipa all'ordinamento di questo elenco.
+        range_blocked: Selezione invariata. L'intervallo contiene un elemento che non partecipa all'ordinamento di questo elenco.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selezione invariata. Espandi questo elenco per selezionare l'intervallo.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Chiusura modale
@@ -825,9 +853,7 @@ it:
     text_user_wrote: "%{value} ha scritto:"
     text_work_packages_destroy_confirmation: Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?
     time_entry:
-      stop: Interrompi
       title: Registra l'orario effettuato
-      tracking: Monitoraggio tempi
       work_package_required: Richiede prima di selezionare una macro-attività.
     timer:
       button_stop: Interrompi il timer corrente
@@ -862,20 +888,20 @@ it:
       label_two_factor_authentication: Autenticazione a due fattori
     units:
       child_work_packages:
-        one: una macro-attività subordinata
-        other: "%{count} macro-attività subordinate"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 giorno
+        one: "%{count} day"
         other: "%{count} giorni"
         zero: 0 giorni
       hour:
-        one: 1 o
+        one: "%{count} h"
         other: "%{count} o"
         zero: 0 o
       hour_string: "%{hours} h"
       word:
-        one: 1 parola
-        other: "%{count} parole"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: macro-attività
         other: macro-attività
@@ -1068,11 +1094,26 @@ it:
       scheduling:
         is_parent: Le date di questa macro-attività vengono automaticamente dedotte dai suoi figli. Attiva 'Programmazione manuale' per impostare le date.
         is_switched_from_manual_to_automatic: Potrebbe essere necessario ricalcolare le date di questa macro-attività dopo il passaggio dalla programmazione manuale alla programmazione automatica a causa delle relazioni con altre macro-attività.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Mostra tutti gli utenti con i quali la macro-attività è stata condivisa
         title: Condividi macro-attività
       table:
         configure_button: Configura la tabella della macro-attività
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabella con righe di macro-attività e colonne dei loro attributi.
         text_inline_edit: Molte celle di questa tabella sono pulsanti che attivano le funzionalità di modifica in linea di tale attributo.
         text_select_hint: Le caselle di selezione devono essere aperte con ' ALT ' e i tasti freccia.

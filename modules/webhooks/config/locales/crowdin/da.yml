@@ -64,7 +64,7 @@ da:
       label_add_new: Tilføj ny webhook
       label_edit: Rediger webhook
       label_x_events:
-        one: 1 hændelse
+        one: "%{count} hændelse"
         other: "%{count} hændelser"
         zero: Ingen hændelser
       no_results_table: Der er endnu ikke defineret nogen webhooks.

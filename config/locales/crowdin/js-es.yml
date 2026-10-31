@@ -59,6 +59,7 @@ es:
         single: Seleccione "%{name}"
       remove: Elimine "%{name}"
     autocompleter:
+      create_label: Create label
       notFoundText: No se encontraron elementos
       placeholder: Escriba para buscar
       project:
@@ -160,6 +161,7 @@ es:
     button_stop_timer: Detener temporizador
     button_uncheck_all: Deseleccionar todos
     button_update: Actualizar
+    button_view_markdown: View Markdown
     caption_rate_history: Historial de tasas
     card:
       add_new: Añadir nueva tarjeta
@@ -199,7 +201,10 @@ es:
     description_select_work_package: 'Seleccione el paquete de trabajo #%{id}'
     description_subwork_package: 'Seleccione el paquete de trabajo #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: Se ha producido un error dentro de CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'No se pudo guardar el documento debido al siguiente error: %{error}'
       macro:
         attribute_reference:
@@ -356,8 +361,8 @@ es:
     ical_sharing_modal:
       copy_url_label: Copiar URL
       description: Puede utilizar la URL (iCalendar) para suscribirse a este calendario en un cliente externo y ver desde allí la información actualizada de los paquetes de trabajo.
-      ical_generation_error_text: Se ha producido un error al generar la URL del calendario.
-      inital_setup_error_message: Se ha producido un error al obtener los datos.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: La URL «%{name}» se ha copiado correctamente en su portapapeles. Péguela en su cliente de calendario para completar la suscripción.
       title: Suscribirse al calendario
       token_name_description_text: Si se suscribe a este calendario desde varios dispositivos, este nombre le ayudará a distinguirlos en su lista de <a href="%{myAccessTokensUrl}" target="_blank">tokens de acceso</a>.
@@ -549,6 +554,8 @@ es:
     label_reset: Reiniciar
     label_resize_project_menu: Cambiar el tamaño del menú del proyecto
     label_save_as: Guardad como
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Buscar una columna
     label_select_watcher: Selecciona un observador...
     label_selected_filter_list: Filtros seleccionados
@@ -621,8 +628,8 @@ es:
     notifications:
       center:
         and_more_users:
-          one: y 1 más
-          other: y %{count} más
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Parece que ya estás al día.
           no_notification_for_filter: Parece que ya está al día completamente para este filtro.
@@ -718,6 +725,7 @@ es:
     placeholders:
       default: "-"
       description: 'Descripción: Haga clic para editar...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Haga clic para añadir la descripción a esta relación
       selection: Por favor, elija
       subject: Escriba aquí el asunto
@@ -804,12 +812,32 @@ es:
       sorting_disabled: ordenación deshabilitada
     sortable_lists:
       announcements:
+        batch_too_large: No se pueden trasladar %{count} elementos a la vez. Seleccione no más de %{max}.
         fallback_item_label: Elemento
         fallback_list_name: otra lista
         move_failed_check_position: No se ha podido trasladar. Comprueba la posición actual del elemento.
+        move_failed_check_positions_batch:
+          other: No se ha podido trasladar. Compruebe las posiciones actuales de los elementos.
         move_failed_rolled_back: No se ha podido trasladar. %{label} regresó a su posición anterior.
+        move_failed_rolled_back_batch:
+          other: No se pudo trasladar. %{count} elementos regresaron a sus posiciones anteriores.
         moved: "%{label} se trasladó al puesto %{position} de %{total}"
+        moved_batch:
+          other: "%{count} elementos se han trasladado a las posiciones %{first}-%{last} de %{total}"
+        moved_batch_to_list:
+          other: "%{count} elementos se han trasladado a %{list}, a las posiciones %{first}-%{last} de %{total}"
         moved_to_list: "%{label} se trasladó a %{list}, posición %{position} de %{total}"
+      selection:
+        cleared: Selección eliminada.
+        not_selectable: La selección no ha cambiado. Este elemento no influye en el orden de esta lista.
+        range_blocked: La selección no ha cambiado. Ese rango contiene un elemento que no influye en el orden de esta lista.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: La selección no ha cambiado. Amplíe esta lista para seleccionar ese rango.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Cerrar ventana modal
@@ -823,9 +851,7 @@ es:
     text_user_wrote: "%{value} escribió:"
     text_work_packages_destroy_confirmation: "¿Esta usted seguro que desea eliminar paquete(s) de trabajo seleccionado(s)?"
     time_entry:
-      stop: Detener
       title: Registro de tiempo
-      tracking: Control de tiempo
       work_package_required: Es necesario seleccionar primero un paquete de trabajo.
     timer:
       button_stop: Detener el temporizador actual
@@ -860,20 +886,20 @@ es:
       label_two_factor_authentication: Autenticación de dos factores
     units:
       child_work_packages:
-        one: un sub-paquete de trabajo
-        other: "%{count} paquetes de trabajo secundarios"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 día
+        one: "%{count} day"
         other: "%{count} días"
         zero: 0 días
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: 1 palabra
-        other: "%{count} palabras"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: paquete de trabajo
         other: paquetes de trabajo
@@ -1066,11 +1092,26 @@ es:
       scheduling:
         is_parent: Las fechas de este paquete de trabajo son deducidas automáticamente de sus sub-elementos. Active 'Programación manual' para establecer las fechas.
         is_switched_from_manual_to_automatic: Las fechas de este paquete de trabajo pueden necesitar ser recalculadas después de pasar de programación manual a programación automática debido a las relaciones con otros paquetes de trabajo.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Mostrar todos los usuarios con los que se ha compartido el paquete de trabajo
         title: Compartir paquete de trabajo
       table:
         configure_button: Configurar tabla de paquetes de trabajo
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabla con filas de paquetes de trabajo y columnas con sus atributos.
         text_inline_edit: La mayoría de las celdas de esta tabla son botones que activan la funcionalidad de edición de dicho atributo.
         text_select_hint: Los cuadros de selección deben ser abiertos con 'ALT' y las teclas de cursor.

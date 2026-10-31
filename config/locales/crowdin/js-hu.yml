@@ -61,6 +61,7 @@ hu:
         single: '"%{name}" kiválasztása'
       remove: "%{name} törlése"
     autocompleter:
+      create_label: Create label
       notFoundText: Nem található elem
       placeholder: Gépeljen a kereséshez
       project:
@@ -168,6 +169,7 @@ hu:
     button_stop_timer: Időzítő leállítása
     button_uncheck_all: Az összes kijelölés megszüntetése
     button_update: Frissítés
+    button_view_markdown: View Markdown
     caption_rate_history: Díj előzmények
     card:
       add_new: Új kártya hozzáadása
@@ -211,9 +213,12 @@ hu:
     description_select_work_package: 'Munkacsomag kiválasztás #%{id}'
     description_subwork_package: 'Munkacsomag gyermeke #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: 'Hiba történt a CKEditorban
 
         '
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'A dokumentum mentése a következő hiba miatt nem sikerült: %{error}'
       macro:
         attribute_reference:
@@ -374,8 +379,8 @@ hu:
     ical_sharing_modal:
       copy_url_label: Copy URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: An error occured while fetching data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
       title: Feliratkozás az iCalendars-ra
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -567,6 +572,8 @@ hu:
     label_reset: Visszaállít, reset
     label_resize_project_menu: Resize project menu
     label_save_as: Mentés másként
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Search a column
     label_select_watcher: Megfigyelők választása...
     label_selected_filter_list: Szűrők választása
@@ -641,10 +648,8 @@ hu:
     notifications:
       center:
         and_more_users:
-          one: 'és 1 másik
-
-            '
-          other: és %{count} egyéb
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Looks like you are all caught up.
           no_notification_for_filter: Looks like you are all caught up for this filter.
@@ -756,6 +761,7 @@ hu:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Kapcsolat leírásának hozzáadása ide kattintva
       selection: Kérem válasszon
       subject: Itt adja meg a témát
@@ -842,12 +848,32 @@ hu:
       sorting_disabled: rendezés kikapcsolva
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Close modal
@@ -861,9 +887,7 @@ hu:
     text_user_wrote: "%{value} írta:"
     text_work_packages_destroy_confirmation: Biztosan törli a kijelölt feladatcsoportot?
     time_entry:
-      stop: Stop
       title: Eltöltött idő rögzítése
-      tracking: Munkaidő követése
       work_package_required: Először ki kell választania egy munkacsomagot.
     timer:
       button_stop: Stop current timer
@@ -898,19 +922,19 @@ hu:
       label_two_factor_authentication: Kétlépcsős hitelesítés
     units:
       child_work_packages:
-        one: egy gyermek munkacsomag
-        other: "%{count} gyermek feladatcsoport"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 nap
+        one: "%{count} day"
         other: "%{count} nap"
         zero: 0 days
       hour:
-        one: 1 óra
+        one: "%{count} h"
         other: "%{count} ó"
         zero: 0 óra
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: munkacsomag
@@ -1106,11 +1130,26 @@ hu:
         is_switched_from_manual_to_automatic: 'Ennek a munkacsomagnak a dátumait újra kell kalkulálni, miután a kézi üzemmódról az automatikus ütemezésre váltott, más munkacsomagokkal való kapcsolat miatt.
 
           '
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Minden felhasználó mutatása, akivel a munkacsomag megosztásra került
         title: Share work package
       table:
         configure_button: Feladatcsoport táblázat beállítása
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Táblázat melynek sorai munkacsomagok és oszlopai munkacsomag attribútumok.
         text_inline_edit: A legtöbb mezője ennek a táblázatnak olyan gomb, mely aktiválja a soron belüli szerkesztését az attribútumnak.
         text_select_hint: Válassza ki a megnyitni kíván mezőket és használja az "ALT" és nyílgombokat.

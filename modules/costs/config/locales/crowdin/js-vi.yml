@@ -23,10 +23,15 @@
 vi:
   js:
     button_log_costs: Ghi lại chi phí đơn vị
+    costs:
+      widgets:
+        actual_costs:
+          chart_label: Actual costs by month chart
+          chart_month: "%{month}: %{values}"
+          chart_summary: 'Actual costs by month: %{months}.'
+          chart_value: "%{label}: %{value}"
     label_hour: giờ
     label_hours: giờ
-    myTimeTracking:
-      noSpecificTime: Không có thời gian cụ thể
     text_are_you_sure: Bạn có chắc không?
     work_packages:
       properties:

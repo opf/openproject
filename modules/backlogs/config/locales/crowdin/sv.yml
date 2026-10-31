@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -26,6 +26,7 @@ sv:
       project:
         allow_multiple_active_sprints: Tillåt flera aktiva sprintar
         backlog_excluded_types: Undantagna arbetspaketstyper
+        estimation_unit: Enhet
         sprint_sharing: Delning av sprintar
         statuses_considered_closed: Statusar som betraktas som stängda
       sprint:
@@ -72,8 +73,8 @@ sv:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: Det finns ett arbetspaket som inte slutfördes i den här sprinten.
-                other: Det finns %{count} arbetspaket som inte slutfördes i den här sprinten.
+                one: There is %{count} work package that was not completed in this sprint.
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: är inte aktiv och kan därför inte stängas.
         sprint_goal:
@@ -134,9 +135,21 @@ sv:
       details: Backlogggruppen ”%{name}” tas bort och alla arbetspaket flyttas till backloggens inkorg. Inget arbetspaket tas bort.
       title: Ta bort backlogggruppen?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Ange start- och slutdatum för sprinten för att skapa ett burndown-diagram.
         blankslate_title: Inga burndown-data tillgängliga
+    created_resolved_chart:
+      series:
+        created: Created work packages
+        resolved: Resolved work packages
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
+    estimation_unit: Enheter
     excluded_work_package_types_caption: 'Välj vilka arbetspaketstyper som ska döljas från backloggen. Objekt av de valda typerna visas inte automatiskt i backloggen, så att den kan fokusera på det arbete som är relevant för teamet. Till exempel kan typer som epics eller milstolpar, som hanteras på en högre nivå, döljas så att backloggen fokuserar på åtgärdbara objekt.
 
       '
@@ -159,8 +172,8 @@ sv:
       drop_zone_label: Släpp här för att lägga till objektet
       label_actions: Inkorgsåtgärder
       show_more:
-        one: Visa 1 objekt till
-        other: Visa %{count} objekt till
+        one: Show %{count} more item
+        other: Show %{count} more items
       title: Inkorg
     index_subheader_component:
       label_search_by_subject: Sök arbetspaket efter ämne
@@ -184,6 +197,8 @@ sv:
     remaining_hours: Återstående arbete
     sharing: Delning av sprintar
     show_burndown_chart: Burndown-diagram
+    show_created_resolved_chart: Created vs resolved work packages
+    show_work_package_overview: Arbetspaket i sprinten
     sprint_component:
       action_menu:
         add_existing_work_package: Lägg till befintligt arbetspaket
@@ -206,9 +221,92 @@ sv:
       shared_sprint_info_banner: Det här är en delad sprint. Ändringar återspeglas i alla projekt som använder den.
       shared_sprint_warning_banner: Det här är en delad sprint. Du har inte de behörigheter som krävs för att redigera den.
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: Rapport
         title: Rapport för %{sprint}
+      widgets:
+        velocity_chart:
+          average:
+            one: 'Average of previous sprint:'
+            other: 'Average of previous %{count} sprints:'
+          average_legend: Average
+          committed: Committed
+          completed: Completed
+          story_points: "%{value} SP"
+          summary:
+            one: Bar chart of committed and completed story points of the last sprint.
+            other: Bar chart of committed and completed story points of the last %{count} sprints.
+          summary_average: 'Average velocity: %{average}.'
+          title: Velocity chart
+          velocity: "%{sprint}:"
+          y_axis_title: Story points
+        work_package_graph:
+          title: Graf för arbetspaket
+        work_package_overview:
+          blankslate:
+            description: Ange start- och slutdatum för sprinten för att skapa översikten över arbetspaket.
+            heading: Inga sprintdata tillgängliga
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: Omfattningsändring
+              story_points_change: "+%{added} / -%{removed} berättelsepoäng"
+            completed:
+              heading: Slutförd
+            initially_planned:
+              heading: Ursprungligen planerat
+            unfinished:
+              heading: Inte slutfört
+          breakdown_block:
+            blocks:
+              show_all: Visa alla
+          closed_work_packages: Stängda arbetspaket
+          resolved_summary:
+            one: "%{percentage}% (%{resolved} av %{total} arbetspaket)"
+            other: "%{percentage}% (%{resolved} av %{total} arbetspaket)"
+        work_package_table:
+          added:
+            blankslate:
+              empty:
+                description: Work packages that were added after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show added work packages.
+              not_started:
+                description: Added work packages will appear here after the sprint starts.
+            title: Scope increase after sprint start
+          blankslate:
+            heading: No work packages to display
+          completed:
+            blankslate:
+              empty:
+                description: Work packages that were completed in the sprint will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show completed work packages.
+              not_started:
+                description: Completed work packages will appear here after the sprint starts.
+            title: Completed work
+          removed:
+            blankslate:
+              empty:
+                description: Work packages that were removed after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show removed work packages.
+              not_started:
+                description: Removed work packages will appear here after the sprint starts.
+            title: Scope decrease after sprint start
+          unfinished:
+            blankslate:
+              empty:
+                description: All work packages in this sprint are completed.
+                heading: Wow, all done!
+              no_dates:
+                description: Sprint start and finish dates are necessary to show unfinished work packages.
+              not_started:
+                description: Unfinished work packages will appear here after the sprint starts.
+            title: Unfinished work
     sprints:
       row_component:
         action_menu:
@@ -238,7 +336,6 @@ sv:
       header_backlogs: Backlogmodul
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Kopiera URL till urklipp
         copy_work_package_id: Kopiera arbetspakets-ID
         move_menu: Flytta till position
         move_to_backlog_bucket: Flytta till backlogggrupp
@@ -249,14 +346,22 @@ sv:
       add_existing_dialog:
         invalid_target: Målet du försöker lägga till i är ogiltigt.
         target_not_found: Sprinten eller backloggen som du försöker lägga till i hittades inte.
+      batch_update_service:
+        mixed_projects: Alla arbetspaket i en grupp som flyttas samtidigt måste tillhöra samma projekt.
+        stale_batch: Minst ett arbetspaket ändrades medan flytten förbereddes. Kontrollera de aktuella positionerna och försök igen.
+        stale_predecessor: Arbetspaketet som de andra skulle infogas efter har flyttats någon annanstans. Kontrollera de aktuella positionerna och försök igen.
+        unavailable_target: Mållistan är inte längre tillgänglig. Läs in sidan på nytt och försök igen.
+        unexpected_failure: Det gick inte att flytta arbetspaketen. Försök igen.
       move:
         moved_announcement: "%{label} flyttades till %{list}, position %{position} av %{total}"
+      move_collection:
+        invalid_ids: Listan över arbetspaket som ska flyttas är ogiltig.
+        member_failed: "%{work_package}: %{reason}"
+        too_many_work_packages: Högst %{max} arbetspaket kan flyttas samtidigt.
+        work_packages_not_found: Minst ett arbetspaket kunde inte hittas i det här projektet.
       update_service:
         invalid_target_type: 'list_type måste vara något av följande: backlog_bucket med ett list_id, sprint med ett list_id eller inbox utan ett list_id.'
         missing_target: list_type eller list_id måste anges.
-  burndown:
-    story_points: Berättelsepoäng
-    story_points_ideal: Berättelsepoäng (idealiskt)
   ee:
     features:
       multiple_active_sprints: Flera aktiva sprintar
@@ -286,9 +391,11 @@ sv:
   notice_unsuccessful_finish_with_reason: 'Sprinten kunde inte slutföras: %{reason}'
   notice_unsuccessful_start: Sprinten kunde inte startas.
   notice_unsuccessful_start_with_reason: 'Sprinten kunde inte startas: %{reason}'
-  notice_work_package_invisible_after_move: 'Arbetspaketet flyttades till %{backlog} men är inte synligt eftersom dess typ eller status är undantagen från backloggen.
+  notice_work_package_invisible_after_move:
+    one: 'Arbetspaketet flyttades till %{backlog} men är inte synligt eftersom dess typ eller status är undantagen från backloggen.
 
-    '
+      '
+    other: "%{count} arbetspaket flyttades till %{backlog} men visas inte eftersom deras typ eller status är undantagen från backloggen.\n"
   permission_create_sprints: Skapa sprintar
   permission_manage_sprint_items: Hantera sprintobjekt
   permission_select_backlog_types_and_statuses: Välj backloggtyper och statusar
@@ -307,6 +414,18 @@ sv:
       backlog_buckets: Backlogggrupper
       sprints: Sprintar
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Enhet
+        options:
+          none:
+            caption: Antalet arbetspaket används som standardenhet i diagram. Vissa diagram i sprintrapporter visas inte.
+            label: Ingen
+          story_points:
+            caption: Korten och diagrammen visar berättelsepoäng.
+            label: Berättelsepoäng
+          time:
+            caption: Korten och diagrammen visar uppskattad arbetstid.
+            label: Uppskattad arbetstid
       backlog_sharing:
         options:
           no_sharing:
@@ -327,6 +446,9 @@ sv:
             label: Delprojekt
         sprint_sharing: Dela sprintar
       backlogs:
+        estimation_unit_form_component:
+          description: Välj en standardenhet för arbetsinsats, arbetstakt och kapacitet som passar det agila teamets arbetssätt. Enheten visas i backloggen och i sprintrapporterna.
+          heading: Standardenhet för arbetstakt, arbetsinsats och kapacitet
         multiple_active_sprints:
           description: Som standard kan endast en sprint åt gången vara aktiv per projekt. Du kan ändra detta så att flera sprintar kan vara aktiva parallellt i det här projektet.
           heading: Antal aktiva sprintar

@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -26,6 +26,7 @@ it:
       project:
         allow_multiple_active_sprints: Consenti la presenza di più sprint attivi
         backlog_excluded_types: Tipi di macro-attività esclusi
+        estimation_unit: Unit
         sprint_sharing: Condivisione dello sprint
         statuses_considered_closed: Stati considerati chiusi
       sprint:
@@ -72,8 +73,8 @@ it:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: C'è una macro-attività che non è stata completata in questo sprint.
-                other: Ci sono %{count} macro-attività che non sono state completate in questo sprint.
+                one: There is %{count} work package that was not completed in this sprint.
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: non è attivo, quindi non può essere chiuso.
         sprint_goal:
@@ -134,9 +135,21 @@ it:
       details: Il bucket del backlog '%{name}' verrà eliminato e tutte le macro-attività verranno spostate nella posta in arrivo del backlog. Nessuna macro-attività verrà eliminata.
       title: Eliminare il bucket del backlog?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Imposta la data di inizio e di fine dello sprint per generare un grafico di burndown.
         blankslate_title: Non sono disponibili dati di burndown
+    created_resolved_chart:
+      series:
+        created: Created work packages
+        resolved: Resolved work packages
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
+    estimation_unit: Units
     excluded_work_package_types_caption: 'Scegli quali tipi di macro-attività nascondere dal backlog. Gli elementi dei tipi selezionati non compariranno automaticamente nel backlog, mantenendolo concentrato sulle attività rilevanti per il tuo team. Ad esempio, tipi come Epic o Traguardo, gestiti a un livello superiore, possono essere nascosti per mantenere il backlog focalizzato sugli elementi operativi.
 
       '
@@ -159,8 +172,8 @@ it:
       drop_zone_label: Trascina qui per aggiungere questo elemento
       label_actions: Azioni nella Posta in arrivo
       show_more:
-        one: Mostra 1 altro elemento
-        other: Mostra altri %{count} elementi
+        one: Show %{count} more item
+        other: Show %{count} more items
       title: Posta in arrivo
     index_subheader_component:
       label_search_by_subject: Cerca macro-attività per oggetto
@@ -184,6 +197,8 @@ it:
     remaining_hours: Lavoro residuo
     sharing: Condivisione dello sprint
     show_burndown_chart: Grafico Burndown
+    show_created_resolved_chart: Created vs resolved work packages
+    show_work_package_overview: Macro-attività nello sprint
     sprint_component:
       action_menu:
         add_existing_work_package: Aggiungi macro-attività esistente
@@ -206,9 +221,92 @@ it:
       shared_sprint_info_banner: Questo è uno sprint condiviso. Le modifiche saranno applicate a tutti i progetti che lo utilizzano.
       shared_sprint_warning_banner: Questo è uno sprint condiviso. Non hai i permessi necessari per modificarlo.
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: Report
         title: Report %{sprint}
+      widgets:
+        velocity_chart:
+          average:
+            one: 'Average of previous sprint:'
+            other: 'Average of previous %{count} sprints:'
+          average_legend: Average
+          committed: Committed
+          completed: Completed
+          story_points: "%{value} SP"
+          summary:
+            one: Bar chart of committed and completed story points of the last sprint.
+            other: Bar chart of committed and completed story points of the last %{count} sprints.
+          summary_average: 'Average velocity: %{average}.'
+          title: Velocity chart
+          velocity: "%{sprint}:"
+          y_axis_title: Story points
+        work_package_graph:
+          title: Grafico delle macro-attività
+        work_package_overview:
+          blankslate:
+            description: Imposta le date di inizio e fine dello sprint per generare la panoramica delle macro-attività.
+            heading: Non sono disponibili dati relativi allo sprint
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: Cambio di ambito
+              story_points_change: "+%{added} / -%{removed} story point"
+            completed:
+              heading: Completate
+            initially_planned:
+              heading: Pianificate inizialmente
+            unfinished:
+              heading: Non completate
+          breakdown_block:
+            blocks:
+              show_all: Vedi tutto
+          closed_work_packages: Macro-attività chiuse
+          resolved_summary:
+            one: "%{percentage}% (%{resolved} di %{total} macro attività)"
+            other: "%{percentage}% (%{resolved} di %{total} macro attività)"
+        work_package_table:
+          added:
+            blankslate:
+              empty:
+                description: Work packages that were added after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show added work packages.
+              not_started:
+                description: Added work packages will appear here after the sprint starts.
+            title: Scope increase after sprint start
+          blankslate:
+            heading: No work packages to display
+          completed:
+            blankslate:
+              empty:
+                description: Work packages that were completed in the sprint will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show completed work packages.
+              not_started:
+                description: Completed work packages will appear here after the sprint starts.
+            title: Completed work
+          removed:
+            blankslate:
+              empty:
+                description: Work packages that were removed after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show removed work packages.
+              not_started:
+                description: Removed work packages will appear here after the sprint starts.
+            title: Scope decrease after sprint start
+          unfinished:
+            blankslate:
+              empty:
+                description: All work packages in this sprint are completed.
+                heading: Wow, all done!
+              no_dates:
+                description: Sprint start and finish dates are necessary to show unfinished work packages.
+              not_started:
+                description: Unfinished work packages will appear here after the sprint starts.
+            title: Unfinished work
     sprints:
       row_component:
         action_menu:
@@ -238,7 +336,6 @@ it:
       header_backlogs: Modulo backlog
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Copia URL negli appunti
         copy_work_package_id: Copia ID macro-attività
         move_menu: Sposta alla posizione
         move_to_backlog_bucket: Sposta nel bucket del backlog
@@ -249,14 +346,22 @@ it:
       add_existing_dialog:
         invalid_target: La destinazione selezionata per l'aggiunta non è valida.
         target_not_found: Lo sprint o il backlog a cui stai tentando di aggiungere l'elemento non è stato trovato.
+      batch_update_service:
+        mixed_projects: Tutte le macro-attività di un gruppo devono appartenere allo stesso progetto.
+        stale_batch: Almeno una macro-attività è stata modificata durante la preparazione dello spostamento. Controlla le posizioni attuali e riprova.
+        stale_predecessor: La macro-attività dopo la quale eseguire l'inserimento è stata spostata altrove. Controlla le posizioni attuali e riprova.
+        unavailable_target: L'elenco di destinazione non è più disponibile. Ricarica la pagina e riprova.
+        unexpected_failure: Non è stato possibile spostare le macro-attività. Riprova.
       move:
         moved_announcement: "%{label} spostato in %{list}, posizione %{position} di %{total}"
+      move_collection:
+        invalid_ids: L'elenco delle macro-attività da spostare non è valido.
+        member_failed: "%{work_package}: %{reason}"
+        too_many_work_packages: Non è possibile spostare più di %{max} macro-attività alla volta.
+        work_packages_not_found: Almeno una macro-attività non è stata trovata in questo progetto.
       update_service:
         invalid_target_type: 'list_type deve essere uno dei seguenti valori: backlog_bucket con un list_id, sprint con un list_id oppure inbox senza list_id.'
         missing_target: È necessario che sia presente list_type o list_id.
-  burndown:
-    story_points: Punti story
-    story_points_ideal: Punti story (ideali)
   ee:
     features:
       multiple_active_sprints: Più sprint attivi
@@ -286,9 +391,11 @@ it:
   notice_unsuccessful_finish_with_reason: 'Impossibile completare lo sprint: %{reason}'
   notice_unsuccessful_start: Impossibile avviare lo sprint.
   notice_unsuccessful_start_with_reason: 'Impossibile avviare lo sprint: %{reason}'
-  notice_work_package_invisible_after_move: 'La macro-attività è stata spostata in %{backlog}, ma non è visibile perché il suo tipo o stato è escluso dal backlog.
+  notice_work_package_invisible_after_move:
+    one: 'La macro-attività è stata spostata in %{backlog}, ma non è visibile perché il tipo o lo stato è escluso dal backlog.
 
-    '
+      '
+    other: "%{count} macro-attività sono state spostate in %{backlog}, ma non sono visibili perché il tipo o lo stato è escluso dal backlog.\n"
   permission_create_sprints: Crea gli sprint
   permission_manage_sprint_items: Gestisci gli elementi dello sprint
   permission_select_backlog_types_and_statuses: Seleziona tipi e stati del backlog
@@ -307,6 +414,18 @@ it:
       backlog_buckets: Bucket del backlog
       sprints: Sprint
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -327,6 +446,9 @@ it:
             label: Sottoprogetti
         sprint_sharing: Condividi sprint
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: Per impostazione predefinita, per ogni progetto può essere attivo un solo sprint alla volta. È possibile modificare questa impostazione in modo che in tale progetto possano essere attivi più sprint in parallelo.
           heading: Numero di sprint attivi

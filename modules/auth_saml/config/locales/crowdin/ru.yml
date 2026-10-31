@@ -13,6 +13,7 @@ ru:
         icon: Пользовательская иконка
         identifier: Идентификатор
         idp_cert: Публичный сертификат провайдера идентификации
+        idp_cert_fingerprint: Identity provider certificate fingerprint
         idp_entity_id: Идентификатор сущности поставщика идентификации
         idp_slo_service_url: Конечная точка выхода провайдера идентификации
         idp_sso_service_url: Конечная точка входа провайдера идентификации
@@ -154,6 +155,9 @@ ru:
       metadata_too_large: Размер файла метаданных превышает максимально допустимый.
       success: Конфигурация успешно обновлена с использованием метаданных провайдера идентификации.
     providers:
+      apply_metadata:
+        expired: This metadata preview has expired or is invalid. Refresh the metadata again to review the latest configuration.
+        provider_changed: The provider configuration has changed since this preview. Refresh the metadata again to review the latest configuration.
       attribute_mapping: Привязки атрибутов
       attribute_mapping_text: 'Следующие поля определяют, какие атрибуты, предоставляемые провайдером SAML, используются для предоставления атрибутов пользователя в OpenProject.
 
@@ -173,9 +177,19 @@ ru:
       label_uid: Внутренний идентификатор пользователя
       metadata:
         dialog: 'Это URL-адрес, по которому доступны метаданные OpenProject SAML. При необходимости используйте его для настройки провайдера идентификации:'
+      metadata_changes:
+        table_component:
+          current_value: Current value
+          mobile_title: Metadata changes
+          new_value: New value
       no_results_table: Провайдеры SAML еще не определены.
       notice_created: Новый провайдер идентификации SAML был успешно создан.
       plural: Провайдеры SAML
+      refresh_metadata:
+        apply: Apply changes
+        description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
+        no_changes: The metadata matches the current configuration.
+        title: Review metadata changes
       request_attributes:
         format: Формат атрибута
         legend: 'Эти атрибуты добавляются к метаданным SAML XML, чтобы указать провайдеру идентификации, какие атрибуты требуются OpenProject. Вам все равно может потребоваться явно настроить провайдера для отправки этих атрибутов. Обратитесь к документации вашего провайдера идентификации.
@@ -199,6 +213,10 @@ ru:
         metadata_form_banner: 'Редактирование метаданных может переопределить существующие значения в других разделах. '
         requested_attributes: Определите набор атрибутов, которые будут отправлены в запросе SAML провайдеру идентификации.
       seeded_from_env: Этот провайдер был инициализирован из конфигурации среды. Он не может быть отредактирован.
+      side_panel:
+        refresh_metadata_component:
+          button: Refresh metadata
+          description: You can check if the configuration fetched from your identity provider has changed.
       singular: Провайдер SAML
       upsell:
         description: Подключите OpenProject к провайдеру SAML

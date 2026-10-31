@@ -61,6 +61,7 @@ si:
         single: තෝරන්න "%{name}”
       remove: "%{name}ඉවත් කරන්න"
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: සෙවීමට ටයිප් කරන්න
       project:
@@ -162,6 +163,7 @@ si:
     button_stop_timer: Stop timer
     button_uncheck_all: සියල්ල ඉවත් කරන්න
     button_update: යාවත්කාලීන
+    button_view_markdown: View Markdown
     caption_rate_history: Rate history
     card:
       add_new: නව කාඩ් එකතු කරන්න
@@ -201,7 +203,10 @@ si:
     description_select_work_package: 'වැඩ පැකේජය තෝරන්න #%{id}'
     description_subwork_package: 'වැඩ පැකේජය දරුවා #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: An error occurred within CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'පහත දැක්වෙන දෝෂය සමඟ ලේඛනය සුරැකීම අසාර්ථක විය: %{error}'
       macro:
         attribute_reference:
@@ -358,8 +363,8 @@ si:
     ical_sharing_modal:
       copy_url_label: Copy URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: An error occured while fetching data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
       title: Subscribe to calendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -551,6 +556,8 @@ si:
     label_reset: යළි පිහිටුවීම
     label_resize_project_menu: Resize project menu
     label_save_as: ලෙස සුරකින්න
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Search a column
     label_select_watcher: මුරකරුවෙකු තෝරන්න...
     label_selected_filter_list: තෝරාගත් පෙරහන්
@@ -623,7 +630,7 @@ si:
     notifications:
       center:
         and_more_users:
-          one: and 1 other
+          one: and %{count} other
           other: and %{count} others
         empty_state:
           no_notification: Looks like you are all caught up.
@@ -720,6 +727,7 @@ si:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: මෙම සම්බන්ධයෙන් විස්තර එකතු කිරීමට ක්ලික් කරන්න
       selection: කරුණාකර තෝරන්න
       subject: මෙහි විෂය ඇතුලත් කරන්න
@@ -806,12 +814,32 @@ si:
       sorting_disabled: වර්ග කිරීම අක්රීය කර ඇත
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Close modal
@@ -825,9 +853,7 @@ si:
     text_user_wrote: "%{value} ලිවීය:"
     text_work_packages_destroy_confirmation: ඔබ තෝරාගත් වැඩ පැකේජය (න්) මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?
     time_entry:
-      stop: Stop
       title: ලොග් වේලාව
-      tracking: ෙසොයා ගැනීෙම්
       work_package_required: පළමුව වැඩ පැකේජයක් තෝරා ගැනීම අවශ්ය වේ.
     timer:
       button_stop: Stop current timer
@@ -862,19 +888,19 @@ si:
       label_two_factor_authentication: Two-factor authentication
     units:
       child_work_packages:
-        one: එක් ළමා වැඩ පැකේජය
-        other: "%{count} වැඩ පැකේජය දරුවන්"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: දින 1
+        one: "%{count} day"
         other: "%{count} දින"
         zero: 0 days
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} ඌ"
         zero: 0 ඌ
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: වැඩ පැකේජය
@@ -1068,11 +1094,26 @@ si:
       scheduling:
         is_parent: The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates.
         is_switched_from_manual_to_automatic: The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Show all users with whom the work package has been shared with
         title: Share work package
       table:
         configure_button: වැඩ පැකේජ වගුව සකසන්න
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: වැඩ පැකේජයේ පේළි සහ වැඩ පැකේජ ගුණාංගවල තීරු සහිත වගුව.
         text_inline_edit: මෙම වගුවේ බොහෝ සෛල එම ගුණාංගයේ පේලි-සංස්කරණ ක්රියාකාරිත්වය සක්රිය කරන බොත්තම් වේ.
         text_select_hint: තෝරන්න පෙට්ටි 'ALT' සහ ඊතල යතුරු සමඟ විවෘත කළ යුතුය.

@@ -13,6 +13,7 @@ da:
         icon: Tilpasset ikon
         identifier: Id
         idp_cert: Identitetsudbyderens offentlige certifikat
+        idp_cert_fingerprint: Fingeraftryk for identitetsudbyderens certifikat
         idp_entity_id: Identitetsudbyderens entitets-id
         idp_slo_service_url: Identitetsudbyderens logud-endepunkt
         idp_sso_service_url: Identitetsudbyderens login-endepunkt
@@ -152,6 +153,9 @@ da:
       metadata_too_large: Metadatafilen overskrider den maksimalt tilladte størrelse.
       success: Opsætningen er opdateret ud fra identitetsudbyderens metadata.
     providers:
+      apply_metadata:
+        expired: Forhåndsvisningen af metadata er udløbet eller ugyldig. Opdater metadata igen for at se den seneste konfiguration.
+        provider_changed: Udbyderens konfiguration er ændret siden forhåndsvisningen. Opdater metadata igen for at se den seneste konfiguration.
       attribute_mapping: Tilknytning af attributter
       attribute_mapping_text: 'Følgende felter styrer, hvilke attributter fra SAML-identitetsudbyderen der bruges til brugerattributterne i OpenProject
 
@@ -171,9 +175,19 @@ da:
       label_uid: Internt bruger-id
       metadata:
         dialog: 'Det er den URL, hvor OpenProjects SAML-metadata er tilgængelige. Du kan bruge den til at konfigurere identitetsudbyderen:'
+      metadata_changes:
+        table_component:
+          current_value: Nuværende værdi
+          mobile_title: Ændringer i metadata
+          new_value: Ny værdi
       no_results_table: Der er endnu ikke defineret nogen SAML-identitetsudbydere.
       notice_created: Der er oprettet en ny SAML-identitetsudbyder.
       plural: SAML-identitetsudbydere
+      refresh_metadata:
+        apply: Anvend ændringer
+        description: Gennemgå konfigurationen, der er hentet fra din identitetsudbyder. Ændringerne gemmes først, når du anvender dem.
+        no_changes: Metadataene svarer til den nuværende konfiguration.
+        title: Gennemgå ændringer i metadata
       request_attributes:
         format: Attributformat
         legend: 'Attributterne føjes til SAML-metadataene i XML for at vise identitetsudbyderen, hvilke attributter OpenProject kræver. Du skal muligvis stadig konfigurere identitetsudbyderen til at sende attributterne. Se dokumentationen til din IdP.
@@ -197,6 +211,10 @@ da:
         metadata_form_banner: 'Redigering af metadata kan tilsidesætte eksisterende værdier i andre afsnit. '
         requested_attributes: Definér de attributter, der skal anmodes om i den SAML-anmodning, der sendes til identitetsudbyderen.
       seeded_from_env: Udbyderen er oprettet ud fra miljøkonfigurationen. Den kan ikke redigeres.
+      side_panel:
+        refresh_metadata_component:
+          button: Opdater metadata
+          description: Du kan kontrollere, om konfigurationen, der er hentet fra din identitetsudbyder, er ændret.
       singular: SAML-identitetsudbyder
       upsell:
         description: Forbind OpenProject med en SAML-identitetsudbyder

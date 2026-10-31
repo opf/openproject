@@ -16,15 +16,49 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
 zh-TW:
   js:
-    burndown:
-      day: 日
-      points: 燃盡點
+    backlogs:
+      announcements:
+        batch_too_large: 無法一次移動 %{count} 的工作包。請選擇不超過 %{max} 個。
+        fallback_item_label: 工作項目
+        fallback_list_name: 另一份清單
+        move_failed_check_position: 移動失敗。請檢查工作項目的當前位置。
+        move_failed_check_positions_batch:
+          other: 移動失敗。請檢查工作項目的當前位置。
+        move_failed_rolled_back: 移動失敗。 %{label} 已恢復至原先的位置。
+        move_failed_rolled_back_batch:
+          other: 移動失敗。 %{count} 工作項目已恢復至原先的位置。
+        moved: "%{label} 已移動至位置 %{position} 的 %{total}"
+        moved_batch:
+          other: "%{count} 已移至位置 %{first} 至 %{last} 的工作項目 %{total}"
+        moved_batch_to_list:
+          other: "%{count} 已移至 %{list}的工作項目，以及 %{first} 至 %{last} 之間的職位 %{total}"
+        moved_to_list: "%{label} 已移至 %{list}，位置 %{position} 的 %{total}"
+      selection:
+        card_state: 已選取
+        cleared: 已清除選取項目。
+        not_selectable: 選項維持不變。此工作包不參與此清單的排序。
+        range_blocked: 選取範圍未變更。該範圍內包含一個工作包，該工作包不參與此清單的排序。
+        range_restarted:
+          other: Could not extend the range. %{count} work packages selected.
+        range_unavailable: 選取範圍未變更。展開此清單以選取該範圍。
+        selected:
+          other: "%{count} work packages selected."
+    burndown_chart:
+      chart_day: 'Day %{day}: %{values}'
+      chart_label: Burndown chart
+      chart_summary: 'Burndown chart data: %{days}.'
+      chart_value: "%{label}: %{value}"
+      story_points: Story points
+    created_resolved_chart:
+      work_packages: Work packages
+    sprint_charts:
+      non_working_day: Non-working day
     work_packages:
       properties:
         storyPoints: 故事點數

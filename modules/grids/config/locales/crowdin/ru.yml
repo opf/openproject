@@ -35,10 +35,10 @@ ru:
         title: Участники
         view_all_members: Просмотреть всех участников
         x_more:
-          one: и еще один участник.
-          few: и еще %{count} участника.
-          many: и еще %{count} участников.
-          other: и еще %{count} участников.
+          one: and %{count} more member.
+          few: and %{count} more members.
+          many: and %{count} more members.
+          other: and %{count} more members.
       news:
         no_results: Ничего нового для отчета.
       not_available: Этот виджет недоступен.

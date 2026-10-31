@@ -24,14 +24,15 @@ pt-PT:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sorting mode
         duration: Duração
         end_time: Hora de fim
         location: Localização
         notes: Notas
         notify: Enviar notificações
         participant:
-          one: 1 Participante
-          other: "%{count} Participantes"
+          one: "%{count} Participant"
+          other: "%{count} Participants"
         participants: Participantes
         participants_added: 'Participantes adicionados:'
         participants_attended: Participantes
@@ -88,14 +89,18 @@ pt-PT:
         invalid_time_format: 'não é uma hora válida. Formato exigido: HH:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: A secção não pertence à mesma reunião.
           user_invalid: não é um participante válido.
+          vote_based_sorting_required: Voting requires vote-based agenda sorting.
         meeting_participant:
           user_invalid: não é um participante válido.
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: Há uma reunião aberta na série que não é abrangida pelo novo calendário. Ajuste o calendário para incluir todas as reuniões existentes.
+            one: There is %{count} open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
             other: Existem %{count} reuniões abertas na série que não são abrangidas pelo novo calendário. Ajuste o calendário para incluir todas as reuniões existentes.
         recurring_meeting_interim_response:
           not_an_occurrence: não é uma hora de ocorrência válida para esta reunião periódica
@@ -152,6 +157,10 @@ pt-PT:
     meeting_agenda_opened: Agenda de reunião aberta
     meeting_minutes: Minutos de reunião editados
     meeting_minutes_created: Minutos de reunião criados
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Adicionar à reunião
   label_add_work_package_to_meeting_dialog_title: Selecionar reunião
   label_add_work_package_to_meeting_section_label: Secção
@@ -160,6 +169,8 @@ pt-PT:
   label_agenda_backlog_clear_title: Limpar backlog da agenda?
   label_agenda_item_actions: Ações dos itens da agenda
   label_agenda_item_add: Adicionar ponto à ordem de trabalhos
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Adicionar notas
   label_agenda_item_add_outcome: Adicionar resultado
   label_agenda_item_convert_to_work_package: Converter em pacote de trabalho
@@ -167,6 +178,7 @@ pt-PT:
   label_agenda_item_duplicate: Duplicar
   label_agenda_item_duplicate_in_next: Duplicar na próxima reunião
   label_agenda_item_duplicate_in_next_title: Duplicar na próxima reunião?
+  label_agenda_item_include_outcomes: Include outcomes
   label_agenda_item_move: Mover
   label_agenda_item_move_down: Mover para baixo
   label_agenda_item_move_to_backlog: Mover para o backlog
@@ -230,8 +242,8 @@ pt-PT:
   label_meeting_last_updated: Ultima atualização
   label_meeting_minutes: Minutos
   label_meeting_more:
-    one: Há mais uma reunião.
-    other: Há mais %{count} reuniões.
+    one: There is %{count} more meeting.
+    other: There are %{count} more meetings.
   label_meeting_new: Nova reunião
   label_meeting_new_dynamic: Nova reunião única
   label_meeting_new_recurring: Nova reunião recorrente
@@ -276,11 +288,11 @@ pt-PT:
   label_recurring_meeting_delete: Eliminar ocorrência
   label_recurring_meeting_duplicate: Duplicar como reunião única
   label_recurring_meeting_more:
-    one: Existe mais uma reunião agendada (%{schedule}).
-    other: Existem mais %{count} reuniões agendadas (%{schedule}).
+    one: There is %{count} more scheduled meeting (%{schedule}).
+    other: There are %{count} more scheduled meetings (%{schedule}).
   label_recurring_meeting_more_past:
-    one: Existe mais uma reunião anterior.
-    other: Existem mais %{count} reuniões anteriores.
+    one: There is %{count} more past meeting.
+    other: There are %{count} more past meetings.
   label_recurring_meeting_new: Nova reunião recorrente
   label_recurring_meeting_next_occurrence: Próxima ocorrência
   label_recurring_meeting_no_end_date: Existem mais reuniões agendadas (%{schedule}).
@@ -310,6 +322,25 @@ pt-PT:
   label_view_meeting_series: Ver séries de reuniões
   label_write_outcome: Escrever o resultado
   meeting:
+    agenda_sorting:
+      change: Change sorting mode
+      current_mode: Currently in %{mode} mode
+      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      manual: Manual
+      manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
+      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
+      remove_thumbs_down: Remove downvote
+      remove_thumbs_up: Remove upvote
+      sidebar_title: Agenda sorting
+      sorted_by_votes: Agenda sorted by votes.
+      thumbs_down: Downvote
+      thumbs_up: Upvote
+      title: Sorting mode
+      vote_based: Vote-based
+      vote_based_description: 'Participants can vote agenda items up or down. Items with the most votes are put on top within each section. Sections remain manually sorted.
+
+        '
+      votes: 'Votes: %{count}'
     attachments:
       onetime_template: Estes ficheiros em anexo serão incluídos em todas as futuras reuniões que utilizem este modelo.
       series_template: Estes ficheiros em anexo serão incluídos em todas as futuras reuniões da série.
@@ -317,6 +348,9 @@ pt-PT:
     blankslate:
       desc: Pode criar uma nova reunião ou alterar os critérios de filtragem
       title: Não há reuniões para apresentar
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'Copiado da reunião #%{id}'
     copy:
       agenda: Copiar agenda
@@ -360,6 +394,7 @@ pt-PT:
         header: 'Cancelada: Reunião "%{title}"'
         header_occurrence: 'Cancelada: ocorrência de reunião "%{title}"'
         header_series: 'Cancelada: série de reuniões "%{title}"'
+        reason: Reason for cancellation
         summary: "'%{title}' foi cancelado por %{actor}, ou foi removido como participante"
         summary_occurrence: Uma ocorrência de '%{title}' foi cancelada por %{actor}, ou foi removido como participante
         summary_series: A série de reuniões '%{title}' foi cancelada por %{actor}, ou foi removido como participante
@@ -484,6 +519,7 @@ pt-PT:
       no_items: Sem elementos na agenda
       no_items_flash: Não há elementos na agenda para apresentar.
       previous: Anterior
+      slide_progress: Slide %{current}/%{total}
       title: Modo de apresentação
       total_items: "%{current} de %{total}"
     types:
@@ -560,13 +596,13 @@ pt-PT:
     caption:
       ends_on: Resulta numa série que termina em %{date}
       occurrences:
-        one: Resulta em 1 ocorrência futura
-        other: Resulta em %{count} ocorrências futuras
+        one: This results in %{count} upcoming occurrence
+        other: This results in %{count} upcoming occurrences
       occurrences_capped: Resulta em mais de %{count} ocorrências futuras
     day_of_month_skipping_info: Os meses com menos de %{monthly_day} dias serão ignorados
     delete_dialog:
       confirmation_message_html:
-        one: 'A eliminação de <strong>%{title}</strong> também irá eliminar uma ocorrência nesta série. Esta ação não é reversível. Proceda com cuidado.
+        one: 'Deleting <strong>%{title}</strong> will also delete %{count} occurrence in this series. This action is not reversible. Please proceed with caution.
 
           '
         other: 'A eliminação de <strong>%{title}</strong> irá eliminar as %{count} ocorrências nesta série. Esta ação não é reversível. Proceda com cuidado.
@@ -631,7 +667,7 @@ pt-PT:
       error_no_next: Esta reunião não tem data prevista para a sua próxima ocorrência.
       error_template_draft: O modelo da série de reuniões ainda está no modo rascunho.
       first_already_exists: A primeira ocorrência desta série de reuniões já está instanciada.
-      first_created: 'A primeira reunião foi criada com êxito a partir do modelo. Todas as reuniões futuras serão criadas automaticamente na altura da ocorrência anterior.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Esta reunião faz parte de uma série de reuniões recorrentes.
@@ -693,9 +729,10 @@ pt-PT:
   text_agenda_item_dialog_skipping_closed_many: "%{count} reuniões fechadas"
   text_agenda_item_dialog_skipping_closed_one: reunião fechada em %{date}
   text_agenda_item_dialog_skipping_note: 'Nota: A saltar %{details}.'
-  text_agenda_item_duplicate_in_next_meeting: Tem a certeza de que quer acrescentar uma cópia deste ponto da ordem de trabalhos à próxima reunião, em %{date} em %{time}? Os resultados não serão duplicados.
+  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}?
   text_agenda_item_duplicated_in_next_meeting: Ponto da ordem de trabalhos duplicado na próxima reunião, em %{date}
   text_agenda_item_move_next_meeting: Este ponto será transferido para a próxima reunião em %{date} em %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Ponto da ordem de trabalhos transferido para a reunião seguinte, a %{date}
   text_agenda_item_no_available_occurrence: Não estão disponíveis ocorrências futuras.
   text_agenda_item_no_notes: Nenhuma nota fornecida.

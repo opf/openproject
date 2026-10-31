@@ -22,8 +22,14 @@
 ---
 ja:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        other: Cost reports
+      cost_report:
         other: Cost reports
   button_save_report_as: 名前を付けてレポートの保存
   comments: コメント
@@ -98,7 +104,6 @@ ja:
   plugin_openproject_reporting:
     description: このプラグインは、OpenProject の時間とコストプラグインによって作成されたフィルタリングとグループ化でカスタムコストレポートを作成することができます。
     name: OpenProject レポート
-  project_module_reporting_module: コストレポート
   reporting:
     group_by:
       selected_columns: 選択された列

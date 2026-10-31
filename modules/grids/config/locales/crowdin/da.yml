@@ -31,7 +31,7 @@ da:
         title: Medlemmer
         view_all_members: Vis alle medlemmer
         x_more:
-          one: og et medlem mere.
+          one: og %{count} medlem mere.
           other: og %{count} medlemmer mere.
       news:
         no_results: Intet nyt at rapportere.

@@ -61,6 +61,7 @@ cs:
         single: Vybrat "%{name}"
       remove: Odstranit %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Nenalezeny žádné položky
       placeholder: Zadejte hledaný text
       project:
@@ -162,6 +163,7 @@ cs:
     button_stop_timer: Zastavit časovač
     button_uncheck_all: Odznačit vše
     button_update: Aktualizovat
+    button_view_markdown: View Markdown
     caption_rate_history: Historie sazeb
     card:
       add_new: Přidat novou kartu
@@ -201,7 +203,10 @@ cs:
     description_select_work_package: 'Vyberte pracovní balíček #%{id}'
     description_subwork_package: 'Podřazený pracovního balíčku #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: Došlo k chybě v CKEditoru
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Uložení dokumentu se nezdařilo s následující chybou: %{error}'
       macro:
         attribute_reference:
@@ -358,8 +363,8 @@ cs:
     ical_sharing_modal:
       copy_url_label: Kopírovat URL
       description: Můžete použít URL (iCalendar) k odběru tohoto kalendáře v externím klientovi a zobrazit aktuální informace o pracovním balíčku.
-      ical_generation_error_text: Při generování adresy URL kalendáře došlo k chybě.
-      inital_setup_error_message: Při načítání dat došlo k chybě.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL "%{name}" byla úspěšně zkopírována do vaší schránky. Vložte ji do vašeho klienta kalendáře pro dokončení odběru.
       title: Přihlásit kalendář k odběru
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -551,6 +556,8 @@ cs:
     label_reset: Reset
     label_resize_project_menu: Resize project menu
     label_save_as: Uložit jako
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Vyhledávání ve sloupci
     label_select_watcher: Zvolte sledujícího...
     label_selected_filter_list: Vybrané filtry
@@ -623,10 +630,10 @@ cs:
     notifications:
       center:
         and_more_users:
-          one: a 1 další
-          few: a %{count} dalšich
-          many: a %{count} dalšich
-          other: a %{count} dalšich
+          one: and %{count} other
+          few: and %{count} others
+          many: and %{count} others
+          other: and %{count} others
         empty_state:
           no_notification: Vypadá to, že jste všechno dohnali...
           no_notification_for_filter: Vypadá to, že jste všichni zachytili tento filtr.
@@ -726,6 +733,7 @@ cs:
     placeholders:
       default: "-"
       description: 'Popis: Klikněte pro úpravu...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Kliknutím přidáte popis pro tento vztah
       selection: Zvolte prosím
       subject: Zde zadejte předmět
@@ -812,12 +820,36 @@ cs:
       sorting_disabled: řazení zakázáno
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          few: Could not extend the range. %{count} items selected.
+          many: Could not extend the range. %{count} items selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          few: "%{count} items selected."
+          many: "%{count} items selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Zavřít modal
@@ -831,9 +863,7 @@ cs:
     text_user_wrote: "%{value} napsal:"
     text_work_packages_destroy_confirmation: Jste si jisti, že chcete odstranit vybrané pracovní balíčky?
     time_entry:
-      stop: Zastavit
       title: Vykázat čas
-      tracking: Sledování času
       work_package_required: Vyžaduje nejprve výběr pracovního balíčku.
     timer:
       button_stop: Zastavit aktuální časovač
@@ -868,24 +898,24 @@ cs:
       label_two_factor_authentication: Dvoufázové ověření
     units:
       child_work_packages:
-        one: jeden podřazený pracovní balíček
-        few: "%{count} podřazených pracovních balíčků"
-        many: "%{count} podřazených pracovních balíčků"
-        other: "%{count} podřazených pracovních balíčků"
+        one: "%{count} child work package"
+        few: "%{count} work package children"
+        many: "%{count} work package children"
+        other: "%{count} work package children"
       day:
-        one: 1 den
+        one: "%{count} day"
         other: "%{count} dní"
         zero: 0 dní
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: 1 slovo
-        few: "%{count} slov"
-        many: "%{count} slov"
-        other: "%{count} slov"
+        one: "%{count} word"
+        few: "%{count} words"
+        many: "%{count} words"
+        other: "%{count} words"
       workPackage:
         one: pracovní balíček
         few: pracovní balíčky
@@ -1080,11 +1110,30 @@ cs:
       scheduling:
         is_parent: Data tohoto pracovního balíčku jsou automaticky odvozena od jeho dětí. Aktivujte 'Manuální plánování' pro ručné nastavení dat.
         is_switched_from_manual_to_automatic: Data tohoto pracovního balíčku budou možná muset být přepočítána po přepnutí z manuálu na automatické plánování kvůli vztahům s ostatními pracovními balíčky.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          many: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Zobrazit všechny uživatele, s nimiž byl pracovní balíček sdílen s
         title: Sdílet pracovní balíček
       table:
         configure_button: Konfigurovat tabulku pracovních balíčků
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabulka s řádky pracovního balíčku a atributy sloupců pracovního balíčku.
         text_inline_edit: Většina buněk v této tabulce jsou tlačítka, která aktivují funkci úpravy inline-editace atributu.
         text_select_hint: Vyberte pole by mělo být otevřeno pomocí kláves "ALT" a šipkami.
