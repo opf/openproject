@@ -203,6 +203,8 @@ ro:
     description_select_work_package: 'Selectează pachet de lucru #%{id}'
     description_subwork_package: 'Copil al pachetului de lucru #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: A apărut o eroare în cadrul CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Salvarea documentului a eșuat cu următoarea eroare: %{error}'
@@ -1098,6 +1100,16 @@ ro:
       scheduling:
         is_parent: Datele acestui pachet de lucru sunt deduse automat din copiii săi. Activați "Programare manuală" pentru a stabili datele.
         is_switched_from_manual_to_automatic: Este posibil ca datele acestui pachet de lucru să trebuiască să fie recalculate după trecerea de la programarea manuală la cea automată din cauza relațiilor cu alte pachete de lucru.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Arată toți utilizatorilor cu care pachetul de lucru a fost partajat
         title: Share work package

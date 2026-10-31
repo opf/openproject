@@ -1667,6 +1667,8 @@ fa:
             title: ایجاد فیلدهای سفارشی
           JiraCreateLabelsJob:
             title: Create labels
+          JiraCreateParentChildRelationsFromSubtasksJob:
+            title: Create parent-child relations for '%{jira_project_name}'
           JiraCreateProjectJob:
             title: ایجاد پروژه «%{jira_project_name}»
           JiraCreateProjectRoleJob:
@@ -1884,6 +1886,9 @@ fa:
             '10':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
+            '11':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
             '2':
               rest_line_text: در حال دریافت مسائل و نسخه‌های %{projects_number} پروژه دیگر
               title: دریافت مسائل و نسخه‌های پروژه‌ها
@@ -1906,8 +1911,8 @@ fa:
               rest_line_text: در حال ایجاد بسته‌های کاری برای %{projects_number} پروژه دیگر
               title: ایجاد بسته‌های کاری
             '9':
-              rest_line_text: در حال دریافت پیوست‌های %{projects_number} پروژه دیگر
-              title: دریافت پیوست‌ها
+              rest_line_text: Creating parent-child relations from subtasks for %{projects_number} more projects
+              title: Create parent-child relations from subtasks
       test:
         api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
         basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
@@ -2256,7 +2261,9 @@ fa:
     text_transform:
       errors:
         connection_failed: دسترسی به سرویس هوش مصنوعی ممکن نشد.
+        context_too_long: The text is too long for the AI model. Shorten it and try again.
         not_available: دستیار هوش مصنوعی در دسترس نیست.
+        rate_limited: The AI service is busy. Try again in a moment.
         timeout: سرویس هوش مصنوعی در زمان مقرر پاسخ نداد.
         upstream_error: سرویس هوش مصنوعی خطایی بازگرداند.
       pane:
@@ -3857,6 +3864,7 @@ fa:
           working: "%{day} اکنون کاری است"
     caused_changes:
       budget_deleted: بودجه حذف شده است
+      comment_retracted: Comment retracted
       dates_changed: تاریخ‌ها تغییر کردند
       default_attribute_written: ویژگی‌های فقط‌خواندنی نوشته شدند
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"

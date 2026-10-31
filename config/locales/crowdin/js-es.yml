@@ -201,6 +201,8 @@ es:
     description_select_work_package: 'Seleccione el paquete de trabajo #%{id}'
     description_subwork_package: 'Seleccione el paquete de trabajo #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: Se ha producido un error dentro de CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'No se pudo guardar el documento debido al siguiente error: %{error}'
@@ -1090,6 +1092,14 @@ es:
       scheduling:
         is_parent: Las fechas de este paquete de trabajo son deducidas automáticamente de sus sub-elementos. Active 'Programación manual' para establecer las fechas.
         is_switched_from_manual_to_automatic: Las fechas de este paquete de trabajo pueden necesitar ser recalculadas después de pasar de programación manual a programación automática debido a las relaciones con otros paquetes de trabajo.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Mostrar todos los usuarios con los que se ha compartido el paquete de trabajo
         title: Compartir paquete de trabajo

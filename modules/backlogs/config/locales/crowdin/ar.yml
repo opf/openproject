@@ -159,6 +159,9 @@ ar:
         blankslate_description: حدد تاريخي بدء وانتهاء السبرينت لإنشاء مخطط التقدم.
         blankslate_title: لا توجد بيانات متاحة عن معدل انخفاض الكثافة
     created_resolved_chart:
+      series:
+        created: Created work packages
+        resolved: Resolved work packages
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available
@@ -249,6 +252,29 @@ ar:
         breadcrumb: Report
         title: "%{sprint} report"
       widgets:
+        velocity_chart:
+          average:
+            zero: 'Average of previous %{count} sprints:'
+            one: 'Average of previous sprint:'
+            two: 'Average of previous %{count} sprints:'
+            few: 'Average of previous %{count} sprints:'
+            many: 'Average of previous %{count} sprints:'
+            other: 'Average of previous %{count} sprints:'
+          average_legend: Average
+          committed: Committed
+          completed: Completed
+          story_points: "%{value} SP"
+          summary:
+            zero: Bar chart of committed and completed story points of the last %{count} sprints.
+            one: Bar chart of committed and completed story points of the last sprint.
+            two: Bar chart of committed and completed story points of the last %{count} sprints.
+            few: Bar chart of committed and completed story points of the last %{count} sprints.
+            many: Bar chart of committed and completed story points of the last %{count} sprints.
+            other: Bar chart of committed and completed story points of the last %{count} sprints.
+          summary_average: 'Average velocity: %{average}.'
+          title: Velocity chart
+          velocity: "%{sprint}:"
+          y_axis_title: Story points
         work_package_graph:
           title: Work packages graph
         work_package_overview:
@@ -376,9 +402,6 @@ ar:
       update_service:
         invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
         missing_target: list_type or list_id must be present.
-  created_resolved:
-    wp_created: Created
-    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: Multiple active sprints

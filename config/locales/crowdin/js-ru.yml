@@ -203,6 +203,8 @@ ru:
     description_select_work_package: 'Выберите пакет работ #%{id}'
     description_subwork_package: 'Дочерний пакет работ #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: Произошла ошибка в CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Не удалось сохранить документ по следующей причине: %{error}'
@@ -1106,6 +1108,18 @@ ru:
       scheduling:
         is_parent: Даты этого пакета работ выводятся автоматически из дочерних узлов. Используйте «Ручной планировщик», чтобы установить даты.
         is_switched_from_manual_to_automatic: Даты этого пакета работ могут быть пересчитаны после переключения с ручного на автоматическое планирование из-за связей с другими пакетами работ.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          many: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Показать всех пользователей, которым был предоставлен общий доступ к пакету работ
         title: Поделиться пакетом работ

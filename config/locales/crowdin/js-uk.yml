@@ -203,6 +203,8 @@ uk:
     description_select_work_package: 'Виберіть пакет робіт #%{id}'
     description_subwork_package: 'Нащадок пакету робіт #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: У CKEditor сталася помилка
       ckeditor_error_reload: Редактор перестав працювати. Ваш текст ще тут, але його не можна змінювати. Скопіюйте будь-який текст, який ви хочете зберегти, і перезавантажте сторінку.
       error_saving_failed: 'Не вдалося зберегти документ із такою помилкою: %{error}'
@@ -1104,6 +1106,18 @@ uk:
       scheduling:
         is_parent: Дати цього пакета робіт автоматично виводяться з його дочірніх елементів. Активуйте «Ручне планування», щоб установити ці дати.
         is_switched_from_manual_to_automatic: Можливо, дати цього пакета робіт знадобиться перерахувати після переходу з ручного на автоматичне планування через зв’язок з іншими пакетами робіт.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          many: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Показувати всіх користувачів, яким надано доступ до пакета робіт
         title: Надати доступ до пакета робіт

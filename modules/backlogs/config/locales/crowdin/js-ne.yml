@@ -56,10 +56,11 @@ ne:
       chart_label: Burndown chart
       chart_summary: 'Burndown chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      non_working_day: Non-working day
       story_points: Story points
-    created_resolved:
+    created_resolved_chart:
       work_packages: Work packages
+    sprint_charts:
+      non_working_day: Non-working day
     work_packages:
       properties:
         storyPoints: Story Points

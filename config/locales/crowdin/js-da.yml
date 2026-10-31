@@ -203,6 +203,8 @@ da:
     description_select_work_package: 'Vælg arbejdspakke #%{id}'
     description_subwork_package: 'Underordnet arbejdspakke #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: Der opstod en fejl i CKEditor
       ckeditor_error_reload: Editoren holdt op med at virke. Din tekst er her stadig, men du kan ikke ændre den. Kopiér den tekst, som du vil beholde, og genindlæs derefter siden.
       error_saving_failed: 'Dokumentet kunne ikke gemmes på grund af følgende fejl: %{error}'
@@ -1092,18 +1094,26 @@ da:
       scheduling:
         is_parent: Arbejdspakkens datoer udledes automatisk af dens underordnede. Aktivér 'Manuel planlægning' for at angive datoerne.
         is_switched_from_manual_to_automatic: Arbejdspakkens datoer skal måske beregnes igen, efter at du har skiftet fra manuel til automatisk planlægning, fordi den har relationer til andre arbejdspakker.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Vis alle brugere, som arbejdspakken er delt med
         title: Del arbejdspakke
       table:
         configure_button: Konfigurer tabellen med arbejdspakker
-        grid_actions_header: Actions
-        grid_baseline_header: Comparison status
-        relations_button: Relations in %{column} for %{work_package}
-        sort_criterion_ascending: "%{column} ascending"
-        sort_criterion_descending: "%{column} descending"
-        sorted_by: Sorted by %{criteria}.
-        sorted_manually: Sorted manually.
+        grid_actions_header: Handlinger
+        grid_baseline_header: Sammenligningsstatus
+        relations_button: Relationer i %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} stigende"
+        sort_criterion_descending: "%{column} faldende"
+        sorted_by: Sorteret efter %{criteria}.
+        sorted_manually: Sorteret manuelt.
         summary: Tabel med arbejdspakker som rækker og deres attributter som kolonner.
         text_inline_edit: De fleste celler i tabellen er knapper, der gør det muligt at redigere attributten direkte i tabellen.
         text_select_hint: Rullelister åbnes med 'ALT' og piletasterne.

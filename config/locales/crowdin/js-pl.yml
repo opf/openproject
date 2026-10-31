@@ -203,6 +203,8 @@ pl:
     description_select_work_package: 'Zaznacz zestaw Zadań #%{id}'
     description_subwork_package: 'Otwórz zadanie-dziecko #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: Wystąpił błąd w CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Zapisywanie dokumentu nie powiodło się, błąd: %{error}'
@@ -1104,6 +1106,18 @@ pl:
       scheduling:
         is_parent: Daty tego pakietu roboczego są automatycznie odejmowane od jego elementów podrzędnych. Włącz funkcję Planowanie ręczne, aby ustawić daty.
         is_switched_from_manual_to_automatic: Po przełączeniu planowania z ręcznego na automatyczne konieczne może być ponowne obliczenie dat tego pakietu roboczego ze względu na jego powiązania z innymi pakietami roboczymi.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          many: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Pokaż wszystkich użytkowników, którym udostępniono pakiet roboczy
         title: Udostępnij pakiet roboczy

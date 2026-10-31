@@ -203,6 +203,8 @@ lt:
     description_select_work_package: 'Pasirinkite darbų paketą #%{id}'
     description_subwork_package: 'Darbų paketo vaikas #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: CKEditor'iuje įvyko klaida
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Dokumento išsaugoti nepavyko. Klaida: %{error}'
@@ -1104,6 +1106,18 @@ lt:
       scheduling:
         is_parent: Šio darbų paketo datos yra automatiškai nustatomos pagal jo vaikų datas. Norėdami nustatyti kitokias datas įjunkite „Rankinį tvarkaraščio parinkimą“
         is_switched_from_manual_to_automatic: Po perjungimo iš rankinio į automatinį tvarkaraščio parinkimą, šio darbų paketo datas gali reikėti perskaičiuoti, nes yra sąryšių su kitais darbų paketais.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          many: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Rodyti visus naudotojus, su kuriais bendrinamas šis darbo paketas
         title: Dalintis darbo paketu

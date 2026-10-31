@@ -203,6 +203,8 @@ ms:
     description_select_work_package: 'Pilih pakej kerja #%{id}'
     description_subwork_package: 'Anak kepada pakej kerja #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: Ralat berlaku dalam CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Penyimpanan dokumen gagal dengan ralat yang berikut: %{error}'
@@ -1086,6 +1088,12 @@ ms:
       scheduling:
         is_parent: Tarikh pakej kerja ini disimpulkan secara automatik dari anaknya. Aktifkan 'Penjadualan Manual' untuk tetapkan tarikh.
         is_switched_from_manual_to_automatic: Tarikh pakej kerja ini mungkin perlu dikira semula selepas menukar dari penjadualan manual ke automatik kerana hubungan dengan pakej kerja lain.
+      selection:
+        all_selected:
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Paparkan kepada semua pengguna dengan siapa pakej kerja telah dikongsikan
         title: Kongsi pakej kerja

@@ -143,6 +143,9 @@ hy:
         blankslate_description: Այրման գծապատկեր ստեղծելու համար սահմանեք սպրինտի սկզբի և ավարտի ամսաթիվը։
         blankslate_title: Այրման տվյալներ առկա չեն
     created_resolved_chart:
+      series:
+        created: Created work packages
+        resolved: Resolved work packages
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available
@@ -225,6 +228,21 @@ hy:
         breadcrumb: Հաշվետվություն
         title: "%{sprint}-ի հաշվետվություն"
       widgets:
+        velocity_chart:
+          average:
+            one: 'Average of previous sprint:'
+            other: 'Average of previous %{count} sprints:'
+          average_legend: Average
+          committed: Committed
+          completed: Completed
+          story_points: "%{value} SP"
+          summary:
+            one: Bar chart of committed and completed story points of the last sprint.
+            other: Bar chart of committed and completed story points of the last %{count} sprints.
+          summary_average: 'Average velocity: %{average}.'
+          title: Velocity chart
+          velocity: "%{sprint}:"
+          y_axis_title: Story points
         work_package_graph:
           title: Work packages graph
         work_package_overview:
@@ -344,9 +362,6 @@ hy:
       update_service:
         invalid_target_type: list_type-ը պետք է լինի հետևյալներից մեկը՝ list_id-ով backlog_bucket, list_id-ով sprint կամ առանց list_id-ի inbox։
         missing_target: list_type-ը կամ list_id-ը պետք է առկա լինի։
-  created_resolved:
-    wp_created: Created
-    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: Multiple active sprints
