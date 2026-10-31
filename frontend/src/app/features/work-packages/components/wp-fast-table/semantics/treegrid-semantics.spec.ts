@@ -231,6 +231,20 @@ describe('TreegridSemantics', () => {
     expect(within(harness.headerRow()).getAllByRole('columnheader').length).toBeGreaterThan(0);
   });
 
+  it('derives row name ids from the table and occurrence so rebuilt rows keep them', async () => {
+    mount({ workPackages: [{ id: '17', subject: 'Alpha' }], columns: ['id', 'subject'] });
+    await harness.render();
+    const header = harness.row('17').cells[1];
+    expect(header.id).toBe(`${harness.table.domId}-${wpOccurrenceKey('17')}-header`);
+    expect(harness.row('17')).toHaveAttribute('aria-labelledby', header.id);
+
+    harness.table.refreshRows(resource('17'));
+
+    expect(harness.row('17').cells[1]).not.toBe(header);
+    expect(harness.row('17').cells[1].id).toBe(header.id);
+    expect(harness.row('17')).toHaveAttribute('aria-labelledby', header.id);
+  });
+
   it('drops a stale row name from column header and header-less rows', async () => {
     mount({ workPackages: [{ id: '17', subject: 'Alpha' }], columns: ['id', 'subject'] });
     await harness.render();
