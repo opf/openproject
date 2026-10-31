@@ -152,6 +152,7 @@ export class WorkPackageTable {
 
   public destroy():void {
     if (this.destroyed) return;
+    this.pendingRender = null;
     try {
       this.lifetimeInjector.destroy();
     } finally {
@@ -267,6 +268,9 @@ export class WorkPackageTable {
       return;
     }
 
+    const indexed = this.originalRowIndex[workPackage.id!];
+    if (indexed) indexed.object = workPackage;
+    this.rebuildPendingRender();
     const keys = this.painter.keysOf(workPackage.id!);
     if (keys.size === 0) return;
 

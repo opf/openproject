@@ -47,6 +47,7 @@ import { TableUiWork } from './table-ui-work';
 import { buildDom, buildTable, TableHarness, TableHarnessOptions } from './testing/table-harness';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WorkPackageViewRelationColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
@@ -58,6 +59,7 @@ import { TableEditForm } from 'core-app/features/work-packages/components/wp-edi
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { nextFrame, nextTask } from 'core-common/testing/timing';
 import { buildWorkPackage } from './testing/work-package-fixture';
+import { wpOccurrenceKey } from './rendered-occurrence-ledger';
 import { TimelineRenderPass } from './builders/timeline/timeline-render-pass';
 import { DragDropHandleBuilder } from './builders/drag-and-drop/drag-drop-handle-builder';
 import { placeholderOccurrenceKey } from './rendered-occurrence-ledger';
@@ -310,6 +312,121 @@ describe('WorkPackageTable lifecycle', () => {
         stop();
         frameSpy.mockRestore();
       }
+    });
+
+    describe('pending-render token', () => {
+      const status = { new: { href: '/api/v3/statuses/1' }, inProgress: { href: '/api/v3/statuses/2' } };
+
+      it('commits only the second of two redraws in one frame', async () => {
+        const harness = await mount({ workPackages: [{ id: '1' }] });
+        const frames = harness.holdFrames();
+        const replaced = vi.spyOn(harness.tbody, 'replaceChildren');
+        const { emissions, stop } = recordEmissions(harness);
+        const before = harness.table.committedRows().generation;
+        try {
+          harness.table.originalRowIndex['1'].object.subject = 'First';
+          harness.table.redrawTable();
+          harness.table.originalRowIndex['1'].object.subject = 'Second';
+          harness.table.redrawTable();
+          frames.commit();
+
+          expect(replaced).toHaveBeenCalledTimes(1);
+          expect(harness.row('1')).toHaveTextContent('Second');
+          expect(harness.table.committedRows().generation).toBe(before + 1);
+          expect(emissions).toHaveLength(1);
+        } finally {
+          stop();
+          frames.release();
+        }
+      });
+
+      it('rebuilds a pending draft when a group collapses before commit', async () => {
+        const harness = await mount({
+          workPackages: [
+            { id: '1', attributes: { status: status.new } },
+            { id: '2', attributes: { status: status.inProgress } },
+          ],
+          groups: [
+            { value: 'New', href: status.new.href, count: 1 },
+            { value: 'In progress', href: status.inProgress.href, count: 1 },
+          ],
+        });
+        const frames = harness.holdFrames();
+        try {
+          harness.table.redrawTable();
+          const [collapsing] = harness.querySpace.groups.value!;
+          harness.injector.get(WorkPackageViewCollapsedGroupsService).toggleGroupCollapseState(collapsing.identifier);
+          frames.commit();
+
+          expect(harness.row('1')).not.toBeVisible();
+          expect(harness.groupHeader(0)).toHaveAttribute('aria-expanded', 'false');
+          expect(harness.row('2')).toBeVisible();
+          expect(harness.groupHeader(1)).toHaveAttribute('aria-expanded', 'true');
+          expect(harness.table.ledger.byKey(wpOccurrenceKey('1'))?.hidden).toBe(true);
+        } finally {
+          frames.release();
+        }
+      });
+
+      it('commits current content when the resource refreshes while pending', async () => {
+        const harness = await mount({ workPackages: [{ id: '1' }] });
+        const frames = harness.holdFrames();
+        const before = harness.table.committedRows().generation;
+        try {
+          harness.table.redrawTable();
+          harness.table.refreshRows(buildWorkPackage({ id: '1', subject: 'Renamed' }));
+          expect(harness.row('1')).toHaveTextContent('Renamed');
+          frames.commit();
+
+          expect(harness.row('1')).toHaveTextContent('Renamed');
+          expect(harness.table.committedRows().generation).toBe(before + 2);
+        } finally {
+          frames.release();
+        }
+      });
+
+      it('commits nothing when destroyed while pending', async () => {
+        const harness = await mount({ workPackages: [{ id: '1' }] });
+        const frames = harness.holdFrames();
+        const replaced = vi.spyOn(harness.tbody, 'replaceChildren');
+        const { emissions, stop } = recordEmissions(harness);
+        const before = harness.table.committedRows();
+        try {
+          harness.table.redrawTable();
+          expect(harness.table.hasPendingRender).toBe(true);
+          harness.table.destroy();
+
+          expect(harness.table.hasPendingRender).toBe(false);
+          expect(() => frames.commit()).not.toThrow();
+          expect(replaced).not.toHaveBeenCalled();
+          expect(emissions).toHaveLength(0);
+          expect(harness.table.committedRows()).toBe(before);
+        } finally {
+          stop();
+          frames.release();
+        }
+      });
+
+      it('settles a mutation raised by a render consumer after the commit', async () => {
+        const harness = await mount({ workPackages: [{ id: '1' }] });
+        const frames = harness.holdFrames();
+        const exits:boolean[] = [];
+        vi.spyOn(harness.table.keyboardNavigation!, 'rowsChanged').mockImplementation(({ full }) => { exits.push(full); });
+        const paint = vi.spyOn(harness.table.painter, 'paint');
+        const subscription = harness.querySpace.tableRendered.values$().pipe(skip(1))
+          .subscribe(() => harness.table.mutate(new Set(), () => undefined));
+        try {
+          harness.table.redrawTable();
+          expect(() => frames.commit()).not.toThrow();
+
+          expect(exits).toEqual([true, false]);
+          expect(paint).toHaveBeenCalledTimes(2);
+          expect(paint.mock.calls.map(([scope]) => scope)).toEqual(['all', new Set()]);
+        } finally {
+          subscription.unsubscribe();
+          frames.release();
+        }
+      });
     });
   });
 
