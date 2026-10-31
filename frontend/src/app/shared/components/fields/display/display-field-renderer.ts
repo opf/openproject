@@ -119,7 +119,9 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     if (title && !span.getAttribute('title')) {
       span.setAttribute('title', title);
     }
-    span.setAttribute('aria-label', this.getAriaLabel(field, schema));
+    if (!field.labelsOwnContent) {
+      span.setAttribute('aria-label', this.getAriaLabel(field, schema));
+    }
 
     return [field, span];
   }
