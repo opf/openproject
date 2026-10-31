@@ -42,10 +42,15 @@ export interface NavigableRow {
 }
 
 export interface FocusPosition {
-  key:string;
-  cell:number|null;
-  desiredColumn:number|null;
-  groupIdentifier?:string;
+  readonly key:string;
+  readonly cell:number|null;
+  readonly desiredColumn:number|null;
+  readonly groupIdentifier?:string;
+}
+
+/** True for the same row and cell; the desired column does not count. */
+export function samePosition(a:FocusPosition|null, b:FocusPosition|null):boolean {
+  return a === b || (!!a && !!b && a.key === b.key && a.cell === b.cell);
 }
 
 export type NavResult =
@@ -74,11 +79,12 @@ function landOn(row:NavigableRow, cellFocus:boolean, desiredColumn:number|null):
   return positionOn(row, Math.min(column, row.cellCount - 1), column);
 }
 
+function sameLanding(a:FocusPosition, b:FocusPosition):boolean {
+  return samePosition(a, b) && a.desiredColumn === b.desiredColumn;
+}
+
 function toResult(position:FocusPosition, current:FocusPosition):NavResult {
-  const unchanged = position.key === current.key
-    && position.cell === current.cell
-    && position.desiredColumn === current.desiredColumn;
-  return unchanged ? NONE : { type: 'move', position };
+  return sameLanding(position, current) ? NONE : { type: 'move', position };
 }
 
 function moveRows(
