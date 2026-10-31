@@ -77,13 +77,13 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       return;
     }
     this.buildItems();
-    this.origin = this.table.keyboardNavigation?.positionOfCell(this.element) ?? null;
+    this.origin = this.table.keyboardNavigation.positionOfCell(this.element);
     this.opContextMenu.show(this, evt);
   }
 
   public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {
     if (this.origin && (reason === 'escape' || reason === 'action')) {
-      this.table.keyboardNavigation?.returnFocusFromMenu(this.origin);
+      this.table.keyboardNavigation.returnFocusFromMenu(this.origin);
       return;
     }
 
@@ -117,9 +117,9 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
 
   private followColumn(header:HTMLElement|null):void {
     const navigation = this.table.keyboardNavigation;
-    const current = navigation?.position;
-    const position = header && navigation?.positionOfCell(header);
-    if (!navigation || !this.origin || !position || current?.key !== this.origin.key || current.cell !== this.origin.cell) {
+    const current = navigation.position;
+    const position = header && navigation.positionOfCell(header);
+    if (!this.origin || !position || current?.key !== this.origin.key || current.cell !== this.origin.cell) {
       return;
     }
 

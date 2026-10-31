@@ -105,7 +105,16 @@ export class WorkPackageTable {
 
   public readonly ledger = new RenderedOccurrenceLedger();
 
-  public keyboardNavigation:KeyboardNavigation|null = null;
+  private navigation:KeyboardNavigation|null = null;
+
+  public get keyboardNavigation():KeyboardNavigation {
+    if (!this.navigation) throw new Error('Keyboard navigation is not attached to this table');
+    return this.navigation;
+  }
+
+  public attachKeyboardNavigation(navigation:KeyboardNavigation):void {
+    this.navigation = navigation;
+  }
 
   public readonly selectionFeedback = new TableSelectionFeedback(this.injector.get(WorkPackageViewSelectionService), this.destroyRef);
 
@@ -114,7 +123,7 @@ export class WorkPackageTable {
   public readonly painter = new RowStatePainter(this);
 
   private readonly mutations = new RowMutations({
-    enter: (accumulate) => this.keyboardNavigation?.captureOwnership(accumulate),
+    enter: (accumulate) => this.navigation?.captureOwnership(accumulate),
     exit: (exit) => this.settle(exit),
   }, () => this.hasPendingRender);
 
@@ -263,7 +272,7 @@ export class WorkPackageTable {
   private settle({ scope, rendered }:MutationExit):void {
     if (this.destroyed) return;
     this.painter.paint(scope);
-    this.keyboardNavigation?.rowsChanged({ scope, rendered });
+    this.navigation?.rowsChanged({ scope, rendered });
     this.committedRowsState.update(({ generation }) => ({ generation: generation + 1, scope }));
   }
 
@@ -331,7 +340,7 @@ export class WorkPackageTable {
   }
 
   private performRenderPass({ timeline }:RenderPassOptions):void {
-    this.keyboardNavigation?.captureOwnership(this.mutations.depth > 0 || this.hasPendingRender);
+    this.navigation?.captureOwnership(this.mutations.depth > 0 || this.hasPendingRender);
     this.schedulingRender = true;
     try {
       this.editing.reset();

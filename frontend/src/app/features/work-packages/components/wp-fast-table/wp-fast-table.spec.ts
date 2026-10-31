@@ -56,6 +56,32 @@ describe('WorkPackageTable', () => {
     table.destroy();
   });
 
+  it('throws when keyboard navigation is read before attaching', () => {
+    harness = buildTable({ workPackages: [{ id: '1' }] });
+    const table = unattachedTable();
+
+    expect(() => table.keyboardNavigation).toThrow('Keyboard navigation is not attached to this table');
+    table.destroy();
+  });
+
+  it('runs mutations without keyboard navigation', () => {
+    harness = buildTable({ workPackages: [{ id: '1' }] });
+    const table = unattachedTable();
+
+    expect(() => table.mutate('all', () => undefined)).not.toThrow();
+    table.destroy();
+  });
+
+  it('keeps the attached navigation after destroy', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }] });
+    await harness.render();
+    const navigation = harness.table.keyboardNavigation;
+
+    harness.table.destroy();
+
+    expect(harness.table.keyboardNavigation).toBe(navigation);
+  });
+
   it('renders one row per work package in result order', async () => {
     harness = buildTable({ workPackages: [{ id: '3' }, { id: '1' }, { id: '2' }] });
 

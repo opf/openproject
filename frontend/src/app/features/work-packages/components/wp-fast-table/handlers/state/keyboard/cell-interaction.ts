@@ -70,7 +70,7 @@ export class CellInteraction {
   constructor(private readonly table:WorkPackageTable) {}
 
   private get navigation():KeyboardNavigation {
-    return this.table.keyboardNavigation!;
+    return this.table.keyboardNavigation;
   }
 
   public enter(position:FocusPosition, key:'Enter'|'F2'):boolean {

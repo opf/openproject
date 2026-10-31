@@ -26,7 +26,7 @@
 //++
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
-import { ChangeDetectorRef, ElementRef, Injector, runInInjectionContext } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, EventEmitter, Injector, runInInjectionContext } from '@angular/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { userEvent } from 'vitest/browser';
 import { usePlatform } from 'core-common/testing/platform';
@@ -35,6 +35,7 @@ import { DisplayFieldService } from 'core-app/shared/components/fields/display/d
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
@@ -59,6 +60,8 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
+import { WorkPackageTable } from '../../../wp-fast-table';
+import { TableHandlerRegistry } from '../../table-handler-registry';
 import { KeyboardNavigation } from './keyboard-navigation-transformer';
 import { headerRowKey, totalsRowKey } from './navigable-rows';
 import { expansionStateOf } from '../../../helpers/row-expansion';
@@ -111,7 +114,7 @@ describe('KeyboardNavigationTransformer', () => {
 
   const pressActive = (key:string, init:KeyboardEventInit = {}) => press(document.activeElement!, key, init);
 
-  const navigation = (table:TableHarness):KeyboardNavigation => table.table.keyboardNavigation!;
+  const navigation = (table:TableHarness):KeyboardNavigation => table.table.keyboardNavigation;
 
   const resource = (table:TableHarness, id:string) => table.injector.get(States).workPackages.get(id).value!;
 
@@ -132,6 +135,77 @@ describe('KeyboardNavigationTransformer', () => {
 
   afterEach(async () => {
     await Promise.all(harnesses.splice(0).map((table) => table.destroy()));
+  });
+
+  describe('on a table re-created over the same DOM', () => {
+    const recreate = async () => {
+      const harness = await mount();
+      const stale = navigation(harness);
+      stale.focusPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+      const source = harness.table;
+      source.destroy();
+      const fresh = new WorkPackageTable(
+        harness.injector, source.tableAndTimelineContainer, source.scrollContainer,
+        source.tbody, source.timelineBody, source.timelineController, source.configuration,
+      );
+      new TableHandlerRegistry(harness.injector).attachTo({
+        workPackageTable: fresh,
+        itemClicked: new EventEmitter<{ workPackageId:string, double:boolean }>(),
+        stateLinkClicked: new EventEmitter<{ workPackageId:string, requestedState:string }>(),
+      });
+      await harness.render();
+      fresh.keyboardNavigation.focusPosition({ key: wpOccurrenceKey('2'), cell: 0, desiredColumn: 0 });
+      return { harness, stale, fresh };
+    };
+
+    const elsewhere = { key: wpOccurrenceKey('3'), cell: null, desiredColumn: null };
+
+    it.each<[string, (stale:KeyboardNavigation, harness:TableHarness) => unknown]>([
+      ['returnFocus', (stale) => stale.returnFocus(elsewhere)],
+      ['returnFocusFromMenu', (stale) => stale.returnFocusFromMenu(elsewhere)],
+      ['focusPosition', (stale) => stale.focusPosition(elsewhere)],
+      ['focusEditor', (stale) => stale.focusEditor({} as EditFieldHandler)],
+      ['repaintCurrentPosition', (stale) => stale.repaintCurrentPosition()],
+      ['adoptOverlay', (stale) => stale.adoptOverlay(document.createElement('div'))],
+      ['recordPosition', (stale) => stale.recordPosition(elsewhere)],
+      ['rememberWorkPackageAfterRender', (stale) => stale.rememberWorkPackageAfterRender('3')],
+      ['positionOfCell', (stale, harness) => stale.positionOfCell(cell(harness.row('3'), 0))],
+      ['originForControl', (stale, harness) => stale.originForControl(cell(harness.row('3'), 0))],
+      ['elementAt', (stale) => stale.elementAt(elsewhere)],
+      ['captureOwnership', (stale) => stale.captureOwnership(false)],
+    ])('does nothing on a destroyed table: %s', async (_name, call) => {
+      const { harness, stale, fresh } = await recreate();
+      const focused = document.activeElement;
+      const stops = Array.from(harness.table.scrollContainer.querySelectorAll('[tabindex="0"]'));
+
+      const result = call(stale, harness);
+
+      expect(document.activeElement).toBe(focused);
+      expect(Array.from(harness.table.scrollContainer.querySelectorAll('[tabindex="0"]'))).toEqual(stops);
+      expect(result === undefined || result === null || result === false).toBe(true);
+      fresh.destroy();
+    });
+
+    it('does not scroll on a destroyed table', async () => {
+      const { harness, stale, fresh } = await recreate();
+      const scroll = vi.spyOn(Element.prototype, 'scrollIntoView');
+
+      stale.scrollControlIntoView(cell(harness.row('3'), 0));
+
+      expect(scroll).not.toHaveBeenCalled();
+      scroll.mockRestore();
+      fresh.destroy();
+    });
+
+    it('leaves a pending focus request for the new table when the destroyed one is notified', async () => {
+      const { harness, stale, fresh } = await recreate();
+      const ifShouldFocus = vi.spyOn(harness.injector.get(WorkPackageViewFocusService), 'ifShouldFocus');
+
+      stale.rowsChanged({ scope: 'all', rendered: true });
+
+      expect(ifShouldFocus).not.toHaveBeenCalled();
+      fresh.destroy();
+    });
   });
 
   it('Tab from a control before the table lands on the first work package row', async () => {

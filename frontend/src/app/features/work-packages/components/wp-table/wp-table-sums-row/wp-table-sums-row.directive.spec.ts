@@ -38,7 +38,6 @@ import { WorkPackageViewSumService } from 'core-app/features/work-packages/routi
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { nextTask } from 'core-common/testing/timing';
 import { buildQuery, buildTable, FakeDragAndDropService, harnessProviders, initializeViewServices, scopeKeys, TableHarness } from '../../wp-fast-table/testing/table-harness';
-import type { KeyboardNavigation } from '../../wp-fast-table/handlers/state/keyboard/keyboard-navigation-transformer';
 import { totalsRowKey } from '../../wp-fast-table/handlers/state/keyboard/navigable-rows';
 import { WorkPackageTableSumsRowController } from './wp-table-sums-row.directive';
 
@@ -153,10 +152,8 @@ describe('WorkPackageTableSumsRowController input readiness', () => {
   ])('captures focus ownership before %s the row and notifies the table after', async (_name, enabled, text) => {
     const events:string[] = [];
     row.innerHTML = '<td>previous</td>';
-    harness.table.keyboardNavigation = {
-      captureOwnership: () => events.push(`capture:${row.textContent}`),
-      rowsChanged: ({ scope }) => events.push(`refreshed:${scopeKeys(scope).join(',')}:${row.textContent}`),
-    } satisfies Pick<KeyboardNavigation, 'captureOwnership'|'rowsChanged'> as unknown as KeyboardNavigation;
+    vi.spyOn(harness.table.keyboardNavigation, 'captureOwnership').mockImplementation(() => { events.push(`capture:${row.textContent}`); });
+    vi.spyOn(harness.table.keyboardNavigation, 'rowsChanged').mockImplementation(({ scope }) => { events.push(`refreshed:${scopeKeys(scope).join(',')}:${row.textContent}`); });
     directive.wpTableSums.setEnabled(enabled);
     directive.workPackageTable = harness.table;
     fixture.detectChanges();
@@ -171,10 +168,8 @@ describe('WorkPackageTableSumsRowController input readiness', () => {
 
   it('leaves an already empty row alone when sums are off', async () => {
     const events:string[] = [];
-    harness.table.keyboardNavigation = {
-      captureOwnership: () => events.push('capture'),
-      rowsChanged: ({ scope }) => events.push(`refreshed:${scopeKeys(scope).join(',')}`),
-    } satisfies Pick<KeyboardNavigation, 'captureOwnership'|'rowsChanged'> as unknown as KeyboardNavigation;
+    vi.spyOn(harness.table.keyboardNavigation, 'captureOwnership').mockImplementation(() => { events.push('capture'); });
+    vi.spyOn(harness.table.keyboardNavigation, 'rowsChanged').mockImplementation(({ scope }) => { events.push(`refreshed:${scopeKeys(scope).join(',')}`); });
     directive.wpTableSums.setEnabled(false);
     directive.workPackageTable = harness.table;
     fixture.detectChanges();
@@ -256,7 +251,7 @@ describe('WorkPackageTableSumsRowController semantics', () => {
       expect(row).toHaveAttribute('role', 'row');
       return result;
     });
-    vi.spyOn(harness.table.keyboardNavigation!, 'rowsChanged').mockImplementation(() => { events.push('notify'); });
+    vi.spyOn(harness.table.keyboardNavigation, 'rowsChanged').mockImplementation(() => { events.push('notify'); });
     attach(harness, true);
     events.length = 0;
 
@@ -338,7 +333,7 @@ describe('WorkPackageTableSumsRowController semantics', () => {
     const harness = await setUp({});
     attach(harness, true);
     directive.wpTableSums.setEnabled(false);
-    const refreshed = vi.spyOn(harness.table.keyboardNavigation!, 'rowsChanged');
+    const refreshed = vi.spyOn(harness.table.keyboardNavigation, 'rowsChanged');
     const painted = vi.spyOn(harness.table.painter, 'paint');
 
     await resolveSchema();
