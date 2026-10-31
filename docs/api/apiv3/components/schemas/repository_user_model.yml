@@ -1,0 +1,16 @@
+# Schema: RepositoryUserModel
+---
+type: object
+description: A user on a repository provider. This is not an OpenProject user.
+readOnly: true
+properties:
+  name:
+    type: string
+    description: Display name of the user
+  username:
+    type: string
+    description: Username on the provider
+  avatarUrl:
+    type: string
+    format: uri
+    description: URL of the user's avatar image

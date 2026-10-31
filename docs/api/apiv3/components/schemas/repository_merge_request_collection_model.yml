@@ -1,0 +1,31 @@
+# Schema: RepositoryMergeRequestCollectionModel
+---
+allOf:
+  - $ref: "./offset_paginated_collection_model.yml"
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: "./link.yml"
+              - description: |-
+                  This collection of repository merge requests
+
+                  **Resource**: RepositoryMergeRequestCollectionModel
+                readOnly: true
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            items:
+              $ref: "./repository_merge_request_model.yml"

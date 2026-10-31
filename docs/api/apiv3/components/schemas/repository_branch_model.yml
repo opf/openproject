@@ -1,0 +1,76 @@
+# Schema: RepositoryBranchModel
+---
+type: object
+properties:
+  id:
+    type: integer
+    description: Identifier of the resource within OpenProject
+    readOnly: true
+  name:
+    type: string
+    description: Name of the branch
+    readOnly: true
+  projectName:
+    type: string
+    description: Name of the project on the provider, e.g. `my-group/my-project`
+    readOnly: true
+  webUrl:
+    type: string
+    format: uri
+    description: URL of the branch on the provider's website
+    readOnly: true
+  author:
+    description: The user on the provider who created the resource. Null if unknown.
+    oneOf:
+    - $ref: "./repository_user_model.yml"
+    - type: "null"
+  createdAt:
+    type: string
+    format: date-time
+    description: Time the resource was first synchronized into OpenProject
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time the resource was last synchronized into OpenProject
+    readOnly: true
+  _links:
+    type: object
+    required:
+    - self
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This branch
+
+            **Resource**: RepositoryBranch
+          readOnly: true
+      workPackage:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The work package this branch belongs to
+
+            **Resource**: WorkPackage
+          readOnly: true
+example:
+  _type: RepositoryBranch
+  _links:
+    self:
+      href: "/api/v3/repository_branches/1"
+      title: bug/1234-crash-when-saving
+    workPackage:
+      href: "/api/v3/work_packages/1234"
+      title: Crash when saving
+  id: 1
+  name: bug/1234-crash-when-saving
+  projectName: my-group/my-project
+  webUrl: https://gitlab.example.com/my-group/my-project/-/tree/bug/1234-crash-when-saving
+  author:
+    name: Jane Doe
+    username: jdoe
+    avatarUrl: https://gitlab.example.com/uploads/user/avatar/1/avatar.png
+  createdAt: '2026-10-01T12:00:00.000Z'
+  updatedAt: '2026-10-01T12:00:00.000Z'

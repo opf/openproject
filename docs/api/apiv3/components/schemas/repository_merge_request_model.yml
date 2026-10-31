@@ -1,0 +1,125 @@
+# Schema: RepositoryMergeRequestModel
+---
+type: object
+properties:
+  id:
+    type: integer
+    description: Identifier of the resource within OpenProject
+    readOnly: true
+  displayId:
+    type: string
+    description: Identifier of the merge request as displayed by the provider, e.g. `42`
+    readOnly: true
+  title:
+    type: string
+    description: Title of the merge request
+    readOnly: true
+  description:
+    allOf:
+    - $ref: "./formattable.yml"
+    - description: Description of the merge request
+      readOnly: true
+  state:
+    type: string
+    description: State of the merge request as reported by the provider, e.g. `opened`
+    readOnly: true
+  labels:
+    type: array
+    description: Labels attached to the resource on the provider
+    readOnly: true
+    items:
+      type: object
+      properties:
+        title:
+          type: string
+        color:
+          type: string
+          description: Hexadecimal color code, e.g. `#d9534f`
+  projectName:
+    type: string
+    description: Name of the project on the provider, e.g. `my-group/my-project`
+    readOnly: true
+  webUrl:
+    type: string
+    format: uri
+    description: URL of the resource on the provider's website
+    readOnly: true
+  author:
+    description: The user on the provider who created the resource. Null if unknown.
+    oneOf:
+    - $ref: "./repository_user_model.yml"
+    - type: "null"
+  externalUpdatedAt:
+    type: string
+    format: date-time
+    description: Time the resource was last updated on the provider
+    readOnly: true
+  createdAt:
+    type: string
+    format: date-time
+    description: Time the resource was first synchronized into OpenProject
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time the resource was last synchronized into OpenProject
+    readOnly: true
+  _links:
+    type: object
+    required:
+    - self
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This merge request
+
+            **Resource**: RepositoryMergeRequest
+          readOnly: true
+      pipelines:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            All of the CI pipelines that ran for this merge request
+
+            **Resource**: RepositoryPipelineCollectionModel
+          readOnly: true
+      latestPipeline:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The CI pipeline that started last. A pipeline that has not started yet counts as the latest one.
+            Omitted if the merge request has no pipelines.
+
+            **Resource**: RepositoryPipeline
+          readOnly: true
+example:
+  _type: RepositoryMergeRequest
+  _links:
+    self:
+      href: "/api/v3/repository_merge_requests/1"
+      title: Fix crash when saving
+    pipelines:
+      href: "/api/v3/repository_merge_requests/1/repository_pipelines"
+    latestPipeline:
+      href: "/api/v3/repository_pipelines/99"
+      title: success
+  id: 1
+  displayId: '7'
+  title: Fix crash when saving
+  description:
+    format: markdown
+    raw: Fixes OP#1234
+    html: "<p>Fixes OP#1234</p>"
+  state: merged
+  labels: []
+  projectName: my-group/my-project
+  webUrl: https://gitlab.example.com/my-group/my-project/-/merge_requests/7
+  author:
+    name: Jane Doe
+    username: jdoe
+    avatarUrl: https://gitlab.example.com/uploads/user/avatar/1/avatar.png
+  externalUpdatedAt: '2026-10-01T12:00:00.000Z'
+  createdAt: '2026-10-01T12:00:00.000Z'
+  updatedAt: '2026-10-01T12:00:00.000Z'

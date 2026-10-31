@@ -20,21 +20,52 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { OpSharedModule } from 'core-app/shared/shared.module';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
 import {
   WorkPackageTabsService,
 } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
 
 import { RepositoriesTabComponent } from './repositories-tab/repositories-tab.component';
+
+const REPOSITORY_RESOURCE_LINKS = [
+  'repositoryIssues',
+  'repositoryMergeRequests',
+  'repositoryBranches',
+  'repositoryCommits',
+] as const;
+
+export function workPackageRepositoriesCount(
+  workPackage:WorkPackageResource,
+  injector:Injector,
+):Observable<number> {
+  const http = injector.get(HttpClient);
+
+  const totals = REPOSITORY_RESOURCE_LINKS.map((name) => {
+    const link = workPackage.$links[name] as CallableHalLink|undefined;
+
+    return link
+      ? http.get<IHALCollection<unknown>>(`${link.href}?pageSize=0`).pipe(map((collection) => collection.total))
+      : of(0);
+  });
+
+  return combineLatest(totals).pipe(
+    map((counts) => counts.reduce((sum, count) => sum + count, 0)),
+  );
+}
 
 export function initializeRepositoriesPlugin(injector:Injector) {
   const wpTabService = injector.get(WorkPackageTabsService);
@@ -45,7 +76,7 @@ export function initializeRepositoriesPlugin(injector:Injector) {
       name: I18n.t('js.work_packages.tabs.repositories'),
       id: 'repositories',
       displayable: (workPackage) => !!workPackage.repositories,
-      // count: 42, // TODO: define new API endpoints so that we can calculate the total number of entities
+      count: workPackageRepositoriesCount,
     },
   );
 }

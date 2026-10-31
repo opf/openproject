@@ -1,0 +1,37 @@
+# /api/v3/repository_branches/{id}
+---
+get:
+  summary: View repository branch
+  operationId: view_repository_branch
+  tags:
+  - Repositories
+  description: |-
+    Returns the repository branch with the given id.
+  parameters:
+  - name: id
+    description: Repository branch id
+    in: path
+    required: true
+    schema:
+      type: integer
+    example: 1
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/repository_branch_model.yml"
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the branch does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** show repository content (on the work package linked to the branch)

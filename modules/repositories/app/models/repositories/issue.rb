@@ -37,5 +37,9 @@ module Repositories
 
     has_many :issue_work_packages, dependent: :destroy
     has_many :work_packages, through: :issue_work_packages
+
+    scope :visible, ->(user = ::User.current) {
+      where(id: IssueWorkPackage.where(work_package: WorkPackage.allowed_to(user, :show_repository_content)).select(:issue_id))
+    }
   end
 end

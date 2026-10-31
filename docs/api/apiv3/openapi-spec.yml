@@ -511,6 +511,18 @@ paths:
     "$ref": "./paths/relations.yml"
   "/api/v3/relations/{id}":
     "$ref": "./paths/relation.yml"
+  "/api/v3/repository_branches/{id}":
+    "$ref": "./paths/repository_branch.yml"
+  "/api/v3/repository_commits/{id}":
+    "$ref": "./paths/repository_commit.yml"
+  "/api/v3/repository_issues/{id}":
+    "$ref": "./paths/repository_issue.yml"
+  "/api/v3/repository_merge_requests/{id}":
+    "$ref": "./paths/repository_merge_request.yml"
+  "/api/v3/repository_merge_requests/{id}/repository_pipelines":
+    "$ref": "./paths/repository_merge_request_repository_pipelines.yml"
+  "/api/v3/repository_pipelines/{id}":
+    "$ref": "./paths/repository_pipeline.yml"
   "/api/v3/revisions/{id}":
     "$ref": "./paths/revision.yml"
   "/api/v3/reminders":
@@ -643,6 +655,14 @@ paths:
     "$ref": "./paths/work_package_revisions.yml"
   "/api/v3/work_packages/{id}/relations":
     "$ref": "./paths/work_package_relations.yml"
+  "/api/v3/work_packages/{id}/repository_branches":
+    "$ref": "./paths/work_package_repository_branches.yml"
+  "/api/v3/work_packages/{id}/repository_commits":
+    "$ref": "./paths/work_package_repository_commits.yml"
+  "/api/v3/work_packages/{id}/repository_issues":
+    "$ref": "./paths/work_package_repository_issues.yml"
+  "/api/v3/work_packages/{id}/repository_merge_requests":
+    "$ref": "./paths/work_package_repository_merge_requests.yml"
   "/api/v3/work_packages/{id}/reminders":
     "$ref": "./paths/work_package_reminders.yml"
   "/api/v3/work_packages/{id}/watchers":
@@ -1126,6 +1146,28 @@ components:
       "$ref": "./components/schemas/relation_write_model.yml"
     ReminderModel:
       "$ref": "./components/schemas/reminder_model.yml"
+    RepositoryBranchCollectionModel:
+      "$ref": "./components/schemas/repository_branch_collection_model.yml"
+    RepositoryBranchModel:
+      "$ref": "./components/schemas/repository_branch_model.yml"
+    RepositoryCommitCollectionModel:
+      "$ref": "./components/schemas/repository_commit_collection_model.yml"
+    RepositoryCommitModel:
+      "$ref": "./components/schemas/repository_commit_model.yml"
+    RepositoryIssueCollectionModel:
+      "$ref": "./components/schemas/repository_issue_collection_model.yml"
+    RepositoryIssueModel:
+      "$ref": "./components/schemas/repository_issue_model.yml"
+    RepositoryMergeRequestCollectionModel:
+      "$ref": "./components/schemas/repository_merge_request_collection_model.yml"
+    RepositoryMergeRequestModel:
+      "$ref": "./components/schemas/repository_merge_request_model.yml"
+    RepositoryPipelineCollectionModel:
+      "$ref": "./components/schemas/repository_pipeline_collection_model.yml"
+    RepositoryPipelineModel:
+      "$ref": "./components/schemas/repository_pipeline_model.yml"
+    RepositoryUserModel:
+      "$ref": "./components/schemas/repository_user_model.yml"
     RevisionModel:
       "$ref": "./components/schemas/revision_model.yml"
     RevisionsModel:
@@ -1307,6 +1349,7 @@ tags:
   - "$ref": "./tags/query_sort_bys.yml"
   - "$ref": "./tags/query_filter_instance_schema.yml"
   - "$ref": "./tags/relations.yml"
+  - "$ref": "./tags/repositories.yml"
   - "$ref": "./tags/revisions.yml"
   - "$ref": "./tags/roles.yml"
   - "$ref": "./tags/root.yml"

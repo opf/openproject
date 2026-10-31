@@ -1,0 +1,70 @@
+# /api/v3/work_packages/{id}/repository_branches
+---
+get:
+  summary: List repository branches of a work package
+  operationId: list_work_package_repository_branches
+  tags:
+  - Work Packages
+  - Repositories
+  description: |-
+    Returns a paginated collection of the repository branches linked to the given work package.
+
+    Request it with `pageSize=0` to only retrieve the total number of branches.
+  parameters:
+  - name: id
+    description: Work package id
+    in: path
+    required: true
+    schema:
+      type: integer
+    example: 1337
+  - name: offset
+    description: Page number inside the requested collection.
+    in: query
+    required: false
+    schema:
+      type: integer
+      default: 1
+    example: 1
+  - name: pageSize
+    description: Number of elements to display per page.
+    in: query
+    required: false
+    schema:
+      type: integer
+    example: 25
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/repository_branch_collection_model.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** show repository content
+
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package

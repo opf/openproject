@@ -1,0 +1,37 @@
+# /api/v3/repository_commits/{id}
+---
+get:
+  summary: View repository commit
+  operationId: view_repository_commit
+  tags:
+  - Repositories
+  description: |-
+    Returns the repository commit with the given id.
+  parameters:
+  - name: id
+    description: Repository commit id
+    in: path
+    required: true
+    schema:
+      type: integer
+    example: 1
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/repository_commit_model.yml"
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the commit does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** show repository content (on at least one work package linked to the commit)

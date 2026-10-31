@@ -31,7 +31,6 @@
 
 require "open_project/plugins"
 
-require_relative "patches/api/work_package_representer"
 require_relative "notification_handlers"
 require_relative "hook_handler"
 require_relative "services"
@@ -68,12 +67,6 @@ module OpenProject::GitlabIntegration
                   caption: "GitLab",
                   icon: :"op-logo-gitlab"
       end
-
-      project_module(:gitlab, dependencies: :work_package_tracking) do
-        permission(:show_gitlab_content,
-                   {},
-                   permissible_on: %i[work_package project])
-      end
     end
 
     patches %w[WorkPackage]
@@ -92,33 +85,6 @@ module OpenProject::GitlabIntegration
       ::OpenProject::Notifications.subscribe("gitlab.issue_hook") { |payload| NotificationHandlers.issue_hook(payload) }
       ::OpenProject::Notifications.subscribe("gitlab.push_hook") { |payload| NotificationHandlers.push_hook(payload) }
       ::OpenProject::Notifications.subscribe("gitlab.pipeline_hook") { |payload| NotificationHandlers.pipeline_hook(payload) }
-    end
-
-    extend_api_response(:v3, :work_packages, :work_package,
-                        &::OpenProject::GitlabIntegration::Patches::API::WorkPackageRepresenter.extension)
-
-    add_api_path :gitlab_merge_requests_by_work_package do |id|
-      "#{work_package(id)}/gitlab_merge_requests"
-    end
-
-    add_api_path :gitlab_issues_by_work_package do |id|
-      "#{work_package(id)}/gitlab_issues"
-    end
-
-    add_api_path :gitlab_user do |id|
-      "gitlab_users/#{id}"
-    end
-
-    add_api_path :gitlab_pipeline do |id|
-      "gitlab_pipeline/#{id}"
-    end
-
-    add_api_endpoint "API::V3::WorkPackages::WorkPackagesAPI", :id do
-      mount ::API::V3::GitlabMergeRequests::GitlabMergeRequestsByWorkPackageAPI
-    end
-
-    add_api_endpoint "API::V3::WorkPackages::WorkPackagesAPI", :id do
-      mount ::API::V3::GitlabIssues::GitlabIssuesByWorkPackageAPI
     end
 
     add_cron_jobs do
