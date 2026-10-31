@@ -31,6 +31,7 @@ import { map, skip, take } from 'rxjs/operators';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { buildQuery, buildTable, initializeViewServices, TableHarness, TableHarnessOptions } from '../testing/table-harness';
 import { buildWorkPackage, WorkPackageFixture } from '../testing/work-package-fixture';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
@@ -362,6 +363,20 @@ describe('TreegridSemantics', () => {
     expect(groupHeader(0).cells[0]).toHaveAttribute('colspan');
     expect(nested.querySelector('tr')).not.toHaveAttribute('role');
     expect(nested.querySelector('td')).not.toHaveAttribute('role');
+  });
+
+  it('paints selection and pressed markers as classes and attributes from one place', async () => {
+    mount();
+    await harness.render();
+    harness.selection.replaceSelection('2');
+    harness.injector.get(WorkPackageViewFocusService).updateFocus('2', false, false);
+
+    expect(harness.row('2')).toHaveAttribute('aria-selected', 'true');
+    expect(harness.row('2')).toHaveClass('-checked', '-pressed');
+    expect(harness.row('2')).toHaveAttribute('data-pressed');
+    expect(harness.row('1')).toHaveAttribute('aria-selected', 'false');
+    expect(harness.row('1')).not.toHaveClass('-checked');
+    expect(harness.row('1')).not.toHaveAttribute('data-pressed');
   });
 
   it('exposes selection only on work package occurrences', async () => {

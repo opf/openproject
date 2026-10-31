@@ -28,9 +28,11 @@
 import { Injector } from '@angular/core';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { isSelectableOccurrence } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { baselineStatusName } from '../builders/baseline/baseline-column-builder';
+import { paintRowSelection } from '../builders/rows/row-selection-painter';
 import { expansionStateOf } from '../helpers/row-expansion';
 import { occurrenceRowKind, type OccurrenceRowKind } from '../helpers/structural-rows';
 import type { RenderedOccurrence } from '../rendered-occurrence-ledger';
@@ -85,6 +87,8 @@ export class TreegridSemantics {
 
   @LazyInject() private readonly wpTableHierarchies:WorkPackageViewHierarchiesService;
 
+  @LazyInject() private readonly wpTableFocus:WorkPackageViewFocusService;
+
   public readonly injector:Injector = this.table.injector;
 
   constructor(private readonly table:WorkPackageTable) {}
@@ -119,9 +123,13 @@ export class TreegridSemantics {
   }
 
   private paintSelected(occurrence:RenderedOccurrence):void {
-    if (occurrence.element && isSelectableOccurrence(occurrence)) {
-      occurrence.element.setAttribute('aria-selected', String(this.wpTableSelection.isSelected(occurrence.workPackageId)));
-    }
+    const row = occurrence.element;
+    if (!row || !isSelectableOccurrence(occurrence)) return;
+    const selected = this.wpTableSelection.isSelected(occurrence.workPackageId);
+    const pressed = this.wpTableFocus.isFocused(occurrence.workPackageId);
+    setOrRemove(row, 'aria-selected', String(selected));
+    setOrRemove(row, 'data-pressed', pressed ? '' : null);
+    paintRowSelection(row, { selected, pressed });
   }
 
   private expansionOf(occurrence:RenderedOccurrence, kind:Exclude<OccurrenceRowKind, 'placeholder'>):string|null {
