@@ -162,14 +162,6 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     });
 
     const onKeydown = (event:KeyboardEvent) => this.handleKeydown(event);
-    const onDocumentKeydown = (event:KeyboardEvent) => {
-      const target = event.target as Node;
-      if (!insideGrid(scrollContainer, target) && table.editing.gridFieldOwning(target)) {
-        if (this.interaction.handleInnerKeydown(event)) {
-          event.preventDefault();
-        }
-      }
-    };
     const onFocusin = (event:FocusEvent) => {
       const target = event.target as Node;
       this.focusLeftTable = !insideGrid(scrollContainer, target) && !table.editing.owns(target);
@@ -209,7 +201,6 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     scrollContainer.addEventListener('focusout', onFocusout);
     scrollContainer.addEventListener('mousedown', onMousedown);
     document.addEventListener('focusin', onDocumentFocusin);
-    document.addEventListener('keydown', onDocumentKeydown);
     pointerEndEvents.forEach((type) => document.addEventListener(type, onPointerEnd));
     onDestroySafely(destroyRef, () => {
       scrollContainer.removeEventListener('keydown', onKeydown);
@@ -217,7 +208,6 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
       scrollContainer.removeEventListener('focusout', onFocusout);
       scrollContainer.removeEventListener('mousedown', onMousedown);
       document.removeEventListener('focusin', onDocumentFocusin);
-      document.removeEventListener('keydown', onDocumentKeydown);
       pointerEndEvents.forEach((type) => document.removeEventListener(type, onPointerEnd));
     });
 
