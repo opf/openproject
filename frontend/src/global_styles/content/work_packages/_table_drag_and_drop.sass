@@ -44,15 +44,18 @@ wp-single-card[data-drop-position]
 // a containing block, so an absolute child escapes it and lands at the
 // table's own edge. Contiguous cells read as one line, and a background
 // costs no layout and needs nothing of the collapsed border model.
-.wp-table--row[data-drop-position] > td
+.wp-table--row[data-drop-position] > td,
+.wp-table--row[data-drop-position] > th[scope="row"]
   background-image: linear-gradient(var(--fgColor-accent), var(--fgColor-accent))
   background-repeat: no-repeat
   background-size: 100% 2px
 
-.wp-table--row[data-drop-position="top"] > td
+.wp-table--row[data-drop-position="top"] > td,
+.wp-table--row[data-drop-position="top"] > th[scope="row"]
   background-position: left top
 
-.wp-table--row[data-drop-position="bottom"] > td
+.wp-table--row[data-drop-position="bottom"] > td,
+.wp-table--row[data-drop-position="bottom"] > th[scope="row"]
   background-position: left bottom
 
 // The drag preview is mounted in a detached container outside any table

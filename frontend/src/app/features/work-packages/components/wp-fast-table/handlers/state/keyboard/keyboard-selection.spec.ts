@@ -172,7 +172,7 @@ describe('KeyboardSelection', () => {
 
     it('on a cell toggles its row', async () => {
       const table = await mount();
-      focusElement(table, table.row('2').querySelector<HTMLElement>('td.subject')!);
+      focusElement(table, table.row('2').querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject')!);
 
       expect(shiftSpace()).toBe(false);
 

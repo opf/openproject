@@ -49,8 +49,14 @@ describe('WorkPackageTable', () => {
 
     await harness.render();
 
-    const cells = within(harness.row('1')).getAllByRole('gridcell');
+    const cells = Array.from(harness.row('1').cells);
     expect(cells).toHaveLength(3);
+    expect(cells[0]).toHaveAttribute('role', 'gridcell');
+    expect(within(harness.row('1')).getByRole('rowheader')).toBe(cells[1]);
+    expect(cells[1].tagName).toBe('TH');
+    expect(cells[1]).toHaveAttribute('scope', 'row');
+    expect(cells[1]).not.toHaveAttribute('role');
+    expect(cells[2]).toHaveAttribute('role', 'gridcell');
     expect(cells[0]).not.toHaveClass('subject');
     expect(cells[1]).toHaveClass('subject');
     expect(cells[2]).not.toHaveClass('subject');
@@ -129,7 +135,7 @@ describe('WorkPackageTable', () => {
 
   describe('refreshing a work package shown in several rows', () => {
     const occurrence = (key:string) => harness.tbody.querySelector<HTMLTableRowElement>(`[data-occurrence-key="${key}"]`)!;
-    const subjectOf = (key:string) => occurrence(key).querySelector('td.subject')!.textContent.trim();
+    const subjectOf = (key:string) => occurrence(key).querySelector(':scope > .wp-table--cell-td.subject')!.textContent.trim();
     const labelOf = (key:string) => occurrence(key).querySelector('.relation-row--type-label')?.textContent;
     const relationKeys = ['relation:ofType:1:2', 'relation:children:1:2'];
 

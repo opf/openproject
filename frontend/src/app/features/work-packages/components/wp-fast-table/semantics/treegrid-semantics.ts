@@ -30,6 +30,7 @@ import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packag
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { isSelectableOccurrence } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { baselineStatusName } from '../builders/baseline/baseline-column-builder';
 import { expansionStateOf } from '../helpers/row-expansion';
 import { occurrenceRowKind, type OccurrenceRowKind } from '../helpers/structural-rows';
 import type { RenderedOccurrence } from '../rendered-occurrence-ledger';
@@ -43,10 +44,34 @@ export function setOrRemove(element:Element, name:string, value:string|null):voi
   }
 }
 
-export function paintRowRole(row:HTMLTableRowElement, level:number, cellRole:'gridcell'|'columnheader' = 'gridcell'):void {
+export function paintRowRole(
+  row:HTMLTableRowElement,
+  level:number,
+  cellRole:'gridcell'|'columnheader' = 'gridcell',
+  nameIdPrefix:string|null = null,
+):void {
   row.setAttribute('role', 'row');
   row.setAttribute('aria-level', String(level));
-  Array.from(row.cells).forEach((cell) => cell.setAttribute('role', cellRole));
+  let header:HTMLTableCellElement|undefined;
+  Array.from(row.cells).forEach((cell) => {
+    if (cellRole === 'gridcell' && cell.matches('th[scope="row"]')) {
+      header = cell;
+      cell.removeAttribute('role');
+      cell.removeAttribute('aria-labelledby');
+      cell.setAttribute('aria-label', cell.dataset.rowHeaderName!);
+    } else {
+      cell.setAttribute('role', cellRole);
+    }
+  });
+  const named = header && nameIdPrefix !== null ? header : null;
+  const status = named ? row.querySelector<HTMLElement>(`:scope > td .${baselineStatusName}`) : null;
+  setOrRemove(row, 'aria-labelledby', named ? assignId(named, `${nameIdPrefix}-header`) : null);
+  setOrRemove(row, 'aria-describedby', status ? assignId(status, `${nameIdPrefix}-status`) : null);
+}
+
+function assignId(element:HTMLElement, id:string):string {
+  setOrRemove(element, 'id', id);
+  return id;
 }
 
 export function paintSectionExposure(section:HTMLTableSectionElement):void {
@@ -90,7 +115,7 @@ export class TreegridSemantics {
       return;
     }
 
-    paintRowRole(row, occurrence.level);
+    paintRowRole(row, occurrence.level, 'gridcell', `${this.table.domId}-${occurrence.key}`);
     setOrRemove(row, 'aria-expanded', this.expansionOf(occurrence, kind));
     this.paintSelected(occurrence);
   }

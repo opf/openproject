@@ -98,6 +98,23 @@ describe('InlineCreateRowBuilder', () => {
     });
   });
 
+  it.each([['subject'], ['id', 'subject']])('keeps %j columns as native data cells through refresh', async (...columns) => {
+    const table = await mount('macro');
+    const columnService = table.injector.get(WorkPackageViewColumnsService);
+    vi.spyOn(columnService, 'getColumns').mockReturnValue(columns.map((id) => buildColumn(id) as QueryColumn));
+    const row = table.addInlineCreateRow();
+    const builder = new InlineCreateRowBuilder(table.injector, table.table);
+    const workPackage = table.injector.get(States).workPackages.get(HAL_NEW_RESOURCE_ID).value!;
+
+    for (const refresh of [false, true]) {
+      if (refresh) builder.refreshRow(workPackage, row);
+      expect(Array.from(row.cells).every((cell) => cell.tagName === 'TD')).toBe(true);
+      expect(within(row).queryAllByRole('rowheader')).toEqual([]);
+      expect(row).not.toHaveAttribute('aria-labelledby');
+      expect(within(row.lastElementChild as HTMLElement).getByRole('link', { name: 'Cancel' })).toHaveAttribute('href', '#');
+    }
+  });
+
   describe('with a trailing column', () => {
     it('keeps the Cancel link in its own cell', async () => {
       const table = await mount('search', undefined, { inlineCreateEnabled: true });

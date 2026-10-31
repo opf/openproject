@@ -121,6 +121,11 @@ export class SingleRowBuilder {
     ];
   }
 
+  protected get rowHeaderColumn():'subject'|'id'|null {
+    if (this.augmentedColumns.some((column) => column.id === 'subject')) return 'subject';
+    return this.augmentedColumns.some((column) => column.id === 'id') ? 'id' : null;
+  }
+
   public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLTableCellElement|null {
     // handle relation types
     if (isRelationColumn(column)) {
@@ -151,7 +156,7 @@ export class SingleRowBuilder {
         return this.baselineColumnBuilder.build(workPackage, column);
 
       default:
-        return this.cellBuilder.build(workPackage, column);
+        return this.cellBuilder.build(workPackage, column, column.id === this.rowHeaderColumn);
     }
   }
 
@@ -208,12 +213,12 @@ export class SingleRowBuilder {
    * Refresh a row that is currently being edited, that is, some edit fields may be open
    */
   public refreshRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):HTMLTableRowElement {
-    const oldCells = Array.from(row.querySelectorAll<HTMLTableCellElement>(':scope > td'));
+    const oldCells = Array.from(row.cells);
     const retained = new Map<string, HTMLTableCellElement>();
 
     this.augmentedColumns.forEach((column:QueryColumn) => {
-      const oldTd = oldCells.find((cell) => cell.matches(`td.${column.id}`));
-      if (oldTd && (this.retainsOnRefresh(column) || this.isColumnBeingEdited(workPackage, column))) {
+      const oldTd = oldCells.find((cell) => cell.classList.contains(column.id));
+      if (oldTd && (this.retainsOnRefresh(column) || this.isColumnBeingEdited(workPackage, column, oldTd))) {
         retained.set(column.id, oldTd);
       }
     });
@@ -246,10 +251,14 @@ export class SingleRowBuilder {
     return column.id !== internalBaselineColumn.id && column.id.startsWith('__internal');
   }
 
-  protected isColumnBeingEdited(workPackage:WorkPackageResource, column:QueryColumn) {
-    const form = this.workPackageTable.editing.forms[workPackage.id!];
+  protected isColumnBeingEdited(
+    workPackage:WorkPackageResource,
+    column:QueryColumn,
+    cell:HTMLTableCellElement,
+  ):boolean {
+    const field = this.workPackageTable.editing.forms[workPackage.id!]?.activeFields[column.id];
 
-    return form?.activeFields[column.id];
+    return field?.element !== undefined && cell.contains(field.element);
   }
 
   protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):[HTMLTableRowElement, boolean] {

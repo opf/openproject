@@ -120,6 +120,63 @@ RSpec.describe "Wiki embedded work package table keyboard navigation", :js do
     end
   end
 
+  context "with two tables showing the same work package" do
+    let!(:work_package) { create(:work_package, project:, subject: "Shared original") }
+    let!(:wiki_page) do
+      first_props = query_props.merge("columns[]" => %w[id subject])
+      second_props = query_props.merge("columns[]" => %w[id status])
+      first_macro = %(<macro class="embedded-table" data-query-props="#{CGI.escapeHTML(first_props.to_json)}"></macro>)
+      second_macro = %(<macro class="embedded-table" data-query-props="#{CGI.escapeHTML(second_props.to_json)}"></macro>)
+      create(:wiki_page, wiki: project.wiki, title: "Independent row headers", text: <<~MARKDOWN)
+        [first-entry](https://example.com/)
+
+        #{first_macro}
+
+        [second-entry](https://example.com/)
+
+        #{second_macro}
+      MARKDOWN
+    end
+
+    it "keeps names and selection scoped when one table edits the shared work package" do
+      containers = all(".wiki-content opce-macro-embedded-table", count: 2)
+      first_table = Pages::EmbeddedWorkPackagesTable.new(containers.first, entry_control: -> { find_link("first-entry") })
+      second_table = Pages::EmbeddedWorkPackagesTable.new(containers.last, entry_control: -> { find_link("second-entry") })
+
+      first_table.expect_work_package_listed(work_package)
+      identifier = work_package.reload.display_id.to_s
+      second_table.expect_work_package_with_attributes(work_package, id: identifier)
+      expect(first_table.treegrid).to have_selector(:role, "rowheader", accessible_name: "Shared original", exact: true)
+      expect(second_table.treegrid).to have_selector(:role, "rowheader", accessible_name: identifier, exact: true)
+
+      first_table.focus_cell_by_keyboard(work_package, :subject)
+      first_table.press_keys(:enter)
+      field = first_table.edit_field(work_package, :subject)
+      field.expect_active!
+
+      field.input_element.set("Shared renamed")
+      first_table.press_keys(:enter)
+
+      field.expect_inactive!
+      field.expect_display_value("Shared renamed")
+      first_table.expect_focus_on_cell(work_package, :subject)
+      expect(first_table.treegrid).to have_selector(:role, "rowheader", accessible_name: "Shared renamed", exact: true)
+      expect(first_table.treegrid).to have_no_selector(:role, "rowheader", accessible_name: "Shared original",
+                                                                           exact: true, visible: :all)
+      expect(second_table.treegrid).to have_selector(:role, "rowheader", accessible_name: identifier, exact: true)
+      expect(second_table.treegrid).to have_no_selector(:role, "rowheader", accessible_name: "Shared renamed",
+                                                                            exact: true, visible: :all)
+
+      first_table.focus_row_by_keyboard(work_package)
+      first_table.press_keys(%i[shift space])
+      expect(first_table.row(work_package)).to match_selector(:row, aria: { selected: true })
+      expect(second_table.row(work_package)).to match_selector(:row, aria: { selected: false })
+
+      expect(page).to be_axe_clean.within(first_table.axe_scope)
+      expect(page).to be_axe_clean.within(second_table.axe_scope)
+    end
+  end
+
   context "with a hierarchy" do
     shared_let(:parent) { create(:work_package, project:, subject: "Macro parent") }
     shared_let(:child) { create(:work_package, project:, parent:, subject: "Macro child") }

@@ -31,12 +31,14 @@ import { map, skip, take } from 'rxjs/operators';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
-import { buildTable, TableHarness, TableHarnessOptions } from '../testing/table-harness';
-import { WorkPackageFixture } from '../testing/work-package-fixture';
+import { buildQuery, buildTable, initializeViewServices, TableHarness, TableHarnessOptions } from '../testing/table-harness';
+import { buildWorkPackage, WorkPackageFixture } from '../testing/work-package-fixture';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
 import { navigableCellClassName } from '../handlers/state/keyboard/roving-tabindex';
 import { groupOccurrenceKey, placeholderOccurrenceKey, relationOccurrenceKey, wpOccurrenceKey } from '../rendered-occurrence-ledger';
+
+import { paintRowRole } from './treegrid-semantics';
 
 const newStatus = { href: '/api/v3/statuses/1' };
 const inProgressStatus = { href: '/api/v3/statuses/2' };
@@ -99,6 +101,235 @@ describe('TreegridSemantics', () => {
 
   afterEach(() => harness.destroy());
 
+  it.each([
+    { columns: ['id', 'subject', 'status'], header: 'subject', name: 'Alpha' },
+    { columns: ['status', 'subject', 'id'], header: 'subject', name: 'Alpha' },
+    { columns: ['subject', 'id', 'status'], header: 'subject', name: 'Alpha' },
+    { columns: ['status', 'id'], header: 'id', name: '17' },
+  ])('chooses the row header for $columns', async ({ columns, header, name }) => {
+    mount({ workPackages: [{ id: '17', subject: 'Alpha' }], columns });
+    await harness.render();
+
+    const row = harness.row('17');
+    const headers = within(row).queryAllByRole('rowheader');
+    expect(headers).toHaveLength(1);
+    expect(headers[0].tagName).toBe('TH');
+    expect(headers[0]).toHaveAttribute('scope', 'row');
+    expect(headers[0]).not.toHaveAttribute('role');
+    expect(headers[0]).toHaveClass(header);
+    expect(headers[0]).toHaveAccessibleName(name);
+    expect(row).toHaveAttribute('aria-labelledby', headers[0].id);
+    expect(row).toHaveAccessibleName(name);
+
+    Array.from(row.cells).filter((cell) => !headers.includes(cell)).forEach((cell) => {
+      expect(cell).toHaveAttribute('role', 'gridcell');
+      expect(cell).not.toHaveAttribute('aria-label');
+      expect(cell).not.toHaveAttribute('aria-labelledby');
+    });
+  });
+
+  it('leaves rows without Subject or ID with grid cells only', async () => {
+    mount({ workPackages: [{ id: '17', subject: 'Alpha' }], columns: ['status'] });
+    await harness.render();
+    const row = harness.row('17');
+    expect(within(row).queryAllByRole('rowheader')).toEqual([]);
+    expect(row.querySelectorAll(':scope > th')).toHaveLength(0);
+    expect(row).not.toHaveAttribute('aria-labelledby');
+    Array.from(row.cells).forEach((cell) => {
+      expect(cell).toHaveAttribute('role', 'gridcell');
+      expect(cell).not.toHaveAttribute('aria-label');
+      expect(cell).not.toHaveAttribute('aria-labelledby');
+    });
+  });
+
+  it('preserves the native header and unrelated cell names when repainting', async () => {
+    mount({ workPackages: [{ id: '17', subject: 'Alpha' }], columns: ['id', 'subject', 'status'] });
+    await harness.render();
+    const row = harness.row('17');
+    const subject = row.cells[1];
+    const status = row.cells[2];
+    const statusText = document.createElement('span');
+    statusText.id = 'row-header-test-status';
+    statusText.textContent = 'Status context';
+    status.append(statusText);
+    status.setAttribute('aria-label', 'Retained status label');
+    status.setAttribute('aria-labelledby', statusText.id);
+    subject.setAttribute('aria-labelledby', statusText.id);
+
+    paintRowRole(row, 1);
+    paintRowRole(row, 1);
+    expect(within(row).getByRole('rowheader')).toBe(subject);
+    expect(subject.tagName).toBe('TH');
+    expect(subject).toHaveAccessibleName('Alpha');
+    expect(subject).toHaveAttribute('scope', 'row');
+    expect(subject).not.toHaveAttribute('role');
+    expect(subject).not.toHaveAttribute('aria-labelledby');
+    expect(status).toHaveAttribute('aria-label', 'Retained status label');
+    expect(status).toHaveAttribute('aria-labelledby', statusText.id);
+    expect(status).toHaveAccessibleName('Status context');
+  });
+
+  it('replaces Subject with ID, removes the header and restores Subject', async () => {
+    mount({ workPackages: [{ id: '17', subject: 'Alpha' }], columns: ['id', 'subject', 'status'] });
+    await harness.render();
+    expect(within(harness.row('17')).getByRole('rowheader', { name: 'Alpha' })).toHaveClass('subject');
+    expect(harness.row('17')).toHaveAccessibleName('Alpha');
+
+    let rendered = harness.nextRender();
+    harness.setColumns(['status', 'id']);
+    await rendered;
+    expect(within(harness.row('17')).getByRole('rowheader', { name: '17' })).toHaveClass('id');
+    expect(within(harness.row('17')).queryByRole('rowheader', { name: 'Alpha', hidden: true })).toBeNull();
+    expect(harness.row('17')).toHaveAccessibleName('17');
+
+    rendered = harness.nextRender();
+    harness.setColumns(['status']);
+    await rendered;
+    expect(within(harness.row('17')).queryAllByRole('rowheader', { hidden: true })).toEqual([]);
+    expect(harness.row('17')).not.toHaveAttribute('aria-labelledby');
+    Array.from(harness.row('17').cells).forEach((cell) => {
+      expect(cell).toHaveAttribute('role', 'gridcell');
+      expect(cell).not.toHaveAttribute('aria-label');
+      expect(cell).not.toHaveAttribute('aria-labelledby');
+    });
+
+    rendered = harness.nextRender();
+    harness.setColumns(['status', 'subject', 'id']);
+    await rendered;
+    expect(within(harness.row('17')).getByRole('rowheader', { name: 'Alpha' })).toHaveClass('subject');
+    expect(harness.row('17')).toHaveAccessibleName('Alpha');
+  });
+
+  it('reprojects names when query view services are reinitialized', async () => {
+    mount({ workPackages: [{ id: '17', subject: 'Alpha' }] });
+    await harness.render();
+    const idQuery = buildQuery(['status', 'id'], null, false, false);
+    harness.querySpace.query.putValue(idQuery);
+    initializeViewServices(harness.injector, idQuery);
+    await harness.render();
+    expect(within(harness.row('17')).getByRole('rowheader', { name: '17' })).toHaveClass('id');
+    expect(within(harness.row('17')).queryByRole('rowheader', { name: 'Alpha', hidden: true })).toBeNull();
+
+    const subjectQuery = buildQuery(['subject', 'id'], null, false, false);
+    harness.querySpace.query.putValue(subjectQuery);
+    initializeViewServices(harness.injector, subjectQuery);
+    await harness.render();
+    expect(within(harness.row('17')).getByRole('rowheader', { name: 'Alpha' })).toHaveClass('subject');
+  });
+
+  it('names only work package cells after repeated paints', async () => {
+    mount({ ...groupedFixtures, productionMarkup: true });
+    await harness.render();
+    harness.table.semantics.paint();
+    harness.table.semantics.paintWorkPackage('1');
+    expect(within(harness.row('1')).getByRole('rowheader', { name: 'Work package 1' })).toHaveClass('subject');
+    [groupHeader(0), groupHeader(1), sumsRow(0), sumsRow(1), harness.totalsRow(), harness.headerRow()]
+      .forEach((row) => {
+        expect(within(row).queryAllByRole('rowheader', { hidden: true })).toEqual([]);
+        expect(row).not.toHaveAttribute('aria-labelledby');
+      });
+    expect(within(harness.headerRow()).getAllByRole('columnheader').length).toBeGreaterThan(0);
+  });
+
+  it('derives row name ids from the table and occurrence so rebuilt rows keep them', async () => {
+    mount({ workPackages: [{ id: '17', subject: 'Alpha' }], columns: ['id', 'subject'] });
+    await harness.render();
+    const header = harness.row('17').cells[1];
+    expect(header.id).toBe(`${harness.table.domId}-${wpOccurrenceKey('17')}-header`);
+    expect(harness.row('17')).toHaveAttribute('aria-labelledby', header.id);
+
+    harness.table.refreshRows(resource('17'));
+
+    expect(harness.row('17').cells[1]).not.toBe(header);
+    expect(harness.row('17').cells[1].id).toBe(header.id);
+    expect(harness.row('17')).toHaveAttribute('aria-labelledby', header.id);
+  });
+
+  it('drops a stale row name from column header and header-less rows', async () => {
+    mount({ workPackages: [{ id: '17', subject: 'Alpha' }], columns: ['id', 'subject'] });
+    await harness.render();
+    const row = harness.row('17');
+    row.setAttribute('aria-labelledby', 'stale');
+    paintRowRole(row, 1, 'columnheader');
+    expect(row).not.toHaveAttribute('aria-labelledby');
+
+    const sums = harness.tbody.insertRow();
+    sums.insertCell().textContent = '42';
+    sums.setAttribute('aria-labelledby', 'stale');
+    paintRowRole(sums, 1);
+    expect(sums).not.toHaveAttribute('aria-labelledby');
+  });
+
+  it('excludes hierarchy and baseline decoration from the name', async () => {
+    const ancestor:WorkPackageFixture = { id: '1', subject: 'Ancestor', baseline: 'updated' };
+    mount({
+      workPackages: [{ id: '2', subject: 'Child', ancestors: [ancestor], baseline: 'updated' }],
+      showHierarchies: true,
+      baseline: true,
+    });
+    await harness.render();
+
+    expect(within(harness.row('1')).getByRole('rowheader', { name: 'Ancestor' })).toHaveClass('subject');
+    expect(within(harness.row('2')).getByRole('rowheader', { name: 'Child' })).toHaveClass('subject');
+    expect(within(harness.row('1')).getByRole('button', { name: /children_expanded/ })).toBeInTheDocument();
+  });
+
+  it('uses displayed text safely and retains Subject for an empty value', async () => {
+    mount({ workPackages: [{ id: '1', subject: '<b>Alpha</b> & "quoted"' }, { id: '2', subject: '' }] });
+    await harness.render();
+    expect(within(harness.row('1')).getByRole('rowheader', { name: '<b>Alpha</b> & "quoted"' })).toHaveClass('subject');
+    expect(within(harness.row('2')).getByRole('rowheader', { name: '-' })).toHaveClass('subject');
+  });
+
+  it('keeps different row-header choices scoped across tables sharing a resource cache', async () => {
+    const states = new States();
+    mount({ states, workPackages: [{ id: '17', subject: 'Alpha' }], columns: ['id', 'subject'] });
+    const second = buildTable({
+      states,
+      workPackages: [{ id: '17', subject: 'Alpha' }],
+      columns: ['id', 'status'],
+    });
+    try {
+      await harness.render();
+      await second.render();
+
+      expect(within(harness.row('17')).getByRole('rowheader', { name: 'Alpha' })).toHaveClass('subject');
+      expect(within(second.row('17')).getByRole('rowheader', { name: '17' })).toHaveClass('id');
+      expect(harness.row('17').getAttribute('aria-labelledby')).not.toBe(second.row('17').getAttribute('aria-labelledby'));
+      expect(harness.row('17')).toHaveAccessibleName('Alpha');
+      expect(second.row('17')).toHaveAccessibleName('17');
+
+      states.workPackages.get('17').putValue(buildWorkPackage({ id: '17', subject: 'Renamed' }));
+
+      await waitFor(() => {
+        expect(within(harness.row('17')).getByRole('rowheader', { name: 'Renamed' })).toHaveClass('subject');
+        expect(within(second.row('17')).getByRole('rowheader', { name: '17' })).toHaveClass('id');
+      });
+      expect(harness.row('17')).toHaveAccessibleName('Renamed');
+
+      const rendered = harness.nextRender();
+      harness.setColumns(['status']);
+      await rendered;
+
+      expect(within(harness.row('17')).queryAllByRole('rowheader', { hidden: true })).toEqual([]);
+      expect(within(second.row('17')).getByRole('rowheader', { name: '17' })).toHaveClass('id');
+
+      const previousSecondHeader = within(second.row('17')).getByRole('rowheader', { name: '17' });
+      await harness.destroy();
+
+      states.workPackages.get('17').putValue(buildWorkPackage({ id: '17', subject: 'After teardown' }));
+
+      await waitFor(() => {
+        const currentSecondHeader = within(second.row('17')).getByRole('rowheader', { name: '17' });
+        expect(currentSecondHeader).not.toBe(previousSecondHeader);
+        expect(currentSecondHeader).toHaveClass('id');
+        expect(second.row('17')).toHaveAttribute('aria-labelledby', currentSecondHeader.id);
+      });
+    } finally {
+      await second.destroy();
+    }
+  });
+
   it('paints rows, levels and cell roles after a full render', async () => {
     mount({
       ...groupedFixtures,
@@ -118,7 +349,12 @@ describe('TreegridSemantics', () => {
     expect(groupHeader(0)).toHaveAttribute('aria-level', '1');
     expect(sumsRow(0)).toHaveAttribute('aria-level', '2');
 
-    [harness.row('1'), groupHeader(0), sumsRow(0)].forEach((row) => {
+    const subject = within(harness.row('1')).getByRole('rowheader', { name: 'Work package 1' });
+    expect(subject).toHaveClass('subject');
+    expect(within(harness.row('1')).getAllByRole('rowheader')).toHaveLength(1);
+    Array.from(harness.row('1').cells).filter((cell) => cell !== subject)
+      .forEach((cell) => expect(cell).toHaveAttribute('role', 'gridcell'));
+    [groupHeader(0), sumsRow(0)].forEach((row) => {
       Array.from(row.cells).forEach((cell) => expect(cell).toHaveAttribute('role', 'gridcell'));
     });
     expect(harness.row('1').querySelector('.__internal-sorthandle')).toHaveAttribute('role', 'gridcell');
@@ -320,7 +556,7 @@ describe('TreegridSemantics', () => {
       const cells = Array.from(row.cells);
       return {
         rebuiltCells: cells.some((cell) => !previousCells.includes(cell)),
-        cellRoles: cells.every((cell) => cell.getAttribute('role') === 'gridcell'),
+        cellRoles: cells.map((cell) => ({ tag: cell.tagName, scope: cell.getAttribute('scope'), role: cell.getAttribute('role') })),
         hidden: row.getAttribute('aria-hidden'),
         display: getComputedStyle(row).display,
         level: row.getAttribute('aria-level'),
@@ -331,8 +567,11 @@ describe('TreegridSemantics', () => {
     harness.table.refreshRows(resource('1'));
 
     expect(await refreshed).toEqual({
-      rebuiltCells: true, cellRoles: true, hidden: null, display: 'none', level: '2', role: 'row', selected: 'false',
+      rebuiltCells: true, cellRoles: [{ tag: 'TD', scope: null, role: 'gridcell' }, { tag: 'TH', scope: 'row', role: null }], hidden: null, display: 'none', level: '2', role: 'row', selected: 'false',
     });
+    expect(within(harness.row('1')).getByRole('rowheader', { hidden: true })).toBe(harness.row('1').cells[1]);
+    expect(harness.row('1').cells[1]).toHaveAttribute('aria-label', 'Work package 1');
+    expect(document.getElementById(harness.row('1').getAttribute('aria-labelledby')!)).toBe(harness.row('1').cells[1]);
   });
 
   it('hides the results rowgroup when it holds only the drag placeholder', async () => {

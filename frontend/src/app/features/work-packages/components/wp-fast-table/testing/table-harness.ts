@@ -461,7 +461,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
 
     click(workPackageId, init = {}) {
       const row = this.row(workPackageId);
-      const target = row.querySelector('td') ?? row;
+      const target = row.cells[0] ?? row;
       fireEvent.click(target, init);
     },
 
@@ -562,7 +562,12 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
   const editable = !!options.editing;
   const formWritable = options.editing?.formWritable ?? true;
   const editableFields = options.editing?.fields ?? ['subject'];
-  const fieldSchema = (name:string, writable:boolean) => (editableFields.includes(name) ? { type: 'String', name, writable } : undefined);
+  const fieldSchema = (name:string, writable:boolean) => {
+    if (name === 'id') {
+      return { type: 'Integer', name: 'ID', writable: false };
+    }
+    return editableFields.includes(name) ? { type: 'String', name, writable } : undefined;
+  };
   const sumsSchema = buildSumsSchema(options.groups ?? []);
 
   return [

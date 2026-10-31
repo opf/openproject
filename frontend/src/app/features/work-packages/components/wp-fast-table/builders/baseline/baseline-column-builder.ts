@@ -43,6 +43,7 @@ import {
 } from '@openproject/octicons-angular';
 
 export const baselineCellName = 'op-table-baseline--column-cell';
+export const baselineStatusName = 'op-table-baseline--status';
 
 const baselineChanges = {
   added: {
@@ -96,7 +97,7 @@ export class BaselineColumnBuilder {
     td.appendChild(octiconElement(icon, 'small', className, text));
 
     const status = document.createElement('span');
-    status.classList.add('sr-only');
+    status.classList.add('sr-only', baselineStatusName);
     status.textContent = text;
     td.appendChild(status);
 
