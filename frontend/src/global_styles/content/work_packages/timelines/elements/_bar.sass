@@ -1,7 +1,7 @@
 .timeline-element.bar
   position: relative
-  height: 1em
-  border-radius: 2px
+  height: 24px
+  border-radius: var(--borderRadius-medium)
   float: left
 
   .bar-label
@@ -45,6 +45,7 @@
   height: 100%
   background-color: var(--timeline--type-fallback-color)
   border: 1px solid
+  border-radius: inherit
 
   &.-readonly
     cursor: not-allowed !important
