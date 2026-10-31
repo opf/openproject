@@ -32,11 +32,29 @@ import { Highlighting } from './builders/highlighting/highlighting.functions';
 import { effect } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { wpOccurrenceKey } from './rendered-occurrence-ledger';
+import { WorkPackageTable } from './wp-fast-table';
+import { TableSelectionFeedback } from './handlers/state/selection-feedback';
 
 describe('WorkPackageTable', () => {
   let harness:TableHarness;
 
   afterEach(() => harness?.destroy());
+
+  const unattachedTable = () => {
+    const source = harness.table;
+    return new WorkPackageTable(
+      harness.injector, source.tableAndTimelineContainer, source.scrollContainer,
+      source.tbody, source.timelineBody, source.timelineController, source.configuration,
+    );
+  };
+
+  it('owns selection feedback without a registry', () => {
+    harness = buildTable({ workPackages: [{ id: '1' }] });
+    const table = unattachedTable();
+
+    expect(table.selectionFeedback).toBeInstanceOf(TableSelectionFeedback);
+    table.destroy();
+  });
 
   it('renders one row per work package in result order', async () => {
     harness = buildTable({ workPackages: [{ id: '3' }, { id: '1' }, { id: '2' }] });
