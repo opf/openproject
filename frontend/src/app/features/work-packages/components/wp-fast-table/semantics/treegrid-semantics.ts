@@ -28,9 +28,11 @@
 import { Injector } from '@angular/core';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { isSelectableOccurrence } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { baselineStatusName } from '../builders/baseline/baseline-column-builder';
+import { paintRowSelection } from '../builders/rows/row-selection-painter';
 import { expansionStateOf } from '../helpers/row-expansion';
 import { occurrenceRowKind, type OccurrenceRowKind } from '../helpers/structural-rows';
 import type { RenderedOccurrence } from '../rendered-occurrence-ledger';
@@ -50,17 +52,17 @@ export function paintRowRole(
   cellRole:'gridcell'|'columnheader' = 'gridcell',
   nameIdPrefix:string|null = null,
 ):void {
-  row.setAttribute('role', 'row');
-  row.setAttribute('aria-level', String(level));
+  setOrRemove(row, 'role', 'row');
+  setOrRemove(row, 'aria-level', String(level));
   let header:HTMLTableCellElement|undefined;
   Array.from(row.cells).forEach((cell) => {
     if (cellRole === 'gridcell' && cell.matches('th[scope="row"]')) {
       header = cell;
-      cell.removeAttribute('role');
-      cell.removeAttribute('aria-labelledby');
-      cell.setAttribute('aria-label', cell.dataset.rowHeaderName!);
+      setOrRemove(cell, 'role', null);
+      setOrRemove(cell, 'aria-labelledby', null);
+      setOrRemove(cell, 'aria-label', cell.dataset.rowHeaderName ?? null);
     } else {
-      cell.setAttribute('role', cellRole);
+      setOrRemove(cell, 'role', cellRole);
     }
   });
   const named = header && nameIdPrefix !== null ? header : null;
@@ -75,7 +77,7 @@ function assignId(element:HTMLElement, id:string):string {
 }
 
 export function paintSectionExposure(section:HTMLTableSectionElement):void {
-  section.setAttribute('role', 'rowgroup');
+  setOrRemove(section, 'role', 'rowgroup');
   const exposed = Array.from(section.rows).some((row) => row.getAttribute('aria-hidden') !== 'true');
   setOrRemove(section, 'aria-hidden', exposed ? null : 'true');
 }
@@ -84,6 +86,8 @@ export class TreegridSemantics {
   @LazyInject() private readonly wpTableSelection:WorkPackageViewSelectionService;
 
   @LazyInject() private readonly wpTableHierarchies:WorkPackageViewHierarchiesService;
+
+  @LazyInject() private readonly wpTableFocus:WorkPackageViewFocusService;
 
   public readonly injector:Injector = this.table.injector;
 
@@ -95,14 +99,12 @@ export class TreegridSemantics {
     paintSectionExposure(this.table.tbody);
   }
 
-  public paintWorkPackage(id:string):void {
+  public paintKeys(keys:ReadonlySet<string>):void {
     if (this.table.destroyed) return;
-    this.table.ledger.byWorkPackageId(id).forEach((occurrence) => this.paintOccurrence(occurrence));
-  }
-
-  public paintSelection():void {
-    if (this.table.destroyed) return;
-    this.table.ledger.occurrences.forEach((occurrence) => this.paintSelected(occurrence));
+    keys.forEach((key) => {
+      const occurrence = this.table.ledger.byKey(key);
+      if (occurrence) this.paintOccurrence(occurrence);
+    });
   }
 
   private paintOccurrence(occurrence:RenderedOccurrence):void {
@@ -121,13 +123,17 @@ export class TreegridSemantics {
   }
 
   private paintSelected(occurrence:RenderedOccurrence):void {
-    if (occurrence.element && isSelectableOccurrence(occurrence)) {
-      occurrence.element.setAttribute('aria-selected', String(this.wpTableSelection.isSelected(occurrence.workPackageId)));
-    }
+    const row = occurrence.element;
+    if (!row || !isSelectableOccurrence(occurrence)) return;
+    const selected = this.wpTableSelection.isSelected(occurrence.workPackageId);
+    const pressed = this.wpTableFocus.isFocused(occurrence.workPackageId);
+    setOrRemove(row, 'aria-selected', String(selected));
+    setOrRemove(row, 'data-pressed', pressed ? '' : null);
+    paintRowSelection(row, { selected, pressed });
   }
 
   private expansionOf(occurrence:RenderedOccurrence, kind:Exclude<OccurrenceRowKind, 'placeholder'>):string|null {
-    const expanded = kind === 'foreign' ? null : expansionStateOf(this.table, this.wpTableHierarchies, occurrence, kind);
+    const expanded = expansionStateOf(this.table, this.wpTableHierarchies, occurrence, kind);
     return expanded === null ? null : String(expanded);
   }
 }

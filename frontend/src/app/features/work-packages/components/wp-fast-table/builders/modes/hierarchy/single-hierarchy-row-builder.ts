@@ -157,6 +157,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
 
     subjectCell.classList.add('-with-hierarchy');
     subjectCell.prepend(hierarchyElement);
+    if (this.parentsWithVisibleChildren[workPackage.id!]) row.dataset.expandable = '';
 
     // Assure that the content is still visible when the hierarchy indentation is very large
     subjectCell.style.minWidth = `${125 + (hierarchyIndentation * hierarchyLevel)}px`;

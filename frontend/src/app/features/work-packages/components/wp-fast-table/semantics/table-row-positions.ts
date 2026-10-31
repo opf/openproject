@@ -35,7 +35,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { groupOccurrenceKey, placeholderOccurrenceKey, wpOccurrenceKey, type RenderDraft } from '../rendered-occurrence-ledger';
 import type { WorkPackageTable } from '../wp-fast-table';
-import { classifyRow } from '../helpers/structural-rows';
+import { classifyRow, isExposedRow } from '../helpers/structural-rows';
 import { setOrRemove } from './treegrid-semantics';
 import { bodyRowPositions, draftAgrees, type BodyRowPositions, type PositionGroup } from './body-row-positions';
 
@@ -66,6 +66,8 @@ export class TableRowPositions {
   private snapshot:CapturedRowPositions|null = null;
 
   private foreignRowReported = false;
+
+  private withdrawal:string|null = null;
 
   constructor(private readonly table:WorkPackageTable) {}
 
@@ -109,10 +111,11 @@ export class TableRowPositions {
   }
 
   /** Producers call this synchronously after every imperative row move or structural change, so no frame exposes a stale index. */
-  public paint():void {
-    if (this.table.destroyed) return;
+  public paint():string|null {
+    this.withdrawal = null;
+    if (this.table.destroyed) return null;
     const element = this.table.tbody.closest('table');
-    if (!element || (!this.currentSnapshot() && !element.hasAttribute('aria-rowcount'))) return;
+    if (!element || (!this.currentSnapshot() && !element.hasAttribute('aria-rowcount'))) return null;
     const rows = Array.from(element.rows);
     const projection = this.project(element, rows);
     setOrRemove(element, 'aria-rowcount', projection ? String(projection.count ?? -1) : null);
@@ -120,6 +123,7 @@ export class TableRowPositions {
       const position = projection?.indices.get(row);
       setOrRemove(row, 'aria-rowindex', position === undefined ? null : String(position));
     });
+    return this.withdrawal;
   }
 
   /** A refreshed row replaces its predecessor in place under the same occurrence key, so it inherits that row's index. */
@@ -180,6 +184,7 @@ export class TableRowPositions {
         return this.withdraw('foreign row');
       }
       if (kind === 'placeholder' || kind === 'unexposed') continue;
+      if ((kind === 'empty' || kind === 'totals' || kind === 'create') && !isExposedRow(row)) continue;
       if (kind === 'empty') {
         if (body.count !== 0 || emptySurrogate) return this.withdraw('unexpected empty-results row');
         emptySurrogate = row;
@@ -217,6 +222,7 @@ export class TableRowPositions {
   }
 
   private withdraw(inconsistency:string):null {
+    this.withdrawal = inconsistency;
     debugLog(`Row positions withdrawn: ${inconsistency}`);
     return null;
   }
@@ -228,6 +234,7 @@ export class TableRowPositions {
   }
 
   private notOffered(mode:string):null {
+    this.withdrawal = mode;
     debugLog(`Row positions not offered: ${mode}`);
     return null;
   }

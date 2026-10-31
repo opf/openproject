@@ -116,9 +116,9 @@ describe('structural rows', () => {
       expect(kind(unknown)).toBe('unexposed');
     });
 
-    it('treats an occurrence it cannot name as foreign', () => {
-      const occurrence = { key: 'banner', workPackageId: null } as RenderedOccurrence;
-      expect(occurrenceRowKind(occurrence)).toBe('foreign');
+    it('reads the kind the render pass registered rather than parsing the key', () => {
+      const occurrence = { key: 'group:0:header', kind: 'workPackage', workPackageId: null } as RenderedOccurrence;
+      expect(occurrenceRowKind(occurrence)).toBe('workPackage');
     });
   });
 });

@@ -40,6 +40,7 @@ import {
 function draftOccurrence(key:OccurrenceKey, overrides:Partial<DraftOccurrence> = {}):DraftOccurrence {
   return {
     key,
+    kind: 'workPackage',
     classIdentifier: 'wp-row-1',
     workPackageId: '1',
     renderType: 'primary',

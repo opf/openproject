@@ -32,7 +32,6 @@ import { locateTableRowByIdentifier } from 'core-app/features/work-packages/comp
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { TableActionRenderer } from 'core-app/features/work-packages/components/wp-fast-table/builders/table-action-renderer';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import {
   internalBaselineColumn,
   internalContextMenuColumn,
@@ -41,8 +40,6 @@ import {
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { paintRowSelection } from './row-selection-painter';
-import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { RelationCellbuilder } from '../relation-cell-builder';
 import {
   CellBuilder,
@@ -65,10 +62,6 @@ export const commonRowClassName = 'wp--row';
 
 export class SingleRowBuilder {
   // Injections
-  @LazyInject() wpTableSelection:WorkPackageViewSelectionService;
-
-  @LazyInject() wpTableFocus:WorkPackageViewFocusService;
-
   @LazyInject() wpTableColumns:WorkPackageViewColumnsService;
 
   @LazyInject() wpTableBaseline:WorkPackageViewBaselineService;
@@ -294,11 +287,6 @@ export class SingleRowBuilder {
           row.appendChild(cell);
         }
       }
-    });
-
-    paintRowSelection(row, {
-      selected: this.wpTableSelection.isSelected(workPackage.id!),
-      pressed: this.wpTableFocus.isFocused(workPackage.id!),
     });
 
     return [row, false];
