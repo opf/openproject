@@ -40,7 +40,7 @@ import { WpTableConfigurationModalComponent } from 'core-app/features/work-packa
 import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { computePosition, ComputePositionReturn, flip, shift } from '@floating-ui/dom';
-import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
+import { FocusPosition, samePosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
 import { OpContextMenuCloseReason } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 
 @Directive({
@@ -119,7 +119,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
     const navigation = this.table.keyboardNavigation;
     const current = navigation.position;
     const position = header && navigation.positionOfCell(header);
-    if (!this.origin || !position || current?.key !== this.origin.key || current.cell !== this.origin.cell) {
+    if (!this.origin || !position || !samePosition(current, this.origin)) {
       return;
     }
 

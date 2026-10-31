@@ -28,6 +28,7 @@
 import type { WorkPackageTable } from '../../../wp-fast-table';
 import type { KeyboardNavigation } from './keyboard-navigation-transformer';
 import { FocusPosition } from './focus-position';
+import type { FocusCursor } from './focus-cursor';
 import { displayClassName, displayTriggerLink, editableClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { activateTableField } from '../../cell/edit-cell-handler';
@@ -64,11 +65,12 @@ export function rowControls(row:HTMLTableRowElement, table?:WorkPackageTable):HT
 }
 
 export class CellInteraction {
-  private tabWalkOrigin:FocusPosition|null = null;
-
   private readonly parked = new WeakSet<EditFieldHandler>();
 
-  constructor(private readonly table:WorkPackageTable) {}
+  constructor(
+    private readonly table:WorkPackageTable,
+    private readonly cursor:FocusCursor,
+  ) {}
 
   private get navigation():KeyboardNavigation {
     return this.table.keyboardNavigation;
@@ -96,7 +98,7 @@ export class CellInteraction {
     }
 
     if (targets.length > 0) {
-      this.tabWalkOrigin = position;
+      this.cursor.startWalk(position);
       targets[0].focus({ preventScroll: true });
       return true;
     }
@@ -167,8 +169,8 @@ export class CellInteraction {
     if (intent.type === 'none') return false;
     const target = event.target as HTMLElement;
     const origin = intent.type === 'tab'
-      ? this.tabWalkOrigin ?? this.navigation.positionOfCell(target)
-      : this.tabWalkOrigin;
+      ? this.cursor.walkOrigin ?? this.navigation.positionOfCell(target)
+      : this.cursor.walkOrigin;
     if (!origin) return false;
 
     this.navigation.repaintCurrentPosition();
@@ -189,7 +191,7 @@ export class CellInteraction {
       return true;
     }
 
-    this.tabWalkOrigin = origin;
+    this.cursor.startWalk(origin);
     if (event.shiftKey) {
       event.preventDefault();
       const previous = index > 0 ? targets[index - 1] : this.navigation.elementAt(origin);
@@ -270,7 +272,7 @@ export class CellInteraction {
     if (targets.length === 0) return;
 
     event.preventDefault();
-    this.tabWalkOrigin = origin;
+    this.cursor.startWalk(origin);
     targets[0].focus({ preventScroll: true });
     this.navigation.scrollControlIntoView(targets[0]);
   }
@@ -285,21 +287,17 @@ export class CellInteraction {
   }
 
   public originForControl(control:HTMLElement):FocusPosition|null {
-    const origin = this.tabWalkOrigin;
+    const origin = this.cursor.walkOrigin;
     if (origin && this.walkFrom(origin).includes(control)) return origin;
 
     return this.navigation.positionOfCell(control);
   }
 
-  public clearWalk():void {
-    this.tabWalkOrigin = null;
-  }
-
   /** Keeps the walk while focus rests on one of its controls; clears it otherwise. */
   public reconcileWalk():void {
-    const origin = this.tabWalkOrigin;
+    const origin = this.cursor.walkOrigin;
     if (origin && this.walkFrom(origin).includes(document.activeElement as HTMLElement)) return;
 
-    this.clearWalk();
+    this.cursor.clearWalk();
   }
 }
