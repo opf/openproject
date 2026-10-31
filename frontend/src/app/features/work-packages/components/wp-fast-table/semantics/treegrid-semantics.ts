@@ -95,14 +95,12 @@ export class TreegridSemantics {
     paintSectionExposure(this.table.tbody);
   }
 
-  public paintWorkPackage(id:string):void {
+  public paintKeys(keys:ReadonlySet<string>):void {
     if (this.table.destroyed) return;
-    this.table.ledger.byWorkPackageId(id).forEach((occurrence) => this.paintOccurrence(occurrence));
-  }
-
-  public paintSelection():void {
-    if (this.table.destroyed) return;
-    this.table.ledger.occurrences.forEach((occurrence) => this.paintSelected(occurrence));
+    keys.forEach((key) => {
+      const occurrence = this.table.ledger.byKey(key);
+      if (occurrence) this.paintOccurrence(occurrence);
+    });
   }
 
   private paintOccurrence(occurrence:RenderedOccurrence):void {

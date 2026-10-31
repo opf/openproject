@@ -130,7 +130,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
   }
 
   private reconcileSemantics(table:WorkPackageTable) {
-    if (this.paintSemantics(table)) table.rowPositions.paint();
+    if (this.paintSemantics(table)) table.painter.paint(new Set());
   }
 
   private paintSemantics(table:WorkPackageTable):boolean {

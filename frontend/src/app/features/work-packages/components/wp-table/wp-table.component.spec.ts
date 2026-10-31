@@ -562,9 +562,10 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
   it('repaints positions after Angular updates the header', async () => {
     const component = await mount({});
     const painted:string[] = [];
-    vi.spyOn(component.workPackageTable.rowPositions, 'paint').mockImplementation(() => {
+    vi.spyOn(component.workPackageTable.painter, 'paint').mockImplementation(() => {
       painted.push(headerRow().getAttribute('aria-label') ?? headerRow().textContent ?? '');
       expect(headerRow().querySelector('[aria-sort="descending"]')).not.toBeNull();
+      return { positionsWithdrawn: null };
     });
 
     sortBy(['subject', QUERY_SORT_BY_DESC]);
@@ -783,16 +784,20 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     it('repaints positions after permission and reference template changes', async () => {
       canReference.next(true);
       const component = await mount(inlineCreate);
-      const painted = vi.spyOn(component.workPackageTable.rowPositions, 'paint');
+      const painted = vi.spyOn(component.workPackageTable.painter, 'paint');
       painted.mockImplementation(() => {
         expect(createSection()).not.toHaveAttribute('aria-hidden');
+        return { positionsWithdrawn: null };
       });
 
       fireEvent.click(within(createSection()).getByText('Reference an existing work package'));
       expect(painted).toHaveBeenCalled();
       expect(within(createSection()).getByRole('textbox', { name: 'Work package to reference' })).toBeInTheDocument();
       const exposure:(string|null)[] = [];
-      painted.mockImplementation(() => exposure.push(createSection().getAttribute('aria-hidden')));
+      painted.mockImplementation(() => {
+        exposure.push(createSection().getAttribute('aria-hidden'));
+        return { positionsWithdrawn: null };
+      });
       canAdd.next(false);
       canReference.next(false);
       expect(exposure).toEqual([null, 'true']);
@@ -809,7 +814,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(row).toHaveAttribute('aria-rowindex', '4');
       const editor = within(row).getByRole('textbox');
       editor.focus();
-      component.workPackageTable.rowPositions.paint();
+      component.workPackageTable.painter.paint(new Set());
       expect(document.activeElement).toBe(editor);
 
       fireEvent.keyDown(editor, { key: 'Escape' });
@@ -823,12 +828,13 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     it('withdraws positions while the button row and the editing row coexist', async () => {
       const component = await mount(inlineCreate);
       const table = component.workPackageTable.tbody.closest('table')!;
-      const positions = component.workPackageTable.rowPositions;
-      const paint = positions.paint.bind(positions);
+      const { painter } = component.workPackageTable;
+      const paint = painter.paint.bind(painter);
       const counts:(string|null)[] = [];
-      vi.spyOn(positions, 'paint').mockImplementation(() => {
-        paint();
+      vi.spyOn(painter, 'paint').mockImplementation((scope) => {
+        const result = paint(scope);
         if (createSection().querySelectorAll('tr').length === 2) counts.push(table.getAttribute('aria-rowcount'));
+        return result;
       });
 
       await openCreateRow();
@@ -839,7 +845,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
 
     it('stops repainting a removed table on permission changes', async () => {
       const component = await mount(inlineCreate);
-      const painted = vi.spyOn(component.workPackageTable.rowPositions, 'paint');
+      const painted = vi.spyOn(component.workPackageTable.painter, 'paint');
       const listView = fixture as ComponentFixture<ListViewStandInComponent>;
       listView.componentInstance.showTable.set(false);
       listView.detectChanges();
@@ -854,9 +860,10 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
 
     it('repaints positions after imperative create append and removal', async () => {
       const component = await mount(inlineCreate);
-      const painted = vi.spyOn(component.workPackageTable.rowPositions, 'paint');
+      const painted = vi.spyOn(component.workPackageTable.painter, 'paint');
       painted.mockImplementation(() => {
         expect(createRow()).toBeInTheDocument();
+        return { positionsWithdrawn: null };
       });
       const row = await openCreateRow();
       expect(painted).toHaveBeenCalled();
@@ -864,11 +871,12 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       editor.focus();
       const focused = document.activeElement;
       painted.mockRestore();
-      component.workPackageTable.rowPositions.paint();
+      component.workPackageTable.painter.paint(new Set());
       expect(document.activeElement).toBe(focused);
 
-      const removed = vi.spyOn(component.workPackageTable.rowPositions, 'paint').mockImplementation(() => {
+      const removed = vi.spyOn(component.workPackageTable.painter, 'paint').mockImplementation(() => {
         expect(createRow()).not.toBeInTheDocument();
+        return { positionsWithdrawn: null };
       });
       fireEvent.keyDown(editor, { key: 'Escape' });
       expect(removed).toHaveBeenCalled();

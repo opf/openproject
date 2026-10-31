@@ -50,8 +50,9 @@ import { WorkPackageTableEditingContext } from './wp-table-editing';
 import type { WorkPackageTableRow } from './wp-table.interfaces';
 import type { KeyboardNavigation } from './handlers/state/keyboard/keyboard-navigation-transformer';
 import type { TableSelectionFeedback } from './handlers/state/selection-feedback';
-import { TableRowPositions, type CapturedRowPositions } from './semantics/table-row-positions';
-import { paintSectionExposure, TreegridSemantics } from './semantics/treegrid-semantics';
+import type { CapturedRowPositions } from './semantics/table-row-positions';
+import { paintSectionExposure } from './semantics/treegrid-semantics';
+import { RowStatePainter, type RowReplacement } from './semantics/row-state-painter';
 import { RowClassifier } from './semantics/row-classifier';
 
 interface PendingRender {
@@ -106,9 +107,7 @@ export class WorkPackageTable {
 
   public readonly rows = new RowClassifier(this);
 
-  public readonly semantics = new TreegridSemantics(this);
-
-  public readonly rowPositions = new TableRowPositions(this);
+  public readonly painter = new RowStatePainter(this);
 
   private readonly rowsRefreshedSubject = new Subject<string>();
 
@@ -246,32 +245,31 @@ export class WorkPackageTable {
     }
 
     this.keyboardNavigation?.captureOwnership();
-    let replaced = 0;
+    const replacements:RowReplacement[] = [];
     this.ledger.byWorkPackageId(workPackage.id!).forEach((occurrence) => {
       const previous = occurrence.element;
       const replacement = pass.refresh(occurrence, workPackage);
       if (replacement) {
         this.ledger.replaceElement(occurrence.key, replacement);
-        if (previous) this.rowPositions.carry(previous, replacement);
-        replaced += 1;
+        replacements.push({ key: occurrence.key, previous, replacement });
       }
     });
 
-    if (replaced > 0) {
-      this.semantics.paintWorkPackage(workPackage.id!);
+    if (replacements.length > 0) {
+      this.painter.paintRefreshed(replacements);
       this.rowsRefreshedSubject.next(workPackage.id!);
     }
   }
 
   public notifyRowsRefreshed(key:string):void {
-    this.rowPositions.paint();
+    this.painter.paint(new Set([key]));
     this.rowsRefreshedSubject.next(key);
   }
 
   /** Re-exposes a structural section whose rows changed outside the render pass. */
   public reconcileSection(section:HTMLTableSectionElement):void {
     paintSectionExposure(section);
-    this.rowPositions.paint();
+    this.painter.paint(new Set());
   }
 
   /**
@@ -288,7 +286,7 @@ export class WorkPackageTable {
     this.editing.reset();
     const promoted = timeline || this.pendingRender?.timeline === true;
     const pass = this.rowBuilder.buildRows({ timeline: promoted });
-    const pending:PendingRender = { pass, timeline: promoted, positions: this.rowPositions.capture(pass.draft) };
+    const pending:PendingRender = { pass, timeline: promoted, positions: this.painter.capturePositions(pass.draft) };
     this.pendingRender = pending;
     this.uiWork.frame(() => this.commitRender(pending));
   }
@@ -303,14 +301,13 @@ export class WorkPackageTable {
       this.timelineBody.replaceChildren(timelinePass.timelineBody);
     }
     this.ledger.commit(pass.draft);
-    this.rowPositions.commit(pending.positions);
+    this.painter.commitPositions(pending.positions);
     this.lastRenderPass = pass;
     this.publishRendered();
   }
 
   private publishRendered():void {
-    this.semantics.paint();
-    this.rowPositions.paint();
+    this.painter.paint();
     this.querySpace.tableRendered.putValue(this.ledger.snapshot());
   }
 
