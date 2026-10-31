@@ -70,7 +70,7 @@ module Journals
     #
     # * The journalizing happens within the configured aggregation time
     # * The journalizing is carried out by the same user
-    # * The cause is identical
+    # * The cause is identical or extends the predecessor's cause
     # * ONLY one note exists between the predecessor and the journal to be created
     # * The predecessor and the journal to be created have the same restriction
     #
@@ -84,6 +84,7 @@ module Journals
 
     def create_journal(notes, internal, cause)
       predecessor = aggregatable_predecessor(notes, internal, cause)
+      cause = aggregate_cause(predecessor, cause)
 
       log_journal_creation(predecessor)
 
@@ -611,7 +612,13 @@ module Journals
     end
 
     def only_one_or_same_cause?(predecessor, cause)
-      predecessor.cause.empty? || predecessor.cause == cause
+      predecessor.cause.empty? || predecessor.cause == cause || cause.mergeable_into?(predecessor.cause)
+    end
+
+    def aggregate_cause(predecessor, cause)
+      return cause unless predecessor
+
+      cause.merge_into(predecessor.cause) || cause
     end
 
     def only_one_note?(predecessor, notes)
