@@ -455,6 +455,22 @@ describe('WorkPackageTable lifecycle', () => {
     await waitFor(() => expect(build).toHaveBeenLastCalledWith(latest, undefined));
   });
 
+  it('repaints the rows whose drag handle cells it swaps in', async () => {
+    const harness = await mount({ workPackages: [{ id: '1' }], configuration: { dragAndDropEnabled: true } });
+    const positions = deferred<QueryOrder>();
+    vi.spyOn(harness.injector.get(WorkPackageViewOrderService), 'positionsFor').mockReturnValue(positions.promise);
+    harness.table.redrawTableAndTimeline();
+    await nextFrame();
+    const before = harness.row('1').firstElementChild;
+    const paint = vi.spyOn(harness.table.painter, 'paint');
+
+    positions.resolve({ '1': 100 });
+
+    await waitFor(() => expect(harness.row('1').firstElementChild).not.toBe(before));
+    expect(paint).toHaveBeenCalledWith(new Set(['wp:1']));
+    expect(harness.row('1').firstElementChild).toHaveAttribute('role', 'gridcell');
+  });
+
   it('registers the drag-and-drop placeholder without rendering it on the timeline', async () => {
     const harness = await mount({
       workPackages: [],
