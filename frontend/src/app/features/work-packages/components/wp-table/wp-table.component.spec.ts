@@ -25,6 +25,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { headerRowKey, inlineCreateRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
+import type { PaintScope } from 'core-app/features/work-packages/components/wp-fast-table/row-mutations';
 import { Component, Injector, NO_ERRORS_SCHEMA, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -559,6 +561,17 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     });
   });
 
+  it('paints the column header row through a table mutation', async () => {
+    const component = await mount({});
+    const scopes:PaintScope[] = [];
+    vi.spyOn(component.workPackageTable.keyboardNavigation!, 'rowsChanged').mockImplementation(({ scope }) => { scopes.push(scope); });
+
+    sortBy(['subject', QUERY_SORT_BY_DESC]);
+
+    expect(scopes).toContainEqual(new Set([headerRowKey]));
+    expect(headerRow().querySelector('[aria-sort="descending"]')).not.toBeNull();
+  });
+
   it('repaints positions after Angular updates the header', async () => {
     const component = await mount({});
     const painted:string[] = [];
@@ -787,6 +800,20 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expectExposed();
       expectStructuralRow(row);
       expect(within(row).getAllByRole('button')).toHaveLength(2);
+    });
+
+    it('opens and closes the create row through table mutations', async () => {
+      const component = await mount(inlineCreate);
+      const scopes:PaintScope[] = [];
+      vi.spyOn(component.workPackageTable.keyboardNavigation!, 'rowsChanged').mockImplementation(({ scope }) => { scopes.push(scope); });
+
+      const row = await openCreateRow();
+      expect(scopes.at(-1)).toEqual(new Set([inlineCreateRowKey]));
+      expect(createSection()).not.toHaveAttribute('aria-hidden');
+
+      scopes.length = 0;
+      fireEvent.keyDown(within(row).getByRole('textbox'), { key: 'Escape' });
+      await waitFor(() => expect(scopes).toContainEqual(new Set([inlineCreateRowKey])));
     });
 
     it('repaints positions after permission and reference template changes', async () => {

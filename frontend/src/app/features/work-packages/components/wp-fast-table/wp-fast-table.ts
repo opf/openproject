@@ -288,15 +288,6 @@ export class WorkPackageTable {
     });
   }
 
-  public notifyRowsRefreshed(key:string):void {
-    this.mutate(new Set([key]), () => undefined);
-  }
-
-  /** Repaints the structural rows and sections after rows changed outside the render pass. */
-  public reconcileSection():void {
-    this.mutate(new Set(), () => undefined);
-  }
-
   /**
    * Determine whether we need an empty placeholder row.
    * When D&D is enabled, the table requires a drag target that is non-empty,

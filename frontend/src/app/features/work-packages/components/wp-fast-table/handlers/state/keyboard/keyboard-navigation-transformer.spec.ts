@@ -1153,8 +1153,7 @@ describe('KeyboardNavigationTransformer', () => {
       await table.render();
       cell(table.row('3'), 0).focus();
 
-      totals.innerHTML = cells;
-      table.table.notifyRowsRefreshed(totalsRowKey);
+      table.table.mutate(new Set([totalsRowKey]), () => { totals.innerHTML = cells; });
 
       expect(navigableCells(totals).every((totalsCell) => totalsCell.getAttribute('tabindex') === '-1')).toBe(true);
       expect(pressActive('ArrowDown')).toBe(false);
