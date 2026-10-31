@@ -64,8 +64,8 @@ public readonly injector:Injector,
     const query = this.table.querySpace.query.value!;
     const { occurrences } = this.tablePass.draft;
     void this.wpTableOrder.positionsFor(query).then((positions:QueryOrder) => {
-      if (this.table.destroyed || this.table.querySpace.query.value !== query) return;
-      const replaced = new Set<string>();
+      if (this.table.destroyed || this.table.querySpace.query.value !== query || !this.table.isCurrentPass(this.tablePass)) return;
+      const replacements = new Map<string, { element:HTMLTableRowElement, handle:HTMLElement }>();
       occurrences.forEach(({ key, workPackage, renderType, element }) => {
         // We only care for rows that are natural work packages and are not relation sub-rows
         if (!workPackage || renderType !== 'primary') {
@@ -76,11 +76,13 @@ public readonly injector:Injector,
         const handle = this.dragDropHandleBuilder.build(latestWorkPackage, positions[workPackage.id!]);
 
         if (handle && element) {
-          element.replaceChild(handle, element.firstElementChild!);
-          replaced.add(key);
+          replacements.set(key, { element, handle });
         }
       });
-      if (replaced.size > 0) this.table.painter.paint(replaced);
+      if (replacements.size === 0) return;
+      this.table.mutate(new Set(replacements.keys()), () => {
+        replacements.forEach(({ element, handle }) => element.replaceChild(handle, element.firstElementChild!));
+      });
     }).catch((error:unknown) => notification.handleRawError(error));
   }
 }

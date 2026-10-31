@@ -588,6 +588,47 @@ describe('WorkPackageTable lifecycle', () => {
     expect(harness.row('1').firstElementChild).toHaveAttribute('role', 'gridcell');
   });
 
+  it('installs drag handles when positions resolve before commit', async () => {
+    const harness = await mount({ workPackages: [{ id: '1' }], configuration: { dragAndDropEnabled: true } });
+    vi.spyOn(harness.injector.get(WorkPackageViewOrderService), 'positionsFor').mockResolvedValue({ '1': 100 });
+    const frames = harness.holdFrames();
+    try {
+      harness.table.redrawTableAndTimeline();
+      await nextTask();
+      frames.commit();
+
+      expect(harness.row('1').querySelector('.wp-table--drag-and-drop-handle')).not.toBeNull();
+      expect(harness.row('1').firstElementChild).toHaveAttribute('role', 'gridcell');
+    } finally {
+      frames.release();
+    }
+  });
+
+  it('skips drag handles for a superseded draft', async () => {
+    const harness = await mount({ workPackages: [{ id: '1' }], configuration: { dragAndDropEnabled: true } });
+    const first = deferred<QueryOrder>();
+    const second = deferred<QueryOrder>();
+    vi.spyOn(harness.injector.get(WorkPackageViewOrderService), 'positionsFor')
+      .mockReturnValueOnce(first.promise)
+      .mockReturnValueOnce(second.promise);
+    const frames = harness.holdFrames();
+    const paint = vi.spyOn(harness.table.painter, 'paint');
+    try {
+      harness.table.redrawTableAndTimeline();
+      harness.table.redrawTableAndTimeline();
+      first.resolve({ '1': 100 });
+      await nextTask();
+      expect(paint).not.toHaveBeenCalledWith(new Set(['wp:1']));
+
+      frames.commit();
+      second.resolve({ '1': 100 });
+      await waitFor(() => expect(paint).toHaveBeenCalledWith(new Set(['wp:1'])));
+      expect(harness.row('1').querySelector('.wp-table--drag-and-drop-handle')).not.toBeNull();
+    } finally {
+      frames.release();
+    }
+  });
+
   it('registers the drag-and-drop placeholder without rendering it on the timeline', async () => {
     const harness = await mount({
       workPackages: [],

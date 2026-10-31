@@ -147,6 +147,11 @@ export class WorkPackageTable {
     return this.destroyRef.destroyed;
   }
 
+  /** True while `pass` is the committed render or the one waiting for its frame; a superseded or cancelled pass is not current. */
+  public isCurrentPass(pass:PrimaryRenderPass):boolean {
+    return this.pendingRender?.pass === pass || (this.pendingRender === null && this.lastRenderPass === pass);
+  }
+
   /** True from the ownership capture that starts a full render until its frame commit. */
   public get hasPendingRender():boolean {
     return this.schedulingRender || this.pendingRender !== null;

@@ -913,6 +913,26 @@ describe('KeyboardNavigationTransformer', () => {
       expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('3'), cell: null, desiredColumn: null });
     });
 
+    it('moves an unentered Tab stop off a row hidden by a collapse', async () => {
+      const table = await mount();
+      expect(table.row('1')).toHaveAttribute('tabindex', '0');
+
+      table.table.setHidden(new Map([[wpOccurrenceKey('1'), true]]));
+
+      expect(table.row('1')).toHaveAttribute('tabindex', '-1');
+      expect(table.row('2')).toHaveAttribute('tabindex', '0');
+    });
+
+    it('initializes the Tab stop on the first work package after an empty table fills', async () => {
+      const table = await mount({ workPackages: [] });
+      expect(table.headerRow()).toHaveAttribute('tabindex', '0');
+
+      await table.render([{ id: '1' }, { id: '2' }]);
+
+      expect(table.row('1')).toHaveAttribute('tabindex', '0');
+      expect(table.headerRow()).toHaveAttribute('tabindex', '-1');
+    });
+
     it('returns to the origin when a full render retires an editor focused in its overlay', async () => {
       const table = await mount({ editing: {} });
       cell(table.row('2'), 1).focus();

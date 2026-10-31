@@ -260,7 +260,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   public rowsChanged({ full }:MutationExit):void {
-    this.recover(full ? this.requestedPosition() : null);
+    this.recover(full ? this.requestedPosition() : null, !full);
   }
 
   public adoptOverlay(overlay:HTMLElement):void {
@@ -333,7 +333,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     return requested;
   }
 
-  private recover(requested:FocusPosition|null):void {
+  private recover(requested:FocusPosition|null, retainStop = false):void {
     if (this.table.destroyed) {
       return;
     }
@@ -373,8 +373,15 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
       return;
     }
 
-    const painted = this.current ?? initialPosition(rows);
+    const painted = this.current ?? (retainStop ? this.retainedStop(rows) : null) ?? initialPosition(rows);
     this.paintRoving(painted && this.elementAt(painted));
+  }
+
+  /** The position of the row or cell that still carries the Tab stop, when it is still a visible navigable row, so a mutation that kept it does not move it to the first row. */
+  private retainedStop(rows:readonly NavigableRow[]):FocusPosition|null {
+    const stop = this.table.scrollContainer.querySelector<HTMLElement>('tr[tabindex="0"], td[tabindex="0"], th[tabindex="0"]');
+    const position = stop ? this.positionOf(stop) : null;
+    return position && rows.some((row) => row.key === position.key && !row.hidden) ? position : null;
   }
 
   private samePosition(a:FocusPosition|null, b:FocusPosition|null):boolean {
