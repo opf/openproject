@@ -384,7 +384,8 @@ export class WorkPackageTable {
     const t0 = performance.now();
     this.mutate('all', () => {
       this.querySpace.collapsedGroups.putValue(newState);
-      const updates = this.groupedRowsBuilder.refreshExpansionState();
+      // Until this table commits a render, the rows in its tbody belong to a previous table over the same DOM.
+      const updates = this.ledger.generation > 0 ? this.groupedRowsBuilder.refreshExpansionState() : new Map<OccurrenceKey, boolean>();
       this.rebuildPendingRender();
       if (updates.size > 0) this.ledger.setHidden(updates);
     });
