@@ -420,22 +420,22 @@ describe('CellInteraction', () => {
       expect(origin).toHaveFocus();
     });
 
-    it('moves as a plain arrow while composing inside a walk', async () => {
-      const { table, control } = await walk();
+    it('stays on the control while composing inside a walk', async () => {
+      const { control } = await walk();
 
-      expect(fireEvent.keyDown(control, { key: 'ArrowDown', isComposing: true })).toBe(false);
+      expect(fireEvent.keyDown(control, { key: 'ArrowDown', isComposing: true })).toBe(true);
 
-      expect(navigableCells(table.row('3'))[0]).toHaveFocus();
+      expect(control).toHaveFocus();
     });
 
-    it('moves as a plain arrow with AltGraph inside a walk', async () => {
-      const { table, control } = await walk();
+    it('stays on the control with AltGraph inside a walk', async () => {
+      const { control } = await walk();
       const event = withAltGraph({ key: 'ArrowDown' });
 
       control.dispatchEvent(event);
 
-      expect(event.defaultPrevented).toBe(true);
-      expect(navigableCells(table.row('3'))[0]).toHaveFocus();
+      expect(event.defaultPrevented).toBe(false);
+      expect(control).toHaveFocus();
     });
 
     it.each<[string, KeyboardEventInit]>([

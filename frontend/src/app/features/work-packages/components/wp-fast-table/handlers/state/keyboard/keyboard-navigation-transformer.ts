@@ -42,13 +42,15 @@ import type { TableEventComponent } from '../../table-handler-registry';
 import { activateRow } from '../../row/click-handler';
 import { rowKindOf } from '../../../helpers/row-expansion';
 import {
-  FocusPosition, initialPosition, NavigableRow, NavKey, nearestPosition, computeNextPosition, reconcilePosition,
+  FocusPosition, initialPosition, NavigableRow, nearestPosition, computeNextPosition, reconcilePosition,
 } from './focus-position';
 import {
   buildNavigableRows, headerRowKey, headerRowOf, totalsRowKey, totalsRowOf,
 } from './navigable-rows';
 import { selectableOccurrences } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
-import { KeyboardSelection, selectionChord } from './keyboard-selection';
+import { KeyboardSelection } from './keyboard-selection';
+import type { NavigationCommand } from 'core-app/shared/helpers/navigation-keys';
+import { type ActivationKey, cellIntent, type KeyIntent } from './key-intent';
 import {
   insideGrid, insideGridContent, navigableCellClassName, navigableCells, paintRovingTabindex, rovingStopSelector,
 } from './roving-tabindex';
@@ -82,7 +84,8 @@ export interface KeyboardNavigation {
   /** Engages a parked editor and focuses its overlay or first focusable control. */
   focusEditor(handler:EditFieldHandler):void;
   repaintCurrentPosition():void;
-  navigateFrom(position:FocusPosition, event:KeyboardEvent):boolean;
+  /** Moves by `command` from `position`, as if focus rested there. */
+  navigateFrom(position:FocusPosition, command:NavigationCommand):void;
   scrollControlIntoView(control:HTMLElement):void;
 }
 
@@ -90,22 +93,6 @@ interface RenderedRows {
   rows:NavigableRow[];
   groupBy:string|null;
 }
-
-const plainKeys:Record<string, NavKey> = {
-  ArrowUp: 'ArrowUp',
-  ArrowDown: 'ArrowDown',
-  ArrowLeft: 'ArrowLeft',
-  ArrowRight: 'ArrowRight',
-  Home: 'Home',
-  End: 'End',
-  PageUp: 'PageUp',
-  PageDown: 'PageDown',
-};
-
-const commandKeys:Record<string, NavKey> = {
-  Home: 'CtrlHome',
-  End: 'CtrlEnd',
-};
 
 const pointerEndEvents = ['mouseup', 'click', 'pointerup', 'pointercancel', 'dragend'] as const;
 
@@ -553,24 +540,29 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
       return;
     }
 
-    if (this.handleSelectionChord(position, event) || this.ignored(event)) {
-      return;
+    const intent = cellIntent(event, isApplePlatform());
+    let handled:boolean;
+    switch (intent.type) {
+      case 'selection':
+        this.handleSelectionChord(position, intent, event);
+        return;
+      case 'activate':
+        handled = this.activate(position, intent.key);
+        break;
+      case 'move':
+        handled = this.navigate(position, intent.command);
+        break;
+      default:
+        return;
     }
-
-    const handled = event.key === 'Enter' || event.key === 'F2'
-      ? this.activate(position, event.key)
-      : this.navigate(position, event);
 
     if (handled) {
       event.preventDefault();
     }
   }
 
-  private handleSelectionChord(position:FocusPosition, event:KeyboardEvent):boolean {
-    const chord = selectionChord(event, isApplePlatform());
-    switch (chord) {
-      case null:
-        return false;
+  private handleSelectionChord(position:FocusPosition, intent:Extract<KeyIntent, { type:'selection' }>, event:KeyboardEvent):void {
+    switch (intent.chord) {
       case 'toggle':
         if (this.selecting.occurrenceAt(position)) {
           event.preventDefault();
@@ -578,7 +570,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
             this.selecting.toggle(position);
           }
         }
-        return true;
+        return;
       case 'selectAll':
         if (selectableOccurrences(this.table.renderedRows).length > 0) {
           event.preventDefault();
@@ -586,33 +578,24 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
             this.selecting.selectAll(position);
           }
         }
-        return true;
-      default:
+        return;
+      case 'extend':
         event.preventDefault();
-        this.extendSelection(position, event);
-        return true;
+        this.extendSelection(position, intent.command);
     }
   }
 
-  private extendSelection(position:FocusPosition, event:KeyboardEvent):void {
-    this.navigate(position, event);
+  private extendSelection(position:FocusPosition, command:NavigationCommand):void {
+    this.navigate(position, command);
     const arrived = this.current;
     if (arrived && (arrived.key !== position.key || arrived.cell !== position.cell)) {
       this.selecting.extendTo(arrived);
     }
   }
 
-  private ignored(event:KeyboardEvent):boolean {
-    const command = event.ctrlKey || event.metaKey;
-    return event.isComposing
-      || event.altKey
-      || event.shiftKey
-      || event.getModifierState('AltGraph')
-      || (command && !(event.key in commandKeys));
-  }
-
-  public navigateFrom(position:FocusPosition, event:KeyboardEvent):boolean {
-    return this.navigate(position, event);
+  public navigateFrom(position:FocusPosition, command:NavigationCommand):void {
+    if (this.table.destroyed) return;
+    this.navigate(position, command);
   }
 
   public scrollControlIntoView(control:HTMLElement):void {
@@ -620,14 +603,9 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     this.scrollIntoView(control);
   }
 
-  private navigate(position:FocusPosition, event:KeyboardEvent):boolean {
-    const key = (event.ctrlKey || event.metaKey ? commandKeys : plainKeys)[event.key];
-    if (!key) {
-      return false;
-    }
-
+  private navigate(position:FocusPosition, command:NavigationCommand):boolean {
     const rows = buildNavigableRows(this.table);
-    const result = computeNextPosition(rows, position, key, this.pageSize(rows));
+    const result = computeNextPosition(rows, position, command, this.pageSize(rows));
     switch (result.type) {
       case 'move':
         this.userPosition = result.position;
@@ -655,7 +633,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     }
   }
 
-  private activate(position:FocusPosition, key:'Enter'|'F2'):boolean {
+  private activate(position:FocusPosition, key:ActivationKey):boolean {
     if (position.cell !== null) {
       if (position.key === headerRowKey) {
         return key === 'Enter' && this.clickHeaderControl(this.elementAt(position));

@@ -33,6 +33,7 @@ import { activeFieldContainerClassName } from 'core-app/shared/components/fields
 import { activateTableField } from '../../cell/edit-cell-handler';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { navigableCells } from './roving-tabindex';
+import { type ActivationKey, walkIntent } from './key-intent';
 import { headerRowKey } from './navigable-rows';
 import type { ActiveTableField } from '../../../wp-table-editing';
 import { destructiveControlAttribute } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
@@ -73,7 +74,7 @@ export class CellInteraction {
     return this.table.keyboardNavigation;
   }
 
-  public enter(position:FocusPosition, key:'Enter'|'F2'):boolean {
+  public enter(position:FocusPosition, key:ActivationKey):boolean {
     const cell = this.navigation.elementAt(position);
     if (!cell) return false;
 
@@ -151,7 +152,8 @@ export class CellInteraction {
   }
 
   public handleInnerKeydown(event:KeyboardEvent):boolean {
-    if (this.isRepeatedEnterOnDestructiveControl(event)) {
+    const intent = walkIntent(event);
+    if (intent.type === 'destructiveRepeat') {
       event.preventDefault();
       return true;
     }
@@ -162,9 +164,9 @@ export class CellInteraction {
       return this.handleEditorTab(event, active.handler, active.form);
     }
 
-    if (event.key !== 'Tab' && event.key !== 'Escape' && !this.isNavigationKey(event)) return false;
+    if (intent.type === 'none') return false;
     const target = event.target as HTMLElement;
-    const origin = event.key === 'Tab'
+    const origin = intent.type === 'tab'
       ? this.tabWalkOrigin ?? this.navigation.positionOfCell(target)
       : this.tabWalkOrigin;
     if (!origin) return false;
@@ -174,16 +176,16 @@ export class CellInteraction {
     const index = targets.indexOf(target);
     if (index === -1) return false;
 
-    if (event.key === 'Escape') {
+    if (intent.type === 'escape') {
       event.preventDefault();
       this.navigation.focusPosition(origin);
       return true;
     }
 
-    if (this.isNavigationKey(event)) {
+    if (intent.type === 'leave') {
       event.preventDefault();
       this.navigation.focusPosition(origin);
-      this.navigation.navigateFrom(origin, event);
+      if (intent.command) this.navigation.navigateFrom(origin, intent.command);
       return true;
     }
 
@@ -280,16 +282,6 @@ export class CellInteraction {
     if (origin.cell === null) return rowControls(row, this.table);
 
     return navigableCells(row).slice(origin.cell).flatMap((cell) => cellTargets(cell, this.table));
-  }
-
-  private isRepeatedEnterOnDestructiveControl(event:KeyboardEvent):boolean {
-    return event.key === 'Enter'
-      && event.repeat
-      && !!(event.target as HTMLElement).closest?.(`[${destructiveControlAttribute}]`);
-  }
-
-  private isNavigationKey(event:KeyboardEvent):boolean {
-    return !event.shiftKey && !event.altKey && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown'].includes(event.key);
   }
 
   public originForControl(control:HTMLElement):FocusPosition|null {
