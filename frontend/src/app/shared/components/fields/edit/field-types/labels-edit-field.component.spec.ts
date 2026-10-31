@@ -28,6 +28,7 @@
 import {
   ChangeDetectionStrategy, Component, CUSTOM_ELEMENTS_SCHEMA, input, output,
 } from '@angular/core';
+import { expectTypeOf } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
@@ -49,7 +50,10 @@ import {
   OpEditingPortalHandlerToken,
   OpEditingPortalSchemaToken,
 } from 'core-app/shared/components/fields/edit/edit-field.component';
+import { LabelSelection } from 'core-app/shared/components/autocompleter/selection/label-selection';
 import { LabelsEditFieldComponent } from './labels-edit-field.component';
+
+expectTypeOf<LabelsEditFieldComponent['onSelectionChange']>().parameter(0).toEqualTypeOf<LabelSelection[]>();
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -231,6 +235,43 @@ describe('LabelsEditFieldComponent', () => {
 
       expect(screen.queryByRole('alert')).toBeNull();
       expect((saveButton() as HTMLButtonElement).disabled).toBe(false);
+    });
+  });
+
+  describe('with selected labels', () => {
+    beforeEach(async () => {
+      await configure([
+        { id: 3, name: 'Bug', href: '/api/v3/labels/3' },
+        { id: 4, name: 'Task', href: '/api/v3/labels/4' },
+      ]);
+    });
+
+    function removePill(name:string) {
+      const pill = screen.getByText(name).closest('.ng-value');
+      pill?.querySelector<HTMLElement>('.ng-value-icon')?.click();
+      fixture.detectChanges();
+    }
+
+    it('submits the remainder when a pill is removed and Save is pressed', async () => {
+      removePill('Bug');
+      await fixture.whenStable();
+
+      expect(handler.handleUserSubmit).not.toHaveBeenCalled();
+      saveButton().click();
+
+      const labels = resource.labels as HalResource[];
+      expect(labels.map((label) => label.href)).toEqual(['/api/v3/labels/4']);
+    });
+
+    it('submits an empty list when the last pills are removed', async () => {
+      removePill('Bug');
+      removePill('Task');
+      await fixture.whenStable();
+
+      saveButton().click();
+
+      expect(handler.handleUserSubmit).toHaveBeenCalledOnce();
+      expect(resource.labels).toEqual([]);
     });
   });
 

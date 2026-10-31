@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { expectTypeOf } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
@@ -33,10 +34,17 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import {
+  UserSelection,
   createUserSelectionAdapter,
   decodeUserSelection,
   userSelectionToResource,
 } from './user-selection';
+import { SelectionAdapter } from './selection-adapter';
+
+expectTypeOf<Date>().not.toExtend<UserSelection>();
+expectTypeOf<{ unrelated:true }>().not.toExtend<UserSelection>();
+expectTypeOf<{ id:7; name:'Ada'; href:null }[]>().not.toExtend<UserSelection>();
+expectTypeOf<SelectionAdapter<UserSelection>['setValue']>().parameter(0).toEqualTypeOf<UserSelection>();
 
 describe('decodeUserSelection', () => {
   let halResourceService:HalResourceService;

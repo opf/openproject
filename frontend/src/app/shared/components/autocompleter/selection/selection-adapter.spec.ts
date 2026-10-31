@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { expectTypeOf } from 'vitest';
 import { Decoder, SelectionAdapter, SelectionIssue, decodeAll } from './selection-adapter';
 
 const decodeNumber:Decoder<number> = (raw) => (
@@ -43,6 +44,11 @@ beforeEach(() => {
 afterEach(() => {
   vi.unstubAllGlobals();
 });
+
+expectTypeOf<SelectionAdapter<number>['setValue']>().parameter(0).toEqualTypeOf<number>();
+expectTypeOf<SelectionAdapter<number>['setValue']>().parameter(0).not.toEqualTypeOf<unknown>();
+expectTypeOf<SelectionAdapter<number>['bridge']['accept']>().parameter(0).toEqualTypeOf<unknown>();
+expectTypeOf<SelectionAdapter<number>['bridge']['load']>().parameter(0).toEqualTypeOf<unknown>();
 
 const createAdapter = () => new SelectionAdapter<number>(
   decodeNumber,

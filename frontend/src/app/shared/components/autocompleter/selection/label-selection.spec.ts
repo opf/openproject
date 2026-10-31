@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { expectTypeOf } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
@@ -39,6 +40,13 @@ import {
   decodeLabelSelections,
   labelSelectionToResources,
 } from './label-selection';
+import { SelectionAdapter } from './selection-adapter';
+
+expectTypeOf<{ name:1 }>().not.toExtend<LabelSelection[]>();
+expectTypeOf<{ unrelated:true }>().not.toExtend<LabelSelection[]>();
+expectTypeOf<{ name:1 }>().not.toExtend<LabelSelection>();
+expectTypeOf<{ unrelated:true }>().not.toExtend<LabelSelection>();
+expectTypeOf<SelectionAdapter<LabelSelection[]>['setValue']>().parameter(0).toEqualTypeOf<LabelSelection[]>();
 
 describe('decodeLabelSelections', () => {
   it.each([null, undefined])('decodes %o as empty on load and change', (raw) => {
