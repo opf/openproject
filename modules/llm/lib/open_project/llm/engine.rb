@@ -51,6 +51,12 @@ module OpenProject::Llm
     class_inflection_override("ruby_llm_provider_headers" => "RubyLLMProviderHeaders",
                               "ruby_llm_stream_error_status" => "RubyLLMStreamErrorStatus")
 
+    initializer "openproject_llm.inflections" do
+      ActiveSupport::Inflector.inflections(:en) do |inflect|
+        inflect.irregular "semantic_index", "semantic_indexes"
+      end
+    end
+
     # RubyLLM's legacy acts_as API warns on boot unless the new one is chosen,
     # and the choice has to be made before its railtie reaches ActiveRecord.
     # OpenProject uses the plain client rather than either ActiveRecord API.
@@ -116,6 +122,10 @@ module OpenProject::Llm
 
     initializer "openproject_llm.pgvector_migrations", after: "openproject_llm.append_migrations" do
       OpenProject::Llm::Pgvector.include_migrations_path_if_installed!
+    end
+
+    initializer "openproject_llm.pgvector_types" do
+      OpenProject::Llm::Pgvector.register_active_record_type
     end
 
     config.to_prepare do

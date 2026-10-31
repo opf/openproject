@@ -18,15 +18,24 @@ en:
         env_provisioned_at: "Applied from the environment"
         llm_features_enabled: "Enable LLMs for this instance"
       llm_feature_binding:
-        dimensions: "Dimensions"
         feature_key: "Feature"
         # ActiveRecord::Base.human_attribute_name strips the _id suffix.
         model: "Model"
+        semantic_index: "Semantic Index"
       llm_model:
         admin_context_window: "Context window"
         display_name: "Display name"
         # human_attribute_name strips the _id suffix, so the key omits it.
         external: "Model name"
+      semantic_index:
+        context_token_length: "Context length"
+        description: "Description"
+        embedding_vector_dimensions: "Dimensions"
+        llm_feature_bindings: "Feature configuration"
+        # ActiveRecord::Base.human_attribute_name strips the _id suffix.
+        model: "Model"
+        state: "Status"
+        title: "Display name"
     errors:
       models:
         llm_connection:
@@ -56,19 +65,39 @@ en:
               requires_connection: "cannot be turned on before a connection has been configured."
         llm_feature_binding:
           attributes:
-            dimensions:
-              locked: "cannot be changed while data indexed with it still exists. Re-index to change it."
-              not_for_chat_feature: "only applies to features that create embeddings."
             feature_key:
               not_registered: "does not belong to a known AI feature."
             model_id:
-              locked: "cannot be changed while data indexed with it still exists. Re-index to switch models."
               not_available: "is not offered by the configured LLM server."
+            semantic_index:
+              not_for_chat_feature: "only applies to features that create embeddings."
         llm_model:
           attributes:
             external_id:
               conflicting_capabilities: "has capability assertions stored under it that conflict with those of this model."
+        semantic_index:
+          attributes:
+            base:
+              active: "The Semantic Index is active. Activate another Semantic Index first."
+              locked_while_indexing: "cannot be changed while it is being indexed."
+            model_id:
+              not_offered: "is not an embedding model offered by the configured LLM server."
+          locked_once_indexed: "cannot be changed once the Semantic Index has been indexed."
   admin:
+    semantic_indexes:
+      indexing:
+        failed_requests:
+          one: "1 request failed."
+          other: "%{count} requests failed."
+        not_ready:
+          model_missing: "The model %{model} is no longer offered by the connection."
+          no_connection: "No active LLM connection is configured."
+          pgvector_missing: "The pgvector extension is not installed. Install it and run the migrations again to start indexing."
+        progress: "%{percentage}% done"
+      start_indexing:
+        not_indexable: "This Semantic Index is already being indexed."
+      stop_indexing:
+        not_indexing: "This semantic index is not being indexed."
     llm_connections:
       delete_api_key:
         configured_from_env: "This connection is configured through the environment and cannot be changed here."
@@ -118,16 +147,11 @@ en:
     llm_feature_bindings:
       dangling: "%{model} is no longer offered by the LLM server. This feature will not run until another model is selected."
       form:
-        dimensions_caption: "How many numbers each vector has. Leave blank to use whatever the server returns."
-        dimensions_caption_probed: "The server returned %{dimensions}-dimension vectors for this model. Leave blank to use whatever it returns at index time."
-        model_caption_embedding: "Only models known to create embeddings are offered. [Read more](docs_url) about model types."
         model_caption_ruled_out: "Models known to lack a capability this feature needs are not offered."
       index:
         description: "Choose which model each AI feature uses. Features without a choice use the default models set on the [Models](models_url) tab."
       inherit_with_default: "Use the default (%{model})"
       inherit_without_default: "Use the default (none set)"
-      locked: "%{model} is in use by indexed data and cannot be changed here. Re-index to switch models."
-      locked_values_heading: "Values fixed by the existing index"
       option_unqualified: "%{model} (no longer eligible for this feature)"
       update:
         model_incapable: "The model for %{feature} has been saved, but the server just reported that it does not support %{capability}. Pick a different model, or assert the capability on the model if you know better."
@@ -267,7 +291,6 @@ en:
         features_model_missing: "%{features} point at a model the server no longer offers."
         features_unbound: "%{features} have no model chosen yet."
         invalid_api_key: "The server rejected the stored API key."
-        locked_model_missing: "%{features} indexed data with a model the server no longer offers. The index cannot be extended until it is rebuilt."
         model_not_served: "The server has no route for %{model} (404). Check that the model is still offered to your account and that the host URL includes the API version segment."
         models_endpoint_missing: "The server has no model list at this address, so the API key could not be verified either. Check that the URL includes the API version segment (for example https://example.com/v1)."
         no_model_to_test: "No model is available to test with. Add a model or choose a default first."
@@ -276,13 +299,14 @@ en:
         not_configured: "No endpoint has been configured."
         not_openai_compatible: "The endpoint did not return a valid model list. Please ensure it points at an OpenAI-API-compatible endpoint, including the API version segment."
         request_timed_out: "The server did not respond in time."
+        semantic_index_model_missing: "The active Semantic Index \"%{title}\" was built with %{model}, which the server no longer offers. Activate another Semantic Index to keep search by meaning working."
         server_error: "The server responded with status %{status}."
         ssrf_filtered: "The endpoint resolves to a blocked address."
         unsupported_api_format: "%{api_format} needs credentials that OpenProject cannot store."
       features:
+        active_semantic_index_intact: "The active Semantic Index still has its model"
         bindings_resolvable: "Every feature has a usable model"
         header: "AI features"
-        locked_bindings_intact: "Indexed data still has its model"
       inference:
         chat_round_trip: "The server answers a request"
         header: "Inference"

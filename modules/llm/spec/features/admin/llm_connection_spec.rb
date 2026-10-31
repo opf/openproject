@@ -223,7 +223,10 @@ RSpec.describe "LLM connection administration",
         click_on "Disconnect"
       end
 
-      wait_for { Setting.llm_features_enabled? }.to be(false)
+      wait_for do
+        Setting.clear_cache
+        Setting.llm_features_enabled?
+      end.to be(false)
       expect(connection.reload.api_key).to be_blank
       # The point of disconnecting rather than deleting.
       expect(connection.models.count).to eq(2)
@@ -251,24 +254,6 @@ RSpec.describe "LLM connection administration",
         expect(page).to have_text(/The checks have run: \d+ passed/)
         expect(connection.health_reports.count).to eq(2)
       end
-    end
-  end
-
-  describe "the Feature configuration tab", with_flag: { llm_connection: true, semantic_search: true } do
-    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
-
-    before do
-      Setting.llm_features_enabled = true
-      mock_llm_embeddings_response(base_url)
-    end
-
-    it "offers the vector settings only for features that embed" do
-      visit llm_feature_bindings_path
-
-      expect(page).to have_test_selector("llm-settings--tabs")
-      expect(page).to have_test_selector("llm-feature-binding--dimensions-semantic_search")
-      expect(page).to have_no_test_selector("llm-feature-binding--dimensions-description_assistant")
-      expect(page).to be_axe_clean
     end
   end
 end

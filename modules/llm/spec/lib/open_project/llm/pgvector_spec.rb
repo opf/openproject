@@ -38,6 +38,17 @@ RSpec.describe OpenProject::Llm::Pgvector do
   before { forget_memoized_availability }
   after { forget_memoized_availability }
 
+  describe ".register_active_record_type" do
+    let(:connection) { ActiveRecord::Base.connection }
+
+    it "resolves halfvec in the connection's type map instead of the unknown-OID fallback" do
+      oid = connection.select_value("SELECT 'halfvec'::regtype::oid")
+      type = connection.send(:get_oid_type, oid, nil, "embedding")
+
+      expect(type).to be_an(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter::OID::SpecializedString)
+    end
+  end
+
   describe ".available?" do
     it "is true when the extension is installed and its migrations have run" do
       expect(described_class.available?).to be(true)
