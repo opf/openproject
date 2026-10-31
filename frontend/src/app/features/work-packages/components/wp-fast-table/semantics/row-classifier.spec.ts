@@ -84,6 +84,12 @@ describe('RowClassifier', () => {
     expect(byKey(wpOccurrenceKey('2')).state).toMatchObject({ kind: 'workPackage', expanded: null, level: 2 });
   });
 
+  it('exposes no expansion for a parent whose subject column, and so its toggle, is hidden', async () => {
+    await mount({ workPackages: [{ id: '2', ancestors: [parent] }], showHierarchies: true, columns: ['id', 'status'] });
+
+    expect(byKey(ancestorOccurrenceKey('1')).state.expanded).toBeNull();
+  });
+
   it('includes the empty-results row and the inline-create row with fixed keys', async () => {
     await mount({ workPackages: [], configuration: { inlineCreateEnabled: true } });
     const emptyBody = harness.tbody.closest('table')!.createTBody();

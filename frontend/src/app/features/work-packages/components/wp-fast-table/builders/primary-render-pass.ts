@@ -199,6 +199,7 @@ public readonly injector:Injector,
     if (this.draft.occurrences.length === 0 && this.workPackageTable.renderPlaceholderRow) {
       this.registerAppended(this.rowBuilder.placeholderRow, {
         key: placeholderOccurrenceKey(),
+        kind: 'placeholder',
         classIdentifier: 'wp--placeholder-row',
         additionalClasses: [],
         workPackage: null,
@@ -226,6 +227,7 @@ workPackage:WorkPackageResource,
 ) {
     this.registerAppended(row, {
       key: wpOccurrenceKey(workPackage.id!),
+      kind: 'workPackage',
       classIdentifier: this.rowBuilder.classIdentifier(workPackage),
       additionalClasses,
       workPackage,
@@ -244,6 +246,7 @@ workPackage:WorkPackageResource,
    */
   protected appendNonWorkPackageRow(
     key:OccurrenceKey,
+    kind:'groupHeader'|'sums',
     row:HTMLTableRowElement,
     classIdentifier:string,
     additionalClasses:string[] = [],
@@ -254,6 +257,7 @@ workPackage:WorkPackageResource,
     row.classList.add(classIdentifier);
     this.registerAppended(row, {
       key,
+      kind,
       classIdentifier,
       additionalClasses,
       workPackage: null,
