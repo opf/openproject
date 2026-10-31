@@ -675,6 +675,18 @@ describe('TableEditForm focus return', () => {
     expect(within(subjectCell('2')).getByRole('textbox')).toHaveFocus();
   });
 
+  it('records the editor origin once when focusing the first error', async () => {
+    await mount();
+    const handler = await openEditor('2');
+    handler.setErrors(['Required']);
+    const recordPosition = vi.spyOn(harness.table.keyboardNavigation!, 'recordPosition');
+
+    (harness.table.editing.forms['2'] as unknown as { focusOnFirstError():void }).focusOnFirstError();
+
+    expect(within(subjectCell('2')).getByRole('textbox')).toHaveFocus();
+    expect(recordPosition).toHaveBeenCalledTimes(1);
+  });
+
   it('leaves focus alone when the user moved to another row before the validation error', async () => {
     const save = deferred<{ resource:WorkPackageResource; wasNew:boolean }>();
     await mount({ editing: { save: () => save.promise } });

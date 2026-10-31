@@ -261,7 +261,6 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     }
 
     const navigation = this.table.keyboardNavigation;
-    this.engageOrigin(handler.fieldName);
     if (navigation) {
       navigation.focusEditor(handler);
       navigation.repaintCurrentPosition();
