@@ -48,7 +48,8 @@ import { type OccurrenceKey, RenderedOccurrenceLedger } from './rendered-occurre
 import { WorkPackageTableEditingContext } from './wp-table-editing';
 import type { WorkPackageTableRow } from './wp-table.interfaces';
 import type { KeyboardNavigation } from './handlers/state/keyboard/keyboard-navigation-transformer';
-import type { TableSelectionFeedback } from './handlers/state/selection-feedback';
+import { TableSelectionFeedback } from './handlers/state/selection-feedback';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import type { RowPositionEvidence } from './semantics/table-row-positions';
 import { RowStatePainter, type RowReplacement } from './semantics/row-state-painter';
 import { RowClassifier } from './semantics/row-classifier';
@@ -106,7 +107,7 @@ export class WorkPackageTable {
 
   public keyboardNavigation:KeyboardNavigation|null = null;
 
-  public selectionFeedback:TableSelectionFeedback|null = null;
+  public readonly selectionFeedback = new TableSelectionFeedback(this.injector.get(WorkPackageViewSelectionService), this.destroyRef);
 
   public readonly rows = new RowClassifier(this);
 
