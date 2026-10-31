@@ -202,6 +202,11 @@ PATH
       grids
 
 PATH
+  remote: modules/planner
+  specs:
+    planner (1.0.0)
+
+PATH
   remote: modules/recaptcha
   specs:
     openproject-recaptcha (1.0.0)
@@ -1740,6 +1745,7 @@ DEPENDENCIES
   pdf-inspector (~> 1.2)
   pg (~> 1.7.0)
   plaintext (~> 0.4.0)
+  planner!
   prawn (~> 2.4)
   pry!
   pry-byebug (~> 3.12.0)
@@ -2194,6 +2200,7 @@ CHECKSUMS
   pg (1.7.0-x86_64-linux) sha256=d0a24f448b3c874c8b2658d4efbbbefce7315c228ede84f6f6f42089d1d704b6
   pg (1.7.0-x86_64-linux-musl) sha256=0c9bc93b6e0aca2a5b07daef00b7ec4f9882bfe21ef3872b4371f8ecffe1f1e1
   plaintext (0.4.0) sha256=c41ecbcc64e0cb46bcb7bb032885f77ab3e0727d8c636e330ca03fcac359e866
+  planner (1.0.0)
   pp (0.6.4) sha256=dfcb0fce700c41456265922884f9fe195d7fbb0674a3578e6c0f69588e82b570
   prawn (2.4.0) sha256=82062744f7126c2d77501da253a154271790254dfa8c309b8e52e79bc5de2abd
   prawn-table (0.2.2) sha256=336d46e39e003f77bf973337a958af6a68300b941c85cb22288872dc2b36addb

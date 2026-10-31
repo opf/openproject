@@ -341,6 +341,7 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_PLUGIN__OPENPROJECT__LDAP__DEPARTMENTS` | `{}` |  |
 | `OPENPROJECT_PLUGIN__OPENPROJECT__LDAP__GROUPS` | `{}` |  |
 | `OPENPROJECT_PLUGIN__OPENPROJECT__OPENID__CONNECT` | `nil` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__PLANNER` | `{"role_id" => nil}` |  |
 | `OPENPROJECT_PLUGIN__OPENPROJECT__RECAPTCHA` | `{"recaptcha_type" => "disabled", "response_limit" => 5000}` |  |
 | `OPENPROJECT_PLUGIN__OPENPROJECT__RESOURCE__MANAGEMENT` | `nil` |  |
 | `OPENPROJECT_PLUGIN__OPENPROJECT__STORAGES` | `nil` |  |
