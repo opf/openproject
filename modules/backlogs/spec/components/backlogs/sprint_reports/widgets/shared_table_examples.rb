@@ -32,7 +32,7 @@ require "rails_helper"
 
 RSpec.shared_context "with a sprint report work package table" do
   shared_let(:project) { create(:project) }
-  shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_sprints] }) }
+  shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_sprints view_work_packages] }) }
 
   let(:start_date) { 7.days.ago }
   let(:finish_date) { 7.days.from_now }
@@ -79,11 +79,23 @@ RSpec.shared_context "with a sprint report work package table" do
 
     it "configures table to hide extra UI elements" do
       expect(table_element["data-configuration"]).to be_json_eql({
+        "labelledBy" => "#{described_class.wrapper_key}-header",
+        "projectContext" => false,
         "actionsColumnEnabled" => false,
         "columnMenuEnabled" => false,
         "contextMenuEnabled" => false,
-        "inlineCreateEnabled" => false
+        "inlineCreateEnabled" => false,
+        "inlineEditEnabled" => false
       }.to_json)
+    end
+
+    it "names the table with its visible widget heading" do
+      configuration = JSON.parse(table_element["data-configuration"])
+      labels = rendered_component.css("##{configuration.fetch('labelledBy')}")
+
+      expect(labels.size).to eq(1)
+      expect(labels.first.name).to eq("h3")
+      expect(labels.first.text.squish).to eq(widget_name)
     end
 
     it "renders a filtered work packages table" do

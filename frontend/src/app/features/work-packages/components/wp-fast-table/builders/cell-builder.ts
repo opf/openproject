@@ -51,7 +51,10 @@ export class CellBuilder {
   public fieldRenderer:DisplayFieldRenderer;
 
   constructor(public injector:Injector, private readonly configuration:WorkPackageTableConfiguration) {
-    this.fieldRenderer = new DisplayFieldRenderer(this.injector, 'table', { tabbable: false });
+    this.fieldRenderer = new DisplayFieldRenderer(this.injector, 'table', {
+      tabbable: false,
+      inlineEditEnabled: configuration.inlineEditEnabled,
+    });
   }
 
   public build(workPackage:WorkPackageResource, column:QueryColumn, isRowHeader = false):HTMLTableCellElement {
