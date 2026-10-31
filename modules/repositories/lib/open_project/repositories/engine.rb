@@ -72,6 +72,20 @@ module OpenProject::Repositories
       end
     end
 
+    initializer "repositories.register_gitlab_hook" do
+      ::OpenProject::Webhooks.register_hook "gitlab" do |hook, environment, params, user|
+        ::Repositories::Gitlab::HookHandler.new.process(hook, environment, params, user)
+      end
+    end
+
+    initializer "repositories.subscribe_to_gitlab_notifications" do
+      %w[merge_request note issue push pipeline].each do |event|
+        ::OpenProject::Notifications.subscribe("gitlab.#{event}_hook") do |payload|
+          ::Repositories::Gitlab::NotificationHandlers.public_send(:"#{event}_hook", payload)
+        end
+      end
+    end
+
     extend_api_response(:v3, :work_packages, :work_package) do
       show_repositories = -> {
         Repositories::Provider.exists? &&

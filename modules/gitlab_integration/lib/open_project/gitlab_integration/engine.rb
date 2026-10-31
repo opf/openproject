@@ -31,10 +31,6 @@
 
 require "open_project/plugins"
 
-require_relative "notification_handlers"
-require_relative "hook_handler"
-require_relative "services"
-
 module OpenProject::GitlabIntegration
   class Engine < ::Rails::Engine
     engine_name :openproject_gitlab_integration
@@ -67,33 +63,6 @@ module OpenProject::GitlabIntegration
                   caption: "GitLab",
                   icon: :"op-logo-gitlab"
       end
-    end
-
-    patches %w[WorkPackage]
-
-    initializer "gitlab.register_hook" do
-      ::OpenProject::Webhooks.register_hook "gitlab" do |hook, environment, params, user|
-        HookHandler.new.process(hook, environment, params, user)
-      end
-    end
-
-    initializer "gitlab.subscribe_to_notifications" do
-      ::OpenProject::Notifications.subscribe("gitlab.merge_request_hook") do |payload|
-        NotificationHandlers.merge_request_hook(payload)
-      end
-      ::OpenProject::Notifications.subscribe("gitlab.note_hook") { |payload| NotificationHandlers.note_hook(payload) }
-      ::OpenProject::Notifications.subscribe("gitlab.issue_hook") { |payload| NotificationHandlers.issue_hook(payload) }
-      ::OpenProject::Notifications.subscribe("gitlab.push_hook") { |payload| NotificationHandlers.push_hook(payload) }
-      ::OpenProject::Notifications.subscribe("gitlab.pipeline_hook") { |payload| NotificationHandlers.pipeline_hook(payload) }
-    end
-
-    add_cron_jobs do
-      {
-        "Cron::ClearOldMergeRequestsJob": {
-          cron: "25 1 * * *", # runs at 1:25 nightly
-          class: ::Cron::ClearOldMergeRequestsJob.name
-        }
-      }
     end
   end
 end

@@ -1,0 +1,98 @@
+# frozen_string_literal: true
+
+require "spec_helper"
+
+RSpec.describe "Work Package Activity Tab",
+               "Comments by Gitlab",
+               :js do
+  shared_let(:gitlab_system_user) { create(:admin, firstname: "Gitlab", lastname: "System User") }
+  shared_let(:admin) { create(:admin) }
+
+  shared_let(:project) { create(:project, enabled_module_names: Setting.default_projects_modules + %w[activity]) }
+  shared_let(:work_package) { create(:work_package, project:) }
+
+  shared_let(:provider) { create(:repository_provider, url: "http://79dfcd98b723") }
+  shared_let(:issue_author) { create(:repository_user, provider:, username: "i_am_the_author") }
+  shared_let(:issue_closing_user) { create(:repository_user, provider:, username: "i_closed") }
+
+  shared_let(:gitlab_html_url) { "http://79dfcd98b723/root/hot_do/-/issues/4" }
+  shared_let(:issue) do
+    create(:repository_issue, provider:, web_url: gitlab_html_url, repository_user: issue_author)
+  end
+
+  def trigger_issue_action
+    Repositories::Gitlab::NotificationHandler::IssueHook.new.process(payload)
+
+    issue.reload
+  end
+
+  let(:mr_description) { "Mentioning OP##{work_package.id}" }
+  let(:gitlab_action) { "close" }
+  let(:issue_state) { "closed" }
+  let(:labels) { [] }
+
+  let(:payload) do
+    {
+      "open_project_user_id" => gitlab_system_user.id,
+      "repository_provider_id" => provider.id,
+      "object_kind" => "issue",
+      "event_type" => "issue",
+      "user" => {
+        "id" => issue_closing_user.external_id,
+        "name" => issue_closing_user.name,
+        "username" => issue_closing_user.username,
+        "avatar_url" => issue_closing_user.avatar_url,
+        "email" => "[REDACTED]"
+      },
+      "object_attributes" => {
+        "action" => gitlab_action,
+        "assignee_id" => nil,
+        "author_id" => 1,
+        "created_at" => "2024-03-04 16:09:08 UTC",
+        "title" => "An Issue title",
+        "description" => mr_description,
+        "draft" => false,
+        "work_in_progress" => false,
+        "state" => issue_state,
+        "id" => issue.external_id,
+        "iid" => issue.display_id,
+        "head_pipeline_id" => nil,
+        "url" => gitlab_html_url,
+        "updated_at" => Time.current.iso8601
+      },
+      "labels" => labels,
+      "repository" => {
+        "name" => "Hot Do",
+        "url" => "git@79dfcd98b723:root/hot_do.git",
+        "description" => nil,
+        "homepage" => gitlab_html_url
+      }
+    }
+  end
+
+  let(:work_package_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
+  let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
+
+  context "when there is an issue event" do
+    before do
+      trigger_issue_action
+      login_as admin
+    end
+
+    context "and I visit the work package's activity tab" do
+      before do
+        work_package_page.visit_tab! "activity"
+        work_package_page.ensure_page_loaded
+      end
+
+      let(:expected_comment) do
+        "Issue Closed: Issue #{issue.display_id} #{issue.title} for #{issue.project_name} " \
+          "has been closed by #{issue_closing_user.name}."
+      end
+
+      it "renders a comment referencing the issue" do
+        activity_tab.expect_journal_notes(text: expected_comment)
+      end
+    end
+  end
+end
