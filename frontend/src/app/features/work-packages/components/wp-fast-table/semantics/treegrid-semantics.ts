@@ -125,7 +125,7 @@ export class TreegridSemantics {
   }
 
   private expansionOf(occurrence:RenderedOccurrence, kind:Exclude<OccurrenceRowKind, 'placeholder'>):string|null {
-    const expanded = kind === 'foreign' ? null : expansionStateOf(this.table, this.wpTableHierarchies, occurrence, kind);
+    const expanded = expansionStateOf(this.table, this.wpTableHierarchies, occurrence, kind);
     return expanded === null ? null : String(expanded);
   }
 }

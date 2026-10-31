@@ -33,8 +33,11 @@ declare const ngDevMode:boolean|undefined;
 
 export type OccurrenceKey = string;
 
+export type OccurrenceKind = 'workPackage'|'groupHeader'|'sums'|'placeholder';
+
 export interface RenderedOccurrence {
   readonly key:OccurrenceKey;
+  readonly kind:OccurrenceKind;
   readonly classIdentifier:string;
   readonly workPackageId:string|null;
   readonly renderType:'primary'|'relations'|'child_relations';

@@ -26,15 +26,15 @@
 //++
 
 import type { WorkPackageTable } from '../wp-fast-table';
-import { placeholderOccurrenceKey, type RenderedOccurrence } from '../rendered-occurrence-ledger';
+import type { OccurrenceKind, RenderedOccurrence } from '../rendered-occurrence-ledger';
 import { inlineCreateSelector } from '../handlers/state/keyboard/roving-tabindex';
 
 const totalsRowSelector = 'tr.wp-table--sums-row';
 
-export type OccurrenceRowKind = 'workPackage'|'groupHeader'|'sums'|'placeholder'|'foreign';
+export type OccurrenceRowKind = OccurrenceKind;
 
 /** Every body or trailing row of the table; `foreign` is a row no producer declared. */
-export type TableRowKind = OccurrenceRowKind|'totals'|'create'|'empty'|'unexposed';
+export type TableRowKind = OccurrenceRowKind|'foreign'|'totals'|'create'|'empty'|'unexposed';
 
 /** The `thead` row of the table, when rendered. */
 export function headerRowOf(table:WorkPackageTable):HTMLTableRowElement|null {
@@ -68,9 +68,7 @@ export function isExposedRow(row:HTMLTableRowElement):boolean {
 }
 
 export function occurrenceRowKind(occurrence:RenderedOccurrence):OccurrenceRowKind {
-  if (occurrence.key === placeholderOccurrenceKey()) return 'placeholder';
-  if (occurrence.key.startsWith('group:')) return occurrence.key.endsWith(':sums') ? 'sums' : 'groupHeader';
-  return occurrence.workPackageId === null ? 'foreign' : 'workPackage';
+  return occurrence.kind;
 }
 
 /** Rendered occurrences keep their kind even while hidden; other rows count only while exposed. */

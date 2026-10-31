@@ -25,7 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export type RowKind = 'header'|'workPackage'|'groupHeader'|'sums'|'totals';
+export const ROW_KINDS = ['header', 'workPackage', 'groupHeader', 'sums', 'totals'] as const;
+
+export type RowKind = (typeof ROW_KINDS)[number];
 
 export interface NavigableRow {
   key:string;
