@@ -137,6 +137,72 @@ describe('KeyboardNavigationTransformer', () => {
     await Promise.all(harnesses.splice(0).map((table) => table.destroy()));
   });
 
+  describe('key matrix on a grid cell', () => {
+    const start = async () => {
+      const table = await mount();
+      navigation(table).focusPosition({ key: wpOccurrenceKey('1'), cell: 0, desiredColumn: 0 });
+      return table;
+    };
+
+    const withAltGraph = (init:KeyboardEventInit) => {
+      const event = new KeyboardEvent('keydown', { bubbles: true, cancelable: true, ...init });
+      vi.spyOn(event, 'getModifierState').mockImplementation((key) => key === 'AltGraph');
+      return event;
+    };
+
+    it('moves down a row with a plain ArrowDown', async () => {
+      const table = await start();
+
+      expect(pressActive('ArrowDown')).toBe(false);
+
+      expect(cell(table.row('2'), 0)).toHaveFocus();
+    });
+
+    it.each<[string, KeyboardEventInit]>([
+      ['Ctrl', { ctrlKey: true }],
+      ['Meta', { metaKey: true }],
+    ])('moves to the first cell of the first row with %s+Home', async (_name, init) => {
+      const table = await start();
+      navigation(table).focusPosition({ key: wpOccurrenceKey('3'), cell: 1, desiredColumn: 1 });
+
+      expect(pressActive('Home', init)).toBe(false);
+
+      expect(navigation(table).position).toEqual({ key: headerRowKey, cell: 0, desiredColumn: 0 });
+    });
+
+    it.each<[string, KeyboardEventInit]>([
+      ['Ctrl', { ctrlKey: true }],
+      ['Meta', { metaKey: true }],
+      ['Alt', { altKey: true }],
+      ['composing', { isComposing: true }],
+    ])('ignores a %s arrow', async (_name, init) => {
+      const table = await start();
+
+      expect(pressActive('ArrowDown', init)).toBe(true);
+
+      expect(cell(table.row('1'), 0)).toHaveFocus();
+    });
+
+    it('ignores an AltGraph arrow', async () => {
+      const table = await start();
+      const event = withAltGraph({ key: 'ArrowDown' });
+
+      document.activeElement!.dispatchEvent(event);
+
+      expect(event.defaultPrevented).toBe(false);
+      expect(cell(table.row('1'), 0)).toHaveFocus();
+    });
+
+    it('extends the selection with Shift+ArrowDown', async () => {
+      const table = await start();
+
+      expect(pressActive('ArrowDown', { shiftKey: true })).toBe(false);
+
+      expect(cell(table.row('2'), 0)).toHaveFocus();
+      expect(selectedIds(table)).toEqual(['2']);
+    });
+  });
+
   describe('on a table re-created over the same DOM', () => {
     const recreate = async () => {
       const harness = await mount();
