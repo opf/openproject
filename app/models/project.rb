@@ -174,6 +174,7 @@ class Project < ApplicationRecord
                                     view_permission: custom_field_view_permission
   register_journal_formatted_fields /\Aproject_phase_\d+_active\z/, formatter_key: :project_phase_active
   register_journal_formatted_fields /\Aproject_phase_\d+_date_range\z/, formatter_key: :project_phase_dates
+  register_journal_formatted_fields /\Aproject_phase_\d+_status\z/, formatter_key: :project_phase_status
 
   has_paper_trail
 
