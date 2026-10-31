@@ -39,11 +39,11 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GenerateDefaultsService do
 
   def groups_as_tuples
     form.form_groups.reload.map do |group|
-      [group.default_key.to_sym, group.members.map(&:key)]
+      [group.default_key.to_sym, group.form_attributes.map(&:key)]
     end
   end
 
-  it "creates the default groups in default order with their members placed" do
+  it "creates the default groups in default order with their attributes placed" do
     result = call
 
     expect(result).to be_success
@@ -78,7 +78,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GenerateDefaultsService do
     described_class.new(form, custom_field_ids: [custom_field.id]).call
 
     other = form.form_groups.find_by(default_key: "other")
-    expect(other.members.map(&:key)).to include "custom_field_#{custom_field.id}"
+    expect(other.form_attributes.map(&:key)).to include "custom_field_#{custom_field.id}"
   end
 
   it "refuses an owner that already has records and writes nothing" do

@@ -30,7 +30,7 @@
 require "spec_helper"
 
 module WorkPackageTypes
-  module FormConfigurationRows
+  module FormConfigurationAttributes
     RSpec.describe ToggleRequiredService, type: :service do
       let(:user) { create(:admin) }
       let(:custom_field) { create(:integer_wp_custom_field) }
@@ -43,8 +43,8 @@ module WorkPackageTypes
         end
       end
 
-      def toggle(row_key)
-        described_class.new(user:, variant:, row_key:).call
+      def toggle(attribute_key)
+        described_class.new(user:, variant:, attribute_key:).call
       end
 
       it "marks a custom field required for this variant" do
@@ -66,7 +66,7 @@ module WorkPackageTypes
         expect(sibling.reload[:required_attributes]).to eq([])
       end
 
-      it "rejects a row that is not on the form" do
+      it "rejects an attribute that is not on the form" do
         other_field = create(:integer_wp_custom_field)
 
         result = toggle(other_field.attribute_name)
@@ -100,7 +100,7 @@ module WorkPackageTypes
         variant
         sharer = create(:type_variant, type:, form_configuration: variant.form_configuration)
 
-        expect(described_class.new(user:, variant: sharer, row_key: custom_field.attribute_name).call).to be_success
+        expect(described_class.new(user:, variant: sharer, attribute_key: custom_field.attribute_name).call).to be_success
 
         expect(sharer.reload.required_attributes).to contain_exactly(custom_field.attribute_name)
         expect(variant.reload.required_attributes).to eq([])

@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::FormConfiguration::EnsureAttributeMembershipService do
+RSpec.describe WorkPackageTypes::FormConfiguration::EnsureAttributeRecordsService do
   shared_let(:type) { create(:type) }
   let(:form) { type.default_variant.form_configuration }
 
@@ -37,7 +37,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::EnsureAttributeMembershipSer
 
   def call = described_class.new(form).call
 
-  it "creates one inactive membership per catalog attribute on an empty owner" do
+  it "creates one inactive record per catalog attribute on an empty owner" do
     result = call
 
     expect(result).to be_success
@@ -74,7 +74,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::EnsureAttributeMembershipSer
     expect { call }.to change { form.form_attributes.count }.by(form.work_package_attributes.keys.size - 1)
   end
 
-  it "does not reactivate or remove a membership the catalog no longer knows" do
+  it "does not reactivate or remove a record the catalog no longer knows" do
     dormant = create(:form_configuration_attribute, form_configuration: form,
                                                     attribute_key: "story_points_from_removed_plugin")
 

@@ -36,7 +36,7 @@ class FormConfiguration
     end
 
     def tuples
-      groups = form.form_groups.loaded? ? form.form_groups : group_rows.includes(:query, :members)
+      groups = form.form_groups.loaded? ? form.form_groups : group_scope.includes(:query, :form_attributes)
 
       groups.map { tuple_of(it) }
     end
@@ -51,10 +51,10 @@ class FormConfiguration
       FormConfigurationGroup.acts_as_list_no_update([FormConfigurationAttribute]) do
         real_groups(groups).each.with_index(1) { |group, position| store_group(group, position) }
         deactivate_unplaced
-        (@rows - @kept).each(&:destroy!)
+        (@group_rows - @kept).each(&:destroy!)
       end
 
-      WorkPackageTypes::FormConfiguration::EnsureAttributeMembershipService.new(form).call
+      WorkPackageTypes::FormConfiguration::EnsureAttributeRecordsService.new(form).call
       reset_associations
     end
 
@@ -64,7 +64,7 @@ class FormConfiguration
 
     def tuple_of(group)
       key = group.default_key ? group.default_key.to_sym : group.label
-      members = group.kind_query? ? [group.query] : group.members.map(&:key)
+      members = group.kind_query? ? [group.query] : group.form_attributes.map(&:key)
 
       [key, members, (group.label if group.default_key), group.id]
     end
@@ -72,16 +72,16 @@ class FormConfiguration
     def reset_associations
       form.form_groups.reset
       form.form_attributes.reset
-      form.custom_field_memberships.reset
+      form.custom_field_form_attributes.reset
       form.custom_fields.reset
     end
 
-    def group_rows = FormConfigurationGroup.where(form_configuration_id: form.id).order(:position)
+    def group_scope = FormConfigurationGroup.where(form_configuration_id: form.id).order(:position)
 
     def load_rows(groups)
-      @rows = group_rows.to_a
+      @group_rows = group_scope.to_a
       @kept = []
-      @memberships = FormConfigurationAttribute.where(form_configuration_id: form.id).to_a.index_by(&:key)
+      @attribute_rows = FormConfigurationAttribute.where(form_configuration_id: form.id).to_a.index_by(&:key)
       @placed = Set.new
       @live_custom_field_ids = live_custom_field_ids(groups)
     end
@@ -89,24 +89,26 @@ class FormConfiguration
     def real_groups(groups) = groups.reject { it.key.to_s == EMPTY_GROUP_KEY }
 
     def store_group(group, position)
-      row = claim(group) || FormConfigurationGroup.new(form_configuration: form)
-      replaced_query_id = row.query_id
-      row.assign_attributes(position:, **naming(group), **kind_of(group))
-      row.save!
-      @kept << row
-      ::Query.where(id: replaced_query_id).destroy_all if replaced_query_id && replaced_query_id != row.query_id
+      group_row = claim(group) || FormConfigurationGroup.new(form_configuration: form)
+      replaced_query_id = group_row.query_id
+      group_row.assign_attributes(position:, **naming(group), **kind_of(group))
+      group_row.save!
+      @kept << group_row
+      ::Query.where(id: replaced_query_id).destroy_all if replaced_query_id && replaced_query_id != group_row.query_id
 
-      place_members(row, group) unless group.is_a?(Type::QueryGroup)
+      place_attributes(group_row, group) unless group.is_a?(Type::QueryGroup)
     end
 
     def claim(group)
-      available = @rows - @kept
+      available = @group_rows - @kept
 
-      by_id = available.find { |row| row.id == group.record_id } if group.record_id
-      by_id || available.find { |row| identity_of(row) == identity_of_group(group) }
+      by_id = available.find { |group_row| group_row.id == group.record_id } if group.record_id
+      by_id || available.find { |group_row| identity_of(group_row) == identity_of_group(group) }
     end
 
-    def identity_of(row) = row.default_key ? [:default, row.default_key] : [:custom, row.label]
+    def identity_of(group_row)
+      group_row.default_key ? [:default, group_row.default_key] : [:custom, group_row.label]
+    end
 
     def identity_of_group(group)
       default_key_of(group) ? [:default, default_key_of(group)] : [:custom, label_of(group)]
@@ -136,18 +138,21 @@ class FormConfiguration
       { kind: :query, query: group.query }
     end
 
-    def place_members(row, group)
+    def place_attributes(group_row, group)
       position = 0
 
       group.attributes.each do |attribute|
         key = attribute.to_s
         next if @placed.include?(key) || !placeable?(key)
 
-        membership = @memberships[key] ||
-                     FormConfigurationAttribute.new(form_configuration: form, **FormConfigurationAttribute.reference_for(key))
-        membership.update!(group: row, position: position += 1)
+        attribute_row = @attribute_rows[key] || build_attribute_row(key)
+        attribute_row.update!(group: group_row, position: position += 1)
         @placed << key
       end
+    end
+
+    def build_attribute_row(key)
+      FormConfigurationAttribute.new(form_configuration: form, **FormConfigurationAttribute.reference_for(key))
     end
 
     def placeable?(key)
@@ -156,8 +161,10 @@ class FormConfiguration
     end
 
     def deactivate_unplaced
-      @memberships.each_value do |membership|
-        membership.update!(group: nil, position: nil) if membership.active? && @placed.exclude?(membership.key)
+      @attribute_rows.each_value do |attribute_row|
+        next unless attribute_row.active? && @placed.exclude?(attribute_row.key)
+
+        attribute_row.update!(group: nil, position: nil)
       end
     end
 
@@ -184,8 +191,10 @@ class FormConfiguration
     end
 
     def signature_of_rows
-      group_rows.includes(:members).map do |group|
-        [{ default_key: group.default_key, label: group.label }, group.kind_query? ? [group.query_id] : group.members.map(&:key)]
+      group_scope.includes(:form_attributes).map do |group|
+        members = group.kind_query? ? [group.query_id] : group.form_attributes.map(&:key)
+
+        [{ default_key: group.default_key, label: group.label }, members]
       end
     end
   end

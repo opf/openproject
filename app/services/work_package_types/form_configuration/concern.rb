@@ -32,10 +32,20 @@ module WorkPackageTypes
     module Concern
       extend ActiveSupport::Concern
 
+      include LayoutLock
+
       def initialize(user:, form_configuration:, **)
         super()
         @user = user
         @form_configuration = form_configuration
+      end
+
+      protected
+
+      def perform(*)
+        with_layout_lock(form_configuration) { perform_locked }
+      rescue ActiveRecord::ActiveRecordError
+        failure_with_message(I18n.t("types.edit.form_configuration.save_failed"))
       end
 
       private
@@ -57,11 +67,11 @@ module WorkPackageTypes
         end
       end
 
-      def find_row(row_key)
+      def find_attribute(attribute_key)
         active_groups
           .select { |group| group.group_type == :attribute }
           .each do |group|
-            index = group.attributes.index { |attribute| attribute_identifier_match?(attribute, row_key) }
+            index = group.attributes.index { |attribute| attribute_identifier_match?(attribute, attribute_key) }
             return { group:, index: } if index
           end
 

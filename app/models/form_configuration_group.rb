@@ -30,7 +30,7 @@
 class FormConfigurationGroup < ApplicationRecord
   belongs_to :form_configuration, inverse_of: :form_groups
   belongs_to :query, optional: true, dependent: :destroy
-  has_many :members,
+  has_many :form_attributes,
            -> { order(:position) },
            class_name: "FormConfigurationAttribute",
            foreign_key: :form_configuration_group_id,

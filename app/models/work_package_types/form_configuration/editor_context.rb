@@ -68,12 +68,26 @@ module WorkPackageTypes
         routes.public_send([action, "form_configuration_group_path"].compact.join("_"), form_configuration, **)
       end
 
-      def row_path(action = nil, **)
-        routes.public_send([action, "form_configuration_row_path"].compact.join("_"), form_configuration, **)
+      def attribute_path(action = nil, **)
+        routes.public_send([action, "form_configuration_attribute_path"].compact.join("_"), form_configuration, **)
       end
 
-      def toggle_required_path(row_key)
-        toggle_required_variant_form_configuration_row_path(scope_project, variant, row_key)
+      def toggle_required_path(attribute_key)
+        toggle_required_variant_form_configuration_attribute_path(scope_project, variant, attribute_key)
+      end
+
+      def move_url_templates
+        id_placeholder = "__id__"
+        {
+          SortableTypes::GROUP =>
+            routes.move_form_configuration_group_path(form_configuration, id_placeholder).sub(id_placeholder, "{id}"),
+          SortableTypes::ATTRIBUTE =>
+            routes.move_form_configuration_attribute_path(form_configuration, id_placeholder).sub(id_placeholder, "{id}")
+        }
+      end
+
+      def record_ids_by_key
+        @record_ids_by_key ||= readonly? ? {} : form_configuration.form_attributes.to_h { [it.key, it.id] }
       end
 
       private

@@ -203,7 +203,7 @@ Rails.application.routes.draw do
         post :create
       end
 
-      resources :rows, only: [], controller: "form_configuration_tab", param: :row_key do
+      resources :attributes, only: [], controller: "form_configuration_tab", param: :attribute_key do
         member do
           put :toggle_required
         end
@@ -407,17 +407,24 @@ Rails.application.routes.draw do
     resource :group, only: %i[create edit update destroy], controller: "form_configurations/groups" do
       post :add_group
       post :cancel_edit
-      put :drop
-      put :move
       patch :update_query
     end
 
-    resources :rows, only: %i[destroy], controller: "form_configurations/rows", param: :row_key do
+    resources :groups, only: [], controller: "form_configurations/groups" do
       member do
-        put :drop
         put :move
       end
     end
+
+    resources :attributes, only: [], controller: "form_configurations/attributes" do
+      member do
+        put :move
+      end
+    end
+
+    # Deleting addresses the attribute by key: an attribute the form offers need not have a record
+    # yet, and removing it only rewrites the group holding it. Moving reorders the record and takes its id.
+    resources :attributes, only: %i[destroy], controller: "form_configurations/attributes", param: :attribute_key
   end
 
   get "custom_style/:digest/logo/:field/:filename" => "custom_styles#logo_download",

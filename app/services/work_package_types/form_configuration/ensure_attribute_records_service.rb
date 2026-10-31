@@ -29,7 +29,7 @@
 
 module WorkPackageTypes
   module FormConfiguration
-    class EnsureAttributeMembershipService
+    class EnsureAttributeRecordsService
       KEY_INDEX = :index_form_configuration_attributes_on_owner_and_key
       CUSTOM_FIELD_INDEX = :index_form_configuration_attributes_on_owner_and_custom_field
 

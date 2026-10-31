@@ -102,7 +102,7 @@ RSpec.describe FormConfiguration do
 
       form.update!(attribute_groups: [["Planning", %w[date]], [:details, %w[priority assignee]]])
 
-      expect(form.reload.form_groups.find_by(default_key: "details").members.map(&:id)).to include(assignee.id)
+      expect(form.reload.form_groups.find_by(default_key: "details").form_attributes.map(&:id)).to include(assignee.id)
     end
 
     it "keeps the row of an attribute taken off the form, as inactive" do
@@ -189,6 +189,18 @@ RSpec.describe FormConfiguration do
       form.reload.destroy
 
       expect(Query.find_by(id: query.id)).to be_nil
+    end
+  end
+
+  describe "#reload" do
+    it "drops the memoized attribute group objects" do
+      form = create(:form_configuration)
+      group = create(:form_configuration_group, form_configuration: form, label: "Details")
+      expect(form.attribute_groups.map(&:key)).to eq(["Details"])
+
+      group.update!(label: "Specifics")
+
+      expect(form.reload.attribute_groups.map(&:key)).to eq(["Specifics"])
     end
   end
 end
