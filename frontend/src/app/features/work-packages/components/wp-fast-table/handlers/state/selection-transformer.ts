@@ -58,6 +58,7 @@ export class SelectionTransformer {
         if (table.ledger.generation > 0) {
           selectionFeedback.prune(() => this.wpTableSelection.retainRendered(rows));
         }
+        this.painted = this.currentMarkers();
       });
 
     this.wpTableSelection.live$()
@@ -80,7 +81,37 @@ export class SelectionTransformer {
     onDestroySafely(destroyRef, unregisterDeselectAll);
   }
 
+  private painted:SelectionMarkers = { selected: new Set(), focused: null };
+
+  /** Repaints the rows whose selection or focus marker changed since the last paint; the render path paints every row, so a render resets the baseline. */
   private paintRows():void {
-    this.table.painter.paint();
+    if (this.table.ledger.generation === 0) return;
+    const current = this.currentMarkers();
+    const changed = new Set<string>();
+    this.painted.selected.forEach((id) => { if (!current.selected.has(id)) changed.add(id); });
+    current.selected.forEach((id) => { if (!this.painted.selected.has(id)) changed.add(id); });
+    if (this.painted.focused !== current.focused) {
+      [this.painted.focused, current.focused].forEach((id) => { if (id) changed.add(id); });
+    }
+    this.painted = current;
+    const keys = Array.from(changed).flatMap((id) => Array.from(this.table.painter.keysOf(id)));
+    if (keys.length === 0) return;
+
+    const scope = changed.size > this.table.ledger.size / 2
+      ? 'all'
+      : new Set(keys);
+    this.table.mutate(scope, () => undefined);
   }
+
+  private currentMarkers():SelectionMarkers {
+    return {
+      selected: new Set(this.wpTableSelection.getSelectedWorkPackageIds()),
+      focused: this.wpTableFocus.explicitlyFocusedWorkPackage,
+    };
+  }
+}
+
+interface SelectionMarkers {
+  readonly selected:ReadonlySet<string>;
+  readonly focused:string|null;
 }

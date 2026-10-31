@@ -366,6 +366,13 @@ module Pages
       expect(table_container).to have_css(row_selector(work_package), focused: true)
     end
 
+    # Expects the row for `work_package` to be marked as the current work package.
+    #
+    # @param work_package [WorkPackage] The work package object.
+    def expect_current_row(work_package)
+      expect(table_container).to have_css("#{row_selector(work_package)}[data-pressed]")
+    end
+
     # Expects exactly the rows in `selected` among `among` to be marked selected.
     #
     # @param selected [Array<WorkPackage>] The work packages expected to be selected.

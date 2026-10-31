@@ -36,9 +36,10 @@ import { WorkPackageViewFocusService } from 'core-app/features/work-packages/rou
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { usePlatform } from 'core-common/testing/platform';
 import { WorkPackageTable } from '../../wp-fast-table';
-import { buildTable, TableHarness } from '../../testing/table-harness';
+import { buildTable, runMutation, TableHarness } from '../../testing/table-harness';
 import { WorkPackageFixture } from '../../testing/work-package-fixture';
 import { SelectionTransformer } from './selection-transformer';
+import { wpOccurrenceKey } from '../../rendered-occurrence-ledger';
 
 describe('SelectionTransformer', () => {
   usePlatform('Linux');
@@ -60,6 +61,7 @@ describe('SelectionTransformer', () => {
     const selection = {
       live$: () => selectionChanged,
       isSelected: vi.fn(() => false),
+      getSelectedWorkPackageIds: () => [],
       hasSelectionState: true,
       selectionKeys: new Set(),
       reset: vi.fn(),
@@ -69,6 +71,7 @@ describe('SelectionTransformer', () => {
       whenChanged: () => focusChanged,
       ifShouldFocus: vi.fn(),
       isFocused: vi.fn(() => false),
+      explicitlyFocusedWorkPackage: null,
     };
     const parent = TestBed.inject(EnvironmentInjector);
     const injector = createEnvironmentInjector([
@@ -89,7 +92,7 @@ describe('SelectionTransformer', () => {
       destroyRef: lifetime.get(DestroyRef),
       tableAndTimelineContainer: root,
       renderedRows,
-      painter: { paint: vi.fn() },
+      painter: { keysOf: () => new Set<string>() }, ledger: { generation: 1, size: 1 }, mutate: runMutation,
     } as unknown as WorkPackageTable;
     new SelectionTransformer(injector, table);
 
@@ -122,13 +125,13 @@ describe('SelectionTransformer', () => {
       const reset = vi.fn();
       const injector = createEnvironmentInjector([
         { provide: IsolatedQuerySpace, useValue: { tableRendered: { values$: () => new Subject() }, stopAllSubscriptions: new Subject<void>() } },
-        { provide: WorkPackageViewSelectionService, useValue: { live$: () => new Subject(), hasSelectionState: true, selectionKeys: new Set(), reset } },
-        { provide: WorkPackageViewFocusService, useValue: { whenChanged: () => new Subject(), ifShouldFocus: vi.fn(), isFocused: vi.fn(() => false) } },
+        { provide: WorkPackageViewSelectionService, useValue: { live$: () => new Subject(), getSelectedWorkPackageIds: () => [], hasSelectionState: true, selectionKeys: new Set(), reset } },
+        { provide: WorkPackageViewFocusService, useValue: { explicitlyFocusedWorkPackage: null, whenChanged: () => new Subject(), ifShouldFocus: vi.fn(), isFocused: vi.fn(() => false) } },
       ], parent);
       const lifetime = Injector.create({ providers: [], parent: injector });
       const root = document.createElement('div');
       document.body.append(root);
-      new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], painter: { paint: vi.fn() } } as unknown as WorkPackageTable);
+      new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], painter: { keysOf: () => new Set<string>() }, ledger: { generation: 1, size: 1 }, mutate: runMutation } as unknown as WorkPackageTable);
       return { injector, lifetime, root, reset };
     };
     const first = build();
@@ -156,14 +159,14 @@ describe('SelectionTransformer', () => {
       IsolatedQuerySpace,
       WorkPackageViewSelectionService,
       { provide: OPContextMenuService, useValue: { close: vi.fn() } },
-      { provide: WorkPackageViewFocusService, useValue: { whenChanged: () => new Subject(), ifShouldFocus: vi.fn(), isFocused: vi.fn(() => false) } },
+      { provide: WorkPackageViewFocusService, useValue: { explicitlyFocusedWorkPackage: null, whenChanged: () => new Subject(), ifShouldFocus: vi.fn(), isFocused: vi.fn(() => false) } },
     ], parent);
     const selection = injector.get(WorkPackageViewSelectionService);
     const lifetime = Injector.create({ providers: [], parent: injector });
     const root = document.createElement('div');
     root.innerHTML = '<div class="wp-table--row" tabindex="0" data-work-package-id="2" data-class-identifier="wp-row-2">Row</div>';
     document.body.append(root);
-    new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], painter: { paint: vi.fn() } } as unknown as WorkPackageTable);
+    new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], painter: { keysOf: () => new Set<string>() }, ledger: { generation: 1, size: 1 }, mutate: runMutation } as unknown as WorkPackageTable);
     selection.initializeSelection(['2']);
 
     const allowed = fireEvent.keyDown(root.firstElementChild!, {
@@ -184,14 +187,14 @@ describe('SelectionTransformer', () => {
     const parent = TestBed.inject(EnvironmentInjector);
     const injector = createEnvironmentInjector([
       { provide: IsolatedQuerySpace, useValue: { tableRendered: { values$: () => tableRendered }, stopAllSubscriptions: new Subject<void>() } },
-      { provide: WorkPackageViewSelectionService, useValue: { live$: () => new Subject(), retainRendered, hasSelectionState: false, selectionKeys: new Set(), reset: vi.fn() } },
-      { provide: WorkPackageViewFocusService, useValue: { whenChanged: () => new Subject(), ifShouldFocus: vi.fn(), isFocused: vi.fn(() => false) } },
+      { provide: WorkPackageViewSelectionService, useValue: { live$: () => new Subject(), getSelectedWorkPackageIds: () => [], retainRendered, hasSelectionState: false, selectionKeys: new Set(), reset: vi.fn() } },
+      { provide: WorkPackageViewFocusService, useValue: { explicitlyFocusedWorkPackage: null, whenChanged: () => new Subject(), ifShouldFocus: vi.fn(), isFocused: vi.fn(() => false) } },
     ], parent);
     const lifetime = Injector.create({ providers: [], parent: injector });
     const root = document.createElement('div');
     document.body.append(root);
     new SelectionTransformer(injector, {
-      injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger, painter: { paint: vi.fn() },
+      injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger, painter: { keysOf: () => new Set<string>() }, mutate: runMutation,
     } as unknown as WorkPackageTable);
 
     const stale = [{ workPackageId: '2', classIdentifier: 'wp-card-2', hidden: false }];
@@ -206,6 +209,65 @@ describe('SelectionTransformer', () => {
     lifetime.destroy();
     injector.destroy();
     root.remove();
+  });
+});
+
+describe('SelectionTransformer scoped repaint', () => {
+  let harness:TableHarness;
+  const ids = Array.from({ length: 20 }, (_, index) => String(index + 1));
+
+  beforeEach(async () => {
+    harness = buildTable({ workPackages: ids.map((id) => ({ id })) });
+    await harness.render();
+  });
+
+  afterEach(() => harness.destroy());
+
+  const scopes = () => {
+    const paint = vi.spyOn(harness.table.painter, 'paint');
+    return () => paint.mock.calls.map(([scope]) => scope);
+  };
+
+  it('repaints only the rows whose selection changed', () => {
+    const painted = scopes();
+
+    harness.selection.ensureSelected('5');
+
+    expect(painted()).toEqual([new Set([wpOccurrenceKey('5')])]);
+    expect(harness.row('5')).toHaveAttribute('aria-selected', 'true');
+    expect(harness.row('5')).toHaveClass('-checked');
+    expect(harness.row('4')).toHaveAttribute('aria-selected', 'false');
+
+    harness.selection.selectAll(harness.querySpace.tableRendered.value!);
+    expect(painted().at(-1)).toBe('all');
+    expect(harness.row('4')).toHaveAttribute('aria-selected', 'true');
+  });
+
+  it('repaints nothing for a selected work package without a rendered row', () => {
+    const painted = scopes();
+
+    harness.selection.replaceSelection('999');
+
+    expect(painted()).toEqual([]);
+    expect(harness.rows().every((row) => row.getAttribute('aria-selected') === 'false')).toBe(true);
+  });
+
+  it('repaints the previous and current focused rows', () => {
+    harness.focus.updateFocus('3', false, false);
+    const painted = scopes();
+
+    harness.focus.updateFocus('7', false, false);
+
+    expect(painted()).toEqual([new Set([wpOccurrenceKey('3'), wpOccurrenceKey('7')])]);
+    expect(harness.row('3')).not.toHaveAttribute('data-pressed');
+    expect(harness.row('7')).toHaveAttribute('data-pressed');
+  });
+
+  it('presses the first row when activating it publishes selection before focus', () => {
+    harness.selection.ensureSelected('1');
+    harness.focus.updateFocus('1', false, false);
+
+    expect(harness.row('1')).toHaveAttribute('data-pressed');
   });
 });
 

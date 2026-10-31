@@ -386,6 +386,13 @@ RSpec.describe "Work package table keyboard selection", :js do
       live_region.expect_announcement("1 work package selected.")
     end
 
+    it "marks a clicked first row as the current work package" do
+      wp_table.click_on_row(alpha)
+
+      expect_selection(alpha)
+      wp_table.expect_current_row(alpha)
+    end
+
     it "announces the remaining selection when a plain click collapses a batch" do
       wp_table.focus_row_by_keyboard(alpha)
       wp_table.press_keys(%i[shift space], %i[shift down], %i[shift down])
