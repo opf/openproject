@@ -43,7 +43,7 @@ import type { KeyboardNavigation } from '../../wp-fast-table/handlers/state/keyb
 import { totalsRowKey } from '../../wp-fast-table/handlers/state/keyboard/navigable-rows';
 import { WorkPackageTableSumsRowController } from './wp-table-sums-row.directive';
 
-@Component({ template: '<table><tbody><tr wpTableSumsRow></tr></tbody></table>', standalone: false })
+@Component({ template: '<table><tbody><tr class="wp-table--sums-row wp-table--row" wpTableSumsRow></tr></tbody></table>', standalone: false })
 class SumsHostComponent {}
 
 describe('WorkPackageTableSumsRowController input readiness', () => {
@@ -217,6 +217,7 @@ describe('WorkPackageTableSumsRowController semantics', () => {
     directive = debug.injector.get(WorkPackageTableSumsRowController);
     hostChangeDetector = debug.injector.get(ChangeDetectorRef);
     row = debug.nativeElement as HTMLTableRowElement;
+    harness.tbody.closest('table')!.append(row.parentElement!);
     TestBed.inject(IsolatedQuerySpace).results.putValue({
       elements: [], sumsSchema: { href: '/api/v3/sums/schema' }, totalSums: { storyPoints: 34 },
     } as unknown as WorkPackageCollectionResource);
@@ -246,10 +247,12 @@ describe('WorkPackageTableSumsRowController semantics', () => {
   it('repaints positions once per update and before the row notification', async () => {
     const harness = await setUp({});
     const events:string[] = [];
-    vi.spyOn(harness.table.painter, 'paint').mockImplementation(() => {
+    const paint = harness.table.painter.paint.bind(harness.table.painter);
+    vi.spyOn(harness.table.painter, 'paint').mockImplementation((scope) => {
+      const result = paint(scope);
       events.push(`paint:${row.getAttribute('aria-hidden')}:${row.cells.length > 0}`);
       expect(row).toHaveAttribute('role', 'row');
-      return { positionsWithdrawn: null };
+      return result;
     });
     harness.table.rowsRefreshed$.subscribe(() => events.push('notify'));
     attach(harness, true);
@@ -317,6 +320,7 @@ describe('WorkPackageTableSumsRowController semantics', () => {
     const previousPaint = vi.spyOn(previous.table.painter, 'paint');
     const replacement = buildTable({ workPackages: [], configuration: {} });
     tables.push(replacement);
+    replacement.tbody.closest('table')!.append(row.parentElement!);
     directive.workPackageTable = replacement.table;
     const replacementPaint = vi.spyOn(replacement.table.painter, 'paint');
     previous.table.destroy();

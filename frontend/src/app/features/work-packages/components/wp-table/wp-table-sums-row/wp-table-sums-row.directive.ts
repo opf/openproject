@@ -40,7 +40,6 @@ import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { totalsRowKey } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/navigable-rows';
-import { paintRowRole, paintSectionExposure } from 'core-app/features/work-packages/components/wp-fast-table/semantics/treegrid-semantics';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -117,33 +116,18 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
               if (table.destroyed || this.destroyRef.destroyed || this.workPackageTable !== table || !this.wpTableSums.isEnabled) return;
               table.keyboardNavigation?.captureOwnership();
               this.refresh(columns, resource);
-              this.paintSemantics(table);
               table.notifyRowsRefreshed(totalsRowKey);
             });
         } else if (this.element.hasChildNodes()) {
           table.keyboardNavigation?.captureOwnership();
           this.clear();
-          this.paintSemantics(table);
           table.notifyRowsRefreshed(totalsRowKey);
         }
       });
   }
 
   private reconcileSemantics(table:WorkPackageTable) {
-    if (this.paintSemantics(table)) table.painter.paint(new Set());
-  }
-
-  private paintSemantics(table:WorkPackageTable):boolean {
-    if (table.destroyed) return false;
-
-    if (this.isHidden || this.element.cells.length === 0) {
-      this.element.setAttribute('aria-hidden', 'true');
-    } else {
-      this.element.removeAttribute('aria-hidden');
-    }
-    paintRowRole(this.element, 1);
-    paintSectionExposure(this.element.parentElement as HTMLTableSectionElement);
-    return true;
+    if (!table.destroyed) table.painter.paint(new Set());
   }
 
   private clear() {

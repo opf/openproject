@@ -71,13 +71,13 @@ export function occurrenceRowKind(occurrence:RenderedOccurrence):OccurrenceRowKi
   return occurrence.kind;
 }
 
-/** Rendered occurrences keep their kind even while hidden; other rows count only while exposed. */
+/** Rendered occurrences and structural rows keep their kind even while hidden; an undeclared row counts only while exposed. */
 export function classifyRow(table:WorkPackageTable, row:HTMLTableRowElement):TableRowKind {
   const occurrence = table.ledger.byElement(row);
   if (occurrence) return occurrenceRowKind(occurrence);
-  if (!isExposedRow(row)) return 'unexposed';
   if (isEmptyResultsRow(row)) return 'empty';
   if (isTotalsRow(table, row)) return 'totals';
   if (isInlineCreateRow(row)) return 'create';
+  if (!isExposedRow(row)) return 'unexposed';
   return 'foreign';
 }

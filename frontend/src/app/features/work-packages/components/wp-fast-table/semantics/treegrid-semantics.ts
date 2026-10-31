@@ -50,17 +50,17 @@ export function paintRowRole(
   cellRole:'gridcell'|'columnheader' = 'gridcell',
   nameIdPrefix:string|null = null,
 ):void {
-  row.setAttribute('role', 'row');
-  row.setAttribute('aria-level', String(level));
+  setOrRemove(row, 'role', 'row');
+  setOrRemove(row, 'aria-level', String(level));
   let header:HTMLTableCellElement|undefined;
   Array.from(row.cells).forEach((cell) => {
     if (cellRole === 'gridcell' && cell.matches('th[scope="row"]')) {
       header = cell;
-      cell.removeAttribute('role');
-      cell.removeAttribute('aria-labelledby');
-      cell.setAttribute('aria-label', cell.dataset.rowHeaderName!);
+      setOrRemove(cell, 'role', null);
+      setOrRemove(cell, 'aria-labelledby', null);
+      setOrRemove(cell, 'aria-label', cell.dataset.rowHeaderName ?? null);
     } else {
-      cell.setAttribute('role', cellRole);
+      setOrRemove(cell, 'role', cellRole);
     }
   });
   const named = header && nameIdPrefix !== null ? header : null;
@@ -75,7 +75,7 @@ function assignId(element:HTMLElement, id:string):string {
 }
 
 export function paintSectionExposure(section:HTMLTableSectionElement):void {
-  section.setAttribute('role', 'rowgroup');
+  setOrRemove(section, 'role', 'rowgroup');
   const exposed = Array.from(section.rows).some((row) => row.getAttribute('aria-hidden') !== 'true');
   setOrRemove(section, 'aria-hidden', exposed ? null : 'true');
 }
