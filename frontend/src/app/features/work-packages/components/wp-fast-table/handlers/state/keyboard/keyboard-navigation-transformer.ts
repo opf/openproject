@@ -148,7 +148,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     private readonly view:TableEventComponent|null = null,
   ) {
     const { destroyRef, scrollContainer } = table;
-    table.keyboardNavigation = this;
+    table.attachKeyboardNavigation(this);
     this.selecting = new KeyboardSelection(table, this.wpTableSelection);
     this.interaction = new CellInteraction(table);
     const removedFromTabOrder = [scrollContainer, table.tableAndTimelineContainer]
@@ -156,9 +156,6 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     removedFromTabOrder.forEach((container) => container.setAttribute('tabindex', '-1'));
     onDestroySafely(destroyRef, () => {
       removedFromTabOrder.forEach((container) => container.removeAttribute('tabindex'));
-      if (table.keyboardNavigation === this) {
-        table.keyboardNavigation = null;
-      }
     });
 
     const onKeydown = (event:KeyboardEvent) => this.handleKeydown(event);
@@ -222,6 +219,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   public focusPosition(position:FocusPosition):void {
+    if (this.table.destroyed) return;
     const element = this.moveFocusTo(position);
     if (element) {
       this.scrollIntoView(element);
@@ -229,12 +227,14 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   public recordPosition(position:FocusPosition):void {
+    if (this.table.destroyed) return;
     this.interaction.clearWalk();
     this.current = position;
     this.userPosition = position;
   }
 
   public rememberWorkPackageAfterRender(workPackageId:string):void {
+    if (this.table.destroyed) return;
     this.rememberedAfterRender = {
       position: { key: wpOccurrenceKey(workPackageId), cell: null, desiredColumn: null },
       requestedFrom: this.userPosition,
@@ -242,16 +242,19 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   public focusEditor(handler:EditFieldHandler):void {
+    if (this.table.destroyed) return;
     this.interaction.focusEditor(handler);
   }
 
   public captureOwnership(accumulate:boolean):void {
+    if (this.table.destroyed) return;
     const active = document.activeElement;
     const inside = insideGrid(this.table.scrollContainer, active) || this.table.editing.gridFieldOwning(active) !== null;
     this.owned = accumulate ? this.owned || inside : inside;
   }
 
   public rowsChanged({ scope, rendered }:MutationExit):void {
+    if (this.table.destroyed) return;
     this.recover(rendered ? this.requestedPosition() : null, !rendered, this.rowsOf(scope));
   }
 
@@ -264,6 +267,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   public adoptOverlay(overlay:HTMLElement):void {
+    if (this.table.destroyed) return;
     if (overlay.contains(document.activeElement)) {
       this.focusLeftTable = false;
     }
@@ -284,6 +288,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   public returnFocus(origin:FocusPosition, closing?:EditFieldHandler):boolean {
+    if (this.table.destroyed) return false;
     const rows = buildNavigableRows(this.table);
     const originIndex = rows.findIndex((row) => row.key === origin.key);
     const target = originIndex === -1 ? this.current : reconcilePosition(rows, origin, originIndex);
@@ -298,14 +303,17 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   public positionOfCell(cell:Element):FocusPosition|null {
+    if (this.table.destroyed) return null;
     return this.positionOf(cell.closest<HTMLElement>(`.${navigableCellClassName}`) ?? cell.closest('tr'));
   }
 
   public originForControl(control:HTMLElement):FocusPosition|null {
+    if (this.table.destroyed) return null;
     return this.interaction.originForControl(control);
   }
 
   public elementAt(position:FocusPosition):HTMLElement|null {
+    if (this.table.destroyed) return null;
     const row = this.rowElement(position.key);
     if (!row || position.cell === null) {
       return row;
@@ -608,6 +616,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   public scrollControlIntoView(control:HTMLElement):void {
+    if (this.table.destroyed) return;
     this.scrollIntoView(control);
   }
 
@@ -702,6 +711,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   public repaintCurrentPosition():void {
+    if (this.table.destroyed) return;
     if (this.current) {
       this.paintRoving(this.elementAt(this.current));
     }

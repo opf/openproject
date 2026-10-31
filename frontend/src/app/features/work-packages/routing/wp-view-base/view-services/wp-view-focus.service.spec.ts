@@ -237,7 +237,7 @@ describe('WorkPackageViewFocusService', () => {
         wpCreate: { onNewWorkPackage: () => created },
         untilDestroyed: () => (source:unknown) => source,
         resetRow: () => undefined,
-        table: { configuration: { isEmbedded: false } },
+        table: { configuration: { isEmbedded: false }, keyboardNavigation: { rememberWorkPackageAfterRender: () => undefined } },
         wpTableSelection: selection,
         wpTableFocus: focus,
         wpInlineCreate: { newInlineWorkPackageCreated: new Subject<string>() },
