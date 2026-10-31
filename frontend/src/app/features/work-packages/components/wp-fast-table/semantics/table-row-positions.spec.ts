@@ -78,7 +78,7 @@ describe('TableRowPositions', () => {
 
   it('reprojects local structure without changing the body coordinates', async () => {
     await mount();
-    harness.totalsRow().setAttribute('aria-hidden', 'true');
+    harness.totalsRow().replaceChildren();
     harness.table.painter.paint(new Set());
     expect(harness.totalsRow()).not.toHaveAttribute('aria-rowindex');
     expect(harness.row('21')).toHaveAttribute('aria-rowindex', '22');

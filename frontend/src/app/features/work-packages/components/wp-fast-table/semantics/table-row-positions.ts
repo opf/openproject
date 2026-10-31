@@ -35,7 +35,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { groupOccurrenceKey, placeholderOccurrenceKey, wpOccurrenceKey, type RenderDraft } from '../rendered-occurrence-ledger';
 import type { WorkPackageTable } from '../wp-fast-table';
-import { classifyRow } from '../helpers/structural-rows';
+import { classifyRow, isExposedRow } from '../helpers/structural-rows';
 import { setOrRemove } from './treegrid-semantics';
 import { bodyRowPositions, draftAgrees, type BodyRowPositions, type PositionGroup } from './body-row-positions';
 
@@ -184,6 +184,7 @@ export class TableRowPositions {
         return this.withdraw('foreign row');
       }
       if (kind === 'placeholder' || kind === 'unexposed') continue;
+      if ((kind === 'empty' || kind === 'totals' || kind === 'create') && !isExposedRow(row)) continue;
       if (kind === 'empty') {
         if (body.count !== 0 || emptySurrogate) return this.withdraw('unexpected empty-results row');
         emptySurrogate = row;

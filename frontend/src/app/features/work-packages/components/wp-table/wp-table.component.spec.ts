@@ -784,19 +784,23 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     it('repaints positions after permission and reference template changes', async () => {
       canReference.next(true);
       const component = await mount(inlineCreate);
-      const painted = vi.spyOn(component.workPackageTable.painter, 'paint');
-      painted.mockImplementation(() => {
+      const { painter } = component.workPackageTable;
+      const paint = painter.paint.bind(painter);
+      const painted = vi.spyOn(painter, 'paint');
+      painted.mockImplementation((scope) => {
+        const result = paint(scope);
         expect(createSection()).not.toHaveAttribute('aria-hidden');
-        return { positionsWithdrawn: null };
+        return result;
       });
 
       fireEvent.click(within(createSection()).getByText('Reference an existing work package'));
       expect(painted).toHaveBeenCalled();
       expect(within(createSection()).getByRole('textbox', { name: 'Work package to reference' })).toBeInTheDocument();
       const exposure:(string|null)[] = [];
-      painted.mockImplementation(() => {
+      painted.mockImplementation((scope) => {
+        const result = paint(scope);
         exposure.push(createSection().getAttribute('aria-hidden'));
-        return { positionsWithdrawn: null };
+        return result;
       });
       canAdd.next(false);
       canReference.next(false);

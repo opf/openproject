@@ -28,7 +28,8 @@
 import type { RenderDraft } from '../rendered-occurrence-ledger';
 import type { WorkPackageTable } from '../wp-fast-table';
 import { TableRowPositions, type CapturedRowPositions } from './table-row-positions';
-import { TreegridSemantics } from './treegrid-semantics';
+import { classifyRow } from '../helpers/structural-rows';
+import { paintRowRole, paintSectionExposure, setOrRemove, TreegridSemantics } from './treegrid-semantics';
 
 /** `'all'` or the keys of the rows whose own attributes changed; row positions are always repainted for the whole table. */
 export type PaintScope = 'all'|ReadonlySet<string>;
@@ -57,7 +58,23 @@ export class RowStatePainter {
     } else {
       this.semantics.paintKeys(scope);
     }
+    this.paintEdgeRows();
     return { positionsWithdrawn: this.positions.paint() };
+  }
+
+  /** Totals, inline-create and empty-results rows live in their own sections, outside the results body. */
+  private paintEdgeRows():void {
+    if (this.table.destroyed) return;
+    const sections = Array.from(this.table.tbody.closest('table')?.tBodies ?? []);
+    sections
+      .filter((section) => section !== this.table.tbody)
+      .forEach((section) => Array.from(section.rows).forEach((row) => {
+        const kind = classifyRow(this.table, row);
+        if (kind !== 'totals' && kind !== 'create' && kind !== 'empty') return;
+        paintRowRole(row, 1);
+        if (kind === 'totals') setOrRemove(row, 'aria-hidden', row.cells.length === 0 ? 'true' : null);
+      }));
+    sections.forEach(paintSectionExposure);
   }
 
   /** The keys of every rendered occurrence of a work package. */

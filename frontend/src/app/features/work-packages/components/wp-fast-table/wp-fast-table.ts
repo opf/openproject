@@ -51,7 +51,6 @@ import type { WorkPackageTableRow } from './wp-table.interfaces';
 import type { KeyboardNavigation } from './handlers/state/keyboard/keyboard-navigation-transformer';
 import type { TableSelectionFeedback } from './handlers/state/selection-feedback';
 import type { CapturedRowPositions } from './semantics/table-row-positions';
-import { paintSectionExposure } from './semantics/treegrid-semantics';
 import { RowStatePainter, type RowReplacement } from './semantics/row-state-painter';
 import { RowClassifier } from './semantics/row-classifier';
 
@@ -266,9 +265,8 @@ export class WorkPackageTable {
     this.rowsRefreshedSubject.next(key);
   }
 
-  /** Re-exposes a structural section whose rows changed outside the render pass. */
-  public reconcileSection(section:HTMLTableSectionElement):void {
-    paintSectionExposure(section);
+  /** Repaints the structural rows and sections after rows changed outside the render pass. */
+  public reconcileSection():void {
     this.painter.paint(new Set());
   }
 
