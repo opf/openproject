@@ -27,7 +27,7 @@
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { userEvent } from 'vitest/browser';
-import { buildTable, TableHarness, TableHarnessOptions } from '../../../testing/table-harness';
+import { buildTable, TableHarness, TableHarnessOptions, scopeKeys } from '../../../testing/table-harness';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import { States } from 'core-app/core/states/states.service';
 import { insideGrid, navigableCells } from './roving-tabindex';
@@ -592,6 +592,34 @@ describe('CellInteraction', () => {
     expect(outside).toHaveFocus();
     expect(input).toHaveAttribute('tabindex', '-1');
     outside.remove();
+  });
+
+  it('repaints the edited row and tells navigation before focus returns on cancel', async () => {
+    const table = await mount();
+    const cellA = navigableCells(table.row('1'))[1];
+    table.table.keyboardNavigation!.focusPosition(positionOf(table, cellA));
+    fireEvent.keyDown(cellA, { key: 'Enter' });
+    const inputA = await waitFor(() => within(cellA).getByRole<HTMLInputElement>('textbox'));
+    await waitFor(() => expect(inputA).toHaveFocus());
+    const handlerA = table.table.editing.forms['1'].activeFields.subject;
+    const navigation = table.table.keyboardNavigation!;
+    const events:string[] = [];
+    const rowsChanged = navigation.rowsChanged.bind(navigation);
+    vi.spyOn(navigation, 'rowsChanged').mockImplementation((exit) => {
+      events.push(`rowsChanged:${exit.full}:${scopeKeys(exit.scope).join(',')}`);
+      rowsChanged(exit);
+    });
+    const returnFocus = navigation.returnFocus.bind(navigation);
+    vi.spyOn(navigation, 'returnFocus').mockImplementation((origin, closing) => {
+      events.push('returnFocus');
+      return returnFocus(origin, closing);
+    });
+
+    handlerA.handleUserCancel();
+
+    expect(events).toEqual([`rowsChanged:false:${Array.from(table.table.painter.keysOf('1')).join(',')}`, 'returnFocus']);
+    expect(navigableCells(table.row('1'))[1]).toHaveFocus();
+    expect(within(table.row('1')).queryByRole('textbox')).not.toBeInTheDocument();
   });
 
   it('returns Escape to the cell of an editor re-engaged after a pointer opened another', async () => {

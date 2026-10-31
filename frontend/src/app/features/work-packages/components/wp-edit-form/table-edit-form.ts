@@ -193,11 +193,12 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     const td = this.findCell(fieldName)!;
 
     if (cell) {
-      td.style.width = '';
-      td.style.maxWidth = '';
-      this.cellBuilder.refresh(cell, this.resource, fieldName);
-      td.classList.remove(editModeClassName);
-      this.table.painter.paint(this.table.painter.keysOf(this.resource.id!));
+      this.table.mutate(this.table.painter.keysOf(this.resource.id!), () => {
+        td.style.width = '';
+        td.style.maxWidth = '';
+        this.cellBuilder.refresh(cell, this.resource, fieldName);
+        td.classList.remove(editModeClassName);
+      });
 
       if (focus || userEnded) {
         this.returnFocusFrom(cell, fieldName, focus, closing);

@@ -126,6 +126,8 @@ export class WorkPackageTable {
 
   private pendingRender:PendingRender|null = null;
 
+  private schedulingRender = false;
+
   // Work package editing context handler in the table, which handles open forms
   // and their contexts
   public editing:WorkPackageTableEditingContext = new WorkPackageTableEditingContext(this, this.injector);
@@ -145,9 +147,9 @@ export class WorkPackageTable {
     return this.destroyRef.destroyed;
   }
 
-  /** True between scheduling a full render and its frame commit. */
+  /** True from the ownership capture that starts a full render until its frame commit. */
   public get hasPendingRender():boolean {
-    return this.pendingRender !== null;
+    return this.schedulingRender || this.pendingRender !== null;
   }
 
   public destroy():void {
@@ -299,12 +301,17 @@ export class WorkPackageTable {
 
   private performRenderPass({ timeline }:RenderPassOptions):void {
     this.keyboardNavigation?.captureOwnership(this.mutations.depth > 0 || this.hasPendingRender);
-    this.editing.reset();
-    const promoted = timeline || this.pendingRender?.timeline === true;
-    const pass = this.rowBuilder.buildRows({ timeline: promoted });
-    const pending:PendingRender = { pass, timeline: promoted, positions: this.painter.capturePositions(pass.draft) };
-    this.pendingRender = pending;
-    this.uiWork.frame(() => this.commitRender(pending));
+    this.schedulingRender = true;
+    try {
+      this.editing.reset();
+      const promoted = timeline || this.pendingRender?.timeline === true;
+      const pass = this.rowBuilder.buildRows({ timeline: promoted });
+      const pending:PendingRender = { pass, timeline: promoted, positions: this.painter.capturePositions(pass.draft) };
+      this.pendingRender = pending;
+      this.uiWork.frame(() => this.commitRender(pending));
+    } finally {
+      this.schedulingRender = false;
+    }
   }
 
   private commitRender(pending:PendingRender):void {
