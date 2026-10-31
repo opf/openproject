@@ -246,9 +246,10 @@ describe('WorkPackageTableSumsRowController semantics', () => {
   it('repaints positions once per update and before the row notification', async () => {
     const harness = await setUp({});
     const events:string[] = [];
-    vi.spyOn(harness.table.rowPositions, 'paint').mockImplementation(() => {
+    vi.spyOn(harness.table.painter, 'paint').mockImplementation(() => {
       events.push(`paint:${row.getAttribute('aria-hidden')}:${row.cells.length > 0}`);
       expect(row).toHaveAttribute('role', 'row');
+      return { positionsWithdrawn: null };
     });
     harness.table.rowsRefreshed$.subscribe(() => events.push('notify'));
     attach(harness, true);
@@ -313,11 +314,11 @@ describe('WorkPackageTableSumsRowController semantics', () => {
   it('repaints only the replacement table after a pending schema resolves', async () => {
     const previous = await setUp({});
     attach(previous, true);
-    const previousPaint = vi.spyOn(previous.table.rowPositions, 'paint');
+    const previousPaint = vi.spyOn(previous.table.painter, 'paint');
     const replacement = buildTable({ workPackages: [], configuration: {} });
     tables.push(replacement);
     directive.workPackageTable = replacement.table;
-    const replacementPaint = vi.spyOn(replacement.table.rowPositions, 'paint');
+    const replacementPaint = vi.spyOn(replacement.table.painter, 'paint');
     previous.table.destroy();
 
     await resolveSchema();
@@ -333,7 +334,7 @@ describe('WorkPackageTableSumsRowController semantics', () => {
     harness.table.rowsRefreshed$.subscribe(refreshed);
     attach(harness, true);
     directive.wpTableSums.setEnabled(false);
-    const painted = vi.spyOn(harness.table.rowPositions, 'paint');
+    const painted = vi.spyOn(harness.table.painter, 'paint');
 
     await resolveSchema();
 
@@ -348,7 +349,7 @@ describe('WorkPackageTableSumsRowController semantics', () => {
     const harness = await setUp({});
     attach(harness, true);
     harness.table.destroy();
-    const painted = vi.spyOn(harness.table.rowPositions, 'paint');
+    const painted = vi.spyOn(harness.table.painter, 'paint');
 
     await resolveSchema();
 

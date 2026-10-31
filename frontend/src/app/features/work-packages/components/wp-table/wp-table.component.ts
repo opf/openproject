@@ -277,7 +277,7 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
   private renderHeader():void {
     this.cdRef.detectChanges();
-    this.workPackageTable?.rowPositions.paint();
+    this.workPackageTable?.painter.paint(new Set());
   }
 
   public get isEmbedded() {

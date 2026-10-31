@@ -46,6 +46,22 @@ export interface CapturedRowPositions {
   readonly body:BodyRowPositions;
 }
 
+export interface WithdrawnRowPositions {
+  readonly withdrawn:string;
+}
+
+/** What a render pass learned about row positions; null when there was no collection to check. */
+export type RowPositionEvidence = CapturedRowPositions|WithdrawnRowPositions|null;
+
+interface Projection {
+  readonly count:number|null;
+  readonly indices:Map<HTMLTableRowElement, number>;
+}
+
+interface Unpainted {
+  readonly withdrawn:string|null;
+}
+
 // Group counts are computed from the unscoped query results, so grouped positions trust only the query collections:
 // `/api/v3/work_packages` and `/api/v3/workspaces/:id/work_packages` (the self links
 // `WorkPackageCollectionFromQueryService` emits), plus the `projects/:id` alias of the latter.
@@ -67,9 +83,13 @@ export class TableRowPositions {
 
   private foreignRowReported = false;
 
+  private withdrawal:string|null = null;
+
+  private captureWithdrawal:string|null = null;
+
   constructor(private readonly table:WorkPackageTable) {}
 
-  public capture(draft:RenderDraft):CapturedRowPositions|null {
+  public capture(draft:RenderDraft):RowPositionEvidence {
     const source = this.table.querySpace.results.value;
     if (!source) return null;
     if (this.withdrawnByMode()) return this.notOffered('expanded relation columns');
@@ -104,22 +124,31 @@ export class TableRowPositions {
     return draftAgrees(body, rows, positionGroups) ? { kind: 'query', source, body } : this.withdraw('rows disagree with collection');
   }
 
-  public commit(snapshot:CapturedRowPositions|null):void {
-    this.snapshot = snapshot;
+  public commit(evidence:RowPositionEvidence):void {
+    this.snapshot = evidence && 'kind' in evidence ? evidence : null;
+    this.captureWithdrawal = evidence && 'withdrawn' in evidence ? evidence.withdrawn : null;
   }
 
   /** Producers call this synchronously after every imperative row move or structural change, so no frame exposes a stale index. */
-  public paint():void {
-    if (this.table.destroyed) return;
+  public paint():string|null {
+    this.withdrawal = null;
+    if (this.table.destroyed) return null;
     const element = this.table.tbody.closest('table');
-    if (!element || (!this.currentSnapshot() && !element.hasAttribute('aria-rowcount'))) return;
+    if (!element) return null;
+    if (!this.currentSnapshot() && !element.hasAttribute('aria-rowcount')) {
+      this.withdrawal = this.snapshot ? 'collection changed before render' : this.captureWithdrawal;
+      return this.withdrawal;
+    }
     const rows = Array.from(element.rows);
-    const projection = this.project(element, rows);
+    const result = this.project(element, rows);
+    const projection = 'indices' in result ? result : null;
     setOrRemove(element, 'aria-rowcount', projection ? String(projection.count ?? -1) : null);
     rows.forEach((row) => {
       const position = projection?.indices.get(row);
       setOrRemove(row, 'aria-rowindex', position === undefined ? null : String(position));
     });
+    this.withdrawal = 'indices' in result ? null : result.withdrawn;
+    return this.withdrawal;
   }
 
   /** A refreshed row replaces its predecessor in place under the same occurrence key, so it inherits that row's index. */
@@ -133,7 +162,7 @@ export class TableRowPositions {
   }
 
   /** Contextual ancestors make the query-wide total unknowable, so rendered rows count from the page's first rank. */
-  private capturePage(source:WorkPackageCollectionResource, draft:RenderDraft):CapturedRowPositions|null {
+  private capturePage(source:WorkPackageCollectionResource, draft:RenderDraft):CapturedRowPositions|WithdrawnRowPositions {
     const { offset, pageSize } = source;
     const firstRank = (offset - 1) * pageSize;
     if (!Number.isSafeInteger(offset) || offset < 1 || !Number.isSafeInteger(pageSize) || pageSize < 1
@@ -160,8 +189,8 @@ export class TableRowPositions {
       && source.elements.every((wp, index) => wp.id === originalRows[index]);
   }
 
-  private project(element:HTMLTableElement, rows:HTMLTableRowElement[]) {
-    if (!this.snapshot) return null;
+  private project(element:HTMLTableElement, rows:HTMLTableRowElement[]):Projection|Unpainted {
+    if (!this.snapshot) return { withdrawn: this.captureWithdrawal };
     const snapshot = this.currentSnapshot();
     if (!snapshot) return this.notOffered('collection changed before render');
     const { body } = snapshot;
@@ -216,9 +245,9 @@ export class TableRowPositions {
     return this.snapshot?.source === this.table.querySpace.results.value ? this.snapshot : null;
   }
 
-  private withdraw(inconsistency:string):null {
+  private withdraw(inconsistency:string):WithdrawnRowPositions {
     debugLog(`Row positions withdrawn: ${inconsistency}`);
-    return null;
+    return { withdrawn: inconsistency };
   }
 
   private reportForeignRow():void {
@@ -227,8 +256,8 @@ export class TableRowPositions {
     window.ErrorReporter.captureMessage('Row positions withdrawn: foreign row', 'warning');
   }
 
-  private notOffered(mode:string):null {
+  private notOffered(mode:string):WithdrawnRowPositions {
     debugLog(`Row positions not offered: ${mode}`);
-    return null;
+    return { withdrawn: mode };
   }
 }

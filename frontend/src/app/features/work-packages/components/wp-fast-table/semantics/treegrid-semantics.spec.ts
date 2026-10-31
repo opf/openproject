@@ -220,8 +220,8 @@ describe('TreegridSemantics', () => {
   it('names only work package cells after repeated paints', async () => {
     mount({ ...groupedFixtures, productionMarkup: true });
     await harness.render();
-    harness.table.semantics.paint();
-    harness.table.semantics.paintWorkPackage('1');
+    harness.table.painter.paint();
+    harness.table.painter.paint(harness.table.painter.keysOf('1'));
     expect(within(harness.row('1')).getByRole('rowheader', { name: 'Work package 1' })).toHaveClass('subject');
     [groupHeader(0), groupHeader(1), sumsRow(0), sumsRow(1), harness.totalsRow(), harness.headerRow()]
       .forEach((row) => {
@@ -534,10 +534,9 @@ describe('TreegridSemantics', () => {
     const before = harness.tbody.outerHTML;
 
     harness.table.refreshRows(workPackage);
-    const semantics = harness.table.semantics;
-    semantics.paint();
-    semantics.paintWorkPackage('1');
-    semantics.paintSelection();
+    const { painter } = harness.table;
+    painter.paint();
+    painter.paint(painter.keysOf('1'));
 
     expect(row).not.toHaveAttribute('aria-level');
     expect(row).toHaveAttribute('aria-selected', 'false');
@@ -600,7 +599,7 @@ describe('TreegridSemantics', () => {
     await harness.render();
     const observer = new MutationObserver(() => undefined);
     observer.observe(harness.tbody, { subtree: true, attributes: true, attributeFilter: ['aria-expanded', 'aria-hidden'] });
-    harness.table.semantics.paint();
+    harness.table.painter.paint();
     const records = observer.takeRecords();
     observer.disconnect();
     expect(records).toEqual([]);
