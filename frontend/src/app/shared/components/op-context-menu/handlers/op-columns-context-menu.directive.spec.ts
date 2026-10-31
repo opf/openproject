@@ -152,7 +152,7 @@ describe('OpColumnsContextMenu keyboard focus', () => {
 
   const openMenu = async () => {
     mountMenu();
-    harness.table.keyboardNavigation!.focusPosition({ key: headerRowKey, cell: 1, desiredColumn: 1 });
+    harness.table.keyboardNavigation.focusPosition({ key: headerRowKey, cell: 1, desiredColumn: 1 });
     fireEvent.click(subjectHeader());
     await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
     return within(document.querySelector<HTMLElement>('.op-context-menu--overlay')!);
@@ -190,7 +190,7 @@ describe('OpColumnsContextMenu keyboard focus', () => {
 
   it('Escape immediately after opening closes the menu and returns focus to the header cell', async () => {
     mountMenu();
-    harness.table.keyboardNavigation!.focusPosition({ key: headerRowKey, cell: 1, desiredColumn: 1 });
+    harness.table.keyboardNavigation.focusPosition({ key: headerRowKey, cell: 1, desiredColumn: 1 });
     fireEvent.click(subjectHeader());
 
     fireEvent.keyDown(subjectHeader(), { key: 'Escape' });

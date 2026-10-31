@@ -81,7 +81,7 @@ describe('KeyboardSelection', () => {
     return table;
   };
 
-  const navigation = (table:TableHarness) => table.table.keyboardNavigation!;
+  const navigation = (table:TableHarness) => table.table.keyboardNavigation;
 
   const focusKey = (table:TableHarness, key:string) => navigation(table)
     .focusPosition({ key, cell: null, desiredColumn: null });
