@@ -33,13 +33,10 @@
           <caption class="sr-only">
             <span [attr.id]="sortDescriptionId">{{sortDescription}}</span>
           </caption>
-          <thead class="-sticky" role="rowgroup">
-            <tr
-              role="row"
-              aria-level="1">
+          <thead class="-sticky">
+            <tr>
               @if (configuration.dragAndDropEnabled) {
-                <th class="wp-table--manual-sort-th -short hide-when-print"
-                  role="columnheader">
+                <th class="wp-table--manual-sort-th -short hide-when-print">
                   <div class="generic-table--empty-header">
                     <span class="sr-only">{{text.sorting}}</span>
                     @if (manualSortEnabled) {
@@ -50,7 +47,6 @@
               }
               @if (baselineEnabled) {
                 <th class="wp-table--baseline-th -short hide-when-print"
-                  role="columnheader"
                   [attr.aria-label]="text.baselineHeader">
                   <div class="generic-table--empty-header op-table-baseline--column-header">
                     <svg op-baseline-icon size="small" />
@@ -62,7 +58,6 @@
                   [attr.aria-label]="column.name"
                   [ngClass]="{'-max': column.id === 'subject', '-min-200': ['estimatedTime', 'remainingTime'].includes(column.id) }"
                   class="wp-table--table-header wp-table--navigable-cell"
-                  role="columnheader"
                   [attr.aria-sort]="ariaSort(column)">
                   <sortHeader [headerColumn]="column"
                     [locale]="column.custom_field && column.custom_field.name_locale || locale"
@@ -74,7 +69,6 @@
               }
               @if (configuration.columnMenuEnabled || configuration.actionsColumnEnabled) {
                 <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th wp-table--navigable-cell -short hide-when-print"
-                  role="columnheader"
                   [attr.aria-label]="configuration.columnMenuEnabled ? text.configurationHeader : null">
                   @if (configuration.columnMenuEnabled) {
                     <div class="generic-table--sort-header-outer">
@@ -88,13 +82,9 @@
             </tr>
           </thead>
           @if (!isEmbedded && query && results.count === 0) {
-            <tbody class="work-package--empty-tbody"
-              role="rowgroup">
-              <tr id="empty-row-notification"
-                role="row"
-                aria-level="1">
-                <td [attr.colspan]="numTableColumns"
-                  role="gridcell">
+            <tbody class="work-package--empty-tbody">
+              <tr id="empty-row-notification">
+                <td [attr.colspan]="numTableColumns">
                   <span>
                     <op-icon icon-classes="icon-info1 icon-context" />
                     <span>

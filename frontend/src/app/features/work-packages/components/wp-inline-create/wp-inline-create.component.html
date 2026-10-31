@@ -2,13 +2,10 @@
   @if (mode === 'inactive') {
     <tr
       class="wp-inline-create-button-row hide-when-print"
-      role="row"
-      aria-level="1"
       >
       <td
         [attr.colspan]="colspan"
         class="wp-inline-create-button-td"
-        role="gridcell"
         >
         @if (canAdd) {
           <button
@@ -45,13 +42,10 @@
   @if (hasReferenceClass && mode === 'reference') {
     <tr
       class="wp-inline-create-button-row hide-when-print"
-      role="row"
-      aria-level="1"
       >
       <td
         [attr.colspan]="colspan"
         class="wp-inline-reference-row-td -no-highlighting"
-        role="gridcell"
         >
         <ng-container *ngComponentOutlet="referenceClass; injector: injector" />
       </td>

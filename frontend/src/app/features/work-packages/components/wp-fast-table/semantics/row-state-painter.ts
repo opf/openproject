@@ -62,10 +62,15 @@ export class RowStatePainter {
     return { positionsWithdrawn: this.positions.paint() };
   }
 
-  /** Totals, inline-create and empty-results rows live in their own sections, outside the results body. */
+  /** The column header, totals, inline-create and empty-results rows live in their own sections, outside the results body. */
   private paintEdgeRows():void {
     if (this.table.destroyed) return;
-    const sections = Array.from(this.table.tbody.closest('table')?.tBodies ?? []);
+    const element = this.table.tbody.closest('table');
+    if (element?.tHead) {
+      setOrRemove(element.tHead, 'role', 'rowgroup');
+      Array.from(element.tHead.rows).forEach((row) => paintRowRole(row, 1, 'columnheader'));
+    }
+    const sections = Array.from(element?.tBodies ?? []);
     sections
       .filter((section) => section !== this.table.tbody)
       .forEach((section) => Array.from(section.rows).forEach((row) => {

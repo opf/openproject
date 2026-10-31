@@ -584,6 +584,14 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(headerRow()).not.toHaveAttribute('aria-expanded');
     });
 
+    it('paints the column header role on every header cell', async () => {
+      baselineActive = true;
+      await mount({ dragAndDropEnabled: true, actionsColumnEnabled: true });
+      const cells = Array.from((headerRow() as HTMLTableRowElement).cells);
+
+      expect(cells.map((cell) => cell.getAttribute('role'))).toEqual(cells.map(() => 'columnheader'));
+    });
+
     it('names the drag, baseline, query and actions column headers', async () => {
       baselineActive = true;
       await mount({ dragAndDropEnabled: true, actionsColumnEnabled: true });
