@@ -1,0 +1,13 @@
+{
+  "_type": "requirement",
+  "current_version": {
+    "_type": "requirement-version",
+    "name": "Users can sign in",
+    "reference": "REQ-001",
+    "criticality": "MAJOR",
+    "category": { "code": "CAT_FUNCTIONAL" },
+    "status": "APPROVED",
+    "description": "<p>Registered users can sign in with their credentials.</p>"
+  },
+  "verified_by": ["TC-001", "TC-002"]
+}

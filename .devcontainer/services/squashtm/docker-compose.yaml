@@ -1,0 +1,69 @@
+volumes:
+  squashtm_db_data:
+services:
+  squashtm-seed:
+    image: alpine:3.22
+    restart: on-failure
+    networks:
+      openproject:
+        ipv4_address: 172.30.0.42
+    depends_on:
+      squashtm:
+        condition: service_healthy
+    environment:
+      OPENPROJECT_DOCKER_DEV_TLD: ${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+      CURL_CA_BUNDLE: /tls/ca-certificates.crt
+    volumes:
+      - ./:/seed:ro
+      - cacert:/tls:ro
+    command:
+      - sh
+      - -c
+      - apk add --no-cache bash curl jq && exec bash /seed/seed.sh
+
+  squashtm:
+    image: squashtest/squash
+    restart: unless-stopped
+    networks:
+      openproject:
+        ipv4_address: 172.30.0.40
+    environment:
+      JAVA_TOOL_OPTIONS: "-Dsquash.rest-api.disallow-basic-authentication=false"
+      SPRING_PROFILES_ACTIVE: postgresql
+      SPRING_DATASOURCE_URL: jdbc:postgresql://squashtm-db:5432/squashtm
+      SPRING_DATASOURCE_USERNAME: ${SQUASH_DB_USER:-squashtm}
+      SPRING_DATASOURCE_PASSWORD: ${SQUASH_DB_PASSWORD:-AVeryS3cureP4ssw0rd}
+      SQUASH_REST_API_JWT_SECRET: Ym9uam91cmplc3Vpc2RldmVsb3BwZXVzZXN1cnNxdWFzaHRtZXRub3Vzc29tbWVzZW5sYW5uZWUyMDI0ISEhIS
+      VIRTUAL_HOST: squashtm.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.squashtm.rule=Host(`squashtm.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}`)"
+      - "traefik.http.routers.squashtm.entrypoints=websecure"
+    depends_on:
+      squashtm-db:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD-SHELL", "wget -q -O - http://localhost:8080/squash/isSquashAlive  | grep -q 'Alive' || exit 1" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  squashtm-db:
+    image: postgres:17
+    networks:
+      openproject:
+        ipv4_address: 172.30.0.41
+    environment:
+      POSTGRES_DB: squashtm
+      POSTGRES_USER: ${SQUASH_DB_USER:-squashtm}
+      POSTGRES_PASSWORD: ${SQUASH_DB_PASSWORD:-AVeryS3cureP4ssw0rd}
+    volumes:
+      - "squashtm_db_data:/var/lib/postgresql/data"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
