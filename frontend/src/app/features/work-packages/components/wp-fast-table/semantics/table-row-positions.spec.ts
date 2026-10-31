@@ -169,7 +169,7 @@ describe('TableRowPositions', () => {
       }],
       ['not offered', 'collection changed before render', async () => {
         await mount();
-        vi.spyOn(harness.table.uiWork, 'frame').mockImplementation(() => undefined);
+        harness.holdFrames();
         void harness.render([{ id: '31' }]);
         harness.table.painter.paint(new Set());
       }],
@@ -337,13 +337,12 @@ describe('TableRowPositions', () => {
 
   it('clears stale coordinates before a newer collection commits', async () => {
     await mount();
-    const frames:(() => void)[] = [];
-    vi.spyOn(harness.table.uiWork, 'frame').mockImplementation((callback) => { frames.push(callback); });
+    const frames = harness.holdFrames();
     const rendered = harness.render([{ id: '31' }, { id: '32' }]);
     harness.table.painter.paint(new Set());
     expect(table()).not.toHaveAttribute('aria-rowcount');
     expect(harness.row('21')).not.toHaveAttribute('aria-rowindex');
-    frames.splice(0).forEach((callback) => callback());
+    frames.commit();
     await rendered;
     expect(harness.row('31')).toHaveAttribute('aria-rowindex', '22');
     expect(table()).toHaveAttribute('aria-rowcount', '103');
@@ -401,7 +400,7 @@ describe('TableRowPositions', () => {
       occurrence.element!.replaceWith(replacement);
       return replacement;
     });
-    vi.spyOn(harness.table.uiWork, 'frame').mockImplementation(() => undefined);
+    harness.holdFrames();
     void harness.render([{ id: '21' }, { id: '22' }]);
     harness.table.refreshRows(harness.table.originalRowIndex['21'].object);
     harness.expectNoRowPositions();
@@ -606,15 +605,14 @@ describe('TableRowPositions', () => {
 
   it('publishes indices from the accepted render instead of a superseded frame', async () => {
     await mount();
-    const frames:(() => void)[] = [];
-    vi.spyOn(harness.table.uiWork, 'frame').mockImplementation((callback) => { frames.push(callback); });
+    const frames = harness.holdFrames();
     const first = harness.render([{ id: '31' }]);
     const second = harness.render([{ id: '41' }, { id: '42' }]);
     const publications:(string|null)[][] = [];
     const subscription = harness.querySpace.tableRendered.values$().subscribe(() => {
       publications.push(harness.rows().map(index));
     });
-    frames.splice(0).forEach((callback) => callback());
+    frames.commit();
     await Promise.all([first, second]);
     subscription.unsubscribe();
     expect(harness.rowIds()).toEqual(['41', '42']);

@@ -167,6 +167,12 @@ export interface TableHarnessOptions {
   beforeAttach?:(injector:Injector) => void;
 }
 
+export interface HeldFrames {
+  readonly pending:() => number;
+  readonly commit:() => void;
+  readonly release:() => void;
+}
+
 export interface TableHarness {
   readonly table:WorkPackageTable;
   readonly tbody:HTMLTableSectionElement;
@@ -179,6 +185,8 @@ export interface TableHarness {
   render(workPackages?:WorkPackageFixture[]):Promise<RenderedWorkPackage[]>;
   /** Resolves with the next completed table render. */
   nextRender():Promise<RenderedWorkPackage[]>;
+  /** Intercepts the table's frame scheduling until `release()`; `commit()` runs the held frames in order. */
+  holdFrames():HeldFrames;
   /** Every rendered work-package row, relation rows included. */
   rows():HTMLTableRowElement[];
   /** Asserts the `aria-rowindex` of every table row in document order and the table's `aria-rowcount`; requires `productionMarkup`. */
@@ -372,6 +380,15 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     },
 
     nextRender,
+    holdFrames() {
+      const held:(() => void)[] = [];
+      const spy = vi.spyOn(table.uiWork, 'frame').mockImplementation((callback) => { held.push(callback); });
+      return {
+        pending: () => held.length,
+        commit: () => { held.splice(0).forEach((callback) => callback()); },
+        release: () => { spy.mockRestore(); },
+      };
+    },
 
     rows() {
       return Array.from(dom.tbody.querySelectorAll<HTMLTableRowElement>('tr.wp-table--row'));

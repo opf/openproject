@@ -1176,9 +1176,7 @@ describe('KeyboardNavigationTransformer', () => {
 
     it('keeps ownership captured during a pending render when a second capture sees body', async () => {
       const table = await mount();
-      const frames:FrameRequestCallback[] = [];
-      const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
-        .mockImplementation((callback) => frames.push(callback));
+      const frames = table.holdFrames();
       try {
         table.row('2').focus();
         table.table.redrawTableAndTimeline();
@@ -1187,19 +1185,17 @@ describe('KeyboardNavigationTransformer', () => {
         navigation(table).captureOwnership();
         await Promise.resolve();
 
-        frames.splice(0).forEach((frame) => frame(0));
+        frames.commit();
 
         expect(table.row('2')).toHaveFocus();
       } finally {
-        frameSpy.mockRestore();
+        frames.release();
       }
     });
 
     it('a row refresh between scheduling a full render and its commit leaves focus to the commit', async () => {
       const table = await mount();
-      const frames:FrameRequestCallback[] = [];
-      const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
-        .mockImplementation((callback) => frames.push(callback));
+      const frames = table.holdFrames();
       try {
         table.row('2').focus();
         table.table.redrawTableAndTimeline();
@@ -1207,32 +1203,30 @@ describe('KeyboardNavigationTransformer', () => {
         table.table.refreshRows(resource(table, '2'));
         const refreshed = table.row('2');
 
-        frames.splice(0).forEach((frame) => frame(0));
+        frames.commit();
 
         expect(table.row('2')).not.toBe(refreshed);
         expect(table.row('2')).toHaveFocus();
       } finally {
-        frameSpy.mockRestore();
+        frames.release();
       }
     });
 
     it('a table destroyed before the rAF commit restores nothing and throws nothing', async () => {
       const table = await mount();
-      const frames:FrameRequestCallback[] = [];
-      const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
-        .mockImplementation((callback) => frames.push(callback));
+      const frames = table.holdFrames();
       try {
         table.row('2').focus();
         table.table.redrawTableAndTimeline();
         table.table.destroy();
         table.row('2').blur();
 
-        expect(() => frames.splice(0).forEach((frame) => frame(0))).not.toThrow();
+        expect(() => frames.commit()).not.toThrow();
         table.querySpace.tableRendered.putValue(table.querySpace.tableRendered.value);
 
         expect(document.body).toHaveFocus();
       } finally {
-        frameSpy.mockRestore();
+        frames.release();
       }
     });
   });

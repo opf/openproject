@@ -44,6 +44,22 @@ describe('WorkPackageTable', () => {
     expect(rendered.map((row) => row.workPackageId)).toEqual(['3', '1', '2']);
   });
 
+  it('holdFrames keeps a scheduled render out of the table until commit', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }] });
+    await harness.render();
+    const frames = harness.holdFrames();
+
+    harness.table.originalRows.reverse();
+    harness.table.redrawTable();
+
+    expect(frames.pending()).toBe(1);
+    expect(harness.rowIds()).toEqual(['1', '2']);
+    frames.commit();
+    expect(frames.pending()).toBe(0);
+    expect(harness.rowIds()).toEqual(['2', '1']);
+    frames.release();
+  });
+
   it('renders one cell per configured column', async () => {
     harness = buildTable({ workPackages: [{ id: '1' }], columns: ['id', 'subject', 'status'] });
 
