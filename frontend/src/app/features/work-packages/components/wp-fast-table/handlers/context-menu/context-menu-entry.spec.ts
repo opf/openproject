@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { userEvent } from 'vitest/browser';
 import { States } from 'core-app/core/states/states.service';
@@ -224,6 +225,19 @@ describe('Context menu entry from the actions column button', () => {
 
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);
     expect(menuTargets).toEqual([['1', '2']]);
+  });
+
+  it('hides the focused button tooltip before the menu takes focus', async () => {
+    const button = menuButton('1');
+    const tooltip = within(harness.row('1')).getByRole('tooltip', { hidden: true });
+
+    button.focus();
+    await waitFor(() => expect(tooltip).toBeVisible());
+
+    fireEvent.click(button);
+
+    expect(tooltip).not.toBeVisible();
+    expect(opened).toHaveBeenCalledTimes(1);
   });
 });
 

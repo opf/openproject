@@ -73,6 +73,11 @@ RSpec.describe "Work package table keyboard selection", :js do
 
       wp_table.press_keys(:tab)
       wp_table.expect_focus_on_control(listed.second, "Open details view")
+      expect(page).to have_element(:"tool-tip", text: "Open details view")
+      wp_table.press_keys(:escape)
+      expect(page).to have_no_element(:"tool-tip", text: "Open details view")
+      wp_table.expect_focus_on_control(listed.second, "Open details view")
+      expect_selection(listed.first)
       wp_table.press_keys(:escape)
       wp_table.expect_focus_on_cell(listed.second, :subject)
       expect_selection(listed.first)

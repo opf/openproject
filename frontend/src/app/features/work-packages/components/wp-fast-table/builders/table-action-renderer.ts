@@ -53,7 +53,7 @@ export class TableActionRenderer {
 
     this.tableActionsService
       .render(workPackage)
-      .forEach((el:HTMLElement) => {
+      .forEach((el) => {
         span.appendChild(el);
       });
 

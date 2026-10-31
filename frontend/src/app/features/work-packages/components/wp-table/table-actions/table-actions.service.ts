@@ -57,7 +57,7 @@ export class OpTableActionsService {
    * Render actions for the given work package.
    * @param {WorkPackageResource} workPackage
    */
-  public render(workPackage:WorkPackageResource):HTMLElement[] {
+  public render(workPackage:WorkPackageResource):(HTMLElement|DocumentFragment)[] {
     const built = this.actions.map((factory) => factory(this.injector, workPackage).buildElement());
     return built.filter((x):x is NonNullable<typeof x> => Boolean(x));
   }
