@@ -123,6 +123,30 @@ RSpec.describe Import::JiraCreateProjectWorkPackageAttachmentsJob,
       expect(project.users).to include(op_user)
     end
 
+    context "when the attachment author is not found in the import data" do
+      let(:deleted_user) { DeletedUser.first }
+
+      before do
+        jira_user.destroy!
+        jira_user_reference.destroy!
+        allow(Rails.logger).to receive(:warn)
+      end
+
+      it "logs a warning and uses DeletedUser as a fallback for the author" do
+        create_work_package_attachments
+
+        expect(Rails.logger).to have_received(:warn).with(/JIRAUSER10000 not found! Using DeletedUser instead\./)
+        expect(WorkPackage.find("DPPP-6").attachments.sole.author).to eq(deleted_user)
+      end
+
+      it "does not add the DeletedUser as member to the project" do
+        expect { create_work_package_attachments }.to not_change(Member, :count)
+
+        project = Project.find_by!(identifier: jira_project_key)
+        expect(Member.where(project:, principal: deleted_user)).not_to exist
+      end
+    end
+
     context "when the attachment download fails with a redirect" do
       before do
         stub_request(:get, download_attachment_url).to_return(

@@ -105,6 +105,44 @@ RSpec.describe Import::JiraClient do
     end
   end
 
+  describe "#issue_watchers", :webmock do
+    include_context "with ssrf stubs"
+
+    let(:issue_key) { "OP-10" }
+    let(:issue_watchers_url) { "#{url}/rest/api/2/issue/#{issue_key}/watchers" }
+    let(:headers) { { "Content-Type" => "application/json" } }
+    let(:body) do
+      {
+        "watchers" => [
+          {
+            "name" => "magdalena",
+            "key" => "JIRAUSER666",
+            "emailAddress" => "maggie@jira.internet",
+            "displayName" => "maggie",
+            "active" => true,
+            "timeZone" => "Etc/UTC"
+          }
+        ],
+        "isWatching" => true,
+        "watchCount" => 1
+      }
+    end
+
+    it "returns the watchers of the given issue" do
+      stub_request(:get, issue_watchers_url).to_return(status: 200, body: body.to_json, headers:)
+      expect(client.issue_watchers(issue_key)).to eq(body)
+    end
+
+    context "when the issue is not found" do
+      let(:body) { { "errorMessages" => ["Issue Does Not Exist"], "errors" => {} } }
+
+      it "raises an error" do
+        stub_request(:get, issue_watchers_url).to_return(status: 404, body: body.to_json, headers:)
+        expect { client.issue_watchers(issue_key) }.to raise_error(Import::JiraClient::ApiError, /status 404/)
+      end
+    end
+  end
+
   describe "#custom_field_options", :webmock do
     include_context "with ssrf stubs"
 
