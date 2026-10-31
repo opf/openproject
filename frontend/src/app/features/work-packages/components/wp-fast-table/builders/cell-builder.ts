@@ -110,10 +110,6 @@ export class CellBuilder {
     if (attribute === 'subject' || attribute === 'id') {
       const name = displayElement.textContent ?? '';
       cell.dataset.rowHeaderName = name;
-      if (cell.matches('th[scope="row"]')) {
-        cell.removeAttribute('aria-labelledby');
-        cell.setAttribute('aria-label', name);
-      }
     }
 
     if (hasBaseline) {

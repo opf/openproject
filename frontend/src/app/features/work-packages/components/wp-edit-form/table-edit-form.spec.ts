@@ -521,6 +521,22 @@ describe('TableEditForm focus return', () => {
     expect(within(row).getByRole('rowheader')).toHaveFocus();
   });
 
+  it('names the row header from the reset cell before focus returns', async () => {
+    await mount();
+    const handler = await openEditor();
+    const row = harness.row('1');
+    harness.table.editing.forms['1'].resource = buildWorkPackage({ id: '1', subject: 'Renamed' });
+    let nameAtFocus:string|null = null;
+    row.addEventListener('focusin', () => {
+      nameAtFocus = within(row).getByRole('rowheader').getAttribute('aria-label');
+    });
+
+    handler.handleUserCancel();
+
+    expect(nameAtFocus).toBe('Renamed');
+    expect(within(row).getByRole('rowheader')).toHaveAccessibleName('Renamed');
+  });
+
   it('returns to the origin after a user-ended owned overlay closes', async () => {
     await mount();
     const handler = await openEditor();
