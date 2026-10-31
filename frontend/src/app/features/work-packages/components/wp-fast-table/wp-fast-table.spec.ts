@@ -82,6 +82,22 @@ describe('WorkPackageTable', () => {
     expect(harness.table.keyboardNavigation).toBe(navigation);
   });
 
+  it('keeps a previous table\'s group rows untouched when collapse state arrives before its first render', async () => {
+    const newStatus = { href: '/api/v3/statuses/1' };
+    harness = buildTable({
+      workPackages: [{ id: '1', attributes: { status: newStatus } }, { id: '2', attributes: { status: newStatus } }],
+      groups: [{ value: 'New', href: newStatus.href, count: 2 }],
+    });
+    await harness.render();
+    const previousHeader = harness.groupHeader(0);
+    harness.table.destroy();
+    const table = unattachedTable();
+
+    expect(() => table.setGroupsCollapseState({ [previousHeader.dataset.groupIdentifier!]: true })).not.toThrow();
+    expect(previousHeader).toBeInTheDocument();
+    table.destroy();
+  });
+
   it('renders one row per work package in result order', async () => {
     harness = buildTable({ workPackages: [{ id: '3' }, { id: '1' }, { id: '2' }] });
 
