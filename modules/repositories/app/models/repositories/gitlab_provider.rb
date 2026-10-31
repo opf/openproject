@@ -34,11 +34,30 @@ module Repositories
     store_attribute :options, :gitlab_user_id, :integer
     store_attribute :options, :webhook_secret, :string
 
-    def self.for_web_url(web_url)
-      resource = URI.parse(web_url.to_s)
-      all.find { it.serves?(resource) }
-    rescue URI::InvalidURIError
-      nil
+    class << self
+      def registry_prefix = "gitlab"
+      def icon = :"op-logo-gitlab"
+      def generate_webhook_secret = SecureRandom.hex(32)
+
+      def for_web_url(web_url)
+        resource = URI.parse(web_url.to_s)
+        all.find { it.serves?(resource) }
+      rescue URI::InvalidURIError
+        nil
+      end
+    end
+
+    # The webhook user is optional. Storing the key even for a blank user records that an admin chose
+    # not to restrict the user, which the setup wizard uses to tell a skipped step from a pending one.
+    def gitlab_user_id=(value)
+      super
+      options["gitlab_user_id"] = gitlab_user_id
+    end
+
+    def webhook_user_configured? = options.key?("gitlab_user_id")
+
+    def webhook_user
+      ::User.find_by(id: gitlab_user_id) if gitlab_user_id
     end
 
     def serves?(resource)
