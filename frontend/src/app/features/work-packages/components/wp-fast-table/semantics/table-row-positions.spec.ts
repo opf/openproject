@@ -107,8 +107,8 @@ describe('TableRowPositions', () => {
   it('reports a foreign row once per table', async () => {
     await mount();
     table().createTBody().insertRow().insertCell().textContent = 'Unclassified';
-    harness.table.rowPositions!.paint();
-    harness.table.rowPositions!.paint();
+    harness.table.rowPositions.paint();
+    harness.table.rowPositions.paint();
     expect(captureMessage).toHaveBeenCalledExactlyOnceWith('Row positions withdrawn: foreign row', 'warning');
   });
 

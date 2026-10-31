@@ -52,6 +52,7 @@ import type { KeyboardNavigation } from './handlers/state/keyboard/keyboard-navi
 import type { TableSelectionFeedback } from './handlers/state/selection-feedback';
 import { TableRowPositions, type CapturedRowPositions } from './semantics/table-row-positions';
 import { paintSectionExposure, TreegridSemantics } from './semantics/treegrid-semantics';
+import { RowClassifier } from './semantics/row-classifier';
 
 interface PendingRender {
   readonly pass:PrimaryRenderPass;
@@ -102,6 +103,8 @@ export class WorkPackageTable {
   public keyboardNavigation:KeyboardNavigation|null = null;
 
   public selectionFeedback:TableSelectionFeedback|null = null;
+
+  public readonly rows = new RowClassifier(this);
 
   public readonly semantics = new TreegridSemantics(this);
 
