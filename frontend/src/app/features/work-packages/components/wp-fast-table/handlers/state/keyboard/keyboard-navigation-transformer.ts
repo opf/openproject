@@ -345,10 +345,6 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   private recover(requested:FocusPosition|null, retainStop = false, changedRows:HTMLElement[]|null = null):void {
-    if (this.table.destroyed) {
-      return;
-    }
-
     const owned = this.owned;
     if (!this.table.hasPendingRender) {
       this.owned = false;

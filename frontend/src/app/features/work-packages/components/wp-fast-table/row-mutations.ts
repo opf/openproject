@@ -62,7 +62,7 @@ export class RowMutations {
 
   constructor(
     private readonly hooks:MutationHooks,
-    private readonly renderPending:() => boolean = () => false,
+    private readonly renderPending:() => boolean,
   ) {}
 
   public get depth():number {
