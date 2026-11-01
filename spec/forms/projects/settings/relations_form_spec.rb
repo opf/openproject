@@ -51,7 +51,7 @@ RSpec.describe Projects::Settings::RelationsForm, type: :forms do
     let(:workspace_type) { "portfolio" }
 
     it "does not render" do
-      expect(page).not_to have_element "opce-project-autocompleter", "data-input-name": "\"project[parent_id]\""
+      expect(page).to have_no_element "opce-project-autocompleter", "data-input-name": "\"project[parent_id]\""
     end
   end
 
