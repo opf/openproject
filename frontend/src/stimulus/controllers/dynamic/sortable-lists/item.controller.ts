@@ -550,6 +550,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
         this.menuElement.hideItem(item);
       }
     });
+    this.markScopeNarrowed(blocked);
 
     if (blocked) {
       this.keepFocusInMenu(moveMenu);
@@ -575,6 +576,18 @@ export default class ItemController extends Controller<HTMLElement> implements R
     const list = hiding.closest('[role="menu"]');
     const items = list ? Array.from(list.querySelectorAll<HTMLElement>(':scope > li:not([hidden]) > [role="menuitem"]')) : [];
     items.find((item) => !hiding.contains(item))?.focus();
+  }
+
+  // A revealed fallback turns the batch menu into the invoker's singular one,
+  // so whatever names the menu has to hear about it.
+  private markScopeNarrowed(narrowed:boolean):void {
+    const list = this.moveFallbackTargets[0]?.closest('[role="menu"]');
+    if (!list || list.hasAttribute('data-sortable-lists-scope-narrowed') === narrowed) {
+      return;
+    }
+
+    list.toggleAttribute('data-sortable-lists-scope-narrowed', narrowed);
+    this.menuElement.dispatchEvent(new CustomEvent('sortable-lists:menu-scope-changed', { bubbles: true }));
   }
 
   // The divider that opens the move group is rendered server-side from a

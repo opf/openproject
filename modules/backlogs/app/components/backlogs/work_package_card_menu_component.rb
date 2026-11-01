@@ -61,6 +61,15 @@ module Backlogs
 
     private
 
+    # The count the client names the menu with. A revealed singular fallback
+    # narrows it back to one on the client.
+    def list_data
+      {
+        sortable_lists__menu_source_target: "menu",
+        sortable_lists_scope_count: batch_menu? ? work_packages.size : 1
+      }
+    end
+
     def batch_menu?
       work_packages.many? && any_move_action?
     end

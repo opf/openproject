@@ -105,6 +105,9 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
       expect(response.body).to include(
         %(data-sortable-lists--menu-source-url-value="/projects/#{project.identifier}/backlogs/work_packages/menu")
       )
+      expect(response.body).to include(
+        'data-sortable-lists--menu-source-menu-label-key-value="js.backlogs.action_menu.menu_label"'
+      )
     end
 
     it "passes all=true to the frame src but keeps it off the move URL template" do

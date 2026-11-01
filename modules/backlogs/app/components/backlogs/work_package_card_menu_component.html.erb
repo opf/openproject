@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  render(Primer::Alpha::ActionMenu::List.new(menu_id:)) do |list|
+  render(Primer::Alpha::ActionMenu::List.new(menu_id:, data: list_data)) do |list|
     if !batch_menu? || singular_fallback?
       list.with_item(
         id: dom_target(invoker, :menu, :open_details),
