@@ -339,10 +339,10 @@ export class DragAndDropTransformer {
   protected get currentOrder():string[] {
     return this
       .currentRenderedOrder
-      .map((row) => row.workPackageId!);
+      .map((row) => row.workPackageId);
   }
 
-  protected get currentRenderedOrder():RenderedWorkPackage[] {
+  protected get currentRenderedOrder():(RenderedWorkPackage & { workPackageId:string })[] {
     return this
       .querySpace
       .renderedWorkPackages
