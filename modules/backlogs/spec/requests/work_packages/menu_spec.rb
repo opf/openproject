@@ -64,7 +64,7 @@ RSpec.describe "Backlogs card menu", type: :rails_request do
       expect(menu).to have_element(:ul, id: "work_package_#{invoker.id}_menu-list")
       expect(menu).to have_element(:a, id: menu_item_id(invoker, :open_details))
       expect(menu).to have_element(:"clipboard-copy", id: menu_item_id(invoker, :copy_work_package_id))
-      expect(menu).to have_element(:a, id: menu_item_id(invoker, :move_to_sprint))
+      expect(menu).to have_element(:button, id: menu_item_id(invoker, :move_to_sprint))
       expect(menu).to have_element(:button, id: menu_item_id(invoker, :move_to_inbox))
     end
   end
@@ -80,7 +80,7 @@ RSpec.describe "Backlogs card menu", type: :rails_request do
       it "offers the sprint every member can reach" do
         get_menu(ids: [free.id, confined.id])
 
-        expect(menu).to have_element(:a, id: menu_item_id(free, :move_to_sprint))
+        expect(menu).to have_element(:button, id: menu_item_id(free, :move_to_sprint))
       end
     end
 
@@ -91,7 +91,7 @@ RSpec.describe "Backlogs card menu", type: :rails_request do
         get_menu(ids: [free.id, confined.id])
 
         expect(response).to have_http_status(:ok)
-        expect(menu).to have_no_element(:a, id: menu_item_id(free, :move_to_sprint))
+        expect(menu).to have_no_element(:button, id: menu_item_id(free, :move_to_sprint))
       end
     end
   end

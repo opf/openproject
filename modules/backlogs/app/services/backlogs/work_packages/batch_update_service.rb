@@ -213,6 +213,8 @@ class Backlogs::WorkPackages::BatchUpdateService
   def revalidate_destination(target)
     return unavailable_target_failure unless destination_availability.manage_permission? && target_available?(target)
 
+    return if work_packages.one?
+
     refused = destination_availability.refusing(target)
     refused_members_failure(refused) if refused.any?
   end
