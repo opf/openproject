@@ -336,11 +336,11 @@ RSpec.describe "form configuration", :js, :selenium do
         menu_selector = "##{menu_id}"
 
         expect(page).to have_selector(menu_selector, text: I18n.t("types.edit.form_configuration.edit_query"))
-        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_to_top"))
-        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_up"))
-        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_down"))
-        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_to_bottom"))
-        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("button_delete"))
+        expect(page).to have_no_css("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_to_top"))
+        expect(page).to have_no_css("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_up"))
+        expect(page).to have_no_css("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_down"))
+        expect(page).to have_no_css("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_to_bottom"))
+        expect(page).to have_no_css("#{menu_selector} [role='menuitem']", text: I18n.t("button_delete"))
 
         within menu_selector do
           click_button I18n.t("types.edit.form_configuration.edit_query")
@@ -382,14 +382,14 @@ RSpec.describe "form configuration", :js, :selenium do
         single_row_menu_selector = "##{single_row_menu_id}"
 
         expect(page).to have_selector(single_row_menu_selector, text: I18n.t("button_delete"))
-        expect(page).to have_no_selector("#{single_row_menu_selector} [role='menuitem']",
-                                         text: I18n.t("label_agenda_item_move_to_top"))
-        expect(page).to have_no_selector("#{single_row_menu_selector} [role='menuitem']",
-                                         text: I18n.t("label_agenda_item_move_up"))
-        expect(page).to have_no_selector("#{single_row_menu_selector} [role='menuitem']",
-                                         text: I18n.t("label_agenda_item_move_down"))
-        expect(page).to have_no_selector("#{single_row_menu_selector} [role='menuitem']",
-                                         text: I18n.t("label_agenda_item_move_to_bottom"))
+        expect(page).to have_no_css("#{single_row_menu_selector} [role='menuitem']",
+                                    text: I18n.t("label_agenda_item_move_to_top"))
+        expect(page).to have_no_css("#{single_row_menu_selector} [role='menuitem']",
+                                    text: I18n.t("label_agenda_item_move_up"))
+        expect(page).to have_no_css("#{single_row_menu_selector} [role='menuitem']",
+                                    text: I18n.t("label_agenda_item_move_down"))
+        expect(page).to have_no_css("#{single_row_menu_selector} [role='menuitem']",
+                                    text: I18n.t("label_agenda_item_move_to_bottom"))
       end
 
       it "reorders and deletes groups via group actions" do

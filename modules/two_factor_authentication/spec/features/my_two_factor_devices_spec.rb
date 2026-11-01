@@ -195,7 +195,7 @@ RSpec.describe "My Account 2FA configuration",
     it "loads the page correctly (Regression #41719)" do
       visit my_security_path
 
-      expect(page).to have_content device.identifier
+      expect(page).to have_text device.identifier
     end
   end
 end

@@ -66,9 +66,9 @@ RSpec.describe "Statuses administration" do
 
       it "list statuses" do
         visit statuses_path
-        expect(page).to have_content("I am new")
-        expect(page).to have_content("Working on it")
-        expect(page).to have_content("Job finished")
+        expect(page).to have_text("I am new")
+        expect(page).to have_text("Working on it")
+        expect(page).to have_text("Job finished")
       end
     end
   end

@@ -249,7 +249,7 @@ module Components
 
       def group_order
         page.within_test_selector("type-form-configuration-groups-container") do
-          all(":scope > [data-group-key] .Box-header span.text-bold", visible: true).map(&:text)
+          all(":scope > [data-group-key] .Box-header span.text-bold", visible: :visible).map(&:text)
         end
       end
 

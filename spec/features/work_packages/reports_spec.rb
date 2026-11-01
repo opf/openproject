@@ -57,13 +57,13 @@ RSpec.describe "work package reports", :js do
     end
 
     expect(page)
-      .to have_content "TYPE"
+      .to have_text "TYPE"
     expect(page)
-      .to have_content "PRIORITY"
+      .to have_text "PRIORITY"
     expect(page)
-      .to have_content "ASSIGNEE"
+      .to have_text "ASSIGNEE"
     expect(page)
-      .to have_content "ACCOUNTABLE"
+      .to have_text "ACCOUNTABLE"
 
     expect(page)
       .to have_css "thead th:nth-of-type(2)", text: type_a_statuses.first.name.upcase
@@ -87,13 +87,13 @@ RSpec.describe "work package reports", :js do
     click_link "Further analyze: Type"
 
     expect(page)
-      .to have_content "TYPE"
+      .to have_text "TYPE"
     expect(page)
-      .to have_no_content "PRIORITY"
+      .to have_no_text "PRIORITY"
     expect(page)
-      .to have_no_content "ASSIGNEE"
+      .to have_no_text "ASSIGNEE"
     expect(page)
-      .to have_no_content "ACCOUNTABLE"
+      .to have_no_text "ACCOUNTABLE"
 
     expect(page)
       .to have_css "thead th:nth-of-type(2)", text: type_a_statuses.first.name.upcase

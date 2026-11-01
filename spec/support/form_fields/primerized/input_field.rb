@@ -69,7 +69,7 @@ module FormFields
 
       def expect_error(string = nil)
         expect(page).to have_css("#{selector}[invalid='true']")
-        expect(field_container).to have_content(string) if string
+        expect(field_container).to have_text(string) if string
       end
 
       def expect_value(value)

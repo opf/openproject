@@ -101,7 +101,7 @@ RSpec.describe "Create repository", :js do
 
         expect(scm_type.value).to eq(type)
 
-        content = find("##{vendor}-#{type}", visible: false)
+        content = find("##{vendor}-#{type}", visible: :all)
         expect(content).not_to be_nil
         expect(scm_type).to be_checked
       end
@@ -115,7 +115,7 @@ RSpec.describe "Create repository", :js do
         expect(selector[:selected]).to be_falsey
         expect(selector).not_to be_disabled
 
-        content = find("##{vendor}-#{type}", visible: false)
+        content = find("##{vendor}-#{type}", visible: :all)
         expect(content).not_to be_nil
         expect(content).to match_css("[hidden]", visible: :all)
       end
@@ -130,7 +130,7 @@ RSpec.describe "Create repository", :js do
         content = find("#attributes-group--content-#{type}")
         expect(content).not_to be_nil
         expect(content).not_to match_css("[hidden]", visible: :all)
-        content = find("##{vendor}-#{type}", visible: false)
+        content = find("##{vendor}-#{type}", visible: :all)
         expect(content).not_to be_nil
         expect(content).not_to match_css("[hidden]", visible: :all)
 
@@ -138,7 +138,7 @@ RSpec.describe "Create repository", :js do
         content = find_by_id("attributes-group--content-managed")
         expect(content).not_to be_nil
         expect(content).not_to match_css("[hidden]", visible: :all)
-        content = find("##{vendor}-managed", visible: false)
+        content = find("##{vendor}-managed", visible: :all)
         expect(content).not_to be_nil
         expect(content).not_to match_css("[hidden]", visible: :all)
       end

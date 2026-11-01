@@ -61,7 +61,7 @@ RSpec.describe "layouts/base" do
 
     context "with omni_auth_direct_login disabled" do
       it "shows the login drop down menu" do
-        expect(rendered).to have_css("div#nav-login-content", visible: false)
+        expect(rendered).to have_css("div#nav-login-content", visible: :all)
       end
     end
 
@@ -112,14 +112,14 @@ RSpec.describe "layouts/base" do
       it "renders main favicon" do
         expect(rendered).to have_css(
           "link[type='image/x-icon'][href*='/assets/favicon.ico']",
-          visible: false
+          visible: :all
         )
       end
 
       it "renders apple icons" do
         expect(rendered).to have_css(
           "link[type='image/png'][href*='/assets/apple-touch-icon-120x120.png']",
-          visible: false
+          visible: :all
         )
       end
 
@@ -149,14 +149,14 @@ RSpec.describe "layouts/base" do
       it "renders main favicon" do
         expect(rendered).to have_css(
           "link[type='image/x-icon'][href*='/assets/development/favicon.ico']",
-          visible: false
+          visible: :all
         )
       end
 
       it "renders apple icons" do
         expect(rendered).to have_css(
           "link[type='image/png'][href*='/assets/development/apple-touch-icon-120x120.png']",
-          visible: false
+          visible: :all
         )
       end
 
@@ -252,7 +252,7 @@ RSpec.describe "layouts/base" do
       let(:current_user) { user }
 
       it "has a current_user metatag" do
-        expect(rendered).to have_css("meta[name=current_user]", visible: false)
+        expect(rendered).to have_css("meta[name=current_user]", visible: :all)
       end
     end
 
@@ -260,7 +260,7 @@ RSpec.describe "layouts/base" do
       let(:current_user) { anonymous }
 
       it "has a current_user metatag" do
-        expect(rendered).to have_css("meta[name=current_user]", visible: false)
+        expect(rendered).to have_css("meta[name=current_user]", visible: :all)
       end
     end
   end
@@ -289,7 +289,7 @@ RSpec.describe "layouts/base" do
     end
 
     it "has the meta tag" do
-      expect(rendered).to have_selector(base, visible: false)
+      expect(rendered).to have_selector(base, visible: :all)
     end
   end
 end

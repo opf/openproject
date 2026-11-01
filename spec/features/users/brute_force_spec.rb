@@ -59,18 +59,18 @@ RSpec.describe "Login (with brute force protection)" do
     login_with login, invalid_password
 
     expect(page)
-      .to have_content(I18n.t(:notice_account_invalid_credentials_or_blocked))
+      .to have_text(I18n.t(:notice_account_invalid_credentials_or_blocked))
 
     new_login_attempt(login, invalid_password)
 
     expect(page)
-      .to have_content(I18n.t(:notice_account_invalid_credentials_or_blocked))
+      .to have_text(I18n.t(:notice_account_invalid_credentials_or_blocked))
 
     new_login_attempt(login, password)
 
     # Too many attempts
     expect(page)
-      .to have_content(I18n.t(:notice_account_invalid_credentials_or_blocked))
+      .to have_text(I18n.t(:notice_account_invalid_credentials_or_blocked))
 
     # Pretend the user waited some time
     wait_time = 4.minutes.ago
@@ -80,7 +80,7 @@ RSpec.describe "Login (with brute force protection)" do
     new_login_attempt(login, password)
 
     expect(page)
-      .to have_content(I18n.t(:notice_account_invalid_credentials_or_blocked))
+      .to have_text(I18n.t(:notice_account_invalid_credentials_or_blocked))
 
     # Pretend the user waited some time
     wait_time = 5.minutes.ago - 1.second
@@ -102,12 +102,12 @@ RSpec.describe "Login (with brute force protection)" do
     login_with login, invalid_password
 
     expect(page)
-      .to have_content(I18n.t(:notice_account_invalid_credentials))
+      .to have_text(I18n.t(:notice_account_invalid_credentials))
 
     new_login_attempt(login, invalid_password)
 
     expect(page)
-      .to have_content(I18n.t(:notice_account_invalid_credentials))
+      .to have_text(I18n.t(:notice_account_invalid_credentials))
 
     new_login_attempt(login, password)
 
