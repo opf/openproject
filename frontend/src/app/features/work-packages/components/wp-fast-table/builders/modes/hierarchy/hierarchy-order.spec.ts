@@ -45,6 +45,12 @@ describe('Hierarchy ordering across query windows', () => {
     expect(harness.rowIds()).toEqual(['1', '2', '3']);
   });
 
+  it('renders a filtered-out parent before its deferred leaf', async () => {
+    harness = buildTable({ workPackages: [{ id: '4', ancestors: [parent, { id: '5' }] }, parent], showHierarchies: true });
+    await harness.render();
+    expect(harness.rowIds()).toEqual(['1', '5', '4']);
+  });
+
   it('currently defers the child when its parent is in the same window', async () => {
     harness = buildTable({ workPackages: [child, other, parent], showHierarchies: true });
     await harness.render();
