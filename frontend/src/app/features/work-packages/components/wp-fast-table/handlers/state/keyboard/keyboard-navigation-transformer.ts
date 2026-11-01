@@ -595,7 +595,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
         return true;
       case 'expand':
       case 'collapse':
-        this.toggle(rows.find((row) => row.key === result.key)!);
+        this.toggle(result.row);
         this.focusPosition(position);
         return true;
       default:
