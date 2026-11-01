@@ -79,6 +79,39 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
     end
   end
 
+  describe "rendering the settings page body" do
+    let(:form) { "[data-test-selector='llm-connection--form']" }
+    let(:banner) { "[data-test-selector='op-enterprise-banner']" }
+
+    before do
+      create(:llm_connection, base_url:, api_key: "sk-original")
+      login_as admin
+    end
+
+    it "renders the form and the health status once with the features on",
+       with_settings: { llm_features_enabled: true } do
+      get llm_connection_path
+
+      expect(page).to have_css(form, count: 1)
+      expect(page).to have_css("[data-test-selector='llm-connection--run-health-checks']", count: 1)
+      expect(page).to have_no_css(banner)
+    end
+
+    it "renders the form once with the features off", with_settings: { llm_features_enabled: false } do
+      get llm_connection_path
+
+      expect(page).to have_css(form, count: 1)
+      expect(page).to have_no_css(banner)
+    end
+
+    it "renders only the banner without a token", with_ee: false, with_settings: { llm_features_enabled: true } do
+      get llm_connection_path
+
+      expect(page).to have_css(banner, count: 1)
+      expect(page).to have_no_css(form)
+    end
+  end
+
   describe "without an enterprise token granting the feature", with_ee: false do
     let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
 

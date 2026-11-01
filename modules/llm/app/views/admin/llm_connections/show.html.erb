@@ -93,11 +93,11 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= with_enterprise_banner_guard(
-      OpenProject::Llm::ENTERPRISE_FEATURE,
-      variant: :inline,
-      i18n_scope: "ee.upsell.llm_connection"
-    ) do %>
+<% with_enterprise_banner_guard(
+     OpenProject::Llm::ENTERPRISE_FEATURE,
+     variant: :inline,
+     i18n_scope: "ee.upsell.llm_connection"
+   ) do %>
   <% if @connection.persisted? && Setting.llm_features_enabled? %>
     <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |layout| %>
       <% layout.with_main do %>
