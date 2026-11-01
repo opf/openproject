@@ -33,7 +33,7 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
   shared_let(:type_feature) { create(:type_feature) }
   shared_let(:project) { create(:project, types: [type_feature]) }
 
-  let(:menu_src) { "/backlogs/work_packages/#{work_package.id}/menu" }
+  let(:menu_src) { "/backlogs/work_packages/menu?ids%5B%5D=#{work_package.id}&invoker_id=#{work_package.id}" }
   let(:work_package) do
     create(:work_package,
            project:,

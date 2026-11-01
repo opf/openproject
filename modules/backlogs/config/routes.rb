@@ -97,6 +97,7 @@ Rails.application.routes.draw do
 
       resources :work_packages, controller: :work_packages, only: [] do
         collection do
+          get :menu
           get :add_existing_dialog
           post :add_existing
           post :move_to_sprint_dialog
@@ -105,7 +106,6 @@ Rails.application.routes.draw do
         end
 
         member do
-          get :menu
           put :move
         end
       end
