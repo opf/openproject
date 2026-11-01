@@ -39,6 +39,7 @@ module Llm
   class Runtime
     # :ready            - go ahead
     # :feature_disabled - the feature's own toggle is off
+    # :not_entitled     - the enterprise token does not grant the LLM features
     # :no_connection    - no LLM server configured, or AI switched off globally
     # :unbound          - nothing has chosen a model for this feature yet
     # :model_missing    - the chosen model is not in the server's catalogue
@@ -98,8 +99,8 @@ module Llm
     end
 
     def call
-      return resolution(:feature_disabled) unless feature.available?
-      return resolution(:no_connection) unless LlmConnection.available?
+      unavailable = unavailable_status
+      return resolution(unavailable) if unavailable
 
       model_id = resolved_model_id
       return resolution(:unbound) if model_id.blank?
@@ -114,6 +115,16 @@ module Llm
     private
 
     attr_reader :feature, :override
+
+    def unavailable_status
+      if !feature.available?
+        :feature_disabled
+      elsif !LlmConnection.entitled?
+        :not_entitled
+      elsif !LlmConnection.connected?
+        :no_connection
+      end
+    end
 
     def connection
       @connection ||= LlmConnection.active_connection

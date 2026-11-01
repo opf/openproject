@@ -29,6 +29,9 @@
 
 module OpenProject
   module Llm
+    # TODO: switch to :llm_settings once openproject-token defines it.
+    ENTERPRISE_FEATURE = :mcp_server
+
     require "open_project/llm/features"
     require "open_project/llm/engine"
   end

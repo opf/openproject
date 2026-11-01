@@ -44,6 +44,7 @@ module OpenProject::Llm
            { controller: "/admin/llm_connections", action: :show },
            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.llm_connection_active? },
            caption: :"menus.admin.llm_connection",
+           enterprise_feature: OpenProject::Llm::ENTERPRISE_FEATURE,
            parent: :ai,
            first: true
     end

@@ -30,7 +30,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Llm::TextTransformGateway, :llm_server_helpers, :webmock,
+RSpec.describe Llm::TextTransformGateway, :llm_server_helpers, :webmock, :with_llm_ee,
                with_flag: { llm_connection: true },
                with_settings: { llm_features_enabled: true } do
   subject(:gateway) { described_class.new }

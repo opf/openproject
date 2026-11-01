@@ -188,7 +188,7 @@ RSpec.describe LlmConnection do
     end
   end
 
-  describe ".available?" do
+  describe ".available?", :with_llm_ee do
     context "with the feature flag and the setting on",
             with_flag: { llm_connection: true },
             with_settings: { llm_features_enabled: true } do
@@ -196,6 +196,16 @@ RSpec.describe LlmConnection do
         create(:llm_connection)
 
         expect(described_class).to be_available
+      end
+
+      it "is false without an enterprise token granting the feature, keeping the stored connection",
+         with_ee: false do
+        connection = create(:llm_connection)
+
+        expect(described_class).not_to be_available
+        expect(described_class).not_to be_entitled
+        expect(described_class).to be_connected
+        expect(described_class.active_connection).to eq(connection)
       end
 
       it "is false when only an inactive connection is stored" do

@@ -30,8 +30,9 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Llm::Runtime, with_flag: { llm_connection: true, semantic_search: true },
-                             with_settings: { llm_features_enabled: true } do
+RSpec.describe Llm::Runtime, :with_llm_ee,
+               with_flag: { llm_connection: true, semantic_search: true },
+               with_settings: { llm_features_enabled: true } do
   subject(:resolution) { described_class.for(feature_key, override:) }
 
   let(:feature_key) { :description_assistant }
@@ -56,6 +57,23 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true, semantic_search:
 
   context "without a connection" do
     it { expect(resolution.status).to eq(:no_connection) }
+  end
+
+  context "without an enterprise token granting the feature", with_ee: false do
+    it "is not entitled although a model would resolve" do
+      create(:llm_connection, :with_models, default_chat_model_identifier: "qwen3.6-27b")
+
+      expect(resolution.status).to eq(:not_entitled)
+      expect(resolution.model_id).to be_nil
+    end
+
+    it "is not entitled before the connection is checked" do
+      expect(resolution.status).to eq(:not_entitled)
+    end
+
+    it "is not entitled with the AI features switched off", with_settings: { llm_features_enabled: false } do
+      expect(resolution.status).to eq(:not_entitled)
+    end
   end
 
   context "with the AI features switched off", with_settings: { llm_features_enabled: false } do

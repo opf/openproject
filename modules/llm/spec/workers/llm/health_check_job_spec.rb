@@ -30,8 +30,9 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Llm::HealthCheckJob, :llm_server_helpers, :webmock, with_flag: { llm_connection: true },
-                                                                   with_settings: { llm_features_enabled: true } do
+RSpec.describe Llm::HealthCheckJob, :llm_server_helpers, :webmock, :with_llm_ee,
+               with_flag: { llm_connection: true },
+               with_settings: { llm_features_enabled: true } do
   let(:base_url) { "https://example.com/v1" }
 
   describe "#perform" do
@@ -94,11 +95,26 @@ RSpec.describe Llm::HealthCheckJob, :llm_server_helpers, :webmock, with_flag: { 
         expect { described_class.perform_now }.not_to change(HealthReport, :count)
       end
     end
+
+    it "does nothing without an enterprise token granting the feature", with_ee: false do
+      create(:llm_connection, :with_models, base_url:)
+
+      expect { described_class.perform_now }.not_to change(HealthReport, :count)
+    end
   end
 
   describe ".toggle_cron_job" do
     it "enables the cron once a connection is usable" do
       create(:llm_connection, :with_models, base_url:)
+
+      described_class.toggle_cron_job
+
+      expect(GoodJob::Setting.cron_key_enabled?(described_class::CRON_JOB_KEY)).to be(true)
+    end
+
+    it "keeps the cron enabled without an enterprise token granting the feature", with_ee: false do
+      create(:llm_connection, :with_models, base_url:)
+      GoodJob::Setting.cron_key_enable(described_class::CRON_JOB_KEY)
 
       described_class.toggle_cron_job
 

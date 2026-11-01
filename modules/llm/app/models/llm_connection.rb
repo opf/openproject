@@ -100,6 +100,14 @@ class LlmConnection < ApplicationRecord
     # Whether LLM-backed features may run right now. This is the predicate
     # sibling features gate on; see #77783.
     def available?
+      entitled? && connected?
+    end
+
+    def entitled?
+      EnterpriseToken.allows_to?(OpenProject::Llm::ENTERPRISE_FEATURE)
+    end
+
+    def connected?
       OpenProject::FeatureDecisions.llm_connection_active? &&
         Setting.llm_features_enabled? &&
         active_connection.configured?

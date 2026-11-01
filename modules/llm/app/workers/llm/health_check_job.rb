@@ -53,14 +53,12 @@ module Llm
       end
 
       def runnable?
-        return false unless OpenProject::FeatureDecisions.llm_connection_active?
-
-        LlmConnection.available?
+        LlmConnection.connected?
       end
     end
 
     def perform
-      return unless self.class.runnable?
+      return unless LlmConnection.available?
 
       report = Llm::Validators::ConnectionValidator.new(LlmConnection.active_connection).call
       report.save!

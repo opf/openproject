@@ -204,7 +204,7 @@ RSpec.describe LlmModel do
     end
   end
 
-  describe "a feature binding", :llm_server_helpers, :webmock,
+  describe "a feature binding", :llm_server_helpers, :webmock, :with_llm_ee,
            with_flag: { llm_connection: true }, with_settings: { llm_features_enabled: true } do
     let!(:connection) { create(:llm_connection, :with_models, base_url: "https://example.com/v1") }
 
