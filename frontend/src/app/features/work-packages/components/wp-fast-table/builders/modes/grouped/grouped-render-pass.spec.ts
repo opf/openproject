@@ -117,6 +117,55 @@ describe('GroupedRenderPass', () => {
   });
 });
 
+describe('GroupedRenderPass group matching', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  const groupedBy = (property:string, overrides:Partial<GroupObject>):GroupObject => ({
+    ...buildGroup({}),
+    identifier: `${property}-group`,
+    _links: { valueLink: [], groupBy: { href: `/api/v3/queries/group_bys/${property}` } },
+    ...overrides,
+  });
+
+  const renderedUnder = (workPackage:WorkPackageResource, group:GroupObject) => {
+    const pass = buildRenderPass([buildTableRow(workPackage)], [group]);
+    pass.renderRows();
+    const rows = Array.from(pass.tableBody.children);
+    return rows.length === 2 && rows[1].classList.contains(groupedRowClassName(group.index));
+  };
+
+  it('matches a linked value by its href', () => {
+    const group = groupedBy('status', { _links: { valueLink: [{ href: '/api/v3/statuses/1' }], groupBy: { href: '/api/v3/queries/group_bys/status' } } });
+
+    expect(renderedUnder({ id: '1', status: { href: '/api/v3/statuses/1' } } as unknown as WorkPackageResource, group)).toBe(true);
+  });
+
+  it('does not match a multi-value property with a different number of values', () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const group = groupedBy('customField16', { href: { 0: { href: '/api/v3/custom_options/9' } } as unknown as GroupObject['href'] });
+    const workPackage = {
+      id: '1',
+      customField16: [{ href: '/api/v3/custom_options/9' }, { href: '/api/v3/custom_options/10' }],
+    } as unknown as WorkPackageResource;
+
+    expect(renderedUnder(workPackage, group)).toBe(false);
+  });
+
+  it('matches a progress value shown with a percent sign', () => {
+    const group = groupedBy('percentageDone', { value: '50%' });
+
+    expect(renderedUnder({ id: '1', percentageDone: 50 } as unknown as WorkPackageResource, group)).toBe(true);
+  });
+
+  it('matches a missing property to the empty group', () => {
+    const group = groupedBy('version', { value: '' });
+
+    expect(renderedUnder({ id: '1' } as unknown as WorkPackageResource, group)).toBe(true);
+  });
+});
+
 describe('GroupedRenderPass levels', () => {
   let harness:TableHarness;
 
