@@ -73,6 +73,24 @@ RSpec.describe "Backlogs batch destination menus",
     let!(:bucket_story) { create(:work_package, project:, type:, backlog_bucket: bucket) }
     let!(:sprint_story) { create(:work_package, project:, type:, sprint: source_sprint) }
 
+    it "names the menu after the batch only while it is open", :aggregate_failures do
+      backlogs_page.visit!
+      backlogs_page.select_cards(sprint_story, bucket_story)
+
+      backlogs_page.within_work_package(sprint_story) do
+        find(:button, accessible_name: "Work package actions").click
+        expect(page).to have_button(accessible_name: "Actions for 2 selected work packages")
+      end
+      expect(page).to have_selector(:menu, accessible_name: "Actions for 2 selected work packages")
+
+      backlogs_page.send_keys_to_focused_element(:escape)
+
+      expect(page).to have_no_selector(:menu)
+      backlogs_page.within_work_package(sprint_story) do
+        expect(page).to have_button(accessible_name: "Work package actions")
+      end
+    end
+
     it "moves the batch to a sprint in document order and announces its range" do
       backlogs_page.visit!
 
@@ -110,7 +128,7 @@ RSpec.describe "Backlogs batch destination menus",
 
       invoker_row = backlogs_page.work_package_row(sprint_story)
       backlogs_page.within_work_package_menu(sprint_story) do |menu|
-        expect(invoker_row).to have_button(accessible_name: "Work package actions")
+        expect(invoker_row).to have_button(accessible_name: "Actions for 2 selected work packages")
         expect(menu).to have_selector(:menuitem, text: "Move to sprint", exact_text: true)
         expect(menu).to have_no_css("include-fragment", visible: :all)
         menu.find(:menuitem, text: "Move to sprint", exact_text: true).click

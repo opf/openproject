@@ -1700,13 +1700,16 @@ describe('Sortable lists item controller', () => {
           const { el } = renderItemWithMenu(1);
           nestDirectionsInSubmenu(el);
           const menuElement = el.querySelector('action-menu')!;
+          const list = document.createElement('ul');
+          list.setAttribute('role', 'menu');
           ['Open details view', 'Copy work package ID'].forEach((label) => {
             const li = document.createElement('li');
             li.setAttribute('data-sortable-lists--item-target', 'moveFallback');
             li.setAttribute('hidden', '');
             li.innerHTML = `<button>${label}</button>`;
-            menuElement.prepend(li);
+            list.append(li);
           });
+          menuElement.prepend(list);
           document.body.appendChild(el);
           return { el };
         }
@@ -1766,6 +1769,54 @@ describe('Sortable lists item controller', () => {
 
           expect(moveMenuOf(el)).not.toHaveAttribute('hidden');
           fallbackOf(el).forEach((li) => expect(li).toHaveAttribute('hidden'));
+        });
+
+        it('marks the menu narrowed and announces it for a blocked batch', async () => {
+          const { el } = renderBatchMenuWithFallback();
+          const controller = await mountItemController(el);
+          const scopeChanged = vi.fn();
+          document.addEventListener('sortable-lists:menu-scope-changed', scopeChanged);
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), unavailable, [el, document.createElement('li')]));
+          controller.moveItemTargetConnected();
+          document.removeEventListener('sortable-lists:menu-scope-changed', scopeChanged);
+
+          expect(within(el).getByRole('menu', { hidden: true })).toHaveAttribute('data-sortable-lists-scope-narrowed');
+          expect(scopeChanged).toHaveBeenCalledTimes(1);
+        });
+
+        it('clears the narrowed mark and announces it once the block can move again', async () => {
+          const { el } = renderBatchMenuWithFallback();
+          const controller = await mountItemController(el);
+          const availability = { ...unavailable };
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), availability, [el, document.createElement('li')]));
+          controller.moveItemTargetConnected();
+          const scopeChanged = vi.fn();
+          document.addEventListener('sortable-lists:menu-scope-changed', scopeChanged);
+
+          Object.assign(availability, { down: true });
+          controller.moveItemTargetConnected();
+          document.removeEventListener('sortable-lists:menu-scope-changed', scopeChanged);
+
+          expect(within(el).getByRole('menu', { hidden: true })).not.toHaveAttribute('data-sortable-lists-scope-narrowed');
+          expect(scopeChanged).toHaveBeenCalledTimes(1);
+        });
+
+        it.each([
+          { state: 'blocked', availability: unavailable, expected: 1 },
+          { state: 'movable', availability: undefined, expected: 0 },
+        ])('announces only a change, not a repeated refresh of a $state block', async ({ availability, expected }) => {
+          const { el } = renderBatchMenuWithFallback();
+          const controller = await mountItemController(el);
+          const scopeChanged = vi.fn();
+          document.addEventListener('sortable-lists:menu-scope-changed', scopeChanged);
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), availability, [el, document.createElement('li')]));
+
+          controller.moveItemTargetConnected();
+          controller.moveItemTargetConnected();
+          controller.moveItemTargetConnected();
+          document.removeEventListener('sortable-lists:menu-scope-changed', scopeChanged);
+
+          expect(scopeChanged).toHaveBeenCalledTimes(expected);
         });
 
         it('leaves a list without fallback targets as before', async () => {

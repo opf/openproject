@@ -30,6 +30,11 @@
 en:
   js:
     backlogs:
+      action_menu:
+        # `one` names a single card's menu, never a selection of one.
+        menu_label:
+          one: "Work package actions"
+          other: "Actions for %{count} selected work packages"
       announcements:
         batch_too_large: "Cannot move %{count} work packages at once. Select no more than %{max}."
         fallback_item_label: "Work package"

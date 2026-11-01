@@ -26,28 +26,58 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
+import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
 import type { RootAwareChild, SortableListsRoot } from './drag-and-drop';
 import { relativeUrl } from './url';
 import { resolveClosestItemElement, resolveItemId } from './list-dom';
 
+const SINGULAR_COUNT = 1;
+
 export default class MenuSourceController extends Controller<HTMLElement> implements RootAwareChild {
-  static values = { url: String };
+  static values = { url: String, menuLabelKey: String };
+
+  static targets = ['menu'];
 
   declare readonly urlValue:string;
+  declare readonly menuLabelKeyValue:string;
+  declare readonly hasMenuLabelKeyValue:boolean;
+  declare readonly menuTargets:HTMLElement[];
+
+  private openMenu:ActionMenuElement|null = null;
 
   private root?:SortableListsRoot;
   private listeners?:AbortController;
 
   connect():void {
     this.listeners = new AbortController();
-    // beforetoggle does not bubble.
-    this.element.addEventListener('beforetoggle', this.onBeforeToggle, { capture: true, signal: this.listeners.signal });
+    const { signal } = this.listeners;
+    // beforetoggle and toggle do not bubble.
+    this.element.addEventListener('beforetoggle', this.onBeforeToggle, { capture: true, signal });
+    this.element.addEventListener('toggle', this.onToggle, { capture: true, signal });
+    this.element.addEventListener('sortable-lists:menu-scope-changed', this.onScopeChanged, { signal });
   }
 
   disconnect():void {
     this.listeners?.abort();
     this.listeners = undefined;
     this.disconnectRoot();
+    this.openMenu = null;
+  }
+
+  // The deferred list arrives after the menu opened, labeled by the invoker
+  // button. Accname does not follow the button's own aria-labelledby on to
+  // its tooltip, so the list is pointed at the tooltip directly.
+  menuTargetConnected(list:HTMLElement):void {
+    const menu = list.closest<ActionMenuElement>('action-menu');
+    const tooltip = menu && this.tooltipOf(menu);
+    if (!menu || !tooltip) {
+      return;
+    }
+
+    list.setAttribute('aria-labelledby', tooltip.id);
+    if (menu === this.openMenu) {
+      this.rename(menu, this.scopeCountOf(list));
+    }
   }
 
   private readonly onBeforeToggle = (event:Event):void => {
@@ -66,16 +96,70 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
     if (src) {
       menu.setAttribute('src', src);
     }
+
+    this.openMenu = menu;
+    const loadedList = this.menuTargets.find((list) => menu.contains(list));
+    if (loadedList) {
+      this.rename(menu, this.scopeCountOf(loadedList));
+    }
   };
 
-  // Tooltips and sub-menus inside the card menu are popovers too.
-  private primaryMenuOf(target:EventTarget|null):HTMLElement|null {
-    if (!(target instanceof HTMLElement) || target.localName !== 'anchored-position') {
-      return null;
+  private readonly onToggle = (event:Event):void => {
+    if (!('newState' in event) || event.newState !== 'closed') {
+      return;
     }
 
-    const container = target.parentElement?.closest<HTMLElement>('anchored-position, action-menu');
-    return container?.localName === 'action-menu' ? container : null;
+    const menu = this.primaryMenuOf(event.target);
+    if (!menu || !resolveClosestItemElement(menu, this.element)) {
+      return;
+    }
+
+    if (menu === this.openMenu) {
+      this.openMenu = null;
+    }
+    this.rename(menu, SINGULAR_COUNT);
+  };
+
+  private readonly onScopeChanged = (event:Event):void => {
+    const menu = event.target instanceof HTMLElement ? event.target.closest<ActionMenuElement>('action-menu') : null;
+    const list = menu && this.menuTargets.find((target) => menu.contains(target));
+    if (menu && list && menu === this.openMenu) {
+      this.rename(menu, this.scopeCountOf(list));
+    }
+  };
+
+  // The server decides between the batch and the singular menu, so the list
+  // it renders carries the count the name reports. A list narrowed to its
+  // singular fallback on the client is a singular menu.
+  private scopeCountOf(list:HTMLElement):number {
+    if (list.hasAttribute('data-sortable-lists-scope-narrowed')) {
+      return SINGULAR_COUNT;
+    }
+
+    const count = Number.parseInt(list.dataset.sortableListsScopeCount ?? '', 10);
+    return Number.isNaN(count) ? SINGULAR_COUNT : count;
+  }
+
+  // Primer's IconButton drops its aria-label in favor of aria-labelledby at
+  // the label tooltip, so the tooltip text is the name.
+  private rename(menu:ActionMenuElement, count:number):void {
+    const tooltip = this.tooltipOf(menu);
+    if (tooltip && this.hasMenuLabelKeyValue) {
+      tooltip.textContent = I18n.t(this.menuLabelKeyValue, { count });
+    }
+  }
+
+  private tooltipOf(menu:ActionMenuElement):HTMLElement|null {
+    const labelId = menu.invokerElement?.getAttribute('aria-labelledby');
+    const tooltip = labelId ? menu.ownerDocument.getElementById(labelId) : null;
+    return tooltip?.localName === 'tool-tip' ? tooltip : null;
+  }
+
+  // Tooltips and sub-menus inside the card menu are popovers too; only the
+  // menu's own popover counts.
+  private primaryMenuOf(target:EventTarget|null):ActionMenuElement|null {
+    const menu = target instanceof HTMLElement ? target.closest<ActionMenuElement>('action-menu') : null;
+    return menu?.popoverElement === target ? menu : null;
   }
 
   // A refused scope (a fixed or non-orderable card, or selection disabled)

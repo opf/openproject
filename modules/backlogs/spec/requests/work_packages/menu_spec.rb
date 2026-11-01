@@ -148,7 +148,9 @@ RSpec.describe "Backlogs card menu", type: :rails_request do
         get_menu(ids: [invoker.id, other.id])
 
         expect(response).to have_http_status(:ok)
-        expect(menu).to have_element(:ul, id: "work_package_#{invoker.id}_menu-list")
+        expect(menu).to have_element(:ul,
+                                     id: "work_package_#{invoker.id}_menu-list",
+                                     "data-sortable-lists-scope-count": "1")
         expect(menu).to singular_actions_for(invoker)
         expect(menu).to no_singular_actions_for(other)
         expect(menu).to have_no_element(:button, id: menu_item_id(invoker, :top))
