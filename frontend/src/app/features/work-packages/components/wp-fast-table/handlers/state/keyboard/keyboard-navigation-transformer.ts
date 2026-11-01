@@ -47,7 +47,7 @@ import {
 import {
   buildNavigableRows, headerRowKey, headerRowOf, totalsRowKey, totalsRowOf,
 } from './navigable-rows';
-import { selectableOccurrences } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
+import { isSelectableOccurrence, selectableOccurrences } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
 import { KeyboardSelection } from './keyboard-selection';
 import type { NavigationCommand } from 'core-app/shared/helpers/navigation-keys';
 import { type ActivationKey, cellIntent, type KeyIntent } from './key-intent';
@@ -642,7 +642,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
         this.focusPosition(position);
         return true;
       case 'workPackage':
-        return this.activateWorkPackageRow(occurrence.workPackageId!, occurrence.element);
+        return isSelectableOccurrence(occurrence) && this.activateWorkPackageRow(occurrence.workPackageId, occurrence.element);
       default:
         return false;
     }
