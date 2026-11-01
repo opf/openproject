@@ -61,6 +61,10 @@ export type NavResult =
 
 const NONE:NavResult = { type: 'none' };
 
+export function rowPosition(key:string):FocusPosition {
+  return { key, cell: null, desiredColumn: null };
+}
+
 function positionOn(row:NavigableRow, cell:number|null, desiredColumn:number|null):FocusPosition {
   const position:FocusPosition = { key: row.key, cell, desiredColumn };
   return row.groupIdentifier === undefined ? position : { ...position, groupIdentifier: row.groupIdentifier };
