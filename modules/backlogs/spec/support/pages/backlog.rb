@@ -360,6 +360,67 @@ module Pages
       end
     end
 
+    # Opens a card's menu through one of the four entry points Backlogs
+    # supports and answers the loaded menu, so absence checks cannot pass
+    # against the loading placeholder.
+    def open_card_menu(work_package, via:)
+      case via
+      when :more then open_work_package_menu(work_package)
+      when :right_click then right_click_work_package_card(work_package)
+      when :context_menu_key then press_context_menu_key_on_card(work_package)
+      when :shift_f10 then send_work_package_card_keys(work_package, %i[shift f10])
+      else raise ArgumentError, "Unknown card menu entry point: #{via.inspect}"
+      end
+
+      expect_work_package_menu_loaded(work_package)
+      page.document.find(menu_owner_overlay_selector(work_package)).find(:menu)
+    end
+
+    # Escape returns focus to whatever opened the menu: the More button, or
+    # the card for a contextual invocation.
+    def dismiss_card_menu(work_package, via:)
+      press_escape
+      expect_no_work_package_context_menu(work_package)
+
+      if via == :more
+        within_work_package(work_package) do
+          expect(page).to have_button(accessible_name: singular_menu_label, focused: true)
+        end
+      else
+        expect_work_package_card_focused(work_package)
+      end
+    end
+
+    def light_dismiss_card_menu(work_package)
+      find(:heading, I18n.t(:label_backlog_and_sprints)).click
+      expect_no_work_package_context_menu(work_package)
+    end
+
+    def activate_card_menu_action(work_package, action, via:)
+      menu = open_card_menu(work_package, via:)
+
+      if move_direction_labels.include?(action)
+        wait_for_backlogs_turbo_stream do
+          open_move_submenu(menu).find(:menuitem, text: action, exact_text: true, visible: :all).click
+        end
+      else
+        menu.find(:menuitem, text: action, exact_text: true).click
+      end
+    end
+
+    def expect_work_package_menu_button_named(work_package, name)
+      within_work_package(work_package) do
+        expect(page).to have_button(accessible_name: name)
+      end
+    end
+
+    # Scoped to the card's whole action menu, so the More button and the
+    # tooltip naming it are scanned along with the open list.
+    def expect_open_card_menu_axe_clean(work_package)
+      expect_work_package_menu_loaded(work_package)
+      expect(page).to be_axe_clean.within("#{work_package_card_selector(work_package)} action-menu")
+    end
+
     def work_package_card(work_package)
       find(work_package_card_selector(work_package))
     end
@@ -1809,6 +1870,23 @@ module Pages
     def open_controlled_menu(button)
       button.click
       page.find(:menu, id: button[:controls] || button["aria-controls"])
+    end
+
+    # WebDriver's key table has no Context Menu key, so Chrome receives it
+    # through DevTools as a trusted key press on the focused card.
+    def press_context_menu_key_on_card(work_package)
+      focus_work_package_card(work_package)
+      key = { key: "ContextMenu", code: "ContextMenu", windowsVirtualKeyCode: 93, nativeVirtualKeyCode: 93 }
+      page.driver.browser.execute_cdp("Input.dispatchKeyEvent", type: "rawKeyDown", **key)
+      page.driver.browser.execute_cdp("Input.dispatchKeyEvent", type: "keyUp", **key)
+    end
+
+    def singular_menu_label
+      I18n.t("js.backlogs.action_menu.menu_label", count: 1)
+    end
+
+    def move_direction_labels
+      [I18n.t(:label_sort_highest), I18n.t(:label_sort_higher), I18n.t(:label_sort_lower), I18n.t(:label_sort_lowest)]
     end
 
     def open_move_submenu(menu)
