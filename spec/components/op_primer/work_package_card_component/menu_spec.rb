@@ -39,7 +39,7 @@ RSpec.describe OpPrimer::WorkPackageCardComponent::Menu, type: :component do
   shared_let(:work_package) { create(:work_package, project:) }
 
   let(:menu_button_id) { "work_package_#{work_package.id}_menu-button" }
-  let(:src) { menu_project_backlogs_work_package_path(project, work_package) }
+  let(:src) { menu_project_backlogs_work_packages_path(project, ids: [work_package.id], invoker_id: work_package.id) }
   let(:system_arguments) { {} }
 
   subject(:rendered_component) do

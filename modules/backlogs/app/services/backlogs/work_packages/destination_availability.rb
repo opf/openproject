@@ -60,6 +60,7 @@ class Backlogs::WorkPackages::DestinationAvailability
 
   def sprints = offered(candidate_sprints)
   def buckets = offered(candidate_buckets)
+  def inbox? = manage_permission? && offers?(Backlogs::Target::InboxId)
 
   private
 
@@ -77,10 +78,11 @@ class Backlogs::WorkPackages::DestinationAvailability
   def offered(containers)
     return [] unless manage_permission?
 
-    containers.select do |container|
-      target = Backlogs::Target.for(container)
-      refusing(target).empty? &&
-        work_packages.any? { |wp| Backlogs::Target.for_work_package(wp) != target }
-    end
+    containers.select { |container| offers?(Backlogs::Target.for(container)) }
+  end
+
+  def offers?(target)
+    refusing(target).empty? &&
+      work_packages.any? { |wp| Backlogs::Target.for_work_package(wp) != target }
   end
 end
