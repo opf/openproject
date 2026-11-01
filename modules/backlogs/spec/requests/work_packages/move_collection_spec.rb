@@ -323,6 +323,55 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
     end
   end
 
+  # A one-card menu move now goes through the collection route; its failure
+  # must read exactly as the member route's did.
+  describe "a one-card move that fails" do
+    def move_member(work_package, **params)
+      put move_project_backlogs_work_package_path(project, work_package),
+          params:,
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+    end
+
+    def flash_message
+      Nokogiri::HTML5.fragment(response.body).at_css("turbo-stream[action='flash'] .Banner-title")&.text&.squish
+    end
+
+    def member_route_flash(work_package, **params)
+      move_member(work_package, **params)
+      expect(response).to have_http_status(:unprocessable_entity)
+      flash_message
+    end
+
+    context "when the work package itself refuses the update" do
+      before { sprint_wp1.update_columns(subject: "") }
+
+      it "flashes what the member route flashes", :aggregate_failures do
+        expected = member_route_flash(sprint_wp1, list_type: "inbox")
+
+        move_collection(ids: [sprint_wp1.id], list_type: "inbox")
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(flash_message).to eq(expected)
+        expect(expected).not_to include(sprint_wp1.to_fs(:caption))
+        expect(sprint_wp1.reload.sprint).to eq(sprint)
+      end
+    end
+
+    context "when the destination refuses a read-only work package", with_ee: %i[readonly_work_packages] do
+      before { sprint_wp1.update_columns(status_id: create(:status, :readonly).id) }
+
+      it "flashes what the member route flashes", :aggregate_failures do
+        expected = member_route_flash(sprint_wp1, list_type: "inbox")
+
+        move_collection(ids: [sprint_wp1.id], list_type: "inbox")
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(flash_message).to eq(expected)
+        expect(sprint_wp1.reload.sprint).to eq(sprint)
+      end
+    end
+  end
+
   describe "invisibility after move" do
     # Moving into a sprint short-circuits the type/status exclusion check
     # (work_package_invisible_after_move? only applies it to backlog

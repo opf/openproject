@@ -124,6 +124,9 @@ export interface SortableListsRoot {
   readonly busy:boolean;
   actionScopeFor(itemElement:HTMLElement):ActionScope;
   selectForAction(itemElement:HTMLElement):ActionScope;
+  // Submits a destination form as the menu rendered it: its ids are the
+  // scope settled when the menu loaded.
+  moveToDestination(form:HTMLFormElement):void;
   moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void;
   // A snapshot for menu gating; the click path re-resolves against the live DOM.
   moveAvailability(itemElement:HTMLElement):MoveAvailability|null;

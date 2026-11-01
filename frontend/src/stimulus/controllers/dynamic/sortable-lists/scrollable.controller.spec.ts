@@ -72,6 +72,7 @@ describe('Sortable lists scrollable controller', () => {
       busy: false,
       actionScopeFor: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
       selectForAction: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
+      moveToDestination: vi.fn(),
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
       ownerRowsContainer: vi.fn(() => null),

@@ -280,7 +280,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       it "is shown with zap icon" do
         render_component
 
-        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
+        expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
         expect(page).to have_octicon(:zap)
         expect(page).to have_text(I18n.t(:"backlogs.work_package_card_menu_component.action_menu.move_to_sprint"))
       end
@@ -293,7 +293,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       it "is shown" do
         render_component
 
-        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
+        expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
       end
     end
 
@@ -303,7 +303,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       it "is shown" do
         render_component
 
-        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
+        expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
       end
     end
 
@@ -313,7 +313,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       it "is hidden" do
         render_component
 
-        expect(page).to have_no_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
+        expect(page).to have_no_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
       end
     end
   end
@@ -357,7 +357,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       it "is shown with package icon" do
         render_component
 
-        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
+        expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
         expect(page).to have_octicon(:package)
         expect(page).to have_text(I18n.t(:"backlogs.work_package_card_menu_component.action_menu.move_to_backlog_bucket"))
       end
@@ -370,7 +370,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       it "is shown" do
         render_component
 
-        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
+        expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
       end
     end
 
@@ -380,7 +380,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       it "is shown" do
         render_component
 
-        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
+        expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
       end
     end
 
@@ -390,7 +390,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       it "is hidden" do
         render_component
 
-        expect(page).to have_no_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
+        expect(page).to have_no_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
       end
     end
   end
@@ -405,14 +405,50 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       expect(page).to have_element(:a, id: "work_package_#{work_package.id}_menu_open_details")
     end
 
-    it "passes the ordered selection to the destination dialogs", :aggregate_failures do
+    def destination_form(item)
+      page.find(:xpath, "//form[.//*[@id='work_package_#{work_package.id}_menu_#{item}']]")
+    end
+
+    def submitted_ids(form)
+      form.all("input[name='ids[]']", visible: :all).map(&:value)
+    end
+
+    it "renders the batch ids on destination items in order", :aggregate_failures do
       render_component(work_packages: [work_package, inbox_story, first_story])
 
-      ids = [work_package.id, inbox_story.id, first_story.id]
-      expect(page.find_by_id("work_package_#{work_package.id}_menu_move_to_sprint")[:href])
-        .to eq(move_to_sprint_dialog_project_backlogs_work_packages_path(project, ids:))
-      expect(page.find_by_id("work_package_#{work_package.id}_menu_move_to_backlog_bucket")[:href])
-        .to eq(move_to_bucket_dialog_project_backlogs_work_packages_path(project, ids:))
+      ids = [work_package, inbox_story, first_story].map { it.id.to_s }
+      %i[move_to_inbox move_to_sprint move_to_backlog_bucket].each do |item|
+        expect(submitted_ids(destination_form(item))).to eq(ids)
+      end
+    end
+
+    it "posts the batch to the destination dialogs in the request body", :aggregate_failures do
+      render_component(work_packages: [work_package, inbox_story])
+
+      {
+        move_to_sprint: move_to_sprint_dialog_project_backlogs_work_packages_path(project),
+        move_to_backlog_bucket: move_to_bucket_dialog_project_backlogs_work_packages_path(project)
+      }.each do |item, path|
+        form = destination_form(item)
+        expect(form[:action]).to eq(path)
+        expect(form[:method]).to eq("post")
+        expect(form).to have_element(:button, id: "work_package_#{work_package.id}_menu_#{item}",
+                                              "data-controller": "async-dialog")
+      end
+    end
+
+    it "moves the batch to the inbox through the root's collection move", :aggregate_failures do
+      render_component(work_packages: [work_package, inbox_story])
+
+      form = destination_form(:move_to_inbox)
+      expect(form[:action]).to eq(move_project_backlogs_work_packages_path(project))
+      expect(form).to have_field("_method", type: :hidden, with: "put")
+      expect(form).to have_field("list_type", type: :hidden, with: Backlogs::Target::InboxId.list_type)
+      expect(form).to have_no_field("prev_id", type: :hidden)
+      expect(page).to have_css(
+        "li[data-action='click->sortable-lists--item#moveToDestination:prevent'] " \
+        "#work_package_#{work_package.id}_menu_move_to_inbox"
+      )
     end
 
     it "offers the inbox to an invoker already there when another member is not" do
@@ -433,8 +469,8 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       it "offers no move to another container", :aggregate_failures do
         render_component
 
-        expect(page).to have_no_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
-        expect(page).to have_no_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
+        expect(page).to have_no_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
+        expect(page).to have_no_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
         expect(page).to have_no_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_inbox\z/)
       end
 
@@ -473,7 +509,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
         render_component
 
         expect(page).to have_selector(:menuitem, text: "Move to position")
-        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
+        expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
       end
     end
   end
