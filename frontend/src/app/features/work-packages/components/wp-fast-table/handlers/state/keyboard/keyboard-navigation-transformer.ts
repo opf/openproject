@@ -144,6 +144,8 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
       removedFromTabOrder.forEach((container) => container.removeAttribute('tabindex'));
     });
 
+    const listeners = new AbortController();
+    const { signal } = listeners;
     const onKeydown = (event:KeyboardEvent) => this.handleKeydown(event);
     const onFocusin = (event:FocusEvent) => {
       const target = event.target as Node;
@@ -170,26 +172,19 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
         this.interaction.preparePaint();
       }
     };
-    scrollContainer.addEventListener('keydown', onKeydown);
+    scrollContainer.addEventListener('keydown', onKeydown, { signal });
     const onMousedown = (event:MouseEvent) => {
       this.pointerActive = true;
       this.cursor.clearWalk();
       this.recordPointerTarget(event.target);
     };
     const onPointerEnd = () => { this.pointerActive = false; };
-    scrollContainer.addEventListener('focusin', onFocusin);
-    scrollContainer.addEventListener('focusout', onFocusout);
-    scrollContainer.addEventListener('mousedown', onMousedown);
-    document.addEventListener('focusin', onDocumentFocusin);
-    pointerEndEvents.forEach((type) => document.addEventListener(type, onPointerEnd));
-    onDestroySafely(destroyRef, () => {
-      scrollContainer.removeEventListener('keydown', onKeydown);
-      scrollContainer.removeEventListener('focusin', onFocusin);
-      scrollContainer.removeEventListener('focusout', onFocusout);
-      scrollContainer.removeEventListener('mousedown', onMousedown);
-      document.removeEventListener('focusin', onDocumentFocusin);
-      pointerEndEvents.forEach((type) => document.removeEventListener(type, onPointerEnd));
-    });
+    scrollContainer.addEventListener('focusin', onFocusin, { signal });
+    scrollContainer.addEventListener('focusout', onFocusout, { signal });
+    scrollContainer.addEventListener('mousedown', onMousedown, { signal });
+    document.addEventListener('focusin', onDocumentFocusin, { signal });
+    pointerEndEvents.forEach((type) => document.addEventListener(type, onPointerEnd, { signal }));
+    onDestroySafely(destroyRef, () => listeners.abort());
 
   }
 
