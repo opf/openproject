@@ -32,7 +32,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PortalModule } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
-import { NgOptionHighlightDirective } from '@ng-select/ng-option-highlight';
 import { DynamicModule } from 'ng-dynamic-component';
 import { OpSpotModule } from 'core-app/spot/spot.module';
 import { CurrentUserModule } from 'core-app/core/current-user/current-user.module';
@@ -108,7 +107,6 @@ export function bootstrapModule(injector:Injector):void {
     CurrentUserModule,
     FormsModule,
     NgSelectModule,
-    NgOptionHighlightDirective,
 
     OpenprojectPrincipalRenderingModule,
     OpenprojectContentLoaderModule,
@@ -135,7 +133,6 @@ export function bootstrapModule(injector:Injector):void {
     IconModule,
     AttributeHelpTextModule,
     FormsModule,
-    NgOptionHighlightDirective,
     OpenprojectPrincipalRenderingModule,
     OpenprojectAutocompleterModule,
     OpenprojectContentLoaderModule,
