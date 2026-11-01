@@ -60,7 +60,10 @@ export function isEmptyResultsRow(row:HTMLTableRowElement):boolean {
   return row.parentElement?.classList.contains('work-package--empty-tbody') === true;
 }
 
-/** A row assistive technology can reach: neither hidden itself nor inside a hidden section. */
+/**
+ * Whether the row is exposed, that is reachable by assistive technology: not `hidden`, not
+ * `aria-hidden`, and not in an `aria-hidden` section.
+ */
 export function isExposedRow(row:HTMLTableRowElement):boolean {
   return !row.hidden
     && row.getAttribute('aria-hidden') !== 'true'

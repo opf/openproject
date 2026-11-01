@@ -76,6 +76,10 @@ function assignId(element:HTMLElement, id:string):string {
   return id;
 }
 
+/**
+ * Marks the section as a `rowgroup` and hides it from assistive technology (`aria-hidden`) when
+ * every row in it is `aria-hidden`.
+ */
 export function paintSectionExposure(section:HTMLTableSectionElement):void {
   setOrRemove(section, 'role', 'rowgroup');
   const exposed = Array.from(section.rows).some((row) => row.getAttribute('aria-hidden') !== 'true');
