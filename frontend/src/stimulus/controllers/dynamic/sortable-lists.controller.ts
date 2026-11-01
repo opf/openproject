@@ -52,6 +52,7 @@ import {
   captureRowPositions,
   isOrderableItem,
   reorderRows,
+  resolveBlockMove,
   resolveBlockMoveAvailability,
   resolveDirectionalPreviousItemId,
   resolveItemElement,
@@ -456,6 +457,12 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
+    const { items: scopeItems } = this.actionScopeFor(itemElement);
+    if (scopeItems.length > 1) {
+      this.moveBlockInDirection(itemElement, scopeItems, direction);
+      return;
+    }
+
     const list = this.ownerListOf(itemElement);
     if (!list) {
       return;
@@ -485,6 +492,37 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       previousItemId,
       moveUrl,
       collapseSelectionOnto: itemElement,
+    });
+  }
+
+  // The action scope at activation, resolved against the live DOM; a morph
+  // that broke the block sends nothing and keeps the selection.
+  private moveBlockInDirection(itemElement:HTMLElement, scopeItems:HTMLElement[], direction:MoveDirection):void {
+    const list = this.ownerListOf(itemElement);
+    const moveUrl = this.resolveCollectionMoveUrl();
+    if (!list || !moveUrl) {
+      return;
+    }
+
+    const resolution = resolveBlockMove({ itemElements: scopeItems, direction, rowsContainer: list.rowsContainer });
+    if (!resolution.available) {
+      return;
+    }
+
+    const items = scopeItems
+      .map((element) => itemIdentity(element))
+      .filter((item):item is SelectionItem => item !== null);
+    if (items.length !== scopeItems.length) {
+      return;
+    }
+
+    void this.performMove({
+      rows: resolution.rows,
+      items,
+      rowsContainer: list.rowsContainer,
+      listData: list.listData,
+      previousItemId: resolution.previousItemId,
+      moveUrl,
     });
   }
 
@@ -685,8 +723,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     });
   }
 
-  // Shared by drag drops, single or batch, and by the menu moves that pass
-  // no items.
+  // Shared by drag drops and menu moves, single or batch.
   private async performMove({
     rows,
     items,
