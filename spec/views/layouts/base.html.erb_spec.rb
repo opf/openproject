@@ -68,7 +68,7 @@ RSpec.describe "layouts/base" do
     context "with omni_auth_direct_login enabled",
             with_config: { omniauth_direct_login_provider: "some_provider" } do
       it "shows just a sign-in link, no menu" do
-        expect(rendered).to have_css "a[href='/login']"
+        expect(rendered).to have_link href: "/login"
         expect(rendered).to have_no_css "div#nav-login-content"
       end
     end

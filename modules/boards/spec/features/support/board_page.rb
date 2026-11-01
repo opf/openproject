@@ -273,7 +273,7 @@ module Pages
         page.find('[data-test-selector="op-board-list--menu"] a').click
       end
 
-      page.find(".dropdown-menu button", text: action).click
+      page.find(".dropdown-menu").click_button(action)
     end
 
     def card_for(work_package)

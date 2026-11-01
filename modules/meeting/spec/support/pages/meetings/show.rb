@@ -620,7 +620,7 @@ module Pages::Meetings
     end
 
     def uncheck_apply_to_upcoming
-      page.find('input[type="checkbox"][name="meeting_participant[apply_to_upcoming]"]').set(false)
+      page.find_field(type: "checkbox", name: "meeting_participant[apply_to_upcoming]").set(false)
     end
 
     def expect_apply_to_upcoming_checked
