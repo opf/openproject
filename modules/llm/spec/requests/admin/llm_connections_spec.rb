@@ -96,6 +96,22 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(page).to have_no_field("llm_connection[base_url]")
     end
 
+    it "offers neither the tabs nor the action menu", with_settings: { llm_features_enabled: true } do
+      get llm_connection_path
+
+      expect(page).to have_no_css("[data-test-selector='llm-settings--tabs']")
+      expect(page).to have_no_css("[data-test-selector='llm-connection--actions']")
+      expect(page).to have_no_css("a[href='#{llm_feature_bindings_path}']")
+    end
+
+    it "offers the tabs and the action menu once a token grants the feature",
+       with_ee: [OpenProject::Llm::ENTERPRISE_FEATURE], with_settings: { llm_features_enabled: true } do
+      get llm_connection_path
+
+      expect(page).to have_css("[data-test-selector='llm-settings--tabs']")
+      expect(page).to have_css("[data-test-selector='llm-connection--actions']")
+    end
+
     it "redirects writes to the settings page and keeps the stored connection" do
       patch llm_connection_path, params: { llm_connection: { base_url: "https://elsewhere.example/v1" } }
       expect(response).to redirect_to(llm_connection_path)
