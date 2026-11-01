@@ -64,7 +64,7 @@ RSpec.describe "Projects", "editing settings", :js do
           click_on "Change identifier"
         end
 
-        expect(page).to have_content "Successful update."
+        expect(page).to have_text "Successful update."
         expect(page).to have_current_path %r{/projects/foo-bar/settings/general}
         expect(project.reload.identifier).to eq "foo-bar"
       end
@@ -84,7 +84,7 @@ RSpec.describe "Projects", "editing settings", :js do
           click_on "Change identifier"
         end
 
-        expect(page).to have_content "Successful update."
+        expect(page).to have_text "Successful update."
         expect(page).to have_current_path %r{/projects/FOOBAR/settings/general}
         expect(project.reload.identifier).to eq "FOOBAR"
       end

@@ -49,7 +49,7 @@ RSpec.describe "version create", :js do
       click_on "Create"
 
       expect(page).to have_current_path(project_settings_versions_path(project))
-      expect(page).to have_content new_version_name
+      expect(page).to have_text new_version_name
     end
 
     it "and redirect back to where you started" do
@@ -61,7 +61,7 @@ RSpec.describe "version create", :js do
 
       expect(page).to have_text("Successful creation")
       expect(page).to have_current_path(project_roadmap_path(project))
-      expect(page).to have_content new_version_name
+      expect(page).to have_text new_version_name
     end
 
     context "with a custom field" do
@@ -92,7 +92,7 @@ RSpec.describe "version create", :js do
         click_on "Create"
 
         expect(page).to have_text("Successful creation")
-        expect(page).to have_content("Version 1.0")
+        expect(page).to have_text("Version 1.0")
 
         # Verify the custom field value was saved
         created_version = Version.find_by(name: "Version 1.0")

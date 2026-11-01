@@ -68,13 +68,13 @@ RSpec.describe "Query menu item", :js do
 
       within ".op-submenu" do
         expect(page)
-          .to have_content(global_my_view.query.name, wait: 10)
+          .to have_text(global_my_view.query.name, wait: 10)
         expect(page)
-          .to have_content(global_public_view.query.name, wait: 10)
+          .to have_text(global_public_view.query.name, wait: 10)
         expect(page)
-          .to have_no_content(global_other_view.query.name)
+          .to have_no_text(global_other_view.query.name)
         expect(page)
-          .to have_no_content(project_view.query.name)
+          .to have_no_text(project_view.query.name)
       end
     end
   end
