@@ -1328,6 +1328,66 @@ describe('Sortable lists controller', () => {
     expect(controller.moveAvailability(document.createElement('li'))).toBeNull();
   });
 
+  describe('block move availability', () => {
+    function selectedController(root:HTMLElement, ...selected:HTMLElement[]) {
+      const [first, ...rest] = selected;
+      fireEvent.click(first);
+      rest.forEach((item) => fireEvent.click(item, { ctrlKey: true }));
+
+      return ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+    }
+
+    it('hides Move to position for a sparse same-list block', async () => {
+      const { root, items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      const controller = selectedController(root, items[0], items[2]);
+
+      expect(controller.moveAvailability(items[0])).toEqual({
+        top: false, up: false, down: false, bottom: false,
+      });
+    });
+
+    it('disables Up at the loaded top', async () => {
+      const { root, items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      const controller = selectedController(root, items[0], items[1]);
+
+      expect(controller.moveAvailability(items[1])).toEqual({
+        top: false, up: false, down: true, bottom: true,
+      });
+    });
+
+    it('hides a direction that would cross truncated rows', async () => {
+      const { root, sourceList, items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      const marker = document.createElement('li');
+      marker.setAttribute('data-sortable-lists-prev-item-id', '2');
+      marker.setAttribute('data-sortable-lists-omitted-count', '9');
+      sourceList.insertBefore(marker, items[2]);
+      const controller = selectedController(root, items[0], items[1]);
+
+      expect(controller.moveAvailability(items[0])).toEqual({
+        top: false, up: false, down: false, bottom: true,
+      });
+    });
+
+    it('keeps single-card availability unchanged', async () => {
+      const { root, items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      const controller = selectedController(root, items[0], items[1]);
+
+      expect(controller.moveAvailability(items[2])).toEqual({
+        top: true, up: true, down: false, bottom: false,
+      });
+
+      fireEvent.click(items[1]);
+
+      expect(controller.moveAvailability(items[1])).toEqual({
+        top: true, up: true, down: true, bottom: true,
+      });
+    });
+  });
+
   describe('destination moves', () => {
     function rootController(root:HTMLElement) {
       return ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
