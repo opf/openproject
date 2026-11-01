@@ -57,6 +57,8 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.13.0",
+    "oxlint": "1.90.0",
+    "oxlint-tsgolint": "7.0.2005",
     "patch-package": "^8.0.1",
     "playwright": "^1.64.1",
     "source-map-explorer": "^2.5.2",
