@@ -55,6 +55,23 @@ module Pages
       project_backlogs_backlog_path(project)
     end
 
+    # A Turbo visit, so the page leaves a snapshot in the cache to come back to.
+    def leave_for_all_sprints
+      click_link "All sprints"
+      expect_left_backlogs
+    end
+
+    def go_back_to_backlogs
+      page.go_back
+      expect(page).to have_css("#sprint_backlogs_container")
+      wait_for_backlogs_network_idle
+    end
+
+    def go_forward_to_all_sprints
+      page.go_forward
+      expect_left_backlogs
+    end
+
     def expect_inbox_blankslate
       within_backlog_inbox do
         expect(page).to have_css("h4", text: "Backlog inbox is empty")
@@ -331,12 +348,16 @@ module Pages
     end
 
     def within_work_package_menu(work_package, activated: false, &)
-      within_work_package(work_package) do
-        button = find(:button, accessible_name: "Work package actions")
-        within(open_controlled_menu(button), &)
-      end
+      within(open_work_package_menu(work_package), &)
 
       dismiss_menu(work_package, activated:)
+    end
+
+    # Leaves the menu open, for callers that act while it is.
+    def open_work_package_menu(work_package)
+      within_work_package(work_package) do
+        open_controlled_menu(find(:button, accessible_name: "Work package actions"))
+      end
     end
 
     def work_package_card(work_package)
@@ -1295,6 +1316,11 @@ module Pages
     end
 
     private
+
+    def expect_left_backlogs
+      expect(page).to have_current_path(project_backlogs_sprints_path(project))
+      expect(page).to have_no_css("turbo-frame#backlogs_container")
+    end
 
     def boolean_filter?(filter)
       filter.to_s == "is_milestone"
