@@ -211,7 +211,7 @@ en:
     upsell:
       llm_connection:
         title: "LLM settings"
-        description: "Connect OpenProject to an OpenAI-compatible LLM server and choose the models behind its AI features."
+        description: "Run AI features such as the text assistant and semantic search on an LLM server you choose."
   llm:
     api_formats:
       anthropic: "Anthropic"
