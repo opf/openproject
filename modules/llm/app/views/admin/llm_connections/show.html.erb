@@ -92,18 +92,24 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<% if @connection.persisted? && Setting.llm_features_enabled? %>
-  <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |layout| %>
-    <% layout.with_main do %>
-      <%= render(LlmConnections::FormComponent.new(@connection)) %>
-    <% end %>
+<%= with_enterprise_banner_guard(
+      OpenProject::Llm::ENTERPRISE_FEATURE,
+      variant: :inline,
+      i18n_scope: "ee.upsell.llm_connection"
+    ) do %>
+  <% if @connection.persisted? && Setting.llm_features_enabled? %>
+    <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |layout| %>
+      <% layout.with_main do %>
+        <%= render(LlmConnections::FormComponent.new(@connection)) %>
+      <% end %>
 
-    <% layout.with_sidebar(col_placement: :end, row_placement: :end) do %>
-      <%= render(Primer::OpenProject::SidePanel.new) do |panel| %>
-        <% panel.with_section(LlmConnections::SidePanel::HealthStatusComponent.new(@connection)) %>
+      <% layout.with_sidebar(col_placement: :end, row_placement: :end) do %>
+        <%= render(Primer::OpenProject::SidePanel.new) do |panel| %>
+          <% panel.with_section(LlmConnections::SidePanel::HealthStatusComponent.new(@connection)) %>
+        <% end %>
       <% end %>
     <% end %>
+  <% else %>
+    <%= render(LlmConnections::FormComponent.new(@connection)) %>
   <% end %>
-<% else %>
-  <%= render(LlmConnections::FormComponent.new(@connection)) %>
 <% end %>

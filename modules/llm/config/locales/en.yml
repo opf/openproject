@@ -207,6 +207,11 @@ en:
         success: "The model list has been refreshed."
       update:
         success: "%{model} has been updated."
+  ee:
+    upsell:
+      llm_connection:
+        title: "LLM settings"
+        description: "Connect OpenProject to an OpenAI-compatible LLM server and choose the models behind its AI features."
   llm:
     api_formats:
       anthropic: "Anthropic"

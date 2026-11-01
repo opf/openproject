@@ -40,6 +40,9 @@ module Admin
 
     before_action :require_feature
     before_action :require_admin
+    guard_enterprise_feature(OpenProject::Llm::ENTERPRISE_FEATURE) do
+      redirect_to llm_connection_path, status: :see_other
+    end
     before_action :set_connection
     before_action :require_enabled_connection
 

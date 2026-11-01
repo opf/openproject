@@ -30,7 +30,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
+RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock, :with_llm_ee,
                type: :rails_request, with_flag: { llm_connection: true },
                with_settings: { llm_features_enabled: true } do
   let(:admin) { create(:admin) }
@@ -55,6 +55,24 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       post refresh_llm_models_path
       expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  describe "without an enterprise token granting the feature", with_ee: false do
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+
+    before { login_as admin }
+
+    it "redirects to the settings page" do
+      get llm_models_path
+      expect(response).to redirect_to(llm_connection_path)
+
+      post refresh_llm_models_path
+      expect(response).to redirect_to(llm_connection_path)
+
+      delete llm_model_path(connection.models.first)
+      expect(response).to redirect_to(llm_connection_path)
+      expect(connection.models.count).to eq(2)
     end
   end
 

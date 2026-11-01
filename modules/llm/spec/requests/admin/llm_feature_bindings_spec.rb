@@ -30,7 +30,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf, :webmock,
+RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf, :webmock, :with_llm_ee,
                type: :rails_request, with_flag: { llm_connection: true, semantic_search: true },
                with_settings: { llm_features_enabled: true } do
   let(:admin) { create(:admin) }
@@ -56,6 +56,22 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
       patch llm_feature_binding_path("description_assistant"),
             params: { llm_feature_binding: { model_id: "qwen3.6-27b" } }
       expect(response).to have_http_status(:not_found)
+      expect(connection.feature_bindings).to be_empty
+    end
+  end
+
+  describe "without an enterprise token granting the feature", with_ee: false do
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+
+    before { login_as admin }
+
+    it "redirects to the settings page" do
+      get llm_feature_bindings_path
+      expect(response).to redirect_to(llm_connection_path)
+
+      patch llm_feature_binding_path("description_assistant"),
+            params: { llm_feature_binding: { model_id: "qwen3.6-27b" } }
+      expect(response).to redirect_to(llm_connection_path)
       expect(connection.feature_bindings).to be_empty
     end
   end

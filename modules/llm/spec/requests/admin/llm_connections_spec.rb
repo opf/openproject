@@ -30,7 +30,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock,
+RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock, :with_llm_ee,
                type: :rails_request, with_flag: { llm_connection: true } do
   let(:admin) { create(:admin) }
   let(:non_admin) { create(:user) }
@@ -76,6 +76,46 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(connection.reload.api_key).to eq("sk-original")
         expect(connection.base_url).to eq(base_url)
       end
+    end
+  end
+
+  describe "without an enterprise token granting the feature", with_ee: false do
+    let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
+
+    before { login_as admin }
+
+    it "shows the upsell banner with the LLM texts instead of the form" do
+      get llm_connection_path
+
+      expect(response).to have_http_status(:ok)
+      banner = page.find("[data-test-selector='op-enterprise-banner']")
+      expect(banner).to have_text("LLM settings")
+      expect(banner).to have_text(I18n.t("ee.upsell.llm_connection.description"))
+      expect(banner).to have_no_text(I18n.t("ee.features.mcp_server"))
+      expect(banner).to have_no_text(I18n.t("ee.upsell.mcp_server.description"))
+      expect(page).to have_no_field("llm_connection[base_url]")
+    end
+
+    it "redirects writes to the settings page and keeps the stored connection" do
+      patch llm_connection_path, params: { llm_connection: { base_url: "https://elsewhere.example/v1" } }
+      expect(response).to redirect_to(llm_connection_path)
+
+      post disconnect_llm_connection_path
+      expect(response).to redirect_to(llm_connection_path)
+
+      delete api_key_llm_connection_path
+      expect(response).to redirect_to(llm_connection_path)
+
+      expect(connection.reload.base_url).to eq(base_url)
+      expect(connection.api_key).to eq("sk-original")
+    end
+
+    it "redirects the dialogs to the settings page" do
+      get disconnect_dialog_llm_connection_path
+      expect(response).to redirect_to(llm_connection_path)
+
+      get delete_api_key_dialog_llm_connection_path
+      expect(response).to redirect_to(llm_connection_path)
     end
   end
 

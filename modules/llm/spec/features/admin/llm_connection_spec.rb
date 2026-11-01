@@ -33,7 +33,7 @@ require_module_spec_helper
 # :selenium is required, not incidental: axe-core-api drives the browser through
 # Selenium's #manage API, so be_axe_clean does not work under cuprite.
 RSpec.describe "LLM connection administration",
-               :js, :llm_server_helpers, :selenium, :webmock,
+               :js, :llm_server_helpers, :selenium, :webmock, :with_llm_ee,
                driver: :firefox_de,
                with_flag: { llm_connection: true } do
   include Components::Autocompleter::NgSelectAutocompleteHelpers

@@ -30,7 +30,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, :webmock,
+RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, :webmock, :with_llm_ee,
                type: :rails_request, with_flag: { llm_connection: true },
                with_settings: { llm_features_enabled: true } do
   shared_let(:admin) { create(:admin) }
@@ -38,6 +38,23 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
   let(:base_url) { "https://example.com/v1" }
 
   before { login_as(admin) }
+
+  describe "without an enterprise token granting the feature", with_ee: false do
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+
+    it "redirects to the settings page without running the checks" do
+      get llm_connection_health_status_report_path
+      expect(response).to redirect_to(llm_connection_path)
+
+      post llm_connection_health_status_report_path
+      expect(response).to redirect_to(llm_connection_path)
+
+      post create_health_status_report_llm_connection_health_status_report_path
+      expect(response).to redirect_to(llm_connection_path)
+
+      expect(connection.health_reports).to be_empty
+    end
+  end
 
   describe "GET /admin/llm_connection/health_status_report" do
     it "redirects to the settings page when nothing is configured yet" do

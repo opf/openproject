@@ -36,6 +36,9 @@ module Admin
 
     before_action :require_feature
     before_action :require_admin
+    guard_enterprise_feature(OpenProject::Llm::ENTERPRISE_FEATURE, except: :show) do
+      redirect_to llm_connection_path, status: :see_other
+    end
     before_action :set_connection
     before_action :require_stored_connection,
                   only: %i[disconnect disconnect_dialog delete_api_key delete_api_key_dialog]
