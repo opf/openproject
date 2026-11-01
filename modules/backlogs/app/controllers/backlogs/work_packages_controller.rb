@@ -35,18 +35,18 @@ module Backlogs
     # split view open on the moved work package (see split-view-sync.controller.ts).
     WORK_PACKAGE_MOVED_EVENT = "#{OpTurbo::ComponentStream::DISPATCHED_EVENT_PREFIX}backlogs:work-package-moved".freeze
 
-    before_action :load_work_package, only: %i[menu move]
+    before_action :load_work_package, only: %i[move]
 
-    # Deferred ActionMenu items (Primer include-fragment).
+    # A member gone since the selection was made leaves the invoker's own
+    # menu: the menu loads on open and must not fail for a stale selection.
     def menu
-      render(Backlogs::WorkPackageCardMenuComponent.new(
-               project: @project,
-               work_package: @work_package,
-               open_sprints_exist: target_open_sprints.exists?,
-               other_buckets_exist: target_buckets.exists?,
-               current_user:
-             ),
-             layout: false)
+      contract = Backlogs::WorkPackages::MenuParamsContract.new(@project, current_user, params: menu_params)
+      return head(:unprocessable_entity) unless contract.valid?
+
+      invoker = WorkPackage.visible.where(project: @project).find(menu_params[:invoker_id])
+      work_packages = find_collection_work_packages(menu_params[:ids]) || [invoker]
+
+      render(card_menu_component(invoker, work_packages), layout: false)
     end
 
     def add_existing_dialog
@@ -395,19 +395,22 @@ module Backlogs
       end
     end
 
+    def card_menu_component(invoker, work_packages)
+      Backlogs::WorkPackageCardMenuComponent.new(
+        project: @project,
+        invoker:,
+        work_packages:,
+        destinations: destination_availability(work_packages),
+        current_user:
+      )
+    end
+
+    def menu_params
+      params.permit(:invoker_id, ids: [])
+    end
+
     def move_collection_path
       move_project_backlogs_work_packages_path(@project, backlog_filter_params)
-    end
-
-    def target_open_sprints
-      Sprint.for_project(@project)
-        .visible.not_completed
-        .where.not(id: @work_package.sprint_id)
-    end
-
-    def target_buckets
-      BacklogBucket.where(project: @project)
-        .where.not(id: @work_package.backlog_bucket_id)
     end
 
     # After a move the work package might no longer be visible: the page's active

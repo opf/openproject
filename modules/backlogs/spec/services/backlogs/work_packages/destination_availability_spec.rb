@@ -142,6 +142,34 @@ RSpec.describe Backlogs::WorkPackages::DestinationAvailability, type: :model do
     expect(user).to have_received(:allowed_in_project?).with(:manage_sprint_items, project).once
   end
 
+  describe "#inbox?" do
+    it "offers the inbox when a member sits elsewhere" do
+      result = availability([create(:work_package, project:, type:),
+                             create(:work_package, project:, type:, sprint: earlier_sprint)])
+
+      expect(result.inbox?).to be true
+    end
+
+    it "omits the inbox when every member is already in it" do
+      expect(availability(create_list(:work_package, 2, project:, type:)).inbox?).to be false
+    end
+
+    it "omits the inbox when a confined member sits elsewhere", with_ee: %i[readonly_work_packages] do
+      confined = create(:work_package, project:, type:, status: readonly_status, sprint: earlier_sprint)
+
+      expect(availability([confined, create(:work_package, project:, type:)]).inbox?).to be false
+    end
+
+    it "omits the inbox without manage_sprint_items permission" do
+      unauthorized = create(:user, member_with_permissions: {
+                              project => %i[view_work_packages view_sprints]
+                            })
+      member = create(:work_package, project:, type:, sprint: earlier_sprint)
+
+      expect(availability([member], for_user: unauthorized).inbox?).to be false
+    end
+  end
+
   describe "authoritative candidates" do
     let(:work_package) { create(:work_package, project:, type:) }
 

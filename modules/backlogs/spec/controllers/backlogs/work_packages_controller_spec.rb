@@ -62,9 +62,9 @@ RSpec.describe Backlogs::WorkPackagesController do
   end
 
   describe "load_work_package" do
-    let(:params) { { project_id: project.id, id: work_package.id } }
+    let(:params) { { project_id: project.id, id: work_package.id, list_type: "sprint", list_id: sprint.id } }
 
-    subject(:response) { get :menu, params:, format: :html }
+    subject(:response) { put :move, params:, format: :turbo_stream }
 
     it "assigns the visible work package", :aggregate_failures do
       expect(response).to be_successful
@@ -654,129 +654,6 @@ RSpec.describe Backlogs::WorkPackagesController do
       it "does not stream a live region announcement" do
         expect(response).to be_successful
         expect(response).not_to have_turbo_stream action: "liveRegion"
-      end
-    end
-  end
-
-  describe "GET #menu" do
-    let(:params) { { project_id: project.id, id: work_package_id } }
-    let(:work_package_id) { work_package.id }
-
-    subject(:response) { get :menu, params:, format: :html }
-
-    context "when work_package has no sprint (inbox item)" do
-      let(:inbox_work_package) { create(:work_package, status:, project:) }
-      let(:work_package_id) { inbox_work_package.id }
-
-      it "returns deferred action menu list HTML for inbox items" do
-        expect(response).to have_http_status :ok
-        expect(body).to include(I18n.t(:"js.button_open_details"))
-      end
-    end
-
-    it "returns deferred action menu list HTML", :aggregate_failures do
-      expect(response).to have_http_status :ok
-      expect(body).to include(I18n.t(:"js.button_open_details"))
-    end
-
-    context "when another open sprint exists" do
-      let!(:other_open_sprint) { create(:sprint, name: "Sprint 2", project:) }
-
-      before { allow(Backlogs::WorkPackageCardMenuComponent).to receive(:new).and_call_original }
-
-      it "passes open_sprints_exist: true to the menu component" do
-        response
-
-        expect(Backlogs::WorkPackageCardMenuComponent)
-          .to have_received(:new)
-          .with(hash_including(open_sprints_exist: true))
-      end
-    end
-
-    context "when no other open sprints exist" do
-      before { allow(Backlogs::WorkPackageCardMenuComponent).to receive(:new).and_call_original }
-
-      it "passes open_sprints_exist: false to the menu component" do
-        response
-
-        expect(Backlogs::WorkPackageCardMenuComponent)
-          .to have_received(:new)
-          .with(hash_including(open_sprints_exist: false))
-      end
-    end
-
-    context "when other backlog buckets exist" do
-      let!(:buckets) { create_list(:backlog_bucket, 2, project:) }
-
-      before { allow(Backlogs::WorkPackageCardMenuComponent).to receive(:new).and_call_original }
-
-      it "passes other_buckets_exist: true to the menu component" do
-        response
-
-        expect(Backlogs::WorkPackageCardMenuComponent)
-          .to have_received(:new)
-          .with(hash_including(other_buckets_exist: true))
-      end
-    end
-
-    context "when no backlog buckets exist" do
-      before { allow(Backlogs::WorkPackageCardMenuComponent).to receive(:new).and_call_original }
-
-      it "passes other_buckets_exist: false to the menu component" do
-        response
-
-        expect(Backlogs::WorkPackageCardMenuComponent)
-          .to have_received(:new)
-          .with(hash_including(other_buckets_exist: false))
-      end
-    end
-
-    context "with a user lacking project permission" do
-      let(:user) { create(:user) }
-
-      it "responds with 404" do
-        expect(response).to have_http_status :not_found
-      end
-    end
-
-    # The client-side sortable-lists--item controller now gates first/last availability at
-    # runtime (see AGILE-322); the server always renders all four move items when the user
-    # may manage sprint items, regardless of the work package's position in its list.
-    context "with sprint source" do
-      let!(:sprint_items) { create_list(:work_package, 3, status:, sprint:, project:) }
-      let(:work_package_id) { sprint_items.first.id }
-
-      it "renders all four move items regardless of position", :aggregate_failures do
-        expect(body).to include(I18n.t(:label_sort_highest))
-        expect(body).to include(I18n.t(:label_sort_higher))
-        expect(body).to include(I18n.t(:label_sort_lower))
-        expect(body).to include(I18n.t(:label_sort_lowest))
-      end
-    end
-
-    context "with inbox source" do
-      let!(:inbox_items) { create_list(:work_package, 3, status:, project:) }
-      let(:work_package_id) { inbox_items.last.id }
-
-      it "renders all four move items regardless of position", :aggregate_failures do
-        expect(body).to include(I18n.t(:label_sort_highest))
-        expect(body).to include(I18n.t(:label_sort_higher))
-        expect(body).to include(I18n.t(:label_sort_lower))
-        expect(body).to include(I18n.t(:label_sort_lowest))
-      end
-    end
-
-    context "with backlog bucket source" do
-      let!(:backlog_bucket) { create(:backlog_bucket, project:) }
-      let(:lone_item) { create(:work_package, project:, status:, backlog_bucket:) }
-      let(:work_package_id) { lone_item.id }
-
-      it "renders all four move items even for a lone item in its list", :aggregate_failures do
-        expect(response).to have_http_status :ok
-        expect(body).to include(I18n.t(:label_sort_highest))
-        expect(body).to include(I18n.t(:label_sort_higher))
-        expect(body).to include(I18n.t(:label_sort_lower))
-        expect(body).to include(I18n.t(:label_sort_lowest))
       end
     end
   end

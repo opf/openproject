@@ -32,11 +32,10 @@ require "spec_helper"
 RSpec.describe Backlogs::WorkPackagesController do
   describe "routing" do
     it {
-      expect(get("/projects/project_42/backlogs/work_packages/85/menu")).to route_to(
+      expect(get("/projects/project_42/backlogs/work_packages/menu")).to route_to(
         controller: "backlogs/work_packages",
         action: "menu",
-        project_id: "project_42",
-        id: "85"
+        project_id: "project_42"
       )
     }
 
