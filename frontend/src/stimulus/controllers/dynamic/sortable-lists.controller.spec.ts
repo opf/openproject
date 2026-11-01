@@ -1605,6 +1605,19 @@ describe('Sortable lists controller', () => {
     expect(items.some(isSelected)).toBe(false);
   });
 
+  it('returns the read-only scope without selecting while the root is busy', async () => {
+    const { root, items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    const controller = ctx.getController<SortableListsControllerType>('sortable-lists', root);
+    click(items[0], { ctrlKey: true });
+    click(items[1], { ctrlKey: true });
+    root.setAttribute('data-sortable-lists-busy', 'true');
+
+    expect(controller.selectForAction(items[2])).toEqual({ kind: 'batch', items: [items[2]] });
+    expect(controller.selectForAction(items[1])).toEqual({ kind: 'batch', items: [items[0], items[1]] });
+    expect(items.filter(isSelected)).toEqual([items[0], items[1]]);
+  });
+
   it('toggles a card without navigating on a modified click', async () => {
     const { items } = renderSelectableRoot();
     await ctx.nextFrame();
