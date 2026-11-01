@@ -823,6 +823,81 @@ describe('CellInteraction', () => {
     expect(table.selection.getSelectedWorkPackageIds()).toEqual(selection);
   });
 
+  it('keeps Tab between controls inside an editor native', async () => {
+    const table = await mount();
+    const cell = navigableCells(table.row('1'))[1];
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
+    fireEvent.keyDown(cell, { key: 'Enter' });
+    await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
+    const input = within(cell).getByRole<HTMLInputElement>('textbox');
+    const extra = input.closest('form')!.appendChild(document.createElement('button'));
+    extra.setAttribute('tabindex', '0');
+    input.focus();
+
+    expect(fireEvent.keyDown(input, { key: 'Tab' })).toBe(true);
+
+    expect(input).not.toHaveAttribute('tabindex', '-1');
+    expect(extra).toHaveAttribute('tabindex', '0');
+  });
+
+  it('restores the tabindex of a parked overlay root on re-entry', async () => {
+    const table = await mount();
+    const cell = navigableCells(table.row('1'))[1];
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
+    fireEvent.keyDown(cell, { key: 'Enter' });
+    await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
+    const handler = table.table.editing.forms['1'].activeFields.subject;
+    const overlay = document.body.appendChild(document.createElement('div'));
+    overlay.setAttribute('tabindex', '0');
+    overlay.appendChild(document.createElement('button'));
+    handler.registerOverlay(overlay);
+    try {
+      cell.focus();
+      table.table.keyboardNavigation.repaintCurrentPosition();
+      expect(overlay).toHaveAttribute('tabindex', '-1');
+
+      fireEvent.keyDown(cell, { key: 'Enter' });
+
+      expect(overlay).toHaveAttribute('tabindex', '0');
+      expect(overlay).not.toHaveAttribute('data-op-original-tabindex');
+    } finally {
+      overlay.remove();
+    }
+  });
+
+  it('focuses an overlay without a usable control itself on re-entry', async () => {
+    const table = await mount();
+    const cell = navigableCells(table.row('1'))[1];
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
+    fireEvent.keyDown(cell, { key: 'Enter' });
+    await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
+    const handler = table.table.editing.forms['1'].activeFields.subject;
+    const overlay = document.body.appendChild(document.createElement('div'));
+    overlay.tabIndex = -1;
+    handler.registerOverlay(overlay);
+    try {
+      cell.focus();
+
+      fireEvent.keyDown(cell, { key: 'Enter' });
+
+      expect(overlay).toHaveFocus();
+    } finally {
+      overlay.remove();
+    }
+  });
+
+  it('leaves Tab from a control that is not a walk target native', async () => {
+    const table = await mount();
+    const cell = navigableCells(table.row('1'))[1];
+    const disabled = cell.appendChild(document.createElement('button'));
+    disabled.setAttribute('aria-disabled', 'true');
+    disabled.focus();
+
+    expect(fireEvent.keyDown(disabled, { key: 'Tab' })).toBe(true);
+
+    expect(disabled).toHaveFocus();
+  });
+
   it('restores an explicit tabindex when a parked editor is re-engaged', async () => {
     const table = await mount();
     const cell = navigableCells(table.row('1'))[1];
