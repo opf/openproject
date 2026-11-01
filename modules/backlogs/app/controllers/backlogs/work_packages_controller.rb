@@ -201,7 +201,7 @@ module Backlogs
       return call.message unless failed
 
       work_package = failed.result
-      return failed.message unless work_package.is_a?(WorkPackage)
+      return failed.message if move_collection_params[:ids].one? || !work_package.is_a?(WorkPackage)
 
       I18n.t("backlogs.work_packages.move_collection.member_failed",
              work_package: work_package.to_fs(:caption), reason: failed.message)

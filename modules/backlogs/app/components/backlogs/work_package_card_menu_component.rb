@@ -33,7 +33,6 @@ module Backlogs
   class WorkPackageCardMenuComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
     include CommonHelper
-    include Concerns::WorkPackageMovability
 
     attr_reader :invoker, :work_packages, :destinations, :project, :current_user
 
@@ -64,7 +63,7 @@ module Backlogs
     # permission alone. Only the cross-container moves below consult the
     # destinations.
     def show_move_items?
-      sortable?
+      user_allowed?(:manage_sprint_items)
     end
 
     def show_move_to_inbox?
@@ -79,8 +78,8 @@ module Backlogs
       destinations.sprints.any?
     end
 
-    def work_package_ids
-      work_packages.map(&:id)
+    def id_inputs
+      work_packages.map { |work_package| { name: "ids[]", value: work_package.id } }
     end
 
     def show_move_submenu?

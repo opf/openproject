@@ -54,6 +54,7 @@ import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/clos
 import type { draggable as draggableFn, dropTargetForElements as dropTargetForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import type { setCustomNativeDragPreview as setCustomNativeDragPreviewFn } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
 import type { preventUnhandled as preventUnhandledType } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
+import { fireEvent, within } from '@testing-library/dom';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type { ActionEvent } from '@hotwired/stimulus';
 import type ItemControllerType from './item.controller';
@@ -148,6 +149,7 @@ describe('Sortable lists item controller', () => {
       busy,
       actionScopeFor: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
       selectForAction: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
+      moveToDestination: vi.fn(),
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
       ownerRowsContainer: vi.fn(ownerRowsContainer),
@@ -1591,6 +1593,50 @@ describe('Sortable lists item controller', () => {
       moveInDirection.mockClear();
       liFor(el, 'up').click();
       expect(moveInDirection).not.toHaveBeenCalled();
+    });
+
+    function appendDestinationItem(el:HTMLElement):{ li:HTMLElement; form:HTMLFormElement } {
+      const li = document.createElement('li');
+      li.setAttribute('data-action', 'click->sortable-lists--item#moveToDestination:prevent');
+      li.innerHTML = `
+        <form action="/collection/move" method="post">
+          <input type="hidden" name="ids[]" value="7">
+          <input type="hidden" name="ids[]" value="3">
+          <button type="submit">Move to inbox</button>
+        </form>
+      `;
+      el.querySelector('action-menu')!.appendChild(li);
+      return { li, form: li.querySelector('form')! };
+    }
+
+    it('hands the rendered destination form to the root without submitting it', async () => {
+      const { el } = renderItemWithMenu(2);
+      const { li, form } = appendDestinationItem(el);
+      document.body.appendChild(el);
+      const moveToDestination = vi.fn();
+      const submit = vi.fn((event:Event) => event.preventDefault());
+      form.addEventListener('submit', submit);
+      const controller = await mountItemController(el);
+      controller.connectRoot({ element: el, busy: false, moveToDestination } as unknown as SortableListsRoot);
+
+      fireEvent.click(within(li).getByRole('button', { name: 'Move to inbox' }));
+
+      expect(moveToDestination).toHaveBeenCalledExactlyOnceWith(form);
+      expect(submit).not.toHaveBeenCalled();
+    });
+
+    it('ignores a disabled destination item', async () => {
+      const { el } = renderItemWithMenu(2);
+      const { li } = appendDestinationItem(el);
+      li.classList.add('ActionListItem--disabled');
+      document.body.appendChild(el);
+      const moveToDestination = vi.fn();
+      const controller = await mountItemController(el);
+      controller.connectRoot({ element: el, busy: false, moveToDestination } as unknown as SortableListsRoot);
+
+      fireEvent.click(within(li).getByRole('button', { name: 'Move to inbox' }));
+
+      expect(moveToDestination).not.toHaveBeenCalled();
     });
 
     it('does nothing when there is no action-menu (drag-only consumer)', async () => {

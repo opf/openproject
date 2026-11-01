@@ -160,6 +160,22 @@ export default class ItemController extends Controller<HTMLElement> implements R
     }
   }
 
+  moveToDestination(event:ActionEvent):void {
+    const item = event.currentTarget;
+    if (!this.hasMenuElement || !(item instanceof HTMLElement)) {
+      return;
+    }
+
+    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) {
+      return;
+    }
+
+    const form = item.querySelector('form');
+    if (form) {
+      this.root?.moveToDestination(form);
+    }
+  }
+
   // The focus host is the consumer's business: Backlogs puts the tab stop on
   // the card inside the row, another consumer may focus the row itself.
   focusItem():void {
