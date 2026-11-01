@@ -55,8 +55,8 @@ export function samePosition(a:FocusPosition|null, b:FocusPosition|null):boolean
 
 export type NavResult =
   | { type:'move', position:FocusPosition }
-  | { type:'expand', key:string }
-  | { type:'collapse', key:string }
+  | { type:'expand', row:NavigableRow }
+  | { type:'collapse', row:NavigableRow }
   | { type:'none' };
 
 const NONE:NavResult = { type: 'none' };
@@ -187,11 +187,11 @@ function move(rows:readonly NavigableRow[], row:NavigableRow, position:FocusPosi
       return navigateHorizontally(row, position, movement.to);
     case 'expand':
       if (row.expanded === false) {
-        return { type: 'expand', key: row.key };
+        return { type: 'expand', row };
       }
       return row.cellCount > 0 ? { type: 'move', position: positionOn(row, 0, 0) } : NONE;
     case 'collapse':
-      return row.expanded === true ? { type: 'collapse', key: row.key } : NONE;
+      return row.expanded === true ? { type: 'collapse', row } : NONE;
   }
 }
 
