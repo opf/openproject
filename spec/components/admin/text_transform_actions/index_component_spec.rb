@@ -51,7 +51,7 @@ RSpec.describe Admin::TextTransformActions::IndexComponent, type: :component do
     let(:text_transform_actions) { [action_a, action_b] }
 
     it_behaves_like "rendering Box", row_count: 2
-    it_behaves_like "rendering Border Box List heading", text: "Actions"
+    it_behaves_like "rendering Border Box List heading", text: "Text actions"
 
     it "wires the wrapper as the sortable-lists root with the drop URL template and no optimistic flag" do
       rendered_component
@@ -151,7 +151,7 @@ RSpec.describe Admin::TextTransformActions::IndexComponent, type: :component do
 
       expect(page).to have_css(
         "[data-test-selector='text-transform-actions-disabled-banner']",
-        text: "Text transform actions are disabled. The following actions will not be available anywhere."
+        text: "Text actions are disabled. The following actions will not be available anywhere."
       )
     end
 

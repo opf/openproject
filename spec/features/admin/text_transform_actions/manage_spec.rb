@@ -65,11 +65,11 @@ RSpec.describe "Managing text transform actions", :js, with_flag: { ai_text_tran
     visit admin_text_transform_actions_path
 
     within("#menu-sidebar") do
-      expect(page).to have_link("Text transform actions", href: %r{/admin/text_transform_actions\z})
+      expect(page).to have_link("Text assistant", href: %r{/admin/text_transform_actions\z})
     end
 
-    expect(page).to have_css(".PageHeader-title", text: "Text transform actions")
-    expect(page).to have_text("No text transform actions configured yet")
+    expect(page).to have_css(".PageHeader-title", text: "Text assistant")
+    expect(page).to have_text("No text actions configured yet")
   end
 
   it "creates an action scoped to specific work package types" do
@@ -175,7 +175,7 @@ RSpec.describe "Managing text transform actions", :js, with_flag: { ai_text_tran
 
     within_row_menu(action) { click_on "Delete" }
 
-    page.within_modal("Delete text transform action") do
+    page.within_modal("Delete text action") do
       expect(page).to have_text('Are you sure you want to delete the action "Make concise"?')
       click_on "Delete"
     end
@@ -183,7 +183,7 @@ RSpec.describe "Managing text transform actions", :js, with_flag: { ai_text_tran
     expect(page).to have_current_path(admin_text_transform_actions_path, wait: 10)
     expect_flash(message: "Successful deletion.")
     expect(AI::TextTransformAction.where(id: action.id)).not_to exist
-    expect(page).to have_text("No text transform actions configured yet")
+    expect(page).to have_text("No text actions configured yet")
   end
 
   it "toggles the global setting, releasing the list from its disabled state" do
@@ -191,13 +191,13 @@ RSpec.describe "Managing text transform actions", :js, with_flag: { ai_text_tran
 
     visit admin_text_transform_actions_path
 
-    expect(page).to have_button(accessible_name: "Enable text transform actions", aria: { pressed: false })
+    expect(page).to have_button(accessible_name: "Enable text actions", aria: { pressed: false })
     expect(page).to have_test_selector("text-transform-actions-disabled-banner")
     expect(page).to have_button(accessible_name: toggle_label(action), disabled: true)
 
-    wait_for_turbo_stream { find(:button, accessible_name: "Enable text transform actions").click }
+    wait_for_turbo_stream { find(:button, accessible_name: "Enable text actions").click }
 
-    expect(page).to have_button(accessible_name: "Enable text transform actions", aria: { pressed: true })
+    expect(page).to have_button(accessible_name: "Enable text actions", aria: { pressed: true })
     expect(page).to have_no_test_selector("text-transform-actions-disabled-banner")
     expect(page).to have_button(accessible_name: toggle_label(action), aria: { pressed: true })
     expect(Setting.find_by(name: "ai_text_transform_actions_enabled")&.value).to be(true)
@@ -209,7 +209,7 @@ RSpec.describe "Managing text transform actions", :js, with_flag: { ai_text_tran
 
     within("#menu-sidebar") do
       expect(page).to have_link("Model Context Protocol (MCP)")
-      expect(page).to have_no_link("Text transform actions")
+      expect(page).to have_no_link("Text assistant")
     end
 
     visit admin_text_transform_actions_path

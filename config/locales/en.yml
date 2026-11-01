@@ -1098,8 +1098,8 @@ en:
         one: "Action"
         other: "Actions"
       ai/text_transform_action:
-        one: "Text transform action"
-        other: "Text transform actions"
+        one: "Text action"
+        other: "Text actions"
       ai/text_transform_run:
         one: "Text transform run"
         other: "Text transform runs"
@@ -2210,7 +2210,7 @@ en:
       delete_dialog_component:
         description: "Users will no longer be able to run this action in the rich text editor."
         heading: 'Are you sure you want to delete the action "%{label}"?'
-        title: "Delete text transform action"
+        title: "Delete text action"
       form:
         injects_type_template_caption: "If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template."
         label_caption: "This is the name that will be visible to users in the editor."
@@ -2218,19 +2218,19 @@ en:
         types_caption: "Add work package types for which this action should be available. All available variants will automatically be included."
         usage_scope_caption: "You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types."
       index:
-        description: "Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions."
+        description: "The description assistant gives users LLM-powered actions to help them write, organise and review their work package description text. Here, you can create new actions using your own prompts and instructions."
         label_add_action: "Action"
-        label_aria_add_action: "Add text transform action"
+        label_aria_add_action: "Add text action"
       index_component:
         blank_slate:
           description: "Add an action to see it here"
-          title: "No text transform actions configured yet"
-        disabled_warning: "Text transform actions are disabled. The following actions will not be available anywhere."
+          title: "No text actions configured yet"
+        disabled_warning: "Text actions are disabled. The following actions will not be available anywhere."
         label_disable_all: "Disable all"
         label_enable_all: "Enable all"
-        title: "Actions"
+        title: "Text actions"
       new:
-        title: "New text transform action"
+        title: "New text action"
       row_component:
         label_actions: "Action menu"
         label_toggle: "Toggle %{label}"
@@ -5132,7 +5132,7 @@ en:
       mail_notification: "Email notifications"
       mails_and_notifications: "Emails and notifications"
       mcp_configurations: "Model Context Protocol (MCP)"
-      text_transform_actions: "Text transform actions"
+      text_transform_actions: "Text assistant"
     quick_add:
       label: "Add…"
 
@@ -6425,7 +6425,7 @@ en:
     <br/>
     Example: %{example_code}
 
-  setting_ai_text_transform_actions_enabled: "Enable text transform actions"
+  setting_ai_text_transform_actions_enabled: "Enable text actions"
   setting_allowed_link_protocols: "Allowed link protocols"
   setting_allowed_link_protocols_text_html: >-
     Allow these protocols to be rendered as links in work package descriptions, long text fields and comments.

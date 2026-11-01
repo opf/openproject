@@ -46,7 +46,7 @@ RSpec.describe "Admin text transform actions", :skip_csrf,
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Fix grammar")
-      expect(response.body).to include("Enable text transform actions")
+      expect(response.body).to include("Enable text actions")
     end
   end
 
@@ -55,7 +55,7 @@ RSpec.describe "Admin text transform actions", :skip_csrf,
       get new_admin_text_transform_action_path
 
       expect(response).to have_http_status(:ok)
-      expect(page).to have_text("New text transform action")
+      expect(page).to have_text("New text action")
     end
 
     it "associates the types label, caption and select panel button" do
@@ -175,7 +175,7 @@ RSpec.describe "Admin text transform actions", :skip_csrf,
       get deletion_dialog_admin_text_transform_action_path(action), headers: turbo_stream_headers
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Delete text transform action")
+      expect(response.body).to include("Delete text action")
       expect(response.body).to include("Make concise")
     end
   end
