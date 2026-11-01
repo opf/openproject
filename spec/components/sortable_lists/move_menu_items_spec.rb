@@ -81,5 +81,25 @@ RSpec.describe SortableLists::MoveMenuItems, type: :component do
         expect(item).to have_css(".#{icon}")
       end
     end
+
+    it "renders the items enabled and unlocked by default" do
+      expect(page).to have_no_css("li[data-sortable-lists-locked], [aria-disabled]")
+    end
+  end
+
+  describe "#render_into with disabled: true" do
+    before do
+      render_inline(Primer::Alpha::ActionMenu::List.new(menu_id: "test-menu")) do |list|
+        described_class.new(dom_key: :story, disabled: true).render_into(list)
+      end
+    end
+
+    it "renders every item disabled and locked against client gating", :aggregate_failures do
+      %w[top up down bottom].each do |direction|
+        item = page.find(:element, :li, "data-sortable-lists--item-direction-param": direction,
+                                        "data-sortable-lists-locked": true)
+        expect(item).to have_selector(:menuitem, disabled: true)
+      end
+    end
   end
 end

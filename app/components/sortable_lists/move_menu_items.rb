@@ -43,8 +43,11 @@ module SortableLists
       { direction: :bottom, label: :label_sort_lowest, icon: :"move-to-bottom", move_to: :lowest }.freeze
     ].freeze
 
-    def initialize(dom_key:)
+    # @param disabled [Boolean] renders every item disabled and locked, so the
+    #   client's direction gating leaves it disabled (`data-sortable-lists-locked`).
+    def initialize(dom_key:, disabled: false)
       @dom_key = dom_key
+      @disabled = disabled
     end
 
     def render_into(menu)
@@ -53,7 +56,7 @@ module SortableLists
 
     private
 
-    attr_reader :dom_key
+    attr_reader :dom_key, :disabled
 
     def add_item(menu, entry)
       direction = entry[:direction]
@@ -66,9 +69,11 @@ module SortableLists
         id: dom_target(dom_key, :menu, direction),
         label: I18n.t(entry[:label]),
         tag: :button,
+        disabled:,
         data: {
           sortable_lists__item_target: "moveItem",
           sortable_lists__item_direction_param: direction,
+          sortable_lists_locked: disabled || nil,
           action: "click->sortable-lists--item#move"
         }
       ) do |item|

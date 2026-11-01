@@ -54,18 +54,106 @@ RSpec.describe "Backlogs card menu", type: :rails_request do
     "work_package_#{work_package.id}_menu_#{item}"
   end
 
+  def singular_actions_for(work_package)
+    have_element(:a, id: menu_item_id(work_package, :open_details))
+      .and(have_element(:a, id: menu_item_id(work_package, :open_fullscreen)))
+      .and(have_element(:"clipboard-copy", id: menu_item_id(work_package, :copy_url_to_clipboard)))
+      .and(have_element(:"clipboard-copy", id: menu_item_id(work_package, :copy_work_package_id)))
+  end
+
+  def no_singular_actions_for(work_package)
+    have_no_element(:a, id: menu_item_id(work_package, :open_details))
+      .and(have_no_element(:a, id: menu_item_id(work_package, :open_fullscreen)))
+      .and(have_no_element(:"clipboard-copy", id: menu_item_id(work_package, :copy_url_to_clipboard)))
+      .and(have_no_element(:"clipboard-copy", id: menu_item_id(work_package, :copy_work_package_id)))
+  end
+
+  def move_to_position_for(work_package)
+    have_selector(:menuitem, text: "Move to position")
+      .and(have_element(:button, id: menu_item_id(work_package, :top)))
+      .and(have_element(:button, id: menu_item_id(work_package, :up)))
+      .and(have_element(:button, id: menu_item_id(work_package, :down)))
+      .and(have_element(:button, id: menu_item_id(work_package, :bottom)))
+  end
+
   context "with the invoker alone" do
     let!(:invoker) { create(:work_package, sprint: sprint_a, type:, project:) }
 
-    it "renders the invoker's singular menu for ids: [invoker]", :aggregate_failures do
+    it "keeps today's singular menu for one card", :aggregate_failures do
       get_menu(ids: [invoker.id])
 
       expect(response).to have_http_status(:ok)
       expect(menu).to have_element(:ul, id: "work_package_#{invoker.id}_menu-list")
-      expect(menu).to have_element(:a, id: menu_item_id(invoker, :open_details))
-      expect(menu).to have_element(:"clipboard-copy", id: menu_item_id(invoker, :copy_work_package_id))
+      expect(menu).to singular_actions_for(invoker)
+      expect(menu).to have_css(".ActionList-sectionDivider")
       expect(menu).to have_element(:button, id: menu_item_id(invoker, :move_to_sprint))
       expect(menu).to have_element(:button, id: menu_item_id(invoker, :move_to_inbox))
+      expect(menu).to move_to_position_for(invoker)
+    end
+  end
+
+  context "with a multi-card scope in one sprint" do
+    let!(:invoker) { create(:work_package, sprint: sprint_a, type:, project:) }
+    let!(:other) { create(:work_package, sprint: sprint_a, type:, project:) }
+
+    it "renders only batch actions for a multi-card scope", :aggregate_failures do
+      get_menu(ids: [invoker.id, other.id])
+
+      expect(response).to have_http_status(:ok)
+      expect(menu).to have_element(:ul, id: "work_package_#{invoker.id}_menu-list")
+      expect(menu).to no_singular_actions_for(invoker)
+      expect(menu).to have_element(:button, id: menu_item_id(invoker, :move_to_inbox))
+      expect(menu).to have_element(:button, id: menu_item_id(invoker, :move_to_sprint))
+      expect(menu).to move_to_position_for(invoker)
+      expect(menu).to have_no_css(".ActionList-sectionDivider, .ActionList-sectionHeading")
+      expect(menu).to have_no_text(/\b2\b/)
+      expect(menu).to have_no_css("[aria-disabled]")
+      expect(menu).to have_no_css("[data-sortable-lists--item-target='moveFallback']", visible: :all)
+    end
+  end
+
+  describe "a multi-card scope of confined members", with_ee: %i[readonly_work_packages] do
+    shared_let(:readonly_status) { create(:status, :readonly) }
+
+    context "when they share one list" do
+      let!(:invoker) { create(:work_package, sprint: sprint_a, status: readonly_status, type:, project:) }
+      let!(:other) { create(:work_package, sprint: sprint_a, status: readonly_status, type:, project:) }
+
+      it "keeps the batch menu when only Move to position applies", :aggregate_failures do
+        get_menu(ids: [invoker.id, other.id])
+
+        expect(response).to have_http_status(:ok)
+        expect(menu).to no_singular_actions_for(invoker)
+        expect(menu).to have_no_element(:button, id: /_menu_move_to_(inbox|sprint|backlog_bucket)\z/)
+        expect(menu).to move_to_position_for(invoker)
+      end
+
+      it "renders hidden singular fallback when Move to position is the only batch action", :aggregate_failures do
+        get_menu(ids: [invoker.id, other.id])
+
+        %i[open_details open_fullscreen copy_url_to_clipboard copy_work_package_id].each do |item|
+          expect(menu).to have_css(
+            "li[hidden][data-sortable-lists--item-target='moveFallback'] ##{menu_item_id(invoker, item)}",
+            visible: :hidden
+          )
+        end
+      end
+    end
+
+    context "when they span lists" do
+      let!(:invoker) { create(:work_package, sprint: sprint_a, status: readonly_status, type:, project:) }
+      let!(:other) { create(:work_package, sprint: sprint_b, status: readonly_status, type:, project:) }
+
+      it "falls back to singular actions when no batch action applies", :aggregate_failures do
+        get_menu(ids: [invoker.id, other.id])
+
+        expect(response).to have_http_status(:ok)
+        expect(menu).to have_element(:ul, id: "work_package_#{invoker.id}_menu-list")
+        expect(menu).to singular_actions_for(invoker)
+        expect(menu).to no_singular_actions_for(other)
+        expect(menu).to have_no_element(:button, id: menu_item_id(invoker, :top))
+        expect(menu).to have_no_css(".ActionList-sectionDivider")
+      end
     end
   end
 
@@ -97,13 +185,6 @@ RSpec.describe "Backlogs card menu", type: :rails_request do
   end
 
   describe "Move to position" do
-    def move_to_position_for(work_package)
-      have_element(:button, id: menu_item_id(work_package, :top))
-        .and(have_element(:button, id: menu_item_id(work_package, :up)))
-        .and(have_element(:button, id: menu_item_id(work_package, :down)))
-        .and(have_element(:button, id: menu_item_id(work_package, :bottom)))
-    end
-
     context "when all ids share one list" do
       let!(:first) { create(:work_package, sprint: sprint_a, type:, project:) }
       let!(:second) { create(:work_package, sprint: sprint_a, type:, project:) }
@@ -194,14 +275,31 @@ RSpec.describe "Backlogs card menu", type: :rails_request do
   end
 
   context "with more ids than the batch cap" do
+    shared_let(:bucket) { create(:backlog_bucket, project:) }
+
     let!(:work_packages) do
       create_list(:work_package, Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE + 1, type:, project:)
     end
+    let(:invoker) { work_packages.first }
+    let(:explanation) { "Cannot move 51 work packages at once. Select no more than 50." }
 
-    it "renders the menu for more than 50 ids" do
+    it "disables batch move actions above the batch cap and explains why", :aggregate_failures do
       get_menu(ids: work_packages.map(&:id))
 
       expect(response).to have_http_status(:ok)
+      expect(menu).to no_singular_actions_for(invoker)
+
+      %i[move_to_sprint move_to_backlog_bucket].each do |item|
+        expect(menu).to have_element(:button, id: menu_item_id(invoker, item), "aria-disabled": "true")
+      end
+      expect(menu).to have_selector(:menuitem, text: "Move to position", disabled: true)
+      %i[top up down bottom].each do |direction|
+        expect(menu).to have_element(:button, id: menu_item_id(invoker, direction), "aria-disabled": "true")
+      end
+      expect(menu).to have_no_css(".ActionListContent:not([aria-disabled='true'])")
+
+      expect(menu).to have_text(explanation, count: 1)
+      expect(menu).to have_selector(:menuitem, text: explanation, disabled: true)
     end
   end
 
