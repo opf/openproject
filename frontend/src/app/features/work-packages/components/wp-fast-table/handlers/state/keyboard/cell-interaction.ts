@@ -219,7 +219,7 @@ export class CellInteraction {
     if (!boundary) return false;
 
     const origin = form.originFor(handler.fieldName)
-      ?? this.navigation.positionOfCell(handler.element!)
+      ?? this.navigation.positionOfCell(container)
       ?? this.navigation.position;
     if (!origin) return false;
 
