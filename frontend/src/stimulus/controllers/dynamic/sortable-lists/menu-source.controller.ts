@@ -55,6 +55,7 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
     this.element.addEventListener('beforetoggle', this.onBeforeToggle, { capture: true, signal });
     this.element.addEventListener('toggle', this.onToggle, { capture: true, signal });
     this.element.addEventListener('sortable-lists:menu-scope-changed', this.onScopeChanged, { signal });
+    document.addEventListener('turbo:before-cache', this.onBeforeCache, { signal });
   }
 
   disconnect():void {
@@ -126,6 +127,22 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
     if (menu && list && menu === this.openMenu) {
       this.rename(menu, this.scopeCountOf(list));
     }
+  };
+
+  // A restored page reloads its menus when they next open; the snapshot only
+  // has to lose the open menu and its batch name.
+  private readonly onBeforeCache = ():void => {
+    const menu = this.openMenu;
+    if (!menu) {
+      return;
+    }
+
+    const overlay = menu.popoverElement;
+    if (overlay?.matches(':popover-open')) {
+      overlay.hidePopover();
+    }
+    this.openMenu = null;
+    this.rename(menu, SINGULAR_COUNT);
   };
 
   // The server decides between the batch and the singular menu, so the list

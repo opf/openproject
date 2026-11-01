@@ -817,5 +817,135 @@ describe('Sortable lists menu source controller', () => {
       expect(buttonOf(items[0])).toHaveAccessibleName(singularName);
       expect(list).toHaveAccessibleName(singularName);
     });
+
+    describe('before Turbo caches the page', () => {
+      const singularSrc = (id:string) => `${menuUrl}?ids%5B%5D=${id}&invoker_id=${id}`;
+
+      // Primer's deferred card menu as the server renders it.
+      function lazyCard(id:string):string {
+        return `
+          <li data-controller="sortable-lists--item"
+              data-sortable-lists--item-id-value="${id}"
+              data-sortable-lists--item-type-value="work_package">
+            <action-menu>
+              <button id="menu-${id}-button" type="button" popovertarget="menu-${id}-overlay"
+                      aria-labelledby="menu-${id}-tooltip"></button>
+              <tool-tip id="menu-${id}-tooltip" for="menu-${id}-button" popover="manual">${singularName}</tool-tip>
+              <anchored-position id="menu-${id}-overlay" popover="auto">
+                <div class="Overlay">
+                  <div class="Overlay-body" data-target="action-menu.overlayBody"></div>
+                </div>
+              </anchored-position>
+              <template data-target="action-menu.loaderTemplate">
+                <include-fragment loading="lazy"><p>Loading</p></include-fragment>
+              </template>
+            </action-menu>
+          </li>
+        `;
+      }
+
+      async function renderLazyRoot(ids:string[]) {
+        const rendered = await renderRoot(
+          ids.map(lazyCard),
+          `data-sortable-lists--menu-source-menu-label-key-value="${menuLabelKey}"`,
+        );
+        rendered.items.forEach((item) => {
+          // The sources are attributes, not markup: set them without interpolating.
+          const src = singularSrc(item.getAttribute('data-sortable-lists--item-id-value')!);
+          menuOf(item).setAttribute('src', src);
+          item.querySelector('template')!.content.querySelector('include-fragment')!.setAttribute('src', src);
+          Object.assign(menuOf(item), { invokerElement: item.querySelector('button') });
+        });
+        return rendered;
+      }
+
+      const bodyOf = (item:HTMLElement) => item.querySelector<HTMLElement>('.Overlay-body')!;
+
+      // What Primer does with the response: the list replaces the fragment.
+      async function loadBatchMenu(item:HTMLElement, scopeCount:number) {
+        const menuId = `menu-${item.getAttribute('data-sortable-lists--item-id-value')}`;
+        const list = menuList(menuId, scopeCount);
+        bodyOf(item).replaceChildren(list);
+        await waitFor(() => expect(list).toHaveAttribute('aria-labelledby', `${menuId}-tooltip`));
+      }
+
+      const cachePage = () => fireEvent(document, new CustomEvent('turbo:before-cache'));
+
+      async function renderLoadedBatch() {
+        const rendered = await renderLazyRoot(['1', '2']);
+        const [first, second] = rendered.items;
+        click(first, { ctrlKey: true });
+        click(second, { ctrlKey: true });
+        openMenu(first);
+        await loadBatchMenu(first, 2);
+        return rendered;
+      }
+
+      it('resets an open menu before the page is cached without moving focus', async () => {
+        const { items } = await renderLoadedBatch();
+        const [first] = items;
+        expect(buttonOf(first)).toHaveAccessibleName('Actions for 2 selected work packages');
+        const focused = document.activeElement;
+
+        cachePage();
+
+        expect(buttonOf(first)).toHaveAccessibleName(singularName);
+        expect(document.activeElement).toBe(focused);
+      });
+
+      it('leaves a loaded body and its src to Primer before the page is cached', async () => {
+        const { items } = await renderLoadedBatch();
+        const batchSrc = `${menuUrl}?ids%5B%5D=1&ids%5B%5D=2&invoker_id=1`;
+        expect(menuOf(items[0])).toHaveAttribute('src', batchSrc);
+
+        cachePage();
+
+        expect(within(items[0]).getByRole('menu', { hidden: true })).toBeInTheDocument();
+        expect(bodyOf(items[0]).querySelector('include-fragment')).not.toBeInTheDocument();
+        expect(menuOf(items[0])).toHaveAttribute('src', batchSrc);
+      });
+
+      it('restores the singular name of a menu cached while open', async () => {
+        const { items } = await renderLoadedBatch();
+        expect(buttonOf(items[0])).toHaveAccessibleName('Actions for 2 selected work packages');
+
+        cachePage();
+
+        expect(buttonOf(items[0])).toHaveAccessibleName(singularName);
+      });
+
+      it('closes a menu still open when the page is cached', async () => {
+        const { items } = await renderLoadedBatch();
+        const overlay = items[0].querySelector<HTMLElement>(':scope action-menu > anchored-position')!;
+        overlay.showPopover();
+        expect(overlay).toBeVisible();
+
+        cachePage();
+
+        expect(overlay).not.toBeVisible();
+      });
+
+      it('leaves a menu that never opened as the server rendered it', async () => {
+        const { items } = await renderLoadedBatch();
+        const loader = menuOf(items[1]).querySelector('template');
+
+        cachePage();
+
+        expect(bodyOf(items[1])).toBeEmptyDOMElement();
+        expect(menuOf(items[1]).querySelector('template')).toBe(loader);
+        expect(menuOf(items[1])).toHaveAttribute('src', singularSrc('2'));
+      });
+
+      it('stops resetting menus once disconnected', async () => {
+        const { root, items } = await renderLoadedBatch();
+        root.removeAttribute('data-controller');
+        await waitFor(() => expect(root).not.toHaveAttribute('data-controller'));
+        await new Promise(requestAnimationFrame);
+
+        cachePage();
+
+        expect(within(items[0]).getByRole('menu', { hidden: true })).toBeInTheDocument();
+      });
+    });
   });
 });
