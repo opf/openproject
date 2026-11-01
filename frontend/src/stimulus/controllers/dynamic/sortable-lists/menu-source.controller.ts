@@ -44,17 +44,21 @@ export default class MenuSourceController extends Controller<HTMLElement> {
 
   private openMenu:ActionMenuElement|null = null;
 
+  private readonly lazyFragments = new WeakMap<ActionMenuElement, Element>();
+
   connect():void {
     // beforetoggle and toggle do not bubble.
     this.element.addEventListener('beforetoggle', this.onBeforeToggle, true);
     this.element.addEventListener('toggle', this.onToggle, true);
     this.element.addEventListener('sortable-lists:menu-scope-changed', this.onScopeChanged);
+    document.addEventListener('turbo:before-cache', this.onBeforeCache);
   }
 
   disconnect():void {
     this.element.removeEventListener('beforetoggle', this.onBeforeToggle, true);
     this.element.removeEventListener('toggle', this.onToggle, true);
     this.element.removeEventListener('sortable-lists:menu-scope-changed', this.onScopeChanged);
+    document.removeEventListener('turbo:before-cache', this.onBeforeCache);
     this.openMenu = null;
   }
 
@@ -86,6 +90,7 @@ export default class MenuSourceController extends Controller<HTMLElement> {
       return;
     }
 
+    this.rememberLazyFragment(menu);
     const src = this.menuSrc(itemElement, root.selectForAction(itemElement).items);
     if (src && menu.getAttribute('src') !== src) {
       menu.setAttribute('src', src);
@@ -121,6 +126,56 @@ export default class MenuSourceController extends Controller<HTMLElement> {
       this.rename(menu, this.scopeCountOf(list));
     }
   };
+
+  // Primer treats a menu as deferred only if it connects with its lazy
+  // fragment in place, so a snapshot of a loaded menu would come back
+  // unable to load for a later selection.
+  private readonly onBeforeCache = ():void => {
+    this.element.querySelectorAll<ActionMenuElement>('action-menu').forEach((menu) => {
+      const fragment = this.lazyFragments.get(menu);
+      if (fragment) {
+        this.restoreLazyFragment(menu, fragment);
+      }
+    });
+  };
+
+  private rememberLazyFragment(menu:ActionMenuElement):void {
+    const fragment = this.primaryBodyOf(menu)?.querySelector(':scope > include-fragment[src]');
+    if (fragment && !this.lazyFragments.has(menu)) {
+      this.lazyFragments.set(menu, fragment.cloneNode(true) as Element);
+    }
+  }
+
+  private restoreLazyFragment(menu:ActionMenuElement, fragment:Element):void {
+    const body = this.primaryBodyOf(menu);
+    const src = fragment.getAttribute('src');
+    if (!body || !src) {
+      return;
+    }
+
+    const overlay = this.overlayOf(menu);
+    if (overlay?.matches(':popover-open')) {
+      overlay.hidePopover();
+    }
+    if (menu === this.openMenu) {
+      this.openMenu = null;
+    }
+
+    body.replaceChildren(fragment.cloneNode(true));
+    menu.setAttribute('src', src);
+    this.rename(menu, SINGULAR_COUNT);
+  }
+
+  private overlayOf(menu:ActionMenuElement):HTMLElement|null {
+    return menu.querySelector<HTMLElement>(':scope > anchored-position');
+  }
+
+  // Sub-menus nest their own overlay bodies inside the loaded list.
+  private primaryBodyOf(menu:ActionMenuElement):HTMLElement|null {
+    const overlay = this.overlayOf(menu);
+    const bodies = overlay ? Array.from(overlay.querySelectorAll<HTMLElement>('.Overlay-body')) : [];
+    return bodies.find((body) => body.closest('anchored-position') === overlay) ?? null;
+  }
 
   // The server decides between the batch and the singular menu, so the list
   // it renders carries the count the name reports. A list narrowed to its

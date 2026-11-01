@@ -678,5 +678,124 @@ describe('Sortable lists menu source controller', () => {
       expect(buttonOf(items[0])).toHaveAccessibleName(singularName);
       expect(list).toHaveAccessibleName(singularName);
     });
+
+    describe('before Turbo caches the page', () => {
+      const singularSrc = (id:string) => `${menuUrl}?ids%5B%5D=${id}&invoker_id=${id}`;
+
+      // Primer's deferred card menu as the server renders it.
+      function lazyCard(id:string):string {
+        return `
+          <li data-controller="sortable-lists--item"
+              data-sortable-lists--item-id-value="${id}"
+              data-sortable-lists--item-type-value="work_package">
+            <action-menu src="${singularSrc(id).replace('&', '&amp;')}">
+              <button id="menu-${id}-button" type="button" popovertarget="menu-${id}-overlay"
+                      aria-labelledby="menu-${id}-tooltip"></button>
+              <tool-tip id="menu-${id}-tooltip" for="menu-${id}-button" popover="manual">${singularName}</tool-tip>
+              <anchored-position id="menu-${id}-overlay" popover="auto">
+                <div class="Overlay">
+                  <div class="Overlay-body">
+                    <include-fragment loading="lazy" src="${singularSrc(id).replace('&', '&amp;')}">
+                      <p>Loading</p>
+                    </include-fragment>
+                  </div>
+                </div>
+              </anchored-position>
+            </action-menu>
+          </li>
+        `;
+      }
+
+      async function renderLazyRoot(ids:string[]) {
+        const rendered = await renderRoot(
+          ids.map(lazyCard),
+          `data-sortable-lists--menu-source-menu-label-key-value="${menuLabelKey}"`,
+        );
+        rendered.items.forEach((item) => {
+          Object.assign(menuOf(item), { invokerElement: item.querySelector('button') });
+        });
+        return rendered;
+      }
+
+      const bodyOf = (item:HTMLElement) => item.querySelector<HTMLElement>('.Overlay-body')!;
+
+      // What Primer does with the response: the list replaces the fragment.
+      async function loadBatchMenu(item:HTMLElement, scopeCount:number) {
+        const menuId = `menu-${item.getAttribute('data-sortable-lists--item-id-value')}`;
+        bodyOf(item).innerHTML = `
+          <ul role="menu" id="${menuId}-list"
+              data-sortable-lists--menu-source-target="menu"
+              data-sortable-lists-scope-count="${scopeCount}">
+            <li role="none"><button role="menuitem" type="button">Move to inbox</button></li>
+          </ul>
+        `;
+        const list = within(item).getByRole('menu', { hidden: true });
+        await waitFor(() => expect(list).toHaveAttribute('aria-labelledby', `${menuId}-tooltip`));
+      }
+
+      const cachePage = () => fireEvent(document, new CustomEvent('turbo:before-cache'));
+
+      async function renderLoadedBatch() {
+        const rendered = await renderLazyRoot(['1', '2']);
+        const [first, second] = rendered.items;
+        click(first, { ctrlKey: true });
+        click(second, { ctrlKey: true });
+        openMenu(first);
+        await loadBatchMenu(first, 2);
+        return rendered;
+      }
+
+      it('puts the lazy fragment and its server-rendered src back into a loaded menu', async () => {
+        const { items } = await renderLoadedBatch();
+        expect(menuOf(items[0])).toHaveAttribute('src', `${menuUrl}?ids%5B%5D=1&ids%5B%5D=2&invoker_id=1`);
+
+        cachePage();
+
+        expect(within(items[0]).queryByRole('menu', { hidden: true })).not.toBeInTheDocument();
+        expect(bodyOf(items[0]).querySelector('include-fragment')).toHaveAttribute('src', singularSrc('1'));
+        expect(menuOf(items[0])).toHaveAttribute('src', singularSrc('1'));
+      });
+
+      it('restores the singular name of a menu cached while open', async () => {
+        const { items } = await renderLoadedBatch();
+        expect(buttonOf(items[0])).toHaveAccessibleName('Actions for 2 selected work packages');
+
+        cachePage();
+
+        expect(buttonOf(items[0])).toHaveAccessibleName(singularName);
+      });
+
+      it('closes a menu still open when the page is cached', async () => {
+        const { items } = await renderLoadedBatch();
+        const overlay = items[0].querySelector<HTMLElement>(':scope action-menu > anchored-position')!;
+        overlay.showPopover();
+        expect(overlay).toBeVisible();
+
+        cachePage();
+
+        expect(overlay).not.toBeVisible();
+      });
+
+      it('leaves a menu that never opened as the server rendered it', async () => {
+        const { items } = await renderLoadedBatch();
+        const untouched = bodyOf(items[1]).querySelector('include-fragment');
+
+        cachePage();
+
+        expect(bodyOf(items[1]).querySelector('include-fragment')).toBe(untouched);
+        expect(menuOf(items[1])).toHaveAttribute('src', singularSrc('2'));
+      });
+
+      it('stops resetting menus once disconnected', async () => {
+        const { root, items } = await renderLoadedBatch();
+        root.removeAttribute('data-controller');
+        await waitFor(() => expect(root).not.toHaveAttribute('data-controller'));
+        await new Promise(requestAnimationFrame);
+
+        cachePage();
+
+        expect(within(items[0]).getByRole('menu', { hidden: true })).toBeInTheDocument();
+      });
+    });
   });
 });
