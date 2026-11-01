@@ -58,12 +58,16 @@ module Backlogs
 
     private
 
-    # Positional moves reorder within the card's own list, which the server
+    # Positional moves reorder within the cards' own list, which the server
     # allows even for a read-only work package, so they gate on the page-level
-    # permission alone. Only the cross-container moves below consult the
-    # destinations.
+    # permission and on every member sharing one list. Only the
+    # cross-container moves below consult the destinations.
     def show_move_items?
-      user_allowed?(:manage_sprint_items)
+      user_allowed?(:manage_sprint_items) && one_list?
+    end
+
+    def one_list?
+      work_packages.map { |work_package| Backlogs::Target.for_work_package(work_package) }.uniq.one?
     end
 
     def show_move_to_inbox?
