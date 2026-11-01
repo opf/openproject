@@ -52,6 +52,7 @@ import {
   captureRowPositions,
   isOrderableItem,
   reorderRows,
+  resolveBlockMoveAvailability,
   resolveDirectionalPreviousItemId,
   resolveItemId,
   resolveItemLabel,
@@ -417,7 +418,8 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   // A direction is offered exactly when the move resolver can produce a
   // target for it, and never for an item moveInDirection would refuse below.
   // Null means the item is not in an owned list yet. A snapshot for menu
-  // gating; the click path re-resolves the live DOM.
+  // gating over the scope the menu was opened for; the click path
+  // re-resolves the live DOM.
   moveAvailability(itemElement:HTMLElement):MoveAvailability|null {
     if (!isOrderableItem(itemElement)) {
       return {
@@ -426,8 +428,15 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
 
     const list = this.ownerListOf(itemElement);
+    if (!list) {
+      return null;
+    }
 
-    return list ? resolveMoveAvailability({ itemElement, rowsContainer: list.rowsContainer }) : null;
+    const { items } = this.actionScopeFor(itemElement);
+
+    return items.length > 1
+      ? resolveBlockMoveAvailability({ itemElements: items, rowsContainer: list.rowsContainer })
+      : resolveMoveAvailability({ itemElement, rowsContainer: list.rowsContainer });
   }
 
   moveToDestination(form:HTMLFormElement):void {

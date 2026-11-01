@@ -521,20 +521,37 @@ export default class ItemController extends Controller<HTMLElement> implements R
     }
 
     if (this.hasMoveMenuTarget) {
-      this.setAvailability(this.moveMenuTarget, available > 0);
+      this.refreshMoveMenu(root, available > 0);
     }
 
     this.refreshMoveDivider();
+  }
+
+  // A block with no direction at all (sparse, or boxed in by truncated rows)
+  // cannot be helped by trying one, so its submenu goes even where single
+  // items only disable theirs.
+  private refreshMoveMenu(root:SortableListsRoot, available:boolean):void {
+    const moveMenu = this.moveMenuTarget;
+
+    if (!available && root.actionScopeFor(this.element).items.length > 1) {
+      this.menuElement.hideItem(moveMenu);
+      return;
+    }
+
+    if (!this.hideUnavailableValue && this.menuElement.isItemHidden(moveMenu)) {
+      this.menuElement.showItem(moveMenu);
+    }
+
+    this.setAvailability(moveMenu, available);
   }
 
   // The divider that opens the move group is rendered server-side from a
   // permission check alone, so hiding the last entry below it would otherwise
   // leave a separator with nothing to separate. It never goes through
   // setAvailability: `disableItem` writes to the item's `.ActionListContent`,
-  // which a divider does not have — and in that mode the group stays visible
-  // anyway, only disabled.
+  // which a divider does not have.
   private refreshMoveDivider():void {
-    if (!this.hasMoveDividerTarget || !this.hideUnavailableValue) {
+    if (!this.hasMoveDividerTarget) {
       return;
     }
 
