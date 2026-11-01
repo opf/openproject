@@ -162,7 +162,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin implement
 
   ngOnInit():void {
     // Ensure board is being loaded
-    this.Boards.loadAllBoards();
+    void this.Boards.loadAllBoards();
 
     const boardId = this.boardId;
     this.apiV3Service.boards.id(boardId).observe()

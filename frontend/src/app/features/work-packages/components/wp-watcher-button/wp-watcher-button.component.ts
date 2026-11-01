@@ -84,9 +84,9 @@ export class WorkPackageWatcherButtonComponent extends UntilDestroyedMixin imple
   public toggleWatch() {
     const toggleLink = this.nextStateLink();
 
-    toggleLink(toggleLink.$link.payload).then(() => {
+    void toggleLink(toggleLink.$link.payload).then(() => {
       this.wpWatchersService.clear(this.workPackage.id);
-      this
+      void this
         .apiV3Service
         .work_packages
         .id(this.workPackage)

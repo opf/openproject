@@ -47,7 +47,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
 
     if (wp) {
       const change = this.halEditing.changeFor(wp);
-      change.getForm().then(
+      void change.getForm().then(
         (loadedForm:FormResource) => {
           this.buildItems(loadedForm);
           this.opContextMenu.show(this, evt);

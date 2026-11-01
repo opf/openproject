@@ -155,7 +155,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     const shouldActivate = (this.editMode && !this.skipField(field) || this.activeFields[field.fieldName]);
 
     if (shouldActivate) {
-      field.activateOnForm(true);
+      void field.activateOnForm(true);
     }
   }
 

@@ -206,8 +206,8 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
 
     return changePromise.then((change:WorkPackageChangeset) => {
       this.authorisationService.initModelAuth('work_package', change.pristineResource);
-      this.halEditing.updateValue(newWorkPackageHref, change);
-      this
+      void this.halEditing.updateValue(newWorkPackageHref, change);
+      void this
         .apiV3Service
         .work_packages
         .cache

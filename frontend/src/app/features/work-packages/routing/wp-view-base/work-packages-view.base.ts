@@ -221,7 +221,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
         this.querySpace.query.putValue(newQuery);
 
         // Update the current checksum
-        this.wpListChecksumService
+        void this.wpListChecksumService
           .updateIfDifferent(newQuery, this.wpTablePagination.current)
           .then(() => {
             // Update the page, if the change requires it

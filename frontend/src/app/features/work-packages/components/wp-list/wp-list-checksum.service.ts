@@ -95,7 +95,7 @@ export class WorkPackagesListChecksumService {
 
     this.set(query.id, newQueryChecksum);
 
-    this.maintainUrlQueryState(query.id, newQueryChecksum);
+    void this.maintainUrlQueryState(query.id, newQueryChecksum);
   }
 
   public setToQuery(query:QueryResource, pagination:WorkPackageViewPagination) {

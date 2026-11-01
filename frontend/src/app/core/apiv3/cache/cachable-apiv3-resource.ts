@@ -152,7 +152,7 @@ export abstract class ApiV3Resource<T extends HasId = HalResource>
    * Update a single resource
    */
   protected touch(resource:T):void {
-    this.cache.updateFor(resource);
+    void this.cache.updateFor(resource);
   }
 
   /**

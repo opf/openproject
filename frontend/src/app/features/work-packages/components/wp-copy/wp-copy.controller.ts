@@ -56,7 +56,7 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent implem
       )
       .subscribe((wp:WorkPackageResource) => {
         if (wp.__initialized_at === this.__initialized_at) {
-          this.wpRelations.addCommonRelation(wp.id!, 'relates', this.copiedWorkPackageId);
+          void this.wpRelations.addCommonRelation(wp.id!, 'relates', this.copiedWorkPackageId);
         }
       });
   }
@@ -97,13 +97,13 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent implem
       .then((copyChangeset) => {
         this.__initialized_at = copyChangeset.pristineResource.__initialized_at;
 
-        this
+        void this
           .apiV3Service
           .work_packages
           .cache
           .updateWorkPackage(copyChangeset.pristineResource, true);
 
-        this.halEditing.updateValue('new', copyChangeset);
+        void this.halEditing.updateValue('new', copyChangeset);
 
         return copyChangeset;
       });

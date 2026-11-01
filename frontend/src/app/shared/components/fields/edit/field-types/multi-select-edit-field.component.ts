@@ -190,7 +190,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
 
   protected initialize() {
     super.initialize();
-    this.loadValues();
+    void this.loadValues();
   }
 
   private loadValues() {
