@@ -30,7 +30,7 @@
 FactoryBot.define do
   factory :ai_text_transform_run, class: "AI::TextTransformRun" do
     user
-    action { association :ai_text_transform_action }
+    action { association :ai_text_action }
     system_prompt { "You are a writing assistant.\n\nFix grammar only." }
     input { "Login page dont work on safari 17, i click submit and nothing happen." }
 

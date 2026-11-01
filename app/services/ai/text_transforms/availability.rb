@@ -68,7 +68,7 @@ module AI
       def actions_for(context)
         return [] unless assistant.available?
 
-        AI::TextTransformAction
+        AI::TextAction
           .active
           .ordered
           .includes(:types)
@@ -80,9 +80,9 @@ module AI
       attr_reader :gateway
 
       def check_assistant
-        if !OpenProject::FeatureDecisions.ai_text_transform_actions_active?
+        if !OpenProject::FeatureDecisions.ai_text_actions_active?
           Result.new(false, :feature_disabled)
-        elsif !Setting.ai_text_transform_actions_enabled?
+        elsif !Setting.ai_text_actions_enabled?
           Result.new(false, :assistant_disabled)
         elsif !gateway.readiness.ready?
           Result.new(false, :llm_unavailable)

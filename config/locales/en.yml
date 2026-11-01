@@ -93,7 +93,7 @@ en:
 
   activerecord:
     attributes:
-      ai/text_transform_action:
+      ai/text_action:
         active: "Active"
         injects_type_template: "Insert work package type template"
         label: "Label"
@@ -1097,7 +1097,7 @@ en:
       action:
         one: "Action"
         other: "Actions"
-      ai/text_transform_action:
+      ai/text_action:
         one: "Text action"
         other: "Text actions"
       ai/text_transform_run:
@@ -2206,7 +2206,7 @@ en:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
         success_banner: Successfully updated work package identifier format.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
         description: "Users will no longer be able to run this action in the rich text editor."
         heading: 'Are you sure you want to delete the action "%{label}"?'
@@ -5132,7 +5132,7 @@ en:
       mail_notification: "Email notifications"
       mails_and_notifications: "Emails and notifications"
       mcp_configurations: "Model Context Protocol (MCP)"
-      text_transform_actions: "Text assistant"
+      text_actions: "Text assistant"
     quick_add:
       label: "Add…"
 
@@ -6425,7 +6425,7 @@ en:
     <br/>
     Example: %{example_code}
 
-  setting_ai_text_transform_actions_enabled: "Enable text actions"
+  setting_ai_text_actions_enabled: "Enable text actions"
   setting_allowed_link_protocols: "Allowed link protocols"
   setting_allowed_link_protocols_text_html: >-
     Allow these protocols to be rendered as links in work package descriptions, long text fields and comments.

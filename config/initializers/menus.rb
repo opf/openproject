@@ -608,10 +608,10 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: I18n.t("menus.admin.ai"),
             icon: :sparkle
 
-  menu.push :text_transform_actions,
-            { controller: "/admin/text_transform_actions", action: :index },
-            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.ai_text_transform_actions_active? },
-            caption: :"menus.admin.text_transform_actions",
+  menu.push :text_actions,
+            { controller: "/admin/text_actions", action: :index },
+            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.ai_text_actions_active? },
+            caption: :"menus.admin.text_actions",
             parent: :ai
 
   menu.push :mcp_configurations,

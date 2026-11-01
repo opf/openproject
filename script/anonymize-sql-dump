@@ -511,8 +511,8 @@ INSERT INTO table_manifest SELECT unnest(ARRAY[
   'workflows'
 ]), 'prune';
 INSERT INTO table_manifest SELECT unnest(ARRAY[
-  'ai_text_transform_action_types',
-  'ai_text_transform_actions',
+  'ai_text_action_types',
+  'ai_text_actions',
   'announcements',
   'ar_internal_metadata',
   'attribute_help_texts',

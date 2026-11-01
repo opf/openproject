@@ -47,8 +47,8 @@ module Settings
         format: :string,
         default: nil
       },
-      ai_text_transform_actions_enabled: {
-        description: "Enable AI text transform actions in the rich text editor",
+      ai_text_actions_enabled: {
+        description: "Enable AI text actions in the rich text editor",
         default: false
       },
       ai_text_transform_run_retention_seconds: {

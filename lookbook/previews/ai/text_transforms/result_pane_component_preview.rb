@@ -80,7 +80,7 @@ module AI
       private
 
       def render_pane(status:, events:, scope: "document")
-        run = AI::TextTransformRun.new(status:, action: AI::TextTransformAction.new(label: "Fix grammar"))
+        run = AI::TextTransformRun.new(status:, action: AI::TextAction.new(label: "Fix grammar"))
         events.each.with_index(1) { |(kind, payload), seq| run.events.build(kind:, payload:, seq:) }
         pane = AI::TextTransforms::ResultPaneState.new(run:, scope:, request_id: SecureRandom.uuid)
 
