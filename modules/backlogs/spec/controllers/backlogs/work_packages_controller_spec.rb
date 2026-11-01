@@ -1043,6 +1043,34 @@ RSpec.describe Backlogs::WorkPackagesController do
     end
   end
 
+  shared_examples "a guarded move dialog" do
+    context "when all=true is in params" do
+      let(:params) { super().merge(all: "true") }
+
+      it "embeds the all query in the dialog form action" do
+        document = Nokogiri::HTML.fragment(response.body)
+        expect(document.css("form").pluck("action"))
+          .to include(move_project_backlogs_work_packages_path(project, all: "true"))
+      end
+    end
+
+    context "with a user lacking manage_sprint_items permission" do
+      let(:user) { create(:user, member_with_permissions: { project => %i[view_sprints view_work_packages] }) }
+
+      it "responds with 403" do
+        expect(response).to have_http_status :forbidden
+      end
+    end
+
+    context "with a user lacking project permission" do
+      let(:user) { create(:user) }
+
+      it "responds with 404" do
+        expect(response).to have_http_status :not_found
+      end
+    end
+  end
+
   describe "POST #move_to_sprint_dialog" do
     let!(:available_sprint) { create(:sprint, project:) }
     let!(:first) { create(:work_package, status:, project:) }
@@ -1051,6 +1079,8 @@ RSpec.describe Backlogs::WorkPackagesController do
     let(:params) { { project_id: project.id, ids: } }
 
     subject(:response) { post :move_to_sprint_dialog, params:, format: :turbo_stream }
+
+    it_behaves_like "a guarded move dialog"
 
     it "renders the ordered collection and authoritative sprints" do
       response
@@ -1157,6 +1187,8 @@ RSpec.describe Backlogs::WorkPackagesController do
     let(:params) { { project_id: project.id, ids: [second.id, first.id] } }
 
     subject(:response) { post :move_to_bucket_dialog, params:, format: :turbo_stream }
+
+    it_behaves_like "a guarded move dialog"
 
     it "renders the ordered collection and authoritative buckets" do
       response
