@@ -70,6 +70,10 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
                                                src: menu_src
   end
 
+  it "puts the menu source on the action menu, where a client can refresh it" do
+    expect(rendered_component).to have_element "action-menu", src: menu_src
+  end
+
   it "forwards extra system arguments to the common card root" do
     rendered = render_inline(described_class.new(work_package:, menu_src:, data: { controller: "backlogs--work-package" }))
 
