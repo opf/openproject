@@ -71,6 +71,15 @@ describe('TableRowPositions', () => {
     await harness?.destroy();
   });
 
+  it('paints flat positions when the groups state is unset', async () => {
+    await mount();
+    harness.querySpace.groups.clear();
+
+    await harness.render();
+
+    harness.expectRowPositions(['1', '22', '23', '102', '103'], '103');
+  });
+
   it('uses global positions and includes trailing totals and Create', async () => {
     await mount();
     harness.expectRowPositions(['1', '22', '23', '102', '103'], '103');
