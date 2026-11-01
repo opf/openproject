@@ -85,8 +85,8 @@ RSpec.describe "Projects navigation", :js do
       visit home_path(jump: "calendar_view")
 
       # The user is not redirected to the module but remains on the home page
-      expect(page).to have_no_current_path(project_calendars_path(project))
       expect(page).to have_current_path(home_path(jump: "calendar_view"))
+      expect(page).to have_no_current_path(project_calendars_path(project))
     end
   end
 

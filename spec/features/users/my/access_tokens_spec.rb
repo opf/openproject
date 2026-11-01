@@ -60,6 +60,7 @@ RSpec.describe "my access tokens", :js do
       it "API tokens can be generated and revoked" do
         visit my_access_tokens_path
 
+        expect(page).to have_heading("Access tokens")
         expect(page).to have_no_text("API tokens are not enabled by the administrator.")
 
         within "#api-token-component" do
@@ -128,6 +129,7 @@ RSpec.describe "my access tokens", :js do
       it "in Access tokens they can generate and revoke their RSS key" do
         visit my_access_tokens_path
 
+        expect(page).to have_heading("Access tokens")
         expect(page).to have_no_text("RSS tokens are not enabled by the administrator.")
 
         within "#rss-token-component" do
@@ -198,6 +200,7 @@ RSpec.describe "my access tokens", :js do
         it "shows iCalendar tokens with their calender and project info" do
           visit my_access_tokens_path
 
+          expect(page).to have_heading("Access tokens")
           expect(page).to have_no_text("To add an iCalendar token") # ...
 
           within "#icalendar-token-section" do
@@ -256,6 +259,7 @@ RSpec.describe "my access tokens", :js do
       it "iCal tokens can be generated and revoked" do
         visit my_access_tokens_path
 
+        expect(page).to have_heading("Access tokens")
         expect(page).to have_no_text("iCalendar meeting subscriptions are not enabled by the administrator. " \
                                      "Please contact your administrator to use this feature.")
 

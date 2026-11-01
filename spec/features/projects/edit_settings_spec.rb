@@ -46,6 +46,7 @@ RSpec.describe "Projects", "editing settings", :js do
   it "hides the field whose functionality is presented otherwise" do
     visit project_settings_general_path(project.id)
 
+    expect(page).to have_field("Name", with: project.name)
     expect(page).to have_no_text :all, "Active"
   end
 

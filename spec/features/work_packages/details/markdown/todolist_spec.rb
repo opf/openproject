@@ -69,11 +69,11 @@ RSpec.describe "Todolists in CKEditor", :js, :selenium do
 
       # Select first and first nested item
       ckeditor.in_editor do |_container, editable|
-        first_item = editable.all(".todo-list li")[0]
+        first_item = editable.first(".todo-list li")
         first_item.find("input[type=checkbox]", visible: :all).set true
 
         # First nested
-        first_nested_item = editable.all(".todo-list .todo-list li")[0]
+        first_nested_item = editable.first(".todo-list .todo-list li")
         first_nested_item.find("input[type=checkbox]", visible: :all).set true
 
         sleep 0.5
@@ -105,11 +105,11 @@ RSpec.describe "Todolists in CKEditor", :js, :selenium do
       ckeditor.in_editor do |_container, editable|
         expect(editable).to have_css(".op-uc-list li", count: 5)
 
-        first_item = editable.all(".op-uc-list li")[0].find("input[type=checkbox]", visible: :all)
+        first_item = editable.first(".op-uc-list li").find("input[type=checkbox]", visible: :all)
         expect(first_item).to be_checked
 
         # First nested
-        first_nested_item = editable.all(".op-uc-list .op-uc-list li")[0].find("input[type=checkbox]", visible: :all)
+        first_nested_item = editable.first(".op-uc-list .op-uc-list li").find("input[type=checkbox]", visible: :all)
         expect(first_nested_item).to be_checked
 
         # Check last item
@@ -208,7 +208,7 @@ RSpec.describe "Todolists in CKEditor", :js, :selenium do
 
       # Select first item
       ckeditor.in_editor do |_container, editable|
-        first_item = editable.all(".todo-list li")[0]
+        first_item = editable.first(".todo-list li")
         first_item.find("input[type=checkbox]", visible: :all).set true
 
         sleep 0.5
@@ -233,7 +233,7 @@ RSpec.describe "Todolists in CKEditor", :js, :selenium do
       ckeditor.in_editor do |_container, editable|
         expect(editable).to have_css(".todo-list li", count: 2)
 
-        first_item = editable.all(".todo-list li")[0].find("input[type=checkbox]", visible: :all)
+        first_item = editable.first(".todo-list li").find("input[type=checkbox]", visible: :all)
         expect(first_item).to be_checked
 
         # Check last item

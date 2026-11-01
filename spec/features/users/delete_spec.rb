@@ -140,6 +140,7 @@ RSpec.describe "user deletion:", :js, :selenium, driver: :firefox_en do
     it "cannot delete other users if the settings forbid it", with_settings: { users_deletable_by_admins: false } do
       visit edit_user_path(user)
 
+      expect(page).to have_text "#{user.firstname} #{user.lastname}"
       expect(page).to have_no_text "Delete account"
     end
 

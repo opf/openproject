@@ -173,7 +173,7 @@ RSpec.describe "Query menu item", :js do
       # Removing the filter and returning to query restores it
       filters.remove_filter "targetVersion"
       filters.expect_filter_count 1
-      expect(page.current_url).to include("query_props")
+      expect(page).to have_current_path(/query_props/, url: true)
 
       query_item = page.find(".op-submenu--item-action", text: "Some query name")
       query_item.click
