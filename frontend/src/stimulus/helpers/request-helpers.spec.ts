@@ -71,11 +71,12 @@ describe('performTurboStreamRequest', () => {
       ok: true,
       unprocessableEntity: false,
       isTurboStream: false,
+      statusCode: 500,
       renderTurboStream,
     } as unknown as FetchResponse;
 
     await expect(performTurboStreamRequest(requestFor(response)))
-      .rejects.toThrow('Response is not a Turbo Stream');
+      .rejects.toMatchObject({ name: 'FetchRequestError', _errorCode: 500, message: 'Response is not a Turbo Stream' });
     expect(renderTurboStream).not.toHaveBeenCalled();
   });
 });
