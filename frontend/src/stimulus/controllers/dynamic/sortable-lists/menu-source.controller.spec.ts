@@ -51,10 +51,11 @@ vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-prev
   setCustomNativeDragPreview: vi.fn(),
 }));
 
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, within } from '@testing-library/dom';
 import { LiveRegionElement } from '@primer/live-region-element';
 import { usePlatform } from 'core-common/testing/platform';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import type { MockInstance } from 'vitest';
 import type MenuSourceController from './menu-source.controller';
 import type SortableListsController from '../sortable-lists.controller';
 import { selectionTranslations } from './testing/selection-translations';
@@ -77,6 +78,7 @@ describe('Sortable lists menu source controller', () => {
         'sortable-lists--list': (await import('./list.controller')).default,
         'sortable-lists--item': (await import('./item.controller')).default,
         'sortable-lists--menu-source': (await import('./menu-source.controller')).default,
+        'contextual-action-menu': (await import('../contextual-action-menu.controller')).default,
       },
     });
   });
@@ -256,6 +258,175 @@ describe('Sortable lists menu source controller', () => {
 
     const src = new URL(menuOf(items[1]).getAttribute('src')!, window.location.href);
     expect(src.searchParams.getAll('ids[]')).toEqual(['1', '2']);
+  });
+
+  describe('scope settled by each menu entry point', () => {
+    // The Backlogs card row: the item is the row, the card inside it hosts
+    // the contextual presentation and the tab stop.
+    function contextualCard(id:string, { mobility = null }:{ mobility?:string|null } = {}):string {
+      return `
+        <li data-controller="sortable-lists--item"
+            data-sortable-lists--item-id-value="${id}"
+            data-sortable-lists--item-type-value="work_package"
+            ${mobility ? `data-sortable-lists--item-mobility-value="${mobility}"` : ''}>
+          <div data-controller="contextual-action-menu"
+               data-sortable-lists--item-target="focus"
+               tabindex="0">
+            <span>Story ${id}</span>
+            <action-menu src="${menuUrl}?ids%5B%5D=${id}&amp;invoker_id=${id}">
+              <button id="menu-${id}-button" type="button" popovertarget="menu-${id}-overlay">More</button>
+              <anchored-position id="menu-${id}-overlay" popover="auto" anchor="menu-${id}-button"></anchored-position>
+            </action-menu>
+          </div>
+        </li>
+      `;
+    }
+
+    // The real <action-menu> and <anchored-position> are not registered
+    // here; the presenter reads only these members.
+    async function renderContextualRoot(cards:string[]) {
+      const rendered = await renderRoot(cards);
+      rendered.items.forEach((item) => {
+        const menu = menuOf(item);
+        const overlay = menu.querySelector('anchored-position')!;
+        Object.assign(menu, {
+          overlay,
+          popoverElement: overlay,
+          invokerElement: within(item).getByRole('button', { name: 'More' }),
+        });
+        Object.assign(overlay, { anchorElement: null, update: vi.fn() });
+      });
+      return rendered;
+    }
+
+    const cardOf = (item:HTMLElement) => item.querySelector<HTMLElement>('[data-controller~="contextual-action-menu"]')!;
+
+    const entryPoints:[string, (item:HTMLElement) => void][] = [
+      ['the More button', (item) => {
+        fireEvent.click(within(item).getByRole('button', { name: 'More' }));
+      }],
+      ['a right-click', (item) => {
+        const subject = within(item).getByText(/^Story/);
+        fireEvent.pointerDown(subject, { button: 2, pointerType: 'mouse' });
+        fireEvent.mouseDown(subject, { button: 2 });
+        fireEvent.contextMenu(subject, { button: 2 });
+        fireEvent.pointerUp(document.body, { button: 2, pointerType: 'mouse' });
+        fireEvent.mouseUp(document.body, { button: 2 });
+      }],
+      ['the Context Menu key', (item) => {
+        fireEvent.keyDown(cardOf(item), { key: 'ContextMenu' });
+      }],
+      ['Shift+F10', (item) => {
+        fireEvent.keyDown(cardOf(item), { key: 'F10', shiftKey: true });
+      }],
+    ];
+
+    let trace:string[];
+    let srcWrites:string[];
+    let announce:MockInstance;
+
+    const recordTrace = (event:Event) => {
+      if ((event as ToggleEvent).newState === 'open') {
+        trace.push(event.type);
+      }
+    };
+    const recordBeforeOpen = () => trace.push('beforeOpen');
+
+    beforeEach(() => {
+      trace = [];
+      srcWrites = [];
+      document.addEventListener('beforetoggle', recordTrace, true);
+      ctx.container.addEventListener('contextual-action-menu:beforeOpen', recordBeforeOpen);
+    });
+
+    afterEach(() => {
+      document.removeEventListener('beforetoggle', recordTrace, true);
+    });
+
+    function watchInvocation(root:HTMLElement, items:HTMLElement[]) {
+      const controller = ctx.getController<SortableListsController>('sortable-lists', root);
+      const selectForAction = controller.selectForAction.bind(controller);
+      vi.spyOn(controller, 'selectForAction').mockImplementation((itemElement) => {
+        trace.push('selectForAction');
+        return selectForAction(itemElement);
+      });
+      items.forEach((item) => {
+        const menu = menuOf(item);
+        const setAttribute = menu.setAttribute.bind(menu);
+        vi.spyOn(menu, 'setAttribute').mockImplementation((name, value) => {
+          if (name === 'src') {
+            srcWrites.push(value);
+          }
+          setAttribute(name, value);
+        });
+      });
+      announce = vi.spyOn(LiveRegionElement.prototype, 'announce').mockResolvedValue(undefined);
+      announce.mockClear();
+    }
+
+    const expectedTrace = (label:string) => (label === 'the More button'
+      ? ['beforetoggle', 'selectForAction']
+      : ['beforeOpen', 'beforetoggle', 'selectForAction']);
+
+    describe.each(entryPoints)('opened from %s', (label, invoke) => {
+      it('acts on the whole selection from a selected card and keeps the anchor', async () => {
+        const { root, items } = await renderContextualRoot(['1', '2', '3', '4'].map((id) => contextualCard(id)));
+        click(items[0], { ctrlKey: true });
+        click(items[2], { ctrlKey: true });
+        watchInvocation(root, items);
+
+        invoke(items[0]);
+
+        const src = `${menuUrl}?ids%5B%5D=1&ids%5B%5D=3&invoker_id=1`;
+        expect(menuOf(items[0])).toHaveAttribute('src', src);
+        expect(srcWrites).toEqual([src]);
+        expect(trace).toEqual(expectedTrace(label));
+        expect(items.filter(isSelected)).toEqual([items[0], items[2]]);
+
+        click(items[3], { shiftKey: true });
+        expect(items.filter(isSelected)).toEqual([items[0], items[2], items[3]]);
+      });
+
+      it('replaces the selection with an unselected card, which becomes the anchor', async () => {
+        const { root, items } = await renderContextualRoot(['1', '2', '3'].map((id) => contextualCard(id)));
+        click(items[0], { ctrlKey: true });
+        click(items[1], { ctrlKey: true });
+        watchInvocation(root, items);
+
+        invoke(items[2]);
+
+        expect(menuOf(items[2])).toHaveAttribute('src', `${menuUrl}?ids%5B%5D=3&invoker_id=3`);
+        expect(srcWrites).toEqual([`${menuUrl}?ids%5B%5D=3&invoker_id=3`]);
+        expect(trace).toEqual(expectedTrace(label));
+        expect(items.filter(isSelected)).toEqual([items[2]]);
+
+        click(items[1], { shiftKey: true });
+        expect(items.filter(isSelected)).toEqual([items[1], items[2]]);
+      });
+
+      it('leaves selection and anchor alone for a fixed card, without announcing', async () => {
+        const { root, items } = await renderContextualRoot([
+          contextualCard('1', { mobility: 'fixed' }),
+          contextualCard('2'),
+          contextualCard('3'),
+          contextualCard('4'),
+        ]);
+        click(items[3], { ctrlKey: true });
+        click(items[1], { ctrlKey: true });
+        watchInvocation(root, items);
+
+        invoke(items[0]);
+
+        expect(menuOf(items[0])).toHaveAttribute('src', `${menuUrl}?ids%5B%5D=1&invoker_id=1`);
+        expect(srcWrites).toEqual([`${menuUrl}?ids%5B%5D=1&invoker_id=1`]);
+        expect(trace).toEqual(expectedTrace(label));
+        expect(items.filter(isSelected)).toEqual([items[1], items[3]]);
+        expect(announce).not.toHaveBeenCalled();
+
+        click(items[2], { shiftKey: true });
+        expect(items.filter(isSelected)).toEqual([items[1], items[2], items[3]]);
+      });
+    });
   });
 
   it('sets src to the ordered batch when opened on a selected card', async () => {
