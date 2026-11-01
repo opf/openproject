@@ -33,12 +33,13 @@ module SortableLists
     include ActionView::RecordIdentifier
 
     Direction = Data.define(:label, :direction, :icon) do
-      def item_data
+      def item_data(disabled: false)
         {
           sortable_lists__item_target: "moveItem",
           sortable_lists__item_direction_param: direction,
+          sortable_lists_locked: disabled || nil,
           action: "click->sortable-lists--item#move"
-        }
+        }.compact
       end
     end
 
@@ -51,31 +52,35 @@ module SortableLists
 
     private
 
-    def with_move_submenu(menu, dom_key: nil, label: I18n.t(:button_move), **system_arguments)
+    # A `disabled` menu renders every item disabled and locked
+    # (`data-sortable-lists-locked`), so the item controller's direction gating
+    # leaves it alone.
+    def with_move_submenu(menu, dom_key: nil, label: I18n.t(:button_move), disabled: false, **system_arguments)
       system_arguments[:data] = merge_data(
         system_arguments,
-        data: { sortable_lists__item_target: "moveMenu" }
+        data: { sortable_lists__item_target: "moveMenu", sortable_lists_locked: disabled || nil }
       )
 
       menu.with_item(
         component_klass: Primer::Alpha::ActionMenu::SubMenuItem,
         label:,
         select_variant: :none,
+        disabled:,
         **system_arguments
       ) do |submenu|
         submenu.with_leading_visual_icon(icon: :"op-arrow-in")
 
-        with_move_items(submenu, dom_key:)
+        with_move_items(submenu, dom_key:, disabled:)
       end
     end
 
     # The `data:` hash must live on the item level so Primer renders it on the ActionList
     # `<li>`, which is what the item controller targets to compute availability and to
     # handle the bubbled click.
-    def with_move_items(menu, dom_key: nil)
+    def with_move_items(menu, dom_key: nil, disabled: false)
       DIRECTIONS.each do |move|
         menu.with_item(**(dom_key ? { id: dom_target(dom_key, :menu, move.direction) } : {}),
-                       label: I18n.t(move.label), tag: :button, data: move.item_data) do |item|
+                       label: I18n.t(move.label), tag: :button, disabled:, data: move.item_data(disabled:)) do |item|
           item.with_leading_visual_icon(icon: move.icon)
         end
       end
