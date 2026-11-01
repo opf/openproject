@@ -96,6 +96,53 @@ RSpec.describe "Backlogs card menu", type: :rails_request do
     end
   end
 
+  describe "Move to position" do
+    def move_to_position_for(work_package)
+      have_element(:button, id: menu_item_id(work_package, :top))
+        .and(have_element(:button, id: menu_item_id(work_package, :up)))
+        .and(have_element(:button, id: menu_item_id(work_package, :down)))
+        .and(have_element(:button, id: menu_item_id(work_package, :bottom)))
+    end
+
+    context "when all ids share one list" do
+      let!(:first) { create(:work_package, sprint: sprint_a, type:, project:) }
+      let!(:second) { create(:work_package, sprint: sprint_a, type:, project:) }
+
+      it "renders Move to position when all ids share one list" do
+        get_menu(ids: [first.id, second.id])
+
+        expect(menu).to move_to_position_for(first)
+      end
+    end
+
+    context "when the ids span lists" do
+      let!(:first) { create(:work_package, sprint: sprint_a, type:, project:) }
+      let!(:second) { create(:work_package, sprint: sprint_b, type:, project:) }
+
+      it "omits Move to position for a cross-list scope", :aggregate_failures do
+        get_menu(ids: [first.id, second.id])
+
+        expect(response).to have_http_status(:ok)
+        %i[top up down bottom].each do |direction|
+          expect(menu).to have_no_element(:button, id: menu_item_id(first, direction))
+        end
+      end
+    end
+
+    context "with a confined member", with_ee: %i[readonly_work_packages] do
+      shared_let(:readonly_status) { create(:status, :readonly) }
+
+      let!(:free) { create(:work_package, sprint: sprint_a, type:, project:) }
+      let!(:confined) { create(:work_package, sprint: sprint_a, status: readonly_status, type:, project:) }
+
+      it "renders it for confined members" do
+        get_menu(ids: [free.id, confined.id])
+
+        expect(menu).to move_to_position_for(free)
+      end
+    end
+  end
+
   context "when every member is already in the inbox" do
     let!(:first) { create(:work_package, type:, project:) }
     let!(:second) { create(:work_package, type:, project:) }
