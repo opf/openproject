@@ -122,6 +122,21 @@ describe('GroupedRenderPass levels', () => {
 
   afterEach(() => harness.destroy());
 
+  it('highlights member rows but not the group header', async () => {
+    const status = { id: '11', href: '/api/v3/statuses/11' };
+    harness = buildTable({
+      workPackages: [{ id: '1', attributes: { status } }],
+      groups: [{ value: 'New', href: status.href, count: 1 }],
+      highlightingMode: 'status',
+    });
+
+    await harness.render();
+
+    const highlighted = (row:Element) => Array.from(row.classList).some((name) => name.startsWith('__hl_'));
+    expect(highlighted(harness.row('1'))).toBe(true);
+    expect(highlighted(harness.groupHeader(0))).toBe(false);
+  });
+
   it('assigns semantic levels to every occurrence', async () => {
     const status = { href: '/api/v3/statuses/1' };
     harness = buildTable({
