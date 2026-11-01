@@ -83,7 +83,7 @@ RSpec.shared_examples_for "provides a single WP context menu" do
     open_context_menu.call
     menu.choose("Create new child")
     expect(page).to have_css(".inline-edit--container.subject input")
-    expect(current_url).to match(/.*\/(create_new|details\/new)\?.*(&)*parent_id=#{work_package.id}/)
+    expect(page).to have_current_path(/.*\/(create_new|details\/new)\?.*(&)*parent_id=#{work_package.id}/, url: true)
 
     find_by_id("work-packages--edit-actions-cancel").click
     expect(page).to have_no_css(".inline-edit--container.subject input")
@@ -109,7 +109,7 @@ RSpec.shared_examples_for "provides a single WP context menu" do
       open_context_menu.call
       menu.choose("Create new child")
       expect(page).to have_css(".inline-edit--container.subject input")
-      expect(current_url).to match(/.*\/(create_new|details\/new)\?.*(&)*parent_id=#{work_package.id}/)
+      expect(page).to have_current_path(/.*\/(create_new|details\/new)\?.*(&)*parent_id=#{work_package.id}/, url: true)
 
       split_view = Pages::SplitWorkPackageCreate.new project: work_package.project
       subject = split_view.edit_field(:subject)
@@ -147,8 +147,8 @@ RSpec.shared_examples_for "provides a single WP context menu" do
         menu.choose("Create new child")
         expect(page).to have_css(".inline-edit--container.subject input")
 
-        expect(current_url).to match(/parent_id=#{work_package.id}/)
-        expect(current_url).not_to match(/parent_id=#{Regexp.escape(work_package.identifier)}/)
+        expect(page).to have_current_path(/parent_id=#{work_package.id}/, url: true)
+        expect(page).to have_no_current_path(/parent_id=#{Regexp.escape(work_package.identifier)}/, url: true)
 
         split_view = Pages::SplitWorkPackageCreate.new project: work_package.project
         subject = split_view.edit_field(:subject)

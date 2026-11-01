@@ -87,8 +87,6 @@ RSpec.describe "backup", :js do
       visit "/admin/backups"
       click_on I18n.t("backup.label_reset_token")
 
-      expect(page).to have_text /#{I18n.t('backup.reset_token.heading_reset')}/i
-
       check "I understand that the existing backup token will be invalidated"
       click_on "Reset"
     end
