@@ -27,13 +27,14 @@
 
 import type { NavigationCommand } from 'core-app/shared/helpers/navigation-keys';
 import type { RowRecordKind } from '../../../semantics/row-classifier';
+import type { RowKey } from '../../../row-keys';
 
 export const ROW_KINDS = ['header', 'workPackage', 'groupHeader', 'sums', 'totals'] as const satisfies readonly RowRecordKind[];
 
 export type RowKind = (typeof ROW_KINDS)[number];
 
 export interface NavigableRow {
-  key:string;
+  key:RowKey;
   kind:RowKind;
   hidden:boolean;
   cellCount:number;
@@ -42,7 +43,7 @@ export interface NavigableRow {
 }
 
 export interface FocusPosition {
-  readonly key:string;
+  readonly key:RowKey;
   readonly cell:number|null;
   readonly desiredColumn:number|null;
   readonly groupIdentifier?:string;
@@ -60,6 +61,10 @@ export type NavResult =
   | { type:'none' };
 
 const NONE:NavResult = { type: 'none' };
+
+export function rowPosition(key:RowKey):FocusPosition {
+  return { key, cell: null, desiredColumn: null };
+}
 
 function positionOn(row:NavigableRow, cell:number|null, desiredColumn:number|null):FocusPosition {
   const position:FocusPosition = { key: row.key, cell, desiredColumn };
