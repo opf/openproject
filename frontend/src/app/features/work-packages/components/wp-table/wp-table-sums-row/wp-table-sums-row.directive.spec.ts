@@ -38,7 +38,7 @@ import { WorkPackageViewSumService } from 'core-app/features/work-packages/routi
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { nextTask } from 'core-common/testing/timing';
 import { buildQuery, buildTable, FakeDragAndDropService, harnessProviders, initializeViewServices, scopeKeys, TableHarness } from '../../wp-fast-table/testing/table-harness';
-import { totalsRowKey } from '../../wp-fast-table/handlers/state/keyboard/navigable-rows';
+import { totalsRowKey } from '../../wp-fast-table/row-keys';
 import { WorkPackageTableSumsRowController } from './wp-table-sums-row.directive';
 
 @Component({ template: '<table><tbody><tr class="wp-table--sums-row wp-table--row" wpTableSumsRow></tr></tbody></table>', standalone: false })

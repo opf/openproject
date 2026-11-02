@@ -63,7 +63,7 @@ import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import { WorkPackageTable } from '../../../wp-fast-table';
 import { TableHandlerRegistry } from '../../table-handler-registry';
 import { KeyboardNavigation } from './keyboard-navigation-transformer';
-import { headerRowKey, totalsRowKey } from './navigable-rows';
+import { headerRowKey, totalsRowKey } from '../../../row-keys';
 import { expansionStateOf } from '../../../helpers/row-expansion';
 import { insideGrid, isNavigableColumn, navigableCells } from './roving-tabindex';
 

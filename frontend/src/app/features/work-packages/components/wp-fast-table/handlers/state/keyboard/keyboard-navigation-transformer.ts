@@ -41,12 +41,13 @@ import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import type { TableEventComponent } from '../../table-handler-registry';
 import { activateRow } from '../../row/click-handler';
 import { rowKindOf } from '../../../helpers/row-expansion';
+import type { RowRecord, RowRecordKind } from '../../../semantics/row-classifier';
+import { headerRowKey, totalsRowKey } from '../../../row-keys';
+import { headerRowOf, totalsRowOf } from '../../../helpers/structural-rows';
 import {
-  FocusPosition, initialPosition, NavigableRow, nearestPosition, computeNextPosition, reconcilePosition, rowPosition, samePosition,
+  FocusPosition, initialPosition, NavigableRow, nearestPosition, computeNextPosition, reconcilePosition, ROW_KINDS, RowKind, rowPosition,
+  samePosition,
 } from './focus-position';
-import {
-  buildNavigableRows, headerRowKey, headerRowOf, totalsRowKey, totalsRowOf,
-} from './navigable-rows';
 import { isSelectableOccurrence, selectableOccurrences } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
 import { KeyboardSelection } from './keyboard-selection';
 import type { NavigationCommand } from 'core-app/shared/helpers/navigation-keys';
@@ -57,6 +58,31 @@ import {
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { CellInteraction } from './cell-interaction';
 import { FocusCursor } from './focus-cursor';
+
+const navigableKinds:ReadonlySet<RowRecordKind> = new Set(ROW_KINDS);
+
+function isNavigableKind(kind:RowRecordKind):kind is RowKind {
+  return navigableKinds.has(kind);
+}
+
+function navigableRow({ element, occurrence, state }:RowRecord, key:string, kind:RowKind):NavigableRow {
+  const row:NavigableRow = {
+    key,
+    kind,
+    hidden: state.hidden,
+    cellCount: navigableCells(element).length,
+    expanded: state.expanded,
+  };
+  return occurrence?.groupIdentifier === undefined ? row : { ...row, groupIdentifier: occurrence.groupIdentifier };
+}
+
+/** The rows keyboard navigation walks, in visual order: header, rendered occurrences, totals. */
+function buildNavigableRows(table:WorkPackageTable):NavigableRow[] {
+  return table.rows.rows().flatMap((record) => {
+    const { key, state: { kind } } = record;
+    return key !== null && isNavigableKind(kind) ? [navigableRow(record, key, kind)] : [];
+  });
+}
 
 export interface KeyboardNavigation {
   readonly position:FocusPosition|null;
