@@ -42,6 +42,9 @@ import {
   OpContextMenuLocalsMap,
 } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import {
+  copyIdActionLabel,
+  isActionVisibleFor,
+  isCopyIdAction,
   PERMITTED_CONTEXT_MENU_ACTIONS,
 } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
@@ -51,7 +54,6 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 
 import { Placement } from '@floating-ui/dom';
 
@@ -145,6 +147,10 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         this.copyToClipboardService.copy(`${id}`);
         break;
 
+      case 'copy_alphanumeric_id_to_clipboard':
+        this.copyToClipboardService.copy(this.workPackage.displayId);
+        break;
+
       case 'copy_to_other_project':
         window.location.href = `${this.pathHelper.staticBase}/work_packages/move/new?copy=true&ids[]=${id}`;
         break;
@@ -207,17 +213,12 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   protected buildItems():OpContextMenuItem[] {
     const selected = this.getSelectedWorkPackages();
 
-    // Copying the numeric ID is only useful in semantic mode, where the
-    // displayed identifier (e.g. "PROJ-42") is not the numeric ID itself.
-    const visibleActions = this.permittedActions.filter((action) => (
-      action.key !== 'copy_numeric_id_to_clipboard'
-      || isSemanticWorkPackageId(this.workPackage.displayId)
-    ));
+    const visibleActions = this.permittedActions.filter((action) => isActionVisibleFor(this.workPackage, action.key));
 
     const items = visibleActions.map((action:WorkPackageAction) => ({
       class: undefined as string | undefined,
       disabled: false,
-      linkText: action.text,
+      linkText: isCopyIdAction(action.key) ? copyIdActionLabel(this.workPackage, action.key) : action.text,
       href: action.href,
       icon: action.icon != null ? action.icon : `icon-${action.key}`,
       onClick: (event:MouseEvent) => {
