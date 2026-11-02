@@ -15,9 +15,9 @@ RSpec.describe "Create CI connection", :js do
   it "creates a connection from project settings" do
     visit project_test_management_project_settings_path(project)
 
-    within("[data-test-selector='tm-ci-new']") do
-      details = find("details", match: :first)
-      details.click unless details[:open]
+    section = find("[data-test-selector='tm-ci-new']")
+    section.click unless section[:open]
+    within(section) do
       fill_in "tm-ci-new-name", with: "Shop GitHub"
       fill_in "tm-ci-new-repository", with: "acme/shop"
       fill_in "tm-ci-new-token", with: "ghp_feature_spec_token"

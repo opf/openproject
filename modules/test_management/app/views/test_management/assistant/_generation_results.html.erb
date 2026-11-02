@@ -2,7 +2,7 @@
 <% if @generation.pending? %>
   <h2 id="tm-draft-results-heading" class="sr-only" tabindex="-1"><%= t("test_management.assistant.generate.drafts_title") %></h2>
 <% elsif @generation.effective_status == "cancelled" %>
-  <%= render(Primer::Alpha::Banner.new(scheme: :secondary, mb: 3, data: { test_selector: "tm-assistant-generation-cancelled" })) do %>
+  <%= render(Primer::Alpha::Banner.new(scheme: :default, mb: 3, data: { test_selector: "tm-assistant-generation-cancelled" })) do %>
     <%= t("test_management.assistant.generate.polling.cancelled") %>
     <%= button_to t("test_management.assistant.generate.try_again"),
                   project_test_management_retry_assistant_generation_path(@project, @generation),
