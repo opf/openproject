@@ -114,7 +114,7 @@ class Workflows::MatrixController < ApplicationController
 
   def persist_matrix
     Workflows::MatrixUpdateService
-      .new(workflow:, roles: matrix_context.roles, tab: matrix_context.tab)
+      .new(context: matrix_context)
       .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
   end
 

@@ -126,7 +126,7 @@ describe('Block card - copy/paste independence', () => {
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
     await userEvent.click(page.getByTitle('Change size'));
     await expect.element(page.getByTestId('size-menu')).toBeVisible();
-    await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Tiny', exact: true }));
 
     // The pasted copy still shows the status
     await expect.element(page.getByText('In Progress').nth(0)).toBeVisible();
@@ -147,7 +147,7 @@ describe('Block card - copy/paste independence', () => {
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
     await userEvent.click(page.getByTitle('Change size'));
     await expect.element(page.getByTestId('size-menu')).toBeVisible();
-    await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Tiny', exact: true }));
 
     // The original still shows the status
     await expect.element(page.getByText('In Progress').nth(0)).toBeVisible();

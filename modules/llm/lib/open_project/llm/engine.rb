@@ -48,13 +48,23 @@ module OpenProject::Llm
            first: true
     end
 
-    class_inflection_override("ruby_llm_provider_headers" => "RubyLLMProviderHeaders")
+    class_inflection_override("ruby_llm_provider_headers" => "RubyLLMProviderHeaders",
+                              "ruby_llm_stream_error_status" => "RubyLLMStreamErrorStatus")
 
     # RubyLLM's legacy acts_as API warns on boot unless the new one is chosen,
     # and the choice has to be made before its railtie reaches ActiveRecord.
     # OpenProject uses the plain client rather than either ActiveRecord API.
+    #
+    # RubyLLM.logger memoizes the global logger and ignores a per-call
+    # context's. Its Faraday middleware logs with "bodies: RubyLLM.logger.debug?",
+    # so with RUBYLLM_DEBUG set, prompts, answers and error bodies that echo the
+    # credential would reach stdout, bypassing Llm::Errors.log.
     config.before_initialize do
-      RubyLLM.configure { |llm| llm.use_new_acts_as = true }
+      RubyLLM.configure do |llm|
+        llm.use_new_acts_as = true
+        llm.logger = Logger.new(IO::NULL)
+        llm.log_stream_debug = false
+      end
     end
 
     initializer "openproject_llm.feature_decisions" do
@@ -83,7 +93,7 @@ module OpenProject::Llm
 
     initializer "openproject_llm.features" do
       # The description assistant rewrites work package text on explicit user action.
-      # Plain chat completions only: no tools, no JSON mode, no streaming. Individual
+      # Streamed plain chat completions only: no tools, no JSON mode. Individual
       # actions may override the model, which is why it is overridable.
       OpenProject::Llm::Features.register :description_assistant,
                                           kind: :chat,
@@ -104,8 +114,13 @@ module OpenProject::Llm
                                           available: -> { OpenProject::FeatureDecisions.semantic_search_active? }
     end
 
+    config.to_prepare do
+      AI::TextTransforms::Gateway.factory = -> { Llm::TextTransformGateway.new }
+    end
+
     initializer "openproject_llm.load_patches" do
       require_relative "patches/ruby_llm_provider_headers"
+      require_relative "patches/ruby_llm_stream_error_status"
 
       OpenProject::Patches.patch_gem_version("ruby_llm", "1.16.0") do
         RubyLLM::Configuration.register_provider_options(%i[openproject_custom_headers])
@@ -113,6 +128,8 @@ module OpenProject::Llm
         RubyLLM::Provider.providers.each_value do |provider_class|
           provider_class.prepend(OpenProject::Llm::Patches::RubyLLMProviderHeaders)
         end
+
+        RubyLLM::Provider.prepend(OpenProject::Llm::Patches::RubyLLMStreamErrorStatus)
       end
     end
 

@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% if @roles.any? %>
   <%= form_tag(
-        workflow_matrix_path(@workflow, tab: @current_tab),
+        workflow_matrix_path(@workflow),
         method: :patch,
         autocomplete: "off",
         class: "workflow-table--pinned-save-bar"

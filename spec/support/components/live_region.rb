@@ -22,26 +22,25 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Backlogs::CreatedResolved
-  class Series
-    UNITS = %i[workpackages].freeze
+module Components
+  class LiveRegion
+    include Capybara::DSL
+    include Capybara::RSpecMatchers
+    include RSpec::Matchers
 
-    attr_reader :name, :unit, :data
-    attr_accessor :display
+    def expect_announcement(text)
+      expect(polite_region).to have_css("#polite", text:)
+    end
 
-    def initialize(name, unit, args)
-      @unit = unit
-      @name = name.to_sym
-      @data = Array.new(args)
-      @display = true
+    private
 
-      raise ArgumentError, "Unsupported unit '#{@unit}'- should be one of: #{UNITS.join(', ')}" unless UNITS.include? @unit
+    def polite_region
+      find("live-region", visible: :all).shadow_root
     end
   end
 end
