@@ -75,7 +75,7 @@ RSpec.describe "Managing text actions", :js, with_flag: { ai_text_actions: true 
   it "creates an action scoped to specific work package types" do
     visit admin_text_actions_path
 
-    within(".SubHeader") { click_on "Action" }
+    find_test_selector("add-text-action-button").click
     expect(page).to have_current_path(new_admin_text_action_path)
 
     expect(page).to have_no_test_selector("text-action-select-types")

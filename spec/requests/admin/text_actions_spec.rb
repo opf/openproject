@@ -54,7 +54,7 @@ RSpec.describe "Admin text actions", :skip_csrf,
     it "renders the sub header with the section title" do
       get admin_text_actions_path
 
-      expect(response.body).to match(%r{<[^>]+>\s*Actions\s*</[^>]+>})
+      expect(response.body).to include(I18n.t("admin.text_actions.index.section_title"))
     end
 
     context "when requested from the list frame" do
@@ -74,7 +74,7 @@ RSpec.describe "Admin text actions", :skip_csrf,
       it "renders the info box" do
         get admin_text_actions_path
 
-        expect(response.body).to include("All text actions are disabled.")
+        expect(response.body).to include(I18n.t("admin.text_actions.index_component.disabled_warning"))
       end
     end
   end

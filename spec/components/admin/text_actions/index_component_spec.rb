@@ -151,7 +151,7 @@ RSpec.describe Admin::TextActions::IndexComponent, type: :component do
 
       expect(page).to have_css(
         "[data-test-selector='text-actions-disabled-banner']",
-        text: "All text actions are disabled. The text editor will not show the text action options at all."
+        text: I18n.t("admin.text_actions.index_component.disabled_warning")
       )
     end
 
