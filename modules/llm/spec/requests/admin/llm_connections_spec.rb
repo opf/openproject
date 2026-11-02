@@ -587,6 +587,21 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       end
     end
 
+    context "when the server rejects the stored key" do
+      let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
+      let(:new_base_url) { "https://other.example.com/v1" }
+      let!(:models_request) { mock_llm_models_response(new_base_url, response_code: 401) }
+
+      it "shows the rejection beside the masked field" do
+        patch llm_connection_path,
+              params: { llm_connection: { base_url: new_base_url, api_key: "" } },
+              headers: { "Accept" => "text/html" }
+
+        expect(page).to have_css("input[name='saved_api_key'][disabled]", visible: :all)
+        expect(response.body).to include("was rejected by the LLM server")
+      end
+    end
+
     context "when an API key is already stored" do
       let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
       let!(:models_request) { mock_llm_models_response(base_url) }

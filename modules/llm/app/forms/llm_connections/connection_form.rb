@@ -168,33 +168,34 @@ module LlmConnections
             classes: "FormControl-input-wrap FormControl-input-width--large"
           )
         ) do |flex|
-          flex.with_column(flex: 1) do
-            render(
-              Primer::Alpha::TextField.new(
-                name: :saved_api_key,
-                label: LlmConnection.human_attribute_name(:api_key),
-                input_width: :large,
-                disabled: true,
-                value: "*********"
-              )
-            )
-          end
-          flex.with_column(ml: 2) do
-            render(
-              Primer::Beta::IconButton.new(
-                icon: :trash,
-                scheme: :danger,
-                size: :medium,
-                tag: :a,
-                href: url_helpers.delete_api_key_dialog_llm_connection_path,
-                "aria-label": I18n.t("admin.llm_connections.form.api_key_remove"),
-                data: { controller: "async-dialog" },
-                test_selector: "llm-connection--remove-api-key"
-              )
-            )
-          end
+          flex.with_column(flex: 1) { render(masked_api_key_field) }
+          flex.with_column(ml: 2) { render(remove_api_key_button) }
         end
       end
+    end
+
+    def masked_api_key_field
+      Primer::Alpha::TextField.new(
+        name: :saved_api_key,
+        label: LlmConnection.human_attribute_name(:api_key),
+        input_width: :large,
+        disabled: true,
+        value: "*********",
+        validation_message: model.errors.full_messages_for(:api_key).first
+      )
+    end
+
+    def remove_api_key_button
+      Primer::Beta::IconButton.new(
+        icon: :trash,
+        scheme: :danger,
+        size: :medium,
+        tag: :a,
+        href: url_helpers.delete_api_key_dialog_llm_connection_path,
+        "aria-label": I18n.t("admin.llm_connections.form.api_key_remove"),
+        data: { controller: "async-dialog" },
+        test_selector: "llm-connection--remove-api-key"
+      )
     end
 
     def api_key_caption
