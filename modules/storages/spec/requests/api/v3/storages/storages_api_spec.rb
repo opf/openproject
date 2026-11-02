@@ -134,6 +134,27 @@ RSpec.describe "API v3 storages resource", :storage_server_helpers, :webmock, co
       post path, params.to_json
     end
 
+    context "with an unrelated class as the provider type" do
+      let(:type) { "urn:openproject-org:api:v3:storages:PreviousCloud" }
+
+      shared_examples "rejects an unrelated provider class" do
+        it "does not resolve or instantiate the requested class" do
+          last_response
+          expect(last_response.status).to eq 422
+        end
+      end
+
+      context "as an admin" do
+        let(:current_user) { admin }
+
+        it_behaves_like "rejects an unrelated provider class"
+      end
+
+      context "as a non-admin" do
+        it_behaves_like "rejects an unrelated provider class"
+      end
+    end
+
     context "as admin" do
       let(:current_user) { admin }
 

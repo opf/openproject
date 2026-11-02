@@ -56,13 +56,20 @@ module Storages::Storages
       service_call
     end
 
-    # @override BaseServices::Create#instance to return a Storages::{ProviderType}Storage class name
-    # At this stage, the model contract has already been validated, so we can be sure of the provider_type presence
-    # @example instance_klass = Storages::NextcloudStorage
-    #
-    def instance(params)
-      instance_klass = params[:provider_type].constantize
-      instance_klass.new
+    def validate_params
+      return super if provider_class
+
+      storage = ::Storages::Storage.new
+      storage.errors.add(:provider_type, :inclusion)
+      ServiceResult.failure(result: storage)
+    end
+
+    def instance(_params)
+      provider_class.new
+    end
+
+    def provider_class
+      ::Storages::Storage.provider_types.values.find { it.name == params[:provider_type] }
     end
 
     def create_oauth_app?
