@@ -439,9 +439,7 @@ Rails.application.reloader.to_prepare do
                        "work_package_types/form_configuration_tab": %i[edit toggle_required change_dialog change],
                        "work_package_types/project_attributes_tab":
                          %i[edit toggle enable_all_of_section disable_all_of_section],
-                       "work_package_types/workflow_tab":
-                         %i[edit change_dialog change create configure_dialog configure
-                            start_dialog start],
+                       "work_package_types/workflow_tab": %i[edit change_dialog change],
                        "work_package_types/pdf_export_template":
                          %i[edit toggle move enable_all disable_all update_artefact_export
                             edit_settings update_settings],
@@ -449,9 +447,7 @@ Rails.application.reloader.to_prepare do
                        "work_package_types/configuration_links": %i[dialog confirm switch],
                        "work_package_types/configuration_independence": %i[dialog confirm switch],
                        "work_package_types/configuration_copies": %i[dialog confirm copy],
-                       "workflows/matrix": %i[show update status_dialog confirm_statuses],
-                       "workflows/copies": %i[new],
-                       "workflows/copies/from_roles": %i[create]
+                       "workflows/matrix": %i[show]
                      },
                      permissible_on: :project,
                      require: :member

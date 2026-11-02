@@ -36,7 +36,7 @@ RSpec.describe Member do
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
 
-  subject(:member) { build(:global_member, user:, roles: [global_role]) }
+  subject(:member) { build(:global_member, principal: user, roles: [global_role]) }
 
   describe "relations" do
     it { expect(member).to have_many(:member_roles).dependent(:destroy) }

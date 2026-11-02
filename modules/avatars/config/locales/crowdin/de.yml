@@ -4,19 +4,19 @@ de:
   avatar_deleted: Profilbild erfolgreich gelöscht.
   avatars:
     background_color_hint: Leave blank for an automatic color.
-    delete_image: Delete image
-    edit_avatar: Edit avatar
+    delete_image: Bild löschen
+    edit_avatar: Avatar bearbeiten
     image_hint: Choose a JPG, PNG, or GIF. Your image is saved when you select Save.
     image_required: Choose an image, or select a different avatar option.
-    label_avatar_text: Avatar text
-    label_background_color: Background color
+    label_avatar_text: Avatartext
+    label_background_color: Hintergrundfarbe
     label_gravatar: Gravatar
     label_local_avatar: Selbsterstelltes Profilbild
-    label_option: Avatar option
+    label_option: Avataroption
     manage_gravatar: Manage your image on Gravatar
     message_avatar_updated: Avatar changed successfully.
-    preview: Preview
-    randomize_color: Randomize color
+    preview: Vorschau
+    randomize_color: Farbe zufällig auswählen
     settings:
       enable_gravatars: Aktiviere Gravatare
       enable_local_avatars: Selbsterstellte Profilbilder aktivieren
@@ -30,10 +30,10 @@ de:
         label: Gravatar
       image:
         description: A custom image you can upload to this instance
-        label: Image
+        label: Bild
       initials:
         description: Use your name's initials or override them with up to two characters.
-        label: Initials
+        label: Initialen
   empty_file_error: Bitte laden Sie ein gültiges Bild hoch (JPG, PNG, GIF)
   error_image_size: Das Bild ist zu groß.
   error_image_upload: Fehler beim Speichern des Bildes.

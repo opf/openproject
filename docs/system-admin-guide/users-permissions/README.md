@@ -11,8 +11,9 @@ In this section of the System Administration guide you can learn how to manage u
 
 ## Overview
 
-| Topic                                      | Content                                                      |
-| ------------------------------------------ | :----------------------------------------------------------- |
+| Topic                                     | Content                                                          |
+|-------------------------------------------|:-----------------------------------------------------------------|
+| [User lifecycle overview](user-lifecycle) | An overview of how users are created and deleted in OpenProject. |
 | [Settings](settings)                       | Configure user settings, e.g. default language, time zone, and more. |
 | [Users](users)                             | Manage users: View all users, invite new users, lock users, and more. |
 | [User attributes](user-attributes)         | Create and manage user attributes.                           |

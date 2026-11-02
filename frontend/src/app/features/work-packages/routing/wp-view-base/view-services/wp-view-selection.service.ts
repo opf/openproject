@@ -34,7 +34,7 @@ import { WorkPackageViewBaseService } from 'core-app/features/work-packages/rout
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 
-import { BatchSelection, SelectionItem, selectionKey } from 'core-common/batch-selection';
+import { BatchSelection, SelectionItem, SelectionKey, selectionKey } from 'core-common/batch-selection';
 import {
   anchoredOccurrence,
   occurrenceRangeIds,
@@ -87,6 +87,7 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
   }
 
   public isSelected(id:string):boolean { return this.model.has(this.item(id)); }
+  public get selectionKeys():ReadonlySet<SelectionKey> { return this.model.keys; }
   public get selectionCount():number { return this.model.size; }
   public get isEmpty():boolean { return this.model.size === 0; }
   public get hasSelectionState():boolean { return this.model.size > 0 || this.model.anchor !== null; }
@@ -160,13 +161,15 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
     this.publish();
   }
 
-  public selectAll(rows:RenderedWorkPackage[], requestedAnchor?:RenderedWorkPackage):void {
+  /** `requestedAnchor === null`: no anchor (any existing one is cleared). `undefined`: legacy first-selectable fallback. */
+  public selectAll(rows:RenderedWorkPackage[], requestedAnchor?:RenderedWorkPackage|null):void {
     const selectable = selectableOccurrences(rows);
-    const anchor = selectAllAnchor(selectable, requestedAnchor);
-    if (!anchor) return;
-    this.model.selectAll(selectable.map((candidate) => this.item(candidate.workPackageId!)), {
-      ...this.item(anchor.workPackageId!), listKey: 'view', occurrenceKey: anchor.classIdentifier,
-    });
+    if (selectable.length === 0) return;
+    const anchor = requestedAnchor === null ? null : selectAllAnchor(selectable, requestedAnchor)!;
+    this.model.selectAll(
+      selectable.map((candidate) => this.item(candidate.workPackageId!)),
+      anchor && { ...this.item(anchor.workPackageId!), listKey: 'view', occurrenceKey: anchor.classIdentifier },
+    );
     this.publish();
     this.opContextMenu.close();
   }

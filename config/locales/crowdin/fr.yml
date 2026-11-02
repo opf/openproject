@@ -75,6 +75,7 @@ fr:
     omniauth_login: Veuillez vous connecter pour activer votre compte.
     signup_title: Créer un compte sur %{app_title}
     signup_with_external_account: S'inscrire avec un compte externe
+    username_or_email: Username or email
   actionview_instancetag_blank_option: Veuillez sélectionner
   activemodel:
     attributes:
@@ -953,8 +954,6 @@ fr:
               invalid_tokens: Un ou plusieurs attributs dans le champ ne sont pas valides. Veuillez corriger les attributs avant d'enregistrer.
             variant:
               must_belong_to_the_type: doit s'agir d'une variante de ce type.
-            workflow:
-              not_available_to_this_variant: doit être un flux de travail que ce projet peut utiliser.
         user:
           attributes:
             base:
@@ -1038,6 +1037,8 @@ fr:
             identifier:
               must_not_be_changed: 'ne doit pas être modifié manuellement. Les identifiants des lots de travaux sont attribués automatiquement et résolus via la table des alias ; les modifier manuellement rompt donc les liens et l''historique des identifiants. Si cette modification est intentionnelle, enregistrez avec save(context: %{context}) et veillez à la cohérence de la table work_package_semantic_aliases.'
               semantic_identifier_incomplete: et sequence_number doivent être définis en même temps.
+            labels:
+              too_many: can't include more than %{count} new labels.
             observed_in_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
@@ -1666,10 +1667,16 @@ fr:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
+          JiraCreateParentChildRelationsFromSubtasksJob:
+            title: Create parent-child relations for '%{jira_project_name}'
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Créer un rôle de projet 'JiraMember'
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1828,7 +1835,7 @@ fr:
                   subtitle: Impliqués dans les projets importés
                 work_packages:
                   label: Lots de travaux
-                  subtitle: Avec pièces jointes
+                  subtitle: With attachments and logged time
               title: Résultats du cycle d'importation
             import_scope:
               button_continue: Continuer
@@ -1845,6 +1852,7 @@ fr:
                 issue_details: Description, historique, commentaires et pièces jointes du ticket
                 issue_ids: Identifiants de tickets
                 issues: Tickets
+                logged_time: Logged time
                 permissions: Permissions
                 project_ids: Identifiants de projet
                 project_versions: Versions du projet
@@ -1877,6 +1885,12 @@ fr:
             '1':
               rest_line_text: ''
               title: Récupérer la configuration de Jira
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
+            '11':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
             '2':
               rest_line_text: Récupération les tickets et les versions pour %{projects_number} projets supplémentaires
               title: Récupérer les tickets et les versions du projet
@@ -1899,8 +1913,8 @@ fr:
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
             '9':
-              rest_line_text: Downloading attachments for %{projects_number} more projects
-              title: Télécharger les pièces jointes
+              rest_line_text: Creating parent-child relations from subtasks for %{projects_number} more projects
+              title: Create parent-child relations from subtasks
       test:
         api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
         basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
@@ -2208,10 +2222,11 @@ fr:
         save: Enregistrer les modifications et continuer
         title: Enregistrer les modifications avant de continuer ?
       read_only:
-        edit_action: Modifier le flux de travail
-        text_html: 'Vous utilisez actuellement un workflow existant. Pour y apporter des modifications, vous pouvez soit modifier le workflow d''origine, soit cliquer sur <b> « + %{action}» </b> ci-dessus pour en créer un nouveau.
+        edit_action: Edit this workflow
+        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
+        title: Important changes
       role_selector:
         label: 'Rôle : %{role}'
         no_role: Sélectionner un rôle
@@ -2248,7 +2263,9 @@ fr:
     text_transform:
       errors:
         connection_failed: Impossible de joindre le service d'IA.
+        context_too_long: The text is too long for the AI model. Shorten it and try again.
         not_available: L'assistant IA n'est pas disponible.
+        rate_limited: The AI service is busy. Try again in a moment.
         timeout: Le service d'IA n'a pas répondu à temps.
         upstream_error: Le service d'IA a renvoyé une erreur.
       pane:
@@ -2340,6 +2357,7 @@ fr:
       schema: Schéma
     undisclosed:
       ancestor: Non divulgué - l'ancêtre est invisible en raison d'un manque de permissions.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Non divulgué - Le projet est invisible parce qu'il n'a pas les autorisations nécessaires.
       definingWorkspace: Non divulgué - L'espace de travail est invisible parce qu'il n'a pas les autorisations nécessaires.
       parent: Non divulgué - Le parent est invisible parce qu'il n'a pas les autorisations nécessaires.
@@ -3562,10 +3580,11 @@ fr:
       title: Configurer un nouveau formulaire
     tab:
       read_only:
-        banner_html: 'Vous utilisez un formulaire existant. Pour y apporter des modifications, vous pouvez soit modifier le formulaire d''origine, soit cliquer sur <strong> « + Formulaire</strong> » ci-dessus pour en créer un nouveau.
+        edit_action: Edit this form
+        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        edit_action: Éditer un formulaire
+        title: Important changes
     usage:
       dialog:
         button: Afficher les types dépendants
@@ -3831,6 +3850,7 @@ fr:
       total_percent_complete_mode_changed_to_work_weighted_average: Les lots de travaux enfants sans travail sont ignorés.
       unaccessable_work_package_changed: par changement vers un lot de travaux connexe
       work_package_children_changed_times: par changement vers l'enfant %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: Le statut a été mis à jour automatiquement par le doublon de lot de travaux %{link}
       work_package_parent_changed_times: par changement vers le parent %{link}
       work_package_parent_deleted: car le lot de travaux parent a été supprimé
@@ -3846,6 +3866,7 @@ fr:
           working: "%{day} est maintenant un jour ouvrable"
     caused_changes:
       budget_deleted: Le budget a été supprimé
+      comment_retracted: Comment retracted
       dates_changed: Dates modifiées
       default_attribute_written: Attributs en lecture seule écrits
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
@@ -3863,6 +3884,7 @@ fr:
       system_update: 'Mise à jour du système OpenProject :'
       total_percent_complete_mode_changed_to_simple_average: Le calcul des totaux de % réalisé est désormais basé sur une simple moyenne des seules valeurs de % réalisé.
       total_percent_complete_mode_changed_to_work_weighted_average: Le calcul des totaux de % réalisé est désormais pondéré par le travail.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'Doublon de lot de travaux mis à jour :'
       work_package_parent_deleted: Parent retiré
     changes_retracted: Les modifications ont été retirées.
@@ -4181,6 +4203,7 @@ fr:
   label_interface_colors_description: 'Ces couleurs contrôlent l''apparence de l''application. Si vous les modifiez, le thème sera automatiquement remplacé par le thème personnalisé, mais nous ne pouvons pas garantir la conformité aux normes minimales d''accessibilité (WCAG 2.1). '
   label_internal: Interne
   label_introduction_video: Vidéo de démarrage
+  label_invalid_file_type: This file type is not supported.
   label_invitation: Invitation
   label_invite_user: Inviter utilisateur
   label_item: Élément
@@ -5316,21 +5339,20 @@ fr:
           tb: To
   oauth:
     application:
+      basic_details: Basic details
       builtin: Application d'instance intégrée
       client_credentials: Informations d'identification du client
       confidential: Confidentiel
-      default_scopes: "(Portée par défaut)"
       instructions:
-        client_credential_user_id: ID utilisateur facultatif à emprunter lorsque les clients utilisent cette application. Laisser vide pour permettre l'accès public uniquement
-        confidential: Vérifiez si l'application sera utilisée dans un endroit où la clé secrète du client restera confidentielle. Les applications mobiles natives et les applications à page unique sont considérées comme non confidentielles.
-        default_scopes: ''
-        enabled: Activez cette application et permettez aux utilisateurs de l'utiliser pour attribuer des autorisations.
-        name: Le nom de votre application. Ceci sera affiché aux autres utilisateurs sur autorisation.
-        redirect_uri_html: 'Les URL autorisées où peuvent être redirigés les utilisateurs. Une entrée par ligne. <br/> Si vous enregistrez une application de bureau, utilisez l''URL suivante.
+        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
+        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
+        enabled: Enable this application, allowing it to obtain access tokens.
+        name: The name of your application. This will be displayed to users upon authorization.
+        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
 
           '
-        register_intro: Si vous développez une application client OAuth API pour OpenProject, vous pouvez l'enregistrer en utilisant ce formulaire pour qu'elle soit utilisée par tous les utilisateurs.
-        scopes: Vérifiez les portées auxquelles vous voulez que l'application accorde l'accès. Si aucune portée n'est cochée, api_v3 est supposé.
+        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
       named: Application OAuth '%{name}'
       new: Nouvelle application Oauth
       non_confidential: Non confidentiel
@@ -5347,7 +5369,7 @@ fr:
         '
     authorization_error: Une erreur d'autorisation s'est produite.
     client_credentials: Utilisateur utilisé pour les informations d'identification client
-    client_credentials_impersonation_html: 'Par défaut, OpenProject fournit l''autorisation OAuth 2.0 via %{authorization_code_flow_link}. Vous pouvez activer optionnellement %{client_credentials_flow_link}, mais vous devez fournir un utilisateur avec lequel les requêtes de nom seront effectuées.
+    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
 
       '
     client_credentials_impersonation_set_to: Utilisateur d'informations d'identification client défini sur
@@ -5373,9 +5395,12 @@ fr:
       other_applications: Autres applications OAuth
     my_registered_applications: Applications OAuth enregistrées
     scopes:
-      api_v3: Accès complet à l'API v3
+      api_v3: Access to APIv3
       api_v3_text: L'application recevra un accès complet en lecture et écriture à l'API v3 d'OpenProject pour effectuer des actions en votre nom.
-      mcp: Accès au MCP
+      explanations_admin:
+        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Access to Model Context Protocol
       mcp_text: L'application aura accès aux points de terminaison MCP d'OpenProject. Il s'agit d'un sous-ensemble limité de l'APIv3, adapté à une utilisation avec des agents d'IA.
   oauth_client:
     errors:
@@ -5485,16 +5510,15 @@ fr:
       parent: Parent
       short: Nom abrégé
       weight: Poids
+  op_primer:
+    work_package_card_component:
+      drag_handle:
+        label: Drag to reorder
+      menu:
+        label_actions: Work package actions
+      parent: Parent
+      undisclosed: Undisclosed
   open_link_in_a_new_tab: Ouvrir le lien dans un nouvel onglet
-  open_project:
-    common:
-      work_package_card_component:
-        drag_handle:
-          label: Faire glisser
-        menu:
-          label_actions: Actions du lot de travaux
-        parent: Parent
-        undisclosed: Non divulgué
   page:
     text: Texte
   pagination:
@@ -7366,9 +7390,6 @@ fr:
         text: 'Cette variante propre au projet sera convertie en variante globale disponible pour tous les projets. L''administrateur du projet ne pourra plus la modifier.
 
           '
-        workflow_text: 'Son flux de travail « %{name} » appartient à ce projet et deviendra lui aussi global.
-
-          '
       convert_to_global_notice: "%{name} est désormais une variante globale."
       convert_to_global_rename:
         confirm: Convertir
@@ -7700,9 +7721,6 @@ fr:
       note_placeholder: Pourquoi définissez-vous ce rappel ?
       success_deletion_message: Rappel supprimé avec succès.
       success_update_message: Rappel mis à jour avec succès.
-    updated_automatically_by_child_changes: '_Mis à jour automatiquement en changeant les valeurs dans le lot de travaux enfant %{child}_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: Ajoutez des relations à d'autres lots de travaux pour créer un lien entre eux.

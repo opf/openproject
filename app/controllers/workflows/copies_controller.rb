@@ -43,7 +43,7 @@ class Workflows::CopiesController < ApplicationController
 
   private
 
-  def standalone? = params[:workflow_id].present?
+  def standalone? = variant_scope_project.nil? && params[:workflow_id].present?
 
   def set_source_variant
     @source_variant = addressed_variant unless standalone?
@@ -61,7 +61,7 @@ class Workflows::CopiesController < ApplicationController
     if standalone?
       workflow_copy_from_role_path(workflow, source_role_id: @source_role&.id)
     else
-      variant_workflow_copy_from_role_path(variant_scope_project, @source_variant, source_role_id: @source_role&.id)
+      variant_workflow_copy_from_role_path(@source_variant, source_role_id: @source_role&.id)
     end
   end
 

@@ -37,6 +37,9 @@ export class WorkPackageTableConfiguration {
   /** Render the action column (last column) with the actions defined in the TableActionsService */
   public actionsColumnEnabled = true;
 
+  /** Whether the table is navigable by keyboard through a roving tabindex */
+  public keyboardNavigationEnabled = false;
+
   /** Whether the work package context menu is enabled */
   public contextMenuEnabled = true;
 

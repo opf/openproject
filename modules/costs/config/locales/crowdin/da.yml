@@ -24,10 +24,10 @@ da:
   activerecord:
     attributes:
       cost_entry:
-        entity: Logget til
-        entity_gid: Logget til
-        entity_id: Logget til
-        logged_by: Logget af
+        entity: Registreret for
+        entity_gid: Registreret for
+        entity_id: Registreret for
+        logged_by: Registreret af
         overridden_costs: Tilsidesatte omkostninger
         spent: Forbrugt
         spent_on: Dato
@@ -44,9 +44,9 @@ da:
         activity: Aktivitet
         comments: Kommentar
         end_time: Sluttidspunkt
-        entity: Logget til
-        entity_gid: Logget til
-        entity_id: Logget til
+        entity: Registreret for
+        entity_gid: Registreret for
+        entity_id: Registreret for
         hours: Timer
         project: Projekt
         spent_on: Dato
@@ -118,11 +118,11 @@ da:
         one: Sats
         other: Satser
       time_entry:
-        one: Tidspunkt
-        other: Tidsangivelser
+        one: Tidsregistrering
+        other: Tidsregistreringer
       time_entry_activity:
-        one: Tidsregistrering af aktivitet
-        other: Tidsregistrering af aktiviteter
+        one: Aktivitet til tidsregistrering
+        other: Aktiviteter til tidsregistrering
       time_entry_custom_field:
         one: Brugerdefineret felt til tidsregistrering
         other: Brugerdefinerede felter til tidsregistrering
@@ -192,7 +192,7 @@ da:
           description: Få overblik over omkostninger og registreret tid, så du kan følge projektets fremdrift. Sørg for, at arbejdspakkerne er knyttet til det rigtige budget.
           heading: Begynd at registrere tid og omkostninger
         title: Faktiske omkostninger efter måned
-        view_details: Vis faktiske omkostningsdetaljer
+        view_details: Vis detaljer om faktiske omkostninger
   description_costs_settings: Definer det ønskede format for omkostningerne i alle projekter.
   description_date_for_new_rate: Dato for ny sats
   description_time_entry_restrictions: Fastlæg grænser for, hvornår en bruger kan registrere tid. Det gælder alle projekter.
@@ -245,7 +245,7 @@ da:
   label_start_and_finished: Start- og sluttider
   label_status_finished: Afsluttet
   label_time: Tidspunkt
-  label_time_entry_activity_form_description: Ændringer i denne tidsregistreringsaktivitet vil blive afspejlet i alle projekter, hvor den er aktiveret.
+  label_time_entry_activity_form_description: Ændringer i aktiviteten til tidsregistrering slår igennem i alle projekter, hvor den er aktiveret.
   label_time_entry_custom_field_plural: Brugerdefinerede felter til tidsregistrering
   label_time_entry_restrictions: Grænser
   label_today_capitalized: I dag
@@ -260,8 +260,8 @@ da:
   notice_something_wrong: Noget gik galt. Prøv igen.
   notice_successful_lock: Låst.
   notice_successful_restore: Gendannet.
-  notice_time_entry_delete_failed: 'Kunne ikke slette tidsregistreringen. Fejl: %{errors}'
-  notice_time_entry_update_failed: 'Kunne ikke opdatere tidsregistreringen. Fejl: %{errors}'
+  notice_time_entry_delete_failed: 'Tidsregistreringen kunne ikke slettes. Fejl: %{errors}'
+  notice_time_entry_update_failed: 'Tidsregistreringen kunne ikke opdateres. Fejl: %{errors}'
   permission_edit_cost_entries: Rediger registrerede enhedsomkostninger
   permission_edit_hourly_rates: Rediger timesatser
   permission_edit_own_cost_entries: Rediger egne registrerede enhedsomkostninger
@@ -279,7 +279,7 @@ da:
   permission_view_own_cost_entries: Vis egne registrerede omkostninger
   permission_view_own_hourly_rate: Vis egen timesats
   permission_view_own_time_entries: Vis eget tidsforbrug
-  placeholder_activity_select_work_package_first: Valg af arbejdspakke er påkrævet først
+  placeholder_activity_select_work_package_first: Vælg først en arbejdspakke
   plugin_costs:
     description: Modulet tilføjer funktioner til at planlægge og følge projekters omkostninger.
     name: Tid og omkostninger
@@ -287,7 +287,7 @@ da:
   setting_allow_tracking_start_and_end_times: Tillad start- og sluttider
   setting_allow_tracking_start_and_end_times_caption: Gør det muligt at angive start- og sluttider ved tidsregistrering.
   setting_costs_currency: Valuta
-  setting_costs_currency_caption: Dette er valutaenheden. Det kan være en trebogstavs ISO-kode, såsom EUR, USD eller JPY, eller et symbol, såsom €, $ eller ¥.
+  setting_costs_currency_caption: Valutaenheden. Det kan være en ISO-kode på tre bogstaver som EUR, USD eller JPY eller et symbol som €, $ eller ¥.
   setting_costs_currency_format: Valutaformat
   setting_costs_currency_format_prefix: Før tallet (fx EUR 100)
   setting_costs_currency_format_suffix: Efter tallet (fx 100 EUR)

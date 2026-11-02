@@ -18,3 +18,15 @@ The documentation for creating plugins is indeed limited at the moment. What we 
 ## Which gateway provider does OpenProject use for 2FA by SMS?
 
 We use MessageBird. At the moment this can't be changed.
+
+## Why does Docker report that database.yml exists?
+
+The Docker development setup requires `config/database.yml` to be absent. If you also use a native development environment, rename the file to keep its configuration before starting Docker. Follow the [Docker setup guide](../development-environment/docker/) for configuration and commands.
+
+## Why does the frontend Docker container exit with status 137?
+
+The container may have run out of memory. Check the container logs and increase Docker's memory allocation to at least 4 GB if memory exhaustion is the cause.
+
+## How do I repair missing frontend assets or a blank development page?
+
+For a configured native development environment, run `bin/setup_dev` to refresh dependencies, migrate the database, and clear stale compiled assets. Restart the development servers afterwards. For a Docker environment, use the [Docker setup commands](../development-environment/docker/) inside the containers.

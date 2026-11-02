@@ -52,7 +52,8 @@ module Backlogs
       query_props = {
         f: [{ n: "sprintId", o: "=", v: [sprint.id.to_s] }] + extra_filters,
         t: "position:asc",
-        c: default_columns | ["sprint"]
+        c: default_columns | ["sprint"],
+        is: false
       }
       if timestamps.present?
         query_props[:ts] = API::V3::Utilities::PathHelper::ApiV3Path.timestamps_to_param_value(timestamps)

@@ -171,7 +171,7 @@ RSpec.describe BudgetsController do
     before { login_as(current_user) }
 
     context "when the referenced user is a project member" do
-      let!(:hourly_rate) { create(:hourly_rate, user: project_member, project:, rate: 100.0, valid_from: Time.zone.today) }
+      let!(:hourly_rate) { create(:hourly_rate, principal: project_member, project:, rate: 100.0, valid_from: Time.zone.today) }
 
       it "calculates costs based on the member's hourly rate" do
         get :update_labor_budget_item,
@@ -247,7 +247,7 @@ RSpec.describe BudgetsController do
     end
 
     context "when the referenced user is not a project member" do
-      let!(:hourly_rate) { create(:hourly_rate, user: non_member, project:, rate: 100.0, valid_from: Time.zone.today) }
+      let!(:hourly_rate) { create(:hourly_rate, principal: non_member, project:, rate: 100.0, valid_from: Time.zone.today) }
 
       it "returns zero costs" do
         get :update_labor_budget_item,

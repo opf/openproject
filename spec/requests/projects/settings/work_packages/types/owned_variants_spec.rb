@@ -232,12 +232,69 @@ RSpec.describe "Configuring the variants a project owns",
     end
   end
 
-  describe "copying a workflow" do
-    # Opened as a dialog, so there is no HTML template for it in either mount.
-    it "opens the copy dialog" do
-      get new_project_type_variant_workflow_copy_path(**ours_in_project), as: :turbo_stream
+  describe "the workflow it uses" do
+    shared_let(:status_new) { create(:status, name: "New") }
+    shared_let(:status_closed) { create(:status, name: "Closed") }
+    shared_let(:role) { create(:project_role) }
+    shared_let(:other_workflow) { create(:named_workflow, name: "Somebody else's flow") }
+
+    let(:workflow_path) { "#{type_in_project}/variants/#{ours.id}/workflow" }
+    let(:transition_params) { { role_ids: [role.id], status: { status_new.id.to_s => { status_closed.id.to_s => "1" } } } }
+
+    before { ours.update!(workflow: create(:named_workflow, name: "Ours flow")) }
+
+    it "opens the matrix" do
+      get project_type_variant_workflow_matrix_path(**ours_in_project), headers: { "Turbo-Frame" => "workflow-table" }
 
       expect(response).to have_http_status(:ok)
+    end
+
+    it "shows the variant's own workflow when another one is named" do
+      foreign_status = create(:status, name: "Only in somebody else's flow")
+      create(:status_transition, workflow: other_workflow, role:, old_status: status_new, new_status: foreign_status)
+
+      get project_type_variant_workflow_matrix_path(**ours_in_project, workflow_id: other_workflow.id, role_ids: [role.id]),
+          headers: { "Turbo-Frame" => "workflow-table" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include("Only in somebody else&#39;s flow")
+    end
+
+    it "has no address for saving the matrix" do
+      expect { patch "#{workflow_path}/matrix", params: transition_params }
+        .to raise_error(ActionController::RoutingError)
+    end
+
+    it "has no address for saving the matrix of another workflow" do
+      expect { patch "#{workflow_path}/matrix", params: { workflow_id: other_workflow.id, **transition_params } }
+        .to raise_error(ActionController::RoutingError)
+    end
+
+    it "has no address for the status dialog" do
+      expect { get "#{workflow_path}/matrix/status_dialog" }.to raise_error(ActionController::RoutingError)
+    end
+
+    it "has no address for copying transitions between roles" do
+      expect { get "#{workflow_path}/copy/new" }.to raise_error(ActionController::RoutingError)
+      expect { post "#{workflow_path}/copy/from_role", params: { workflow_id: other_workflow.id } }
+        .to raise_error(ActionController::RoutingError)
+    end
+
+    it "has no address for starting a new workflow" do
+      expect { get "#{workflow_path}/start_dialog" }.to raise_error(ActionController::RoutingError)
+      expect { post "#{workflow_path}/start" }.to raise_error(ActionController::RoutingError)
+    end
+
+    it "does not save transitions from the wizard's workflows step" do
+      expect do
+        patch project_type_variant_creation_wizard_path(**ours_in_project, step: "workflows"), params: transition_params
+      end.not_to change(Workflows::StatusTransition, :count)
+    end
+
+    it "switches to another workflow" do
+      patch change_project_type_variant_workflow_path(**ours_in_project, workflow_id: other_workflow.id, confirmed: true)
+
+      expect(ours.reload.workflow).to eq(other_workflow)
     end
   end
 

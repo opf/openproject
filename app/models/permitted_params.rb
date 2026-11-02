@@ -143,18 +143,6 @@ class PermittedParams
     params.require(:member).permit(*self.class.permitted_attributes[:member])
   end
 
-  def oauth_application
-    params.require(:application).permit(*self.class.permitted_attributes[:oauth_application]).tap do |app_params|
-      scopes = app_params[:scopes]
-
-      if scopes.present?
-        app_params[:scopes] = scopes.compact_blank.join(" ")
-      end
-
-      app_params
-    end
-  end
-
   def query
     # there is a weird bug in strong_parameters gem which makes the permit call
     # on the sort_criteria pattern return the sort_criteria-hash contents AND
@@ -595,14 +583,6 @@ class PermittedParams
           { observed_in_version_ids: [] },
           { label_ids: [] },
           :priority_id
-        ],
-        oauth_application: [
-          :name,
-          :redirect_uri,
-          :confidential,
-          :enabled,
-          :client_credentials_user_id,
-          { scopes: [] }
         ],
         placeholder_user: %i(
           name

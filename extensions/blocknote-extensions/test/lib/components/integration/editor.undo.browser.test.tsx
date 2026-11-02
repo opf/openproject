@@ -18,11 +18,11 @@ describe('Undo (Ctrl+Z)', () => {
     const editor = page.getByRole('textbox');
     await userEvent.click(editor);
     await userEvent.type(editor, 'hello');
-    await expect.element(editor).toHaveTextContent('hello');
+    await expect.element(editor).toMatchTextContent('hello');
 
     await ctrl_z();
 
-    await expect.element(editor).not.toHaveTextContent('hello');
+    await expect.element(editor).not.toMatchTextContent('hello');
   });
 
   it('multiple undos work sequentially', async () => {
@@ -34,11 +34,11 @@ describe('Undo (Ctrl+Z)', () => {
     await userEvent.type(editor, 'second');
 
     await ctrl_z(); 
-    await expect.element(editor).not.toHaveTextContent('second');
+    await expect.element(editor).not.toMatchTextContent('second');
 
     await ctrl_z(); 
     await ctrl_z(); 
-    await expect.element(editor).not.toHaveTextContent('first');
+    await expect.element(editor).not.toMatchTextContent('first');
   });
 
   it('undoes chip inserted via slash menu — chip is gone', async () => {
@@ -97,13 +97,13 @@ describe('Undo (Ctrl+Z)', () => {
     await expect.element(page.getByTestId('block-card')).toBeVisible();
 
     await openBlockCardSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Regular', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Regular', exact: true }));
     await expect.element(page.getByTestId('block-card')).not.toBeInTheDocument();
 
     await ctrl_z();
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
-    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    await expect.element(page.getByText('Fix login bug', { exact: true })).toBeVisible();
   });
 
   it('undoes inline size change (S -> XS) — status is visible again', async () => {
@@ -112,7 +112,7 @@ describe('Undo (Ctrl+Z)', () => {
     await expect.element(page.getByText('In Progress')).toBeVisible();
     await new Promise(r => setTimeout(r, 600));
     await openInlineWorkPackageSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Compact', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Compact', exact: true }));
     await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
 
     await ctrl_z();
@@ -128,9 +128,9 @@ describe('Undo (Ctrl+Z)', () => {
     await userEvent.type(editor, 'hello');
 
     await ctrl_z();
-    await expect.element(editor).not.toHaveTextContent('hello');
+    await expect.element(editor).not.toMatchTextContent('hello');
 
     await userEvent.keyboard('{Control>}y{/Control}');
-    await expect.element(editor).toHaveTextContent('hello');
+    await expect.element(editor).toMatchTextContent('hello');
   });
 });

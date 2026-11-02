@@ -42,8 +42,8 @@ RSpec.describe "Cost report calculations", :js do
   end
 
   let(:work_package) { create(:work_package, project:) }
-  let!(:hourly_rate_admin) { create(:default_hourly_rate, user: admin, rate: 1.00, valid_from: 1.year.ago) }
-  let!(:hourly_rate_user) { create(:default_hourly_rate, user:, rate: 1.00, valid_from: 1.year.ago) }
+  let!(:hourly_rate_admin) { create(:default_hourly_rate, principal: admin, rate: 1.00, valid_from: 1.year.ago) }
+  let!(:hourly_rate_user) { create(:default_hourly_rate, principal: user, rate: 1.00, valid_from: 1.year.ago) }
 
   let(:report_page) { Pages::CostReportPage.new project }
 

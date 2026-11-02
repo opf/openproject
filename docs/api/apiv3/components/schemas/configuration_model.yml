@@ -2,25 +2,128 @@
 ---
 type: object
 properties:
+  _type:
+    type: string
+    enum:
+      - Configuration
   maximumAttachmentFileSize:
     type: integer
     description: The maximum allowed size of an attachment in Bytes
-    readOnly: true
+  maximumAPIV3PageSize:
+    type: integer
+    description: The maximum allowed page size for API v3 collections
+  perPageOptions:
+    type: array
+    description: Page size steps to be offered in UI for paginated lists
+    items:
+      type: integer
   hostName:
     type: string
     description: The host name configured for the system
-    readOnly: true
-  perPageOptions:
-    type: array
-    description: Page size steps to be offered in paginated list UI
-    items:
-      type: integer
   durationFormat:
-    type: string
+    type:
+      - string
+      - "null"
     description: The format used to display Work, Remaining Work, and Spent time durations
-    readOnly: true
+    enum:
+      - null
+      - days_and_hours
+      - hours_only
+  dateFormat:
+    type:
+      - string
+      - "null"
+    description: The format used to display dates in UI
+    enum:
+      - null
+      - "%Y-%m-%d"
+      - "%d/%m/%Y"
+      - "%d.%m.%Y"
+      - "%d-%m-%Y"
+      - "%m/%d/%Y"
+      - "%d %b %Y"
+      - "%d %B %Y"
+      - "%b %d, %Y"
+      - "%B %d, %Y"
+  timeFormat:
+    type:
+      - string
+      - "null"
+    description: The format used to display time values
+    enum:
+      - null
+      - "%H:%M"
+      - "%I:%M %p"
+  userDefaultTimezone:
+    type:
+      - string
+      - "null"
+    description: The default timezone for users, who does not have a timezone set for themselves
+  startOfWeek:
+    type:
+      - integer
+      - "null"
+    description: The first day of the week. Can be Monday (1), Saturday (6), or Sunday (7)
+    enum:
+      - null
+      - 1
+      - 6
+      - 7
+  hoursPerDay:
+    type:
+      - integer
+      - "null"
+    description: The number of hours each working day
+  daysPerMonth:
+    type:
+      - integer
+      - "null"
+    description: The number of days that are considered a month for a more natural way of displaying durations
   activeFeatureFlags:
     type: array
     description: The list of all feature flags that are active
     items:
       type: string
+  availableFeatures:
+    type: array
+    description: The list of features that are active due to the current subscription plan
+    items:
+      type: string
+  triallingFeatures:
+    type: array
+    description: The list of features that are active due to the current trial phase
+    items:
+      type: string
+  allowedLinkProtocols:
+    type: array
+    description: The list of allowed URL schemas for links
+    items:
+      type: string
+  wikisAvailable:
+    type: boolean
+    description: |-
+      True, if wiki functionality is enabled globally.
+      False, if it is deactivated - e.g. because external wikis should be used.
+  _embedded:
+    type: object
+    properties:
+      userPreferences:
+        $ref: "./user_preferences_model.yml"
+  _links:
+    type: object
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: This configuration resource.
+      userPreferences:
+        allOf:
+          - $ref: './link.yml'
+          - description: The user preferences of the currently authenticated user.
+      prepareAttachment:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Request an upload link.
+              
+              **Condition:** `direct_uploads` is enabled

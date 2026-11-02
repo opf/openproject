@@ -51,14 +51,7 @@ module WorkPackageTypes
       end
 
       def description
-        safe_join([t("types.index.convert_to_global_dialog.text"), workflow_note].compact, " ")
-      end
-
-      def workflow_note
-        workflow = variant.workflow
-        return unless workflow&.project_specific?
-
-        t("types.index.convert_to_global_dialog.workflow_text", name: workflow.name)
+        t("types.index.convert_to_global_dialog.text")
       end
     end
   end

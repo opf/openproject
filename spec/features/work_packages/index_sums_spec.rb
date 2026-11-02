@@ -83,7 +83,7 @@ RSpec.describe "Work package index sums", :js do
   # labor costs
   let!(:hourly_rate) do
     create(:default_hourly_rate,
-           user:,
+           principal: user,
            rate: 10.00)
   end
   let!(:time_entry) do
