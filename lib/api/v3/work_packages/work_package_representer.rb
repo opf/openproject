@@ -603,7 +603,7 @@ module API
                              getter: ->(*) {
                                next unless embed_link?(:labels)
 
-                               represented.effective_labels.reject(&:new_record?).map do |label|
+                               represented.effective_labels.select(&:persisted?).map do |label|
                                  ::API::V3::Labels::LabelRepresenter.create(label, current_user:)
                                end
                              },

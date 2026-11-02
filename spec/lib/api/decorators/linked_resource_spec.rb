@@ -181,6 +181,36 @@ RSpec.describe API::Decorators::LinkedResource do
         expect(json).to have_json_path("_embedded/things/0")
       end
     end
+
+    context "with a custom collection method and no explicit representer" do
+      include API::V3::Utilities::PathHelper
+
+      let(:representer_class) do
+        Class.new(API::Decorators::Single) do
+          include API::Decorators::LinkedResource
+
+          associated_resources :users, collection: :visible_users
+        end
+      end
+      let(:model) do
+        visible_user = current_user
+        Class.new do
+          define_method(:visible_users) { [visible_user] }
+          def users = raise("users should not be read")
+        end.new
+      end
+
+      subject(:json) do
+        representer_class
+          .new(model, current_user:, embed_links: %i[users])
+          .to_json
+      end
+
+      it "resolves the representer and link path from the resource name" do
+        expect(json).to be_json_eql(api_v3_paths.user(current_user.id).to_json).at_path("_links/users/0/href")
+        expect(json).to be_json_eql("User".to_json).at_path("_embedded/users/0/_type")
+      end
+    end
   end
 
   describe ".associated_visible_resource" do
