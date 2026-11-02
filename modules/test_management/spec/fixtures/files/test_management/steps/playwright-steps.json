@@ -1,0 +1,60 @@
+{
+  "config": { "rootDir": "/work/e2e" },
+  "suites": [
+    {
+      "title": "checkout.spec.ts",
+      "file": "checkout.spec.ts",
+      "specs": [
+        {
+          "title": "pays by card",
+          "tags": [],
+          "tests": [
+            {
+              "projectName": "chromium",
+              "status": "unexpected",
+              "annotations": [{ "type": "tm_case", "description": "__CASE_ID__" }],
+              "results": [
+                {
+                  "status": "failed",
+                  "duration": 4200,
+                  "retry": 0,
+                  "error": { "message": "\u001b[31mTimed out waiting for the receipt\u001b[39m", "stack": "Error: Timed out waiting for the receipt\n    at checkout.spec.ts:21:7" },
+                  "attachments": [{ "name": "screenshot", "contentType": "image/png", "path": "/work/e2e/test-results/checkout-chromium/receipt.png" }],
+                  "steps": [
+                    { "title": "[step:1] Open the cart", "duration": 800, "steps": [] },
+                    { "title": "[step:2] Enter the card number", "duration": 1100,
+                      "steps": [ { "title": "Fill the card field", "duration": 300 } ] },
+                    { "title": "[step:3] Confirm the payment", "duration": 2300,
+                      "error": { "message": "Timed out waiting for the receipt", "stack": "Error: Timed out waiting for the receipt\n    at checkout.spec.ts:21:7" } }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "shows the basket total",
+          "tags": [],
+          "tests": [
+            {
+              "projectName": "chromium",
+              "status": "expected",
+              "annotations": [{ "type": "tm_case", "description": "__CASE2_ID__" }],
+              "results": [
+                {
+                  "status": "passed",
+                  "duration": 900,
+                  "retry": 0,
+                  "steps": [
+                    { "title": "Open the basket page", "duration": 400 },
+                    { "title": "Check the total amount", "duration": 500 }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

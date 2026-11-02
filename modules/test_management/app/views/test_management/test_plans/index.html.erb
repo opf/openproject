@@ -1,0 +1,64 @@
+<% html_title(t("test_management.plans.title")) %>
+<% can_manage = tm_plan_can_manage?(@project) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("test_management.plans.title") }
+    header.with_description { t("test_management.plans.description") }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_cases_path(@project), text: t(:project_module_test_management) },
+        t("test_management.menu.plans")
+      ]
+    )
+    if can_manage
+      header.with_action_button(
+        tag: :a, href: new_project_test_management_test_plan_path(@project),
+        scheme: :primary, mobile_icon: :plus, mobile_label: t("test_management.plans.new"),
+        data: { test_selector: "tm-new-plan" }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        t("test_management.plans.new")
+      end
+    end
+  end
+%>
+
+<%= render(
+      Primer::Alpha::UnderlineNav.new(
+        label: t("test_management.plans.title"),
+        data: { test_selector: "tm-plan-filters" }
+      )
+    ) do |nav| %>
+  <% TestManagement::TestPlansController::FILTERS.each do |key| %>
+    <% nav.with_tab(
+         href: project_test_management_test_plans_path(@project, filter: (key == "active" ? nil : key)),
+         selected: @filter == key,
+         data: { test_selector: "tm-plan-filter-#{key}" }
+       ) do |item| %>
+      <% item.with_text { t("test_management.plans.filters.#{key}") } %>
+      <% item.with_counter(count: @filter_counts[key].to_i) %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if @plans.any? %>
+  <%= render(Primer::Beta::BorderBox.new(data: { test_selector: "tm-plan-list" })) do |box| %>
+    <% @plans.each do |plan| %>
+      <% box.with_row(data: { test_selector: "tm-plan-row-#{plan.id}" }) do %>
+        <%= link_to "#{plan.formatted_id} #{plan.name}", project_test_management_test_plan_path(@project, plan) %>
+        <%= tm_plan_status_label(plan) %>
+        <span class="color-fg-muted">
+          · <%= t("test_management.plans.runs_count", count: plan.runs_count) %>
+          · <%= t("test_management.runs.pass_rate_text", rate: plan.pass_rate) %>
+          <% if plan.milestone %>
+            · <%= link_to plan.milestone.name, project_test_management_milestone_path(@project, plan.milestone) %>
+          <% end %>
+        </span>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <p class="color-fg-muted" data-test-selector="tm-plans-empty"><%= t("test_management.plans.empty") %></p>
+<% end %>

@@ -1,0 +1,50 @@
+<%= error_messages_for "plan" if @plan.errors.any? %>
+<%= tm_configurations_empty_hint(@project) %>
+
+<div class="form--field">
+  <%= f.label :name, class: "form--label -required" %>
+  <div class="form--field-container">
+    <%= f.text_field :name, required: true, class: "form--text-field" %>
+  </div>
+</div>
+
+<div class="form--field">
+  <%= f.label :description, class: "form--label" %>
+  <div class="form--field-container">
+    <%= f.text_area :description, rows: 4, class: "form--text-area" %>
+  </div>
+</div>
+
+<% if TestManagement::Milestone.enabled_for?(@project) %>
+  <div class="form--field">
+    <%= f.label :milestone_id, class: "form--label" %>
+    <div class="form--field-container">
+      <%= f.collection_select :milestone_id, @milestone_options, :id, :name,
+                              { include_blank: t("test_management.plans.no_milestone") },
+                              class: "form--select" %>
+    </div>
+  </div>
+<% end %>
+
+<div class="form--field">
+  <%= f.label :assigned_to_id, class: "form--label" %>
+  <div class="form--field-container">
+    <%= f.collection_select :assigned_to_id, @assignees, :id, :name,
+                            { include_blank: true },
+                            class: "form--select" %>
+  </div>
+</div>
+
+<div class="form--field">
+  <%= f.label :start_date, class: "form--label" %>
+  <div class="form--field-container">
+    <%= f.date_field :start_date, class: "form--text-field" %>
+  </div>
+</div>
+
+<div class="form--field">
+  <%= f.label :end_date, class: "form--label" %>
+  <div class="form--field-container">
+    <%= f.date_field :end_date, class: "form--text-field" %>
+  </div>
+</div>

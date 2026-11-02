@@ -1,0 +1,133 @@
+# /api/v3/projects/{id}/test_management/milestones
+---
+get:
+  summary: List milestones of a project
+  operationId: List_test_management_milestones
+  tags:
+  - Test Management
+  description: Ordered by due date (milestones without one last), each with its aggregated
+    progress.
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Project id
+    example: 3
+    schema:
+      type: integer
+  - name: status
+    in: query
+    description: Comma-separated statuses, e.g. `open,started`.
+    schema:
+      type: string
+      example: open,started
+  - name: parentId
+    in: query
+    description: Only sub-milestones of this milestone; send it empty for top-level milestones only.
+    schema:
+      type: string
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_milestone_collection_model.yml"
+    '403':
+      description: "**Required permission:** view test runs"
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: |-
+        Returned if the project does not exist, the client may not see it or milestones are disabled in the project.
+
+        **Required permission:** view test runs
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+post:
+  summary: Create milestone
+  operationId: Create_test_management_milestone
+  tags:
+  - Test Management
+  description: Creates an `open` milestone.
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Project id
+    example: 3
+    schema:
+      type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          "$ref": "../components/schemas/test_management_milestone_write_model.yml"
+        example:
+          name: Release 2.0
+          dueDate: "2026-12-01"
+          versionId: 5
+          workPackageIds: [101, 102]
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_milestone_model.yml"
+    '403':
+      description: "**Required permission:** manage milestones"
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: |-
+        Returned if the project does not exist, the client may not see it or milestones are disabled in the project.
+
+        **Required permission:** view test runs
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+    '422':
+      description: The request body is invalid.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UnprocessableContent
+                message: Name can't be blank.

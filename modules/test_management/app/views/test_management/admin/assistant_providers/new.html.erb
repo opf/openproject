@@ -1,0 +1,4 @@
+<% html_title(t("test_management.admin.assistant.form.new_title")) %>
+<%= render partial: "test_management/admin/assistant_providers/form",
+           locals: { title: t("test_management.admin.assistant.form.new_title"),
+                     url: test_management_admin_assistant_providers_path, method: :post } %>

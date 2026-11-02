@@ -1,0 +1,74 @@
+# /api/v3/test_management/milestones/{id}/start
+---
+post:
+  summary: Start milestone
+  operationId: Start_test_management_milestone
+  tags:
+  - Test Management
+  description: 'From `open`: status `started`, `startedAt` now; an empty start date is set to today. No request body is needed; send `Content-Type: application/json` like every APIv3 POST.'
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Milestone id
+    example: 12
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_milestone_model.yml"
+    '403':
+      description: "**Required permission:** manage milestones"
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: |-
+        Returned if the milestone does not exist, the client may not see it or milestones are disabled in the project.
+
+        **Required permission:** view test runs
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+    '409':
+      description: The milestone's status does not allow this action.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UpdateConflict
+                message: This action is not possible in the milestone's current status.
+    '415':
+      description: The request has no JSON `Content-Type` (send `application/json`, an empty body or `{}` is fine).
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:TypeNotSupported
+                message: Expected CONTENT-TYPE to be (application/json application/hal+json) but got (application/x-www-form-urlencoded).

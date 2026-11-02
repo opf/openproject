@@ -1,0 +1,379 @@
+<% html_title(@test_run.name) %>
+<%= render partial: "test_management/test_runs/styles" %>
+<% can_manage = tm_run_can_manage?(@test_run) %>
+<% can_execute = tm_run_can_execute?(@test_run) && !@viewing_past_iteration %>
+<% total = @status_counts.values.sum %>
+<% run_path = project_test_management_test_run_path(@project, @test_run) %>
+<% can_complete = @test_run.active? && (can_manage || User.current.allowed_in_project?(:upload_test_results, @project)) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title(data: { test_selector: "tm-run-title" }) { @test_run.name }
+    header.with_description do
+      safe_join(
+        [
+          content_tag(:span, @test_run.formatted_id, class: "tm-run-id", data: { test_selector: "tm-run-id" }),
+          tm_run_state_label(@test_run),
+          tm_run_source_label(@test_run),
+          @shown_iteration && content_tag(
+            :span, t("test_management.runs.iterations.of", number: @shown_iteration.number, count: @iterations.size),
+            class: "color-fg-muted", data: { test_selector: "tm-run-iteration-label" }
+          ),
+          content_tag(:span, t("test_management.runs.created_by", user: @test_run.author&.name || "—"), class: "color-fg-muted")
+        ].compact, " "
+      )
+    end
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_runs_path(@project), text: t("test_management.runs.title") },
+        @test_run.name
+      ]
+    )
+    if can_manage && @test_run.active?
+      header.with_action_button(
+        tag: :a, href: edit_project_test_management_test_run_path(@project, @test_run),
+        mobile_icon: :pencil, mobile_label: t(:button_edit),
+        data: { test_selector: "tm-run-edit" }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :pencil)
+        t(:button_edit)
+      end
+    end
+    if can_complete
+      header.with_action_button(
+        tag: :a,
+        href: complete_dialog_project_test_management_test_run_path(@project, @test_run),
+        scheme: :primary,
+        mobile_icon: :check,
+        mobile_label: t("test_management.runs.complete"),
+        data: {
+          controller: "async-dialog",
+          test_selector: "tm-run-complete"
+        }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :check)
+        t("test_management.runs.complete")
+      end
+    end
+    if can_manage && @test_run.active?
+      header.with_action_button(
+        tag: :a,
+        href: cancel_dialog_project_test_management_test_run_path(@project, @test_run),
+        scheme: :danger,
+        mobile_icon: :x,
+        mobile_label: t("test_management.runs.cancel"),
+        data: {
+          controller: "async-dialog",
+          test_selector: "tm-run-cancel"
+        }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :x)
+        t("test_management.runs.cancel")
+      end
+    end
+    if User.current.allowed_in_project?(:trigger_test_automation, @project)
+      header.with_action_button(
+        tag: :a, href: new_project_test_management_ci_trigger_path(@project, run_id: @test_run.id),
+        mobile_icon: :play, mobile_label: t("test_management.ci_triggers.button"),
+        data: { test_selector: "tm-run-ci-trigger" }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :play)
+        t("test_management.ci_triggers.button")
+      end
+    end
+    header.with_action_menu(
+      menu_arguments: { anchor_align: :end, data: { test_selector: "tm-run-export-menu" } },
+      button_arguments: {
+        button_block: lambda do |button|
+          button.with_leading_visual_icon(icon: :download)
+          t("test_management.exports.button")
+        end,
+        data: { test_selector: "tm-run-export" }
+      }
+    ) do |menu|
+      TestManagement::Exports::BaseExporter::FORMATS.each do |format|
+        menu.with_item(
+          label: t("test_management.exports.formats.#{format}"),
+          href: project_test_management_export_test_run_path(@project, @test_run, export_format: format),
+          content_arguments: { data: { turbo: false } },
+          data: { test_selector: "tm-run-export-#{format}" }
+        ) do |item|
+          item.with_leading_visual_icon(icon: format == "pdf" ? :"file-media" : :table)
+        end
+      end
+    end
+    if can_manage && @test_run.finished?
+      header.with_action_button(
+        type: :submit, form: "tm-run-reopen-form",
+        mobile_icon: :sync, mobile_label: t("test_management.runs.reopen"),
+        data: { test_selector: "tm-run-reopen" }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :sync)
+        t("test_management.runs.reopen")
+      end
+    end
+    if User.current.allowed_in_project?(:delete_test_runs, @project)
+      header.with_action_button(
+        tag: :a,
+        href: delete_dialog_project_test_management_test_run_path(@project, @test_run),
+        scheme: :danger,
+        mobile_icon: :trash,
+        mobile_label: t(:button_delete),
+        data: {
+          controller: "async-dialog",
+          test_selector: "tm-run-delete"
+        }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :trash)
+        t(:button_delete)
+      end
+    end
+  end
+%>
+
+<%# Reopen stays a direct POST; Complete/Cancel open DangerDialogs via async-dialog. %>
+<% if can_manage && @test_run.finished? %>
+  <div hidden>
+    <%= form_tag reopen_project_test_management_test_run_path(@project, @test_run), method: :post,
+                                                                                    id: "tm-run-reopen-form" do %><% end %>
+  </div>
+<% end %>
+
+<% if @test_run.finished? %>
+  <%= render(Primer::Alpha::Banner.new(scheme: :default, icon: :lock, mb: 3, data: { test_selector: "tm-run-frozen" })) do %>
+    <%= t("test_management.runs.frozen_hint", state: t("test_management.runs.states.#{@test_run.state}").downcase) %>
+  <% end %>
+<% end %>
+
+<% if @iterations.size > 1 || @viewing_past_iteration %>
+  <%= render partial: "test_management/test_runs/iteration_switcher" %>
+<% end %>
+
+<div class="tm-run-summary" data-test-selector="tm-run-summary">
+  <section class="tm-run-panel tm-run-panel--chart">
+    <h3 class="tm-run-panel--title"><%= t("test_management.runs.sections.chart_title") %></h3>
+    <div class="tm-run-chart">
+      <%= tm_run_pie_chart(@status_counts) %>
+      <ul class="tm-run-legend" data-test-selector="tm-run-legend">
+        <% TestManagement::TestRunCase::STATUSES.each do |status| %>
+          <li><%= tm_run_status_label(status) %> <span class="color-fg-muted"><%= @status_counts[status] %></span></li>
+        <% end %>
+      </ul>
+    </div>
+  </section>
+  <section class="tm-run-panel tm-run-panel--numbers" data-test-selector="tm-run-numbers">
+    <div class="tm-run-big" data-test-selector="tm-run-pass-rate"><%= tm_pass_rate(@status_counts) %>%</div>
+    <div class="tm-run-big--label"><%= t("test_management.runs.passed") %></div>
+    <div class="color-fg-muted" data-test-selector="tm-run-untested">
+      <%= t(
+            "test_management.runs.untested_of",
+            untested: @status_counts["untested"],
+            total:,
+            percent: tm_status_percent(@status_counts["untested"], total)
+          ) %>
+    </div>
+    <% if @status_counts["skipped"].to_i.positive? %>
+      <div class="color-fg-muted" data-test-selector="tm-run-skipped">
+        <%= t("test_management.runs.skipped_excluded", count: @status_counts["skipped"]) %>
+      </div>
+    <% end %>
+    <%= tm_run_progress_bar(@status_counts, width: 240, height: 12) %>
+  </section>
+</div>
+
+<details class="tm-run-details" open data-test-selector="tm-run-statistics">
+  <summary>
+    <%= render(Primer::Beta::Octicon.new(icon: :"chevron-down", classes: "tm-chevron", "aria-hidden": true)) %>
+    <%= t("test_management.runs.sections.statistics") %>
+  </summary>
+  <div class="tm-run-details--body">
+    <table class="tm-run-stats">
+      <tbody>
+        <% TestManagement::TestRunCase::STATUSES.each do |status| %>
+          <tr>
+            <td><%= tm_run_status_label(status) %></td>
+            <td class="tm-num"><%= @status_counts[status] %></td>
+            <td class="tm-num color-fg-muted"><%= tm_status_percent(@status_counts[status], total) %>%</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <dl class="tm-run-meta">
+      <dt><%= t("test_management.runs.columns.assignee") %></dt>
+      <dd><%= @test_run.assigned_to&.name || t("test_management.runs.assigned_to_none") %></dd>
+      <% if @test_run.test_plan && TestManagement::TestPlan.enabled_for?(@project) %>
+        <dt><%= t("test_management.menu.plans") %></dt>
+        <dd data-test-selector="tm-run-plan">
+          <%= link_to "#{@test_run.test_plan.formatted_id} #{@test_run.test_plan.name}",
+                      project_test_management_test_plan_path(@project, @test_run.test_plan) %>
+          <% if @test_run.configuration_label.present? %>
+            <span class="Label"><%= @test_run.configuration_label %></span>
+          <% end %>
+        </dd>
+      <% elsif @test_run.configuration_label.present? %>
+        <dt><%= t("test_management.configurations.title") %></dt>
+        <dd data-test-selector="tm-run-configuration"><%= @test_run.configuration_label %></dd>
+      <% end %>
+      <% if @test_run.milestone && TestManagement::ProjectSetting.milestones_enabled?(@project) %>
+        <dt><%= TestManagement::TestRun.human_attribute_name(:milestone) %></dt>
+        <dd data-test-selector="tm-run-milestone">
+          <%= link_to @test_run.milestone.name, project_test_management_milestone_path(@project, @test_run.milestone) %>
+        </dd>
+      <% end %>
+      <% visible_work_packages = @visible_work_packages || @test_run.work_packages.visible(User.current).includes(:type).order(:id).to_a %>
+      <% if visible_work_packages.any? %>
+        <dt><%= t("test_management.runs.sections.references") %></dt>
+        <dd data-test-selector="tm-run-references">
+          <% visible_work_packages.each do |wp| %>
+            <%= link_to "#{wp.type&.name} ##{wp.id} #{wp.subject}", work_package_path(wp), target: "_blank", rel: "noopener" %><br>
+          <% end %>
+        </dd>
+      <% end %>
+      <% if @test_run.connection %>
+        <dt><%= t("test_management.runs.automation.connection") %></dt>
+        <dd data-test-selector="tm-run-connection">
+          <%= @test_run.connection.name %>
+          <span class="color-fg-muted">(<%= @test_run.connection.repository %>)</span>
+        </dd>
+      <% end %>
+      <% ci = @shown_iteration&.ci_info.presence || @test_run.ci_info %>
+      <% if (@test_run.automation? || @shown_iteration&.automation?) && ci.any? %>
+        <% if (url = tm_safe_url(ci["runUrl"])) %>
+          <dt><%= t("test_management.runs.automation.ci_run") %></dt>
+          <dd data-test-selector="tm-run-ci-link"><%= link_to url, url, target: "_blank", rel: "noopener noreferrer" %></dd>
+        <% end %>
+        <% { "workflow" => ci["workflow"], "branch" => ci["branch"], "commit" => ci["commitSha"]&.first(12) }.compact_blank.each do |key, value| %>
+          <dt><%= t("test_management.runs.automation.#{key}") %></dt>
+          <dd data-test-selector="tm-run-ci-<%= key %>"><code><%= value %></code></dd>
+        <% end %>
+      <% end %>
+      <% if @test_run.ci_trigger_status.present? %>
+        <dt><%= t("test_management.ci_triggers.last_trigger") %></dt>
+        <dd data-test-selector="tm-run-ci-trigger-status">
+          <%= t("test_management.ci_triggers.statuses.#{@test_run.ci_trigger_status}") %>
+          <% if @test_run.ci_triggered_at %>
+            <span class="color-fg-muted">· <%= format_time(@test_run.ci_triggered_at) %></span>
+          <% end %>
+          <% if (url = tm_safe_url(@test_run.ci_trigger_url)) %>
+            · <%= link_to t("test_management.ci_triggers.open_in_ci"), url, target: "_blank", rel: "noopener noreferrer",
+                                                                            data: { test_selector: "tm-run-ci-trigger-link" } %>
+          <% end %>
+          <% if @test_run.ci_trigger_error.present? %>
+            <div class="color-fg-danger" data-test-selector="tm-run-ci-trigger-error"><%= @test_run.ci_trigger_error %></div>
+          <% end %>
+          <% if @manual_start %>
+            <%= render partial: "test_management/test_runs/ci_manual_start", locals: { manual_start: @manual_start } %>
+          <% end %>
+        </dd>
+      <% end %>
+      <% if @test_run.completion_source == "automation" %>
+        <dt><%= TestManagement::TestRun.human_attribute_name(:completion_source) %></dt>
+        <dd data-test-selector="tm-run-completed-by-automation"><%= t("test_management.runs.automation.completed_by_automation") %></dd>
+      <% end %>
+      <% if @test_run.description.present? %>
+        <dt><%= t("test_management.runs.sections.description") %></dt>
+        <dd class="op-uc-container"><%= format_text(@test_run, :description) %></dd>
+      <% end %>
+    </dl>
+  </div>
+</details>
+
+<% if @iterations.any? || (tm_run_can_manage?(@test_run) && @test_run.active?) %>
+  <%= render partial: "test_management/test_runs/iterations" %>
+<% end %>
+
+<% if @imports.present? %>
+  <details class="tm-run-details" open data-test-selector="tm-run-imports">
+    <summary>
+      <%= render(Primer::Beta::Octicon.new(icon: :"chevron-down", classes: "tm-chevron", "aria-hidden": true)) %>
+      <%= t("test_management.runs.automation.uploads") %>
+    </summary>
+    <div class="tm-run-details--body">
+      <ul class="tm-run-imports">
+        <% @imports.each do |import| %>
+          <li data-test-selector="tm-run-import-<%= import.id %>">
+            <%= t(
+                  "test_management.runs.automation.upload_line",
+                  time: format_time(import.created_at),
+                  report_format: t("test_management.runs.automation.formats.#{import.format}"),
+                  parsed: import.parsed_count, matched: import.matched_count,
+                  created: import.created_cases_count, unmatched: import.unmatched_count
+                ) %>
+          </li>
+        <% end %>
+      </ul>
+      <% unmatched = @test_run.unmatched_tests %>
+      <% if unmatched.any? %>
+        <details class="tm-run-unmatched" data-test-selector="tm-run-unmatched">
+          <summary><%= t("test_management.runs.automation.unmatched_title", count: unmatched.size) %></summary>
+          <p class="color-fg-muted"><%= t("test_management.runs.automation.unmatched_hint") %></p>
+          <table class="tm-run-stats">
+            <tbody>
+              <% unmatched.first(200).each do |entry| %>
+                <tr>
+                  <td><code><%= entry["reference"].presence || entry["title"] %></code>
+                    <% if entry["projectName"].present? %><span class="color-fg-muted">[<%= entry["projectName"] %>]</span><% end %></td>
+                  <td><%= entry["status"] %></td>
+                  <td class="color-fg-muted"><%= t("test_management.runs.automation.reasons.#{entry['reason']}", default: entry["reason"].to_s) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </details>
+      <% end %>
+    </div>
+  </details>
+<% end %>
+
+<% if @test_run.attachments.any? || @test_run.attachments_addable?(User.current) %>
+  <details class="tm-run-details" open id="run-attachments" data-test-selector="tm-run-attachments-section">
+    <summary>
+      <%= render(Primer::Beta::Octicon.new(icon: :"chevron-down", classes: "tm-chevron", "aria-hidden": true)) %>
+      <%= t("test_management.runs.attachments.run_title") %>
+    </summary>
+    <div class="tm-run-details--body">
+      <%= render partial: "test_management/test_runs/attachments",
+                 locals: { container: @test_run, selector: "tm-run-attachments" } %>
+    </div>
+  </details>
+<% end %>
+
+<details class="tm-run-details" open data-test-selector="tm-run-schedule">
+  <summary>
+    <%= render(Primer::Beta::Octicon.new(icon: :"chevron-down", classes: "tm-chevron", "aria-hidden": true)) %>
+    <%= t("test_management.runs.sections.schedule") %>
+  </summary>
+  <div class="tm-run-details--body">
+    <% if @test_run.start_date || @test_run.end_date %>
+      <dl class="tm-run-meta">
+        <dt><%= t("test_management.runs.sections.starts") %></dt>
+        <dd><%= @test_run.start_date ? format_date(@test_run.start_date) : "—" %></dd>
+        <dt><%= t("test_management.runs.sections.ends") %></dt>
+        <dd><%= @test_run.end_date ? format_date(@test_run.end_date) : "—" %></dd>
+      </dl>
+    <% else %>
+      <p class="color-fg-muted"><%= t("test_management.runs.sections.no_schedule") %></p>
+    <% end %>
+  </div>
+</details>
+
+<% if @run_cases.any? %>
+  <% nodes, unfiled = tm_run_case_tree(@run_cases, @suites) %>
+  <div class="tm-run-cases" data-test-selector="tm-run-cases">
+    <% nodes.each do |node| %>
+      <%= render partial: "test_management/test_runs/run_section",
+                 locals: { node:, depth: 0, can_execute:, run_path: } %>
+    <% end %>
+    <% if unfiled.any? %>
+      <%= render partial: "test_management/test_runs/run_section",
+                 locals: { node: { suite: nil, cases: unfiled, children: [], count: unfiled.size },
+                           depth: 0, can_execute:, run_path: } %>
+    <% end %>
+  </div>
+<% else %>
+  <%= render(Primer::Beta::Blankslate.new(border: true, narrow: true, data: { test_selector: "tm-run-no-cases" })) do |slate| %>
+    <% slate.with_visual_icon(icon: :checklist) %>
+    <% slate.with_heading(tag: :h3) { t("test_management.runs.no_cases") } %>
+  <% end %>
+<% end %>

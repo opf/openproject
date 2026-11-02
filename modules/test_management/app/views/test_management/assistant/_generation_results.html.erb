@@ -1,0 +1,113 @@
+<%# Shared by the generation page and the tm-draft-results Turbo Frame reload. %>
+<% if @generation.pending? %>
+  <h2 id="tm-draft-results-heading" class="sr-only" tabindex="-1"><%= t("test_management.assistant.generate.drafts_title") %></h2>
+<% elsif @generation.effective_status == "cancelled" %>
+  <%= render(Primer::Alpha::Banner.new(scheme: :secondary, mb: 3, data: { test_selector: "tm-assistant-generation-cancelled" })) do %>
+    <%= t("test_management.assistant.generate.polling.cancelled") %>
+    <%= button_to t("test_management.assistant.generate.try_again"),
+                  project_test_management_retry_assistant_generation_path(@project, @generation),
+                  method: :post, class: "button",
+                  form: { data: { turbo: false, test_selector: "tm-assistant-generation-retry" } } %>
+  <% end %>
+<% elsif @generation.effective_status == "failed" %>
+  <%= render(Primer::Alpha::Banner.new(scheme: :danger, mb: 3, data: { test_selector: "tm-assistant-generation-failed" })) do %>
+    <%= t("test_management.assistant.generate.failed", error: @generation.effective_error) %>
+    <%= button_to t("test_management.assistant.generate.try_again"),
+                  project_test_management_retry_assistant_generation_path(@project, @generation),
+                  method: :post, class: "button",
+                  form: { data: { turbo: false, test_selector: "tm-assistant-generation-retry" } } %>
+  <% end %>
+<% else %>
+  <h2 id="tm-draft-results-heading" class="sr-only" tabindex="-1"><%= t("test_management.assistant.generate.drafts_title") %></h2>
+  <% if @save_errors.present? %>
+    <%= render(Primer::Alpha::Banner.new(scheme: :danger, mb: 3, data: { test_selector: "tm-assistant-save-errors" })) do %>
+      <ul><% @save_errors.each do |error| %><li><%= error %></li><% end %></ul>
+    <% end %>
+  <% end %>
+  <% if @generation.saved_ids.any? %>
+    <%= render(Primer::Alpha::Banner.new(scheme: :success, mb: 3)) do %>
+      <%= t("test_management.assistant.generate.saved_count", count: @generation.saved_ids.size) %>
+    <% end %>
+  <% end %>
+  <p class="color-fg-muted"><%= t("test_management.assistant.generate.review_hint") %>
+    <% if @generation.provider_model.present? %>(<%= @generation.provider_model %>)<% end %></p>
+
+  <% drafts = @submitted_drafts || @generation.draft_list %>
+  <%= form_with url: project_test_management_save_assistant_generation_path(@project, @generation), method: :post, local: true,
+                data: { turbo: false, test_selector: "tm-assistant-drafts-form" } do %>
+    <%= render(Primer::Beta::BorderBox.new) do |box| %>
+      <% drafts.each_with_index do |draft, index| %>
+        <% draft = draft.to_h.stringify_keys %>
+        <% box.with_row(classes: "tm-assistant-draft", data: { test_selector: "tm-assistant-draft-#{index}" }) do %>
+          <div class="tm-assistant-draft--head">
+            <%= hidden_field_tag "drafts[#{index}][selected]", "0", id: nil %>
+            <%= check_box_tag "drafts[#{index}][selected]", "1", @submitted_drafts.nil? || ActiveModel::Type::Boolean.new.cast(draft["selected"]),
+                              id: "draft_#{index}_selected", "aria-label": t("test_management.assistant.generate.select_draft") %>
+            <%= text_field_tag "drafts[#{index}][title]", draft["title"], class: "form--text-field", maxlength: 255,
+                                                                          autocomplete: "off",
+                                                                          "aria-label": TestManagement::TestCase.human_attribute_name(:title) %>
+          </div>
+          <div class="tm-assistant-draft--meta">
+            <% if draft["type"].present? %>
+              <%= render(Primer::Beta::Label.new) { t("test_management.assistant.types.#{draft['type']}", default: draft["type"]) } %>
+              <%= hidden_field_tag "drafts[#{index}][type]", draft["type"], id: nil %>
+            <% end %>
+            <label><%= TestManagement::TestCase.human_attribute_name(:priority) %>
+              <%= select_tag "drafts[#{index}][priority]",
+                             options_for_select(TestManagement::TestCase::PRIORITIES.map { |p| [t("test_management.priorities.#{p}", default: p.humanize), p] }, draft["priority"]),
+                             class: "form--select -narrow", id: "draft_#{index}_priority" %></label>
+          </div>
+          <div class="tm-assistant-draft--meta">
+            <label class="form--label" for="draft_<%= index %>_preconditions"><%= TestManagement::TestCase.human_attribute_name(:preconditions) %></label>
+            <%= text_area_tag "drafts[#{index}][preconditions]", draft["preconditions"], rows: 2, id: "draft_#{index}_preconditions" %>
+          </div>
+          <table class="tm-assistant-steps">
+            <thead><tr><th>#</th><th><%= t("test_management.assistant.generate.step_action") %></th><th><%= t("test_management.assistant.generate.step_expected") %></th></tr></thead>
+            <tbody>
+              <% (Array(draft["steps"]) + [{}]).each_with_index do |step, step_index| %>
+                <% step = step.to_h.stringify_keys %>
+                <tr>
+                  <td><%= step_index + 1 %></td>
+                  <td><%= text_area_tag "drafts[#{index}][steps][#{step_index}][action]", step["action"], rows: 2, id: nil,
+                                                                                                          "aria-label": "#{t('test_management.assistant.generate.step_action')} #{step_index + 1}" %></td>
+                  <td><%= text_area_tag "drafts[#{index}][steps][#{step_index}][expected_result]", step["expected_result"], rows: 2, id: nil,
+                                                                                                                            "aria-label": "#{t('test_management.assistant.generate.step_expected')} #{step_index + 1}" %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <fieldset class="form--fieldset mt-3">
+      <legend><%= t("test_management.assistant.generate.save_options") %></legend>
+      <div class="form--field">
+        <label class="form--label" for="suite_id"><%= t("test_management.assistant.generate.folder") %></label>
+        <div class="form--field-container">
+          <%= select_tag :suite_id, options_for_select(@suites.map { |s| [s.path_name, s.id] }, (params[:suite_id].presence || @generation.suite_id).to_s.presence&.to_i),
+                         include_blank: t("test_management.assistant.no_folder"), class: "form--select" %>
+        </div>
+      </div>
+      <div class="form--field">
+        <label class="form--label" for="label_names"><%= t("test_management.assistant.generate.labels") %></label>
+        <div class="form--field-container">
+          <%= text_field_tag :label_names, params[:label_names] || @generation.label_names.join(", "), class: "form--text-field",
+                                                                                                       autocomplete: "off",
+                                                                                                       placeholder: t("test_management.labels.placeholder") %>
+        </div>
+      </div>
+      <div class="form--field-instructions">
+        <%= t("test_management.assistant.generate.save_hint") %>
+        <% if @generation.work_package_id %> <%= t("test_management.assistant.generate.save_links_wp", id: @generation.work_package_id) %><% end %>
+        <% if @generation.pull_request_url %> <%= t("test_management.assistant.generate.save_notes_pr") %><% end %>
+      </div>
+    </fieldset>
+
+    <div class="tm-assistant-actions">
+      <%= submit_tag t("test_management.assistant.generate.save"), class: "button -primary",
+                                                                   data: { test_selector: "tm-assistant-save-drafts" } %>
+      <%= link_to t("test_management.assistant.generate.new"), project_test_management_assistant_path(@project, tab: "generate"), class: "button" %>
+    </div>
+  <% end %>
+<% end %>

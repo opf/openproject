@@ -1,0 +1,169 @@
+<% html_title t("test_management.cases.bulk.edit_heading") %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("test_management.cases.bulk.edit_heading") }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_cases_path(@project), text: t(:project_module_test_management) },
+        { href: project_test_management_test_cases_path(@project), text: t("test_management.menu.cases") },
+        t("test_management.cases.bulk.edit_heading")
+      ]
+    )
+  end
+%>
+
+<p class="color-fg-muted" data-test-selector="tm-bulk-edit-hint">
+  <%= t("test_management.cases.bulk.edit_hint") %>
+</p>
+
+<ul data-test-selector="tm-bulk-edit-cases">
+  <% @test_cases.each do |test_case| %>
+    <li>
+      <%= link_to("##{test_case.id}", project_test_management_test_case_path(@project, test_case)) %>:
+      <%= test_case.title %>
+    </li>
+  <% end %>
+</ul>
+
+<%= form_with url: project_test_management_test_cases_bulk_path(@project),
+              method: :put,
+              local: true,
+              class: "-wide-labels",
+              data: { test_selector: "tm-bulk-edit-form", turbo: false } do %>
+  <% @test_cases.each do |test_case| %>
+    <%= hidden_field_tag "ids[]", test_case.id %>
+  <% end %>
+
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= t("test_management.cases.bulk.change_properties") %></legend>
+
+      <div class="form--field">
+        <%= styled_label_tag "test_case_title", TestManagement::TestCase.human_attribute_name(:title) %>
+        <div class="form--field-container">
+          <%= styled_text_field_tag "test_case[title]", "",
+                                    id: "test_case_title",
+                                    placeholder: t("test_management.cases.bulk.no_change") %>
+        </div>
+      </div>
+
+      <div class="form--field">
+        <%= styled_label_tag "test_case_suite_id", TestManagement::TestCase.human_attribute_name(:suite) %>
+        <div class="form--field-container">
+          <%= styled_select_tag "test_case[suite_id]",
+                                options_for_select(
+                                  [
+                                    [t("test_management.cases.bulk.no_change"), "no_change"],
+                                    [t("test_management.suites.unfiled"), "root"]
+                                  ] + @suites.map { |s| [s.path_name, s.id] }
+                                ),
+                                id: "test_case_suite_id" %>
+        </div>
+      </div>
+
+      <div class="form--field">
+        <%= styled_label_tag "test_case_priority", TestManagement::TestCase.human_attribute_name(:priority) %>
+        <div class="form--field-container">
+          <%= styled_select_tag "test_case[priority]",
+                                options_for_select(
+                                  [[t("test_management.cases.bulk.no_change"), ""]] +
+                                  TestManagement::TestCase::PRIORITIES.map { |p| [p, p] }
+                                ),
+                                id: "test_case_priority" %>
+        </div>
+      </div>
+
+      <div class="form--field">
+        <%= styled_label_tag "test_case_status", TestManagement::TestCase.human_attribute_name(:status) %>
+        <div class="form--field-container">
+          <%= styled_select_tag "test_case[status]",
+                                options_for_select(
+                                  [[t("test_management.cases.bulk.no_change"), ""]] +
+                                  TestManagement::TestCase::STATUSES.map { |s| [s, s] }
+                                ),
+                                id: "test_case_status" %>
+        </div>
+      </div>
+
+      <div class="form--field">
+        <%= styled_label_tag "test_case_automated", TestManagement::TestCase.human_attribute_name(:automated) %>
+        <div class="form--field-container">
+          <%= styled_select_tag "test_case[automated]",
+                                options_for_select(
+                                  [
+                                    [t("test_management.cases.bulk.no_change"), "no_change"],
+                                    [t(:general_text_Yes), "true"],
+                                    [t(:general_text_No), "false"]
+                                  ]
+                                ),
+                                id: "test_case_automated" %>
+        </div>
+      </div>
+
+      <div class="form--field">
+        <%= styled_label_tag "test_case_automation_reference",
+                             TestManagement::TestCase.human_attribute_name(:automation_reference) %>
+        <div class="form--field-container">
+          <%= styled_text_field_tag "test_case[automation_reference]", "",
+                                    id: "test_case_automation_reference",
+                                    placeholder: t("test_management.cases.bulk.no_change") %>
+        </div>
+      </div>
+
+      <div class="form--field">
+        <%= styled_label_tag "test_case_label_names", TestManagement::TestCase.human_attribute_name(:labels) %>
+        <div class="form--field-container">
+          <%= styled_text_field_tag "test_case[label_names]", "",
+                                    id: "test_case_label_names",
+                                    placeholder: t("test_management.cases.bulk.labels_placeholder") %>
+        </div>
+        <div class="form--field-instructions">
+          <%= t("test_management.cases.bulk.labels_hint") %>
+        </div>
+      </div>
+
+      <div class="form--field">
+        <%= styled_label_tag "test_case_update_work_packages",
+                             t("test_management.cases.linked_work_packages") %>
+        <div class="form--field-container">
+          <label>
+            <%= check_box_tag "test_case[update_work_packages]", "1", false, id: "test_case_update_work_packages" %>
+            <%= t("test_management.cases.bulk.update_work_packages") %>
+          </label>
+          <%= styled_text_field_tag "test_case[work_package_ids]", "",
+                                    id: "test_case_work_package_ids",
+                                    placeholder: t("test_management.cases.bulk.work_packages_placeholder") %>
+        </div>
+        <div class="form--field-instructions">
+          <%= t("test_management.cases.bulk.work_packages_hint") %>
+        </div>
+      </div>
+
+      <div class="form--field -vertical">
+        <%= styled_label_tag "test_case_preconditions",
+                             TestManagement::TestCase.human_attribute_name(:preconditions) %>
+        <div class="form--field-container">
+          <%= styled_text_area_tag "test_case[preconditions]", "",
+                                   id: "test_case_preconditions",
+                                   rows: 4,
+                                   placeholder: t("test_management.cases.bulk.no_change") %>
+        </div>
+      </div>
+
+      <div class="form--field -vertical">
+        <%= styled_label_tag "test_case_description",
+                             TestManagement::TestCase.human_attribute_name(:description) %>
+        <div class="form--field-container">
+          <%= styled_text_area_tag "test_case[description]", "",
+                                   id: "test_case_description",
+                                   rows: 4,
+                                   placeholder: t("test_management.cases.bulk.no_change") %>
+        </div>
+      </div>
+    </fieldset>
+  </section>
+
+  <%= styled_button_tag t(:button_save), class: "-primary", data: { test_selector: "tm-bulk-save" } %>
+  <%= link_to t(:button_cancel), project_test_management_test_cases_path(@project), class: "button" %>
+<% end %>

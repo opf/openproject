@@ -1,0 +1,101 @@
+<%# "Run in CI" (0011): choose a CI connection and where the results go, then trigger the job. %>
+<% html_title(t("test_management.ci_triggers.title")) %>
+<% ct = ->(key, **args) { t("test_management.ci_triggers.#{key}", **args) } %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { ct.("title") }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_runs_path(@project), text: t("test_management.runs.title") },
+        ct.("title")
+      ]
+    )
+  end
+%>
+
+<div class="tm-ci-trigger" data-test-selector="tm-ci-trigger">
+  <p data-test-selector="tm-ci-trigger-scope">
+    <strong><%= ct.("scope") %>:</strong> <%= @trigger.scope_label %>
+    <span class="color-fg-muted">
+      (<%= ct.("case_counts", automated: @automated_count, total: @case_count) %>)
+    </span>
+  </p>
+
+  <% if @connections.empty? %>
+    <%= render(Primer::Alpha::Banner.new(scheme: :warning, test_selector: "tm-ci-trigger-no-connection")) do %>
+      <%= ct.("no_connections") %>
+      <% if User.current.allowed_in_project?(:manage_test_ci, @project) %>
+        <%= link_to ct.("configure_connections"),
+                    project_test_management_project_settings_path(@project, anchor: "tm-ci-connections") %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <%= form_with url: project_test_management_ci_triggers_path(@project), scope: :ci_trigger, method: :post,
+                  local: true, data: { turbo: false, test_selector: "tm-ci-trigger-form" } do |f| %>
+      <%= f.hidden_field :run_id, value: @scope_run&.id %>
+      <%= f.hidden_field :suite_id, value: @suite&.id %>
+      <%= f.hidden_field :test_case_id, value: @test_case&.id %>
+
+      <div class="form--field">
+        <%= f.label :connection_id, ct.("connection"), class: "form--label" %>
+        <%= f.select :connection_id,
+                     @connections.map { |c| ["#{c.name} · #{t("test_management.project_settings.ci.providers.#{c.provider}")}#{if c.inbound_only? then " – #{ct.('inbound_only')}" elsif !c.trigger_ready? then " – #{ct.('not_ready')}" end}", c.id] },
+                     { selected: @trigger.connection&.id }, class: "form--select",
+                                                            data: { test_selector: "tm-ci-trigger-connection" } %>
+        <% if @connections.any?(&:inbound_only?) %>
+          <p class="form--field-instructions" data-test-selector="tm-ci-trigger-inbound-hint"><%= ct.("inbound_only_hint") %></p>
+        <% end %>
+      </div>
+
+      <fieldset class="form--fieldset">
+        <legend class="form--fieldset-legend"><%= ct.("mode") %></legend>
+        <label class="form--label-with-check-box">
+          <%= f.radio_button :mode, "new_run", checked: @trigger.mode == "new_run", data: { test_selector: "tm-ci-trigger-mode-new-run" } %>
+          <%= ct.("modes.new_run") %>
+        </label>
+        <label class="form--label-with-check-box">
+          <%= f.radio_button :mode, "new_iteration", checked: @trigger.mode == "new_iteration",
+                                                     data: { test_selector: "tm-ci-trigger-mode-new-iteration" } %>
+          <%= ct.("modes.new_iteration") %>
+        </label>
+      </fieldset>
+
+      <div class="form--field">
+        <%= f.label :target_run_id, ct.("target_run"), class: "form--label" %>
+        <%= f.select :target_run_id, @target_runs.map { |r| ["#{r.formatted_id} #{r.name}", r.id] },
+                     { include_blank: true, selected: @trigger.new_iteration? ? @trigger.run&.id : @scope_run&.id },
+                     class: "form--select", data: { test_selector: "tm-ci-trigger-target-run" } %>
+        <p class="form--field-instructions"><%= ct.("target_run_hint") %></p>
+      </div>
+
+      <% if @milestones_enabled %>
+        <div class="form--field" data-test-selector="tm-ci-trigger-milestone-field">
+          <%= f.label :milestone_id, t("test_management.milestones.milestone"), class: "form--label" %>
+          <%= f.select :milestone_id,
+                       tm_milestone_options_for_select(@project, selected: @trigger.milestone&.id),
+                       { include_blank: t("test_management.milestones.none") },
+                       class: "form--select", data: { test_selector: "tm-ci-trigger-milestone" } %>
+          <p class="form--field-instructions"><%= ct.("milestone_hint") %></p>
+        </div>
+      <% end %>
+
+      <div class="form--field">
+        <%= f.label :ref, ct.("ref"), class: "form--label" %>
+        <%= f.text_field :ref, value: @trigger.ref, class: "form--text-field", maxlength: 255,
+                               placeholder: @trigger.connection&.effective_trigger_ref || "main" %>
+        <p class="form--field-instructions"><%= ct.("ref_hint") %></p>
+      </div>
+
+      <div class="form--field">
+        <%= f.label :name, ct.("name"), class: "form--label" %>
+        <%= f.text_field :name, value: @trigger.name, class: "form--text-field", maxlength: 255 %>
+      </div>
+
+      <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, test_selector: "tm-ci-trigger-submit")) do |button| %>
+        <% button.with_leading_visual_icon(icon: :play) %>
+        <%= ct.("submit") %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

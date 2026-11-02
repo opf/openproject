@@ -1,0 +1,45 @@
+# /api/v3/test_management/assistant/providers/{id}/default
+---
+post:
+  summary: Make an AI provider the default
+  operationId: Make_default_test_management_assistant_provider
+  tags:
+  - Test Management
+  description: |-
+    Administrators only. The default provider is used by everyone who has not picked a provider
+    in the Test Assistant header. There is no request body, but like every APIv3 POST the request
+    needs `Content-Type: application/json` (otherwise 415).
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Provider id
+    example: 1
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_assistant_provider_model.yml"
+    '403':
+      description: |-
+        **Required permission:** administrator
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+    '404':
+      description: The provider does not exist.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+    '415':
+      description: The Content-Type header is not `application/json`.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"

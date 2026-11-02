@@ -1,0 +1,23 @@
+<% if @testing.runs.any? %>
+  <ul class="tm-wp-cards" data-test-selector="tm-wp-testing-runs" aria-label="<%= t("test_management.work_package_tab.views.runs") %>">
+    <% @testing.runs.each do |run| %>
+      <% counts = @testing.run_status_counts[run.id] %>
+      <li class="tm-wp-card" data-test-selector="tm-wp-testing-run-<%= run.id %>">
+        <div class="tm-wp-card--title">
+          <%= link_to "#{run.formatted_id} #{run.name}", project_test_management_test_run_path(run.project, run),
+                      data: { turbo_frame: "_top" } %>
+        </div>
+        <div class="tm-wp-card--meta color-fg-muted">
+          <%= tm_run_state_label(run, size: :medium) %>
+          <% if run.milestone && TestManagement::ProjectSetting.milestones_enabled?(run.project) %>
+            <span><%= render(Primer::Beta::Octicon.new(icon: :milestone, "aria-hidden": true)) %> <%= run.milestone.name %></span>
+          <% end %>
+        </div>
+        <%= tm_milestone_bar(counts) %>
+        <div class="tm-wp-card--meta"><%= tm_pass_rate(counts) %>% <%= t("test_management.runs.passed") %></div>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="color-fg-muted" data-test-selector="tm-wp-testing-no-runs"><%= t("test_management.work_package_tab.no_runs") %></p>
+<% end %>

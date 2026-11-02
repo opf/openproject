@@ -1,0 +1,22 @@
+<% html_title(t("test_management.plans.edit")) %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("test_management.plans.edit") }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_plan_path(@project, @plan), text: @plan.name },
+        t("test_management.plans.edit")
+      ]
+    )
+  end
+%>
+
+<%= form_with model: @plan, scope: :test_plan,
+              url: project_test_management_test_plan_path(@project, @plan),
+              method: :patch,
+              local: true, data: { test_selector: "tm-plan-form" } do |f| %>
+  <%= render "form", f: f %>
+  <%= f.submit t(:button_save), class: "button -primary" %>
+  <%= link_to t(:button_cancel), project_test_management_test_plan_path(@project, @plan), class: "button" %>
+<% end %>

@@ -1,0 +1,39 @@
+# Schema: TestManagementResultWriteModel
+---
+type: object
+description: |-
+  A manual result for a run case (0020). Without `status` the status is derived from the step
+  results: any failed step makes it failed, then blocked, all passed makes it passed, otherwise
+  in_progress. Steps that are not given are stored as `untested` (Not run).
+properties:
+  status:
+    type: string
+    enum: [untested, passed, failed, blocked, retest, skipped, in_progress]
+  comment:
+    type: string
+  errorMessage:
+    type: string
+    maxLength: 4000
+  stepResults:
+    type: array
+    items:
+      type: object
+      required: [testStepId]
+      properties:
+        testStepId:
+          type: integer
+          description: A step of the run case's test case.
+        status:
+          type: string
+          enum: [passed, failed, blocked, skipped, untested]
+        actualResult:
+          type: string
+          maxLength: 4000
+example:
+  comment: Second try on staging
+  stepResults:
+    - testStepId: 101
+      status: passed
+    - testStepId: 102
+      status: failed
+      actualResult: The card is rejected with HTTP 500.

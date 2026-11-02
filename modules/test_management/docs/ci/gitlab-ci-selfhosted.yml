@@ -1,0 +1,55 @@
+# Example .gitlab-ci.yml for a self-hosted GitLab (also on a sub-path, e.g. https://example.com/gitlab)
+# and an OpenProject that is reachable only inside the company network with a certificate from an
+# internal CA. See README.md, section 7 "Self-hosted Git".
+#
+# CI/CD variables (Settings > CI/CD > Variables):
+#   OP_URL         e.g. https://openproject.example.com
+#   OP_PROJECT     project identifier
+#   OP_API_TOKEN   masked + protected
+#   OP_CA_CERT     type "File": the internal CA that signed OpenProject's certificate (PEM).
+#                  If the runner is registered with tls-ca-file and OpenProject uses the same CA,
+#                  CI_SERVER_TLS_CA_FILE is used instead (see before_script).
+#
+# CI_SERVER_URL includes the relative URL root (https://example.com/gitlab); op-tm-upload.sh sends
+# it as ci.serverUrl, so OpenProject picks the connection of this server even if another server
+# has a project with the same path. OP_SERVER_URL overrides it.
+#
+# "Run in CI" from OpenProject:
+#   - outbound (OpenProject can reach GitLab): add a CI connection with server URL
+#     https://example.com/gitlab, repository group/sub/project and a pipeline trigger token; paste
+#     the internal CA into "CA certificate" if GitLab's certificate is not publicly trusted.
+#   - inbound only (only GitLab -> OpenProject is allowed): tick "Inbound only". OpenProject prepares
+#     the run and shows OP_RUN_ID / OP_ITERATION_ID / OP_GREP; start the pipeline with them via
+#     Build > Pipelines > Run pipeline, or with the command shown on the run.
+.e2e:
+  image: mcr.microsoft.com/playwright:v1.49.0-noble
+  before_script:
+    - apt-get update -qq && apt-get install -y -qq jq curl ca-certificates >/dev/null
+    # Trust the internal CA for every tool in the job (npm, git, curl) and for the upload script.
+    - CA="${OP_CA_CERT:-${CI_SERVER_TLS_CA_FILE:-}}"
+    - |
+      if [ -n "$CA" ] && [ -s "$CA" ]; then
+        cp "$CA" /usr/local/share/ca-certificates/internal-ca.crt && update-ca-certificates >/dev/null
+        export OP_CA_CERT="$CA" NODE_EXTRA_CA_CERTS="$CA"
+      fi
+  script:
+    - npm ci
+    - PLAYWRIGHT_JSON_OUTPUT_NAME=results.json npx playwright test --reporter=json,line ${OP_GREP:+--grep "$OP_GREP"} || status=$?
+    - OP_REPORT=results.json OP_ARTIFACTS_DIR=test-results bash ci/op-tm-upload.sh
+    - exit ${status:-0}
+  artifacts:
+    when: always
+    paths: [test-results/, results.json]
+
+e2e:smoke:
+  extends: .e2e
+  variables: { OP_MODE: new_iteration, OP_TARGET_RUN: Smoke, OP_GREP: "@smoke" }
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# Started by OpenProject's trigger (outbound) or by hand with the variables shown on the run
+# (inbound only). OP_RUN_ID / OP_ITERATION_ID are read by op-tm-upload.sh.
+e2e:openproject:
+  extends: .e2e
+  rules:
+    - if: ($CI_PIPELINE_SOURCE == "trigger" || $CI_PIPELINE_SOURCE == "web" || $CI_PIPELINE_SOURCE == "api") && $OP_ITERATION_ID

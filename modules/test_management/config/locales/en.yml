@@ -1,0 +1,1520 @@
+---
+en:
+  activemodel:
+    attributes:
+      ci_trigger:
+        connection: CI connection
+        milestone: Milestone
+        mode: Results go to
+        name: Name
+        ref: Branch or ref
+        run: Target run
+        suite: Folder
+        test_case: Test case
+    errors:
+      models:
+        ci_trigger:
+          error_unauthorized: You are not allowed to trigger test automation in this
+            project.
+          inactive: is inactive.
+          not_ready: 'is not ready to trigger CI jobs (missing: %{missing}).'
+          tm_ci_milestone_new_run_only: can only be chosen for a new run. A new iteration
+            stays in its run's milestone.
+          tm_ci_no_automated_cases: None of the selected test cases has an automation
+            reference (path/file.spec.ts#test name).
+          tm_ci_scope_ambiguous: Choose either a folder or a test case, not both.
+          tm_ci_scope_missing: Choose a run, a folder or a test case to run.
+          tm_milestone_completed: is completed. Reopen it to assign runs.
+          tm_run_finished: is completed or cancelled. Reopen it to add an iteration.
+    models:
+      ci_trigger: Run in CI
+  activerecord:
+    attributes:
+      test_management/assistant_generation:
+        options: Options
+        progress_step: Progress step
+        source: Source
+        source_type: Source type
+      test_management/assistant_message:
+        content: Message
+      test_management/assistant_provider:
+        name: Name
+        user_models: Models users may pick
+      test_management/automation_import:
+        format: Format
+        state: State
+        test_run: Test run
+        user: User
+      test_management/ci_connection:
+        active: Active
+        base_url: Server URL
+        ca_certificate: CA certificate (PEM)
+        ci_username: Jenkins user
+        e2e_tests: End-to-end tests
+        inbound_only: Inbound only
+        ingest_mode: Uploads create
+        name: Name
+        provider: Provider
+        reference_name: Reference name
+        remove_trigger_token: Remove the trigger token
+        repository: Repository
+        scm_repository: Link sources to the project's repository (Repositories module)
+        server_url: Server
+        server_version: Server version
+        target_run_name: Target run
+        token: Access token
+        trigger_ref: Default branch
+        trigger_token: Trigger token
+        workflow: Workflow file
+      test_management/configuration:
+        configuration_group: Configuration group
+        name: Name
+      test_management/configuration_group:
+        name: Name
+        project: Project
+      test_management/label:
+        color: Color
+        name: Name
+      test_management/milestone:
+        completed_at: Completed at
+        description: Description
+        due_date: Due date
+        name: Name
+        parent: Parent milestone
+        parent_id: Parent milestone
+        project: Project
+        start_date: Start date
+        started_at: Started at
+        status: Status
+        version: Version
+        version_id: Version
+        work_package_ids: References
+        work_packages: References
+      test_management/project_setting:
+        display_prefix: Display prefix
+        folder_tree_layout: Folder tree layout
+      test_management/suite:
+        name: Name
+        parent: Parent folder
+      test_management/test_case:
+        assigned_to: Assignee
+        author: Created by
+        automated: Automated
+        automation_reference: Automation reference
+        description: Description
+        label_names: Labels
+        labels: Labels
+        preconditions: Preconditions
+        priority: Priority
+        status: Status
+        steps: Steps
+        suite: Folder
+        title: Title
+        updated_by: Last edited by
+        work_package_ids: Linked work packages
+        work_packages: Linked work packages
+      test_management/test_plan:
+        assigned_to: Assign to
+        author: Created by
+        description: Description
+        end_date: End date
+        milestone: Milestone
+        milestone_id: Milestone
+        name: Name
+        project: Project
+        start_date: Start date
+        state: State
+        work_package_ids: References
+        work_packages: References
+      test_management/test_result:
+        comment: Comment
+        duration_ms: Duration
+        external_id: Reported test
+        import: Automation import
+        run_case: Test run case
+        source: Source
+        status: Status
+        user: User
+      test_management/test_run:
+        assigned_to: Assign to
+        author: Created by
+        ci_metadata: CI metadata
+        completion_source: Completed by
+        description: Description
+        end_date: End date
+        external_ref: External reference
+        filter_options: Dynamic filter
+        milestone: Milestone
+        milestone_id: Milestone
+        name: Name
+        selected_case_ids: Selected test cases
+        selection_mode: Test cases
+        source: Source
+        start_date: Start date
+        state: State
+        work_package_ids: References
+        work_packages: References
+      test_management/test_run_case:
+        assigned_to: Assignee
+        final_status: Final status
+        status: Status
+        test_case: Test case
+        test_run: Test run
+    errors:
+      messages:
+        tm_assistant_busy: The assistant is still working on your previous request.
+          Please wait until it has finished.
+        tm_assistant_count: "– the number of test cases must be between 1 and %{max}."
+        tm_assistant_disabled: The test assistant is switched off in this project.
+        tm_assistant_folder: "– the folder does not belong to this project."
+        tm_assistant_labels: "– too many labels or a label that is too long."
+        tm_assistant_not_configured: No AI provider is configured. An administrator
+          can set one up in Administration → Test management.
+        tm_assistant_types: "– choose at least one kind of test."
+        tm_ci_check_needs_token: Set an access token to check the connection.
+        tm_ci_check_needs_username: Set the Jenkins user name to check the connection.
+        tm_ci_inbound_only: 'This connection is inbound only: OpenProject does not
+          call its server.'
+        tm_invalid_assignee: The assignee is not a member of this project.
+        tm_invalid_status: is not a valid test run status.
+        tm_invalid_step_result: Step results must use steps of this test case and
+          a valid step status.
+        tm_invalid_transition: This action is not possible in the run's current state.
+        tm_milestone_completed: is completed. Reopen it to assign runs.
+        tm_milestone_has_children: 'cannot be set: this milestone has sub-milestones
+          (only one level is supported).'
+        tm_milestones_disabled: Milestones are disabled in this project.
+        tm_plans_disabled: Test plans are disabled in this project.
+        tm_pull_request_unknown: "– paste the URL of a pull or merge request of a
+          repository that one of this project's CI connections points at (GitHub,
+          GitLab, Gitea, Forgejo or Codeberg)."
+        tm_rerun_failed: The plan could not be re-run.
+        tm_run_finished: This test run is completed or cancelled. Reopen it to make
+          changes.
+        tm_work_package_not_found: "– choose a work package that exists and that you
+          are allowed to see."
+      models:
+        test_management/assistant_provider:
+          attributes:
+            user_models:
+              invalid: must be model names of at most 255 characters.
+              too_many: can list at most %{count} models.
+        test_management/ci_connection:
+          attributes:
+            ca_certificate:
+              pem: must contain 1 to %{max} PEM certificates (-----BEGIN CERTIFICATE-----
+                … -----END CERTIFICATE-----).
+              private_key: must not contain a private key – paste only the CA certificate.
+            repository:
+              taken: already has a connection of this provider on this server.
+            scm_repository:
+              invalid: must be the repository of this project.
+            token:
+              reenter_for_new_endpoint: must be entered again (or removed) when the
+                server URL, the provider or the CA certificate changes.
+            trigger_token:
+              reenter_for_new_endpoint: must be entered again (or removed) when the
+                server URL, the provider or the CA certificate changes.
+        test_management/milestone:
+          attributes:
+            work_package_ids:
+              not_visible: contains work packages that do not exist or that you are
+                not allowed to see (%{ids}).
+          tm_invalid_transition: This action is not possible in the milestone's current
+            status.
+        test_management/test_case:
+          attributes:
+            work_package_ids:
+              not_visible: contains work packages that do not exist or that you are
+                not allowed to see (%{ids}).
+        test_management/test_run:
+          attributes:
+            work_package_ids:
+              not_visible: contains work packages that do not exist or that you are
+                not allowed to see (%{ids}).
+    models:
+      test_management/assistant_generation: Test case generation
+      test_management/assistant_message: Test assistant message
+      test_management/assistant_provider: AI provider
+      test_management/automation_import: Automation import
+      test_management/ci_connection: CI connection
+      test_management/configuration: Configuration
+      test_management/configuration_group: Configuration group
+      test_management/label: Label
+      test_management/milestone: Milestone
+      test_management/milestone_work_package: Milestone work package link
+      test_management/project_setting: Test management settings
+      test_management/suite: Suite
+      test_management/test_case: Test case
+      test_management/test_case_work_package: Test case work package link
+      test_management/test_plan: Test plan
+      test_management/test_plan_entry: Test plan entry
+      test_management/test_result: Test result
+      test_management/test_run: Test run
+      test_management/test_run_case: Test run case
+      test_management/test_run_iteration: Test run iteration
+      test_management/test_step: Test step
+  permission_add_test_cases: Add test cases
+  permission_add_test_runs: Add test runs
+  permission_change_test_case_status: Change test case status
+  permission_delete_test_cases: Delete test cases
+  permission_delete_test_runs: Delete test runs
+  permission_edit_test_cases: Edit test cases
+  permission_execute_test_runs: Execute test runs
+  permission_link_test_cases_to_work_packages: Link test cases to work packages
+  permission_manage_test_ci: Manage test CI
+  permission_manage_test_management: Manage test management
+  permission_manage_test_milestones: Manage milestones
+  permission_manage_test_plans: Manage test plans
+  permission_manage_test_suites: Manage test suites
+  permission_show_testing_content: Show Testing tab
+  permission_trigger_test_automation: Trigger test automation
+  permission_upload_test_results: Upload test results
+  permission_use_test_assistant: Use test assistant
+  permission_view_test_cases: View test cases
+  permission_view_test_plans: View test plans
+  permission_view_test_runs: View test runs
+  project_module_test_management: Test management
+  test_management:
+    admin:
+      assistant:
+        api_key: API key
+        api_key_hint: Stored encrypted. Not needed for authentication “None”.
+        api_key_keep: Stored – leave empty to keep it
+        api_key_optional: 'Optional: a local Ollama needs no key; Ollama Cloud does.'
+        api_key_other_provider: 'The stored API key was entered for %{provider}. It
+          is not reused: enter a key for the new provider.'
+        api_key_other_provider_optional: The stored API key was entered for %{provider}.
+          It is removed when you save without entering a key.
+        api_key_set: An API key is stored (encrypted). It is never shown again.
+        api_key_unreadable: The stored API key cannot be decrypted (the secret key
+          base changed). Enter it again.
+        auth_fixed:
+          api_key: Sent in the api-key header.
+          bearer: 'Sent as Authorization: Bearer <key>.'
+          none: No authentication.
+          x_api_key: Sent in the x-api-key header (with anthropic-version).
+        auth_style: Authentication
+        auth_styles:
+          api_key: api-key header (Azure OpenAI)
+          bearer: 'Authorization: Bearer <key> (OpenAI, OpenRouter, most gateways)'
+          none: None (e.g. a local Ollama)
+        base_url: Base URL
+        base_url_hints:
+          anthropic: Default https://api.anthropic.com/v1. Uses Anthropic's native
+            Messages API (/messages).
+          azure: https://<resource>.openai.azure.com/openai/v1 (v1 API, no api-version).
+            For a deployment URL with ?api-version use “Custom” with the api-key header.
+          custom: For example https://llm.example.com/v1 or https://<resource>.openai.azure.com/openai/deployments/<deployment>?api-version=2024-10-21.
+            “/chat/completions” is appended.
+          mistral: Default https://api.mistral.ai/v1.
+          ollama: 'Default http://localhost:11434/v1. In Kubernetes use the service,
+            e.g. http://ollama.<namespace>.svc:11434 (“/v1” is added). Ollama Cloud:
+            https://ollama.com/v1 with a key.'
+          openai: Default https://api.openai.com/v1.
+          openrouter: Default https://openrouter.ai/api/v1.
+          xai: Default https://api.x.ai/v1.
+        configured: configured (%{label})
+        docs: Provider documentation
+        errors:
+          api_key_reenter: Enter the API key for %{provider}. The stored key was entered
+            for another provider or server and is not reused.
+          auth_style: Unknown authentication style.
+          base_url: The base URL must be an http(s) URL without user name or password.
+          max_tokens: The maximum number of tokens must be a whole number between
+            %{min} and %{max}.
+          model: The model name is too long.
+          provider: Unknown provider.
+          timeout: The timeout must be a whole number between %{min} and %{max}.
+        form:
+          edit_title: Edit AI provider %{name}
+          legend: AI provider
+          make_default: Default provider
+          make_default_hint: Used by everyone who has not picked a provider. The first
+            provider is always the default.
+          name: Name
+          name_hint: Shown to users in the Test Assistant header, e.g. “OpenAI” or
+            “Ollama (cluster)”.
+          name_placeholder: e.g. OpenAI
+          new_title: Add AI provider
+          user_models: Models users may pick
+          user_models_hint: 'Optional: other models of this provider users may choose
+            instead of the default model, one per line (at most %{max}). Only these
+            models are offered.'
+        heading: Test Assistant – AI providers
+        hint: 'Save one or more providers: a preset or “Custom” for any OpenAI-compatible
+          endpoint (vLLM, LM Studio, LiteLLM and similar gateways). Users pick a provider
+          and model in the Test Assistant header; the default provider is used until
+          they do. Source material (work packages, pull requests, code, test results)
+          is sent to the provider the user picked.'
+        max_tokens: Maximum tokens per answer (256–32000)
+        model: Model
+        model_free_text: Other model
+        model_free_text_hint: Used when “Other” is selected, e.g. for a model the
+          provider does not list.
+        model_hint: Use “Test connection” to choose from the provider's models, or
+          enter a model name.
+        model_hint_azure: The name of your deployment (not the base model name).
+        model_other: Other (enter below)
+        network_hint: 'Requests go through OpenProject''s SSRF protection: a provider
+          on a private or local address (e.g. Ollama in the same cluster) must be
+          allowed with OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        not_configured: not configured – the Test Assistant is unavailable
+        provider: Provider
+        provider_hint: A preset fills in the base URL and the authentication. The
+          base URL stays editable, e.g. for a proxy.
+        providers:
+          anthropic: Anthropic Claude
+          azure: Azure OpenAI
+          custom: Custom (OpenAI-compatible)
+          mistral: Mistral
+          ollama: Ollama (local)
+          openai: OpenAI
+          openrouter: OpenRouter
+          xai: xAI
+        providers_list:
+          add: Add provider
+          columns:
+            host: Host
+            model: Default model
+            name: Name
+            preset: Provider
+            status: Status
+            user_models: Models users may pick
+          default: Default
+          delete_confirm: Delete the provider “%{name}”? Users who picked it switch
+            to the default provider.
+          empty: No AI provider is saved yet. The Test Assistant is unavailable until
+            one is added.
+          incomplete: Incomplete
+          key_set: key stored
+          made_default: "%{name} is now the default provider."
+          make_default: Make default
+          no_key: no key
+          ready: Ready
+        remove_api_key: Remove the stored API key
+        status: Status
+        test:
+          button: Test connection
+          catalogue_hint: This provider lists all models; some may not be enabled
+            for your key.
+          errors:
+            auth: "%{host} refused the API key (HTTP %{status}). Check the key and
+              its permissions."
+            base_url_missing: Enter a valid base URL first.
+            http: "%{host} answered HTTP %{status}."
+            key_missing: Enter an API key first.
+            model_missing: Enter or choose a model first.
+            network: "%{host} could not be reached (%{detail}). Check the base URL
+              and the network."
+            not_found: "%{host} answered HTTP %{status}: check the base URL (it usually
+              ends in /v1)."
+            rate_limited: "%{host} is rate limiting requests (HTTP %{status}). Try
+              again later."
+            ssrf: "%{host} has a private address and is blocked by OpenProject's SSRF
+              protection. A server administrator can allow it by adding its IP addresses
+              (or their range in CIDR notation) to %{env} and restarting OpenProject.
+              Addresses of %{host}: %{addresses}."
+            timeout: "%{host} did not answer within %{seconds} seconds."
+            tls: 'TLS error for %{host}: %{detail}'
+            too_large: The provider's answer was too large.
+            unexpected: The provider's answer could not be read. Check the base URL.
+          hint: Uses the values entered above, also before saving. An empty API key
+            field uses the stored key while the provider and host are unchanged.
+          running: Testing…
+          scope_hints:
+            catalogue: This provider lists all of its models, not only those your
+              key can use.
+            key: The list shows only the models this key or account can use.
+            none: 'Azure cannot list deployments with the resource key: the test checks
+              the key only.'
+          success:
+            one: Connection OK – 1 chat model found.
+            other: Connection OK – %{count} chat models found.
+          success_azure: Connection OK – the key works. Enter the deployment name
+            as the model (Azure lists base models, not deployments).
+          success_no_models: Connection OK, but the provider listed no chat models.
+            Enter the model name.
+          verify:
+            failed: 'The model %{model} did not answer: %{detail}'
+            ok: The model %{model} answered.
+        timeout: Timeout (seconds, 10–300)
+        verify:
+          hint: Sends one short request (“Reply with OK.”, at most 16 tokens) to the
+            chosen model before saving, to confirm this key may use it. Recommended
+            when the provider lists models the key cannot use.
+          label: Check the model when saving
+      default_display_prefix: Default display prefix
+      general: General
+      heading: Test management
+      hotkeys:
+        heading: Keyboard shortcuts
+        hotkey_hints_enabled: Show shortcut hints and tips
+        hotkey_hints_enabled_hint: Small key badges on buttons and menu entries, and
+          an occasional tip on Test management pages. Users can switch both off for
+          themselves.
+        hotkeys_enabled: Enable Test management shortcuts
+        hotkeys_enabled_hint: g t c (cases), g t r (runs), g t a (Test Assistant),
+          n t c / n t r (new case / run), u (up one level), g t h (list). Users who
+          disabled keyboard shortcuts in My account never get them.
+      import: Import
+      import_hint: Instance-level import templates will appear here later.
+      integrations: Integrations
+      integrations_hint: GitHub and GitLab webhook settings stay under Administration
+        → Integrations. This PoC links to those modules.
+    assistant:
+      actions:
+        dates_order: The due date is before the start date.
+        failed: The action failed.
+        invalid_date: Invalid date “%{value}” (use YYYY-MM-DD).
+        milestones_disabled: Milestones are disabled in this project.
+        name_missing: A name is required.
+        no_cases: No test cases selected.
+        not_allowed: You are not allowed to do this in this project.
+        preview:
+          cases: "%{count} test case(s) as drafts in %{folder}"
+          dates: Start %{start}, due %{due}
+          folders: 'From folders: %{names}'
+          milestone: 'Milestone: %{name}'
+          milestone_new: Milestone “%{name}”
+          parent: 'Under milestone: %{name}'
+          run: Test run “%{name}” with %{count} test case(s)
+        too_many_cases: Too many test cases (at most %{max}).
+        unknown: Unknown action.
+        unknown_cases: 'Unknown test case(s): %{ids}.'
+        unknown_folders: 'Unknown folder(s): %{ids}.'
+        unknown_milestone: Unknown milestone.
+      chat:
+        action_failed: 'Could not create it:'
+        actions:
+          create_milestone: New milestone
+          create_test_cases: New test cases
+          create_test_run: New test run
+        ask: Your message
+        assistant: Test Assistant
+        cancelled: Cancelled – nothing was created.
+        clear: Clear conversation
+        cleared: Conversation cleared.
+        confirm: Confirm
+        confirm_question: Create this in project “%{project}”?
+        confirmed: Done.
+        default_run_name: Test run %{date}
+        done: 'Created:'
+        empty: Ask about test cases, runs, failures, milestones or work package coverage
+          – or ask the assistant to create a test run, a milestone or test cases.
+          It asks for your confirmation before creating anything.
+        empty_answer: "(no answer)"
+        hint: The conversation is only visible to you. Project data is sent to the
+          configured AI provider.
+        not_confirmable: This proposal can no longer be confirmed.
+        placeholder: e.g. Which cases failed in the last run? Create a regression
+          run from the Checkout folder for milestone 2.0.
+        proposal_intro: Here is what I would create. Please check and confirm.
+        send: Send
+        thinking: Thinking… This page refreshes automatically.
+        too_many_steps: I could not finish this request. Please ask a more specific
+          question.
+      description: Draft test cases from a work package, text, a pull request or code,
+        and ask about your cases, runs, results, milestones and coverage.
+      errors:
+        empty_reply: the model returned an empty answer
+        internal: Something went wrong (%{error}). Please try again.
+        no_drafts: the answer contained no usable test cases
+        not_configured: No AI provider is configured.
+        pull_request_inbound_only: 'The CI connection “%{connection}” is inbound only:
+          OpenProject does not call its server. Paste the diff as text instead.'
+        pull_request_unknown: The pull request URL does not belong to a repository
+          of this project's CI connections.
+        rate_limited: rate limited by the provider, try again later
+        reasoning_exhausted: the model used all %{tokens} tokens on internal reasoning
+          and returned no answer. Raise “Maximum tokens per answer” (e.g. 8192+) or
+          pick a non-reasoning model.
+        response_too_large: the answer was too large
+        timed_out: The assistant did not answer in time. Please try again.
+        unexpected_response: unexpected answer format (is this an OpenAI-compatible
+          chat completions endpoint?)
+        work_package_not_found: The work package does not exist or you are not allowed
+          to see it.
+      generate:
+        count: Number of test cases
+        draft_count:
+          one: 1 draft
+          other: "%{count} drafts"
+        drafts_title: Draft test cases
+        failed: 'Generation failed: %{error}'
+        failed_template: 'Generation failed: %{error}'
+        folder: Target folder
+        labels: Labels
+        language: Language
+        language_placeholder: Language (optional), e.g. Ruby
+        new: New generation
+        nothing_selected: Select at least one draft.
+        options: Options
+        pending: The assistant is writing draft test cases…
+        polling:
+          cancel: Cancel
+          cancelled: Cancelled
+          check_again: Check again
+          last_update: "· last update %{seconds}s ago"
+          progress: Writing drafts… %{done} of %{total}
+          progress_template: Writing drafts… %{done} of %{total}
+          queued: Queued… waiting for a worker.
+          reconnecting: Reconnecting…
+          running: Writing drafts…
+          steps:
+            labels:
+              preparing_source: Read source
+              queued: Queue
+              waiting_for_model: Ask AI
+              writing_drafts: Write drafts
+            preparing_source: Step 2 of 4 · Reading the source…
+            queued: Step 1 of 4 · Queued… waiting for a worker.
+            waiting_for_model: Step 3 of 4 · Asking the AI model… This can take a
+              minute.
+            writing_drafts: Step 4 of 4 · Writing drafts…
+            writing_drafts_progress: Step 4 of 4 · Writing drafts… %{done} of %{total}
+          succeeded:
+            one: 1 draft test case ready
+            other: "%{count} draft test cases ready"
+          succeeded_template: "%{count} draft test cases ready"
+          timeout: Still working — check again
+          working: "· working…"
+        privacy_hint: The source is sent to the configured AI provider. Nothing is
+          saved until you choose drafts to keep.
+        pull_request_hint: 'Title, description and diff are read with the CI connection''s
+          token. Repositories:'
+        pull_request_none: Add a GitHub, GitLab, Gitea, Forgejo or Codeberg connection
+          in Project settings → Test management to use pull requests.
+        pull_request_note: Generated from pull request %{url}
+        recent: Your recent generations
+        retry_unavailable: This generation cannot be retried.
+        review_hint: Review and edit the drafts, untick the ones you do not want,
+          then save. Saved cases get the status Draft.
+        save: Save selected drafts
+        save_hint: Selected drafts are saved as test cases with the status Draft.
+        save_links_wp: 'They are linked to work package #%{id}.'
+        save_notes_pr: The pull request URL is noted in their description.
+        save_options: Save into
+        saved:
+          one: 1 test case saved as draft.
+          other: "%{count} test cases saved as drafts."
+        saved_count:
+          one: 1 test case saved
+          other: "%{count} test cases saved"
+        select_draft: Keep this draft
+        source: Source
+        sources:
+          code: Code snippet
+          pull_request: Pull request
+          text: Free text
+          work_package: Work package
+        step_action: Action
+        step_expected: Expected result
+        submit: Generate drafts
+        summary:
+          code: Code snippet (%{chars} characters)
+          pull_request: Pull request %{url}
+          text: 'Text: %{text}'
+          work_package: 'Work package #%{id}'
+        try_again: Try again
+        type_note: 'Kind of test: %{type}'
+        types: Kinds of tests
+        work_package_hint: Uses the subject, description, acceptance criteria and
+          child work packages you can see.
+      no_folder: No folder
+      not_configured:
+        admin_link: Configure an AI provider
+        admin_text: The Test Assistant needs an AI provider (OpenAI, Anthropic, Azure
+          OpenAI, Ollama, …). If you picked a provider that is incomplete, pick another
+          one in the header.
+        admin_title: Configure an AI provider.
+        user_text: 'The Test Assistant is not available yet: no AI provider has been
+          configured. Please ask an administrator.'
+      picker:
+        add: Add new provider…
+        ask_admin: Ask an administrator to add providers
+        default: default
+        invalid: This provider or model is not available.
+        label: AI provider and model
+        not_ready: not configured
+      status:
+        cancelled: Cancelled
+        done: Ready
+        failed: Failed
+        queued: Queued
+        running: Generating
+        succeeded: Ready
+      tabs:
+        chat: Chat
+        generate: Generate
+      title: Test Assistant
+      title_with_icon: "Test Assistant \U0001FA84"
+      types:
+        accessibility: Accessibility
+        boundary: Boundary values
+        edge: Edge cases
+        negative: Negative
+        positive: Positive
+        security: Security
+        usability: Usability
+    cases:
+      activity: Activity
+      add_step: Add step
+      all_priorities: All priorities
+      all_statuses: All statuses
+      automation_reference_hint: 'Links automated results to this case: the test''s
+        file and title path as reported by CI (Playwright: "file#Suite › test", JUnit:
+        "classname#name"). Alternatively tag the test with this case''s ID, e.g. @TC-12.'
+      bulk:
+        change_properties: Change properties
+        copied: "%{count} test case(s) copied."
+        copy: Copy
+        copy_to: Copy to folder
+        deleted: "%{count} test case(s) moved to Deleted."
+        edit: Edit
+        edit_heading: Bulk edit test cases
+        edit_hint: Only fields you change are written. Leave a field empty or on “No
+          change” to keep the existing value.
+        labels_hint: When filled, replaces labels on every selected case.
+        labels_placeholder: Leave empty for no change
+        move: Move
+        move_to: Move to folder
+        moved: "%{count} test case(s) moved."
+        no_change: "(No change)"
+        none_selected: Select at least one test case.
+        select_all: Select all cases on this page
+        select_case: 'Select case #%{id}'
+        selected: selected
+        update_work_packages: Replace linked work packages
+        updated: "%{count} test case(s) updated."
+        work_packages_hint: Tick the box and enter IDs to replace links on every selected
+          case. An empty list clears links.
+        work_packages_placeholder: Work package IDs, comma-separated
+      bulk_delete_dialog:
+        confirm_button: Move to Deleted
+        confirm_deletion: I confirm that the selected test cases will be moved to
+          the Deleted folder.
+        description: Are you sure you want to move the selected test cases to the
+          Deleted folder? Their IDs will be kept and you can restore them later.
+        heading:
+          one: Move this test case to Deleted?
+          other: Move these %{count} test cases to Deleted?
+        summary: "%{count} test cases will be moved to Deleted."
+        title:
+          one: Delete %{count} test case
+          other: Delete %{count} test cases
+      columns:
+        assignee: Assignee
+        automated: Automated
+        id: ID
+        labels: Labels
+        priority: Priority
+        status: Status
+        suite: Folder
+        title: Title
+      create: Create case
+      created_by: Created by
+      defects_empty: No defects linked.
+      defects_empty_hint: Link a work package of type Bug to this case to see it here.
+      delete_dialog:
+        confirm_button: Move to Deleted
+        confirm_deletion: I confirm that this test case will be moved to the Deleted
+          folder.
+        description: Are you sure you want to move "%{name}" to the Deleted folder?
+          Its ID will be kept and you can restore it later.
+        heading: Move this test case to Deleted?
+        title: Delete test case
+      empty: No test cases in this view yet.
+      empty_deleted: No deleted test cases.
+      empty_description: "—"
+      empty_filtered: No test cases match these filters.
+      empty_hint: Type a title above and press Create case.
+      empty_preconditions: "—"
+      heading: Test cases
+      last_edited_by: Last edited by
+      linked_work_packages: Linked work packages
+      new: New test case
+      new_title: New case title
+      no_linked_work_packages: No linked work packages.
+      no_steps: No steps defined.
+      on_time: on %{time}
+      open_source: Open in %{connection}
+      remove_step: Remove
+      restore: Restore
+      restore_errors:
+        error_unauthorized: You are not allowed to restore test cases.
+        folder_required: Choose a folder to restore this test case into.
+        invalid_folder: The selected folder is invalid.
+        not_deleted: This test case is not deleted.
+      restore_folder_missing: The previous folder “%{path}” no longer exists. Choose
+        a new folder.
+      restore_heading: 'Restore #%{id}'
+      restored: Test case restored.
+      runs_empty: No runs include this case yet.
+      runs_empty_hint: Test runs will list their results for this case here.
+      search_placeholder: Search cases…
+      select_cases: Select cases
+      step_action: Action
+      step_data: Test data
+      step_expected: Expected result
+      steps: Steps
+      steps_hint: Fill in the empty row to add a step. Save to get another empty row.
+      tabs:
+        defects: Defects
+        history: History
+        label: Test case
+        overview: Overview
+        runs: Runs
+      work_packages_hint: Link this test case to one or more work packages it covers.
+      work_packages_placeholder: Search work packages by ID or subject
+    ci_triggers:
+      button: Run in CI
+      case_counts: "%{automated} of %{total} test cases are automated"
+      configure_connections: Configure CI connections
+      connection: CI connection
+      failed: 'The run was prepared but the CI job could not be triggered: %{error}'
+      inbound_only: inbound only, start by hand
+      inbound_only_hint: For an inbound-only connection OpenProject only prepares
+        the run and shows the CI variables and a command to start the pipeline from
+        inside your network.
+      iteration_name: Run in CI · %{connection}
+      last_trigger: Run in CI
+      manual:
+        command: Command
+        copy_command: Copy command
+        copy_variables: Copy CI variables
+        hint: 'Inbound-only connection “%{connection}”: start the pipeline yourself.
+          The results of iteration %{iteration} are filed here when the job uploads
+          them with these values.'
+        secrets_hint: 'Tokens are placeholders ($GITLAB_TRIGGER_TOKEN, $CI_TOKEN,
+          $JENKINS_API_TOKEN, $WOODPECKER_TOKEN): OpenProject never shows stored tokens.
+          --cacert ./ca.pem refers to the connection''s CA certificate.'
+        variables: CI variables
+      milestone_hint: 'Only for “A new run”: the new run is assigned to this milestone.
+        A new iteration stays in its run''s milestone.'
+      mode: Results go to
+      modes:
+        new_iteration: A new iteration of an existing run
+        new_run: A new test run
+      name: Name
+      no_connections: There is no active CI connection in this project.
+      not_ready: not ready
+      open_in_ci: Open in CI
+      prepared_manual: 'Run “%{run}”, iteration %{number} is prepared. OpenProject
+        does not call this CI server (inbound only): start the pipeline with the values
+        shown on the run.'
+      ref: Branch or ref
+      ref_hint: Leave empty for the connection's default branch.
+      run_name: "%{target} · %{connection}"
+      scope: Runs
+      statuses:
+        failed: Failed
+        manual: Prepared – start the pipeline by hand
+        triggered: Triggered
+      submit: Run in CI
+      target_run: Existing run
+      target_run_hint: Only for “A new iteration”. Leave empty to use the run you
+        started from.
+      title: Run in CI
+      triggered: CI job triggered. Results will be filed into “%{run}”, iteration
+        %{number}.
+    configurations:
+      create_hint_html: No configurations defined yet. You can add browser/OS/device
+        configurations in %{link}.
+      run_field_hint: Optional. Pick at most one value per group to tag this run (e.g.
+        Chrome + Windows).
+      settings_link: Project settings → Test management
+      title: Configurations
+    exports:
+      assignee: Assigned to
+      button: Export
+      cases: Test cases
+      cases_title: Test cases - %{project}
+      columns:
+        assignee: Assigned to
+        automated: Automated
+        comment: Last result comment
+        configuration: Configuration
+        created_at: Created at
+        created_by: Created by
+        error: Error
+        failed_step: Failed step
+        folder: Folder
+        id: ID
+        labels: Labels
+        milestone: Milestone
+        preconditions: Preconditions
+        priority: Priority
+        result_at: Result at
+        result_by: Result by
+        run: Run
+        run_id: Run ID
+        status: Status
+        steps: Steps
+        title: Title
+        updated_at: Last edited at
+        updated_by: Last edited by
+        work_packages: Linked work packages
+      created_by: Created by
+      current_view: Current view
+      details: Test case details
+      failures: Failures
+      filter_search: Title contains "%{value}"
+      finished: Finished by
+      formats:
+        csv: CSV
+        pdf: PDF
+        xls: Excel
+      generated: Generated by %{user} on %{time}
+      invalid_format: Unknown export format. Use pdf, csv or xls.
+      menu_label: Export options
+      milestone: Milestone
+      milestone_title: Milestone %{id} %{name}
+      no_cases: No test cases.
+      pass_rate: Pass rate
+      plan: Test plan
+      plan_title: Test plan %{id} %{name}
+      run: Run
+      run_title: Test run %{id} %{name}
+      runs_count: Test runs
+      scope: Scope
+      scope_folder: 'Folder: %{folder} (including subfolders)'
+      scope_project: Whole project
+      state: State
+      step_action: Action
+      step_data: Data
+      step_expected: Expected
+      this_folder: Folder (incl. subfolders)
+      this_run: This run
+      total: Test cases
+      whole_project: Whole project
+    history:
+      automation_result: reported an automated test result
+      automation_result_line: 'Automation in run %{run}: %{status}'
+      created: created the test case
+      deleted: moved the test case to Deleted
+      empty: No history yet.
+      restored: restored the test case
+      run_cancelled: cancelled a test run
+      run_completed: completed a test run
+      run_finished_line: 'Run %{run} %{state}: %{status}'
+      steps_changed: Steps changed
+      text_changed: "%{attribute} changed"
+      updated: updated the test case
+      value_changed: "%{attribute} changed from %{from} to %{to}"
+      wp_added: added %{ids}
+      wp_removed: removed %{ids}
+    hotkeys:
+      actions:
+        assistant: Go to Test Assistant
+        cases: Go to test cases
+        help: Show these shortcuts
+        new_case: New test case
+        new_run: New test run
+        runs: Go to test runs
+        up: Up one level (back)
+      all_shortcuts: All OpenProject shortcuts
+      badge_title: 'Keyboard shortcut: %{keys}'
+      dialog_hint: Shortcuts do nothing while you type in a field or an editor. They
+        are off when keyboard shortcuts are disabled in My account.
+      dialog_title: Test management shortcuts
+      dont_show_again: Don't show tips again
+      pref_hints: Show shortcut badges
+      pref_tips: Show shortcut tips
+      show_all: All shortcuts (%{keys})
+      tip_title: Keyboard tip
+      tips:
+        assistant_html: Press %{keys} to open the Test Assistant.
+        cases_html: Press %{keys} to open the test cases from any page of this project.
+        new_case_html: Press %{keys} to create a test case – on the cases list it
+          jumps straight into the title field.
+        new_run_html: Press %{keys} to start a new test run.
+        runs_html: Press %{keys} to jump to the test runs.
+        up_html: Press %{keys} to go up one level, e.g. from a test case back to its
+          folder.
+    labels:
+      hint: Comma-separated. New labels are created for this project.
+      placeholder: e.g. smoke, regression
+    menu:
+      assistant: Test Assistant
+      cases: Cases
+      ci: CI
+      milestones: Milestones
+      plans: Plans
+      runs: Runs
+    milestones:
+      add_sub_milestone: Add sub-milestone
+      aggregation_hint: Latest status of every case in the milestone's runs and its
+        sub-milestones' runs (cancelled runs excluded). The pass rate excludes skipped
+        cases.
+      all_tested: Nothing left untested
+      cases_count:
+        one: 1 case
+        other: "%{count} cases"
+      complete: Complete
+      complete_confirm: Complete this milestone? Runs can no longer be assigned to
+        it until it is reopened.
+      completed_notice: Milestone completed.
+      create: Create milestone
+      delete: Delete
+      delete_confirm: Delete this milestone? Its test runs are kept and become unassigned;
+        sub-milestones become top-level milestones.
+      description: Releases, sprints, regression cycles and other goals that test
+        runs are assigned to.
+      edit: Edit milestone
+      empty_text: Create a milestone for a release, sprint, regression cycle, UAT
+        phase or audit and assign test runs to it.
+      empty_title: No milestones
+      filters:
+        all: All
+        completed: Completed
+        open: Open
+      form:
+        dates_hint: 'Dates are a plan: the status only changes with Start, Complete
+          and Reopen. A milestone past its due date is shown as overdue.'
+        name_hint: For example a release, sprint, regression cycle, hotfix or UAT
+          phase.
+        no_parent: None (top-level milestone)
+        no_version: No version
+        parent_hint: Sub-milestones (one level) roll up into their parent, e.g. sprints
+          within a release.
+        references_hint: Linked work packages show the milestone in their Testing
+          tab (only for users who can see the work package).
+        version_hint: Optional. Work packages of this version show the milestone in
+          their Testing tab.
+      in_parent: in %{name}
+      in_sub_milestone: via sub-milestone %{name}
+      milestone: Milestone
+      new: New milestone
+      no_dates: No dates
+      no_results: No results yet
+      no_runs: No test runs are assigned to this milestone yet. Choose the milestone
+        in a run's form.
+      none: No milestone
+      overdue: Overdue
+      pass_rate_text: "%{rate}% passed"
+      progress: Progress
+      reopen: Reopen
+      reopened_notice: Milestone reopened.
+      run_field_hint: Group this run under a release, sprint or test cycle. Completed
+        milestones are not offered.
+      runs: Test runs
+      runs_count:
+        one: 1 run
+        other: "%{count} runs"
+      start: Start
+      started_notice: Milestone started.
+      statuses:
+        completed: Completed
+        open: Open
+        started: Started
+      sub_milestones: Sub-milestones
+      title: Milestones
+      version_short: Version %{name}
+    placeholders:
+      ci: A CI overview will appear here later. CI connections are set up in Project
+        settings → Test management; uploads and “Run in CI” are described in the module
+        documentation (CI and automation).
+      coming_soon: Coming soon
+      reports: Reports will appear here in a later phase.
+      requirements: Requirements (linked work packages) will appear here in a later
+        phase.
+    plans:
+      add_entry: Add entry
+      complete: Complete plan
+      completed_notice: Test plan completed.
+      description: Optional campaigns that group related test runs, including configuration
+        matrices. Standalone runs stay available without a plan.
+      edit: Edit test plan
+      empty: No test plans yet. Plans are optional — you can keep using standalone
+        runs.
+      entries: Entries
+      entries_empty: No entries yet. Add an entry to spawn runs.
+      filters:
+        active: Active
+        all: All
+        completed: Completed
+      new: New test plan
+      no_milestone: No milestone
+      reopen: Reopen plan
+      reopened_notice: Test plan reopened.
+      rerun: Rerun plan
+      rerun_notice: A new test plan was created from this one.
+      runs_count:
+        one: 1 run
+        other: "%{count} runs"
+        zero: No runs
+      selection:
+        all: All test cases
+        dynamic: Dynamic filtering
+        specific: Specific test cases
+      states:
+        active: Active
+        completed: Completed
+      title: Test plans
+    project_settings:
+      ci:
+        add: Add connection
+        base_url_hint: Leave empty for github.com, gitlab.com or codeberg.org. Required
+          for self-hosted servers, Jenkins, Gitea, Forgejo and Woodpecker, e.g. https://gitlab.example.com
+          or, with a sub-path, https://example.com/gitlab (HTTPS only; the path is
+          kept for every API call).
+        ca_certificate_hint: 'Self-hosted server with a certificate from an internal
+          CA: paste the CA certificate(s) in PEM format. OpenProject trusts them in
+          addition to the system certificates, for this connection only. Not secret.
+          Verification cannot be switched off; alternatively the server administrator
+          can add the CA to the system store (SSL_CERT_FILE).'
+        ca_expired: CA %{name} expired on %{date}
+        ca_summary: CA %{name}, valid until %{date}
+        cancel: Cancel
+        check: Check connection
+        check_needs_token: Set an access token to check the connection.
+        check_statuses:
+          error: Check failed
+          not_found: Repository not found or not visible to the token
+          ok: Connection OK
+          unauthorized: Token rejected
+        checked_at: checked %{time}
+        ci_username_hint: 'Jenkins only: the user that owns the API token (the access
+          token above).'
+        created: CI connection created.
+        delete: Delete
+        delete_confirm: Delete the CI connection "%{name}"? Runs and results stay;
+          future uploads from this repository use the upload options only.
+        deleted: CI connection deleted.
+        e2e_modes:
+          always: Always end-to-end
+          auto: Detect automatically
+          never: Never end-to-end
+        e2e_tests_hint: 'Whether its tests get the /e2e suffix in new references.
+          Automatic: Playwright reports, paths with an e2e folder or file part (e2e/…,
+          checkout.e2e.ts) and cypress/…; an upload''s testType option overrides it.'
+        edit: Edit
+        empty: No CI connections yet. Uploads still work; they are matched to a connection
+          by provider and repository when one exists.
+        errors:
+          ssrf: "%{host} has a private address and is blocked by OpenProject's SSRF
+            protection. A server administrator can allow it by adding its IP addresses
+            (or their range in CIDR notation) to %{env} and restarting OpenProject.
+            Addresses of %{host}: %{addresses}."
+          ssrf_unresolved: could not be resolved from OpenProject
+          tls: The TLS certificate of %{host} is not trusted (%{detail}). Add the
+            CA certificate to the connection (or to OpenProject's system certificates).
+        gitlab_outdated: 'GitLab older than %{min}: merge-request diffs use the deprecated
+          /changes API'
+        hint: Repositories and CI jobs (GitHub, GitLab, Gitea, Forgejo, Codeberg,
+          Jenkins, Woodpecker – cloud or self-hosted, also on a sub-path) that upload
+          automated test results to this project. A connection decides whether each
+          pipeline creates a new run or adds an iteration to an existing run such
+          as Smoke or Regression. The upload itself can always override this (mode,
+          targetRun).
+        inactive: Inactive
+        inbound_only: Inbound only
+        inbound_only_hint: OpenProject never connects to this server – for networks
+          where only CI → OpenProject is allowed. Uploads work as usual; “Check connection”,
+          the trigger and pull-request sources are off, and “Run in CI” shows the
+          values to start the pipeline by hand.
+        ingest_modes:
+          new_iteration: A new iteration of the target run
+          new_run: A new run for every pipeline
+        mode_summary:
+          new_iteration: New iteration of “%{run}”
+          new_run: New run per pipeline
+        new: New CI connection
+        providers:
+          codeberg: Codeberg
+          forgejo: Forgejo
+          gitea: Gitea
+          github: GitHub
+          gitlab: GitLab
+          jenkins: Jenkins
+          woodpecker: Woodpecker CI
+        read_only_hint: You need the “Manage test CI” permission to change CI connections.
+        reference_name_hint: 'Prefix of this repository''s automation references,
+          e.g. shop:tests/cart.spec.ts#… or shop/e2e:… for end-to-end tests. Leave
+          empty to use the repository name (Woodpecker: the connection name). Unqualified
+          references keep working.'
+        reference_summary: 'References: %{name}:…'
+        remove_token: Remove the stored token
+        remove_trigger_token: Remove the stored trigger token
+        repository_hint: owner/repository for GitHub, Gitea, Forgejo and Codeberg;
+          group/subgroup/project for GitLab; the job path (folder/job) for Jenkins;
+          the numeric repository id for Woodpecker.
+        save: Save
+        scm_attached_summary: sources in the Repositories module
+        scm_repository_hint: For test cases of this connection without a GitHub /
+          GitLab / Gitea / Forgejo / Codeberg page, the source link opens the file
+          in OpenProject's repository browser (for users who may browse the repository).
+        server_version: version %{version}
+        suggestions:
+          attach_scm: Set up a connection for this repository
+          gitlab: 'Repositories known from the GitLab integration (webhooks) in this
+            project:'
+          scm: This project has a %{scm} repository in OpenProject's Repositories
+            module (%{url}). OpenProject cannot start CI for it; if a CI system builds
+            from it, add a connection with “Inbound only” and let the pipeline upload
+            its results.
+          scm_attached: 'Attached to: %{connections}. Source links of their test cases
+            open OpenProject''s repository browser.'
+          scm_prefilled: The repository of the Repositories module is attached. Choose
+            the CI provider, check the repository path and save – nothing is stored
+            until you do.
+          split: server URL %{base_url}, repository %{repository}
+        target_run_name_hint: Required for iterations, e.g. Smoke or Regression. The
+          newest active run with this name receives the iterations; it is created
+          if there is none.
+        title: CI connections
+        token_hint: Used for “Check connection” (read access is enough), pull-request
+          sources of the Test Assistant and, except for GitLab, “Run in CI”. Stored
+          encrypted and never shown again.
+        token_keep_hint: Leave empty to keep the stored token.
+        token_none: No token
+        token_set: Token set
+        token_set_at: Token set %{time}
+        token_unreadable: Stored token cannot be decrypted (instance secret changed).
+          Set it again.
+        trigger_token_hint: "“Run in CI” only: GitLab pipeline trigger token, or the
+          optional Jenkins “Trigger builds remotely” token. Other providers use the
+          access token. Stored encrypted and never shown again."
+        updated: CI connection updated.
+        workflow_hint: "“Run in CI” only: the workflow file that has a workflow_dispatch
+          trigger (GitHub, Gitea, Forgejo, Codeberg), e.g. op-tests.yml."
+      colors:
+        accent: Blue
+        attention: Yellow
+        danger: Red
+        done: Purple
+        secondary: Grey
+        severe: Orange
+        sponsors: Pink
+        success: Green
+      configuration_add: Add value
+      configuration_created: Configuration created.
+      configuration_delete_confirm: Delete configuration "%{name}"?
+      configuration_deleted: Configuration deleted.
+      configuration_group_add: Add group
+      configuration_group_created: Configuration group created.
+      configuration_group_delete_confirm: Delete configuration group "%{name}" and
+        all its values?
+      configuration_group_deleted: Configuration group deleted.
+      configuration_group_new: New configuration group
+      configuration_group_placeholder: e.g. Browsers
+      configuration_group_updated: Configuration group updated.
+      configuration_name_placeholder: e.g. Chrome
+      configuration_updated: Configuration updated.
+      configurations: Configurations
+      configurations_empty: No configuration groups yet.
+      configurations_hint: Optional browser, OS or device values used to tag standalone
+        runs or to explode a plan entry into one run per combination.
+      display_prefix_hint: Optional prefix for case ID tags in automated tests (e.g.
+        QA → @QA-12), in addition to TC. Case IDs stay numeric.
+      enable_ci: Enable CI page & tokens
+      enable_milestones: Enable milestones
+      enable_milestones_hint: Milestones group test runs by release, sprint, regression
+        cycle, UAT and so on. When disabled, milestone pages, selectors and the work
+        package milestone section are hidden (existing data is kept).
+      enable_test_assistant: Enable the Test Assistant
+      enable_test_assistant_hint: Generate draft test cases from work packages, text,
+        pull requests or code, and ask questions about cases, runs and coverage. Needs
+        the “Use test assistant” permission and an AI provider configured by an administrator.
+      enable_test_plans: Enable test plans
+      enable_test_plans_hint: Test plans group related runs (including configuration
+        matrices). When disabled, plan pages are hidden; configurations and standalone
+        runs stay available.
+      features: Features
+      folder_tree_layout: Folder tree layout
+      folder_tree_layout_hint: Choose where the Cases folder tree is shown.
+      general: General
+      heading: Test management
+      import: Import test cases
+      import_hint: Importing test cases from files is not available yet. Automated
+        test results are uploaded by CI (see the module documentation, CI and automation).
+      label_add: Add label
+      label_cases:
+        one: 1 case
+        other: "%{count} cases"
+        zero: No cases
+      label_created: Label created.
+      label_delete: Delete
+      label_delete_confirm:
+        one: Delete label "%{name}"? It is removed from 1 test case.
+        other: Delete label "%{name}"? It is removed from %{count} test cases.
+        zero: Delete label "%{name}"? It is not used by any test case.
+      label_deleted: Label deleted.
+      label_new: New label
+      label_save: Save
+      label_updated: Label updated.
+      labels: Labels
+      labels_empty: No labels yet.
+      labels_hint: Labels group test cases (e.g. smoke, regression) and drive dynamic
+        runs. Renaming or recolouring a label updates every case that uses it.
+      layout_sidebar: Left sidebar, below the Test management menu on the Cases pages
+        (wiki-style)
+      layout_split_pane: Split pane in the main area
+    run_case:
+      assignee: Assigned to %{user}
+      comment: Comment
+      details: Details
+      error_placeholder: Error message or what happened (plain text)
+      history: Result history
+      iteration: Iteration %{number}
+      no_results: No results yet.
+      open_case: Open test case
+      record: Record a result
+      save: Save result
+      status: Status
+      status_from_steps: From the step results
+    runs:
+      assigned_to_none: Unassigned
+      attachments:
+        delete: Delete attachment
+        delete_confirm: Delete this attachment?
+        deleted: Attachment deleted.
+        empty: No attachments.
+        failed: 'The file could not be attached: %{errors}'
+        file: File
+        missing_file: Choose a file to attach.
+        run_title: Run attachments
+        title: Attachments
+        unexpected_error: unexpected error. Please try again or contact your administrator.
+        upload: Attach file
+        uploaded: File attached.
+      automation:
+        badge: Automation
+        branch: Branch
+        ci_run: CI run
+        commit: Commit
+        completed_by_automation: Completed by automation
+        connection: CI connection
+        duration: "%{seconds} s"
+        formats:
+          allure: Allure results
+          cucumber_json: Cucumber JSON
+          cucumber_messages: Cucumber messages
+          junit: JUnit XML
+          native: Native JSON
+          playwright_json: Playwright JSON
+        manual: Manual
+        reasons:
+          case_not_in_project: Case not in this project
+          no_matching_case: No matching case
+          not_in_run: Case not in this run
+          unknown_status: Unknown status
+        repository: Repository
+        unmatched_hint: These reported tests were not matched to a test case. Set
+          the case's automation reference, or tag the test with its ID (e.g. @TC-12).
+        unmatched_title: Unmatched automated tests (%{count})
+        upload_line: "%{time} · %{report_format} · %{parsed} tests, %{matched} matched,
+          %{created} created, %{unmatched} unmatched"
+        uploads: Automation uploads
+        workflow: Workflow
+      cancel: Cancel run
+      cancel_dialog:
+        confirm: I confirm that statuses will be frozen and the cancellation will
+          be written to history.
+        confirm_button: Cancel run
+        description: Are you sure you want to cancel "%{name}"? Statuses will be frozen
+          and the cancellation will be written to each test case's history. You can
+          reopen the run later if needed.
+        heading: Cancel this test run?
+        title: Cancel test run
+      cancelled_notice: Test run cancelled.
+      columns:
+        assignee: Assigned to
+        created_by: Created by
+        date: Date
+        dates: Dates
+        id: ID
+        labels: Labels
+        name: Name
+        passed: Passed
+        progress: Progress
+        run: Run
+        state: State
+        status: Status
+        title: Title
+      complete: Complete run
+      complete_dialog:
+        confirm: I confirm that statuses will be frozen and written to each test case's
+          history.
+        confirm_button: Complete run
+        description: Are you sure you want to complete "%{name}"? Statuses will be
+          frozen and written to each test case's history. You can reopen the run later
+          if needed.
+        heading: Complete this test run?
+        title: Complete test run
+      completed_notice: Test run completed.
+      create: Create run
+      created_by: Created by %{user}
+      delete_dialog:
+        confirm: I understand that this test run will be permanently deleted.
+        confirm_button: Delete test run
+        description: Are you sure you want to permanently delete "%{name}"? Case results
+          and iterations of this run will be removed.
+        heading: Delete this test run?
+        title: Delete test run
+      deleted_notice: Test run deleted.
+      edit: Edit run
+      empty: No test runs yet.
+      empty_filtered: No runs in this view.
+      empty_hint: Create a run to execute test cases and record results.
+      filters:
+        active: Active
+        all: All
+        cancelled: Cancelled
+        completed: Completed
+      final: final
+      form:
+        apply_selection: Apply selection
+        assignee_hint: Initial assignee of every test case in the run.
+        automation_any: Any
+        automation_automated: Automated
+        automation_manual: Manual
+        change_selection: change selection
+        description_hint: The purpose and scope of this run.
+        end_date_hint: The expected due or end date of this run.
+        filter_automation: Automation
+        filter_folders: Folders (optional)
+        filter_labels: Labels (any of)
+        filter_labels_none: No labels defined yet.
+        included: "%{count} test cases included"
+        mode_all: Include all test cases
+        mode_all_hint: All test cases of this project. New test cases are added automatically
+          while the run is active.
+        mode_dynamic: Dynamic filtering
+        mode_dynamic_hint: Test cases matching the filter. New or changed test cases
+          that match are added automatically while the run is active.
+        mode_specific: Select specific test cases
+        mode_specific_hint: Only the test cases you select. New test cases are not
+          added automatically.
+        name_hint: Either reuse a folder name or specify a new one.
+        references_hint: Work packages this run relates to (e.g. a release or feature).
+        selection_dialog_hint: Ticking a folder includes all its test cases, including
+          those in subfolders.
+        selection_dialog_title: Select test cases
+        selection_legend: Test cases
+        start_date_hint: The expected or scheduled start date of this run.
+        unfiled: Unfiled test cases
+      frozen_hint: Statuses are frozen because the run is %{state}.
+      iterations:
+        back_to_current: Back to the current iteration
+        columns:
+          ci: CI
+          failed: Failed
+          name: Name
+          number: "#"
+          pass_rate: Pass rate
+          passed: Passed
+          source: Source
+          started: Started
+          untested: Untested
+        current: current
+        default_name: Iteration %{number}
+        history_hint: Each iteration is one execution of this run. Counts and pass
+          rate use the last result of every case within the iteration; skipped cases
+          are excluded from the pass rate.
+        name_placeholder: Name (optional), e.g. Retest after fix
+        not_found: This run has no iteration %{number}.
+        of: Iteration %{number} of %{count}
+        sources:
+          automation: CI
+          manual: Manual
+        start: Start new iteration
+        start_confirm: Start a new iteration? All cases are reset to Untested. Results
+          of earlier iterations stay in the history.
+        started_notice: Iteration %{number} started.
+        switcher_item: "#%{number} · %{name}"
+        switcher_label: Iteration
+        title: Iterations
+        viewing_past: You are viewing iteration %{label}, started %{time}. Past iterations
+          are read-only; new results are recorded in iteration %{current}.
+      new: New run
+      no_cases: This run has no test cases.
+      pass_rate_value: "%{percent}% passed"
+      passed: passed
+      progress_label: Status breakdown
+      read_only: Read only
+      reopen: Reopen run
+      reopened_notice: Test run reopened.
+      save: Save run
+      sections:
+        chart_title: Test case status
+        description: Description
+        ends: End date
+        no_schedule: This run has no scheduled start/end dates.
+        references: References
+        schedule: Schedule
+        starts: Start date
+        statistics: Run statistics
+      skipped_count: "%{count} skipped"
+      skipped_excluded: "%{count} skipped (excluded from the pass rate)"
+      states:
+        cancelled: Cancelled
+        completed: Completed
+        in_progress: In progress
+        new: New
+      status_updated: Status updated.
+      statuses:
+        blocked: Blocked
+        failed: Failed
+        in_progress: In progress
+        passed: Passed
+        retest: Retest
+        skipped: Skipped
+        untested: Untested
+      title: Test runs
+      untested_of: "%{untested} / %{total} untested (%{percent}%)"
+    step_results:
+      actual_result: Actual result / error
+      choose: Step status…
+      error: Error
+      failed_at_step: Failed at step %{number}
+      hook: hook
+      last_result: Last result
+      nothing_to_record: 'Nothing to record: send a status, a comment, an error or
+        step results.'
+      record: Record
+      reported_steps: Reported steps
+      reported_steps_hint: Steps from the automated report that match no step of this
+        test case.
+      show_error: Show error
+      stack_trace: Stack trace
+      status_of: Status of step %{number}
+      statuses:
+        blocked: Blocked
+        failed: Failed
+        passed: Passed
+        skipped: Skipped
+        untested: Not run
+      substeps:
+        one: 1 sub-step
+        other: "%{count} sub-steps"
+      summary: 'Steps: %{summary}'
+    suites:
+      add_subfolder: Add subfolder
+      all_cases: All cases
+      deleted: Deleted
+      folder_name: Folder name
+      folders: Folders
+      new_folder: New folder
+      new_folder_inside: 'Inside: %{name}'
+      toggle: Expand / collapse
+      unfiled: Unfiled
+    work_package_tab:
+      columns:
+        case: Test case
+        last_run: Latest run result
+        status: Case status
+      empty: No test cases are linked to this work package
+      empty_hint: Link test cases to this work package from the test case form (Linked
+        work packages).
+      never_run: Not run yet
+      no_runs: No test runs include this work package or its linked test cases.
+      open_cases: Open test cases
+      title: Testing
+      via_version: via version
+      views:
+        cases: Cases
+        milestones: Milestones
+        runs: Runs
+      views_label: Show

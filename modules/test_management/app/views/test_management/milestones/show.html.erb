@@ -1,0 +1,222 @@
+<% html_title(@milestone.name) %>
+<%= render partial: "test_management/milestones/styles" %>
+<%= render partial: "test_management/test_runs/styles" %>
+<% can_manage = tm_milestone_can_manage?(@project) %>
+<% counts = @milestone.status_counts %>
+<% total = counts.values.sum %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title(data: { test_selector: "tm-milestone-title" }) { @milestone.name }
+    header.with_description do
+      safe_join(
+        [
+          content_tag(:span, @milestone.formatted_id, class: "color-fg-muted"),
+          tm_milestone_status_label(@milestone),
+          tm_milestone_overdue_badge(@milestone),
+          content_tag(:span, tm_milestone_dates(@milestone), class: "color-fg-muted", data: { test_selector: "tm-milestone-dates" })
+        ], " "
+      )
+    end
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_milestones_path(@project), text: t("test_management.milestones.title") },
+        *(@milestone.parent ? [{ href: project_test_management_milestone_path(@project, @milestone.parent), text: @milestone.parent.name }] : []),
+        @milestone.name
+      ]
+    )
+    if can_manage
+      header.with_action_button(
+        tag: :a, href: edit_project_test_management_milestone_path(@project, @milestone),
+        mobile_icon: :pencil, mobile_label: t(:button_edit),
+        data: { test_selector: "tm-milestone-edit" }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :pencil)
+        t(:button_edit)
+      end
+      if @milestone.status == "open"
+        header.with_action_button(
+          type: :submit, form: "tm-milestone-start-form",
+          mobile_icon: :play, mobile_label: t("test_management.milestones.start"),
+          data: { test_selector: "tm-milestone-start" }
+        ) do |button|
+          button.with_leading_visual_icon(icon: :play)
+          t("test_management.milestones.start")
+        end
+      end
+      if @milestone.completed?
+        header.with_action_button(
+          type: :submit, form: "tm-milestone-reopen-form",
+          mobile_icon: :sync, mobile_label: t("test_management.milestones.reopen"),
+          data: { test_selector: "tm-milestone-reopen" }
+        ) do |button|
+          button.with_leading_visual_icon(icon: :sync)
+          t("test_management.milestones.reopen")
+        end
+      else
+        header.with_action_button(
+          type: :submit, form: "tm-milestone-complete-form", scheme: :primary,
+          mobile_icon: :check, mobile_label: t("test_management.milestones.complete"),
+          data: { test_selector: "tm-milestone-complete" }
+        ) do |button|
+          button.with_leading_visual_icon(icon: :check)
+          t("test_management.milestones.complete")
+        end
+      end
+    end
+    header.with_action_menu(
+      menu_arguments: { anchor_align: :end, data: { test_selector: "tm-milestone-export-menu" } },
+      button_arguments: {
+        button_block: lambda do |button|
+          button.with_leading_visual_icon(icon: :download)
+          t("test_management.exports.button")
+        end,
+        data: { test_selector: "tm-milestone-export" }
+      }
+    ) do |menu|
+      TestManagement::Exports::BaseExporter::FORMATS.each do |format|
+        menu.with_item(
+          label: t("test_management.exports.formats.#{format}"),
+          href: project_test_management_export_milestone_path(@project, @milestone, export_format: format),
+          content_arguments: { data: { turbo: false } },
+          data: { test_selector: "tm-milestone-export-#{format}" }
+        ) do |item|
+          item.with_leading_visual_icon(icon: format == "pdf" ? :"file-media" : :table)
+        end
+      end
+      if can_manage
+        menu.with_item(
+          label: t("test_management.milestones.delete"), scheme: :danger, tag: :button,
+          content_arguments: { form: "tm-milestone-delete-form", type: :submit },
+          data: { test_selector: "tm-milestone-delete" }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :trash)
+        end
+      end
+    end
+  end
+%>
+
+<div hidden>
+  <% if can_manage %>
+    <%= form_tag start_project_test_management_milestone_path(@project, @milestone), method: :post, id: "tm-milestone-start-form" do %><% end %>
+    <%= form_tag complete_project_test_management_milestone_path(@project, @milestone), method: :post, id: "tm-milestone-complete-form",
+                                                                                        data: { turbo_confirm: t("test_management.milestones.complete_confirm") } do %><% end %>
+    <%= form_tag reopen_project_test_management_milestone_path(@project, @milestone), method: :post, id: "tm-milestone-reopen-form" do %><% end %>
+    <%= form_tag project_test_management_milestone_path(@project, @milestone), method: :delete, id: "tm-milestone-delete-form",
+                                                                               data: { turbo_confirm: t("test_management.milestones.delete_confirm") } do %><% end %>
+  <% end %>
+</div>
+
+<section class="tm-ms-summary" data-test-selector="tm-milestone-summary" aria-label="<%= t("test_management.milestones.progress") %>">
+  <div class="tm-ms-summary--chart"><%= tm_milestone_donut(counts, size: 120, stroke: 16) %></div>
+  <div class="tm-ms-summary--side">
+    <%= tm_milestone_bar(counts, height: 10) %>
+    <div data-test-selector="tm-milestone-pass-rate">
+      <strong><%= t("test_management.milestones.pass_rate_text", rate: @milestone.pass_rate) %></strong>
+      · <%= t("test_management.milestones.cases_count", count: total) %>
+      · <%= t("test_management.milestones.runs_count", count: @milestone.runs_count) %>
+      <% if counts["untested"].to_i.zero? && total.positive? %>
+        · <span class="color-fg-success" data-test-selector="tm-milestone-all-tested"><%= t("test_management.milestones.all_tested") %></span>
+      <% end %>
+    </div>
+    <%= tm_milestone_count_list(counts) %>
+    <p class="color-fg-muted"><small><%= t("test_management.milestones.aggregation_hint") %></small></p>
+  </div>
+</section>
+
+<dl class="tm-ms-meta">
+  <% if @milestone.version %>
+    <dt><%= TestManagement::Milestone.human_attribute_name(:version) %></dt>
+    <dd data-test-selector="tm-milestone-version"><%= link_to @milestone.version.name, version_path(@milestone.version) %></dd>
+  <% end %>
+  <% if @visible_work_packages.any? %>
+    <dt><%= t("test_management.runs.sections.references") %></dt>
+    <dd data-test-selector="tm-milestone-references">
+      <% @visible_work_packages.each do |wp| %>
+        <%= link_to "#{wp.type&.name} ##{wp.id} #{wp.subject}", work_package_path(wp), target: "_blank", rel: "noopener" %><br>
+      <% end %>
+    </dd>
+  <% end %>
+  <% if @milestone.started_at %>
+    <dt><%= TestManagement::Milestone.human_attribute_name(:started_at) %></dt>
+    <dd><%= format_time(@milestone.started_at) %></dd>
+  <% end %>
+  <% if @milestone.completed_at %>
+    <dt><%= TestManagement::Milestone.human_attribute_name(:completed_at) %></dt>
+    <dd><%= format_time(@milestone.completed_at) %></dd>
+  <% end %>
+  <% if @milestone.description.present? %>
+    <dt><%= TestManagement::Milestone.human_attribute_name(:description) %></dt>
+    <dd class="op-uc-container"><%= format_text(@milestone, :description) %></dd>
+  <% end %>
+</dl>
+
+<% if @children.any? || (!@milestone.sub_milestone? && can_manage) %>
+  <h3><%= t("test_management.milestones.sub_milestones") %></h3>
+  <% if @children.any? %>
+    <%= render(Primer::Beta::BorderBox.new(mb: 3, data: { test_selector: "tm-milestone-children" })) do |box| %>
+      <% @children.each do |child| %>
+        <% box.with_row(classes: "tm-ms-list--row", data: { test_selector: "tm-milestone-child-#{child.id}" }) do %>
+          <div class="tm-ms-list--main">
+            <%= link_to child.name, project_test_management_milestone_path(@project, child), class: "tm-ms-list--name" %>
+            <%= tm_milestone_status_label(child) %>
+            <%= tm_milestone_overdue_badge(child) %>
+            <div class="color-fg-muted tm-ms-list--meta"><%= tm_milestone_dates(child) %></div>
+          </div>
+          <div class="tm-ms-list--progress">
+            <%= tm_milestone_bar(child.status_counts) %>
+            <span class="tm-ms-list--percent"><%= t("test_management.milestones.pass_rate_text", rate: child.pass_rate) %></span>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% if can_manage && !@milestone.sub_milestone? %>
+    <p><%= link_to t("test_management.milestones.add_sub_milestone"),
+                   new_project_test_management_milestone_path(@project, parent_id: @milestone.id),
+                   data: { test_selector: "tm-milestone-add-child" } %></p>
+  <% end %>
+<% end %>
+
+<% if TestManagement::TestPlan.enabled_for?(@project) && @plans&.any? %>
+  <h3><%= t("test_management.menu.plans") %></h3>
+  <%= render(Primer::Beta::BorderBox.new(mb: 3, data: { test_selector: "tm-milestone-plans" })) do |box| %>
+    <% @plans.each do |plan| %>
+      <% box.with_row(data: { test_selector: "tm-milestone-plan-#{plan.id}" }) do %>
+        <%= link_to "#{plan.formatted_id} #{plan.name}", project_test_management_test_plan_path(@project, plan) %>
+        <span class="color-fg-muted">· <%= t("test_management.runs.pass_rate_text", rate: plan.pass_rate) %></span>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<h3><%= t("test_management.milestones.runs") %></h3>
+<% if @runs.any? %>
+  <%= render(Primer::Beta::BorderBox.new(classes: "tm-run-list", data: { test_selector: "tm-milestone-runs" })) do |box| %>
+    <% @runs.each do |run| %>
+      <% run_counts = @run_status_counts[run.id] %>
+      <% box.with_row(classes: "tm-run-list--row", data: { test_selector: "tm-milestone-run-#{run.id}" }) do %>
+        <div class="tm-run-list--main">
+          <div class="tm-run-list--text">
+            <div>
+              <%= link_to run.name, project_test_management_test_run_path(@project, run), class: "tm-run-list--name" %>
+              <span class="color-fg-muted"><%= run.formatted_id %></span>
+              <%= tm_run_state_label(run, size: :medium) %>
+            </div>
+            <% if run.milestone_id != @milestone.id %>
+              <div class="color-fg-muted tm-run-list--meta"><%= t("test_management.milestones.in_sub_milestone", name: run.milestone.name) %></div>
+            <% end %>
+          </div>
+        </div>
+        <div class="tm-run-list--progress">
+          <%= tm_run_progress_bar(run_counts) %>
+          <span class="tm-run-list--percent"><%= tm_pass_rate(run_counts) %>% <%= t("test_management.runs.passed") %></span>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <p class="color-fg-muted" data-test-selector="tm-milestone-no-runs"><%= t("test_management.milestones.no_runs") %></p>
+<% end %>

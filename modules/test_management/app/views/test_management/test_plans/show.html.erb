@@ -1,0 +1,108 @@
+<% html_title("#{@plan.formatted_id} #{@plan.name}") %>
+<% can_manage = tm_plan_can_manage?(@project) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { "#{@plan.formatted_id} #{@plan.name}" }
+    header.with_description { tm_plan_status_label(@plan) }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_plans_path(@project), text: t("test_management.menu.plans") },
+        @plan.name
+      ]
+    )
+    if can_manage && @plan.active?
+      header.with_action_button(
+        tag: :a, href: edit_project_test_management_test_plan_path(@project, @plan),
+        scheme: :secondary
+      ) { t(:button_edit) }
+    end
+  end
+%>
+
+<% if can_manage && @plan.active? %>
+  <%= button_to t("test_management.plans.complete"),
+                complete_project_test_management_test_plan_path(@project, @plan),
+                method: :post, class: "button -primary",
+                data: { test_selector: "tm-plan-complete" } %>
+<% end %>
+<% if can_manage && @plan.completed? %>
+  <%= button_to t("test_management.plans.reopen"),
+                reopen_project_test_management_test_plan_path(@project, @plan),
+                method: :post, class: "button" %>
+  <%= button_to t("test_management.plans.rerun"),
+                rerun_project_test_management_test_plan_path(@project, @plan),
+                method: :post, class: "button -primary",
+                data: { test_selector: "tm-plan-rerun" } %>
+<% end %>
+
+<p class="color-fg-muted">
+  <%= t("test_management.plans.runs_count", count: @plan.runs_count) %>
+  · <%= t("test_management.runs.pass_rate_text", rate: @plan.pass_rate) %>
+  <% if @plan.milestone %>
+    · <%= link_to @plan.milestone.name, project_test_management_milestone_path(@project, @plan.milestone) %>
+  <% end %>
+</p>
+
+<% if @plan.description.present? %>
+  <div class="wiki"><%= simple_format(@plan.description) %></div>
+<% end %>
+
+<h3><%= t("test_management.plans.entries") %></h3>
+<% if @entries.any? %>
+  <% @entries.each do |entry| %>
+    <div data-test-selector="tm-plan-entry-<%= entry.id %>">
+      <strong><%= entry.name %></strong>
+      <span class="color-fg-muted">· <%= entry.selection_mode %></span>
+      <ul>
+        <% entry.test_runs.each do |run| %>
+          <li>
+            <%= link_to "#{run.formatted_id} #{run.name}", project_test_management_test_run_path(@project, run) %>
+            <% if run.configuration_label.present? %>
+              <span class="Label"><%= run.configuration_label %></span>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<% else %>
+  <p class="color-fg-muted"><%= t("test_management.plans.entries_empty") %></p>
+<% end %>
+
+<% if can_manage && @plan.active? %>
+  <h3><%= t("test_management.plans.add_entry") %></h3>
+  <%= tm_configurations_empty_hint(@project) %>
+  <%= form_with scope: :test_plan_entry,
+                url: project_test_management_test_plan_test_plan_entries_path(@project, @plan),
+                local: true, data: { test_selector: "tm-plan-entry-form" } do |f| %>
+    <div class="form--field">
+      <%= f.label :name, class: "form--label -required" %>
+      <%= f.text_field :name, required: true, class: "form--text-field" %>
+    </div>
+    <div class="form--field">
+      <%= f.label :selection_mode, class: "form--label" %>
+      <%= f.select :selection_mode,
+                   TestManagement::TestRun::SELECTION_MODES.map { |m| [t("test_management.plans.selection.#{m}"), m] },
+                   {}, class: "form--select" %>
+    </div>
+    <% if @configuration_groups.any? %>
+      <fieldset class="form--fieldset">
+        <legend><%= t("test_management.configurations.title") %></legend>
+        <% @configuration_groups.each do |group| %>
+          <div class="form--field">
+            <span class="form--label"><%= group.name %></span>
+            <% group.configurations.ordered.each do |config| %>
+              <label class="form--label-with-check-box">
+                <%= check_box_tag "test_plan_entry[configuration_ids][]", config.id, false %>
+                <%= config.name %>
+              </label>
+            <% end %>
+          </div>
+        <% end %>
+      </fieldset>
+    <% end %>
+    <%= f.submit t("test_management.plans.add_entry"), class: "button -primary" %>
+  <% end %>
+<% end %>

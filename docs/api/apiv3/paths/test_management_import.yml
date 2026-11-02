@@ -1,0 +1,67 @@
+# /api/v3/test_management/automation/imports/{id}
+---
+get:
+  summary: View automation upload
+  operationId: View_test_management_automation_import
+  tags:
+  - Test Management
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Import id
+    example: 42
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_import_model.yml"
+          examples:
+            response:
+              value:
+                _type: TestManagementAutomationImport
+                id: 7
+                format: playwright_json
+                state: done
+                parsedCount: 24
+                matchedCount: 23
+                createdCasesCount: 0
+                unmatchedCount: 1
+                attachmentsCount: 2
+                unmatched:
+                - reference: checkout.spec.ts#Checkout › applies a voucher
+                  title: Checkout › applies a voucher
+                  status: passed
+                  projectName: chromium
+                  reason: no_matching_case
+                warnings: []
+                digest: 9b1c…
+                externalRef: github:my-org/shop:9876543210:1
+                iteration: 1
+                createdAt: '2026-10-31T08:13:02.000Z'
+                _links:
+                  self:
+                    href: "/api/v3/test_management/automation/imports/7"
+                  run:
+                    href: "/api/v3/test_management/runs/42"
+                  project:
+                    href: "/api/v3/projects/3"
+    '404':
+      description: |-
+        Returned if the import does not exist or the client may not see it.
+
+        **Required permission:** view test runs or upload test results
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.

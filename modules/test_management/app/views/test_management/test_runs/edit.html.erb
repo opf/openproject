@@ -1,0 +1,26 @@
+<% html_title(t("test_management.runs.edit")) %>
+<%= render partial: "test_management/test_runs/styles" %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("test_management.runs.edit") }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_runs_path(@project), text: t("test_management.runs.title") },
+        t("test_management.runs.edit")
+      ]
+    )
+  end
+%>
+
+<%= labelled_tabular_form_for @test_run,
+                              as: :test_run,
+                              url: project_test_management_test_run_path(@project, @test_run),
+                              method: :patch,
+                              html: { id: "tm-run-form", class: "tm-run-form", data: { turbo: false } } do |f| %>
+  <%= render partial: "test_management/test_runs/form", locals: { f: } %>
+  <div class="tm-run-form--actions">
+    <%= styled_button_tag t("test_management.runs.save"), class: "-primary", data: { test_selector: "tm-run-submit" } %>
+    <%= link_to t(:button_cancel), project_test_management_test_run_path(@project, @test_run), class: "button" %>
+  </div>
+<% end %>

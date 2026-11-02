@@ -1,0 +1,35 @@
+# Schema: TestManagementAssistantDraft
+---
+type: object
+description: A draft test case written by the Test Assistant. Not stored as a test case until saved.
+required: [title, priority, steps]
+properties:
+  key:
+    type: string
+    description: Position key of the draft within its generation (d1, d2, …).
+  title:
+    type: string
+    maxLength: 255
+  type:
+    type:
+      - string
+      - "null"
+    enum: [positive, negative, edge, boundary, security, accessibility, usability, null]
+    description: Kind of test the draft covers.
+  priority:
+    type: string
+    enum: [critical, high, medium, low]
+  preconditions:
+    type:
+      - string
+      - "null"
+  steps:
+    type: array
+    maxItems: 30
+    items:
+      type: object
+      properties:
+        action:
+          type: string
+        expectedResult:
+          type: string

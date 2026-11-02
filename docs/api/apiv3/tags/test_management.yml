@@ -1,0 +1,59 @@
+---
+description: |-
+  Test management: test runs and their iterations, run cases, automated test results, CI
+  connections and "Run in CI", milestones and the Test Assistant. Test cases and folders have no
+  API yet. The module's user guide is in `modules/test_management/docs`.
+
+  Automated test results are uploaded with an ingest request. One request takes one report
+  (Playwright JSON reporter output, JUnit XML or the native JSON format) plus optional CI metadata
+  and artifacts. The server parses the report, matches each test to a test case, records one
+  result per test, puts the worst result on the run case and returns a summary.
+
+  ## Matching tests to cases
+
+  | `caseMatcher` | Matching order                                                                                           |
+  |---------------|----------------------------------------------------------------------------------------------------------|
+  | `auto`        | case id from a `tm_case` property / annotation or an ID tag (`@TC-12`), then `automationReference`, then case id |
+  | `property`    | only the `tm_case` property, annotation or ID tag                                                         |
+  | `reference`   | only the case's `automationReference` (Playwright: `<file>#<describe> › <title>`, JUnit: `<classname>#<name>`; optionally repo-qualified, `shop:<ref>` or `shop/e2e:<ref>`) |
+  | `id`          | only `caseId` (native format) or an ID tag                                                                |
+  | `title`       | the case title (exact, case-insensitive) – opt-in only                                                   |
+
+  Tests that match no case are listed in the import's `unmatched` array with a `reason`
+  (`no_matching_case`, `case_not_in_project`, `not_in_run`, `unknown_status`). With
+  `autoCreateCases: true`, unmatched tests create cases in the folder `Automated/<file or class>`.
+
+  ## Choosing the run
+
+  * `runId` – adds results to an existing run.
+  * `externalRef` – finds the run with this reference in the project or creates it. Use it to
+    send several shards or retries of one CI build into the same run, e.g. `github:org/repo:<run id>:<attempt>`.
+  * `mode: new_iteration` with `targetRun` – adds a new iteration to the newest open run with that
+    name (created on first use); all uploads with the same `externalRef` fill the same iteration.
+  * neither – uses the matching CI connection's default mode, else creates a new automation run,
+    named after `runName` or the CI metadata.
+
+  A completed or cancelled run does not accept results: the request returns **409 Conflict**.
+  Sending the same report to the same run again returns the earlier import (`replay: true`)
+  and records nothing.
+
+  ## Statuses and pass rate
+
+  Reported statuses map to `passed`, `failed`, `blocked`, `retest` and `skipped`. Skipped tests
+  are counted separately and do not lower the pass rate: `passRate = passed / (total - skipped)` in percent.
+
+  ## CI connections, Run in CI, milestones and the Test Assistant
+
+  CI connections (`…/ci_connections`) are managed like in Project settings › Test management;
+  tokens and CA certificates are write-only. `…/ci_triggers` starts a connection's CI job for a run,
+  folder or case. Milestones group runs (`…/milestones`, with `start`, `complete`, `reopen`).
+  The Test Assistant generates draft test cases asynchronously (`…/assistant/generations`).
+
+  ## Permissions
+
+  Uploading needs **Upload automated test results** (`upload_test_results`) or **Add test runs**.
+  Reading runs needs **View test runs** or the upload permission. Authenticate with an API token
+  (`Authorization: Bearer <token>`) for CI jobs. CI connections need **Manage test CI**, triggers
+  **Trigger test automation**, milestone changes **Manage milestones**, the Test Assistant **Use
+  test assistant** (plus **Add test cases** to save drafts).
+name: Test Management

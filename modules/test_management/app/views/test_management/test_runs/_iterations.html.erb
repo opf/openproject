@@ -1,0 +1,71 @@
+<%# Iteration history + "Start new iteration" (Run page). %>
+<% it_t = ->(key, **args) { t("test_management.runs.iterations.#{key}", **args) } %>
+<% can_start = tm_run_can_manage?(@test_run) && @test_run.active? %>
+<details class="tm-run-details" open id="run-iterations" data-test-selector="tm-run-iterations">
+  <summary>
+    <%= render(Primer::Beta::Octicon.new(icon: :"chevron-down", classes: "tm-chevron", "aria-hidden": true)) %>
+    <%= it_t.("title") %> <span class="color-fg-muted">(<%= @iterations.size %>)</span>
+  </summary>
+  <div class="tm-run-details--body">
+    <% if @iterations.any? %>
+      <p class="color-fg-muted"><%= it_t.("history_hint") %></p>
+      <table class="tm-run-stats tm-run-iterations" data-test-selector="tm-run-iteration-history">
+        <thead>
+          <tr>
+            <% %w[number name source started ci passed failed untested pass_rate].each do |col| %>
+              <th class="<%= "tm-num" if %w[passed failed untested pass_rate].include?(col) %>"><%= it_t.("columns.#{col}") %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% @iterations.last(TestManagement::TestRunsController::HISTORY_LIMIT).reverse_each do |iteration| %>
+            <% counts = @iteration_counts.fetch(iteration.id) %>
+            <tr class="<%= "tm-run-iterations--shown" if iteration == @shown_iteration %>"
+                data-test-selector="tm-run-iteration-<%= iteration.number %>">
+              <td>
+                <%= link_to "##{iteration.number}",
+                            project_test_management_test_run_path(
+                              @project, @test_run,
+                              iteration: iteration == @current_iteration ? nil : iteration.number
+                            ) %>
+              </td>
+              <td>
+                <%= iteration.display_name %>
+                <% if iteration == @current_iteration %>
+                  <%= render(Primer::Beta::Label.new(scheme: :accent, data: { test_selector: "tm-run-iteration-current" })) { it_t.("current") } %>
+                <% end %>
+              </td>
+              <td><%= it_t.("sources.#{iteration.source}") %><% if iteration.connection %> · <%= iteration.connection.name %><% end %></td>
+              <td><%= format_time(iteration.created_at) %><% if iteration.created_by %> · <%= iteration.created_by.name %><% end %></td>
+              <td>
+                <% if (url = tm_safe_url(iteration.ci_info["runUrl"])) %>
+                  <%= link_to url, target: "_blank", rel: "noopener noreferrer", data: { test_selector: "tm-run-iteration-ci-#{iteration.number}" } do %>
+                    <%= [iteration.ci_info["workflow"], iteration.ci_info["runNumber"] && "##{iteration.ci_info['runNumber']}"].compact_blank.join(" ").presence || "CI" %>
+                  <% end %>
+                <% else %>
+                  —
+                <% end %>
+              </td>
+              <td class="tm-num"><%= counts["passed"] %></td>
+              <td class="tm-num"><%= counts["failed"] %></td>
+              <td class="tm-num"><%= counts["untested"] %></td>
+              <td class="tm-num" data-test-selector="tm-run-iteration-pass-rate-<%= iteration.number %>"><%= tm_pass_rate(counts) %>%</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+    <% if can_start %>
+      <%= form_with scope: :iteration, url: project_test_management_test_run_iterations_path(@project, @test_run),
+                    method: :post, local: true, class: "tm-run-iteration-start",
+                    data: { turbo_confirm: it_t.("start_confirm"), test_selector: "tm-run-start-iteration" } do |f| %>
+        <%= f.text_field :name, class: "form--text-field -middle", maxlength: 255, placeholder: it_t.("name_placeholder"),
+                                "aria-label": it_t.("columns.name") %>
+        <%= f.button type: :submit, class: "button -small", name: nil do %>
+          <%= render(Primer::Beta::Octicon.new(icon: :sync, "aria-hidden": true)) %>
+          <%= it_t.("start") %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</details>

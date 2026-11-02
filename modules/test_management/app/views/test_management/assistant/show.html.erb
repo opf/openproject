@@ -1,0 +1,41 @@
+<% html_title(t("test_management.assistant.title")) %>
+<%= render partial: "test_management/assistant/styles" %>
+<% if @tab == "chat" && @messages.any?(&:pending?) %>
+  <% content_for :header_tags do %><meta http-equiv="refresh" content="3"><% end %>
+<% end %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("test_management.assistant.title_with_icon") }
+    header.with_description { t("test_management.assistant.description") }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_cases_path(@project), text: t(:project_module_test_management) },
+        t("test_management.assistant.title")
+      ]
+    )
+  end
+%>
+
+<%= render partial: "test_management/assistant/provider_notice" %>
+
+<div class="tm-assistant-switch">
+  <%= render(
+        Primer::Alpha::SegmentedControl.new(
+          "aria-label": t("test_management.assistant.title"),
+          data: { test_selector: "tm-assistant-switch" }
+        )
+      ) do |control| %>
+    <% TestManagement::AssistantController::TABS.each do |tab| %>
+      <% control.with_item(
+           tag: :a, href: project_test_management_assistant_path(@project, tab:),
+           label: t("test_management.assistant.tabs.#{tab}"), selected: @tab == tab,
+           data: { test_selector: "tm-assistant-tab-#{tab}" }
+         ) %>
+    <% end %>
+  <% end %>
+  <%= render partial: "test_management/assistant/provider_picker" %>
+</div>
+
+<%= render partial: "test_management/assistant/#{@tab}" %>

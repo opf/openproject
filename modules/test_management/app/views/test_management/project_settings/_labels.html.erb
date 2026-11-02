@@ -1,0 +1,61 @@
+<%# Labels management (Project Settings > Test management). Plain forms, no custom JS. %>
+<% can_manage = User.current.allowed_in_project?(:manage_test_management, @project) %>
+<% color_options = TestManagement::Label::COLORS.map { |c| [t("test_management.project_settings.colors.#{c}"), c] } %>
+<section id="tm-labels" class="form--fieldset" data-test-selector="tm-labels-settings">
+  <h3 class="form--fieldset-legend"><%= t("test_management.project_settings.labels") %></h3>
+  <p class="form--field-instructions"><%= t("test_management.project_settings.labels_hint") %></p>
+
+  <% if @labels.empty? %>
+    <p class="color-fg-muted" data-test-selector="tm-labels-empty"><%= t("test_management.project_settings.labels_empty") %></p>
+  <% else %>
+    <table class="generic-table tm-labels-table">
+      <tbody>
+        <% @labels.each do |label| %>
+          <% usage = @label_usage.fetch(label.id, 0) %>
+          <tr data-test-selector="tm-label-row-<%= label.id %>">
+            <td><%= tm_label(label) %></td>
+            <td class="color-fg-muted"><%= t("test_management.project_settings.label_cases", count: usage) %></td>
+            <% if can_manage %>
+              <td>
+                <%= form_with model: label, scope: :label, url: project_test_management_label_path(@project, label),
+                              method: :patch, local: true, class: "tm-label-edit",
+                              data: { test_selector: "tm-label-edit-#{label.id}" } do |f| %>
+                  <%= f.text_field :name, class: "form--text-field -xslim", maxlength: 64,
+                                          "aria-label": TestManagement::Label.human_attribute_name(:name) %>
+                  <%= f.select :color, color_options, {}, class: "form--select -xslim",
+                                                          "aria-label": TestManagement::Label.human_attribute_name(:color) %>
+                  <%= f.submit t("test_management.project_settings.label_save"), class: "button -small",
+                                                                                 name: nil %>
+                <% end %>
+              </td>
+              <td>
+                <%= button_to t("test_management.project_settings.label_delete"),
+                              project_test_management_label_path(@project, label),
+                              method: :delete,
+                              class: "button -small -danger",
+                              form: { data: { turbo_confirm: t(
+                                "test_management.project_settings.label_delete_confirm",
+                                name: label.name, count: usage
+                              ) } },
+                              data: { test_selector: "tm-label-delete-#{label.id}" } %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <% if can_manage %>
+    <%= form_with model: TestManagement::Label.new, scope: :label, url: project_test_management_labels_path(@project),
+                  method: :post, local: true, class: "tm-label-new",
+                  data: { test_selector: "tm-label-new" } do |f| %>
+      <%= f.label :name, t("test_management.project_settings.label_new"), class: "form--label" %>
+      <%= f.text_field :name, class: "form--text-field -xslim", maxlength: 64, required: true,
+                              placeholder: t("test_management.labels.placeholder") %>
+      <%= f.select :color, color_options, { include_blank: true }, class: "form--select -xslim",
+                                                                   "aria-label": TestManagement::Label.human_attribute_name(:color) %>
+      <%= f.submit t("test_management.project_settings.label_add"), class: "button -primary -small", name: nil %>
+    <% end %>
+  <% end %>
+</section>

@@ -1,0 +1,69 @@
+# Schema: TestManagementResultModel
+---
+type: object
+description: One result of a run case with the printed error and the step results (0020).
+required: [_type, id, status, source]
+properties:
+  _type:
+    type: string
+    enum: [TestManagementResult]
+  id:
+    type: integer
+  status:
+    type: string
+    enum: [untested, passed, failed, blocked, retest, skipped, in_progress]
+  source:
+    type: string
+    enum: [manual, automation]
+  comment:
+    type:
+      - string
+      - "null"
+  errorMessage:
+    type:
+      - string
+      - "null"
+    maxLength: 4000
+    description: Error message (plain text, never HTML).
+  errorTrace:
+    type:
+      - string
+      - "null"
+    maxLength: 16000
+    description: Stack trace (plain text, never HTML).
+  failedStep:
+    type:
+      - integer
+      - "null"
+    description: Number of the first failed case step.
+  durationMs:
+    type:
+      - integer
+      - "null"
+  externalId:
+    type: string
+  importId:
+    type: integer
+  iteration:
+    type:
+      - integer
+      - "null"
+  userName:
+    type:
+      - string
+      - "null"
+  stepResults:
+    type: array
+    items:
+      "$ref": "./test_management_step_result_model.yml"
+  createdAt:
+    type: string
+    format: date-time
+  _links:
+    type: object
+    required: [self, runCase]
+    properties:
+      self:
+        "$ref": "./link.yml"
+      runCase:
+        "$ref": "./link.yml"

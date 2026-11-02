@@ -1,0 +1,200 @@
+<%#
+  Run case view (0020): the latest error, the step results of the latest result, the record form
+  (status, comment, error and per step status + actual result) and the result history.
+  All reported texts (errors, traces, step titles, actual results) are plain text: they are escaped
+  by ERB / content_tag and never rendered as HTML.
+%>
+<% html_title("#{@test_case.formatted_id} · #{@test_run.name}") %>
+<%= render partial: "test_management/test_runs/styles" %>
+<% run_path = project_test_management_test_run_path(@project, @test_run, anchor: "run-case-#{@run_case.id}") %>
+<% latest_steps = @latest ? @latest.step_results.to_a : [] %>
+<% case_rows = latest_steps.select(&:case_step?).index_by(&:test_step_id) %>
+<% reported_rows = latest_steps.select(&:reported?) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title(data: { test_selector: "tm-run-case-title" }) { @test_case.title }
+    header.with_description do
+      safe_join(
+        [
+          content_tag(:span, @test_case.formatted_id, class: "tm-run-id"),
+          tm_run_status_label(@run_case.effective_status),
+          content_tag(
+            :span,
+            t(
+              "test_management.run_case.assignee",
+              user: @run_case.assigned_to&.name || t("test_management.runs.assigned_to_none")
+            ),
+            class: "color-fg-muted"
+          )
+        ],
+        " "
+      )
+    end
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_runs_path(@project), text: t("test_management.runs.title") },
+        { href: run_path, text: @test_run.name },
+        @test_case.formatted_id
+      ]
+    )
+    header.with_action_button(
+      tag: :a,
+      href: project_test_management_test_case_path(@project, @test_case),
+      mobile_icon: :"link-external",
+      mobile_label: t("test_management.run_case.open_case"),
+      data: { test_selector: "tm-run-case-open-case" }
+    ) do |button|
+      button.with_leading_visual_icon(icon: :"link-external")
+      t("test_management.run_case.open_case")
+    end
+  end
+%>
+
+<% if @latest&.error? || @latest&.failed_step %>
+  <section class="tm-run-case--section" data-test-selector="tm-run-case-error">
+    <h3><%= t("test_management.step_results.error") %></h3>
+    <% if (step = @latest.failed_step) %>
+      <p class="color-fg-danger" data-test-selector="tm-run-case-failed-step">
+        <%= t("test_management.step_results.failed_at_step", number: step.number) %>
+      </p>
+    <% end %>
+    <%= tm_error_block(@latest.error_message, @latest.error_trace, selector: "tm-run-case-error-block") %>
+  </section>
+<% end %>
+
+<section class="tm-run-case--section">
+  <h3><%= t("test_management.cases.steps") %></h3>
+  <% if @case_steps.any? %>
+    <%= form_with url: project_test_management_test_run_run_case_path(@project, @test_run, @run_case), method: :patch,
+                  scope: :run_case, id: "tm-run-case-form", data: { test_selector: "tm-run-case-form" } do |f| %>
+      <%= hidden_field_tag :return_to, "run_case" %>
+      <table class="generic-table tm-step-results" data-test-selector="tm-step-results">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th><%= t("test_management.cases.step_action") %></th>
+            <th><%= t("test_management.cases.step_expected") %></th>
+            <th><%= t("test_management.step_results.last_result") %></th>
+            <% if @can_execute %><th><%= t("test_management.step_results.record") %></th><% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% @case_steps.each_with_index do |step, index| %>
+            <% row = case_rows[step.id] %>
+            <tr data-test-selector="tm-step-result-<%= index + 1 %>">
+              <td><%= index + 1 %></td>
+              <td><div class="op-uc-container"><%= format_text(step.action.to_s) %></div></td>
+              <td><div class="op-uc-container"><%= format_text(step.expected_result.to_s) %></div></td>
+              <td>
+                <% if row %>
+                  <%= tm_step_status_label(row.status) %>
+                  <% if row.duration_ms %><span class="color-fg-muted"><%= t("test_management.runs.automation.duration", seconds: (row.duration_ms / 1000.0).round(2)) %></span><% end %>
+                  <% if row.reported_title.present? && row.reported_title != step.action.to_s.strip %><div class="color-fg-muted"><%= row.reported_title %></div><% end %>
+                  <% if row.actual_result.present? %><pre class="tm-error--message"><%= row.actual_result %></pre><% end %>
+                  <%= tm_error_block(row.error_message, row.error_trace, selector: "tm-step-error-#{index + 1}") %>
+                  <%= render partial: "test_management/test_run_cases/step_extras", locals: { row: } %>
+                <% else %>
+                  <span class="color-fg-muted">—</span>
+                <% end %>
+              </td>
+              <% if @can_execute %>
+                <td>
+                  <%= select_tag(
+                        "run_case[step_results][#{step.id}][status]",
+                        options_for_select(
+                          [[t("test_management.step_results.choose"), ""]] +
+                          TestManagement::TestStepResult::STATUSES.map { |status| [t("test_management.step_results.statuses.#{status}"), status] }
+                        ),
+                        id: "tm-step-status-#{step.id}",
+                        "aria-label": t("test_management.step_results.status_of", number: index + 1)
+                      ) %>
+                  <%= text_area_tag "run_case[step_results][#{step.id}][actual_result]", nil,
+                                    id: "tm-step-actual-#{step.id}", maxlength: TestManagement::TestStepResult::ACTUAL_RESULT_LIMIT,
+                                    placeholder: t("test_management.step_results.actual_result"),
+                                    "aria-label": t("test_management.step_results.actual_result") %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <% if @can_execute %>
+        <%= render partial: "test_management/test_run_cases/record_fields" %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <p class="color-fg-muted" data-test-selector="tm-run-case-no-steps"><%= t("test_management.cases.no_steps") %></p>
+    <% if @can_execute %>
+      <%= form_with url: project_test_management_test_run_run_case_path(@project, @test_run, @run_case), method: :patch,
+                    scope: :run_case, id: "tm-run-case-form", data: { test_selector: "tm-run-case-form" } do |f| %>
+        <%= hidden_field_tag :return_to, "run_case" %>
+        <%= render partial: "test_management/test_run_cases/record_fields" %>
+      <% end %>
+    <% end %>
+  <% end %>
+</section>
+
+<% if reported_rows.any? %>
+  <section class="tm-run-case--section" data-test-selector="tm-reported-steps">
+    <h3><%= t("test_management.step_results.reported_steps") %></h3>
+    <p class="color-fg-muted"><%= t("test_management.step_results.reported_steps_hint") %></p>
+    <table class="generic-table tm-step-results">
+      <tbody>
+        <% reported_rows.each do |row| %>
+          <tr>
+            <td><%= row.reported_title.presence || "—" %><% if row.details_hash["hook"] %> <span class="color-fg-muted">(<%= t("test_management.step_results.hook") %>)</span><% end %></td>
+            <td>
+              <%= tm_step_status_label(row.status) %>
+              <%= tm_error_block(row.error_message, row.error_trace, selector: "tm-reported-error-#{row.id}") %>
+              <%= render partial: "test_management/test_run_cases/step_extras", locals: { row: } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </section>
+<% end %>
+
+<section class="tm-run-case--section" data-test-selector="tm-run-case-history">
+  <h3><%= t("test_management.run_case.history") %></h3>
+  <% if @results.empty? %>
+    <p class="color-fg-muted"><%= t("test_management.run_case.no_results") %></p>
+  <% end %>
+  <% @results.each do |result| %>
+    <div class="tm-run-case--history-item" data-test-selector="tm-run-case-result-<%= result.id %>">
+      <div>
+        <%= tm_run_status_label(result.status) %>
+        <span class="color-fg-muted">
+          <%= format_time(result.created_at) %> · <%= result.user&.name || "—" %>
+          <% if result.iteration %>· <%= t("test_management.run_case.iteration", number: result.iteration.number) %><% end %>
+          <% if result.automation? %>· <%= t("test_management.runs.automation.badge") %><% end %>
+        </span>
+      </div>
+      <% if result.comment.present? && !(result.automation? && result.error?) %><div><%= result.comment %></div><% end %>
+      <% line = tm_result_failure_line(result) %>
+      <% if line %><div class="tm-run-table--error"><%= line %></div><% end %>
+      <% if result.error? %>
+        <details>
+          <summary class="color-fg-muted"><%= t("test_management.step_results.show_error") %></summary>
+          <%= tm_error_block(result.error_message, result.error_trace, selector: "tm-history-error-#{result.id}") %>
+        </details>
+      <% end %>
+      <% steps = result.step_results.select(&:case_step?) %>
+      <% if steps.any? %>
+        <div class="color-fg-muted" data-test-selector="tm-history-steps-<%= result.id %>">
+          <%= t(
+                "test_management.step_results.summary",
+                summary: TestManagement::TestStepResult::STATUSES.filter_map do |status|
+                  count = steps.count { it.status == status }
+                  next unless count.positive?
+
+                  "#{t("test_management.step_results.statuses.#{status}")} #{count}"
+                end.join(", ")
+              ) %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</section>

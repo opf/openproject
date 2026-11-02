@@ -1,0 +1,27 @@
+<style>
+  /* Failure line of the latest result (0020). */
+  .tm-wp-card .tm-run-table--error { font-size: 12px; font-family: var(--fontStack-monospace, monospace); overflow-wrap: anywhere; }
+  .tm-wp-card .tm-run-table--error a { color: var(--fgColor-danger, #cf222e); }
+  .tm-wp-testing-tab { container-type: inline-size; display: flex; flex-direction: column; gap: 12px; }
+  .tm-wp-seg { display: inline-flex; align-self: flex-start; border: 1px solid var(--borderColor-default, #d0d7de);
+               border-radius: 6px; overflow: hidden; }
+  .tm-wp-seg--item { padding: 4px 12px; font-size: 13px; color: inherit; text-decoration: none; }
+  .tm-wp-seg--item + .tm-wp-seg--item { border-left: 1px solid var(--borderColor-default, #d0d7de); }
+  .tm-wp-seg--item.-selected { background: var(--bgColor-accent-muted, #ddf4ff); font-weight: 600; }
+  .tm-wp-cards { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .tm-wp-card { border: 1px solid var(--borderColor-default, #d0d7de); border-radius: 6px; padding: 8px 12px;
+                display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .tm-wp-card--title { font-weight: 600; overflow-wrap: anywhere; }
+  .tm-wp-card--meta { font-size: 12px; display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; }
+  .tm-wp-card--chart { display: flex; gap: 12px; align-items: center; }
+  .tm-wp-card--chart .tm-ms-counts { flex: 1 1 auto; min-width: 0; }
+  .tm-wp-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  /* Narrow side panel: switcher and charts stack vertically. */
+  @container (max-width: 380px) {
+    .tm-wp-seg { flex-direction: column; align-self: stretch; }
+    .tm-wp-seg--item + .tm-wp-seg--item { border-left: 0; border-top: 1px solid var(--borderColor-default, #d0d7de); }
+    .tm-wp-card--chart { flex-direction: column; align-items: stretch; }
+    .tm-wp-card--chart .tm-ms-donut { align-self: center; }
+  }
+</style>
+<%= render partial: "test_management/milestones/styles" %>

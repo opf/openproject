@@ -1,0 +1,52 @@
+<%#
+  Provider picker next to the Generate | Chat switch (0021): every saved provider with its default
+  model and the models an administrator allowed users to pick. The choice is per user
+  (ProviderChoice, tm_user_preferences). Shows names and models only, never URLs or keys.
+  Administrators get "Add new provider…" (back here after saving); others a disabled hint.
+%>
+<% if @picker_providers.any? %>
+  <%= render(
+        Primer::Alpha::ActionMenu.new(
+          menu_id: "tm-assistant-provider-menu", anchor_align: :end,
+          data: { test_selector: "tm-assistant-provider-picker" }
+        )
+      ) do |menu| %>
+    <% menu.with_show_button(size: :small, "aria-label": t("test_management.assistant.picker.label")) do |button| %>
+      <% button.with_trailing_action_icon(icon: :"triangle-down") %>
+      <span data-test-selector="tm-assistant-provider-current">✨ <%= @provider_choice.label %></span>
+    <% end %>
+    <% @picker_providers.each do |provider| %>
+      <%# A provider without a model still shows up (disabled, "Name · ?") so users see it exists. %>
+      <% (provider.selectable_models.presence || [""]).each do |model| %>
+        <% ready = provider.config(model:).configured? %>
+        <% menu.with_item(
+             label: provider.display_label(model),
+             href: project_test_management_assistant_provider_path(@project, tab: @tab),
+             active: @provider_choice.value == "#{provider.id}:#{model}",
+             disabled: !ready,
+             form_arguments: { method: :patch, name: "selection", value: "#{provider.id}:#{model}" },
+             data: { test_selector: "tm-assistant-provider-item-#{provider.id}" }
+           ) do |item| %>
+          <% item.with_description do %>
+            <%= provider.preset_definition.label %><% if provider.is_default && model == provider.model %> · <%= t("test_management.assistant.picker.default") %><% end %><% unless ready %> · <%= t("test_management.assistant.picker.not_ready") %><% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% menu.with_divider %>
+    <% if User.current.admin? %>
+      <% menu.with_item(
+           label: t("test_management.assistant.picker.add"),
+           href: new_test_management_admin_assistant_provider_path(return_to: request.fullpath),
+           data: { test_selector: "tm-assistant-provider-add" }
+         ) do |item| %>
+        <% item.with_leading_visual_icon(icon: :plus) %>
+      <% end %>
+    <% else %>
+      <% menu.with_item(
+           label: t("test_management.assistant.picker.ask_admin"), disabled: true,
+           data: { test_selector: "tm-assistant-provider-ask-admin" }
+         ) %>
+    <% end %>
+  <% end %>
+<% end %>

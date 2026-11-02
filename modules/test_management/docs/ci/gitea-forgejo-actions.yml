@@ -1,0 +1,61 @@
+# Example workflow for Gitea Actions, Forgejo Actions and Codeberg: Playwright + upload to
+# OpenProject Test Management, startable with "Run in CI".
+# Copy to .forgejo/workflows/op-tests.yml (Forgejo, Codeberg) or .gitea/workflows/op-tests.yml
+# (Gitea) and set the CI connection's workflow file to op-tests.yml.
+#
+# Requirements
+#   Gitea   >= 1.24  (workflow_dispatch API; run details in the response from 1.26)
+#   Forgejo >= 8.0   (workflow_dispatch API; run id in the response from 11.0)
+#   Codeberg         Actions must be enabled in the repository settings; hosted runners
+#                    (codeberg-tiny/-small/-medium) only for public FLOSS projects – see README.md.
+#   A runner with Node.js, bash, curl and jq (the image below has them after apt-get).
+#   Connection token: an access token with write:repository (it dispatches the workflow).
+#
+# Repository settings > Actions > Secrets / Variables:
+#   OP_API_TOKEN (secret), OP_URL and OP_PROJECT (variables)
+name: OpenProject tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      op_run_id:
+        description: OpenProject test run id
+        required: false
+      op_iteration_id:
+        description: OpenProject iteration id
+        required: false
+      op_project:
+        description: OpenProject project identifier
+        required: false
+      op_grep:
+        description: Playwright --grep pattern of the selected test cases
+        required: false
+
+jobs:
+  e2e:
+    runs-on: docker            # Codeberg: codeberg-small (public FLOSS projects only)
+    container:
+      image: mcr.microsoft.com/playwright:v1.49.0-noble
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@v4   # Gitea: actions/checkout@v4
+      - run: apt-get update -qq && apt-get install -y -qq jq curl >/dev/null
+      - run: npm ci
+      - name: Run Playwright
+        run: |
+          PLAYWRIGHT_JSON_OUTPUT_NAME=results.json npx playwright test --reporter=json,line \
+            ${PW_GREP:+--grep "$PW_GREP"} || echo $? > .pw-status
+        env:
+          PW_GREP: ${{ inputs.op_grep }}
+      - name: Upload results to OpenProject
+        if: ${{ !cancelled() }}
+        env:
+          OP_URL: ${{ vars.OP_URL }}
+          OP_PROJECT: ${{ inputs.op_project || vars.OP_PROJECT }}
+          OP_API_TOKEN: ${{ secrets.OP_API_TOKEN }}
+          OP_RUN_ID: ${{ inputs.op_run_id }}
+          OP_ITERATION_ID: ${{ inputs.op_iteration_id }}
+          OP_REPORT: results.json
+          OP_ARTIFACTS_DIR: test-results
+        run: |
+          bash ./ci/op-tm-upload.sh
+          test ! -f .pw-status

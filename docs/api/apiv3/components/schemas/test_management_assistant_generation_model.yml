@@ -1,0 +1,91 @@
+# Schema: TestManagementAssistantGenerationModel
+---
+type: object
+description: |-
+  A Test Assistant generation: the source, the options, the status of the background job and
+  the draft test cases. Only visible to the user who created it.
+required: [_type, id, status, sourceType, source, count, types, drafts, savedCaseIds]
+properties:
+  _type:
+    type: string
+    enum: [TestManagementAssistantGeneration]
+  id:
+    type: integer
+  status:
+    type: string
+    enum: [queued, running, done, failed]
+    description: Requests that are still queued or running after 10 minutes are reported as failed.
+  sourceType:
+    type: string
+    enum: [work_package, text, pull_request, code]
+  source:
+    type: object
+    properties:
+      workPackageId:
+        type: integer
+      text:
+        type: string
+      url:
+        type: string
+        format: uri
+      code:
+        type: string
+      language:
+        type: string
+  count:
+    type: integer
+    minimum: 1
+    maximum: 20
+  types:
+    type: array
+    items:
+      type: string
+      enum: [positive, negative, edge, boundary, security, accessibility, usability]
+  suiteId:
+    type:
+      - integer
+      - "null"
+    description: Default target folder for saving.
+  labels:
+    type: array
+    items:
+      type: string
+  drafts:
+    type: array
+    items:
+      "$ref": "./test_management_assistant_draft.yml"
+  savedCaseIds:
+    type: array
+    items:
+      type: integer
+  error:
+    type:
+      - string
+      - "null"
+    description: Why the generation failed (provider host and model, HTTP status; never the API key).
+  provider:
+    type:
+      - string
+      - "null"
+    description: |-
+      Saved provider and model that answered, e.g. `OpenAI · gpt-4o-mini` (the provider and model the
+      user picked when sending; before 0021 or without saved providers: host and model, e.g.
+      `api.openai.com / gpt-4o-mini`).
+  createdAt:
+    type: string
+    format: date-time
+  updatedAt:
+    type: string
+    format: date-time
+  _links:
+    type: object
+    required: [self, project]
+    properties:
+      self:
+        "$ref": "./link.yml"
+      project:
+        "$ref": "./link.yml"
+      save:
+        "$ref": "./link.yml"
+      workPackage:
+        "$ref": "./link.yml"

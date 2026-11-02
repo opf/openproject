@@ -1,0 +1,83 @@
+# /api/v3/test_management/assistant/generations/{id}
+---
+get:
+  summary: View a Test Assistant generation
+  operationId: View_test_management_assistant_generation
+  tags:
+  - Test Management
+  description: |-
+    Status and draft test cases of one of the current user's generations. Generations of other
+    users are not visible (`404`).
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Generation id
+    example: 31
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_assistant_generation_model.yml"
+          examples:
+            response:
+              value:
+                _type: TestManagementAssistantGeneration
+                id: 31
+                status: done
+                sourceType: text
+                source:
+                  text: Users can reset their password with a link sent by email. The link expires after 30 minutes.
+                count: 2
+                types: [positive, negative]
+                suiteId:
+                labels: []
+                drafts:
+                - key: d1
+                  title: Reset the password with a valid link
+                  type: positive
+                  priority: high
+                  preconditions: A user account with a confirmed email address exists.
+                  steps:
+                  - action: Request a password reset for the account.
+                    expectedResult: An email with a reset link is sent.
+                  - action: Open the link and set a new password.
+                    expectedResult: The password is changed and the user can sign in with it.
+                - key: d2
+                  title: Reject an expired reset link
+                  type: negative
+                  priority: medium
+                  preconditions:
+                  steps:
+                  - action: Open a reset link that is older than 30 minutes.
+                    expectedResult: An "expired link" message is shown and the password is unchanged.
+                savedCaseIds: []
+                error:
+                provider: OpenAI · gpt-4o-mini
+                createdAt: '2026-10-31T12:00:00.000Z'
+                updatedAt: '2026-10-31T12:00:09.000Z'
+                _links:
+                  self:
+                    href: "/api/v3/test_management/assistant/generations/31"
+                  project:
+                    href: "/api/v3/projects/7"
+                  save:
+                    href: "/api/v3/test_management/assistant/generations/31/save"
+                    method: post
+    '403':
+      description: |-
+        **Required permission:** use test assistant
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+    '404':
+      description: The generation does not exist or belongs to another user.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"

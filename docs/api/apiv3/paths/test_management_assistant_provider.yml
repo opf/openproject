@@ -1,0 +1,121 @@
+# /api/v3/test_management/assistant/providers/{id}
+---
+get:
+  summary: View an AI provider of the Test Assistant
+  operationId: View_test_management_assistant_provider
+  tags:
+  - Test Management
+  description: Same visibility as the list.
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Provider id
+    example: 1
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_assistant_provider_model.yml"
+    '403':
+      description: |-
+        **Required permission:** administrator, or use test assistant in at least one project
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+    '404':
+      description: The provider does not exist.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+patch:
+  summary: Change an AI provider of the Test Assistant
+  operationId: Update_test_management_assistant_provider
+  tags:
+  - Test Management
+  description: |-
+    Administrators only. Omitted properties keep their values; an omitted `apiKey` keeps the
+    stored key while the preset and host stay the same.
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Provider id
+    example: 1
+    schema:
+      type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          "$ref": "../components/schemas/test_management_assistant_provider_write_model.yml"
+        examples:
+          model:
+            value:
+              model: gpt-4o
+              userModels: [gpt-4o-mini]
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_assistant_provider_model.yml"
+    '403':
+      description: |-
+        **Required permission:** administrator
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+    '404':
+      description: The provider does not exist.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+    '422':
+      description: Invalid values, a duplicate name, a missing key or a failed model check.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+delete:
+  summary: Delete an AI provider of the Test Assistant
+  operationId: Delete_test_management_assistant_provider
+  tags:
+  - Test Management
+  description: |-
+    Administrators only. Users who picked it fall back to the default provider; deleting the
+    default makes the next provider the default. Generations and messages keep their provider label.
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Provider id
+    example: 1
+    schema:
+      type: integer
+  responses:
+    '204':
+      description: Deleted
+    '403':
+      description: |-
+        **Required permission:** administrator
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+    '404':
+      description: The provider does not exist.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"

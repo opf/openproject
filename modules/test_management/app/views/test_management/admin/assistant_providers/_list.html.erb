@@ -1,0 +1,71 @@
+<%#
+  Saved AI providers of the Test Assistant (0021) on Administration > Test management.
+  locals: providers (AssistantProvider, default first). Keys are never shown, only whether one is set.
+%>
+<fieldset class="form--fieldset" id="tm-assistant-providers" data-test-selector="tm-assistant-providers">
+  <legend><%= t("test_management.admin.assistant.heading") %></legend>
+  <p><%= t("test_management.admin.assistant.hint") %></p>
+  <% if providers.empty? %>
+    <p data-test-selector="tm-assistant-providers-empty"><%= t("test_management.admin.assistant.providers_list.empty") %></p>
+  <% else %>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table class="generic-table" data-test-selector="tm-assistant-providers-table">
+          <thead>
+            <tr>
+              <% %w[name preset model user_models host status].each do |column| %>
+                <th><div class="generic-table--sort-header-outer"><div class="generic-table--sort-header">
+                  <span><%= t("test_management.admin.assistant.providers_list.columns.#{column}") %></span>
+                </div></div></th>
+              <% end %>
+              <th><div class="generic-table--empty-header"></div></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% providers.each do |provider| %>
+              <% config = provider.config %>
+              <tr data-test-selector="tm-assistant-provider-<%= provider.id %>">
+                <td>
+                  <%= link_to provider.name, edit_test_management_admin_assistant_provider_path(provider) %>
+                  <% if provider.is_default %>
+                    <%= render(Primer::Beta::Label.new(scheme: :accent, ml: 1, test_selector: "tm-assistant-provider-default")) { t("test_management.admin.assistant.providers_list.default") } %>
+                  <% end %>
+                </td>
+                <td><%= provider.preset_definition.label %></td>
+                <td><%= provider.model.presence || "–" %></td>
+                <td><%= Array(provider.user_models).join(", ").presence || "–" %></td>
+                <td><%= config.host || "–" %></td>
+                <td>
+                  <% if config.configured? %>
+                    <%= t("test_management.admin.assistant.providers_list.ready") %>
+                  <% else %>
+                    <%= render(Primer::Beta::Text.new(color: :danger)) { t("test_management.admin.assistant.providers_list.incomplete") } %>
+                  <% end %>
+                  · <%= t(config.api_key_set? ? "test_management.admin.assistant.providers_list.key_set" : "test_management.admin.assistant.providers_list.no_key") %>
+                </td>
+                <td class="buttons">
+                  <% unless provider.is_default %>
+                    <%= button_to t("test_management.admin.assistant.providers_list.make_default"),
+                                  make_default_test_management_admin_assistant_provider_path(provider),
+                                  method: :post, class: "button -small", form_class: "d-inline-block",
+                                  data: { test_selector: "tm-assistant-provider-make-default-#{provider.id}" } %>
+                  <% end %>
+                  <%= link_to t(:button_edit), edit_test_management_admin_assistant_provider_path(provider), class: "button -small" %>
+                  <%= button_to t(:button_delete), test_management_admin_assistant_provider_path(provider),
+                                method: :delete, class: "button -small -danger", form_class: "d-inline-block",
+                                form: { data: { turbo_confirm: t("test_management.admin.assistant.providers_list.delete_confirm", name: provider.name) } },
+                                data: { test_selector: "tm-assistant-provider-delete-#{provider.id}" } %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+  <p>
+    <%= link_to t("test_management.admin.assistant.providers_list.add"), new_test_management_admin_assistant_provider_path,
+                class: "button -primary", data: { test_selector: "tm-assistant-provider-add" } %>
+  </p>
+  <div class="form--field-instructions"><%= t("test_management.admin.assistant.network_hint") %></div>
+</fieldset>

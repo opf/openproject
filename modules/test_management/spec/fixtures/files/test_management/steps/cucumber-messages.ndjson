@@ -1,0 +1,16 @@
+{"meta":{"protocolVersion":"27.0.0","implementation":{"name":"demo"}}}
+{"gherkinDocument":{"uri":"features/library.feature","feature":{"name":"Library loans"}}}
+{"pickle":{"id":"p1","uri":"features/library.feature","name":"Return a book","tags":[{"name":"@tm_case:__CASE_ID__"}],"steps":[{"id":"ps1","text":"a member named Olena"},{"id":"ps2","text":"she returns \"Kobzar\""},{"id":"ps3","text":"the loan is closed"}]}}
+{"testCase":{"id":"tc1","pickleId":"p1","testSteps":[{"id":"h1","hookId":"hook-1"},{"id":"s1","pickleStepId":"ps1"},{"id":"s2","pickleStepId":"ps2"},{"id":"s3","pickleStepId":"ps3"}]}}
+{"testCaseStarted":{"id":"run1","testCaseId":"tc1","attempt":0}}
+{"testStepFinished":{"testCaseStartedId":"run1","testStepId":"h1","testStepResult":{"status":"PASSED","duration":{"seconds":0,"nanos":1000000}}}}
+{"testStepFinished":{"testCaseStartedId":"run1","testStepId":"s1","testStepResult":{"status":"PASSED","duration":{"seconds":0,"nanos":2000000}}}}
+{"testStepFinished":{"testCaseStartedId":"run1","testStepId":"s2","testStepResult":{"status":"FAILED","duration":{"seconds":1,"nanos":500000000},"message":"Book not on loan","exception":{"type":"Error","message":"Book not on loan","stackTrace":"Error: Book not on loan\n    at returns (steps.js:4)"}}}}
+{"testStepFinished":{"testCaseStartedId":"run1","testStepId":"s3","testStepResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}}}}
+{"testCaseFinished":{"testCaseStartedId":"run1","willBeRetried":true}}
+{"testCaseStarted":{"id":"run2","testCaseId":"tc1","attempt":1}}
+{"testStepFinished":{"testCaseStartedId":"run2","testStepId":"h1","testStepResult":{"status":"PASSED","duration":{"seconds":0,"nanos":1000000}}}}
+{"testStepFinished":{"testCaseStartedId":"run2","testStepId":"s1","testStepResult":{"status":"PASSED","duration":{"seconds":0,"nanos":2000000}}}}
+{"testStepFinished":{"testCaseStartedId":"run2","testStepId":"s2","testStepResult":{"status":"FAILED","duration":{"seconds":1,"nanos":0},"message":"Book not on loan","exception":{"type":"Error","message":"Book not on loan","stackTrace":"Error: Book not on loan\n    at returns (steps.js:4)"}}}}
+{"testStepFinished":{"testCaseStartedId":"run2","testStepId":"s3","testStepResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}}}}
+{"testCaseFinished":{"testCaseStartedId":"run2","willBeRetried":false}}

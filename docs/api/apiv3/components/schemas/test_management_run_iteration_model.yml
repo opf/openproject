@@ -1,0 +1,68 @@
+# Schema: TestManagementRunIterationModel
+---
+type: object
+description: |-
+  One execution of a test run (e.g. one Smoke pipeline). Starting an iteration resets every run case
+  of the run to untested; earlier results stay attached to their iteration. statusCounts and passRate
+  are computed from the last result of every run case within the iteration.
+required: [_type, id, number, name, source, current]
+properties:
+  _type:
+    type: string
+    enum: [TestManagementRunIteration]
+  id:
+    type: integer
+    minimum: 1
+  number:
+    type: integer
+    minimum: 1
+  name:
+    type: string
+    description: The given name, or "Iteration N".
+  source:
+    type: string
+    enum: [manual, automation]
+  current:
+    type: boolean
+    description: True for the latest iteration (the one that receives results).
+  externalRef:
+    type:
+      - string
+      - "null"
+    description: CI build reference of an automation iteration (shards of one build share it).
+  ci:
+    type: object
+    additionalProperties:
+      type: string
+  statusCounts:
+    type: object
+    properties:
+      untested:
+        type: integer
+      passed:
+        type: integer
+      failed:
+        type: integer
+      blocked:
+        type: integer
+      retest:
+        type: integer
+      skipped:
+        type: integer
+  totalCases:
+    type: integer
+  passRate:
+    type: integer
+  createdAt:
+    type: string
+    format: date-time
+  _links:
+    type: object
+    required: [self, run]
+    properties:
+      self:
+        "$ref": "./link.yml"
+      run:
+        "$ref": "./link.yml"
+      connection:
+        "$ref": "./link.yml"

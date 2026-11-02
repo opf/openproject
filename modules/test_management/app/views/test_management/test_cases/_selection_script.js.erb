@@ -1,0 +1,138 @@
+// Case list bulk selection. Plain script (no frontend rebuild): installed once per window
+// (window.__tmCasesSelection), works across Turbo Drive visits via event delegation.
+(function () {
+  "use strict";
+
+  if (window.__tmCasesSelection) { return; }
+  window.__tmCasesSelection = true;
+
+  function rootFrom(el) {
+    return el && el.closest ? el.closest("[data-tm-cases-selection]") : null;
+  }
+
+  function mode(root) {
+    return root && root.querySelector("[data-tm-selection-mode]");
+  }
+
+  function rowBoxes(root) {
+    return root ? Array.prototype.slice.call(root.querySelectorAll("[data-tm-selection-row]")) : [];
+  }
+
+  function selectAll(root) {
+    return root && root.querySelector("[data-tm-selection-select-all]");
+  }
+
+  function selectedIds(root) {
+    return rowBoxes(root).filter(function (box) { return box.checked; }).map(function (box) { return box.value; });
+  }
+
+  function refresh(root) {
+    if (!root) { return; }
+    var ids = selectedIds(root);
+    var countEl = root.querySelector("[data-tm-selection-count]");
+    if (countEl) { countEl.textContent = String(ids.length); }
+
+    var bar = root.querySelector("[data-tm-selection-action-bar]");
+    if (bar) {
+      bar.classList.toggle("is-disabled", ids.length === 0);
+      Array.prototype.forEach.call(bar.querySelectorAll('button[type="submit"]'), function (button) {
+        button.disabled = ids.length === 0;
+      });
+    }
+
+    var all = selectAll(root);
+    if (all) {
+      var total = rowBoxes(root).length;
+      all.checked = total > 0 && ids.length === total;
+      all.indeterminate = ids.length > 0 && ids.length < total;
+    }
+  }
+
+  function clearRows(root) {
+    rowBoxes(root).forEach(function (box) { box.checked = false; });
+    var all = selectAll(root);
+    if (all) {
+      all.checked = false;
+      all.indeterminate = false;
+    }
+    refresh(root);
+  }
+
+  function setMode(root, on) {
+    var checkbox = mode(root);
+    if (!checkbox) { return; }
+    checkbox.checked = !!on;
+    if (!on) { clearRows(root); }
+    else { refresh(root); }
+  }
+
+  function fillIds(form, ids) {
+    var container = form.querySelector("[data-tm-selection-ids]");
+    if (!container) { return; }
+    container.replaceChildren();
+    ids.forEach(function (id) {
+      var input = document.createElement("input");
+      input.type = "hidden";
+      input.name = "ids[]";
+      input.value = id;
+      container.appendChild(input);
+    });
+  }
+
+  document.addEventListener("click", function (event) {
+    var el = event.target && event.target.nodeType === 1 ? event.target : event.target && event.target.parentElement;
+    if (!el || !el.closest) { return; }
+
+    var toggle = el.closest("[data-tm-selection-toggle]");
+    if (toggle) {
+      var root = rootFrom(toggle);
+      var checkbox = mode(root);
+      if (checkbox) { setMode(root, !checkbox.checked); }
+      return;
+    }
+
+    var cancel = el.closest("[data-tm-selection-cancel]");
+    if (cancel) {
+      setMode(rootFrom(cancel), false);
+    }
+  });
+
+  document.addEventListener("change", function (event) {
+    var target = event.target;
+    if (!target) { return; }
+
+    if (target.matches("[data-tm-selection-mode]")) {
+      var root = rootFrom(target);
+      if (!target.checked) { clearRows(root); }
+      else { refresh(root); }
+      return;
+    }
+
+    if (target.matches("[data-tm-selection-select-all]")) {
+      var rootAll = rootFrom(target);
+      rowBoxes(rootAll).forEach(function (box) { box.checked = target.checked; });
+      refresh(rootAll);
+      return;
+    }
+
+    if (target.matches("[data-tm-selection-row]")) {
+      refresh(rootFrom(target));
+    }
+  });
+
+  document.addEventListener("submit", function (event) {
+    var form = event.target;
+    if (!form || !form.matches || !form.matches("[data-tm-selection-bulk-form]")) { return; }
+    var root = rootFrom(form);
+    var ids = selectedIds(root);
+    if (ids.length === 0) {
+      event.preventDefault();
+      return;
+    }
+    fillIds(form, ids);
+  }, true);
+
+  document.addEventListener("turbo:load", function () {
+    document.querySelectorAll("[data-tm-cases-selection]").forEach(refresh);
+  });
+})();

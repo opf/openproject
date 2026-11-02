@@ -1,0 +1,133 @@
+<%# Fields of one CI connection form (new + edit). The token field is always empty: tokens are write-only. %>
+<% ci_t = ->(key, **args) { t("test_management.project_settings.ci.#{key}", **args) } %>
+<% attr = ->(name) { TestManagement::CiConnection.human_attribute_name(name) } %>
+<% prefix = connection.persisted? ? "tm-ci-#{connection.id}" : "tm-ci-new" %>
+<div class="tm-ci-form--grid">
+  <div class="form--field">
+    <%= f.label :name, attr.(:name), class: "form--label", for: "#{prefix}-name" %>
+    <%= f.text_field :name, id: "#{prefix}-name", class: "form--text-field", maxlength: 255, required: true,
+                            placeholder: "Web app" %>
+  </div>
+  <div class="form--field">
+    <%= f.label :provider, attr.(:provider), class: "form--label", for: "#{prefix}-provider" %>
+    <%= f.select :provider, TestManagement::CiConnection::PROVIDERS.map { [ci_t.("providers.#{it}"), it] }, {},
+                 id: "#{prefix}-provider", class: "form--select" %>
+  </div>
+  <div class="form--field">
+    <%= f.label :repository, attr.(:repository), class: "form--label", for: "#{prefix}-repository" %>
+    <%= f.text_field :repository, id: "#{prefix}-repository", class: "form--text-field", maxlength: 255, required: true,
+                                  placeholder: "my-org/shop" %>
+    <p class="form--field-instructions"><%= ci_t.("repository_hint") %></p>
+  </div>
+  <div class="form--field">
+    <%= f.label :base_url, attr.(:base_url), class: "form--label", for: "#{prefix}-base-url" %>
+    <%= f.url_field :base_url, id: "#{prefix}-base-url", class: "form--text-field", maxlength: 255,
+                               placeholder: "https://gitlab.example.com", list: "tm-ci-known-servers" %>
+    <p class="form--field-instructions"><%= ci_t.("base_url_hint") %></p>
+  </div>
+  <div class="form--field">
+    <%= f.label :ingest_mode, attr.(:ingest_mode), class: "form--label", for: "#{prefix}-mode" %>
+    <%= f.select :ingest_mode, TestManagement::CiConnection::INGEST_MODES.map { [ci_t.("ingest_modes.#{it}"), it] }, {},
+                 id: "#{prefix}-mode", class: "form--select" %>
+  </div>
+  <div class="form--field">
+    <%= f.label :target_run_name, attr.(:target_run_name), class: "form--label", for: "#{prefix}-target" %>
+    <%= f.text_field :target_run_name, id: "#{prefix}-target", class: "form--text-field", maxlength: 255,
+                                       placeholder: "Smoke" %>
+    <p class="form--field-instructions"><%= ci_t.("target_run_name_hint") %></p>
+  </div>
+  <div class="form--field">
+    <%= f.label :token, attr.(:token), class: "form--label", for: "#{prefix}-token" %>
+    <%= f.password_field :token, id: "#{prefix}-token", value: nil, class: "form--text-field", autocomplete: "new-password",
+                                 data: { test_selector: "#{prefix}-token" } %>
+    <p class="form--field-instructions">
+      <%= ci_t.("token_hint") %>
+      <% if connection.token_set? %><%= ci_t.("token_keep_hint") %><% end %>
+    </p>
+    <% if connection.token_set? %>
+      <label class="form--label-with-check-box">
+        <%= f.check_box :remove_token, { id: "#{prefix}-remove-token" }, "1", "0" %>
+        <%= ci_t.("remove_token") %>
+      </label>
+    <% end %>
+  </div>
+  <%# "Run in CI" (0011) %>
+  <div class="form--field">
+    <%= f.label :workflow, attr.(:workflow), class: "form--label", for: "#{prefix}-workflow" %>
+    <%= f.text_field :workflow, id: "#{prefix}-workflow", class: "form--text-field", maxlength: 255,
+                                placeholder: "op-tests.yml" %>
+    <p class="form--field-instructions"><%= ci_t.("workflow_hint") %></p>
+  </div>
+  <div class="form--field">
+    <%= f.label :trigger_ref, attr.(:trigger_ref), class: "form--label", for: "#{prefix}-ref" %>
+    <%= f.text_field :trigger_ref, id: "#{prefix}-ref", class: "form--text-field", maxlength: 255, placeholder: "main" %>
+  </div>
+  <div class="form--field">
+    <%= f.label :ci_username, attr.(:ci_username), class: "form--label", for: "#{prefix}-username" %>
+    <%= f.text_field :ci_username, id: "#{prefix}-username", class: "form--text-field", maxlength: 255,
+                                   autocomplete: "off" %>
+    <p class="form--field-instructions"><%= ci_t.("ci_username_hint") %></p>
+  </div>
+  <div class="form--field">
+    <%= f.label :trigger_token, attr.(:trigger_token), class: "form--label", for: "#{prefix}-trigger-token" %>
+    <%= f.password_field :trigger_token, id: "#{prefix}-trigger-token", value: nil, class: "form--text-field",
+                                         autocomplete: "new-password", data: { test_selector: "#{prefix}-trigger-token" } %>
+    <p class="form--field-instructions">
+      <%= ci_t.("trigger_token_hint") %>
+      <% if connection.trigger_token_set? %><%= ci_t.("token_keep_hint") %><% end %>
+    </p>
+    <% if connection.trigger_token_set? %>
+      <label class="form--label-with-check-box">
+        <%= f.check_box :remove_trigger_token, { id: "#{prefix}-remove-trigger-token" }, "1", "0" %>
+        <%= ci_t.("remove_trigger_token") %>
+      </label>
+    <% end %>
+  </div>
+  <%# Self-hosted servers (0015) %>
+  <div class="form--field" style="grid-column: 1 / -1;">
+    <%= f.label :ca_certificate, attr.(:ca_certificate), class: "form--label", for: "#{prefix}-ca" %>
+    <%= f.text_area :ca_certificate, id: "#{prefix}-ca", class: "form--text-area", rows: 4, spellcheck: false,
+                                     placeholder: "-----BEGIN CERTIFICATE-----", data: { test_selector: "#{prefix}-ca" } %>
+    <p class="form--field-instructions"><%= ci_t.("ca_certificate_hint") %></p>
+  </div>
+  <div class="form--field" style="grid-column: 1 / -1;">
+    <label class="form--label-with-check-box">
+      <%= f.check_box :inbound_only, id: "#{prefix}-inbound-only", data: { test_selector: "#{prefix}-inbound-only" } %>
+      <%= attr.(:inbound_only) %>
+    </label>
+    <p class="form--field-instructions"><%= ci_t.("inbound_only_hint") %></p>
+  </div>
+  <%# Repo-qualified references (0016) %>
+  <div class="form--field">
+    <%= f.label :reference_name, attr.(:reference_name), class: "form--label", for: "#{prefix}-reference-name" %>
+    <%= f.text_field :reference_name, id: "#{prefix}-reference-name", class: "form--text-field", maxlength: 100,
+                                      placeholder: connection.reference_qualifier_name || "shop",
+                                      data: { test_selector: "#{prefix}-reference-name" } %>
+    <p class="form--field-instructions"><%= ci_t.("reference_name_hint") %></p>
+  </div>
+  <div class="form--field">
+    <%= f.label :e2e_tests, attr.(:e2e_tests), class: "form--label", for: "#{prefix}-e2e" %>
+    <%= f.select :e2e_tests, TestManagement::CiConnection::E2E_MODES.map { [ci_t.("e2e_modes.#{it}"), it] }, {},
+                 id: "#{prefix}-e2e", class: "form--select" %>
+    <p class="form--field-instructions"><%= ci_t.("e2e_tests_hint") %></p>
+  </div>
+  <% scm = @ci_suggestions&.scm_repository %>
+  <% if scm || connection.scm_repository_id %>
+    <div class="form--field" style="grid-column: 1 / -1;" data-test-selector="<%= prefix %>-scm">
+      <%# Checked: the project's Repositories-module repository is attached; unchecked sends "" (detach). %>
+      <label class="form--label-with-check-box">
+        <%= f.check_box :scm_repository_id, { id: "#{prefix}-scm", checked: connection.scm_repository_id.present? },
+                        (connection.scm_repository_id || scm[:id]).to_s, "" %>
+        <%= attr.(:scm_repository) %>
+        <% if scm %><code><%= scm[:scm] %> <%= scm[:url] %></code><% end %>
+      </label>
+      <p class="form--field-instructions"><%= ci_t.("scm_repository_hint") %></p>
+    </div>
+  <% end %>
+  <div class="form--field">
+    <label class="form--label-with-check-box">
+      <%= f.check_box :active, id: "#{prefix}-active" %>
+      <%= attr.(:active) %>
+    </label>
+  </div>
+</div>

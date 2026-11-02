@@ -1,0 +1,55 @@
+// Example Jenkinsfile: Playwright + upload to OpenProject Test Management, startable with
+// "Run in CI" (Jenkins CI connection: base URL, job path, user + API token, optional build token).
+//
+// OpenProject calls  POST <job>/buildWithParameters  with OP_RUN_ID, OP_ITERATION_ID, OP_PROJECT,
+// OP_GREP and OP_REF. The parameters must be declared (below); Jenkins rejects unknown ones.
+// The first build after adding the parameters block registers them – run the job once by hand.
+//
+// Credentials (Manage Jenkins > Credentials):
+//   op-url        Secret text: https://openproject.example.com
+//   op-api-token  Secret text: OpenProject API token with "Upload automated test results"
+//   op-ca-cert    Secret file (optional): CA bundle of a private certificate
+pipeline {
+  agent { docker { image 'mcr.microsoft.com/playwright:v1.49.0-noble' } }
+
+  parameters {
+    string(name: 'OP_RUN_ID', defaultValue: '', description: 'OpenProject test run id (Run in CI)')
+    string(name: 'OP_ITERATION_ID', defaultValue: '', description: 'OpenProject iteration id (Run in CI)')
+    string(name: 'OP_PROJECT', defaultValue: 'demo-project', description: 'OpenProject project identifier')
+    string(name: 'OP_GREP', defaultValue: '', description: 'Playwright --grep pattern; empty = all tests')
+    string(name: 'OP_REF', defaultValue: 'main', description: 'Branch to test')
+  }
+
+  options { timeout(time: 60, unit: 'MINUTES') }
+
+  stages {
+    stage('Checkout') {
+      steps { checkout scm }   // or: git branch: params.OP_REF, url: '…'
+    }
+    stage('Test') {
+      steps {
+        sh 'apt-get update -qq && apt-get install -y -qq jq curl >/dev/null'
+        sh 'npm ci'
+        // Exit code of Playwright is kept for the result of the build; the upload runs anyway.
+        sh '''
+          PLAYWRIGHT_JSON_OUTPUT_NAME=results.json npx playwright test --reporter=json,line \
+            ${OP_GREP:+--grep "$OP_GREP"} || echo $? > .pw-status
+        '''
+      }
+    }
+  }
+
+  post {
+    always {
+      withCredentials([string(credentialsId: 'op-url', variable: 'OP_URL'),
+                       string(credentialsId: 'op-api-token', variable: 'OP_API_TOKEN')]) {
+        // JENKINS_URL / BUILD_URL / JOB_NAME / BUILD_NUMBER are picked up as CI metadata.
+        sh 'OP_REPORT=results.json OP_ARTIFACTS_DIR=test-results bash ci/op-tm-upload.sh'
+      }
+      archiveArtifacts artifacts: 'results.json,test-results/**', allowEmptyArchive: true
+      script {
+        if (fileExists('.pw-status')) { currentBuild.result = 'UNSTABLE' }
+      }
+    }
+  }
+}

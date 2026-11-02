@@ -1,0 +1,66 @@
+<%#
+  Primer dialog that creates a folder (TestManagement::Suite).
+  locals:
+    dialog_id     – unique DOM id
+    title         – dialog title
+    button_label  – text of the button that opens it
+    parent_suite  – nil for a top-level folder, else the parent folder
+    test_selector – data-test-selector of the open button
+  Show/close use Primer's data-show-dialog-id / data-close-dialog-id (no inline JS).
+%>
+<% parent_suite = local_assigns[:parent_suite] %>
+<%= render(
+      Primer::Alpha::Dialog.new(
+        id: dialog_id,
+        title: title,
+        subtitle: (t("test_management.suites.new_folder_inside", name: parent_suite.name) if parent_suite)
+      )
+    ) do |dialog| %>
+  <% dialog.with_show_button(
+       scheme: :secondary,
+       size: local_assigns.fetch(:button_size, :small),
+       data: { test_selector: test_selector }
+     ) do |button| %>
+    <% button.with_leading_visual_icon(icon: local_assigns.fetch(:button_icon, :"file-directory")) %>
+    <%= button_label %>
+  <% end %>
+  <% dialog.with_body do %>
+    <%= form_with scope: :suite,
+                  url: project_test_management_suites_path(@project),
+                  method: :post,
+                  id: "#{dialog_id}-form",
+                  local: true,
+                  data: { turbo: false, test_selector: "#{dialog_id}-form" } do |f| %>
+      <% if parent_suite %>
+        <%= f.hidden_field :parent_id, value: parent_suite.id, id: "#{dialog_id}-parent-id" %>
+      <% end %>
+      <%= render(
+            Primer::Alpha::TextField.new(
+              name: "suite[name]",
+              id: "#{dialog_id}-name",
+              label: t("test_management.suites.folder_name"),
+              full_width: true,
+              required: true,
+              autocomplete: "off",
+              autofocus: true,
+              data: { test_selector: "#{dialog_id}-name" }
+            )
+          ) %>
+    <% end %>
+  <% end %>
+  <% dialog.with_footer do %>
+    <%= render(Primer::Beta::Button.new(data: { close_dialog_id: dialog_id })) do %>
+      <%= t(:button_cancel) %>
+    <% end %>
+    <%= render(
+          Primer::Beta::Button.new(
+            type: :submit,
+            scheme: :primary,
+            form: "#{dialog_id}-form",
+            data: { test_selector: "#{dialog_id}-submit" }
+          )
+        ) do %>
+      <%= t(:button_create) %>
+    <% end %>
+  <% end %>
+<% end %>

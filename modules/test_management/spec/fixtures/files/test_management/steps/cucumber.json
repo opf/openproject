@@ -1,0 +1,36 @@
+[
+  {
+    "uri": "features/library.feature",
+    "id": "library",
+    "keyword": "Feature",
+    "name": "Library loans",
+    "elements": [
+      {
+        "type": "background",
+        "keyword": "Background",
+        "name": "",
+        "steps": [
+          { "keyword": "Given ", "name": "a member named Olena", "result": { "status": "passed", "duration": 2000000 } }
+        ]
+      },
+      {
+        "type": "scenario",
+        "keyword": "Scenario",
+        "name": "Borrow a book",
+        "tags": [{ "name": "@tm_case:__CASE_ID__" }, { "name": "@smoke" }],
+        "before": [
+          { "match": { "location": "hooks.rb:3" }, "result": { "status": "passed", "duration": 1000000 } }
+        ],
+        "steps": [
+          { "keyword": "When ", "name": "she borrows \"Kobzar\"", "result": { "status": "passed", "duration": 5000000 } },
+          { "keyword": "Then ", "name": "the loan is due in 14 days", "result": { "status": "failed", "duration": 3000000,
+            "error_message": "expected 14 but got 7 (RSpec::Expectations::ExpectationNotMetError)\n./features/steps/loans.rb:12" } },
+          { "keyword": "And ", "name": "a receipt is printed", "result": { "status": "skipped" } }
+        ],
+        "after": [
+          { "match": { "location": "hooks.rb:9" }, "result": { "status": "failed", "duration": 1000000, "error_message": "cleanup failed" } }
+        ]
+      }
+    ]
+  }
+]

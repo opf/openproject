@@ -1,0 +1,86 @@
+<% html_title("#{@test_case.id} #{@test_case.title}") %>
+<%= render partial: "styles" %>
+<% tab = @tab.presence || "overview" %>
+<% tab_counts = { "defects" => @defects&.size } %>
+
+<%# Tabs sit above the case title (as requested). Each tab is its own URL (?tab=…),
+    rendered server-side; no JS. To use OpenProject's usual placement under the
+    title instead, move this into PageHeader's `header.with_tab_nav`. %>
+<%= render(
+      Primer::Alpha::UnderlineNav.new(
+        label: t("test_management.cases.tabs.label"),
+        classes: "tm-case-tabs",
+        data: { test_selector: "tm-case-tabs" }
+      )
+    ) do |nav| %>
+  <% %w[overview runs defects history].each do |key| %>
+    <% nav.with_tab(
+         href: project_test_management_test_case_path(@project, @test_case, tab: (key == "overview" ? nil : key)),
+         selected: tab == key,
+         data: { test_selector: "tm-case-tab-#{key}" }
+       ) do |item| %>
+      <% item.with_text { t("test_management.cases.tabs.#{key}") } %>
+      <% if tab_counts[key].to_i.positive? %>
+        <% item.with_counter(count: tab_counts[key]) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { "##{@test_case.id} #{@test_case.title}" }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_cases_path(@project), text: t(:project_module_test_management) },
+        { href: project_test_management_test_cases_path(@project), text: t("test_management.menu.cases") },
+        "##{@test_case.id}"
+      ]
+    )
+    if @test_case.automation_reference.present? && User.current.allowed_in_project?(:trigger_test_automation, @project)
+      header.with_action_button(
+        tag: :a,
+        href: new_project_test_management_ci_trigger_path(@project, test_case_id: @test_case.id),
+        scheme: :secondary,
+        mobile_icon: :play,
+        mobile_label: t("test_management.ci_triggers.button"),
+        data: { test_selector: "tm-case-ci-trigger" }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :play)
+        t("test_management.ci_triggers.button")
+      end
+    end
+    if User.current.allowed_in_project?(:edit_test_cases, @project)
+      header.with_action_button(
+        tag: :a,
+        href: edit_project_test_management_test_case_path(@project, @test_case),
+        scheme: :secondary,
+        mobile_icon: :pencil,
+        mobile_label: t(:button_edit)
+      ) do
+        t(:button_edit)
+      end
+    end
+    if User.current.allowed_in_project?(:delete_test_cases, @project)
+      header.with_action_button(
+        tag: :a,
+        href: delete_dialog_project_test_management_test_case_path(@project, @test_case),
+        scheme: :danger,
+        mobile_icon: :trash,
+        mobile_label: t(:button_delete),
+        data: {
+          controller: "async-dialog",
+          test_selector: "tm-case-delete-button"
+        }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :trash)
+        t(:button_delete)
+      end
+    end
+  end
+%>
+
+<div class="tm-case-tab-panel" data-test-selector="tm-case-tab-panel-<%= tab %>">
+  <%= render partial: "test_management/test_cases/tab_#{tab}" %>
+</div>

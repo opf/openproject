@@ -1,0 +1,331 @@
+<% can_add_cases = User.current.allowed_in_project?(:add_test_cases, @project) %>
+<% can_edit_cases = User.current.allowed_in_project?(:edit_test_cases, @project) %>
+<% can_delete_cases = User.current.allowed_in_project?(:delete_test_cases, @project) %>
+<% filters_active = params[:q].present? || params[:status].present? || params[:priority].present? %>
+<% deleted_view = deleted_view? %>
+
+<% can_manage_suites = User.current.allowed_in_project?(:manage_test_suites, @project) %>
+<% if !deleted_view && (can_add_cases || (can_manage_suites && @current_suite.present?)) %>
+<div class="tm-top-row" data-test-selector="tm-top-row">
+<% if can_add_cases %>
+  <%# Quick create: one full-width title input + compact primary button. %>
+  <%= form_with scope: :test_case,
+                url: project_test_management_test_cases_path(@project),
+                method: :post,
+                local: true,
+                class: "tm-create-case-bar",
+                data: { turbo: false, test_selector: "tm-create-case-form" } do |f| %>
+    <% if @current_suite.present? %>
+      <%= f.hidden_field :suite_id, value: @current_suite.id %>
+    <% end %>
+    <div class="tm-create-case-bar--input">
+      <%= render(
+            Primer::Alpha::TextField.new(
+              name: "test_case[title]",
+              id: "tm-new-case-title",
+              label: t("test_management.cases.new_title"),
+              visually_hide_label: true,
+              placeholder: t("test_management.cases.new_title"),
+              full_width: true,
+              required: true,
+              autocomplete: "off",
+              data: { test_selector: "tm-new-case-title" }
+            )
+          ) %>
+    </div>
+    <%= render(
+          Primer::Beta::Button.new(
+            type: :submit,
+            scheme: :primary,
+            size: :medium,
+            data: { test_selector: "tm-new-test-case" }
+          )
+        ) do %>
+      <%= t("test_management.cases.create") %><%= tm_hotkey_kbd(:new_case, project: @project) %>
+    <% end %>
+  <% end %>
+<% end %>
+<% if can_manage_suites && @current_suite.present? %>
+  <%# Subfolder of the selected folder. The dialog lives outside the create-case form
+      (no nested forms). %>
+  <%= render partial: "test_management/test_cases/folder_dialog",
+             locals: {
+               dialog_id: "tm-add-subfolder-dialog",
+               title: t("test_management.suites.add_subfolder"),
+               button_label: t("test_management.suites.add_subfolder"),
+               parent_suite: @current_suite,
+               button_size: :medium,
+               button_icon: :"file-directory",
+               test_selector: "tm-add-subfolder-button"
+             } %>
+<% end %>
+</div>
+<% end %>
+
+<%# Selection mode uses a native checkbox + CSS :has() to reveal row checkboxes (no Stimulus/build).
+    Count, select-all and bulk form ids are handled by the inline script at the bottom of this partial. %>
+<div class="tm-cases-selection"
+     data-tm-cases-selection
+     data-test-selector="tm-cases-selection">
+<input type="checkbox"
+       id="tm-cases-selection-mode"
+       class="tm-cases-selection-mode"
+       data-tm-selection-mode
+       data-test-selector="tm-cases-selection-mode"
+       autocomplete="off">
+<div class="tm-cases-toolbar" data-test-selector="tm-cases-toolbar">
+<%= form_with url: project_test_management_test_cases_path(@project),
+              method: :get,
+              local: true,
+              class: "tm-cases-filters",
+              data: { test_selector: "tm-cases-filters" } do %>
+  <% if params[:suite_id].present? %>
+    <%= hidden_field_tag :suite_id, params[:suite_id] %>
+  <% end %>
+  <%= search_field_tag :q, params[:q],
+                       placeholder: t("test_management.cases.search_placeholder"),
+                       "aria-label": t("test_management.cases.search_placeholder"),
+                       autocomplete: "off",
+                       class: "FormControl-input FormControl-small tm-cases-filters--search",
+                       data: { test_selector: "tm-cases-search" } %>
+  <% unless deleted_view %>
+    <%= select_tag :status,
+                   options_for_select([[t("test_management.cases.all_statuses"), ""]] + TestManagement::TestCase::STATUSES.map { |s| [s, s] }, params[:status]),
+                   "aria-label": t("test_management.cases.columns.status"),
+                   class: "FormControl-select FormControl-small" %>
+    <%= select_tag :priority,
+                   options_for_select([[t("test_management.cases.all_priorities"), ""]] + TestManagement::TestCase::PRIORITIES.map { |p| [p, p] }, params[:priority]),
+                   "aria-label": t("test_management.cases.columns.priority"),
+                   class: "FormControl-select FormControl-small" %>
+  <% end %>
+  <%= render(Primer::Beta::Button.new(type: :submit, scheme: :secondary, size: :small)) do %>
+    <%= t(:button_apply) %>
+  <% end %>
+<% end %>
+<% unless deleted_view %>
+  <%= render partial: "test_management/test_cases/export_menu" %>
+  <% if can_edit_cases || can_delete_cases || can_add_cases %>
+    <button type="button"
+            class="Button Button--secondary Button--small tm-cases-selection-toggle"
+            data-tm-selection-toggle
+            data-test-selector="tm-select-cases">
+      <span class="Button-content"><span class="Button-label"><%= t("test_management.cases.select_cases") %></span></span>
+    </button>
+  <% end %>
+<% end %>
+</div>
+
+<% unless deleted_view %>
+  <div class="tm-cases-action-bar"
+       data-tm-selection-action-bar
+       data-test-selector="tm-cases-action-bar">
+    <span class="tm-cases-action-bar--count">
+      <span data-tm-selection-count>0</span>
+      <%= t("test_management.cases.bulk.selected") %>
+    </span>
+    <% if can_edit_cases %>
+      <%= form_with url: edit_project_test_management_test_cases_bulk_path(@project),
+                    method: :get,
+                    local: true,
+                    class: "tm-cases-action-bar--form",
+                    data: { tm_selection_bulk_form: true } do %>
+        <span data-tm-selection-ids></span>
+        <%= render(
+              Primer::Beta::Button.new(
+                type: :submit, scheme: :primary, size: :small,
+                data: { test_selector: "tm-bulk-edit" }
+              )
+            ) do %>
+          <%= t("test_management.cases.bulk.edit") %>
+        <% end %>
+      <% end %>
+      <%= form_with url: move_project_test_management_test_cases_bulk_path(@project),
+                    method: :post,
+                    local: true,
+                    class: "tm-cases-action-bar--form",
+                    data: {
+                      test_selector: "tm-bulk-move-form",
+                      tm_selection_bulk_form: true
+                    } do %>
+        <span data-tm-selection-ids></span>
+        <%= select_tag :suite_id,
+                       options_for_select(
+                         [[t("test_management.suites.unfiled"), "root"]] +
+                         @suites.map { |s| [s.path_name, s.id] }
+                       ),
+                       class: "FormControl-select FormControl-small",
+                       "aria-label": t("test_management.cases.bulk.move_to") %>
+        <%= render(
+              Primer::Beta::Button.new(
+                type: :submit, scheme: :secondary, size: :small,
+                data: { test_selector: "tm-bulk-move" }
+              )
+            ) do %>
+          <%= t("test_management.cases.bulk.move") %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% if can_add_cases %>
+      <%= form_with url: copy_project_test_management_test_cases_bulk_path(@project),
+                    method: :post,
+                    local: true,
+                    class: "tm-cases-action-bar--form",
+                    data: {
+                      test_selector: "tm-bulk-copy-form",
+                      tm_selection_bulk_form: true
+                    } do %>
+        <span data-tm-selection-ids></span>
+        <%= select_tag :suite_id,
+                       options_for_select(
+                         [[t("test_management.suites.unfiled"), "root"]] +
+                         @suites.map { |s| [s.path_name, s.id] }
+                       ),
+                       class: "FormControl-select FormControl-small",
+                       "aria-label": t("test_management.cases.bulk.copy_to") %>
+        <%= render(
+              Primer::Beta::Button.new(
+                type: :submit, scheme: :secondary, size: :small,
+                data: { test_selector: "tm-bulk-copy" }
+              )
+            ) do %>
+          <%= t("test_management.cases.bulk.copy") %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% if can_delete_cases %>
+      <%= form_with url: delete_dialog_project_test_management_test_cases_bulk_path(@project),
+                    method: :get,
+                    class: "tm-cases-action-bar--form",
+                    data: {
+                      turbo_stream: true,
+                      tm_selection_bulk_form: true,
+                      test_selector: "tm-bulk-delete-form"
+                    } do %>
+        <span data-tm-selection-ids></span>
+        <%= render(
+              Primer::Beta::Button.new(
+                type: :submit, scheme: :danger, size: :small,
+                data: { test_selector: "tm-bulk-delete" }
+              )
+            ) do %>
+          <%= t(:button_delete) %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <button type="button"
+            class="Button Button--invisible Button--small"
+            data-tm-selection-cancel
+            data-test-selector="tm-select-cases-cancel">
+      <span class="Button-content"><span class="Button-label"><%= t(:button_cancel) %></span></span>
+    </button>
+  </div>
+<% end %>
+
+<% if @test_cases.any? %>
+  <div class="generic-table--container">
+    <table class="generic-table" data-test-selector="tm-cases-table">
+      <thead>
+        <tr>
+          <% unless deleted_view %>
+            <th class="tm-cases-check-col">
+              <%= check_box_tag "tm_select_all", "1", false,
+                                id: "tm-select-all",
+                                "aria-label": t("test_management.cases.bulk.select_all"),
+                                data: {
+                                  tm_selection_select_all: true,
+                                  test_selector: "tm-select-all"
+                                } %>
+            </th>
+          <% end %>
+          <th><%= t("test_management.cases.columns.id") %></th>
+          <th><%= t("test_management.cases.columns.title") %></th>
+          <th><%= t("test_management.cases.columns.labels") %></th>
+          <th><%= t("test_management.cases.columns.priority") %></th>
+          <th><%= t("test_management.cases.columns.status") %></th>
+          <th><%= t("test_management.cases.columns.automated") %></th>
+          <th><%= t("test_management.cases.columns.suite") %></th>
+          <% if deleted_view && can_edit_cases %>
+            <th></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @test_cases.each do |test_case| %>
+          <tr data-test-selector="tm-case-row-<%= test_case.id %>">
+            <% unless deleted_view %>
+              <td class="tm-cases-check-col">
+                <%= check_box_tag "ids[]", test_case.id, false,
+                                  id: "tm_case_select_#{test_case.id}",
+                                  "aria-label": t("test_management.cases.bulk.select_case", id: test_case.id),
+                                  data: {
+                                    tm_selection_row: true,
+                                    test_selector: "tm-case-select-#{test_case.id}"
+                                  } %>
+              </td>
+            <% end %>
+            <td>
+              <% if deleted_view %>
+                <%= test_case.id %>
+              <% else %>
+                <%= link_to test_case.id, project_test_management_test_case_path(@project, test_case) %>
+              <% end %>
+            </td>
+            <td>
+              <% if deleted_view %>
+                <%= test_case.title %>
+              <% else %>
+                <%= link_to test_case.title, project_test_management_test_case_path(@project, test_case) %>
+              <% end %>
+            </td>
+            <td data-test-selector="tm-case-labels-<%= test_case.id %>"><%= tm_labels(test_case.labels) %></td>
+            <td><%= tm_priority_label(test_case.priority) %></td>
+            <td><%= tm_status_label(test_case.status) %></td>
+            <td><%= test_case.automated? ? t(:general_text_Yes) : t(:general_text_No) %></td>
+            <td>
+              <% if deleted_view %>
+                <%= test_case.deleted_from_suite_path.presence || t("test_management.suites.unfiled") %>
+              <% else %>
+                <%= test_case.suite&.name || t("test_management.suites.unfiled") %>
+              <% end %>
+            </td>
+            <% if deleted_view && can_edit_cases %>
+              <td>
+                <%= button_to t("test_management.cases.restore"),
+                              restore_project_test_management_test_case_path(@project, test_case),
+                              method: :post,
+                              class: "button -small",
+                              data: { test_selector: "tm-restore-case-#{test_case.id}" } %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <%= pagination_links_full @test_cases %>
+<% else %>
+  <%= render(Primer::Beta::Blankslate.new(border: true, narrow: true, data: { test_selector: "tm-cases-empty" })) do |slate| %>
+    <% slate.with_visual_icon(
+         icon: if deleted_view
+                 :trash
+               else
+                 (filters_active ? :search : :checklist)
+               end
+       ) %>
+    <% slate.with_heading(tag: :h3) do %>
+      <% if deleted_view %>
+        <%= t("test_management.cases.empty_deleted") %>
+      <% else %>
+        <%= filters_active ? t("test_management.cases.empty_filtered") : t("test_management.cases.empty") %>
+      <% end %>
+    <% end %>
+    <% if !deleted_view && !filters_active && can_add_cases %>
+      <% slate.with_description { t("test_management.cases.empty_hint") } %>
+    <% end %>
+  <% end %>
+<% end %>
+</div>
+
+<%= nonced_javascript_tag do %>
+<%= render partial: "test_management/test_cases/selection_script", formats: [:js] %>
+<% end %>

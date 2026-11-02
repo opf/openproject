@@ -1,0 +1,34 @@
+<%# Sub-steps and attachment links of one step result (0020). Plain text only. %>
+<% if row.substeps.any? %>
+  <details>
+    <summary class="color-fg-muted"><%= t("test_management.step_results.substeps", count: row.substeps.size) %></summary>
+    <ul class="tm-step-results--substeps">
+      <% row.substeps.each do |sub| %>
+        <li>
+          <%= tm_step_status_label(TestManagement::TestStepResult::STATUSES.include?(sub["status"]) ? sub["status"] : "untested") %>
+          <%= sub["title"].to_s %>
+          <% if sub["error"].present? %><span class="tm-run-table--error"><%= sub["error"].to_s %></span><% end %>
+        </li>
+      <% end %>
+    </ul>
+  </details>
+<% end %>
+<% if row.attachment_refs.any? %>
+  <div class="color-fg-muted">
+    <%= t("test_management.runs.attachments.title") %>:
+    <%= safe_join(
+          row.attachment_refs.map do |ref|
+            id = ref["attachmentId"].to_i
+            name = ref["name"].presence || File.basename(ref["path"].to_s)
+            if id.positive?
+              link_to(
+                name, ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(id),
+                target: "_blank", rel: "noopener", data: { turbo: false }
+              )
+            else
+              name
+            end
+          end, ", "
+        ) %>
+  </div>
+<% end %>

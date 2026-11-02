@@ -1,0 +1,66 @@
+<%# New / edit milestone. Server-side only; references use the standard work package autocompleter. %>
+<% milestone = f.object %>
+<%= error_messages_for "milestone" %>
+
+<div data-test-selector="tm-milestone-form">
+  <div class="form--field">
+    <%= f.text_field :name, required: true, container_class: "-wide" %>
+    <div class="form--field-instructions"><%= t("test_management.milestones.form.name_hint") %></div>
+  </div>
+
+  <div class="form--field">
+    <%= f.select :parent_id,
+                 options_from_collection_for_select(@parent_options, :id, :name, milestone.parent_id),
+                 { include_blank: t("test_management.milestones.form.no_parent") },
+                 container_class: "-middle", disabled: milestone.persisted? && milestone.children.exists? %>
+    <div class="form--field-instructions"><%= t("test_management.milestones.form.parent_hint") %></div>
+  </div>
+
+  <div class="form--field -vertical tm-rich-field">
+    <%= f.text_area :description, with_text_formatting: true, macros: "resource", container_class: "-wide", rows: 5 %>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_field :start_date, type: "date", container_class: "-slim" %>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_field :due_date, type: "date", container_class: "-slim" %>
+    <div class="form--field-instructions"><%= t("test_management.milestones.form.dates_hint") %></div>
+  </div>
+
+  <div class="form--field" data-test-selector="tm-milestone-version-field">
+    <%= f.select :version_id,
+                 options_from_collection_for_select(@version_options, :id, :name, milestone.version_id),
+                 { include_blank: t("test_management.milestones.form.no_version") },
+                 container_class: "-middle" %>
+    <div class="form--field-instructions"><%= t("test_management.milestones.form.version_hint") %></div>
+  </div>
+
+  <div class="form--field" data-test-selector="tm-milestone-work-packages-field">
+    <%= label_tag "milestone_work_package_ids", TestManagement::Milestone.human_attribute_name(:work_package_ids), class: "form--label" %>
+    <div class="form--field-container">
+      <div class="tm-wp-autocompleter">
+        <%= hidden_field_tag "milestone[work_package_ids][]", "", id: nil %>
+        <%= angular_component_tag "opce-autocompleter",
+                                  data: { test_selector: "tm-milestone-work-packages-autocompleter" },
+                                  inputs: {
+                                    resource: "work_packages",
+                                    url: ::API::V3::Utilities::PathHelper::ApiV3Path.work_packages,
+                                    searchKey: "typeahead",
+                                    multiple: true,
+                                    hideSelected: true,
+                                    defaultData: true,
+                                    focusDirectly: false,
+                                    openDirectly: false,
+                                    appendTo: "body",
+                                    placeholder: t("test_management.cases.work_packages_placeholder"),
+                                    inputName: "milestone[work_package_ids]",
+                                    model: tm_work_package_autocompleter_model(milestone),
+                                    labelForId: "milestone_work_package_ids"
+                                  } %>
+      </div>
+    </div>
+    <div class="form--field-instructions"><%= t("test_management.milestones.form.references_hint") %></div>
+  </div>
+</div>

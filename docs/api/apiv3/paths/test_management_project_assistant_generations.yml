@@ -1,0 +1,156 @@
+# /api/v3/projects/{id}/test_management/assistant/generations
+---
+post:
+  summary: Generate draft test cases with the Test Assistant
+  operationId: Create_test_management_assistant_generation
+  tags:
+  - Test Management
+  description: |-
+    Queues a generation: the Test Assistant sends the source material to the AI provider configured
+    in Administration → Test management and returns draft test cases. The answer is `202` with the
+    queued generation; poll `GET /api/v3/test_management/assistant/generations/{id}` until `status`
+    is `done` (drafts available) or `failed` (see `error`). Nothing is written to the test case
+    library until drafts are saved (`POST …/generations/{id}/save`).
+
+    Sources (`sourceType`):
+    * `work_package` – subject, description, acceptance criteria (custom fields whose name contains
+      "acceptance") and visible child work packages of `source.workPackageId`;
+    * `text` – `source.text` (at most 20,000 characters);
+    * `pull_request` – `source.url` of a pull/merge request in a repository that one of the
+      project's CI connections (GitHub, GitLab, Gitea, Forgejo, Codeberg) points at. Title,
+      description and diff are fetched from that provider's API with the connection's token
+      (SSRF-protected, 20 s timeout, responses above 2 MB refused, diff cut to 40,000 characters);
+    * `code` – `source.code` (at most 20,000 characters), optional `source.language`.
+
+    Content-Type must be `application/json` (otherwise `415`).
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Project id or identifier
+    example: shop
+    schema:
+      type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [sourceType, source]
+          properties:
+            sourceType:
+              type: string
+              enum: [work_package, text, pull_request, code]
+            source:
+              type: object
+              properties:
+                workPackageId:
+                  type: integer
+                text:
+                  type: string
+                  maxLength: 20000
+                url:
+                  type: string
+                  format: uri
+                code:
+                  type: string
+                  maxLength: 20000
+                language:
+                  type: string
+                  maxLength: 40
+            count:
+              type: integer
+              minimum: 1
+              maximum: 20
+              default: 5
+            types:
+              type: array
+              default: [positive, negative, edge]
+              items:
+                type: string
+                enum: [positive, negative, edge, boundary, security, accessibility, usability]
+            suiteId:
+              type: integer
+              description: Default target folder (must belong to the project).
+            labels:
+              type: array
+              maxItems: 20
+              items:
+                type: string
+        examples:
+          work_package:
+            value:
+              sourceType: work_package
+              source:
+                workPackageId: 1234
+              count: 6
+              types: [positive, negative, edge]
+              suiteId: 12
+              labels: [regression]
+          pull_request:
+            value:
+              sourceType: pull_request
+              source:
+                url: https://github.com/my-org/shop/pull/87
+              count: 4
+  responses:
+    '202':
+      description: The generation was queued.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_assistant_generation_model.yml"
+          examples:
+            response:
+              value:
+                _type: TestManagementAssistantGeneration
+                id: 31
+                status: queued
+                sourceType: work_package
+                source:
+                  workPackageId: 1234
+                count: 6
+                types: [positive, negative, edge]
+                suiteId: 12
+                labels: [regression]
+                drafts: []
+                savedCaseIds: []
+                error:
+                provider: OpenAI · gpt-4o-mini
+                createdAt: '2026-10-31T12:00:00.000Z'
+                updatedAt: '2026-10-31T12:00:00.000Z'
+                _links:
+                  self:
+                    href: "/api/v3/test_management/assistant/generations/31"
+                  project:
+                    href: "/api/v3/projects/7"
+                  workPackage:
+                    href: "/api/v3/work_packages/1234"
+    '403':
+      description: |-
+        **Required permission:** use test assistant
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+    '404':
+      description: The project does not exist, is not visible, or the Test Assistant is switched off in it.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+    '415':
+      description: The request body is not JSON.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+    '422':
+      description: |-
+        No AI provider configured, an invalid source (unknown or invisible work package, empty or too
+        long text / code, a pull request URL outside the project's CI connections), invalid options,
+        or three generations of the user still running.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"

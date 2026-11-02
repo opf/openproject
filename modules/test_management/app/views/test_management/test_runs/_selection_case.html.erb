@@ -1,0 +1,8 @@
+<li class="tm-run-tree--case" data-test-selector="tm-run-tree-case-<%= test_case.id %>">
+  <label>
+    <%= check_box_tag "test_run[test_case_ids][]", test_case.id, selected_ids.include?(test_case.id),
+                      id: "tm_run_select_case_#{test_case.id}" %>
+    <span class="color-fg-muted"><%= test_case.formatted_id %></span>
+    <%= test_case.title %>
+  </label>
+</li>

@@ -1,0 +1,24 @@
+# Example Woodpecker pipeline (.woodpecker/op-tests.yaml): Playwright + upload to OpenProject Test
+# Management, startable with "Run in CI" (Woodpecker connection: server URL, numeric repository id,
+# personal access token of a user with push access).
+#
+# OpenProject calls  POST /api/repos/{repo_id}/pipelines  {branch, variables} with OP_RUN_ID,
+# OP_ITERATION_ID, OP_PROJECT and OP_GREP; they are available as environment variables of the
+# manual pipeline ($$ escapes Woodpecker's own ${…} substitution). Secrets: op_api_token, op_url (Repository settings > Secrets).
+when:
+  - event: manual
+
+steps:
+  - name: e2e
+    image: mcr.microsoft.com/playwright:v1.49.0-noble
+    environment:
+      OP_API_TOKEN:
+        from_secret: op_api_token
+      OP_URL:
+        from_secret: op_url
+    commands:
+      - apt-get update -qq && apt-get install -y -qq jq curl >/dev/null
+      - npm ci
+      - PLAYWRIGHT_JSON_OUTPUT_NAME=results.json npx playwright test --reporter=json,line $${OP_GREP:+--grep "$${OP_GREP}"} || echo $$? > .pw-status
+      - OP_REPORT=results.json OP_ARTIFACTS_DIR=test-results bash ci/op-tm-upload.sh
+      - test ! -f .pw-status

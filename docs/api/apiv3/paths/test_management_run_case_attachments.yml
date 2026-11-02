@@ -1,0 +1,141 @@
+# /api/v3/test_management/run_cases/{id}/attachments
+---
+get:
+  summary: List attachments by test run case
+  operationId: List_attachments_by_test_management_run_case
+  tags:
+  - Attachments
+  - Test Management
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Test run case id
+    example: 42
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/attachments_model.yml"
+    '404':
+      description: |-
+        Returned if the test run case does not exist or the client may not see it.
+
+        **Required permission:** view test runs or upload test results
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+post:
+  summary: Add attachment to test run case
+  operationId: Add_attachment_to_test_management_run_case
+  tags:
+  - Attachments
+  - Test Management
+  description: Uploads a file (screenshot, trace, log) to the test run case. The instance's
+    maximum attachment size and allowed content types apply. Not possible once the
+    run is completed or cancelled.
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Test run case id
+    example: 42
+    schema:
+      type: integer
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          required:
+          - metadata
+          - file
+          properties:
+            metadata:
+              type: object
+              description: 'JSON: `{"fileName": "trace.zip", "description": {"raw":
+                "…"}}`'
+              properties:
+                fileName:
+                  type: string
+                description:
+                  type: object
+            file:
+              type: string
+              format: binary
+        encoding:
+          metadata:
+            contentType: application/json
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/attachment_model.yml"
+    '400':
+      description: The multipart body is invalid.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+                message: The request could not be parsed as JSON.
+    '403':
+      description: |-
+        The run is finished, or the client lacks permission.
+
+        **Required permission:** add test runs, execute test runs or upload test results
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: |-
+        Returned if the test run case does not exist or the client may not see it.
+
+        **Required permission:** view test runs or upload test results
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+    '422':
+      description: The file is too large or its content type is not allowed.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: File is too large (maximum size is 5120 kB).

@@ -1,0 +1,275 @@
+# /api/v3/projects/{id}/test_management/runs/{run_id}/results
+---
+post:
+  summary: Upload automated test results into a run
+  operationId: Upload_test_management_run_results
+  tags:
+  - Test Management
+  description: Same as the project upload, with the run given in the path (`runId`).
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Project id
+    example: 42
+    schema:
+      type: integer
+  - name: run_id
+    in: path
+    required: true
+    description: Test run id
+    example: 42
+    schema:
+      type: integer
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          required:
+          - file
+          properties:
+            file:
+              type: string
+              format: binary
+              description: The report (Playwright JSON, JUnit XML or native JSON).
+                Max. 50 MB, 20 000 tests.
+            metadata:
+              description: Ingest options as a JSON object (text or file part).
+              "$ref": "../components/schemas/test_management_ingest_options.yml"
+            attachments[]:
+              type: array
+              items:
+                type: string
+                format: binary
+              description: Artifacts (screenshots, traces, logs). A file whose relative
+                path (see `attachmentPaths`) or name matches the end of an attachment
+                path of a test in the report is attached to that test's run case,
+                all others to the run. Max. 200 files; the instance's attachment size
+                and content-type rules apply.
+        encoding:
+          metadata:
+            contentType: application/json
+      application/json:
+        schema:
+          "$ref": "../components/schemas/test_management_ingest_json_request.yml"
+        examples:
+          native:
+            summary: Native format
+            value:
+              externalRef: jenkins:shop-nightly:311
+              closeRun: true
+              tests:
+              - caseId: 12
+                status: passed
+                durationMs: 820
+              - reference: api/orders#rejects an empty cart
+                status: failed
+                message: expected 422, got 500
+          newIteration:
+            summary: New iteration of the Smoke run
+            value:
+              mode: new_iteration
+              targetRun: Smoke
+              externalRef: github:my-org/shop:9876543211:1
+              ci:
+                provider: github
+                repository: my-org/shop
+                branch: main
+                runNumber: '129'
+              tests:
+              - caseId: 12
+                status: passed
+  responses:
+    '200':
+      description: Results recorded in an existing run (or a replay of an earlier
+        upload).
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_ingest_result_model.yml"
+    '201':
+      description: A new run was created and the results recorded.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_ingest_result_model.yml"
+          examples:
+            response:
+              value:
+                _type: TestManagementIngestResult
+                createdRun: true
+                createdIteration: false
+                mode: new_run
+                iteration:
+                  id: 51
+                  number: 1
+                  name: Iteration 1
+                replay: false
+                import:
+                  _type: TestManagementAutomationImport
+                  id: 7
+                  format: playwright_json
+                  state: done
+                  parsedCount: 24
+                  matchedCount: 23
+                  createdCasesCount: 0
+                  unmatchedCount: 1
+                  attachmentsCount: 2
+                  unmatched:
+                  - reference: checkout.spec.ts#Checkout › applies a voucher
+                    title: Checkout › applies a voucher
+                    status: passed
+                    projectName: chromium
+                    reason: no_matching_case
+                  warnings: []
+                  digest: 9b1c…
+                  externalRef: github:my-org/shop:9876543210:1
+                  iteration: 1
+                  createdAt: '2026-10-31T08:13:02.000Z'
+                  _links:
+                    self:
+                      href: "/api/v3/test_management/automation/imports/7"
+                    run:
+                      href: "/api/v3/test_management/runs/42"
+                    project:
+                      href: "/api/v3/projects/3"
+                run:
+                  _type: TestManagementRun
+                  id: 42
+                  name: 'E2E #128 · main@3f9c2d1'
+                  state: in_progress
+                  source: automation
+                  completionSource:
+                  selectionMode: specific
+                  externalRef: github:my-org/shop:9876543210:1
+                  ci:
+                    provider: github
+                    runUrl: https://github.com/my-org/shop/actions/runs/9876543210
+                    branch: main
+                    commitSha: 3f9c2d1e0a7b
+                    workflow: E2E
+                    runNumber: '128'
+                  statusCounts:
+                    untested: 0
+                    passed: 18
+                    failed: 2
+                    blocked: 0
+                    retest: 0
+                    skipped: 3
+                  totalCases: 23
+                  passRate: 90
+                  currentIteration: 1
+                  iterationsCount: 1
+                  unmatchedTests: 1
+                  createdAt: '2026-10-31T08:12:44.000Z'
+                  updatedAt: '2026-10-31T08:13:02.000Z'
+                  finishedAt:
+                  _links:
+                    self:
+                      href: "/api/v3/test_management/runs/42"
+                      title: 'E2E #128 · main@3f9c2d1'
+                    project:
+                      href: "/api/v3/projects/3"
+                    imports:
+                      href: "/api/v3/test_management/runs/42/imports"
+                    iterations:
+                      href: "/api/v3/test_management/runs/42/iterations"
+                    attachments:
+                      href: "/api/v3/test_management/runs/42/attachments"
+                    complete:
+                      href: "/api/v3/test_management/runs/42/complete"
+                      method: post
+                    cancel:
+                      href: "/api/v3/test_management/runs/42/cancel"
+                      method: post
+                _links:
+                  self:
+                    href: "/api/v3/test_management/automation/imports/7"
+                  run:
+                    href: "/api/v3/test_management/runs/42"
+                    title: 'E2E #128 · main@3f9c2d1'
+                  iteration:
+                    href: "/api/v3/test_management/runs/42/iterations/1"
+    '400':
+      description: The body or the report cannot be read (no report, invalid JSON/XML,
+        XML with a DTD).
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+                message: The multipart request needs a 'file' part with the report.
+    '403':
+      description: |-
+        Returned if the client may see the project but not upload results.
+
+        **Required permission:** upload test results or add test runs
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: |-
+        Returned if the project or run does not exist or the client may not see it.
+
+        **Required permission:** view project
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+    '409':
+      description: The target run is completed or cancelled. Reopen it in the UI or
+        send the results to a new run.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UpdateConflict
+                message: The test run is completed and does not accept results.
+    '413':
+      description: The report is larger than 50 MB or has more than 20 000 tests.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PayloadTooLarge
+                message: The report exceeds 50 MB.
+    '422':
+      description: Invalid options, or a report without tests.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UnprocessableContent
+                message: caseMatcher must be one of auto, property, reference, id,
+                  title.

@@ -1,0 +1,80 @@
+# Schema: TestManagementAutomationImportModel
+---
+type: object
+required: [_type, id, format, state]
+properties:
+  _type:
+    type: string
+    enum: [TestManagementAutomationImport]
+  id:
+    type: integer
+    minimum: 1
+  format:
+    type: string
+    enum: [playwright_json, junit, native]
+  state:
+    type: string
+    enum: [queued, processing, done, failed]
+  parsedCount:
+    type: integer
+  matchedCount:
+    type: integer
+  createdCasesCount:
+    type: integer
+  unmatchedCount:
+    type: integer
+  attachmentsCount:
+    type: integer
+  unmatched:
+    type: array
+    items:
+      type: object
+      properties:
+        reference:
+          type: string
+        title:
+          type: string
+        file:
+          type: string
+        status:
+          type: string
+        projectName:
+          type: string
+        reason:
+          type: string
+          enum: [no_matching_case, case_not_in_project, not_in_run, unknown_status]
+  warnings:
+    type: array
+    items:
+      type: object
+      properties:
+        code:
+          type: string
+          description: "e.g. attachment_rejected, attachment_failed, work_package_not_visible, close_run_failed, target_run_created, connection_inactive, connection_repository_mismatch"
+        message:
+          type: string
+  digest:
+    type: string
+    description: SHA-256 of the uploaded report.
+  externalRef:
+    type:
+      - string
+      - "null"
+  iteration:
+    type:
+      - integer
+      - "null"
+    description: Number of the run iteration the results were recorded in.
+  createdAt:
+    type: string
+    format: date-time
+  _links:
+    type: object
+    required: [self, project]
+    properties:
+      self:
+        "$ref": "./link.yml"
+      run:
+        "$ref": "./link.yml"
+      project:
+        "$ref": "./link.yml"

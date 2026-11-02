@@ -1,0 +1,13 @@
+<%# Defects = linked work packages whose type is a bug/defect type (see tm_defect_work_package?). %>
+<% if @defects.present? %>
+  <div class="tm-case-detail">
+    <%= render partial: "test_management/test_cases/work_package_list",
+               locals: { work_packages: @defects, list_selector: "tm-case-defects", empty_text: "" } %>
+  </div>
+<% else %>
+  <%= render(Primer::Beta::Blankslate.new(border: true, narrow: true, data: { test_selector: "tm-case-defects-empty" })) do |slate| %>
+    <% slate.with_visual_icon(icon: :bug) %>
+    <% slate.with_heading(tag: :h3) { t("test_management.cases.defects_empty") } %>
+    <% slate.with_description { t("test_management.cases.defects_empty_hint") } %>
+  <% end %>
+<% end %>

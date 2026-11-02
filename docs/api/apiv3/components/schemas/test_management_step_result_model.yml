@@ -1,0 +1,69 @@
+# Schema: TestManagementStepResultModel
+---
+type: object
+description: |-
+  The result of one step in a test result (0020). `kind` `case` rows belong to a step of the test
+  case (`testStepId`, `position`); `reported` rows are steps of an automated test that matched no case
+  step. All texts are plain text and must not be rendered as HTML.
+required: [_type, id, kind, status]
+properties:
+  _type:
+    type: string
+    enum: [TestManagementStepResult]
+  id:
+    type: integer
+  kind:
+    type: string
+    enum: [case, reported]
+  position:
+    type: integer
+    description: 1-based number of the case step (case rows only).
+  testStepId:
+    type: integer
+  title:
+    type: string
+    description: The case step action, or the reported title for reported rows.
+  reportedTitle:
+    type: string
+    description: Title(s) of the reported steps mapped to this row, joined with " · ".
+  status:
+    type: string
+    enum: [passed, failed, blocked, skipped, untested]
+    description: "`untested` is shown as Not run."
+  matchedBy:
+    type: string
+    enum: [marker, position, title, manual]
+  durationMs:
+    type: integer
+  errorMessage:
+    type: string
+    maxLength: 4000
+  errorTrace:
+    type: string
+    maxLength: 8000
+  actualResult:
+    type: string
+    maxLength: 4000
+    description: Actual result typed by a tester (manual results).
+  substeps:
+    type: array
+    maxItems: 50
+    items:
+      type: object
+      properties:
+        title:
+          type: string
+        status:
+          type: string
+        durationMs:
+          type: integer
+  attachments:
+    type: array
+    items:
+      type: object
+      properties:
+        name:
+          type: string
+        attachmentId:
+          type: integer
+          description: Attachment of the run case uploaded with the report.

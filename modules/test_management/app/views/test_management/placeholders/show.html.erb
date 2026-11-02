@@ -1,0 +1,21 @@
+<% html_title(t("test_management.menu.#{@placeholder_page}")) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("test_management.menu.#{@placeholder_page}") }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_cases_path(@project), text: t(:project_module_test_management) },
+        t("test_management.menu.#{@placeholder_page}")
+      ]
+    )
+  end
+%>
+
+<div class="op-toast -info" data-test-selector="tm-placeholder-<%= @placeholder_page %>">
+  <div class="op-toast--content">
+    <p><strong><%= t("test_management.placeholders.coming_soon") %></strong></p>
+    <p><%= t("test_management.placeholders.#{@placeholder_page}") %></p>
+  </div>
+</div>

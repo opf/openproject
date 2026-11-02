@@ -1,0 +1,49 @@
+<%# Hints for new CI connections (0015): servers and projects OpenProject already knows from the
+    GitLab integration (webhooks) and the Repositories module. Read only. %>
+<% ci_t = ->(key, **args) { t("test_management.project_settings.ci.#{key}", **args) } %>
+<datalist id="tm-ci-known-servers">
+  <% (suggestions.base_urls + TestManagement::CiConnection::DEFAULT_BASE_URLS.values).uniq.each do |url| %>
+    <option value="<%= url %>"></option>
+  <% end %>
+</datalist>
+<% gitlab = suggestions.gitlab %>
+<% scm = suggestions.scm_repository %>
+<% if gitlab.any? || scm %>
+  <div class="tm-ci-suggestions" data-test-selector="tm-ci-suggestions">
+    <% if gitlab.any? %>
+      <p class="form--field-instructions"><%= ci_t.("suggestions.gitlab") %></p>
+      <ul>
+        <% gitlab.each do |suggestion| %>
+          <li data-test-selector="tm-ci-suggestion">
+            <% if (url = tm_safe_url(suggestion.url)) %>
+              <%= link_to suggestion.url, url, target: "_blank", rel: "noopener noreferrer" %>
+            <% else %>
+              <code><%= suggestion.url %></code>
+            <% end %>
+            <% if suggestion.base_url %>
+              <span class="color-fg-muted">
+                – <%= ci_t.("suggestions.split", base_url: suggestion.base_url, repository: suggestion.repository) %>
+              </span>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+    <% if scm %>
+      <p class="form--field-instructions" data-test-selector="tm-ci-scm-hint">
+        <%= ci_t.("suggestions.scm", scm: scm[:scm], url: scm[:url]) %>
+      </p>
+      <% attached = suggestions.scm_attached_to %>
+      <% if attached.any? %>
+        <p class="form--field-instructions" data-test-selector="tm-ci-scm-attached">
+          <%= ci_t.("suggestions.scm_attached", connections: attached.map(&:name).join(", ")) %>
+        </p>
+      <% else %>
+        <%# Quick action (0016): opens the new-connection form with the repository attached; nothing is saved. %>
+        <%= link_to ci_t.("suggestions.attach_scm"),
+                    project_test_management_project_settings_path(@project, attach_scm_repository: 1, anchor: "tm-ci-new"),
+                    class: "button -small", data: { test_selector: "tm-ci-attach-scm" } %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

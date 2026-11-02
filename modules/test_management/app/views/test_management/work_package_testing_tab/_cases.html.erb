@@ -1,0 +1,52 @@
+<% if @testing.test_cases.any? %>
+  <% latest = @testing.latest_run_cases %>
+  <% latest_results = latest.any? ? @testing.latest_results : {} %>
+  <ul class="tm-wp-cards tm-wp-testing-cases" data-test-selector="tm-wp-testing-cases" aria-label="<%= t("test_management.work_package_tab.views.cases") %>">
+    <% @testing.test_cases.each do |test_case| %>
+      <% run_case = latest[test_case.id] %>
+      <li class="tm-wp-card" data-test-selector="tm-wp-testing-case-<%= test_case.id %>">
+        <div class="tm-wp-card--title">
+          <%= link_to "#{test_case.formatted_id} #{test_case.title}",
+                      project_test_management_test_case_path(test_case.project, test_case),
+                      data: { turbo_frame: "_top" } %>
+        </div>
+        <div class="tm-wp-card--meta color-fg-muted">
+          <%= tm_status_label(test_case.status) %>
+          <% if test_case.suite %><span><%= test_case.suite.name %></span><% end %>
+          <% if test_case.project_id != @work_package.project_id %><span>(<%= test_case.project.name %>)</span><% end %>
+        </div>
+        <div class="tm-wp-card--meta">
+          <span class="color-fg-muted"><%= t("test_management.work_package_tab.columns.last_run") %>:</span>
+          <% if run_case %>
+            <%= tm_run_status_label(run_case.effective_status) %>
+            <%= link_to "#{run_case.test_run.formatted_id} #{run_case.test_run.name}",
+                        project_test_management_test_run_path(test_case.project, run_case.test_run),
+                        data: { turbo_frame: "_top" } %>
+          <% else %>
+            <span class="color-fg-muted"><%= t("test_management.work_package_tab.never_run") %></span>
+          <% end %>
+        </div>
+        <% failure = run_case && tm_result_failure_line(latest_results[run_case.id]) %>
+        <% if failure %>
+          <div class="tm-wp-card--meta tm-run-table--error" data-test-selector="tm-wp-testing-case-error-<%= test_case.id %>">
+            <%= link_to failure, project_test_management_test_run_run_case_path(test_case.project, run_case.test_run, run_case),
+                        data: { turbo_frame: "_top" } %>
+          </div>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <%= render(Primer::Beta::Blankslate.new(border: true, narrow: true, data: { test_selector: "tm-wp-testing-empty" })) do |slate| %>
+    <% slate.with_visual_icon(icon: :checklist) %>
+    <% slate.with_heading(tag: :h3) { t("test_management.work_package_tab.empty") } %>
+    <% slate.with_description { t("test_management.work_package_tab.empty_hint") } %>
+  <% end %>
+<% end %>
+<% if @testing.can_link? %>
+  <p class="tm-wp-testing-hint color-fg-muted">
+    <%= link_to t("test_management.work_package_tab.open_cases"),
+                project_test_management_test_cases_path(@work_package.project),
+                data: { turbo_frame: "_top" } %>
+  </p>
+<% end %>

@@ -1,0 +1,26 @@
+<% html_title(t("test_management.milestones.new")) %>
+<%= render partial: "test_management/milestones/styles" %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("test_management.milestones.new") }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_milestones_path(@project), text: t("test_management.milestones.title") },
+        t("test_management.milestones.new")
+      ]
+    )
+  end
+%>
+
+<%= labelled_tabular_form_for @milestone,
+                              as: :milestone,
+                              url: project_test_management_milestones_path(@project),
+                              method: :post,
+                              html: { id: "tm-milestone-form", class: "tm-ms-form", data: { turbo: false } } do |f| %>
+  <%= render partial: "test_management/milestones/form", locals: { f: } %>
+  <div class="tm-ms-form--actions">
+    <%= styled_button_tag t("test_management.milestones.create"), class: "-primary", data: { test_selector: "tm-milestone-submit" } %>
+    <%= link_to t(:button_cancel), project_test_management_milestones_path(@project), class: "button" %>
+  </div>
+<% end %>

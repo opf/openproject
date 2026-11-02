@@ -1,0 +1,132 @@
+# /api/v3/test_management/assistant/generations/{id}/save
+---
+post:
+  summary: Save Test Assistant drafts as test cases
+  operationId: Save_test_management_assistant_generation
+  tags:
+  - Test Management
+  description: |-
+    Saves drafts of a finished generation as test cases with status `draft`, all or nothing.
+    Without `drafts` all drafts of the generation are saved; with `drafts` the given (possibly
+    edited) drafts are saved instead. Folder and labels default to the generation's options.
+    A work package source is linked to every saved case; a pull request source is noted in the
+    case description ("Generated from pull request …").
+
+    Saving additionally needs **Add test cases**; folder and work package visibility are checked
+    like for any new test case. Content-Type must be `application/json` (otherwise `415`).
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Generation id
+    example: 31
+    schema:
+      type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            drafts:
+              type: array
+              maxItems: 20
+              items:
+                "$ref": "../components/schemas/test_management_assistant_draft.yml"
+            suiteId:
+              type:
+                - integer
+                - "null"
+            labels:
+              type: array
+              items:
+                type: string
+        examples:
+          all:
+            value: {}
+          edited:
+            value:
+              suiteId: 12
+              labels: [regression]
+              drafts:
+              - title: Reset the password with a valid link
+                priority: high
+                steps:
+                - action: Request a password reset.
+                  expectedResult: A reset email is sent.
+  responses:
+    '201':
+      description: The drafts were saved.
+      content:
+        application/hal+json:
+          schema:
+            type: object
+            required: [_type, savedCaseIds]
+            properties:
+              _type:
+                type: string
+                enum: [TestManagementAssistantSaveResult]
+              savedCaseIds:
+                type: array
+                items:
+                  type: integer
+              testCases:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    title:
+                      type: string
+              _links:
+                type: object
+                properties:
+                  generation:
+                    "$ref": "../components/schemas/link.yml"
+          examples:
+            response:
+              value:
+                _type: TestManagementAssistantSaveResult
+                savedCaseIds: [501, 502]
+                testCases:
+                - id: 501
+                  title: Reset the password with a valid link
+                - id: 502
+                  title: Reject an expired reset link
+                _links:
+                  generation:
+                    href: "/api/v3/test_management/assistant/generations/31"
+    '403':
+      description: |-
+        **Required permission:** use test assistant
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+    '404':
+      description: The generation does not exist or belongs to another user.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+    '409':
+      description: The generation is not done yet (or failed).
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+    '415':
+      description: The request body is not JSON.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+    '422':
+      description: |-
+        No draft selected, or a draft could not be saved (missing "Add test cases" permission,
+        unknown folder, invisible work package, invalid title). Nothing is saved in that case.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"

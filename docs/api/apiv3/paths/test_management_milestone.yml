@@ -1,0 +1,148 @@
+# /api/v3/test_management/milestones/{id}
+---
+get:
+  summary: View milestone
+  operationId: View_test_management_milestone
+  tags:
+  - Test Management
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Milestone id
+    example: 12
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_milestone_model.yml"
+    '404':
+      description: |-
+        Returned if the milestone does not exist, the client may not see it or milestones are disabled in the project.
+
+        **Required permission:** view test runs
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+patch:
+  summary: Update milestone
+  operationId: Update_test_management_milestone
+  tags:
+  - Test Management
+  description: Only the attributes sent are changed. The status changes with the start, complete and reopen actions.
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Milestone id
+    example: 12
+    schema:
+      type: integer
+  requestBody:
+    required: false
+    content:
+      application/json:
+        schema:
+          "$ref": "../components/schemas/test_management_milestone_write_model.yml"
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_milestone_model.yml"
+    '403':
+      description: "**Required permission:** manage milestones"
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: |-
+        Returned if the milestone does not exist, the client may not see it or milestones are disabled in the project.
+
+        **Required permission:** view test runs
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+    '422':
+      description: The request body is invalid.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UnprocessableContent
+                message: Due date must be greater than or equal to 12/10/2026.
+delete:
+  summary: Delete milestone
+  operationId: Delete_test_management_milestone
+  tags:
+  - Test Management
+  description: The runs of the milestone are kept and become unassigned; sub-milestones
+    become top-level milestones.
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Milestone id
+    example: 12
+    schema:
+      type: integer
+  responses:
+    '204':
+      description: Deleted.
+    '403':
+      description: "**Required permission:** manage milestones"
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: |-
+        Returned if the milestone does not exist, the client may not see it or milestones are disabled in the project.
+
+        **Required permission:** view test runs
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.

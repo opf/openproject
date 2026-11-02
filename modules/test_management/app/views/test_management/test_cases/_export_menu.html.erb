@@ -1,0 +1,39 @@
+<%# Export menu of the cases list: PDF / CSV / Excel for the current view
+    (filter or folder), the selected folder and the whole project. %>
+<% query = @query || TestManagement::TestCasesQuery.new(@project, params, suites: @suites) %>
+<% scopes = [] %>
+<% scopes << ["filter", t("test_management.exports.current_view")] if query.current_scope == "filter" %>
+<% scopes << ["folder", query.unfiled? ? t("test_management.suites.unfiled") : t("test_management.exports.this_folder")] if query.folder? %>
+<% scopes << ["project", t("test_management.exports.whole_project")] %>
+<%=
+  render(
+    Primer::Alpha::ActionMenu.new(
+      anchor_align: :end,
+      classes: "tm-export-menu",
+      data: { test_selector: "tm-cases-export-menu" }
+    )
+  ) do |menu|
+    menu.with_show_button(size: :small, data: { test_selector: "tm-cases-export" }) do |button|
+      button.with_leading_visual_icon(icon: :download)
+      button.with_trailing_action_icon(icon: :"triangle-down")
+      t("test_management.exports.button")
+    end
+    scopes.each do |scope, scope_label|
+      menu.with_group do |group|
+        group.with_heading(title: scope_label)
+        TestManagement::Exports::BaseExporter::FORMATS.each do |format|
+          group.with_item(
+            label: t("test_management.exports.formats.#{format}"),
+            href: project_test_management_export_test_cases_path(
+              @project, query.params_for(scope).merge(scope:, export_format: format)
+            ),
+            content_arguments: { data: { turbo: false } },
+            data: { test_selector: "tm-export-#{scope}-#{format}" }
+          ) do |item|
+            item.with_leading_visual_icon(icon: format == "pdf" ? :"file-media" : :table)
+          end
+        end
+      end
+    end
+  end
+%>

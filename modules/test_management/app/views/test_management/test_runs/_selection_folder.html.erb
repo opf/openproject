@@ -1,0 +1,25 @@
+<%# One folder of the case selection tree (recursive). %>
+<% children = suites_by_parent[suite.id] || [] %>
+<% own_cases = cases_by_suite[suite.id] || [] %>
+<% subtree_case_ids = tm_subtree_case_ids(suite.id, suites_by_parent, cases_by_suite) %>
+<li class="tm-run-tree--folder" data-test-selector="tm-run-tree-folder-<%= suite.id %>">
+  <label class="tm-run-tree--folder-name">
+    <%= check_box_tag "test_run[selection_suite_ids][]", suite.id,
+                      subtree_case_ids.any? && (subtree_case_ids - selected_ids).empty?,
+                      id: "tm_run_select_suite_#{suite.id}" %>
+    <%= render(Primer::Beta::Octicon.new(icon: :"file-directory", "aria-hidden": true)) %>
+    <%= suite.name %>
+    <span class="color-fg-muted">(<%= subtree_case_ids.size %>)</span>
+  </label>
+  <% if children.any? || own_cases.any? %>
+    <ul>
+      <% children.each do |child| %>
+        <%= render partial: "test_management/test_runs/selection_folder",
+                   locals: { suite: child, suites_by_parent:, cases_by_suite:, selected_ids: } %>
+      <% end %>
+      <% own_cases.each do |test_case| %>
+        <%= render partial: "test_management/test_runs/selection_case", locals: { test_case:, selected_ids: } %>
+      <% end %>
+    </ul>
+  <% end %>
+</li>

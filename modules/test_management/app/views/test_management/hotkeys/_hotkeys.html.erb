@@ -1,0 +1,93 @@
+<%# Keyboard shortcuts of Test management (0019), rendered by OpenProject::TestManagement::Hooks::HotkeysHook
+    at the end of <body> on pages of projects with the module. No frontend build: the config is JSON,
+    the behavior one nonced inline script (CSP), installed once per window (Turbo Drive safe). %>
+<% kbd_keys = ->(keys) { safe_join(keys.split.map { |key| content_tag(:kbd, key, class: "tm-kbd") }, " ") } %>
+<%=
+  tag.div(
+    id: "tm-hotkeys-config",
+    hidden: true,
+    data: { test_selector: "tm-hotkeys-config", config: page.config.to_json }
+  )
+%>
+
+<style>
+  .tm-kbd { display: inline-block; min-width: 1.4em; padding: 0 4px; margin-left: 4px; font: 11px/16px var(--fontStack-monospace, ui-monospace, SFMono-Regular, Menlo, monospace); text-align: center; color: var(--fgColor-muted, #59636e); background: var(--bgColor-muted, #f6f8fa); border: 1px solid var(--borderColor-default, #d1d9e0); border-bottom-width: 2px; border-radius: 4px; vertical-align: middle; white-space: nowrap; }
+  .Button--primary .tm-kbd { color: inherit; background: transparent; border-color: currentColor; opacity: .85; }
+  .tm-hotkeys-dialog { max-width: 480px; width: calc(100vw - 32px); padding: 0; border: 1px solid var(--borderColor-default, #d1d9e0); border-radius: 12px; box-shadow: 0 8px 24px rgba(0, 0, 0, .2); }
+  .tm-hotkeys-dialog::backdrop { background: rgba(0, 0, 0, .3); }
+  .tm-hotkeys-dialog--header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--borderColor-muted, #d1d9e0b3); }
+  .tm-hotkeys-dialog--header h2 { margin: 0; font-size: 16px; }
+  .tm-hotkeys-dialog--body { padding: 12px 16px; }
+  .tm-hotkeys-dialog table { width: 100%; border-collapse: collapse; }
+  .tm-hotkeys-dialog td { padding: 4px 0; border-bottom: 1px solid var(--borderColor-muted, #d1d9e0b3); }
+  .tm-hotkeys-dialog td:last-child { text-align: right; white-space: nowrap; }
+  .tm-hotkeys-dialog--prefs { margin-top: 12px; display: grid; gap: 4px; }
+  .tm-hotkeys-dialog--footer { display: flex; gap: 8px; justify-content: space-between; align-items: center; padding: 12px 16px; border-top: 1px solid var(--borderColor-muted, #d1d9e0b3); }
+  .tm-hotkey-tip { position: fixed; right: 16px; bottom: 16px; z-index: 1000; max-width: 360px; padding: 10px 36px 10px 12px; background: var(--overlay-bgColor, #fff); border: 1px solid var(--borderColor-default, #d1d9e0); border-left: 4px solid var(--borderColor-accent-emphasis, #0969da); border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, .15); font-size: 13px; }
+  .tm-hotkey-tip[hidden] { display: none; }
+  .tm-hotkey-tip--title { font-weight: 600; margin-bottom: 4px; }
+  .tm-hotkey-tip--actions { display: flex; gap: 12px; margin-top: 6px; }
+  .tm-hotkey-tip--actions button, .tm-hotkey-tip--close { background: none; border: 0; padding: 0; color: var(--fgColor-accent, #0969da); cursor: pointer; font-size: 12px; }
+  .tm-hotkey-tip--close { position: absolute; top: 6px; right: 8px; font-size: 18px; line-height: 1; color: var(--fgColor-muted, #59636e); }
+</style>
+
+<dialog id="tm-hotkeys-help" class="tm-hotkeys-dialog" aria-labelledby="tm-hotkeys-help-title" data-test-selector="tm-hotkeys-help">
+  <div class="tm-hotkeys-dialog--header">
+    <h2 id="tm-hotkeys-help-title"><%= t("test_management.hotkeys.dialog_title") %></h2>
+    <button type="button" class="tm-hotkey-tip--close" data-tm-hotkeys-close-help aria-label="<%= t(:button_close) %>">×</button>
+  </div>
+  <div class="tm-hotkeys-dialog--body">
+    <table data-test-selector="tm-hotkeys-table">
+      <tbody>
+        <% page.shortcuts.each do |entry| %>
+          <tr data-test-selector="tm-hotkeys-row-<%= entry[:id] %>">
+            <td><%= t("test_management.hotkeys.actions.#{entry[:id]}") %></td>
+            <td><%= kbd_keys.call(entry[:keys]) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <p class="form--field-instructions"><%= t("test_management.hotkeys.dialog_hint") %></p>
+    <% if page.user.logged? && TestManagement::Hotkeys.hints_enabled? %>
+      <%= form_with url: test_management_hotkey_preferences_path, method: :patch, local: true,
+                    class: "tm-hotkeys-dialog--prefs", data: { turbo: false, test_selector: "tm-hotkeys-prefs" } do %>
+        <label>
+          <%= hidden_field_tag :hotkey_tips, "0", id: nil %>
+          <%= check_box_tag :hotkey_tips, "1", page.preferences.hotkey_tips_enabled?, id: "tm-hotkey-pref-tips" %>
+          <%= t("test_management.hotkeys.pref_tips") %>
+        </label>
+        <label>
+          <%= hidden_field_tag :hotkey_hints, "0", id: nil %>
+          <%= check_box_tag :hotkey_hints, "1", page.preferences.hotkey_hints_enabled?, id: "tm-hotkey-pref-hints" %>
+          <%= t("test_management.hotkeys.pref_hints") %>
+        </label>
+        <div><%= submit_tag t(:button_save), class: "button -small", name: nil %></div>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="tm-hotkeys-dialog--footer">
+    <%= link_to t("test_management.hotkeys.all_shortcuts"), keyboard_shortcuts_help_path, target: "_blank", rel: "noopener" %>
+    <button type="button" class="button -small" data-tm-hotkeys-close-help><%= t(:button_close) %></button>
+  </div>
+</dialog>
+
+<% if page.tips? && (tip = page.tip) %>
+  <div id="tm-hotkey-tip" class="tm-hotkey-tip" role="status" hidden
+       data-probability="<%= TestManagement::Hotkeys::TIP_PROBABILITY %>"
+       data-cooldown-minutes="<%= TestManagement::Hotkeys::TIP_COOLDOWN_MINUTES %>"
+       data-tip-id="<%= tip[:id] %>"
+       data-test-selector="tm-hotkey-tip">
+    <div class="tm-hotkey-tip--title"><%= t("test_management.hotkeys.tip_title") %></div>
+    <div><%= t("test_management.hotkeys.tips.#{tip[:id]}_html", keys: kbd_keys.call(tip[:keys])) %></div>
+    <div class="tm-hotkey-tip--actions">
+      <button type="button" data-tm-hotkeys-open-help><%= t("test_management.hotkeys.show_all", keys: page.keys_for(:help)) %></button>
+      <button type="button" data-tm-hotkey-tip-dismiss data-url="<%= test_management_hotkey_preferences_path %>"
+              data-test-selector="tm-hotkey-tip-dismiss"><%= t("test_management.hotkeys.dont_show_again") %></button>
+    </div>
+    <button type="button" class="tm-hotkey-tip--close" data-tm-hotkey-tip-close aria-label="<%= t(:button_close) %>">×</button>
+  </div>
+<% end %>
+
+<%= nonced_javascript_tag do %>
+<%= render partial: "test_management/hotkeys/script", formats: [:js] %>
+<% end %>

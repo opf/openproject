@@ -1,0 +1,68 @@
+# Schema: TestManagementCiTriggerModel
+---
+type: object
+description: Result of "Run in CI".
+required: [_type, status, runId, iterationId, iterationNumber, ref, grep]
+properties:
+  _type:
+    type: string
+    enum: [TestManagementCiTrigger]
+  status:
+    type: string
+    enum: [triggered, failed, manual]
+    description: "`manual`: inbound-only connection, nothing was sent; start the pipeline with `manualStart`."
+  runId:
+    type: integer
+  iterationId:
+    type: integer
+  iterationNumber:
+    type: integer
+  ref:
+    type: string
+  grep:
+    type: string
+    description: Pattern passed as op_grep / OP_GREP; empty means "run everything".
+  url:
+    type:
+      - string
+      - "null"
+    description: CI run, pipeline or job URL when the provider returns or implies one.
+  externalId:
+    type:
+      - string
+      - "null"
+    description: Provider run / pipeline id or the Jenkins queue item URL.
+  error:
+    type:
+      - string
+      - "null"
+  manualStart:
+    type: object
+    description: Only for status `manual`. Tokens in `command` are shell variable placeholders.
+    properties:
+      variables:
+        type: object
+        additionalProperties:
+          type: string
+        example:
+          OP_URL: https://openproject.example.com
+          OP_PROJECT: shop
+          OP_CONNECTION: Shop
+          OP_RUN_ID: "42"
+          OP_ITERATION_ID: "57"
+          OP_GREP: "@smoke"
+      command:
+        type: string
+        example: >-
+          curl --fail -X POST -F token=$GITLAB_TRIGGER_TOKEN -F ref=main -F "variables[OP_RUN_ID]=42"
+          https://example.com/gitlab/api/v4/projects/qa%2Fshop/trigger/pipeline
+  _links:
+    type: object
+    required: [run, iteration]
+    properties:
+      run:
+        "$ref": "./link.yml"
+      iteration:
+        "$ref": "./link.yml"
+      connection:
+        "$ref": "./link.yml"

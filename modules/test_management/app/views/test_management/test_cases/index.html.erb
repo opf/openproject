@@ -1,0 +1,40 @@
+<% html_title(t("test_management.cases.heading")) %>
+<%= render partial: "styles" %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { suite_breadcrumb_name }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_cases_path(@project), text: t(:project_module_test_management) },
+        t("test_management.menu.cases")
+      ]
+    )
+    if params[:suite_id].to_s.match?(/\A\d+\z/) && User.current.allowed_in_project?(:trigger_test_automation, @project)
+      header.with_action_button(
+        tag: :a,
+        href: new_project_test_management_ci_trigger_path(@project, suite_id: params[:suite_id]),
+        mobile_icon: :play, mobile_label: t("test_management.ci_triggers.button"),
+        data: { test_selector: "tm-folder-ci-trigger" }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :play)
+        t("test_management.ci_triggers.button")
+      end
+    end
+  end
+%>
+
+<div class="tm-cases-layout tm-cases-layout--<%= folder_tree_layout %>"
+     data-test-selector="tm-cases-layout"
+     data-folder-tree-layout="<%= folder_tree_layout %>">
+  <% if split_pane_layout? %>
+    <aside class="tm-folder-pane" data-test-selector="tm-folder-pane-split">
+      <%= render partial: "folder_tree" %>
+    </aside>
+  <% end %>
+
+  <section class="tm-cases-main">
+    <%= render partial: "table" %>
+  </section>
+</div>

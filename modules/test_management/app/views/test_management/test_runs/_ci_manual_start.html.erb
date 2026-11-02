@@ -1,0 +1,26 @@
+<%# Inbound-only CI connection (0015): OpenProject did not call the CI server. Values to start the
+    pipeline by hand from inside the network. No secret is rendered; tokens are placeholders. %>
+<% mt = ->(key, **args) { t("test_management.ci_triggers.manual.#{key}", **args) } %>
+<div id="tm-ci-manual-start" class="tm-ci-manual-start" data-test-selector="tm-ci-manual-start">
+  <p class="color-fg-muted"><%= mt.("hint", connection: manual_start.connection.name, iteration: manual_start.iteration.number) %></p>
+  <% [["variables", manual_start.variables_text], ["command", manual_start.command]].each do |key, text| %>
+    <div class="tm-ci-manual-start--block" data-test-selector="tm-ci-manual-<%= key %>">
+      <div class="tm-ci-manual-start--head">
+        <strong><%= mt.(key) %></strong>
+        <%= render(
+              Primer::Beta::ClipboardCopy.new(
+                value: text, "aria-label": mt.("copy_#{key}"),
+                data: { test_selector: "tm-ci-manual-copy-#{key}" }
+              )
+            ) %>
+      </div>
+      <pre class="tm-ci-manual-start--pre"><code><%= text %></code></pre>
+    </div>
+  <% end %>
+  <p class="form--field-instructions"><%= mt.("secrets_hint") %></p>
+</div>
+<style>
+  .tm-ci-manual-start--head { display: flex; gap: 8px; align-items: center; margin-top: 8px; }
+  .tm-ci-manual-start--pre { white-space: pre-wrap; word-break: break-all; max-height: 16em; overflow: auto;
+                             background: var(--bgColor-muted, #f6f8fa); padding: 8px; border-radius: 6px; }
+</style>

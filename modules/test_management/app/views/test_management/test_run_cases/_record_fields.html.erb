@@ -1,0 +1,30 @@
+<%# Record a result (0020): case status (blank = from the steps), comment and error. %>
+<div class="tm-run-case--section" data-test-selector="tm-run-case-record">
+  <h3><%= t("test_management.run_case.record") %></h3>
+  <div class="form--field">
+    <label class="form--label" for="tm-run-case-status"><%= t("test_management.run_case.status") %></label>
+    <div class="form--field-container">
+      <%= select_tag "run_case[status]",
+                     options_for_select(
+                       [[t("test_management.run_case.status_from_steps"), ""]] +
+                                                               TestManagement::TestRunCase::STATUSES.map { [t("test_management.runs.statuses.#{it}"), it] }
+                     ),
+                     id: "tm-run-case-status" %>
+    </div>
+  </div>
+  <div class="form--field">
+    <label class="form--label" for="tm-run-case-comment"><%= t("test_management.run_case.comment") %></label>
+    <div class="form--field-container"><%= text_area_tag "run_case[comment]", nil, id: "tm-run-case-comment", rows: 2 %></div>
+  </div>
+  <div class="form--field">
+    <label class="form--label" for="tm-run-case-error"><%= t("test_management.step_results.error") %></label>
+    <div class="form--field-container">
+      <%= text_area_tag "run_case[error_message]", nil, id: "tm-run-case-error", rows: 3,
+                                                        maxlength: TestManagement::TestResult::ERROR_MESSAGE_LIMIT,
+                                                        placeholder: t("test_management.run_case.error_placeholder") %>
+    </div>
+  </div>
+  <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, data: { test_selector: "tm-run-case-save" })) do %>
+    <%= t("test_management.run_case.save") %>
+  <% end %>
+</div>

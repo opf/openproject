@@ -1,0 +1,13 @@
+<% unless @provider.configured? %>
+  <% if User.current.admin? %>
+    <%= render(Primer::Alpha::Banner.new(scheme: :warning, mb: 3, data: { test_selector: "tm-assistant-configure-provider" })) do %>
+      <strong><%= t("test_management.assistant.not_configured.admin_title") %></strong>
+      <%= t("test_management.assistant.not_configured.admin_text") %>
+      <%= link_to t("test_management.assistant.not_configured.admin_link"), tm_assistant_admin_link %>
+    <% end %>
+  <% else %>
+    <%= render(Primer::Alpha::Banner.new(scheme: :default, mb: 3, data: { test_selector: "tm-assistant-unavailable" })) do %>
+      <%= t("test_management.assistant.not_configured.user_text") %>
+    <% end %>
+  <% end %>
+<% end %>

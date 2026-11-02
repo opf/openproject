@@ -1,0 +1,65 @@
+<%# Test Assistant pages (0014). %>
+<style>
+  .tm-assistant-switch { margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+  .tm-assistant-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .tm-assistant-sources { display: flex; flex-direction: column; gap: 12px; }
+  .tm-assistant-source { border: 1px solid var(--borderColor-default, #d0d7de); border-radius: 6px; padding: 12px; }
+  .tm-assistant-source > label { font-weight: 600; display: flex; gap: 8px; align-items: center; }
+  .tm-assistant-source .form--field {
+    display: flex; flex-direction: column; align-items: stretch; flex-wrap: nowrap;
+    margin: 8px 0 0 24px; max-width: none;
+  }
+  .tm-assistant-source .form--field-instructions {
+    margin: 4px 0 0; max-width: none; text-align: left;
+    /* Undo global grid-offset meant for labeled horizontal fields. */
+    margin-left: 0 !important; padding-left: 0; flex: 0 0 auto; width: 100%;
+  }
+  .tm-assistant-source .tm-wp-autocompleter,
+  .tm-assistant-source .tm-wp-autocompleter opce-autocompleter,
+  .tm-assistant-source .tm-wp-autocompleter .ng-select,
+  .tm-assistant-source .form--text-field,
+  .tm-assistant-source .form--text-area { display: block; width: 100%; max-width: 100%; box-sizing: border-box; }
+  .tm-assistant-source .tm-wp-autocompleter .ng-select .ng-select-container { width: 100%; min-width: 0; }
+  .tm-assistant-types { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+  .tm-assistant-actions { margin-top: 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .tm-assistant-actions .form--field-instructions { margin: 0; text-align: left; max-width: none; }
+  .tm-assistant-draft { padding: 12px 0; }
+  .tm-assistant-draft--head { display: flex; gap: 8px; align-items: center; }
+  .tm-assistant-draft--head .form--text-field { flex: 1 1 auto; }
+  .tm-assistant-draft--meta { display: flex; gap: 16px; margin: 8px 0 8px 28px; flex-wrap: wrap; align-items: center; }
+  .tm-assistant-steps { width: calc(100% - 28px); margin-left: 28px; border-collapse: collapse; }
+  .tm-assistant-steps th { text-align: left; font-weight: 600; font-size: 12px; padding: 4px; }
+  .tm-assistant-steps td { vertical-align: top; padding: 4px; }
+  .tm-assistant-steps td:first-child { width: 2.5em; color: var(--fgColor-muted, #57606a); }
+  .tm-assistant-steps textarea, .tm-assistant-draft textarea { width: 100%; min-height: 3em; }
+  .tm-assistant-chat { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+  .tm-assistant-msg { border-radius: 8px; padding: 8px 12px; max-width: 52rem; }
+  .tm-assistant-msg.-user { align-self: flex-end; background: var(--bgColor-accent-muted, #ddf4ff); }
+  .tm-assistant-msg.-assistant { align-self: flex-start; background: var(--bgColor-muted, #f6f8fa); }
+  .tm-assistant-msg.-failed { background: var(--bgColor-danger-muted, #ffebe9); }
+  .tm-assistant-msg--who { font-size: 12px; font-weight: 600; color: var(--fgColor-muted, #57606a); }
+  .tm-assistant-msg p { margin: 4px 0; }
+  .tm-assistant-card { border: 1px solid var(--borderColor-default, #d0d7de); border-radius: 6px; padding: 8px 12px; margin-top: 8px; background: var(--bgColor-default, #fff); }
+  .tm-assistant-card ul { margin: 4px 0 8px 16px; }
+  .tm-assistant-card--buttons { display: flex; gap: 8px; }
+  .tm-assistant-card--buttons form { display: inline; }
+  .tm-assistant-chat-form textarea { width: 100%; min-height: 4em; }
+  .tm-assistant-generation-steps {
+    display: flex; flex-wrap: wrap; gap: 8px 16px; list-style: none; margin: 0; padding: 0;
+    font-size: 13px; color: var(--fgColor-muted, #57606a);
+  }
+  .tm-assistant-generation-steps li { display: flex; align-items: center; gap: 6px; }
+  .tm-assistant-generation-steps--index {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 1.4em; height: 1.4em; border-radius: 50%;
+    border: 1px solid var(--borderColor-default, #d0d7de); font-size: 11px;
+  }
+  .tm-assistant-generation-steps li.is-done { color: var(--fgColor-success, #1a7f37); }
+  .tm-assistant-generation-steps li.is-done .tm-assistant-generation-steps--index {
+    border-color: var(--borderColor-success-emphasis, #1a7f37); background: var(--bgColor-success-muted, #dafbe1);
+  }
+  .tm-assistant-generation-steps li.is-current { color: var(--fgColor-default, #1f2328); font-weight: 600; }
+  .tm-assistant-generation-steps li.is-current .tm-assistant-generation-steps--index {
+    border-color: var(--borderColor-accent-emphasis, #0969da); background: var(--bgColor-accent-muted, #ddf4ff);
+  }
+</style>

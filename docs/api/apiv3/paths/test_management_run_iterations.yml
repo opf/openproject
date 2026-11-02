@@ -1,0 +1,149 @@
+# /api/v3/test_management/runs/{id}/iterations
+---
+get:
+  summary: List iterations of a test run
+  operationId: List_test_management_run_iterations
+  tags:
+  - Test Management
+  description: Oldest first, with per-iteration status counts and pass rate.
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Test run id
+    example: 42
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_run_iteration_collection_model.yml"
+    '404':
+      description: |-
+        Returned if the run does not exist or the client may not see it.
+
+        **Required permission:** view test runs or upload test results
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+post:
+  summary: Start a new iteration of a test run
+  operationId: Start_test_management_run_iteration
+  tags:
+  - Test Management
+  description: 'Starts iteration N+1: every run case is reset to untested, earlier
+    results stay in their iteration. The run must be new or in progress.'
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Test run id
+    example: 42
+    schema:
+      type: integer
+  requestBody:
+    required: false
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              maxLength: 255
+        examples:
+          named:
+            value:
+              name: Release 2.4 RC1
+  responses:
+    '201':
+      description: The iteration was started.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_run_iteration_model.yml"
+          examples:
+            response:
+              value:
+                _type: TestManagementRunIteration
+                id: 52
+                number: 2
+                name: 'E2E #129 · main@8a1b2c3'
+                source: automation
+                current: true
+                externalRef: github:my-org/shop:9876543211:1
+                ci:
+                  provider: github
+                  repository: my-org/shop
+                  branch: main
+                  runNumber: '129'
+                statusCounts:
+                  untested: 1
+                  passed: 20
+                  failed: 2
+                  blocked: 0
+                  retest: 0
+                  skipped: 0
+                totalCases: 23
+                passRate: 86
+                createdAt: '2026-10-31T09:02:11.000Z'
+                _links:
+                  self:
+                    href: "/api/v3/test_management/runs/42/iterations/2"
+                    title: 'E2E #129 · main@8a1b2c3'
+                  run:
+                    href: "/api/v3/test_management/runs/42"
+                  connection:
+                    href: "/api/v3/test_management/ci_connections/3"
+    '403':
+      description: |-
+        The client may see the run but not start iterations.
+
+        **Required permission:** add test runs
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: |-
+        Returned if the run does not exist or the client may not see it.
+
+        **Required permission:** view test runs or upload test results
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+    '409':
+      description: The run is completed or cancelled.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UpdateConflict
+                message: The test run is completed.

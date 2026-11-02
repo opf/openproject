@@ -1,0 +1,44 @@
+<% html_title t("test_management.cases.restore") %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("test_management.cases.restore_heading", id: @test_case.id) }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_cases_path(@project, suite_id: "deleted"), text: t("test_management.suites.deleted") },
+        t("test_management.cases.restore")
+      ]
+    )
+  end
+%>
+
+<p data-test-selector="tm-restore-missing-folder">
+  <%= t(
+        "test_management.cases.restore_folder_missing",
+        path: @test_case.deleted_from_suite_path.presence || t("test_management.suites.unfiled")
+      ) %>
+</p>
+
+<%= form_with url: restore_project_test_management_test_case_path(@project, @test_case),
+              method: :post,
+              local: true,
+              data: { test_selector: "tm-restore-form" } do %>
+  <div class="form--field">
+    <%= styled_label_tag :suite_id, TestManagement::TestCase.human_attribute_name(:suite) %>
+    <div class="form--field-container">
+      <%= styled_select_tag :suite_id,
+                            options_for_select(
+                              [[t("test_management.suites.unfiled"), "root"]] +
+                              @suites.map { |s| [s.path_name, s.id] }
+                            ),
+                            id: "suite_id",
+                            required: true %>
+    </div>
+  </div>
+
+  <%= styled_button_tag t("test_management.cases.restore"), class: "-primary",
+                                                            data: { test_selector: "tm-restore-submit" } %>
+  <%= link_to t(:button_cancel),
+              project_test_management_test_cases_path(@project, suite_id: "deleted"),
+              class: "button" %>
+<% end %>

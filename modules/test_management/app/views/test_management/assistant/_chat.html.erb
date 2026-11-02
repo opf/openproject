@@ -1,0 +1,80 @@
+<% disabled = !@provider.configured? %>
+<div class="tm-assistant-chat" data-test-selector="tm-assistant-chat">
+  <% if @messages.empty? %>
+    <p class="color-fg-muted" data-test-selector="tm-assistant-chat-empty"><%= t("test_management.assistant.chat.empty") %></p>
+  <% end %>
+  <% @messages.each do |message| %>
+    <div id="tm-assistant-message-<%= message.id %>"
+         class="tm-assistant-msg -<%= message.role %> <%= "-failed" if message.failed? %>"
+         data-test-selector="tm-assistant-message" data-role="<%= message.role %>">
+      <div class="tm-assistant-msg--who">
+        <%= message.assistant? ? t("test_management.assistant.chat.assistant") : User.current.name %>
+        · <%= format_time(message.created_at) %>
+      </div>
+      <% if message.pending? %>
+        <p data-test-selector="tm-assistant-thinking"><%= t("test_management.assistant.chat.thinking") %></p>
+      <% elsif message.stale? %>
+        <p><%= t("test_management.assistant.errors.timed_out") %></p>
+      <% else %>
+        <%= tm_assistant_text(message.content) %>
+      <% end %>
+
+      <% if message.proposal? %>
+        <% action = message.action_data %>
+        <div class="tm-assistant-card" data-test-selector="tm-assistant-card" data-action-status="<%= message.action_status %>">
+          <strong><%= t("test_management.assistant.chat.actions.#{action['name']}", default: action["name"]) %></strong>
+          <ul>
+            <% Array(action["preview"]).each do |line| %><li><%= line %></li><% end %>
+          </ul>
+          <% if message.action_errors.any? %>
+            <%= render(Primer::Alpha::Banner.new(scheme: :danger, mb: 2)) do %>
+              <%= message.action_errors.join(" ") %>
+            <% end %>
+          <% end %>
+          <% case message.action_status %>
+          <% when "proposed" %>
+            <p class="color-fg-muted"><%= t("test_management.assistant.chat.confirm_question", project: @project.name) %></p>
+            <div class="tm-assistant-card--buttons">
+              <% if message.confirmable? %>
+                <%= button_to t("test_management.assistant.chat.confirm"), project_test_management_confirm_assistant_message_path(@project, message),
+                              method: :post, class: "button -primary", form: { data: { turbo: false } },
+                              data: { test_selector: "tm-assistant-confirm" } %>
+              <% end %>
+              <%= button_to t("button_cancel"), project_test_management_cancel_assistant_message_path(@project, message),
+                            method: :post, class: "button", form: { data: { turbo: false } },
+                            data: { test_selector: "tm-assistant-cancel" } %>
+            </div>
+          <% when "confirmed" %>
+            <p data-test-selector="tm-assistant-card-done">✓ <%= t("test_management.assistant.chat.done") %>
+              <%= safe_join(Array(message.result_data["records"]).map { |r| tm_assistant_record_link(@project, r) }, ", ") %></p>
+          <% when "cancelled" %>
+            <p class="color-fg-muted"><%= t("test_management.assistant.chat.cancelled") %></p>
+          <% when "failed" %>
+            <p class="color-fg-danger"><%= t("test_management.assistant.chat.action_failed") %>
+              <%= Array(message.result_data["errors"]).join(" ") %></p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<%= form_with url: project_test_management_assistant_messages_path(@project), method: :post, local: true,
+              id: "tm-assistant-chat-form", class: "tm-assistant-chat-form",
+              data: { turbo: false, test_selector: "tm-assistant-chat-form" } do %>
+  <fieldset class="form--fieldset" <%= "disabled" if disabled %>>
+    <label class="form--label" for="content"><%= t("test_management.assistant.chat.ask") %></label>
+    <%= text_area_tag :content, nil, maxlength: TestManagement::AssistantMessage::MAX_CONTENT, rows: 3,
+                                     placeholder: t("test_management.assistant.chat.placeholder") %>
+    <div class="tm-assistant-actions">
+      <%= submit_tag t("test_management.assistant.chat.send"), class: "button -primary", disabled: disabled || @messages.any?(&:pending?),
+                                                               data: { test_selector: "tm-assistant-send" } %>
+      <span class="form--field-instructions"><%= t("test_management.assistant.chat.hint") %></span>
+    </div>
+  </fieldset>
+<% end %>
+<% if @messages.any? %>
+  <%= button_to t("test_management.assistant.chat.clear"), project_test_management_assistant_messages_path(@project),
+                method: :delete, class: "button", form: { data: { turbo: false } },
+                data: { test_selector: "tm-assistant-clear" } %>
+<% end %>

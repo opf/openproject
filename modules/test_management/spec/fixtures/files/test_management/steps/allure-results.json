@@ -1,0 +1,48 @@
+[
+  {
+    "uuid": "a1",
+    "historyId": "h-orders",
+    "testCaseId": "tc-orders",
+    "fullName": "shop.OrdersTest.cancelOrder",
+    "name": "Cancel an order",
+    "status": "broken",
+    "statusDetails": { "message": "Element not found: #cancel", "trace": "NoSuchElementException: #cancel\n\tat shop.OrdersTest.cancelOrder(OrdersTest.java:40)" },
+    "start": 1761900000000,
+    "stop": 1761900003000,
+    "labels": [{ "name": "tm_case", "value": "__CASE_ID__" }, { "name": "tag", "value": "orders" }],
+    "steps": [
+      { "name": "Given I am signed in as a customer", "status": "passed", "start": 1761900000000, "stop": 1761900000500 },
+      { "name": "Open my orders", "status": "passed", "start": 1761900000500, "stop": 1761900001000,
+        "attachments": [{ "name": "orders page", "source": "orders-1-attachment.png", "type": "image/png" }] },
+      { "name": "Press cancel", "status": "broken", "start": 1761900001000, "stop": 1761900003000,
+        "statusDetails": { "message": "Element not found: #cancel", "trace": "NoSuchElementException: #cancel" } },
+      { "name": "Unrelated cleanup helper", "status": "passed", "start": 1761900003000, "stop": 1761900003000 }
+    ]
+  },
+  {
+    "uuid": "b1",
+    "historyId": "h-profile",
+    "fullName": "shop.ProfileTest.rename",
+    "name": "Rename profile",
+    "status": "failed",
+    "statusDetails": { "message": "expected Ann but was Anna" },
+    "start": 1761900010000,
+    "stop": 1761900011000,
+    "labels": [],
+    "steps": []
+  },
+  {
+    "uuid": "b2",
+    "historyId": "h-profile",
+    "fullName": "shop.ProfileTest.rename",
+    "name": "Rename profile",
+    "status": "passed",
+    "start": 1761900020000,
+    "stop": 1761900021000,
+    "labels": [],
+    "steps": [
+      { "name": "Edit name", "status": "passed", "start": 1761900020000, "stop": 1761900020500,
+        "parameters": [{ "name": "tm_step", "value": "2" }] }
+    ]
+  }
+]

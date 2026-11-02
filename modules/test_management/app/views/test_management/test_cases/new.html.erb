@@ -1,0 +1,22 @@
+<% html_title(t("test_management.cases.new")) %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("test_management.cases.new") }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_cases_path(@project), text: t(:project_module_test_management) },
+        t("test_management.cases.new")
+      ]
+    )
+  end
+%>
+
+<%= labelled_tabular_form_for [:project, :test_management, @test_case],
+                              as: :test_case,
+                              url: project_test_management_test_cases_path(@project),
+                              html: { multipart: true } do |f| %>
+  <%= render partial: "form", locals: { f: } %>
+  <%= styled_button_tag t(:button_create), class: "-primary", data: { test_selector: "tm-case-create" } %>
+  <%= link_to t(:button_cancel), project_test_management_test_cases_path(@project), class: "button" %>
+<% end %>

@@ -1,0 +1,137 @@
+# Schema: TestManagementMilestoneModel
+---
+type: object
+required: [_type, id, name, status]
+description: |-
+  A milestone groups test runs towards a goal (release, sprint, regression cycle, UAT phase …).
+  Progress is the latest status of every case in every non-cancelled run assigned to the
+  milestone or to one of its sub-milestones (one level).
+properties:
+  _type:
+    type: string
+    enum: [TestManagementMilestone]
+  id:
+    type: integer
+    minimum: 1
+  name:
+    type: string
+    maxLength: 255
+  description:
+    "$ref": "./formattable.yml"
+  status:
+    type: string
+    enum: [open, started, completed]
+    description: Changed only by the start, complete and reopen actions. Dates never change it.
+  overdue:
+    type: boolean
+    description: The due date has passed and the milestone is not completed.
+  startDate:
+    type:
+      - string
+      - "null"
+    format: date
+  dueDate:
+    type:
+      - string
+      - "null"
+    format: date
+  startedAt:
+    type:
+      - string
+      - "null"
+    format: date-time
+  completedAt:
+    type:
+      - string
+      - "null"
+    format: date-time
+  statusCounts:
+    type: object
+    description: Number of cases per latest status, over the counted runs.
+    properties:
+      passed:
+        type: integer
+      failed:
+        type: integer
+      blocked:
+        type: integer
+      retest:
+        type: integer
+      in_progress:
+        type: integer
+      skipped:
+        type: integer
+      untested:
+        type: integer
+  totalCases:
+    type: integer
+  passRate:
+    type: integer
+    description: Passed cases in percent of all counted cases except skipped ones.
+  runsCount:
+    type: integer
+    description: Counted (non-cancelled) runs of the milestone and its sub-milestones.
+  createdAt:
+    type: string
+    format: date-time
+  updatedAt:
+    type: string
+    format: date-time
+  _links:
+    type: object
+    required: [self, project, runs]
+    properties:
+      self:
+        "$ref": "./link.yml"
+      project:
+        "$ref": "./link.yml"
+      parent:
+        "$ref": "./link.yml"
+      children:
+        type: array
+        items:
+          "$ref": "./link.yml"
+      version:
+        "$ref": "./link.yml"
+      workPackages:
+        type: array
+        description: Linked work packages the client may see.
+        items:
+          "$ref": "./link.yml"
+      runs:
+        "$ref": "./link.yml"
+      start:
+        "$ref": "./link.yml"
+      complete:
+        "$ref": "./link.yml"
+      reopen:
+        "$ref": "./link.yml"
+      update:
+        "$ref": "./link.yml"
+      delete:
+        "$ref": "./link.yml"
+example:
+  _type: TestManagementMilestone
+  id: 12
+  name: Release 2.0
+  description:
+    format: markdown
+    raw: General availability.
+  status: started
+  overdue: false
+  startDate: "2026-11-02"
+  dueDate: "2026-12-01"
+  startedAt: "2026-11-02T08:00:00.000Z"
+  completedAt: null
+  statusCounts: { passed: 30, failed: 4, blocked: 1, retest: 0, in_progress: 0, skipped: 2, untested: 13 }
+  totalCases: 50
+  passRate: 63
+  runsCount: 3
+  _links:
+    self: { href: "/api/v3/test_management/milestones/12", title: Release 2.0 }
+    project: { href: "/api/v3/projects/3" }
+    parent: { href: null }
+    children: [{ href: "/api/v3/test_management/milestones/13", title: Sprint 14 }]
+    version: { href: "/api/v3/versions/5", title: "2.0" }
+    workPackages: [{ href: "/api/v3/work_packages/101", title: Checkout story }]
+    runs: { href: "/api/v3/projects/3/test_management/runs?milestoneId=12" }

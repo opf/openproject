@@ -1,0 +1,114 @@
+# Example GitHub Actions workflow: run Playwright tests (sharded) and send the
+# results to OpenProject Test Management. Copy to .github/workflows/e2e.yml.
+#
+# Repository settings:
+#   secrets.OP_API_TOKEN   API token of a user with "Upload automated test results"
+#   vars.OP_URL            e.g. https://openproject.example.com (or https://openproject.test)
+#   vars.OP_PROJECT        project identifier
+#   secrets.OP_CA_CERT     (optional) PEM of a private CA, e.g. for a local k3d instance
+#
+# Where the results go:
+#   push to main  -> a new iteration of the long-lived run "Smoke"      (mode new_iteration)
+#   nightly       -> a new iteration of the long-lived run "Regression" (mode new_iteration)
+#   pull request  -> a new run per workflow run, completed by the close-run job (mode new_run)
+# The Smoke/Regression runs are created on the first upload and keep their iteration history
+# (run page: iteration switcher, per-iteration pass rate). Instead of OP_MODE/OP_TARGET_RUN you can
+# set the mode on a CI connection in Project settings > Test management > CI connections.
+# All shards of one workflow run share externalRef github:<repo>:<run id>:<attempt>, so they land
+# in the same run (new_run) or the same iteration (new_iteration).
+#
+# "Run in CI" (OpenProject run / folder / case page): set the CI connection's workflow file to
+# e2e.yml. OpenProject pre-creates the run and iteration and dispatches this workflow with the
+# inputs below; the upload then fills exactly that iteration (OP_RUN_ID + OP_ITERATION_ID) and
+# only the selected tests run (op_grep). The token of the connection needs "Actions: write".
+name: E2E
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "30 1 * * *"   # nightly regression
+  workflow_dispatch:
+    inputs:
+      op_run_id:
+        description: OpenProject test run id (set by "Run in CI")
+        required: false
+      op_iteration_id:
+        description: OpenProject iteration id (set by "Run in CI")
+        required: false
+      op_project:
+        description: OpenProject project identifier
+        required: false
+      op_grep:
+        description: Playwright --grep pattern of the selected test cases
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    # For an instance that is only reachable from your machine (k3d), use a
+    # self-hosted runner: runs-on: [self-hosted, openproject-test]. See README.md.
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Run Playwright
+        run: npx playwright test --shard=${{ matrix.shard }}/${{ strategy.job-total }} --reporter=json,line ${PW_GREP:+--grep "$PW_GREP"}
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_NAME: results.json
+          # Smoke on push: only tests tagged @smoke. "Run in CI": the selected cases. Else everything.
+          PW_GREP: ${{ github.event_name == 'push' && '@smoke' || inputs.op_grep || '' }}
+      - name: Upload results to OpenProject
+        if: ${{ !cancelled() }}
+        env:
+          OP_URL: ${{ vars.OP_URL }}
+          OP_PROJECT: ${{ inputs.op_project || vars.OP_PROJECT }}
+          OP_API_TOKEN: ${{ secrets.OP_API_TOKEN }}
+          OP_CA_PEM: ${{ secrets.OP_CA_CERT }}
+          OP_RUN_ID: ${{ inputs.op_run_id }}               # empty unless started by "Run in CI"
+          OP_ITERATION_ID: ${{ inputs.op_iteration_id }}
+          OP_REPORT: results.json
+          OP_ARTIFACTS_DIR: test-results
+          OP_MODE: ${{ github.event_name == 'pull_request' && 'new_run' || 'new_iteration' }}
+          OP_TARGET_RUN: ${{ github.event_name == 'schedule' && 'Regression' || 'Smoke' }}   # ignored for new_run
+        run: |
+          if [ -n "$OP_CA_PEM" ]; then printf '%s\n' "$OP_CA_PEM" > "$RUNNER_TEMP/op-ca.pem"; export OP_CA_CERT="$RUNNER_TEMP/op-ca.pem"; fi
+          bash ./ci/op-tm-upload.sh
+
+  # Only per-build runs are completed; Smoke/Regression stay open for the next iteration.
+  close-run:
+    needs: e2e
+    if: ${{ !cancelled() && github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Complete the OpenProject test run
+        env:
+          OP_URL: ${{ vars.OP_URL }}
+          OP_PROJECT: ${{ vars.OP_PROJECT }}
+          OP_API_TOKEN: ${{ secrets.OP_API_TOKEN }}
+          REF: github:${{ github.repository }}:${{ github.run_id }}:${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          auth=(-H "Authorization: Bearer $OP_API_TOKEN")
+          ref="$(jq -rn --arg v "$REF" '$v|@uri')"
+          run_id="$(curl -sSf "${auth[@]}" "$OP_URL/api/v3/projects/$OP_PROJECT/test_management/runs?externalRef=$ref" \
+                    | jq -r '._embedded.elements[0].id // empty')"
+          if [ -z "$run_id" ]; then echo "No run for $REF"; exit 0; fi
+          code="$(curl -sS -o /tmp/close.json -w '%{http_code}' -X POST "${auth[@]}" \
+                  -H 'Content-Type: application/json' -d '{"completionSource":"automation"}' \
+                  "$OP_URL/api/v3/test_management/runs/$run_id/complete")"
+          # 409: already completed (e.g. a re-run of this job) – fine.
+          if [ "$code" != 200 ] && [ "$code" != 409 ]; then cat /tmp/close.json; exit 1; fi
+          jq -r '"Run \(.id // "-") \(.state // "") – pass rate \(.passRate // "-")%"' /tmp/close.json || true

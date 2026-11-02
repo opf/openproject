@@ -1,0 +1,49 @@
+modules_permissions:
+  test_management:
+  - role: :default_role_member
+    add:
+    - :view_test_cases
+    - :add_test_cases
+    - :edit_test_cases
+    - :change_test_case_status
+    - :view_test_plans
+    - :manage_test_plans
+    - :view_test_runs
+    - :add_test_runs
+    - :execute_test_runs
+    - :upload_test_results
+    - :show_testing_content
+    - :link_test_cases_to_work_packages
+    - :use_test_assistant
+  - role: :default_role_reader
+    add:
+    - :view_test_cases
+    - :view_test_plans
+    - :view_test_runs
+    - :show_testing_content
+  - role: :default_role_non_member
+    add:
+    - :view_test_cases
+    - :view_test_plans
+    - :view_test_runs
+    - :show_testing_content
+  - role: :default_role_project_admin
+    add:
+    - :view_test_cases
+    - :add_test_cases
+    - :edit_test_cases
+    - :change_test_case_status
+    - :delete_test_cases
+    - :manage_test_suites
+    - :view_test_plans
+    - :manage_test_plans
+    - :view_test_runs
+    - :add_test_runs
+    - :execute_test_runs
+    - :delete_test_runs
+    - :upload_test_results
+    - :manage_test_ci
+    - :manage_test_management
+    - :show_testing_content
+    - :link_test_cases_to_work_packages
+    - :use_test_assistant

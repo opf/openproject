@@ -1,0 +1,144 @@
+<% source = @form.source_data %>
+<% disabled = !@provider.configured? %>
+<% if @form_errors.present? %>
+  <%= render(Primer::Alpha::Banner.new(scheme: :danger, mb: 3, data: { test_selector: "tm-assistant-generate-errors" })) do %>
+    <%= @form_errors.join(" ") %>
+  <% end %>
+<% end %>
+
+<%= form_with url: project_test_management_assistant_generations_path(@project), scope: :generation, method: :post,
+              local: true, data: { turbo: false, test_selector: "tm-assistant-generate-form" } do |f| %>
+  <fieldset class="form--fieldset" <%= "disabled" if disabled %>>
+    <legend><%= t("test_management.assistant.generate.source") %></legend>
+    <div class="tm-assistant-sources">
+      <div class="tm-assistant-source">
+        <label><%= radio_button_tag "generation[source_type]", "work_package", @form.source_type == "work_package" %>
+          <%= t("test_management.assistant.generate.sources.work_package") %></label>
+        <div class="form--field">
+          <div class="tm-wp-autocompleter">
+            <%= angular_component_tag "opce-autocompleter",
+                                      data: { test_selector: "tm-assistant-wp-autocompleter" },
+                                      inputs: {
+                                        resource: "work_packages",
+                                        url: ::API::V3::Utilities::PathHelper::ApiV3Path.work_packages,
+                                        searchKey: "typeahead",
+                                        multiple: false,
+                                        defaultData: true,
+                                        focusDirectly: false,
+                                        openDirectly: false,
+                                        appendTo: "body",
+                                        placeholder: t("test_management.cases.work_packages_placeholder"),
+                                        inputName: "generation[source][work_package_id]",
+                                        model: tm_assistant_work_package_model(source["work_package_id"]).first
+                                      } %>
+          </div>
+          <div class="form--field-instructions"><%= t("test_management.assistant.generate.work_package_hint") %></div>
+        </div>
+      </div>
+
+      <div class="tm-assistant-source">
+        <label><%= radio_button_tag "generation[source_type]", "text", @form.source_type == "text" %>
+          <%= t("test_management.assistant.generate.sources.text") %></label>
+        <div class="form--field">
+          <%= text_area_tag "generation[source][text]", source["text"], rows: 6, class: "form--text-area",
+                                                                        maxlength: TestManagement::Assistant::Sources::MAX_TEXT_CHARS,
+                                                                        "aria-label": t("test_management.assistant.generate.sources.text") %>
+        </div>
+      </div>
+
+      <div class="tm-assistant-source">
+        <label><%= radio_button_tag "generation[source_type]", "pull_request", @form.source_type == "pull_request" %>
+          <%= t("test_management.assistant.generate.sources.pull_request") %></label>
+        <div class="form--field">
+          <%= url_field_tag "generation[source][url]", source["url"], class: "form--text-field", maxlength: 2048,
+                                                                      autocomplete: "off",
+                                                                      placeholder: @pr_connections.first ? "#{@pr_connections.first.repository_url}/…" : "",
+                                                                      "aria-label": t("test_management.assistant.generate.sources.pull_request") %>
+          <div class="form--field-instructions" data-test-selector="tm-assistant-pr-hint">
+            <% if @pr_connections.any? %>
+              <%= t("test_management.assistant.generate.pull_request_hint") %>
+              <%= safe_join(@pr_connections.map { |c| content_tag(:code, c.repository_url) }, ", ") %>
+            <% else %>
+              <%= t("test_management.assistant.generate.pull_request_none") %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="tm-assistant-source">
+        <label><%= radio_button_tag "generation[source_type]", "code", @form.source_type == "code" %>
+          <%= t("test_management.assistant.generate.sources.code") %></label>
+        <div class="form--field">
+          <%= text_area_tag "generation[source][code]", source["code"], rows: 8, class: "form--text-area -monospace",
+                                                                        maxlength: TestManagement::Assistant::Sources::MAX_TEXT_CHARS, spellcheck: false,
+                                                                        "aria-label": t("test_management.assistant.generate.sources.code") %>
+          <%= text_field_tag "generation[source][language]", source["language"], class: "form--text-field -slim",
+                                                                                 maxlength: 40, autocomplete: "off",
+                                                                                 placeholder: t("test_management.assistant.generate.language_placeholder"),
+                                                                                 "aria-label": t("test_management.assistant.generate.language") %>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="form--fieldset" <%= "disabled" if disabled %>>
+    <legend><%= t("test_management.assistant.generate.options") %></legend>
+    <div class="form--field">
+      <label class="form--label" for="generation_options_count"><%= t("test_management.assistant.generate.count") %></label>
+      <div class="form--field-container">
+        <%= number_field_tag "generation[options][count]", @form.option(:count).presence || TestManagement::AssistantGeneration::DEFAULT_COUNT,
+                             min: 1, max: TestManagement::AssistantGeneration::MAX_COUNT, class: "form--text-field -xslim",
+                             id: "generation_options_count", autocomplete: "off" %>
+      </div>
+    </div>
+    <div class="form--field">
+      <span class="form--label"><%= t("test_management.assistant.generate.types") %></span>
+      <div class="form--field-container tm-assistant-types" data-test-selector="tm-assistant-types">
+        <% TestManagement::AssistantGeneration::CASE_TYPES.each do |type| %>
+          <label class="form--label-with-check-box">
+            <%= check_box_tag "generation[options][types][]", type, Array(@form.option(:types)).include?(type), id: "generation_type_#{type}" %>
+            <%= t("test_management.assistant.types.#{type}") %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+    <div class="form--field">
+      <label class="form--label" for="generation_options_suite_id"><%= t("test_management.assistant.generate.folder") %></label>
+      <div class="form--field-container">
+        <%= select_tag "generation[options][suite_id]",
+                       options_for_select(@suites.map { |s| [s.path_name, s.id] }, @form.option(:suite_id).to_s.presence&.to_i),
+                       include_blank: t("test_management.assistant.no_folder"), class: "form--select", id: "generation_options_suite_id" %>
+      </div>
+    </div>
+    <div class="form--field">
+      <label class="form--label" for="generation_options_label_names"><%= t("test_management.assistant.generate.labels") %></label>
+      <div class="form--field-container">
+        <%= text_field_tag "generation[options][label_names]", Array(@form.option(:label_names)).join(", "),
+                           class: "form--text-field", id: "generation_options_label_names", autocomplete: "off",
+                           placeholder: t("test_management.labels.placeholder") %>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="tm-assistant-actions">
+    <%= submit_tag t("test_management.assistant.generate.submit"), class: "button -primary", disabled:,
+                                                                   data: { test_selector: "tm-assistant-generate-submit" } %>
+    <span class="form--field-instructions"><%= t("test_management.assistant.generate.privacy_hint") %></span>
+  </div>
+<% end %>
+
+<% if @recent.any? %>
+  <h3 class="mt-4"><%= t("test_management.assistant.generate.recent") %></h3>
+  <%= render(Primer::Beta::BorderBox.new(data: { test_selector: "tm-assistant-recent" })) do |box| %>
+    <% @recent.each do |generation| %>
+      <% box.with_row do %>
+        <%= render(Primer::Beta::Label.new(scheme: tm_assistant_status_scheme(generation.effective_status))) { t("test_management.assistant.status.#{generation.effective_status}") } %>
+        <%= link_to tm_assistant_source_summary(generation), project_test_management_assistant_generation_path(@project, generation) %>
+        <span class="color-fg-muted">· <%= format_time(generation.created_at) %>
+          <% if generation.done? %>· <%= t("test_management.assistant.generate.draft_count", count: generation.draft_list.size) %><% end %>
+          <% if generation.saved_ids.any? %>· <%= t("test_management.assistant.generate.saved_count", count: generation.saved_ids.size) %><% end %>
+        </span>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,0 +1,41 @@
+# Schema: TestManagementMilestoneWriteModel
+---
+type: object
+description: Body of create (name required) and update (all optional) requests.
+properties:
+  name:
+    type: string
+    maxLength: 255
+  description:
+    oneOf:
+      - type: string
+      - type: object
+        properties:
+          raw:
+            type: string
+  startDate:
+    type:
+      - string
+      - "null"
+    format: date
+  dueDate:
+    type:
+      - string
+      - "null"
+    format: date
+    description: On or after `startDate`.
+  parentId:
+    type:
+      - integer
+      - "null"
+    description: Parent milestone of the same project (one level; a parent cannot itself have a parent).
+  versionId:
+    type:
+      - integer
+      - "null"
+    description: A version of the project or shared with it. Its work packages show the milestone in their Testing tab.
+  workPackageIds:
+    type: array
+    items:
+      type: integer
+    description: Linked work packages (replaces the visible links; links the client cannot see are kept).

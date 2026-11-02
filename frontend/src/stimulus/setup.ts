@@ -64,6 +64,7 @@ import CreatedPlaceholderUserController from './controllers/dynamic/resource-man
 import NonWorkingTimesController from './controllers/dynamic/users/non-working-times.controller';
 import NonWorkingTimesFormController from './controllers/dynamic/users/non-working-times-form.controller';
 import OpPasswordForceChangeController from './controllers/password-force-change.controller';
+import CasesSelectionController from './controllers/dynamic/test-management/cases-selection.controller';
 
 import AutoSubmit from '@stimulus-components/auto-submit';
 import RevealController from '@stimulus-components/reveal';
@@ -141,6 +142,7 @@ OpenProjectStimulusApplication.preregister('check-all', CheckAllController);
 OpenProjectStimulusApplication.preregister('header-project-select', HeaderProjectSelectController);
 OpenProjectStimulusApplication.preregister('checkable', CheckableController);
 OpenProjectStimulusApplication.preregister('expandable-text', ExpandableTextController);
+OpenProjectStimulusApplication.preregister('test-management--cases-selection', CasesSelectionController);
 
 installElements();
 

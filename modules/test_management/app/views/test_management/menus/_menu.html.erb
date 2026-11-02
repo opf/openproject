@@ -1,0 +1,11 @@
+<%# Test management sidebar submenu (0018), loaded like the Documents and Meetings submenus.
+    The page passes its section so the matching entry is highlighted. %>
+<%= turbo_frame_tag "test_management_sub_menu",
+                    src: project_test_management_menu_path(
+                      @project,
+                      section: TestManagement::Menu.section_for(controller.controller_path, params[:page]),
+                      suite_id: params[:suite_id].presence
+                    ),
+                    target: "_top",
+                    data: { turbo: false, test_selector: "tm-sub-menu-frame" },
+                    loading: :lazy %>

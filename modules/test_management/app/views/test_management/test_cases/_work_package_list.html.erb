@@ -1,0 +1,25 @@
+<%# locals: work_packages, list_selector, empty_text %>
+  <% if work_packages.any? %>
+    <ul class="tm-linked-wps" data-test-selector="<%= list_selector %>">
+      <% work_packages.each do |work_package| %>
+        <li class="tm-linked-wps--item">
+          <% if work_package.type %>
+            <span class="tm-linked-wps--type"><%= work_package.type.name %></span>
+          <% end %>
+          <%= link_to "#{tm_work_package_reference(work_package)} #{work_package.subject}",
+                      work_package_path(work_package),
+                      target: "_blank",
+                      rel: "noopener noreferrer",
+                      class: "tm-linked-wps--link",
+                      data: { test_selector: "tm-linked-wp-#{work_package.id}" } %>
+          <% if work_package.status %>
+            <span class="tm-linked-wps--status color-fg-muted"><%= work_package.status.name %></span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="tm-empty-text color-fg-muted" data-test-selector="<%= list_selector %>-empty">
+      <%= empty_text %>
+    </p>
+  <% end %>

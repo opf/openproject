@@ -1,0 +1,87 @@
+<% html_title(t("test_management.assistant.generate.drafts_title")) %>
+<%= render partial: "test_management/assistant/styles" %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("test_management.assistant.generate.drafts_title") }
+    header.with_description { tm_assistant_source_summary(@generation) }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_cases_path(@project), text: t(:project_module_test_management) },
+        { href: project_test_management_assistant_path(@project, tab: "generate"), text: t("test_management.assistant.title") },
+        t("test_management.assistant.generate.drafts_title")
+      ]
+    )
+  end
+%>
+
+<%=
+  tag.div(
+    data: {
+      test_selector: "tm-assistant-generation",
+      status: @generation.effective_status
+    }.merge(@generation.pending? ? tm_assistant_generation_polling_data(@project, @generation) : {})
+  ) do
+%>
+<% if @generation.pending? %>
+  <div class="tm-assistant-generation-poll mb-3"
+       data-test-management--generation-status-target="banner"
+       data-test-selector="tm-assistant-generation-pending"
+       aria-live="polite">
+    <%= render(Primer::Alpha::Banner.new(scheme: :default, mb: 2)) do %>
+      <span data-test-management--generation-status-target="message"><%= @generation.status_message %></span>
+      <span class="color-fg-muted ml-2" data-test-management--generation-status-target="elapsed"></span>
+      <span class="color-fg-muted ml-2"
+            data-test-management--generation-status-target="activity"
+            data-updated-at="<%= @generation.updated_at&.iso8601 %>"></span>
+    <% end %>
+    <ol class="tm-assistant-generation-steps mb-2"
+        data-test-management--generation-status-target="steps"
+        data-test-selector="tm-assistant-generation-steps">
+      <% TestManagement::AssistantGeneration::PROGRESS_STEPS.each_with_index do |step, index| %>
+        <li data-step="<%= step %>"
+            class="<%= "is-current" if @generation.current_progress_step == step %>">
+          <span class="tm-assistant-generation-steps--index"><%= index + 1 %></span>
+          <%= t("test_management.assistant.generate.polling.steps.labels.#{step}") %>
+        </li>
+      <% end %>
+    </ol>
+    <div class="d-flex flex-items-center gap-2" data-test-management--generation-status-target="progressContainer">
+      <%= render(
+            Primer::Beta::ProgressBar.new(
+              aria: { label: t("test_management.assistant.generate.polling.running") },
+              data: { "test-management--generation-status-target": "progressBar" }
+            )
+          ) do |bar| %>
+        <% bar.with_item(percentage: ((@generation.progress_payload[:done].to_f / @generation.progress_payload[:total]) * 100).round) %>
+      <% end %>
+    </div>
+
+    <div class="mt-2 d-flex flex-items-center gap-2">
+      <button type="button" class="button"
+              data-action="test-management--generation-status#cancel"
+              data-test-selector="tm-assistant-generation-cancel"
+              data-test-management--generation-status-target="cancelButton">
+        <%= t("test_management.assistant.generate.polling.cancel") %>
+      </button>
+      <button type="button" class="button" hidden
+              data-action="test-management--generation-status#checkAgain"
+              data-test-selector="tm-assistant-generation-check-again"
+              data-test-management--generation-status-target="checkAgainButton">
+        <%= t("test_management.assistant.generate.polling.check_again") %>
+      </button>
+      <button type="button" class="button" hidden
+              data-action="test-management--generation-status#retry"
+              data-test-selector="tm-assistant-generation-try-again"
+              data-test-management--generation-status-target="tryAgainButton">
+        <%= t("test_management.assistant.generate.try_again") %>
+      </button>
+    </div>
+  </div>
+<% end %>
+
+<%= turbo_frame_tag "tm-draft-results" do %>
+  <%= render partial: "test_management/assistant/generation_results" %>
+<% end %>
+<% end %>

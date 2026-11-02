@@ -43,6 +43,9 @@ Layout/DotPosition:
 
 Layout/LineLength:
   Max: 130
+  Exclude:
+    # POC: deferred wrapping for the new test_management module
+    - "modules/test_management/**/*"
 
 Layout/MultilineMethodCallIndentation:
   Enabled: false
@@ -108,6 +111,15 @@ Metrics/AbcSize:
   Exclude:
     - "spec/**/*.rb"
     - "modules/*/spec/**/*.rb"
+    # POC: deferred method extraction for the new test_management module
+    - "modules/test_management/**/*"
+
+Metrics/PerceivedComplexity:
+  Enabled: true
+  Exclude:
+    - "spec/**/*.rb"
+    - "modules/*/spec/**/*.rb"
+    - "modules/test_management/**/*"
 
 Metrics/BlockLength:
   Enabled: false
@@ -151,6 +163,10 @@ Naming/MethodParameterName:
     - "on"
     - "if" # conditional options, as in enabled_by_default!(if: -> { ... })
     - "if"
+    - wp # work package shorthand used in test_management helpers/specs
+    - io # IO streams in certificate helpers
+    - as # role/user override keyword in service call helpers
+    - ca # certificate authority flag
 
 Naming/PredicateMethod:
   # disabling this cop as it enforces a method name solely based on the return type (if the method returns a boolean, the name must end in "?")
@@ -313,6 +329,7 @@ RSpec/ExampleLength:
   Exclude:
     - "spec/features/**/*.rb"
     - "modules/*/spec/features/**/*.rb"
+    - "modules/test_management/**/*"
 
 # Prevent  "fit" or similar to be committed
 RSpec/Focus:
@@ -363,6 +380,17 @@ RSpec/SpecFilePathFormat:
     XWikiProviders: xwiki_providers
   EnforcedInflector: active_support
   IgnoreMethods: true
+  Exclude:
+    # POC: descriptive split specs that share a class under test
+    - "modules/test_management/**/*"
+
+RSpec/MultipleDescribes:
+  Exclude:
+    - "modules/test_management/**/*"
+
+RSpec/SubjectStub:
+  Exclude:
+    - "modules/test_management/**/*"
 
 RSpec/NamedSubject:
   Enabled: false

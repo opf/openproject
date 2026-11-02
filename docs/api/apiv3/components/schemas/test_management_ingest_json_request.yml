@@ -1,0 +1,21 @@
+# Schema: TestManagementIngestJsonRequest
+---
+description: |-
+  JSON variant of an ingest request: options plus exactly one of `content`, `report` or `tests`.
+allOf:
+  - "$ref": "./test_management_ingest_options.yml"
+  - type: object
+    properties:
+      content:
+        type: string
+        description: The report as a string (JUnit XML or JSON).
+      report:
+        type: object
+        description: A Playwright JSON reporter result.
+      tests:
+        type: array
+        description: Tests in the native format.
+        items:
+          "$ref": "./test_management_native_test.yml"
+      metadata:
+        "$ref": "./test_management_ingest_options.yml"

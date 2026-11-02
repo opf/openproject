@@ -1,0 +1,29 @@
+<%#
+  Work package "Testing" tab. Laid out vertically for the narrow split view (and fine in
+  the full view): a Milestones | Runs | Cases switcher that stacks when the panel is
+  narrow, then one stacked card per item. The switcher links stay inside the Turbo frame;
+  links to pages break out of it (data-turbo-frame="_top").
+%>
+<%= turbo_frame_tag "work-package-testing-tab-content" do %>
+  <%= render partial: "test_management/work_package_testing_tab/styles" %>
+  <div class="tm-wp-testing-tab" data-test-selector="tm-wp-testing-tab" data-view="<%= @view %>">
+    <nav class="tm-wp-seg" aria-label="<%= t("test_management.work_package_tab.views_label") %>" data-test-selector="tm-wp-testing-views">
+      <% @testing.views.each do |key| %>
+        <%= link_to t("test_management.work_package_tab.views.#{key}"),
+                    work_package_test_management_tab_path(@work_package, view: key),
+                    class: "tm-wp-seg--item#{' -selected' if key == @view}",
+                    "aria-current": (key == @view ? "page" : nil),
+                    data: { test_selector: "tm-wp-testing-view-#{key}" } %>
+      <% end %>
+    </nav>
+
+    <% case @view %>
+    <% when "milestones" %>
+      <%= render partial: "test_management/work_package_testing_tab/milestones" %>
+    <% when "runs" %>
+      <%= render partial: "test_management/work_package_testing_tab/runs" %>
+    <% else %>
+      <%= render partial: "test_management/work_package_testing_tab/cases" %>
+    <% end %>
+  </div>
+<% end %>

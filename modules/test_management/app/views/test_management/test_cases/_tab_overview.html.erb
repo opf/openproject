@@ -1,0 +1,94 @@
+<div class="tm-case-detail" data-test-selector="tm-case-detail">
+  <div class="tm-case-attrs">
+    <div class="k"><%= TestManagement::TestCase.human_attribute_name(:status) %></div>
+    <div><%= tm_status_label(@test_case.status) %></div>
+    <div class="k"><%= TestManagement::TestCase.human_attribute_name(:priority) %></div>
+    <div><%= tm_priority_label(@test_case.priority) %></div>
+    <div class="k"><%= TestManagement::TestCase.human_attribute_name(:automated) %></div>
+    <div><%= @test_case.automated? ? t(:general_text_Yes) : t(:general_text_No) %></div>
+    <% if @test_case.automation_reference.present? %>
+      <div class="k"><%= TestManagement::TestCase.human_attribute_name(:automation_reference) %></div>
+      <div data-test-selector="tm-case-automation-reference">
+        <code><%= @test_case.automation_reference %></code>
+        <% if (source = TestManagement::Automation::SourceLink.new(@test_case).call) && (url = tm_safe_url(source.url)) %>
+          · <%= link_to t("test_management.cases.open_source", connection: source.connection.name), url,
+                        target: "_blank", rel: "noopener noreferrer", title: source.ref,
+                        data: { test_selector: "tm-case-source-link" } %>
+        <% end %>
+      </div>
+    <% end %>
+    <div class="k"><%= TestManagement::TestCase.human_attribute_name(:suite) %></div>
+    <div><%= @test_case.suite&.path_name || t("test_management.suites.unfiled") %></div>
+    <div class="k"><%= TestManagement::TestCase.human_attribute_name(:labels) %></div>
+    <div data-test-selector="tm-case-labels"><%= @test_case.labels.any? ? tm_labels(@test_case.labels) : tm_unknown %></div>
+    <div class="k"><%= t("test_management.cases.created_by") %></div>
+    <div data-test-selector="tm-case-created-by"><%= tm_user_and_time(@test_case.author, @test_case.created_at) %></div>
+    <div class="k"><%= t("test_management.cases.last_edited_by") %></div>
+    <div data-test-selector="tm-case-updated-by">
+      <%= @test_case.updated_by ? tm_user_and_time(@test_case.updated_by, @test_case.updated_at) : tm_unknown %>
+    </div>
+  </div>
+
+  <h3><%= t("test_management.cases.linked_work_packages") %></h3>
+  <%= render partial: "test_management/test_cases/work_package_list",
+             locals: {
+               work_packages: @linked_work_packages || tm_visible_linked_work_packages(@test_case).to_a,
+               list_selector: "tm-case-linked-work-packages",
+               empty_text: t("test_management.cases.no_linked_work_packages")
+             } %>
+
+  <h3><%= TestManagement::TestCase.human_attribute_name(:preconditions) %></h3>
+  <% if @test_case.preconditions.present? %>
+    <div class="op-uc-container" data-test-selector="tm-case-preconditions">
+      <%= format_text(@test_case, :preconditions) %>
+    </div>
+  <% else %>
+    <p class="tm-empty-text color-fg-muted" data-test-selector="tm-case-preconditions-empty">
+      <%= t("test_management.cases.empty_preconditions") %>
+    </p>
+  <% end %>
+  <p class="tm-macro-hint">
+    Supports OpenProject references:
+    <code>#ID</code> / <code>##ID</code> / <code>###ID</code>,
+    <code>document#…</code>, <code>[[Wiki page]]</code>.
+  </p>
+
+  <h3><%= TestManagement::TestCase.human_attribute_name(:description) %></h3>
+  <% if @test_case.description.present? %>
+    <div class="op-uc-container" data-test-selector="tm-case-description">
+      <%= format_text(@test_case, :description) %>
+    </div>
+  <% else %>
+    <p class="tm-empty-text color-fg-muted" data-test-selector="tm-case-description-empty">
+      <%= t("test_management.cases.empty_description") %>
+    </p>
+  <% end %>
+
+  <h3><%= t("test_management.cases.steps") %></h3>
+  <% if @test_case.steps.any? %>
+    <table class="generic-table tm-steps-table" data-test-selector="tm-case-steps">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th><%= t("test_management.cases.step_action") %></th>
+          <th><%= t("test_management.cases.step_expected") %></th>
+          <th><%= t("test_management.cases.step_data") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @test_case.steps.each_with_index do |step, index| %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><div class="op-uc-container"><%= format_text(step.action.to_s) %></div></td>
+            <td><div class="op-uc-container"><%= format_text(step.expected_result.to_s) %></div></td>
+            <td><div class="op-uc-container"><%= format_text(step.data.to_s) %></div></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="tm-empty-text color-fg-muted" data-test-selector="tm-case-steps-empty">
+      <%= t("test_management.cases.no_steps") %>
+    </p>
+  <% end %>
+</div>

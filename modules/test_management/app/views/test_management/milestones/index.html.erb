@@ -1,0 +1,90 @@
+<% html_title(t("test_management.milestones.title")) %>
+<%= render partial: "test_management/milestones/styles" %>
+<% can_manage = tm_milestone_can_manage?(@project) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("test_management.milestones.title") }
+    header.with_description { t("test_management.milestones.description") }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_cases_path(@project), text: t(:project_module_test_management) },
+        t("test_management.menu.milestones")
+      ]
+    )
+    if can_manage
+      header.with_action_button(
+        tag: :a, href: new_project_test_management_milestone_path(@project),
+        scheme: :primary, mobile_icon: :plus, mobile_label: t("test_management.milestones.new"),
+        data: { test_selector: "tm-new-milestone" }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        t("test_management.milestones.new")
+      end
+    end
+  end
+%>
+
+<%= render(
+      Primer::Alpha::UnderlineNav.new(
+        label: t("test_management.milestones.title"),
+        data: { test_selector: "tm-milestone-filters" }
+      )
+    ) do |nav| %>
+  <% TestManagement::MilestonesController::FILTERS.each do |key| %>
+    <% nav.with_tab(
+         href: project_test_management_milestones_path(@project, filter: (key == "open" ? nil : key)),
+         selected: @filter == key,
+         data: { test_selector: "tm-milestone-filter-#{key}" }
+       ) do |item| %>
+      <% item.with_text { t("test_management.milestones.filters.#{key}") } %>
+      <% item.with_counter(count: @filter_counts[key].to_i) %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if @rows.any? %>
+  <%= render(Primer::Beta::BorderBox.new(data: { test_selector: "tm-milestone-list" })) do |box| %>
+    <% @rows.each do |milestone, depth| %>
+      <% counts = milestone.status_counts %>
+      <% box.with_row(
+           classes: "tm-ms-list--row#{' -child' if depth.positive?}",
+           data: { test_selector: "tm-milestone-row-#{milestone.id}" }
+         ) do %>
+        <div class="tm-ms-list--main">
+          <div>
+            <%= render(Primer::Beta::Octicon.new(icon: depth.positive? ? :"git-commit" : :milestone, "aria-hidden": true)) %>
+            <%= link_to milestone.name, project_test_management_milestone_path(@project, milestone),
+                        class: "tm-ms-list--name", data: { test_selector: "tm-milestone-link-#{milestone.id}" } %>
+            <%= tm_milestone_status_label(milestone) %>
+            <%= tm_milestone_overdue_badge(milestone) %>
+          </div>
+          <div class="color-fg-muted tm-ms-list--meta">
+            <%= tm_milestone_dates(milestone) %>
+            · <%= t("test_management.milestones.runs_count", count: milestone.runs_count) %>
+            <% if depth.zero? && milestone.parent %>
+              · <%= t("test_management.milestones.in_parent", name: milestone.parent.name) %>
+            <% end %>
+            <% if milestone.version %>
+              · <%= t("test_management.milestones.version_short", name: milestone.version.name) %>
+            <% end %>
+          </div>
+        </div>
+        <div class="tm-ms-list--progress">
+          <%= tm_milestone_bar(counts) %>
+          <span class="tm-ms-list--percent" data-test-selector="tm-milestone-passed-<%= milestone.id %>">
+            <%= t("test_management.milestones.pass_rate_text", rate: milestone.pass_rate) %>
+            · <%= t("test_management.milestones.cases_count", count: milestone.total_cases) %>
+          </span>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= render(Primer::Beta::Blankslate.new(data: { test_selector: "tm-milestones-empty" })) do |component| %>
+    <% component.with_visual_icon(icon: :milestone) %>
+    <% component.with_heading(tag: :h2).with_content(t("test_management.milestones.empty_title")) %>
+    <% component.with_description { t("test_management.milestones.empty_text") } %>
+  <% end %>
+<% end %>

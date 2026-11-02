@@ -1,0 +1,35 @@
+<%# One folder group of the run page (recursive). node: { suite:, cases:, children:, count: } %>
+<% suite = node[:suite] %>
+<details class="tm-run-group tm-run-group--depth-<%= [depth, 5].min %>" open
+         data-test-selector="tm-run-group-<%= suite&.id || "unfiled" %>">
+  <summary class="tm-run-group--header">
+    <%= render(Primer::Beta::Octicon.new(icon: :"chevron-down", classes: "tm-chevron", "aria-hidden": true)) %>
+    <%= render(Primer::Beta::Octicon.new(icon: :"file-directory", "aria-hidden": true)) %>
+    <span class="tm-run-group--name"><%= suite ? suite.name : t("test_management.suites.unfiled") %></span>
+    <%= render(Primer::Beta::Counter.new(count: node[:count], hide_if_zero: false)) %>
+  </summary>
+  <div class="tm-run-group--body">
+    <% if node[:cases].any? %>
+      <table class="tm-run-table">
+        <thead>
+          <tr>
+            <th class="tm-run-table--id"><%= t("test_management.runs.columns.id") %></th>
+            <th><%= t("test_management.runs.columns.title") %></th>
+            <th class="tm-run-table--labels"><%= t("test_management.runs.columns.labels") %></th>
+            <th class="tm-run-table--assignee"><%= t("test_management.runs.columns.assignee") %></th>
+            <th class="tm-run-table--status"><%= t("test_management.runs.columns.status") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% node[:cases].each do |run_case| %>
+            <%= render partial: "test_management/test_runs/run_case_row", locals: { run_case:, can_execute:, run_path: } %>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+    <% node[:children].each do |child| %>
+      <%= render partial: "test_management/test_runs/run_section",
+                 locals: { node: child, depth: depth + 1, can_execute:, run_path: } %>
+    <% end %>
+  </div>
+</details>

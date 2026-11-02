@@ -1,0 +1,48 @@
+# Example .gitlab-ci.yml fragment: Playwright + upload to OpenProject Test Management.
+# CI/CD variables: OP_URL, OP_PROJECT, OP_API_TOKEN (masked), optional OP_CA_CERT (file variable).
+# All parallel jobs of a pipeline share externalRef gitlab:<project path>:<pipeline id>, so they land
+# in the same run (new_run) or the same iteration (new_iteration).
+#   branch pipeline on the default branch -> new iteration of the run "Smoke"
+#   scheduled pipeline (CI/CD > Schedules) -> new iteration of the run "Regression"
+#   merge request pipeline                 -> a new run per pipeline
+#   "Run in CI" from OpenProject (trigger token) -> the pre-created run / iteration
+# Alternatively configure the mode on a CI connection (Project settings > Test management).
+# "Run in CI" passes OP_RUN_ID, OP_ITERATION_ID, OP_PROJECT and OP_GREP as pipeline variables;
+# op-tm-upload.sh reads OP_RUN_ID / OP_ITERATION_ID itself. Create the trigger token under
+# Settings > CI/CD > Pipeline trigger tokens and store it as the connection's trigger token.
+.e2e:
+  image: mcr.microsoft.com/playwright:v1.49.0-noble
+  parallel: 2
+  script:
+    - apt-get update -qq && apt-get install -y -qq jq curl >/dev/null
+    - npm ci
+    - PLAYWRIGHT_JSON_OUTPUT_NAME=results.json npx playwright test --shard=$CI_NODE_INDEX/$CI_NODE_TOTAL --reporter=json,line ${PW_GREP:+--grep "$PW_GREP"} || status=$?
+    - OP_REPORT=results.json OP_ARTIFACTS_DIR=test-results bash ci/op-tm-upload.sh
+    - exit ${status:-0}
+  artifacts:
+    when: always
+    paths: [test-results/, results.json]
+
+e2e:smoke:
+  extends: .e2e
+  variables: { OP_MODE: new_iteration, OP_TARGET_RUN: Smoke, PW_GREP: "@smoke" }
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+e2e:regression:
+  extends: .e2e
+  variables: { OP_MODE: new_iteration, OP_TARGET_RUN: Regression }
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+
+e2e:mr:
+  extends: .e2e
+  variables: { OP_MODE: new_run }
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+e2e:openproject:
+  extends: .e2e
+  variables: { PW_GREP: $OP_GREP }
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "trigger" && $OP_ITERATION_ID

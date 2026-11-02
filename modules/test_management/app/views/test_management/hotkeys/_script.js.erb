@@ -1,0 +1,213 @@
+// Test management keyboard shortcuts (0019). Plain script, no build step: installed once per window
+// (window.__tmHotkeys), reads the current page's #tm-hotkeys-config on every key press, so it keeps
+// working across Turbo Drive visits. Keys are ignored in form fields, CKEditor, open modals and
+// with Ctrl/Cmd/Alt/Shift held.
+(function () {
+  "use strict";
+
+  var TIP_SHOWN_KEY = "tm-hotkey-tip-shown-at";
+  var EDITABLE = "input, textarea, select, [contenteditable]:not([contenteditable='false']), " +
+                 ".ck, .ck-editor, [role='textbox'], [role='combobox'], [role='searchbox']";
+
+  function config() {
+    var el = document.getElementById("tm-hotkeys-config");
+    if (!el) { return null; }
+    try { return JSON.parse(el.dataset.config); } catch (e) { return null; }
+  }
+
+  function helpDialog() { return document.getElementById("tm-hotkeys-help"); }
+
+  function openHelp() {
+    var dialog = helpDialog();
+    hideTip();
+    if (dialog && typeof dialog.showModal === "function" && !dialog.open) { dialog.showModal(); }
+  }
+
+  function hideTip() {
+    var tip = document.getElementById("tm-hotkey-tip");
+    if (tip) { tip.hidden = true; }
+  }
+
+  function visit(href) {
+    if (window.Turbo && typeof window.Turbo.visit === "function") {
+      window.Turbo.visit(href);
+    } else {
+      window.location.assign(href);
+    }
+  }
+
+  function modalOpen() {
+    // Open <dialog>s (Primer, ours) and Angular spot modals. Not [aria-modal]: closed Primer dialogs
+    // carry it as well.
+    return !!document.querySelector("dialog[open], .spot-modal-overlay_active");
+  }
+
+  function ignored(event) {
+    if (event.defaultPrevented || event.isComposing || event.repeat) { return true; }
+    if (event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) { return true; }
+    var target = event.target;
+    if (target && target.isContentEditable) { return true; }
+    if (target && target.closest && target.closest(EDITABLE)) { return true; }
+    return modalOpen();
+  }
+
+  function keyOf(event) {
+    var key = event.key;
+    if (!key || key.length !== 1) { return null; }
+    key = key.toLowerCase();
+    return /^[a-z]$/.test(key) ? key : null;
+  }
+
+  function startsWith(sequence, prefix) {
+    if (prefix.length > sequence.length) { return false; }
+    for (var i = 0; i < prefix.length; i++) {
+      if (sequence[i] !== prefix[i]) { return false; }
+    }
+    return true;
+  }
+
+  function match(shortcuts, keys) {
+    var exact = null;
+    var partial = false;
+    shortcuts.forEach(function (shortcut) {
+      if (!startsWith(shortcut.sequence, keys)) { return; }
+      if (shortcut.sequence.length === keys.length) { exact = shortcut; } else { partial = true; }
+    });
+    return { exact: exact, partial: partial };
+  }
+
+  function run(shortcut) {
+    if (shortcut.id === "help") { openHelp(); return; }
+    if (shortcut.focus) {
+      var field = document.querySelector(shortcut.focus);
+      if (field) { field.focus(); return; }
+    }
+    if (shortcut.href) { visit(shortcut.href); }
+  }
+
+  function reset(state) {
+    state.buffer = [];
+    if (state.timer) { clearTimeout(state.timer); state.timer = null; }
+  }
+
+  function onKeydown(state, event) {
+    var cfg = config();
+    if (!cfg || ignored(event)) { reset(state); return; }
+    var key = keyOf(event);
+    if (!key) { reset(state); return; }
+
+    var keys = state.buffer.concat([key]);
+    var result = match(cfg.shortcuts, keys);
+    if (!result.exact && !result.partial && state.buffer.length) {
+      keys = [key];
+      result = match(cfg.shortcuts, keys);
+    }
+
+    if (result.exact) {
+      reset(state);
+      event.preventDefault();
+      run(result.exact);
+    } else if (result.partial) {
+      state.buffer = keys;
+      if (state.timer) { clearTimeout(state.timer); }
+      state.timer = setTimeout(function () { reset(state); }, cfg.timeout || 1000);
+    } else {
+      reset(state);
+    }
+  }
+
+  function samePath(a, b) {
+    try {
+      var x = new URL(a, window.location.href);
+      var y = new URL(b, window.location.href);
+      return x.pathname === y.pathname && x.search === y.search;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // <kbd> badges on the submenu entries (the submenu is a lazy turbo frame).
+  function decorate() {
+    var cfg = config();
+    if (!cfg || !cfg.hints) { return; }
+    var links = document.querySelectorAll("#test_management_sub_menu a[href]");
+    Array.prototype.forEach.call(links, function (link) {
+      if (link.querySelector(".tm-kbd")) { return; }
+      cfg.shortcuts.forEach(function (shortcut) {
+        if (["cases", "runs", "assistant"].indexOf(shortcut.id) === -1) { return; }
+        if (!samePath(link.getAttribute("href"), shortcut.href)) { return; }
+        var kbd = document.createElement("kbd");
+        kbd.className = "tm-kbd";
+        kbd.textContent = shortcut.keys;
+        kbd.setAttribute("aria-hidden", "true");
+        kbd.title = shortcut.keys;
+        kbd.dataset.testSelector = "tm-hotkey-badge-" + shortcut.id;
+        (link.querySelector(".op-submenu--item-title") || link).appendChild(kbd);
+      });
+    });
+  }
+
+  // One tip per page view at most, with a probability and a cooldown across pages (localStorage).
+  function maybeShowTip() {
+    var tip = document.getElementById("tm-hotkey-tip");
+    if (!tip || tip.dataset.tmChecked) { return; }
+    tip.dataset.tmChecked = "1";
+    var now = Date.now();
+    var cooldown = parseFloat(tip.dataset.cooldownMinutes || "10") * 60000;
+    var probability = parseFloat(tip.dataset.probability || "0.35");
+    var last = 0;
+    try { last = parseInt(window.localStorage.getItem(TIP_SHOWN_KEY) || "0", 10) || 0; } catch (e) { last = 0; }
+    if (now - last < cooldown || Math.random() >= probability) { return; }
+    tip.hidden = false;
+    try { window.localStorage.setItem(TIP_SHOWN_KEY, String(now)); } catch (e) { /* private mode */ }
+  }
+
+  function dismissTips(button) {
+    hideTip();
+    var token = document.querySelector("meta[name='csrf-token']");
+    window.fetch(button.dataset.url, {
+      method: "PATCH",
+      credentials: "same-origin",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "X-CSRF-Token": token ? token.content : ""
+      },
+      body: JSON.stringify({ hotkey_tips: false })
+    }).catch(function () { /* best effort: the tip stays hidden for this page */ });
+  }
+
+  function onClick(event) {
+    var target = event.target;
+    if (!target || !target.closest) { return; }
+    if (target.closest("[data-tm-hotkeys-open-help]")) { event.preventDefault(); openHelp(); return; }
+    if (target.closest("[data-tm-hotkeys-close-help]")) {
+      var dialog = helpDialog();
+      if (dialog && dialog.open) { dialog.close(); }
+      return;
+    }
+    if (target.closest("[data-tm-hotkey-tip-close]")) { hideTip(); return; }
+    var dismiss = target.closest("[data-tm-hotkey-tip-dismiss]");
+    if (dismiss) { dismissTips(dismiss); }
+  }
+
+  function initPage() {
+    decorate();
+    maybeShowTip();
+  }
+
+  if (!window.__tmHotkeys) {
+    var state = { buffer: [], timer: null };
+    window.__tmHotkeys = state;
+    document.addEventListener("keydown", function (event) { onKeydown(state, event); });
+    document.addEventListener("click", onClick);
+    document.addEventListener("turbo:load", initPage);
+    document.addEventListener("turbo:frame-load", decorate);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPage, { once: true });
+  } else {
+    initPage();
+  }
+})();

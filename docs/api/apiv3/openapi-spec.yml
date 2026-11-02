@@ -457,6 +457,20 @@ paths:
     "$ref": "./paths/project_configuration.yml"
   "/api/v3/projects/{id}/ai_text_transform_actions":
     "$ref": "./paths/ai_text_transform_actions_by_project.yml"
+  "/api/v3/projects/{id}/test_management/assistant/generations":
+    "$ref": "./paths/test_management_project_assistant_generations.yml"
+  "/api/v3/projects/{id}/test_management/automation/results":
+    "$ref": "./paths/test_management_project_automation_results.yml"
+  "/api/v3/projects/{id}/test_management/ci_connections":
+    "$ref": "./paths/test_management_project_ci_connections.yml"
+  "/api/v3/projects/{id}/test_management/ci_triggers":
+    "$ref": "./paths/test_management_project_ci_triggers.yml"
+  "/api/v3/projects/{id}/test_management/milestones":
+    "$ref": "./paths/test_management_project_milestones.yml"
+  "/api/v3/projects/{id}/test_management/runs":
+    "$ref": "./paths/test_management_project_runs.yml"
+  "/api/v3/projects/{id}/test_management/runs/{run_id}/results":
+    "$ref": "./paths/test_management_project_run_results.yml"
   "/api/v3/queries":
     "$ref": "./paths/queries.yml"
   "/api/v3/queries/available_projects":
@@ -549,6 +563,50 @@ paths:
     "$ref": "./paths/storage_oauth_client_credentials.yml"
   "/api/v3/storages/{id}/open":
     "$ref": "./paths/storage_open.yml"
+  "/api/v3/test_management/assistant/generations/{id}":
+    "$ref": "./paths/test_management_assistant_generation.yml"
+  "/api/v3/test_management/assistant/generations/{id}/save":
+    "$ref": "./paths/test_management_assistant_generation_save.yml"
+  "/api/v3/test_management/assistant/providers":
+    "$ref": "./paths/test_management_assistant_providers.yml"
+  "/api/v3/test_management/assistant/providers/{id}":
+    "$ref": "./paths/test_management_assistant_provider.yml"
+  "/api/v3/test_management/assistant/providers/{id}/default":
+    "$ref": "./paths/test_management_assistant_provider_default.yml"
+  "/api/v3/test_management/automation/imports/{id}":
+    "$ref": "./paths/test_management_import.yml"
+  "/api/v3/test_management/ci_connections/{id}":
+    "$ref": "./paths/test_management_ci_connection.yml"
+  "/api/v3/test_management/milestones/{id}":
+    "$ref": "./paths/test_management_milestone.yml"
+  "/api/v3/test_management/milestones/{id}/complete":
+    "$ref": "./paths/test_management_milestone_complete.yml"
+  "/api/v3/test_management/milestones/{id}/reopen":
+    "$ref": "./paths/test_management_milestone_reopen.yml"
+  "/api/v3/test_management/milestones/{id}/start":
+    "$ref": "./paths/test_management_milestone_start.yml"
+  "/api/v3/test_management/run_cases/{id}":
+    "$ref": "./paths/test_management_run_case.yml"
+  "/api/v3/test_management/run_cases/{id}/attachments":
+    "$ref": "./paths/test_management_run_case_attachments.yml"
+  "/api/v3/test_management/run_cases/{id}/results":
+    "$ref": "./paths/test_management_run_case_results.yml"
+  "/api/v3/test_management/results/{id}":
+    "$ref": "./paths/test_management_result.yml"
+  "/api/v3/test_management/runs/{id}":
+    "$ref": "./paths/test_management_run.yml"
+  "/api/v3/test_management/runs/{id}/attachments":
+    "$ref": "./paths/test_management_run_attachments.yml"
+  "/api/v3/test_management/runs/{id}/cancel":
+    "$ref": "./paths/test_management_run_cancel.yml"
+  "/api/v3/test_management/runs/{id}/complete":
+    "$ref": "./paths/test_management_run_complete.yml"
+  "/api/v3/test_management/runs/{id}/imports":
+    "$ref": "./paths/test_management_run_imports.yml"
+  "/api/v3/test_management/runs/{id}/iterations":
+    "$ref": "./paths/test_management_run_iterations.yml"
+  "/api/v3/test_management/runs/{id}/iterations/{number}":
+    "$ref": "./paths/test_management_run_iteration.yml"
   "/api/v3/time_entries":
     "$ref": "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
@@ -1174,6 +1232,56 @@ components:
       "$ref": "./components/schemas/storage_read_model.yml"
     StorageWriteModel:
       "$ref": "./components/schemas/storage_write_model.yml"
+    TestManagementAssistantDraft:
+      "$ref": "./components/schemas/test_management_assistant_draft.yml"
+    TestManagementAssistantGenerationModel:
+      "$ref": "./components/schemas/test_management_assistant_generation_model.yml"
+    TestManagementAssistantProviderModel:
+      "$ref": "./components/schemas/test_management_assistant_provider_model.yml"
+    TestManagementAssistantProviderWriteModel:
+      "$ref": "./components/schemas/test_management_assistant_provider_write_model.yml"
+    TestManagementAutomationImportCollectionModel:
+      "$ref": "./components/schemas/test_management_import_collection_model.yml"
+    TestManagementAutomationImportModel:
+      "$ref": "./components/schemas/test_management_import_model.yml"
+    TestManagementCiConnectionCollectionModel:
+      "$ref": "./components/schemas/test_management_ci_connection_collection_model.yml"
+    TestManagementCiConnectionModel:
+      "$ref": "./components/schemas/test_management_ci_connection_model.yml"
+    TestManagementCiConnectionWriteModel:
+      "$ref": "./components/schemas/test_management_ci_connection_write_model.yml"
+    TestManagementCiTriggerModel:
+      "$ref": "./components/schemas/test_management_ci_trigger_model.yml"
+    TestManagementIngestJsonRequest:
+      "$ref": "./components/schemas/test_management_ingest_json_request.yml"
+    TestManagementIngestOptions:
+      "$ref": "./components/schemas/test_management_ingest_options.yml"
+    TestManagementIngestResultModel:
+      "$ref": "./components/schemas/test_management_ingest_result_model.yml"
+    TestManagementMilestoneCollectionModel:
+      "$ref": "./components/schemas/test_management_milestone_collection_model.yml"
+    TestManagementMilestoneModel:
+      "$ref": "./components/schemas/test_management_milestone_model.yml"
+    TestManagementMilestoneWriteModel:
+      "$ref": "./components/schemas/test_management_milestone_write_model.yml"
+    TestManagementNativeTest:
+      "$ref": "./components/schemas/test_management_native_test.yml"
+    TestManagementResultModel:
+      "$ref": "./components/schemas/test_management_result_model.yml"
+    TestManagementResultWriteModel:
+      "$ref": "./components/schemas/test_management_result_write_model.yml"
+    TestManagementRunCaseModel:
+      "$ref": "./components/schemas/test_management_run_case_model.yml"
+    TestManagementRunCollectionModel:
+      "$ref": "./components/schemas/test_management_run_collection_model.yml"
+    TestManagementRunIterationCollectionModel:
+      "$ref": "./components/schemas/test_management_run_iteration_collection_model.yml"
+    TestManagementRunIterationModel:
+      "$ref": "./components/schemas/test_management_run_iteration_model.yml"
+    TestManagementRunModel:
+      "$ref": "./components/schemas/test_management_run_model.yml"
+    TestManagementStepResultModel:
+      "$ref": "./components/schemas/test_management_step_result_model.yml"
     TimeEntryActivityModel:
       "$ref": "./components/schemas/time_entry_activity_model.yml"
     TimeEntryCollectionModel:
@@ -1315,6 +1423,7 @@ tags:
   - "$ref": "./tags/schemas.yml"
   - "$ref": "./tags/sprints.yml"
   - "$ref": "./tags/statuses.yml"
+  - "$ref": "./tags/test_management.yml"
   - "$ref": "./tags/time_entries.yml"
   - "$ref": "./tags/time_entry_activities.yml"
   - "$ref": "./tags/types.yml"

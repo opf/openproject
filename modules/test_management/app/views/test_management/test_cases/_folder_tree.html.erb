@@ -1,0 +1,66 @@
+<% compact = local_assigns.fetch(:compact, false) %>
+<% suites = local_assigns.fetch(:suites, @suites) %>
+<% all_cases_count = local_assigns.fetch(:all_cases_count, @all_cases_count) %>
+<% current_suite_id = local_assigns[:current_suite_id] || params[:suite_id] %>
+
+<nav class="tm-folder-tree <%= "tm-folder-tree--compact" if compact %>"
+     data-test-selector="tm-folder-tree"
+     aria-label="<%= t("test_management.suites.folders") %>">
+  <% if User.current.allowed_in_project?(:manage_test_suites, @project) %>
+    <div class="tm-folder-tree--header">
+      <%# Always creates a TOP-LEVEL folder. Subfolders are created via "Add subfolder"
+          next to "Create case" when a folder is selected. %>
+      <%= render partial: "test_management/test_cases/folder_dialog",
+                 locals: {
+                   dialog_id: compact ? "tm-new-folder-dialog-sidebar" : "tm-new-folder-dialog",
+                   title: t("test_management.suites.new_folder"),
+                   button_label: t("test_management.suites.new_folder"),
+                   parent_suite: nil,
+                   test_selector: "tm-new-folder-button"
+                 } %>
+    </div>
+  <% end %>
+
+  <ul class="tm-folder-tree--list">
+    <li class="tm-folder-node depth-0">
+      <div class="tm-folder-row">
+        <span class="tm-folder-chevron tm-folder-chevron--leaf"></span>
+        <%= tm_folder_tree_link(
+              project: @project,
+              suite_id: nil,
+              label: t("test_management.suites.all_cases"),
+              icon: :"list-unordered",
+              count: all_cases_count,
+              selected: current_suite_id.blank?
+            ) %>
+      </div>
+    </li>
+    <li class="tm-folder-node depth-0">
+      <div class="tm-folder-row">
+        <span class="tm-folder-chevron tm-folder-chevron--leaf"></span>
+        <%= tm_folder_tree_link(
+              project: @project,
+              suite_id: "root",
+              label: t("test_management.suites.unfiled"),
+              icon: :inbox,
+              count: @suite_counts&.[](nil).to_i,
+              selected: current_suite_id == "root"
+            ) %>
+      </div>
+    </li>
+    <%= safe_join(tm_render_suite_nodes(project: @project, suites:, suite_counts: @suite_counts, current_suite_id:)) %>
+    <li class="tm-folder-node depth-0 tm-folder-node--deleted" data-test-selector="tm-folder-deleted">
+      <div class="tm-folder-row">
+        <span class="tm-folder-chevron tm-folder-chevron--leaf"></span>
+        <%= tm_folder_tree_link(
+              project: @project,
+              suite_id: "deleted",
+              label: t("test_management.suites.deleted"),
+              icon: :trash,
+              count: @deleted_cases_count.to_i,
+              selected: current_suite_id == "deleted"
+            ) %>
+      </div>
+    </li>
+  </ul>
+</nav>

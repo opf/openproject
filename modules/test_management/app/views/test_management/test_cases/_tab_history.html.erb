@@ -1,0 +1,28 @@
+<% events = @history_events || @test_case.events.to_a %>
+<% if events.any? %>
+  <ol class="tm-history" data-test-selector="tm-case-history">
+    <% events.reverse_each do |event| %>
+      <li class="tm-history--item" data-test-selector="tm-history-<%= event.action %>">
+        <div class="tm-history--meta">
+          <strong><%= event.user ? link_to_user(event.user) : tm_unknown %></strong>
+          <span class="color-fg-muted">
+            <%= t("test_management.history.#{event.action}") %> · <%= format_time(event.created_at) %>
+          </span>
+        </div>
+        <% lines = tm_history_lines(event) %>
+        <% if lines.any? %>
+          <ul class="tm-history--changes">
+            <% lines.each do |line| %>
+              <li><%= line %></li>
+            <% end %>
+          </ul>
+        <% end %>
+      </li>
+    <% end %>
+  </ol>
+<% else %>
+  <%= render(Primer::Beta::Blankslate.new(border: true, narrow: true, data: { test_selector: "tm-case-history-empty" })) do |slate| %>
+    <% slate.with_visual_icon(icon: :history) %>
+    <% slate.with_heading(tag: :h3) { t("test_management.history.empty") } %>
+  <% end %>
+<% end %>

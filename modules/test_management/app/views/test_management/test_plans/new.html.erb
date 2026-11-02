@@ -1,0 +1,21 @@
+<% html_title(t("test_management.plans.new")) %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("test_management.plans.new") }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_plans_path(@project), text: t("test_management.menu.plans") },
+        t("test_management.plans.new")
+      ]
+    )
+  end
+%>
+
+<%= form_with model: @plan, scope: :test_plan,
+              url: project_test_management_test_plans_path(@project),
+              local: true, data: { test_selector: "tm-plan-form" } do |f| %>
+  <%= render "form", f: f %>
+  <%= f.submit t(:button_create), class: "button -primary" %>
+  <%= link_to t(:button_cancel), project_test_management_test_plans_path(@project), class: "button" %>
+<% end %>

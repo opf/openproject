@@ -1,0 +1,66 @@
+<%# Configurations (Project Settings → Test management). Optional for runs and plan matrices. %>
+<% can_manage = User.current.allowed_in_project?(:manage_test_management, @project) %>
+<section id="tm-configurations" class="form--fieldset" data-test-selector="tm-configurations-settings">
+  <h3 class="form--fieldset-legend"><%= t("test_management.project_settings.configurations") %></h3>
+  <p class="form--field-instructions"><%= t("test_management.project_settings.configurations_hint") %></p>
+
+  <% if @configuration_groups.empty? %>
+    <p class="color-fg-muted" data-test-selector="tm-configurations-empty">
+      <%= t("test_management.project_settings.configurations_empty") %>
+    </p>
+  <% else %>
+    <% @configuration_groups.each do |group| %>
+      <div class="tm-configuration-group" data-test-selector="tm-configuration-group-<%= group.id %>">
+        <h4>
+          <%= group.name %>
+          <% if can_manage %>
+            <%= button_to t(:button_delete),
+                          project_test_management_configuration_group_path(@project, group),
+                          method: :delete,
+                          class: "button -small -danger",
+                          form: { data: { turbo_confirm: t("test_management.project_settings.configuration_group_delete_confirm", name: group.name) } } %>
+          <% end %>
+        </h4>
+        <ul>
+          <% group.configurations.ordered.each do |config| %>
+            <li data-test-selector="tm-configuration-<%= config.id %>">
+              <%= config.name %>
+              <% if can_manage %>
+                <%= button_to t(:button_delete),
+                              project_test_management_configuration_group_configuration_path(@project, group, config),
+                              method: :delete,
+                              class: "button -small -danger",
+                              form: { data: { turbo_confirm: t("test_management.project_settings.configuration_delete_confirm", name: config.name) } } %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+        <% if can_manage %>
+          <%= form_with model: TestManagement::Configuration.new,
+                        scope: :configuration,
+                        url: project_test_management_configuration_group_configurations_path(@project, group),
+                        method: :post,
+                        local: true do |f| %>
+            <%= f.text_field :name, class: "form--text-field -xslim", maxlength: 255, required: true,
+                                    placeholder: t("test_management.project_settings.configuration_name_placeholder") %>
+            <%= f.submit t("test_management.project_settings.configuration_add"), class: "button -primary -small", name: nil %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% if can_manage %>
+    <%= form_with model: TestManagement::ConfigurationGroup.new,
+                  scope: :configuration_group,
+                  url: project_test_management_configuration_groups_path(@project),
+                  method: :post,
+                  local: true,
+                  data: { test_selector: "tm-configuration-group-new" } do |f| %>
+      <%= f.label :name, t("test_management.project_settings.configuration_group_new"), class: "form--label" %>
+      <%= f.text_field :name, class: "form--text-field -xslim", maxlength: 255, required: true,
+                              placeholder: t("test_management.project_settings.configuration_group_placeholder") %>
+      <%= f.submit t("test_management.project_settings.configuration_group_add"), class: "button -primary -small", name: nil %>
+    <% end %>
+  <% end %>
+</section>

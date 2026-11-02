@@ -1,0 +1,43 @@
+<%=
+  render(
+    Primer::OpenProject::DangerDialog.new(
+      id:,
+      title:,
+      confirm_button_text:,
+      form_arguments:,
+      size: :medium_portrait,
+      test_selector: "tm-cases-bulk-delete-dialog"
+    )
+  ) do |dialog|
+    dialog.with_confirmation_message do |message|
+      message.with_heading(tag: :h2) { heading }
+      message.with_description_content(description)
+    end
+
+    dialog.with_additional_details(display: :block) do
+      test_cases.each do |test_case|
+        concat hidden_field_tag("ids[]", test_case.id)
+      end
+
+      if list_cases?
+        concat(
+          render(Primer::OpenProject::InsetBox.new) do
+            safe_join(
+              test_cases.map do |test_case|
+                render(Primer::Beta::Text.new(tag: :div, mb: 1)) { test_case_label(test_case) }
+              end
+            )
+          end
+        )
+      else
+        concat(
+          render(Primer::Beta::Text.new(tag: :p)) do
+            t("test_management.cases.bulk_delete_dialog.summary", count: test_cases.size)
+          end
+        )
+      end
+    end
+
+    dialog.with_confirmation_check_box_content(confirmation_checkbox_text)
+  end
+%>

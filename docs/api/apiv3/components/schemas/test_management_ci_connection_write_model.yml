@@ -1,0 +1,87 @@
+# Schema: TestManagementCiConnectionWriteModel
+---
+type: object
+description: |-
+  Body of create (name, provider and repository required) and update (all optional) requests for CI
+  connections. Same rules as the project settings form. Secrets are write-only: `token` and
+  `triggerToken` replace the stored value (empty or missing keeps it), `removeToken` /
+  `removeTriggerToken` delete it; responses never contain them. Changing `baseUrl`, `provider` or
+  `caCertificate` requires the stored tokens to be sent again (or removed).
+properties:
+  name:
+    type: string
+    maxLength: 255
+  provider:
+    type: string
+    enum: [github, gitlab, jenkins, gitea, forgejo, codeberg, woodpecker]
+  repository:
+    type: string
+    maxLength: 255
+    example: my-org/shop
+  baseUrl:
+    type:
+      - string
+      - "null"
+    format: uri
+    description: HTTPS only. Empty for github.com, gitlab.com and codeberg.org.
+  ingestMode:
+    type: string
+    enum: [new_run, new_iteration]
+  targetRunName:
+    type:
+      - string
+      - "null"
+    description: Required for `new_iteration`.
+  active:
+    type: boolean
+  token:
+    type: string
+    writeOnly: true
+    description: Access token (check connection, "Run in CI" on GitHub-like servers and Woodpecker, Jenkins API token).
+  removeToken:
+    type: boolean
+    writeOnly: true
+  workflow:
+    type:
+      - string
+      - "null"
+  ref:
+    type:
+      - string
+      - "null"
+    description: Default branch for "Run in CI".
+  username:
+    type:
+      - string
+      - "null"
+    description: Jenkins user.
+  triggerToken:
+    type: string
+    writeOnly: true
+    description: GitLab pipeline trigger token or Jenkins build token.
+  removeTriggerToken:
+    type: boolean
+    writeOnly: true
+  caCertificate:
+    type:
+      - string
+      - "null"
+    description: >-
+      PEM CA certificate(s) trusted for this connection in addition to the system store (not secret; no
+      private keys). Empty removes them. Responses only contain a summary (`caCertificates`).
+  inboundOnly:
+    type: boolean
+  referenceName:
+    type:
+      - string
+      - "null"
+    pattern: "^[A-Za-z0-9][A-Za-z0-9_.-]{0,99}$"
+    description: Prefix of repo-qualified references; empty = last segment of the repository.
+  e2eTests:
+    type: string
+    enum: [auto, always, never]
+  scmRepositoryId:
+    type:
+      - integer
+      - "null"
+    description: Id of this project's Repositories-module repository; `null` detaches it.

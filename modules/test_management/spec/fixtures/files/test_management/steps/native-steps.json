@@ -1,0 +1,19 @@
+{
+  "tests": [
+    {
+      "reference": "api/accounts#closes an account",
+      "title": "Closes an account",
+      "status": "failed",
+      "durationMs": 1500,
+      "caseIds": ["__CASE_ID__"],
+      "message": "HTTP 500 from DELETE /accounts/7",
+      "stack": "AssertionError: HTTP 500\n  at accounts.test.js:30",
+      "steps": [
+        { "title": "Create the account", "step": 1, "status": "passed", "durationMs": 200 },
+        { "title": "Close it", "step": 2, "status": "failed", "durationMs": 1300, "message": "HTTP 500 from DELETE /accounts/7",
+          "stack": "AssertionError: HTTP 500\n  at accounts.test.js:30",
+          "attachments": [{ "name": "response body", "path": "logs/close-account.json" }] }
+      ]
+    }
+  ]
+}

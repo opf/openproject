@@ -1,0 +1,85 @@
+# Schema: TestManagementAssistantProviderModel
+---
+type: object
+description: |-
+  A saved AI provider of the Test Assistant. Administrators get every property; other users with
+  the permission "Use test assistant" in at least one project get only `id`, `name`, `model`,
+  `models`, `default`, `selected` and `selectedModel`. The API key is never returned (`apiKeySet`).
+required: [_type, id, name, model, models, default]
+properties:
+  _type:
+    type: string
+    enum: [TestManagementAssistantProvider]
+  id:
+    type: integer
+  name:
+    type: string
+    maxLength: 100
+  preset:
+    type: string
+    enum: [openai, anthropic, openrouter, ollama, xai, mistral, azure, custom]
+    description: Administrators only.
+  baseUrl:
+    type: string
+    format: uri
+    description: Administrators only. The preset's default when none was entered.
+  authStyle:
+    type: string
+    enum: [bearer, api_key, x_api_key, none]
+    description: Administrators only.
+  model:
+    type:
+      - string
+      - "null"
+    description: The default model.
+  userModels:
+    type: array
+    items:
+      type: string
+    description: Administrators only. Other models users may pick.
+  models:
+    type: array
+    items:
+      type: string
+    description: The models users may pick, the default model first.
+  timeout:
+    type: integer
+    description: Administrators only. Seconds.
+  maxTokens:
+    type: integer
+    description: Administrators only.
+  default:
+    type: boolean
+  apiKeySet:
+    type: boolean
+    description: Administrators only. An API key is stored (encrypted).
+  configured:
+    type: boolean
+    description: Administrators only. Base URL, model and (where needed) a key are set.
+  modelsScope:
+    type: string
+    enum: [key, catalogue, none]
+    description: |-
+      Administrators only. What "Test connection" lists for this preset: the models of the key
+      (`key`), the provider's whole catalogue (`catalogue`) or no list (`none`, Azure).
+  selected:
+    type: boolean
+    description: Non-administrators only. The provider the current user works with.
+  selectedModel:
+    type:
+      - string
+      - "null"
+    description: Non-administrators only. The model the current user picked for this provider.
+  createdAt:
+    type: string
+    format: date-time
+  updatedAt:
+    type: string
+    format: date-time
+  _links:
+    type: object
+    properties:
+      self:
+        "$ref": "./link.yml"
+      makeDefault:
+        "$ref": "./link.yml"

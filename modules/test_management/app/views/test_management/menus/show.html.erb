@@ -1,0 +1,17 @@
+<%= turbo_frame_tag "test_management_sub_menu" do %>
+  <%= render OpenProject::Common::SubmenuComponent.new(sidebar_menu_items: @sidebar_menu_items) %>
+  <% if @show_folder_tree %>
+    <%= render partial: "test_management/test_cases/styles" %>
+    <div class="tm-sub-menu--folders" data-test-selector="tm-sub-menu-folders">
+      <%= render partial: "test_management/test_cases/folder_tree",
+                 locals: {
+                   project: @project,
+                   suite_roots: @suite_roots,
+                   suites: @suites,
+                   all_cases_count: @all_cases_count,
+                   current_suite_id: @current_suite_id,
+                   compact: true
+                 } %>
+    </div>
+  <% end %>
+<% end %>

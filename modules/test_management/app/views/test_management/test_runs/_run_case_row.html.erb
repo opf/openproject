@@ -1,0 +1,92 @@
+<%# One test case row inside a run. Status/assignee via Primer ActionMenu form items (PATCH, no JS). %>
+<% test_case = run_case.test_case %>
+<% status = @iteration_statuses ? @iteration_statuses.fetch(run_case.id, "untested") : run_case.effective_status %>
+<% update_url = project_test_management_test_run_run_case_path(@project, @test_run, run_case) %>
+<tr id="run-case-<%= run_case.id %>" data-test-selector="tm-run-case-<%= run_case.id %>">
+  <td class="tm-run-table--id">
+    <%= link_to test_case.formatted_id, project_test_management_test_case_path(@project, test_case) %>
+  </td>
+  <td>
+    <%= link_to test_case.title, project_test_management_test_case_path(@project, test_case), class: "tm-run-table--title" %>
+    <% last = if @last_results
+                @last_results[run_case.id]
+              else
+                (@iteration_statuses ? run_case.results.select { it.iteration_id == @shown_iteration.id }.last : run_case.results.last)
+              end %>
+    <% failure = tm_result_failure_line(last) %>
+    <% if last&.comment.present? && !(last.automation? && failure) %>
+      <div class="color-fg-muted tm-run-table--comment"><%= last.comment %></div>
+    <% end %>
+    <% if failure %>
+      <div class="tm-run-table--error" data-test-selector="tm-run-case-error-<%= run_case.id %>"><%= failure %></div>
+    <% end %>
+    <div class="tm-run-table--details">
+      <%= link_to t("test_management.run_case.details"), project_test_management_test_run_run_case_path(@project, @test_run, run_case),
+                  class: "color-fg-muted", data: { test_selector: "tm-run-case-details-#{run_case.id}" } %>
+    </div>
+    <% if last&.automation? %>
+      <div class="color-fg-muted tm-run-table--automation" data-test-selector="tm-run-case-automation-<%= run_case.id %>">
+        <%= render(Primer::Beta::Octicon.new(icon: :zap, "aria-hidden": true)) %>
+        <%= t("test_management.runs.automation.badge") %>
+        <% if last.duration_ms %>· <%= t("test_management.runs.automation.duration", seconds: (last.duration_ms / 1000.0).round(1)) %><% end %>
+      </div>
+    <% end %>
+    <% if run_case.attachments.any? || run_case.attachments_addable?(User.current) %>
+      <details class="tm-run-case-attachments" <%= "open" if run_case.attachments.any? %>>
+        <summary class="color-fg-muted">
+          <%= t("test_management.runs.attachments.title") %> (<%= run_case.attachments.size %>)
+        </summary>
+        <%= render partial: "test_management/test_runs/attachments",
+                   locals: { container: run_case, selector: "tm-run-case-attachments-#{run_case.id}" } %>
+      </details>
+    <% end %>
+  </td>
+  <td class="tm-run-table--labels"><%= tm_labels(test_case.labels) %></td>
+  <td class="tm-run-table--assignee" data-test-selector="tm-run-case-assignee-<%= run_case.id %>">
+    <% if can_execute %>
+      <%= render(Primer::Alpha::ActionMenu.new(menu_id: "tm-run-case-assignee-menu-#{run_case.id}", anchor_align: :end)) do |menu| %>
+        <% menu.with_show_button(scheme: :invisible, size: :small) do |button| %>
+          <% button.with_trailing_action_icon(icon: :"triangle-down") %>
+          <%= run_case.assigned_to&.name || t("test_management.runs.assigned_to_none") %>
+        <% end %>
+        <% menu.with_item(
+             label: t("test_management.runs.assigned_to_none"),
+             href: update_url,
+             active: run_case.assigned_to_id.nil?,
+             form_arguments: { method: :patch, name: "run_case[assigned_to_id]", value: "" }
+           ) %>
+        <% @possible_assignees.each do |user| %>
+          <% menu.with_item(
+               label: user.name,
+               href: update_url,
+               active: run_case.assigned_to_id == user.id,
+               form_arguments: { method: :patch, name: "run_case[assigned_to_id]", value: user.id }
+             ) %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <%= run_case.assigned_to&.name || t("test_management.runs.assigned_to_none") %>
+    <% end %>
+  </td>
+  <td class="tm-run-table--status" data-test-selector="tm-run-case-status-<%= run_case.id %>">
+    <% if can_execute %>
+      <%= render(Primer::Alpha::ActionMenu.new(menu_id: "tm-run-case-status-menu-#{run_case.id}", anchor_align: :end)) do |menu| %>
+        <% menu.with_show_button(scheme: :invisible, size: :small) do |button| %>
+          <% button.with_trailing_action_icon(icon: :"triangle-down") %>
+          <%= tm_run_status_label(status) %>
+        <% end %>
+        <% TestManagement::TestRunCase::STATUSES.each do |value| %>
+          <% menu.with_item(
+               label: t("test_management.runs.statuses.#{value}"),
+               href: update_url,
+               active: status == value,
+               form_arguments: { method: :patch, name: "run_case[status]", value: }
+             ) %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <%= tm_run_status_label(status) %>
+      <% if run_case.final_status %><span class="color-fg-muted">(<%= t("test_management.runs.final") %>)</span><% end %>
+    <% end %>
+  </td>
+</tr>

@@ -1,0 +1,51 @@
+<%# Attachments of a run or a run case. locals: container, selector %>
+<% addable = container.attachments_addable?(User.current) %>
+<% deletable = container.attachments_deletable?(User.current) %>
+<% run_case_id = container.is_a?(TestManagement::TestRunCase) ? container.id : nil %>
+<% upload_url = if run_case_id
+                  project_test_management_test_run_run_case_attachments_path(@project, @test_run, run_case_id)
+                else
+                  project_test_management_test_run_attachments_path(@project, @test_run)
+                end %>
+<div class="tm-attachments" data-test-selector="<%= selector %>">
+  <% if container.attachments.any? %>
+    <ul class="tm-attachments--list">
+      <% container.attachments.each do |attachment| %>
+        <li data-test-selector="tm-attachment-<%= attachment.id %>">
+          <%= render(Primer::Beta::Octicon.new(icon: :paperclip, "aria-hidden": true)) %>
+          <%= link_to attachment.filename,
+                      ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(attachment.id),
+                      target: "_blank", rel: "noopener", data: { turbo: false } %>
+          <% if attachment.description.present? %>
+            <span class="color-fg-muted"><%= attachment.description %></span>
+          <% end %>
+          <% if deletable %>
+            <% delete_url = if run_case_id
+                              project_test_management_test_run_run_case_attachment_path(@project, @test_run, run_case_id, attachment)
+                            else
+                              project_test_management_test_run_attachment_path(@project, @test_run, attachment)
+                            end %>
+            <%= button_to delete_url, method: :delete, class: "tm-attachments--delete",
+                                      title: t("test_management.runs.attachments.delete"),
+                                      "aria-label": t("test_management.runs.attachments.delete"),
+                                      form: { class: "tm-inline-form",
+                                              data: { turbo_confirm: t("test_management.runs.attachments.delete_confirm") } },
+                                      data: { test_selector: "tm-attachment-delete-#{attachment.id}" } do %>
+              <%= render(Primer::Beta::Octicon.new(icon: :trash, "aria-hidden": true)) %>
+            <% end %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% elsif !addable %>
+    <span class="color-fg-muted"><%= t("test_management.runs.attachments.empty") %></span>
+  <% end %>
+  <% if addable %>
+    <%= form_tag upload_url, method: :post, multipart: true, class: "tm-attachments--form",
+                             data: { test_selector: "#{selector}-form" } do %>
+      <%= file_field_tag :file, required: true, "aria-label": t("test_management.runs.attachments.file"),
+                                id: "tm-attachment-file-#{run_case_id || 'run'}" %>
+      <%= submit_tag t("test_management.runs.attachments.upload"), class: "button -small", name: nil %>
+    <% end %>
+  <% end %>
+</div>

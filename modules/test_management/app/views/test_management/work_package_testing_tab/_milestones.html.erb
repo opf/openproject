@@ -1,0 +1,31 @@
+<ul class="tm-wp-cards" data-test-selector="tm-wp-testing-milestones" aria-label="<%= t("test_management.work_package_tab.views.milestones") %>">
+  <% @testing.milestones.each do |milestone| %>
+    <% counts = milestone.status_counts %>
+    <li class="tm-wp-card" data-test-selector="tm-wp-testing-milestone-<%= milestone.id %>">
+      <div class="tm-wp-card--title">
+        <%= link_to milestone.name, project_test_management_milestone_path(milestone.project, milestone),
+                    data: { turbo_frame: "_top" } %>
+      </div>
+      <div class="tm-wp-card--meta color-fg-muted">
+        <%= tm_milestone_status_label(milestone) %>
+        <%= tm_milestone_overdue_badge(milestone) %>
+        <span data-test-selector="tm-wp-testing-milestone-dates"><%= tm_milestone_dates(milestone) %></span>
+        <% if milestone.parent %><span><%= t("test_management.milestones.in_parent", name: milestone.parent.name) %></span><% end %>
+        <% if milestone.project_id != @work_package.project_id %><span>(<%= milestone.project.name %>)</span><% end %>
+        <% if @testing.milestone_link_kind(milestone) == :version %>
+          <span data-test-selector="tm-wp-testing-milestone-via-version"><%= t("test_management.work_package_tab.via_version") %></span>
+        <% end %>
+      </div>
+      <%= tm_milestone_bar(counts) %>
+      <div class="tm-wp-card--chart">
+        <%= tm_milestone_donut(counts, size: 64, stroke: 9) %>
+        <%= tm_milestone_count_list(counts) %>
+      </div>
+      <div class="tm-wp-card--meta">
+        <strong><%= t("test_management.milestones.pass_rate_text", rate: milestone.pass_rate) %></strong>
+        <span class="color-fg-muted"><%= t("test_management.milestones.runs_count", count: milestone.runs_count) %></span>
+      </div>
+      <span class="tm-wp-sr"><%= tm_milestone_summary_text(counts) %></span>
+    </li>
+  <% end %>
+</ul>

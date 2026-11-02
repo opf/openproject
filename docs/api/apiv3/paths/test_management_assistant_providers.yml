@@ -1,0 +1,152 @@
+# /api/v3/test_management/assistant/providers
+---
+get:
+  summary: List the AI providers of the Test Assistant
+  operationId: List_test_management_assistant_providers
+  tags:
+  - Test Management
+  description: |-
+    The saved AI providers, the default first. Administrators get every property except the API
+    key (`apiKeySet` instead). Users with the permission "Use test assistant" in at least one
+    project get the names and the models they may pick, and which one they picked – never base
+    URLs, authentication or keys.
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            type: object
+            required: [_type, total, count, _embedded]
+            properties:
+              _type:
+                type: string
+                enum: [Collection]
+              total:
+                type: integer
+              count:
+                type: integer
+              _embedded:
+                type: object
+                properties:
+                  elements:
+                    type: array
+                    items:
+                      "$ref": "../components/schemas/test_management_assistant_provider_model.yml"
+          examples:
+            user:
+              summary: As a user with "Use test assistant"
+              value:
+                _type: Collection
+                total: 2
+                count: 2
+                _links:
+                  self:
+                    href: "/api/v3/test_management/assistant/providers"
+                _embedded:
+                  elements:
+                  - _type: TestManagementAssistantProvider
+                    id: 1
+                    name: OpenAI
+                    model: gpt-4o-mini
+                    models: [gpt-4o-mini, gpt-4o]
+                    default: true
+                    selected: false
+                    selectedModel:
+                    _links:
+                      self:
+                        href: "/api/v3/test_management/assistant/providers/1"
+                  - _type: TestManagementAssistantProvider
+                    id: 2
+                    name: Ollama (cluster)
+                    model: qwen2.5:7b
+                    models: [qwen2.5:7b]
+                    default: false
+                    selected: true
+                    selectedModel: qwen2.5:7b
+                    _links:
+                      self:
+                        href: "/api/v3/test_management/assistant/providers/2"
+    '403':
+      description: |-
+        **Required permission:** administrator, or use test assistant in at least one project
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+post:
+  summary: Add an AI provider to the Test Assistant
+  operationId: Create_test_management_assistant_provider
+  tags:
+  - Test Management
+  description: |-
+    Administrators only. With `verifyModel` one short chat request checks that the key may use
+    the model before anything is saved.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          "$ref": "../components/schemas/test_management_assistant_provider_write_model.yml"
+        examples:
+          ollama:
+            value:
+              name: Ollama (cluster)
+              preset: ollama
+              baseUrl: http://ollama.ai-tools.svc:11434
+              model: qwen2.5:7b
+          openai:
+            value:
+              name: OpenAI
+              preset: openai
+              apiKey: "<your key>"
+              model: gpt-4o-mini
+              userModels: [gpt-4o]
+              default: true
+              verifyModel: true
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_assistant_provider_model.yml"
+          examples:
+            response:
+              value:
+                _type: TestManagementAssistantProvider
+                id: 3
+                name: OpenAI
+                preset: openai
+                baseUrl: https://api.openai.com/v1
+                authStyle: bearer
+                model: gpt-4o-mini
+                userModels: [gpt-4o]
+                models: [gpt-4o-mini, gpt-4o]
+                timeout: 60
+                maxTokens: 4000
+                default: true
+                apiKeySet: true
+                configured: true
+                modelsScope: catalogue
+                createdAt: '2026-10-31T12:00:00Z'
+                updatedAt: '2026-10-31T12:00:00Z'
+                _links:
+                  self:
+                    href: "/api/v3/test_management/assistant/providers/3"
+                  makeDefault:
+                    href: "/api/v3/test_management/assistant/providers/3/default"
+                    method: post
+    '403':
+      description: |-
+        **Required permission:** administrator
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+    '422':
+      description: Invalid values, a duplicate name, a missing key or a failed model check.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"

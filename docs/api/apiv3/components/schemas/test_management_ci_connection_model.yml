@@ -1,0 +1,158 @@
+# Schema: TestManagementCiConnectionModel
+---
+type: object
+description: |-
+  A CI connection of a project (GitHub, GitLab, Jenkins, Gitea, Forgejo, Codeberg or Woodpecker) (Project settings › Test management). The access
+  token and the trigger token are write-only: they are stored encrypted and never returned,
+  `tokenSet` / `triggerTokenSet` only tell whether one is stored. Created, changed and deleted in the project
+  settings or with the API (`manage_test_ci`); the request body is `TestManagementCiConnectionWriteModel`.
+required: [_type, id, name, provider, repository, ingestMode, active, tokenSet]
+properties:
+  _type:
+    type: string
+    enum: [TestManagementCiConnection]
+  id:
+    type: integer
+    minimum: 1
+  name:
+    type: string
+    description: Unique in the project (case-insensitive). Can be passed as `connection` when uploading results.
+  provider:
+    type: string
+    enum: [github, gitlab, jenkins, gitea, forgejo, codeberg, woodpecker]
+  repository:
+    type: string
+    description: |-
+      `owner/repo` (GitHub, Gitea, Forgejo, Codeberg), `group/subgroup/project` (GitLab), the job
+      path `folder/job` (Jenkins) or the numeric repository id (Woodpecker).
+    example: my-org/shop
+  baseUrl:
+    type: string
+    format: uri
+    description: >-
+      Web URL of the instance (https://github.com, https://gitlab.com or a self-hosted URL). A sub-path
+      is kept for every API call, e.g. https://example.com/gitlab -> https://example.com/gitlab/api/v4.
+  ingestMode:
+    type: string
+    enum: [new_run, new_iteration]
+    description: |-
+      What an upload from this repository does without an explicit `mode`: `new_run` creates a run per
+      CI build, `new_iteration` adds an iteration to the run named `targetRunName`.
+  targetRunName:
+    type:
+      - string
+      - "null"
+    example: Smoke
+  active:
+    type: boolean
+  tokenSet:
+    type: boolean
+  workflow:
+    type:
+      - string
+      - "null"
+    description: Workflow file used by "Run in CI" (GitHub, Gitea, Forgejo, Codeberg).
+    example: op-tests.yml
+  ref:
+    type: string
+    description: Default branch for "Run in CI".
+    example: main
+  username:
+    type:
+      - string
+      - "null"
+    description: Jenkins user owning the API token.
+  triggerTokenSet:
+    type: boolean
+    description: GitLab trigger token or Jenkins build token is stored.
+  triggerReady:
+    type: boolean
+    description: Everything "Run in CI" needs is configured.
+  inboundOnly:
+    type: boolean
+    description: >-
+      OpenProject never calls this server (check, trigger and pull-request sources are off); "Run in CI"
+      prepares the run and returns `manualStart` instead.
+  serverVersion:
+    type:
+      - string
+      - "null"
+    description: Server version found by the last "Check connection" (e.g. 17.5.1, Jenkins 2.462).
+    example: "17.5.1"
+  caCertificates:
+    type: array
+    description: >-
+      Summary of the CA certificates trusted for this connection in addition to the system store
+      (the PEM itself is not rendered). Set in the project settings.
+    items:
+      type: object
+      properties:
+        subject:
+          type: string
+          example: Example Internal Root CA
+        notAfter:
+          type: string
+          format: date-time
+        expired:
+          type: boolean
+  serverUrl:
+    type: string
+    format: uri
+    description: >-
+      Canonical server (scheme, host, non-default port, sub-path) derived from `baseUrl` or the provider's
+      default. Provider, server and repository are unique per project, so the same path can exist on
+      gitlab.com and on a self-hosted GitLab.
+    example: https://gitlab.example.com/gitlab
+  referenceName:
+    type:
+      - string
+      - "null"
+    description: Configured prefix of repo-qualified automation references (empty = default).
+    example: shop
+  referenceQualifier:
+    type:
+      - string
+      - "null"
+    description: >-
+      Prefix used for this connection's automation references: `referenceName`, else the last segment of
+      `repository` (Woodpecker: the connection name). References look like `shop:tests/cart.spec.ts#…`
+      or, for end-to-end tests, `shop/e2e:e2e/checkout.spec.ts#…`.
+    example: shop
+  e2eTests:
+    type: string
+    enum: [auto, always, never]
+    description: >-
+      Whether new references of this connection get the `/e2e` suffix. `auto`: Playwright reports, paths with
+      an `e2e` segment and `cypress/`; the upload option `testType` overrides it.
+  scmRepositoryId:
+    type:
+      - integer
+      - "null"
+    description: Attached repository of the project's Repositories module (source links fall back to its browser).
+  checkStatus:
+    type:
+      - string
+      - "null"
+    enum: [ok, unauthorized, not_found, error, null]
+    description: Result of the last "Check connection" in the project settings.
+  checkedAt:
+    type:
+      - string
+      - "null"
+    format: date-time
+  createdAt:
+    type: string
+    format: date-time
+  updatedAt:
+    type: string
+    format: date-time
+  _links:
+    type: object
+    required: [self, project]
+    properties:
+      self:
+        "$ref": "./link.yml"
+      project:
+        "$ref": "./link.yml"
+      repository:
+        "$ref": "./link.yml"
