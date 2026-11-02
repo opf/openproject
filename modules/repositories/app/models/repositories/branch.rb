@@ -38,8 +38,8 @@ module Repositories
 
     scope :visible, ->(user = ::User.current) { where(work_package: WorkPackage.allowed_to(user, :show_repository_content)) }
 
-    def web_url = provider.branch_url(self)
+    def web_url = provider.resolve("services.url_builder").branch(self)
 
-    def new_merge_request_url = provider.new_merge_request_url(self)
+    def new_merge_request_url = provider.resolve("services.url_builder").new_merge_request_from_branch(self)
   end
 end
