@@ -2221,7 +2221,7 @@ en:
         description: "The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions."
         label_add_action: "Action"
         label_aria_add_action: "Add text action"
-        section_title: "Actions"
+        section_title: "Text actions"
       index_component:
         blank_slate:
           description: "Add an action to see it here"
