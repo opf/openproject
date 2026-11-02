@@ -1,7 +1,7 @@
 ---
 name: AI
 description: |-
-  The AI endpoints expose the description assistant: admin-managed text actions that
+  The AI endpoints expose the text assistant: admin-managed text actions that
   rewrite the text of a work package description field with the configured LLM. This tag covers
   listing the actions available in a given context and running an action on a text.
 

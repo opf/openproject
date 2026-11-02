@@ -1,8 +1,8 @@
 <%= render(Primer::Box.new(border: true, border_radius: 2, p: 3, mb: 3)) do %>
   <%= render(Primer::Beta::Text.new(tag: :h3, font_size: 4, font_weight: :bold, mb: 1)) { feature.label } %>
 
-  <% if feature.caption.present? %>
-    <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 2)) { feature.caption } %>
+  <% if caption.present? %>
+    <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 2)) { caption } %>
   <% end %>
 
   <% if dangling? %>

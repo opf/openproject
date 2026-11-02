@@ -159,7 +159,7 @@ RSpec.describe AI::TextTransforms::Execution,
   end
 
   {
-    AI::TextTransforms::Errors::NotAvailable => ["not_available", "The AI assistant is not available."],
+    AI::TextTransforms::Errors::NotAvailable => ["not_available", "The text assistant is not available."],
     AI::TextTransforms::Errors::ConnectionFailed => ["connection_failed", "The AI service could not be reached."],
     AI::TextTransforms::Errors::TimedOut => ["timeout", "The AI service did not respond in time."],
     AI::TextTransforms::Errors::RateLimited => ["rate_limited", "The AI service is busy. Try again in a moment."],
@@ -202,6 +202,6 @@ RSpec.describe AI::TextTransforms::Execution,
 
     expect(run).to be_failed
     expect(gateway.calls).to be_empty
-    expect(events).to eq([[1, "error", { "message" => "The AI assistant is not available.", "reason" => "not_available" }]])
+    expect(events).to eq([[1, "error", { "message" => "The text assistant is not available.", "reason" => "not_available" }]])
   end
 end
