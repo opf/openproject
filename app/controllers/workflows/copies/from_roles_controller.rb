@@ -51,7 +51,7 @@ class Workflows::Copies::FromRolesController < ApplicationController
 
   private
 
-  def standalone? = params[:workflow_id].present?
+  def standalone? = variant_scope_project.nil? && params[:workflow_id].present?
 
   # A stale dialog can name a source that is gone; #create answers that with a flash rather
   # than a 404, so a miss has to arrive here as nil.

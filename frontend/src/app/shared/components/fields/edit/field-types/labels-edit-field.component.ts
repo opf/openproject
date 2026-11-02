@@ -44,7 +44,7 @@ import {
 export class LabelsEditFieldComponent extends EditFieldComponent {
   readonly halResourceService = inject(HalResourceService);
 
-  isNew = isNewResource(this.resource as { id:string|null });
+  isNew = isNewResource(this.resource);
 
   url:string;
 

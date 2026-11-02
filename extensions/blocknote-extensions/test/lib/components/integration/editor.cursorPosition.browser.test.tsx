@@ -30,7 +30,7 @@ describe('Cursor position after chip insertion', () => {
 
       await userEvent.keyboard('HERE');
 
-      await expect.element(editor).toHaveTextContent(/before.*#123.*HERE.*TAIL/);
+      await expect.element(editor).toMatchTextContent(/before.*#123.*HERE.*TAIL/);
     });
   });
 
@@ -46,7 +46,7 @@ describe('Cursor position after chip insertion', () => {
 
       await userEvent.keyboard('HERE');
 
-      await expect.element(editor).toHaveTextContent(/before.*#123.*HERE.*TAIL/);
+      await expect.element(editor).toMatchTextContent(/before.*#123.*HERE.*TAIL/);
     });
   });
 
@@ -62,7 +62,7 @@ describe('Cursor position after chip insertion', () => {
 
       await userEvent.keyboard('HERE');
 
-      await expect.element(editor).toHaveTextContent(/before.*#123.*HERE.*TAIL/);
+      await expect.element(editor).toMatchTextContent(/before.*#123.*HERE.*TAIL/);
     });
   });
 
@@ -78,7 +78,7 @@ describe('Cursor position after chip insertion', () => {
 
       await userEvent.keyboard('HERE');
 
-      await expect.element(editor).toHaveTextContent(/before.*#123.*HERE.*TAIL/);
+      await expect.element(editor).toMatchTextContent(/before.*#123.*HERE.*TAIL/);
     });
   });
 });

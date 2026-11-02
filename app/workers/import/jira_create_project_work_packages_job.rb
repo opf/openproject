@@ -32,6 +32,7 @@ module Import
     include Import::JiraOpenProjectReferenceCreation
     include ::Import::JiraCreateProjectJob::JiraImportCustomFields
     include Import::JiraJobUtils
+    include Import::JiraProjectIssuesJob
 
     on_complete do
       # Update project.wp_sequence_counter to max sequence_number found in migrated from jira work_packages
@@ -49,20 +50,6 @@ module Import
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
-    end
-
-    def progress
-      jira_import = Import::JiraImport.find(arguments[0])
-      cursor = jira_import.get_job_cursor(self)
-      if cursor.present?
-        issues = Import::JiraIssue.where(jira_import:, jira_project_id: arguments[1])
-        total = issues.count
-        current = issues.where(id: ..cursor).count
-        percentage = (current.to_f / total * 100).round(2)
-        { current:, total:, percentage: }
-      else
-        { current: 0, total: 0, percentage: 0 }
-      end
     end
 
     # rubocop:disable-next Metrics/AbcSize
@@ -276,6 +263,34 @@ module Import
       { @resolution_date_cf.attribute_getter => Time.zone.parse(raw).iso8601 }
     end
 
+    def label_attrs(jira_issue)
+      issue_labels = jira_label_names(jira_issue).index_with { find_label(it) }
+      log_missing_labels(issue_labels)
+
+      label_ids = issue_labels.values.compact.map(&:id)
+      label_ids.any? ? { label_ids: } : {}
+    end
+
+    def jira_label_names(jira_issue)
+      labels = jira_issue.payload.dig("fields", "labels")
+      return [] unless labels.is_a?(Array)
+
+      labels.filter_map { it.to_s.squish.presence }
+    end
+
+    def log_missing_labels(issue_labels)
+      missing = issue_labels.filter_map { |name, label| name if label.nil? }
+      return if missing.empty?
+
+      Rails.logger.warn("Skipping jira labels without an OpenProject label: #{missing.join(', ')}")
+    end
+
+    def find_label(name) = labels_by_name[name.downcase]
+
+    def labels_by_name
+      @labels_by_name ||= Hash.new { |cache, name| cache[name] = Label.named(name).first }
+    end
+
     def update_workflows(type)
       Rails.logger.tagged("jira_object_type:issueType", "jira_object_id_or_name:#{type.name}") do
         statuses = Status.all
@@ -298,6 +313,7 @@ module Import
       # required because otherwise project.types does not include type and then wp creation fails.
       project.reload
 
+      due_date = jira_issue.payload.dig("fields", "duedate")&.to_date
       author_key = jira_issue.payload.dig("fields", "creator", "key")
       author = find_user(author_key)
       assignee_key = jira_issue.payload.dig("fields", "assignee", "key")
@@ -343,10 +359,13 @@ module Import
             assigned_to:,
             target_versions:,
             observed_in_versions:,
-            due_date: jira_issue.payload.dig("fields", "duedate"),
+            due_date:,
+            # Otherwise SetAttributesService moves the due date to the next working day.
+            ignore_non_working_days: due_on_non_working_day?(due_date),
             estimated_hours: (original_estimate_seconds / 3600.0 if original_estimate_seconds),
             remaining_hours: (remaining_estimate_seconds / 3600.0 if remaining_estimate_seconds),
             skip_semantic_id_allocation: true,
+            **label_attrs(jira_issue),
             **custom_field_attrs
           )
       unless service_call.success?
@@ -378,7 +397,16 @@ module Import
 
       create_reference!(op_leg: work_package, jira_leg: jira_issue, jira_import: @jira_import, uses_existing: false)
       create_work_package_history(work_package, jira_issue, project)
+      create_watchers(work_package, jira_issue, project)
       work_package
+    end
+
+    def due_on_non_working_day?(due_date)
+      due_date.present? && working_days.non_working?(due_date)
+    end
+
+    def working_days
+      @working_days ||= WorkPackages::Shared::WorkingDays.new
     end
 
     # rubocop:disable-next Metrics/AbcSize
@@ -407,44 +435,20 @@ module Import
       journal_service.call(updated_at: jira_issue.payload.dig("fields", "updated"))
     end
 
-    def create_member(project, member)
-      service_call = Members::CreateService
-                       .new(user: @system_user, contract_class: EmptyContract)
-                       .call(
-                         project:,
-                         roles: [@project_role],
-                         user_id: member.id,
-                         principal: member
-                       )
-      return if service_call.success?
+    def create_watchers(work_package, jira_issue, project)
+      watchers = jira_issue.payload.fetch("watchers", [])
+      return unless watchers.any?
 
-      if service_call.errors.find { |error| error.type == :taken }.blank?
-        Rails.logger.error service_call.message
-        raise service_call.message
-      end
+      users = watchers.filter_map { find_imported_user(it["key"]) }
+      return unless users.any?
+
+      users.each { create_member(project, it) }
+      Watcher.insert_all(watchers_insert_data(users, work_package), unique_by: :index_watchers_on_user_id_and_watchable)
     end
 
-    def find_user(jira_user_key)
-      return if jira_user_key.blank?
-
-      Rails.logger.tagged("jira_object_type:user", "jira_object_id_or_name:#{jira_user_key}") do
-        jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
-        if jira_user
-          ref = JiraOpenProjectReference.find_by(
-            jira_entity_class: "Import::JiraUser",
-            jira_entity_id: jira_user.id
-          )
-          if ref.present?
-            ref.op_leg
-          else
-            log_message = "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
-            Rails.logger.error log_message
-            raise log_message
-          end
-        else
-          Rails.logger.warn "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
-          DeletedUser.first
-        end
+    def watchers_insert_data(users, work_package)
+      users.map do |user|
+        { user_id: user.id, watchable_type: work_package.class.name, watchable_id: work_package.id }
       end
     end
   end

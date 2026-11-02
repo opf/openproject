@@ -43,6 +43,10 @@ RSpec.describe WorkPackageTypes::ProjectsTab::AddDialogComponent, type: :compone
     expect(page).to have_no_css(".Overlay-footer form")
   end
 
+  it "stays open on submit, so the switch confirmation can be cancelled back to it" do
+    expect(page).to have_css("dialog##{WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID}[data-keep-open-on-submit='true']")
+  end
+
   it "submits that form from the footer by id" do
     expect(page).to have_css(
       ".Overlay-footer button[type=submit][form='#{WorkPackageTypes::ProjectsTab::AddFormComponent::FORM_ID}']"

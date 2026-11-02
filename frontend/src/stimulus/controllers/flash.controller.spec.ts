@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { userEvent } from 'vitest/browser';
 import FlashController, { LIVE_REGION_ANNOUNCEMENT_DELAY, SUCCESS_AUTOHIDE_TIMEOUT } from './flash.controller';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 
@@ -190,6 +191,11 @@ describe('FlashController', () => {
   });
 
   describe('interaction pause/resume', () => {
+    beforeEach(async () => {
+      ctx.appendHTML('<button data-testid="outside-flash">Outside flash</button>');
+      await userEvent.hover(ctx.screen.getByTestId('outside-flash'));
+    });
+
     it('pauses and resumes autohide timer on keyboard interaction', async () => {
       // Focused messages should stay visible while users interact with controls inside them.
       const timeoutSpy = vi.spyOn(globalThis, 'setTimeout');
@@ -204,7 +210,7 @@ describe('FlashController', () => {
       `);
       await ctx.nextFrame();
 
-      const button = ctx.screen.getByRole('button');
+      const button = ctx.screen.getByRole('button', { name: 'Action' });
       button.focus();
       await ctx.nextFrame();
 
@@ -233,13 +239,13 @@ describe('FlashController', () => {
       await ctx.nextFrame();
 
       const item = ctx.screen.getByTestId('flash-item');
-      item.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
+      await userEvent.hover(item);
       await ctx.nextFrame();
 
       expect(clearTimeoutSpy).toHaveBeenCalled();
       timeoutSpy.mockClear();
 
-      item.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }));
+      await userEvent.hover(ctx.screen.getByTestId('outside-flash'));
       await ctx.nextFrame();
 
       const autohideCall = timeoutSpy.mock.calls.find(([, delay]) => delay === SUCCESS_AUTOHIDE_TIMEOUT);

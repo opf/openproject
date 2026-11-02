@@ -7,7 +7,7 @@ keywords: changesets, editing, HAL resources
 
 # Development concept: Resource changesets
 
-Resource changesets allow to edit resources in a transparent way, tracking its changes and saving the change to the API.
+Resource changesets allow editing resources in a transparent way, tracking their changes and saving them to the API.
 
 ## Key takeaways
 
@@ -15,12 +15,12 @@ _Changesets ..._
 
 - are created temporarily when editing HAL resources such as work packages
 - contain an isolated object of changes to apply when the resource is saved
-- provide a `Proxy` javascript object `projectedResource` to the resource with the changes applied
-- encapsulates a temporary schema and form resource for accessing newly added fields and errors
+- provide a `Proxy` JavaScript object `projectedResource` to the resource with the changes applied
+- encapsulate a temporary schema and form resource for accessing newly added fields and errors
 
 ## Prerequisites
 
-In order to understand Inline Editing, you will need the following concepts:
+In order to understand changesets, you will need the following concepts:
 
 - [HAL resources](../hal-resources)
 
@@ -32,7 +32,7 @@ Let's go over the classes and services used to provide access to changesets.
 
 ### ResourceChangeset
 
-The `ResourceChangeset` class is a temporarily created class whose lifetime is determined by the editing duration of a user to a resource such as work package. It gets created automatically when rendering inline-editable fields and is reset/destroyed/reinstantiated when a change has been submitted to the backend, or when the changes are cancelled.
+The `ResourceChangeset` class is a temporarily created class whose lifetime is determined by the editing duration of a user on a resource such as a work package. It gets created automatically when rendering inline-editable fields and is reset/destroyed/reinstantiated when a change has been submitted to the backend, or when the changes are cancelled.
 
 The changeset maintains references to
 
@@ -42,18 +42,18 @@ The changeset maintains references to
 
 The changeset provides a high level access to getting and writing changes as well as caching resources around editing to avoid reloading them too often. It also provides access to a `projectedResource`, which is a proxy class on the HAL resource with all overridden values returned from the changeset. It behaves as if the modified resource was saved and returned.
 
-The ResourceChangeset is possibly subclassed for specific HAL resource types. For example, by the `WorkPackageChangeset`, a resource changeset specifically for work packages to correctly handle cases like switching types or projects - which will require in a reloading of the `FormResource` and its embedded schema for identifying and showing new attributes.
+The ResourceChangeset is possibly subclassed for specific HAL resource types. For example, by the `WorkPackageChangeset`, a resource changeset specifically for work packages to correctly handle cases like switching types or projects - which require reloading the `FormResource` and its embedded schema for identifying and showing new attributes.
 
 ### HalResourceEditingService
 
-In order to _create_, _remove_ or _saving_ changesets for a specific resource, the `HalResourceEditingService` is provided at various hierarchies of the application. The service maintains a store of available resource changesets, whose states and changes can be observed with an RXJS observable.
+In order to create, save, reset or stop editing changesets for a specific resource, the `HalResourceEditingService` is provided at various hierarchies of the application. Its main methods are `edit`, `changeFor`, `save`, `reset`, `stopEditing`, and `typedState`. The service maintains a store of available resource changesets, whose states and changes can be observed with an RxJS observable.
 
 The main entry point for editing changesets is `HalResourceEditingService#changeFor`, which will either continue editing an existing changeset, or create a new one for the given class.
 
 #### Minimal example on using the changeset
 
 ```typescript
-const halResourceEditingService = injector.get(HalResourceEditingService);
+const halResourceEditingService = inject(HalResourceEditingService);
 const workPackage = /** provided by e.g., an input */
 
 // Open a new changeset
@@ -71,13 +71,12 @@ console.log(changeset.changes); // { subject: 'My new subject' }
 // Access current and previous values
 console.log(changeset.changeMap); // { subject: { from: 'Old subject', to: 'My new subject' } }
 
-// Apply the changeset for the work package
-const payload = changeset.buildPayloadFromChanges() // { lockVersion: 1, subject: 'My new subject'};
+// Build the request payload for saving the work package
+const payload = await changeset.buildRequestPayload(); // { lockVersion: 1, subject: 'My new subject' }
 
 // Access the same changeset
 const changeset2 = halResourceEditingService.changeFor(workPackage);
-console.log(changeset2 == changeset) // true
-
+console.log(changeset2 === changeset); // true
 
 // Reset the change
 changeset.clear();
@@ -93,14 +92,14 @@ You will often see other components pushing into the changeset, such as the `Edi
 
 #### Temporary editing resources
 
-Some components such as the `WorkPackageSingleView` needs to update the view upon changes to a resource under edit. A prominent, but complex example is the work package gaining or losing attribute fields due to the `Type` or `Project` being changed. This is due to custom fields being configurable on a per-project level.
+Some components such as the `WorkPackageSingleViewComponent` need to update the view upon changes to a resource under edit. A prominent, but complex example is the work package gaining or losing attribute fields due to the `Type` or `Project` being changed. This is due to custom fields being configurable on a per-project level.
 
 Assume you start creating a new work package of type `Task`, and then switch to a `Feature` which has an additional custom field. Even before saving the work package, you would expect this custom field to become available. The following GIF shows this behavior in both creating and editing a work package:
 
 ![Type switching resulting in new attributes](type-switching.gif)
 
-For this to work, the `WorkPackageSingleView` needs to have access to the work package _as if it was saved_ after the type was changed. But the work package is a new resource and not yet actually saved. That's why `HalResourceEditingService#temporaryEditingResource` returns an observable state that returns either the pristine work package, or the proxied work package by the changeset to transparently access the modified-yet-unsaved work package resource.
+For this to work, the `WorkPackageSingleViewComponent` needs to have access to the work package _as if it was saved_ after the type was changed. But the work package is a new resource and not yet actually saved. That's why `HalResourceEditingService#temporaryEditResource` returns an observable state that returns either the pristine work package, or the proxied work package by the changeset to transparently access the modified-yet-unsaved work package resource.
 
 ## Additional resources
 
-Changesets are used in several components throughout the application. Notable examples are the [inline editing `EditForm`](../inline-editing).
+Changesets are used in several components throughout the application. The most notable example is the [inline editing `EditForm`](../inline-editing).

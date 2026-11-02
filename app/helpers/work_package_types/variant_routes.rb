@@ -197,51 +197,11 @@ module WorkPackageTypes
                     **)
     end
 
-    def start_variant_workflow_path(project, variant, **)
-      variant_route(project, variant,
-                    base: :start_type_workflow_path,
-                    named: :start_type_variant_workflow_path,
-                    project_scoped: :start_project_type_variant_workflow_path,
-                    **)
-    end
-
     def variant_workflow_matrix_path(project, variant, **)
       variant_route(project, variant,
                     base: :type_workflow_matrix_path,
                     named: :type_variant_workflow_matrix_path,
                     project_scoped: :project_type_variant_workflow_matrix_path,
-                    **)
-    end
-
-    def status_dialog_variant_workflow_matrix_path(project, variant, **)
-      variant_route(project, variant,
-                    base: :status_dialog_type_workflow_matrix_path,
-                    named: :status_dialog_type_variant_workflow_matrix_path,
-                    project_scoped: :status_dialog_project_type_variant_workflow_matrix_path,
-                    **)
-    end
-
-    def confirm_statuses_variant_workflow_matrix_path(project, variant, **)
-      variant_route(project, variant,
-                    base: :confirm_statuses_type_workflow_matrix_path,
-                    named: :confirm_statuses_type_variant_workflow_matrix_path,
-                    project_scoped: :confirm_statuses_project_type_variant_workflow_matrix_path,
-                    **)
-    end
-
-    def new_variant_workflow_copy_path(project, variant, **)
-      variant_route(project, variant,
-                    base: :new_type_workflow_copy_path,
-                    named: :new_type_variant_workflow_copy_path,
-                    project_scoped: :new_project_type_variant_workflow_copy_path,
-                    **)
-    end
-
-    def variant_workflow_copy_from_role_path(project, variant, **)
-      variant_route(project, variant,
-                    base: :type_workflow_copy_from_role_path,
-                    named: :type_variant_workflow_copy_from_role_path,
-                    project_scoped: :project_type_variant_workflow_copy_from_role_path,
                     **)
     end
 
@@ -449,6 +409,41 @@ module WorkPackageTypes
       administration_variant_route(variant,
                                    base: :type_workflow_path,
                                    named: :type_variant_workflow_path,
+                                   **)
+    end
+
+    def start_variant_workflow_path(variant, **)
+      administration_variant_route(variant,
+                                   base: :start_type_workflow_path,
+                                   named: :start_type_variant_workflow_path,
+                                   **)
+    end
+
+    def status_dialog_variant_workflow_matrix_path(variant, **)
+      administration_variant_route(variant,
+                                   base: :status_dialog_type_workflow_matrix_path,
+                                   named: :status_dialog_type_variant_workflow_matrix_path,
+                                   **)
+    end
+
+    def confirm_statuses_variant_workflow_matrix_path(variant, **)
+      administration_variant_route(variant,
+                                   base: :confirm_statuses_type_workflow_matrix_path,
+                                   named: :confirm_statuses_type_variant_workflow_matrix_path,
+                                   **)
+    end
+
+    def new_variant_workflow_copy_path(variant, **)
+      administration_variant_route(variant,
+                                   base: :new_type_workflow_copy_path,
+                                   named: :new_type_variant_workflow_copy_path,
+                                   **)
+    end
+
+    def variant_workflow_copy_from_role_path(variant, **)
+      administration_variant_route(variant,
+                                   base: :type_workflow_copy_from_role_path,
+                                   named: :type_variant_workflow_copy_from_role_path,
                                    **)
     end
 

@@ -82,6 +82,28 @@ RSpec.describe AI::TextTransforms::ResultPaneState do
     end
   end
 
+  describe "#retryable?" do
+    %w[queued running succeeded cancelled].each do |run_status|
+      context "when the run is #{run_status}" do
+        let(:status) { run_status }
+
+        it { is_expected.not_to be_retryable }
+      end
+    end
+
+    context "when the run failed" do
+      let(:status) { "failed" }
+
+      it { is_expected.to be_retryable }
+    end
+
+    context "when the start was rejected" do
+      subject(:pane) { described_class.rejected(message: "Not available", label: "Fix grammar", scope:, request_id:) }
+
+      it { is_expected.not_to be_retryable }
+    end
+  end
+
   describe "#text" do
     before do
       add_event("text_delta", { "delta" => "lo" }, seq: 2)

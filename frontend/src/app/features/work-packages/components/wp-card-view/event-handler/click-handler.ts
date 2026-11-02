@@ -46,7 +46,7 @@ export class CardClickHandler implements CardEventHandler {
   @LazyInject() wpCardView:WorkPackageCardViewService;
 
   constructor(public readonly injector:Injector,
-    card:WorkPackageCardViewComponent) {
+    _card:WorkPackageCardViewComponent) {
   }
 
   public get EVENT():EventType {

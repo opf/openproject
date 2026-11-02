@@ -96,7 +96,7 @@ export class WorkPackageBreadcrumbParentComponent {
       .catch((error:unknown) => {
         this.notificationService.handleRawError(error, this.workPackage);
       })
-      .then(() => this.isSaving = false); // Behaves as .finally()
+      .then(() => { this.isSaving = false; }); // Behaves as .finally()
   }
 
   private toggle(state:boolean) {

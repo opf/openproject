@@ -43,7 +43,7 @@
   <% dialog.with_header(variant: :large) %>
   <% dialog.with_body do %>
     <%= primer_form_with(url: @avatar_settings_path, method: :patch, id: FORM_ID, html: { multipart: true }, data: { turbo: false }) do |f| %>
-      <%= render(Avatars::SettingsForm.new(f, principal: @principal, target_avatar_path: @target_avatar_path)) %>
+      <%= render(Avatars::SettingsForm.new(f, principal: @principal, target_avatar_path: @target_avatar_path, image_url:)) %>
     <% end %>
     <%= render(Primer::BaseComponent.new(tag: :aside, classes: "avatars--preview", mt: 4, aria: { label: t("avatars.preview") })) do %>
       <%= render(Primer::Beta::Text.new(tag: :p, font_weight: :bold)) { t("avatars.preview") } %>

@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Switching work package view on mobile", :js, :selenium do
+RSpec.describe "Switching work package view on mobile", :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -62,7 +62,7 @@ RSpec.describe "Switching work package view on mobile", :js, :selenium do
 
       # A single click leads to the full view
       cards.select_work_package(wp1)
-      expect(page).to have_heading(wp1.subject, level: 2, exact_text: true)
+      expect(page).to have_heading(wp1.subject, level: 2, exact: true)
       page.go_back
       # The query is however unchanged
       expect(page).to have_no_css(".editable-toolbar-title--save")
@@ -70,8 +70,8 @@ RSpec.describe "Switching work package view on mobile", :js, :selenium do
       expect(url).not_to match(/query_props=.+/)
 
       # Since the query is unchanged, the WPs will be displayed as list on larger screens again
-      page.driver.browser.manage.window.resize_to(700, 1080)
-      page.driver.browser.navigate.refresh
+      page.current_window.resize_to(700, 1080)
+      page.refresh
       wp_table.expect_work_package_listed wp1, wp2
       wp_table.expect_work_package_order wp1, wp2
     end

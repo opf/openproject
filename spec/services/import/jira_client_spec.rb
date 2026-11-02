@@ -105,6 +105,44 @@ RSpec.describe Import::JiraClient do
     end
   end
 
+  describe "#issue_watchers", :webmock do
+    include_context "with ssrf stubs"
+
+    let(:issue_key) { "OP-10" }
+    let(:issue_watchers_url) { "#{url}/rest/api/2/issue/#{issue_key}/watchers" }
+    let(:headers) { { "Content-Type" => "application/json" } }
+    let(:body) do
+      {
+        "watchers" => [
+          {
+            "name" => "magdalena",
+            "key" => "JIRAUSER666",
+            "emailAddress" => "maggie@jira.internet",
+            "displayName" => "maggie",
+            "active" => true,
+            "timeZone" => "Etc/UTC"
+          }
+        ],
+        "isWatching" => true,
+        "watchCount" => 1
+      }
+    end
+
+    it "returns the watchers of the given issue" do
+      stub_request(:get, issue_watchers_url).to_return(status: 200, body: body.to_json, headers:)
+      expect(client.issue_watchers(issue_key)).to eq(body)
+    end
+
+    context "when the issue is not found" do
+      let(:body) { { "errorMessages" => ["Issue Does Not Exist"], "errors" => {} } }
+
+      it "raises an error" do
+        stub_request(:get, issue_watchers_url).to_return(status: 404, body: body.to_json, headers:)
+        expect { client.issue_watchers(issue_key) }.to raise_error(Import::JiraClient::ApiError, /status 404/)
+      end
+    end
+  end
+
   describe "#custom_field_options", :webmock do
     include_context "with ssrf stubs"
 
@@ -238,6 +276,35 @@ RSpec.describe Import::JiraClient do
       stub_request(:get, options_url).with(query: hash_including({})).to_return(status: 500)
 
       expect { client.custom_field_options(10264) }.to raise_error(Import::JiraClient::ApiError)
+    end
+  end
+
+  describe Import::JiraClient::ApiError do
+    subject(:error) { described_class.new("Jira error", status: 404, response_body:, response_headers: {}) }
+
+    context "when the response body holds non-ASCII UTF-8 text as BINARY" do
+      let(:response_body) { %({"errorMessages":["Benutzer 'jöhn' existiert nicht"]}).b }
+
+      it "can be interpolated next to non-ASCII text" do
+        expect("Error fetching user data for user key jöhn: #{error.message}")
+          .to include("Benutzer 'jöhn' existiert nicht")
+      end
+    end
+
+    context "when the response body holds bytes that are not valid UTF-8" do
+      let(:response_body) { "M\xFCller".b }
+
+      it "replaces them" do
+        expect(error.response_body).to eq("M\uFFFDller")
+      end
+    end
+
+    context "when there is no response body" do
+      let(:response_body) { nil }
+
+      it "keeps an empty body" do
+        expect(error.response_body).to eq("")
+      end
     end
   end
 

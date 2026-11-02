@@ -54,7 +54,7 @@ module Backlogs
     private
 
     def card
-      @card ||= OpenProject::Common::WorkPackageCardComponent.new(
+      @card ||= OpPrimer::WorkPackageCardComponent.new(
         work_package:,
         menu_src:,
         show_assignee: true,

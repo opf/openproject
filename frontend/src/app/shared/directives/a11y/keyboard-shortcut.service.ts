@@ -143,13 +143,11 @@ export class KeyboardShortcutService {
       return;
     }
 
-    const rows:HTMLElement[] = Array.from(list.querySelectorAll('tbody > tr'));
-    let index:number;
-    if (document.activeElement) {
-      index = rows.indexOf(document.activeElement as HTMLElement);
-      const target = rows[index + offset];
-      target?.focus();
-    }
+    const rows = Array.from(list.querySelectorAll<HTMLElement>('tbody > tr'))
+      .filter((row) => row.checkVisibility());
+    const current = document.activeElement?.closest<HTMLElement>('tr') ?? null;
+    const index = current ? rows.indexOf(current) : -1;
+    rows[index + offset]?.focus();
   }
 
   focusNextItem():void {

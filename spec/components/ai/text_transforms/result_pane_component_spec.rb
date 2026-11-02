@@ -57,7 +57,8 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent, type: :component do
     expect(subject).to have_css(
       "[data-test-selector='ai-text-transform-result'][data-controller='ai-text-transform-pane']" \
       "[data-ai-text-transform-pane-close-form-value='#{AI::TextTransforms::ResultPaneHelpers::CLOSE_FORM_ID}']" \
-      "[data-action='keydown.esc->ai-text-transform-pane#close resize@window->ai-text-transform-pane#keepInViewport']"
+      "[data-action='keydown.esc->ai-text-transform-pane#close resize@window->ai-text-transform-pane#keepInViewport " \
+      "turbo:submit-end->ai-text-transform-pane#closeSubmitted']"
     )
   end
 

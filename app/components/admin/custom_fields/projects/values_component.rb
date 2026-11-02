@@ -50,7 +50,7 @@ module Admin
         attr_reader :custom_field, :project
 
         def rows
-          custom_field.list? ? option_rows : item_rows
+          @rows ||= custom_field.list? ? option_rows : item_rows
         end
 
         def option_rows

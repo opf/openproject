@@ -302,7 +302,7 @@ export class HalResourceService {
    * @param attribute
    * @returns {any}
    */
-  protected getResourceClassOfAttribute<T extends HalResource = HalResource>(type:string, attribute:string):string|null {
+  protected getResourceClassOfAttribute(type:string, attribute:string):string|null {
     const typeConfig = this.config[type];
     const types = (typeConfig?.attrTypes) || {};
     return types[attribute];

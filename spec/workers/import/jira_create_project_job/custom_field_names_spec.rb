@@ -97,6 +97,38 @@ RSpec.describe Import::JiraCreateProjectJob::CustomFieldNames do
     end
   end
 
+  describe ".best_match" do
+    def field(name) = create(:string_wp_custom_field, name:)
+
+    it "returns nil when nothing matches" do
+      expect(described_class.best_match([field("Story Points Estimate")], "Story Points")).to be_nil
+    end
+
+    it "prefers an exact name over one carrying the counter" do
+      numbered = field("Story Points (2)")
+      exact = field("Story Points")
+
+      expect(described_class.best_match([numbered, exact], "Story Points")).to eq(exact)
+    end
+
+    it "falls back to a name carrying the counter" do
+      numbered = field("Story Points (2)")
+
+      expect(described_class.best_match([numbered], "Story Points")).to eq(numbered)
+    end
+
+    it "ignores a name carrying a project key suffix" do
+      expect(described_class.best_match([field("Story Points (XYZ)")], "Story Points")).to be_nil
+    end
+
+    it "prefers an exact match on a later name over a counter match on an earlier one" do
+      numbered = field("Story Points (2)")
+      exact = field("Story Points (XYZ)")
+
+      expect(described_class.best_match([numbered, exact], ["Story Points (XYZ)", "Story Points"])).to eq(exact)
+    end
+  end
+
   describe ".unique_name" do
     subject(:unique_name) { described_class.unique_name("Resolution") }
 

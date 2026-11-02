@@ -91,6 +91,84 @@ RSpec.describe Primer::OpenProject::Forms::FileField, type: :forms do
     expect(page).to have_button("Upload file", class: "FormControl-file-field-drop-zone", disabled: true)
   end
 
+  context "with data" do
+    it "merges the given data attributes onto the hidden native input, alongside the component's own" do
+      render_file_field(data: { "other-controller-target": "file" })
+
+      field = page.find(hidden_file_field, visible: :all)
+      expect(field["data-file-field-target"]).to eq("file")
+      expect(field["data-other-controller-target"]).to eq("file")
+    end
+
+    it "appends an :action entry to the hidden input's change action, alongside the component's own" do
+      render_file_field(data: { action: "change->other-controller#handle" })
+
+      field = page.find(hidden_file_field, visible: :all)
+      expect(field["data-action"]).to eq("change->file-field#fileChosen change->other-controller#handle")
+    end
+  end
+
+  context "without an explicit invalid_file_message" do
+    it "renders no error message, leaving the invalid-file feedback opt-in" do
+      render_file_field
+
+      expect(page).to have_no_css(".InlineMessage", visible: :all)
+    end
+  end
+
+  context "with an explicit invalid_file_message" do
+    it "renders the given message" do
+      render_file_field(invalid_file_message: "Only PDFs are allowed")
+
+      expect(page).to have_css(".InlineMessage", text: "Only PDFs are allowed", visible: :all)
+    end
+  end
+
+  context "with error_data" do
+    it "merges the given data attributes onto the error message, alongside the component's own" do
+      render_file_field(
+        invalid_file_message: "Only PDFs are allowed",
+        error_data: { "other-controller-target": "uploadError" }
+      )
+
+      error = page.find(".InlineMessage", visible: :all)
+      expect(error["data-file-field-target"]).to eq("error")
+      expect(error["data-other-controller-target"]).to eq("uploadError")
+    end
+  end
+
+  context "without a max_size" do
+    it "omits the max-size Stimulus value, leaving the size check off" do
+      render_file_field
+
+      controller_scope = page.find("[data-controller='file-field']", visible: :all)
+      expect(controller_scope["data-file-field-max-size-value"]).to be_nil
+    end
+
+    it "renders no too-large message, leaving the feedback opt-in" do
+      render_file_field
+
+      expect(page).to have_no_css(".InlineMessage", visible: :all)
+    end
+  end
+
+  context "with a max_size" do
+    it "exposes it as a Stimulus value on the controller scope" do
+      render_file_field(max_size: 1_048_576)
+
+      controller_scope = page.find("[data-controller='file-field']", visible: :all)
+      expect(controller_scope["data-file-field-max-size-value"]).to eq("1048576")
+    end
+  end
+
+  context "with an explicit file_too_large_message" do
+    it "renders the given message" do
+      render_file_field(max_size: 1_048_576, file_too_large_message: "This file is too big")
+
+      expect(page).to have_css(".InlineMessage", text: "This file is too big", visible: :all)
+    end
+  end
+
   context "without auto_submit" do
     it "only wires the change action to fileChosen" do
       render_file_field
@@ -119,12 +197,27 @@ RSpec.describe Primer::OpenProject::Forms::FileField, type: :forms do
   end
 
   context "with a preview_url" do
-    it "marks the wrapper as having a preview, hiding the icon/label/caption placeholder" do
+    it "marks the wrapper as having a preview" do
       render_file_field(preview_url: "/uploads/logo.png")
 
       expect(page).to have_css("[data-controller='file-field'].FormControl-file-field-wrap--has-preview")
       preview = page.find("img.FormControl-file-field-preview")
       expect(preview[:src]).to eq("/uploads/logo.png")
+    end
+
+    it "keeps the label visible alongside the preview, instead of just a bare image" do
+      render_file_field(preview_url: "/uploads/logo.png", label: "Logo")
+
+      expect(page).to have_css(".FormControl-file-field-label", text: "Logo")
+    end
+
+    it "keeps the description visible alongside the preview" do
+      render_file_field(preview_url: "/uploads/logo.png", description: "PDF, DOCX up to 10 MB")
+
+      expect(page).to have_css(
+        "button.FormControl-file-field-drop-zone .FormControl-caption",
+        text: "PDF, DOCX up to 10 MB"
+      )
     end
 
     it "adds the given preview_class alongside the component's own class" do

@@ -292,7 +292,8 @@ RSpec.describe "Sprint index", :js do
         query_props: {
           f: [{ n: "sprintId", o: "=", v: [completed_sprint.id.to_s] }],
           t: "position:asc",
-          c: default_columns | ["sprint"]
+          c: default_columns | ["sprint"],
+          is: false
         }.to_json
       )
 

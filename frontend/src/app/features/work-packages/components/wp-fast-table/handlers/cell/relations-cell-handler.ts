@@ -56,6 +56,14 @@ export class RelationsCellHandler extends ClickOrEnterHandler implements TableEv
     super();
   }
 
+  public handleEvent(view:TableEventComponent, evt:MouseEvent|KeyboardEvent) {
+    if (evt.type === 'keydown' && (evt.target as HTMLElement).tagName === 'BUTTON') {
+      return;
+    }
+
+    super.handleEvent(view, evt);
+  }
+
   protected processEvent(table:WorkPackageTable, evt:MouseEvent|KeyboardEvent):void {
     debugLog('Handled click on relation cell %o', evt.target);
     evt.preventDefault();

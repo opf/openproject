@@ -30,18 +30,22 @@
 module AI
   module TextTransforms
     class ResultPaneState
-      attr_reader :run, :scope, :request_id, :work_package, :context_ids, :rejection
+      STATES = %w[generating done failed stopped cancelled].freeze
 
-      def self.rejected(message:, label:, scope:, request_id:, context_ids: {})
-        new(run: nil, scope:, request_id:, label:, context_ids:, rejection: message)
+      attr_reader :run, :scope, :request_id, :context, :rejection
+
+      delegate :work_package, :project, to: :context
+      delegate :ids, to: :context, prefix: true
+
+      def self.rejected(message:, label:, scope:, request_id:, context: Context.none)
+        new(run: nil, scope:, request_id:, label:, context:, rejection: message)
       end
 
-      def initialize(run:, scope:, request_id:, work_package: nil, context_ids: {}, label: nil, rejection: nil)
+      def initialize(run:, scope:, request_id:, context: Context.none, label: nil, rejection: nil)
         @run = run
         @scope = scope
         @request_id = request_id
-        @work_package = work_package
-        @context_ids = context_ids
+        @context = context
         @label = label
         @rejection = rejection
       end
@@ -52,6 +56,10 @@ module AI
 
       def state
         @state ||= run ? run_state : "failed"
+      end
+
+      def retryable?
+        run.present? && run.failed?
       end
 
       def text
@@ -89,7 +97,7 @@ module AI
       end
 
       def completed_event
-        events.reverse_each.find { |event| event.kind == "completed" }
+        events.rfind { |event| event.kind == "completed" }
       end
 
       def streamed_text
@@ -99,7 +107,7 @@ module AI
       def error_event
         return @error_event if defined?(@error_event)
 
-        @error_event = events.reverse_each.find { |event| event.kind == "error" }
+        @error_event = events.rfind { |event| event.kind == "error" }
       end
 
       def blocked?

@@ -58,6 +58,13 @@ class Label < ApplicationRecord
     where("LOWER(labels.name) = LOWER(?)", normalize_value_for(:name, name))
   }
 
+  scope :named_any, ->(names) {
+    next none if names.blank?
+
+    where("LOWER(labels.name) IN (SELECT LOWER(n) FROM unnest(ARRAY[?]::text[]) AS n)",
+          names.map { normalize_value_for(:name, it) })
+  }
+
   normalizes :name, with: -> { it.squish }
 
   validates :name,

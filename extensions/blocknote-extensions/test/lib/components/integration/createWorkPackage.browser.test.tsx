@@ -484,7 +484,7 @@ describe('Create work package', () => {
 
     // What no field of this form can carry stays in the message on top.
     await expect.element(page.getByTestId('create-wp-error'))
-      .toHaveTextContent('Please correct the highlighted fields below. Start date is not in this century.');
+      .toMatchTextContent('Please correct the highlighted fields below. Start date is not in this century.');
 
     // Correcting the field takes its own complaint away, and only that one.
     await userEvent.fill(subject, 'Fix the header');

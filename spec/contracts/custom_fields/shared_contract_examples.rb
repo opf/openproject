@@ -133,11 +133,20 @@ RSpec.shared_examples_for "custom_field contract" do
       it_behaves_like "contract is invalid", project_specific_value_restriction: :error_enterprise_only
     end
 
-    # TODO: Remove this context once block mode is supported.
-    context "when blocking values" do
+    context "when blocking values", with_ee: %i[project_specific_list_values] do
       let(:custom_field_project_specific_value_restriction) { "block" }
 
-      it_behaves_like "contract is invalid", project_specific_value_restriction: :inclusion
+      it_behaves_like "contract is valid"
+    end
+
+    context "when blocking values while the enterprise plan does not include project-specific values" do
+      let(:custom_field_project_specific_value_restriction) { nil }
+
+      before do
+        custom_field.project_specific_value_restriction = "block"
+      end
+
+      it_behaves_like "contract is invalid", project_specific_value_restriction: :error_enterprise_only
     end
 
     context "for a format without selectable values" do

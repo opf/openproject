@@ -98,7 +98,7 @@ class Workflows::StatusTransition < ApplicationRecord
     records.empty? ? model.all : records
   end
 
-  def self.copy_one(source_workflow, source_role, target_workflow, target_role) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Naming/PredicateMethod
+  def self.copy_one(source_workflow, source_role, target_workflow, target_role) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     unless source_workflow.is_a?(::Workflow) && !source_workflow.new_record? &&
            source_role.is_a?(Role) && !source_role.new_record? &&
            target_workflow.is_a?(::Workflow) && !target_workflow.new_record? &&

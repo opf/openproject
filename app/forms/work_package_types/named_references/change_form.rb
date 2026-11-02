@@ -67,7 +67,7 @@ module WorkPackageTypes
 
       def current_id = variant[model_class.variant_reflection.foreign_key]
 
-      def candidates = @candidates ||= model_class.available_in(variant.project).in_display_order.to_a
+      def candidates = @candidates ||= model_class.in_display_order.to_a
     end
   end
 end

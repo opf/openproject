@@ -214,7 +214,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     );
   }
 
-  public valueFromQuery(query:QueryResource) {
+  public valueFromQuery(_query:QueryResource) {
     return undefined;
   }
 

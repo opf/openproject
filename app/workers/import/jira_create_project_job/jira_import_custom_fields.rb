@@ -407,7 +407,8 @@ module Import
       end
 
       def find_or_create_system_field_custom_field(field, name:, field_format:)
-        existing_cf = CustomFieldNames.candidates(name).find { it.field_format == field_format }
+        compatible = CustomFieldNames.candidates(name).select { it.field_format == field_format }
+        existing_cf = CustomFieldNames.best_match(compatible, name)
         custom_field = existing_cf ? reuse_custom_field(existing_cf, nil) : create_system_field_custom_field(name:, field_format:)
         @jira_import.update!(
           system_field_custom_fields: @jira_import.system_field_custom_fields.merge(field => custom_field.id)

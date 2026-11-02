@@ -51,9 +51,9 @@ describe('File field controller', () => {
     ctx.dispose();
   });
 
-  async function mount(accept = '') {
+  async function mount(accept = '', { withError = false, maxSize = 0, withTooLarge = false } = {}) {
     await ctx.mount(`
-      <div data-controller="${IDENTIFIER}">
+      <div data-controller="${IDENTIFIER}" data-${IDENTIFIER}-max-size-value="${maxSize}">
         <input type="file" hidden
                accept="${accept}"
                data-${IDENTIFIER}-target="file"
@@ -72,6 +72,9 @@ describe('File field controller', () => {
           </span>
           <img data-${IDENTIFIER}-target="preview">
         </button>
+
+        ${withError ? `<p data-${IDENTIFIER}-target="error" hidden>Wrong file format.</p>` : ''}
+        ${withTooLarge ? `<p data-${IDENTIFIER}-target="tooLarge" hidden>File is too large.</p>` : ''}
       </div>`);
   }
 
@@ -79,10 +82,12 @@ describe('File field controller', () => {
   const fileInput = () => target('file') as HTMLInputElement;
   const dropBox = () => target('dropBox');
   const preview = () => target('preview') as HTMLImageElement;
+  const error = () => target('error');
+  const tooLarge = () => target('tooLarge');
   const wrap = () => ctx.container.querySelector<HTMLElement>(`[data-controller="${IDENTIFIER}"]`)!;
 
-  function file(name = 'contract.pdf') {
-    return new File(['content'], name, { type: 'application/pdf' });
+  function file(name = 'contract.pdf', size = 'content'.length) {
+    return new File(['a'.repeat(size)], name, { type: 'application/pdf' });
   }
 
   function imageFile(name = 'logo.png') {
@@ -202,6 +207,179 @@ describe('File field controller', () => {
       await ctx.nextFrame();
 
       expect(fileInput().files?.length).toEqual(0);
+    });
+
+    it('does nothing with a rejected drop when no error target is rendered (opt-in feature)', async () => {
+      await mount('image/*');
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file());
+
+      expect(() => {
+        dropBox().dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer }));
+      }).not.toThrow();
+    });
+  });
+
+  describe('rejecting a picked file that does not match the accept attribute', () => {
+    it('clears the input, regardless of whether an error target is rendered', async () => {
+      await mount('image/*');
+
+      await choose(file());
+
+      expect(fileInput().files?.length).toEqual(0);
+      expect(target('filename').textContent).toEqual('Upload file');
+    });
+
+    it('does not reject a picked file when no accept attribute is set', async () => {
+      await mount('');
+
+      await choose(file());
+
+      expect(fileInput().files?.[0].name).toEqual('contract.pdf');
+    });
+
+    it('stops the rejection from reaching other change listeners on the same input (e.g. auto-submit)', async () => {
+      await mount('image/*');
+      const otherListener = vi.fn();
+      fileInput().addEventListener('change', otherListener);
+
+      await choose(file());
+
+      expect(otherListener).not.toHaveBeenCalled();
+    });
+
+    it('still notifies other change listeners once an accepted file is chosen', async () => {
+      await mount('image/*');
+      const otherListener = vi.fn();
+      fileInput().addEventListener('change', otherListener);
+
+      await choose(imageFile());
+
+      expect(otherListener).toHaveBeenCalledOnce();
+    });
+  });
+
+  describe('showing an error for a file that does not match the accept attribute (opt-in)', () => {
+    it('shows the error and clears the input when a rejected file is dropped', async () => {
+      await mount('image/*', { withError: true });
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file());
+
+      dropBox().dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer }));
+      await ctx.nextFrame();
+
+      expect(error().hidden).toBe(false);
+      expect(fileInput().files?.length).toEqual(0);
+    });
+
+    it('shows the error and clears the input when a rejected file is picked through the native dialog', async () => {
+      await mount('image/*', { withError: true });
+
+      await choose(file());
+
+      expect(error().hidden).toBe(false);
+      expect(fileInput().files?.length).toEqual(0);
+      expect(target('filename').textContent).toEqual('Upload file');
+    });
+
+    it('hides the error again once a matching file is chosen', async () => {
+      await mount('image/*', { withError: true });
+      await choose(file());
+      expect(error().hidden).toBe(false);
+
+      await choose(imageFile());
+
+      expect(error().hidden).toBe(true);
+      expect(fileInput().files?.[0].name).toEqual('logo.png');
+    });
+
+    it('does not show an error when no accept attribute is set', async () => {
+      await mount('', { withError: true });
+
+      await choose(file());
+
+      expect(error().hidden).toBe(true);
+      expect(fileInput().files?.[0].name).toEqual('contract.pdf');
+    });
+  });
+
+  describe('rejecting a picked file over the max size', () => {
+    it('clears the input, regardless of whether a too-large target is rendered', async () => {
+      await mount('', { maxSize: 10 });
+
+      await choose(file('huge.pdf', 20));
+
+      expect(fileInput().files?.length).toEqual(0);
+      expect(target('filename').textContent).toEqual('Upload file');
+    });
+
+    it('does not reject a picked file when no max size is set', async () => {
+      await mount();
+
+      await choose(file('huge.pdf', 1_000_000));
+
+      expect(fileInput().files?.[0].name).toEqual('huge.pdf');
+    });
+
+    it('stops the rejection from reaching other change listeners on the same input', async () => {
+      await mount('', { maxSize: 10 });
+      const otherListener = vi.fn();
+      fileInput().addEventListener('change', otherListener);
+
+      await choose(file('huge.pdf', 20));
+
+      expect(otherListener).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('showing a message for a file over the max size (opt-in)', () => {
+    it('shows the message and clears the input when an oversized file is dropped', async () => {
+      await mount('', { maxSize: 10, withTooLarge: true });
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file('huge.pdf', 20));
+
+      dropBox().dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer }));
+      await ctx.nextFrame();
+
+      expect(tooLarge().hidden).toBe(false);
+      expect(fileInput().files?.length).toEqual(0);
+    });
+
+    it('shows the message and clears the input when an oversized file is picked through the native dialog', async () => {
+      await mount('', { maxSize: 10, withTooLarge: true });
+
+      await choose(file('huge.pdf', 20));
+
+      expect(tooLarge().hidden).toBe(false);
+      expect(fileInput().files?.length).toEqual(0);
+    });
+
+    it('hides the message again once a file within the limit is chosen', async () => {
+      await mount('', { maxSize: 10, withTooLarge: true });
+      await choose(file('huge.pdf', 20));
+      expect(tooLarge().hidden).toBe(false);
+
+      await choose(file('small.pdf', 5));
+
+      expect(tooLarge().hidden).toBe(true);
+      expect(fileInput().files?.[0].name).toEqual('small.pdf');
+    });
+
+    it('does not show the message when no max size is set', async () => {
+      await mount('', { withTooLarge: true });
+
+      await choose(file('huge.pdf', 1_000_000));
+
+      expect(tooLarge().hidden).toBe(true);
+    });
+
+    it('prioritizes the accept error over the too-large message when a file fails both checks', async () => {
+      await mount('image/*', { withError: true, maxSize: 10, withTooLarge: true });
+
+      await choose(file('huge.pdf', 20));
+
+      expect(error().hidden).toBe(false);
+      expect(tooLarge().hidden).toBe(true);
     });
   });
 

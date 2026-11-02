@@ -13,7 +13,7 @@
     ) do |f|
       flex_layout do |body|
         body.with_row do
-          render(OpPrimer::InsetBoxComponent.new(mt: 3)) do
+          render(Primer::OpenProject::InsetBox.new(mt: 3)) do
             flex_layout do |box|
               box.with_row do
                 render(Meeting::SendEmailUpdates.new(f, meeting: @meeting))
