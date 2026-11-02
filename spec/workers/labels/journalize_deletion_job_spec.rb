@@ -55,7 +55,7 @@ RSpec.describe Labels::JournalizeDeletionJob, type: :job, with_settings: { journ
     label.destroy!
   end
 
-  it "writes one journal per work package, authored by the admin, recording the label as removed and rendering only the cause" do
+  it "writes one journal per work package, authored by the admin" do
     expect { perform }.to change(Journal, :count).by(2)
 
     work_packages.each do |work_package|
@@ -63,6 +63,10 @@ RSpec.describe Labels::JournalizeDeletionJob, type: :job, with_settings: { journ
       expect(journal.user).to eq(admin)
       expect(journal.cause).to eq(cause)
     end
+  end
+
+  it "records the label as removed but renders only the cause" do
+    perform
 
     journal = work_packages.first.reload.last_journal
     old_ids, new_ids = journal.details["labels"].map { it.to_s.split(",").map(&:to_i) }
@@ -119,6 +123,51 @@ RSpec.describe Labels::JournalizeDeletionJob, type: :job, with_settings: { journ
       perform_for(other_label)
 
       expect { perform_for(label) }.not_to change { work_package.journals.count }
+    end
+  end
+
+  context "when a different admin deletes another label within the aggregation time",
+          with_settings: { journal_aggregation_time_minutes: 5 } do
+    let(:work_packages) { [create(:work_package, journals: { 10.minutes.ago => { user: admin } })] }
+    let(:work_package) { work_packages.first }
+    let(:other_admin) { create(:admin) }
+    let(:other_label) { create(:label, name: "Obsolete") }
+    let(:labels_on_work_packages) { [label, other_label] }
+
+    before do
+      perform
+      other_label.destroy!
+    end
+
+    it "writes a separate journal" do
+      expect do
+        described_class.perform_now(work_package_ids: [work_package.id], label_id: other_label.id,
+                                    label_name: other_label.name, user_id: other_admin.id)
+      end.to change { work_package.journals.count }.by(1)
+
+      expect(work_package.reload.last_journal.user).to eq(other_admin)
+    end
+  end
+
+  context "when the aggregation time has passed since the previous label deletion",
+          with_settings: { journal_aggregation_time_minutes: 5 } do
+    let(:work_packages) { [create(:work_package, journals: { 10.minutes.ago => { user: admin } })] }
+    let(:work_package) { work_packages.first }
+    let(:other_label) { create(:label, name: "Obsolete") }
+    let(:labels_on_work_packages) { [label, other_label] }
+
+    before do
+      perform
+      other_label.destroy!
+    end
+
+    it "writes a separate journal" do
+      travel 10.minutes do
+        expect do
+          described_class.perform_now(work_package_ids: [work_package.id], label_id: other_label.id,
+                                      label_name: other_label.name, user_id:)
+        end.to change { work_package.journals.count }.by(1)
+      end
     end
   end
 end

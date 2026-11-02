@@ -43,7 +43,8 @@ class OpenProject::JournalFormatter::Labels < OpenProject::JournalFormatter::Joi
     old_ids, new_ids = values.map { |value| value.to_s.split(",").map(&:to_i) }
     added = new_ids - old_ids
     removed = old_ids - new_ids
-    added.empty? && removed.to_set == Array(@journal.cause_label_ids).to_set(&:to_i)
+    deleted_ids = Array(@journal.cause_label_ids).map(&:to_i)
+    added.empty? && removed.any? && (removed - deleted_ids).empty?
   end
 
   def name_or_placeholder(object)

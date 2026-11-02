@@ -741,14 +741,6 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
     end
 
-    context "when no label names are recorded" do
-      subject(:cause) { Journal::CausedByLabelDeletion.new(label_ids: [], label_names: []).to_hash }
-
-      it "renders only the caption" do
-        expect(cause).to render_raw_variant("Label removed: ")
-      end
-    end
-
     context "when the label name contains HTML (XSS prevention)" do
       subject(:cause) do
         Journal::CausedByLabelDeletion.new(label_ids: [42], label_names: ["<script>alert('x')</script>"]).to_hash

@@ -45,6 +45,8 @@ class Labels::JournalizeDeletionJob < ApplicationJob
     OpenProject::Mutex.with_advisory_lock_transaction(work_package) do
       next if journalized?(work_package, label_id)
 
+      # Like other admin-driven bulk updates, this journals without publishing journal events,
+      # so watchers get no notifications and webhooks do not fire.
       Journals::CreateService.new(work_package, user).call(cause:)
     end
   end
