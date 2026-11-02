@@ -36,8 +36,8 @@ module WorkPackageTypes
         @form = form
       end
 
-      # Default groups first: GenerateDefaultsService refuses once memberships
-      # exist, and memberships without groups read as an intentionally empty form.
+      # Default groups first: GenerateDefaultsService refuses once attribute records
+      # exist, and records without groups read as an intentionally empty form.
       def call
         materialize_default_groups if unconfigured?
         EnsureAttributeMembershipService.new(form).call

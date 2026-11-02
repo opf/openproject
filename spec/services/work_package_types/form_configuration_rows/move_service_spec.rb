@@ -35,16 +35,16 @@ RSpec.describe WorkPackageTypes::FormConfigurationRows::MoveService do
   let!(:details) { create(:form_configuration_group, form_configuration: form, label: "Details") }
   let!(:other) { create(:form_configuration_group, form_configuration: form, label: "Other") }
   let!(:empty) { create(:form_configuration_group, form_configuration: form, label: "Empty") }
-  let!(:assignee) { membership("assignee", details, 1) }
-  let!(:priority) { membership("priority", details, 2) }
-  let!(:date) { membership("date", details, 3) }
-  let!(:category) { membership("category", other, 1) }
-  let!(:responsible) { membership("responsible") }
+  let!(:assignee) { form_attribute("assignee", details, 1) }
+  let!(:priority) { form_attribute("priority", details, 2) }
+  let!(:date) { form_attribute("date", details, 3) }
+  let!(:category) { form_attribute("category", other, 1) }
+  let!(:responsible) { form_attribute("responsible") }
   let(:initial_layout) do
     { "Details" => %w[assignee priority date], "Other" => %w[category], "Empty" => [], "inactive" => %w[responsible] }
   end
 
-  def membership(key, group = nil, position = nil)
+  def form_attribute(key, group = nil, position = nil)
     create(:form_configuration_attribute, form_configuration: form, group:, position:, attribute_key: key)
   end
 
@@ -119,8 +119,8 @@ RSpec.describe WorkPackageTypes::FormConfigurationRows::MoveService do
     expect(layout["Details"]).to eq(%w[priority assignee date])
   end
 
-  it "keeps a hidden membership in its relative place" do
-    hidden = membership("no_longer_offered", details, 4)
+  it "keeps a hidden attribute in its relative place" do
+    hidden = form_attribute("no_longer_offered", details, 4)
 
     expect(move(date, **into(details, ""))).to be_success
 
@@ -175,7 +175,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationRows::MoveService do
     end
 
     it "refuses to activate an attribute the form no longer offers", :aggregate_failures do
-      gone = membership("no_longer_offered")
+      gone = form_attribute("no_longer_offered")
       call = move(gone, **into(details, ""))
 
       expect(call).to be_failure
@@ -184,7 +184,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationRows::MoveService do
       expect(layout["inactive"]).to include("no_longer_offered")
     end
 
-    it "refuses a membership that was deleted in the meantime", :aggregate_failures do
+    it "refuses an attribute that was deleted in the meantime", :aggregate_failures do
       stale = FormConfigurationAttribute.find(priority.id)
       priority.destroy!
       call = move(stale, **into(other, ""))

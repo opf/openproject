@@ -86,8 +86,8 @@ module WorkPackageTypes
         }
       end
 
-      def membership_ids
-        @membership_ids ||= readonly? ? {} : form_configuration.form_attributes.to_h { [it.key, it.id] }
+      def record_ids_by_key
+        @record_ids_by_key ||= readonly? ? {} : form_configuration.form_attributes.to_h { [it.key, it.id] }
       end
 
       private

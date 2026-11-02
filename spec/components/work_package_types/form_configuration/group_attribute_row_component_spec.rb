@@ -37,8 +37,8 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
       translation: "Assignee", field_format_label: "Built-in" }
   end
 
-  def render_row(total_count: 2, row: attribute)
-    render_inline(described_class.new(attribute: row, context: editor_context, total_count:))
+  def render_row(total_count: 2, attribute: self.attribute)
+    render_inline(described_class.new(attribute:, context: editor_context, total_count:))
   end
 
   it "renders the drag handle and actions menu in editable mode", :aggregate_failures do
@@ -122,7 +122,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
   end
 
   it "offers neither handle nor move items for an attribute without a record", :aggregate_failures do
-    render_row(total_count: 3, row: attribute.except(:id))
+    render_row(total_count: 3, attribute: attribute.except(:id))
 
     expect(page).to have_no_test_selector("type-form-configuration-attribute-handle-assignee")
     expect(page).to have_no_css("[data-sortable-lists--item-target='moveItem']", visible: :all)

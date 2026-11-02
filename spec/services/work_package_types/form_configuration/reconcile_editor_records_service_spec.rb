@@ -45,7 +45,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::ReconcileEditorRecordsServic
       expect(form.attribute_groups.map(&:record_id)).to all(be_present)
     end
 
-    it "gives every offered attribute a membership" do
+    it "gives every offered attribute a record" do
       reconcile
 
       expect(form.form_attributes.reload.map(&:key)).to match_array(form.work_package_attributes.keys)
@@ -122,12 +122,12 @@ RSpec.describe WorkPackageTypes::FormConfiguration::ReconcileEditorRecordsServic
     let!(:group) { create(:form_configuration_group, form_configuration: form, label: "Details") }
     let!(:custom_field) { create(:wp_custom_field) }
 
-    it "adds an inactive membership for it and keeps the groups", :aggregate_failures do
+    it "adds an inactive record for it and keeps the groups", :aggregate_failures do
       reconcile
 
-      membership = form.form_attributes.find_by(custom_field_id: custom_field.id)
-      expect(membership).to be_present
-      expect(membership).not_to be_active
+      form_attribute = form.form_attributes.find_by(custom_field_id: custom_field.id)
+      expect(form_attribute).to be_present
+      expect(form_attribute).not_to be_active
       expect(form.form_groups.reload).to contain_exactly(group)
     end
   end

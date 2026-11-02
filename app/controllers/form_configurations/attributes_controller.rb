@@ -41,8 +41,8 @@ module FormConfigurations
     before_action :reconcile_editor_records
 
     def move
-      membership = @form_configuration.form_attributes.find(params.expect(:id))
-      call = valid_drop_request? ? move_attribute_call(membership) : nil
+      attribute = @form_configuration.form_attributes.find(params.expect(:id))
+      call = valid_drop_request? ? move_attribute_call(attribute) : nil
 
       if call&.success?
         update_form_configuration_via_turbo_stream(method: :morph)
@@ -54,9 +54,9 @@ module FormConfigurations
 
     private
 
-    def move_attribute_call(membership)
+    def move_attribute_call(attribute)
       ::WorkPackageTypes::FormConfigurationRows::MoveService
-        .new(user: current_user, form_configuration: @form_configuration, record: membership)
+        .new(user: current_user, form_configuration: @form_configuration, record: attribute)
         .call(**drop_params.to_h.symbolize_keys)
     end
 

@@ -105,7 +105,7 @@ RSpec.describe "Reordering a form on its page", :js, :selenium do
       editor.expect_attributes("Details", :date)
     end
 
-    it "moves groups and rows with the menu and offers only the directions that apply" do
+    it "moves groups and attributes with the menu and offers only the directions that apply" do
       editor.expect_group_moves("People", offered: ["Move down", "Move to bottom"], absent: ["Move up", "Move to top"])
       editor.expect_attribute_moves(:priority, offered: ["Move down", "Move to bottom"], absent: ["Move up", "Move to top"])
       editor.expect_attribute_moves(:date, offered: ["Move up", "Move to top"], absent: ["Move down", "Move to bottom"])
@@ -122,7 +122,7 @@ RSpec.describe "Reordering a form on its page", :js, :selenium do
       editor.expect_attributes("Details", :priority, :date, :category)
     end
 
-    it "reorders rows within a group by dragging" do
+    it "reorders attributes within a group by dragging" do
       moving { editor.drag_attribute_beside(:date, above: :priority) }
       editor.expect_attributes("Details", :date, :priority, :category)
 
@@ -230,7 +230,7 @@ RSpec.describe "Reordering a form on its page", :js, :selenium do
   end
 
   context "without an Enterprise token" do
-    it "still reorders groups and rows" do
+    it "still reorders groups and attributes" do
       editor.visit!
       editor.expect_group_order("People", "Details", "Spare")
 

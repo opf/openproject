@@ -99,9 +99,9 @@ RSpec.describe "Configuring the variants a project owns",
     end
 
     it "leaves the form itself to administration" do
-      membership = create(:form_configuration_attribute, form_configuration: ours.form_configuration)
+      form_attribute = create(:form_configuration_attribute, form_configuration: ours.form_configuration)
 
-      put move_form_configuration_attribute_path(ours.form_configuration, membership),
+      put move_form_configuration_attribute_path(ours.form_configuration, form_attribute),
           params: { list_type: "inactive_attribute" },
           as: :turbo_stream
 
