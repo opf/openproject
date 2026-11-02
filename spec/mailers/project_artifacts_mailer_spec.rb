@@ -81,7 +81,7 @@ RSpec.describe ProjectArtifactsMailer do
     end
 
     context "with notification text referencing a work package" do
-      shared_let(:persisted_project) { create(:project, raw_identifier: "wizardproj") }
+      shared_let(:persisted_project) { create(:project) }
       shared_let(:persisted_user) { create(:admin) }
       shared_let(:referenced_wp) { create(:work_package, project: persisted_project) }
 

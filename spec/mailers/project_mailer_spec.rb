@@ -73,7 +73,7 @@ RSpec.describe ProjectMailer do
     end
 
     context "with custom notification text referencing a work package" do
-      shared_let(:persisted_project) { create(:project, raw_identifier: "absurlproj") }
+      shared_let(:persisted_project) { create(:project) }
       shared_let(:persisted_user) { create(:admin) }
       shared_let(:referenced_wp) { create(:work_package, project: persisted_project) }
 

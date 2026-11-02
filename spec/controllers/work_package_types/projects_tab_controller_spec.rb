@@ -251,9 +251,9 @@ because it's still in use by work packages)
       end
 
       it "matches a project by its identifier" do
-        create(:project, name: "Bookshop", raw_identifier: "libris-nova")
+        bookshop = create(:project, name: "Bookshop")
 
-        get :tree, params: { type_id: type.id, name: "project_ids", query: "libris" }
+        get :tree, params: { type_id: type.id, name: "project_ids", query: bookshop.identifier }
 
         expect(response.body).to include("Bookshop")
       end

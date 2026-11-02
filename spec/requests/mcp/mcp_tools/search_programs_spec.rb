@@ -53,9 +53,9 @@ RSpec.describe McpTools::SearchPrograms do
   let(:call_args) { {} }
   let(:parsed_results) { JSON.parse(last_response.body).fetch("result") }
 
-  let!(:program_a) { create(:program, name: "The ABC Program", status_code: :on_track, raw_identifier: "abc") }
-  let!(:program_b) { create(:program, name: "The DEF Program", status_code: :off_track, raw_identifier: "def") }
-  let!(:project) { create(:project, name: "The unrelated Project", status_code: :on_track, raw_identifier: "ghi") }
+  let!(:program_a) { create(:program, name: "The ABC Program", status_code: :on_track) }
+  let!(:program_b) { create(:program, name: "The DEF Program", status_code: :off_track) }
+  let!(:project) { create(:project, name: "The unrelated Project", status_code: :on_track) }
 
   let(:server_config) { create(:mcp_configuration, identifier: "mcp_server") }
   let(:tool_config) { create(:mcp_configuration, identifier: described_class.qualified_name) }
@@ -81,7 +81,7 @@ RSpec.describe McpTools::SearchPrograms do
     end
 
     context "when passing an exact identifier" do
-      let(:call_args) { { identifier: "abc" } }
+      let(:call_args) { { identifier: program_a.identifier } }
 
       it "finds the program" do
         mcp_request
@@ -90,7 +90,7 @@ RSpec.describe McpTools::SearchPrograms do
     end
 
     context "when passing a non-exact identifier" do
-      let(:call_args) { { identifier: "Abc" } }
+      let(:call_args) { { identifier: program_a.identifier.swapcase } }
 
       it "does not find the program" do
         mcp_request
@@ -161,7 +161,7 @@ RSpec.describe McpTools::SearchPrograms do
       end
 
       context "and when passing a program identifier" do
-        let(:call_args) { { status_code: "on_track", identifier: "abc" } }
+        let(:call_args) { { status_code: "on_track", identifier: program_a.identifier } }
 
         it "finds the program" do
           mcp_request
@@ -170,7 +170,7 @@ RSpec.describe McpTools::SearchPrograms do
       end
 
       context "and when passing the program identifier of a program in a different status" do
-        let(:call_args) { { status_code: "on_track", identifier: "def" } }
+        let(:call_args) { { status_code: "on_track", identifier: program_b.identifier } }
 
         it "does not find the program" do
           mcp_request

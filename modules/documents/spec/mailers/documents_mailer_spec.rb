@@ -63,7 +63,7 @@ RSpec.describe DocumentsMailer do
 
   describe "document description referencing a work package",
            with_settings: { host_name: "my.openproject.com" } do
-    shared_let(:persisted_project) { create(:project, raw_identifier: "docsproj") }
+    shared_let(:persisted_project) { create(:project) }
     shared_let(:persisted_user) { create(:admin) }
     shared_let(:referenced_wp) { create(:work_package, project: persisted_project) }
     shared_let(:document) do

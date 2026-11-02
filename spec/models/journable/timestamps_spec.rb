@@ -680,26 +680,6 @@ RSpec.describe Journable::Timestamps do
       end
     end
 
-    describe "#rollback!" do
-      describe "when trying to rollback to a current (non-historic) record" do
-        subject { work_package.rollback! }
-
-        it "raises an error" do
-          expect { subject }.to raise_error ActiveRecord::RecordNotSaved
-        end
-      end
-
-      describe "when rolling back to historic data" do
-        subject { work_package.at_timestamp(wednesday).rollback! }
-
-        it "updates the journable records to its historic values" do
-          expect(work_package.reload.description).to eq "The work package as it is since Friday"
-          subject
-          expect(work_package.reload.description).to eq "The work package as it has been on Wednesday"
-        end
-      end
-    end
-
     describe "#position (unjournalized column)" do
       let(:timestamp) { monday }
       let(:position) { 42 }

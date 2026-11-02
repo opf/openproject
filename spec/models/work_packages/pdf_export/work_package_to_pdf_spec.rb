@@ -449,7 +449,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           ["dueDate", "03/13/2025"],
           ["spentTime", "0h"],
           ["startDate", "05/30/2024"],
-          ["parent", "#{type.name} ##{parent_work_package.id}: #{parent_work_package.name}"],
+          ["parent", "#{type.name} #{parent_work_package.formatted_id}: #{parent_work_package.name}"],
           ["priority", priority.name],
           ["project", project.name],
           ["status", status.name],
