@@ -433,7 +433,7 @@ RSpec.describe UserMailer do
   end
 
   describe "#news_added rendering a description that references a work package" do
-    shared_let(:persisted_project) { create(:project, identifier: "demo") }
+    shared_let(:persisted_project) { create(:project, raw_identifier: "demo") }
     shared_let(:persisted_recipient) { create(:admin) }
     shared_let(:referenced_wp) do
       create(:work_package, project: persisted_project, subject: "watched")
@@ -473,7 +473,7 @@ RSpec.describe UserMailer do
 
   describe "layout rendering Setting.localized_emails_header through the static-HTML pipeline",
            with_settings: { work_packages_identifier: "semantic" } do
-    shared_let(:persisted_project) { create(:project, identifier: "demo") }
+    shared_let(:persisted_project) { create(:project, raw_identifier: "demo") }
     shared_let(:persisted_recipient) { create(:admin) }
     shared_let(:referenced_wp) do
       create(:work_package, project: persisted_project, subject: "header-target").tap do |wp|

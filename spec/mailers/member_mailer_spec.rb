@@ -169,7 +169,7 @@ RSpec.describe MemberMailer do
     it_behaves_like "fails for a group"
 
     describe "with a custom message referencing a work package" do
-      shared_let(:persisted_project) { create(:project, identifier: "memberproj") }
+      shared_let(:persisted_project) { create(:project, raw_identifier: "memberproj") }
       shared_let(:persisted_principal) { create(:admin) }
       shared_let(:persisted_role) { create(:project_role) }
       shared_let(:persisted_member) do

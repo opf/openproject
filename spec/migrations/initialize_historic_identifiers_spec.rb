@@ -30,7 +30,7 @@
 require "spec_helper"
 require Rails.root.join("db/migrate/20260312121938_initialize_historic_identifiers.rb")
 
-RSpec.describe InitializeHistoricIdentifiers, type: :model do
+RSpec.describe InitializeHistoricIdentifiers, type: :model, with_settings: { work_packages_identifier: "classic" } do
   subject(:execute_migration) { ActiveRecord::Migration.suppress_messages { described_class.new.up } }
 
   let!(:project1) { create(:project, identifier: "project-one") }

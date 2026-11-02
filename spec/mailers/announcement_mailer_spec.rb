@@ -71,7 +71,7 @@ RSpec.describe AnnouncementMailer do
     end
 
     describe "rendering a body that references a work package" do
-      shared_let(:persisted_project) { create(:project, identifier: "announceproj") }
+      shared_let(:persisted_project) { create(:project, raw_identifier: "announceproj") }
       shared_let(:persisted_recipient) { create(:admin) }
       shared_let(:referenced_wp) { create(:work_package, project: persisted_project) }
 

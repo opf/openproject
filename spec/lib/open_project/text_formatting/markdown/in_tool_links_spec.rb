@@ -444,6 +444,11 @@ RSpec.describe OpenProject::TextFormatting,
     end
 
     context "Wiki links" do
+      def other_project_wiki_link(path, text, css: "wiki-page op-uc-link")
+        href = "/projects/#{project_2.identifier}/wiki/#{path}"
+        %(<p class='op-uc-p'><a class="#{css}" target="_top" href="#{href}">#{text}</a></p>)
+      end
+
       let(:project_2) do
         create(:valid_project, :with_internal_wiki)
       end
@@ -545,7 +550,7 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text("[[#{project_2.identifier}:]]") }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/#{project_2.identifier}/wiki/start-page\">#{project_2.identifier}</a></p>")
+          expect(subject).to be_html_eql(other_project_wiki_link("start-page", project_2.identifier))
         }
       end
 
@@ -553,7 +558,7 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text("[[#{project_2.identifier}:|Wiki]]") }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/#{project_2.identifier}/wiki/start-page\">Wiki</a></p>")
+          expect(subject).to be_html_eql(other_project_wiki_link("start-page", "Wiki"))
         }
       end
 
@@ -561,7 +566,7 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text("[[#{project_2.identifier}:Start page]]") }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/#{project_2.identifier}/wiki/start-page\">Start Page</a></p>")
+          expect(subject).to be_html_eql(other_project_wiki_link("start-page", "Start Page"))
         }
       end
 
@@ -569,7 +574,7 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text("[[#{project_2.identifier}:Start page|Text]]") }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/#{project_2.identifier}/wiki/start-page\">Text</a></p>")
+          expect(subject).to be_html_eql(other_project_wiki_link("start-page", "Text"))
         }
       end
 
@@ -577,7 +582,9 @@ RSpec.describe OpenProject::TextFormatting,
         subject { format_text("[[#{project_2.identifier}:Unknown page]]") }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new op-uc-link\" target=\"_top\" href=\"/projects/#{project_2.identifier}/wiki/unknown-page?title=Unknown+page\">Unknown page</a></p>")
+          expect(subject).to be_html_eql(
+            other_project_wiki_link("unknown-page?title=Unknown+page", "Unknown page", css: "wiki-page new op-uc-link")
+          )
         }
       end
 

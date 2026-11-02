@@ -269,7 +269,7 @@ RSpec.describe RootSeeder,
     end
 
     it "adds members to the demo project directly and through their department" do
-      demo_project = root_seeder.seed_data.find_reference(:demo_project)
+      demo_project = root_seeder.seed_data.find_reference(:demo_project).reload
 
       marko = root_seeder.seed_data.find_reference(:user__marko_marketing) # direct member
       finance = root_seeder.seed_data.find_reference(:department__finance_administration) # group member
@@ -333,7 +333,7 @@ RSpec.describe RootSeeder,
     end
 
     it "adds a resource planner with its views and allocations to the demo project" do
-      demo_project = root_seeder.seed_data.find_reference(:demo_project)
+      demo_project = root_seeder.seed_data.find_reference(:demo_project).reload
 
       expect(demo_project.enabled_module_names).to include("resource_management")
       planners = ResourcePlanner.where(project: demo_project)
