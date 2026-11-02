@@ -31,6 +31,8 @@
 class InplaceEditFieldsController < ApplicationController
   include OpTurbo::ComponentStream
 
+  SERVER_SIDE_ARGUMENTS = %w[attribute model update_registry].freeze
+
   before_action :find_model
   before_action :set_attribute
   before_action :authorize_project_custom_field_visibility!, if: :custom_field_attribute?
@@ -265,6 +267,7 @@ class InplaceEditFieldsController < ApplicationController
     # Fall back to an empty hash if not present (e.g. in tests or non-JS contexts).
     field_args = stable_key_system_arguments
                    .fetch(stable_key, {})
+                   .except(*SERVER_SIDE_ARGUMENTS)
                    .symbolize_keys
                    .except(:id) # exclude UUID so the component generates a fresh one
 
@@ -305,6 +308,6 @@ class InplaceEditFieldsController < ApplicationController
                                     .filter_map { |v| v["system_arguments_json"] }
                                     .first
 
-    arguments.nil? ? {} : JSON.parse(arguments)
+    arguments.nil? ? {} : JSON.parse(arguments).except(*SERVER_SIDE_ARGUMENTS)
   end
 end
