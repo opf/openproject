@@ -37,7 +37,7 @@ import { WorkPackageTableContextMenu } from 'core-app/shared/components/op-conte
 import { registerContextMenu } from 'core-app/shared/components/op-context-menu/testing/register-context-menu';
 import { buildTable, TableHarness, type TableHarnessOptions } from '../../testing/table-harness';
 import { wpOccurrenceKey } from '../../rendered-occurrence-ledger';
-import { headerRowKey, totalsRowKey } from '../state/keyboard/navigable-rows';
+import { headerRowKey, totalsRowKey } from '../../row-keys';
 import { navigableCells } from '../state/keyboard/roving-tabindex';
 import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
 

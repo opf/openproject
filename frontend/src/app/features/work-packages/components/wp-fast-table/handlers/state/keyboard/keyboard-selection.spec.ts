@@ -32,7 +32,7 @@ import { usePlatform } from 'core-common/testing/platform';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { buildTable, TableHarness, TableHarnessOptions } from '../../../testing/table-harness';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
-import { headerRowKey, totalsRowKey } from './navigable-rows';
+import { headerRowKey, totalsRowKey } from '../../../row-keys';
 import { selectionChord } from './keyboard-selection';
 
 const newStatus = { href: '/api/v3/statuses/1' };

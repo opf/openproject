@@ -32,7 +32,7 @@ import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import { States } from 'core-app/core/states/states.service';
 import { insideGrid, navigableCells } from './roving-tabindex';
 import { cellTargets, rowControls } from './cell-interaction';
-import { headerRowKey } from './navigable-rows';
+import { headerRowKey } from '../../../row-keys';
 import { activateTableField } from '../../cell/edit-cell-handler';
 import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
 import { OpUnlinkTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/actions/unlink-table-action';
