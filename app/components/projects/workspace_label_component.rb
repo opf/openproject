@@ -27,21 +27,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::WorkspaceLabelComponent < ApplicationComponent
-  include OpPrimer::ComponentHelpers
+module Projects
+  class WorkspaceLabelComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
 
-  def initialize(project:, **system_arguments)
-    super
+    def initialize(type:, **system_arguments)
+      super
 
-    @project = project
-    @system_arguments = system_arguments
+      @type = type
+      @system_arguments = system_arguments
+    end
+
+    private
+
+    attr_reader :type
+
+    def label = I18n.t(:"label_#{type}")
+
+    def icon_name = helpers.workspace_icon(type)
   end
-
-  private
-
-  attr_reader :project
-
-  def label = I18n.t(:"label_#{project.workspace_type}")
-
-  def icon_name = helpers.workspace_icon(project.workspace_type)
 end

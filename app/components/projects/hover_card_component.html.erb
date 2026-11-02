@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
 
     flex.with_row(flex_layout: true, align_items: :center) do |row|
       row.with_column(mr: 2) do
-        render(Projects::WorkspaceLabelComponent.new(project: @project, data: { test_selector: "workspace-label-#{@id}" }))
+        render(Projects::WorkspaceLabelComponent.new(type: @project.workspace_type, data: { test_selector: "workspace-label-#{@id}" }))
       end
 
       if @project.archived?
