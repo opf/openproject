@@ -5,7 +5,7 @@ sv:
     resource_management:
       create_placeholder_user: Skapa platshållaranvändare med filterkriterier
       hidden_user: Dold användare
-      my_work:
+      my_time_management:
         finish_by: Finish by %{date}
         finish_today: Finish today
       show_allocations: Visa resurstilldelningar

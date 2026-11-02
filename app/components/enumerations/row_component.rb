@@ -37,7 +37,7 @@ module Enumerations
       link_to enumeration.name, edit_enumeration_path(enumeration)
     end
 
-    def is_default # rubocop:disable Naming/PredicateName
+    def is_default # rubocop:disable Naming/PredicatePrefix
       checkmark(enumeration.is_default?)
     end
 

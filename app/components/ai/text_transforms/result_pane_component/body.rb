@@ -51,12 +51,9 @@ module AI
           %w[generating done].include?(state)
         end
 
-        def done?
-          state == "done"
-        end
-
         def output
-          helpers.format_text(pane.text, object: pane.work_package)
+          helpers.format_text(pane.text, object: pane.work_package, project: pane.project,
+                                         untrusted_source: true, disable_macro_expansion: true)
         end
       end
     end

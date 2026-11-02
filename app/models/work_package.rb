@@ -49,6 +49,7 @@ class WorkPackage < ApplicationRecord
 
   include OpenProject::Journal::AttachmentHelper
 
+  AVAILABLE_CUSTOM_FIELDS_CACHE_PREFIX = "work_package_custom_fields_"
   DONE_RATIO_OPTIONS = %w[field status].freeze
   TOTAL_PERCENT_COMPLETE_MODE_OPTIONS = %w[work_weighted_average simple_average].freeze
 
@@ -494,6 +495,15 @@ class WorkPackage < ApplicationRecord
       .select("#{table_name}.*, COALESCE(max_depth.depth, 0)")
   end
 
+  # closure_tree 9.8 keeps its advisory lock until the outermost transaction commits.
+  # In a savepoint, it releases the lock after each hierarchy change. Use this block for each
+  # work package in a long transaction. If you do not, all work package creates, parent changes
+  # and deletes wait until that transaction commits.
+  # https://github.com/ClosureTree/closure_tree/commit/b4eb3df
+  def self.with_hierarchy_savepoint(&)
+    transaction(requires_new: true, &)
+  end
+
   # Overrides Redmine::Acts::Customizable::ClassMethods#available_custom_fields
   def self.available_custom_fields(work_package)
     if work_package.project_id && work_package.type_id
@@ -503,6 +513,10 @@ class WorkPackage < ApplicationRecord
     else
       []
     end
+  end
+
+  def self.clear_available_custom_fields_cache
+    RequestStore.store.delete_if { |key, _| key.to_s.start_with?(AVAILABLE_CUSTOM_FIELDS_CACHE_PREFIX) }
   end
 
   def self.preload_available_custom_fields(work_packages)
@@ -591,7 +605,7 @@ class WorkPackage < ApplicationRecord
   private_class_method :form_configuration_custom_fields_join
 
   def self.available_custom_field_key(work_package)
-    :"work_package_custom_fields_#{work_package.project_id}_#{work_package.type_id}"
+    :"#{AVAILABLE_CUSTOM_FIELDS_CACHE_PREFIX}#{work_package.project_id}_#{work_package.type_id}"
   end
 
   private_class_method :available_custom_field_key
@@ -622,6 +636,10 @@ class WorkPackage < ApplicationRecord
   end
 
   private
+
+  def default_custom_field_value(custom_field)
+    custom_field.keep_usable_values(super, project)
+  end
 
   def derived_progress_hints
     @derived_progress_hints ||= {}

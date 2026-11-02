@@ -2,6 +2,16 @@
 ---
 type: object
 properties:
+  id:
+    type: integer
+    description: The unique identifier of the budget
+  _type:
+    type: string
+    enum:
+      - Budget
+  subject:
+    type: string
+    description: The subject of the budget
   _links:
     type: object
     required:

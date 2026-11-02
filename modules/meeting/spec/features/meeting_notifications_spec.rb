@@ -57,7 +57,7 @@ RSpec.describe "Meeting notifications", :js do
     perform_enqueued_jobs
   end
 
-  shared_examples "notification checkbox behaviour" do
+  shared_examples "notification checkbox behavior" do
     it "shows checkbox checked initially" do
       page.find_by_id("open-meeting-button").click
 
@@ -102,7 +102,7 @@ RSpec.describe "Meeting notifications", :js do
       meetings_page.click_create
     end
 
-    include_examples "notification checkbox behaviour"
+    include_examples "notification checkbox behavior"
 
     it "sets and toggles the calendar updates state" do
       edit_start_time = "12:00"
@@ -248,7 +248,7 @@ RSpec.describe "Meeting notifications", :js do
       meetings_page.click_create
     end
 
-    include_examples "notification checkbox behaviour"
+    include_examples "notification checkbox behavior"
   end
 
   context "for a recurring meeting" do

@@ -402,7 +402,7 @@ RSpec.describe Timestamp do
           end
         end
 
-        # Negtive time zone offsets are allowed
+        # Negative time zone offsets are allowed
         context "with having a negative time zone offset minutes part" do
           subject { described_class.parse("oneDayAgo@00:00+00:-50") }
 

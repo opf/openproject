@@ -27,7 +27,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Shared behaviour for custom fields that belong to a CustomFieldSection and
+# Shared behavior for custom fields that belong to a CustomFieldSection and
 # maintain their position within that section via attribute_order.
 # Include in UserCustomField and ProjectCustomField.
 module CustomField::Sectionable

@@ -243,7 +243,7 @@ RSpec.describe Token::ICal do
 
     # TODO: following code is copy pasted from hashed_token_spec
     # in order to make sure the token behaves in the same way in its basic
-    # checking for inheritance does not safely check if the basic behaviour is the same
+    # checking for inheritance does not safely check if the basic behavior is the same
     # is there a better way of reusing the specs from hashed_token_spec?
     describe "token value" do
       it "is generated on a new instance" do

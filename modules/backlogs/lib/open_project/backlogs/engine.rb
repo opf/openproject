@@ -149,7 +149,9 @@ module OpenProject::Backlogs
 
     assets %w(enterprise/multiple-active-sprints-light.png enterprise/multiple-active-sprints-dark.png)
 
-    patches %i[WorkPackage Project]
+    patches %i[PermittedParams
+               WorkPackage
+               Project]
 
     patch_with_namespace :Projects, :CopyService
     patch_with_namespace :Projects, :SetAttributesService

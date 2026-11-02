@@ -32,7 +32,7 @@ import {
   listBoundaryItem,
   liveOrderableItems,
   liveOrderableListItems,
-  neighbourItem,
+  neighborItem,
   orderedItemElements,
   orderedSelectedItemElements,
   resolveCandidate,
@@ -428,17 +428,17 @@ describe('sortable-lists selection adapter', () => {
   });
 
   it('finds the next and previous item within one list', () => {
-    expect(neighbourItem(root, itemFor('1'), 1)).toBe(itemFor('2'));
-    expect(neighbourItem(root, itemFor('2'), -1)).toBe(itemFor('1'));
+    expect(neighborItem(root, itemFor('1'), 1)).toBe(itemFor('2'));
+    expect(neighborItem(root, itemFor('2'), -1)).toBe(itemFor('1'));
   });
 
   it('does not step across a list boundary', () => {
-    expect(neighbourItem(root, itemFor('3'), 1)).toBeNull();
+    expect(neighborItem(root, itemFor('3'), 1)).toBeNull();
   });
 
   // Not filtered by movability, unlike listBoundaryItem below.
   it('steps onto a non-movable card with the arrow', () => {
-    expect(neighbourItem(root, itemFor('4'), 1)).toBe(itemFor('5'));
+    expect(neighborItem(root, itemFor('4'), 1)).toBe(itemFor('5'));
   });
 
   it('finds the first and last item of the containing list', () => {
@@ -456,7 +456,7 @@ describe('sortable-lists selection adapter', () => {
   it('does not step into a list nested inside the list', () => {
     appendNestedList();
 
-    expect(neighbourItem(root, itemFor('6'), 1)).toBeNull();
+    expect(neighborItem(root, itemFor('6'), 1)).toBeNull();
   });
 
   it('confines list-scoped select-all to the items the list itself owns', () => {

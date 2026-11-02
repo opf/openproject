@@ -36,6 +36,10 @@ module Workflows
 
         text(t("workflows.index.roles_count", count: role_count))
       end
+
+      def button_links
+        [render(RowActionsComponent.new(record:, model_class:, icon:))]
+      end
     end
   end
 end

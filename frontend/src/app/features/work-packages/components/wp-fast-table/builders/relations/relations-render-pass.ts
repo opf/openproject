@@ -144,6 +144,7 @@ export class RelationsRenderPass {
         workPackageId: to.id!,
         renderType: this.renderType,
         hidden: row.hidden,
+        level: row.level + 1,
         relation,
       },
     );

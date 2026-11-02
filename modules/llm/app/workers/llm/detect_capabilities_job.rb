@@ -28,7 +28,7 @@
 #++
 
 module Llm
-  # Pre-colours the model list after a refresh, out of band so that fetching the
+  # Pre-colors the model list after a refresh, out of band so that fetching the
   # catalogue does not wait on one request per candidate model.
   class DetectCapabilitiesJob < ApplicationJob
     include GoodJob::ActiveJobExtensions::Concurrency

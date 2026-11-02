@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, HostListener, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, HostListener, Input, OnDestroy, OnInit, Type, inject } from '@angular/core';
 import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GridWidgetsService } from 'core-app/shared/components/grids/widgets/widgets.service';
@@ -45,7 +45,7 @@ import { WidgetChangeset } from 'core-app/shared/components/grids/widgets/widget
 export interface WidgetRegistration {
   identifier:string;
   title:string;
-  component:new (...args:any[]) => AbstractWidgetComponent;
+  component:Type<AbstractWidgetComponent>;
   properties?:Record<string, unknown>;
 }
 
@@ -79,7 +79,7 @@ export class GridComponent implements OnDestroy, OnInit {
   readonly browserDetector = inject(BrowserDetector);
   readonly cdRef = inject(ChangeDetectorRef);
 
-  public uiWidgets:ComponentRef<any>[] = [];
+  public uiWidgets:ComponentRef<unknown>[] = [];
 
   public GRID_AREA_HEIGHT = 'auto';
 
@@ -109,8 +109,10 @@ export class GridComponent implements OnDestroy, OnInit {
   @HostListener('window:keyup', ['$event'])
   handleKeyboardEvent(event:KeyboardEvent) {
     if (event.key !== 'Escape') {
+      return;
+    }
 
-    } else if (this.drag.currentlyDragging) {
+    if (this.drag.currentlyDragging) {
       this.drag.abort();
     } else if (this.resize.currentlyResizing) {
       this.resize.abort();

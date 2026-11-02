@@ -1,6 +1,6 @@
 #!/bin/bash
 #-- copyright
-# OpenProject is a project management system.
+# OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
@@ -21,10 +21,9 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 set -e
@@ -40,7 +39,7 @@ set -e
 PR_BODY=$(cat)
 
 # "None/Assisted" is listed first so that it is matched as a single level; a bare
-# "None" or "Assisted" is accepted as well and normalised to it.
+# "None" or "Assisted" is accepted as well and normalized to it.
 LEVELS='None/Assisted|None|Assisted|Collaborative|Directed|Autonomous'
 
 # The template lists every level inside an HTML comment; contributors pick one

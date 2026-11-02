@@ -141,8 +141,8 @@ RSpec.describe LlmConnection do
     let(:connection) { create(:llm_connection, :with_models) }
 
     before do
-      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
-                                             state: "supported", source: "probe", checked_at: Time.current)
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
+                                      state: "supported", source: "probe")
     end
 
     it "lists the active models that are not embedding models, by identifier" do
@@ -166,14 +166,14 @@ RSpec.describe LlmConnection do
     let(:connection) { create(:llm_connection, :with_models) }
 
     before do
-      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
-                                             state: "supported", source: "probe", checked_at: Time.current)
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
+                                      state: "supported", source: "probe")
     end
 
     it "lists the active models that can create embeddings, by identifier" do
       create(:llm_model, :withdrawn, llm_connection: connection, external_id: "a-withdrawn")
-      connection.capability_verdicts.create!(model_id: "a-withdrawn", capability: "embeddings",
-                                             state: "supported", source: "probe", checked_at: Time.current)
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "a-withdrawn", capability: "embeddings",
+                                      state: "supported", source: "probe")
 
       expect(connection.embedding_models.map(&:external_id)).to eq(%w[bge-m3])
     end

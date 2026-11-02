@@ -120,7 +120,7 @@ Rails.application.configure do
   config.action_mailer.delivery_method = ENV["OPENPROJECT_EMAIL_DELIVERY_METHOD"]&.to_sym || :letter_opener_web
 
   # Set email preview locations to rspec
-  config.action_mailer.preview_paths << Rails.root.join("spec/mailers/previews")
+  config.action_mailer.preview_paths.concat(Rails.root.glob("{,modules/*/}spec/mailers/previews"))
 
   # Used with `bin/safari_browser_stack` for testing Safari on Browser Stack
   # Allow Browser Stack local server when assets are proxied

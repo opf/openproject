@@ -58,7 +58,7 @@ An example in OpenProject would be the APIV3Service that encapsulates all the lo
 #### Why
 
 - Code is easier to understand and reason about.
-- Favours reusability.
+- Favors reusability.
 - Simplifies refactoring.
 - The state management becomes predictable, easy to trace, and under control.
 - Aligns with unidirectional data flow (Stores) and the Components Architecture.  

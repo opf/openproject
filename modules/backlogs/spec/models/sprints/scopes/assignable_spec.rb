@@ -84,4 +84,38 @@ RSpec.describe Sprints::Scopes::Assignable do
         .to be_empty
     end
   end
+
+  context "with a project sharing its sprints with a receiving project" do
+    shared_let(:sharing_project) { create(:project, sprint_sharing: "share_all_projects") }
+    shared_let(:receiving_project) { create(:project, sprint_sharing: "receive_shared") }
+    shared_let(:in_planning_sprint_in_sharing_project) do
+      create(:sprint, project: sharing_project, status: "in_planning")
+    end
+    shared_let(:completed_sprint_in_sharing_project) { create(:sprint, project: sharing_project, status: "completed") }
+
+    context "when the user can view sprints in the receiving project only" do
+      let(:user) { create(:user, member_with_roles: { receiving_project => role }) }
+
+      it "returns the open shared sprints" do
+        expect(Sprint.assignable(project: receiving_project,
+                                 user:))
+          .to contain_exactly(in_planning_sprint_in_sharing_project)
+      end
+    end
+
+    context "when the user can view sprints in the sharing project only" do
+      let(:user) do
+        create(:user,
+               member_with_roles: { sharing_project => role,
+                                    receiving_project => create(:project_role,
+                                                                permissions: %i[view_work_packages]) })
+      end
+
+      it "returns no sprints for the receiving project" do
+        expect(Sprint.assignable(project: receiving_project,
+                                 user:))
+          .to be_empty
+      end
+    end
+  end
 end

@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "backup", :js, :selenium do
+RSpec.describe "backup", :js do
   let(:current_user) do
     create(:user,
            global_permissions: [:create_backup],

@@ -29,23 +29,23 @@ da:
         title: Issues
       tab_header_mr:
         copy_menu:
-          description: Copy git snippets to clipboard
-          label: Git snippets
+          description: Kopiér Git-kodestykker til udklipsholderen
+          label: Git-kodestykker
         create_mr:
-          description: Create a Merge Request
-          label: Create MR
+          description: Opret en merge request
+          label: Opret MR
         git_actions:
-          branch_name: Branch name
-          cmd: Create branch with empty commit
-          commit_message: Commit message
+          branch_name: Navn på branch
+          cmd: Opret branch med tomt commit
+          commit_message: Commit-besked
           copy_error: "❌ Kopiering mislykkedes!"
           copy_success: "✅ Kopieret!"
-          title: Quick snippets for Git
+          title: Hurtige Git-kodestykker
         title: Merge requests
       tab_issue:
-        empty: There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.
+        empty: Der er endnu ikke linket nogen issues. Link et eksisterende issue ved at skrive koden <code>OP#%{wp_id}</code> (eller <code>PP#%{wp_id}</code> for private links) i issuets titel eller beskrivelse, eller opret et nyt issue.
       tab_mrs:
-        empty: There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.
+        empty: Der er endnu ikke linket nogen merge requests. Link en eksisterende MR ved at skrive koden <code>OP#%{wp_id}</code> (eller <code>PP#%{wp_id}</code> for private links) i MR'ens titel eller beskrivelse, eller opret en ny MR.
       updated_on: Opdateret den
       work_packages:
         tab_name: GitLab

@@ -80,7 +80,7 @@ See COPYRIGHT and LICENSE files for more details.
         <div class="form--field"
              data-controller="<%= "roles--permissions-preview" if preview_role_permissions %>">
           <%= styled_label_tag :member_role_ids, title: t(:label_role_search) do
-                render OpenProject::Common::AttributeLabelComponent.new(
+                render OpPrimer::AttributeLabelComponent.new(
                   attribute: "members",
                   model: Project,
                   tag: nil

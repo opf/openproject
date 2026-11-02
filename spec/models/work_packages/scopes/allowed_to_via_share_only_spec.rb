@@ -144,7 +144,7 @@ RSpec.describe WorkPackage, ".allowed_to_via_share_only" do # rubocop:disable RS
               role_ids: [work_package_role.id])
     end
 
-    it "returns the work package, because the group share is materialised per user" do
+    it "returns the work package, because the group share is materialized per user" do
       expect(subject).to contain_exactly(shared_work_package)
     end
   end

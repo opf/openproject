@@ -3,11 +3,11 @@ fr:
   are_you_sure_delete_avatar: Voulez-vous vraiment supprimer votre avatar ?
   avatar_deleted: L'avatar a bien été supprimé.
   avatars:
-    background_color_hint: Leave blank for an automatic color.
-    delete_image: Delete image
-    edit_avatar: Edit avatar
-    image_hint: Choose a JPG, PNG, or GIF. Your image is saved when you select Save.
-    image_required: Choose an image, or select a different avatar option.
+    background_color_hint: Laissez ce champ vide pour que la couleur soit choisie automatiquement.
+    delete_image: Supprimer l’image
+    edit_avatar: Modifier l'avatar
+    image_hint: Choisissez un fichier JPG, PNG ou GIF. Votre image est enregistrée lorsque vous cliquez sur « Enregistrer ».
+    image_required: Choisissez une image ou sélectionnez un autre avatar.
     label_avatar_text: Texte de l'avatar
     label_background_color: Arrière-plan
     label_gravatar: Gravatar
@@ -34,7 +34,7 @@ fr:
       initials:
         description: Utilisez les initiales de votre nom ou remplacez-les par deux caractères au maximum.
         label: Initiales
-  empty_file_error: Veuillez importer une image valide (jpg, png, gif)
+  empty_file_error: Veuillez importer une image valide (JPG, PNG, GIF)
   error_image_size: L'image est trop grande.
   error_image_upload: Erreur lors de la sauvegarde de l'image.
   label_avatar: Avatar
@@ -46,4 +46,4 @@ fr:
     description: Ce plugin permet aux utilisateurs d'OpenProject de téléverser une image à utiliser comme avatar ou d'utiliser des images enregistrées dans Gravatar.
     name: Avatars
   unable_to_delete_avatar: L'avatar n'a pas pu être supprimé.
-  wrong_file_format: Les formats autorisés sont Jpg, Png et Gif
+  wrong_file_format: Les formats autorisés sont JPG, PNG et GIF

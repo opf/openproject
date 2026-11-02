@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe 'Filter by date with "is empty"', :js, :selenium do
+RSpec.describe 'Filter by date with "is empty"', :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
 

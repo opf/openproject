@@ -401,7 +401,7 @@ RSpec.describe "my access tokens", :js do
           end
         end
 
-        it "can revoke mutliple tokens per app" do
+        it "can revoke multiple tokens per app" do
           visit my_access_tokens_path
 
           within "#oauth-application-token-section" do

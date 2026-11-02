@@ -34,7 +34,7 @@ module Wikis::Concerns
     # Mirrors the prefix character class of the inline-text macro matcher.
     # The trailing `(?!\w)` on the semantic branch keeps `#PROJ-1abc` from
     # matching `#PROJ-1`; the numeric branch deliberately has no trailing
-    # boundary to preserve historic behaviour for inputs like `#13-blubb`.
+    # boundary to preserve historic behavior for inputs like `#13-blubb`.
     # rubocop:disable Style/RedundantRegexpEscape
     WP_REF_RE = /
       (?:[[:space:],~>\#\(\[\-]|^)\#

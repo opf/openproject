@@ -85,7 +85,7 @@ export default class InternalCommentController extends BaseController {
     if (currentValue === previousValue) return;
 
     if (this.ckEditorInstance) {
-      const editorData = this.ckEditorInstance.getData({ trim: false });
+      const editorData = this.ckEditorInstance.getData({ trim: 'none' });
       if (editorData.length === 0) return;
 
       if (!currentValue && previousValue) {
@@ -115,7 +115,7 @@ export default class InternalCommentController extends BaseController {
 
   private async sanitizeInternalMentions():Promise<void> {
     if (this.ckEditorInstance) {
-      const editorData = this.ckEditorInstance.getData({ trim: false });
+      const editorData = this.ckEditorInstance.getData({ trim: 'none' });
       if (editorData.length === 0) return;
 
       const sanitizePath = `/work_packages/${this.workPackageId}/activities/sanitize_internal_mentions`;

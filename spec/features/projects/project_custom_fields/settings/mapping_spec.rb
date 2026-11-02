@@ -185,7 +185,7 @@ RSpec.describe "Projects custom fields mapping via project settings", :js do
           end
         end
 
-        # propely persisted and visible after full page reload
+        # properly persisted and visible after full page reload
         visit project_settings_project_custom_fields_path(project)
 
         within_custom_field_container(boolean_project_custom_field) do
@@ -492,7 +492,7 @@ RSpec.describe "Projects custom fields mapping via project settings", :js do
           end
         end
 
-        it "includeds the invisible project custom fields in the bulk actions" do
+        it "includes the invisible project custom fields in the bulk actions" do
           within_custom_field_section_container(section_with_invisible_fields) do
             page
               .find("[data-test-selector='disable-all-project-custom-field-mappings-#{section_with_invisible_fields.id}']")

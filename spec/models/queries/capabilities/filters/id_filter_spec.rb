@@ -78,7 +78,7 @@ RSpec.describe Queries::Capabilities::Filters::IdFilter do
         end
       end
 
-      context "with malfomed values" do
+      context "with malformed values" do
         let(:values) { ["foo/bar/baz-5"] }
 
         it "is invalid" do

@@ -185,7 +185,7 @@ ru:
     label_new_resource_planner: Новый планировщик ресурсов
     label_resource_planner: Планировщик ресурсов
     label_resource_planner_plural: Планировщики ресурсов
-    my_work:
+    my_time_management:
       hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Добавить представление

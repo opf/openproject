@@ -28,7 +28,7 @@
           >
           <option [textContent]="text.drop_down_none_option"
             [selected]="!filterSelected"
-          [value]="'-'"></option>
+          value=""></option>
           @for (availableValue of baselineAvailableValues; track availableValue.value) {
             <option
               [value]="availableValue.value"

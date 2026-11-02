@@ -47,7 +47,7 @@ module LlmConnections
     end
 
     # Not named +options+: ApplicationComponent already owns that name and
-    # initialises it to an empty hash, which silently swallowed the memoisation.
+    # initializes it to an empty hash, which silently swallowed the memoisation.
     def model_options
       @model_options ||= selectable_models.call
     end

@@ -173,7 +173,7 @@ pt-BR:
     label_new_resource_planner: Novo planejador de recursos
     label_resource_planner: Planejador de recursos
     label_resource_planner_plural: Planejadores de recursos
-    my_work:
+    my_time_management:
       hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Adicionar Visualização

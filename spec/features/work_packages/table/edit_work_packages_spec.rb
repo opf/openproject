@@ -223,7 +223,7 @@ RSpec.describe "Inline editing work packages", :js do
       expect(work_package.send(custom_fields.first.attribute_getter)).to eq("bar")
       expect(work_package.send(custom_fields.last.attribute_getter)).to eq("my custom text")
 
-      # Saveguard to let the background update complete
+      # Safeguard to let the background update complete
       wp_table.visit!
       wp_table.expect_work_package_listed(work_package)
     end

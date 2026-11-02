@@ -64,7 +64,7 @@ module Backlogs
       @system_arguments[:header_padding] = :condensed
       merge_drag_and_drop_data! if drag_and_drop
 
-      @list = OpenProject::Common::BorderBoxListComponent.new(
+      @list = OpPrimer::BorderBoxListComponent.new(
         container:,
         current_user:,
         interactive: true,

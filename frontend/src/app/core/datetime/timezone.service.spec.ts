@@ -109,6 +109,26 @@ describe('TimezoneService', () => {
     });
   });
 
+  describe('#formattedDatetimeAsDate', () => {
+    beforeEach(() => {
+      compile('Asia/Kolkata', { date: 'DD.MM.YYYY', time: 'HH:mm' });
+    });
+
+    it('dates an instant by the user time zone, not by UTC', () => {
+      // Half past midnight in Kolkata, still the previous day everywhere west of it.
+      expect(timezoneService.formattedDatetimeAsDate('2026-10-16T19:00:00Z')).toEqual('17.10.2026');
+    });
+
+    // The trap this exists for: formattedDate parses without a zone, so it answers for whichever
+    // one the browser happens to be in.
+    it('differs from formattedDate, which does not apply the zone', () => {
+      const instant = '2026-10-16T19:00:00Z';
+
+      expect(timezoneService.formattedDatetimeAsDate(instant))
+        .not.toEqual(timezoneService.formattedDate(instant));
+    });
+  });
+
   describe('#parseFormattedDatetime', () => {
     beforeEach(() => {
       compile('Europe/Berlin', { date: 'DD.MM.YYYY', time: 'HH:mm' });

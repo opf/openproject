@@ -68,12 +68,12 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
     });
 
     // Open with keyboard combination as well
-    Mousetrap(this.element).bind('shift+alt+f10', (evt:any) => {
+    Mousetrap(this.element).bind('shift+alt+f10', (evt) => {
       this.open(evt);
     });
   }
 
-  public computePosition(floating:HTMLElement, openerEvent:Event):Promise<ComputePositionReturn> {
+  public computePosition(floating:HTMLElement, _openerEvent:Event):Promise<ComputePositionReturn> {
     return computePosition(this.element, floating, {
       placement: this.placement,
       middleware: [

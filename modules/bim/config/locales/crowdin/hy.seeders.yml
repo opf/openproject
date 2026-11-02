@@ -61,7 +61,7 @@ hy:
         item_2:
           name: BIM ղեկավարներ
         item_3:
-          name: BIM մոդելավորողներ
+          name: BIM Modelers
         item_4:
           name: Գլխավոր BIM համակարգողներ
         item_5:
@@ -511,17 +511,17 @@ hy:
               description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
               children:
                 item_0:
-                  subject: Նախնական BIM մոդելի մոդելավորում
+                  subject: Modeling initial BIM model
                   description: |-
-                    # Նպատակ
+                    # Goal
 
-                    *   Նախնական BIM մոդելի մոդելավորում
-                    *   BIM մոդելի ստեղծում ողջ նախագծային թիմի համար
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # Նկարագրություն
+                    # Description
 
-                    *   Պատվիրատուից հավաքագրված տվյալներին համապատասխան կմոդելավորվի նախնական մոդելը
-                    *   Մոդելը պետք է մոդելավորվի ըստ LOD մատրիցների և պարունակի անհրաժեշտ տեղեկությունները
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
                     *   ...
                 item_1:
                   subject: Նախնական, ներքին մոդելի ստուգում և վերանայում
@@ -538,23 +538,23 @@ hy:
                   subject: Նախնական BIM մոդելի ներկայացում
                   description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
             item_4:
-              subject: Մոդելավորում, առաջին ցիկլ
+              subject: Modeling, first cycle
               description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
               children:
                 item_0:
                   subject: Արտաքին BIM մոդելների հղում
                   description: |-
-                    # Նպատակ
+                    # Goal
 
-                    *   Ներքին մոդելի մշակման/ պատասխանների տրամադրման հիմքի ապահովում
-                    *   Արտաքին մոդելի օգտագործում ներքին մոդելը մշակելու համար
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    # Նկարագրություն
+                    # Description
 
-                    *   Արտաքին մոդելը կհղվի BIM հարթակում և այդպիսով կօգտագործվի ներքին մոդելի մոդելավորման համար
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
                     *   ...
                 item_1:
-                  subject: BIM մոդելի մոդելավորում
+                  subject: Modeling the BIM model
                   description: |-
                     # Նպատակ
 
@@ -602,19 +602,19 @@ hy:
                   subject: Համակարգման ավարտ, առաջին ցիկլ
                   description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
             item_6:
-              subject: Մոդելավորում և համակարգում, երկրորդ ցիկլ
+              subject: Modeling & coordinating, second cycle
               description: "## Նպատակ\r\n\r\n*   ...\r\n\r\n## Նկարագրություն\r\n\r\n* \\  ..."
             item_7:
-              subject: Մոդելավորում և համակարգում, ... ցիկլ
+              subject: Modeling & coordinating, ... cycle
               description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
             item_8:
-              subject: Մոդելավորում և համակարգում, (n-րդ հանած 1) ցիկլ
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## Նպատակ\r\n\r\n*   ...\r\n\r\n## Նկարագրություն\r\n\r\n* \\  ..."
             item_9:
-              subject: Մոդելավորում և համակարգում n-րդ ցիկլ
+              subject: Modeling & coordinating n-th cycle
               description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
             item_10:
-              subject: Մոդելավորման և համակարգման ավարտ, n-րդ ցիկլ
+              subject: Finishing modeling & coordinating, n-th cycle
               description: Այս տեսակը հիերարխիկորեն "Բախում" և "Հարցում" տեսակների ծնողն է, հետևաբար ներկայացնում է ընդհանուր նշում։
             item_11:
               subject: Մոդելի օգտագործում շինարարության փուլում

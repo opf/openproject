@@ -95,7 +95,7 @@ RSpec.describe ProjectQuery do
     end
   end
 
-  describe "serialisation" do
+  describe "serialization" do
     it "doesn't break checking dirty state" do
       instance = build(:project_query)
 

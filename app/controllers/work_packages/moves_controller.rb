@@ -65,14 +65,14 @@ class WorkPackages::MovesController < ApplicationController
   end
 
   def perform_operation
-    if within_frontend_treshold?
+    if within_frontend_threshold?
       perform_in_frontend
     else
       perform_in_background
     end
   end
 
-  def within_frontend_treshold?
+  def within_frontend_threshold?
     WorkPackageHierarchy.where(ancestor_id: @work_packages).count <= Setting.work_packages_bulk_request_limit
   end
 

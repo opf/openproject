@@ -108,7 +108,7 @@ hy:
   events:
     budget: Բյուջեն խմբագրվել է
   help_click_to_edit: Սեղմեք այստեղ խմբագրելու համար։
-  help_currency_format: Ցուցադրվող արժույթի արժեքների ձևաչափը։ %n-ը փոխարինվում է արժույթի արժեքով, %u-ը՝ արժույթի միավորով։
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Մուտքագրեք այստեղ արժեք՝ կանխադրված դրույքը վերասահմանելու համար։
   label_budget_available: Հասանելի բյուջե
   label_budget_details: Բյուջեի մանրամասներ

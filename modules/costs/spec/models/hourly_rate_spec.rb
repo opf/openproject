@@ -32,28 +32,28 @@ RSpec.describe HourlyRate do
   let(:user) { create(:user) }
   let(:rate) do
     build(:hourly_rate, project:,
-                        user:)
+                        principal: user)
   end
 
   describe "#user" do
     describe "WHEN an existing user is provided" do
       before do
-        rate.user = user
+        rate.principal = user
         rate.save!
       end
 
-      it { expect(rate.user).to eq(user) }
+      it { expect(rate.principal).to eq(user) }
     end
 
     describe "WHEN a non existing user is provided (i.e. the user is deleted)" do
       before do
-        rate.user = user
+        rate.principal = user
         rate.save!
         user.destroy
         rate.reload
       end
 
-      it { expect(rate.user).to eq(DeletedUser.first) }
+      it { expect(rate.principal).to eq(DeletedUser.first) }
     end
   end
 
@@ -71,7 +71,7 @@ RSpec.describe HourlyRate do
                           hours: 1, spent_on: Date.new(2025, 6, 1))
     end
     let!(:project_rate) do
-      create(:hourly_rate, user: rated_user, project: rated_project, rate: 100, valid_from: Date.new(2025, 1, 1))
+      create(:hourly_rate, principal: rated_user, project: rated_project, rate: 100, valid_from: Date.new(2025, 1, 1))
     end
 
     it "costs only the entries the rate is in effect for" do
@@ -103,9 +103,9 @@ RSpec.describe HourlyRate do
     shared_let(:former_member_project) { create(:project, name: "Former member project") }
     shared_let(:unrelated_project) { create(:project, name: "Unrelated project") }
 
-    shared_let(:member_rate) { create(:hourly_rate, user: rated_user, project: member_project) }
-    shared_let(:former_member_rate) { create(:hourly_rate, user: rated_user, project: former_member_project) }
-    shared_let(:default_rate) { create(:default_hourly_rate, user: rated_user) }
+    shared_let(:member_rate) { create(:hourly_rate, principal: rated_user, project: member_project) }
+    shared_let(:former_member_rate) { create(:hourly_rate, principal: rated_user, project: former_member_project) }
+    shared_let(:default_rate) { create(:default_hourly_rate, principal: rated_user) }
 
     subject(:history) { described_class.history_for_user(rated_user) }
 
@@ -145,40 +145,40 @@ RSpec.describe HourlyRate do
     subject(:found) { described_class.at_date_for_user_in_project(date, rated_user, child) }
 
     it "prefers the project's own rate over an ancestor's, even a newer one" do
-      own = create(:hourly_rate, user: rated_user, project: child, valid_from: 2.years.ago, rate: 10)
-      create(:hourly_rate, user: rated_user, project: parent, valid_from: 1.day.ago, rate: 99)
+      own = create(:hourly_rate, principal: rated_user, project: child, valid_from: 2.years.ago, rate: 10)
+      create(:hourly_rate, principal: rated_user, project: parent, valid_from: 1.day.ago, rate: 99)
 
       expect(found).to eq(own)
     end
 
     it "falls back to the closest rated ancestor" do
-      create(:hourly_rate, user: rated_user, project: grandparent, valid_from: 2.years.ago, rate: 10)
-      closest = create(:hourly_rate, user: rated_user, project: parent, valid_from: 2.years.ago, rate: 20)
+      create(:hourly_rate, principal: rated_user, project: grandparent, valid_from: 2.years.ago, rate: 10)
+      closest = create(:hourly_rate, principal: rated_user, project: parent, valid_from: 2.years.ago, rate: 20)
 
       expect(found).to eq(closest)
     end
 
     it "ignores rates that are not in effect yet" do
-      in_effect = create(:hourly_rate, user: rated_user, project: child, valid_from: 2.years.ago, rate: 10)
-      create(:hourly_rate, user: rated_user, project: child, valid_from: date + 1, rate: 99)
+      in_effect = create(:hourly_rate, principal: rated_user, project: child, valid_from: 2.years.ago, rate: 10)
+      create(:hourly_rate, principal: rated_user, project: child, valid_from: date + 1, rate: 99)
 
       expect(found).to eq(in_effect)
     end
 
     it "falls back to the default rate when no project in the hierarchy is rated" do
-      default = create(:default_hourly_rate, user: rated_user, valid_from: 2.years.ago, rate: 55)
+      default = create(:default_hourly_rate, principal: rated_user, valid_from: 2.years.ago, rate: 55)
 
       expect(found).to eq(default)
     end
 
     it "returns nil when the default is not wanted" do
-      create(:default_hourly_rate, user: rated_user, valid_from: 2.years.ago, rate: 55)
+      create(:default_hourly_rate, principal: rated_user, valid_from: 2.years.ago, rate: 55)
 
       expect(described_class.at_date_for_user_in_project(date, rated_user, child, include_default: false)).to be_nil
     end
 
     it "accepts a principal id as well as a record" do
-      own = create(:hourly_rate, user: rated_user, project: child, valid_from: 2.years.ago, rate: 10)
+      own = create(:hourly_rate, principal: rated_user, project: child, valid_from: 2.years.ago, rate: 10)
 
       expect(described_class.at_date_for_user_in_project(date, rated_user.id, child)).to eq(own)
     end

@@ -32,7 +32,7 @@ require "support/edit_fields/edit_field"
 require "features/work_packages/work_packages_page"
 require "features/page_objects/notification"
 
-RSpec.describe "new work package", :js, :selenium do
+RSpec.describe "new work package", :js do
   let(:type_task) { create(:type_task, default_work_package_description: "# New Task template\n\nHello there") }
   let(:type_feature) { create(:type_feature, default_work_package_description: "") }
   let(:type_bug) { create(:type_bug, default_work_package_description: "# New Bug template\n\nGeneral Kenobi") }

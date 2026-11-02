@@ -38,7 +38,7 @@ import moment from 'moment-timezone';
 
 @Injectable()
 export class CalendarDragDropService {
-  readonly authorisation = inject(AuthorisationService);
+  readonly authorization = inject(AuthorisationService);
   readonly schemaCache = inject(SchemaCacheService);
   readonly workPackagesCalendarService = inject(OpWorkPackagesCalendarService);
   readonly I18n = inject(I18nService);
@@ -119,7 +119,7 @@ export class CalendarDragDropService {
   }
 
   private workPackageDisabled(workPackage:WorkPackageResource):{ disabled:boolean, reason?:string } {
-    if (!this.authorisation.can('work_packages', 'editWorkPackage')) {
+    if (!this.authorization.can('work_packages', 'editWorkPackage')) {
       return { disabled: true, reason: this.text.draggingDisabled.permissionDenied };
     }
 

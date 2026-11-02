@@ -114,7 +114,7 @@ module Users
     end
 
     ##
-    # Try to register a user with an existsing omniauth connection
+    # Try to register a user with an existing omniauth connection
     # bypassing regular account registration restrictions
     def register_omniauth_user
       return if skip_omniauth_user?

@@ -53,7 +53,7 @@ RSpec.describe "project menu" do
   #
   # This is only relevant for project menu entries, not global ones (`project_id` param is nil)*.
   # Meaning that you have to make sure to force the absolute URL in a project menu entry
-  # by specificying the controller as e.g. '/cost_reports' instead of just 'cost_reports'.
+  # by specifying the controller as e.g. '/cost_reports' instead of just 'cost_reports'.
   #
   # Refer to `engine.rb` to see where the menu entries are declared.
   #

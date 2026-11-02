@@ -42,7 +42,7 @@ RSpec.describe CostReport do
       expect(PersistedView.find(instance.id)).to be_a(described_class)
     end
 
-    it "categorises itself as a cost report" do
+    it "categorizes itself as a cost report" do
       instance.save!
 
       expect(instance.category).to eq("cost_report")

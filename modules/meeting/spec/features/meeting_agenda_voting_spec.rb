@@ -52,7 +52,7 @@ RSpec.describe "Meeting agenda voting", :js, :selenium do
 
     within("dialog#agenda-sorting-dialog") do
       choose mode
-      click_on "Save"
+      click_on "Apply"
     end
 
     expect(page).to have_no_css("dialog#agenda-sorting-dialog[open]")

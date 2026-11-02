@@ -56,7 +56,9 @@ export interface WorkPackageViewOutputs {
   stateLinkClicked:EventEmitter<{ workPackageId:string, requestedState:string }>;
 }
 
-export const WorkPackageViewHandlerToken = new InjectionToken<WorkPackageViewEventHandler<unknown>>('CardEventHandler');
+export const WorkPackageViewHandlerToken = new InjectionToken<
+  WorkPackageViewHandlerRegistry<unknown>|(new (injector:Injector) => WorkPackageViewHandlerRegistry<unknown>)
+>('CardEventHandler');
 
 /**
  * Abstract view handler registry for globally handling arbitrary event on the

@@ -36,7 +36,7 @@ export class CardDblClickHandler implements CardEventHandler {
   @LazyInject() wpTableSelection:WorkPackageViewSelectionService;
 
   constructor(public readonly injector:Injector,
-    card:WorkPackageCardViewComponent) {
+    _card:WorkPackageCardViewComponent) {
   }
 
   public get EVENT():EventType {

@@ -79,7 +79,6 @@ module Admin
 
     def edit
       @llm_model = @connection.models.find(params.expect(:id))
-      @verdicts = @connection.capability_verdicts.for_model(@llm_model.external_id).index_by(&:capability)
     end
 
     def create
@@ -150,7 +149,6 @@ module Admin
     end
 
     def render_edit_with_errors
-      @verdicts = @connection.capability_verdicts.for_model(@llm_model.external_id_was).index_by(&:capability)
       render :edit, status: :unprocessable_entity
     end
 

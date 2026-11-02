@@ -32,6 +32,7 @@ import {
   ChartType,
   Plugin,
 } from 'chart.js';
+import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
 export interface PrimerColorsPluginOptions {
   enabled?:boolean;
@@ -60,16 +61,12 @@ const PRIMER_COLORS = [
   'pine',   // (deep green, darker balance)
   'auburn', // (earthy tone)
   'brown',  // (neutral balance)
-  'cyan',   // (slight highlight between neutral colours)
+  'cyan',   // (slight highlight between neutral colors)
   'gray',   // (neutral, mid-series filler)
   'lemon',  // (darker yellow, less eye-catching)
   'olive',  // (subdued green, background tone)
   'lime',   // (subdued green, good closing color)
 ];
-
-function getCSSVariable(variable:string) {
-  return getComputedStyle(document.body).getPropertyValue(variable).trim();
-}
 
 function getEmphasisColors() {
   return PRIMER_COLORS.map((color) => getCSSVariable(`--display-${color}-scale-6`));
@@ -112,8 +109,8 @@ function colorizeMultiDataset(dataset:ChartDataset, i:number) {
   const backgroundColors:string[] = [];
   const borderColors:string[] = [];
 
-  // Instead of directly counting the index up, all elements of that dataset will get the same colour
-  // Only at the end, we increase so that the next dataset is in a different colour
+  // Instead of directly counting the index up, all elements of that dataset will get the same color
+  // Only at the end, we increase so that the next dataset is in a different color
   // See https://community.openproject.org/wp/68364
   for (const _ of dataset.data) {
     backgroundColors.push(getMutedColor(i));

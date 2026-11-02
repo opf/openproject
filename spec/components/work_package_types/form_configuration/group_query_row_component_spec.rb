@@ -54,7 +54,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupQueryRowComponent, type
       WorkPackageTypes::ExclusionState.new(variant:, excluded: [])
     end
 
-    it "is keyed on the query and labelled with the section name", :aggregate_failures do
+    it "is keyed on the query and labeled with the section name", :aggregate_failures do
       render_inline(described_class.new(group: group.merge(element_key: "query_7"),
                                         ee_available: false, readonly: true, exclusions:))
 

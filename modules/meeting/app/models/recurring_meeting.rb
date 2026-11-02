@@ -459,7 +459,7 @@ class RecurringMeeting < ApplicationRecord
 
   def unset_schedule
     @schedule = nil
-    @first_occurence = nil
+    @first_occurrence = nil
     @last_occurrence = nil
   end
 

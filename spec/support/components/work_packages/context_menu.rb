@@ -63,7 +63,7 @@ module Components
       end
 
       # Cuprite's send_keys clicks the receiving element first, and a click at
-      # the body centre lands on whichever menu item happens to lie there.
+      # the body center lands on whichever menu item happens to lie there.
       def press_escape
         if using_cuprite?
           page.driver.browser.keyboard.type(:escape)

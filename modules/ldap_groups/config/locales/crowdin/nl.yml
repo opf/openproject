@@ -91,7 +91,7 @@ nl:
       plural: Gesynchroniseerde LDAP groepen
       singular: Gesynchroniseerde LDAP groep
       upsell:
-        description: Profiteer van gesynchroniseerde LDAP-groepen om gebruikers te beheren, wijzig hun rechten en faciliteer gebruikersbeheer over groepen.
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: Synchronization of LDAP group memberships.
     name: OpenProject LDAP groups

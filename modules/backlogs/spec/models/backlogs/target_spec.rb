@@ -127,7 +127,7 @@ RSpec.describe Backlogs::Target do
       expect(described_class.for(described_class::Inbox)).to eq(described_class::InboxId)
     end
 
-    it "raises for an unrecognised container" do
+    it "raises for an unrecognized container" do
       expect { described_class.for(Object.new) }.to raise_error(NoMatchingPatternError)
     end
   end

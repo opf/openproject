@@ -26,7 +26,6 @@ This is where you act on what you decided in the "confirm you can accept what do
 - [ ] **Agile boards** (Scrum/Kanban setup, filters, swimlanes) — recreate using OpenProject's Backlogs or Agile boards module. Planned: [JIM-106](https://community.openproject.org/projects/JIM/work_packages/JIM-106).
 - [ ] **Issue relations and sub-task/parent hierarchies** — recreate manually via the work package relations panel, or script it against the API if you exported the structure beforehand. Planned: [JIM-76](https://community.openproject.org/projects/JIM/work_packages/JIM-76) (issue links), [JIM-75](https://community.openproject.org/projects/JIM/work_packages/JIM-75) (sub-tasks).
 - [ ] **Sprint assignments, Epic Links, Story Points** — recreate from whatever you exported beforehand.
-- [ ] **Logged time entries** — only estimates transfer, not actual time logged. Re-enter via OpenProject's time tracking, or bulk-import via the API using your exported worklog data. Planned: [JIM-93](https://community.openproject.org/projects/JIM/work_packages/JIM-93).
 - [ ] **Watchers** on individual work packages — re-add manually from the list you exported beforehand. Planned: [JIM-180](https://community.openproject.org/projects/JIM/work_packages/JIM-180).
 - [ ] Anything from **Confluence** — entirely out of scope for this tool; plan a separate migration for it if needed.
 

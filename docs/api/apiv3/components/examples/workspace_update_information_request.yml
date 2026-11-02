@@ -1,0 +1,6 @@
+description: |-
+  A request body to update several information of a workspace.
+value:
+  name: "Death Star 2.0"
+  identifier: "death-star-2"
+  public: false

@@ -31,7 +31,7 @@ module Queries::NamedReferences::Filters::MemberExists
   private
 
   def member_exists(condition, binds, extra_joins: nil)
-    honouring_negation(member_exists_sql(condition, extra_joins:), binds)
+    honoring_negation(member_exists_sql(condition, extra_joins:), binds)
   end
 
   def member_exists_sql(condition, extra_joins: nil)
@@ -46,7 +46,7 @@ module Queries::NamedReferences::Filters::MemberExists
     SQL
   end
 
-  def honouring_negation(sql, binds)
+  def honoring_negation(sql, binds)
     [negated? ? "NOT (#{sql})" : "(#{sql})", binds]
   end
 

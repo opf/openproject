@@ -33,12 +33,12 @@ module OpStimulus
 
     # Builds data attributes for a controller with values:
     #
-    #     stimulus_controller_data("my--work", view_mode: "calendar", start_of_week: 1)
+    #     stimulus_controller_data("my--time-management", view_mode: "calendar", start_of_week: 1)
     #
     #     {
-    #       "controller" => "my--work",
-    #       "my--work-view-mode-value" => "calendar",
-    #       "my--work-start-of-week-value" => 1,
+    #       "controller" => "my--time-management",
+    #       "my--time-management-view-mode-value" => "calendar",
+    #       "my--time-management-start-of-week-value" => 1,
     #     }
     def stimulus_controller_data(controller, **values)
       {

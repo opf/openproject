@@ -1104,7 +1104,7 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
       end
     end
 
-    context "with an unrecognised filter value" do
+    context "with an unrecognized filter value" do
       let(:initial_journal) { work_package.journals.find_by(version: 1) }
       let!(:journal_with_notes) do
         create(:work_package_journal, user:, notes: "A comment", journable: work_package, version: 2)
@@ -1114,7 +1114,7 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
         params[:filter] = "bogus"
       end
 
-      it "normalises the filter to :all" do
+      it "normalizes the filter to :all" do
         expect(paginator.filter).to eq(:all)
       end
 

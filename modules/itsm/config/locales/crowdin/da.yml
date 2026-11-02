@@ -1,0 +1,61 @@
+---
+da:
+  activerecord:
+    attributes:
+      itsm/email_message:
+        direction: Retning
+        from_address: Fra
+        message_id: Besked-id
+        status: Status
+        subject: Emne
+      itsm/email_thread:
+        recipients: Modtagere
+        requester_email: Anmoderens e-mail
+        requester_name: Anmoderens navn
+        work_package: Arbejdspakke
+      itsm/incoming_mailbox:
+        active: Aktiv
+        aliases: Kendte e-mailadresser
+        email: E-mailadresse
+        mail_server: IMAP-server
+        password: Adgangskode
+        project: Projekt
+        username: Brugernavn
+      itsm/mail_server:
+        encryption: Kryptering
+        host: Servernavn
+        incoming_mailboxes: Indgående postkasser
+        name: Navn
+        outgoing_mailboxes: Udgående postkasser
+        port: Port
+        protocol: Protokol
+      itsm/outgoing_mailbox:
+        mail_server: SMTP-server
+        password: Adgangskode
+        project: Projekt
+        sender_email: Afsenderens e-mail
+        sender_name: Afsenderens navn
+        username: Brugernavn
+    models:
+      itsm/email_message:
+        one: E-mail
+        other: E-mails
+      itsm/email_thread:
+        one: E-mailtråd
+        other: E-mailtråde
+      itsm/incoming_mailbox:
+        one: Indgående postkasse
+        other: Indgående postkasser
+      itsm/mail_server:
+        one: Mailserver
+        other: Mailservere
+      itsm/outgoing_mailbox:
+        one: Udgående postkasse
+        other: Udgående postkasser
+  admin:
+    description: Gør det muligt at oprette arbejdspakker ved at sende e-mails via en IMAP-server og at besvare dem via en SMTP-server.
+    enable_helpdesk: Slå helpdesk til i denne installation
+    helpdesk_set_by_environment: Helpdesk-funktionen er angivet med en miljøvariabel og kan ikke ændres her.
+  label_helpdesk: Helpdesk
+  permission_manage_helpdesk: Administrer helpdesk
+  project_module_helpdesk: Helpdesk

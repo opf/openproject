@@ -57,7 +57,7 @@ get:
 
         + user_id: Filter time entries by users
 
-        + ongoing: Filter to only recevie ongoing timers
+        + ongoing: Filter to only receive ongoing timers
 
         + spent_on: Filter time entries by spent on date
 

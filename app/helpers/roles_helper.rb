@@ -29,7 +29,7 @@
 
 module RolesHelper
   def setable_permissions(role)
-    # Use the base contract for now as we are only interested in the setable permissions
+    # Use the base contract for now as we are only interested in the settable permissions
     # which do not differentiate.
     contract = Roles::BaseContract.new(role, current_user)
 

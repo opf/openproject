@@ -217,7 +217,7 @@ RSpec.describe Projects::CreateContract do
         # the custom fields the user can access via project memberships with `:view_project_attributes`
         # permission or return all the custom fields if the user has the `:add_project` global permission.
         #
-        # The purpose of this behaviour is to provide details for the project schema only.
+        # The purpose of this behavior is to provide details for the project schema only.
         # It will not affect the availability of all the custom fields on project creation, because
         # the `:add_project` permission will ensure that all the custom fields are accessible.
 

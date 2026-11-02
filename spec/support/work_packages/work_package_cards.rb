@@ -41,7 +41,7 @@ class WorkPackageCards
 
   def open_full_screen_by_doubleclick(work_package)
     loading_indicator_saveguard
-    page.driver.browser.action.double_click(card(work_package).native).perform
+    card(work_package).double_click
 
     Pages::FullWorkPackage.new(work_package, project)
   end

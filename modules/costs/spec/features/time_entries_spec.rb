@@ -33,7 +33,7 @@ RSpec.describe "Work Package table time entries", :js do
 
   shared_let(:parent) { create(:work_package, project:) }
   shared_let(:work_package) { create(:work_package, project:, parent:) }
-  shared_let(:hourly_rate) { create(:default_hourly_rate, user:, rate: 1.00) }
+  shared_let(:hourly_rate) { create(:default_hourly_rate, principal: user, rate: 1.00) }
 
   let!(:time_entry1) do
     create(:time_entry,

@@ -32,7 +32,7 @@ module Capabilities::Scopes
     extend ActiveSupport::Concern
 
     class_methods do
-      # Currently, this does not reflect the behaviour present in the backend that every permission in at least one project
+      # Currently, this does not reflect the behavior present in the backend that every permission in at least one project
       # leads to having that permission in the global context as well. Hopefully, this is not necessary to be added.
       def default
         capabilities_sql = <<~SQL.squish

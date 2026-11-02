@@ -29,7 +29,7 @@
 
 # Test for a project autocompleter that is filled in directly (instead of
 # being driven through the ng-select autocompleter helpers): searching a
-# project's identifier has to surface the matching projec.
+# project's identifier has to surface the matching project.
 #
 # The including example group has to provide:
 #

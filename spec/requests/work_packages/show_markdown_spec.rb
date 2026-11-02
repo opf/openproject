@@ -75,10 +75,16 @@ RSpec.describe "GET work package as Markdown", type: :rails_request do
       expect(response).to have_http_status(:not_found)
     end
 
-    it "keeps the pdf export as an attachment" do
-      get "/work_packages/#{work_package.id}.pdf"
+    context "with the permission to export work packages" do
+      let(:user) do
+        create(:user, member_with_permissions: { project => %i[view_work_packages export_work_packages] })
+      end
 
-      expect(response.headers["Content-Disposition"]).to start_with("attachment")
+      it "keeps the pdf export as an attachment" do
+        get "/work_packages/#{work_package.id}.pdf"
+
+        expect(response.headers["Content-Disposition"]).to start_with("attachment")
+      end
     end
   end
 

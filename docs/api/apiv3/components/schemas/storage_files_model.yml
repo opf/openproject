@@ -51,6 +51,9 @@ example:
       lastModifiedAt: '2021-12-20T14:00:13.987Z'
       createdByName: Luke Skywalker
       lastModifiedByName: Anakin Skywalker
+      permissions:
+        - readable
+        - writable
       _links:
         self:
           href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'
@@ -64,6 +67,9 @@ example:
       lastModifiedAt: '2021-12-20T14:00:13.987Z'
       createdByName: Luke Skywalker
       lastModifiedByName: Anakin Skywalker
+      permissions:
+        - readable
+        - writable
       _links:
         self:
           href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'
@@ -78,6 +84,8 @@ example:
     lastModifiedAt: '2021-12-21T14:00:13.987Z'
     createdByName: Luke Skywalker
     lastModifiedByName: Anakin Skywalker
+    permissions:
+      - readable
     _links:
       self:
         href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'

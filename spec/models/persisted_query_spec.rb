@@ -32,7 +32,7 @@ require "rails_helper"
 RSpec.describe PersistedQuery do
   # The base class has no serializers installed (the `inherited` hook only
   # installs them on subclasses), so `filters`/`orders`/`selects` must be
-  # initialised explicitly for validations from Queries::BaseQuery to pass.
+  # initialized explicitly for validations from Queries::BaseQuery to pass.
   subject(:persisted_query) do
     described_class.new(name: "My query", filters: [], orders: [], selects: [])
   end

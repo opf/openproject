@@ -41,7 +41,7 @@ module LlmConnections
 
     def not_configured_from_env = nil
 
-    # On a fresh installation the seed runs before any model synchronisation, so
+    # On a fresh installation the seed runs before any model synchronization, so
     # there is no catalogue to validate a default model against. A wrong id is
     # surfaced afterwards, the same way as a model that vanished: the binding
     # shows as no longer offered.

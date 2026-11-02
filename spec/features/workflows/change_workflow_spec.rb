@@ -232,7 +232,6 @@ RSpec.describe "Choosing the workflow a type uses", :js do
 
   describe "inside a project" do
     shared_let(:project) { create(:project, name: "Bookshop", types: [type]) }
-    shared_let(:other_project) { create(:project, name: "Foundry") }
 
     # Named here rather than taken from the type: the examples above reassign the type's own
     # workflow, leaving the shared type carrying an id their rollback has already removed.
@@ -245,8 +244,7 @@ RSpec.describe "Choosing the workflow a type uses", :js do
       create(:user, member_with_permissions: { project => %i[manage_project_variants] })
     end
 
-    shared_let(:ours) { create(:project_owned_workflow, project:, name: "Bookshop flow") }
-    shared_let(:theirs) { create(:project_owned_workflow, project: other_project, name: "Foundry flow") }
+    shared_let(:bookshop_flow) { create(:named_workflow, name: "Bookshop flow") }
 
     let(:tab_path) do
       edit_project_type_variant_workflow_path(project_id: project, type_id: type.id, variant_id: owned_variant.id)
@@ -254,25 +252,13 @@ RSpec.describe "Choosing the workflow a type uses", :js do
 
     before { login_as project_admin }
 
-    it "offers the global workflows and the project's own, and nothing another project owns" do
-      visit tab_path
-
-      open_workflow_picker
-
-      within_test_selector("workflow-panel") do
-        expect(page).to have_link("Company flow")
-        expect(page).to have_link("Bookshop flow")
-        expect(page).to have_no_link("Foundry flow")
-      end
-    end
-
-    it "assigns the project's own workflow" do
+    it "assigns another workflow" do
       visit tab_path
 
       switch_workflow_to "Bookshop flow"
 
       expect(page).to have_text(I18n.t(:notice_successful_update))
-      expect(owned_variant.reload.workflow).to eq(ours)
+      expect(owned_variant.reload.workflow).to eq(bookshop_flow)
     end
 
     it "leaves starting a workflow to administration" do
@@ -280,20 +266,6 @@ RSpec.describe "Choosing the workflow a type uses", :js do
 
       expect(page).to have_test_selector("workflow-selector")
       expect(page).to have_no_test_selector("workflow-create-new")
-    end
-  end
-
-  it "offers administration no workflow any project owns" do
-    create(:project_owned_workflow, project: create(:project, name: "Bookshop"), name: "Bookshop flow")
-
-    visit edit_type_workflow_path(type_id: type.id)
-
-    open_workflow_picker
-
-    within_test_selector("workflow-panel") do
-      expect(page).to have_link("Standard flow")
-      expect(page).to have_text("How the company works")
-      expect(page).to have_no_link("Bookshop flow")
     end
   end
 end

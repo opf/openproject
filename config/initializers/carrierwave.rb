@@ -70,6 +70,8 @@ end
 # fast rename instead of a full copy across filesystems.
 CarrierWave.tmp_path = File.join(Dir.tmpdir, "carrierwave")
 
+Rails.application.executor.to_complete { FogFileUploader.discard_downloads }
+
 unless OpenProject::Configuration.fog_credentials.empty?
   CarrierWave::Configuration.configure_fog!
 end

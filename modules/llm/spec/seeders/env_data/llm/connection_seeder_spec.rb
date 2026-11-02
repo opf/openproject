@@ -38,7 +38,7 @@ RSpec.describe EnvData::Llm::ConnectionSeeder do
     expect { seed }.not_to change(LlmConnection, :count)
   end
 
-  # On a fresh installation the seed runs before any model synchronisation, so
+  # On a fresh installation the seed runs before any model synchronization, so
   # the model the environment names has no row yet. Provisioning enters it the
   # way an administrator would, and the refresh confirms it later.
   context "with a default model configured on a fresh installation", with_settings: {

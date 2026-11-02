@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
 
           members_by_role.each do |role_data|
             flex.with_row do
-              render(Primer::Beta::Text.new(font_weight: :semibold)) { role_data[:role].name }
+              render(Primer::Beta::Text.new(font_weight: :semibold)) { role_data[:name] }
             end
 
             flex.with_row(mb: 2) do
@@ -53,7 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
               if role_data[:has_more]
                 concat render(
                   Primer::Beta::Link.new(
-                    href: project_members_path(@project, role_id: role_data[:role].id),
+                    href: project_members_path(@project, role_id: role_data[:id]),
                     ml: 1,
                     font_weight: :semibold,
                     classes: "op-principal"

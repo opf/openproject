@@ -69,7 +69,7 @@ export class BcfApiRequestService<T> {
       responseType: 'json',
     };
 
-    return this._request('get', path, config);
+    return this.sendRequest('get', path, config);
   }
 
   /**
@@ -80,11 +80,11 @@ export class BcfApiRequestService<T> {
    * @param data Request payload (URL params for get, JSON payload otherwise)
    * @param headers Request headers
    */
-  public request(method:HTTPSupportedMethods, path:string, data:HTTPClientParamMap = {}, headers:HTTPClientHeaders = {}):Observable<T> {
+  public request(method:HTTPSupportedMethods, path:string, data:unknown = {}, headers:HTTPClientHeaders = {}):Observable<T> {
     // HttpClient requires us to create HttpParams instead of passing data for get
     // so forward to that method instead.
     if (method === 'get') {
-      return this.get(path, data, headers);
+      return this.get(path, data as HTTPClientParamMap, headers);
     }
 
     const config:HTTPClientOptions = {
@@ -94,7 +94,7 @@ export class BcfApiRequestService<T> {
       responseType: 'json',
     };
 
-    return this._request(method, path, config);
+    return this.sendRequest(method, path, config);
   }
 
   /**
@@ -106,12 +106,12 @@ export class BcfApiRequestService<T> {
    *
    * @private
    */
-  private _request(method:HTTPSupportedMethods, path:string, config:HTTPClientOptions):Observable<T> {
+  private sendRequest(method:HTTPSupportedMethods, path:string, config:HTTPClientOptions):Observable<T> {
     return this
       .http
       .request<T>(method, path, config)
       .pipe(
-        map((response:any) => this.deserialize(response)),
+        map((response) => this.deserialize(response)),
         catchError((error:HttpErrorResponse) => {
           console.error(`Failed to ${method} ${path}: ${error.name}`);
           return throwError(error);
@@ -123,11 +123,11 @@ export class BcfApiRequestService<T> {
    * Deserialize the JSON data into the mapped resource class, if given.
    * @param data JSON API response.
    */
-  protected deserialize(data:any):T {
+  protected deserialize(data:unknown):T {
     if (this.resourceClass) {
       const serializer = new TypedJSON(this.resourceClass);
-      return serializer.parse(data)!;
+      return serializer.parse(data) as T;
     }
-    return data;
+    return data as T;
   }
 }

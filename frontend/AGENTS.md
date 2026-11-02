@@ -11,7 +11,7 @@ Where a given module belongs is explained in [doc/README.md](./doc/README.md#dir
 
 ## Version Requirements
 
-- Node: `^24.15.0` (see `engines` in the repository root `../package.json`)
+- Node: `^24.22.1` (see `engines` in the repository root `../package.json`)
 
 ## Commands
 

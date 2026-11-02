@@ -125,7 +125,7 @@ module ResourceManagement
     end
 
     # A manually-picked view pins its hand-chosen ids; an automatic view forwards
-    # its query filters so the API filters server-side instead of materialising a
+    # its query filters so the API filters server-side instead of materializing a
     # potentially huge id list.
     def allocation_work_package_filters
       if manually_picked?

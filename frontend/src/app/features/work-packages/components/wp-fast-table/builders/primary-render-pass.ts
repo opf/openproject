@@ -205,6 +205,7 @@ public readonly injector:Injector,
         workPackageId: null,
         renderType: 'primary',
         hidden: false,
+        level: 1,
       });
     }
   }
@@ -221,6 +222,7 @@ workPackage:WorkPackageResource,
     row:HTMLTableRowElement,
     additionalClasses:string[] = [],
     hidden = false,
+    level = 1,
 ) {
     this.registerAppended(row, {
       key: wpOccurrenceKey(workPackage.id!),
@@ -230,31 +232,36 @@ workPackage:WorkPackageResource,
       workPackageId: workPackage.id!,
       renderType: 'primary',
       hidden,
+      level,
     });
   }
 
   /**
    * Append a non-work package row to both containers
    * @param row HTMLElement to append
-   * @param classIdentifer a unique identifier for the two rows (one each in table/timeline).
+   * @param classIdentifier a unique identifier for the two rows (one each in table/timeline).
    * @param hidden whether the row was rendered hidden
    */
   protected appendNonWorkPackageRow(
     key:OccurrenceKey,
     row:HTMLTableRowElement,
-    classIdentifer:string,
+    classIdentifier:string,
     additionalClasses:string[] = [],
     hidden = false,
+    groupIdentifier?:string,
+    level = 1,
   ) {
-    row.classList.add(classIdentifer);
+    row.classList.add(classIdentifier);
     this.registerAppended(row, {
       key,
-      classIdentifier: classIdentifer,
+      classIdentifier,
       additionalClasses,
       workPackage: null,
       workPackageId: null,
       renderType: 'primary',
       hidden,
+      level,
+      groupIdentifier,
     });
   }
 

@@ -111,7 +111,7 @@ module Storages
 
               idx += prefix.length - 1
               # Remove the following when /filesinfo starts responding with a trailing slash for directory paths
-              # in all supported versions of OpenProjectIntegation Nextcloud App.
+              # in all supported versions of OpenProjectIntegration Nextcloud App.
               file_path << "/" if mimetype == "application/x-op-directory" && file_path[-1] != "/"
 
               UrlBuilder.path(file_path[idx..])

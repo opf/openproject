@@ -167,7 +167,7 @@ ko:
     label_new_resource_planner: 새로운 리소스 플래너
     label_resource_planner: 리소스 플래너
     label_resource_planner_plural: 리소스 플래너
-    my_work:
+    my_time_management:
       hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: 보기 추가

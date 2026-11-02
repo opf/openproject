@@ -47,7 +47,7 @@ module ::ResourceManagement
     # project's planners. Which planners the user then gets to see is decided by
     # `ResourcePlanner.visible_to`.
     def self.load_and_authorize_in_planner_section(**options)
-      # `Accounts::Authorization` only recognises its own method names as an
+      # `Accounts::Authorization` only recognizes its own method names as an
       # authorization check, so ours has to be affirmed.
       authorization_checked_by_default_action(**options.slice(:only, :except))
 

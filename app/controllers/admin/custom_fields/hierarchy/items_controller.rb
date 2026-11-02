@@ -31,7 +31,7 @@ module Admin
   module CustomFields
     module Hierarchy
       class ItemsController < ItemsBaseController
-        menu_item :custom_fields
+        menu_item :work_package_custom_fields
 
         private
 

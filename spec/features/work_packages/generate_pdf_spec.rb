@@ -226,13 +226,13 @@ RSpec.describe "work package generate PDF dialog", :js do
     end
 
     it "pre-fills the checkbox unchecked and downloads with it off" do
-      select "PMflex Artefact", from: "template"
+      select "PMflex Artifact", from: "template"
       expect(page).to have_unchecked_field("Table of contents")
       generate!
     end
   end
 
-  context "with artefact template and the lifecycle checkboxes enabled" do
+  context "with artifact template and the lifecycle checkboxes enabled" do
     let(:expected_params) do
       {
         template: "artefact",
@@ -242,14 +242,14 @@ RSpec.describe "work package generate PDF dialog", :js do
     end
 
     it "downloads with lifecycle section included" do
-      select "PMflex Artefact", from: "template"
+      select "PMflex Artifact", from: "template"
       expect(page).to have_checked_field("Project lifecycle")
       check("Project lifecycle")
       generate!
     end
   end
 
-  context "with artefact template and the lifecycle/budget checkboxes enabled" do
+  context "with artifact template and the lifecycle/budget checkboxes enabled" do
     let(:expected_params) do
       {
         template: "artefact",
@@ -260,7 +260,7 @@ RSpec.describe "work package generate PDF dialog", :js do
     end
 
     it "downloads with both sections included" do
-      select "PMflex Artefact", from: "template"
+      select "PMflex Artifact", from: "template"
       expect(page).to have_checked_field("Project lifecycle")
       expect(page).to have_checked_field("Project budgets")
       generate!
@@ -286,7 +286,7 @@ RSpec.describe "work package generate PDF dialog", :js do
     end
 
     it "pre-fills both checkboxes checked and downloads with them on" do
-      select "PMflex Artefact", from: "template"
+      select "PMflex Artifact", from: "template"
       expect(page).to have_checked_field("Project lifecycle")
       expect(page).to have_checked_field("Project budgets")
       generate!

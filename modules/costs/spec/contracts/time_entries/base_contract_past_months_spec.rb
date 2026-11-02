@@ -137,7 +137,7 @@ RSpec.describe TimeEntries::BaseContract, "prohibiting logging for past months" 
     # Evaluated inside the before hook, so still relative to the real date.
     let(:next_month) { Date.current.next_month.beginning_of_month }
 
-    # Evaluated inside the examples, so relative to the date travelled to.
+    # Evaluated inside the examples, so relative to the date traveled to.
     let(:month_that_just_ended) { Date.current.prev_month.beginning_of_month }
     let(:an_earlier_month) { Date.current.prev_month.prev_month.beginning_of_month }
 

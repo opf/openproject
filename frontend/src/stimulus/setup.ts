@@ -45,6 +45,7 @@ import PasswordRequirementsController from './controllers/password-requirements.
 import PreviewController from './controllers/dynamic/work-packages/date-picker/preview.controller';
 import KeepScrollPositionController from './controllers/keep-scroll-position.controller';
 import PatternInputController from './controllers/pattern-input.controller';
+import FileFieldController from './controllers/file-field.controller';
 import HoverCardTriggerController from './controllers/hover-card-trigger.controller';
 import ScrollIntoViewController from './controllers/scroll-into-view.controller';
 import ReloadFrameOnEventController from './controllers/reload-frame-on-event.controller';
@@ -67,6 +68,7 @@ import OpPasswordForceChangeController from './controllers/password-force-change
 import AutoSubmit from '@stimulus-components/auto-submit';
 import RevealController from '@stimulus-components/reveal';
 import AutoThemeSwitcher from './controllers/auto-theme-switcher.controller';
+import PwaServiceWorkerController from './controllers/pwa-service-worker.controller';
 import ThemeSelectorController from './controllers/theme-selector.controller';
 import { OpenProjectStimulusApplication } from 'core-stimulus/openproject-stimulus-application';
 import { Application } from '@hotwired/stimulus';
@@ -109,6 +111,7 @@ OpenProjectStimulusApplication.preregister('zen-mode', OpZenModeController);
 OpenProjectStimulusApplication.preregister('work-packages--date-picker--preview', PreviewController);
 OpenProjectStimulusApplication.preregister('keep-scroll-position', KeepScrollPositionController);
 OpenProjectStimulusApplication.preregister('pattern-input', PatternInputController);
+OpenProjectStimulusApplication.preregister('file-field', FileFieldController);
 OpenProjectStimulusApplication.preregister('scroll-into-view', ScrollIntoViewController);
 OpenProjectStimulusApplication.preregister('reload-frame-on-event', ReloadFrameOnEventController);
 OpenProjectStimulusApplication.preregister('ckeditor-focus', CkeditorFocusController);
@@ -121,6 +124,7 @@ OpenProjectStimulusApplication.preregister('work-packages--activities-tab--edito
 OpenProjectStimulusApplication.preregister('work-packages--activities-tab--lazy-page', LazyPageController);
 OpenProjectStimulusApplication.preregister('beforeunload', BeforeunloadController);
 OpenProjectStimulusApplication.preregister('auto-theme-switcher', AutoThemeSwitcher);
+OpenProjectStimulusApplication.preregister('pwa-service-worker', PwaServiceWorkerController);
 OpenProjectStimulusApplication.preregister('theme-selector', ThemeSelectorController);
 OpenProjectStimulusApplication.preregister('external-links', ExternalLinksController);
 OpenProjectStimulusApplication.preregister('highlight-target-element', HighlightTargetElementController);

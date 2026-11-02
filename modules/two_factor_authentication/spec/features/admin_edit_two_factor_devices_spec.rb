@@ -29,7 +29,7 @@
 
 require_relative "../spec_helper"
 
-RSpec.describe "Admin 2FA management", :js, :selenium, with_settings: {
+RSpec.describe "Admin 2FA management", :js, with_settings: {
   plugin_openproject_two_factor_authentication: { "active_strategies" => %i[developer totp] }
 } do
   let(:dialog) { Components::PasswordConfirmationDialog.new }

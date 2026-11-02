@@ -49,7 +49,7 @@ RSpec.describe WorkPackages::TypeArtefactExport::ExportOnStatusChangeService do
   end
 
   describe "#call!" do
-    context "when the type has artefact export disabled (default off)" do
+    context "when the type has artifact export disabled (default off)" do
       it "does not export" do
         allow(User).to receive(:execute_as_admin)
 
@@ -160,7 +160,7 @@ RSpec.describe WorkPackages::TypeArtefactExport::ExportOnStatusChangeService do
           allow(Rails.logger).to receive(:error)
 
           expect { instance.call!(changes:) }.not_to raise_error
-          expect(Rails.logger).to have_received(:error).with(/Artefact upload failed/)
+          expect(Rails.logger).to have_received(:error).with(/Artifact upload failed/)
         end
       end
 
@@ -173,12 +173,12 @@ RSpec.describe WorkPackages::TypeArtefactExport::ExportOnStatusChangeService do
           instance.call!(changes:)
 
           expect(Storages::UploadFileService).not_to have_received(:call)
-          expect(Rails.logger).to have_received(:info).with(/skipping artefact upload/)
+          expect(Rails.logger).to have_received(:info).with(/skipping artifact upload/)
         end
       end
     end
 
-    context "when the type has stored artefact export settings" do
+    context "when the type has stored artifact export settings" do
       before do
         type.default_variant.update!(artefact_export_mode: Type::ArtefactExport::ATTACHMENT)
         type.default_variant.pdf_export_templates.update_settings(
@@ -198,7 +198,7 @@ RSpec.describe WorkPackages::TypeArtefactExport::ExportOnStatusChangeService do
       end
     end
 
-    context "when the type has no stored artefact export settings" do
+    context "when the type has no stored artifact export settings" do
       before { type.default_variant.update!(artefact_export_mode: Type::ArtefactExport::ATTACHMENT) }
 
       it "passes an empty options hash, behaving exactly as before this feature" do
@@ -223,7 +223,7 @@ RSpec.describe WorkPackages::TypeArtefactExport::ExportOnStatusChangeService do
         allow(Rails.logger).to receive(:error)
 
         expect { instance.call!(changes:) }.not_to raise_error
-        expect(Rails.logger).to have_received(:error).with(/Artefact export failed/)
+        expect(Rails.logger).to have_received(:error).with(/Artifact export failed/)
       end
     end
 
@@ -267,7 +267,7 @@ RSpec.describe WorkPackages::TypeArtefactExport::ExportOnStatusChangeService do
         end
       end
 
-      context "when the variant has stored artefact export settings and the root does not" do
+      context "when the variant has stored artifact export settings and the root does not" do
         before do
           type.default_variant.update!(artefact_export_mode: Type::ArtefactExport::OFF)
           variant.update!(artefact_export_mode: Type::ArtefactExport::ATTACHMENT)

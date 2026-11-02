@@ -114,7 +114,7 @@ class Changeset < ApplicationRecord
   end
 
   before_create :sanitize_attributes
-  before_create :assign_openproject_user_from_comitter
+  before_create :assign_openproject_user_from_committer
   after_create :scan_comment_for_work_package_ids
 
   TIMELOG_RE = /
@@ -276,7 +276,7 @@ class Changeset < ApplicationRecord
     self.comments  = self.class.normalize_comments(comments, repository.repo_log_encoding)
   end
 
-  def assign_openproject_user_from_comitter
+  def assign_openproject_user_from_committer
     self.user = repository.find_committer_user(committer)
     add_journal(user: user || User.anonymous, notes: comments)
   end

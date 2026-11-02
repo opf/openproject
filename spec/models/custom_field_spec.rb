@@ -473,7 +473,7 @@ RSpec.describe CustomField do
         end
       end
 
-      context "for a custom field bound to role assigment" do
+      context "for a custom field bound to role assignment" do
         let(:project_role) { build_stubbed(:project_role) }
         let(:field) { build(:project_custom_field, :user, role_id: project_role.id) }
 

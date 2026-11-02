@@ -28,7 +28,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { NgxGalleryComponent, NgxGalleryOptions } from '@kolkov/ngx-gallery';
+import { NgxGalleryComponent, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -134,7 +134,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
 
   viewpoints:BcfViewpointItem[] = [];
 
-  galleryImages:any[] = [];
+  galleryImages:NgxGalleryImage[] = [];
 
   // Store whether viewing is allowed
   viewAllowed = false;
@@ -278,7 +278,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     return [
       {
         icon: 'icon-view-model',
-        onClick: (evt:any, index:number) => {
+        onClick: (evt:Event, index:number) => {
           this.showViewpoint(this.workPackage, index);
           this.gallery.preview.close();
         },
@@ -286,7 +286,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
       },
       {
         icon: 'icon-delete',
-        onClick: (evt:any, index:number) => this.deleteViewpoint(this.workPackage, index),
+        onClick: (evt:Event, index:number) => this.deleteViewpoint(this.workPackage, index),
         titleText: this.text.delete_viewpoint,
       },
     ];

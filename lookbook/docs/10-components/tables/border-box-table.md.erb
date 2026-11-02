@@ -59,7 +59,7 @@ mobile_labels :users
 
 On mobile, the usual table headers are replaced with a single `mobile_title` property that you have to set on the table.
 
-### Text wrapping behaviour
+### Text wrapping behavior
 
 By default, text longer than the column width will truncate with ellipsis. Only the main column has text that wraps around to display the full string.
 
@@ -75,6 +75,12 @@ columns :title, :users, :created_at
 main_column :title
 ```
 Note: Ideally, only one main column will be present for each table.
+
+### Action column
+
+When `has_actions?` is true, the action column is not part of the evenly distributed columns. It is as wide as the
+widest action cell in any row, so a single icon button, an action menu or a button with text all fit without
+further configuration. The header and all rows share the same column tracks through CSS subgrid.
 
 ### Footer
 

@@ -85,7 +85,7 @@ module Admin
           end
         end
 
-        # Primer, unlike Rails' check_box helper, does not render this auxilary hidden field for us.
+        # Primer, unlike Rails' check_box helper, does not render this auxiliary hidden field for us.
         sf.hidden(
           name: "settings[enabled_scm][]",
           value: "",

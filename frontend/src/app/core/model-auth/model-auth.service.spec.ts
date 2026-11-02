@@ -30,7 +30,7 @@ import { AuthorisationService } from './model-auth.service';
 describe('authorisationService', () => {
   const authorisationService:AuthorisationService = new AuthorisationService();
 
-  describe('model action authorisation', () => {
+  describe('model action authorization', () => {
     beforeEach(() => {
       authorisationService.initModelAuth('query', {
         create: '/queries',

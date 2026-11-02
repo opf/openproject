@@ -112,7 +112,7 @@ module Import
     end
 
     # Journals::CreateService keeps the journals of a journable strictly ordered in time: a
-    # timestamp that is not newer than the preceding journal's is discarded in favour of the
+    # timestamp that is not newer than the preceding journal's is discarded in favor of the
     # current time. Entries sharing a Jira timestamp, with each other or with the creation
     # journal, would therefore be stamped with the import date, so they are spaced out by the
     # smallest step a timestamp column can represent.

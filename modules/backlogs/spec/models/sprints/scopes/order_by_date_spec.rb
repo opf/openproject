@@ -60,6 +60,26 @@ RSpec.describe Sprints::Scopes::OrderByDate do
     expect(Sprint.order_by_date).to eq([completed_sprint, active_sprint, planned_sprint, no_dates_sprint])
   end
 
+  it "prefers the actual start over the planned start date" do
+    started_late = create(:sprint, project:, name: "Started late", status: :completed,
+                                   start_date: Date.new(2025, 10, 1), finish_date: Date.new(2025, 10, 31),
+                                   started_at: Time.zone.local(2025, 10, 20, 9))
+    planned_between = create(:sprint, project:, name: "Planned between",
+                                      start_date: Date.new(2025, 10, 10), finish_date: Date.new(2025, 10, 31))
+
+    expect(Sprint.order_by_date.where(id: [started_late, planned_between])).to eq([planned_between, started_late])
+  end
+
+  it "prefers the actual completion over the planned finish date when the starts are equal" do
+    completed_early = create(:sprint, project:, name: "Completed early", status: :completed,
+                                      start_date: Date.new(2025, 10, 1), finish_date: Date.new(2025, 10, 31),
+                                      completed_at: Time.zone.local(2025, 10, 5, 17))
+    planned_shorter = create(:sprint, project:, name: "Planned shorter",
+                                      start_date: Date.new(2025, 10, 1), finish_date: Date.new(2025, 10, 10))
+
+    expect(Sprint.order_by_date.where(id: [planned_shorter, completed_early])).to eq([completed_early, planned_shorter])
+  end
+
   it "breaks ties in start_date by finish_date ascending" do
     longer = create(:sprint, project:, name: "Longer",
                              start_date: Date.new(2025, 10, 1), finish_date: Date.new(2025, 10, 20))

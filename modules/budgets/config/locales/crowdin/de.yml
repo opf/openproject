@@ -108,7 +108,7 @@ de:
   events:
     budget: Budget bearbeitet
   help_click_to_edit: Hier Klicken zum bearbeiten.
-  help_currency_format: Format der angezeigten Währungswerte. %n wird mit dem Zahlenwert ersetzt, %u mit der Währung.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Hier einen Wert eingeben um den Standardwert zu Überschreiben.
   label_budget_available: Verfügbares Budget
   label_budget_details: Budgetdetails

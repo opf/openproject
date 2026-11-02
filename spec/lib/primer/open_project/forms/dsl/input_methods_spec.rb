@@ -218,6 +218,13 @@ RSpec.describe Primer::OpenProject::Forms::Dsl::InputMethods, type: :forms do
       it_behaves_like "supporting help texts"
     end
 
+    describe "#file_field" do
+      let(:field_group) { form_dsl.file_field(name:, label:, **options) }
+
+      include_examples "input class", Primer::OpenProject::Forms::Dsl::FileFieldInput
+      it_behaves_like "supporting help texts"
+    end
+
     describe "#project_autocompleter" do
       let(:field_group) { form_dsl.project_autocompleter(name:, label:, autocomplete_options: {}, **options) }
 

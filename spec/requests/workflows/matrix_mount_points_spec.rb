@@ -45,6 +45,38 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
 
   before { login_as admin }
 
+  describe "default role selection" do
+    shared_let(:other_role) { create(:project_role) }
+    shared_let(:other_transition) do
+      create(:status_transition, workflow: type.default_variant.workflow, role: other_role,
+                                 old_status: status_a, new_status: status_b, author: true)
+    end
+
+    it "selects all used roles in the standalone page, type tab, and creation wizard" do
+      [edit_workflow_path(type.default_variant.workflow),
+       edit_type_workflow_path(type),
+       type_creation_wizard_path(type, step: :workflows)].each do |path|
+        get path
+
+        expect(response).to have_http_status(:ok)
+        frame = response.parsed_body.at_css("turbo-frame#workflow-table")
+        query = Rack::Utils.parse_nested_query(URI.parse(frame["src"]).query)
+        expect(query["role_ids"]).to contain_exactly(role.id.to_s, other_role.id.to_s)
+      end
+    end
+
+    it "groups used roles first and keeps unused roles available" do
+      unused_role = create(:project_role, name: "Unused role")
+      get type_workflow_matrix_path(type), headers: { "Turbo-Frame" => "workflow-table" }
+
+      panel = response.parsed_body.at_css("[data-test-selector='role-panel']")
+      items = panel.css("[data-item-id]")
+      expect(items.first(2).pluck("data-item-id")).to contain_exactly(role.id.to_s, other_role.id.to_s)
+      expect(panel.css(".ActionList-sectionDivider").map(&:text)).to eq(["With transitions", "Without transitions"])
+      expect(items.pluck("data-item-id")).to include(unused_role.id.to_s)
+    end
+  end
+
   it "renders the matrix frame with the transition menu and no form of its own" do
     get type_workflow_matrix_path(type, tab: "always", role_ids: [role.id]),
         headers: { "Turbo-Frame" => "workflow-table" }
@@ -53,7 +85,30 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
     expect(response.body).to include("Default transitions")
     expect(response.body).to include("status[#{status_a.id}][#{status_b.id}]")
     expect(response.body).to include(Workflows::MatrixEditorComponent::STATE_ID)
+    expect(response.body).to have_field("tab", type: :hidden, with: "always")
+    expect(response.body).to have_field("role_ids[]", type: :hidden, with: role.id.to_s)
     expect(response.body).not_to include("<form")
+  end
+
+  it "carries the tab and roles in the frame when the tab has no transitions" do
+    get workflow_matrix_path(type.default_variant.workflow, tab: "author", role_ids: [role.id]),
+        headers: { "Turbo-Frame" => "workflow-table" }
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include(I18n.t("admin.workflows.blankslate.title"))
+    expect(response.body).to have_field("tab", type: :hidden, with: "author")
+    expect(response.body).to have_field("role_ids[]", type: :hidden, with: role.id.to_s)
+  end
+
+  it "renders the standalone workflow page with the form and Save around the lazy frame" do
+    workflow = type.default_variant.workflow
+
+    get edit_workflow_path(workflow, tab: "author")
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("turbo-frame")
+    expect(response.body).to include("action=\"#{workflow_matrix_path(workflow)}\"")
+    expect(response.body).to have_css(".workflow-save-bar button[type=submit]", text: I18n.t(:button_save))
   end
 
   it "renders the type edit page shell around the lazy frame, with nothing to submit" do
@@ -88,7 +143,7 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
 
     def get_matrix
       get type_variant_workflow_matrix_path(type_id: type.id, variant_id: variant.id,
-                                    tab: "always", role_ids: [role.id]),
+                                            tab: "always", role_ids: [role.id]),
           headers: { "Turbo-Frame" => "workflow-table" }
     end
 

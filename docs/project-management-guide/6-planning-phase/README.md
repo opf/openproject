@@ -8,17 +8,17 @@ keywords: project handbook, project stakeholder matrix, project work plan, outso
 
 # 6 Planning Phase 
 
-The second phase of a PM² project is the Planning Phase. It begins with the Planning Kick-off Meeting and ends once all project plans have been developed and baselined, and an appropriate management and implementation approach has been established. Most of a project's artefacts are created during the Planning Phase.
+The second phase of a PM² project is the Planning Phase. It begins with the Planning Kick-off Meeting and ends once all project plans have been developed and baselined, and an appropriate management and implementation approach has been established. Most of a project's artifacts are created during the Planning Phase.
 
 ![Fig 6.1 Planning Phase activities and main outputs](06.01.png)
 
-| Artefact Type | Description |
+| Artifact Type | Description |
 | :--: | :--: |
-| Management Plans (standard) | These plans define the various processes to be used (e.g. for Risk Management). PM² provides Management Plan templates along with guidelines on how to tailor and customise them to the project's context and needs. |
+| Management Plans (standard) | These plans define the various processes to be used (e.g. for Risk Management). PM² provides Management Plan templates along with guidelines on how to tailor and customize them to the project's context and needs. |
 | Project Plans (specific) | These plans are specific to the project (e.g. the Project Work Plan) and are built according to the project needs and the team's analysis and experience. PM² provides templates and guidelines for these plans. |
-| Other <br> (domain specific) | These artefacts are specific to the project domain (e.g. system models for IT projects). PM² does not provide templates for these artefacts. |
+| Other <br> (domain specific) | These artifacts are specific to the project domain (e.g. system models for IT projects). PM² does not provide templates for these artifacts. |
 
-![Fig 6.2 Planning Phase artefacts](06.02.png)
+![Fig 6.2 Planning Phase artifacts](06.02.png)
 
 ## 6.1 Planning Kick-off Meeting 
 
@@ -35,7 +35,7 @@ This Planning Kick-off Meeting should be planned and run effectively as it is cr
 
 | Key Participants | Description |
 | :-- | :-- |
-| Project Manager (PM) | Organises the meeting. |
+| Project Manager (PM) | Organizes the meeting. |
 | Project Core Team (PCT) <br> Business Implementation Group (BIG) <br> User Representatives (URs) <br> Solution Provider (SP) <br> Project Owner (PO) <br> Business Manager (BM) | Required participants. |
 | Project Manager Assistant (PMA) <br> Project Support Office (PSO) | Required to attend (if part of the project). |
 | Other project roles or stakeholders | Optional participation (as per the project's needs). |
@@ -68,7 +68,7 @@ During the Planning Kick-off Meeting:
 9. Discuss risks, constraints and assumptions.
 10. Discuss or present any project supporting tools (with input from the Project Support Office, PSO).
 11. Allow time for any other business (questions \& answers).
-12. Summarise the discussion (decisions, actions and risks).
+12. Summarize the discussion (decisions, actions and risks).
 13. Communicate the next steps.
 
 After the Planning Kick-off Meeting:
@@ -89,9 +89,9 @@ After the Planning Kick-off Meeting:
 
 ## 6.2 Project Handbook
 
-The Project Handbook summarises the project objectives and documents the selected approach for achieving the project goals. It documents the Critical Success Factors (CSFs), defines the key controlling processes, the conflict resolution and escalation procedure, policies and rules, and the project mindsets.
+The Project Handbook summarizes the project objectives and documents the selected approach for achieving the project goals. It documents the Critical Success Factors (CSFs), defines the key controlling processes, the conflict resolution and escalation procedure, policies and rules, and the project mindsets.
 
-The Project Handbook also documents the project governance roles and their responsibilities, and defines the plans necessary for managing the project as well as any methodology-tailoring decisions. The project goals and scope (found in the Initiating Phase documents) are key inputs to this artefact.
+The Project Handbook also documents the project governance roles and their responsibilities, and defines the plans necessary for managing the project as well as any methodology-tailoring decisions. The project goals and scope (found in the Initiating Phase documents) are key inputs to this artifact.
 
 The Project Handbook is an important reference document for all project members and stakeholders, and along with the Project Work Plan, is the basis on which the project is managed and executed.
 
@@ -117,15 +117,15 @@ The Project Handbook is an important reference document for all project members 
 **Steps**
 
 1. Find documentation from similar projects and identify possible reusable components-this could reduce the effort, cost and time required.
-2. Summarise the project objectives, dependencies, constraints, assumptions and list stakeholders.
+2. Summarize the project objectives, dependencies, constraints, assumptions and list stakeholders.
 3. Identify Critical Success Factors (CSFs) and define important project management objectives.
-4. Discuss possible/necessary customisations and/or tailoring of the PM² Methodology.
+4. Discuss possible/necessary customizations and/or tailoring of the PM² Methodology.
 5. Outline the selected delivery approach and its lifecycle (including project-specific stages).
 6. Define the specific project management rules that will be applied to the project (agree on the rules of conduct that will facilitate the better management and execution of the project).
 7. Define a conflict resolution and escalation procedure for the project.
 8. Highlight the main project controlling processes, such as change/risk/quality management.
 9. Define the selected progress tracking and reporting approach.
-10. Determine which artefacts (i.e. plans, reports or other documents) are necessary for the project.
+10. Determine which artifacts (i.e. plans, reports or other documents) are necessary for the project.
 11. Document the roles involved in the project along with their respective responsibilities.
 
 | RAM (RASCI) | AGB | PSC | PO | BM | BIG | SP | PM | PCT |
@@ -144,7 +144,7 @@ The main purpose of the Project Roles \& Responsibilities section of the Project
 
 ### 6.2.2 Project Management Plans
 
-PM² suggests several Project Management Plans (artefacts) which outline the various project management processes. These plans identify how an organisation manages relatively standard processes. These plans are the:
+PM² suggests several Project Management Plans (artifacts) which outline the various project management processes. These plans identify how an organization manages relatively standard processes. These plans are the:
 
 1. Requirements Management Plan
 2. Project Change Management Plan
@@ -153,21 +153,21 @@ PM² suggests several Project Management Plans (artefacts) which outline the var
 5. Issue Management Plan
 6. Communications Management Plan
 
-Depending on the organisation and the project, different levels of documentation detail may be required. When sufficient, a brief definition of each management process or plan can be provided in the Project Handbook. When a more extensive and detailed description is needed, separate management plans can be instituted based on the PM² templates and guidelines provided.
+Depending on the organization and the project, different levels of documentation detail may be required. When sufficient, a brief definition of each management process or plan can be provided in the Project Handbook. When a more extensive and detailed description is needed, separate management plans can be instituted based on the PM² templates and guidelines provided.
 
 ### 6.2.3 Project-Specific Plans
 
-PM² defines a set of recommended project plans, which can be used for any type of project and provides templates and guidelines for each. However, in contrast to the standard Management Plans, which only require light customisation and tailoring, the Project-Specific Plans usually require more effort because their content is specific to the project.
+PM² defines a set of recommended project plans, which can be used for any type of project and provides templates and guidelines for each. However, in contrast to the standard Management Plans, which only require light customization and tailoring, the Project-Specific Plans usually require more effort because their content is specific to the project.
 
 The optimal level of detail included in Project-Specific Plans depends on the type, size and complexity of the project, the project management context and environment, and the experience and competences of the project team.
 
 All Project-Specific Plans to be used in a project should be listed in the Project Handbook.
 
-### 6.2.4 Domain-Specific Artefacts 
+### 6.2.4 Domain-Specific Artifacts 
 
 These plans are specific to the project domain (i.e. the project type) and are very often an integral part of the project planning and the overall project documentation. No templates are provided by PM².
 
-However, the artefacts should still be identified and listed in the Project Handbook, as they are part of the project's planning-phase outputs. Examples of domain-specific artefacts include system designs (for IT projects), architectural layouts (for renovation/moving projects) and laws/policies (for policy projects).
+However, the artifacts should still be identified and listed in the Project Handbook, as they are part of the project's planning-phase outputs. Examples of domain-specific artifacts include system designs (for IT projects), architectural layouts (for renovation/moving projects) and laws/policies (for policy projects).
 
 6.2.5 Other
 
@@ -177,11 +177,11 @@ The purpose of the escalation procedure is to provide an agreed and effective wa
 
 Resource Needs: The Project Handbook must also define how the resources (people and equipment) allocated to the project will be used to serve the project's best interests.
 
-As the work to be done becomes clearer, the skills needed to perform the work will also have to be recorded in the Project Handbook. A Training Plan can be annexed to the Project Handbook if personnel need to be trained in missing skills. If more people with these skills need to be hired, the hiring process must be described in the same section of the Handbook. Finally, the way resources will be released at the end of the project (or when their work is complete) must also be formalised here.
+As the work to be done becomes clearer, the skills needed to perform the work will also have to be recorded in the Project Handbook. A Training Plan can be annexed to the Project Handbook if personnel need to be trained in missing skills. If more people with these skills need to be hired, the hiring process must be described in the same section of the Handbook. Finally, the way resources will be released at the end of the project (or when their work is complete) must also be formalized here.
 
 ## 6.3 Project Stakeholder Matrix
 
-The Project Stakeholder Matrix lists all (key) project stakeholders and their contact details and clearly states their role(s) in the project. It may also include a classification or categorisation of each stakeholder. The information captured in the Project Stakeholder Matrix should be tailored to the project's needs.
+The Project Stakeholder Matrix lists all (key) project stakeholders and their contact details and clearly states their role(s) in the project. It may also include a classification or categorization of each stakeholder. The information captured in the Project Stakeholder Matrix should be tailored to the project's needs.
 
 | Key Participants | Description |
 | :-- | :-- |
@@ -196,7 +196,7 @@ The Project Stakeholder Matrix lists all (key) project stakeholders and their co
 
 **Guidelines**
 
-PM² provides a Project Stakeholder Matrix template. The template includes the standard project roles organised into the following groups:
+PM² provides a Project Stakeholder Matrix template. The template includes the standard project roles organized into the following groups:
 
 - Teams-e.g. Project Steering Committee (PSC).
 - Roles-e.g. Project Owner (PO), Solution Provider (SP), User Representatives (URs).
@@ -208,7 +208,7 @@ Note: Be careful to respect all applicable regulations on privacy and personal d
 
 **Steps** 
 
-1. Using the project's organisational structure, identify everyone who will have a role in the project.
+1. Using the project's organizational structure, identify everyone who will have a role in the project.
 2. Assign each person a specific role for the duration of the project, based on the PM² standard Roles \& Responsibilities.
 
 | RAM (RASCI) | AGB | PSC | PO | BM | BIG | SP | PM | PCT |
@@ -217,7 +217,7 @@ Note: Be careful to respect all applicable regulations on privacy and personal d
 
 ![Fig 6.5 Project Stakeholder Matrix inputs and main roles](06.05.png)
 
-| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Stakeholder <br> Management | Business Case <br> Project Charter | Project Handbook <br> Outsourcing Plan <br> Communications <br> Management Plan | Project <br> Reports | Project Logs <br> Stakeholders <br> Checklist | Project-End <br> Report |
 
@@ -227,7 +227,7 @@ Note: Be careful to respect all applicable regulations on privacy and personal d
 
 ## 6.4 Project Work Plan 
 
-The Project Work Plan further elaborates the project scope and identifies and organises the project work and deliverables needed to achieve the project goals. It establishes a basis on which to estimate the project's duration, calculate the required resources, and schedule the work. Once the tasks are scheduled, the Project Work Plan is used as a basis for monitoring progress and controlling the project. The Project Work Plan should be baselined but also kept up-to-date during the life of the project and capture all project related work as identified during planning phase or emerged during the executing phase (e.g. risks, issues, corrective actions etc.)
+The Project Work Plan further elaborates the project scope and identifies and organizes the project work and deliverables needed to achieve the project goals. It establishes a basis on which to estimate the project's duration, calculate the required resources, and schedule the work. Once the tasks are scheduled, the Project Work Plan is used as a basis for monitoring progress and controlling the project. The Project Work Plan should be baselined but also kept up-to-date during the life of the project and capture all project related work as identified during planning phase or emerged during the executing phase (e.g. risks, issues, corrective actions etc.)
 
 | Key Participants | Description |
 | :-- | :-- |
@@ -253,7 +253,7 @@ The Project Work Plan is composed of three parts:
 
 ![Fig 6.6 Project Work Plan inputs and main roles](06.06.png)
 
-| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Schedule and Cost <br> Management | Business Case \& <br> Project Charter | Project Work Plan. <br> (Work Breakdown, Effor <br> \& Costs, Schedule) | Project <br> Reports | Project Work Plan <br> Project Logs | Project-End <br> Report |
 
@@ -288,7 +288,7 @@ The objective of this section of the Project Work Plan is to estimate the effort
 
 6.4.3 Project Schedule
 
-The objective of this section of the Project Work Plan is to document the dependencies between tasks, pinpoint their start and end dates, and work out the overall project duration. Detailed scheduling can be done for the entire project upfront, or alternatively, worked out (in adequate detail) only for some early parts of the Executing Phase, and then progressively developed in full detail. The Project Manager (PM) uses the schedule to authorise, coordinate and accept project work, and to monitor overall progress (see Appendix C).
+The objective of this section of the Project Work Plan is to document the dependencies between tasks, pinpoint their start and end dates, and work out the overall project duration. Detailed scheduling can be done for the entire project upfront, or alternatively, worked out (in adequate detail) only for some early parts of the Executing Phase, and then progressively developed in full detail. The Project Manager (PM) uses the schedule to authorize, coordinate and accept project work, and to monitor overall progress (see Appendix C).
 
 **Inputs**
 
@@ -301,7 +301,7 @@ The objective of this section of the Project Work Plan is to document the depend
 
 ## 6.5 Outsourcing Plan 
 
-The Outsourcing Plan defines the what and how for any outsourced products or services. It outlines the scope of products and/or services to be purchased or contracted, identifies the outsourcing strategies that will be used, and defines the relevant responsibilities for the full outsourcing lifecycle. Note that the present plan should be compliant with the relevant organisational rules and procedures.
+The Outsourcing Plan defines the what and how for any outsourced products or services. It outlines the scope of products and/or services to be purchased or contracted, identifies the outsourcing strategies that will be used, and defines the relevant responsibilities for the full outsourcing lifecycle. Note that the present plan should be compliant with the relevant organizational rules and procedures.
 
 | Participants | Description |
 | :-- | :-- |
@@ -313,16 +313,16 @@ The Outsourcing Plan defines the what and how for any outsourced products or ser
 - Business Case and Project Charter
 - Project Work Plan
 - Project Handbook
-- Relevant organisational procurement rules and procedures
+- Relevant organizational procurement rules and procedures
 
 **Steps**
 
 1. Identify the deliverables and activities that need to be outsourced, along with the timeframe within which the outsourcing should take place.
-2. Decide who can interface with the contractors and who is responsible for signing the contract. Note that there might be organisation-level rules on contracting to be followed.
+2. Decide who can interface with the contractors and who is responsible for signing the contract. Note that there might be organization-level rules on contracting to be followed.
 3. List the evaluation criteria for contractors. This ensures that a contractor is selected on the basis of pre-set criteria and that no single person or group influences the decision. The criteria could include the following: capability, previous experience in similar projects, anything else of relevance.
-4. Identify any constraints that may affect the outsourcing process (an organisation's pre-existing agreements or preferred suppliers may require the project team to work with specific suppliers or contractors).
+4. Identify any constraints that may affect the outsourcing process (an organization's pre-existing agreements or preferred suppliers may require the project team to work with specific suppliers or contractors).
 5. Identify the method(s) by which new products may be obtained (i.e. lease/purchase, tendering process). Factors like time/capacity constraints may also influence the choice of method.
-6. Identify the people within the organisation who must approve purchases.
+6. Identify the people within the organization who must approve purchases.
 7. Provide a timeline for all the contracted activities and deliverables. This will ensure that the contractor is committed to having resources available to meet the pre-agreed timeline.
 8. Identify any documentation deliverables expected from the contractors (e.g. manuals, etc.).
 
@@ -332,7 +332,7 @@ The Outsourcing Plan defines the what and how for any outsourced products or ser
 
 ![Fig 6.7 Outsourcing Plan inputs and main roles](06.07.png)
 
-| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Outsourcing Management | Project <br> Charter | Project Handbook <br> Outsourcing Plan | Project Reports | Project Logs | Project-End <br> Report |
 
@@ -391,7 +391,7 @@ The Deliverables Acceptance Plan documents the agreed criteria and approach for 
 
 ![Fig 6.8: Deliverables Acceptance Plan inputs and main roles](06.08.png)
 
-| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Acceptance Management | Project <br> Charter | Deliverables <br> Acceptance Plan | Deliverables <br> Acceptance <br> Note | Deliverables <br> Acceptance Checklist <br> Decision Log | Project- <br> End <br> Report |
 
@@ -402,7 +402,7 @@ The Deliverables Acceptance Plan documents the agreed criteria and approach for 
 
 ## 6.7 Transition Plan 
 
-The Transition Plan defines the goals, prerequisites, activities and responsibilities associated with transitioning from the old (pre-project) to the new (post-project) state. It seeks to minimise the impact of any disruptions on the business during the transition period, and to facilitate the roll-out of project outputs in a smooth and timely fashion, allowing them to be used efficiently and with no serious transition issues.
+The Transition Plan defines the goals, prerequisites, activities and responsibilities associated with transitioning from the old (pre-project) to the new (post-project) state. It seeks to minimize the impact of any disruptions on the business during the transition period, and to facilitate the roll-out of project outputs in a smooth and timely fashion, allowing them to be used efficiently and with no serious transition issues.
 
 A successful transition is an important prerequisite for achieving the planned project benefits. All transition activities become part of the Project Work Plan and are scheduled and controlled as part of the overall project.
 
@@ -439,7 +439,7 @@ A successful transition is an important prerequisite for achieving the planned p
 
 ![Fig 6.9 Transition Plan inputs and main roles](06.09.png)
 
-| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Implementation <br> Management | Project <br> Charter | Business Implementation Plan <br> Transition Plan Project Work Plan | Project <br> Reports | Transition Checklist <br> Business Implementation Checklist | Project-End Report |
 
@@ -450,9 +450,9 @@ A successful transition is an important prerequisite for achieving the planned p
 
 ## 6.8 Business Implementation Plan 
 
-The Business Implementation Plan aims to increase the likelihood of achieving the project's desired outcomes and benefits. It documents an assessment of the project's impact on the organisation's processes, culture and people and outlines the change-management and communications activities that need to take place to ensure that the project outputs are effectively integrated into the organisation's environment.
+The Business Implementation Plan aims to increase the likelihood of achieving the project's desired outcomes and benefits. It documents an assessment of the project's impact on the organization's processes, culture and people and outlines the change-management and communications activities that need to take place to ensure that the project outputs are effectively integrated into the organization's environment.
 
-Depending on the organisation, the business implementation activities can be performed as part of the same project or as a separate one. These activities become part of the Project Work Plan and are scheduled and controlled as part of the overall project.
+Depending on the organization, the business implementation activities can be performed as part of the same project or as a separate one. These activities become part of the Project Work Plan and are scheduled and controlled as part of the overall project.
 
 | Key Participants | Description |
 | :-- | :-- |
@@ -470,13 +470,13 @@ Depending on the organisation, the business implementation activities can be per
 
 **Steps**
 
-1. Understand the pre- and post-project states and analyse the project's impact on the organisation's processes, people and culture.
+1. Understand the pre- and post-project states and analyze the project's impact on the organization's processes, people and culture.
 2. Plan any redesigning or updating of affected business processes.
 3. Develop a communication strategy and define the necessary change-management activities.
-4. Identify possible sources of resistance to the desired change(s), analyse the attitude of key stakeholders and plan their involvement in change-management activities.
-5. Determine the training needs of the people in the organisation.
+4. Identify possible sources of resistance to the desired change(s), analyze the attitude of key stakeholders and plan their involvement in change-management activities.
+5. Determine the training needs of the people in the organization.
 6. Include all project-related business implementation activities in the overall Project Work Plan
-7. Identify the change implementation (and change sustaining) activities to be carried out by the organisation after the project ends, possibly as future/follow-up projects.
+7. Identify the change implementation (and change sustaining) activities to be carried out by the organization after the project ends, possibly as future/follow-up projects.
 
 | RAM (RASCI) | AGB | PSC | PO | BM | BIG | SP | PM | PCT |
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
@@ -484,7 +484,7 @@ Depending on the organisation, the business implementation activities can be per
 
 ![Fig 6.10 Business Implementation Plan inputs and main roles](06.10.png)
 
-| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Implementation <br> Management | Project <br> Charter | Business <br> Implementation Plan <br> Transition Plan <br> Project Work Plan | Project <br> Reports | Transition Checklist <br> Business Implementation <br> Checklist | Project-End Report <br> (Post-Project <br> Recommendations) |
 

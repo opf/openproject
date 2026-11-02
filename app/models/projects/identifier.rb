@@ -71,7 +71,7 @@ module Projects::Identifier
     # slug column to its previous value when validation fails. With slug_column: :identifier,
     # this would reset a manually-set identifier back to nil on new records. Since the
     # identifier is managed by our own callbacks and user input (not FriendlyId's slug generator),
-    # we disable this behaviour entirely.
+    # we disable this behavior entirely.
     # Must be inside `included` to override FriendlyId::Slugged in the MRO.
     def unset_slug_if_invalid; end
   end

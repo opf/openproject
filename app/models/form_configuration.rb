@@ -114,6 +114,7 @@ class FormConfiguration < ApplicationRecord
     return unless groups
 
     attribute_group_rows.store(groups)
+    WorkPackage.clear_available_custom_fields_cache
     remove_instance_variable(:@stored_attribute_groups) if defined?(@stored_attribute_groups)
 
     # The groups live in their own tables, so saving them leaves this record untouched and

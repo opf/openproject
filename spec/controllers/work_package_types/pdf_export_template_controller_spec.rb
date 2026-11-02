@@ -141,7 +141,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
     describe "#edit" do
       render_views
 
-      it "renders the export configuration page including the artefact export form" do
+      it "renders the export configuration page including the artifact export form" do
         get :edit, params: { type_id: wp_type.id }
 
         expect(response).to have_http_status(:ok)
@@ -236,7 +236,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
         expect(response).to have_http_status(:not_found)
       end
 
-      it "stores the artefact template's lifecycle/budget defaults and resets them" do
+      it "stores the artifact template's lifecycle/budget defaults and resets them" do
         artefact_template = variant.pdf_export_templates.find("artefact")
 
         patch :update_settings,
@@ -286,7 +286,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
     describe "#update_artefact_export" do
       let(:param_key) { variant.model_name.param_key.to_sym }
 
-      it "stores a valid artefact export mode and responds with a turbo stream" do
+      it "stores a valid artifact export mode and responds with a turbo stream" do
         put :update_artefact_export,
             params: { type_id: wp_type.id, param_key => { artefact_export_mode: Type::ArtefactExport::FILE_LINK } },
             as: :turbo_stream

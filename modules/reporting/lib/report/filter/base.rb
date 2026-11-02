@@ -118,7 +118,7 @@ class Report::Filter
     end
 
     ##
-    # Returns a [:label_of_value, value]-kind array (as in self.vailable_values)
+    # Returns a [:label_of_value, value]-kind array (as in self.available_values)
     # for the given value
     def self.label_for_value(value)
       available_values(reverse_search: true).find { |v| v.second == value || v.second.to_s == value }

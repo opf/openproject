@@ -573,7 +573,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
           it_behaves_like "does not find the project"
         end
 
-        context "when using % in the query string the escaping works correcly and" do
+        context "when using % in the query string the escaping works correctly and" do
           let(:query) { "%#{project_list_cf.possible_values.pick(:value)}" }
 
           it_behaves_like "does not find the project"

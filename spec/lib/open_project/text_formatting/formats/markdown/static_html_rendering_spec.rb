@@ -60,7 +60,7 @@ RSpec.describe "Markdown static-HTML rendering" do # rubocop:disable RSpec/Descr
     end
   end
 
-  describe "basic mention (#N) — no behaviour change" do
+  describe "basic mention (#N) — no behavior change" do
     let(:input) { "see ##{work_package.id} please" }
 
     context "in semantic mode",

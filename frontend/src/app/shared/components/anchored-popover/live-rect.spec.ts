@@ -73,18 +73,18 @@ describe('liveRect', () => {
     popover.anchorElement = rect as unknown as HTMLElement;
     popover.togglePopover(true);
 
-    const centre = () => {
+    const center = () => {
       const box = popover.getBoundingClientRect();
       return box.left + box.width / 2;
     };
 
     placePopover(popover, rect);
-    expect(centre()).toBeCloseTo(205, 0);
+    expect(center()).toBeCloseTo(205, 0);
 
     anchor = new DOMRect(300, 200, 10, 10);
     await Promise.resolve();
     placePopover(popover, rect);
-    expect(centre()).toBeCloseTo(305, 0);
+    expect(center()).toBeCloseTo(305, 0);
 
     popover.remove();
   });

@@ -54,7 +54,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     overview_page.visit_page
   end
 
-  describe "with correct initialization and input behaviour" do
+  describe "with correct initialization and input behavior" do
     def field = overview_page.open_inplace_edit_field_for_custom_field(custom_field)
 
     describe "with single select fields" do

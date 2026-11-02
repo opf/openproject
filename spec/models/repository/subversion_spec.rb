@@ -229,7 +229,7 @@ RSpec.describe Repository::Subversion do
         expect(instance.changesets.count).to eq(14)
       end
 
-      it "latests changesets" do
+      it "latest changesets" do
         instance.fetch_changesets
 
         # with limit

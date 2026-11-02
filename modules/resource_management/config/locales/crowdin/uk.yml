@@ -185,7 +185,7 @@ uk:
     label_new_resource_planner: Новий планувальник ресурсів
     label_resource_planner: Планувальник ресурсів
     label_resource_planner_plural: Планувальники ресурсів
-    my_work:
+    my_time_management:
       hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Додати подання

@@ -37,7 +37,7 @@ properties:
       notificationMessage:
         allOf:
           - $ref: './formattable.yml'
-          - description: A customised notification message, which will overwrite the standard notification.
+          - description: A customized notification message, which will overwrite the standard notification.
       sendNotification:
         type: boolean
         description: Set to false, if no notification should get sent.

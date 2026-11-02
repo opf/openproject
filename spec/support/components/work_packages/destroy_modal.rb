@@ -33,6 +33,7 @@ module Components
       include Capybara::DSL
       include Capybara::RSpecMatchers
       include RSpec::Matchers
+      include WaitHelpers
 
       def initialize(bulk_mode: false, dialog_id: "wp-delete-dialog")
         @bulk_mode = bulk_mode
@@ -46,7 +47,9 @@ module Components
       end
 
       def within_dialog(&)
-        within(dialog_css_selector, &)
+        dialog = find(dialog_css_selector)
+        wait_for_size_animation_completion(dialog)
+        within(dialog, &)
       end
 
       def expect_open

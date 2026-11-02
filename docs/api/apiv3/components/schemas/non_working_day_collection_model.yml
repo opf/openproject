@@ -51,7 +51,7 @@ example:
             title: Saturday
       - _type: NonWorkingDay
         date: '2022-05-01'
-        name: 'Labour day'
+        name: 'Labor day'
         _links:
           self:
             href: /api/v3/days/non_working/2022-05-01

@@ -61,7 +61,7 @@ module API
         result
       end
 
-      # rubocop:disable Metrics/AbcSize
+      # rubocop:disable-next Metrics/AbcSize
       def parsed_params(params)
         ServiceResult.success result: {
           group_by: group_by_from_params(params),
@@ -81,7 +81,6 @@ module API
         result.errors.add(:base, e.message)
         result
       end
-      # rubocop:enable Metrics/AbcSize
 
       def determine_allowed_empty(params)
         allow_empty = params.keys
@@ -186,7 +185,7 @@ module API
       #
       # Examples:
       #   * status => status_id
-      #   * progresssDone => done_ratio
+      #   * progressDone => done_ratio
       #   * assigned => assigned_to
       #   * customField1 => cf_1
       #

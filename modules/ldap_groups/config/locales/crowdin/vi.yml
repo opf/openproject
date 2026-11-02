@@ -89,7 +89,7 @@ vi:
       plural: Nhóm LDAP được đồng bộ hóa
       singular: Nhóm LDAP được đồng bộ hóa
       upsell:
-        description: Tận dụng các nhóm LDAP được đồng bộ hóa để quản lý người dùng, thay đổi quyền của họ và tạo điều kiện thuận lợi cho việc quản lý người dùng giữa các nhóm.
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: Đồng bộ hóa tư cách thành viên nhóm LDAP.
     name: Nhóm LDAP OpenProject

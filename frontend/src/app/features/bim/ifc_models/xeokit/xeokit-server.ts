@@ -26,7 +26,6 @@
 //++
 
 // @ts-expect-error xeokit-sdk has no module
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { utils } from '@xeokit/xeokit-sdk/dist/xeokit-sdk.es';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IfcModelsDataService } from '../pages/viewer/ifc-models-data.service';

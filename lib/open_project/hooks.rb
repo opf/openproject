@@ -31,5 +31,5 @@ module OpenProject
   module Hooks; end
 end
 
-# actual hooks are added with the following require statemens
+# actual hooks are added with the following require statements
 require "open_project/hooks/view_account_login_auth_provider"

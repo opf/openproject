@@ -103,6 +103,14 @@ module Projects
       end
     end
 
+    # The restrictions have to exist before the work packages are copied, as copying drops the
+    # custom values that are not usable in the copy.
+    def after_persist(call)
+      copy_custom_field_value_restrictions(call.result) if call.result&.persisted?
+
+      super
+    end
+
     def after_perform(call)
       super.tap do |super_call|
         copy_activated_custom_fields(super_call)
@@ -118,6 +126,14 @@ module Projects
 
     def copy_activated_custom_fields(call)
       call.result.project_custom_field_ids = source.project_custom_field_ids
+    end
+
+    def copy_custom_field_value_restrictions(project)
+      rows = source.custom_field_value_restrictions.map do |restriction|
+        restriction.slice(:custom_field_id, :restriction, :custom_option_id, :hierarchy_item_id).merge(project_id: project.id)
+      end
+
+      CustomField::ProjectSpecificValueRestriction.insert_all(rows) if rows.any?
     end
 
     # Activating a custom field on the copy must not silently enable it for

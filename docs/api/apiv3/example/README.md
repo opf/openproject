@@ -287,7 +287,7 @@ it can guide other potential clients to correctly communicate with the OpenProje
 
 ## Updating a work package
 
-Once the correct work package is found, it can also be updated. Once again, a form can support the client in that endeavour.
+Once the correct work package is found, it can also be updated. Once again, a form can support the client in that endeavor.
 
 ### Fetching the update form
 

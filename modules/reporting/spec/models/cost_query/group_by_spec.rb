@@ -291,12 +291,12 @@ RSpec.describe CostQuery, :reporting_query_helper do
       expect(query.result.count).to eq(8)
     end
 
-    it "accepts row as a specialised group_by" do
+    it "accepts row as a specialized group_by" do
       query.row :project_id
       expect(query.chain.type).to eq(:row)
     end
 
-    it "accepts column as a specialised group_by" do
+    it "accepts column as a specialized group_by" do
       query.column :project_id
       expect(query.chain.type).to eq(:column)
     end

@@ -64,7 +64,7 @@ import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 export interface IAutocompleteItem {
-  id:ID;
+  id:ID|null;
   href:string|null;
 }
 

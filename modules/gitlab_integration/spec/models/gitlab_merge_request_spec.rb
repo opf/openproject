@@ -166,7 +166,7 @@ RSpec.describe GitlabMergeRequest do
     context "when multiple pipelines for the same merge request exist" do
       shared_association_default(:gitlab_merge_request) { create(:gitlab_merge_request) }
 
-      context "when the piplelines are for multiple projects" do
+      context "when the pipelines are for multiple projects" do
         let!(:second_pipeline) { create(:gitlab_pipeline, project_id: 112, gitlab_id: 3) }
         let!(:first_pipeline) { create(:gitlab_pipeline, project_id: 111, gitlab_id: 2) }
         let!(:third_pipeline) { create(:gitlab_pipeline, project_id: 113, gitlab_id: 1) }

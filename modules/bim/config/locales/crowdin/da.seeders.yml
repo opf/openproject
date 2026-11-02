@@ -18,14 +18,14 @@ da:
         item_0:
           name: Ny
         item_1:
-          name: Igangværende
+          name: I gang
         item_2:
           name: Løst
         item_3:
           name: Lukket
       time_entry_activities:
         item_0:
-          name: Håndtering
+          name: Ledelse
         item_1:
           name: Specifikation
         item_2:
@@ -38,7 +38,7 @@ da:
         item_2:
           name: Fase
         item_3:
-          name: Emne
+          name: Sag
         item_4:
           name: Bemærkning
         item_5:
@@ -61,42 +61,42 @@ da:
         item_2:
           name: BIM-ledere
         item_3:
-          name: BIM-Modelbyggere
+          name: BIM-modellører
         item_4:
           name: Ledende BIM-koordinatorer
         item_5:
-          name: MEP-teknikere
+          name: MEP-ingeniører
         item_6:
           name: Planlæggere
         item_7:
-          name: Strukturelle teknikere
+          name: Konstruktionsingeniører
       welcome:
-        title: Velkommen til OpenProject BIM-udgave!
+        title: Velkommen til OpenProjects BIM-udgave!
         text: |
-          Tjek demoprojekterne ud for at komme i gang med nogle eksempler.
+          Se demoprojekterne for at komme i gang med nogle eksempler.
 
-          * [(Demo) Konstruktionsprojekt]({{opSetting:base_url}}/projects/demo-construc-project): Planlægning, BIM-proces, BCF-styring og konstruktion, alt sammen med ét overblik.
-              * [(Demo) Planlægning og konstruktion]({{opSetting:base_url}}/projects/demo-planing-konstruktions-projekt): Klassisk planlægning og konstruktionsstyring.
-              * [(Demo) Bim-projekt]({{opSetting:base_url}}/projects/demo-bim-project): BIM-proces og koordinering.
-                  * [(Demo) BCF-håndtering]({{opSetting:base_url}}/projects/demo-bcf-management-project): BCF-håndtering.
+          * [(Demo) Byggeprojekt]({{opSetting:base_url}}/projects/demo-construction-project): Planlægning, BIM-proces, BCF-styring og byggeri samlet ét sted.
+              * [(Demo) Planlægning og byggeri]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Klassisk planlægning og byggestyring.
+              * [(Demo) BIM-projekt]({{opSetting:base_url}}/projects/demo-bim-project): BIM-proces og koordinering.
+                  * [(Demo) BCF-styring]({{opSetting:base_url}}/projects/demo-bcf-management-project): BCF-styring.
 
-          Der kan også oprettes et tomt [nyt projekt]({{opSetting:base_url}}/projects/new).
+          Du kan også oprette et tomt [nyt projekt]({{opSetting:base_url}}/projects/new).
 
-          Stop aldrig samarbejdet. Med open source og åbent sind.
+          Bliv ved med at samarbejde – med open source og et åbent sind.
 
-          Denne velkomsttekst kan ændres [her]({{opSetting:base_url}}/admin/settings/general).
+          Du kan ændre denne velkomsttekst [her]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-construction-project:
-          name: "(Demo) Konstruktionsprojekt"
-          status_explanation: Alle opgaver og delprojekter følger tidsplanen. De involverede kender deres opgaver. Systemet er fuldt opsat.
-          description: Dette er et kort resumé af målene for dette demokonstruktionsprojekt.
+          name: "(Demo) Byggeprojekt"
+          status_explanation: Alle opgaver og underprojekter følger tidsplanen. De involverede kender deres opgaver. Systemet er sat helt op.
+          description: Dette er en kort opsummering af målene for dette demobyggeprojekt.
           news:
             item_0:
-              title: Velkommen til demo-projektet
+              title: Velkommen til dit demoprojekt
               summary: |
-                Vi er glade for deltagelsen.
-                I dette modul kan der kommunikeres projektnyheder til teammedlemmerne.
-              description: De faktiske nyheder
+                Vi er glade for, at du er med.
+                I dette modul kan du formidle projektnyheder til dine teammedlemmer.
+              description: Selve nyheden
           categories:
             item_0: Kategori 1 (skal ændres i Projektindstillinger)
           queries:
@@ -110,7 +110,7 @@ da:
               name: Teamplanlægger
           boards:
             bcf:
-              name: Simpel træk-slip arbejdsgang
+              name: Enkel arbejdsgang med træk og slip
           project-overview:
             widgets:
               item_0:
@@ -118,27 +118,27 @@ da:
                   name: Velkommen
               item_1:
                 options:
-                  name: At komme gang
+                  name: Kom godt i gang
                   text: |
-                    Vi er glade for deltagelsen! Vi foreslår at prøve et par ting for at komme i gang i OpenProject.
+                    Vi er glade for, at du er med! Vi foreslår, at du prøver et par ting for at komme i gang med OpenProject.
 
-                    Før man springer ud i det, skal man vide, at dette eksemplariske projekt er opdelt i to forskellige projekter:
+                    Men før du går i gang, skal du vide, at eksempelprojektet er delt op i to projekter:
 
-                    1.  [Byggeproject]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Her finder man de klassiske roller, nogle arbejdsgange og arbejdspakker til sit byggeprojekt.
-                    2.  [Oprettelse af BIM-model]({{opSetting:base_url}}/projects/demo-bim-project): Dette projekt tilbyder også roller, arbejdsgange og arbejdspakker, men især i BIM-sammenhæng.
+                    1.  [Byggeprojekt]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Her finder du de klassiske roller samt nogle arbejdsgange og arbejdspakker til dit byggeprojekt.
+                    2.  [Oprettelse af BIM-model]({{opSetting:base_url}}/projects/demo-bim-project): Projektet indeholder også roller, arbejdsgange og arbejdspakker, men specielt til BIM.
 
-                    _Prøv de flg. trin:_
+                    _Prøv følgende trin:_
 
-                    1.  _Invitér nye deltagere som medlemmer af projektet_: → Gå til [Medlemmer]({{opSetting:base_url}}/projects/demo-construction-project/members) i projektnavigationen.
-                    2.  _Se arbejdet i sine projekter_: → Gå til [Arbejdspakker]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i projektnavigationen.
-                    3.  _Oprette en nu arbejdspakke_: → Gå til [Arbejdspakker → Opret]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Oprette og opdatere et Gantt-diagram_: → Gå til [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i projektnavigationen.
-                    5.  _Aktivere yderligere moduler_: → Gå til [Projektindstillinger → Moduler]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
-                    6.  _Tjek flisevisningen for at få en oversigt over BCF-problemer:_ → Gå til [Arbejdspakker]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    7.  _Agilt arbejde? Tjek de nye tavler:_ → Gå til [Tavler]({{opSetting:base_url}}/projects/demo-construction-project/boards)
+                    1.  _Invitér nye medlemmer til dit projekt_: → Gå til [Medlemmer]({{opSetting:base_url}}/projects/demo-construction-project/members) i projektnavigationen.
+                    2.  _Se arbejdet i dine projekter_: → Gå til [Arbejdspakker]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i projektnavigationen.
+                    3.  _Opret en ny arbejdspakke_: → Gå til [Arbejdspakker → Opret]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  _Opret og opdater et Gantt-diagram_: → Gå til [Gantt-diagram]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i projektnavigationen.
+                    5.  _Aktivér flere moduler_: → Gå til [Projektindstillinger → Moduler]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
+                    6.  _Se flisevisningen for at få overblik over dine BCF-sager:_ → Gå til [Arbejdspakker]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    7.  _Arbejder du agilt? Prøv vores nye tavler:_ → Gå til [Tavler]({{opSetting:base_url}}/projects/demo-construction-project/boards)
 
-                    Her finder man vores [Brugervejledninger](https://www.openproject.org/docs/user-guide/).
-                    Lad os vide, hvis der er nogen spørgsmål eller behov for support. Kontakt os: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Her finder du vores [brugervejledninger](https://www.openproject.org/docs/user-guide/).
+                    Sig til, hvis du har spørgsmål eller brug for hjælp. Kontakt os: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Medlemmer
@@ -149,16 +149,16 @@ da:
                 options:
                   name: Milepæle
         demo-planning-constructing-project:
-          name: "(Demo) Planlægning og konstruktion"
-          status_explanation: Alle opgaver følger tidsplanen. De involverede kender deres opgaver. Systemet er fuldt opsat.
+          name: "(Demo) Planlægning og byggeri"
+          status_explanation: Alle opgaver følger tidsplanen. De involverede kender deres opgaver. Systemet er sat helt op.
           description: Dette er et kort resumé af målene for dette demoplanlægnings- og byggeprojekt.
           news:
             item_0:
-              title: Velkommen til demoprojektet
+              title: Velkommen til dit demoprojekt
               summary: |
-                Vi er glade for deltagelsen.
-                I dette modul kan projektnyheder kommunikeres til teammedlemmerne.
-              description: De faktiske nyheder
+                Vi er glade for, at du er med.
+                I dette modul kan du formidle projektnyheder til dine teammedlemmer.
+              description: Selve nyheden
           categories:
             item_0: Kategori 1 (skal ændres i Projektindstillinger)
           queries:
@@ -177,23 +177,23 @@ da:
                   name: Velkommen
               item_1:
                 options:
-                  name: At komme gang
+                  name: Kom godt i gang
                   text: |
-                    Vi er glade for deltage!sen Vi foreslår at prøve et par ting for at komme i gang med OpenProject.
+                    Vi er glade for, at du er med! Vi foreslår, at du prøver et par ting for at komme i gang med OpenProject.
 
-                    Her findes de klassiske roller, nogle arbejdsgange og arbejdspakker til byggeprojektet.
+                    Her finder du de klassiske roller samt nogle arbejdsgange og arbejdspakker til dit byggeprojekt.
 
-                    Prøv følgende trin:_
+                    _Prøv følgende trin:_
 
-                    1.  _Invitér nye medlemmer til projektet:_ → Gå til [Medlemmer]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) i projektnavigationen.
-                    2.  _Se arbejdet i projekterne:_ → Gå til [Arbejdspakker]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i projektnavigationen.
-                    3.  _Oprette en ny srbejdspakke:_ → Gå til [Arbejdspakker → Opret]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Oprett og opdatere et Gantt-diagram:_ → Gå til [Gantt-diagram]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i projektnavigationen.
-                    5.  _Aktivere yderligere moduler:_ → Gå til [Projektindstillinger → Moduler]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
-                    6.  _Arbejdes agilt? Opret en ny tavle:_ → Gå til [Tavler]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
+                    1.  _Invitér nye medlemmer til dit projekt:_ → Gå til [Medlemmer]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) i projektnavigationen.
+                    2.  _Se arbejdet i dine projekter:_ → Gå til [Arbejdspakker]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i projektnavigationen.
+                    3.  _Opret en ny arbejdspakke:_ → Gå til [Arbejdspakker → Opret]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  _Opret og opdater et Gantt-diagram:_ → Gå til [Gantt-diagram]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i projektnavigationen.
+                    5.  _Aktivér flere moduler:_ → Gå til [Projektindstillinger → Moduler]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
+                    6.  _Arbejder du agilt? Opret en ny tavle:_ → Gå til [Tavler]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
 
-                    Her findes vores [Brugervejledninger](https://www.openproject.org/docs/user-guide/).
-                    Lad os vide, hvis der er spørgsmål eller behov for support. Kontakt os gerne: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Her finder du vores [brugervejledninger](https://www.openproject.org/docs/user-guide/).
+                    Sig til, hvis du har spørgsmål eller brug for hjælp. Kontakt os: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Medlemmer
@@ -205,14 +205,14 @@ da:
                   name: Milepæle
           work_packages:
             item_0:
-              subject: Projekt kick off byggeprojekt
+              subject: Kickoff for byggeprojektet
               description: |-
-                Projektets kick off markerer starten på projektet i virksomheden. Alle, som er en del af projektet, bør inviteres til kick off til den indledende briefing.
+                Projektets kickoff markerer starten på projektet i din virksomhed. Alle, der er med i projektet, bør inviteres til kickoff for en første orientering.
 
-                Næste skridt kunne være at tjekke tidsplanen og justere aftalerne ved at se på [Gantt-diagrammet]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Næste skridt kan være at se tidsplanen igennem og justere aftalerne i [Gantt-diagrammet]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
               subject: Basisevaluering
-              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Anmodning&quot; og repræsenterer således en generel note.
+              description: Denne type er hierarkisk overordnet typerne &quot;Konflikt&quot; og &quot;Anmodning&quot; og repræsenterer derfor en generel note.
               children:
                 item_0:
                   subject: Indsamling af indledende projektoplysninger
@@ -235,7 +235,7 @@ da:
                     * At skabe et brugbart overblik over resultaterne
                     * At kontrollere, hvad der er blevet gjort, og opsummere resultaterne
                     * At kommunikere alle relevante resultater til kunden
-                    * At identificere projektets basisgrænsebetingelser
+                    * At identificere projektets grundlæggende rammebetingelser
 
                     ## Beskrivelse
 
@@ -244,10 +244,10 @@ da:
                     * ...
                 item_2:
                   subject: Afslutning af basisevaluering
-                  description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Anmodning&quot; og repræsenterer således en generel note.
+                  description: Denne type er hierarkisk overordnet typerne &quot;Konflikt&quot; og &quot;Anmodning&quot; og repræsenterer derfor en generel note.
             item_2:
               subject: Indledende planlægning
-              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Anmodning&quot; og repræsenterer således en generel note.
+              description: Denne type er hierarkisk overordnet typerne &quot;Konflikt&quot; og &quot;Anmodning&quot; og repræsenterer derfor en generel note.
               children:
                 item_0:
                   subject: Udvikling af første udkast
@@ -257,7 +257,7 @@ da:
                     * At skabe et brugbart overblik over resultaterne
                     * At kontrollere, hvad der er blevet gjort og opsummere resultaterne
                     * At kommunikere alle relevante resultater til kunden
-                    * At identificere projektets basisgrænsebetingelser
+                    * At identificere projektets grundlæggende rammebetingelser
 
                     ## Beskrivelse
 
@@ -272,7 +272,7 @@ da:
                     * At skabe et brugbart overblik over resultaterne
                     * At kontrollere, hvad der er blevet gjort og opsummere resultaterne
                     * At kommunikere alle relevante resultater til kunden
-                    * At identificere projektets basisgrænsebetingelser
+                    * At identificere projektets grundlæggende rammebetingelser
 
                     ## Beskrivelse
 
@@ -281,10 +281,10 @@ da:
                     * ...
             item_3:
               subject: Godkendelse af indledende planlægning
-              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Anmodning&quot; og repræsenterer således en generel note.
+              description: Denne type er hierarkisk overordnet typerne &quot;Konflikt&quot; og &quot;Anmodning&quot; og repræsenterer derfor en generel note.
             item_4:
               subject: Designplanlægning
-              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Anmodning&quot; og repræsenterer således en generel note.
+              description: Denne type er hierarkisk overordnet typerne &quot;Konflikt&quot; og &quot;Anmodning&quot; og repræsenterer derfor en generel note.
               children:
                 item_0:
                   subject: Afsluttende design
@@ -302,9 +302,9 @@ da:
                     * ...
                 item_1:
                   subject: Designfastfrysning
-                  description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Anmodning&quot; og repræsenterer således en generel note.
+                  description: Denne type er hierarkisk overordnet typerne &quot;Konflikt&quot; og &quot;Anmodning&quot; og repræsenterer derfor en generel note.
             item_5:
-              subject: Konstruktionsfasen
+              subject: Byggefasen
               children:
                 item_0:
                   subject: Begynd at bygge
@@ -338,13 +338,13 @@ da:
                   description: |-
                     ## Mål
 
-                    * Topping out-ceremoni
+                    * Rejsegilde
                     * Vægge og lofter er færdige
                     * ...
 
                     ## Beskrivelse
 
-                    * Oprettelse af alle strukturelle niveauer i bygningen
+                    * Opførelse af alle bygningens etager
                     * Installation af døre og vinduer
                     * Færdiggørelse af tagkonstruktionen
                     * ...
@@ -391,7 +391,7 @@ da:
                     * Færdiggørelse af facaden
                     * ...
                 item_6:
-                  subject: Indvielsesfest i huset
+                  subject: Indflytningsfest
                   description: |-
                     ## Mål
 
@@ -404,15 +404,15 @@ da:
                     * Medbring drikkevarer, snacks og dit smil
         demo-bim-project:
           name: "(Demo) BIM-projekt"
-          status_explanation: Alle opgaver og delprojekter følger tidsplanen. De involverede kender deres opgaver. Systemet er fuldt opsat.
-          description: Dette er et kort resumé af målene for dette demobyggeprojekt.
+          status_explanation: Alle opgaver og underprojekter følger tidsplanen. De involverede kender deres opgaver. Systemet er sat helt op.
+          description: Dette er en kort opsummering af målene for dette BIM-demoprojekt.
           news:
             item_0:
-              title: Velkommen til demo-projektet
+              title: Velkommen til dit demoprojekt
               summary: |
-                Vi er glade for deltagelsen.
-                I dette modul kan man kommunikere projektnyheder til sine teammedlemmer.
-              description: De faktiske nyheder
+                Vi er glade for, at du er med.
+                I dette modul kan du formidle projektnyheder til dine teammedlemmer.
+              description: Selve nyheden
           categories:
             item_0: Kategori 1 (skal ændres i Projektindstillinger)
           queries:
@@ -431,26 +431,26 @@ da:
                   name: Velkommen
               item_1:
                 options:
-                  name: At komme gang
+                  name: Kom godt i gang
                   text: |
                     Vi er glade for, at du er med! Vi foreslår, at du prøver et par ting for at komme i gang med OpenProject.
 
-                    Dette demoprojekt tilbyder roller, arbejdsgange og arbejdspakker, der er specialiseret til BIM.
+                    Dette demoprojekt indeholder roller, arbejdsgange og arbejdspakker, der er tilpasset BIM.
 
-                    Prøv følgende trin:_
+                    _Prøv følgende trin:_
 
                     1.  _Invitér nye medlemmer til dit projekt:_ → Gå til [Medlemmer]({{opSetting:base_url}}/projects/demo-bim-project/members) i projektnavigationen.
-                    2.  _Upload og se 3D-modeller i IFC-format:_ → Gå til [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) i projektnavigationen.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Gå til [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _Se arbejdet i dine projekter:_ → Gå til [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i projektnavigationen.
-                    5.  _Create a new work package:_ → Gå til [Work packages → Create]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i projektnavigationen.
-                    7.  _Aktivér yderligere moduler:_ → Gå til [Projektindstillinger → Moduler]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
-                    8.  _Check out the tile view to get an overview of your BCF issues:_ → Gå til [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    9.  _Arbejder du agilt? Opret et nyt board:_ → Gå til [Boards]({{opSetting:base_url}}/projects/demo-bim-project/boards)
+                    2.  _Overfør og se 3D-modeller i IFC-format:_ → Gå til [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) i projektnavigationen.
+                    3.  _Opret og administrer BCF-sager, der er linket direkte i IFC-modellen:_ → Gå til [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Opret.
+                    4.  _Se arbejdet i dine projekter:_ → Gå til [Arbejdspakker]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i projektnavigationen.
+                    5.  _Opret en ny arbejdspakke:_ → Gå til [Arbejdspakker → Opret]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    6.  _Opret og opdater et Gantt-diagram:_ → Gå til [Gantt-diagram]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i projektnavigationen.
+                    7.  _Aktivér flere moduler:_ → Gå til [Projektindstillinger → Moduler]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
+                    8.  _Se flisevisningen for at få overblik over dine BCF-sager:_ → Gå til [Arbejdspakker]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    9.  _Arbejder du agilt? Opret en ny tavle:_ → Gå til [Tavler]({{opSetting:base_url}}/projects/demo-bim-project/boards)
 
-                    Her finder du vores [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Lad os vide, hvis du har spørgsmål eller brug for support. Kontakt os gerne: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Her finder du vores [brugervejledninger](https://www.openproject.org/docs/user-guide/).
+                    Sig til, hvis du har spørgsmål eller brug for hjælp. Kontakt os: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Medlemmer
@@ -464,12 +464,12 @@ da:
             item_0:
               subject: Projektstart med oprettelse af BIM-model
               description: |-
-                Projektets kick off markerer starten på projektet i din virksomhed. Alle, der er en del af projektet, bør inviteres til kick off for at få en første briefing.
+                Projektets kickoff markerer starten på projektet i din virksomhed. Hele projektteamet bør inviteres til kickoff for en første orientering.
 
-                Det næste skridt kunne være at tjekke tidsplanen og justere aftalerne ved at se på [Gantt-diagrammet]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Næste skridt kan være at se tidsplanen igennem og justere aftalerne i [Gantt-diagrammet]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
               subject: Forberedelse af projektet
-              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
+              description: Denne type er hierarkisk overordnet typerne &quot;Konflikt&quot; og &quot;Anmodning&quot; og repræsenterer derfor en generel note.
               children:
                 item_0:
                   subject: Indsamling af projektspecifikke data og oplysninger til BIM-modellen
@@ -492,7 +492,7 @@ da:
                   description: |-
                     # Mål
 
-                    * En BIM-eksekveringsplan vil blive defineret i henhold til specifikationerne for udvekslingskrav (ERS)
+                    * En BIM-udførelsesplan vil blive defineret i henhold til specifikationerne for udvekslingskrav (ERS)
                     * Alle teammedlemmer og partnere har en plan for, hvordan de skal nå hvert af projektets mål
 
                     # Beskrivelse
@@ -502,27 +502,27 @@ da:
                     * ...
                 item_2:
                   subject: Afslutning af BIM-udførelsesplanen
-                  description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
+                  description: Denne type er hierarkisk overordnet typerne &quot;Konflikt&quot; og &quot;Anmodning&quot; og repræsenterer derfor en generel note.
             item_2:
               subject: Afslutning af forberedelsesfasen
-              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
+              description: Denne type er hierarkisk overordnet typerne &quot;Konflikt&quot; og &quot;Anmodning&quot; og repræsenterer derfor en generel note.
             item_3:
               subject: Oprettelse af indledende BIM-model
-              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
+              description: Denne type er hierarkisk overordnet typerne &quot;Konflikt&quot; og &quot;Anmodning&quot; og repræsenterer derfor en generel note.
               children:
                 item_0:
                   subject: Modellering af indledende BIM-model
                   description: |-
                     # Mål
 
-                    * Modellering af den oprindelige BIM-model
-                    * Oprettelse af en BIM-model for hele projektteamet
+                    *   Modellering af den indledende BIM-model
+                    *   Oprettelse af en BIM-model til hele projektteamet
 
                     # Beskrivelse
 
-                    * Ifølge de indsamlede data fra kunden vil den oprindelige model blive modelleret
-                    * Modellen skal modelleres i henhold til LOD-matricerne og indeholde de nødvendige oplysninger
-                    * ...
+                    *   Den indledende model modelleres ud fra de data, der er indsamlet hos kunden
+                    *   Modellen skal modelleres efter LOD-matricerne og indeholde de nødvendige oplysninger
+                    *   ...
                 item_1:
                   subject: Indledende, intern modelkontrol og revision
                   description: |-
@@ -536,23 +536,23 @@ da:
                     * ...
                 item_2:
                   subject: Indsendelse af indledende BIM-model
-                  description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
+                  description: Denne type er hierarkisk overordnet typerne &quot;Konflikt&quot; og &quot;Anmodning&quot; og repræsenterer derfor en generel note.
             item_4:
               subject: Modellering, første cyklus
-              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
+              description: Denne type er hierarkisk overordnet typerne &quot;Konflikt&quot; og &quot;Anmodning&quot; og repræsenterer derfor en generel note.
               children:
                 item_0:
                   subject: Henvisning til eksterne BIM-modeller
                   description: |-
                     # Mål
 
-                    * At have et grundlag for at udvikle den interne model/ tilbyde svar
-                    * At bruge den eksterne model til at udvikle den interne model
+                    *   Et grundlag for at udvikle den interne model / give svar
+                    *   Brug af den eksterne model til at udvikle den interne model
 
                     # Beskrivelse
 
-                    * Den eksterne model vil blive refereret i BIM-platformen og dermed brugt til modellering af den interne model
-                    * ...
+                    *   Der henvises til den eksterne model på BIM-platformen, og den bruges dermed til at modellere den interne model
+                    *   ...
                 item_1:
                   subject: Modellering af BIM-modellen
                   description: |-
@@ -563,7 +563,7 @@ da:
 
                     # Beskrivelse
 
-                    * Modellen vil blive oprettet i henhold til BIM-eksekveringsplanen
+                    * Modellen vil blive oprettet i henhold til BIM-udførelsesplanen
                     * ...
                 item_2:
                   subject: Første cyklus, intern modelkontrol og revision
@@ -578,10 +578,10 @@ da:
                     * ...
                 item_3:
                   subject: Indsendelse af BIM-model
-                  description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
+                  description: Denne type er hierarkisk overordnet typerne &quot;Konflikt&quot; og &quot;Anmodning&quot; og repræsenterer derfor en generel note.
             item_5:
               subject: Koordinering, første cyklus
-              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
+              description: Denne type er hierarkisk overordnet typerne &quot;Konflikt&quot; og &quot;Anmodning&quot; og repræsenterer derfor en generel note.
               children:
                 item_0:
                   subject: Koordiner de forskellige BIM-modeller
@@ -597,30 +597,30 @@ da:
                     * De identificerede modelspecifikke problemer kommunikeres via BCF-filer
                     * ...
                 item_1:
-                  subject: Problemstyring, første cyklus
+                  subject: Sagsstyring, første cyklus
                 item_2:
-                  subject: Efterbehandlingskoordinering, første cyklus
-                  description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
+                  subject: Afslutning af koordinering, første cyklus
+                  description: Denne type er hierarkisk overordnet typerne &quot;Konflikt&quot; og &quot;Anmodning&quot; og repræsenterer derfor en generel note.
             item_6:
               subject: Modellering og koordinering, anden cyklus
               description: "## Mål\r\n\r\n* ...\r\n\r\n## Beskrivelse\r\n\r\n* \\ ..."
             item_7:
               subject: Modellering og koordinering, ... cyklus
-              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
+              description: Denne type er hierarkisk overordnet typerne &quot;Konflikt&quot; og &quot;Anmodning&quot; og repræsenterer derfor en generel note.
             item_8:
               subject: Modellering og koordinering, (n-te minus 1) cyklus
               description: "## Mål\r\n\r\n* ...\r\n\r\n## Beskrivelse\r\n\r\n* \\ ..."
             item_9:
-              subject: Modellering og koordinering af n-te cyklus
-              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
+              subject: Modellering og koordinering, n-te cyklus
+              description: Denne type er hierarkisk overordnet typerne &quot;Konflikt&quot; og &quot;Anmodning&quot; og repræsenterer derfor en generel note.
             item_10:
-              subject: Færdiggørelse af modellering og koordinering, n'te cyklus
-              description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
+              subject: Afsluttende modellering og koordinering, n-te cyklus
+              description: Denne type er hierarkisk overordnet typerne &quot;Konflikt&quot; og &quot;Anmodning&quot; og repræsenterer derfor en generel note.
             item_11:
               subject: Brug modellen til byggefasen
               children:
                 item_0:
-                  subject: Overdragelsesmodel til byggehold
+                  subject: Overdragelse af modellen til byggeholdet
                   description: |-
                     ## Mål
 
@@ -634,7 +634,7 @@ da:
                     * Alle objekter bør have de oplysninger, der er nødvendige for de tildelte opgaver. Hvis ikke, skal modellen beriges med data
                     * ...
                 item_1:
-                  subject: Konstruer bygningen
+                  subject: Opfør bygningen
                   description: |-
                     ## Mål
 
@@ -643,13 +643,13 @@ da:
 
                     ## Beskrivelse
 
-                    * Nye problemer vil blive dokumenteret ved hjælp af BCF-filer som sticky notes til modellen
+                    * Nye problemer vil blive dokumenteret ved hjælp af BCF-filer som huskesedler i modellen
                     * BCF-filerne vil blive brugt til at tildele, spore og rette problemer
                     * ...
                 item_2:
-                  subject: Færdiggør konstruktion
+                  subject: Færdiggør byggeriet
             item_12:
-              subject: Problemstyring, byggefase
+              subject: Sagsstyring, byggefase
             item_13:
               subject: Overdragelse til Facility Management
               description: |-
@@ -665,24 +665,24 @@ da:
                 * Modellen kan bruges til bygningens driftssystem
                 * ...
             item_14:
-              subject: Forvaltning af aktiver
+              subject: Ejendomsforvaltning
               description: Nyd din bygning :)
         demo-bcf-management-project:
-          name: "(Demo) BCF-ledelse"
-          status_explanation: Alle opgaver følger tidsplanen. De involverede kender deres opgaver. Systemet er fuldt opsat.
-          description: Dette er et kort resumé af målene for dette demobyggeprojekt.
+          name: "(Demo) BCF-styring"
+          status_explanation: Alle opgaver følger tidsplanen. De involverede kender deres opgaver. Systemet er sat helt op.
+          description: Dette er en kort opsummering af målene for dette demoprojekt om BCF-styring.
           ifc_models:
             item_0:
-              name: Hospital - Strukturel (cc-by-sa-3.0 Autodesk Inc.)
+              name: Hospital - Arkitektur (cc-by-sa-3.0 Autodesk Inc.)
             item_1:
-              name: Hospital - Strukturel (cc-by-sa-3.0 Autodesk Inc.)
+              name: Hospital - Konstruktion (cc-by-sa-3.0 Autodesk Inc.)
             item_2:
               name: Hospital - Mekanisk (cc-by-sa-3.0 Autodesk Inc.)
           categories:
             item_0: Kategori 1 (skal ændres i Projektindstillinger)
           queries:
             item_0:
-              name: Emner
+              name: Sager
             item_1:
               name: Konflikter
             item_2:
@@ -699,7 +699,7 @@ da:
               name: Teamplanlægger
           boards:
             bcf:
-              name: BCF-emner
+              name: BCF-sager
           project-overview:
             widgets:
               item_0:
@@ -707,25 +707,25 @@ da:
                   name: Velkommen
               item_1:
                 options:
-                  name: At komme gang
+                  name: Kom godt i gang
                   text: |
                     Vi er glade for, at du er med! Vi foreslår, at du prøver et par ting for at komme i gang med OpenProject.
 
-                    Dette demoprojekt viser BCF-styringsfunktioner.
+                    Dette demoprojekt viser funktionerne til BCF-styring.
 
-                    Prøv følgende trin:_
+                    _Prøv følgende trin:_
 
                     1.  _Invitér nye medlemmer til dit projekt:_ → Gå til [Medlemmer]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) i projektnavigationen.
-                    2.  _Upload og vis 3D-modeller i IFC-format:_ → Gå til [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) i projektnavigationen.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Gå til [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _Vis BCF-filerne i dit projekt:_ → Gå til [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) i projektnavigationen.
-                    5.  _Load dine BCF-filer:_ → Gå til [BCF → Import.]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) i projektnavigationen.
-                    7.  _Aktiver yderligere moduler:_ → Gå til [Projektindstillinger → Moduler]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
-                    8.  _Er du vild med den agile tilgang? Opret et board:_ → Gå til [Boards]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
+                    2.  _Overfør og se 3D-modeller i IFC-format:_ → Gå til [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) i projektnavigationen.
+                    3.  _Opret og administrer BCF-sager, der er linket direkte i IFC-modellen:_ → Gå til [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Opret.
+                    4.  _Se BCF-filerne i dit projekt:_ → Gå til [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) i projektnavigationen.
+                    5.  _Indlæs dine BCF-filer:_ → Gå til [BCF → Importér.]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
+                    6.  _Opret og opdater et Gantt-diagram:_ → Gå til [Gantt-diagram]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) i projektnavigationen.
+                    7.  _Aktivér flere moduler:_ → Gå til [Projektindstillinger → Moduler.]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
+                    8.  _Er du glad for den agile tilgang? Opret en tavle:_ → Gå til [Tavler]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
 
-                    Her finder du vores [Brugervejledninger](https://www.openproject.org/docs/user-guide/).
-                    Lad os vide, hvis du har spørgsmål eller brug for support. Kontakt os gerne: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Her finder du vores [brugervejledninger](https://www.openproject.org/docs/user-guide/).
+                    Sig til, hvis du har spørgsmål eller brug for hjælp. Kontakt os: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Medlemmer

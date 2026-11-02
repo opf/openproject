@@ -48,17 +48,8 @@ module WorkPackageTypes
     attr_reader :variant
 
     def assign(name)
-      convert_own_workflow
       variant.project = nil
       variant.variant_name = name unless name.nil?
-    end
-
-    def convert_own_workflow
-      workflow = variant.workflow
-      return unless workflow&.project_specific? && workflow.project_id == variant.project_id
-
-      workflow.project = nil
-      workflow.name = Workflow.available_name(workflow.name)
     end
   end
 end

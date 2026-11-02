@@ -33,7 +33,7 @@ RSpec.describe "Notification center uses displayId when navigating to the work p
                :js,
                :with_cuprite,
                with_settings: { work_packages_identifier: "semantic" } do
-  # Classic mode is a behavioural no-op: the URL helpers and the
+  # Classic mode is a behavioral no-op: the URL helpers and the
   # resolveRoutingId bridge both collapse to the numeric id when semantic
   # mode is off. Covering semantic-only where the bug actually manifests.
 
@@ -56,7 +56,7 @@ RSpec.describe "Notification center uses displayId when navigating to the work p
 
   before do
     work_package.allocate_and_register_semantic_id
-    notification # realise
+    notification # realize
   end
 
   it "opens the split view at the semantic identifier URL" do

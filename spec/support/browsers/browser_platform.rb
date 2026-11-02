@@ -27,7 +27,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# The modifier a page under test honours for multi-select: Cmd on an Apple
+# The modifier a page under test honors for multi-select: Cmd on an Apple
 # platform, Ctrl elsewhere. The browser under test decides, since a grid can
 # run it on another OS than this host.
 module BrowserPlatform

@@ -70,7 +70,7 @@ module DevelopmentData
       end
     end
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def work_package_attributes
       [
         {
@@ -115,7 +115,6 @@ module DevelopmentData
         }
       ]
     end
-    # rubocop:enable Metrics/AbcSize
 
     def project
       @project ||= seed_data.find_reference(:dev_work_package_sharing, default: nil)

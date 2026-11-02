@@ -79,7 +79,7 @@ vi:
       group_regexes: Một mẫu biểu thức chính quy trên mỗi dòng. Vui lòng đọc [the documentation](docs_url) để biết thêm thông tin về cách thực hiện việc này.
       group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: Nhấp vào 'Mẫu thử nghiệm' để kiểm tra mẫu biểu thức chính quy của bạn dựa trên thông tin người dùng OIDC mẫu.
-      group_sync: Tự động trích xuất và đồng bộ hóa thông tin thành viên nhóm từ nhà cung cấp danh tính.
+      group_sync: Automatically extract and synchronize group membership information from the identity provider.
       groups_claim: Chỉ định tên của xác nhận quyền sở hữu dự kiến ​​sẽ cho biết tên nhóm mà người dùng là thành viên.
       limit_self_registration: Nếu được bật, người dùng chỉ có thể đăng ký sử dụng nhà cung cấp này nếu cấu hình phía nhà cung cấp cho phép.
       mapping_admin: 'Cung cấp ánh xạ tùy chỉnh trong phản hồi thông tin người dùng để sử dụng cho trạng thái quản trị viên. Nó mong đợi một thuộc tính boolean được trả về.

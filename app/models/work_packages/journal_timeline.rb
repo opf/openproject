@@ -41,7 +41,7 @@
 #       .group(:tick)
 #       .sum(:story_points)                    # => { Time(UTC) => Float }
 #
-# Entries are read-only and carry no work package behaviour; see Entry.
+# Entries are read-only and carry no work package behavior; see Entry.
 #
 # A single tick is the frozen-snapshot case and needs no separate code path.
 #

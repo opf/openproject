@@ -50,7 +50,7 @@ class Setting
 
     private
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def reload_smtp_settings!
       # Correct smtp settings when using authentication :none
       authentication = Setting.smtp_authentication.try(:to_sym)
@@ -83,6 +83,5 @@ class Setting
         ActionMailer::Base.smtp_settings[:openssl_verify_mode] = mode unless mode.nil?
       end
     end
-    # rubocop:enable Metrics/AbcSize
   end
 end

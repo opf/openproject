@@ -7,7 +7,7 @@
         ) %>
   <% end %>
   <%= container.with_row do |_csv_include_description| %>
-    <%= render OpenProject::Common::DividerComponent.new %>
+    <%= render OpPrimer::DividerComponent.new %>
     <%= render(
           Primer::Alpha::CheckBox.new(
             id: "show_descriptions_csv",

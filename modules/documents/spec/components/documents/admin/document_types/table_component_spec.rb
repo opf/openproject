@@ -51,7 +51,7 @@ RSpec.describe Documents::Admin::DocumentTypes::TableComponent, type: :component
         expect(table["aria-colcount"]).to eq("3")
         expect(table).to have_selector(:columnheader, "Type", colindex: 1)
         expect(table).to have_selector(:columnheader, "Documents", colindex: 2)
-        expect(table).to have_css("[role='rowgroup'].op-border-box-table--rows > [role='row']", count: 2)
+        expect(table).to have_css("[role='rowgroup'].op-border-box-table__rows > [role='row']", count: 2)
       end
     end
 
@@ -69,7 +69,7 @@ RSpec.describe Documents::Admin::DocumentTypes::TableComponent, type: :component
     it_behaves_like "a sortable-lists list",
                     list_type: "document_type",
                     name: "Document types",
-                    rows_container: ":scope > .op-border-box-table--rows"
+                    rows_container: ":scope > .op-border-box-table__rows"
     it_behaves_like "a Border Box Table sortable list", row_count: 2
     it_behaves_like "sortable-lists items", list_type: "document_type" do
       let(:sortable_records) { [note, report] }

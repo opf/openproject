@@ -31,7 +31,7 @@ fr:
         notes: Notes
         notify: Envoyer les notifications
         participant:
-          one: "%{count} Participant"
+          one: "%{count} participant"
           other: "%{count} participants"
         participants: Participant(s)
         participants_added: 'Participants ajoutés :'
@@ -324,18 +324,22 @@ fr:
   meeting:
     agenda_sorting:
       change: Change sorting mode
+      current_mode: Currently in %{mode} mode
       invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
       manual: Manual
-      manual_description: Arrange agenda items yourself. Switching back restores the manual order.
+      manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
       manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
       remove_thumbs_down: Retirer le vote négatif
       remove_thumbs_up: Retirer le vote positif
+      sidebar_title: Tri de l'agenda
       sorted_by_votes: Ordre du jour classé par nombre de votes.
       thumbs_down: Voter contre
       thumbs_up: Voter pour
       title: Mode de tri
       vote_based: Basé sur les votes
-      vote_based_description: Classer les points de l'ordre du jour en fonction du nombre de votes positifs moins le nombre de votes négatifs au sein de chaque section. Le classement des sections reste manuel.
+      vote_based_description: 'Les participants peuvent voter pour ou contre les points à l''ordre du jour. Les points ayant recueilli le plus grand nombre de voix sont placés en tête de chaque section. Le classement des sections reste manuel.
+
+        '
       votes: 'Votes : %{count}'
     attachments:
       onetime_template: Ces fichiers joints seront inclus dans toutes les futures réunions créées à l'aide de ce modèle.
@@ -345,7 +349,7 @@ fr:
       desc: Vous pouvez créer une nouvelle réunion ou modifier les critères de filtrage
       title: Il n'y a pas de réunions à afficher
     cancel:
-      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_caption: Cette information figurera dans l'e-mail d'annulation envoyé aux participants lorsque les notifications sont activées.
       reason_label: Raison de l'annulation
     copied: 'Copié depuis la réunion #%{id}'
     copy:
@@ -663,7 +667,7 @@ fr:
       error_no_next: Il n'y a pas de prochaine occurrence pour cette réunion.
       error_template_draft: Le modèle de la série de réunions est encore à l'état de brouillon.
       first_already_exists: La première occurrence de cette série de réunions est déjà instanciée.
-      first_created: 'La première réunion a été créée avec succès à partir du modèle. Toutes les réunions futures seront créées automatiquement au moment de l''occurrence précédente.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Cette réunion fait partie d'une série de réunions récurrentes.

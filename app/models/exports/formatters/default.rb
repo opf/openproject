@@ -29,6 +29,8 @@
 
 module Exports
   module Formatters
+    # Exports::Exporter caches one instance per attribute and export format and reuses it for
+    # every exported record, so a subclass must not memoize anything record-specific.
     class Default
       include Redmine::I18n
 
@@ -84,6 +86,18 @@ module Exports
 
       def number_format
         "0.00"
+      end
+
+      def integer_format
+        "0"
+      end
+
+      def date_format
+        "yyyy-mm-dd"
+      end
+
+      def datetime_format
+        "yyyy-mm-dd hh:mm"
       end
 
       def percentage_format

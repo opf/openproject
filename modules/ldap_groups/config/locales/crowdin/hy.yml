@@ -91,7 +91,7 @@ hy:
       plural: Համաժամացված LDAP խմբեր
       singular: Համաժամացված LDAP խումբ
       upsell:
-        description: Օգտվեք համաժամացված LDAP խմբերի առավելություններից՝ օգտատերերին կառավարելու, նրանց թույլտվությունները փոփոխելու և խմբերի միջև օգտատերերի կառավարումը հեշտացնելու համար։
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: LDAP խմբերի անդամակցությունների համաժամացում։
     name: OpenProject LDAP խմբեր

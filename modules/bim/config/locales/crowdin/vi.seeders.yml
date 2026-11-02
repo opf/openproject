@@ -61,7 +61,7 @@ vi:
         item_2:
           name: Người quản lý BIM
         item_3:
-          name: Người lập mô hình BIM
+          name: BIM Modelers
         item_4:
           name: Điều phối viên BIM chính
         item_5:
@@ -511,18 +511,18 @@ vi:
               description: Loại này được phân cấp theo cấp bậc cha của các loại &quot;Clash&quot; và &quot;Request&quot;, do đó đại diện cho một ghi chú chung.
               children:
                 item_0:
-                  subject: Lập mô hình mô hình BIM ban đầu
+                  subject: Modeling initial BIM model
                   description: |-
-                    # mục tiêu
+                    # Goal
 
-                    * Lập mô hình mô hình BIM ban đầu
-                    * Tạo mô hình BIM cho toàn bộ nhóm dự án
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # Mô tả
+                    # Description
 
-                    * Theo dữ liệu thu thập được từ khách hàng, mô hình ban đầu sẽ được mô hình hóa
-                    * Mô hình phải được mô hình hóa theo Ma trận LOD và chứa thông tin cần thiết
-                    * ...
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
+                    *   ...
                 item_1:
                   subject: Kiểm tra và sửa đổi mô hình ban đầu, nội bộ
                   description: |-
@@ -538,23 +538,23 @@ vi:
                   subject: Gửi mô hình BIM ban đầu
                   description: Loại này được phân cấp theo cấp bậc cha của các loại &quot;Clash&quot; và &quot;Request&quot;, do đó đại diện cho một ghi chú chung.
             item_4:
-              subject: Lập mô hình, chu kỳ đầu tiên
+              subject: Modeling, first cycle
               description: Loại này được phân cấp theo cấp bậc cha của các loại &quot;Clash&quot; và &quot;Request&quot;, do đó đại diện cho một ghi chú chung.
               children:
                 item_0:
                   subject: Tham khảo các mô hình BIM bên ngoài
                   description: |-
-                    # mục tiêu
+                    # Goal
 
-                    * Có nền tảng phát triển mô hình nội bộ/ đưa ra câu trả lời
-                    * Sử dụng mô hình bên ngoài để phát triển mô hình bên trong
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    # Mô tả
+                    # Description
 
-                    * Mô hình bên ngoài sẽ được tham chiếu trong nền tảng BIM, do đó được sử dụng để mô hình hóa mô hình bên trong
-                    * ...
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
+                    *   ...
                 item_1:
-                  subject: Lập mô hình mô hình BIM
+                  subject: Modeling the BIM model
                   description: |-
                     # mục tiêu
 
@@ -602,19 +602,19 @@ vi:
                   subject: Kết thúc phối hợp, chu kỳ đầu tiên
                   description: Loại này được phân cấp theo cấp bậc cha của các loại &quot;Clash&quot; và &quot;Request&quot;, do đó đại diện cho một ghi chú chung.
             item_6:
-              subject: Lập mô hình & điều phối, chu kỳ thứ hai
+              subject: Modeling & coordinating, second cycle
               description: "## Mục tiêu\r\n\r\n* ...\r\n\r\n## Mô tả\r\n\r\n* \\ ..."
             item_7:
-              subject: Lập mô hình & điều phối, ... chu trình
+              subject: Modeling & coordinating, ... cycle
               description: Loại này được phân cấp theo cấp bậc cha của các loại &quot;Clash&quot; và &quot;Request&quot;, do đó đại diện cho một ghi chú chung.
             item_8:
-              subject: Lập mô hình & điều phối, chu trình (n-th trừ 1)
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## Mục tiêu\r\n\r\n* ...\r\n\r\n## Mô tả\r\n\r\n* \\ ..."
             item_9:
-              subject: Lập mô hình và điều phối chu kỳ thứ n
+              subject: Modeling & coordinating n-th cycle
               description: Loại này được phân cấp theo cấp bậc cha của các loại &quot;Clash&quot; và &quot;Request&quot;, do đó đại diện cho một ghi chú chung.
             item_10:
-              subject: Hoàn thiện mô hình hóa và điều phối, chu kỳ thứ n
+              subject: Finishing modeling & coordinating, n-th cycle
               description: Loại này được phân cấp theo cấp bậc cha của các loại &quot;Clash&quot; và &quot;Request&quot;, do đó đại diện cho một ghi chú chung.
             item_11:
               subject: Sử dụng mô hình cho giai đoạn xây dựng

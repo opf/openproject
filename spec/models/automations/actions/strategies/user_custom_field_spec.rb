@@ -114,10 +114,10 @@ module Automations
             expect(updated.send("custom_field_#{user_cf.id}")).to eq(user)
             expect(updated.send("custom_field_#{multi_user_cf.id}")).to eq([user])
 
-            muti_user_result = UpdateWorkPackageService.new(user:, action: automation)
+            multi_user_result = UpdateWorkPackageService.new(user:, action: automation)
                                              .call(work_package: multi_user_work_package)
 
-            updated = muti_user_result.result.reload
+            updated = multi_user_result.result.reload
             expect(updated.send("custom_field_#{user_cf.id}")).to eq(user)
             expect(updated.send("custom_field_#{multi_user_cf.id}")).to eq(users[0..3])
           end

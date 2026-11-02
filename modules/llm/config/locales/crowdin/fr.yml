@@ -3,42 +3,42 @@ fr:
   activerecord:
     attributes:
       llm_capability_verdict:
-        capability: Capability
-        model_id: Model
-        state: State
+        capability: Capacité
+        model_id: Modèle
+        state: État
       llm_connection:
-        api_format: API format
-        api_key: API key
-        base_url: Host URL
-        default_chat_model: Default chat model
-        default_embedding_model: Default embedding model
-        env_fingerprint: Applied environment configuration
-        env_provisioned_at: Applied from the environment
-        llm_features_enabled: Enable LLMs for this instance
+        api_format: Format d'API
+        api_key: Clé API
+        base_url: URL de l'hôte
+        default_chat_model: Modèle de chat par défaut
+        default_embedding_model: Modèle d'intégration par défaut
+        env_fingerprint: Configuration de l'environnement d'application
+        env_provisioned_at: Appliqué à partir de l'environnement
+        llm_features_enabled: Activer les LMMS pour cette instance
       llm_feature_binding:
         dimensions: Dimensions
-        feature_key: Feature
-        model: Model
+        feature_key: Fonctionnalité
+        model: Modèle
       llm_model:
-        admin_context_window: Context window
-        display_name: Display name
-        external: Model name
+        admin_context_window: Fenêtre de contexte
+        display_name: Nom d'affichage
+        external: Nom du modèle
     errors:
       models:
         llm_connection:
           attributes:
             api_format:
-              not_supported: needs credentials that OpenProject cannot store, such as a separate secret key or region.
+              not_supported: nécessite des informations de connexion qu'OpenProject ne peut pas stocker, comme une clé secrète distincte ou un identifiant de région.
             api_key:
-              invalid_api_key: was rejected by the LLM server.
+              invalid_api_key: a été rejeté par le serveur LLM.
             base:
-              singleton: Only one LLM connection can be active.
+              singleton: Une seule connexion LLM peut être active.
             base_url:
-              cannot_be_connected_to: could not be reached. Please ensure the LLM server is running and reachable from OpenProject.
-              models_endpoint_missing: has no model list at this address, so the API key could not be verified either. Please check the URL, in particular that it includes the API version segment (for example https://example.com/v1).
-              not_openai_compatible: did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1).
-              request_timed_out: did not respond in time. Please ensure the LLM server is reachable and not overloaded.
-              ssl_error: could not be reached over a secure connection. Please check the LLM server's TLS certificate, or use an http:// URL if the server does not offer TLS.
+              cannot_be_connected_to: n'a pas pu être atteint. Veuillez vous assurer que le serveur LLM est en cours d'exécution et accessible depuis OpenProject.
+              models_endpoint_missing: n'a pas de liste de modèles à cette adresse, donc la clé API n'a pas pu être vérifiée non plus. Veuillez vérifier l'URL, en particulier qu'il inclut le segment de version de l'API (par exemple https://example.com/v1).
+              not_openai_compatible: n'a pas retourné de liste de modèles valide. Veuillez vous assurer que les points d'URL d'un point de terminaison compatible avec OpenAI-API, y compris le segment de version de l'API (par exemple https://example.com/v1).
+              request_timed_out: n'a pas répondu à temps. Veuillez vous assurer que le serveur LLM est accessible et qu'il n'est pas surchargé.
+              ssl_error: n'a pas pu être atteint par une connexion sécurisée. Veuillez vérifier le certificat TLS du serveur LLM, ou utiliser une URL http:// si le serveur n'offre pas TLS.
               ssrf_filtered: resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable.
             custom_headers:
               invalid: must map header names to plain text values.

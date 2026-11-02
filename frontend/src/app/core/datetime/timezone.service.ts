@@ -100,6 +100,17 @@ export class TimezoneService {
     return `${c[0]} ${c[1]}`;
   }
 
+  /**
+   * The date a datetime falls on in the user's configured timezone, which is not what
+   * {@link formattedDate} answers: that one parses without a zone, as suits the 'YYYY-MM-DD'
+   * strings it is meant for.
+   *
+   * @param {String} datetimeString an instant, as 'YYYY-MM-DDTHH:mm:ssZ'
+   */
+  public formattedDatetimeAsDate(datetimeString:string):string {
+    return this.formattedDatetimeComponents(datetimeString)[0];
+  }
+
   public formattedRelativeDateTime(datetimeString:string):string {
     const d = this.parseDatetime(datetimeString);
     return d.fromNow();

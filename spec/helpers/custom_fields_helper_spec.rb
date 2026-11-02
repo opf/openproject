@@ -61,5 +61,69 @@ RSpec.describe CustomFieldsHelper do
         end
       end
     end
+
+    context "with project-specific values" do
+      let(:project) { create(:project) }
+      let(:other_project) { create(:project) }
+      let(:option_texts) { rendered.all("option").map(&:text) }
+
+      context "for a list custom field" do
+        let(:custom_field) { create(:list_wp_custom_field, :project_specific_allowlist, possible_values: %w[A B]) }
+        let(:option_a) { custom_field.custom_options.find_by!(value: "A") }
+        let(:option_b) { custom_field.custom_options.find_by!(value: "B") }
+
+        before do
+          create(:project_specific_value_restriction, project:, custom_option: option_a)
+          create(:project_specific_value_restriction, project:, custom_option: option_b)
+          create(:project_specific_value_restriction, project: other_project, custom_option: option_a)
+        end
+
+        context "for a single project" do
+          subject(:rendered) do
+            Capybara.string(helper.custom_field_tag_for_bulk_edit("work_package", custom_field, project))
+          end
+
+          it "offers the options usable in the project" do
+            expect(option_texts).to include("A", "B")
+          end
+        end
+
+        context "for several projects" do
+          subject(:rendered) do
+            Capybara.string(
+              helper.custom_field_tag_for_bulk_edit("work_package", custom_field, nil, usable_in: [project, other_project])
+            )
+          end
+
+          it "only offers the options usable in all of them" do
+            expect(option_texts).to include("A")
+            expect(option_texts).not_to include("B")
+          end
+        end
+      end
+
+      context "for a hierarchy custom field", with_ee: [:custom_field_hierarchies] do
+        let(:custom_field) { create(:hierarchy_wp_custom_field, :project_specific_allowlist) }
+        let(:acme) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Acme") }
+        let(:oscorp) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Oscorp") }
+
+        subject(:rendered) do
+          Capybara.string(
+            helper.custom_field_tag_for_bulk_edit("work_package", custom_field, nil, usable_in: [project, other_project])
+          )
+        end
+
+        before do
+          create(:project_specific_value_restriction, project:, hierarchy_item: acme)
+          create(:project_specific_value_restriction, project:, hierarchy_item: oscorp)
+          create(:project_specific_value_restriction, project: other_project, hierarchy_item: acme)
+        end
+
+        it "only offers the items usable in all projects" do
+          expect(option_texts).to include("Acme")
+          expect(option_texts).not_to include("Oscorp")
+        end
+      end
+    end
   end
 end

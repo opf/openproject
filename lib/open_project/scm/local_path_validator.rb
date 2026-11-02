@@ -47,7 +47,7 @@ module OpenProject
           case parsed.scheme&.downcase
           when "file"
             # Use the path component extracted by the URI library.
-            # file:////path gives parsed.path = "//path"; we normalise below.
+            # file:////path gives parsed.path = "//path"; we normalize below.
             parsed.path
           when nil
             # Bare absolute path or an authority-relative reference such as
@@ -70,7 +70,7 @@ module OpenProject
         # implementation-defined meaning, and three or more leading slashes
         # are equivalent to one.  In practice File.expand_path preserves "//",
         # so "//path" would not match against the "/path"-rooted forbidden
-        # roots.  Normalising here closes the remaining bypass vectors:
+        # roots.  Normalizing here closes the remaining bypass vectors:
         #
         #   ///app/repos/foo     (URI::Error rescue path)
         #   file:////app/repos/foo  (parsed.path == "//app/repos/foo")

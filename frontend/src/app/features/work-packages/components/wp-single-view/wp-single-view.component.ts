@@ -56,6 +56,7 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalSource } from 'core-app/features/hal/interfaces';
 
 export interface FieldDescriptor {
   name:string;
@@ -75,6 +76,21 @@ export interface GroupDescriptor {
   isolated:boolean;
   type:string;
 }
+
+interface WorkPackageFormAttributeGroup {
+  _type:'WorkPackageFormAttributeGroup';
+  name:string;
+  attributes:string[];
+}
+
+interface WorkPackageFormQueryGroup {
+  _type:'WorkPackageFormChildrenQueryGroup'|'WorkPackageFormRelationQueryGroup';
+  name:string;
+  relationType?:string;
+  _embedded:{ query:HalSource };
+}
+
+type FormAttributeGroup = WorkPackageFormAttributeGroup|WorkPackageFormQueryGroup;
 
 export interface ResourceContextChange {
   isNew:boolean;
@@ -181,7 +197,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     if (!resource.project) {
       this.projectContext = { matches: false, href: null, id: null };
     } else {
-      const project = resource.project as unknown&{ href:string, id:string };
+      const project = resource.project as { href:string, id:string };
       const workPackageId = this.workPackage.id;
       if (!workPackageId) {
         throw new Error('work package id is invalid');
@@ -198,8 +214,11 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
       this.updateWorkPackageCreationState(change);
     }
 
-    // eslint-disable-next-line no-underscore-dangle
-    this.groupedFields = this.rebuildGroupedFields(change, this.schema(resource)._attributeGroups) as GroupDescriptor[];
+    this.groupedFields = this.rebuildGroupedFields(
+      change,
+      // eslint-disable-next-line no-underscore-dangle
+      this.schema(resource)._attributeGroups as FormAttributeGroup[]|undefined,
+    ) as GroupDescriptor[];
     this.cdRef.detectChanges();
   }
 
@@ -213,7 +232,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     if (resource.project === null) {
       this.projectStorages.next([]);
     } else {
-      const project = resource.project as unknown&{ href:string, id:string };
+      const project = resource.project as { href:string, id:string };
       combineLatest([
         this.projectsResourceService.requireEntity(project.href),
         this.projectStoragesService.requireCollection({ filters: [['projectId', '=', [project.id]]] }),
@@ -298,12 +317,12 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     return this.element.getBoundingClientRect().width > 750;
   }
 
-  private rebuildGroupedFields(change:WorkPackageChangeset, attributeGroups:any) {
+  private rebuildGroupedFields(change:WorkPackageChangeset, attributeGroups:FormAttributeGroup[]|undefined) {
     if (!attributeGroups) {
       return [];
     }
 
-    return attributeGroups.map((group:any) => {
+    return attributeGroups.map((group) => {
       const groupId = this.getAttributesGroupId(group);
 
       if (group._type === 'WorkPackageFormAttributeGroup') {

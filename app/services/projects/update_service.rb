@@ -103,7 +103,7 @@ module Projects
       # edits a custom field which is used by an admin only calculated value
       # field. Without this unscoping, admin only value and all fields
       # referencing it (recursively) will not be recalculated and there will
-      # even be no place for that recalculatin to be triggered unless an admin
+      # even be no place for that recalculation to be triggered unless an admin
       # edits same value again.
       #
       # This may need to be handled differently to make it work for other custom

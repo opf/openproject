@@ -523,7 +523,7 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
         end
       end
 
-      context "for a local JS file (normalised to text/plain, uses configured default charset)" do
+      context "for a local JS file (normalized to text/plain, uses configured default charset)" do
         it_behaves_like "for a local file" do
           let(:expected_content_type) { "text/plain; charset=#{Setting.attachment_default_charset}" }
           let(:mock_file) { FileHelpers.mock_uploaded_file name: "foobar.js", content_type: "text/x-javascript" }

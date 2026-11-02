@@ -95,6 +95,7 @@ export function OpBlockNoteEditor({
   const editorParams = useMemo<Partial<BlockNoteEditorOptions<typeof schema.blockSchema, typeof schema.inlineContentSchema, typeof schema.styleSchema>>>(() => {
     const baseParams = {
       schema,
+      tables: { splitCells: true, cellBackgroundColor: true, cellTextColor: true, headers: true },
       dictionary: localeDictionary,
       ...(attachmentsEnabled && { uploadFile }),
       extensions: [

@@ -114,7 +114,7 @@ module Pages
 
       action_menu_button.click
 
-      # quick and dirty fix for popover element not recognised as visible (and then as interactible)
+      # quick and dirty fix for popover element not recognized as visible (and then as interactible)
       # https://github.com/teamcapybara/capybara/issues/2755
       # https://github.com/SeleniumHQ/selenium/issues/13700
       anchored_position = action_menu_button.find(:xpath, "./ancestor::action-menu//anchored-position")

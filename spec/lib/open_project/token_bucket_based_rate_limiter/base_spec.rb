@@ -85,7 +85,7 @@ RSpec.describe OpenProject::TokenBucketBasedRateLimiter::Base, freeze_time: Time
       context "when tokens need refilling" do
         let(:tokens) { 2 }
 
-        # 1 token left, but 2 tokens have been aquired in the mean time
+        # 1 token left, but 2 tokens have been acquired in the mean time
         let(:microtokens) { 1_000_000 }
         let(:refilled_at) { 2.hours.ago }
 

@@ -56,19 +56,19 @@ RSpec.describe Grids::Widgets::TimeEntriesCurrentUserController do
     end
 
     it "follows the mode the user last settled on" do
-      user.pref.update(my_work_mode: "week")
+      user.pref.update(my_time_management_mode: "week")
 
       expect(rendered_mode { get :show }).to eq(:week)
     end
 
     it "falls back to the work week for a mode it cannot stack" do
-      user.pref.update(my_work_mode: "month")
+      user.pref.update(my_time_management_mode: "month")
 
       expect(rendered_mode { get :show }).to eq(:workweek)
     end
 
     it "prefers the requested mode over the remembered one" do
-      user.pref.update(my_work_mode: "week")
+      user.pref.update(my_time_management_mode: "week")
 
       expect(rendered_mode { get :show, params: { mode: "day" } }).to eq(:day)
     end
@@ -78,15 +78,15 @@ RSpec.describe Grids::Widgets::TimeEntriesCurrentUserController do
     it "keeps the mode the widget was stepped to" do
       get :show, params: { mode: "week" }
 
-      expect(user.reload.pref.my_work_mode).to eq("week")
+      expect(user.reload.pref.my_time_management_mode).to eq("week")
     end
 
     it "leaves the remembered mode alone when none is requested" do
-      user.pref.update(my_work_mode: "day")
+      user.pref.update(my_time_management_mode: "day")
 
       get :show
 
-      expect(user.reload.pref.my_work_mode).to eq("day")
+      expect(user.reload.pref.my_time_management_mode).to eq("day")
     end
   end
 end

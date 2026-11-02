@@ -50,8 +50,10 @@ RSpec.describe Admin::Labels::RowComponent, type: :component do
       expect(rendered_component).to have_test_selector("label-name", text: "Bug")
     end
 
-    it "renders the pluralised usage count" do
-      expect(rendered_component).to have_test_selector("label-usage", text: "3 work packages")
+    it "links the pluralized usage count to the work package table filtered by the label" do
+      query_props = { f: [{ n: "label", o: "=", v: [record.id.to_s] }] }.to_json
+
+      expect(rendered_component).to have_link("3 work packages", href: work_packages_path(query_props:), target: "_blank")
     end
   end
 
@@ -60,8 +62,9 @@ RSpec.describe Admin::Labels::RowComponent, type: :component do
 
     let(:label) { Label.with_usage_count.find(record.id) }
 
-    it "renders a dash instead of a count" do
+    it "renders a plain dash instead of a count" do
       expect(rendered_component).to have_test_selector("label-usage", text: "-")
+      expect(rendered_component).to have_no_link("-")
     end
   end
 

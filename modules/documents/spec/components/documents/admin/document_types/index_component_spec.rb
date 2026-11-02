@@ -52,7 +52,7 @@ RSpec.describe Documents::Admin::DocumentTypes::IndexComponent, type: :component
   it_behaves_like "a sortable-lists list",
                   list_type: "document_type",
                   name: "Document types",
-                  rows_container: ":scope > .op-border-box-table--rows"
+                  rows_container: ":scope > .op-border-box-table__rows"
 
   it "offers adding a document type above the list" do
     expect(rendered_component).to have_test_selector("add-document-type-button")

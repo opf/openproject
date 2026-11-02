@@ -32,7 +32,7 @@ module API
         extend ::ActiveSupport::Concern
 
         included do
-          # There is no common representer class for all elements, we thus override the default behaviour
+          # There is no common representer class for all elements, we thus override the default behavior
           # of forwarding eager_loading preferences to the element representer
           self.to_eager_load = []
           self.to_preload = []

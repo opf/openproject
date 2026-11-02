@@ -1,6 +1,6 @@
 <strong>Check All component</strong> is a control that allows checking and unchecking multiple checkboxes. It relies on one or more Stimulus controllers to provide its behavior.
 
-<%= embed OpenProject::Common::CheckAllComponentPreview, :default %>
+<%= embed OpPrimer::CheckAllComponentPreview, :default %>
 
 ## Anatomy
 
@@ -24,13 +24,13 @@ The Check All component supports two render placements:
 
 This is the default behavior and you do not need to provide any additional arguments.
 
-<%= embed OpenProject::Common::CheckAllComponentPreview, :default, panels: %i[source] %>
+<%= embed OpPrimer::CheckAllComponentPreview, :default, panels: %i[source] %>
 
 ### Outside the checkbox container
 
 When rendered outside the container, the component must reference the target checkable controller. Pass the `checkable_id:` argument, which should be a DOM id of an **ancestor of the checkbox container**.
 
-<%= embed OpenProject::Common::CheckAllComponentPreview, :with_checkable_id, panels: %i[source] %>
+<%= embed OpPrimer::CheckAllComponentPreview, :with_checkable_id, panels: %i[source] %>
 
 ## Additional customization
 
@@ -38,7 +38,7 @@ By default the Check All component renders buttons using the [`link` scheme](loo
 
 Additional customization is possible via slots. Button slots accept standard [button arguments](/lookbook/inspect/primer/beta/button/playground) as well as their own slots (for leading and trailing visuals, as well as actions).
 
-<%= embed OpenProject::Common::CheckAllComponentPreview, :with_custom_buttons, panels: %i[source] %>
+<%= embed OpPrimer::CheckAllComponentPreview, :with_custom_buttons, panels: %i[source] %>
 
 ## Used in
 

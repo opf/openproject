@@ -66,7 +66,7 @@ export default class PollingController extends BaseController {
 
   private updateInProgress = false;
   private pollingHalted = false;
-  private intervallId:number;
+  private intervalId:number;
   private abortController = new AbortController();
 
   initialize() {
@@ -127,15 +127,15 @@ export default class PollingController extends BaseController {
   private startPolling() {
     if (this.pollingHalted) return;
 
-    if (this.intervallId) {
+    if (this.intervalId) {
       this.stopPolling();
     }
 
-    this.intervallId = window.setInterval(() => this.updateActivitiesList(), this.pollingIntervalInMsValue);
+    this.intervalId = window.setInterval(() => this.updateActivitiesList(), this.pollingIntervalInMsValue);
   }
 
   private stopPolling() {
-    window.clearInterval(this.intervallId);
+    window.clearInterval(this.intervalId);
   }
 
   private isPermanentPollingFailure(error:unknown):boolean {

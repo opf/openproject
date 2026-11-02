@@ -43,7 +43,7 @@ RSpec.describe API::V3::Memberships::UpdateFormAPI, content_type: :json do
   let(:other_role) { create(:project_role) }
   let(:another_role) { create(:project_role) }
   let(:other_user) { create(:user) }
-  let(:permissions) { [:manage_members] }
+  let(:permissions) { %i[manage_members view_members] }
   let(:path) { api_v3_paths.membership_form(member.id) }
   let(:parameters) do
     {

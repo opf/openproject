@@ -836,8 +836,8 @@ RSpec.describe User do
 
     context "default admin account exists with changed password" do
       before do
-        default_admin.update_attribute :password, "dafaultAdminPwd"
-        default_admin.update_attribute :password_confirmation, "dafaultAdminPwd"
+        default_admin.update_attribute :password, "defaultAdminPwd"
+        default_admin.update_attribute :password_confirmation, "defaultAdminPwd"
         default_admin.save
       end
 

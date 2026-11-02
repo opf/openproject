@@ -267,7 +267,7 @@ RSpec.describe "Project creation wizard",
     fill_in "Team Size", with: "5"
 
     wait_for_turbo(wait: 20) { click_button "Complete" }
-    expect(page).to have_text("Project attributes saved and artefact work package created successfully.")
+    expect(page).to have_text("Project attributes saved and artifact work package created successfully.")
 
     project.reload
     expect(page).to have_current_path("/projects/#{project.identifier}/" \
@@ -396,7 +396,7 @@ RSpec.describe "Project creation wizard",
 
       click_button "Complete"
 
-      expect(page).to have_text("Project attributes saved and artefact work package created successfully.", wait: 20)
+      expect(page).to have_text("Project attributes saved and artifact work package created successfully.", wait: 20)
 
       project.reload
       expect(page).to have_current_path("/projects/#{project.identifier}/" \

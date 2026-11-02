@@ -28,9 +28,7 @@
 #++
 
 module RecurringMeetings
-  # rubocop:disable OpenProject/AddPreviewForViewComponent
   class ShowPageSubHeaderComponent < ApplicationComponent
-    # rubocop:enable OpenProject/AddPreviewForViewComponent
     include ApplicationHelper
 
     def initialize(meeting:, params:)

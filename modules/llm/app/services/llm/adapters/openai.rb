@@ -36,7 +36,7 @@ module Llm
         @connection = connection
       end
 
-      # Normalised model cards.
+      # Normalized model cards.
       #
       # The raw card is kept alongside, because the fields worth having are the
       # non-standard ones: the OpenAI schema itself carries only id, object,

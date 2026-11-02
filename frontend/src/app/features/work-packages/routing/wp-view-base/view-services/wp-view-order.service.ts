@@ -70,7 +70,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
   /**
    * Move an item in the list
    *
-   * Rejects an index it cannot honour before touching `order`: a negative
+   * Rejects an index it cannot honor before touching `order`: a negative
    * `fromIndex` or `toIndex` would splice from the END of the list, silently
    * displacing an unrelated work package and persisting a position for it.
    */
@@ -284,7 +284,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
     };
   }
 
-  public valueFromQuery(query:QueryResource) {
+  public valueFromQuery(_query:QueryResource) {
     return undefined;
   }
 
@@ -313,7 +313,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
     return false;
   }
 
-  hasChanged(query:QueryResource):boolean {
+  hasChanged(_query:QueryResource):boolean {
     return false;
   }
 

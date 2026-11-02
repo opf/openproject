@@ -36,7 +36,7 @@ class ResourceUserCard < PersistedView
   store_attribute :options, :card_fields, :json, default: %w[department working_times]
 
   # `store_attribute_unset_values_fallback_to_default` is disabled globally, so
-  # the declared default is only materialised for new in-memory records; a
+  # the declared default is only materialized for new in-memory records; a
   # persisted view whose `options` never stored the key reads back as `nil`.
   # Coalesce to an empty array so views never receive `nil`; the view's creator
   # can then pick their own fields.

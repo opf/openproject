@@ -31,8 +31,7 @@ require "spec_helper"
 require_relative "support/board_page"
 
 RSpec.describe "Board 'Add existing work package' ranks exact matches first",
-               :js,
-               :selenium do
+               :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }

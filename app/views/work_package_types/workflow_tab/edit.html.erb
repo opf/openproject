@@ -34,6 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
         reload_url: edit_variant_workflow_path(variant_scope_project, @variant)
       )
     ) do %>
+  <%= render(WorkPackageTypes::AspectDescriptionComponent.new(variant: @variant, aspect: :workflows)) %>
   <% if @type && @roles.any? %>
     <%= turbo_frame_tag "workflow-table", src: variant_workflow_matrix_path(variant_scope_project, @variant, tab: @current_tab, role_ids: @roles.map(&:id), status_ids: params[:status_ids]) %>
   <% end %>

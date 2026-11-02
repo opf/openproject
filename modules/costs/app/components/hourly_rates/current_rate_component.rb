@@ -47,13 +47,13 @@ module HourlyRates
     # label names which of the two is in effect.
     def caption
       if rate
-        labelled(I18n.t(:label_current), rate)
+        labeled(I18n.t(:label_current), rate)
       elsif fallback_rate
-        labelled(I18n.t(:label_using_current_default_rate), fallback_rate)
+        labeled(I18n.t(:label_using_current_default_rate), fallback_rate)
       end
     end
 
-    def labelled(label, applicable_rate)
+    def labeled(label, applicable_rate)
       "#{label}: #{helpers.number_to_currency(applicable_rate.rate)}"
     end
   end

@@ -28,6 +28,8 @@
 #++
 
 class CustomFields::Inputs::MultiSelectList < CustomFields::Inputs::Base::Autocomplete::MultiValueInput
+  include CustomFields::Inputs::Base::ProjectSpecificValues
+
   form do |custom_value_form|
     # autocompleter does not set key with blank value if nothing is selected or input is cleared
     # in order to let acts_as_customizable handle the clearing of the value, we need to set the value to blank via a hidden field
@@ -57,23 +59,35 @@ class CustomFields::Inputs::MultiSelectList < CustomFields::Inputs::Base::Autoco
   end
 
   def list_items
+    available_list_items + unavailable_list_items(custom_values)
+  end
+
+  def available_list_items
     case @custom_field.field_format
     when "hierarchy", "weighted_item_list"
-      hierarchical_list_items.map do |item|
-        {
-          label: item.ancestry_path(include_shorts_and_weights: true),
-          value: item.id,
-          selected: custom_values.pluck(:value).map(&:to_i).include?(item.id)
-        }
-      end
+      hierarchy_item_list_items
     else
-      @custom_field.custom_options.map do |custom_option|
-        {
-          label: custom_option.value,
-          value: custom_option.id,
-          selected: selected?(custom_option)
-        }
-      end
+      custom_option_list_items
+    end
+  end
+
+  def hierarchy_item_list_items
+    hierarchical_list_items.select { usable_value?(it) }.map do |item|
+      {
+        label: item.ancestry_path(include_shorts_and_weights: true),
+        value: item.id,
+        selected: custom_values.pluck(:value).map(&:to_i).include?(item.id)
+      }
+    end
+  end
+
+  def custom_option_list_items
+    @custom_field.custom_options.select { usable_value?(it) }.map do |custom_option|
+      {
+        label: custom_option.value,
+        value: custom_option.id,
+        selected: selected?(custom_option)
+      }
     end
   end
 

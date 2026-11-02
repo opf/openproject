@@ -58,7 +58,7 @@ module Statuses
     def container_class = "op-statuses-table"
 
     # Positions are global while a filtered list shows a non-contiguous subset, so a
-    # drop would resolve against neighbours the list does not display.
+    # drop would resolve against neighbors the list does not display.
     def reorderable?
       query.filters.empty?
     end

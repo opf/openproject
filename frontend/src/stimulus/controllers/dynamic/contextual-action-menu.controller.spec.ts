@@ -258,7 +258,7 @@ describe('Contextual action menu controller', () => {
   // and then opening a popover mid-gesture leaves a tablet user with nothing
   // at all — the trailing pointerup light-dismisses the popover, and the
   // native menu has already been prevented. AGILE-348 covers mouse and
-  // keyboard; touch keeps today's behaviour untouched.
+  // keyboard; touch keeps today's behavior untouched.
   it('leaves the native long-press menu alone for touch', async () => {
     const { card, overlay } = renderCard();
     await nextFrame();
@@ -671,7 +671,7 @@ describe('Contextual action menu controller', () => {
     expectAnchoredAtInvoker(overlay);
   });
 
-  // Not every release is reported as a pointer event: a gesture synthesised
+  // Not every release is reported as a pointer event: a gesture synthesized
   // by a driver or by other page code may only produce the mouse one, and
   // the menu still has to open from it.
   it('opens on a mouseup when the release brings no pointerup', async () => {

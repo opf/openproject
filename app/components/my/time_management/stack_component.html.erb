@@ -1,0 +1,10 @@
+<% helpers.html_title t(:label_my_time), "#{t("label_#{mode}")} #{t(:label_stack)} #{helpers.format_date(date)}" -%>
+<%= render(My::TimeManagement::ViewFrameComponent.new) do %>
+  <%= flex_layout(classes: "my-time-management-stack-view") do |stack_page| %>
+    <% stack_page.with_row { render(My::TimeManagement::HeaderComponent.new(mode:, date:, entries:, view_mode: :stack)) } %>
+    <% stack_page.with_row { render(My::TimeManagement::SubHeaderComponent.new(mode:, date:, entries:, view_mode: :stack)) } %>
+    <% stack_page.with_row(classes: "my-time-management-stack-view--body") do %>
+      <%= render(My::TimeManagement::StackEntriesComponent.new(time_entries:, allocations:, mode:, date:)) %>
+    <% end %>
+  <% end %>
+<% end %>

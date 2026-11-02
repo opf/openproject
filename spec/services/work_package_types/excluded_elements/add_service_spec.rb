@@ -72,7 +72,7 @@ RSpec.describe WorkPackageTypes::ExcludedElements::AddService do
       expect(excluded_elements).to contain_exactly("custom_field_1", "assignee", "query_7")
     end
 
-    it "normalises the given elements" do
+    it "normalizes the given elements" do
       result = described_class.new(user: admin, variant:)
                              .call(aspect:, elements: ["  custom_field_1  ", "", nil, :assignee])
 

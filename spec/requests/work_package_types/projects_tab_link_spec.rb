@@ -38,12 +38,18 @@ RSpec.describe "Adding projects to a work package type variant", :skip_csrf,
 
   before { login_as admin }
 
-  def link_projects(*projects, variant: hardware, include_sub_items: false)
+  def link_projects(*projects, variant: hardware, include_sub_items: false, confirm_switch: false)
     post link_type_variant_projects_path(type_id: type.id, variant_id: variant.id),
          params: { project_ids: projects.map { { nodeId: it.id.to_s }.to_json },
-                   include_sub_items: include_sub_items ? "1" : "0" },
+                   include_sub_items: include_sub_items ? "1" : "0",
+                   confirm_switch: confirm_switch ? "1" : "0" },
          as: :turbo_stream
   end
+
+  def switch_dialog_id = WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID
+
+  # The dialog arrives inside a turbo-stream template, whose contents Capybara does not enter.
+  def streamed_dialog = Capybara.string(Nokogiri::HTML5.fragment(response.body).css("template").inner_html)
 
   describe "a project that already applies the variant" do
     it "is nothing to do rather than a conflict" do
@@ -61,10 +67,80 @@ RSpec.describe "Adding projects to a work package type variant", :skip_csrf,
       parent = create(:project)
       child = create(:project, parent:, types: [firmware])
 
-      link_projects(parent, include_sub_items: true)
+      link_projects(parent, include_sub_items: true, confirm_switch: true)
 
       expect(response).to have_http_status(:ok)
       expect(child.reload.type_variant(type)).to eq(hardware)
+    end
+  end
+
+  describe "a project on another variant of the type" do
+    shared_let(:laboratory) { create(:project, name: "Laboratory", types: [firmware]) }
+    shared_let(:depot) { create(:project, name: "Depot") }
+
+    it "asks before switching it" do
+      link_projects(laboratory, depot)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(switch_dialog_id).and include("Laboratory")
+      expect(laboratory.reload.type_variant(type)).to eq(firmware)
+    end
+
+    it "keeps the project picker open underneath while asking" do
+      link_projects(laboratory, depot)
+
+      expect(response.body).not_to include(%(action="closeDialog"))
+    end
+
+    it "adds nothing else while asking" do
+      link_projects(laboratory, depot)
+
+      expect(depot.reload.project_types.where(type_id: type.id)).to be_empty
+    end
+
+    it "lists only the projects that would switch" do
+      link_projects(laboratory, depot)
+
+      expect(response.body).not_to include("Depot")
+    end
+
+    it "asks about a sub-project brought in with its parent, without listing the parent" do
+      parent = create(:project, name: "Shed")
+      create(:project, name: "Annex", parent:, types: [firmware])
+
+      link_projects(parent, include_sub_items: true)
+
+      expect(response.body).to include(switch_dialog_id).and include("Annex")
+      expect(response.body).not_to include("Shed")
+    end
+
+    it "carries the sub-projects into the confirmation, as it is resubmitted without the sub-items flag" do
+      parent = create(:project)
+      child = create(:project, parent:, types: [firmware])
+
+      link_projects(parent, include_sub_items: true)
+
+      node_ids = streamed_dialog.all("input[name='project_ids[]']", visible: :all).map { JSON.parse(it.value)["nodeId"] }
+      expect(node_ids).to contain_exactly(parent.id.to_s, child.id.to_s)
+    end
+
+    it "switches it once confirmed" do
+      link_projects(laboratory, depot, confirm_switch: true)
+
+      expect(response.body).to include(%(action="closeDialog" target="#{switch_dialog_id}"))
+      expect(laboratory.reload.type_variant(type)).to eq(hardware)
+      expect(depot.reload.type_variant(type)).to eq(hardware)
+    end
+  end
+
+  describe "a selection with no project on another variant" do
+    it "is added without asking" do
+      project = create(:project)
+
+      link_projects(project)
+
+      expect(response.body).not_to include(switch_dialog_id)
+      expect(project.reload.type_variant(type)).to eq(hardware)
     end
   end
 
@@ -91,7 +167,7 @@ RSpec.describe "Adding projects to a work package type variant", :skip_csrf,
     it "repaints the project list anyway" do
       link_projects(addable, blocked)
 
-      expect(response.body).to include("projects-table")
+      expect(response.body).to include(%(target="#{WorkPackageTypes::ProjectsTab::TableComponent.wrapper_key}"))
     end
 
     it "reports the refusal" do

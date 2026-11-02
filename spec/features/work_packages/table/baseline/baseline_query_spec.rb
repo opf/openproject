@@ -146,10 +146,12 @@ RSpec.describe "baseline query saving",
     baseline_modal.expect_selected_time "09:00"
     baseline_modal.expect_offset berlin_utc_offset
     baseline_modal.select_filter "-"
+    baseline_modal.expect_no_time_field
 
     baseline_modal.select_filter "yesterday"
     baseline_modal.expect_offset tokyo_utc_offset
     baseline_modal.select_filter "-"
+    baseline_modal.expect_no_time_field
 
     baseline_modal.apply
     baseline.expect_no_legends

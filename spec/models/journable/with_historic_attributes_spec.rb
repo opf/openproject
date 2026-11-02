@@ -320,7 +320,7 @@ RSpec.describe Journable::WithHistoricAttributes,
         let(:query) { build_query }
         let(:search_term) { "original" }
 
-        describe "when the work package did not exist yet at the basline date" do
+        describe "when the work package did not exist yet at the baseline date" do
           let(:timestamps) { [Timestamp.parse("2021-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
           let(:search_term) { "current" }
 
@@ -826,7 +826,7 @@ RSpec.describe Journable::WithHistoricAttributes,
 
     let(:work_package) do
       create(:work_package,
-             subject: "The labelled work package",
+             subject: "The labeled work package",
              project:,
              journals: {
                created_at => {},

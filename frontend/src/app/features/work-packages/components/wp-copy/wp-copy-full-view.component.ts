@@ -27,6 +27,7 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { WorkPackageCopyController } from 'core-app/features/work-packages/components/wp-copy/wp-copy.controller';
+import { BreadcrumbItem } from 'core-app/shared/components/breadcrumbs/op-breadcrumbs.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -38,11 +39,11 @@ import { WorkPackageCopyController } from 'core-app/features/work-packages/compo
 })
 export class WorkPackageCopyFullViewComponent extends WorkPackageCopyController {
   breadcrumbItems() {
-    const items = [];
+    const items:BreadcrumbItem[] = [];
     if (this.currentProjectService?.identifier) {
       items.push({
         href: this.pathHelper.projectPath(this.currentProjectService.identifier),
-        text: this.currentProjectService.name,
+        text: this.currentProjectService.name!,
       });
     }
     items.push({
@@ -53,7 +54,7 @@ export class WorkPackageCopyFullViewComponent extends WorkPackageCopyController 
         href: this.pathHelper.projectWorkPackagePath(this.currentProjectService.identifier!, this.stateParams.copiedFromWorkPackageId!),
         text: this.newWorkPackage.subject,
       });
-    items.push(I18n.t('js.button_duplicate'));
+    items.push(this.I18n.t('js.button_duplicate'));
 
     return items;
   }

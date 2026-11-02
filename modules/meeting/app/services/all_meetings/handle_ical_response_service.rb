@@ -63,7 +63,7 @@ module AllMeetings
       uid = event.uid&.value_ical
       recurrence_start_time = event.recurrence_id&.to_time
 
-      # First check if the UID belongs to a single meeeting
+      # First check if the UID belongs to a single meeting
       meeting = Meeting.visible(user).find_by(uid:)
 
       if meeting

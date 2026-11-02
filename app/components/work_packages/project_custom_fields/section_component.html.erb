@@ -11,7 +11,7 @@
         @project_custom_fields.each do |project_custom_field|
           flex.with_row do
             render(
-              OpenProject::Common::InplaceEditFieldComponent.new(
+              OpPrimer::InplaceEditFieldComponent.new(
                 model: @project,
                 attribute: project_custom_field.attribute_name.to_sym,
                 open_in_dialog: false,

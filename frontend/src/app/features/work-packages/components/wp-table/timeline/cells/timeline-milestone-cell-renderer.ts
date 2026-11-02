@@ -96,8 +96,8 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    */
   public assignDateValues(change:WorkPackageChangeset,
     labels:WorkPackageCellLabels,
-    dates:any):void {
-    this.assignDate(change, 'date', dates.date);
+    dates:CellDateMovement):void {
+    this.assignDate(change, 'date', dates.date!);
     this.updateLabels(true, labels, change);
   }
 
@@ -190,7 +190,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return (renderInfo.viewParams.pixelPerDay / 2) - 1;
   }
 
-  getPaddingRightForOutgoingRelationLines(renderInfo:RenderInfo):number {
+  getPaddingRightForOutgoingRelationLines(_renderInfo:RenderInfo):number {
     return (15 / 2);
   }
 
@@ -198,7 +198,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    * Render a milestone element, a single day event with no resize, but
    * move functionality.
    */
-  public render(renderInfo:RenderInfo):HTMLDivElement {
+  public render(_renderInfo:RenderInfo):HTMLDivElement {
     const element = document.createElement('div');
     element.className = `${timelineElementCssClass} ${this.type}`;
 

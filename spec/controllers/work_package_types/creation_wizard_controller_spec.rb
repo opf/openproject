@@ -93,7 +93,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController do
         end
       end
 
-      describe "GET show with an unrecognised step" do
+      describe "GET show with an unrecognized step" do
         it "falls back to the first step" do
           get :show, params: { type_id: type.id, step: "does-not-exist" }
 
@@ -132,6 +132,12 @@ RSpec.describe WorkPackageTypes::CreationWizardController do
           patch :update, params: { type_id: type.id, step: :workflows }
 
           expect(response).to redirect_to(type_creation_wizard_path(type, step: :projects))
+        end
+
+        it "refuses a matrix submitted without roles" do
+          patch :update, params: { type_id: type.id, step: :workflows, tab: "always" }
+
+          expect(response).to have_http_status(:unprocessable_entity)
         end
       end
 

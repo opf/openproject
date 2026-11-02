@@ -85,7 +85,7 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
       it { is_expected.to eq("date") }
     end
 
-    context "with a datetime field (data loss!)" do
+    context "with a datetime field (datetime)" do
       let(:jira_field) do
         jira_field_for(name: "CF Datetime",
                        schema: { "type" => "datetime",
@@ -93,7 +93,18 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
                                  "customId" => 10262 })
       end
 
-      it { is_expected.to eq("date") }
+      it { is_expected.to eq("datetime") }
+    end
+
+    context "with a ScriptRunner scripted field reporting a datetime" do
+      let(:jira_field) do
+        jira_field_for(name: "CF Scripted Datetime",
+                       schema: { "type" => "datetime",
+                                 "custom" => "com.onresolve.jira.groovy.groovyrunner:scripted-field",
+                                 "customId" => 10263 })
+      end
+
+      it { is_expected.to eq("datetime") }
     end
 
     context "with a URL field (url)" do
@@ -719,7 +730,7 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
       end
     end
 
-    context "with scalar passthrough fields (string, float, date, link)" do
+    context "with scalar passthrough fields" do
       {
         "string" => ["CF String",
                      { "type" => "string",
@@ -733,6 +744,10 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
                    { "type" => "date",
                      "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:datepicker" },
                    "2024-01-15"],
+        "datetime" => ["CF Datetime",
+                       { "type" => "datetime",
+                         "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:datetime" },
+                       "2024-01-15T10:30:00.000+0100"],
         "link" => ["CF URL",
                    { "type" => "string",
                      "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:url" },
@@ -981,21 +996,41 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
         expect(date_builder.find_existing_custom_field).to eq(exact)
       end
 
-      it "does not reuse a suffixed candidate when no exact name matches" do
-        create(:date_wp_custom_field, name: "Due (archived)")
+      it "prefers the exact base name over a numbered candidate created before it" do
         create(:date_wp_custom_field, name: "Due (2)")
+        exact = create(:date_wp_custom_field, name: "Due")
+
+        expect(date_builder.find_existing_custom_field).to eq(exact)
+      end
+
+      it "reuses the numbered field an earlier run created when no exact name matches" do
+        create(:date_wp_custom_field, name: "Due (archived)")
+        numbered = create(:date_wp_custom_field, name: "Due (2)")
+
+        expect(date_builder.find_existing_custom_field).to eq(numbered)
+      end
+
+      it "ignores a candidate whose suffix is not the counter unique_name appends" do
+        create(:date_wp_custom_field, name: "Due (archived)")
 
         expect(date_builder.find_existing_custom_field).to be_nil
       end
 
-      it "keeps two Jira fields apart when one is named like the other's dedup suffix" do
-        suffixed = create(:string_wp_custom_field, name: "foo (2)")
-        schema = { "type" => "string", "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:textfield" }
-        builder = described_class.new(jira_field_for(name: "foo", schema:), jira_import:)
+      it "reuses the renamed field of a Jira field whose own name ends in a number" do
+        create(:string_wp_custom_field, name: "Due (2)")
+        renamed = create(:date_wp_custom_field, name: "Due (2) (2)")
+        schema = { "type" => "date", "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:datepicker" }
+        builder = described_class.new(jira_field_for(name: "Due (2)", schema:), jira_import:)
+
+        expect(builder.find_existing_custom_field).to eq(renamed)
+      end
+
+      it "does not let a Jira field whose name ends in a number take over the plain field" do
+        create(:date_wp_custom_field, name: "Due")
+        schema = { "type" => "date", "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:datepicker" }
+        builder = described_class.new(jira_field_for(name: "Due (2)", schema:), jira_import:)
 
         expect(builder.find_existing_custom_field).to be_nil
-        expect(builder.custom_field_settings.first).to eq("foo")
-        expect(suffixed.reload.name).to eq("foo (2)")
       end
     end
 

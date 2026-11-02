@@ -48,7 +48,7 @@ module Projects::CreationWizard
     store_attribute :settings, :project_creation_wizard_artifact_export_storage, :string
 
     # The store_attribute default cannot be used here, because the default is not returned
-    # when the JSON defintion is present but it's nil.
+    # when the JSON definition is present but it's nil.
     def project_creation_wizard_artifact_name
       super.presence || DEFAULT_ARTIFACT_NAME_OPTION
     end

@@ -246,7 +246,7 @@ RSpec.describe "Statuses admin page", :js do
       end
     end
 
-    context "with commmunity edition", with_ee: false do
+    context "with community edition", with_ee: false do
       it "has 'is read-only' checkbox always disabled" do
         visit new_status_path
 
@@ -298,7 +298,7 @@ RSpec.describe "Statuses admin page", :js do
       end
     end
 
-    context "with commmunity edition", with_ee: false do
+    context "with community edition", with_ee: false do
       it "has 'is read-only' checkbox always disabled" do
         visit statuses_path
 

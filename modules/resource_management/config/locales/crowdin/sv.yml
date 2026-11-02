@@ -173,7 +173,7 @@ sv:
     label_new_resource_planner: Ny resursplanerare
     label_resource_planner: Resursplanerare
     label_resource_planner_plural: Resursplanerare
-    my_work:
+    my_time_management:
       hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Lägg till vy

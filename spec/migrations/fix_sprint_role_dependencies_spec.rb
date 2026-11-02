@@ -36,7 +36,7 @@ RSpec.describe FixSprintRoleDependencies, type: :model do
 
   subject(:migrate) { ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) } }
 
-  describe "completing depencencies for view_sprints permission" do
+  describe "completing dependencies for view_sprints permission" do
     context "when view_work_packages is missing" do
       let(:permissions) { [:view_sprints] }
 

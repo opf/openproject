@@ -66,7 +66,7 @@ RSpec.describe WorkPackages::JournalTimeline do
       expect(relation.distinct.pluck(:work_package_id)).to eq [work_package.id]
     end
 
-    it "returns read-only entries carrying no work package behaviour" do
+    it "returns read-only entries carrying no work package behavior" do
       entry = relation.order(:tick).last
 
       expect(entry).to be_a WorkPackages::JournalTimeline::Entry

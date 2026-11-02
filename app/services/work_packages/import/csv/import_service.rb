@@ -141,7 +141,7 @@ module WorkPackages
             progress.created_ids << created.result.id
             write_columns(created.result, columns)
             mark_as_imported(created.result, columns)
-            summarise(progress, created.result, columns)
+            summarize(progress, created.result, columns)
           else
             progress.problems.concat(problems_for(row, created.errors))
           end
@@ -216,7 +216,7 @@ module WorkPackages
 
         def view_name = I18n.t("work_packages.import.csv.view_name", datetime: format_time(Time.current))
 
-        def summarise(progress, work_package, columns)
+        def summarize(progress, work_package, columns)
           count_values(progress.counts_by_attribute, work_package)
           progress.account_ids.merge(account_ids(work_package, columns))
           progress.dated_count += 1 if work_package.start_date || work_package.due_date

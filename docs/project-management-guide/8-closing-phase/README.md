@@ -11,7 +11,7 @@ keywords: project-end review meeting, lessons learned and post-project recommend
 The final phase of a PM² project is the Closing Phase. The Closing Phase starts with the Project-End Review Meeting and ends with the Project Owner's (PO) final approval, which marks the project's administrative closure. During the Closing Phase, the project's activities are completed, the project's final state is documented, and the finished deliverables are officially transferred to the Project Owner (PO).
 ![Fig 8.1 Closing Phase activities and main outputs](08.01.png)
 
-![Fig 8.2 Closing Phase artefacts](08.02.png)
+![Fig 8.2 Closing Phase artifacts](08.02.png)
 
 **Project-End Review Meeting**
 
@@ -25,8 +25,8 @@ The final phase of a PM² project is the Closing Phase. The Closing Phase starts
 
 **Administrative Closure**
 
-- The Project Manager (PM) ensures that the project is approved and accepted by the relevant stakeholders. The finished deliverables are transferred into the care, custody and control of the Project Owner (PO) and the requestor/client organisation.
-- All documentation and records are reviewed, organised and securely archived with the help of the Project Support Office (PSO). Resources are released and the project is closed.
+- The Project Manager (PM) ensures that the project is approved and accepted by the relevant stakeholders. The finished deliverables are transferred into the care, custody and control of the Project Owner (PO) and the requestor/client organization.
+- All documentation and records are reviewed, organized and securely archived with the help of the Project Support Office (PSO). Resources are released and the project is closed.
 
 ## 8.1 Project-End Review Meeting
 
@@ -34,7 +34,7 @@ The Project-End Review Meeting launches the Closing Phase of the project after t
 
 | Key Participants | Description |
 | :-- | :-- |
-| Project Manager (PM) | Organises the meeting. |
+| Project Manager (PM) | Organizes the meeting. |
 | Project Core Team (PCT) | Attendance is required. |
 | Project Owner (PO) | Attendance is required. |
 | Project Quality Assurance (PQA) | Should attend. |
@@ -59,7 +59,7 @@ Before the Project-End Review Meeting:
 
 During the Project-End Review Meeting:
 
-1. The Project Owner (PO) will normally express the organisation's appreciation to the whole project team and key project stakeholders.
+1. The Project Owner (PO) will normally express the organization's appreciation to the whole project team and key project stakeholders.
 2. Ensure someone is designated to take the Minutes of Meeting (MoM).
 3. Present project statistics and data on performance and achievements.
 4. Discuss the overall project experience.
@@ -84,15 +84,15 @@ After the Project-End Review Meeting:
 
 ## 8.2 Lessons Learned and Post-Project Recommendations
 
-The purpose of formal Lessons Learned and Post-Project Recommendations is to make it possible for project teams and the permanent organisation at large to benefit from the experience acquired during the project. It is also important to capture ideas and recommendations for post-project work relating to the operation of the product/service delivered, such as extensions, maintenance and ideas for follow-up projects.
+The purpose of formal Lessons Learned and Post-Project Recommendations is to make it possible for project teams and the permanent organization at large to benefit from the experience acquired during the project. It is also important to capture ideas and recommendations for post-project work relating to the operation of the product/service delivered, such as extensions, maintenance and ideas for follow-up projects.
 
 Note: Improvement opportunities and Post-Project Recommendations should be captured in some form as they come up during the project. Otherwise, particularly in longer projects, the ideas might get lost by the time the project reaches the Closing Phase.
 
-There are many benefits to formalising Lessons Learned and Post-Project Recommendations. When project team members share their perspectives and provide feedback it provides useful insights that, the requestor/client side can use to manage post-project activities more effectively.
+There are many benefits to formalizing Lessons Learned and Post-Project Recommendations. When project team members share their perspectives and provide feedback it provides useful insights that, the requestor/client side can use to manage post-project activities more effectively.
 
 | Key Participants | Description |
 | :-- | :-- |
-| Project Manager (PM) | Organises the gathering of Lessons Learned. |
+| Project Manager (PM) | Organizes the gathering of Lessons Learned. |
 | Project Core Team (PCT) | Contributes experiences and perspectives. |
 | Business Manager (BM) | Represents the requestor's point of view. |
 | Other project stakeholders | As required. |
@@ -101,11 +101,11 @@ Because all projects are different, the Lessons Learned process cannot be generi
 
 **Guidelines**:
 
-- The Lessons Learned session should be a part of the Project-End Review Meeting (though separate sessions could be organised at the end of project phases or major milestones).
+- The Lessons Learned session should be a part of the Project-End Review Meeting (though separate sessions could be organized at the end of project phases or major milestones).
 - It may be preferable to have the Lessons Learned session facilitated by someone who has not been intimately involved in the project, allowing the Project Manager (PM) to contribute as a participant.
-- The discussion should be structured (using project phases, categories of activities, etc. as the organisational principle) to cover every aspect of the project.
+- The discussion should be structured (using project phases, categories of activities, etc. as the organizational principle) to cover every aspect of the project.
 - Use a structured approach to collecting lessons learned from a broader group of stakeholders via questionnaires, or structured interviews.
-- Improvement ideas should be organised into groups to help the team better visualise the appropriate next steps required to implement them.
+- Improvement ideas should be organized into groups to help the team better visualize the appropriate next steps required to implement them.
 - In some cases, it could make sense to address the Lessons Learned over multiple sessions, each devoted to a different topic (technical issues, business implementation, etc.).
 - The Project Steering Committee (PSC) should be invited to the Lessons Learned session(s) as this will allow its members to transfer the Lessons Learned to other projects.
 
@@ -119,7 +119,7 @@ Because all projects are different, the Lessons Learned process cannot be generi
 
 ## 8.3 Project-End Report
 
-Following the Project-End Review Meeting, the overall experience of the project is summarised in a report that documents best practices, Lessons Learned, pitfalls and solutions to problems. The report should be used as a knowledge base for future projects.
+Following the Project-End Review Meeting, the overall experience of the project is summarized in a report that documents best practices, Lessons Learned, pitfalls and solutions to problems. The report should be used as a knowledge base for future projects.
 
 | Key Participants | Description |
 | :-- | :-- |
@@ -148,7 +148,7 @@ Following the Project-End Review Meeting, the overall experience of the project 
 - Human resources and stakeholder management.
 - Deliverables Acceptance.
 - Business Implementation and Project Transition.
-- The performance of the Project Core Team (PCT) and participating organisation.
+- The performance of the Project Core Team (PCT) and participating organization.
 - Best Practices and Lessons Learned.
 - Post-Project Recommendations.
 - This document should be part of a central project repository or knowledge database describing project experiences, best practices and common pitfalls.
@@ -159,7 +159,7 @@ Following the Project-End Review Meeting, the overall experience of the project 
 
 ![Fig 8.4 Project-End Report inputs and main roles](08.04.png)
 
-| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Communications <br> Management |  | Communications \& Quality Management Plan | Project <br> Reports | Project Checklists <br> Project Logs | Project-End Report |
 
@@ -169,7 +169,7 @@ Following the Project-End Review Meeting, the overall experience of the project 
 
 ## 8.4 Administrative Closure
 
-The Project Manager (PM) ensures that all project deliverables have been accepted by the relevant stakeholders and, with the help of the Project Support Office (PSO), that all project documentation and records are up-to-date, reviewed, organised and securely archived. The Project Team is now officially dissolved and all resources are released.
+The Project Manager (PM) ensures that all project deliverables have been accepted by the relevant stakeholders and, with the help of the Project Support Office (PSO), that all project documentation and records are up-to-date, reviewed, organized and securely archived. The Project Team is now officially dissolved and all resources are released.
 
 The project is officially closed once all Closing Phase activities are completed and the Project Owner (PO) has approved the project. Formal project closure brings project mode to an end and allows operations mode to commence.
 
@@ -177,7 +177,7 @@ The project is officially closed once all Closing Phase activities are completed
 | :-- | :-- |
 | Project Manager (PM) | Oversees all closure activities and the release of project resources. |
 | Other project stakeholders | Approve and accept the project. |
-| Project Support Office (PSO) | Assists in reviewing, organising and archiving all project <br> documentation. |
+| Project Support Office (PSO) | Assists in reviewing, organizing and archiving all project <br> documentation. |
 | Project Owner (PO) | Has final approval of the project. |
 
 **Inputs**
@@ -189,7 +189,7 @@ The project is officially closed once all Closing Phase activities are completed
 
 **Steps**
 
-1. Ensure that all documentation and records are reviewed, organised and archived.
+1. Ensure that all documentation and records are reviewed, organized and archived.
 2. Release all resources.
 3. Ensure that the project is approved and accepted by the project stakeholders.
 4. Ensure that the Project Owner (PO) gives final project approval and closes the project.

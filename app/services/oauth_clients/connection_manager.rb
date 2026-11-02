@@ -83,7 +83,6 @@ module OAuthClients
                           errors: oauth_client_token.errors)
       end
     end
-    # rubocop:enable Metrics/AbcSize
 
     private
 

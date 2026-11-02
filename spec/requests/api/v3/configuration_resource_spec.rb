@@ -60,7 +60,7 @@ RSpec.describe "API v3 Configuration resource" do
               .at_path("perPageOptions")
     end
 
-    it "embedds the current user preferences" do
+    it "embeds the current user preferences" do
       expect(subject.body)
         .to be_json_eql("UserPreferences".to_json)
               .at_path("_embedded/userPreferences/_type")

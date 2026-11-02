@@ -56,6 +56,15 @@ class CustomValue::ARObjectStrategy < CustomValue::FormatStrategy
 
   private
 
+  # A value that is already stored stays valid, even after it stopped being usable in the project.
+  def usable_in_project?
+    customized = custom_value.customized
+    return true if custom_field.project_specific_value_restriction.nil? || customized.nil?
+    return true if custom_value.persisted? && !custom_value.value_changed?
+
+    custom_field.usable_values_in(customized.project).exists?(id: value)
+  end
+
   # This method is not inlined in typed_value to allow separate changes to typed_value and formatted_value
   def cached_ar_object
     return @cached_ar_object if @cached_ar_object

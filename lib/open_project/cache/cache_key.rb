@@ -38,8 +38,8 @@ module OpenProject
       # Expand a cache key.
       # Shallow wrapper around ActiveSupport::Cache, which supports
       # anything that responds to #cache_key or #to_param, or strings
-      def self.expand(cachable)
-        key = ActiveSupport::Cache.expand_cache_key cachable
+      def self.expand(cacheable)
+        key = ActiveSupport::Cache.expand_cache_key cacheable
 
         Digest::SHA2.hexdigest(key)
       end

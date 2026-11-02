@@ -356,7 +356,7 @@ RSpec.describe Import::JiraFetchCustomFieldJob do
       expect(jira_client).not_to have_received(:custom_field_options).with(10555, any_args)
     end
 
-    it "recognises an option field of a third-party plugin by its schema type" do
+    it "recognizes an option field of a third-party plugin by its schema type" do
       create(:jira_field, jira_import:, origin_id: "customfield_10666",
                           payload: { "id" => "customfield_10666", "name" => "CF Plugin",
                                      "schema" => { "type" => "option", "customId" => 10666,

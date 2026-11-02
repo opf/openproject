@@ -84,7 +84,7 @@ export class TimelineViewParameters {
 
   settings:TimelineViewParametersSettings = new TimelineViewParametersSettings();
 
-  activeSelectionMode:null | ((wp:WorkPackageResource) => any) = null;
+  activeSelectionMode:null | ((wp:WorkPackageResource) => void) = null;
 
   selectionModeStart:null | string = null;
 
@@ -174,7 +174,7 @@ export function getTimeSlicesForHeader(vp:TimelineViewParameters,
 
 export function calculateDaySpan(visibleWorkPackages:RenderedWorkPackage[],
   loadedWorkPackages:MultiInputState<WorkPackageResource>,
-  viewParameters:TimelineViewParameters):number {
+  _viewParameters:TimelineViewParameters):number {
   let earliest:Moment = moment();
   let latest:Moment = moment();
 

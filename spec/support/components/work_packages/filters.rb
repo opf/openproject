@@ -281,8 +281,16 @@ module Components
 
       def close_autocompleter(id)
         with_filter_input(id) do |input|
-          input.send_keys :escape
+          input.send_keys(:escape) if input["aria-expanded"] == "true"
         end
+      end
+
+      def select_value(id, query:, select_text:)
+        select_autocomplete -> { page.find("#filter_#{id} ng-select") },
+                            query:,
+                            select_text:,
+                            results_selector: ".ng-dropdown-panel-items"
+        close_autocompleter(id)
       end
 
       protected

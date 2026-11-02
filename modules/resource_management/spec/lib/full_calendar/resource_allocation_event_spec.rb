@@ -78,7 +78,7 @@ RSpec.describe FullCalendar::ResourceAllocationEvent do
     let(:visible) { false }
 
     it "shows a placeholder title" do
-      expect(json["title"]).to eq(I18n.t("resource_management.my_work.hidden_work_package"))
+      expect(json["title"]).to eq(I18n.t("resource_management.my_time_management.hidden_work_package"))
     end
 
     it "does not reveal the work package or its project" do

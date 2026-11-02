@@ -30,7 +30,6 @@ require_relative "shared_context"
 
 RSpec.describe "Team planner working days",
                :js,
-               :selenium,
                with_ee: %i[team_planner_view],
                with_settings: { start_of_week: 1 } do
   include_context "with team planner full access"
@@ -38,7 +37,7 @@ RSpec.describe "Team planner working days",
   context "with week days defined" do
     let!(:week_days) { week_with_saturday_and_sunday_as_weekend }
 
-    it 'hides sat and sun in the "Work week" view andd renders sat and sun as non working in the "1-week" view' do
+    it 'hides sat and sun in the "Work week" view and renders sat and sun as non working in the "1-week" view' do
       team_planner.visit!
 
       team_planner.wait_for_loaded

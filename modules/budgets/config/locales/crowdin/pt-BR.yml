@@ -108,7 +108,7 @@ pt-BR:
   events:
     budget: Orçamento editado
   help_click_to_edit: Clique aqui para editar.
-  help_currency_format: Formato exibidos de valores de moeda. %n é substituído com o valor da moeda, %u é substituído com a unidade da moeda.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Insira um valor aqui para substituir a taxa padrão.
   label_budget_available: Orçamento disponível
   label_budget_details: Detalhes de orçamento

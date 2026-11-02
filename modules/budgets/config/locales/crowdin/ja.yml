@@ -105,7 +105,7 @@ ja:
   events:
     budget: 予算の編集
   help_click_to_edit: 編集するにはここをクリックしてください。
-  help_currency_format: 表示される通貨値の形式です。 %n は通貨の値に置き換えられ、%u は通貨の単位に置き換えられます。
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: デフォルトレートを上書きするにはここに値を入力します。
   label_budget_available: 利用可能な予算
   label_budget_details: 予算の詳細

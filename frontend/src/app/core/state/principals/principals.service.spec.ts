@@ -45,7 +45,7 @@ describe('PrincipalsResourceService', () => {
     });
   });
 
-  it('initialises via dependency injection', () => {
+  it('initializes via dependency injection', () => {
     expect(TestBed.inject(PrincipalsResourceService)).toBeTruthy();
   });
 });

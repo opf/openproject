@@ -38,7 +38,7 @@ import type {
   SortableSource,
 } from './sortable-lists-engine';
 
-// `doMock` is not hoisted, so this initialises before the factory below runs
+// `doMock` is not hoisted, so this initializes before the factory below runs
 // and a plain const does the job `vi.hoisted()` used to.
 const autoScrollRegistrations:{
   element:Element;

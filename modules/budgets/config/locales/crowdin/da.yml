@@ -25,13 +25,13 @@ da:
     attributes:
       budget:
         author: Forfatter
-        available: Tillrådighed
+        available: Til rådighed
         base_amount: Basisbeløb
-        budget: Planlagte
-        budget_ratio: Forbrugt (ratio)
+        budget: Planlagt
+        budget_ratio: Forbrugt (andel)
         description: Beskrivelse
         labor_budget: Planlagte lønomkostninger
-        labor_budget_items: Planned labor costs
+        labor_budget_items: Planlagte lønomkostninger
         material_budget: Planlagte enhedsomkostninger
         spent: Forbrugt
         status: Status
@@ -44,17 +44,17 @@ da:
         labor_budget_item:
           attributes:
             principal:
-              not_a_member_of_budget_project: is not a member of the budget's project
+              not_a_member_of_budget_project: er ikke medlem af budgettets projekt
     models:
       budget:
         one: Budget
-        other: Budgets
+        other: Budgetter
       labor_budget_item:
-        one: Planned labor cost
-        other: Planned labor costs
+        one: Planlagt lønomkostning
+        other: Planlagte lønomkostninger
       material_budget_item:
-        one: Unit
-        other: Units
+        one: Enhed
+        other: Enheder
   activity:
     filter:
       budget: Budgetter
@@ -62,74 +62,74 @@ da:
     budget: Budget
   budgets:
     labor_budget_items:
-      no_rate_at_fixed_date: No hourly rate on %{date}
+      no_rate_at_fixed_date: Ingen timesats pr. %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
-          description: Få overblik over budgetterne og omkostningerne for effektivt at følge projektets sundhedsstatus
-          heading: Start projektstyring
+          description: Få overblik over budgetter og omkostninger, så du nemt kan følge, hvordan det går med projektet
+          heading: Kom i gang med projektøkonomien
         blankslate_zero:
           description: Tilføj detaljer om det planlagte budget for at se data her
           heading: Budgetoplysninger mangler
         count_caption:
-          one: Data aggregated from %{count} budget
-          other: Data aggregated from %{count} budgets
-          zero: No budget data.
+          one: Data samlet fra %{count} budget
+          other: Data samlet fra %{count} budgetter
+          zero: Ingen budgetdata.
         count_caption_with_subitems:
           portfolio:
-            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
-            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
-            zero: No budget data.
+            one: Data samlet fra %{count} budget, der indgår i denne portefølje og dens underelementer.
+            other: Data samlet fra %{count} budgetter, der indgår i denne portefølje og dens underelementer.
+            zero: Ingen budgetdata.
           program:
-            one: Data aggregated from %{count} budget included in this program and its subitems.
-            other: Data aggregated from %{count} budgets included in this program and its subitems.
-            zero: No budget data.
+            one: Data samlet fra %{count} budget, der indgår i dette program og dets underelementer.
+            other: Data samlet fra %{count} budgetter, der indgår i dette program og dets underelementer.
+            zero: Ingen budgetdata.
           project:
-            one: Data aggregated from %{count} budget included in this project and its subitems.
-            other: Data aggregated from %{count} budgets included in this project and its subitems.
-            zero: No budget data.
+            one: Data samlet fra %{count} budget, der indgår i dette projekt og dets underelementer.
+            other: Data samlet fra %{count} budgetter, der indgår i dette projekt og dets underelementer.
+            zero: Ingen budgetdata.
         title: Budget efter omkostningstype
         view_details: Vis budgetdetaljer
       budget_totals:
         remaining_budget: Resterende budget
-        spent_budget: Brugt budget
-        title: Budgettotaler
+        spent_budget: Forbrugt budget
+        title: Budget i alt
         total_actual_costs: Samlede faktiske omkostninger
         total_planned_budget: Samlet planlagt budget
   budgets_title: Budgetter
   button_add_budget: Tilføj budget
   button_add_budget_item: Tilføj planlagte omkostninger
   button_add_cost_type: Tilføj omkostningstype
-  button_cancel_edit_budget: Annullér budgetredigering
-  button_cancel_edit_costs: Annullér omkostningsredigering
+  button_cancel_edit_budget: Annuller redigering af budget
+  button_cancel_edit_costs: Annuller redigering af omkostninger
   caption_labor: Arbejdskraft
   caption_labor_costs: Faktiske lønomkostninger
   caption_material_costs: Faktiske enhedsomkostninger
   events:
     budget: Budget redigeret
   help_click_to_edit: Klik her for at redigere.
-  help_currency_format: Format for viste valutaværdier. %n erstattes med valutaværdien, %u erstattes med valutaenheden.
+  help_currency_format: Format for viste valutabeløb. %n erstattes af beløbet, %u af valutaenheden.
   help_override_rate: Angiv en værdi for at tilsidesætte standardsatsen.
-  label_budget_available: Tildelt budget
+  label_budget_available: Tilgængeligt budget
   label_budget_details: Detaljer om budgettet
   label_budget_id: 'Budget #%{id}'
   label_budget_new: Nyt budget
-  label_budget_planned: Estimeret budget
+  label_budget_planned: Planlagt budget
   label_budget_plural: Budgetter
   label_budget_spent: Forbrugt budget
   label_budget_spent_ratio: Andel forbrugt
   label_budget_totals: I alt
   label_deliverable: Budget
-  label_example_placeholder: f.eks. %{decimal}
-  label_view_all_budgets: Se alle budgetter
+  label_example_placeholder: fx %{decimal}
+  label_view_all_budgets: Vis alle budgetter
   label_yes: Ja
-  notice_budget_conflict: Work packages must be of the same project.
+  notice_budget_conflict: Arbejdspakkerne skal høre til samme projekt.
   notice_no_budgets_available: Ingen tilgængelige budgetter.
-  permission_edit_budgets: Redigér budgetter
-  permission_view_budgets: Se budgetter
+  permission_edit_budgets: Rediger budgetter
+  permission_view_budgets: Vis budgetter
   plugin_budgets_engine:
     name: Budgetter
   project_module_budgets: Budgetter
   text_budget_delete: Slet budgettet fra alle arbejdspakker
-  text_budget_destroy_assigned_wp: Der er %{count} arbejdspakker tilknyttet dette budget. Hvad ønsker du at gøre?
-  text_budget_reassign_to: 'Overfør dem til dette budget:'
+  text_budget_destroy_assigned_wp: Der er %{count} arbejdspakker knyttet til budgettet. Hvad vil du gøre?
+  text_budget_reassign_to: 'Flyt dem til dette budget:'

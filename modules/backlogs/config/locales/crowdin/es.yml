@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -135,9 +135,20 @@ es:
       details: Se eliminará el bucket de backlog «%{name}» y todos los paquetes de trabajo se trasladarán a la bandeja de entrada de tareas pendientes. No se eliminará ningún paquete de trabajo.
       title: "¿Eliminar bucket de backlog?"
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Establezca la fecha de inicio y finalización del sprint para generar un gráfico de trabajo pendiente.
         blankslate_title: No hay datos de trabajo pendiente disponibles
+    created_resolved_chart:
+      series:
+        created: Created work packages
+        resolved: Resolved work packages
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Units
     excluded_work_package_types_caption: 'Elige qué tipos de paquetes de trabajo quieres ocultar en el backlog. Los elementos de los tipos seleccionados no aparecerán automáticamente en el backlog, lo que te permitirá centrarte en el trabajo que realmente importa a tu equipo. Por ejemplo, puedes ocultar tipos como «Épicos» o «Hitos», que se gestionan a un nivel superior, para que el backlog se centre en elementos sobre los que se pueda actuar.
 
@@ -186,6 +197,7 @@ es:
     remaining_hours: Trabajo restante
     sharing: Compartir Sprint
     show_burndown_chart: Diagrama Burndown
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: Paquetes de trabajo dentro del sprint
     sprint_component:
       action_menu:
@@ -209,10 +221,28 @@ es:
       shared_sprint_info_banner: Este es un sprint compartido. Las modificaciones serán reflejadas en todos los proyectos que lo usen.
       shared_sprint_warning_banner: Este es un sprint compartido. Usted no tiene los permisos necesarios para editarlo.
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: Informe
         title: Informe de %{sprint}
       widgets:
+        velocity_chart:
+          average:
+            one: 'Average of previous sprint:'
+            other: 'Average of previous %{count} sprints:'
+          average_legend: Average
+          committed: Committed
+          completed: Completed
+          story_points: "%{value} SP"
+          summary:
+            one: Bar chart of committed and completed story points of the last sprint.
+            other: Bar chart of committed and completed story points of the last %{count} sprints.
+          summary_average: 'Average velocity: %{average}.'
+          title: Velocity chart
+          velocity: "%{sprint}:"
+          y_axis_title: Story points
         work_package_graph:
           title: Gráfico de paquetes de trabajo
         work_package_overview:
@@ -237,6 +267,46 @@ es:
           resolved_summary:
             one: "%{percentage} % (%{resolved} de %{total} paquete de trabajo)"
             other: "%{percentage} % (%{resolved} de %{total} paquetes de trabajo)"
+        work_package_table:
+          added:
+            blankslate:
+              empty:
+                description: Work packages that were added after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show added work packages.
+              not_started:
+                description: Added work packages will appear here after the sprint starts.
+            title: Scope increase after sprint start
+          blankslate:
+            heading: No work packages to display
+          completed:
+            blankslate:
+              empty:
+                description: Work packages that were completed in the sprint will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show completed work packages.
+              not_started:
+                description: Completed work packages will appear here after the sprint starts.
+            title: Completed work
+          removed:
+            blankslate:
+              empty:
+                description: Work packages that were removed after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show removed work packages.
+              not_started:
+                description: Removed work packages will appear here after the sprint starts.
+            title: Scope decrease after sprint start
+          unfinished:
+            blankslate:
+              empty:
+                description: All work packages in this sprint are completed.
+                heading: Wow, all done!
+              no_dates:
+                description: Sprint start and finish dates are necessary to show unfinished work packages.
+              not_started:
+                description: Unfinished work packages will appear here after the sprint starts.
+            title: Unfinished work
     sprints:
       row_component:
         action_menu:
@@ -292,9 +362,6 @@ es:
       update_service:
         invalid_target_type: 'list_type debe ser uno de los siguientes: backlog_bucket con un list_id, sprint con un list_id, o inbox sin un list_id.'
         missing_target: list_type o list_id deben estar presentes.
-  burndown:
-    story_points: Puntos de historia
-    story_points_ideal: Puntos de historia (ideal)
   ee:
     features:
       multiple_active_sprints: Varios sprints activos

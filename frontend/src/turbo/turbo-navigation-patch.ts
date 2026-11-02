@@ -38,7 +38,7 @@ import * as Turbo from '@hotwired/turbo';
  * there is no upstream frontend regression test — see the Rails system spec.
  *
  * Upstream fix in flight: https://github.com/hotwired/turbo/pull/1549. Once it
- * ships in a release we depend on, drop this patch in favour of it.
+ * ships in a release we depend on, drop this patch in favor of it.
  *
  * This is a verbatim fork of `FrameController.proposeVisitIfNavigatedWithAction`
  * with a single divergence: the history snapshot is built from the live

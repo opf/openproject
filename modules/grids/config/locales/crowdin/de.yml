@@ -31,8 +31,8 @@ de:
         title: Mitglieder
         view_all_members: Alle Mitglieder anzeigen
         x_more:
-          one: and %{count} more member.
-          other: and %{count} more members.
+          one: und %{count} weiteres Mitglied.
+          other: und %{count} weitere Mitglieder.
       news:
         no_results: Nichts Neues zu berichten.
       not_available: Dieses Widget ist nicht verfügbar.

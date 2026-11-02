@@ -26,7 +26,7 @@
 #++
 
 # Extends the default pluralizer I18n::Backend::Pluralization
-# to be more resiliant with regards to a missing :many key in
+# to be more resilient with regards to a missing :many key in
 # the l10n files of some eastern european languages
 # (e.g. Russian, Hungarian, Polish)
 
