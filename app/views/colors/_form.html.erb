@@ -26,11 +26,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= flex_layout(direction: [:column, nil, nil, :row], align_items: :stretch, classes: "gap-4") do |layout| %>
-  <% layout.with_box(col: [12, nil, nil, 4], flex_shrink: 0) do %>
+<%= render Primer::Alpha::Layout.new(stacking_breakpoint: :lg, first_in_source: :sidebar) do |layout| %>
+  <% layout.with_sidebar(width: :wide, col_placement: :start, row_placement: :start) do %>
     <%= render Admin::Settings::ColorForm.new(form) %>
   <% end %>
-  <% layout.with_box(flex: 1) do %>
+  <% layout.with_main do %>
     <%= render Colors::ContrastPreviewComponent.new(hexcode_id: form.field_id(:hexcode)) %>
   <% end %>
 <% end %>
