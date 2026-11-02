@@ -2210,7 +2210,7 @@ en:
       delete_dialog_component:
         description: "Users will no longer be able to run this action in the rich text editor."
         heading: 'Are you sure you want to delete the action "%{label}"?'
-        title: "Delete text assistant action"
+        title: "Delete action"
       form:
         injects_type_template_caption: "If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template."
         label_caption: "This is the name that will be visible to users in the editor."
@@ -2220,16 +2220,16 @@ en:
       index:
         description: "The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions."
         label_add_action: "Action"
-        label_aria_add_action: "Add text assistant action"
+        label_aria_add_action: "Add action"
         section_title: "Actions"
       index_component:
         blank_slate:
           description: "Add an action to see it here"
-          title: "No text assistant actions configured yet"
+          title: "No actions configured yet"
         disabled_warning: "All text actions are disabled. The text editor will not show the text action options at all."
         label_disable_all: "Disable all"
         label_enable_all: "Enable all"
-        title: "Text assistant actions"
+        title: "Actions"
       new:
         title: "New text assistant action"
       row_component:

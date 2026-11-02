@@ -51,7 +51,7 @@ RSpec.describe Admin::TextActions::IndexComponent, type: :component do
     let(:text_actions) { [action_a, action_b] }
 
     it_behaves_like "rendering Box", row_count: 2
-    it_behaves_like "rendering Border Box List heading", text: "Text assistant actions"
+    it_behaves_like "rendering Border Box List heading", text: "Actions"
 
     it "wires the wrapper as the sortable-lists root with the drop URL template and no optimistic flag" do
       rendered_component

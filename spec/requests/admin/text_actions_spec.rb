@@ -204,7 +204,7 @@ RSpec.describe "Admin text actions", :skip_csrf,
       get deletion_dialog_admin_text_action_path(action), headers: turbo_stream_headers
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Delete text assistant action")
+      expect(response.body).to include("Delete action")
       expect(response.body).to include("Make concise")
     end
   end

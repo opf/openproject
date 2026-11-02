@@ -69,7 +69,7 @@ RSpec.describe "Managing text actions", :js, with_flag: { ai_text_actions: true 
     end
 
     expect(page).to have_css(".PageHeader-title", text: "Text assistant")
-    expect(page).to have_text("No text assistant actions configured yet")
+    expect(page).to have_text("No actions configured yet")
   end
 
   it "creates an action scoped to specific work package types" do
@@ -175,7 +175,7 @@ RSpec.describe "Managing text actions", :js, with_flag: { ai_text_actions: true 
 
     within_row_menu(action) { click_on "Delete" }
 
-    page.within_modal("Delete text assistant action") do
+    page.within_modal("Delete action") do
       expect(page).to have_text('Are you sure you want to delete the action "Make concise"?')
       click_on "Delete"
     end
@@ -183,7 +183,7 @@ RSpec.describe "Managing text actions", :js, with_flag: { ai_text_actions: true 
     expect(page).to have_current_path(admin_text_actions_path, wait: 10)
     expect_flash(message: "Successful deletion.")
     expect(AI::TextAction.where(id: action.id)).not_to exist
-    expect(page).to have_text("No text assistant actions configured yet")
+    expect(page).to have_text("No actions configured yet")
   end
 
   it "shows the disabled info box only while all actions are disabled" do
