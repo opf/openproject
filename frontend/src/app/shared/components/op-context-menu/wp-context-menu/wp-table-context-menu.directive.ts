@@ -33,6 +33,7 @@ import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/wor
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
 import { OpContextMenuCloseReason } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { MoveDirection } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/row-mover';
 import { forgetKeyboardMenuOpen } from 'core-app/features/work-packages/components/wp-fast-table/handlers/context-menu/context-menu-handler';
 
 export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
@@ -47,6 +48,36 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
     protected table:WorkPackageTable) {
     super(injector, workPackageId, element, additionalPositionArgs, true);
     this.origin = table.keyboardNavigation.originForControl(element);
+    // Appended here: the base class builds `items` before `table` is assigned.
+    this.appendMoveItems();
+  }
+
+  private appendMoveItems():void {
+    if (this.selectedWorkPackages.length !== 1) return;
+
+    const id = this.workPackageId;
+    const mover = this.table.rowMover;
+    const directions = mover?.movableDirections(id);
+    if (!mover || !directions) return;
+
+    const entries:[MoveDirection, string][] = [
+      ['top', I18n.t('js.label_sort_highest')],
+      ['up', I18n.t('js.label_sort_higher')],
+      ['down', I18n.t('js.label_sort_lower')],
+      ['bottom', I18n.t('js.label_sort_lowest')],
+    ];
+    this.items.push(
+      { divider: true },
+      { isHeader: true, linkText: I18n.t('js.button_move') },
+      ...entries.map(([direction, linkText]) => ({
+        linkText,
+        disabled: !directions.has(direction),
+        onClick: () => {
+          mover.move(id, direction);
+          return true;
+        },
+      })),
+    );
   }
 
   public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {

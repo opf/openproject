@@ -30,6 +30,7 @@ import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { userEvent } from 'vitest/browser';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
@@ -134,6 +135,120 @@ describe('Context menu entry', () => {
 
     expect(menuTargets).toEqual([['1']]);
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+  });
+
+  describe('Move actions', () => {
+    interface MenuItem { linkText?:string; isHeader?:boolean; disabled?:boolean; onClick?:() => boolean }
+
+    const menuItems = ():MenuItem[] => (opened.mock.calls.at(-1)![0] as unknown as { locals:{ items:MenuItem[] } }).locals.items;
+    const moveLabels = ['Move to top', 'Move up', 'Move down', 'Move to bottom'];
+    const moveItems = () => menuItems().filter((item) => !item.isHeader && moveLabels.includes(item.linkText ?? ''));
+    const hasMoveHeader = () => menuItems().some((item) => item.isHeader && item.linkText === 'Move');
+
+    const dragAndDropTable = { contextMenuEnabled: true, dragAndDropEnabled: true };
+
+    beforeEach(async () => {
+      window.I18n.store({
+        en: {
+          js: {
+            button_move: 'Move',
+            label_sort_highest: 'Move to top',
+            label_sort_higher: 'Move up',
+            label_sort_lower: 'Move down',
+            label_sort_lowest: 'Move to bottom',
+          },
+        },
+      });
+      await harness.destroy();
+      await mount({ manualSort: true, configuration: dragAndDropTable });
+    });
+
+    it('offers the move group for one work package', () => {
+      openFromKeyboard('2');
+
+      expect(hasMoveHeader()).toBe(true);
+      expect(moveItems().map((item) => item.linkText)).toEqual(['Move to top', 'Move up', 'Move down', 'Move to bottom']);
+      expect(moveItems().map((item) => item.disabled)).toEqual([false, false, false, false]);
+    });
+
+    it('disables the edge actions on the first row', () => {
+      openFromKeyboard('1');
+
+      expect(moveItems().map((item) => [item.linkText, item.disabled])).toEqual([
+        ['Move to top', true],
+        ['Move up', true],
+        ['Move down', false],
+        ['Move to bottom', false],
+      ]);
+    });
+
+    it('also offers the group from a right click', () => {
+      fireEvent.contextMenu(harness.row('3'));
+
+      expect(moveItems().map((item) => [item.linkText, item.disabled])).toEqual([
+        ['Move to top', false],
+        ['Move up', false],
+        ['Move down', true],
+        ['Move to bottom', true],
+      ]);
+    });
+
+    it('offers no move group for a batch selection', () => {
+      harness.click('1');
+      harness.click('2', { shiftKey: true });
+
+      openFromKeyboard('2');
+
+      expect(hasMoveHeader()).toBe(false);
+      expect(moveItems()).toEqual([]);
+    });
+
+    it('offers no move group outside manual sorting', async () => {
+      await harness.destroy();
+      await mount({ manualSort: false, configuration: dragAndDropTable });
+
+      openFromKeyboard('2');
+
+      expect(hasMoveHeader()).toBe(false);
+    });
+
+    it('offers no move group when the table has drag and drop disabled', async () => {
+      await harness.destroy();
+      await mount({ manualSort: true, configuration: { contextMenuEnabled: true } });
+
+      openFromKeyboard('2');
+
+      expect(hasMoveHeader()).toBe(false);
+      expect(moveItems()).toEqual([]);
+    });
+
+    it('moves the row from the menu', async () => {
+      openFromKeyboard('2');
+
+      expect(moveItems()[2].onClick!()).toBe(true);
+
+      await vi.waitFor(() => expect(harness.table.rowMover!.movableDirections('2')).toEqual(new Set(['top', 'up'])));
+    });
+
+    it('disables every move while a move is pending', async () => {
+      const service = harness.injector.get(WorkPackageViewOrderService);
+      let release!:() => void;
+      const gate = new Promise<void>((resolve) => { release = resolve; });
+      const original = service.prepareMove.bind(service);
+      const prepareMove = vi.spyOn(service, 'prepareMove').mockImplementation(async (...args) => {
+        const prepared = await original(...args);
+        return { ...prepared, persist: async () => { await gate; await prepared.persist(); } };
+      });
+      harness.table.rowMover!.move('1', 'down');
+      await vi.waitFor(() => expect(prepareMove).toHaveBeenCalled());
+
+      openFromKeyboard('2');
+
+      expect(moveItems().map((item) => item.disabled)).toEqual([true, true, true, true]);
+      const rendered = harness.nextRender();
+      release();
+      await rendered;
+    });
   });
 
   describe('with a relation row', () => {
