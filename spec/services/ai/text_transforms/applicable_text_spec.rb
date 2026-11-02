@@ -59,7 +59,7 @@ RSpec.describe AI::TextTransforms::ApplicableText do
     expect(applicable("#{user} #{group} #{work_package}")).to eq("#{user} @Devs #{work_package}")
   end
 
-  it "recognises group mentions regardless of attribute quoting" do
+  it "recognizes group mentions regardless of attribute quoting" do
     expect(applicable(%(Hi <MENTION data-type='group' data-id=3>@Devs</MENTION> and <mention data-type=group>@Ops</mention>)))
       .to eq("Hi @Devs and @Ops")
   end
