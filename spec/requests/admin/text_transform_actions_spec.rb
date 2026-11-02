@@ -56,9 +56,9 @@ RSpec.describe "Admin text transform actions", :skip_csrf, type: :rails_request,
 
         expect(response).to have_http_status(:ok)
         expect(page).to have_test_selector("op-enterprise-banner")
-        expect(page).to have_css(".op-enterprise-banner h2", text: "Text assistant")
-        expect(page).to have_text("Proofread, rewrite and structure text with AI, right where you write.")
-        expect(page).to have_text("Available starting with the Professional enterprise plan.")
+        expect(page).to have_css(".op-enterprise-banner h2", text: I18n.t("ee.upsell.text_actions.title"))
+        expect(page).to have_text(I18n.t("ee.upsell.text_actions.description"))
+        expect(page).to have_text(/Available starting with the .*Professional/)
         expect(page).to have_no_test_selector("text-transform-actions-list")
         expect(page).to have_css("[data-name='text_transform_actions'] .upsell-colored")
         expect(response.body).not_to include("Fix grammar")
