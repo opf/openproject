@@ -34,7 +34,7 @@ module OpenProject::Projects
 
     def no_hierarchy
       user = FactoryBot.build_stubbed(:admin)
-      project = FactoryBot.build_stubbed(:project, :with_status)
+      project = FactoryBot.build_stubbed(:project, status_code: :at_risk, status_explanation: "some explanation")
       render(::Projects::HoverCardComponent.new(project:, user:))
     end
 
