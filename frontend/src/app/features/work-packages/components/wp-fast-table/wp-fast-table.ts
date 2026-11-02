@@ -243,6 +243,17 @@ export class WorkPackageTable {
     this.mutations.run(scope, change);
   }
 
+  /** Mutates every rendered occurrence of the work packages; with none rendered, `change` runs with nothing to repaint. */
+  public mutateWorkPackages(ids:Iterable<string>, change:() => void):void {
+    if (this.destroyed) return;
+    const keys = new Set(Array.from(ids).flatMap((id) => Array.from(this.ledger.keysOf(id))));
+    if (keys.size === 0) {
+      change();
+      return;
+    }
+    this.mutate(keys, change);
+  }
+
   private settle({ scope, full }:MutationExit):void {
     if (this.destroyed) return;
     this.painter.paint(scope);
@@ -278,7 +289,7 @@ export class WorkPackageTable {
     const indexed = this.originalRowIndex[workPackage.id!];
     if (indexed) indexed.object = workPackage;
     this.rebuildPendingRender();
-    const keys = this.painter.keysOf(workPackage.id!);
+    const keys = this.ledger.keysOf(workPackage.id!);
     if (keys.size === 0) return;
 
     this.mutate(keys, () => {

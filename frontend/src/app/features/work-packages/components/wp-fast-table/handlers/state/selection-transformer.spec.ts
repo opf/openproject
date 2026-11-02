@@ -92,7 +92,7 @@ describe('SelectionTransformer', () => {
       destroyRef: lifetime.get(DestroyRef),
       tableAndTimelineContainer: root,
       renderedRows,
-      painter: { keysOf: () => new Set<string>() }, ledger: { generation: 1, size: 1 }, mutate: runMutation,
+      ledger: { generation: 1, size: 1 }, mutate: runMutation, mutateWorkPackages: (_ids:Iterable<string>, change:() => void) => change(),
     } as unknown as WorkPackageTable;
     new SelectionTransformer(injector, table);
 
@@ -131,7 +131,7 @@ describe('SelectionTransformer', () => {
       const lifetime = Injector.create({ providers: [], parent: injector });
       const root = document.createElement('div');
       document.body.append(root);
-      new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], painter: { keysOf: () => new Set<string>() }, ledger: { generation: 1, size: 1 }, mutate: runMutation } as unknown as WorkPackageTable);
+      new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger: { generation: 1, size: 1 }, mutate: runMutation, mutateWorkPackages: (_ids:Iterable<string>, change:() => void) => change() } as unknown as WorkPackageTable);
       return { injector, lifetime, root, reset };
     };
     const first = build();
@@ -166,7 +166,7 @@ describe('SelectionTransformer', () => {
     const root = document.createElement('div');
     root.innerHTML = '<div class="wp-table--row" tabindex="0" data-work-package-id="2" data-class-identifier="wp-row-2">Row</div>';
     document.body.append(root);
-    new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], painter: { keysOf: () => new Set<string>() }, ledger: { generation: 1, size: 1 }, mutate: runMutation } as unknown as WorkPackageTable);
+    new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger: { generation: 1, size: 1 }, mutate: runMutation, mutateWorkPackages: (_ids:Iterable<string>, change:() => void) => change() } as unknown as WorkPackageTable);
     selection.initializeSelection(['2']);
 
     const allowed = fireEvent.keyDown(root.firstElementChild!, {
@@ -194,7 +194,7 @@ describe('SelectionTransformer', () => {
     const root = document.createElement('div');
     document.body.append(root);
     new SelectionTransformer(injector, {
-      injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger, painter: { keysOf: () => new Set<string>() }, mutate: runMutation,
+      injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger, mutate: runMutation, mutateWorkPackages: (_ids:Iterable<string>, change:() => void) => change(),
     } as unknown as WorkPackageTable);
 
     const stale = [{ workPackageId: '2', classIdentifier: 'wp-card-2', hidden: false }];

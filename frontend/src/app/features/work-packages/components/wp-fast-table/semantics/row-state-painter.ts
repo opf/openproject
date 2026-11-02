@@ -88,11 +88,6 @@ export class RowStatePainter {
     sections.forEach(paintSectionExposure);
   }
 
-  /** The keys of every rendered occurrence of a work package. */
-  public keysOf(workPackageId:string):ReadonlySet<string> {
-    return new Set(this.table.ledger.byWorkPackageId(workPackageId).map((occurrence) => occurrence.key));
-  }
-
   public capturePositions(draft:RenderDraft):RowPositionEvidence {
     return this.positions.capture(draft);
   }

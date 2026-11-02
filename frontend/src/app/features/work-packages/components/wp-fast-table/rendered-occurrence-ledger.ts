@@ -188,6 +188,11 @@ export class RenderedOccurrenceLedger {
     return this.records.filter((record) => record.workPackageId === id);
   }
 
+  /** The keys of every rendered occurrence of a work package. */
+  keysOf(id:string):ReadonlySet<OccurrenceKey> {
+    return new Set(this.byWorkPackageId(id).map((record) => record.key));
+  }
+
   byElement(element:HTMLTableRowElement):RenderedOccurrence|undefined {
     const key = this.keyByElement.get(element);
     return key === undefined ? undefined : this.byKey(key);

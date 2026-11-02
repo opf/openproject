@@ -617,7 +617,7 @@ describe('CellInteraction', () => {
 
     handlerA.handleUserCancel();
 
-    expect(events).toEqual([`rowsChanged:false:${Array.from(table.table.painter.keysOf('1')).join(',')}`, 'returnFocus']);
+    expect(events).toEqual([`rowsChanged:false:${Array.from(table.table.ledger.keysOf('1')).join(',')}`, 'returnFocus']);
     expect(navigableCells(table.row('1'))[1]).toHaveFocus();
     expect(within(table.row('1')).queryByRole('textbox')).not.toBeInTheDocument();
   });

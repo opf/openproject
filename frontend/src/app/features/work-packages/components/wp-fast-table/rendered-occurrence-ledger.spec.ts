@@ -124,6 +124,8 @@ describe('RenderedOccurrenceLedger', () => {
 
     expect(ledger.byWorkPackageId('7').map((o) => o.key)).toEqual([wpOccurrenceKey('7'), ancestorOccurrenceKey('7')]);
     expect(ledger.byWorkPackageId('missing')).toEqual([]);
+    expect(ledger.keysOf('7')).toEqual(new Set([wpOccurrenceKey('7'), ancestorOccurrenceKey('7')]));
+    expect(ledger.keysOf('missing').size).toBe(0);
   });
 
   it('keeps two relation occurrences that share one bridge classIdentifier', () => {

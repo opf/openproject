@@ -193,7 +193,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     const td = this.findCell(fieldName)!;
 
     if (cell) {
-      this.table.mutate(this.table.painter.keysOf(this.resource.id!), () => {
+      this.table.mutateWorkPackages([this.resource.id!], () => {
         td.style.width = '';
         td.style.maxWidth = '';
         this.cellBuilder.refresh(cell, this.resource, fieldName);
