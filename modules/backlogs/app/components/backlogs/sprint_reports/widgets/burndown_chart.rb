@@ -34,7 +34,9 @@ module Backlogs
         param :sprint
         param :project
 
-        def title = t(".title")
+        def title
+          t("backlogs.show_burndown_chart")
+        end
 
         # Timestamps go out as UTC; the chart renders them in the viewer's zone. They sit at
         # period ends, so the chart needs the step to label them the way a reader expects.

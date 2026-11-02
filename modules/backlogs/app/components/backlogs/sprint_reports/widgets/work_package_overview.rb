@@ -38,7 +38,7 @@ module Backlogs
         param :project
         param :breakdown
 
-        def title = t(".title")
+        def title = t("backlogs.show_work_package_overview")
 
         def render?
           user_allowed?(:view_sprints)
@@ -47,9 +47,9 @@ module Backlogs
         def show_widget_content? = sprint.date_range_set?
 
         def resolved_percentage
-          return 0 if total_work_packages_count.zero? || resolved_work_packages_count.zero?
+          return 0 if total_work_packages_count.zero?
 
-          [resolved_work_packages_count * 100 / total_work_packages_count, 1].max
+          (resolved_work_packages_count.to_f / total_work_packages_count * 100).round
         end
 
         private
@@ -57,7 +57,7 @@ module Backlogs
         def resolved_summary_text
           t(
             ".resolved_summary",
-            percentage: helpers.number_to_percentage(resolved_percentage, precision: 0),
+            percentage: resolved_percentage,
             resolved: resolved_work_packages_count,
             total: total_work_packages_count,
             count: total_work_packages_count

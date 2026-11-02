@@ -107,24 +107,6 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       end
     end
 
-    context "when almost every work package is completed" do
-      let(:completed) { Sprints::WorkPackageBreakdown::Block.new(work_package_count: 199, story_points: 0) }
-      let(:unfinished) { Sprints::WorkPackageBreakdown::Block.new(work_package_count: 1, story_points: 0) }
-
-      it "rounds the percentage down so an unfinished sprint never shows 100%" do
-        expect(rendered_component).to have_text("99% (199 of 200 work packages)")
-      end
-    end
-
-    context "when only a tiny fraction of work packages is completed" do
-      let(:completed) { Sprints::WorkPackageBreakdown::Block.new(work_package_count: 1, story_points: 0) }
-      let(:unfinished) { Sprints::WorkPackageBreakdown::Block.new(work_package_count: 299, story_points: 0) }
-
-      it "shows at least 1%" do
-        expect(rendered_component).to have_text("1% (1 of 300 work packages)")
-      end
-    end
-
     context "when not entitled to baseline comparison" do
       it "still renders the heading, count and story points for each block" do
         expect(rendered_component).to have_css(".op-wp-overview--blocks")

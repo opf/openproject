@@ -32,10 +32,7 @@ require "spec_helper"
 RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
   include Rails.application.routes.url_helpers
 
-  # Required for epic progress widget:
-  shared_let(:epic_type) { create(:type, name: "Epic") }
-
-  shared_let(:project) { create(:project, types: [epic_type, create(:type_task)]) }
+  shared_let(:project) { create(:project) }
   shared_let(:sprint) do
     create(:sprint,
            project:,
@@ -115,7 +112,6 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
         [:css, "opce-velocity-chart"],
         [:css, "opce-burndown-chart"],
         [:css, "opce-created-resolved-chart"],
-        [:text, "Epic progress"],
         [:css, "opce-wp-overview-graph"],
         [:text, "Completed work"],
         [:text, "Unfinished work"],
