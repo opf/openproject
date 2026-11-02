@@ -36,12 +36,14 @@ module LlmModels
       llm_model = service_result.result
       pin_type = type_chosen?
 
-      ActiveRecord::Base.transaction(requires_new: true) do
-        super.tap { |call| after_save(llm_model, pin_type:) if call.success? }
+      begin
+        ActiveRecord::Base.transaction(requires_new: true) do
+          super.tap { |call| after_save(llm_model, pin_type:) if call.success? }
+        end
+      rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid => e
+        add_uniqueness_error(llm_model, e)
+        ServiceResult.failure(result: llm_model, errors: llm_model.errors)
       end
-    rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid => e
-      add_uniqueness_error(llm_model, e)
-      ServiceResult.failure(result: llm_model, errors: llm_model.errors)
     end
 
     def after_save(llm_model, pin_type:)
