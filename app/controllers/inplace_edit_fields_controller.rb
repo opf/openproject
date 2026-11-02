@@ -123,6 +123,8 @@ class InplaceEditFieldsController < ApplicationController
   end
 
   def set_attribute
+    return head :not_found unless OpenProject::InplaceEdit::FieldRegistry.editable?(params[:attribute])
+
     @attribute = params[:attribute].to_sym
   end
 
