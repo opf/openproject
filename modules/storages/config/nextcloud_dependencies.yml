@@ -1,4 +1,8 @@
 dependencies:
+  nextcloud_server:
+    name: Nextcloud
+    url: https://nextcloud.com/changelog/
+    min_version: 33
   integration_app:
     name: OpenProject Integration
     url: https://apps.nextcloud.com/apps/integration_openproject
