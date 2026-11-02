@@ -25,6 +25,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { waitFor } from '@testing-library/dom';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { buildTable, TableHarness, TableHarnessOptions } from '../testing/table-harness';
 import type { WorkPackageFixture } from '../testing/work-package-fixture';
 import { ancestorOccurrenceKey, groupOccurrenceKey, wpOccurrenceKey } from '../rendered-occurrence-ledger';
@@ -100,6 +102,24 @@ describe('RowClassifier', () => {
 
     expect(byKey('emptyResults').element).toBe(empty);
     expect(byKey('inlineCreate')).toMatchObject({ element: create, state: { kind: 'inlineCreate' } });
+  });
+
+  it('hides the totals row while it has no navigable cells', async () => {
+    await mount();
+
+    expect(byKey('totals').state.hidden).toBe(false);
+    expect(byKey('header').state.hidden).toBe(false);
+    harness.totalsRow().replaceChildren(document.createElement('td'));
+
+    expect(byKey('totals').state.hidden).toBe(true);
+  });
+
+  it('hides the occurrences of a collapsed hierarchy parent', async () => {
+    await mount({ workPackages: [{ id: '2', ancestors: [parent] }], showHierarchies: true });
+    harness.injector.get(WorkPackageViewHierarchiesService).collapse('1');
+
+    await waitFor(() => expect(byKey(wpOccurrenceKey('2')).state.hidden).toBe(true));
+    expect(byKey(ancestorOccurrenceKey('1')).state.hidden).toBe(false);
   });
 
   it('reports a row no producer declared as foreign rather than skipping it', async () => {

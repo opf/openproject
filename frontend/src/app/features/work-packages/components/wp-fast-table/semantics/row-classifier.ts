@@ -31,8 +31,9 @@ import { WorkPackageViewSelectionService } from 'core-app/features/work-packages
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import type { RenderedOccurrence } from '../rendered-occurrence-ledger';
 import type { WorkPackageTable } from '../wp-fast-table';
-import { classifyRow, type TableRowKind } from '../helpers/structural-rows';
+import { classifyRow, isExposedRow, type TableRowKind } from '../helpers/structural-rows';
 import { expansionStateOf } from '../helpers/row-expansion';
+import { navigableCells } from '../handlers/state/keyboard/roving-tabindex';
 
 export type RowRecordKind = TableRowKind|'header';
 
@@ -52,6 +53,8 @@ export interface RowState {
   readonly level:number;
   readonly expanded:boolean|null;
   readonly selected:boolean|null;
+  /** Kept out of keyboard navigation, and for the totals row also `aria-hidden`. */
+  readonly hidden:boolean;
 }
 
 export interface RowRecord {
@@ -77,6 +80,13 @@ export class RowClassifier {
     return Array.from(tableElement.rows).map((row) => this.record(tableElement, row));
   }
 
+  /** The rows of one table section, in document order. */
+  public rowsOf(section:HTMLTableSectionElement):RowRecord[] {
+    const tableElement = section.closest('table');
+    if (!tableElement) return [];
+    return Array.from(section.rows).map((row) => this.record(tableElement, row));
+  }
+
   private record(tableElement:HTMLTableElement, row:HTMLTableRowElement):RowRecord {
     const occurrence = this.table.ledger.byElement(row) ?? null;
     const kind = this.kindOf(tableElement, row);
@@ -89,6 +99,7 @@ export class RowClassifier {
         level: occurrence?.level ?? 1,
         expanded: this.expansionOf(occurrence, kind),
         selected: occurrence?.workPackageId ? this.wpTableSelection.isSelected(occurrence.workPackageId) : null,
+        hidden: this.hiddenOf(row, occurrence, kind),
       },
     };
   }
@@ -100,6 +111,12 @@ export class RowClassifier {
 
   private edgeKeyOf(kind:RowRecordKind):string|null {
     return isEdgeRowKind(kind) ? edgeRowKeys[kind] : null;
+  }
+
+  private hiddenOf(row:HTMLTableRowElement, occurrence:RenderedOccurrence|null, kind:RowRecordKind):boolean {
+    if (occurrence) return occurrence.kind === 'placeholder' || occurrence.hidden;
+    if (kind === 'totals') return navigableCells(row).length === 0;
+    return !isExposedRow(row);
   }
 
   private expansionOf(occurrence:RenderedOccurrence|null, kind:RowRecordKind):boolean|null {

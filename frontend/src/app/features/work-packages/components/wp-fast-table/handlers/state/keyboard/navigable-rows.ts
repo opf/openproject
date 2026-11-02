@@ -43,12 +43,11 @@ function isNavigableKind(kind:RowRecordKind):kind is RowKind {
 }
 
 function navigableRow({ element, occurrence, state }:RowRecord, key:string, kind:RowKind):NavigableRow {
-  const cellCount = navigableCells(element).length;
   const row:NavigableRow = {
     key,
     kind,
-    hidden: occurrence ? occurrence.hidden : kind === 'totals' && cellCount === 0,
-    cellCount,
+    hidden: state.hidden,
+    cellCount: navigableCells(element).length,
     expanded: state.expanded,
   };
   return occurrence?.groupIdentifier === undefined ? row : { ...row, groupIdentifier: occurrence.groupIdentifier };

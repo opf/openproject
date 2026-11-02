@@ -218,6 +218,17 @@ describe('TreegridSemantics', () => {
     expect(within(harness.row('17')).getByRole('rowheader', { name: 'Alpha' })).toHaveClass('subject');
   });
 
+  it('hides the totals row while none of its cells is navigable', async () => {
+    mount({ productionMarkup: true });
+    await harness.render();
+    expect(harness.totalsRow()).not.toHaveAttribute('aria-hidden');
+
+    harness.totalsRow().replaceChildren(document.createElement('td'));
+    harness.table.painter.paint(new Set());
+
+    expect(harness.totalsRow()).toHaveAttribute('aria-hidden', 'true');
+  });
+
   it('names only work package cells after repeated paints', async () => {
     mount({ ...groupedFixtures, productionMarkup: true });
     await harness.render();

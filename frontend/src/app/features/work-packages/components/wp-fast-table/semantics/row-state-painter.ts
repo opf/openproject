@@ -28,7 +28,6 @@
 import type { RenderDraft } from '../rendered-occurrence-ledger';
 import type { WorkPackageTable } from '../wp-fast-table';
 import { TableRowPositions, type RowPositionEvidence } from './table-row-positions';
-import { classifyRow } from '../helpers/structural-rows';
 import { paintRowRole, paintSectionExposure, setOrRemove, TreegridSemantics } from './treegrid-semantics';
 
 /** `'all'` or the keys of the rows whose own attributes changed; row positions are always repainted for the whole table. */
@@ -73,12 +72,12 @@ export class RowStatePainter {
     const sections = Array.from(tableElement?.tBodies ?? []);
     sections
       .filter((section) => section !== this.table.tbody)
-      .forEach((section) => Array.from(section.rows).forEach((row) => {
-        const kind = classifyRow(this.table, row);
+      .flatMap((section) => this.table.rows.rowsOf(section))
+      .forEach(({ element, state: { kind, hidden } }) => {
         if (kind !== 'totals' && kind !== 'inlineCreate' && kind !== 'emptyResults') return;
-        paintRowRole(row, 1);
-        if (kind === 'totals') setOrRemove(row, 'aria-hidden', row.cells.length === 0 ? 'true' : null);
-      }));
+        paintRowRole(element, 1);
+        if (kind === 'totals') setOrRemove(element, 'aria-hidden', hidden ? 'true' : null);
+      });
     sections.forEach(paintSectionExposure);
   }
 
