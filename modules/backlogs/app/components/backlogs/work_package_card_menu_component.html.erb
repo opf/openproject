@@ -27,56 +27,72 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  render(Primer::Alpha::ActionMenu::List.new(menu_id:)) do |list|
-    list.with_item(
-      id: dom_target(invoker, :menu, :open_details),
-      tag: :a,
-      label: t(:"js.button_open_details"),
-      href: project_backlogs_backlog_details_path(project, invoker),
-      content_arguments: { data: { action: "backlogs--work-package#openSplitPane:prevent" } }
-    ) do |item|
-      item.with_leading_visual_icon(icon: :"op-view-split")
+  render(Primer::Alpha::ActionMenu::List.new(menu_id:, data: list_data)) do |list|
+    if !batch_menu? || singular_fallback?
+      list.with_item(
+        id: dom_target(invoker, :menu, :open_details),
+        **singular_item_arguments,
+        tag: :a,
+        label: t(:"js.button_open_details"),
+        href: project_backlogs_backlog_details_path(project, invoker),
+        content_arguments: { data: { action: "backlogs--work-package#openSplitPane:prevent" } }
+      ) do |item|
+        item.with_leading_visual_icon(icon: :"op-view-split")
+      end
+
+      list.with_item(
+        id: dom_target(invoker, :menu, :open_fullscreen),
+        **singular_item_arguments,
+        tag: :a,
+        label: t(:"js.button_open_fullscreen"),
+        href: work_package_path(invoker),
+        content_arguments: { data: { turbo_frame: "_top" } }
+      ) do |item|
+        item.with_leading_visual_icon(icon: :"screen-full")
+      end
+
+      list.with_item(
+        id: dom_target(invoker, :menu, :copy_url_to_clipboard),
+        **singular_item_arguments,
+        tag: :"clipboard-copy",
+        label: t(:button_copy_link_to_clipboard),
+        content_arguments: { value: work_package_url(invoker) }
+      ) do |item|
+        item.with_leading_visual_icon(icon: :paste)
+      end
+
+      list.with_item(
+        id: dom_target(invoker, :menu, :copy_work_package_id),
+        **singular_item_arguments,
+        tag: :"clipboard-copy",
+        label: t(".action_menu.copy_work_package_id"),
+        content_arguments: { value: invoker.display_id }
+      ) do |item|
+        item.with_leading_visual_icon(icon: :hash)
+      end
     end
 
-    list.with_item(
-      id: dom_target(invoker, :menu, :open_fullscreen),
-      tag: :a,
-      label: t(:"js.button_open_fullscreen"),
-      href: work_package_path(invoker),
-      content_arguments: { data: { turbo_frame: "_top" } }
-    ) do |item|
-      item.with_leading_visual_icon(icon: :"screen-full")
+    if batch_menu? && moves_locked?
+      list.with_item(
+        id: dom_target(invoker, :menu, :batch_too_large),
+        label: batch_too_large_message,
+        disabled: true
+      ) do |item|
+        item.with_leading_visual_icon(icon: :info)
+      end
     end
 
-    list.with_item(
-      id: dom_target(invoker, :menu, :copy_url_to_clipboard),
-      tag: :"clipboard-copy",
-      label: t(:button_copy_link_to_clipboard),
-      content_arguments: { value: work_package_url(invoker) }
-    ) do |item|
-      item.with_leading_visual_icon(icon: :paste)
-    end
-
-    list.with_item(
-      id: dom_target(invoker, :menu, :copy_work_package_id),
-      tag: :"clipboard-copy",
-      label: t(".action_menu.copy_work_package_id"),
-      content_arguments: { value: invoker.display_id }
-    ) do |item|
-      item.with_leading_visual_icon(icon: :hash)
-    end
-
-    if show_move_submenu?
-      list.with_divider(data: { sortable_lists__item_target: "moveDivider" })
+    if any_move_action?
+      list.with_divider(data: { sortable_lists__item_target: "moveDivider" }) unless batch_menu?
 
       if show_move_to_inbox?
         list.with_item(
-          id: dom_target(invoker, :menu, :move_to_inbox),
-          label: t(".action_menu.move_to_inbox"),
-          tag: :button,
-          href: move_project_backlogs_work_packages_path(project),
-          form_arguments: { method: :put, inputs: id_inputs + [{ name: "list_type", value: inbox_list_type }] },
-          data: { action: "click->sortable-lists--item#moveToDestination:prevent" }
+          **destination_item_arguments(
+            :move_to_inbox,
+            href: move_project_backlogs_work_packages_path(project),
+            form_arguments: { method: :put, inputs: id_inputs + [{ name: "list_type", value: inbox_list_type }] },
+            data: { action: "click->sortable-lists--item#moveToDestination:prevent" }
+          )
         ) do |item|
           item.with_leading_visual_icon(icon: :inbox)
         end
@@ -84,12 +100,12 @@ See COPYRIGHT and LICENSE files for more details.
 
       if show_move_to_backlog_bucket?
         list.with_item(
-          id: dom_target(invoker, :menu, :move_to_backlog_bucket),
-          label: t(".action_menu.move_to_backlog_bucket"),
-          tag: :button,
-          href: move_to_bucket_dialog_project_backlogs_work_packages_path(project),
-          form_arguments: { method: :post, inputs: id_inputs },
-          content_arguments: { data: { controller: "async-dialog" } }
+          **destination_item_arguments(
+            :move_to_backlog_bucket,
+            href: move_to_bucket_dialog_project_backlogs_work_packages_path(project),
+            form_arguments: { method: :post, inputs: id_inputs },
+            content_arguments: { data: { controller: "async-dialog" } }
+          )
         ) do |item|
           item.with_leading_visual_icon(icon: :package)
         end
@@ -97,12 +113,12 @@ See COPYRIGHT and LICENSE files for more details.
 
       if show_move_to_sprint?
         list.with_item(
-          id: dom_target(invoker, :menu, :move_to_sprint),
-          label: t(".action_menu.move_to_sprint"),
-          tag: :button,
-          href: move_to_sprint_dialog_project_backlogs_work_packages_path(project),
-          form_arguments: { method: :post, inputs: id_inputs },
-          content_arguments: { data: { controller: "async-dialog" } }
+          **destination_item_arguments(
+            :move_to_sprint,
+            href: move_to_sprint_dialog_project_backlogs_work_packages_path(project),
+            form_arguments: { method: :post, inputs: id_inputs },
+            content_arguments: { data: { controller: "async-dialog" } }
+          )
         ) do |item|
           item.with_leading_visual_icon(icon: :zap)
         end
@@ -114,7 +130,8 @@ See COPYRIGHT and LICENSE files for more details.
           label: t(".action_menu.move_menu"),
           select_variant: :none,
           form_arguments: {},
-          data: { sortable_lists__item_target: "moveMenu" }
+          disabled: moves_locked?,
+          data: { sortable_lists__item_target: "moveMenu", sortable_lists_locked: moves_locked? || nil }
         ) do |move_menu|
           move_menu.with_leading_visual_icon(icon: :"op-arrow-in")
 

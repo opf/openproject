@@ -66,8 +66,12 @@ import { renderDragPreview } from './preview';
 
 type CleanupFn = () => void;
 
+// The server marks a move item locked when it renders it disabled for a
+// reason direction gating cannot see, such as a scope above the batch cap.
+const isLocked = (item:HTMLElement):boolean => item.hasAttribute('data-sortable-lists-locked');
+
 export default class ItemController extends Controller<HTMLElement> implements RootAwareChild {
-  static targets = ['handle', 'preview', 'moveItem', 'moveMenu', 'moveDivider', 'focus'];
+  static targets = ['handle', 'preview', 'moveItem', 'moveMenu', 'moveDivider', 'moveFallback', 'focus'];
   static elements = { menu: 'action-menu' };
 
   static values = {
@@ -96,6 +100,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly moveMenuTarget:HTMLElement;
   declare readonly hasMoveMenuTarget:boolean;
   declare readonly moveDividerTarget:HTMLElement;
+  declare readonly moveFallbackTargets:HTMLElement[];
   declare readonly hasMoveDividerTarget:boolean;
   declare readonly focusTarget:HTMLElement;
   declare readonly hasFocusTarget:boolean;
@@ -529,11 +534,26 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
   // A block with no direction at all (sparse, or boxed in by truncated rows)
   // cannot be helped by trying one, so its submenu goes even where single
-  // items only disable theirs.
+  // items only disable theirs. Any fallback items the server sent along take
+  // its place, so a menu holding nothing else never opens empty.
   private refreshMoveMenu(root:SortableListsRoot, available:boolean):void {
     const moveMenu = this.moveMenuTarget;
+    if (isLocked(moveMenu)) {
+      return;
+    }
 
-    if (!available && root.actionScopeFor(this.element).items.length > 1) {
+    const blocked = !available && root.actionScopeFor(this.element).items.length > 1;
+    this.moveFallbackTargets.forEach((item) => {
+      if (blocked) {
+        this.menuElement.showItem(item);
+      } else {
+        this.menuElement.hideItem(item);
+      }
+    });
+    this.markScopeNarrowed(blocked);
+
+    if (blocked) {
+      this.keepFocusInMenu(moveMenu);
       this.menuElement.hideItem(moveMenu);
       return;
     }
@@ -543,6 +563,31 @@ export default class ItemController extends Controller<HTMLElement> implements R
     }
 
     this.setAvailability(moveMenu, available);
+  }
+
+  // Primer focuses the first item as the list loads, which can be the
+  // submenu about to be hidden; focus left on it drops to the body and
+  // Primer light-dismisses the menu.
+  private keepFocusInMenu(hiding:HTMLElement):void {
+    if (!hiding.contains(document.activeElement)) {
+      return;
+    }
+
+    const list = hiding.closest('[role="menu"]');
+    const items = list ? Array.from(list.querySelectorAll<HTMLElement>(':scope > li:not([hidden]) > [role="menuitem"]')) : [];
+    items.find((item) => !hiding.contains(item))?.focus();
+  }
+
+  // A revealed fallback turns the batch menu into the invoker's singular one,
+  // so whatever names the menu has to hear about it.
+  private markScopeNarrowed(narrowed:boolean):void {
+    const list = this.moveFallbackTargets[0]?.closest('[role="menu"]');
+    if (!list || list.hasAttribute('data-sortable-lists-scope-narrowed') === narrowed) {
+      return;
+    }
+
+    list.toggleAttribute('data-sortable-lists-scope-narrowed', narrowed);
+    this.menuElement.dispatchEvent(new CustomEvent('sortable-lists:menu-scope-changed', { bubbles: true }));
   }
 
   // The divider that opens the move group is rendered server-side from a
@@ -576,6 +621,9 @@ export default class ItemController extends Controller<HTMLElement> implements R
   // in the nested move submenu. Default is hide; hideUnavailable=false switches to disable.
   private setAvailability(item:HTMLElement, available:boolean):void {
     const menu = this.menuElement;
+    if (isLocked(item)) {
+      return;
+    }
 
     if (this.hideUnavailableValue) {
       if (available) {
