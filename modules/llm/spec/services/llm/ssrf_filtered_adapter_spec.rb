@@ -122,10 +122,10 @@ RSpec.describe Llm::SsrfFilteredAdapter do
       first_chunk_seen = Queue.new
       serve do |client|
         client.write "HTTP/1.1 200 OK\r\nContent-Type: text/event-stream\r\nTransfer-Encoding: chunked\r\n\r\n"
-        write_chunk(client, sse_delta("Hel"))
+        write_chunk(client, sse_delta("Good"))
         next unless first_chunk_seen.pop(timeout: 2)
 
-        write_chunk(client, sse_delta("lo"))
+        write_chunk(client, sse_delta(" morning"))
         write_chunk(client, "data: [DONE]\n\n")
         client.write "0\r\n\r\n"
       end
@@ -136,12 +136,12 @@ RSpec.describe Llm::SsrfFilteredAdapter do
         first_chunk_seen << true
       end
 
-      expect(chunks).to eq(%w[Hel lo])
-      expect(answer.content).to eq("Hello")
+      expect(chunks).to eq(["Good", " morning"])
+      expect(answer.content).to eq("Good morning")
     end
 
     it "decompresses a gzip-encoded stream before handing it on" do
-      compressed = Zlib.gzip([sse_delta("Hel"), sse_delta("lo"), "data: [DONE]\n\n"].join)
+      compressed = Zlib.gzip([sse_delta("Good"), sse_delta(" morning"), "data: [DONE]\n\n"].join)
       serve do |client|
         client.write "HTTP/1.1 200 OK\r\nContent-Type: text/event-stream\r\nContent-Encoding: gzip\r\n" \
                      "Transfer-Encoding: chunked\r\n\r\n"
@@ -152,8 +152,8 @@ RSpec.describe Llm::SsrfFilteredAdapter do
       chunks = []
       answer = session.chat("qwen3.6-27b").ask("ping") { |chunk| chunks << chunk.content }
 
-      expect(chunks).to eq(%w[Hel lo])
-      expect(answer.content).to eq("Hello")
+      expect(chunks).to eq(["Good", " morning"])
+      expect(answer.content).to eq("Good morning")
     end
 
     it "does not resend a completion when the server drops the connection", :aggregate_failures do
