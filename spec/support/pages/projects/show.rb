@@ -35,6 +35,8 @@ module Pages
       attr_reader :project
 
       def initialize(project)
+        super()
+
         @project = project
       end
 
@@ -165,7 +167,7 @@ module Pages
       def expect_full_text_in_dialog(text)
         within('[data-test-selector="attribute-dialog"]') do
           expect(page)
-            .to have_content(text)
+            .to have_text(text)
         end
       end
     end

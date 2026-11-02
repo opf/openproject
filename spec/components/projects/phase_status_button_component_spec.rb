@@ -63,7 +63,7 @@ RSpec.describe Projects::PhaseStatusButtonComponent, type: :component do
     end
 
     it "does not render a Primer ActionMenu" do
-      expect(subject).not_to have_element "action-menu"
+      expect(subject).to have_no_element "action-menu"
     end
   end
 

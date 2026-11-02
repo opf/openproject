@@ -6,7 +6,7 @@
       render(Primer::Beta::Button.new(**button_arguments)) do |button|
         button_content(button)
       end
-  end
+    end
   else
     render(Primer::Alpha::ActionMenu.new(**@menu_arguments)) do |menu|
       menu.with_show_button(**button_arguments) do |button|
