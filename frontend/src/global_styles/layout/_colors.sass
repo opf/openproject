@@ -105,6 +105,7 @@
   --hl-lightness-switch: max(0, min(calc(1 / (#{$threshold} - var(--hl-perceived-lightness))), 1))
 
 @mixin hl_theme($selector)
+  // Stop at nested theme containers so the page theme cannot override a preview's theme.
   @scope (#{$selector}) to ([data-color-mode])
     @content
 
