@@ -105,6 +105,28 @@ RSpec.describe ProjectArtifactsMailer do
       end
     end
 
+    context "with notification text calling a method on another project" do
+      shared_let(:persisted_project) { create(:project) }
+      shared_let(:persisted_user) { create(:admin) }
+      shared_let(:referenced_wp) { create(:work_package, project: persisted_project) }
+      shared_let(:other_project) { create(:project) }
+
+      subject(:mail) { described_class.creation_wizard_submitted(persisted_user, persisted_project, referenced_wp) }
+
+      before do
+        allow(persisted_project).to receive_messages(
+          project_creation_wizard_notification_text: "projectValue:#{other_project.id}:destroy",
+          project_creation_wizard_enabled?: false
+        )
+      end
+
+      it "does not call the method on the project" do
+        User.execute_as(persisted_user) { mail.html_part.body.encoded }
+
+        expect(Project).to exist(other_project.id)
+      end
+    end
+
     context "with work package" do
       it "includes a link to the work package" do
         expect(mail.html_part.body.encoded)
