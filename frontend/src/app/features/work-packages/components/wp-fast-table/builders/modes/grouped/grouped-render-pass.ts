@@ -168,7 +168,7 @@ export class GroupedRenderPass extends PlainRenderPass {
     const [tr, _] = this.rowBuilder.buildEmpty(row.object);
 
     tr.classList.add(...additionalClasses);
-    this.appendRow(row.object, tr, additionalClasses, hidden);
+    this.appendRow(row.object, tr, additionalClasses, hidden, 2);
   }
 
   /**
@@ -184,7 +184,7 @@ export class GroupedRenderPass extends PlainRenderPass {
     const { additionalClasses, hidden } = this.groupRowState(group);
 
     rowElement.classList.add(...additionalClasses);
-    this.appendNonWorkPackageRow(groupOccurrenceKey(group.index, 'sums'), rowElement, groupClass, additionalClasses, hidden, group.identifier);
+    this.appendNonWorkPackageRow(groupOccurrenceKey(group.index, 'sums'), rowElement, groupClass, additionalClasses, hidden, group.identifier, 2);
   }
 
   private groupRowState(group:GroupObject):{ additionalClasses:string[], hidden:boolean } {

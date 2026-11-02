@@ -27,6 +27,7 @@
 
 import { DestroyRef, Injector } from '@angular/core';
 import { Subject } from 'rxjs';
+import { generateId } from 'core-app/shared/helpers/dom-helpers';
 import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { TableUiWork } from './table-ui-work';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -48,10 +49,14 @@ import { type OccurrenceKey, RenderedOccurrenceLedger } from './rendered-occurre
 import { WorkPackageTableEditingContext } from './wp-table-editing';
 import type { WorkPackageTableRow } from './wp-table.interfaces';
 import type { KeyboardNavigation } from './handlers/state/keyboard/keyboard-navigation-transformer';
+import type { TableSelectionFeedback } from './handlers/state/selection-feedback';
+import { TableRowPositions, type CapturedRowPositions } from './semantics/table-row-positions';
+import { paintSectionExposure, TreegridSemantics } from './semantics/treegrid-semantics';
 
 interface PendingRender {
   readonly pass:PrimaryRenderPass;
   readonly timeline:boolean;
+  readonly positions:CapturedRowPositions|null;
 }
 
 export class WorkPackageTable {
@@ -64,6 +69,8 @@ export class WorkPackageTable {
   @LazyInject() I18n!:I18nService;
 
   @LazyInject() workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService;
+
+  public readonly domId = generateId('wp-table');
 
   public originalRows:string[] = [];
 
@@ -93,6 +100,12 @@ export class WorkPackageTable {
   public readonly ledger = new RenderedOccurrenceLedger();
 
   public keyboardNavigation:KeyboardNavigation|null = null;
+
+  public selectionFeedback:TableSelectionFeedback|null = null;
+
+  public readonly semantics:TreegridSemantics|null = this.configuration.keyboardNavigationEnabled ? new TreegridSemantics(this) : null;
+
+  public readonly rowPositions:TableRowPositions|null = this.configuration.keyboardNavigationEnabled ? new TableRowPositions(this) : null;
 
   private readonly rowsRefreshedSubject = new Subject<string>();
 
@@ -205,10 +218,17 @@ export class WorkPackageTable {
 
   public setHidden(updates:ReadonlyMap<OccurrenceKey, boolean>):void {
     if (this.destroyed) return;
+    this.rebuildPendingRenderForSemantics();
     if (updates.size === 0) return;
     this.keyboardNavigation?.captureOwnership();
     this.ledger.setHidden(updates);
     this.publishRendered();
+  }
+
+  private rebuildPendingRenderForSemantics():void {
+    if (this.semantics && this.pendingRender) {
+      this.performRenderPass({ timeline: this.pendingRender.timeline });
+    }
   }
 
   /**
@@ -225,20 +245,31 @@ export class WorkPackageTable {
     this.keyboardNavigation?.captureOwnership();
     let replaced = 0;
     this.ledger.byWorkPackageId(workPackage.id!).forEach((occurrence) => {
+      const previous = occurrence.element;
       const replacement = pass.refresh(occurrence, workPackage);
       if (replacement) {
         this.ledger.replaceElement(occurrence.key, replacement);
+        if (previous) this.rowPositions?.carry(previous, replacement);
         replaced += 1;
       }
     });
 
     if (replaced > 0) {
-      this.notifyRowsRefreshed(workPackage.id!);
+      this.semantics?.paintWorkPackage(workPackage.id!);
+      this.rowsRefreshedSubject.next(workPackage.id!);
     }
   }
 
   public notifyRowsRefreshed(key:string):void {
+    this.rowPositions?.paint();
     this.rowsRefreshedSubject.next(key);
+  }
+
+  /** Re-exposes a structural section whose rows changed outside the render pass. */
+  public reconcileSection(section:HTMLTableSectionElement):void {
+    if (!this.semantics) return;
+    paintSectionExposure(section);
+    this.rowPositions?.paint();
   }
 
   /**
@@ -254,7 +285,8 @@ export class WorkPackageTable {
     this.keyboardNavigation?.captureOwnership();
     this.editing.reset();
     const promoted = timeline || this.pendingRender?.timeline === true;
-    const pending:PendingRender = { pass: this.rowBuilder.buildRows({ timeline: promoted }), timeline: promoted };
+    const pass = this.rowBuilder.buildRows({ timeline: promoted });
+    const pending:PendingRender = { pass, timeline: promoted, positions: this.rowPositions?.capture(pass.draft) ?? null };
     this.pendingRender = pending;
     this.uiWork.frame(() => this.commitRender(pending));
   }
@@ -269,11 +301,14 @@ export class WorkPackageTable {
       this.timelineBody.replaceChildren(timelinePass.timelineBody);
     }
     this.ledger.commit(pass.draft);
+    this.rowPositions?.commit(pending.positions);
     this.lastRenderPass = pass;
     this.publishRendered();
   }
 
   private publishRendered():void {
+    this.semantics?.paint();
+    this.rowPositions?.paint();
     this.querySpace.tableRendered.putValue(this.ledger.snapshot());
   }
 

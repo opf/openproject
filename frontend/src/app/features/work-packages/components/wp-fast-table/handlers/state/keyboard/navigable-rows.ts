@@ -30,46 +30,13 @@ import type { RenderedOccurrence } from '../../../rendered-occurrence-ledger';
 import type { WorkPackageTable } from '../../../wp-fast-table';
 import { NavigableRow, RowKind } from './focus-position';
 import { navigableCells } from './roving-tabindex';
+import { expansionStateOf, rowKindOf } from '../../../helpers/row-expansion';
+import { headerRowOf, totalsRowOf } from '../../../helpers/structural-rows';
 
 export const headerRowKey = 'header';
 export const totalsRowKey = 'totals';
 
-/** The `thead` row of the table, when rendered. */
-export function headerRowOf(table:WorkPackageTable):HTMLTableRowElement|null {
-  return table.tbody.closest('table')?.querySelector<HTMLTableRowElement>('thead tr') ?? null;
-}
-
-/** The totals row below the results, when rendered. */
-export function totalsRowOf(table:WorkPackageTable):HTMLTableRowElement|null {
-  const rows = table.tbody.closest('table')?.querySelectorAll<HTMLTableRowElement>('tr.wp-table--sums-row') ?? [];
-  return Array.from(rows).find((row) => !table.tbody.contains(row)) ?? null;
-}
-
-/** The row's navigation category, or null when the occurrence is excluded from keyboard navigation. */
-export function rowKindOf(occurrence:RenderedOccurrence):RowKind|null {
-  if (occurrence.key.startsWith('group:')) {
-    return occurrence.key.endsWith(':sums') ? 'sums' : 'groupHeader';
-  }
-
-  return occurrence.workPackageId === null ? null : 'workPackage';
-}
-
-function expansionStateOf(
-  table:WorkPackageTable,
-  hierarchies:WorkPackageViewHierarchiesService,
-  occurrence:RenderedOccurrence,
-  kind:RowKind,
-):boolean|null {
-  if (kind === 'groupHeader') {
-    return !table.workPackageViewCollapsedGroupsService.config.state[occurrence.groupIdentifier ?? ''];
-  }
-
-  if (kind === 'workPackage' && occurrence.element?.querySelector('.wp-table--hierarchy-indicator')) {
-    return !hierarchies.collapsed(occurrence.workPackageId!);
-  }
-
-  return null;
-}
+export { headerRowOf, totalsRowOf };
 
 function occurrenceRow(
   table:WorkPackageTable,

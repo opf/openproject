@@ -11,19 +11,12 @@ import {
   openInlineWorkPackagePopover,
   openBlockCardPopover,
   convertToCompactCard,
+  formattingToolbarVisible,
 } from '../../../helpers/editorHelpers';
 
 afterEach(() => {
   cleanup();
 });
-
-// BlockNote leaves an empty display:none toolbar container in the DOM when
-// closed, so presence alone is not enough - only a rendered one counts.
-const formattingToolbarVisible = () =>
-  Array.from(document.querySelectorAll('[class*="formatting-toolbar"]')).some((el) => {
-    const he = el as HTMLElement;
-    return getComputedStyle(he).display !== 'none' && he.childElementCount > 0;
-  });
 
 function ChipWrapper({ initialSize, wpid = '123' }:{
   initialSize:string;
@@ -79,7 +72,7 @@ describe('Inline chip size transitions (user-visible content)', () => {
     await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
 
     await openSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Compact', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Compact', exact: true }));
 
     await expect.element(page.getByTestId('op-bn-work-package--type')).toBeVisible();
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
@@ -93,7 +86,7 @@ describe('Inline chip size transitions (user-visible content)', () => {
     await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
 
     await openSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Regular', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Regular', exact: true }));
 
     await expect.element(page.getByText('In Progress')).toBeVisible();
   });
@@ -107,7 +100,7 @@ describe('Inline chip size transitions (user-visible content)', () => {
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
 
     await openSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Tiny', exact: true }));
 
     await expect.element(page.getByText('#123')).toBeVisible();
     await expect.element(page.getByTestId('op-bn-work-package--type')).not.toBeInTheDocument();
@@ -468,7 +461,7 @@ describe('Inline chip popover UX', () => {
     render(<ChipWrapper initialSize="s" />);
     await waitForResolvedChip();
     await openSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Compact', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Compact', exact: true }));
     await expect.element(page.getByTestId('size-menu')).not.toBeInTheDocument();
   });
 
@@ -490,7 +483,7 @@ describe('Inline chip popover UX', () => {
       'Regular',
       'Compact card',
     ]) {
-      await expect.element(page.getByRole('button', { name: label, exact: true })).toBeVisible();
+      await expect.element(page.getByRole('menuitemradio', { name: label, exact: true })).toBeVisible();
     }
   });
 });
@@ -513,7 +506,7 @@ describe('Options popover coexists with the editor', () => {
     await openInlineWorkPackagePopover();
     await userEvent.click(page.getByTitle('Change size'));
 
-    await userEvent.click(page.getByRole('button', { name: 'Compact', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Compact', exact: true }));
 
     expect(formattingToolbarVisible()).toBe(false);
   });

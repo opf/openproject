@@ -157,11 +157,11 @@ RSpec.describe "API v3 Time Entries resource",
 
     describe "entity visibility" do
       let(:other_project) { create(:project) }
-      let(:hidden_meeting) { create(:meeting, project: other_project) }
+      let(:hidden_work_package) { create(:work_package, project: other_project) }
       let(:parameters) do
         {
           _links: {
-            entity: { href: api_v3_paths.meeting(hidden_meeting.id) },
+            entity: { href: api_v3_paths.work_package(hidden_work_package.id) },
             project: { href: api_v3_paths.project(project.id) },
             activity: { href: api_v3_paths.time_entries_activity(active_activity.id) }
           },
@@ -170,7 +170,7 @@ RSpec.describe "API v3 Time Entries resource",
         }
       end
 
-      it "rejects a meeting from a project invisible to the user" do
+      it "rejects a work package from a project invisible to the user" do
         expect { post path, parameters.to_json }
           .not_to change(TimeEntry, :count)
 
@@ -178,6 +178,33 @@ RSpec.describe "API v3 Time Entries resource",
         expect(response.body)
           .to be_json_eql("is invalid.".to_json)
           .at_path("message")
+      end
+    end
+
+    describe "logging time on a meeting" do
+      let(:project) { create(:project, enabled_module_names: %w[work_package_tracking costs meetings]) }
+      let(:permissions) { %i[log_time view_work_packages view_meetings] }
+      let(:meeting) { create(:meeting, project:) }
+      let(:parameters) do
+        {
+          _links: {
+            entity: { href: api_v3_paths.meeting(meeting.id) },
+            project: { href: api_v3_paths.project(project.id) },
+            activity: { href: api_v3_paths.time_entries_activity(active_activity.id) }
+          },
+          spentOn: "2024-12-24",
+          hours: "PT2H"
+        }
+      end
+
+      it "rejects the meeting as entity" do
+        expect { post path, parameters.to_json }
+          .not_to change(TimeEntry, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body)
+          .to be_json_eql("urn:openproject-org:api:v3:errors:ResourceTypeMismatch".to_json)
+          .at_path("errorIdentifier")
       end
     end
 

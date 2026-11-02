@@ -29,19 +29,21 @@
 
 module Workflows
   class MatrixUpdateService
-    def initialize(workflow:, roles:, tab:)
-      @workflow = workflow
-      @roles = roles
-      @tab = tab
+    def initialize(context:)
+      @context = context
     end
 
     def call(status: nil, indeterminate_status: nil)
+      return ServiceResult.failure unless context.explicit_selection?
+
       persist(transitions: matrix(status), indeterminate: matrix(indeterminate_status))
     end
 
     private
 
-    attr_reader :workflow, :roles, :tab
+    attr_reader :context
+
+    delegate :workflow, :roles, :tab, to: :context
 
     def persist(transitions:, indeterminate:)
       results = []

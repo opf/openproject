@@ -27,6 +27,7 @@
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { userEvent } from 'vitest/browser';
+import { usePlatform } from 'core-common/testing/platform';
 import { States } from 'core-app/core/states/states.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
@@ -41,6 +42,7 @@ import { buildGroup } from '../../../testing/work-package-fixture';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import { KeyboardNavigation } from './keyboard-navigation-transformer';
 import { headerRowKey, totalsRowKey } from './navigable-rows';
+import { expansionStateOf } from '../../../helpers/row-expansion';
 import { insideGrid, navigableCells } from './roving-tabindex';
 
 class AnchorDisplayField extends TextDisplayField {
@@ -68,6 +70,7 @@ const grouped:Partial<TableHarnessOptions> = {
 };
 
 describe('KeyboardNavigationTransformer', () => {
+  usePlatform();
   const harnesses:TableHarness[] = [];
 
   const mount = async (options:Partial<TableHarnessOptions> = {}, beforeRender?:(table:TableHarness) => void) => {
@@ -233,6 +236,26 @@ describe('KeyboardNavigationTransformer', () => {
     expect(table.row('1')).toHaveFocus();
   });
 
+  it('reports no expansion for a hierarchy parent without a rendered indicator', async () => {
+    const table = await mount({
+      workPackages: [{ id: '1', children: [{ id: '2' }] }, { id: '2', ancestors: [{ id: '1' }] }],
+      columns: ['id'],
+      showHierarchies: true,
+    });
+    const hierarchies = table.injector.get(WorkPackageViewHierarchiesService);
+    const occurrence = table.table.ledger.byKey(wpOccurrenceKey('1'))!;
+    hierarchies.collapse('1');
+    table.row('1').focus();
+
+    expect(expansionStateOf(table.table, hierarchies, occurrence, 'workPackage')).toBeNull();
+    expect(pressActive('ArrowRight')).toBe(false);
+    expect(hierarchies.collapsed('1')).toBe(true);
+    expect(cell(table.row('1'), 0)).toHaveFocus();
+    expect(pressActive('ArrowLeft')).toBe(false);
+    expect(table.row('1')).toHaveFocus();
+    expect(hierarchies.collapsed('1')).toBe(true);
+  });
+
   it('ArrowLeft on an expanded group header collapses it', async () => {
     const table = await mount(grouped);
     const collapsedGroups = table.injector.get(WorkPackageViewCollapsedGroupsService);
@@ -331,15 +354,16 @@ describe('KeyboardNavigationTransformer', () => {
   });
 
   it.each([
-    ['Alt', { altKey: true }],
-    ['composition', { isComposing: true }],
-    ['Ctrl', { ctrlKey: true }],
-    ['Shift', { shiftKey: true }],
-  ])('keys with %s are not handled', async (_name, init) => {
+    ['Alt', 'ArrowDown', { altKey: true }],
+    ['composition', 'ArrowDown', { isComposing: true }],
+    ['Ctrl', 'ArrowDown', { ctrlKey: true }],
+    ['Shift', 'PageDown', { shiftKey: true }],
+    ['Shift', 'End', { shiftKey: true }],
+  ])('keys with %s (%s) are not handled', async (_name, key, init) => {
     const table = await mount();
     table.row('2').focus();
 
-    expect(pressActive('ArrowDown', init)).toBe(true);
+    expect(pressActive(key, init)).toBe(true);
 
     expect(table.row('2')).toHaveFocus();
     expect(navigation(table).position?.key).toBe(wpOccurrenceKey('2'));
@@ -545,6 +569,81 @@ describe('KeyboardNavigationTransformer', () => {
     navigation(table).returnFocus({ key: wpOccurrenceKey('1'), cell: 1, desiredColumn: 1 });
 
     expect(input).toHaveFocus();
+  });
+
+  describe('returnFocusFromMenu', () => {
+    const origin = { key: wpOccurrenceKey('2'), cell: 1, desiredColumn: 1 };
+
+    const visitMenu = (table:TableHarness) => {
+      const menuItem = document.createElement('button');
+      document.body.append(menuItem);
+      cell(table.row('2'), 1).focus();
+      menuItem.focus();
+      return menuItem;
+    };
+
+    it('focuses the origin again after focus visited the menu portal', async () => {
+      const table = await mount();
+      visitMenu(table).remove();
+
+      navigation(table).returnFocus(origin);
+      expect(document.body).toHaveFocus();
+
+      navigation(table).returnFocusFromMenu(origin);
+      expect(cell(table.row('2'), 1)).toHaveFocus();
+    });
+
+    it('restores the origin after a full render the menu action started', async () => {
+      const table = await mount();
+      const menuItem = visitMenu(table);
+      const rendered = table.nextRender();
+      table.table.redrawTable();
+      menuItem.remove();
+
+      navigation(table).returnFocusFromMenu(origin);
+      await rendered;
+
+      expect(cell(table.row('2'), 1)).toHaveFocus();
+    });
+
+    it('leaves focus on a control outside the table', async () => {
+      const table = await mount();
+      const menuItem = visitMenu(table);
+      const input = document.createElement('input');
+      document.body.append(input);
+      try {
+        menuItem.remove();
+        input.focus();
+
+        navigation(table).returnFocusFromMenu(origin);
+
+        expect(input).toHaveFocus();
+      } finally {
+        input.remove();
+      }
+    });
+
+    it('keeps focus outside the table for later returns when the user moved elsewhere meanwhile', async () => {
+      const table = await mount();
+      visitMenu(table).remove();
+      const moved = { key: wpOccurrenceKey('3'), cell: 1, desiredColumn: 1 };
+      navigation(table).recordPosition(moved);
+
+      navigation(table).returnFocusFromMenu(origin);
+      navigation(table).returnFocus(moved);
+
+      expect(document.body).toHaveFocus();
+    });
+
+    it('does nothing after the table is destroyed', async () => {
+      const table = await mount();
+      const keyboardNavigation = navigation(table);
+      visitMenu(table).remove();
+      await table.destroy();
+
+      expect(() => keyboardNavigation.returnFocusFromMenu(origin)).not.toThrow();
+      expect(document.body).toHaveFocus();
+    });
   });
 
   it('consumes Home on the first cell without moving', async () => {
@@ -956,6 +1055,80 @@ describe('KeyboardNavigationTransformer', () => {
       } finally {
         frameSpy.mockRestore();
       }
+    });
+  });
+
+  describe('selection chords', () => {
+    it('fire only on the roving stop', async () => {
+      const table = await mount({}, (harness) => {
+        harness.injector.get(DisplayFieldService).addFieldType(AnchorDisplayField, 'text', ['String']);
+      });
+      const subjectCell = table.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+      subjectCell.focus();
+      const link = within(subjectCell).getByRole('link');
+
+      expect(press(link, ' ', { shiftKey: true })).toBe(true);
+      expect(press(link, 'ArrowDown', { shiftKey: true })).toBe(true);
+
+      expect(selectedIds(table)).toEqual([]);
+      expect(subjectCell).toHaveFocus();
+    });
+
+    it('leave Shift+ArrowLeft and Shift+ArrowRight unconsumed and in place', async () => {
+      const table = await mount();
+      table.row('1').focus();
+
+      expect(pressActive('ArrowRight', { shiftKey: true })).toBe(true);
+      expect(pressActive('ArrowLeft', { shiftKey: true })).toBe(true);
+
+      expect(table.row('1')).toHaveFocus();
+      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    });
+
+    it('leave Tab handling unchanged with Shift held', async () => {
+      const table = await mount();
+      table.row('2').focus();
+
+      expect(pressActive('Tab', { shiftKey: true })).toBe(true);
+
+      expect(table.row('2')).toHaveAttribute('tabindex', '0');
+      expect(selectedIds(table)).toEqual([]);
+    });
+
+    it('handle Ctrl+A once on a capability-on table', async () => {
+      const table = await mount();
+      const selectAll = vi.spyOn(table.selection, 'selectAll');
+      table.row('1').focus();
+
+      expect(pressActive('a', { code: 'KeyA', ctrlKey: true })).toBe(false);
+
+      expect(selectAll).toHaveBeenCalledTimes(1);
+      expect(selectedIds(table)).toEqual(['1', '2', '3']);
+    });
+
+    it.each([
+      ['Ctrl+D', { code: 'KeyD', ctrlKey: true }],
+      ['Meta+D', { code: 'KeyD', metaKey: true }],
+    ])('leave %s to the browser on a capability-on table', async (_chord, init) => {
+      const table = await mount();
+      table.row('1').focus();
+      expect(pressActive(' ', { shiftKey: true })).toBe(false);
+      expect(selectedIds(table)).toEqual(['1']);
+
+      expect(pressActive('d', init)).toBe(true);
+
+      expect(selectedIds(table)).toEqual(['1']);
+      expect(table.row('1')).toHaveFocus();
+    });
+
+    it('still select all through the legacy registration on a capability-off table', async () => {
+      const table = await mount({ configuration: { keyboardNavigationEnabled: false } });
+      const selectAll = vi.spyOn(table.selection, 'selectAll');
+
+      expect(press(table.row('1'), 'a', { code: 'KeyA', ctrlKey: true })).toBe(false);
+
+      expect(selectAll).toHaveBeenCalledTimes(1);
+      expect(selectedIds(table)).toEqual(['1', '2', '3']);
     });
   });
 });

@@ -41,6 +41,7 @@ import {
 import {
   GroupHeaderBuilder,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/group-header-builder';
+import { buildTable, TableHarness } from 'core-app/features/work-packages/components/wp-fast-table/testing/table-harness';
 import { RenderedOccurrenceLedger } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 
 class TestGroupedRenderPass extends GroupedRenderPass {
@@ -113,6 +114,27 @@ describe('GroupedRenderPass', () => {
     expect(pass.workPackageTable.ledger.snapshot()).toEqual([
       { classIdentifier: 'wp-row-1', workPackageId: '1', hidden: false },
     ]);
+  });
+});
+
+describe('GroupedRenderPass levels', () => {
+  let harness:TableHarness;
+
+  afterEach(() => harness.destroy());
+
+  it('assigns semantic levels to every occurrence', async () => {
+    const status = { href: '/api/v3/statuses/1' };
+    harness = buildTable({
+      workPackages: [{ id: '1', attributes: { status } }],
+      groups: [{ value: 'New', href: status.href, count: 1, sums: { storyPoints: 13 } }],
+    });
+
+    await harness.render();
+
+    const { ledger } = harness.table;
+    expect(ledger.byKey('group:0:header')!.level).toBe(1);
+    expect(ledger.byKey('wp:1')!.level).toBe(2);
+    expect(ledger.byKey('group:0:sums')!.level).toBe(2);
   });
 });
 

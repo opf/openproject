@@ -47,7 +47,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
 
     before do
       create(:cost_rate, cost_type:, rate: 50.0, valid_from: 1.day.ago)
-      create(:default_hourly_rate, user:, rate: 25.0, valid_from: 1.day.ago)
+      create(:default_hourly_rate, principal: user, rate: 25.0, valid_from: 1.day.ago)
     end
 
     it "creates the cost items" do
@@ -84,7 +84,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
     let(:labor_budget_item) do
       create(:labor_budget_item,
              hours: 5,
-             user:,
+             principal: user,
              budget:)
     end
 
@@ -92,7 +92,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
 
     before do
       create(:cost_rate, cost_type:, rate: 50.0)
-      create(:default_hourly_rate, user:, rate: 25.0)
+      create(:default_hourly_rate, principal: user, rate: 25.0)
 
       # trigger creation
       material_budget_item
@@ -247,7 +247,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
       let!(:labor_budget_item_2) do
         create(:labor_budget_item,
                hours: 5,
-               user:,
+               principal: user,
                budget:)
       end
 
@@ -332,7 +332,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
 
   describe "with a group as planned labor cost" do
     let!(:group) { create(:group, member_with_permissions: { project => %i[work_package_assigned] }) }
-    let!(:hourly_rate) { create(:default_hourly_rate, user:, rate: 25.0, valid_from: 1.day.ago) }
+    let!(:hourly_rate) { create(:default_hourly_rate, principal: user, rate: 25.0, valid_from: 1.day.ago) }
     let(:budget_page) { Pages::EditBudget.new budget.id }
 
     it "saves the budget without error and displays the group on the show page" do

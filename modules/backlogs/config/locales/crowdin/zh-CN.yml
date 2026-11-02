@@ -139,6 +139,9 @@ zh-CN:
         blankslate_description: 设置冲刺的开始和结束日期，以生成燃尽图。
         blankslate_title: 没有可用的燃尽数据
     created_resolved_chart:
+      series:
+        created: Created work packages
+        resolved: Resolved work packages
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available
@@ -219,6 +222,19 @@ zh-CN:
         breadcrumb: 报告
         title: "%{sprint}报告"
       widgets:
+        velocity_chart:
+          average:
+            other: 'Average of previous %{count} sprints:'
+          average_legend: Average
+          committed: Committed
+          completed: Completed
+          story_points: "%{value} SP"
+          summary:
+            other: Bar chart of committed and completed story points of the last %{count} sprints.
+          summary_average: 'Average velocity: %{average}.'
+          title: Velocity chart
+          velocity: "%{sprint}:"
+          y_axis_title: Story points
         work_package_graph:
           title: 工作包图表
         work_package_overview:
@@ -336,9 +352,6 @@ zh-CN:
       update_service:
         invalid_target_type: list_type 必须是下列一项：带有 list_id 的 backlog_bucket、带有 list_id 的 sprint，或者不带 list_id 的 inbox。
         missing_target: list_type 或 list_id 必须存在。
-  created_resolved:
-    wp_created: Created
-    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: 多个处于有效状态的冲刺

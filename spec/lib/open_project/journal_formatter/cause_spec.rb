@@ -280,6 +280,24 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
+  context "when the change was caused by retracting a comment" do
+    subject(:cause) do
+      {
+        "type" => "comment_retracted"
+      }
+    end
+
+    it do
+      expect(cause).to render_html_variant(
+        "<strong>#{I18n.t('journals.caused_changes.comment_retracted')}</strong>"
+      )
+    end
+
+    it do
+      expect(cause).to render_raw_variant(I18n.t("journals.caused_changes.comment_retracted"))
+    end
+  end
+
   context "when the change was caused by changing values within a child" do
     subject(:cause) do
       {

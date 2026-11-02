@@ -50,6 +50,14 @@ module OpenProject::ITSM
                                         description: "Enables help desk features (incoming email mailboxes per project)."
     end
 
+    initializer "openproject_itsm.configuration" do
+      ::Settings::Definition.add :helpdesk_enabled,
+                                 description: "Enables/disables help desk functionality.",
+                                 writable: true,
+                                 default: false,
+                                 format: :boolean
+    end
+
     register "openproject-itsm", author_url: "https://www.openproject.org", bundled: true do
       project_module :helpdesk, if: -> { OpenProject::FeatureDecisions.helpdesk_active? } do
         permission :manage_helpdesk,
@@ -57,6 +65,16 @@ module OpenProject::ITSM
                    permissible_on: :project,
                    require: :member
       end
+
+      menu :admin_menu,
+           :helpdesk,
+           { controller: "/itsm/admin/settings", action: "show" },
+           caption: :label_helpdesk,
+           after: :api_and_webhooks,
+           icon: :"op-life-ring",
+           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.helpdesk_active? }
     end
+
+    include_module "Projects::HelpdeskMailboxes", into: "Project"
   end
 end
