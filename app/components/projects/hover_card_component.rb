@@ -31,8 +31,6 @@ module Projects
   class HoverCardComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    attr_reader :project
-
     def initialize(project:, user:)
       super
 
@@ -43,10 +41,10 @@ module Projects
     end
 
     def breadcrumb_items
-      ancestors = project.ancestors.visible.active.reorder(:lft)
+      ancestors = @project.ancestors.visible.active.reorder(:lft)
       return nil if ancestors.empty?
 
-      (ancestors + [project]).map do |item|
+      (ancestors + [@project]).map do |item|
         { href: project_overview_path(item), text: item.name, selected: item == project }
       end
     end
