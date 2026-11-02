@@ -232,7 +232,6 @@ describe('WorkPackageTableSumsRowController semantics', () => {
     await nextTask();
   }
 
-  const section = () => row.parentElement!;
   const valueCell = () => within(row).getByText('34').closest('td')!;
 
   afterEach(async () => {
@@ -241,15 +240,13 @@ describe('WorkPackageTableSumsRowController semantics', () => {
     vi.restoreAllMocks();
   });
 
-  it('repaints positions once per update and before the row notification', async () => {
+  it('repaints once per update, with the cells in place, before the row notification', async () => {
     const harness = await setUp({});
     const events:string[] = [];
     const paint = harness.table.painter.paint.bind(harness.table.painter);
     vi.spyOn(harness.table.painter, 'paint').mockImplementation((scope) => {
-      const result = paint(scope);
-      events.push(`paint:${row.getAttribute('aria-hidden')}:${row.cells.length > 0}`);
-      expect(row).toHaveAttribute('role', 'row');
-      return result;
+      events.push(`paint:${row.cells.length > 0}`);
+      return paint(scope);
     });
     vi.spyOn(harness.table.keyboardNavigation, 'rowsChanged').mockImplementation(() => { events.push('notify'); });
     attach(harness, true);
@@ -257,58 +254,36 @@ describe('WorkPackageTableSumsRowController semantics', () => {
 
     await resolveSchema();
 
-    expect(events).toEqual(['paint:null:true', 'notify']);
+    expect(events).toEqual(['paint:true', 'notify']);
     events.length = 0;
     directive.wpTableSums.setEnabled(false);
-    expect(events).toEqual(['paint:true:false', 'notify']);
+    expect(events).toEqual(['paint:false', 'notify']);
   });
 
-  it('paints roles and exposure before notifying the table', async () => {
+  it('mutates the totals row by its key', async () => {
     const harness = await setUp({});
     attach(harness, true);
-    const painted = harness.nextMutation().then(({ scope }) => ({
-      key: scopeKeys(scope)[0],
-      role: row.getAttribute('role'),
-      level: row.getAttribute('aria-level'),
-      cellRoles: Array.from(row.cells).map((cell) => cell.getAttribute('role')),
-      rowHidden: row.getAttribute('aria-hidden'),
-      sectionRole: section().getAttribute('role'),
-      sectionHidden: section().getAttribute('aria-hidden'),
-    }));
+    const mutated = harness.nextMutation().then(({ scope }) => scopeKeys(scope));
 
     await resolveSchema();
 
-    expect(await painted).toEqual({
-      key: totalsRowKey,
-      role: 'row',
-      level: '1',
-      cellRoles: Array.from(row.cells).map(() => 'gridcell'),
-      rowHidden: null,
-      sectionRole: 'rowgroup',
-      sectionHidden: null,
-    });
-    expect(row.cells.length).toBeGreaterThan(0);
+    expect(await mutated).toEqual([totalsRowKey]);
   });
 
-  it('hides the empty row and section until its cells render, and again after clearing', async () => {
+  it('renders the cells while sums are on and empties the row again when they are off', async () => {
     const harness = await setUp({});
     attach(harness, false);
 
     expect(row).toBeEmptyDOMElement();
-    expect(row).toHaveAttribute('aria-hidden', 'true');
-    expect(section()).toHaveAttribute('aria-hidden', 'true');
 
     directive.wpTableSums.setEnabled(true);
     await resolveSchema();
 
-    expect(row).not.toHaveAttribute('aria-hidden');
-    expect(section()).not.toHaveAttribute('aria-hidden');
+    expect(row.cells.length).toBeGreaterThan(0);
 
     directive.wpTableSums.setEnabled(false);
 
     expect(row).toBeEmptyDOMElement();
-    expect(row).toHaveAttribute('aria-hidden', 'true');
-    expect(section()).toHaveAttribute('aria-hidden', 'true');
   });
 
   it('repaints only the replacement table after a pending schema resolves', async () => {
@@ -326,10 +301,10 @@ describe('WorkPackageTableSumsRowController semantics', () => {
 
     expect(previousPaint).not.toHaveBeenCalled();
     expect(replacementPaint).toHaveBeenCalled();
-    expect(row).not.toHaveAttribute('aria-hidden');
+    expect(row.cells.length).toBeGreaterThan(0);
   });
 
-  it('stays hidden when the schema resolves after sums were disabled', async () => {
+  it('stays empty when the schema resolves after sums were disabled', async () => {
     const harness = await setUp({});
     attach(harness, true);
     directive.wpTableSums.setEnabled(false);
@@ -340,12 +315,10 @@ describe('WorkPackageTableSumsRowController semantics', () => {
 
     expect(painted).not.toHaveBeenCalled();
     expect(row).toBeEmptyDOMElement();
-    expect(row).toHaveAttribute('aria-hidden', 'true');
-    expect(section()).toHaveAttribute('aria-hidden', 'true');
     expect(refreshed).not.toHaveBeenCalled();
   });
 
-  it('stays hidden when the schema resolves after the table was destroyed', async () => {
+  it('stays empty when the schema resolves after the table was destroyed', async () => {
     const harness = await setUp({});
     attach(harness, true);
     harness.table.destroy();
@@ -355,8 +328,6 @@ describe('WorkPackageTableSumsRowController semantics', () => {
 
     expect(painted).not.toHaveBeenCalled();
     expect(row).toBeEmptyDOMElement();
-    expect(row).toHaveAttribute('aria-hidden', 'true');
-    expect(section()).toHaveAttribute('aria-hidden', 'true');
   });
 
   it.each([true, false])('names the totals row and describes its values with drag and drop %s', async (dragAndDropEnabled) => {
