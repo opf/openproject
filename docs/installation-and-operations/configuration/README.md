@@ -61,7 +61,7 @@ volumes:
 x-op-restart-policy: &restart_policy
   restart: unless-stopped
 x-op-image: &image
-  image: openproject/openproject:${TAG:-15}
+  image: openproject/openproject:${TAG:-18}
 x-op-app: &app
   <<: [*image, *restart_policy]
   environment:
@@ -106,7 +106,7 @@ volumes:
 x-op-restart-policy: &restart_policy
   restart: unless-stopped
 x-op-image: &image
-  image: openproject/openproject:${TAG:-15}
+  image: openproject/openproject:${TAG:-18}
 x-op-app: &app
   <<: [*image, *restart_policy]
   environment:

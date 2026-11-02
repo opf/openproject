@@ -188,7 +188,7 @@ Once the docker has stopped, you are ready to run the upgrade command. In this c
 docker run --rm -it \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/pgdata-next:/var/openproject/pgdata-next \
-  openproject/openproject:17 root ./docker/prod/postgres-db-upgrade
+  openproject/openproject:18 root ./docker/prod/postgres-db-upgrade
 ```
 
 If everything goes well, the process should end with a message as follows:
@@ -218,7 +218,7 @@ docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=<your-secret-key-
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/assets:/var/openproject/assets \
   [...]
-  openproject/openproject:17
+  openproject/openproject:18
 ```
 
 If your new installation looks fine, you can then choose to remove `/var/lib/openproject/pgdata-prev`:
