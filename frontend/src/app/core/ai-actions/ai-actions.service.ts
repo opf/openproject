@@ -57,9 +57,12 @@ interface IEditorContextResource {
 
 export type IAiActionsEditor = Pick<ICKEditorInstance, 'getData'|'data'|'model'|'config'|'state'>;
 
+type IScope = 'document'|'selection';
+
 interface IPendingRequest {
   requestId:string;
   editor:IAiActionsEditor;
+  scope:IScope;
 }
 
 type IDescriptionContext = { workPackageId:string }|{ projectId:string, typeId:string };
@@ -71,6 +74,7 @@ interface IAcceptedDetail {
 
 const FEATURE_FLAG = 'aiTextTransformActions';
 const LAST_ACTION_STORAGE_KEY = 'openproject.ai_actions.last_action_id';
+const SELECTION_MARKER_PREFIX = 'ai-text-transform:selection:';
 export const AI_TEXT_TRANSFORM_ACCEPTED_EVENT = 'op-dispatched:ai-text-transform:accepted';
 export const AI_TEXT_TRANSFORM_CLOSED_EVENT = 'op-dispatched:ai-text-transform:closed';
 export const AI_TEXT_TRANSFORM_APPLIED_EVENT = 'op:ai-text-transform:applied';
@@ -136,13 +140,16 @@ export class AiActionsService {
     this.rememberAction(action);
 
     const requestId = uuidv4();
+    // An action that injects the type template rewrites the whole description.
+    const selection = action.injectsTypeTemplate ? null : this.markSelection(editor, requestId);
+    const scope:IScope = selection === null ? 'document' : 'selection';
 
     const body = new FormData();
     Object.entries({
       request_id: requestId,
       action_id: String(action.id),
-      scope: 'document',
-      input: editor.getData(),
+      scope,
+      input: selection ?? editor.getData(),
       ...this.paneContext(resource, editor.config.get('openProject.context.field') as string|undefined),
     }).forEach(([name, value]) => body.set(name, value));
 
@@ -152,8 +159,12 @@ export class AiActionsService {
         { method: 'POST', body, headers: { Accept: 'text/vnd.turbo-stream.html' }, credentials: 'same-origin' },
         true,
       );
-      this.pending = { requestId, editor };
+      if (this.pending) {
+        this.forget(this.pending.requestId);
+      }
+      this.pending = { requestId, editor, scope };
     } catch {
+      this.removeMarker(editor, requestId);
       this.toast.addError(this.I18n.t('js.editor.ai_actions.start_failed'));
     }
   }
@@ -177,8 +188,41 @@ export class AiActionsService {
 
   private forget(requestId:string):void {
     if (this.pending?.requestId === requestId) {
+      this.removeMarker(this.pending.editor, requestId);
       this.pending = null;
     }
+  }
+
+  // The marker follows edits elsewhere while the run streams; deleting the selected text removes it.
+  private markSelection(editor:IAiActionsEditor, requestId:string):string|null {
+    const { model, data } = editor;
+    const { selection } = model.document;
+    const range = selection.getFirstRange();
+    if (selection.isCollapsed || !range) {
+      return null;
+    }
+
+    const markdown = data.stringify(model.getSelectedContent(selection));
+    if (markdown.trim() === '') {
+      return null;
+    }
+
+    model.change((writer) => {
+      writer.addMarker(this.markerName(requestId), { range, usingOperation: false });
+    });
+
+    return markdown;
+  }
+
+  private removeMarker(editor:IAiActionsEditor, requestId:string):void {
+    const marker = editor.state === 'destroyed' ? null : editor.model.markers.get(this.markerName(requestId));
+    if (marker) {
+      editor.model.change((writer) => writer.removeMarker(marker));
+    }
+  }
+
+  private markerName(requestId:string):string {
+    return `${SELECTION_MARKER_PREFIX}${requestId}`;
   }
 
   private paneContext(resource:IEditorContextResource|undefined, field:string|undefined):Record<string, string> {

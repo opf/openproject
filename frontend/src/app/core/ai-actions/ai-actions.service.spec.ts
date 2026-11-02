@@ -70,26 +70,62 @@ const newWorkPackage = { ...existingWorkPackage, id: 'new' };
 
 const fixGrammar = { id: 1, label: 'Fix grammar', position: 1, injectsTypeTemplate: false };
 const makeConcise = { id: 2, label: 'Make concise', position: 2, injectsTypeTemplate: false };
+const sortIntoTemplate = { id: 3, label: 'Sort into template', position: 3, injectsTypeTemplate: true };
+
+interface IFakeMarker {
+  name:string;
+  getRange():unknown;
+}
 
 function fakeEditor(field?:string, data = 'Login page dont work.') {
   const root = { name: '$root' };
   const range = { rangeIn: root };
+  const selectedRange = { selected: true };
+  const selectedContent = { fragment: true };
   const parsed = { parsed: true };
+  const markers = new Map<string, IFakeMarker>();
+  const writer = {
+    addMarker: vi.fn((name:string, { range: markedRange }:{ range:unknown }) => {
+      markers.set(name, { name, getRange: () => markedRange });
+    }),
+    removeMarker: vi.fn((marker:IFakeMarker) => markers.delete(marker.name)),
+  };
   const model = {
-    document: { getRoot: vi.fn(() => root) },
+    document: {
+      getRoot: vi.fn(() => root),
+      selection: { isCollapsed: true, getFirstRange: vi.fn(() => selectedRange) },
+    },
+    markers: { get: (name:string) => markers.get(name) ?? null },
     createRangeIn: vi.fn(() => range),
+    getSelectedContent: vi.fn(() => selectedContent),
     insertContent: vi.fn(),
-    change: vi.fn((callback:() => void) => callback()),
+    change: vi.fn((callback:(changeWriter:typeof writer) => void) => callback(writer)),
   };
   const editor = {
     state: 'ready',
     getData: vi.fn(() => data),
-    data: { parse: vi.fn(() => parsed) },
+    data: { parse: vi.fn(() => parsed), stringify: vi.fn(() => '') },
     model,
     config: { get: vi.fn((name:string) => (name === 'openProject.context.field' ? field : undefined)) },
   };
 
-  return { editor, asEditor: editor as unknown as IAiActionsEditor, model, range, parsed };
+  const select = (markdown:string) => {
+    model.document.selection.isCollapsed = false;
+    editor.data.stringify.mockReturnValue(markdown);
+  };
+
+  return {
+    editor,
+    asEditor: editor as unknown as IAiActionsEditor,
+    model,
+    writer,
+    markers,
+    range,
+    selectedRange,
+    selectedContent,
+    parsed,
+    select,
+  };
 }
 
 describe('AiActionsService', () => {
@@ -364,6 +400,73 @@ describe('AiActionsService', () => {
       accept(requestIdOf());
 
       expect(model.insertContent).not.toHaveBeenCalled();
+    });
+
+    describe('with selected text', () => {
+      const markerNames = (markers:Map<string, IFakeMarker>) => [...markers.keys()];
+
+      it('requests the result pane for the selected text only and marks it', async () => {
+        const { asEditor, editor, model, markers, selectedRange, selectedContent, select } = fakeEditor('description');
+        select('Login page dont work.');
+
+        await service.run(fixGrammar, asEditor, existingWorkPackage);
+
+        expect(editor.data.stringify).toHaveBeenCalledWith(selectedContent);
+        expect(model.getSelectedContent).toHaveBeenCalledWith(model.document.selection);
+        expect(requestBody()).toMatchObject({ scope: 'selection', input: 'Login page dont work.', work_package_id: '123' });
+        expect(markerNames(markers)).toEqual([`ai-text-transform:selection:${requestIdOf()}`]);
+        expect(markers.get(markerNames(markers)[0])!.getRange()).toBe(selectedRange);
+      });
+
+      it('runs on the whole document when the selected text is blank', async () => {
+        const { asEditor, markers, select } = fakeEditor();
+        select(' \n');
+
+        await service.run(fixGrammar, asEditor);
+
+        expect(requestBody()).toMatchObject({ scope: 'document', input: 'Login page dont work.' });
+        expect(markers.size).toBe(0);
+      });
+
+      it('runs an action that injects the type template on the whole document', async () => {
+        const { asEditor, editor, markers, select } = fakeEditor('description');
+        select('Login page dont work.');
+
+        await service.run(sortIntoTemplate, asEditor, existingWorkPackage);
+
+        expect(requestBody()).toMatchObject({ scope: 'document', input: 'Login page dont work.' });
+        expect(editor.data.stringify).not.toHaveBeenCalled();
+        expect(markers.size).toBe(0);
+      });
+
+      it('unmarks the text once its pane was closed', async () => {
+        const { asEditor, markers, select } = fakeEditor();
+        select('Login page dont work.');
+        await service.run(fixGrammar, asEditor);
+
+        document.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_CLOSED_EVENT, { detail: { requestId: requestIdOf() } }));
+
+        expect(markers.size).toBe(0);
+      });
+
+      it('unmarks the text of the older request once a new pane replaced its pane', async () => {
+        const { asEditor, markers, select } = fakeEditor();
+        select('Login page dont work.');
+        await service.run(fixGrammar, asEditor);
+        await service.run(makeConcise, asEditor);
+
+        expect(markerNames(markers)).toEqual([`ai-text-transform:selection:${requestIdOf(1)}`]);
+      });
+
+      it('unmarks only its own text when the pane could not be requested', async () => {
+        const { asEditor, markers, select } = fakeEditor();
+        select('Login page dont work.');
+        await service.run(fixGrammar, asEditor);
+        turboRequests.request.mockRejectedValueOnce(new Error('403'));
+        await service.run(makeConcise, asEditor);
+
+        expect(markerNames(markers)).toEqual([`ai-text-transform:selection:${requestIdOf(0)}`]);
+      });
     });
 
     it('tells the user when the pane could not be requested', async () => {
