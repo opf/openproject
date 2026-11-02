@@ -39,6 +39,54 @@ RSpec.describe CustomField do
 
   it { is_expected.to have_readonly_attribute(:field_format) }
 
+  describe ".custom_field_attribute?" do
+    it "is true for a custom field attribute name" do
+      expect(described_class.custom_field_attribute?("custom_field_12")).to be(true)
+    end
+
+    it "is true for a custom field attribute name given as a symbol" do
+      expect(described_class.custom_field_attribute?(:custom_field_12)).to be(true)
+    end
+
+    it "is false for a name with a suffix after the id" do
+      expect(described_class.custom_field_attribute?("custom_field_12_comment")).to be(false)
+    end
+
+    it "is false for a name with a prefix before custom_field" do
+      expect(described_class.custom_field_attribute?("custom_custom_field_12")).to be(false)
+    end
+
+    it "is false for a name without an id" do
+      expect(described_class.custom_field_attribute?("custom_field_")).to be(false)
+    end
+
+    it "is false for a custom comment attribute name" do
+      expect(described_class.custom_field_attribute?("custom_comment_12")).to be(false)
+    end
+  end
+
+  describe ".id_from_attribute_name" do
+    it "returns the id for a custom field attribute name" do
+      expect(described_class.id_from_attribute_name("custom_field_12")).to eq(12)
+    end
+
+    it "returns the id for a custom field attribute name given as a symbol" do
+      expect(described_class.id_from_attribute_name(:custom_field_12)).to eq(12)
+    end
+
+    it "returns nil for a name with a suffix after the id" do
+      expect(described_class.id_from_attribute_name("custom_field_12_comment")).to be_nil
+    end
+
+    it "returns nil for a custom comment attribute name" do
+      expect(described_class.id_from_attribute_name("custom_comment_12")).to be_nil
+    end
+
+    it "returns nil for a non custom field attribute name" do
+      expect(described_class.id_from_attribute_name("subject")).to be_nil
+    end
+  end
+
   describe "#name" do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_length_of(:name).is_at_most(256) }

@@ -318,7 +318,13 @@ class CustomField < ApplicationRecord
   end
 
   def self.custom_field_attribute?(attribute_name)
-    /custom_field_\d+/.match?(attribute_name.to_s)
+    /\Acustom_field_\d+\z/.match?(attribute_name.to_s)
+  end
+
+  def self.id_from_attribute_name(attribute_name)
+    return unless custom_field_attribute?(attribute_name)
+
+    attribute_name.to_s.delete_prefix("custom_field_").to_i
   end
 
   # to move in project_custom_field
