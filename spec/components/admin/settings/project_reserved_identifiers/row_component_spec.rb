@@ -29,7 +29,9 @@
 
 require "rails_helper"
 
-RSpec.describe Admin::Settings::ProjectReservedIdentifiers::RowComponent, type: :component do
+RSpec.describe Admin::Settings::ProjectReservedIdentifiers::RowComponent,
+               type: :component,
+               with_settings: { work_packages_identifier: "classic" } do
   include Rails.application.routes.url_helpers
 
   let!(:project) { create(:project, identifier: "current-id", name: "My Project") }

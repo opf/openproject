@@ -73,7 +73,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageSqlRepresenter, "rendering" do
         {
           _type: "WorkPackage",
           id: rendered_work_package.id,
-          displayId: rendered_work_package.id.to_s,
+          displayId: rendered_work_package.display_id.to_s,
           subject: rendered_work_package.subject,
           dueDate: rendered_work_package.due_date,
           startDate: rendered_work_package.start_date,
@@ -120,7 +120,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageSqlRepresenter, "rendering" do
         {
           _type: "WorkPackage",
           id: rendered_work_package.id,
-          displayId: rendered_work_package.id.to_s,
+          displayId: rendered_work_package.display_id.to_s,
           subject: rendered_work_package.subject,
           date: rendered_work_package.start_date,
           _links: {
@@ -169,7 +169,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageSqlRepresenter, "rendering" do
         end
       end
 
-      context "when semantic work package ids are not active" do
+      context "when semantic work package ids are not active",
+              with_settings: { work_packages_identifier: "classic" } do
         it "returns the numeric id as a string" do
           expect(json).to be_json_eql(rendered_work_package.id.to_s.to_json).at_path("displayId")
         end

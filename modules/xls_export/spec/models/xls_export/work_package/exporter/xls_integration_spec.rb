@@ -125,9 +125,10 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
         ]
 
       # duplicates rows for each relation
-      c2id = child_2.id
+      c2id = child_2.display_id
       expect(sheet.column(2).drop(2))
-        .to eq [parent.id, parent.id, child_1.id, c2id, c2id, c2id, single.id, followed.id, child_2_child.id]
+        .to eq [parent.display_id, parent.display_id, child_1.display_id, c2id, c2id, c2id,
+                single.display_id, followed.display_id, child_2_child.display_id]
     end
 
     it "marks the parent-child relations" do
@@ -168,26 +169,27 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     it "exports the work package rows with their relation columns" do
       expect(sheet.row(PARENT))
         .to eq [
-          nil, parent.type.name, parent.id, parent.subject, parent.status.name, parent.assigned_to, parent.priority.name,
+          nil, parent.type.name, parent.display_id, parent.subject, parent.status.name, parent.assigned_to, parent.priority.name,
           nil, "parent of", nil, nil,
-          child_1.type.name, child_1.id, child_1.subject, child_1.status.name, child_1.assigned_to, child_1.priority.name
+          child_1.type.name, child_1.display_id, child_1.subject, child_1.status.name, child_1.assigned_to, child_1.priority.name
         ] # lag nil as this is a parent-child relation not represented by an actual Relation record
 
       expect(sheet.row(SINGLE))
         .to eq [
-          nil, single.type.name, single.id, single.subject, single.status.name, single.assigned_to, single.priority.name
+          nil, single.type.name, single.display_id, single.subject, single.status.name, single.assigned_to, single.priority.name
         ]
 
       expect(sheet.row(FOLLOWED))
         .to eq [
           nil,
-          followed.type.name, followed.id, followed.subject, followed.status.name, followed.assigned_to, followed.priority.name,
+          followed.type.name, followed.display_id, followed.subject, followed.status.name, followed.assigned_to,
+          followed.priority.name,
           nil, "Precedes", 0, relation.description,
-          child_2.type.name, child_2.id, child_2.subject, child_2.status.name, child_2.assigned_to, child_2.priority.name
+          child_2.type.name, child_2.display_id, child_2.subject, child_2.status.name, child_2.assigned_to, child_2.priority.name
         ]
     end
 
-    it "applies the column formats to both work package column blocks" do
+    it "applies the column formats to both work package column blocks", with_settings: { work_packages_identifier: "classic" } do
       expect(sheet.row(2).format(2).number_format).to eq("0")
       expect(sheet.row(2).format(12).number_format).to eq("0")
     end
@@ -200,12 +202,13 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
         expect(sheet.rows[1][9]).to eq "Relation type"
       end
 
-      it "applies the column formats to both work package column blocks" do
+      it "applies the column formats to both work package column blocks",
+         with_settings: { work_packages_identifier: "classic" } do
         expect(sheet.row(2).format(2).number_format).to eq("0")
         expect(sheet.row(2).format(13).number_format).to eq("0")
 
-        expect(sheet.row(2)[2]).to eq(parent.id)
-        expect(sheet.row(2)[13]).to eq(child_1.id)
+        expect(sheet.row(2)[2]).to eq(parent.display_id)
+        expect(sheet.row(2)[13]).to eq(child_1.display_id)
       end
     end
 
@@ -389,7 +392,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     end
   end
 
-  describe "with typed columns" do
+  describe "with typed columns", with_settings: { work_packages_identifier: "classic" } do
     let(:int_cf) { create(:integer_wp_custom_field, name: "Units") }
     let(:float_cf) { create(:float_wp_custom_field, name: "Weight") }
     let(:date_cf) { create(:date_wp_custom_field, name: "Reviewed on") }

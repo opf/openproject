@@ -45,7 +45,7 @@ RSpec.describe "API v3 Revisions resource" do
     create(:repository_subversion, project:)
   end
   let(:project) do
-    create(:project, identifier: "test_project", public: false)
+    create(:project, public: false)
   end
   let(:role) do
     create(:project_role,

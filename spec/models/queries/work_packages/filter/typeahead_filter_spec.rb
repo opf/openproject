@@ -109,7 +109,7 @@ RSpec.describe Queries::WorkPackages::Filter::TypeaheadFilter do
       end
     end
 
-    context "when searching by work package ID" do
+    context "when searching by work package ID", with_settings: { work_packages_identifier: "classic" } do
       let(:values) { [epic_work_package.id.to_s] }
 
       it "returns work packages with matching ID" do

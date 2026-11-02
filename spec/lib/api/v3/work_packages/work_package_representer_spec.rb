@@ -167,7 +167,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         it { is_expected.to be_json_eql("PROJ-123".to_json).at_path("displayId") }
       end
 
-      context "when semantic work package ids are not active" do
+      context "when semantic work package ids are not active",
+              with_settings: { work_packages_identifier: "classic" } do
         it { is_expected.to be_json_eql(work_package.id.to_s.to_json).at_path("displayId") }
       end
     end

@@ -144,7 +144,7 @@ RSpec.describe Projects::DeleteService, type: :model do
   end
 
   context "with the seeded demo project" do
-    let(:demo_project) { create(:project, name: "Demo project", identifier: "demo-project", public: true) }
+    let(:demo_project) { create(:project, :demo_project, public: true) }
     let(:instance) { described_class.new(user:, model: demo_project) }
 
     it "saves in a Setting that the demo project was deleted (regression #52826)" do

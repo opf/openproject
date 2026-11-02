@@ -185,8 +185,10 @@ project_custom_field_sections:
 
 projects:
   demo-project:
+    reference: :demo_project
     t_name: Demo project
     identifier: demo-project
+    semantic_identifier: DEMO
     status_code: on_track
     t_status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
     t_description: This is a short summary of the goals of this demo project.
@@ -330,16 +332,16 @@ projects:
             t_text: |
               We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-              Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
+              Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/##project.identifier:demo_project/work_packages/?start_onboarding_tour=true).
 
               _Try the following steps:_
 
-              1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/demo-project/members) in the project navigation.
-              2. *View the work in your project*: &rightarrow; Go to [Work packages]({{opSetting:base_url}}/projects/demo-project/work_packages) in the project navigation.
-              3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
-              4. *Create and update a project plan*: &rightarrow; Go to [Project plan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) in the project navigation.
-              5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
-              6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
+              1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/##project.identifier:demo_project/members) in the project navigation.
+              2. *View the work in your project*: &rightarrow; Go to [Work packages]({{opSetting:base_url}}/projects/##project.identifier:demo_project/work_packages) in the project navigation.
+              3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/##project.identifier:demo_project/work_packages/new).
+              4. *Create and update a project plan*: &rightarrow; Go to [Project plan]({{opSetting:base_url}}/projects/##project.identifier:demo_project/work_packages?query_id=##query.id:demo_project__query__project_plan) in the project navigation.
+              5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/##project.identifier:demo_project/settings/modules).
+              6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/##project.identifier:demo_project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
 
               Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
               Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
@@ -553,8 +555,10 @@ projects:
 
       More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
   scrum-project:
+    reference: :scrum_project
     t_name: Scrum project
     identifier: your-scrum-project
+    semantic_identifier: SCRUM
     status_code: on_track
     t_status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
     t_description: This is a short summary of the goals of this demo Scrum project.
@@ -588,8 +592,8 @@ projects:
 
             * The work packages of this release are the ones with the target version 1.0.
             * The release date is the date of the *Release v1.0* milestone.
-            * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
-            * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
+            * Open the [Roadmap]({{opSetting:base_url}}/projects/##project.identifier:scrum_project/roadmap) to follow the progress of all versions.
+            * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/##project.identifier:scrum_project/settings/versions) to link another wiki page to a version.
       - name: "1.1"
         reference: :scrum_project__version__1_1
         sharing: none
@@ -703,13 +707,13 @@ projects:
 
               _Try the following steps:_
 
-              1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-              2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-              3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
-              4. *View your Sprint board*: &rightarrow; Go to [Boards]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Open the sprint's board by clicking on the sprint's name.
-              5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+              1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/##project.identifier:scrum_project/members) in the project navigation.
+              2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/##project.identifier:scrum_project/backlogs) in the project navigation.
+              3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/##project.identifier:scrum_project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
+              4. *View your Sprint board*: &rightarrow; Go to [Boards]({{opSetting:base_url}}/projects/##project.identifier:scrum_project/backlogs) &rightarrow; Open the sprint's board by clicking on the sprint's name.
+              5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/##project.identifier:scrum_project/work_packages/new).
               6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-              7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+              7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/##project.identifier:scrum_project/settings/modules).
 
 
               Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
@@ -951,8 +955,8 @@ projects:
 
       * Divided into two additional time boxes of 4 h:
 
-          * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-          * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+          * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/##project.identifier:scrum_project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
+          * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/##project.identifier:scrum_project/backlogs).
 
 
       ### Daily Scrum meeting

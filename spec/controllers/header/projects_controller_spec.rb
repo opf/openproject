@@ -167,7 +167,7 @@ RSpec.describe Header::ProjectsController do
     end
 
     context "when searching by a term that only matches the identifier" do
-      shared_let(:identifier_project) { create(:project, name: "Delta Fourth", identifier: "top-secret-code") }
+      shared_let(:identifier_project) { create(:project, name: "Delta Fourth", raw_identifier: "top-secret-code") }
 
       subject(:make_request) { get :index, params: { query: "secret" } }
 

@@ -255,7 +255,7 @@ RSpec.describe Projects::Identifier do
     end
   end
 
-  describe ".identifier_slugs scopes" do
+  describe ".identifier_slugs scopes", with_settings: { work_packages_identifier: "classic" } do
     let!(:active_project) { create(:project, identifier: "active-id") }
     let!(:renamed_project) { create(:project, identifier: "current-id") }
 

@@ -293,14 +293,14 @@ RSpec.describe OpenProject::TextFormatting,
 
     context "Work package links" do
       let(:work_package_link) do
-        link_to("##{work_package.id}",
+        link_to(work_package.formatted_id,
                 work_package_path(work_package),
                 data: {
                   hover_card_trigger_target: "trigger",
-                  hover_card_url: hover_card_work_package_path(work_package.id)
+                  hover_card_url: hover_card_work_package_path(work_package)
                 },
                 class: "issue work_package op-uc-link",
-                aria: { label: "##{work_package.id}: A dynamic link to a work package placed using a macro." },
+                aria: { label: "#{work_package.formatted_id}: A dynamic link to a work package placed using a macro." },
                 target: "_top")
       end
 
@@ -364,18 +364,18 @@ RSpec.describe OpenProject::TextFormatting,
 
       context "WP subject with escapable chars" do
         let(:work_package) do
-          create(:work_package, subject: "Title with \"quote\" and 'sòme 'chárs.")
+          create(:work_package, project:, subject: "Title with \"quote\" and 'sòme 'chárs.")
         end
 
         let(:work_package_link) do
-          link_to("##{work_package.id}",
+          link_to(work_package.formatted_id,
                   work_package_path(work_package),
                   data: {
                     hover_card_trigger_target: "trigger",
-                    hover_card_url: hover_card_work_package_path(work_package.id)
+                    hover_card_url: hover_card_work_package_path(work_package)
                   },
                   class: "issue work_package op-uc-link",
-                  aria: { label: "##{work_package.id}: A dynamic link to a work package placed using a macro." },
+                  aria: { label: "#{work_package.formatted_id}: A dynamic link to a work package placed using a macro." },
                   target: "_top")
         end
 
@@ -445,7 +445,7 @@ RSpec.describe OpenProject::TextFormatting,
 
     context "Wiki links" do
       let(:project_2) do
-        create(:valid_project, :with_internal_wiki, identifier: "onlinestore")
+        create(:valid_project, :with_internal_wiki)
       end
       let(:wiki_1) { project.wiki } # rubocop:disable Naming/VariableNumber
       let(:wiki_page_1_1) do
@@ -542,42 +542,42 @@ RSpec.describe OpenProject::TextFormatting,
       end
 
       context "Link to another project's wiki" do
-        subject { format_text("[[onlinestore:]]") }
+        subject { format_text("[[#{project_2.identifier}:]]") }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/onlinestore/wiki/start-page\">onlinestore</a></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/#{project_2.identifier}/wiki/start-page\">#{project_2.identifier}</a></p>")
         }
       end
 
       context "Link to another project's wiki with label" do
-        subject { format_text("[[onlinestore:|Wiki]]") }
+        subject { format_text("[[#{project_2.identifier}:|Wiki]]") }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/onlinestore/wiki/start-page\">Wiki</a></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/#{project_2.identifier}/wiki/start-page\">Wiki</a></p>")
         }
       end
 
       context "Link to another project's wiki page" do
-        subject { format_text("[[onlinestore:Start page]]") }
+        subject { format_text("[[#{project_2.identifier}:Start page]]") }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/onlinestore/wiki/start-page\">Start Page</a></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/#{project_2.identifier}/wiki/start-page\">Start Page</a></p>")
         }
       end
 
       context "Link to another project's wiki page with label" do
-        subject { format_text("[[onlinestore:Start page|Text]]") }
+        subject { format_text("[[#{project_2.identifier}:Start page|Text]]") }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/onlinestore/wiki/start-page\">Text</a></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" target=\"_top\" href=\"/projects/#{project_2.identifier}/wiki/start-page\">Text</a></p>")
         }
       end
 
       context "Link to an unknown wiki page in another project" do
-        subject { format_text("[[onlinestore:Unknown page]]") }
+        subject { format_text("[[#{project_2.identifier}:Unknown page]]") }
 
         it {
-          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new op-uc-link\" target=\"_top\" href=\"/projects/onlinestore/wiki/unknown-page?title=Unknown+page\">Unknown page</a></p>")
+          expect(subject).to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new op-uc-link\" target=\"_top\" href=\"/projects/#{project_2.identifier}/wiki/unknown-page?title=Unknown+page\">Unknown page</a></p>")
         }
       end
 
@@ -720,7 +720,7 @@ RSpec.describe OpenProject::TextFormatting,
       let(:expected) do
         <<~EXPECTED
           <p class='op-uc-p'><a class="wiki-page op-uc-link" target="_top" href="/projects/#{project.identifier}/wiki/cookbook-documentation">CookBook documentation</a></p>
-          <p class='op-uc-p'><a class="issue work_package op-uc-link" data-hover-card-url="/work_packages/#{work_package.id}/hover_card" data-hover-card-trigger-target="trigger" aria-label="##{work_package.id}: A dynamic link to a work package placed using a macro." target="_top" href="/work_packages/#{work_package.id}">##{work_package.id}</a></p>
+          <p class='op-uc-p'><a class="issue work_package op-uc-link" data-hover-card-url="/work_packages/#{work_package.to_param}/hover_card" data-hover-card-trigger-target="trigger" aria-label="#{work_package.formatted_id}: A dynamic link to a work package placed using a macro." target="_top" href="/work_packages/#{work_package.to_param}">#{work_package.formatted_id}</a></p>
           <pre class="op-uc-code-block">
           [[CookBook documentation]]
 

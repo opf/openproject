@@ -113,7 +113,8 @@ module Journable::Timestamps
   def rollback!
     raise ActiveRecord::RecordNotSaved, "This is no historic data. You can only revert to historic data." unless historic?
 
-    self.class.find(id).update! attributes.except("id", "timestamp", "journal_id", "created_at", "updated_at")
+    self.class.find(id).update! attributes.except("id", "timestamp", "journal_id", "created_at", "updated_at",
+                                                  "identifier", "sequence_number")
   end
 
   private

@@ -32,6 +32,6 @@ FactoryBot.define do
     workspace_type { "program" }
 
     sequence(:name) { |n| "My Program No. #{n}" }
-    sequence(:identifier) { |n| "myprogram_no_#{n}" }
+    sequence(:identifier) { |n| Setting::WorkPackageIdentifier.semantic? ? "MPG#{n}" : "myprogram_no_#{n}" }
   end
 end

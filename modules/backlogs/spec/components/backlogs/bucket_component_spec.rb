@@ -126,7 +126,7 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
 
       it "renders one shared-card row per work package" do
         expect(rendered_component).to have_text("Bucket Work Package")
-        expect(rendered_component).to have_text("##{work_package.id}")
+        expect(rendered_component).to have_text(work_package.formatted_id)
       end
 
       it "renders story points on the work package card" do

@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { demoProjectUrl } from 'core-app/core/setup/globals/onboarding/helpers';
 import { OnboardingStep } from 'core-app/core/setup/globals/onboarding/onboarding_tour';
 
 export function homescreenOnboardingTourSteps():OnboardingStep[] {
@@ -39,7 +40,7 @@ export function homescreenOnboardingTourSteps():OnboardingStep[] {
     {
       containerClass: '-dark -hidden-arrow',
       onBeforeStart() {
-        window.location.href = `${window.location.origin}/projects/demo-project/work_packages?start_onboarding_tour=true`;
+        window.location.href = `${demoProjectUrl()}/work_packages?start_onboarding_tour=true`;
       },
     },
   ];

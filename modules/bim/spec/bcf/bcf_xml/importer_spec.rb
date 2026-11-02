@@ -38,7 +38,6 @@ RSpec.describe OpenProject::Bim::BcfXml::Importer do
   let(:type) { create(:type, name: "Issue", default_variant_enabled_in_all_projects: true) }
   let(:project) do
     create(:project,
-           identifier: "bim_project",
            enabled_module_names: %w[bim work_package_tracking],
            types: [type])
   end

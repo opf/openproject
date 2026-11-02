@@ -53,9 +53,9 @@ RSpec.describe McpTools::SearchPortfolios do
   let(:call_args) { {} }
   let(:parsed_results) { JSON.parse(last_response.body).fetch("result") }
 
-  let!(:portfolio_a) { create(:portfolio, identifier: "abc", name: "The ABC Portfolio", status_code: :on_track) }
-  let!(:portfolio_b) { create(:portfolio, identifier: "def", name: "The DEF Portfolio", status_code: :off_track) }
-  let!(:project) { create(:project, identifier: "ghi", name: "The unrelated Project", status_code: :on_track) }
+  let!(:portfolio_a) { create(:portfolio, name: "The ABC Portfolio", status_code: :on_track, raw_identifier: "abc") }
+  let!(:portfolio_b) { create(:portfolio, name: "The DEF Portfolio", status_code: :off_track, raw_identifier: "def") }
+  let!(:project) { create(:project, name: "The unrelated Project", status_code: :on_track, raw_identifier: "ghi") }
 
   let(:server_config) { create(:mcp_configuration, identifier: "mcp_server") }
   let(:tool_config) { create(:mcp_configuration, identifier: described_class.qualified_name) }
@@ -118,7 +118,6 @@ RSpec.describe McpTools::SearchPortfolios do
 
         portfolio_count.times do |idx|
           create(:portfolio,
-                 identifier: "p#{idx}",
                  name: "Death Star construction phase #{idx}",
                  status_code: :on_track)
         end

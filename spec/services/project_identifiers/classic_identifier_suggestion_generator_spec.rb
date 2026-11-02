@@ -29,7 +29,7 @@
 
 require "rails_helper"
 
-RSpec.describe ProjectIdentifiers::ClassicIdentifierSuggestionGenerator do
+RSpec.describe ProjectIdentifiers::ClassicIdentifierSuggestionGenerator, with_settings: { work_packages_identifier: "classic" } do
   describe "#suggest_identifier" do
     subject(:generator) { described_class.new }
 

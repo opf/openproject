@@ -53,9 +53,9 @@ RSpec.describe McpTools::SearchPrograms do
   let(:call_args) { {} }
   let(:parsed_results) { JSON.parse(last_response.body).fetch("result") }
 
-  let!(:program_a) { create(:program, identifier: "abc", name: "The ABC Program", status_code: :on_track) }
-  let!(:program_b) { create(:program, identifier: "def", name: "The DEF Program", status_code: :off_track) }
-  let!(:project) { create(:project, identifier: "ghi", name: "The unrelated Project", status_code: :on_track) }
+  let!(:program_a) { create(:program, name: "The ABC Program", status_code: :on_track, raw_identifier: "abc") }
+  let!(:program_b) { create(:program, name: "The DEF Program", status_code: :off_track, raw_identifier: "def") }
+  let!(:project) { create(:project, name: "The unrelated Project", status_code: :on_track, raw_identifier: "ghi") }
 
   let(:server_config) { create(:mcp_configuration, identifier: "mcp_server") }
   let(:tool_config) { create(:mcp_configuration, identifier: described_class.qualified_name) }
@@ -118,7 +118,6 @@ RSpec.describe McpTools::SearchPrograms do
 
         program_count.times do |idx|
           create(:program,
-                 identifier: "p#{idx}",
                  name: "Death Star construction phase #{idx}",
                  status_code: :on_track)
         end

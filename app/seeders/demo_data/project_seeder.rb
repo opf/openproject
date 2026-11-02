@@ -32,6 +32,11 @@ module DemoData
     attr_reader :project
     alias_method :project_data, :seed_data
 
+    def self.identifier(project_data)
+      key = Setting::WorkPackageIdentifier.semantic? ? "semantic_identifier" : "identifier"
+      project_data.lookup(key)
+    end
+
     self.needs = WorkPackageSeeder.needs + [
       BasicData::ProjectRoleSeeder,
       BasicData::GlobalRoleSeeder,
@@ -81,12 +86,13 @@ module DemoData
     end
 
     def delete_project
-      project_to_delete = Project.find_by(identifier: project_data.lookup("identifier"))
+      project_to_delete = Project.find_by(identifier: self.class.identifier(project_data))
       project_to_delete&.destroy
     end
 
     def create_project
-      Project.create! project_attributes
+      Project.create!(project_attributes)
+        .tap { |project| seed_data.store_reference(project_data.lookup("reference"), project) }
     end
 
     def set_members
@@ -188,13 +194,13 @@ module DemoData
     def project_attributes # rubocop:disable Metrics/AbcSize
       {
         name: project_data.lookup("name"),
-        identifier: project_data.lookup("identifier"),
+        identifier: self.class.identifier(project_data),
         status_code: project_data.lookup("status_code"),
         status_explanation: project_data.lookup("status_explanation"),
         description: project_data.lookup("description"),
         enabled_module_names: project_data.lookup("modules"),
         project_types: base_variant_rows_for(Type.all),
-        parent: Project.find_by(identifier: project_data.lookup("parent")),
+        parent: seed_data.find_reference(project_data.lookup("parent"), default: nil),
         workspace_type: "project"
       }
     end

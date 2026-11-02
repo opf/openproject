@@ -58,6 +58,17 @@ FactoryBot.define do
       sequence(:identifier) { |n| "PROJ#{n}".first(Projects::Identifier::SEMANTIC_IDENTIFIER_MAX_LENGTH) }
     end
 
+    trait :demo_project do
+      name { "Demo project" }
+      identifier do
+        if Setting::WorkPackageIdentifier.semantic?
+          Projects::DemoProject::SEMANTIC_IDENTIFIER
+        else
+          Projects::DemoProject::CLASSIC_IDENTIFIER
+        end
+      end
+    end
+
     callback(:after_build) do |_project, evaluator|
       is_build_strategy = evaluator.instance_eval { @build_strategy.is_a? FactoryBot::Strategy::Build }
       uses_member_association = evaluator.member_with_permissions.present? || evaluator.member_with_roles.present?
@@ -97,7 +108,7 @@ FactoryBot.define do
 
     factory :template_project do
       sequence(:name) { |n| "Template project No. #{n}" }
-      sequence(:identifier) { |n| "template_no_#{n}" }
+      sequence(:identifier) { |n| Setting::WorkPackageIdentifier.semantic? ? "TPL#{n}" : "template_no_#{n}" }
       template
     end
 

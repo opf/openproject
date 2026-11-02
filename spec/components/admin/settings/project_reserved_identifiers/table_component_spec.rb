@@ -29,7 +29,9 @@
 
 require "rails_helper"
 
-RSpec.describe Admin::Settings::ProjectReservedIdentifiers::TableComponent, type: :component do
+RSpec.describe Admin::Settings::ProjectReservedIdentifiers::TableComponent,
+               type: :component,
+               with_settings: { work_packages_identifier: "classic" } do
   subject(:rendered_component) { render_inline(described_class.new(rows:)) }
 
   shared_examples_for "rendering column headings" do

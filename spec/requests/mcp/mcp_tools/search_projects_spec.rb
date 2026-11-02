@@ -52,9 +52,9 @@ RSpec.describe McpTools::SearchProjects do
   let(:call_args) { {} }
   let(:parsed_results) { JSON.parse(last_response.body).fetch("result") }
 
-  let!(:project_a) { create(:project, identifier: "abc", name: "The ABC Project", status_code: :on_track) }
-  let!(:project_b) { create(:project, identifier: "def", name: "The DEF Project", status_code: :off_track) }
-  let!(:portfolio) { create(:portfolio, identifier: "ghi", name: "The unrelated Portfolio", status_code: :on_track) }
+  let!(:project_a) { create(:project, name: "The ABC Project", status_code: :on_track, raw_identifier: "abc") }
+  let!(:project_b) { create(:project, name: "The DEF Project", status_code: :off_track, raw_identifier: "def") }
+  let!(:portfolio) { create(:portfolio, name: "The unrelated Portfolio", status_code: :on_track, raw_identifier: "ghi") }
 
   let(:server_config) { create(:mcp_configuration, identifier: "mcp_server") }
   let(:tool_config) { create(:mcp_configuration, identifier: described_class.qualified_name) }
@@ -117,7 +117,6 @@ RSpec.describe McpTools::SearchProjects do
 
         project_count.times do |idx|
           create(:project,
-                 identifier: "p#{idx}",
                  name: "Death Star construction phase #{idx}",
                  status_code: :on_track)
         end

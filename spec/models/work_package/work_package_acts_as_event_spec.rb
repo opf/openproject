@@ -34,7 +34,7 @@ RSpec.describe WorkPackage do
     let(:stub_work_package) { build_stubbed(:work_package) }
 
     describe "#event_url" do
-      context "in classic mode" do
+      context "in classic mode", with_settings: { work_packages_identifier: "classic" } do
         let(:expected_url) { { controller: :work_packages, action: :show, id: stub_work_package.id } }
 
         it { expect(stub_work_package.event_url).to eq(expected_url) }

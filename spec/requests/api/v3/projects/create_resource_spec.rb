@@ -50,9 +50,10 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
   end
   let(:permissions) { [:add_project] }
   let(:path) { api_v3_paths.projects }
+  let(:new_project_identifier) { attributes_for(:project)[:identifier] }
   let(:body) do
     {
-      identifier: "new_project_identifier",
+      identifier: new_project_identifier,
       name: "Project name"
     }.to_json
   end
@@ -97,7 +98,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
   context "with a status" do
     let(:body) do
       {
-        identifier: "new_project_identifier",
+        identifier: new_project_identifier,
         name: "Project name",
         statusExplanation: { raw: "Some explanation." },
         _links: {
@@ -168,7 +169,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
       context "when no custom field value is provided" do
         let(:body) do
           {
-            identifier: "new_project_identifier",
+            identifier: new_project_identifier,
             name: "Project name"
           }.to_json
         end
@@ -179,7 +180,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
       context "when the custom field is provided but empty" do
         let(:body) do
           {
-            identifier: "new_project_identifier",
+            identifier: new_project_identifier,
             name: "Project name",
             shared_custom_field.attribute_name(:camel_case) => {
               raw: ""
@@ -193,7 +194,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
       context "when the custom field value is provided and valid" do
         let(:body) do
           {
-            identifier: "new_project_identifier",
+            identifier: new_project_identifier,
             name: "Project name",
             shared_custom_field.attribute_name(:camel_case) => {
               raw: "Engineering"
@@ -216,7 +217,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
       context "when the custom field value is provided and valid" do
         let(:body) do
           {
-            identifier: "new_project_identifier",
+            identifier: new_project_identifier,
             name: "Project name",
             shared_custom_field.attribute_name(:camel_case) => {
               raw: "Custom Location"
@@ -230,7 +231,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
       context "when the custom field value is identical to the default" do
         let(:body) do
           {
-            identifier: "new_project_identifier",
+            identifier: new_project_identifier,
             name: "Project name",
             shared_custom_field.attribute_name(:camel_case) => {
               raw: "Default Location"
@@ -244,7 +245,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
       context "when the custom field value is blank" do
         let(:body) do
           {
-            identifier: "new_project_identifier",
+            identifier: new_project_identifier,
             name: "Project name",
             shared_custom_field.attribute_name(:camel_case) => {
               raw: ""
@@ -267,7 +268,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
       context "when no custom field value is provided" do
         let(:body) do
           {
-            identifier: "new_project_identifier",
+            identifier: new_project_identifier,
             name: "Project name"
           }.to_json
         end
@@ -284,7 +285,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
       context "when the custom field is provided but empty" do
         let(:body) do
           {
-            identifier: "new_project_identifier",
+            identifier: new_project_identifier,
             name: "Project name",
             shared_custom_field.attribute_name(:camel_case) => {
               raw: ""
@@ -304,7 +305,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
       context "when the custom field value is provided and valid" do
         let(:body) do
           {
-            identifier: "new_project_identifier",
+            identifier: new_project_identifier,
             name: "Project name",
             shared_custom_field.attribute_name(:camel_case) => {
               raw: "Engineering"
@@ -324,7 +325,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
         context "when a value for the other cf is provided but the required one is missing (regression #70107)" do
           let(:body) do
             {
-              identifier: "new_project_identifier",
+              identifier: new_project_identifier,
               name: "Project name",
               other_custom_field.attribute_name(:camel_case) => {
                 raw: "Other value"
@@ -353,7 +354,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
         context "when a value for the required field is provided, but no value for the required not for_all custom_field" do
           let(:body) do
             {
-              identifier: "new_project_identifier",
+              identifier: new_project_identifier,
               name: "Project name",
               shared_custom_field.attribute_name(:camel_case) => {
                 raw: "Engineering"
@@ -371,7 +372,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
     context "with a visible custom field" do
       let(:body) do
         {
-          identifier: "new_project_identifier",
+          identifier: new_project_identifier,
           name: "Project name",
           custom_field.attribute_name(:camel_case) => {
             raw: "CF text"
@@ -394,7 +395,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
     context "with an admin only custom field" do
       let(:body) do
         {
-          identifier: "new_project_identifier",
+          identifier: new_project_identifier,
           name: "Project name",
           admin_only_custom_field.attribute_name(:camel_case) => {
             raw: "CF text"
@@ -434,7 +435,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
           end
           let(:body) do
             {
-              identifier: "new_project_identifier",
+              identifier: new_project_identifier,
               name: "Project name"
             }.to_json
           end
@@ -526,7 +527,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
   context "with missing name" do
     let(:body) do
       {
-        identifier: "some_identifier"
+        identifier: new_project_identifier
       }.to_json
     end
 
@@ -553,7 +554,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
   context "with a faulty status" do
     let(:body) do
       {
-        identifier: "new_project_identifier",
+        identifier: new_project_identifier,
         name: "Project name",
         statusExplanation: "Some explanation.",
         _links: {

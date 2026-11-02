@@ -251,7 +251,7 @@ because it's still in use by work packages)
       end
 
       it "matches a project by its identifier" do
-        create(:project, name: "Bookshop", identifier: "libris-nova")
+        create(:project, name: "Bookshop", raw_identifier: "libris-nova")
 
         get :tree, params: { type_id: type.id, name: "project_ids", query: "libris" }
 

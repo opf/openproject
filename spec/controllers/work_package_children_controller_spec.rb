@@ -44,7 +44,7 @@ RSpec.describe WorkPackageChildrenController do
       get("new", params: { work_package_id: work_package.id }, as: :turbo_stream)
 
       expect(response).to be_successful
-      expect(response.body).to include("/work_packages/#{work_package.id}/children")
+      expect(response.body).to include("/work_packages/#{work_package.to_param}/children")
     end
 
     context "when the user may manage subtasks but not add work packages" do
@@ -102,7 +102,7 @@ RSpec.describe WorkPackageChildrenController do
            as: :turbo_stream)
 
       expect(response).to be_successful
-      expect(response.body).to include("/work_packages/#{work_package.id}/children")
+      expect(response.body).to include("/work_packages/#{work_package.to_param}/children")
     end
   end
 end

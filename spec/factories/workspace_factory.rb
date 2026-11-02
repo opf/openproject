@@ -35,6 +35,9 @@ FactoryBot.define do
       members { [] }
 
       types { [] }
+
+      # Sets the identifier without validation, for fixtures whose identifier is invalid in the active mode.
+      raw_identifier { nil }
     end
 
     created_at { Time.zone.now }
@@ -42,6 +45,10 @@ FactoryBot.define do
     enabled_module_names { OpenProject::AccessControl.available_project_modules }
     public { false }
     templated { false }
+
+    after(:create) do |project, evaluator|
+      project.update_columns(identifier: evaluator.raw_identifier) if evaluator.raw_identifier
+    end
 
     callback(:after_build) do |project, evaluator|
       disabled_modules = Array(evaluator.disable_modules).map(&:to_s)

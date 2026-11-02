@@ -98,7 +98,8 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       expect(page).to have_text(I18n.t(:"js.button_open_details"))
       expect(page).to have_octicon(:"op-view-split")
       expect(page).to have_css(
-        "a[href$='/backlogs/backlog/details/#{work_package.id}'][data-action='backlogs--work-package#openSplitPane:prevent']",
+        "a[href$='/backlogs/backlog/details/#{work_package.to_param}']" \
+        "[data-action='backlogs--work-package#openSplitPane:prevent']",
         text: I18n.t(:"js.button_open_details")
       )
     end
@@ -121,7 +122,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       expect(page).to have_element(
         :"clipboard-copy",
         id: "work_package_#{work_package.id}_menu_copy_url_to_clipboard",
-        value: /\/work_packages\/#{work_package.id}\z/,
+        value: /\/work_packages\/#{work_package.to_param}\z/,
         text: "Copy link to clipboard"
       )
     end
@@ -133,7 +134,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       expect(page).to have_element(
         :"clipboard-copy",
         id: "work_package_#{work_package.id}_menu_copy_work_package_id",
-        value: work_package.id.to_s,
+        value: work_package.display_id.to_s,
         text: "Copy work package ID"
       )
     end

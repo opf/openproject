@@ -51,7 +51,7 @@ RSpec.describe Queries::Projects::Filters::TypeaheadFilter do
     # The project pickers send the "**" operator, the API's "name_and_identifier"
     # filter sends "~". Both have to find a project by either column.
     shared_examples_for "matching by name and by identifier" do
-      let!(:project) { create(:project, name: "Acme Website Redesign", identifier: "libris-nova") }
+      let!(:project) { create(:project, name: "Acme Website Redesign", raw_identifier: "libris-nova") }
 
       def matches(term)
         described_class
@@ -86,21 +86,21 @@ RSpec.describe Queries::Projects::Filters::TypeaheadFilter do
       # Every typed word is a condition of its own, so the words may appear in
       # any order and need not be adjacent.
       it "matches when the words appear out of order" do
-        project = create(:project, name: "Acme Website Redesign", identifier: "libris-nova")
+        project = create(:project, name: "Acme Website Redesign", raw_identifier: "libris-nova")
 
         expect(described_class.create!(operator: "**", values: ["redesign acme"]).apply_to(Project.all))
           .to contain_exactly(project)
       end
 
       it "matches when one word is in the name and another in the identifier" do
-        project = create(:project, name: "Acme Website Redesign", identifier: "libris-nova")
+        project = create(:project, name: "Acme Website Redesign", raw_identifier: "libris-nova")
 
         expect(described_class.create!(operator: "**", values: ["acme nova"]).apply_to(Project.all))
           .to contain_exactly(project)
       end
 
       it "requires every word to match" do
-        create(:project, name: "Acme Website Redesign", identifier: "libris-nova")
+        create(:project, name: "Acme Website Redesign", raw_identifier: "libris-nova")
 
         expect(described_class.create!(operator: "**", values: ["acme nowhere"]).apply_to(Project.all))
           .to be_empty

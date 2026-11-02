@@ -29,7 +29,7 @@
 
 require "rails_helper"
 
-RSpec.describe ProjectIdentifiers::RevertInstanceToClassicIdsJob do
+RSpec.describe ProjectIdentifiers::RevertInstanceToClassicIdsJob, with_settings: { work_packages_identifier: "classic" } do
   describe "#perform" do
     context "when the setting is not classic" do
       before { allow(Setting::WorkPackageIdentifier).to receive(:classic?).and_return(false) }

@@ -30,7 +30,9 @@
 
 require "spec_helper"
 
-RSpec.describe GitlabIntegration::GitSnippetsDialogComponent, type: :component do
+RSpec.describe GitlabIntegration::GitSnippetsDialogComponent,
+               type: :component,
+               with_settings: { work_packages_identifier: "classic" } do
   include ViewComponent::TestHelpers
 
   let(:work_package_subject) { "Stormtrooper Training" }

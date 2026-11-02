@@ -107,7 +107,7 @@ RSpec.describe WorkPackages::AutoCompletesController do
         get :index,
             params: {
               project_id: project.id,
-              q: work_package1.id
+              q: work_package1.display_id
             },
             format: :json
       end
@@ -117,7 +117,7 @@ RSpec.describe WorkPackages::AutoCompletesController do
       it_behaves_like "contains expected values"
     end
 
-    describe "returns work package for given ids" do
+    describe "returns work package for given ids", with_settings: { work_packages_identifier: "classic" } do
       # this relies on all expected work packages to have ids that contain the given string
       # we do not want to have work_package3 so we take its id + 1 to create a string
       # we are sure to not be part of work_package3's id.
@@ -183,7 +183,7 @@ RSpec.describe WorkPackages::AutoCompletesController do
         get :index,
             params: {
               project_id: project.id,
-              q: work_package3.id
+              q: work_package3.display_id
             },
             format: :json
       end
@@ -319,7 +319,7 @@ RSpec.describe WorkPackages::AutoCompletesController do
         get :index,
             params: {
               project_id: project.id,
-              q: work_package3.id
+              q: work_package3.display_id
             },
             format: :json
       end

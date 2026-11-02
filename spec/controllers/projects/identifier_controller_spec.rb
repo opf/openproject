@@ -29,7 +29,7 @@
 
 require "rails_helper"
 
-RSpec.describe Projects::IdentifierController do
+RSpec.describe Projects::IdentifierController, with_settings: { work_packages_identifier: "classic" } do
   let(:project) { create(:project) }
 
   current_user { create(:admin) }

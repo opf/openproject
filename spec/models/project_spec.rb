@@ -742,8 +742,8 @@ RSpec.describe Project do
   end
 
   describe "projects.identifier unique database constraint" do
-    let!(:other_project) { create(:project, identifier: "my-app") }
-    let(:project) { build(:project, identifier: "my-app") }
+    let!(:other_project) { create(:project) }
+    let(:project) { build(:project, identifier: other_project.identifier) }
 
     it "ensures uniqueness with disabled validation" do
       expect { project.save!(validate: false) }.to raise_error(

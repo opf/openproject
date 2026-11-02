@@ -46,7 +46,7 @@ RSpec.describe Query::SortCriteria do
     instance.available_criteria = available_criteria
   end
 
-  describe "ordered handling" do
+  describe "ordered handling", with_settings: { work_packages_identifier: "classic" } do
     context "with an empty sort_criteria" do
       let(:sort_criteria) { [] }
 

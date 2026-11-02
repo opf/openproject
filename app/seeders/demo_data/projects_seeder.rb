@@ -29,17 +29,19 @@
 
 module DemoData
   class ProjectsSeeder < Seeder
+    include References
+
     # Careful: The seeding recreates the seeded project before it runs, so any changes
     # on the seeded project will be lost.
     # On the other hand, it won't be applied if there are already existing projects.
     def seed_data!
-      print_status " ↳ Updating settings"
-      seed_settings
-
       project_seeders.each do |project_seeder|
         project_seeder.seed!
         Setting.demo_projects_available = true
       end
+
+      print_status " ↳ Updating settings"
+      seed_settings
 
       print_status " ↳ Update form configuration with global queries"
       seed_form_configuration
@@ -67,7 +69,7 @@ module DemoData
 
       {
         welcome_title: welcome.lookup("title"),
-        welcome_text: welcome.lookup("text"),
+        welcome_text: with_references(welcome.lookup("text"), tags: %w[project]),
         welcome_on_homescreen: 1
       }
     end

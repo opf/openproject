@@ -93,7 +93,7 @@ RSpec.describe Project, "acts_as_journalized" do
       project.description = "changed project description"
       project.public = !project.public
       project.parent = parent_project
-      project.identifier = "changed-identifier"
+      project.identifier = project.suggest_identifier
       project.active = !project.active
       project.templated = !project.templated
 
