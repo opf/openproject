@@ -131,57 +131,49 @@ RSpec.shared_examples_for "project contract" do
     it_behaves_like "contract is invalid", status: %i(inclusion)
   end
 
-  context "when the identifier consists of only letters",
-          with_settings: { work_packages_identifier: "classic" } do
+  context "when the identifier consists of only letters", :classic_identifiers do
     let(:project_identifier) { "abc" }
 
     it_behaves_like "contract is valid"
   end
 
-  context "when the identifier consists of letters followed by numbers",
-          with_settings: { work_packages_identifier: "classic" } do
+  context "when the identifier consists of letters followed by numbers", :classic_identifiers do
     let(:project_identifier) { "abc12" }
 
     it_behaves_like "contract is valid"
   end
 
-  context "when the identifier consists of letters followed by numbers with a hyphen in between",
-          with_settings: { work_packages_identifier: "classic" } do
+  context "when the identifier consists of letters followed by numbers with a hyphen in between", :classic_identifiers do
     let(:project_identifier) { "abc-12" }
 
     it_behaves_like "contract is valid"
   end
 
-  context "when the identifier consists of letters followed by numbers with an underscore in between",
-          with_settings: { work_packages_identifier: "classic" } do
+  context "when the identifier consists of letters followed by numbers with an underscore in between", :classic_identifiers do
     let(:project_identifier) { "abc_12" }
 
     it_behaves_like "contract is valid"
   end
 
-  context "when the identifier consists of numbers followed by letters with a hyphen in between",
-          with_settings: { work_packages_identifier: "classic" } do
+  context "when the identifier consists of numbers followed by letters with a hyphen in between", :classic_identifiers do
     let(:project_identifier) { "12-abc" }
 
     it_behaves_like "contract is valid"
   end
 
-  context "when the identifier consists of numbers followed by letters with an underscore in between",
-          with_settings: { work_packages_identifier: "classic" } do
+  context "when the identifier consists of numbers followed by letters with an underscore in between", :classic_identifiers do
     let(:project_identifier) { "12_abc" }
 
     it_behaves_like "contract is valid"
   end
 
-  context "when the identifier consists of only numbers",
-          with_settings: { work_packages_identifier: "classic" } do
+  context "when the identifier consists of only numbers", :classic_identifiers do
     let(:project_identifier) { "12" }
 
     it_behaves_like "contract is invalid", identifier: %i(invalid)
   end
 
-  context "when the identifier consists of a reserved word",
-          with_settings: { work_packages_identifier: "classic" } do
+  context "when the identifier consists of a reserved word", :classic_identifiers do
     let(:project_identifier) { "new" }
 
     it_behaves_like "contract is invalid", identifier: %i(exclusion)

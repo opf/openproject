@@ -332,6 +332,12 @@ RSpec.describe RootSeeder,
       expect(template.agenda_items.pluck(:presenter_id).uniq.count).to be > 1
     end
 
+    it "seeds the demo project with an identifier Projects::DemoProject recognizes" do
+      demo_project = root_seeder.seed_data.find_reference(:demo_project)
+
+      expect(Projects::DemoProject.identifier?(demo_project.identifier)).to be(true)
+    end
+
     it "adds a resource planner with its views and allocations to the demo project" do
       demo_project = root_seeder.seed_data.find_reference(:demo_project).reload
 

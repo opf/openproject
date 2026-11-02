@@ -29,9 +29,7 @@
 
 require "rails_helper"
 
-RSpec.describe Admin::Settings::ProjectReservedIdentifiers::TableComponent,
-               type: :component,
-               with_settings: { work_packages_identifier: "classic" } do
+RSpec.describe Admin::Settings::ProjectReservedIdentifiers::TableComponent, type: :component do
   subject(:rendered_component) { render_inline(described_class.new(rows:)) }
 
   shared_examples_for "rendering column headings" do
@@ -51,7 +49,7 @@ RSpec.describe Admin::Settings::ProjectReservedIdentifiers::TableComponent,
   end
 
   context "with slugs" do
-    let!(:project) { create(:project, identifier: "current-id") }
+    let!(:project) { create(:project) }
     let!(:slug) { FriendlyId::Slug.create!(sluggable: project, slug: "old-id") }
     let(:rows) { [slug] }
 

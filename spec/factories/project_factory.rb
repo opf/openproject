@@ -48,7 +48,7 @@ FactoryBot.define do
     workspace_type { "project" }
 
     sequence(:name) { |n| "My Project No. #{n}" }
-    sequence(:identifier) { |n| Setting::WorkPackageIdentifier.semantic? ? "MPN#{n}" : "myproject_no_#{n}" }
+    sequence(:identifier) { |n| WorkPackagesIdentifierMode.identifier(semantic: "MPN#{n}", classic: "myproject_no_#{n}") }
 
     # Use this trait for specs that exercise semantic-mode behavior.
     # Produces a deterministic uppercase identifier that satisfies
@@ -61,11 +61,8 @@ FactoryBot.define do
     trait :demo_project do
       name { "Demo project" }
       identifier do
-        if Setting::WorkPackageIdentifier.semantic?
-          Projects::DemoProject::SEMANTIC_IDENTIFIER
-        else
-          Projects::DemoProject::CLASSIC_IDENTIFIER
-        end
+        WorkPackagesIdentifierMode.identifier(semantic: Projects::DemoProject::SEMANTIC_IDENTIFIER,
+                                              classic: Projects::DemoProject::CLASSIC_IDENTIFIER)
       end
     end
 
@@ -108,7 +105,7 @@ FactoryBot.define do
 
     factory :template_project do
       sequence(:name) { |n| "Template project No. #{n}" }
-      sequence(:identifier) { |n| Setting::WorkPackageIdentifier.semantic? ? "TPL#{n}" : "template_no_#{n}" }
+      sequence(:identifier) { |n| WorkPackagesIdentifierMode.identifier(semantic: "TPL#{n}", classic: "template_no_#{n}") }
       template
     end
 

@@ -32,6 +32,6 @@ FactoryBot.define do
     workspace_type { "portfolio" }
 
     sequence(:name) { |n| "My Portfolio No. #{n}" }
-    sequence(:identifier) { |n| Setting::WorkPackageIdentifier.semantic? ? "MPF#{n}" : "myportfolio_no_#{n}" }
+    sequence(:identifier) { |n| WorkPackagesIdentifierMode.identifier(semantic: "MPF#{n}", classic: "myportfolio_no_#{n}") }
   end
 end

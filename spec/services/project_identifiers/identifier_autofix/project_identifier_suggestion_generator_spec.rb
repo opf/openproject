@@ -29,8 +29,7 @@
 
 require "rails_helper"
 
-RSpec.describe ProjectIdentifiers::IdentifierAutofix::ProjectIdentifierSuggestionGenerator,
-               with_settings: { work_packages_identifier: "classic" } do
+RSpec.describe ProjectIdentifiers::IdentifierAutofix::ProjectIdentifierSuggestionGenerator, :classic_identifiers do
   describe ".call" do
     context "when given an empty array" do
       it "returns an empty array" do

@@ -29,10 +29,8 @@
 
 require "rails_helper"
 
-RSpec.describe Admin::Settings::ProjectReservedIdentifiers::IndexComponent,
-               type: :component,
-               with_settings: { work_packages_identifier: "classic" } do
-  let!(:project) { create(:project, identifier: "cur-id") }
+RSpec.describe Admin::Settings::ProjectReservedIdentifiers::IndexComponent, type: :component do
+  let!(:project) { create(:project) }
   let!(:slug) { FriendlyId::Slug.create!(sluggable: project, slug: "prev-id") }
 
   subject(:rendered_component) { render_inline(described_class.new([slug])) }

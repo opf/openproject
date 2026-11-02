@@ -189,7 +189,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
         ]
     end
 
-    it "applies the column formats to both work package column blocks", with_settings: { work_packages_identifier: "classic" } do
+    it "applies the column formats to both work package column blocks", :classic_identifiers do
       expect(sheet.row(2).format(2).number_format).to eq("0")
       expect(sheet.row(2).format(12).number_format).to eq("0")
     end
@@ -202,8 +202,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
         expect(sheet.rows[1][9]).to eq "Relation type"
       end
 
-      it "applies the column formats to both work package column blocks",
-         with_settings: { work_packages_identifier: "classic" } do
+      it "applies the column formats to both work package column blocks", :classic_identifiers do
         expect(sheet.row(2).format(2).number_format).to eq("0")
         expect(sheet.row(2).format(13).number_format).to eq("0")
 
@@ -392,7 +391,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     end
   end
 
-  describe "with typed columns", with_settings: { work_packages_identifier: "classic" } do
+  describe "with typed columns", :classic_identifiers do
     let(:int_cf) { create(:integer_wp_custom_field, name: "Units") }
     let(:float_cf) { create(:float_wp_custom_field, name: "Weight") }
     let(:date_cf) { create(:date_wp_custom_field, name: "Reviewed on") }

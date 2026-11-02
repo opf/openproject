@@ -27,9 +27,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+module WorkPackagesIdentifierMode
+  module_function
+
+  def identifier(semantic:, classic:)
+    Setting::WorkPackageIdentifier.semantic? ? semantic : classic
+  end
+end
+
 # Runs the suite under a non-default identifier mode, e.g.
 # OPENPROJECT_TESTING_WORK_PACKAGES_IDENTIFIER=classic bundle exec rspec
 RSpec.configure do |config|
+  config.define_derived_metadata(:classic_identifiers) do |metadata|
+    metadata[:with_settings] = (metadata[:with_settings] || {}).merge(work_packages_identifier: "classic")
+  end
+
   config.before(:suite) do
     mode = ENV["OPENPROJECT_TESTING_WORK_PACKAGES_IDENTIFIER"].presence
     next unless mode

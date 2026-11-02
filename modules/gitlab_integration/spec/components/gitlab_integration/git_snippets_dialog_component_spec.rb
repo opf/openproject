@@ -30,14 +30,13 @@
 
 require "spec_helper"
 
-RSpec.describe GitlabIntegration::GitSnippetsDialogComponent,
-               type: :component,
-               with_settings: { work_packages_identifier: "classic" } do
+RSpec.describe GitlabIntegration::GitSnippetsDialogComponent, type: :component do
   include ViewComponent::TestHelpers
 
   let(:work_package_subject) { "Stormtrooper Training" }
   let(:work_package_type) { create(:type, name: "Responsibility") }
   let(:work_package) { create(:work_package, subject: work_package_subject, type: work_package_type) }
+  let(:branch_id) { work_package.display_id.to_s.downcase }
 
   before do
     render_inline described_class.new(work_package)
@@ -53,7 +52,7 @@ RSpec.describe GitlabIntegration::GitSnippetsDialogComponent,
   describe "branch name" do
     it "renders the expected branch name" do
       expect(page).to have_test_selector("gitlab-snippets-branch-name",
-                                         value: "responsibility/#{work_package.id}-stormtrooper-training")
+                                         value: "responsibility/#{branch_id}-stormtrooper-training")
     end
 
     context "if the work package type contains non-word characters" do
@@ -61,7 +60,7 @@ RSpec.describe GitlabIntegration::GitSnippetsDialogComponent,
 
       it "renders the expected branch name" do
         expect(page).to have_test_selector("gitlab-snippets-branch-name",
-                                           value: "difficult-task/#{work_package.id}-stormtrooper-training")
+                                           value: "difficult-task/#{branch_id}-stormtrooper-training")
       end
     end
 
@@ -70,7 +69,7 @@ RSpec.describe GitlabIntegration::GitSnippetsDialogComponent,
 
       it "replaces any non-word characters" do
         expect(page).to have_test_selector("gitlab-snippets-branch-name",
-                                           value: "responsibility/#{work_package.id}-stormtroopers-training-and-drill")
+                                           value: "responsibility/#{branch_id}-stormtroopers-training-and-drill")
       end
     end
 
@@ -86,9 +85,9 @@ RSpec.describe GitlabIntegration::GitSnippetsDialogComponent,
   describe "commit message name" do
     it "renders the expected commit message" do
       expect(page).to have_test_selector("gitlab-snippets-commit-message",
-                                         text: "OP##{work_package.id} Stormtrooper Training")
+                                         text: "OP##{work_package.display_id} Stormtrooper Training")
       expect(page).to have_test_selector("gitlab-snippets-commit-message",
-                                         text: "http://localhost:3000/wp/#{work_package.id}")
+                                         text: "http://localhost:3000/wp/#{work_package.to_param}")
     end
 
     context "if the work package subject contains non-word characters" do
@@ -96,9 +95,9 @@ RSpec.describe GitlabIntegration::GitSnippetsDialogComponent,
 
       it "renders the expected commit message" do
         expect(page).to have_test_selector("gitlab-snippets-commit-message",
-                                           text: "OP##{work_package.id} Stormtroopers' Training & Drill")
+                                           text: "OP##{work_package.display_id} Stormtroopers' Training & Drill")
         expect(page).to have_test_selector("gitlab-snippets-commit-message",
-                                           text: "http://localhost:3000/wp/#{work_package.id}")
+                                           text: "http://localhost:3000/wp/#{work_package.to_param}")
       end
     end
 
@@ -115,10 +114,10 @@ RSpec.describe GitlabIntegration::GitSnippetsDialogComponent,
 
   describe "create branch command" do
     it "renders the expected CLI command" do
-      command_text_lines = ["git switch -c responsibility/#{work_package.id}-stormtrooper-training && \\",
+      command_text_lines = ["git switch -c responsibility/#{branch_id}-stormtrooper-training && \\",
                             "  git commit --allow-empty \\",
-                            "  -m 'OP##{work_package.id} Stormtrooper Training' \\",
-                            "  -m 'http://localhost:3000/wp/#{work_package.id}'"]
+                            "  -m 'OP##{work_package.display_id} Stormtrooper Training' \\",
+                            "  -m 'http://localhost:3000/wp/#{work_package.to_param}'"]
 
       command_text_lines.each do |line|
         expect(page).to have_test_selector("gitlab-snippets-create-branch-command", text: line)
@@ -129,10 +128,10 @@ RSpec.describe GitlabIntegration::GitSnippetsDialogComponent,
       let(:work_package_type) { create(:type, name: "Difficult Task") }
 
       it "renders the expected CLI command" do
-        command_text_lines = ["git switch -c difficult-task/#{work_package.id}-stormtrooper-training && \\",
+        command_text_lines = ["git switch -c difficult-task/#{branch_id}-stormtrooper-training && \\",
                               "  git commit --allow-empty \\",
-                              "  -m 'OP##{work_package.id} Stormtrooper Training' \\",
-                              "  -m 'http://localhost:3000/wp/#{work_package.id}'"]
+                              "  -m 'OP##{work_package.display_id} Stormtrooper Training' \\",
+                              "  -m 'http://localhost:3000/wp/#{work_package.to_param}'"]
 
         command_text_lines.each do |line|
           expect(page).to have_test_selector("gitlab-snippets-create-branch-command", text: line)
@@ -144,10 +143,10 @@ RSpec.describe GitlabIntegration::GitSnippetsDialogComponent,
       let(:work_package_subject) { "Stormtroopers' Training & Drill" }
 
       it "renders the expected CLI command" do
-        command_text_lines = ["git switch -c responsibility/#{work_package.id}-stormtroopers-training-and-drill && \\",
+        command_text_lines = ["git switch -c responsibility/#{branch_id}-stormtroopers-training-and-drill && \\",
                               "  git commit --allow-empty \\",
-                              "  -m 'OP##{work_package.id} Stormtroopers\\' Training & Drill' \\",
-                              "  -m 'http://localhost:3000/wp/#{work_package.id}'"]
+                              "  -m 'OP##{work_package.display_id} Stormtroopers\\' Training & Drill' \\",
+                              "  -m 'http://localhost:3000/wp/#{work_package.to_param}'"]
 
         command_text_lines.each do |line|
           expect(page).to have_test_selector("gitlab-snippets-create-branch-command", text: line)

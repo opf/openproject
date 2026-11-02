@@ -29,9 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe Projects::SetAttributesService, "integration",
-               type: :model,
-               with_settings: { work_packages_identifier: "classic" } do
+RSpec.describe Projects::SetAttributesService, "integration", :classic_identifiers, type: :model do
   let(:user) do
     create(:user, global_permissions: %w[add_project])
   end

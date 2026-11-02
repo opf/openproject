@@ -117,7 +117,7 @@ RSpec.describe WorkPackages::AutoCompletesController do
       it_behaves_like "contains expected values"
     end
 
-    describe "returns work package for given ids", with_settings: { work_packages_identifier: "classic" } do
+    describe "returns work package for given ids", :classic_identifiers do
       # this relies on all expected work packages to have ids that contain the given string
       # we do not want to have work_package3 so we take its id + 1 to create a string
       # we are sure to not be part of work_package3's id.
