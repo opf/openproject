@@ -2218,7 +2218,7 @@ en:
         types_caption: "Add work package types for which this action should be available. All available variants will automatically be included."
         usage_scope_caption: "You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types."
       index:
-        description: "The text assistant gives users LLM-powered actions to help them write, organise and review their work package description text. Here, you can create new actions using your own prompts and instructions."
+        description: "The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions."
         label_add_action: "Action"
         label_aria_add_action: "Add text action"
       index_component:
