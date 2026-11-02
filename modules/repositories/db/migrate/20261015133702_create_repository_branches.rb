@@ -41,7 +41,7 @@ class CreateRepositoryBranches < ActiveRecord::Migration[8.1]
 
       t.timestamps precision: nil, null: false
 
-      t.index %i[external_project_id name], unique: true
+      t.index %i[provider_id external_project_id name], unique: true
     end
   end
 end
