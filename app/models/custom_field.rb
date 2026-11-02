@@ -34,6 +34,8 @@ class CustomField < ApplicationRecord
   include Lists::MoveAfterAnchor
 
   SORTABLE_LIST_TYPE = "custom_field"
+  ATTRIBUTE_NAME_PATTERN = /\Acustom_field_(?<id>\d+)\z/
+  COLUMN_NAME_PATTERN = /\Acf_(?<id>\d+)\z/
 
   normalizes :name, with: OpenProject::RemoveInvisibleCharacters
 
@@ -318,13 +320,21 @@ class CustomField < ApplicationRecord
   end
 
   def self.custom_field_attribute?(attribute_name)
-    /\Acustom_field_\d+\z/.match?(attribute_name.to_s)
+    ATTRIBUTE_NAME_PATTERN.match?(attribute_name.to_s)
   end
 
   def self.id_from_attribute_name(attribute_name)
-    return unless custom_field_attribute?(attribute_name)
+    match = ATTRIBUTE_NAME_PATTERN.match(attribute_name.to_s)
+    match[:id].to_i if match
+  end
 
-    attribute_name.to_s.delete_prefix("custom_field_").to_i
+  def self.column_name?(name)
+    COLUMN_NAME_PATTERN.match?(name.to_s)
+  end
+
+  def self.id_from_column_name(name)
+    match = COLUMN_NAME_PATTERN.match(name.to_s)
+    match[:id].to_i if match
   end
 
   # to move in project_custom_field
