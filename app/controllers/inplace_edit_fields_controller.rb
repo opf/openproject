@@ -34,7 +34,7 @@ class InplaceEditFieldsController < ApplicationController
   before_action :find_model
   before_action :set_attribute
   before_action :authorize_project_custom_field_visibility!, if: :custom_field_attribute?
-  no_authorization_required! :edit, :update, :reset, :dialog
+  authorization_checked! :edit, :update, :reset, :dialog
 
   def edit
     replace_via_turbo_stream(
