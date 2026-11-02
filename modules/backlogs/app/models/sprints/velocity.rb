@@ -59,15 +59,10 @@ module Sprints
     end
 
     def preceding_sprints
-      @preceding_sprints ||= begin
-        ids = Sprint.for_project(project)
-                    .visible
-                    .where("COALESCE(sprints.completed_at, sprints.finish_date) IS NOT NULL")
-                    .order_by_date
-                    .pluck(:id)
-        position = ids.index(sprint.id)
-        position ? Sprint.find(ids.first(position).last(SPRINT_COUNT - 1)) : []
-      end
+      @preceding_sprints ||= Sprint.for_project(project)
+                                   .visible
+                                   .where("COALESCE(sprints.completed_at, sprints.finish_date) IS NOT NULL")
+                                   .preceding(sprint, limit: SPRINT_COUNT - 1)
     end
 
     private

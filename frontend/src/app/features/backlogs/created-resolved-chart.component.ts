@@ -28,10 +28,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ChartOptions } from 'chart.js';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
-import NonWorkingDaysPlugin, { nonWorkingDaysColor } from 'core-app/shared/components/charts/plugin.non-working-days';
-import {
-  NON_WORKING_KEY, NonWorkingKey, SeriesChartComponent, SeriesStyle,
-} from 'core-app/shared/components/charts/component.series-chart';
+import { SeriesChartComponent, SeriesStyle } from 'core-app/shared/components/charts/component.series-chart';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
@@ -43,7 +40,10 @@ type SeriesKey = 'created'|'resolved';
 //
 // Which of the two leads is the whole question the chart answers, so the band between them is
 // red while work is arriving faster than it is finished and green while it is not.
-const SERIES_STYLE:Record<SeriesKey|NonWorkingKey, SeriesStyle<SeriesKey>> = {
+//
+// The non-working days are not rendered for this chart as a lot of gray bars on the longer
+// time span are confusing.
+const SERIES_STYLE:Record<SeriesKey, SeriesStyle<SeriesKey>> = {
   created: {
     swatch: 'rect',
     borderWidth: 1,
@@ -65,11 +65,6 @@ const SERIES_STYLE:Record<SeriesKey|NonWorkingKey, SeriesStyle<SeriesKey>> = {
       background: paleGreen(),
     }),
   },
-  [NON_WORKING_KEY]: {
-    swatch: 'rect',
-    borderWidth: 0,
-    color: () => ({ border: nonWorkingDaysColor(), background: nonWorkingDaysColor() }),
-  },
 };
 
 function paleRed():string {
@@ -84,7 +79,7 @@ function paleGreen():string {
   selector: 'op-created-resolved-chart',
   templateUrl: './created-resolved-chart.component.html',
   imports: [BaseChartDirective, NoResultsComponent],
-  providers: [provideCharts(withDefaultRegisterables(NonWorkingDaysPlugin))],
+  providers: [provideCharts(withDefaultRegisterables())],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreatedResolvedComponent extends SeriesChartComponent<SeriesKey> {
