@@ -71,7 +71,7 @@ Add the OpenProject package source:
 
 ```shell
 sudo curl -fsSL \
-  "https://packages.openproject.com/srv/opf/openproject/stable/17/installer/ubuntu/22.04.list" \
+  "https://packages.openproject.com/srv/opf/openproject/stable/18/installer/ubuntu/22.04.list" \
   -o /etc/apt/sources.list.d/openproject.list
 ```
 
@@ -112,7 +112,7 @@ Add the OpenProject package source:
 
 ```shell
 sudo curl -fsSL \
-  "https://packages.openproject.com/srv/opf/openproject/stable/17/installer/ubuntu/20.04.list" \
+  "https://packages.openproject.com/srv/opf/openproject/stable/18/installer/ubuntu/20.04.list" \
   -o /etc/apt/sources.list.d/openproject.list
 ```
 
@@ -154,7 +154,7 @@ Add the OpenProject package source:
 
 ```shell
 sudo curl -fsSL \
-  "https://packages.openproject.com/srv/opf/openproject/stable/17/installer/debian/12.list" \
+  "https://packages.openproject.com/srv/opf/openproject/stable/18/installer/debian/12.list" \
   -o /etc/apt/sources.list.d/openproject.list
 ```
 
@@ -194,7 +194,7 @@ Add the OpenProject package source:
 
 ```shell
 sudo curl -fsSL \
-  "https://packages.openproject.com/srv/opf/openproject/stable/17/installer/debian/11.list" \
+  "https://packages.openproject.com/srv/opf/openproject/stable/18/installer/debian/11.list" \
   -o /etc/apt/sources.list.d/openproject.list
 ```
 
@@ -240,7 +240,7 @@ Add the OpenProject repository:
 
 ```shell
 sudo curl -fsSL \
-  "https://packages.openproject.com/srv/opf/openproject/stable/17/installer/el/9.repo" \
+  "https://packages.openproject.com/srv/opf/openproject/stable/18/installer/el/9.repo" \
   -o /etc/yum.repos.d/openproject.repo
 ```
 
@@ -274,7 +274,7 @@ Add the OpenProject package source:
 
 ```shell
 sudo curl -o /etc/zypp/repos.d/openproject.repo \
-  "https://packages.openproject.com/srv/opf/openproject/stable/17/installer/sles/15.repo"
+  "https://packages.openproject.com/srv/opf/openproject/stable/18/installer/sles/15.repo"
 ```
 
 If you already had an old package source that is being updated you must refresh

@@ -652,7 +652,7 @@ We will show both possibilities later in the configuration.
 
 ### 3) Create stack
 
-To create a stack you need a stack file. The easiest way is to just copy OpenProject's [docker-compose.yml](https://github.com/opf/openproject/blob/stable/17/docker-compose.yml). Just download it and save it as, say, `openproject-stack.yml`.
+To create a stack you need a stack file. The easiest way is to just copy OpenProject's [docker-compose.yml](https://github.com/opf/openproject/blob/stable/18/docker-compose.yml). Just download it and save it as, say, `openproject-stack.yml`.
 
 #### Configuring storage
 
