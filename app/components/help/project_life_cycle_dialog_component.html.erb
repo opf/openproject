@@ -37,9 +37,13 @@ See COPYRIGHT and LICENSE files for more details.
     ) do |dialog| %>
   <% if options[:show_button] %>
     <% dialog.with_show_button(
+         scheme: :link,
          test_selector: "project-life-cycle-contextual-help",
          aria: { haspopup: "dialog" }
-       ) { t("contextual_help.open") } %>
+       ) do |button| %>
+      <% button.with_leading_visual_icon(icon: :book) %>
+      <%= t("contextual_help.open") %>
+    <% end %>
   <% end %>
   <% dialog.with_header(variant: :large) %>
   <% dialog.with_body do %>
