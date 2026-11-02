@@ -694,6 +694,15 @@ RSpec.describe CustomField do
       end
     end
 
+    context "with a project weighted_item_list cf" do
+      let(:field) { build_stubbed(:weighted_item_list_project_custom_field) }
+
+      it "is true" do
+        expect(field)
+           .to be_multi_value_possible
+      end
+    end
+
     context "with a project calculated value cf" do
       let(:field) { build_stubbed(:calculated_value_project_custom_field) }
 
