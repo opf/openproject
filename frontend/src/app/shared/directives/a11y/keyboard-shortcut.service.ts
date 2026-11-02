@@ -145,9 +145,9 @@ export class KeyboardShortcutService {
       return;
     }
 
-    const rows = Array.from(list.querySelectorAll<HTMLElement>('tbody.work-package--results-tbody > tr'))
+    const rows = Array.from(list.querySelectorAll<HTMLTableRowElement>('tbody.work-package--results-tbody > tr, tbody > tr.wp-table--sums-row'))
       .filter((row) => row.checkVisibility());
-    const current = enclosing ? active?.closest<HTMLElement>('tr') ?? null : null;
+    const current = enclosing ? active?.closest('tr') ?? null : null;
     const index = current ? rows.indexOf(current) : -1;
     const start = !enclosing && offset < 0 ? rows.length : index;
     for (let next = start + offset; next >= 0 && next < rows.length; next += offset) {

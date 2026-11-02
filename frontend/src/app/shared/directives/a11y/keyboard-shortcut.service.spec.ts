@@ -148,6 +148,22 @@ describe('KeyboardShortcutService', () => {
     });
   });
 
+  describe('from the totals row', () => {
+    it('moves up to the last work package row and stays on the totals row going down', async () => {
+      const table = await mountTable(['1', '2', '3']);
+      const totalsCell = table.totalsRow().cells[0];
+      totalsCell.tabIndex = -1;
+
+      totalsCell.focus();
+      service.focusPrevItem();
+      expect(table.row('3')).toHaveFocus();
+
+      totalsCell.focus();
+      service.focusNextItem();
+      expect(totalsCell).toHaveFocus();
+    });
+  });
+
   describe('in a grouped table', () => {
     const groupedOptions:Partial<TableHarnessOptions> = {
       workPackages: [
