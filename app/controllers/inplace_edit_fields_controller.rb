@@ -144,7 +144,7 @@ class InplaceEditFieldsController < ApplicationController
   end
 
   def custom_field_attribute?
-    @attribute.to_s.start_with?("custom_field_")
+    CustomField.custom_field_attribute?(@attribute)
   end
 
   def custom_field_via_fields_for?
