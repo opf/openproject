@@ -210,8 +210,8 @@ en:
   ee:
     upsell:
       llm_connection:
-        title: "LLM settings"
         description: "Run AI features such as the text assistant and semantic search on an LLM server you choose."
+        title: "LLM settings"
   llm:
     api_formats:
       anthropic: "Anthropic"

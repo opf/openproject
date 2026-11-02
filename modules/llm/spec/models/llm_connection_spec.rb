@@ -28,6 +28,7 @@
 #++
 
 require "spec_helper"
+require_module_spec_helper
 
 RSpec.describe LlmConnection do
   describe "#api_key", with_config: { "database_cipher_key" => "secret" } do
