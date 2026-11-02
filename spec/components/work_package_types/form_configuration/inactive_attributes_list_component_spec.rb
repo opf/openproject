@@ -42,7 +42,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::InactiveAttributesListCompon
   it "lists each inactive attribute as a sortable attribute item", :aggregate_failures do
     render_list([attribute])
 
-    expect(page).to have_sortable_item(form_attribute, type: "attribute", label: "Assignee")
+    expect(page).to have_sortable_item(form_attribute, type: "attribute", label: "Assignee", count: 1)
     expect(page).to have_button(accessible_name: "Drag to reorder", count: 1) do |handle|
       handle["data-sortable-lists--item-target"] == "handle"
     end

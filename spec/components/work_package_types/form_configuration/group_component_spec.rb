@@ -58,7 +58,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupComponent, type: :compo
   it "is a sortable group item keyed by its record", :aggregate_failures do
     render_group
 
-    expect(page).to have_sortable_item(record, type: "group", label: "Details")
+    expect(page).to have_sortable_item(record, type: "group", label: "Details", count: 1)
     expect(page).to have_css("##{described_class.wrapper_key}-#{record.id}")
     expect(page).to have_no_element("data-sortable-lists--item-mobility-value": true)
   end
@@ -66,7 +66,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupComponent, type: :compo
   it "stays a fixed sortable item while its editor is open", :aggregate_failures do
     render_group(edit_mode: true)
 
-    expect(page).to have_sortable_item(record, type: "group", label: "Details")
+    expect(page).to have_sortable_item(record, type: "group", label: "Details", count: 1)
     expect(page).to have_element("data-sortable-lists--item-id-value": record.id.to_s,
                                  "data-sortable-lists--item-mobility-value": "fixed")
   end
@@ -91,7 +91,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupComponent, type: :compo
         expect(list["data-sortable-lists--list-id-value"]).to eq(record.id.to_s)
         expect(list["data-sortable-lists--item-target"]).to eq("preview")
       end
-      expect(rendered_component).to have_sortable_item(form_attribute, type: "attribute", label: "Assignee")
+      expect(rendered_component).to have_sortable_item(form_attribute, type: "attribute", label: "Assignee", count: 1)
     end
   end
 

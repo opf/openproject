@@ -203,7 +203,7 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
 
     it "identifies each type group by its record" do
       page_two.each do |type|
-        expect(rendered_component).to have_sortable_item(type, type: "type")
+        expect(rendered_component).to have_sortable_item(type, type: "type", label: type.name, count: 1)
       end
     end
 
