@@ -997,6 +997,29 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expectStructuralRow(within(createSection()).getByRole('row'));
     });
 
+    it('restores the create trigger when a different creation completes', async () => {
+      await mount(inlineCreate);
+      await openCreateRow();
+
+      created.next(Object.assign(buildWorkPackage({ id: '3' }), { __initialized_at: 2 }));
+
+      expect(createRow()).not.toBeInTheDocument();
+      expect(within(createSection()).getByRole('button', { name: 'Create new work package' })).toBeVisible();
+      expectExposed();
+    });
+
+    it('leaves inline create open when an editor consumes Escape', async () => {
+      await mount(inlineCreate);
+      const row = await openCreateRow();
+      const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+      event.preventDefault();
+
+      within(row).getByRole('textbox').dispatchEvent(event);
+
+      expect(createRow()).toBe(row);
+      expectExposed();
+    });
+
     it('hands a created work package to the results as a selectable row', async () => {
       await mount(inlineCreate);
       await openCreateRow();

@@ -35,7 +35,7 @@ import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
 import { WeekdayResourceService } from 'core-app/core/state/days/weekday.service';
 import { QuerySortByResource, QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
-import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { QueryColumn, queryColumnTypes } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
@@ -176,6 +176,40 @@ describe('SortHeaderDirective input readiness', () => {
     detect.mockClear();
     sort();
     expect(detect).toHaveBeenCalledTimes(1);
+  });
+
+  it.each([
+    [queryColumnTypes.RELATION_TO_TYPE, { type: { name: 'Milestone', href: '/api/v3/types/2' } }, 'Milestone'],
+    [queryColumnTypes.RELATION_OF_TYPE, { relationType: 'relates' }, 'js.relation_labels.relates'],
+    [queryColumnTypes.RELATION_CHILD, {}, 'Children'],
+  ])('names a %s relation header', async (type, attributes, label) => {
+    fixture.componentRef.setInput('headerColumn', {
+      id: 'relations', name: 'Children', _type: type, ...attributes,
+    });
+    fixture.detectChanges();
+    await nextTask();
+
+    expect(fixture.nativeElement).toHaveTextContent(label);
+    expect((fixture.nativeElement as HTMLElement).querySelector('a')).toHaveAttribute('title', 'Children');
+  });
+
+  it('turns grouping off when hierarchy is enabled from the header', async () => {
+    fixture.componentRef.setInput('headerColumn', { id: 'subject', name: 'Subject' });
+    const hierarchies = TestBed.inject(WorkPackageViewHierarchiesService);
+    const groupBy = TestBed.inject(WorkPackageViewGroupByService);
+    groupBy.update({ id: 'status', href: '/api/v3/queries/group_bys/status' } as typeof groupBy.current);
+    fixture.detectChanges();
+    await nextTask();
+    const event = new MouseEvent('click');
+
+    fixture.componentInstance.toggleHierarchy(event);
+
+    expect(hierarchies.isEnabled).toBe(true);
+    expect(groupBy.isEnabled).toBe(false);
+
+    fixture.componentInstance.toggleHierarchy(new MouseEvent('click'));
+
+    expect(hierarchies.isEnabled).toBe(false);
   });
 
   it('marks its column only while it is the primary criterion', async () => {
