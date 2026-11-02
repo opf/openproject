@@ -59,7 +59,7 @@ class RenameAITextTransformActionsToTextActions < ActiveRecord::Migration[8.1]
 
   def rename_setting(from, to)
     execute <<~SQL.squish
-      UPDATE settings SET name = #{connection.quote(to)} WHERE name = #{connection.quote(from)}
+      UPDATE settings SET name = #{connection.quote(to)}, updated_at = NOW() WHERE name = #{connection.quote(from)}
     SQL
   end
 end
