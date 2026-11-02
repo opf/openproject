@@ -64,10 +64,22 @@ RSpec.describe Sprints::Scopes::OrderByDate do
     started_late = create(:sprint, project:, name: "Started late", status: :completed,
                                    start_date: Date.new(2025, 10, 1), finish_date: Date.new(2025, 10, 31),
                                    started_at: Time.zone.local(2025, 10, 20, 9))
-    planned_between = create(:sprint, project:, name: "Planned between",
-                                      start_date: Date.new(2025, 10, 10), finish_date: Date.new(2025, 10, 31))
+    started_between = create(:sprint, project:, name: "Started between", status: :completed,
+                                      start_date: Date.new(2025, 10, 10), finish_date: Date.new(2025, 10, 31),
+                                      started_at: Time.zone.local(2025, 10, 10, 9))
 
-    expect(Sprint.order_by_date.where(id: [started_late, planned_between])).to eq([planned_between, started_late])
+    expect(Sprint.order_by_date.where(id: [started_late, started_between])).to eq([started_between, started_late])
+  end
+
+  it "places sprints that have started before sprints still in planning, even if started after their planned start" do
+    started_late = create(:sprint, project:, name: "Started late", status: :completed,
+                                   start_date: Date.new(2025, 10, 19), finish_date: Date.new(2025, 10, 24),
+                                   started_at: Time.zone.local(2025, 10, 30, 12, 37),
+                                   completed_at: Time.zone.local(2025, 10, 30, 12, 38))
+    planned_next = create(:sprint, project:, name: "Planned next", status: :in_planning,
+                                   start_date: Date.new(2025, 10, 30), finish_date: Date.new(2025, 11, 6))
+
+    expect(Sprint.order_by_date.where(id: [planned_next, started_late])).to eq([started_late, planned_next])
   end
 
   it "prefers the actual completion over the planned finish date when the starts are equal" do
