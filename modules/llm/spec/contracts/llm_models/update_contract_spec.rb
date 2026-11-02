@@ -75,12 +75,6 @@ RSpec.describe LlmModels::UpdateContract, :check_errors_i18n do
     before { llm_model.capability_vision = "maybe" }
 
     include_examples "contract is invalid", capability_vision: :inclusion
-
-    context "for an embedding model" do
-      before { llm_model.model_type = "embedding" }
-
-      include_examples "contract is valid"
-    end
   end
 
   context "when the environment names the model as a default" do

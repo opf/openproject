@@ -39,7 +39,7 @@ module LlmModels
       ActiveRecord::Base.transaction(requires_new: true) do
         super.tap { |call| after_save(llm_model, pin_type:) if call.success? }
       end
-    rescue ActiveRecord::RecordNotUnique => e
+    rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid => e
       add_uniqueness_error(llm_model, e)
       ServiceResult.failure(result: llm_model, errors: llm_model.errors)
     end
@@ -55,7 +55,8 @@ module LlmModels
     # Two administrators saving the same free identifier both pass the
     # uniqueness validation, and only the index rejects the second. A rename also
     # carries verdicts along, and those may collide with verdicts left under the
-    # new identifier by a model that no longer exists.
+    # new identifier by a model that no longer exists, and an assertion may meet a
+    # verdict detection wrote meanwhile.
     def add_uniqueness_error(llm_model, error)
       llm_model.errors.add(:external_id, identifier_taken?(error) ? :taken : :conflicting_capabilities)
     end

@@ -115,6 +115,19 @@ RSpec.describe LlmModels::UpdateService do
     end
   end
 
+  context "when asserting a state that is not one on an embedding model without choosing a type" do
+    let(:params) { { capability_vision: "maybe" } }
+
+    before do
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
+                                      state: "supported", source: "admin")
+    end
+
+    it "fails validation" do
+      expect(result.errors.symbols_for(:capability_vision)).to eq([:inclusion])
+    end
+  end
+
   context "for a discovered model" do
     let!(:llm_model) { create(:llm_model, llm_connection: connection, external_id: "bge-m3") }
 

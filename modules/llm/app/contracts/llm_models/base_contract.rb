@@ -46,8 +46,6 @@ module LlmModels
     end
 
     def capability_states_known
-      return if model.model_type == :embedding
-
       model.capability_overrides.each do |capability, state|
         next if state.nil? || LlmCapabilityVerdict.states.key?(state)
 
