@@ -74,7 +74,7 @@ RSpec.describe Labels::DeleteService, type: :model do
     end
 
     it "enqueues the journalization in slices" do
-      stub_const("#{described_class}::JOURNALIZE_BATCH_SIZE", 2)
+      stub_const("#{described_class}::WORK_PACKAGES_PER_JOB", 2)
       labelings = create_list(:labeling, 3, label:)
       slices = []
       allow(Labels::JournalizeDeletionJob).to receive(:perform_later) { |work_package_ids:, **| slices << work_package_ids }

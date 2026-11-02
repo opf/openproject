@@ -29,7 +29,7 @@
 
 module Labels
   class DeleteService < ::BaseServices::Delete
-    JOURNALIZE_BATCH_SIZE = 1_000
+    WORK_PACKAGES_PER_JOB = 1_000
 
     protected
 
@@ -54,7 +54,7 @@ module Labels
     end
 
     def enqueue_journalization(work_package_ids)
-      work_package_ids.each_slice(JOURNALIZE_BATCH_SIZE) do |slice|
+      work_package_ids.each_slice(WORK_PACKAGES_PER_JOB) do |slice|
         Labels::JournalizeDeletionJob.perform_later(work_package_ids: slice,
                                                     label_id: model.id,
                                                     label_name: model.name,
