@@ -1,5 +1,7 @@
 @import helpers
 
+$block-section-max-width: 400px
+
 .op-sprint-reports--wp-overview-widget
   container-type: inline-size
   container-name: wp-overview-widget
@@ -24,10 +26,10 @@
       flex: 1 1 0
       min-width: 0
 
-      @container wp-overview-blocks (max-width: 800px)
+      @container wp-overview-blocks (max-width: #{$block-section-max-width * 2})
         // Collapse to 2x2 blocks
         flex-basis: calc(50% - var(--stack-gap-normal) / 2)
 
-      @container wp-overview-blocks (max-width: 400px)
+      @container wp-overview-blocks (max-width: #{$block-section-max-width})
         // Collapse to 4x1 blocks
         flex-basis: 100%

@@ -75,9 +75,9 @@ module Backlogs
 
         def live_relevant_epic_ids
           WorkPackageHierarchy
-            .joins("INNER JOIN work_packages ancestors ON ancestors.id = work_package_hierarchies.ancestor_id")
-            .where(descendant_id: work_packages_in_sprint.select(:id), ancestors: { type_id: epic_type_id })
-            .select("DISTINCT ON (work_package_hierarchies.descendant_id) work_package_hierarchies.ancestor_id")
+            .joins(:ancestor)
+            .where(descendant_id: work_packages_in_sprint.select(:id), ancestor: { type_id: epic_type_id })
+            .select("DISTINCT ON (descendant_id) ancestor_id")
             .order(:descendant_id, :generations)
         end
 

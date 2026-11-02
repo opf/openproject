@@ -69,9 +69,9 @@ module Backlogs
           end
 
           def sub_epic_subtree_ids
-            sub_epic_ids = epic.descendants.where(type_id: epic.type_id).select(:id)
+            sub_epics = epic.descendants.where(type_id: epic.type_id)
 
-            WorkPackageHierarchy.where(ancestor_id: sub_epic_ids).select(:descendant_id)
+            WorkPackageHierarchy.where(ancestor: sub_epics).select(:descendant_id)
           end
 
           def resolved_work_packages_count
