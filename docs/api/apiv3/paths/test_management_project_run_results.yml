@@ -36,8 +36,9 @@ post:
               description: The report (Playwright JSON, JUnit XML or native JSON).
                 Max. 50 MB, 20 000 tests.
             metadata:
-              description: Ingest options as a JSON object (text or file part).
-              "$ref": "../components/schemas/test_management_ingest_options.yml"
+              allOf:
+                - "$ref": "../components/schemas/test_management_ingest_options.yml"
+                - description: Ingest options as a JSON object (text or file part).
             attachments[]:
               type: array
               items:

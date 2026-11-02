@@ -399,7 +399,7 @@ module API
                 end
 
                 get &::API::V3::Attachments::AttachmentsByContainerAPI.read
-                post &::API::V3::Attachments::AttachmentsByContainerAPI.create!
+                post &::API::V3::Attachments::AttachmentsByContainerAPI.create
               end
             end
           end
@@ -456,7 +456,7 @@ module API
                 end
 
                 get &::API::V3::Attachments::AttachmentsByContainerAPI.read
-                post &::API::V3::Attachments::AttachmentsByContainerAPI.create!
+                post &::API::V3::Attachments::AttachmentsByContainerAPI.create
               end
             end
           end

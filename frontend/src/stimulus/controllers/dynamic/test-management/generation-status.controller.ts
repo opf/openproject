@@ -5,6 +5,15 @@
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
 //
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -180,7 +189,7 @@ export default class GenerationStatusController extends Controller<HTMLElement> 
     }
   }
 
-  async retry(event?:Event):Promise<void> {
+  retry(event?:Event):void {
     event?.preventDefault();
     if (!this.retryUrlValue) return;
 
@@ -279,7 +288,7 @@ export default class GenerationStatusController extends Controller<HTMLElement> 
     const order = ['queued', 'preparing_source', 'waiting_for_model', 'writing_drafts'];
     const currentIndex = order.indexOf(currentStep);
     this.stepsTarget.querySelectorAll<HTMLElement>('[data-step]').forEach((item) => {
-      const step = item.dataset.step || '';
+      const step = item.dataset.step ?? '';
       const index = order.indexOf(step);
       item.classList.toggle('is-current', step === currentStep);
       item.classList.toggle('is-done', currentIndex > -1 && index > -1 && index < currentIndex);
@@ -337,7 +346,7 @@ export default class GenerationStatusController extends Controller<HTMLElement> 
 
   private formatFailed(payload:StatusPayload):string {
     const template = this.failedMessageValue;
-    const error = payload.error || '';
+    const error = payload.error ?? '';
     if (template) {
       return template.replace('%{error}', error);
     }
@@ -360,7 +369,7 @@ export default class GenerationStatusController extends Controller<HTMLElement> 
       || `${window.location.pathname}${window.location.search}`;
     const current = frame.getAttribute('src');
     if (current === url && typeof frame.reload === 'function') {
-      frame.reload();
+      void frame.reload();
       return;
     }
 

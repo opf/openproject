@@ -131,8 +131,9 @@ properties:
       connection:
         "$ref": "./link.yml"
       milestone:
-        "$ref": "./link.yml"
-        description: Milestone the run is assigned to (absent when none).
+        allOf:
+          - "$ref": "./link.yml"
+          - description: Milestone the run is assigned to (absent when none).
       attachments:
         "$ref": "./link.yml"
       complete:

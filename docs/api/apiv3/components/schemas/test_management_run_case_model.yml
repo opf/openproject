@@ -86,5 +86,6 @@ properties:
       addAttachment:
         "$ref": "./link.yml"
       addResult:
-        "$ref": "./link.yml"
-        description: "POST a manual result with step results (0020). Only with execute test runs."
+        allOf:
+          - "$ref": "./link.yml"
+          - description: "POST a manual result with step results (0020). Only with execute test runs."

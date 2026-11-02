@@ -5,6 +5,15 @@
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
 //
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -26,7 +35,7 @@ describe('Test management generation status controller', () => {
   let ctx:StimulusTestContext;
   let fetchSpy:MockInstance<typeof window.fetch>;
   let csrfMeta:HTMLMetaElement;
-  let frameReload:ReturnType<typeof vi.fn>;
+  let frameReload:ReturnType<typeof vi.fn<() => void>>;
 
   beforeEach(async () => {
     vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval'] });
@@ -36,10 +45,10 @@ describe('Test management generation status controller', () => {
     csrfMeta.content = 'csrf-token-value';
     document.head.append(csrfMeta);
 
-    frameReload = vi.fn();
-    const frame = document.createElement('turbo-frame') as HTMLElement & { reload:() => void };
+    frameReload = vi.fn<() => void>();
+    const frame = document.createElement('turbo-frame');
     frame.id = 'tm-draft-results';
-    frame.reload = frameReload;
+    (frame as unknown as { reload:() => void }).reload = frameReload;
     const heading = document.createElement('h2');
     heading.id = 'tm-draft-results-heading';
     heading.tabIndex = -1;
@@ -132,9 +141,9 @@ describe('Test management generation status controller', () => {
     await waitFor(() => expect(ctx.container.querySelector('[data-test-management--generation-status-target="message"]')?.textContent)
       .toContain('1 of 3'));
 
-    const progress = ctx.container.querySelector('[data-test-management--generation-status-target="progressContainer"]') as HTMLElement;
+    const progress = ctx.container.querySelector<HTMLElement>('[data-test-management--generation-status-target="progressContainer"]')!;
     expect(progress.hidden).toBe(false);
-    const item = progress.querySelector('.ProgressBar-item') as HTMLElement;
+    const item = progress.querySelector<HTMLElement>('.ProgressBar-item')!;
     expect(item.style.width).toBe('33%');
 
     const current = ctx.container.querySelector('[data-step="writing_drafts"]');
@@ -166,9 +175,9 @@ describe('Test management generation status controller', () => {
     await vi.advanceTimersByTimeAsync(2500);
 
     const frame = document.getElementById('tm-draft-results') as HTMLElement & { src?:string };
-    await waitFor(() => expect(frame.getAttribute('src') || frame.src).toBe('/generations/1'));
+    await waitFor(() => expect(frame.getAttribute('src') ?? frame.src).toBe('/generations/1'));
     expect(frameReload).not.toHaveBeenCalled();
-    expect((ctx.container.querySelector('[data-test-management--generation-status-target="banner"]') as HTMLElement).hidden)
+    expect(ctx.container.querySelector<HTMLElement>('[data-test-management--generation-status-target="banner"]')!.hidden)
       .toBe(true);
 
     const callsAfter = fetchSpy.mock.calls.length;
@@ -179,7 +188,7 @@ describe('Test management generation status controller', () => {
   it('aborts in-flight requests on disconnect', async () => {
     let abortSignal:AbortSignal | undefined;
     fetchSpy.mockImplementation((_url, init) => {
-      abortSignal = (init as RequestInit).signal as AbortSignal;
+      abortSignal = init!.signal!;
       return new Promise(() => undefined);
     });
 

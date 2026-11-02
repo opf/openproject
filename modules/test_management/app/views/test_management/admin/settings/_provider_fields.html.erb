@@ -16,8 +16,8 @@
     </div>
     <div class="form--field-instructions" data-test-selector="tm-assistant-base-url-hint">
       <%= t("test_management.admin.assistant.base_url_hints.#{preset.key}") %>
-      <% if preset.docs_url %>
-        <%= link_to t("test_management.admin.assistant.docs"), preset.docs_url, target: "_blank", rel: "noopener noreferrer" %>
+      <% if (docs_url = TestManagement::Assistant::AI::Provider.docs_url_for(preset.key)) %>
+        <%= link_to t("test_management.admin.assistant.docs"), docs_url, target: "_blank", rel: "noopener noreferrer" %>
       <% end %>
     </div>
   </div>
