@@ -288,31 +288,31 @@ module Pages
       within_backlog_bucket(bucket) { expect_work_package_items(items:, present: false) }
     end
 
-    def within_sprint_menu(sprint, &)
+    def within_sprint_menu(sprint, activated: false, &)
       within_sprint(sprint) do
         button = find(:button, accessible_name: "Sprint actions")
         within(open_controlled_menu(button), &)
       end
 
-      dismiss_menu(sprint)
+      dismiss_menu(sprint, activated:)
     end
 
     def click_in_sprint_menu(sprint, item_name)
-      within_sprint_menu(sprint) do |menu|
+      within_sprint_menu(sprint, activated: true) do |menu|
         menu.find(:menuitem, text: item_name).click
       end
     end
 
-    def within_backlog_bucket_menu(bucket, &)
+    def within_backlog_bucket_menu(bucket, activated: false, &)
       within_backlog_bucket(bucket) do
         button = find(:button, accessible_name: "Backlog bucket actions")
         within(open_controlled_menu(button), &)
       end
-      dismiss_menu(bucket)
+      dismiss_menu(bucket, activated:)
     end
 
     def click_in_bucket_menu(bucket, item_name)
-      within_backlog_bucket_menu(bucket) do |menu|
+      within_backlog_bucket_menu(bucket, activated: true) do |menu|
         menu.find(:menuitem, text: item_name).click
       end
     end
@@ -330,13 +330,13 @@ module Pages
       end
     end
 
-    def within_work_package_menu(work_package, &)
+    def within_work_package_menu(work_package, activated: false, &)
       within_work_package(work_package) do
         button = find(:button, accessible_name: "Work package actions")
         within(open_controlled_menu(button), &)
       end
 
-      dismiss_menu(work_package)
+      dismiss_menu(work_package, activated:)
     end
 
     def work_package_card(work_package)
@@ -508,15 +508,15 @@ module Pages
     end
 
     def click_in_work_package_menu(work_package, item_name, wait: true)
-      within_work_package_menu(work_package) do |submenu|
+      within_work_package_menu(work_package, activated: true) do |submenu|
         wait_for_turbo_stream(wait:) do
           submenu.find(:menuitem, text: item_name).click
         end
       end
     end
 
-    def within_work_package_move_submenu(work_package, &)
-      within_work_package_menu(work_package) do |menu|
+    def within_work_package_move_submenu(work_package, activated: false, &)
+      within_work_package_menu(work_package, activated:) do |menu|
         yield open_move_submenu(menu)
       end
     end
@@ -527,7 +527,7 @@ module Pages
     # Backlogs::WorkPackagesController#optimistic_same_list_move?). Wait for
     # the turbo-stream response instead, which still fires either way.
     def click_in_work_package_move_submenu(work_package, item_name, wait: true, frame_reload: false)
-      within_work_package_move_submenu(work_package) do |submenu|
+      within_work_package_move_submenu(work_package, activated: true) do |submenu|
         wait_for_backlogs_turbo_stream(wait:, frame_reload:) do
           submenu.find(:menuitem, text: item_name, visible: :all).click
         end
@@ -745,6 +745,16 @@ module Pages
 
     def select_cards(*work_packages)
       work_packages.each { |work_package| toggle_card(work_package) }
+      expect(page).to have_css("[data-batch-selected]", count: work_packages.size)
+    end
+
+    # Settles on the range's own endpoints rather than a card count, which
+    # only the caller knows for a span wider than a pair.
+    def select_contiguous_cards(first, last)
+      toggle_card(first)
+      extend_selection_to(last)
+      expect(page).to have_css("#{work_package_selector(first)}[data-batch-selected]")
+      expect(page).to have_css("#{work_package_selector(last)}[data-batch-selected]")
     end
 
     def expect_selected_cards_in_order(*work_packages)
@@ -753,6 +763,36 @@ module Pages
 
     def expect_no_selected_cards
       wait_for { selected_card_ids }.to be_empty
+    end
+
+    def move_selected_cards(invoker:, action:, wait: false)
+      click_in_work_package_move_submenu(invoker, action, wait:)
+    end
+
+    def expect_move_to_position_available(work_package, action: nil)
+      within_work_package_move_submenu(work_package) do |submenu|
+        next unless action
+
+        expect(submenu).to have_selector(:menuitem, text: action, exact_text: true)
+      end
+    end
+
+    def expect_move_to_position_unavailable(work_package, action: nil)
+      if action
+        within_work_package_move_submenu(work_package) do |submenu|
+          expect(submenu).to have_no_selector(:menuitem, text: action, exact_text: true)
+        end
+      else
+        expect_work_package_actions(work_package, absent: ["Move to position"])
+      end
+    end
+
+    def expect_work_package_move_submenu_axe_clean(work_package)
+      within_work_package_menu(work_package) do |menu|
+        menu_selector = "##{menu[:id]}"
+        submenu = open_move_submenu(menu)
+        expect(page).to be_axe_clean.within(menu_selector, "##{submenu[:id]}")
+      end
     end
 
     def clear_card_selection(work_package)
@@ -778,6 +818,8 @@ module Pages
       expect(page).to have_selector(:modal, text: action_label)
     end
 
+    # A refused action answers with a flash and leaves the menu open, so it
+    # still needs dismissing.
     def invoke_destination_action_after_menu_load(work_package, action_label, &before_click)
       within_work_package_menu(work_package) do |menu|
         item = menu.find(:menuitem, text: action_label, exact_text: true)
@@ -787,7 +829,7 @@ module Pages
     end
 
     def move_to_backlog_inbox(work_package)
-      within_work_package_menu(work_package) do |menu|
+      within_work_package_menu(work_package, activated: true) do |menu|
         wait_for_backlogs_turbo_stream(frame_reload: true) do
           menu.find(:menuitem, text: I18n.t("backlogs.work_package_card_menu_component.action_menu.move_to_inbox"),
                                exact_text: true).click
@@ -1749,22 +1791,39 @@ module Pages
       page.find(:menu, id: move_item["aria-controls"])
     end
 
-    def dismiss_menu(menu_owner)
+    # Dismisses with Escape rather than an outside click: the compact batch
+    # menu can leave a live menuitem under the overlay's center point, so a
+    # click there activates an action instead of closing the menu.
+    # Activating an item closes the menu through Primer itself, so the caller
+    # only waits for that to happen. Pressing Escape on top of it races the
+    # dialog the same activation is still loading: the modal guard below reads
+    # the DOM before `showModal`, and the key then arrives after it and closes
+    # the dialog, which `StreamActions.dialog` removes from the DOM on close.
+    def dismiss_menu(menu_owner, activated: false)
       selector = menu_owner_overlay_selector(menu_owner)
 
+      return expect(page).to have_no_css(selector, visible: :visible) if activated
       return unless page.has_css?(selector, visible: :visible, wait: 0)
       return if page.has_selector?(:modal, wait: 0)
 
-      find(selector, wait: 0).click
-    rescue Capybara::ElementNotFound,
-           Ferrum::CoordinatesNotFoundError,
-           Selenium::WebDriver::Error::ElementNotInteractableError
-      # Menu actions can close the menu or open a modal between the checks
-      # above and the click; once the menu is gone or a modal owns focus,
-      # the overlay is unclickable (Cuprite raises CoordinatesNotFoundError,
-      # Selenium ElementNotInteractableError) and dismissal is moot.
-      raise unless page.has_selector?(:modal, wait: 0) ||
-        page.has_no_css?(selector, visible: :visible, wait: 0)
+      press_escape
+      # Escape closes only the top-most popover; an open submenu absorbs the
+      # first press and the menu itself needs a second one.
+      press_escape if page.has_css?(selector, visible: :visible, wait: 0)
+
+      expect(page).to have_no_css(selector, visible: :visible)
+    end
+
+    # Neither driver may deliver the key through the focused element:
+    # Selenium's Session#send_keys refuses once a closing submenu parked focus
+    # on a hidden item, and Cuprite's clicks its receiver first. Both paths
+    # below dispatch the key without touching any element.
+    def press_escape
+      if using_cuprite?
+        page.driver.browser.keyboard.type(:escape)
+      else
+        send_keys_to_focused_element(:escape)
+      end
     end
 
     def headed_section_titles(id_prefix:)
