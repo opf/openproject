@@ -16,9 +16,9 @@
 
       component.with_row(scheme: :default) do
         if wizard_step == step_name
-          render(wiki_provider.registry_entry("components.forms.#{step_name}").new(wiki_provider, in_wizard: true))
+          render(wiki_provider.resolve("components.forms.#{step_name}", in_wizard: true))
         else
-          render(wiki_provider.registry_entry("components.#{step_name}").new(wiki_provider))
+          render(wiki_provider.resolve("components.#{step_name}"))
         end
       end
     end
