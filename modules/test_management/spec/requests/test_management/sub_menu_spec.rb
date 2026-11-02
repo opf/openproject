@@ -7,7 +7,7 @@ require "spec_helper"
 RSpec.describe "Test management sidebar submenu", type: :rails_request do
   shared_let(:project) { create(:project, enabled_module_names: %i[test_management]) }
   shared_let(:user) do
-    create(:user, member_with_permissions: { project => %i[view_test_cases view_test_runs use_test_assistant] })
+    create(:user, member_with_permissions: { project => %i[view_test_cases view_test_runs view_test_plans use_test_assistant] })
   end
 
   let(:current_user) { user }

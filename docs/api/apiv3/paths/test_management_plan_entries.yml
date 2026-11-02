@@ -1,0 +1,68 @@
+# /api/v3/test_management/plans/{id}/entries
+---
+post:
+  summary: Add entry to test plan
+  operationId: Create_test_management_plan_entry
+  tags:
+  - Test Management
+  description: Adds a run template (entry) to an active plan. Returns the updated plan.
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Test plan id
+    example: 12
+    schema:
+      type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          "$ref": "../components/schemas/test_management_plan_entry_write_model.yml"
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_plan_model.yml"
+    '403':
+      description: "**Required permission:** manage test plans"
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: |-
+        Returned if the plan does not exist, the client may not see it or test plans are disabled in the project.
+
+        **Required permission:** view test plans
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+    '422':
+      description: The request body is invalid.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UnprocessableContent
+                message: Name can't be blank.

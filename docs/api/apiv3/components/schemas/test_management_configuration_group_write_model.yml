@@ -1,0 +1,10 @@
+# Schema: TestManagementConfigurationGroupWriteModel
+---
+type: object
+description: Body of create and update requests for a configuration group.
+properties:
+  name:
+    type: string
+    maxLength: 255
+required:
+  - name

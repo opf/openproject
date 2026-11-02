@@ -6,11 +6,11 @@ module TestManagement
       def self.model = TestManagement::ProjectSetting
 
       attribute :display_prefix
-      attribute :folder_tree_layout
-      attribute :enable_ci
-      attribute :enable_milestones
-      attribute :enable_test_plans
-      attribute :enable_test_assistant
+      stored_attribute :folder_tree_layout, store: :options
+      stored_attribute :enable_ci, store: :options
+      stored_attribute :enable_milestones, store: :options
+      stored_attribute :enable_test_plans, store: :options
+      stored_attribute :enable_test_assistant, store: :options
 
       validate :user_allowed_to_manage
 

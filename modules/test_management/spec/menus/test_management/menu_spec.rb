@@ -5,7 +5,7 @@ require "spec_helper"
 RSpec.describe TestManagement::Menu do
   shared_let(:project) { create(:project, enabled_module_names: %i[test_management]) }
 
-  let(:permissions) { %i[view_test_cases view_test_runs use_test_assistant] }
+  let(:permissions) { %i[view_test_cases view_test_runs view_test_plans use_test_assistant] }
   let(:user) { create(:user, member_with_permissions: { project => permissions }) }
   let(:section) { "runs" }
   let(:menu) { described_class.new(project:, params: ActionController::Parameters.new(section:), user:) }

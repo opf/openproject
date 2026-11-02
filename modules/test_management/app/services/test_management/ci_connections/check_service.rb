@@ -124,7 +124,7 @@ module TestManagement
 
       # Best effort: a failing probe never changes the check result.
       def probe_version(token)
-        version_probe.each_key do |probe_url|
+        version_probe.map(&:first).each do |probe_url|
           response = http.get(probe_url, headers: headers(token))
           next if Http.error_response?(response) || !response.status.to_i.between?(200, 299)
 

@@ -399,6 +399,7 @@ module API
                 end
 
                 get &::API::V3::Attachments::AttachmentsByContainerAPI.read
+                # rubocop:disable-next Rails/SaveBang -- AttachmentsByContainerAPI.create mounts a Grape endpoint, not AR create
                 post &::API::V3::Attachments::AttachmentsByContainerAPI.create
               end
             end
@@ -456,6 +457,7 @@ module API
                 end
 
                 get &::API::V3::Attachments::AttachmentsByContainerAPI.read
+                # rubocop:disable-next Rails/SaveBang -- AttachmentsByContainerAPI.create mounts a Grape endpoint, not AR create
                 post &::API::V3::Attachments::AttachmentsByContainerAPI.create
               end
             end

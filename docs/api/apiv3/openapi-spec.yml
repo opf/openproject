@@ -465,8 +465,12 @@ paths:
     "$ref": "./paths/test_management_project_ci_connections.yml"
   "/api/v3/projects/{id}/test_management/ci_triggers":
     "$ref": "./paths/test_management_project_ci_triggers.yml"
+  "/api/v3/projects/{id}/test_management/configuration_groups":
+    "$ref": "./paths/test_management_project_configuration_groups.yml"
   "/api/v3/projects/{id}/test_management/milestones":
     "$ref": "./paths/test_management_project_milestones.yml"
+  "/api/v3/projects/{id}/test_management/plans":
+    "$ref": "./paths/test_management_project_plans.yml"
   "/api/v3/projects/{id}/test_management/runs":
     "$ref": "./paths/test_management_project_runs.yml"
   "/api/v3/projects/{id}/test_management/runs/{run_id}/results":
@@ -577,6 +581,8 @@ paths:
     "$ref": "./paths/test_management_import.yml"
   "/api/v3/test_management/ci_connections/{id}":
     "$ref": "./paths/test_management_ci_connection.yml"
+  "/api/v3/test_management/configuration_groups/{id}":
+    "$ref": "./paths/test_management_configuration_group.yml"
   "/api/v3/test_management/milestones/{id}":
     "$ref": "./paths/test_management_milestone.yml"
   "/api/v3/test_management/milestones/{id}/complete":
@@ -585,6 +591,18 @@ paths:
     "$ref": "./paths/test_management_milestone_reopen.yml"
   "/api/v3/test_management/milestones/{id}/start":
     "$ref": "./paths/test_management_milestone_start.yml"
+  "/api/v3/test_management/plans/{id}":
+    "$ref": "./paths/test_management_plan.yml"
+  "/api/v3/test_management/plans/{id}/complete":
+    "$ref": "./paths/test_management_plan_complete.yml"
+  "/api/v3/test_management/plans/{id}/entries":
+    "$ref": "./paths/test_management_plan_entries.yml"
+  "/api/v3/test_management/plans/{id}/entries/{entry_id}":
+    "$ref": "./paths/test_management_plan_entry.yml"
+  "/api/v3/test_management/plans/{id}/reopen":
+    "$ref": "./paths/test_management_plan_reopen.yml"
+  "/api/v3/test_management/plans/{id}/rerun":
+    "$ref": "./paths/test_management_plan_rerun.yml"
   "/api/v3/test_management/run_cases/{id}":
     "$ref": "./paths/test_management_run_case.yml"
   "/api/v3/test_management/run_cases/{id}/attachments":
@@ -1252,6 +1270,12 @@ components:
       "$ref": "./components/schemas/test_management_ci_connection_write_model.yml"
     TestManagementCiTriggerModel:
       "$ref": "./components/schemas/test_management_ci_trigger_model.yml"
+    TestManagementConfigurationGroupCollectionModel:
+      "$ref": "./components/schemas/test_management_configuration_group_collection_model.yml"
+    TestManagementConfigurationGroupModel:
+      "$ref": "./components/schemas/test_management_configuration_group_model.yml"
+    TestManagementConfigurationGroupWriteModel:
+      "$ref": "./components/schemas/test_management_configuration_group_write_model.yml"
     TestManagementIngestJsonRequest:
       "$ref": "./components/schemas/test_management_ingest_json_request.yml"
     TestManagementIngestOptions:
@@ -1266,6 +1290,14 @@ components:
       "$ref": "./components/schemas/test_management_milestone_write_model.yml"
     TestManagementNativeTest:
       "$ref": "./components/schemas/test_management_native_test.yml"
+    TestManagementPlanCollectionModel:
+      "$ref": "./components/schemas/test_management_plan_collection_model.yml"
+    TestManagementPlanEntryWriteModel:
+      "$ref": "./components/schemas/test_management_plan_entry_write_model.yml"
+    TestManagementPlanModel:
+      "$ref": "./components/schemas/test_management_plan_model.yml"
+    TestManagementPlanWriteModel:
+      "$ref": "./components/schemas/test_management_plan_write_model.yml"
     TestManagementResultModel:
       "$ref": "./components/schemas/test_management_result_model.yml"
     TestManagementResultWriteModel:

@@ -1,0 +1,91 @@
+# Schema: TestManagementPlanModel
+---
+type: object
+required: [_type, id, name, state]
+description: A test plan groups related runs (including configuration matrix entries).
+properties:
+  _type:
+    type: string
+    enum: [TestManagementPlan]
+  id:
+    type: integer
+    minimum: 1
+  name:
+    type: string
+    maxLength: 255
+  description:
+    type: string
+  state:
+    type: string
+    enum: [active, completed]
+  formattedId:
+    type: string
+    description: Display id such as `P12`.
+  milestoneId:
+    type:
+      - integer
+      - "null"
+  assignedToId:
+    type:
+      - integer
+      - "null"
+  startDate:
+    type:
+      - string
+      - "null"
+    format: date
+  endDate:
+    type:
+      - string
+      - "null"
+    format: date
+  finishedAt:
+    type:
+      - string
+      - "null"
+    format: date-time
+  runsCount:
+    type: integer
+  passRate:
+    type: integer
+  statusCounts:
+    type: object
+  _links:
+    type: object
+    required: [self, project]
+    properties:
+      self:
+        "$ref": "./link.yml"
+      project:
+        "$ref": "./link.yml"
+      milestone:
+        "$ref": "./link.yml"
+      entries:
+        "$ref": "./link.yml"
+      complete:
+        "$ref": "./link.yml"
+      reopen:
+        "$ref": "./link.yml"
+      rerun:
+        "$ref": "./link.yml"
+      update:
+        "$ref": "./link.yml"
+      delete:
+        "$ref": "./link.yml"
+example:
+  _type: TestManagementPlan
+  id: 12
+  name: Sprint 14 regression
+  state: active
+  formattedId: P12
+  milestoneId: 5
+  assignedToId: 3
+  startDate: "2026-11-01"
+  endDate: "2026-11-14"
+  finishedAt: null
+  runsCount: 4
+  passRate: 80
+  _links:
+    self: { href: "/api/v3/test_management/plans/12", title: Sprint 14 regression }
+    project: { href: "/api/v3/projects/3" }
+    entries: { href: "/api/v3/test_management/plans/12/entries" }

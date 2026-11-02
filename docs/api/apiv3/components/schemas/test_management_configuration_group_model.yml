@@ -1,0 +1,52 @@
+# Schema: TestManagementConfigurationGroupModel
+---
+type: object
+required: [_type, id, name]
+description: A named group of test configurations used by plan entries and runs.
+properties:
+  _type:
+    type: string
+    enum: [TestManagementConfigurationGroup]
+  id:
+    type: integer
+    minimum: 1
+  name:
+    type: string
+  configurations:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        _type:
+          type: string
+          enum: [TestManagementConfiguration]
+        _links:
+          type: object
+          properties:
+            self:
+              "$ref": "./link.yml"
+  _links:
+    type: object
+    required: [self, project]
+    properties:
+      self:
+        "$ref": "./link.yml"
+      project:
+        "$ref": "./link.yml"
+example:
+  _type: TestManagementConfigurationGroup
+  id: 4
+  name: Browsers
+  configurations:
+    - id: 11
+      name: Chrome
+      _type: TestManagementConfiguration
+      _links:
+        self: { href: "/api/v3/test_management/configurations/11" }
+  _links:
+    self: { href: "/api/v3/test_management/configuration_groups/4", title: Browsers }
+    project: { href: "/api/v3/projects/3" }

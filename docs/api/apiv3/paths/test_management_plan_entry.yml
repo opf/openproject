@@ -1,0 +1,125 @@
+# /api/v3/test_management/plans/{id}/entries/{entry_id}
+---
+patch:
+  summary: Update test plan entry
+  operationId: Update_test_management_plan_entry
+  tags:
+  - Test Management
+  description: Updates an entry of an active plan. Returns the updated plan.
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Test plan id
+    example: 12
+    schema:
+      type: integer
+  - name: entry_id
+    in: path
+    required: true
+    description: Plan entry id
+    example: 7
+    schema:
+      type: integer
+  requestBody:
+    required: false
+    content:
+      application/json:
+        schema:
+          "$ref": "../components/schemas/test_management_plan_entry_write_model.yml"
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_plan_model.yml"
+    '403':
+      description: "**Required permission:** manage test plans"
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: |-
+        Returned if the plan or entry does not exist, the client may not see it or test plans are disabled in the project.
+
+        **Required permission:** view test plans
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+    '422':
+      description: The request body is invalid.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UnprocessableContent
+                message: Name can't be blank.
+delete:
+  summary: Delete test plan entry
+  operationId: Delete_test_management_plan_entry
+  tags:
+  - Test Management
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Test plan id
+    example: 12
+    schema:
+      type: integer
+  - name: entry_id
+    in: path
+    required: true
+    description: Plan entry id
+    example: 7
+    schema:
+      type: integer
+  responses:
+    '204':
+      description: Deleted.
+    '403':
+      description: "**Required permission:** manage test plans"
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: |-
+        Returned if the plan or entry does not exist, the client may not see it or test plans are disabled in the project.
+
+        **Required permission:** view test plans
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.

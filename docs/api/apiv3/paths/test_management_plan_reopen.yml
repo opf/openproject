@@ -1,0 +1,62 @@
+# /api/v3/test_management/plans/{id}/reopen
+---
+post:
+  summary: Reopen test plan
+  operationId: Reopen_test_management_plan
+  tags:
+  - Test Management
+  description: 'From `completed` back to `active`. No request body is needed; send `Content-Type: application/json` like every APIv3 POST.'
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Test plan id
+    example: 12
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_plan_model.yml"
+    '403':
+      description: "**Required permission:** manage test plans"
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: |-
+        Returned if the plan does not exist, the client may not see it or test plans are disabled in the project.
+
+        **Required permission:** view test plans
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+    '409':
+      description: The plan's state does not allow this action.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UpdateConflict
+                message: This action is not possible in the plan's current state.

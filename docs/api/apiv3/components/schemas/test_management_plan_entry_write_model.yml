@@ -1,0 +1,38 @@
+# Schema: TestManagementPlanEntryWriteModel
+---
+type: object
+description: Body for creating or updating a plan entry (run template within a plan).
+properties:
+  name:
+    type: string
+  description:
+    type: string
+  selectionMode:
+    type: string
+  assignedToId:
+    type:
+      - integer
+      - "null"
+  position:
+    type: integer
+  caseIds:
+    type: array
+    items:
+      type: integer
+  configurationIds:
+    type: array
+    items:
+      type: integer
+  filterOptions:
+    type: object
+    properties:
+      labelIds:
+        type: array
+        items:
+          type: integer
+      suiteIds:
+        type: array
+        items:
+          type: integer
+      automation:
+        type: string

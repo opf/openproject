@@ -178,7 +178,7 @@ module TestManagement
                     :work_package_ids,
                     {
                       work_package_ids: [],
-                      steps_attributes: %i[id position action expected_result data _destroy]
+                      steps_attributes: [%i[id position action expected_result data _destroy]]
                     }]
       )
     end

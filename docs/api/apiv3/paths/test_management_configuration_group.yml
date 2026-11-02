@@ -1,0 +1,139 @@
+# /api/v3/test_management/configuration_groups/{id}
+---
+get:
+  summary: View configuration group
+  operationId: View_test_management_configuration_group
+  tags:
+  - Test Management
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Configuration group id
+    example: 4
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_configuration_group_model.yml"
+    '404':
+      description: |-
+        Returned if the group does not exist or the client may not see it.
+
+        **Required permission:** view test cases
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+patch:
+  summary: Update configuration group
+  operationId: Update_test_management_configuration_group
+  tags:
+  - Test Management
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Configuration group id
+    example: 4
+    schema:
+      type: integer
+  requestBody:
+    required: false
+    content:
+      application/json:
+        schema:
+          "$ref": "../components/schemas/test_management_configuration_group_write_model.yml"
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_configuration_group_model.yml"
+    '403':
+      description: "**Required permission:** manage test management"
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: Returned if the group does not exist or the client may not see it.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+    '422':
+      description: The request body is invalid.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UnprocessableContent
+                message: Name can't be blank.
+delete:
+  summary: Delete configuration group
+  operationId: Delete_test_management_configuration_group
+  tags:
+  - Test Management
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Configuration group id
+    example: 4
+    schema:
+      type: integer
+  responses:
+    '204':
+      description: Deleted.
+    '403':
+      description: "**Required permission:** manage test management"
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: Returned if the group does not exist or the client may not see it.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.

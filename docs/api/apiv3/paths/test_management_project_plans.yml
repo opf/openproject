@@ -1,0 +1,130 @@
+# /api/v3/projects/{id}/test_management/plans
+---
+get:
+  summary: List test plans of a project
+  operationId: List_test_management_plans
+  tags:
+  - Test Management
+  description: Newest first. Optional filters by state and milestone.
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Project id
+    example: 3
+    schema:
+      type: integer
+  - name: state
+    in: query
+    description: Comma-separated states, e.g. `active,completed`.
+    schema:
+      type: string
+      example: active
+  - name: milestoneId
+    in: query
+    description: Only plans linked to this milestone.
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_plan_collection_model.yml"
+    '403':
+      description: "**Required permission:** view test plans"
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: |-
+        Returned if the project does not exist, the client may not see it or test plans are disabled in the project.
+
+        **Required permission:** view test plans
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+post:
+  summary: Create test plan
+  operationId: Create_test_management_plan
+  tags:
+  - Test Management
+  description: Creates an `active` test plan.
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Project id
+    example: 3
+    schema:
+      type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          "$ref": "../components/schemas/test_management_plan_write_model.yml"
+        example:
+          name: Sprint 14 regression
+          milestoneId: 5
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/test_management_plan_model.yml"
+    '403':
+      description: "**Required permission:** manage test plans"
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: |-
+        Returned if the project does not exist, the client may not see it or test plans are disabled in the project.
+
+        **Required permission:** view test plans
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+    '422':
+      description: The request body is invalid.
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UnprocessableContent
+                message: Name can't be blank.

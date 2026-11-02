@@ -1,0 +1,38 @@
+# Schema: TestManagementPlanWriteModel
+---
+type: object
+description: Body of create (name required) and update (all optional) requests.
+properties:
+  name:
+    type: string
+    maxLength: 255
+  description:
+    oneOf:
+      - type: string
+      - type: object
+        properties:
+          raw:
+            type: string
+  startDate:
+    type:
+      - string
+      - "null"
+    format: date
+  endDate:
+    type:
+      - string
+      - "null"
+    format: date
+  milestoneId:
+    type:
+      - integer
+      - "null"
+  assignedToId:
+    type:
+      - integer
+      - "null"
+  workPackageIds:
+    type: array
+    items:
+      type: integer
+    description: Linked work packages (replaces the visible links; links the client cannot see are kept).

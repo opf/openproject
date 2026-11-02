@@ -76,10 +76,12 @@ module TestManagement
       private
 
       def requested_token_limit(max_tokens)
-        value = max_tokens.presence || config.max_tokens
-        value = value.to_i
+        explicit = max_tokens.present?
+        value = (max_tokens.presence || config.max_tokens).to_i
         value = config.max_tokens if value <= 0
-        value.clamp(ProviderConfig::MAX_TOKENS_RANGE.min, ProviderConfig::MAX_TOKENS_RANGE.max)
+        # Explicit limits (e.g. verify_model's tiny probe) may be below the configured range min.
+        min = explicit ? 1 : ProviderConfig::MAX_TOKENS_RANGE.min
+        value.clamp(min, ProviderConfig::MAX_TOKENS_RANGE.max)
       end
 
       # Drop optional parameters some providers reject (reasoning, temperature).
