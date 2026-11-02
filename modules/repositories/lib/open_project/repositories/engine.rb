@@ -60,14 +60,13 @@ module OpenProject::Repositories
       end
     end
 
-    # TODO: rename to repositories
-    initializer "gitlab.resource_colors" do
+    initializer "repositories.resource_colors" do
       Rails.application.reloader.to_prepare do
-        ::Highlighting::Registry.register_static(key: "gitlab_issue_status",
+        ::Highlighting::Registry.register_static(key: "repositories_issue_status",
                                                  values: ::Repositories::IssueStatuses::AVAILABLE)
-        ::Highlighting::Registry.register_static(key: "gitlab_merge_request_status",
+        ::Highlighting::Registry.register_static(key: "repositories_merge_request_status",
                                                  values: ::Repositories::MergeRequestStatuses::AVAILABLE)
-        ::Highlighting::Registry.register_static(key: "gitlab_pipeline_status",
+        ::Highlighting::Registry.register_static(key: "repositories_pipeline_status",
                                                  values: ::Repositories::PipelineStatuses::AVAILABLE)
       end
     end

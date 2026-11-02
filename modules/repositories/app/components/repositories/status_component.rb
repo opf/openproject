@@ -46,7 +46,7 @@ module Repositories
     private
 
     def scheme_classes
-      "__hl_gitlab_#{status.type}_status_#{status.value}"
+      "__hl_repositories_#{status.type}_status_#{status.value}"
     end
   end
 end
