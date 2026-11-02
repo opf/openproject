@@ -36,6 +36,10 @@ import { TableDragActionsRegistryService } from 'core-app/features/work-packages
 import { TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
 import { States } from 'core-app/core/states/states.service';
 import { DragAndDropService, DragIntent } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
+import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
@@ -46,9 +50,10 @@ import { collapsedGroupClass } from 'core-app/features/work-packages/components/
 import { reorderById, type Edge } from 'core-common/drag-and-drop/reorder';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { selectionGesture } from './selection-feedback';
+import type { MoveDirection, RowMover } from './row-mover';
 import { firstValueFrom } from 'rxjs';
 
-export class DragAndDropTransformer {
+export class DragAndDropTransformer implements RowMover {
   @LazyInject() private readonly states:States;
 
   @LazyInject() private readonly querySpace:IsolatedQuerySpace;
@@ -58,6 +63,10 @@ export class DragAndDropTransformer {
   @LazyInject() private readonly halNotification:HalResourceNotificationService;
 
   @LazyInject() private readonly wpTableSortBy:WorkPackageViewSortByService;
+
+  @LazyInject() private readonly wpTableGroupBy:WorkPackageViewGroupByService;
+
+  @LazyInject() private readonly wpTableHierarchies:WorkPackageViewHierarchiesService;
 
   @LazyInject() private readonly wpTableOrder:WorkPackageViewOrderService;
 
@@ -82,6 +91,7 @@ export class DragAndDropTransformer {
     }
 
     onDestroySafely(table.destroyRef, () => dragService.remove(table.tbody));
+    table.attachRowMover(this);
 
     this.inlineCreateService.newInlineWorkPackageCreated
       .pipe(takeUntilDestroyed(table.destroyRef))
@@ -142,6 +152,30 @@ export class DragAndDropTransformer {
       onDragStarted: (row) => this.collapseSelectionTo(row),
       onMoved: (intent, complete) => this.performMove(intent, complete),
     });
+  }
+
+  public movableDirections(workPackageId:string):ReadonlySet<MoveDirection>|null {
+    const query = this.querySpace.query.value;
+    const order = this.currentOrder;
+    const index = order.indexOf(workPackageId);
+    if (!query || index === -1 || !this.canMoveRows(query)) return null;
+
+    const directions = new Set<MoveDirection>();
+    if (index > 0) directions.add('top').add('up');
+    if (index < order.length - 1) directions.add('down').add('bottom');
+    return directions;
+  }
+
+  public move():void {
+    throw new Error('Moving rows is not implemented yet');
+  }
+
+  private canMoveRows(query:QueryResource):boolean {
+    return this.table.configuration.dragAndDropEnabled
+      && this.wpTableSortBy.isManualSortingMode
+      && !this.wpTableGroupBy.isEnabled
+      && !this.wpTableHierarchies.isEnabled
+      && (isNewResource(query) || !!query.updateOrderedWorkPackages);
   }
 
   private collapseSelectionTo(row:HTMLElement):void {

@@ -233,3 +233,75 @@ describe('DragAndDropTransformer with two tables showing the same work packages'
     expect(other.row('2')).toBeVisible();
   });
 });
+
+describe('DragAndDropTransformer row moves', () => {
+  let harness:TableHarness;
+
+  const threeRows = [{ id: '1' }, { id: '2' }, { id: '3' }];
+
+  const renderTable = async (options:Partial<TableHarnessOptions> = {}) => {
+    harness = buildTable({
+      workPackages: threeRows,
+      manualSort: true,
+      ...options,
+      configuration: { dragAndDropEnabled: true, ...options.configuration },
+    });
+    await harness.render();
+    return harness.table.rowMover!;
+  };
+
+  afterEach(() => harness.destroy());
+
+  it('offers down and bottom on the first row', async () => {
+    const mover = await renderTable();
+
+    expect(mover.movableDirections('1')).toEqual(new Set(['down', 'bottom']));
+    expect(mover.movableDirections('2')).toEqual(new Set(['top', 'up', 'down', 'bottom']));
+    expect(mover.movableDirections('3')).toEqual(new Set(['top', 'up']));
+  });
+
+  it('disables every direction in a single-row table', async () => {
+    const mover = await renderTable({ workPackages: [{ id: '1' }] });
+
+    expect(mover.movableDirections('1')).toEqual(new Set());
+  });
+
+  it('offers no moves outside manual sorting', async () => {
+    const mover = await renderTable({ manualSort: false });
+
+    expect(mover.movableDirections('2')).toBeNull();
+  });
+
+  it('offers no moves in grouped or hierarchy tables', async () => {
+    const grouped = await renderTable({ workPackages: groupedWorkPackages, groups });
+    expect(grouped.movableDirections('2')).toBeNull();
+    await harness.destroy();
+
+    const hierarchy = await renderTable({ showHierarchies: true });
+    expect(hierarchy.movableDirections('2')).toBeNull();
+  });
+
+  it('offers no moves when the query cannot be reordered', async () => {
+    const mover = await renderTable({ canReorder: false });
+
+    expect(mover.movableDirections('2')).toBeNull();
+  });
+
+  it('offers moves when the query can be reordered', async () => {
+    const mover = await renderTable({ canReorder: true });
+
+    expect(mover.movableDirections('2')).toEqual(new Set(['top', 'up', 'down', 'bottom']));
+  });
+
+  it('offers no moves for a work package that is not rendered', async () => {
+    const mover = await renderTable();
+
+    expect(mover.movableDirections('999')).toBeNull();
+  });
+
+  it('offers no moves when the table has drag and drop disabled', async () => {
+    const mover = await renderTable({ configuration: { dragAndDropEnabled: false } });
+
+    expect(mover.movableDirections('2')).toBeNull();
+  });
+});
