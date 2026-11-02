@@ -143,11 +143,12 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
       work_package_page.ensure_page_loaded
     end
 
-    it "renders and shows the current labels when activated" do
+    it "renders and shows the current labels when activated, keeping the dropdown collapsed" do
       field.expect_state_text(label.name)
 
       field.activate!
       field.expect_selected_values(label.name)
+      expect(page).to have_no_css(".ng-dropdown-panel")
     end
 
     it "shows the validation error when a new label name is too long" do
