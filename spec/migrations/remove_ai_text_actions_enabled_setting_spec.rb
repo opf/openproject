@@ -84,7 +84,7 @@ RSpec.describe RemoveAITextActionsEnabledSetting, type: :model do
       "OPENPROJECT_AI_TEXT_ACTIONS_ENABLED" => "yes"
     }.each do |variable, value|
       it "keeps the actions active for #{variable}" do
-        with_environment(variable => value) { migrate }
+        with_env(variable => value) { migrate }
 
         expect(text_action.reload).to be_active
       end
@@ -95,7 +95,7 @@ RSpec.describe RemoveAITextActionsEnabledSetting, type: :model do
     before { store_setting("1") }
 
     it "deactivates all actions" do
-      with_environment("OPENPROJECT_AI__TEXT__ACTIONS__ENABLED" => "false") { migrate }
+      with_env("OPENPROJECT_AI__TEXT__ACTIONS__ENABLED" => "false") { migrate }
 
       expect(text_action.reload).not_to be_active
     end
@@ -103,7 +103,7 @@ RSpec.describe RemoveAITextActionsEnabledSetting, type: :model do
 
   context "without a stored setting and with a numeric truthy environment override" do
     it "keeps the actions active" do
-      with_environment("OPENPROJECT_AI_TEXT_ACTIONS_ENABLED" => "1") { migrate }
+      with_env("OPENPROJECT_AI_TEXT_ACTIONS_ENABLED" => "1") { migrate }
 
       expect(text_action.reload).to be_active
     end
@@ -111,17 +111,9 @@ RSpec.describe RemoveAITextActionsEnabledSetting, type: :model do
 
   context "without a stored setting and with a falsy environment override" do
     it "deactivates all actions" do
-      with_environment("OPENPROJECT_AI__TEXT__TRANSFORM__ACTIONS__ENABLED" => "false") { migrate }
+      with_env("OPENPROJECT_AI__TEXT__TRANSFORM__ACTIONS__ENABLED" => "false") { migrate }
 
       expect(text_action.reload).not_to be_active
     end
-  end
-
-  def with_environment(vars)
-    original = vars.keys.index_with { |key| ENV.fetch(key, nil) }
-    vars.each { |key, value| ENV[key] = value }
-    yield
-  ensure
-    original.each { |key, value| value.nil? ? ENV.delete(key) : ENV[key] = value }
   end
 end
