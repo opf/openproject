@@ -439,6 +439,50 @@ describe('AiActionsService', () => {
         expect(markers.size).toBe(0);
       });
 
+      it('replaces only the selected text as one undoable change and reports it', async () => {
+        const { asEditor, model, writer, markers, parsed, selectedRange, select } = fakeEditor();
+        const applied = vi.fn();
+        window.addEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, applied);
+        select('Login page dont work.');
+        await service.run(fixGrammar, asEditor);
+        model.change.mockClear();
+
+        accept(requestIdOf());
+        window.removeEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, applied);
+
+        expect(model.change).toHaveBeenCalledTimes(1);
+        expect(model.insertContent).toHaveBeenCalledWith(parsed, selectedRange);
+        expect(writer.removeMarker).toHaveBeenCalledTimes(1);
+        expect(markers.size).toBe(0);
+        expect((applied.mock.calls[0][0] as CustomEvent).detail).toEqual({ requestId: requestIdOf(), ok: true });
+      });
+
+      it('applies each request only once', async () => {
+        const { asEditor, model, select } = fakeEditor();
+        select('Login page dont work.');
+        await service.run(fixGrammar, asEditor);
+
+        accept(requestIdOf());
+        accept(requestIdOf());
+
+        expect(model.insertContent).toHaveBeenCalledTimes(1);
+      });
+
+      it('changes nothing and reports it when the selected text was deleted meanwhile', async () => {
+        const { asEditor, model, markers, select } = fakeEditor();
+        const applied = vi.fn();
+        window.addEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, applied);
+        select('Login page dont work.');
+        await service.run(fixGrammar, asEditor);
+
+        markers.clear();
+        accept(requestIdOf());
+        window.removeEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, applied);
+
+        expect(model.insertContent).not.toHaveBeenCalled();
+        expect((applied.mock.calls[0][0] as CustomEvent).detail).toEqual({ requestId: requestIdOf(), ok: false });
+      });
+
       it('unmarks the text once its pane was closed', async () => {
         const { asEditor, markers, select } = fakeEditor();
         select('Login page dont work.');

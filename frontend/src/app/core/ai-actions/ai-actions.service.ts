@@ -172,18 +172,31 @@ export class AiActionsService {
   // The accepted event arrives through a turbo stream, so only requests started here may write into an editor.
   // A destroyed editor gets no answer, so the pane tells the user it is gone.
   private apply({ requestId, text }:IAcceptedDetail):void {
-    const editor = this.pending?.requestId === requestId ? this.pending.editor : null;
-    this.forget(requestId);
-    if (!editor || editor.state === 'destroyed') {
+    const request = this.pending;
+    if (request?.requestId !== requestId) {
       return;
     }
 
-    const { model, data } = editor;
-    model.change(() => {
-      model.insertContent(data.parse(text), model.createRangeIn(model.document.getRoot()!));
-    });
+    // Not forget(): it would remove the marker that holds the range to replace.
+    this.pending = null;
+    if (request.editor.state === 'destroyed') {
+      return;
+    }
 
-    window.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_APPLIED_EVENT, { detail: { requestId, ok: true } }));
+    const { model, data } = request.editor;
+    const marker = request.scope === 'selection' ? model.markers.get(this.markerName(requestId)) : null;
+    const ok = request.scope === 'document' || marker !== null;
+
+    if (ok) {
+      model.change((writer) => {
+        model.insertContent(data.parse(text), marker?.getRange() ?? model.createRangeIn(model.document.getRoot()!));
+        if (marker) {
+          writer.removeMarker(marker);
+        }
+      });
+    }
+
+    window.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_APPLIED_EVENT, { detail: { requestId, ok } }));
   }
 
   private forget(requestId:string):void {
