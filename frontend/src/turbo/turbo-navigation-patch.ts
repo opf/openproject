@@ -36,12 +36,15 @@ import * as Turbo from '@hotwired/turbo';
 // already cloned the frame into the history-cache snapshot -- so the clone
 // freezes the frame as permanently busy. `turbo:before-cache` fires too late
 // to fix this: by then the clone is already a detached copy, disconnected
-// from the live DOM. Exported for direct unit testing.
+// from the live DOM. The same goes for the global loading indicator, which is
+// still visible when the clone is taken while an earlier frame request is in
+// flight; nothing would hide it again after a restore. Exported for direct unit testing.
 export function stripStaleBusyState(root: ParentNode): void {
   root.querySelectorAll('turbo-frame[busy]').forEach((frame) => {
     frame.removeAttribute('busy');
     frame.removeAttribute('aria-busy');
   });
+  root.querySelector('#global-loading-indicator')?.setAttribute('hidden', '');
 }
 
 /**

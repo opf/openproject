@@ -87,4 +87,13 @@ describe('stripStaleBusyState', () => {
 
     expect(root.querySelector('p')!.textContent).toBe('content');
   });
+
+  it('hides the global loading indicator', () => {
+    const root = document.createElement('div');
+    root.innerHTML = '<div id="global-loading-indicator"></div>';
+
+    stripStaleBusyState(root);
+
+    expect(root.querySelector('#global-loading-indicator')!.hasAttribute('hidden')).toBe(true);
+  });
 });
