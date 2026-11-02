@@ -27,23 +27,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin::Import::Jira::ImportRuns
-  class StreamableStatusBadgeComponent < ApplicationComponent
-    include OpTurbo::Streamable
+class Projects::StatusLabelComponent < ApplicationComponent
+  include OpPrimer::ComponentHelpers
+  include Primer::ClassNameHelper
 
-    def initialize(jira_import, **system_arguments)
-      super
+  def initialize(project:, with_icon: false, **system_arguments)
+    super
 
-      @jira_import = jira_import
-      @system_arguments = system_arguments
-    end
+    @project = project
+    @with_icon = with_icon
+    @status = find_status(project.status_code)
+    @system_arguments = system_arguments
+  end
 
-    def last_changed_date
-      if @jira_import.last_transition
-        @jira_import.last_transition.created_at
-      else
-        @jira_import.updated_at
-      end
-    end
+  def before_render
+    return unless @status
+
+    @system_arguments[:classes] = class_names(
+      @system_arguments[:classes],
+      helpers.hl_background_muted_class(:project_status, @status.id)
+    )
+  end
+
+  def render?
+    @status.present?
+  end
+
+  def name
+    helpers.project_status_name(@project.status_code)
+  end
+
+  def find_status(code)
+    Projects::Statuses::VALID.find { it.code&.to_s == code }
   end
 end

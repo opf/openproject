@@ -27,37 +27,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::StatusBadgeComponent < ApplicationComponent
+class WorkPackages::StatusLabelComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
-  include Primer::ClassNameHelper
 
-  def initialize(project:, with_icon: false, **system_arguments)
+  def initialize(status:, **system_arguments)
     super
 
-    @project = project
-    @with_icon = with_icon
-    @status = find_status(project.status_code)
+    @status = status
     @system_arguments = system_arguments
+
+    @highlighted = @system_arguments[:scheme].nil? || @system_arguments[:scheme] == :default
+    @system_arguments.delete(:scheme) if @highlighted
   end
 
   def before_render
-    return unless @status
-
     @system_arguments[:classes] = class_names(
       @system_arguments[:classes],
-      helpers.hl_background_muted_class(:project_status, @status.id)
+      # The `:secondary` badge carries no status color, but every scheme needs the
+      # hook the read-only layout is scoped to.
+      (helpers.hl_background_class("status", @status) if @highlighted),
+      "op-status-label",
+      "op-status-label_readonly" => readonly?
     )
   end
 
-  def render?
-    @status.present?
-  end
+  private
 
-  def name
-    helpers.project_status_name(@project.status_code)
-  end
-
-  def find_status(code)
-    Projects::Statuses::VALID.find { it.code&.to_s == code }
+  # A read-only status forbids every attribute write except the status itself
+  # ({WorkPackages::BaseContract#readonly_attributes_unchanged}), which is not
+  # something the badge's color and name convey on their own. The lock says so,
+  # matching the leading visual {WorkPackages::StatusButtonComponent} already
+  # gives read-only options in the status dropdown.
+  #
+  # Read-only statuses are an Enterprise feature, and {Status#is_readonly}
+  # answers `false` without the token, so no further gate is needed here.
+  #
+  # @return [Boolean] whether the status locks the work package.
+  def readonly?
+    @status.is_readonly?
   end
 end

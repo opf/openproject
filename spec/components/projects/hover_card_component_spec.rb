@@ -68,11 +68,11 @@ RSpec.describe Projects::HoverCardComponent, type: :component do
     expect(page).to have_test_selector("workspace-label-#{project.id}")
   end
 
-  context "when displaying the status badge" do
+  context "when displaying the status label" do
     let(:displayed_project) { create(:project, status_code: "on_track") }
 
-    it "renders the project status badge" do
-      expect(page).to have_test_selector("status-badge-#{displayed_project.id}")
+    it "renders the project status label" do
+      expect(page).to have_test_selector("status-label-#{displayed_project.id}")
     end
   end
 
