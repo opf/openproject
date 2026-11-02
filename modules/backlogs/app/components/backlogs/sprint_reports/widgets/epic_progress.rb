@@ -84,21 +84,24 @@ module Backlogs
         def historic_relevant_epic_ids
           epic_ids = Set.new
           visited = Set.new
-          current = work_packages_in_sprint.pluck(:id)
+          rows = hierarchy_rows(work_packages_in_sprint)
 
-          until current.empty?
-            visited.merge(current)
-            found_epic_ids, parent_ids = historic_epics_and_parents(current)
+          until rows.empty?
+            visited.merge(rows.map(&:first))
+            found_epic_ids, parent_ids = epics_and_parents(rows)
 
             epic_ids.merge(found_epic_ids)
-            current = parent_ids - visited.to_a
+            rows = hierarchy_rows(work_packages_at_report_time.where(id: parent_ids - visited.to_a))
           end
 
           epic_ids.to_a
         end
 
-        def historic_epics_and_parents(ids)
-          rows = work_packages_at_report_time.where(id: ids).pluck(:id, :type_id, :parent_id)
+        def hierarchy_rows(scope)
+          scope.pluck(:id, :type_id, :parent_id)
+        end
+
+        def epics_and_parents(rows)
           epics, others = rows.partition { |_id, type_id, _parent_id| type_id == epic_type_id }
 
           [epics.map(&:first), others.filter_map(&:last).uniq]
