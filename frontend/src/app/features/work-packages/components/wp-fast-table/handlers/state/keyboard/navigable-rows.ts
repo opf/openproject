@@ -26,7 +26,7 @@
 //++
 
 import type { WorkPackageTable } from '../../../wp-fast-table';
-import type { RowRecord } from '../../../semantics/row-classifier';
+import type { RowRecord, RowRecordKind } from '../../../semantics/row-classifier';
 import { NavigableRow, ROW_KINDS, RowKind } from './focus-position';
 import { navigableCells } from './roving-tabindex';
 import { headerRowOf, totalsRowOf } from '../../../helpers/structural-rows';
@@ -36,9 +36,9 @@ export const totalsRowKey = 'totals';
 
 export { headerRowOf, totalsRowOf };
 
-const navigableKinds:ReadonlySet<string> = new Set(ROW_KINDS);
+const navigableKinds:ReadonlySet<RowRecordKind> = new Set(ROW_KINDS);
 
-function isNavigableKind(kind:string):kind is RowKind {
+function isNavigableKind(kind:RowRecordKind):kind is RowKind {
   return navigableKinds.has(kind);
 }
 
