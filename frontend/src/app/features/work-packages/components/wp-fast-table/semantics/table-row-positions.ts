@@ -199,7 +199,7 @@ export class TableRowPositions {
 
     const indices = new Map<HTMLTableRowElement, number>([[header[0], 1]]);
     const trailers:HTMLTableRowElement[] = [];
-    const seen = new Set<'totals'|'create'>();
+    const seen = new Set<'totals'|'inlineCreate'>();
     let emptySurrogate:HTMLTableRowElement|null = null;
     for (const row of rows) {
       if (row === header[0]) continue;
@@ -209,11 +209,11 @@ export class TableRowPositions {
         return this.withdraw('foreign row');
       }
       if (kind === 'placeholder' || kind === 'unexposed') continue;
-      if ((kind === 'empty' || kind === 'totals' || kind === 'create') && !isExposedRow(row)) continue;
-      if (kind === 'empty') {
+      if ((kind === 'emptyResults' || kind === 'totals' || kind === 'inlineCreate') && !isExposedRow(row)) continue;
+      if (kind === 'emptyResults') {
         if (body.count !== 0 || emptySurrogate) return this.withdraw('unexpected empty-results row');
         emptySurrogate = row;
-      } else if (kind === 'totals' || kind === 'create') {
+      } else if (kind === 'totals' || kind === 'inlineCreate') {
         if (row.cells.length === 0) continue;
         if (seen.has(kind)) return this.withdraw(`duplicate ${kind} row`);
         seen.add(kind);

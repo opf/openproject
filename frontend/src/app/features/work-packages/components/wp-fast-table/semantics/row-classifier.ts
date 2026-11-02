@@ -34,7 +34,7 @@ import type { WorkPackageTable } from '../wp-fast-table';
 import { classifyRow, type TableRowKind } from '../helpers/structural-rows';
 import { expansionStateOf } from '../helpers/row-expansion';
 
-export type RowRecordKind = Exclude<TableRowKind, 'create'|'empty'>|'header'|'inlineCreate'|'emptyResults';
+export type RowRecordKind = TableRowKind|'header';
 
 export const edgeRowKeys = {
   header: 'header',
@@ -91,10 +91,7 @@ export class RowClassifier {
 
   private kindOf(table:HTMLTableElement, row:HTMLTableRowElement):RowRecordKind {
     if (row.parentElement === table.tHead) return 'header';
-    const kind = classifyRow(this.table, row);
-    if (kind === 'create') return 'inlineCreate';
-    if (kind === 'empty') return 'emptyResults';
-    return kind;
+    return classifyRow(this.table, row);
   }
 
   private edgeKeyOf(kind:RowRecordKind):string|null {

@@ -75,7 +75,7 @@ export class RowStatePainter {
       .filter((section) => section !== this.table.tbody)
       .forEach((section) => Array.from(section.rows).forEach((row) => {
         const kind = classifyRow(this.table, row);
-        if (kind !== 'totals' && kind !== 'create' && kind !== 'empty') return;
+        if (kind !== 'totals' && kind !== 'inlineCreate' && kind !== 'emptyResults') return;
         paintRowRole(row, 1);
         if (kind === 'totals') setOrRemove(row, 'aria-hidden', row.cells.length === 0 ? 'true' : null);
       }));

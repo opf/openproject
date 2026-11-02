@@ -34,7 +34,7 @@ const totalsRowSelector = 'tr.wp-table--sums-row';
 export type OccurrenceRowKind = OccurrenceKind;
 
 /** Every body or trailing row of the table; `foreign` is a row no producer declared. */
-export type TableRowKind = OccurrenceRowKind|'foreign'|'totals'|'create'|'empty'|'unexposed';
+export type TableRowKind = OccurrenceRowKind|'foreign'|'totals'|'inlineCreate'|'emptyResults'|'unexposed';
 
 /** The `thead` row of the table, when rendered. */
 export function headerRowOf(table:WorkPackageTable):HTMLTableRowElement|null {
@@ -78,9 +78,9 @@ export function occurrenceRowKind(occurrence:RenderedOccurrence):OccurrenceRowKi
 export function classifyRow(table:WorkPackageTable, row:HTMLTableRowElement):TableRowKind {
   const occurrence = table.ledger.byElement(row);
   if (occurrence) return occurrenceRowKind(occurrence);
-  if (isEmptyResultsRow(row)) return 'empty';
+  if (isEmptyResultsRow(row)) return 'emptyResults';
   if (isTotalsRow(table, row)) return 'totals';
-  if (isInlineCreateRow(row)) return 'create';
+  if (isInlineCreateRow(row)) return 'inlineCreate';
   if (!isExposedRow(row)) return 'unexposed';
   return 'foreign';
 }
