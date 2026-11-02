@@ -31,6 +31,7 @@ module ITSM
   class InboundEmail
     Headers = Data.define(:message_id, :in_reply_to, :references, :from_address, :from_name,
                           :to_addresses, :cc_addresses, :subject)
+    LINK_TARGET = /\A(https?|mailto):/i
 
     def initialize(raw)
       @raw = raw
@@ -41,9 +42,14 @@ module ITSM
       @headers ||= begin
         values = header_values.transform_values { valid_utf8(it) }
         Headers.new(**values,
+                    from_address: email_addresses(Array(values[:from_address])).first,
                     to_addresses: email_addresses(values[:to_addresses]),
                     cc_addresses: email_addresses(values[:cc_addresses]))
       end
+    end
+
+    def text
+      @text ||= valid_utf8(body_text).gsub(/\r\n?/, "\n").strip
     end
 
     private
@@ -68,6 +74,30 @@ module ITSM
     def from_name
       field = mail[:from]&.field
       field.display_names.first if field.is_a?(Mail::FromField)
+    end
+
+    def body_text
+      part = mail.multipart? ? mail.text_part || mail.html_part : mail
+
+      case part&.mime_type
+      when nil, "text/plain" then part&.decoded.to_s
+      when "text/html" then html_to_text(part.decoded)
+      else ""
+      end
+    end
+
+    def html_to_text(html)
+      document = Loofah.html5_document(html).scrub!(:prune)
+      document.css("a[href]").each { |link| link.replace(document.create_text_node(link_text(link))) }
+      document.to_text(encode_special_chars: false)
+    end
+
+    def link_text(link)
+      text = link.text.strip
+      return text unless link["href"].match?(LINK_TARGET)
+
+      target = link["href"].delete_prefix("mailto:")
+      text.empty? || text == target ? target : "#{text} (#{target})"
     end
 
     def email_addresses(addresses) = addresses.select { EmailValidator.valid?(it) }

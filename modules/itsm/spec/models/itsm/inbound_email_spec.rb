@@ -84,8 +84,8 @@ RSpec.describe ITSM::InboundEmail do
   context "with a sender that is not an email address" do
     let(:raw) { "From: not an address at all\r\nTo: support@example.com\r\n\r\nHello" }
 
-    it "has no sender name" do
-      expect(headers.from_name).to be_nil
+    it "has no sender" do
+      expect(headers).to have_attributes(from_address: nil, from_name: nil)
     end
   end
 
@@ -115,6 +115,119 @@ RSpec.describe ITSM::InboundEmail do
 
     it "replaces them" do
       expect(headers.subject).to eq("��Printer")
+    end
+  end
+
+  describe "#text" do
+    subject(:text) { email.text }
+
+    it "reads the plain text body" do
+      expect(text).to eq("The printer is broken.")
+    end
+
+    it "keeps the email content out of inspect" do
+      text
+
+      expect(email.inspect).not_to include("printer")
+    end
+
+    context "with a charset other than UTF-8" do
+      let(:raw) do
+        "From: jane@customer.example\r\nContent-Type: text/plain; charset=ISO-8859-1\r\n\r\nDr\xFCcker kaputt".b
+      end
+
+      it "converts it to UTF-8" do
+        expect(text).to eq("Drücker kaputt")
+      end
+    end
+
+    context "with Windows line endings and surrounding blank lines" do
+      let(:raw) { "From: jane@customer.example\r\n\r\n\r\nFirst line\r\nSecond line\r\n\r\n" }
+
+      it "uses plain line breaks and trims the text" do
+        expect(text).to eq("First line\nSecond line")
+      end
+    end
+
+    context "with bytes that are not valid UTF-8" do
+      let(:raw) { "From: jane@customer.example\r\n\r\n\xFF\xFEPrinter".b }
+
+      it "replaces them" do
+        expect(text).to eq("��Printer")
+      end
+    end
+
+    context "with a plain text and an HTML version" do
+      let(:raw) do
+        Mail.new do
+          text_part { body "The plain version." }
+          html_part do
+            content_type "text/html; charset=UTF-8"
+            body "<p>The HTML version.</p>"
+          end
+        end.to_s
+      end
+
+      it "prefers the plain text version" do
+        expect(text).to eq("The plain version.")
+      end
+    end
+
+    context "with only an HTML version" do
+      let(:raw) do
+        "From: jane@customer.example\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n" \
+          "<html><head><style>p { color: red }</style></head><body>" \
+          "<p>Hello <b>team</b>,</p><p>first line<br>second line</p>" \
+          "<p>a &amp; b &lt;c&gt;</p><script>alert('hi')</script>" \
+          "</body></html>"
+      end
+
+      it "converts it to text with its line breaks" do
+        expect(text).to eq("Hello team,\n\nfirst line\nsecond line\n\na & b <c>")
+      end
+    end
+
+    context "with links in an HTML version" do
+      let(:raw) do
+        "From: jane@customer.example\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n" \
+          "<p>See <a href=\"https://shop.example/orders/123\">my order</a>, " \
+          "<a href=\"https://shop.example\">https://shop.example</a>, " \
+          "<a href=\"mailto:jane@customer.example\">Jane</a>, " \
+          "<a href=\"mailto:joe@customer.example\">joe@customer.example</a>, " \
+          "<a href=\"#top\">top</a> and " \
+          "<a href=\"javascript:alert(1)\">this</a>.</p>"
+      end
+
+      it "keeps web and email addresses, but not anchors or unsafe targets" do
+        expect(text).to eq("See my order (https://shop.example/orders/123), https://shop.example, " \
+                           "Jane (jane@customer.example), joe@customer.example, top and this.")
+      end
+    end
+
+    context "with an attached text file and an HTML body" do
+      let(:raw) do
+        Mail.new do
+          html_part do
+            content_type "text/html; charset=UTF-8"
+            body "<p>See the attached notes.</p>"
+          end
+          add_file filename: "notes.txt", content: "Attached notes"
+        end.to_s
+      end
+
+      it "reads the body, not the attachment" do
+        expect(text).to eq("See the attached notes.")
+      end
+    end
+
+    context "with only an attachment" do
+      let(:raw) do
+        Mail.new { add_file filename: "scan.pdf", content: "%PDF-1.7" }.to_s
+      end
+
+      it "has no text" do
+        expect(text).to eq("")
+      end
     end
   end
 end
