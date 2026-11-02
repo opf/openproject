@@ -35,6 +35,7 @@ import { announce } from '@primer/live-region-element';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { OPToastEvent } from 'core-app/shared/components/toaster/toast-event';
 import { flipMove } from 'core-stimulus/helpers/flip-helper';
+import { performTurboStreamRequest, withProgressBar } from 'core-stimulus/helpers/request-helpers';
 import { parseTemplate } from 'url-template';
 import {
   buildMoveFormData,
@@ -65,7 +66,7 @@ import {
   type MoveAvailability,
   type MoveDirection,
 } from './sortable-lists/list-dom';
-import { SelectionOrchestrator, type SelectionHost } from './sortable-lists/selection-orchestrator';
+import { SelectionOrchestrator, type ActionScope, type SelectionHost } from './sortable-lists/selection-orchestrator';
 import { itemElementsByKey, itemIdentity } from './sortable-lists/selection';
 import { DragSession, type DragSessionHost } from './sortable-lists/drag-session';
 
@@ -119,8 +120,11 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   private monitorCleanupFn?:CleanupFn;
   private healScheduled = false;
   private reconcileScheduled = false;
+  private inFlightMoveRequests = 0;
 
   connect():void {
+    // A root restored from the Turbo cache can carry a stale busy marker.
+    this.syncBusyState();
     this.monitorCleanupFn = monitorForElements({
       canMonitor: ({ source }) => !this.busy
         && isItemFromRoot(this.element, source.data),
@@ -235,6 +239,24 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     } else {
       target.focus();
     }
+  }
+
+  actionScopeFor(itemElement:HTMLElement):ActionScope {
+    return this.selection?.actionScopeFor(itemElement) ?? { kind: 'refused', items: [] };
+  }
+
+  selectForAction(itemElement:HTMLElement):ActionScope {
+    if (this.busy) {
+      return this.actionScopeFor(itemElement);
+    }
+
+    return this.selection?.selectForAction(itemElement) ?? { kind: 'refused', items: [] };
+  }
+
+  // The move dialogs submit outside this root; the server's moved event
+  // is the only success signal it gets.
+  clearSelectionAfterMove():void {
+    this.selection?.clearSilently();
   }
 
   // The drag in flight, or the prospective session of a press that did not
@@ -408,6 +430,14 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     return list ? resolveMoveAvailability({ itemElement, rowsContainer: list.rowsContainer }) : null;
   }
 
+  moveToDestination(form:HTMLFormElement):void {
+    if (this.busy) {
+      return;
+    }
+
+    void this.submitDestinationMove(relativeUrl(new URL(form.action, window.location.href)), new FormData(form));
+  }
+
   moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void {
     // The menu is rendered server-side from a permission check that does not
     // know about per-work-package movability, so a stale or over-permissive
@@ -569,6 +599,25 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     return relativeUrl(url);
   }
 
+  private async submitDestinationMove(moveUrl:string, body:FormData):Promise<void> {
+    const request = new FetchRequest('put', moveUrl, { body, responseKind: 'turbo-stream' });
+
+    this.startMoveRequest();
+    try {
+      const response = await withProgressBar(performTurboStreamRequest(request));
+      if (response.ok) {
+        this.selection?.clearSilently();
+      }
+    } catch (error) {
+      // A rejection streams its own flash; only a request that never
+      // produced a stream lands here.
+      debugLog('Failed to move sortable list items to destination', error);
+      this.dispatchErrorToast();
+    } finally {
+      this.finishMoveRequest();
+    }
+  }
+
   // Refused whole when a row is missing: a member that vanished mid-drag
   // means a partial block would diverge from the ids the request claims.
   private rowsForItems(items:SelectionItem[]):HTMLElement[]|null {
@@ -723,7 +772,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       },
     );
 
-    this.setBusy(true);
+    this.startMoveRequest();
     try {
       const response = await request.perform();
 
@@ -738,7 +787,26 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       debugLog('Failed to move sortable list item due to request error', error);
       return { ok: false, showToast: true };
     } finally {
-      this.setBusy(false);
+      this.finishMoveRequest();
+    }
+  }
+
+  private startMoveRequest():void {
+    this.inFlightMoveRequests += 1;
+    this.syncBusyState();
+  }
+
+  private finishMoveRequest():void {
+    this.inFlightMoveRequests = Math.max(0, this.inFlightMoveRequests - 1);
+    this.syncBusyState();
+  }
+
+  // A successful frame stream may already have replaced this root; a
+  // detached element is left alone and connect() projects the count if it
+  // is restored.
+  private syncBusyState():void {
+    if (this.element.isConnected) {
+      this.setBusy(this.inFlightMoveRequests > 0);
     }
   }
 

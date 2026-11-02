@@ -33,6 +33,7 @@ require "support/browsers/browser_platform"
 module Pages
   class Backlog < Page
     include ::Components::Common::Filters
+    include ::Axe::Matchers
 
     attr_reader :project
 
@@ -740,6 +741,135 @@ module Pages
     # Live batch membership, in document order.
     def selected_card_ids
       all("[data-batch-selected]").pluck("data-sortable-lists--item-id-value")
+    end
+
+    def select_cards(*work_packages)
+      work_packages.each { |work_package| toggle_card(work_package) }
+    end
+
+    def expect_selected_cards_in_order(*work_packages)
+      wait_for { selected_card_ids }.to eq(work_packages.map { |work_package| work_package.id.to_s })
+    end
+
+    def expect_no_selected_cards
+      wait_for { selected_card_ids }.to be_empty
+    end
+
+    def clear_card_selection(work_package)
+      work_package_card(work_package).send_keys(:escape)
+      expect_no_selected_cards
+    end
+
+    def expect_work_package_actions(work_package, present: [], absent: [])
+      within_work_package_menu(work_package) do |menu|
+        present.each { |label| expect(menu).to have_selector(:menuitem, text: label, exact_text: true) }
+        absent.each { |label| expect(menu).to have_no_selector(:menuitem, text: label, exact_text: true) }
+      end
+    end
+
+    def work_package_menu_src(work_package)
+      within_work_package(work_package) do
+        find("action-menu", visible: :all)["src"]
+      end
+    end
+
+    def open_destination_dialog(work_package, action_label)
+      click_in_work_package_menu(work_package, action_label, wait: false)
+      expect(page).to have_selector(:modal, text: action_label)
+    end
+
+    def invoke_destination_action_after_menu_load(work_package, action_label, &before_click)
+      within_work_package_menu(work_package) do |menu|
+        item = menu.find(:menuitem, text: action_label, exact_text: true)
+        before_click&.call
+        wait_for_backlogs_turbo_stream { item.click }
+      end
+    end
+
+    def move_to_backlog_inbox(work_package)
+      within_work_package_menu(work_package) do |menu|
+        wait_for_backlogs_turbo_stream(frame_reload: true) do
+          menu.find(:menuitem, text: I18n.t("backlogs.work_package_card_menu_component.action_menu.move_to_inbox"),
+                               exact_text: true).click
+        end
+      end
+    end
+
+    def expect_destination_dialog(dialog_title, work_packages:)
+      within_modal dialog_title do
+        expect(page).to have_selector(
+          :heading,
+          text: I18n.t("backlogs.selected_work_packages_component.label", count: work_packages.size)
+        )
+        within(:list) do
+          expect(page).to have_selector(:list_item, count: work_packages.size)
+          expect(all(:list_item).map(&:text)).to match(work_packages.map { |work_package| include(work_package.subject) })
+        end
+      end
+    end
+
+    def expect_destination_dialog_options(dialog_title, options:)
+      within_modal dialog_title do
+        expect(find(:select).all(:option).map(&:text)).to eq(options)
+      end
+    end
+
+    def submit_destination_dialog(dialog_title, option:, frame_reload: true)
+      within_modal dialog_title do
+        find(:select).select(option)
+        wait_for_backlogs_turbo_stream(frame_reload:) { click_on I18n.t(:button_move) }
+      end
+    end
+
+    def cancel_destination_dialog(dialog_title)
+      within_modal dialog_title do
+        click_on I18n.t(:button_cancel)
+      end
+      expect(page).to have_no_selector(:modal, text: dialog_title)
+    end
+
+    def expect_no_destination_dialog
+      expect(page).to have_no_selector(:modal)
+    end
+
+    def expect_work_package_menu_axe_clean(work_package)
+      within_work_package_menu(work_package) do |menu|
+        menu_selector = "##{menu[:id]}"
+        expect_work_package_menu_loaded(work_package)
+        expect(page).to be_axe_clean.within(menu_selector)
+      end
+    end
+
+    # Primer's deferred-menu placeholder fails aria-required-children and
+    # aria-required-parent on its own, so scans wait for the loaded list.
+    def expect_work_package_menu_loaded(work_package)
+      expect(page.document)
+        .to have_no_css("#{menu_owner_overlay_selector(work_package)} include-fragment[src]", visible: :all)
+    end
+
+    # Scanned mid-fade, the dialog's opacity blends the primary button into
+    # its backdrop and color-contrast reports a ratio the settled dialog
+    # does not have.
+    def expect_destination_dialog_axe_clean(dialog_title)
+      dialog_selector = "##{find(:modal, text: dialog_title)[:id]}"
+      wait_for_animations_to_finish(dialog_selector)
+      expect(page).to be_axe_clean.within(dialog_selector)
+    end
+
+    def wait_for_animations_to_finish(selector)
+      wait_for do
+        page.evaluate_script(
+          "document.querySelector(#{selector.to_json})?.getAnimations({ subtree: true }).length"
+        )
+      end.to eq(0)
+    end
+
+    def expect_backlogs_axe_clean
+      expect(page).to be_axe_clean.within("#backlogs_container")
+    end
+
+    def expect_move_error(reason)
+      expect_flash(type: :error, message: I18n.t(:notice_unsuccessful_update_with_reason, reason:))
     end
 
     # The shared description every selected card's `aria-describedby` points
@@ -1622,7 +1752,7 @@ module Pages
     def dismiss_menu(menu_owner)
       selector = menu_owner_overlay_selector(menu_owner)
 
-      return unless page.has_css?(selector, visible: true, wait: 0)
+      return unless page.has_css?(selector, visible: :visible, wait: 0)
       return if page.has_selector?(:modal, wait: 0)
 
       find(selector, wait: 0).click
@@ -1634,7 +1764,7 @@ module Pages
       # the overlay is unclickable (Cuprite raises CoordinatesNotFoundError,
       # Selenium ElementNotInteractableError) and dismissal is moot.
       raise unless page.has_selector?(:modal, wait: 0) ||
-        page.has_no_css?(selector, visible: true, wait: 0)
+        page.has_no_css?(selector, visible: :visible, wait: 0)
     end
 
     def headed_section_titles(id_prefix:)
