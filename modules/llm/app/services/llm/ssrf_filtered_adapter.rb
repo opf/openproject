@@ -30,21 +30,15 @@
 require "httpx/adapters/faraday"
 
 module Llm
-  # Carries RubyLLM's requests over httpx with the same SSRF filter and allowlist
-  # as OpenProject.httpx, re-checked on every connection the adapter opens.
-  #
   # The stock adapter calls a streaming request's on_data handler without the
-  # Faraday env that Faraday 2 passes as its third argument. RubyLLM reads the
-  # response status from that env and treats every chunk as an error body when
-  # it is missing, so this adapter records the status as soon as the response
-  # headers arrive and hands the env on.
+  # Faraday env that Faraday 2 passes as its third argument, and with the body
+  # still compressed. RubyLLM reads the response status from that env and treats
+  # every chunk as an error body when it is missing.
   class SsrfFilteredAdapter < Faraday::Adapter::HTTPX
-    module ResponseHandoffPlugin
-      def self.load_dependencies(klass)
-        klass.plugin(Faraday::Adapter::HTTPX::OnDataPlugin)
-      end
-
+    module StreamingPlugin
       module RequestMethods
+        attr_writer :response_on_data
+
         def response=(response)
           super
 
@@ -55,15 +49,31 @@ module Llm
           @response.body.on_data = ->(chunk, size) { on_data.call(chunk, size, streamed) }
         end
       end
+
+      module ResponseBodyMethods
+        attr_writer :on_data
+
+        def write(chunk)
+          return super unless @on_data
+          return 0 if chunk.empty?
+
+          decoded = decode_chunk(chunk)
+          @on_data.call(decoded, decoded.bytesize)
+        end
+      end
     end
+
+    self.supports_parallel = false
 
     def build_connection(env)
       return @connection if @connection
 
-      @connection = super
+      @connection = ::HTTPX
+                      .plugin(ReasonPlugin)
                       .plugin(:ssrf_filter, safe_private_ranges: OpenProject::Configuration.ssrf_protection_ip_allowlist)
                       .plugin(OpenProject::HttpxSsrfCustomErrorMessage)
-                      .plugin(ResponseHandoffPlugin)
+                      .plugin(StreamingPlugin)
+                      .with(options_from_env(env))
     end
 
     private
@@ -77,6 +87,8 @@ module Llm
         response.raise_for_status unless response.is_a?(::HTTPX::Response)
         response
       end
+    rescue ::HTTPX::ResolveError, IOError => e
+      raise Faraday::ConnectionFailed, e
     end
 
     def on_data_with_env(env)

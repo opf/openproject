@@ -30,6 +30,7 @@
 require "spec_helper"
 require_module_spec_helper
 require "socket"
+require "zlib"
 
 RSpec.describe Llm::SsrfFilteredAdapter do
   let(:server) { TCPServer.new("127.0.0.1", 0) }
@@ -92,6 +93,22 @@ RSpec.describe Llm::SsrfFilteredAdapter do
       expect { session.embed("hello", model: "bge-m3") }.to raise_error(Llm::Errors::SsrfError)
       expect(requests).to be_empty
     end
+
+    it "refuses a hostname that resolves to the private address" do
+      connection.update_column(:base_url, "http://localhost:#{server.addr[1]}/v1")
+
+      expect { session.chat("qwen3.6-27b").ask("ping") }.to raise_error(Llm::Errors::SsrfError)
+      expect(requests).to be_empty
+    end
+  end
+
+  it "reports a host that does not resolve as a transient connection failure" do
+    connection.update_column(:base_url, "http://llm.does-not-exist.invalid/v1")
+
+    expect { session.chat("qwen3.6-27b").ask("ping") }.to raise_error do |error|
+      expect(error).to be_a(Llm::Errors::ConnectionError)
+      expect(Llm::Errors.transient?(error)).to be(true)
+    end
   end
 
   context "with the private address on the allowlist", with_ssrf_ip_allowlist: ["127.0.0.1/32"] do
@@ -121,6 +138,35 @@ RSpec.describe Llm::SsrfFilteredAdapter do
 
       expect(chunks).to eq(%w[Hel lo])
       expect(answer.content).to eq("Hello")
+    end
+
+    it "decompresses a gzip-encoded stream before handing it on" do
+      compressed = Zlib.gzip([sse_delta("Hel"), sse_delta("lo"), "data: [DONE]\n\n"].join)
+      serve do |client|
+        client.write "HTTP/1.1 200 OK\r\nContent-Type: text/event-stream\r\nContent-Encoding: gzip\r\n" \
+                     "Transfer-Encoding: chunked\r\n\r\n"
+        compressed.bytes.each_slice((compressed.bytesize / 2) + 1) { |slice| write_chunk(client, slice.pack("C*")) }
+        client.write "0\r\n\r\n"
+      end
+
+      chunks = []
+      answer = session.chat("qwen3.6-27b").ask("ping") { |chunk| chunks << chunk.content }
+
+      expect(chunks).to eq(%w[Hel lo])
+      expect(answer.content).to eq("Hello")
+    end
+
+    it "does not resend a completion when the server drops the connection", :aggregate_failures do
+      Thread.new do
+        2.times do
+          client = server.accept
+          requests << read_request(client)
+          client.close
+        end
+      end
+
+      expect { session.chat("qwen3.6-27b").ask("ping") }.to raise_error(Llm::Errors::ConnectionError)
+      expect(requests.size).to eq(1)
     end
 
     it "reports a stream the server rejects with its HTTP status" do
