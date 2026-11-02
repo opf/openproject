@@ -32,7 +32,7 @@ require "spec_helper"
 require_module_spec_helper
 require_relative "../support/pages/work_package_repositories_tab"
 
-RSpec.describe "Open the Repositories tab", :js, driver: :firefox_en do
+RSpec.describe "Open the Repositories tab", :js do
   let(:user) do
     create(
       :user,
