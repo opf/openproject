@@ -56,9 +56,8 @@ RSpec.describe "Refreshing query menu item", :js do
     find(".button", text: "Save").click
 
     last_query = Query.last
-    url = URI.parse(page.current_url).query
-    expect(url).to include("query_id=#{last_query.id}")
-    expect(url).not_to match(/query_props=.+/)
+    expect(page).to have_current_query_params(a_hash_including("query_id" => last_query.id.to_s))
+    expect(page).to have_no_current_query_params(a_hash_including("query_props"))
 
     # Locate query and refresh
     query_item = page.find(".op-submenu--item-action", text: last_query.name, wait: 20)
