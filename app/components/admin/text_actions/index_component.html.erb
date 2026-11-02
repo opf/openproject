@@ -27,6 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= component_wrapper(data: wrapper_data_attributes) do %>
+<%= helpers.turbo_frame_tag("text-actions-frame", **frame_arguments) do %>
   <% if all_disabled? %>
     <%=
       render(
@@ -97,4 +98,5 @@ See COPYRIGHT and LICENSE files for more details.
       end
     end
   %>
+<% end %>
 <% end %>

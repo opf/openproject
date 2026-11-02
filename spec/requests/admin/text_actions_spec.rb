@@ -57,6 +57,17 @@ RSpec.describe "Admin text actions", :skip_csrf,
       expect(response.body).to match(%r{<[^>]+>\s*Actions\s*</[^>]+>})
     end
 
+    context "when requested from the list frame" do
+      it "renders the frame with the list and the reload wiring" do
+        get admin_text_actions_path, headers: { "Turbo-Frame" => "text-actions-frame" }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('id="text-actions-frame"')
+        expect(response.body).to include("Fix grammar")
+        expect(response.body).to include("toggleSwitchSuccess")
+      end
+    end
+
     context "when every action is disabled" do
       let!(:action) { create(:ai_text_action, active: false) }
 

@@ -42,6 +42,17 @@ module Admin
         text_actions.any? && text_actions.none?(&:active)
       end
 
+      def frame_arguments
+        {
+          refresh: :morph,
+          data: {
+            controller: "reload-frame-on-event",
+            reload_frame_on_event_event_name_value: "toggleSwitchSuccess",
+            reload_frame_on_event_url_value: admin_text_actions_path
+          }
+        }
+      end
+
       def wrapper_data_attributes
         {
           controller: "sortable-lists",

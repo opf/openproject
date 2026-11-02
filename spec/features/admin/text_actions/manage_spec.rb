@@ -211,4 +211,20 @@ RSpec.describe "Managing text actions", :js, with_flag: { ai_text_actions: true 
     visit admin_text_actions_path
     expect(page).to have_text("[Error 404]")
   end
+
+  it "shows and hides the info box when row toggles change the last active action" do
+    action = create(:ai_text_action, active: true)
+
+    visit admin_text_actions_path
+
+    expect(page).to have_no_test_selector("text-actions-disabled-banner")
+
+    find(:button, accessible_name: toggle_label(action)).click
+    expect(page).to have_test_selector("text-actions-disabled-banner")
+    expect(action.reload).not_to be_active
+
+    find(:button, accessible_name: toggle_label(action)).click
+    expect(page).to have_no_test_selector("text-actions-disabled-banner")
+    expect(action.reload).to be_active
+  end
 end
