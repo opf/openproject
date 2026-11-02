@@ -35,7 +35,7 @@ class RemoveAITextActionsEnabledSetting < ActiveRecord::Migration[8.1]
   ].freeze
 
   def up
-    unless enabled_in_database? || enabled_in_environment?
+    unless enabled?
       execute "UPDATE ai_text_actions SET active = false, updated_at = NOW()"
     end
 
@@ -60,12 +60,17 @@ class RemoveAITextActionsEnabledSetting < ActiveRecord::Migration[8.1]
     SQL
   end
 
-  def enabled_in_environment?
-    ENV_VARIABLES.any? do |name|
-      value = ENV.fetch(name, nil)
-      value.present? && YAML.safe_load(value) == true
-    rescue Psych::Exception
-      false
-    end
+  def enabled?
+    override = environment_override
+    override.nil? ? enabled_in_database? : override
+  end
+
+  def environment_override
+    name = ENV_VARIABLES.find { |variable| ENV[variable].present? }
+    return if name.nil?
+
+    ActiveModel::Type::Boolean.new.cast(YAML.safe_load(ENV.fetch(name)))
+  rescue Psych::Exception
+    nil
   end
 end

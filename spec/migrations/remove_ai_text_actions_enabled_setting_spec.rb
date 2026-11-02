@@ -91,6 +91,24 @@ RSpec.describe RemoveAITextActionsEnabledSetting, type: :model do
     end
   end
 
+  context "with the setting stored as true and a falsy environment override" do
+    before { store_setting("1") }
+
+    it "deactivates all actions" do
+      with_environment("OPENPROJECT_AI__TEXT__ACTIONS__ENABLED" => "false") { migrate }
+
+      expect(text_action.reload).not_to be_active
+    end
+  end
+
+  context "without a stored setting and with a numeric truthy environment override" do
+    it "keeps the actions active" do
+      with_environment("OPENPROJECT_AI_TEXT_ACTIONS_ENABLED" => "1") { migrate }
+
+      expect(text_action.reload).to be_active
+    end
+  end
+
   context "without a stored setting and with a falsy environment override" do
     it "deactivates all actions" do
       with_environment("OPENPROJECT_AI__TEXT__TRANSFORM__ACTIONS__ENABLED" => "false") { migrate }
