@@ -63,6 +63,10 @@ RSpec.describe CustomField do
     it "is false for a custom comment attribute name" do
       expect(described_class.custom_field_attribute?("custom_comment_12")).to be(false)
     end
+
+    it "is false for nil" do
+      expect(described_class.custom_field_attribute?(nil)).to be(false)
+    end
   end
 
   describe ".id_from_attribute_name" do
@@ -84,6 +88,10 @@ RSpec.describe CustomField do
 
     it "returns nil for a non custom field attribute name" do
       expect(described_class.id_from_attribute_name("subject")).to be_nil
+    end
+
+    it "returns nil for nil" do
+      expect(described_class.id_from_attribute_name(nil)).to be_nil
     end
   end
 
@@ -133,6 +141,10 @@ RSpec.describe CustomField do
     it "returns nil for a custom field attribute name" do
       expect(described_class.id_from_column_name("custom_field_12")).to be_nil
     end
+
+    it "returns nil for nil" do
+      expect(described_class.id_from_column_name(nil)).to be_nil
+    end
   end
 
   describe ".column_name_pattern_for" do
@@ -145,6 +157,14 @@ RSpec.describe CustomField do
 
     it "does not match the column name of another id" do
       expect(pattern).not_to match("cf_1")
+    end
+
+    context "with non-numeric ids" do
+      subject(:pattern) { described_class.column_name_pattern_for([".*"]) }
+
+      it "does not interpolate them into the pattern" do
+        expect(pattern).not_to match("cf_12")
+      end
     end
 
     it "does not match a column name that only starts with a given id" do

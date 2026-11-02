@@ -338,7 +338,7 @@ class CustomField < ApplicationRecord
   end
 
   def self.column_name_pattern_for(ids)
-    /\Acf_(?<id>#{ids.join('|')})\z/
+    /\Acf_(?<id>#{ids.map(&:to_i).join('|')})\z/
   end
 
   # to move in project_custom_field
