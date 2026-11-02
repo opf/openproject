@@ -66,7 +66,7 @@ class Projects::PhaseStatusButtonComponent < ApplicationComponent
       tag: :a,
       href: project_phase_status_path(phase, status: status.code),
       content_arguments: {
-        data: { turbo_method: status.id ? :put : :delete },
+        data: { turbo_method: :put },
         aria: { current: (true if status == @status) }
       }
     )

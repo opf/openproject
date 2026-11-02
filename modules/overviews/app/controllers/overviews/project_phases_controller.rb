@@ -60,7 +60,7 @@ module ::Overviews
                       .call(permitted_params.project_phase)
 
       component = if service_call.success?
-                    Overviews::ProjectPhases::SidePanelComponent.new(project: @project, user: current_user)
+                    Overviews::ProjectPhases::SidePanelComponent.new(project: @project)
                   else
                     Overviews::ProjectPhases::EditComponent.new(service_call.result)
                   end

@@ -82,9 +82,10 @@ module OpPrimer
         classes: class_names(@button_arguments[:classes], highlight_class_name(@current_status, style)),
         disabled: disabled?,
         aria: {
-          label: title
+          label: title,
+          disabled: readonly?
         }
-      }.compact.deep_merge(@button_arguments.except(:classes))
+      }.compact.deep_merge(@button_arguments.except(:classes, :icon_only, :style))
     end
 
     def highlight_class_name(status, style)

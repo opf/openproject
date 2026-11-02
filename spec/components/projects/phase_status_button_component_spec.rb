@@ -51,13 +51,29 @@ RSpec.describe Projects::PhaseStatusButtonComponent, type: :component do
     end
   end
 
-  context "when the user cannot edit project phases" do
+  context "without a status" do
+    let(:phase_attributes) { { status: nil } }
+
     it_behaves_like "renders nothing"
+  end
+
+  shared_examples "renders a disabled button without a menu" do |label = "Open"|
+    it "renders a disabled button" do
+      expect(subject).to have_button label, aria: { disabled: true }
+    end
+
+    it "does not render a Primer ActionMenu" do
+      expect(subject).not_to have_element "action-menu"
+    end
+  end
+
+  context "when the user cannot edit project phases" do
+    it_behaves_like "renders a disabled button without a menu"
 
     context "with a status other than the default" do
       let(:phase_attributes) { { status: :completed } }
 
-      it_behaves_like "renders nothing"
+      it_behaves_like "renders a disabled button without a menu", "Completed"
     end
 
     context "when the user can only view project phases" do
@@ -67,7 +83,7 @@ RSpec.describe Projects::PhaseStatusButtonComponent, type: :component do
         end
       end
 
-      it_behaves_like "renders nothing"
+      it_behaves_like "renders a disabled button without a menu"
     end
 
     context "when the user can only edit project attributes, not phases" do
@@ -77,7 +93,7 @@ RSpec.describe Projects::PhaseStatusButtonComponent, type: :component do
         end
       end
 
-      it_behaves_like "renders nothing"
+      it_behaves_like "renders a disabled button without a menu"
     end
   end
 

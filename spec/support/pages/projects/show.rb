@@ -138,11 +138,9 @@ module Pages
         end
       end
 
-      def expect_phase_status_buttons(phases, *statuses)
-        phases.zip(statuses).each do |phase, status|
-          within_life_cycle_container(phase) do
-            expect(page).to have_button(status)
-          end
+      def expect_phase_status_button(phase, status)
+        within_life_cycle_container(phase) do
+          expect(page).to have_button(status)
         end
       end
 

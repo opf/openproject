@@ -14,8 +14,8 @@
             icon: @status.icon,
             title: @status.name,
             "aria-label": @status.name,
-            disabled: !edit_enabled?
           },
+          readonly: !edit_enabled?,
           menu_arguments: {
             data: { test_selector: "phase-status-action-menu-#{@phase.id}" }
           }

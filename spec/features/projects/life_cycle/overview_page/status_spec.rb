@@ -52,6 +52,12 @@ RSpec.describe "Change project phase status on project overview page", :js do
     project_life_cycles.map { it.reload.status }
   end
 
+  def expect_phase_status_buttons(*labels)
+    project_life_cycles.zip(labels).each do |phase, label|
+      overview_page.expect_phase_status_button(phase, label)
+    end
+  end
+
   describe "permissions" do
     context "with permission to edit project phases" do
       it "shows enabled status buttons" do
@@ -92,7 +98,7 @@ RSpec.describe "Change project phase status on project overview page", :js do
         overview_page.change_phase_status(life_cycle_executing, from: "Open", to: "In progress")
 
         expect_flash(message: I18n.t(:notice_successful_update))
-        overview_page.expect_phase_status_buttons(project_life_cycles, "Completed", "Completed", "In progress", "Open")
+        expect_phase_status_buttons("Completed", "Completed", "In progress", "Open")
         expect(stored_statuses).to eq %w[completed completed in_progress open]
       end
     end
@@ -104,7 +110,7 @@ RSpec.describe "Change project phase status on project overview page", :js do
         overview_page.change_phase_status(life_cycle_executing, from: "Open", to: "Completed")
 
         expect_flash(message: I18n.t(:notice_successful_update))
-        overview_page.expect_phase_status_buttons(project_life_cycles, "Completed", "Completed", "Completed", "Open")
+        expect_phase_status_buttons("Completed", "Completed", "Completed", "Open")
         expect(stored_statuses).to eq %w[completed completed completed open]
       end
     end
@@ -116,7 +122,7 @@ RSpec.describe "Change project phase status on project overview page", :js do
         overview_page.change_phase_status(life_cycle_planning, from: "Completed", to: "Open")
 
         expect_flash(message: I18n.t(:notice_successful_update))
-        overview_page.expect_phase_status_buttons(project_life_cycles, "Completed", "Open", "Open", "Open")
+        expect_phase_status_buttons("Completed", "Open", "Open", "Open")
         expect(stored_statuses).to eq %w[completed open open open]
       end
     end
