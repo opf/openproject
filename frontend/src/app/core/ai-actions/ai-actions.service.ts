@@ -184,17 +184,19 @@ export class AiActionsService {
     }
 
     const { model, data } = request.editor;
-    const marker = request.scope === 'selection' ? model.markers.get(this.markerName(requestId)) : null;
-    const ok = request.scope === 'document' || marker !== null;
+    const marker = model.markers.get(this.markerName(requestId));
+    const range = request.scope === 'document' ? model.createRangeIn(model.document.getRoot()!) : marker?.getRange();
+    // Deleting the marked text moves the marker into the graveyard instead of removing it.
+    const ok = range !== undefined && range.root !== model.document.graveyard;
 
-    if (ok) {
-      model.change((writer) => {
-        model.insertContent(data.parse(text), marker?.getRange() ?? model.createRangeIn(model.document.getRoot()!));
-        if (marker) {
-          writer.removeMarker(marker);
-        }
-      });
-    }
+    model.change((writer) => {
+      if (ok) {
+        model.insertContent(data.parse(text), range);
+      }
+      if (marker) {
+        writer.removeMarker(marker);
+      }
+    });
 
     window.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_APPLIED_EVENT, { detail: { requestId, ok } }));
   }

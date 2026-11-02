@@ -79,8 +79,9 @@ interface IFakeMarker {
 
 function fakeEditor(field?:string, data = 'Login page dont work.') {
   const root = { name: '$root' };
-  const range = { rangeIn: root };
-  const selectedRange = { selected: true };
+  const graveyard = { name: '$graveyard' };
+  const range = { root, rangeIn: root };
+  const selectedRange = { root, selected: true };
   const selectedContent = { fragment: true };
   const parsed = { parsed: true };
   const markers = new Map<string, IFakeMarker>();
@@ -93,6 +94,7 @@ function fakeEditor(field?:string, data = 'Login page dont work.') {
   const model = {
     document: {
       getRoot: vi.fn(() => root),
+      graveyard,
       selection: { isCollapsed: true, getFirstRange: vi.fn(() => selectedRange) },
     },
     markers: { get: (name:string) => markers.get(name) ?? null },
@@ -120,6 +122,7 @@ function fakeEditor(field?:string, data = 'Login page dont work.') {
     model,
     writer,
     markers,
+    graveyard,
     range,
     selectedRange,
     selectedContent,
@@ -468,18 +471,24 @@ describe('AiActionsService', () => {
         expect(model.insertContent).toHaveBeenCalledTimes(1);
       });
 
-      it('changes nothing and reports it when the selected text was deleted meanwhile', async () => {
-        const { asEditor, model, markers, select } = fakeEditor();
+      it.each([
+        ['was deleted meanwhile', (markers:Map<string, IFakeMarker>, graveyard:unknown) => {
+          markers.forEach((marker) => { marker.getRange = () => ({ root: graveyard }); });
+        }],
+        ['lost its marker', (markers:Map<string, IFakeMarker>) => markers.clear()],
+      ])('changes nothing and reports it when the selected text %s', async (_, loseSelection) => {
+        const { asEditor, model, markers, graveyard, select } = fakeEditor();
         const applied = vi.fn();
         window.addEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, applied);
         select('Login page dont work.');
         await service.run(fixGrammar, asEditor);
 
-        markers.clear();
+        loseSelection(markers, graveyard);
         accept(requestIdOf());
         window.removeEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, applied);
 
         expect(model.insertContent).not.toHaveBeenCalled();
+        expect(markers.size).toBe(0);
         expect((applied.mock.calls[0][0] as CustomEvent).detail).toEqual({ requestId: requestIdOf(), ok: false });
       });
 
