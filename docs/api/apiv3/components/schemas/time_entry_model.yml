@@ -131,7 +131,7 @@ allOf:
               - description: |-
                   The entity the time entry is created on
 
-                  **Resource**: WorkPackage, Meeting
+                  **Resource**: WorkPackage
           user:
             allOf:
               - "$ref": "./link.yml"

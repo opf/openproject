@@ -25,12 +25,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { removeTabStops } from 'core-app/shared/helpers/dom/remove-tab-stops';
 import { escape } from 'lodash-es';
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import {
   DisplayFieldContext,
+  DisplayFieldContextOptions,
   DisplayFieldService,
 } from 'core-app/shared/components/fields/display/display-field.service';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
@@ -51,6 +53,10 @@ export const displayClassName = 'inline-edit--display-field';
 export const displayTriggerLink = 'inline-edit--display-trigger';
 export const editFieldContainerClass = 'inline-edit--container';
 
+export interface DisplayFieldRendererOptions extends DisplayFieldContextOptions {
+  tabbable?:boolean;
+}
+
 export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   @LazyInject() displayFieldService:DisplayFieldService;
 
@@ -66,7 +72,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   constructor(
     public readonly injector:Injector,
     public readonly container:'table'|'single-view'|'timeline',
-    public readonly options:Record<string, unknown> = {},
+    public readonly options:DisplayFieldRendererOptions = {},
   ) {
   }
 
@@ -82,6 +88,10 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     }
 
     this.setSpanAttributes(span, field, name, resource, change);
+
+    if (this.options.tabbable === false) {
+      removeTabStops(span);
+    }
 
     return span;
   }
@@ -149,8 +159,12 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     span.classList.add(displayClassName, name);
     span.dataset.fieldName = name;
 
-    // Make span tabbable unless it's an id field
-    span.setAttribute('tabindex', name === 'id' ? '-1' : '0');
+    const tabbable = this.options.tabbable !== false;
+
+    if (tabbable) {
+      // Make span tabbable unless it's an id field
+      span.setAttribute('tabindex', name === 'id' ? '-1' : '0');
+    }
 
     if (field.required) {
       span.classList.add(requiredClassName);
@@ -163,7 +177,10 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     const schema = this.schema(resource, change);
     if (this.isAttributeEditable(schema, name)) {
       span.classList.add(editableClassName);
-      span.setAttribute('role', 'button');
+
+      if (tabbable) {
+        span.setAttribute('role', 'button');
+      }
     } else {
       span.classList.add(readOnlyClassName);
     }

@@ -38,7 +38,7 @@ describe('AiTextTransformPaneController', () => {
   const HTML = `
 <div data-controller="ai-text-transform-pane"
      data-ai-text-transform-pane-close-form-value="${CLOSE_FORM_ID}"
-     data-action="keydown.esc->ai-text-transform-pane#close resize@window->ai-text-transform-pane#keepInViewport">
+     data-action="keydown.esc->ai-text-transform-pane#close resize@window->ai-text-transform-pane#keepInViewport turbo:submit-end->ai-text-transform-pane#closeSubmitted">
   <div data-ai-text-transform-pane-target="pane" role="dialog" aria-label="AI result" tabindex="-1"
        style="position: fixed; top: 40px; right: 16px; width: 340px; height: 260px; max-width: calc(100vw - 32px);">
     <div data-testid="header" ${action('pointerdown', 'beginDrag')}>
@@ -249,6 +249,39 @@ describe('AiTextTransformPaneController', () => {
 
       expect(submit).toHaveBeenCalled();
       expect(pane()).toBeInTheDocument();
+    });
+
+    describe('when a form in the pane finishes its request', () => {
+      function submitEnd(formId:string, detail:{ success?:boolean }):void {
+        pane().insertAdjacentHTML('beforeend', `<form id="${formId}"></form>`);
+        const form = document.getElementById(formId) as HTMLFormElement;
+        form.dispatchEvent(new CustomEvent('turbo:submit-end', { bubbles: true, detail }));
+      }
+
+      it('keeps the pane when the close request succeeds', () => {
+        submitEnd(CLOSE_FORM_ID, { success: true });
+
+        expect(pane()).toBeInTheDocument();
+      });
+
+      it('keeps the pane when the close request was aborted by a newer one', () => {
+        submitEnd(CLOSE_FORM_ID, {});
+
+        expect(pane()).toBeInTheDocument();
+      });
+
+      it('removes the pane when the close request fails', () => {
+        const removedPane = pane();
+        submitEnd(CLOSE_FORM_ID, { success: false });
+
+        expect(removedPane).not.toBeInTheDocument();
+      });
+
+      it('keeps the pane when another form fails', () => {
+        submitEnd('ai-text-transform-pane-apply', { success: false });
+
+        expect(pane()).toBeInTheDocument();
+      });
     });
 
     it('does not let Escape reach surrounding dialogs', () => {

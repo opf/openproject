@@ -28,6 +28,7 @@
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { ChartOptions } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { QueryFormPayload } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-form';
 
 export interface WpGraphQueryParams {
   id?:string;
@@ -46,7 +47,7 @@ export class WpGraphConfiguration {
     this.chartType = this.chartType || 'bar';
   }
 
-  public static queryCreationParams(i18n:I18nService, isPublic:boolean):unknown {
+  public static queryCreationParams(i18n:I18nService, isPublic:boolean):QueryFormPayload {
     return {
       public: isPublic,
       name: i18n.t('js.grid.widgets.work_packages_graph.title'),

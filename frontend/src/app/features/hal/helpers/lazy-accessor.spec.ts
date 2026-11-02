@@ -78,7 +78,9 @@ describe('lazy service', () => {
     lazy(obj, 'prop', () => '');
     try {
       obj.prop = 'hello';
-    } catch (Error) {}
+    } catch {
+      /**/
+    }
 
     expect(obj.prop).not.toEqual('hello');
   });

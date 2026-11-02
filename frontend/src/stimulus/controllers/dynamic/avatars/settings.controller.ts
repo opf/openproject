@@ -172,10 +172,6 @@ export default class AvatarSettingsController extends Controller<HTMLElement> {
     this.colorTarget.dispatchEvent(new Event('input', { bubbles: true }));
   }
 
-  chooseImage() {
-    this.fileTarget.click();
-  }
-
   async upload() {
     const file = this.fileTarget.files?.[0];
     if (!file) return;
@@ -187,7 +183,6 @@ export default class AvatarSettingsController extends Controller<HTMLElement> {
     this.uploadErrorTarget.hidden = true;
     this.update();
     try {
-      if (!['image/jpeg', 'image/png', 'image/gif'].includes(file.type)) throw new Error('Invalid image');
       const image = await decodeImageFile(file);
       if (generation !== this.imageGeneration) return;
 

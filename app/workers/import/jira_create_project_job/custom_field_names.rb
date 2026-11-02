@@ -48,6 +48,12 @@ module Import
         without_numbering(custom_field_name).casecmp?(import_name.to_s)
       end
 
+      def best_match(candidates, names)
+        names = Array(names)
+        names.filter_map { |name| candidates.find { |cf| cf.name.casecmp?(name) } }.first ||
+          names.filter_map { |name| candidates.find { |cf| same_field?(cf.name, name) } }.first
+      end
+
       def without_numbering(name)
         name.to_s.sub(NUMBERING_SUFFIX, "")
       end

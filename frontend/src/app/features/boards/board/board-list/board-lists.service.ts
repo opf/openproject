@@ -42,7 +42,6 @@ import {
   switchMap,
 } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
 
 @Injectable({ providedIn: 'root' })
 export class BoardListsService {
@@ -75,7 +74,7 @@ export class BoardListsService {
         switchMap(([form, query]) => {
           // When the permission to create public queries is missing, throw an error.
           // Otherwise private queries would be created.
-          if ((form.schema.public as IOPFieldSchema).writable) {
+          if (form.schema.public!.writable) {
             return this
               .apiV3Service
               .queries

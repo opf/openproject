@@ -45,10 +45,11 @@ module Avatars
       end
     end
 
-    def initialize(principal:, target_avatar_path:)
+    def initialize(principal:, target_avatar_path:, image_url:)
       super()
       @principal = principal
       @target_avatar_path = target_avatar_path
+      @image_url = image_url
     end
 
     private
@@ -56,8 +57,8 @@ module Avatars
     def nested_option(button, type)
       case type
       when "image"
-        button.nested_form(**option_arguments(type)) do
-          ImageOptionComponent.new(principal: @principal, target_avatar_path: @target_avatar_path)
+        button.nested_form(**option_arguments(type)) do |builder|
+          ImageForm.new(builder, image_url: @image_url, target_avatar_path: @target_avatar_path)
         end
       when "initials"
         button.nested_form(**option_arguments(type)) { |builder| InitialsForm.new(builder, principal: @principal) }

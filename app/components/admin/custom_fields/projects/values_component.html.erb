@@ -46,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
           render(Primer::Beta::Text.new(font_weight: :bold)) { custom_field.name }
         end
 
-        if manageable?
+        if manageable? && rows.any?
           header.with_column do
             safe_join(
               [
@@ -77,6 +77,16 @@ See COPYRIGHT and LICENSE files for more details.
               ]
             )
           end
+        end
+      end
+    end
+
+    if rows.empty?
+      box.with_row do
+        render(Primer::Beta::Blankslate.new(test_selector: "custom-field-project-values-blankslate")) do |component|
+          component.with_visual_icon(icon: "list-ordered")
+          component.with_heading(tag: :h3).with_content(t("custom_fields.admin.projects.values_empty_state.title"))
+          component.with_description { t("custom_fields.admin.projects.values_empty_state.description") }
         end
       end
     end

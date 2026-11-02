@@ -191,7 +191,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
         linkText: this.I18n.t('js.toolbar.settings.configure_view'),
         hidden: this.hideTableOptions,
         icon: 'icon-settings',
-        onClick: (event:MouseEvent) => {
+        onClick: (_event:MouseEvent) => {
           this.opContextMenu.close();
           this.opModalService.show(WpTableConfigurationModalComponent, this.injector);
 

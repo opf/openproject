@@ -209,6 +209,34 @@ RSpec.describe Import::JiraCreateCustomFieldsJob do
       end
     end
 
+    context "with a field an earlier run had to rename" do
+      let(:custom_field) { WorkPackageCustomField.find_by(name: "Resolution Date (2)") }
+
+      before do
+        create(:work_package_custom_field, name: "Resolution Date", field_format: "date")
+        create(:work_package_custom_field, name: "Resolution Date (2)", field_format: "datetime")
+      end
+
+      it "reuses it instead of allocating the next counter" do
+        expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(2)
+        expect(jira_import.reload.system_field_custom_fields).to eq("resolutiondate" => custom_field.id)
+        expect(reference).to have_attributes(uses_existing: true)
+      end
+    end
+
+    context "with a same-format field carrying a project key suffix" do
+      let(:custom_field) { WorkPackageCustomField.find_by(name: "Resolution Date") }
+
+      before { create(:work_package_custom_field, name: "Resolution Date (XYZ)", field_format: "datetime") }
+
+      it "does not take it over" do
+        create_custom_fields
+
+        expect(custom_field).to be_present
+        expect(jira_import.reload.system_field_custom_fields).to eq("resolutiondate" => custom_field.id)
+      end
+    end
+
     context "when no issue has a resolutiondate" do
       let(:resolution_date) { nil }
 

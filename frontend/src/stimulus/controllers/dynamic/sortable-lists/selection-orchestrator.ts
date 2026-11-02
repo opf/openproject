@@ -25,8 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { BatchSelection, type SelectionAnchor, type SelectionKey } from 'core-common/batch-selection';
-import { announce } from '@primer/live-region-element';
+import { BatchSelection, type SelectionAnchor } from 'core-common/batch-selection';
 import { resolveItemId, resolveItemType } from './list-dom';
 import {
   applySelectionPresentation,
@@ -42,6 +41,7 @@ import {
 } from './selection';
 import { closestInteractiveElement } from 'core-common/interactive-element-helper';
 import { isApplePlatform } from 'core-common/platform';
+import { SelectionAnnouncements, type SelectionGesture } from 'core-common/selection-announcements';
 import { clearSelectionOnEscape } from 'core-common/selection-escape';
 import { isSelectAllShortcut } from 'core-common/selection-shortcuts';
 
@@ -75,9 +75,7 @@ type ScopeMutation = 'none'|'replace-if-unselected'|'replace';
 export class SelectionOrchestrator {
   private readonly selection = new BatchSelection();
 
-  // Last painted membership, not last announced: a silent navigation render
-  // in between would leave a stale baseline and make the next no-op speak.
-  private lastRenderedKeys:ReadonlySet<SelectionKey> = new Set();
+  private readonly announcements = new SelectionAnnouncements(() => this.host.announcementScope);
 
   constructor(private readonly host:SelectionHost) {}
 
@@ -140,7 +138,7 @@ export class SelectionOrchestrator {
 
     this.selection.clear();
     this.syncSelectionPresentation();
-    this.lastRenderedKeys = this.selection.keys;
+    this.announcements.rebase(this.selection.keys);
   }
 
   // The platform's one multi-select modifier: ⌘ on Apple platforms, Ctrl
@@ -436,47 +434,29 @@ export class SelectionOrchestrator {
   private renderRangeRestart(candidate:SelectionCandidate):void {
     this.selection.replace({ type: candidate.type, id: candidate.id }, candidate.listKey);
     this.syncSelectionPresentation();
-    this.lastRenderedKeys = this.selection.keys;
+    this.announcements.rebase(this.selection.keys);
     this.announceSelection('range_restarted');
   }
 
-  // Announcement follows the gesture class, not the count: `navigation` (a
-  // plain click) speaks only when it collapsed a batch, since the details
-  // pane it opens is its own feedback for the card itself; `selection`
-  // speaks on any membership change.
-  private renderSelection(kind:'navigation'|'selection', fullRepair = false):void {
-    const previous = this.lastRenderedKeys;
+  private renderSelection(kind:SelectionGesture, fullRepair = false):void {
+    const previous = this.announcements.baseline;
     this.syncSelectionPresentation(fullRepair);
-
-    const current = this.selection.keys;
-    this.lastRenderedKeys = current;
-
-    const changed = kind === 'navigation'
-      ? previous.size > 1 && current.size !== previous.size
-      : current.size !== previous.size || [...current].some((id) => !previous.has(id));
-
-    if (changed) {
-      this.announceSelection(current.size === 0 ? 'cleared' : 'selected');
-    }
+    this.announcements.commit(kind, this.selection.keys, previous);
   }
 
   private syncSelectionPresentation(fullRepair = false):void {
     const current = this.selection.keys;
+    const { baseline } = this.announcements;
     const changedKeys = fullRepair ? undefined : new Set([
-      ...[...this.lastRenderedKeys].filter((key) => !current.has(key)),
-      ...[...current].filter((key) => !this.lastRenderedKeys.has(key)),
+      ...[...baseline].filter((key) => !current.has(key)),
+      ...[...current].filter((key) => !baseline.has(key)),
     ]);
 
     applySelectionPresentation(this.host.rootElement, current, this.host.descriptionId, changedKeys);
   }
 
   private announceSelection(key:'selected'|'cleared'|'not_selectable'|'range_unavailable'|'range_blocked'|'range_restarted'):void {
-    void announce(this.selectionMessage(key), { politeness: 'polite' });
-  }
-
-  // The consumer's vocabulary: Backlogs says "work package", not "item".
-  private selectionMessage(key:string):string {
-    return I18n.t(`${this.host.announcementScope}.${key}`, { count: this.selection.size });
+    this.announcements.speak(key, this.selection.size);
   }
 
   // Repaints whether or not prune dropped anything: a morph can strip or
@@ -514,7 +494,7 @@ export class SelectionOrchestrator {
 
   teardown():void {
     this.selection.clear();
-    this.lastRenderedKeys = new Set();
+    this.announcements.rebase(new Set());
     this.clearPresentation();
   }
 }

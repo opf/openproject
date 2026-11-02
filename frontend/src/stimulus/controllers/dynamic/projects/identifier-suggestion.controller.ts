@@ -87,7 +87,8 @@ export default class extends ApplicationController {
 
     const pattern = ALLOWED_CHARS[this.modeValue] ?? ALLOWED_CHARS.classic;
     const current = this.identifierTarget.value;
-    const filtered = current.replace(pattern, '');
+    const normalized = this.modeValue === 'semantic' ? current.toUpperCase() : current;
+    const filtered = normalized.replace(pattern, '');
 
     if (filtered !== current) {
       const pos = this.identifierTarget.selectionStart ?? filtered.length;

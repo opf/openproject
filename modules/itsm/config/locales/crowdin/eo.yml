@@ -1,0 +1,61 @@
+---
+eo:
+  activerecord:
+    attributes:
+      itsm/email_message:
+        direction: Direction
+        from_address: From
+        message_id: Message ID
+        status: Status
+        subject: Subject
+      itsm/email_thread:
+        recipients: Recipients
+        requester_email: Requester email
+        requester_name: Requester name
+        work_package: Work package
+      itsm/incoming_mailbox:
+        active: Active
+        aliases: Known email addresses
+        email: Email address
+        mail_server: IMAP server
+        password: Password
+        project: Project
+        username: Username
+      itsm/mail_server:
+        encryption: Encryption
+        host: Server name
+        incoming_mailboxes: Incoming mailboxes
+        name: Name
+        outgoing_mailboxes: Outgoing mailboxes
+        port: Port
+        protocol: Protocol
+      itsm/outgoing_mailbox:
+        mail_server: SMTP server
+        password: Password
+        project: Project
+        sender_email: Sender email
+        sender_name: Sender name
+        username: Username
+    models:
+      itsm/email_message:
+        one: Email message
+        other: Email messages
+      itsm/email_thread:
+        one: Email thread
+        other: Email threads
+      itsm/incoming_mailbox:
+        one: Incoming mailbox
+        other: Incoming mailboxes
+      itsm/mail_server:
+        one: Mail server
+        other: Mail servers
+      itsm/outgoing_mailbox:
+        one: Outgoing mailbox
+        other: Outgoing mailboxes
+  admin:
+    description: Enables the functionality to create work packages by sending emails using an IMAP server and reply to those using an SMTP server.
+    enable_helpdesk: Enable Helpdesk in this instance
+    helpdesk_set_by_environment: The help desk feature is set by an environment variable and not changeable here.
+  label_helpdesk: Help desk
+  permission_manage_helpdesk: Manage help desk
+  project_module_helpdesk: Help desk

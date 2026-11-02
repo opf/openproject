@@ -34,6 +34,7 @@ import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resou
 import { groupName } from './grouped-rows-helpers';
 import { ProjectPhaseDisplayField } from 'core-app/shared/components/fields/display/field-types/project-phase-display-field.module';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 
 export function groupClassNameFor(group:GroupObject) {
   return `group-${group.identifier}`;
@@ -44,7 +45,7 @@ export class GroupHeaderBuilder {
 
   public text:{ collapse:string, expand:string };
 
-  constructor(public readonly injector:Injector) {
+  constructor(public readonly injector:Injector, private readonly keyboardNavigationEnabled = false) {
     this.text = {
       collapse: this.I18n.t('js.label_collapse'),
       expand: this.I18n.t('js.label_expand'),
@@ -71,8 +72,12 @@ export class GroupHeaderBuilder {
     row.id = `wp-table-rowgroup-${group.index}`;
     row.dataset.groupIndex = (group.index).toString();
     row.dataset.groupIdentifier = group.identifier;
+    const cellAttributes = this.keyboardNavigationEnabled ? ` class="-no-highlighting ${navigableCellClassName}" tabindex="-1"` : ' class="-no-highlighting"';
+    if (this.keyboardNavigationEnabled) {
+      row.tabIndex = -1;
+    }
     row.innerHTML = `
-      <td colspan="${colspan}" class="-no-highlighting">
+      <td colspan="${colspan}"${cellAttributes}>
         <div class="expander icon-context ${togglerIconClass}">
           <span class="sr-only">${escape(text)}</span>
         </div>

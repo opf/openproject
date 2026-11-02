@@ -31,9 +31,16 @@ In order to understand Inline Editing, you will need the following concepts:
 
 - [Changesets](../resource-changesets)
 
+## Choosing an approach for new code
+
+Inline editing as described here is an Angular concept used by work packages and other HAL resources with a schema.
+
+- **New screens and features:** build forms server-side with Primer forms and ViewComponents, and use Hotwire for partial updates. See [Using Hotwire with ViewComponents](../hotwire-view-components).
+- **Existing Angular screens:** new Angular components that integrate with inline editing (for example in the work package table or work package editing) are still fine. Write them with `inject()`, signal inputs, and Signals wherever RxJS is not the right mental model, as in the examples below.
+
 ## Components overview
 
-In order to understand the different modes of the inline edition functionality, we will first look at the components and code that handle displaying of resource attributes, the display fields.
+In order to understand the different modes of the inline editing functionality, we will first look at the components and code that handle displaying of resource attributes, the display fields.
 
 ### Display fields
 
@@ -65,9 +72,9 @@ Since OpenProject can also have dynamic custom fields with varying formats, the 
 }
 ```
 
-The `type` property will decide that for name, we're looking for a display field that can handle `String` type, while for the project `status` attribute, we're looking for a specific display type called `ProjectStatus`.
+The `type` property decides that for `name`, we're looking for a display field that can handle the `String` type.
 
-In the frontend, multiple display field classes exist and the [`DisplayFieldService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/display/display-field.service.ts) resolves what display field class is going to be used for which attribute. [There is a mapping file](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/display/display-field.initializer.ts) between the types returned by the API and the used display field class. In some cases such as for `id`, a specific field is set based on the attribute name, not its type.
+In the frontend, multiple display field classes exist and the [`DisplayFieldService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/display/display-field.service.ts) resolves what display field class is going to be used for which attribute. [There is a mapping file](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/display/display-field.initializer.ts) between the types returned by the API and the used display field class. In some cases a specific field is set based on the attribute name, not its type. For example, `id` always uses its own field, and the project `status` attribute is resolved by name to the `ProjectStatusDisplayField`.
 
 With a resource and its schema present, there are multiple ways to render a display field for a given attribute.
 
@@ -75,47 +82,51 @@ With a resource and its schema present, there are multiple ways to render a disp
 
 Since parts of the application are rendered in plain JavaScript (such as the work package table), most display fields are actually rendered explicitly to a DOM element through the [`DisplayFieldRenderer#render`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/display/display-field-renderer.ts) method. You will only need the resource with its schema loaded and the attribute name.
 
-The `DisplayFieldRenderer` requires the Angular injector for injecting services such as the `DisplayFieldService`. It's instance will cache field types instantiated for performance reasons in large rendering contexts, such as the work package table.
+The `DisplayFieldRenderer` requires the Angular injector for injecting services such as the `DisplayFieldService`. Its instance will cache field types instantiated for performance reasons in large rendering contexts, such as the work package table.
 
 Minimal example, rendering the status attribute of a work package to the element of the exemplary component:
 
 ```typescript
-@Component({ selector: 'minimal-example', template: '' })
+@Component({ selector: 'op-minimal-example', template: '' })
 export class ExampleComponent implements OnInit {
-    // The work package to render
-    @Input() workPackageId:string;
+  readonly workPackageId = input.required<string>();
 
-    constructor (private elementRef:ElementRef,
-                 private injector:Injector,
-                 private apiV3Service:ApiV3Service) {}
+  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly injector = inject(Injector);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly apiV3Service = inject(ApiV3Service);
 
-    ngOnInit() {
-        this
-            .apiV3Service
-            .work_packages
-            .id(this.workPackageId)
-            .get()
-         .subscribe(workPackage => {
-           const fieldRenderer = new DisplayFieldRenderer(injector, 'table');
-           const displayElement = fieldRenderer.render(workPackage, 'status', null);
-           this.elementRef.nativeElement.appendChild(displayElement);
-        });
-    }
+  ngOnInit() {
+    this.apiV3Service
+      .work_packages
+      .id(this.workPackageId())
+      .get()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((workPackage) => {
+        const fieldRenderer = new DisplayFieldRenderer(this.injector, 'table');
+        const displayElement = fieldRenderer.render(workPackage, 'status', null);
+        this.elementRef.nativeElement.appendChild(displayElement);
+      });
+  }
 }
 ```
 
-The third parameter of the `render` method is to provide a changeset. This allows to render the value not from the pristine work package, but from a temporary changeset of the work package:
+The third parameter of the `render` method is to provide a changeset. This allows rendering the value not from the pristine work package, but from a temporary changeset of the work package. Changesets are obtained from the `HalResourceEditingService`:
 
 ```typescript
-// Assuming we changed the subject property
-const changeset = new WorkPackageChangeset(workPackage);
+const halEditing = inject(HalResourceEditingService);
+
+const changeset = halEditing.changeFor(workPackage);
+changeset.setValue('subject', 'A changed subject');
+
+const displayElement = fieldRenderer.render(workPackage, 'subject', changeset);
 ```
 
-#### Rendering as angular component: `DisplayFieldComponent`
+#### Rendering as Angular component: `DisplayFieldComponent`
 
-To render an attribute of a HAL resource explicitly, a display field can be used through the [`DisplayFieldComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/display/display-field-renderer.ts). In most cases, you will not render the display field alone as it would expect to inline editable. This is why when it's used, it often explicitly disables the writable CSS styles with  `writable: false` set.
+To render an attribute of a HAL resource explicitly, a display field can be used through the [`DisplayFieldComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/display/display-field.component.ts). In most cases, you will not render the display field alone, since it is styled as if it were inline editable. This is why, when it's used, it often explicitly disables the writable CSS styles with `writable: false` set.
 
-Minimal example, rendering the status attribute of a work package
+Minimal example, rendering the status attribute of a work package:
 
 ```html
 <display-field [resource]="workPackage"
@@ -150,82 +161,88 @@ Inline-editing is usually connected to not only a single, but multiple fields of
 
 The `EditForm` logically groups together multiple field elements very similar to how a `<form>` tag encapsulates a set of inputs. It is tied to a (HAL) `resource` input.
 
- It has multiple responsibilities:
+It has multiple responsibilities:
 
 - receives registration of fields within the form
 - knows which fields are currently actively editing
 - handles submission of changes to the resource
-- activates erroneous fields after unsuccessfully trying to saving.
+- activates erroneous fields after an unsuccessful save.
 
-#### EditableAttributeField
+#### EditableAttributeFieldComponent
 
-The `EditableAttributeField` contains the logic to toggle between the _display_ and _edit_ states of a single attribute for the resource. The field will try to register to a parent form by injecting it through its constructor. Only fields within an `EditForm` parent are editable.
+The `EditableAttributeFieldComponent` contains the logic to toggle between the _display_ and _edit_ states of a single attribute for the resource. The field will try to register to a parent form by injecting it with `inject(EditFormComponent, { optional: true })`. Only fields within an `EditForm` parent are editable.
 
-The EditableAttributeField basically contains only two HTML elements that it wraps. These are used for the `display` and `edit` modes. Each is handled by their own `DisplayField` and `EditField` classes and components, as we will detail in the following.
+The `EditableAttributeFieldComponent` basically contains only two HTML elements that it wraps. These are used for the `display` and `edit` modes. Each is handled by their own `DisplayField` and `EditField` classes and components, as we will detail in the following.
 
 #### Editing portals
 
 OpenProject often renders Angular components in manually rendered DOM, prominently so in the work package table for improved rendering time. This is from the time the project was still using AngularJS and large scale rendering components was quite slow.
 
-To easily mount an edit field over a manually rendered `DisplayField` (such as from the `DisplayFieldRenderer` above), OpenProject uses the `EditingPortalService` to create an [Angular CDK portal](https://material.angular.io/cdk/portal/overview).
+To easily mount an edit field over a manually rendered `DisplayField` (such as from the `DisplayFieldRenderer` above), OpenProject uses the `EditingPortalService` to create an [Angular CDK portal](https://material.angular.dev/cdk/portal/overview).
 
-The `EditingPortalService` will render a `EditFormPortalComponent` with some HTML form wrapping for correct handling of submit events and labels. This portal will in turn render the actual `EditFieldComponent`. The service will wire up these components automatically.
+The `EditingPortalService` will render an `EditFormPortalComponent` with some HTML form wrapping for correct handling of submit events and labels. This portal will in turn render the actual `EditFieldComponent`. The service will wire up these components automatically.
 
 If you were to explicitly render an edit field, this would look as follows. Note that again, this is handled by the `EditForm` automatically whenever the user activates an `EditableAttributeFieldComponent` field.
 
 ```typescript
-@Component({ selector: 'minimal-example', template: '' })
+@Component({ selector: 'op-minimal-example', template: '' })
 export class ExampleComponent implements OnInit {
-    // The work package to render
-    @Input() workPackageId:string;
+  readonly workPackageId = input.required<string>();
 
-    constructor (private elementRef:ElementRef,
-                 private injector:Injector,
-                 // Parent EditForm required
-                 private editForm:EditFormComponent,
-                 private apiV3Service:ApiV3Service) {}
+  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly injector = inject(Injector);
+  private readonly destroyRef = inject(DestroyRef);
+  // Parent EditForm required
+  private readonly editForm = inject(EditFormComponent);
+  private readonly halEditing = inject(HalResourceEditingService);
+  private readonly editingPortalService = inject(EditingPortalService);
+  private readonly apiV3Service = inject(ApiV3Service);
 
-    ngOnInit() {
-        this
-            .apiV3Service
-            .work_packages
-            .id(this.workPackageId)
-            .get()
-         .subscribe(workPackage => {
+  ngOnInit() {
+    this.apiV3Service
+      .work_packages
+      .id(this.workPackageId())
+      .get()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((workPackage) => {
+        const schema = this.halEditing.changeFor(workPackage).schema.ofProperty('subject');
+        if (!schema) return;
 
-
-            return this.editingPortalService.create(
-                this.elementRef.nativeElement,
-                this.injector,
-                this.editForm,
-                workPackage.schema, // Schema of the work package
-                'subject', // Attribute field name
-                [] // Array of saving errors for error-style rendering
-            );
-        });
-    }
+        void this.editingPortalService.create(
+          this.elementRef.nativeElement,
+          this.injector,
+          this.editForm,
+          schema, // Schema of the attribute
+          'subject', // Attribute field name
+          [], // Array of saving errors for error-style rendering
+          this.destroyRef, // Cancels activation if the component is destroyed first
+        );
+      });
+  }
 }
 ```
+
+`create` resolves to the `EditFieldHandler` of the rendered field, described next.
 
 #### Edit field handler
 
 There is one more class involved in this stack, the `EditFieldHandler`. It implements an adapter pattern to break the connection between the input-only characteristics of the `EditFieldComponent` and the handling of events towards an outer wrapper such as the `EditForm`. They are regular classes that handle events from the `EditFieldComponent` to make them reusable in cases where, for example, an `EditForm` does not exist.
 
-Any user event that should trigger saving or resetting of the field is being handled by the `EditFieldHandler`, hence its name. For example, pressing \<kbd\>ESC\<\/kbd\> on a `TextEditFieldComponent` will trigger the `EditFieldHandler#handleUserCancel` method. The same is true for submit events on the field or form (e.g., pressing \<kbd\>ENTER\<\/kbd\> on the field), which trigger the `EditFieldHandler#handleUserSubmit` method.
+Any user event that should trigger saving or resetting of the field is being handled by the `EditFieldHandler`, hence its name. For example, pressing <kbd>Esc</kbd> on a `TextEditFieldComponent` will trigger the `EditFieldHandler#handleUserCancel` method. The same is true for submit events on the field or form (e.g., pressing <kbd>Enter</kbd> on the field), which trigger the `EditFieldHandler#handleUserSubmit` method.
 
-An example where this comes into play is the [`CustomText`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/grids/widgets/custom-text/custom-text.component.ts) widget of the dashboards and My page, which use the `<edit-form-portal>` manually and pass in a handler that handles saving of these widgets without access to an edit form.
+An example where this comes into play is the [`WidgetCustomTextComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/grids/widgets/custom-text/custom-text.component.ts) widget of the dashboards and My page, which uses the `<edit-form-portal>` manually and passes in a handler (the `CustomTextEditFieldService`) that saves these widgets without access to an edit form.
 
 ### 🔗 Code references
 
 - [`EditForm`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/edit/edit-form/edit-form.ts) base class
-- [`EditFormComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/edit/edit-form/edit-form.component.ts#L28-L27) Angular `<edit-form>` component
+- [`EditFormComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/edit/edit-form/edit-form.component.ts) Angular `<edit-form>` component
 - [`EditableAttributeFieldComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/components/fields/edit/field/editable-attribute-field.component.ts) Angular `<op-editable-attribute-field>` component for attributes within the edit form
 - [`DisplayField`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/display) definitions containing all display fields and the service to instantiate them.
 - [`DisplayFieldRenderer`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/display/display-field-renderer.ts) to manually render display fields from JavaScript
 - [`DisplayFieldComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/display/display-field.component.ts) an Angular component to render display fields
-- [`EditFieldComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/edit/field-types) definitions containing all display fields and the service to instantiate them
+- [`EditFieldComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/edit/field-types) definitions containing all edit fields
 - [`EditingPortalService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/edit/editing-portal/editing-portal-service.ts) service to create an edit field with event handling in code
-- [`WorkPackageFullViewComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/routing/wp-full-view/wp-full-view.html) Work package full view template that uses the `edit-form` attribute to create a form for the work package full view (as seen in the Gif above)
+- [`WorkPackagesFullViewComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/routing/wp-full-view/wp-full-view.html) Work package full view template that uses the `edit-form` attribute to create a form for the work package full view (as seen in the Gif above)
 
 ## Minimal example
 
@@ -267,9 +284,9 @@ The [`WorkPackageSingleViewComponent`](https://github.com/opf/openproject/blob/d
 
 ![Work package single view](single-view.png)
 
-In the end, each of the attributes in the two groups above are a `EditableAttributeField`, and the entire page wraps these attributes in an `EditFormComponent`.
+In the end, each of the attributes in the two groups above is an `EditableAttributeFieldComponent`, and the entire page wraps these attributes in an `EditFormComponent`.
 
 ## Discussions
 
-- The `EditForm` has a similar responsibility to what Angular offers with the `FormGroup/FormControl` logic of the reactive forms module. It would be useful to evaluate the possibility and effort to refactor the edit form into such a behavior. Currently, as the table is rendered in plain JavaScript and relies on the edit form, this may not be possible.
-- The `EditFieldHandler` class can likely be reduced into an interface that is implemented by both the `EditFieldComponent` and other classes using it such as `CustomTextComponent` and `WorkPackageCommentComponent`
+- The `EditForm` has a similar responsibility to what Angular offers with the `FormGroup/FormControl` logic of the reactive forms module. Since the work package table is rendered in plain JavaScript and relies on the edit form, such a refactoring is unlikely. New forms should instead be built server-side with Primer forms (see [Choosing an approach for new code](#choosing-an-approach-for-new-code)).
+- The `EditFieldHandler` class can likely be reduced into an interface that is implemented by both the `EditFieldComponent` and other classes using it, such as the `CustomTextEditFieldService`.

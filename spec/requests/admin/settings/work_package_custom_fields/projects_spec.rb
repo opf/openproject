@@ -163,6 +163,19 @@ RSpec.describe "Admin work package custom field projects", :skip_csrf, type: :ra
         expect(page).to have_css("[data-test-selector='custom-field-project-value-#{custom_field.custom_options.first.id}']")
       end
 
+      context "when values are deactivated for each project" do
+        let(:custom_field) do
+          create(:list_wp_custom_field, :project_specific_blocklist, types: [feature, epic], possible_values: %w[A B])
+        end
+
+        it "lists all values as enabled while none is deactivated" do
+          get project_values_admin_settings_work_package_custom_field_path(custom_field, using_project)
+
+          expect(page).to have_css("[data-test-selector^='custom-field-project-value-'] button[aria-pressed='true']",
+                                   count: 2)
+        end
+      end
+
       it "is not found for a project not using the custom field" do
         get project_values_admin_settings_work_package_custom_field_path(custom_field, other_project)
 

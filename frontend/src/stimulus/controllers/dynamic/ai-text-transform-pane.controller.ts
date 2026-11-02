@@ -125,6 +125,12 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     }
   }
 
+  closeSubmitted(event:CustomEvent<{ success?:boolean }>):void {
+    if ((event.target as Element).id === this.closeFormValue && event.detail.success === false) {
+      this.element.remove();
+    }
+  }
+
   private get pinned():boolean {
     return this.paneTarget.style.left !== '';
   }

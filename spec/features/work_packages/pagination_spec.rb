@@ -39,6 +39,8 @@ RSpec.describe "Work package pagination", :js do
   shared_examples_for "paginated work package list" do
     let!(:work_package_1) { create(:work_package, project:) }
     let!(:work_package_2) { create(:work_package, project:) }
+    let(:hierarchies) { Components::WorkPackages::Hierarchies.new }
+    let(:pagination) { Components::TablePagination.new }
 
     before do
       login_as(admin)
@@ -58,30 +60,31 @@ RSpec.describe "Work package pagination", :js do
         expect(page).to have_content(work_package_1.subject)
         expect(page).to have_no_content(work_package_2.subject)
       end
+      hierarchies.disable_via_header
+      wp_table.expect_row_positions(rowcount: 4, rows: [1, 2, 4])
 
-      within(".op-pagination--pages") do
-        find(".op-pagination--item button", text: "2").click
-      end
+      pagination.go_to_page(2)
 
       within(".work-packages-partitioned-query-space--container") do
         expect(page).to have_content(work_package_2.subject)
         expect(page).to have_no_content(work_package_1.subject)
       end
+      wp_table.expect_row_positions(rowcount: 4, rows: [1, 3, 4])
 
-      within(".op-pagination--options") do
-        find(".op-pagination--item button", text: "50").click
-      end
+      pagination.select_per_page(50)
 
       within(".work-packages-partitioned-query-space--container") do
         expect(page).to have_content(work_package_1.subject)
         expect(page).to have_content(work_package_2.subject)
       end
+      wp_table.expect_row_positions(rowcount: 4, rows: [1, 2, 3, 4])
     end
   end
 
   context "with project scope" do
     it_behaves_like "paginated work package list" do
       let(:path) { project_work_packages_path(project) }
+      let(:wp_table) { Pages::WorkPackagesTable.new(project) }
       let(:expected_path) { "/projects/project1/work_packages" }
     end
   end
@@ -89,6 +92,7 @@ RSpec.describe "Work package pagination", :js do
   context "globally" do
     it_behaves_like "paginated work package list" do
       let(:path) { work_packages_path }
+      let(:wp_table) { Pages::WorkPackagesTable.new }
       let(:expected_path) { "/work_packages" }
     end
   end

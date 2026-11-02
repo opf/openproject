@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
   <% row.with_column do %>
-    <%= render(Colors::SwatchComponent.new(hexcode:, show_value:)) %>
+    <%= render(Primer::OpenProject::ColorSwatch.new(hexcode:, show_value:)) %>
   <% end %>
 
   <% row.with_column(ml: 2) do %>

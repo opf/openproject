@@ -299,15 +299,7 @@ module Import
       def best_matching_candidate(candidates, run_custom_field_ids)
         return best_value_bearing_candidate(candidates, run_custom_field_ids) if value_bearing_format?
 
-        exact_name_match(candidates) || numbered_name_match(candidates)
-      end
-
-      def exact_name_match(candidates)
-        import_names.filter_map { |name| candidates.find { |cf| cf.name.casecmp?(name) } }.first
-      end
-
-      def numbered_name_match(candidates)
-        import_names.filter_map { |name| candidates.find { |cf| CustomFieldNames.same_field?(cf.name, name) } }.first
+        CustomFieldNames.best_match(candidates, import_names)
       end
 
       def import_names

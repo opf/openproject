@@ -84,6 +84,17 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
     end
   end
 
+  context "for a hierarchy custom field without items", with_ee: %i[custom_field_hierarchies project_specific_list_values] do
+    let(:custom_field) { create(:hierarchy_wp_custom_field, :project_specific_allowlist) }
+
+    it "shows an empty state instead of the bulk actions" do
+      expect(rendered.css("[data-test-selector='custom-field-project-values-blankslate']").text)
+        .to include(I18n.t("custom_fields.admin.projects.values_empty_state.title"))
+      expect(rendered).to have_no_link(I18n.t("custom_fields.admin.projects.enable_all"))
+      expect(rendered).to have_no_link(I18n.t("custom_fields.admin.projects.disable_all"))
+    end
+  end
+
   context "for a weighted item list custom field", with_ee: %i[weighted_item_lists project_specific_list_values] do
     let(:custom_field) { create(:weighted_item_list_wp_custom_field, :project_specific_allowlist) }
     let!(:parent) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "High", weight: 10) }

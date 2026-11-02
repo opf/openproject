@@ -108,14 +108,18 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
   private editingSubscription:Subscription|undefined;
 
-  private element:HTMLElement;
+  private element:HTMLTableSectionElement;
 
   get isActive():boolean {
     return this.mode !== 'inactive';
   }
 
+  get treegrid():boolean {
+    return this.table.configuration.keyboardNavigationEnabled;
+  }
+
   ngOnInit() {
-    this.element = this.elementRef.nativeElement;
+    this.element = this.elementRef.nativeElement as HTMLTableSectionElement;
   }
 
   ngAfterViewInit():void {
@@ -130,6 +134,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
         this.canAdd = canAdd;
         this.canReference = this.hasReferenceClass && canReference;
         this.cdRef.detectChanges();
+        this.reconcileExposure();
         this.showing.emit(this.canAdd || this.canReference);
       });
 
@@ -216,6 +221,8 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
   public handleReferenceClick() {
     this.mode = 'reference';
+    this.cdRef.detectChanges();
+    this.reconcileExposure();
     return false;
   }
 
@@ -228,7 +235,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   }
 
   public addWorkPackageRow() {
-    this.wpCreate
+    void this.wpCreate
       .createOrContinueWorkPackage(this.projectIdentifier)
       .then((change:WorkPackageChangeset) => {
         const wp = this.currentWorkPackage = change.projectedResource;
@@ -288,6 +295,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
     const [row] = builder.buildNew(wp, form);
     this.element.append(row);
+    this.reconcileExposure();
 
     return form;
   }
@@ -319,6 +327,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
     this.wpCreate.cancelCreation();
     this.currentWorkPackage = null;
     this.element.querySelector('.wp-row-new')?.remove();
+    this.reconcileExposure();
     if (this.editingSubscription) {
       this.editingSubscription.unsubscribe();
     }
@@ -327,10 +336,18 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   public showRow() {
     this.mode = 'inactive';
     this.cdRef.detectChanges();
+    this.reconcileExposure();
   }
 
   public hideRow() {
     this.mode = 'create';
     this.cdRef.detectChanges();
+    this.reconcileExposure();
+  }
+
+  private reconcileExposure():void {
+    if (this.treegrid) {
+      this.table.reconcileSection(this.element);
+    }
   }
 }

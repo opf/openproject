@@ -83,7 +83,7 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
     return this.count;
   }
 
-  public performAction(event:Event) {
+  public performAction(_event:Event) {
     this.toggleVisibility();
   }
 

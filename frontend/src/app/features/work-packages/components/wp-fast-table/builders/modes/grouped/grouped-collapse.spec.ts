@@ -140,3 +140,37 @@ describe('Grouped table collapse', () => {
     expect(harness.table.ledger.keyAt(0)).toBe(firstKey);
   });
 });
+
+describe('Grouped table collapse on a keyboard-enabled table', () => {
+  let harness:TableHarness;
+
+  afterEach(() => harness.destroy());
+
+  it('projects the collapse onto row expansion and hidden state', async () => {
+    harness = buildTable({
+      workPackages: [
+        { id: '1', attributes: { status: newStatus } },
+        { id: '2', attributes: { status: inProgressStatus } },
+      ],
+      groups: [
+        { value: 'New', href: newStatus.href, count: 1 },
+        { value: 'In progress', href: inProgressStatus.href, count: 1 },
+      ],
+      configuration: { keyboardNavigationEnabled: true },
+    });
+    await harness.render();
+    expect(harness.groupHeader(0)).toHaveAttribute('aria-expanded', 'true');
+
+    fireEvent.click(harness.groupHeader(0).querySelector('.expander')!);
+
+    await waitFor(() => expect(harness.groupHeader(0)).toHaveAttribute('aria-expanded', 'false'));
+    expect(harness.row('1')).not.toBeVisible();
+    expect(harness.row('1')).not.toHaveAttribute('aria-hidden');
+    expect(harness.row('2')).toBeVisible();
+
+    fireEvent.click(harness.groupHeader(0).querySelector('.expander')!);
+
+    await waitFor(() => expect(harness.groupHeader(0)).toHaveAttribute('aria-expanded', 'true'));
+    expect(harness.row('1')).toBeVisible();
+  });
+});

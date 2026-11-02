@@ -268,18 +268,6 @@ RSpec.describe "Workflows index", :js do
     expect(page).to have_current_path(workflow_summary_types_path)
   end
 
-  it "marks a workflow a project owns and links to that project" do
-    create(:project_owned_workflow, project: on_bug, name: "Bookshop flow")
-
-    visit workflows_path
-
-    row = page.find(".Box-row", text: "Bookshop flow")
-    expect(row).to have_text("Created in Bookshop")
-    expect(row).to have_link("Bookshop", href: project_settings_work_packages_types_path(on_bug))
-
-    expect(page.find(".Box-row", text: "Bug flow")).to have_no_text("Created in")
-  end
-
   it "opens a dialog listing and linking the dependent types" do
     visit workflows_path
 

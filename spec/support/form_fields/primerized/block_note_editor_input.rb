@@ -31,6 +31,7 @@ module FormFields
   module Primerized
     class BlockNoteEditorInput
       include Capybara::DSL
+      include WaitHelpers
 
       # Since op-blocknote-extensions 0.3.1 the work package search is portalled into
       # BlockNote's `.bn-container`, a sibling of the contenteditable - so it is no longer
@@ -71,8 +72,13 @@ module FormFields
       end
 
       def open_table_cell_menu(cell)
-        cell.hover
-        shadow_root.find(".bn-table-cell-handle").click
+        handle = page.document.synchronize do
+          cell.hover
+          shadow_root.find(".bn-table-cell-handle", wait: 0).tap do |current|
+            raise Capybara::ExpectationNotMet, "Cell handle is not on the hovered cell" unless horizontally_within?(current, cell)
+          end
+        end
+        handle.click
       end
 
       # The colors menu lists the text colors first, then the background colors, with the same names.
@@ -257,6 +263,12 @@ module FormFields
       end
 
       private
+
+      def horizontally_within?(element, container)
+        x, _, width, = bounding_rect(element)
+        left, _, container_width, = bounding_rect(container)
+        (x + (width / 2)).between?(left, left + container_width)
+      end
 
       # Attention: This only works with selenium, not with cuprite,
       # as cuprite does not support shadow dom (yet).

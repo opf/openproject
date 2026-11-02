@@ -45,7 +45,7 @@ RSpec.describe "direct IFC upload",
         page.attach_file("file", ifc_fixture.path, visible: :all)
 
         expected_validation_message = I18n.t("bim.error_direct_upload_file_too_large", size: 1024)
-        expect(page).to have_field(type: "file", validation_message: expected_validation_message)
+        expect(page).to have_field(type: "file", validation_message: expected_validation_message, visible: :all)
 
         form_validity = page.evaluate_script <<~JS
           document

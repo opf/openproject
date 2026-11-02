@@ -42,37 +42,12 @@
 #   about the calendar rather than a measurement, so they carry no values and the chart paints them behind
 #   the series.
 #
-# Four time instants decide the shape, and none of them replace one another:
-#
-# - +charted_from+ -- where the chart opens: the moment the sprint was started, or the opening
-#   of its planned start date while it has not been.
-# - +measured_until+ -- how far the remaining series is sampled - where measuring stops and
-#   projecting begins. The current time for a running sprint, the time it finished for a finished
-#   one, and nothing at all for one that has yet to begin.
-# - +planned_finish+ -- the date the guideline and the projection are spent against, whatever the
-#   sprint actually did; overrunning does not move it. It is what sets their slope rather than
-#   where they necessarily end.
-# - +charted_until+ -- where the sprint got to (for a completed sprint) or is planned to go to
-#   (for a running sprint). If the sprint is running longer than planned, there is no plan any more
-#   and the current time is used instead.
-#
-# The span between +charted_from+ and +charted_until+ sets the resolution -- hourly while that is
-# small enough to render, daily beyond it, nothing at all beyond a year.
-#
-# The viewer's time zone is settled here and handed down to Timeframe and Ticks. Everything below
-# either works in absolute instants or is told which zone to use, so that the days these series
-# are sampled and declined over start and end where the person reading the chart expects.
+# Which stretch of time is charted, at what resolution, and which of it is non working is
+# ChartWindow's: see there for the instants that decide the shape, and for the viewer's zone.
+# +planned_finish+ is the one the guideline and the projection are spent against, whatever the
+# sprint actually did -- it sets their slope rather than where they necessarily end.
 module Sprints
   class Burndown
-    Point = Data.define(:at, :value)
-
-    # Beyond this an hourly series says more about rendering cost than about progress.
-    HOURLY_STEP_LIMIT = 31.days
-
-    # Beyond this a sprint says nothing a reader can act on, and an hourly series over it would
-    # not render at all.
-    CHARTABLE_SPAN = 1.year
-
     def initialize(sprint:, project:, user: User.current)
       @sprint = sprint
       @project = project
@@ -81,12 +56,7 @@ module Sprints
 
     # The story points still open, sampled up to now.
     def remaining
-      return [] if too_long_to_chart?
-
-      @remaining ||= begin
-        sums = story_points_per_tick
-        ticks.map { Point.new(at: it, value: (sums[it.to_i] || 0).to_f) }
-      end
+      @remaining ||= series.sums(open_sprint_journals, :story_points)
     end
 
     # The constant reduction the sprint was planned with, pinned to what it started with and
@@ -105,65 +75,20 @@ module Sprints
       @projection ||= decline_from(remaining.last)
     end
 
-    def non_working_intervals
-      return [] if too_long_to_chart?
-
-      @non_working_intervals ||= Day.non_working_intervals(from: charted_from.to_date, to: charted_until.to_date)
-    end
-
-    def step
-      charted_span > HOURLY_STEP_LIMIT ? :day : :hour
-    end
-
-    def too_long_to_chart?
-      charted_span > CHARTABLE_SPAN
-    end
+    delegate :step, :too_long_to_chart?, :non_working_intervals, :charted_range, to: :window
 
     private
 
     attr_reader :sprint, :project, :user
 
-    delegate :planned_finish, :measured_until, to: :timeframe, private: true
+    delegate :charted_from, :charted_until, :planned_finish, :zone, to: :window, private: true
 
-    # The viewer's zone governs the whole chart: it decides where the days the series are sampled
-    # and declined over begin and end, so it is settled here and nothing below reaches for another.
-    def timeframe
-      @timeframe ||= Timeframe.new(sprint, zone:)
+    def window
+      @window ||= ChartWindow.new(sprint, zone: user.time_zone)
     end
 
-    def zone
-      user.time_zone
-    end
-
-    def ticks
-      return [] if measured_until.nil?
-
-      @ticks ||= WorkPackages::JournalTimeline::Ticks.build(from: charted_from,
-                                                            to: measured_until,
-                                                            step:,
-                                                            zone:)
-    end
-
-    def charted_from
-      timeframe.effective_start
-    end
-
-    def charted_until
-      timeframe.effective_finish
-    end
-
-    # How far the chart reaches, which both of its limits are stated against. Whole days, because
-    # that is the resolution both are set at.
-    def charted_span
-      (charted_until.to_date - charted_from.to_date).to_i.days
-    end
-
-    def story_points_per_tick
-      timeline(ticks).group(:tick).sum(:story_points).transform_keys(&:to_i)
-    end
-
-    def timeline(instants)
-      WorkPackages::JournalTimeline.new(open_sprint_journals, ticks: instants, user:).relation
+    def series
+      @series ||= ChartSeries.new(window:, user:)
     end
 
     def open_sprint_journals
@@ -191,7 +116,7 @@ module Sprints
       drop = origin.value / still_ahead(days, days.first, origin_from)
 
       points = decline_samples(days).map do |day, at|
-        Point.new(at:, value: drop * still_ahead(days, day, at))
+        ChartPoint.new(at:, value: drop * still_ahead(days, day, at))
       end
 
       points.prepend(origin)
