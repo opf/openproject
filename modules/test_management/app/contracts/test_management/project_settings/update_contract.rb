@@ -5,6 +5,8 @@ module TestManagement
     class UpdateContract < ::ModelContract
       def self.model = TestManagement::ProjectSetting
 
+      attribute :project
+      attribute :project_id
       attribute :display_prefix
       stored_attribute :folder_tree_layout, store: :options
       stored_attribute :enable_ci, store: :options
