@@ -297,6 +297,52 @@ RSpec.describe InplaceEditFieldsController do
       expect(response).to have_http_status(:not_found)
       expect(Project).to exist(model.id)
     end
+
+    context "when the system arguments override a registered attribute" do
+      let(:attribute) { :description }
+
+      it "renders the registered attribute and keeps the project", :aggregate_failures do
+        get :reset, params: {
+          model: model_param,
+          id: model.id,
+          attribute:,
+          system_arguments_json: { attribute: "destroy" }.to_json
+        }, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(Project).to exist(model.id)
+      end
+    end
+
+    context "when the system arguments of a calculated dependent override its attribute" do
+      let(:custom_field) { create(:integer_project_custom_field, projects: [model]) }
+      let(:attribute) { custom_field.attribute_name.to_sym }
+      let!(:calculated_field) do
+        create(:calculated_value_project_custom_field,
+               :skip_validations,
+               formula: "{{cf_#{custom_field.id}}} * 2",
+               projects: [model])
+      end
+
+      before do
+        allow(ProjectCustomField).to receive(:visible).and_return(ProjectCustomField.all)
+      end
+
+      it "renders the dependent field and keeps the project", :aggregate_failures do
+        patch :update, params: {
+          model: model_param,
+          id: model.id,
+          attribute:,
+          project: { custom_field_values: { custom_field.id.to_s => "42" } },
+          stable_key_system_arguments: {
+            "project_#{model.id}_#{calculated_field.attribute_name}" => { attribute: "destroy" }
+          }.to_json
+        }, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(Project).to exist(model.id)
+      end
+    end
   end
 
   describe "model resolution errors" do
