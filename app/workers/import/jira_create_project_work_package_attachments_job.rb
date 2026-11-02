@@ -92,7 +92,7 @@ module Import
                 key = attachment.dig("author", "key")
                 Rails.logger.tagged("author:#{key}") do
                   author = find_user(key)
-                  create_member(@project, author) if author.present?
+                  create_member(@project, author) if author.present? && !author.is_a?(DeletedUser)
                   create_attachment(work_package, attachment, author || User.system)
                 end
               end
@@ -151,31 +151,6 @@ module Import
 
       attached_at = Time.zone.parse(created)
       record.update_columns(created_at: attached_at, updated_at: attached_at)
-    end
-
-    def find_user(jira_user_key)
-      return if jira_user_key.blank?
-
-      Rails.logger.tagged("jira_object_type:user", "jira_object_id_or_name:#{jira_user_key}") do
-        jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
-        if jira_user
-          ref = JiraOpenProjectReference.find_by(
-            jira_entity_class: "Import::JiraUser",
-            jira_entity_id: jira_user.id
-          )
-          if ref.present?
-            ref.op_leg
-          else
-            log_message = "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
-            Rails.logger.error log_message
-            raise log_message
-          end
-        else
-          log_message = "Import::JiraUser with jira_user_key #{jira_user_key} not found!"
-          Rails.logger.error log_message
-          raise log_message
-        end
-      end
     end
   end
 end

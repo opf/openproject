@@ -139,6 +139,10 @@ module Import
       get("/rest/api/2/issue/#{issue_id}", params: { fields:, expand: }.compact)
     end
 
+    def issue_watchers(issue_id_or_key)
+      get("/rest/api/2/issue/#{issue_id_or_key}/watchers")
+    end
+
     def issues(jql: nil, start_at: 0, max_results: 100, fields: "*all", expand: "changelog")
       get("/rest/api/2/search", params:
         {
