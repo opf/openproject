@@ -58,10 +58,6 @@ interface Projection {
   readonly indices:Map<HTMLTableRowElement, number>;
 }
 
-interface Unpainted {
-  readonly withdrawn:string|null;
-}
-
 // Group counts are computed from the unscoped query results, so grouped positions trust only the query collections:
 // `/api/v3/work_packages` and `/api/v3/workspaces/:id/work_packages` (the self links
 // `WorkPackageCollectionFromQueryService` emits), plus the `projects/:id` alias of the latter.
@@ -85,7 +81,7 @@ export class TableRowPositions {
 
   private withdrawal:string|null = null;
 
-  private captureWithdrawal:string|null = null;
+  private committedWithdrawal:WithdrawnRowPositions|null = null;
 
   constructor(private readonly table:WorkPackageTable) {}
 
@@ -126,28 +122,12 @@ export class TableRowPositions {
 
   public commit(evidence:RowPositionEvidence):void {
     this.snapshot = evidence && 'kind' in evidence ? evidence : null;
-    this.captureWithdrawal = evidence && 'withdrawn' in evidence ? evidence.withdrawn : null;
+    this.committedWithdrawal = evidence && 'withdrawn' in evidence ? evidence : null;
   }
 
   /** Producers call this synchronously after every imperative row move or structural change, so no frame exposes a stale index. */
   public paint():string|null {
-    this.withdrawal = null;
-    if (this.table.destroyed) return null;
-    const element = this.table.tbody.closest('table');
-    if (!element) return null;
-    if (!this.currentSnapshot() && !element.hasAttribute('aria-rowcount')) {
-      this.withdrawal = this.snapshot ? 'collection changed before render' : this.captureWithdrawal;
-      return this.withdrawal;
-    }
-    const rows = Array.from(element.rows);
-    const result = this.project(element, rows);
-    const projection = 'indices' in result ? result : null;
-    setOrRemove(element, 'aria-rowcount', projection ? String(projection.count ?? -1) : null);
-    rows.forEach((row) => {
-      const position = projection?.indices.get(row);
-      setOrRemove(row, 'aria-rowindex', position === undefined ? null : String(position));
-    });
-    this.withdrawal = 'indices' in result ? null : result.withdrawn;
+    this.withdrawal = this.paintPositions();
     return this.withdrawal;
   }
 
@@ -189,10 +169,30 @@ export class TableRowPositions {
       && source.elements.every((wp, index) => wp.id === originalRows[index]);
   }
 
-  private project(element:HTMLTableElement, rows:HTMLTableRowElement[]):Projection|Unpainted {
-    if (!this.snapshot) return { withdrawn: this.captureWithdrawal };
+  private paintPositions():string|null {
+    if (this.table.destroyed) return null;
+    const element = this.table.tbody.closest('table');
+    if (!element) return null;
     const snapshot = this.currentSnapshot();
-    if (!snapshot) return this.notOffered('collection changed before render');
+    if (!snapshot && !element.hasAttribute('aria-rowcount')) return this.unavailable()?.withdrawn ?? null;
+
+    const rows = Array.from(element.rows);
+    const result = snapshot ? this.project(snapshot, element, rows) : this.unavailable();
+    const projection = result && 'indices' in result ? result : null;
+    setOrRemove(element, 'aria-rowcount', projection ? String(projection.count ?? -1) : null);
+    rows.forEach((row) => {
+      const position = projection?.indices.get(row);
+      setOrRemove(row, 'aria-rowindex', position === undefined ? null : String(position));
+    });
+    return result && 'withdrawn' in result ? result.withdrawn : null;
+  }
+
+  /** Without a current snapshot, either the collection moved on since the render pass or that pass withheld positions. */
+  private unavailable():WithdrawnRowPositions|null {
+    return this.snapshot ? this.notOffered('collection changed before render') : this.committedWithdrawal;
+  }
+
+  private project(snapshot:CapturedRowPositions, element:HTMLTableElement, rows:HTMLTableRowElement[]):Projection|WithdrawnRowPositions {
     const { body } = snapshot;
     const header = element.tHead?.rows;
     if (header?.length !== 1) return this.withdraw('header rows');
