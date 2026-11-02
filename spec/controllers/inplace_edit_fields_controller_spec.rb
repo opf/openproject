@@ -33,7 +33,7 @@ require "rails_helper"
 RSpec.describe InplaceEditFieldsController do
   let(:user) { create(:user) }
   let(:model) { create(:project) }
-  let(:attribute) { :name }
+  let(:attribute) { :description }
   let(:model_param) { "project" }
 
   let(:update_registry) do
@@ -94,7 +94,7 @@ RSpec.describe InplaceEditFieldsController do
           id: model.id,
           attribute:,
           project: {
-            name: "New project"
+            description: "New description"
           }
         }, format: :turbo_stream
 
@@ -112,7 +112,7 @@ RSpec.describe InplaceEditFieldsController do
           id: model.id,
           attribute:,
           project: {
-            name: ""
+            description: ""
           }
         }, format: :turbo_stream
 
@@ -130,7 +130,7 @@ RSpec.describe InplaceEditFieldsController do
           model: model_param,
           id: model.id,
           attribute:,
-          project: { name: "New project" },
+          project: { description: "New description" },
           system_arguments_json: { wrapper_id: }.to_json
         }, format: :turbo_stream
 
@@ -189,7 +189,7 @@ RSpec.describe InplaceEditFieldsController do
           model: model_param,
           id: model.id,
           attribute:,
-          project: { name: "Foo" }
+          project: { description: "Foo" }
         }, format: :turbo_stream
 
         expect(response).to have_http_status(:not_found)
@@ -262,6 +262,40 @@ RSpec.describe InplaceEditFieldsController do
 
         expect(response).not_to have_http_status(:not_found)
       end
+    end
+  end
+
+  describe "attribute allowlist" do
+    let(:handler) { double(call: true) }
+    let(:attribute) { :destroy }
+
+    it "returns 404 on edit and keeps the project", :aggregate_failures do
+      get :edit, params: { model: model_param, id: model.id, attribute: }, format: :turbo_stream
+
+      expect(response).to have_http_status(:not_found)
+      expect(Project).to exist(model.id)
+    end
+
+    it "returns 404 on dialog and keeps the project", :aggregate_failures do
+      get :dialog, params: { model: model_param, id: model.id, attribute: }, format: :turbo_stream
+
+      expect(response).to have_http_status(:not_found)
+      expect(Project).to exist(model.id)
+    end
+
+    it "returns 404 on reset and keeps the project", :aggregate_failures do
+      get :reset, params: { model: model_param, id: model.id, attribute: }, format: :turbo_stream
+
+      expect(response).to have_http_status(:not_found)
+      expect(Project).to exist(model.id)
+    end
+
+    it "returns 404 on update and keeps the project", :aggregate_failures do
+      patch :update, params: { model: model_param, id: model.id, attribute:, project: { destroy: "1" } },
+                     format: :turbo_stream
+
+      expect(response).to have_http_status(:not_found)
+      expect(Project).to exist(model.id)
     end
   end
 
