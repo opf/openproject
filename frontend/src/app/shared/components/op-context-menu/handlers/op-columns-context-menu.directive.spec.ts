@@ -37,7 +37,7 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { registerContextMenu } from 'core-app/shared/components/op-context-menu/testing/register-context-menu';
-import { headerRowKey } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/navigable-rows';
+import { headerRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 import { navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { buildTable, TableHarness } from 'core-app/features/work-packages/components/wp-fast-table/testing/table-harness';
 import { OpColumnsContextMenu } from './op-columns-context-menu.directive';

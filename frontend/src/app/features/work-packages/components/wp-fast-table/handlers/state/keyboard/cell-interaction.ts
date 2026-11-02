@@ -35,7 +35,7 @@ import { activateTableField } from '../../cell/edit-cell-handler';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { navigableCells } from './roving-tabindex';
 import { type ActivationKey, walkIntent } from './key-intent';
-import { headerRowKey } from './navigable-rows';
+import { headerRowKey } from '../../../row-keys';
 import type { ActiveTableField } from '../../../wp-table-editing';
 import { destructiveControlAttribute } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 
