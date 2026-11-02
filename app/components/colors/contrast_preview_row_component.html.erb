@@ -29,13 +29,13 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(Primer::Beta::Heading.new(tag: :h5, font_size: :normal, mb: 2)) { t("colors.contrast.used_as_#{usage}") } %>
 <%= render Primer::Box.new(
       display: :flex, align_items: :center, justify_content: :center,
-      border: true, border_radius: 2, p: 3, classes: "color-contrast--surface",
+      border: true, border_radius: 2, p: 3, bg: :default, color: :default, classes: "color-contrast--surface",
       data: { color_mode: mode, "#{mode}_theme": mode }
     ) do %>
   <%= render(
         Primer::Beta::Text.new(
           display: :inline_block, font_size: 3, font_weight: :semibold, py: 2, px: 3, border_radius: 2,
-          classes: "__hl_#{usage}",
+          classes: highlighting_class,
           data: { color_contrast_target: "sample" }
         )
       ) { t("colors.contrast.sample") } %>

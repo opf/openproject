@@ -37,5 +37,9 @@ module Colors
       @usage = usage
       @hexcode_id = hexcode_id
     end
+
+    def highlighting_class
+      "__hl_#{usage}"
+    end
   end
 end
