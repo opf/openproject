@@ -603,7 +603,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: "calendar"
 
   menu.push :ai,
-            { controller: "/admin/artificial_intelligence", action: :show },
+            ->(_) { AdminHelper.ai_landing_path },
             if: ->(_) { User.current.admin? },
             caption: I18n.t("menus.admin.ai"),
             icon: :sparkle

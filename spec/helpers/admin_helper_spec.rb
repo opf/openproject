@@ -28,36 +28,34 @@
 
 require "spec_helper"
 
-RSpec.describe "Admin AI landing", :skip_csrf, type: :rails_request do
-  shared_let(:admin) { create(:admin) }
-
-  describe "GET /admin/ai" do
-    subject { get admin_ai_path }
-
-    current_user { admin }
+RSpec.describe AdminHelper do
+  describe ".ai_landing_path" do
+    subject(:path) { described_class.ai_landing_path }
 
     context "with the LLM connection active", with_flag: { llm_connection: true, ai_text_actions: true } do
-      it "redirects to the LLM settings" do
-        subject
-
-        expect(response).to redirect_to(llm_connection_path)
-      end
+      it { is_expected.to eq("/admin/llm_connection") }
     end
 
     context "with only text actions active", with_flag: { llm_connection: false, ai_text_actions: true } do
-      it "redirects to the text assistant" do
-        subject
-
-        expect(response).to redirect_to(admin_text_actions_path)
-      end
+      it { is_expected.to eq("/admin/text_actions") }
     end
 
     context "with no flag active", with_flag: { llm_connection: false, ai_text_actions: false } do
-      it "redirects to the MCP settings" do
-        subject
+      it { is_expected.to eq("/admin/mcp_configurations") }
+    end
+  end
 
-        expect(response).to redirect_to(mcp_configurations_path)
-      end
+  describe "the Artificial Intelligence menu item" do
+    subject(:url) do
+      Redmine::MenuManager.items(:admin_menu).find { |item| item.name == :ai }.url
+    end
+
+    context "with the LLM connection active", with_flag: { llm_connection: true } do
+      it { is_expected.to eq(described_class.ai_landing_path) }
+    end
+
+    context "with no flag active", with_flag: { llm_connection: false, ai_text_actions: false } do
+      it { is_expected.to eq("/admin/mcp_configurations") }
     end
   end
 end
