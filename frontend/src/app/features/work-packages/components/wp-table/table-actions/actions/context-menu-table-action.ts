@@ -37,7 +37,7 @@ export class OpContextMenuTableAction extends OpTableAction {
   public readonly identifier = 'open-context-menu-action';
 
   private text = {
-    linkTitle: this.I18n.t('js.label_open_context_menu'),
+    linkTitle: this.I18n().t('js.label_open_context_menu'),
   };
 
   public buildElement() {
