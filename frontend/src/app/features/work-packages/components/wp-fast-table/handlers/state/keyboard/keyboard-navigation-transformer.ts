@@ -56,6 +56,8 @@ import { CellInteraction } from './cell-interaction';
 
 export interface KeyboardNavigation {
   readonly position:FocusPosition|null;
+  /** False once focus moved to a control outside the table and its editors, until it returns. */
+  readonly retainsFocus:boolean;
   /** Makes the position the table's Tab stop, focuses it and scrolls it into view. */
   focusPosition(position:FocusPosition):void;
   /** Remembers the position without painting or focusing it. */
@@ -236,6 +238,10 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
   public get position():FocusPosition|null {
     return this.current;
+  }
+
+  public get retainsFocus():boolean {
+    return !this.focusLeftTable;
   }
 
   public focusPosition(position:FocusPosition):void {

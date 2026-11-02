@@ -687,6 +687,26 @@ describe('TableEditForm focus return', () => {
     await submission.catch(() => undefined);
   });
 
+  it('leaves focus on the body after it left the table for a removed control when a delayed validation error arrives', async () => {
+    const save = deferred<{ resource:WorkPackageResource; wasNew:boolean }>();
+    await mount({ editing: { save: () => save.promise } });
+    const handler = await openEditor('1');
+    const submit = vi.spyOn(harness.table.editing.forms['1'], 'submit');
+    const submission = handler.handleUserSubmit();
+    await waitFor(() => expect(submit).toHaveBeenCalled());
+    document.body.append(outside);
+    outside.focus();
+    outside.remove();
+    expect(document.activeElement).toBe(document.body);
+    handler.setErrors(['Required']);
+
+    (harness.table.editing.forms['1'] as unknown as { focusOnFirstError():void }).focusOnFirstError();
+
+    expect(document.activeElement).toBe(document.body);
+    save.resolve({ resource: harness.table.editing.forms['1'].resource, wasNew: false });
+    await submission.catch(() => undefined);
+  });
+
   it('leaves an inline-create editor focused when a delayed validation error arrives', async () => {
     const save = deferred<{ resource:WorkPackageResource; wasNew:boolean }>();
     await mount({ editing: { save: () => save.promise } });

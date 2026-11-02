@@ -265,8 +265,8 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     if (submitted && current && (current.key !== submitted.key || current.cell !== submitted.cell)) return false;
 
     const active = document.activeElement;
-    return !active
-      || active === document.body
+    const resting = !active || active === document.body;
+    return (resting && this.table.keyboardNavigation?.retainsFocus !== false)
       || insideGrid(this.table.scrollContainer, active)
       || Object.values(this.activeFields).some((field) => field.owns(active));
   }
