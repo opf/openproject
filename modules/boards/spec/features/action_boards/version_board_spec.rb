@@ -179,8 +179,7 @@ RSpec.describe "Version action board",
       board_page.expect_card("A second version", "Task 1", present: true)
 
       # Expect query props to be present
-      url = URI.parse(page.current_url).query
-      expect(url).to include("query_props=")
+      expect(page).to have_current_query_params(a_hash_including("query_props"))
 
       # Save that filter
       board_page.save

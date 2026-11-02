@@ -176,11 +176,14 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
 
       # Selection project scope 'In all projects' redirects away from current project.
       global_search.submit_in_global_scope
-      expect(page).to have_current_path (/\/search/)
-
-      expect(page).to have_current_path(/q=%23#{search_target.id}/, url: true)
-      expect(page).to have_current_path(/filter=work_packages/, url: true)
-      expect(page).to have_current_path(/scope=all/, url: true)
+      expect(page).to have_current_path(%r{/search}, ignore_query: true)
+      expect(page).to have_current_query_params(
+        a_hash_including(
+          "q" => "##{search_target.id}",
+          "filter" => "work_packages",
+          "scope" => "all"
+        )
+      )
     end
 
     it "announces the number of items via aria-live" do
@@ -299,10 +302,14 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
         # Expect that the "All" tab is selected.
         global_search.expect_active_tab :work_packages
 
-        expect(page).to have_current_path(%r{/#{project.identifier}/search}, url: true)
-        expect(page).to have_current_path(/q=#{query}/, url: true)
-        expect(page).to have_current_path(/filter=work_packages/, url: true)
-        expect(page).to have_current_path(/scope=current_project/, url: true)
+        expect(page).to have_current_path(%r{/#{project.identifier}/search}, ignore_query: true)
+        expect(page).to have_current_query_params(
+          a_hash_including(
+            "q" => query,
+            "filter" => "work_packages",
+            "scope" => "current_project"
+          )
+        )
 
         table = Pages::EmbeddedWorkPackagesTable.new(find(".work-packages-embedded-view--container"))
         table.expect_work_package_count(5) # because we set the page size to this
@@ -358,9 +365,13 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
         # and expect that subproject's work packages will not be found
         table.ensure_work_package_not_listed! other_work_package
 
-        expect(page).to have_current_path(/q=Other\+work\+package/, url: true)
-        expect(page).to have_current_path(/filter=work_packages/, url: true)
-        expect(page).to have_current_path(/scope=current_project/, url: true)
+        expect(page).to have_current_query_params(
+          a_hash_including(
+            "q" => "Other work package",
+            "filter" => "work_packages",
+            "scope" => "current_project"
+          )
+        )
 
         # Expect to find custom field values
         # ...for type: text
@@ -382,10 +393,14 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
         expect(page).to have_text "Search for \"#{other_work_package.subject}\" in #{project.name} and all subprojects"
 
         # Expect that the project scope is not set and work_packages module continues to stay selected.
-        expect(page).to have_current_path(%r{/#{project.identifier}/search}, url: true)
-        expect(page).to have_current_path(/q=Other\+work\+package/, url: true)
-        expect(page).to have_current_path(/filter=work_packages/, url: true)
-        expect(page).to have_current_path(/scope=&/, url: true)
+        expect(page).to have_current_path(%r{/#{project.identifier}/search}, ignore_query: true)
+        expect(page).to have_current_query_params(
+          a_hash_including(
+            "q" => "Other work package",
+            "filter" => "work_packages",
+            "scope" => ""
+          )
+        )
 
         table = Pages::EmbeddedWorkPackagesTable.new(find(".work-packages-embedded-view--container"))
         table.expect_work_package_count(1)

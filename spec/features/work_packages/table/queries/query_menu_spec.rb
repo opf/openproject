@@ -137,7 +137,7 @@ RSpec.describe "Query menu item", :js do
 
       last_query = Query.last
 
-      expect(URI.parse(page.current_url).query).to include("query_id=#{last_query.id}&query_props=")
+      expect(page).to have_current_query_params(a_hash_including("query_props", "query_id" => last_query.id.to_s))
 
       # Publish query
       wp_table.click_setting_item I18n.t("js.label_visibility_settings")
@@ -158,10 +158,7 @@ RSpec.describe "Query menu item", :js do
       query_item.click
 
       # Overrides the query_props
-      retry_block do
-        # Run in retry block because page.current_url is not synchronized
-        raise "query_props should not be in URL path" if page.current_url.include?("query_props")
-      end
+      expect(page).to have_no_current_query_params(a_hash_including("query_props"))
 
       wp_table.expect_work_package_listed work_package_with_version
       wp_table.ensure_work_package_not_listed! work_package_without_version
@@ -173,15 +170,12 @@ RSpec.describe "Query menu item", :js do
       # Removing the filter and returning to query restores it
       filters.remove_filter "targetVersion"
       filters.expect_filter_count 1
-      expect(page).to have_current_path(/query_props/, url: true)
+      expect(page).to have_current_query_params(a_hash_including("query_props"))
 
       query_item = page.find(".op-submenu--item-action", text: "Some query name")
       query_item.click
 
-      retry_block do
-        # Run in retry block because page.current_url is not synchronized
-        raise "query_props should not be in URL path" if page.current_url.include?("query_props")
-      end
+      expect(page).to have_no_current_query_params(a_hash_including("query_props"))
 
       filters.expect_filter_count 2
       filters.open
