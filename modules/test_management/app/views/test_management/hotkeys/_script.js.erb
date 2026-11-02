@@ -1,13 +1,15 @@
 // Test management keyboard shortcuts (0019). Plain script, no build step: installed once per window
 // (window.__tmHotkeys), reads the current page's #tm-hotkeys-config on every key press, so it keeps
 // working across Turbo Drive visits. Keys are ignored in form fields, CKEditor, open modals and
-// with Ctrl/Cmd/Alt/Shift held.
+// with Ctrl/Cmd/Alt/Shift held. Document listeners see shadow-DOM keydowns retargeted to the host
+// (e.g. op-block-note); walk composedPath so typing "Introduction" does not fire "n t r".
 (function () {
   "use strict";
 
   var TIP_SHOWN_KEY = "tm-hotkey-tip-shown-at";
   var EDITABLE = "input, textarea, select, [contenteditable]:not([contenteditable='false']), " +
-                 ".ck, .ck-editor, [role='textbox'], [role='combobox'], [role='searchbox']";
+                 ".ck, .ck-editor, [role='textbox'], [role='combobox'], [role='searchbox'], " +
+                 "op-block-note";
 
   function config() {
     var el = document.getElementById("tm-hotkeys-config");
@@ -42,12 +44,29 @@
     return !!document.querySelector("dialog[open], .spot-modal-overlay_active");
   }
 
+  function eventPath(event) {
+    if (typeof event.composedPath === "function") {
+      return event.composedPath();
+    }
+    var nodes = [];
+    var node = event.target;
+    while (node) {
+      nodes.push(node);
+      node = node.parentNode || node.host;
+    }
+    return nodes;
+  }
+
   function ignored(event) {
     if (event.defaultPrevented || event.isComposing || event.repeat) { return true; }
     if (event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) { return true; }
-    var target = event.target;
-    if (target && target.isContentEditable) { return true; }
-    if (target && target.closest && target.closest(EDITABLE)) { return true; }
+    var nodes = eventPath(event);
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+      if (!node || node.nodeType !== 1) { continue; }
+      if (node.isContentEditable) { return true; }
+      if (typeof node.matches === "function" && node.matches(EDITABLE)) { return true; }
+    }
     return modalOpen();
   }
 
