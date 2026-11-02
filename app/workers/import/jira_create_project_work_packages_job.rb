@@ -313,6 +313,7 @@ module Import
       # required because otherwise project.types does not include type and then wp creation fails.
       project.reload
 
+      due_date = jira_issue.payload.dig("fields", "duedate")&.to_date
       author_key = jira_issue.payload.dig("fields", "creator", "key")
       author = find_user(author_key)
       assignee_key = jira_issue.payload.dig("fields", "assignee", "key")
@@ -358,7 +359,9 @@ module Import
             assigned_to:,
             target_versions:,
             observed_in_versions:,
-            due_date: jira_issue.payload.dig("fields", "duedate"),
+            due_date:,
+            # Otherwise SetAttributesService moves the due date to the next working day.
+            ignore_non_working_days: due_on_non_working_day?(due_date),
             estimated_hours: (original_estimate_seconds / 3600.0 if original_estimate_seconds),
             remaining_hours: (remaining_estimate_seconds / 3600.0 if remaining_estimate_seconds),
             skip_semantic_id_allocation: true,
@@ -394,7 +397,16 @@ module Import
 
       create_reference!(op_leg: work_package, jira_leg: jira_issue, jira_import: @jira_import, uses_existing: false)
       create_work_package_history(work_package, jira_issue, project)
+      create_watchers(work_package, jira_issue, project)
       work_package
+    end
+
+    def due_on_non_working_day?(due_date)
+      due_date.present? && working_days.non_working?(due_date)
+    end
+
+    def working_days
+      @working_days ||= WorkPackages::Shared::WorkingDays.new
     end
 
     # rubocop:disable-next Metrics/AbcSize
@@ -423,27 +435,20 @@ module Import
       journal_service.call(updated_at: jira_issue.payload.dig("fields", "updated"))
     end
 
-    def find_user(jira_user_key)
-      return if jira_user_key.blank?
+    def create_watchers(work_package, jira_issue, project)
+      watchers = jira_issue.payload.fetch("watchers", [])
+      return unless watchers.any?
 
-      Rails.logger.tagged("jira_object_type:user", "jira_object_id_or_name:#{jira_user_key}") do
-        jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
-        if jira_user
-          ref = JiraOpenProjectReference.find_by(
-            jira_entity_class: "Import::JiraUser",
-            jira_entity_id: jira_user.id
-          )
-          if ref.present?
-            ref.op_leg
-          else
-            log_message = "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
-            Rails.logger.error log_message
-            raise log_message
-          end
-        else
-          Rails.logger.warn "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
-          DeletedUser.first
-        end
+      users = watchers.filter_map { find_imported_user(it["key"]) }
+      return unless users.any?
+
+      users.each { create_member(project, it) }
+      Watcher.insert_all(watchers_insert_data(users, work_package), unique_by: :index_watchers_on_user_id_and_watchable)
+    end
+
+    def watchers_insert_data(users, work_package)
+      users.map do |user|
+        { user_id: user.id, watchable_type: work_package.class.name, watchable_id: work_package.id }
       end
     end
   end

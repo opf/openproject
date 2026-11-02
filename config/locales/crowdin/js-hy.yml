@@ -203,6 +203,8 @@ hy:
     description_select_work_package: 'Ընտրել #%{id} աշխատանքային փաթեթը'
     description_subwork_package: "#%{id} աշխատանքային փաթեթի ենթատարր"
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: CKEditor-ում սխալ է տեղի ունեցել
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: Փաստաթղթի պահպանումը ձախողվեց հետևյալ սխալով՝ %{error}
@@ -1092,6 +1094,14 @@ hy:
       scheduling:
         is_parent: Այս աշխատանքային փաթեթի ամսաթվերն ավտոմատ կերպով հաշվարկվում են դրա ենթատարրերից։ Ամսաթվերը սահմանելու համար ակտիվացրեք 'Ձեռքով պլանավորումը'։
         is_switched_from_manual_to_automatic: Այս աշխատանքային փաթեթի ամսաթվերը կարող է անհրաժեշտ լինի վերահաշվարկել ձեռքով պլանավորումից ավտոմատին անցնելուց հետո՝ այլ աշխատանքային փաթեթների հետ ունեցած կապերի պատճառով։
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Ցուցադրել բոլոր օգտատերերին, որոնց հետ համօգտագործվել է աշխատանքային փաթեթը
         title: Համօգտագործել աշխատանքային փաթեթը

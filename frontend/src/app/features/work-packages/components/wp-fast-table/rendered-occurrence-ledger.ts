@@ -123,6 +123,8 @@ export class RenderedOccurrenceLedger {
 
   private byKeyIndex = new Map<OccurrenceKey, number>();
 
+  private keyByElement = new Map<HTMLTableRowElement, OccurrenceKey>();
+
   get generation():number {
     return this.currentGeneration;
   }
@@ -141,7 +143,12 @@ export class RenderedOccurrenceLedger {
 
   commit(draft:RenderDraft):void {
     this.records = draft.occurrences.map((occ) => ({ ...occ }));
-    this.byKeyIndex = new Map(this.records.map((record, index) => [record.key, index]));
+    this.byKeyIndex = new Map();
+    this.keyByElement = new Map();
+    this.records.forEach((record, index) => {
+      this.byKeyIndex.set(record.key, index);
+      if (record.element) this.indexElement(record.element, record.key);
+    });
     this.currentGeneration += 1;
   }
 
@@ -157,8 +164,16 @@ export class RenderedOccurrenceLedger {
     const record = this.byKey(key);
     assertInDevMode(record !== undefined, `Cannot replace element of unknown occurrence key: ${key}`);
     if (record) {
+      if (record.element) this.keyByElement.delete(record.element);
+      if (element) this.indexElement(element, key);
       record.element = element;
     }
+  }
+
+  private indexElement(element:HTMLTableRowElement, key:OccurrenceKey):void {
+    const owner = this.keyByElement.get(element);
+    assertInDevMode(owner === undefined || owner === key, `Element already belongs to occurrence key: ${owner}`);
+    this.keyByElement.set(element, key);
   }
 
   byKey(key:OccurrenceKey):RenderedOccurrence|undefined {
@@ -171,7 +186,8 @@ export class RenderedOccurrenceLedger {
   }
 
   byElement(element:HTMLTableRowElement):RenderedOccurrence|undefined {
-    return this.records.find((record) => record.element === element);
+    const key = this.keyByElement.get(element);
+    return key === undefined ? undefined : this.byKey(key);
   }
 
   indexOfKey(key:OccurrenceKey):number {

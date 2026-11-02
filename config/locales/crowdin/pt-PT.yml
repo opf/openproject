@@ -1669,6 +1669,8 @@ pt-PT:
             title: Create custom fields
           JiraCreateLabelsJob:
             title: Create labels
+          JiraCreateParentChildRelationsFromSubtasksJob:
+            title: Create parent-child relations for '%{jira_project_name}'
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
@@ -1886,6 +1888,9 @@ pt-PT:
             '10':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
+            '11':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -1908,8 +1913,8 @@ pt-PT:
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
             '9':
-              rest_line_text: Downloading attachments for %{projects_number} more projects
-              title: Download attachments
+              rest_line_text: Creating parent-child relations from subtasks for %{projects_number} more projects
+              title: Create parent-child relations from subtasks
       test:
         api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
         basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
@@ -2258,7 +2263,9 @@ pt-PT:
     text_transform:
       errors:
         connection_failed: Não foi possível aceder ao serviço de IA.
+        context_too_long: The text is too long for the AI model. Shorten it and try again.
         not_available: O assistente de IA não está disponível.
+        rate_limited: The AI service is busy. Try again in a moment.
         timeout: O serviço de IA não respondeu a tempo.
         upstream_error: O serviço de IA apresentou um erro.
       pane:
@@ -3861,6 +3868,7 @@ pt-PT:
           working: "%{day} já está a funcionar"
     caused_changes:
       budget_deleted: O orçamento foi eliminado
+      comment_retracted: Comment retracted
       dates_changed: Datas alteradas
       default_attribute_written: Escrita de atributos só de leitura
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"

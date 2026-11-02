@@ -56,10 +56,11 @@ da:
       chart_label: Burndown-diagram
       chart_summary: 'Data i burndown-diagrammet: %{days}.'
       chart_value: "%{label}: %{value}"
-      non_working_day: Arbejdsfri dag
       story_points: Story points
-    created_resolved:
+    created_resolved_chart:
       work_packages: Arbejdspakker
+    sprint_charts:
+      non_working_day: Arbejdsfri dag
     work_packages:
       properties:
         storyPoints: Story points

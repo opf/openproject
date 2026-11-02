@@ -47,6 +47,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
     return "" if hidden_meeting_cause?
     return combined_meeting_message if meeting_cause?
     return forum_message_cause_message if forum_message_cause?
+    return caused_change if comment_retracted_cause?
 
     "#{caused_change} #{cause_description}"
   end
@@ -55,6 +56,10 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
 
   def html?
     @html
+  end
+
+  def comment_retracted_cause?
+    cause["type"] == Journal::CausedByCommentRetraction::TYPE
   end
 
   def caused_change

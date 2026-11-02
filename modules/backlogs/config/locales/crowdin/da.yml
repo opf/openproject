@@ -143,6 +143,9 @@ da:
         blankslate_description: Angiv start- og slutdato for sprinten for at danne et burndown-diagram.
         blankslate_title: Der er ingen data til burndown-diagrammet
     created_resolved_chart:
+      series:
+        created: Oprettede arbejdspakker
+        resolved: Løste arbejdspakker
       show:
         blankslate_description: Angiv start- og slutdato for sprinten for at danne et diagram over oprettede og løste arbejdspakker.
         blankslate_title: Der er ingen data til diagrammet over oprettede og løste arbejdspakker
@@ -225,6 +228,21 @@ da:
         breadcrumb: Rapport
         title: Rapport for %{sprint}
       widgets:
+        velocity_chart:
+          average:
+            one: 'Gennemsnit af den forrige sprint:'
+            other: 'Gennemsnit af de forrige %{count} sprints:'
+          average_legend: Gennemsnit
+          committed: Planlagt
+          completed: Færdige
+          story_points: "%{value} SP"
+          summary:
+            one: Søjlediagram over planlagte og færdige story points i den seneste sprint.
+            other: Søjlediagram over planlagte og færdige story points i de seneste %{count} sprints.
+          summary_average: 'Gennemsnitlig hastighed: %{average}.'
+          title: Hastighedsdiagram
+          velocity: "%{sprint}:"
+          y_axis_title: Story points
         work_package_graph:
           title: Graf over arbejdspakker
         work_package_overview:
@@ -344,9 +362,6 @@ da:
       update_service:
         invalid_target_type: 'list_type skal være en af: backlog_bucket med et list_id, sprint med et list_id eller inbox uden list_id.'
         missing_target: list_type eller list_id skal være angivet.
-  created_resolved:
-    wp_created: Oprettede
-    wp_resolved: Løste
   ee:
     features:
       multiple_active_sprints: Flere aktive sprints

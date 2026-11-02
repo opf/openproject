@@ -37,6 +37,7 @@ import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { paintRowSelection } from '../../builders/rows/row-selection-painter';
 import { locateTableRow, scrollTableRowIntoView } from '../../helpers/wp-table-row-helpers';
 import { WorkPackageTable } from '../../wp-fast-table';
+import { selectionGesture, TableSelectionFeedback } from './selection-feedback';
 import {
   registerWorkPackageDeselectAll,
   registerWorkPackageSelectAll,
@@ -55,13 +56,22 @@ export class SelectionTransformer {
     public readonly table:WorkPackageTable) {
     const destroyRef = table.destroyRef;
 
+    if (table.configuration.keyboardNavigationEnabled) {
+      table.selectionFeedback = new TableSelectionFeedback(this.wpTableSelection, destroyRef);
+    }
+
     this.querySpace.tableRendered.values$()
       .pipe(
         takeUntilDestroyed(destroyRef),
       )
       .subscribe((rows) => {
         if (table.ledger.generation > 0) {
-          this.wpTableSelection.retainRendered(rows);
+          const retain = () => this.wpTableSelection.retainRendered(rows);
+          if (table.selectionFeedback) {
+            table.selectionFeedback.prune(retain);
+          } else {
+            retain();
+          }
         }
         if (!table.configuration.keyboardNavigationEnabled) {
           this.wpTableFocus.ifShouldFocus((wpId:string) => {
@@ -87,19 +97,20 @@ export class SelectionTransformer {
       )
       .subscribe(() => this.paintRows());
 
-    const unregisterSelectAll = registerWorkPackageSelectAll({
-      root: table.tableAndTimelineContainer,
-      focusSelector: '.wp-table--row',
-      occurrenceSelector: '.wp-table--row[data-work-package-id][data-class-identifier]',
-      rendered: () => table.renderedRows,
-      selectAll: (rows, anchor) => this.wpTableSelection.selectAll(rows, anchor),
-    });
+    if (!table.configuration.keyboardNavigationEnabled) {
+      onDestroySafely(destroyRef, registerWorkPackageSelectAll({
+        root: table.tableAndTimelineContainer,
+        focusSelector: '.wp-table--row',
+        occurrenceSelector: '.wp-table--row[data-work-package-id][data-class-identifier]',
+        rendered: () => table.renderedRows,
+        selectAll: (rows, anchor) => this.wpTableSelection.selectAll(rows, anchor),
+      }));
+    }
     const unregisterDeselectAll = registerWorkPackageDeselectAll({
       root: table.tableAndTimelineContainer,
       hasState: () => this.wpTableSelection.hasSelectionState,
-      clear: () => this.wpTableSelection.reset(),
+      clear: () => selectionGesture(table, 'selection', () => this.wpTableSelection.reset()),
     });
-    onDestroySafely(destroyRef, unregisterSelectAll);
     onDestroySafely(destroyRef, unregisterDeselectAll);
   }
 

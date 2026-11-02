@@ -26,6 +26,8 @@
 //++
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { BaseChartDirective } from 'ng2-charts';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -62,8 +64,10 @@ describe('BurndownChartComponent', () => {
     timeFormat: () => 'hh:mm A',
   };
 
+  // The window is the server's, not the series' extent, so it is stated rather than derived.
   const chartData = (series:unknown[], step:'day'|'hour' = 'hour') => JSON.stringify({
     step,
+    range: { from: '2026-10-12T00:00:00.000Z', to: '2026-10-23T23:59:59.999Z' },
     series,
     nonWorkingIntervals: [],
   });
@@ -109,6 +113,16 @@ describe('BurndownChartComponent', () => {
       (items:{ datasetIndex:number, parsed:{ x:number } }[]) => string;
 
     return title([{ datasetIndex: 0, parsed: { x: timestamp } }]);
+  };
+
+  // What chart.js put on the axis, rather than what it was asked for. ng2-charts builds the chart
+  // on an input change that follows its own ngOnInit, which one round of change detection does not
+  // reach, so it is asked to build it here.
+  const renderedYAxisLabels = () => {
+    const directive = fixture.debugElement.query(By.directive(BaseChartDirective))
+      .injector.get(BaseChartDirective);
+
+    return directive.render()!.scales.y.ticks.map((tick) => tick.value);
   };
 
   const describedBy = (host:HTMLElement) => {
@@ -185,6 +199,26 @@ describe('BurndownChartComponent', () => {
     expect(describedBy(element)).toHaveTextContent(
       'Burndown chart data: Day 1: Story points: 8; Day 2: Story points: 5.',
     );
+  });
+
+  // Story points are whole, so the axis is labeled in whole ones -- a sprint holding a single
+  // point was otherwise drawn against fifths of one. The guideline divides those points across
+  // working days and does carry fractions, but it is a line between the labels rather than one
+  // of them, so it is left to the tooltip to report its decimal.
+  it('labels the axis in whole story points', () => {
+    renderWith([
+      { id: 'remaining', label: 'Story points', data: [point('2026-10-12T09:00:00.000Z', 1)] },
+      {
+        id: 'guideline',
+        label: 'Guideline',
+        data: [point('2026-10-12T23:59:59.999Z', 0.6), point('2026-10-13T23:59:59.999Z', 0.2)],
+      },
+    ]);
+
+    const labels = renderedYAxisLabels();
+
+    expect(labels.length).toBeGreaterThan(1);
+    expect(labels.filter((label) => !Number.isInteger(label))).toEqual([]);
   });
 
   it('uses a unique description ID for each chart', () => {

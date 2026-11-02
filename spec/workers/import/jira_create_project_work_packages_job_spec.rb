@@ -216,6 +216,52 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
         end
       end
 
+      context "when importing the due date" do
+        before { week_with_saturday_and_sunday_as_weekend }
+
+        context "when it falls on a working day" do
+          it "keeps the work package scheduled on working days only" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: Date.new(2031, 5, 29), ignore_non_working_days: false)
+          end
+        end
+
+        context "when it falls on a weekend" do
+          let(:jira_issue_payload) { super().deep_merge("fields" => { "duedate" => "2031-05-31" }) }
+
+          it "keeps the due date by including non-working days" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: Date.new(2031, 5, 31), ignore_non_working_days: true)
+          end
+        end
+
+        context "when it falls on a non-working day of the instance" do
+          before { create(:non_working_day, date: Date.new(2031, 5, 29)) }
+
+          it "keeps the due date by including non-working days" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: Date.new(2031, 5, 29), ignore_non_working_days: true)
+          end
+        end
+
+        context "when the issue has none" do
+          let(:jira_issue_payload) { super().deep_merge("fields" => { "duedate" => nil }) }
+
+          it "keeps the work package scheduled on working days only" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: nil, ignore_non_working_days: false)
+          end
+        end
+      end
+
       context "if priority is nil or hidden in jira filed configuration" do
         let(:jira_issue_payload) do
           JSON.parse(Rails.root.join("spec/fixtures/import/jira/issue_without_priority.json").read)
@@ -602,6 +648,52 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
               work_package = WorkPackage.find("DPPP-6")
               expect(work_package.type.default_variant.custom_field_ids).not_to include(resolution_date_cf.id)
             end
+          end
+        end
+      end
+
+      context "with watchers" do
+        let(:locked_op_user) { create(:user, status: :locked) }
+        let(:jira_issue_payload) do
+          super().merge(
+            "watchers" => [
+              { "key" => "JIRAUSER_WATCHER" },
+              { "key" => "JIRAUSER10000" },
+              { "key" => "JIRAUSER_UNKNOWN" }
+            ]
+          )
+        end
+
+        before do
+          jira_user = create(:jira_user, jira_import:, origin_id: "JIRAUSER_WATCHER", payload: jira_user_payload)
+          create(:jira_open_project_reference,
+                 jira_import:,
+                 jira_entity_class: "Import::JiraUser",
+                 jira_entity_id: jira_user.id.to_s,
+                 op_entity_class: "User",
+                 op_entity_id: locked_op_user.id.to_s)
+        end
+
+        it "adds the existing users as watchers to the work package, even if they are still locked" do
+          expect { create_work_packages }.to change(Watcher, :count).by(2)
+
+          expect(WorkPackage.find("DPPP-6").watcher_users).to contain_exactly(locked_op_user, op_user)
+        end
+
+        it "makes the watchers members of the project" do
+          create_work_packages
+
+          project = Project.find_by!(identifier: jira_project_key)
+          expect(Member.where(project:, principal: locked_op_user)).to exist
+        end
+
+        context "when the author is not listed as a watcher in jira" do
+          let(:jira_issue_payload) { super().merge("watchers" => [{ "key" => "JIRAUSER_UNKNOWN" }]) }
+
+          it "still adds them as a watcher" do
+            expect { create_work_packages }.to change(Watcher, :count).by(1)
+
+            expect(WorkPackage.find("DPPP-6").watcher_users).to contain_exactly(op_user)
           end
         end
       end

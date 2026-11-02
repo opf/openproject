@@ -143,6 +143,9 @@ fa:
         blankslate_description: برای ایجاد نمودار برن‌داون، تاریخ شروع و پایان اسپرینت را تعیین کنید.
         blankslate_title: داده‌ای برای نمودار برن‌داون موجود نیست
     created_resolved_chart:
+      series:
+        created: Created work packages
+        resolved: Resolved work packages
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available
@@ -225,6 +228,21 @@ fa:
         breadcrumb: گزارش
         title: گزارش %{sprint}
       widgets:
+        velocity_chart:
+          average:
+            one: 'Average of previous sprint:'
+            other: 'Average of previous %{count} sprints:'
+          average_legend: Average
+          committed: Committed
+          completed: Completed
+          story_points: "%{value} SP"
+          summary:
+            one: Bar chart of committed and completed story points of the last sprint.
+            other: Bar chart of committed and completed story points of the last %{count} sprints.
+          summary_average: 'Average velocity: %{average}.'
+          title: Velocity chart
+          velocity: "%{sprint}:"
+          y_axis_title: Story points
         work_package_graph:
           title: نمودار بسته‌های کاری
         work_package_overview:
@@ -344,9 +362,6 @@ fa:
       update_service:
         invalid_target_type: 'list_type باید یکی از این مقادیر باشد: backlog_bucket همراه با list_id، sprint همراه با list_id، یا inbox بدون list_id.'
         missing_target: list_type یا list_id باید موجود باشد.
-  created_resolved:
-    wp_created: Created
-    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: چند اسپرینت فعال

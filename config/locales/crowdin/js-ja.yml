@@ -203,6 +203,8 @@ ja:
     description_select_work_package: 'ワークパッケージを選択 #%{id}'
     description_subwork_package: 'ワークパッケージの子 #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: CKEditor内でエラーが発生しました
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: '次のエラーで文書を保存するのに失敗しました: %{error}'
@@ -1086,6 +1088,12 @@ ja:
       scheduling:
         is_parent: このワークパッケージの日付は、その子から自動的に推定されます。日付を設定するには、「手動スケジューリング」を有効にします。
         is_switched_from_manual_to_automatic: 他のワークパッケージとの関連により、手動スケジューリングから自動スケジューリングに切り替えた後に、このワークパッケージの日付を再計算する必要がある場合があります。
+      selection:
+        all_selected:
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: ワークパッケージが共有されたすべてのユーザーを表示
         title: ワークパッケージを共有する

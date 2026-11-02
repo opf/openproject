@@ -203,6 +203,8 @@ pt-BR:
     description_select_work_package: 'Selecionar o pacote de trabalho #%{id}'
     description_subwork_package: 'Filho do pacote de trabalho #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: 'Ocorreu um erro no CKEditor '
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Não foi possível salvar o documento pelo seguinte erro: %{error}'
@@ -1092,6 +1094,14 @@ pt-BR:
       scheduling:
         is_parent: As datas deste pacote de trabalho são deduzidas automaticamente de seus filhos. Ative o 'Planejamento manual' para definir as datas.
         is_switched_from_manual_to_automatic: As datas deste pacote de trabalho podem precisar ser recalculadas após a alteração de planejamento manual para automático devido a relações com outros pacotes de trabalho.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Exibir todos os usuários com quem o pacote de trabalho foi compartilhado
         title: Compartilhar pacote de trabalho
