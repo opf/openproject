@@ -899,6 +899,8 @@ Rails.application.routes.draw do
       end
     end
 
+    get "ai", to: "admin/artificial_intelligence#show", as: :admin_ai
+
     resources :mcp_configurations, only: %i[index update], controller: "admin/mcp_configurations" do
       collection do
         post :multi_update
