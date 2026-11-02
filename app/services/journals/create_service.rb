@@ -53,6 +53,8 @@ module Journals
     end
 
     def call(notes: "", internal: false, cause: CauseOfChange::NoCause.new)
+      raise CauseOfChange::InvalidCauseError.new(cause) unless cause.is_a?(CauseOfChange::Base)
+
       Journal.transaction do
         journal = create_journal(notes, internal, cause)
 
@@ -577,7 +579,7 @@ module Journals
 
     def cause_sql(cause)
       # Using the same encoder mechanism that ActiveRecord uses for json/jsonb columns
-      ActiveSupport::JSON.encode(cause || {})
+      ActiveSupport::JSON.encode(cause)
     end
 
     # Because we added the journal via bare metal sql, rails does not yet
