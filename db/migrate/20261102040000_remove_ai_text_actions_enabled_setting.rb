@@ -27,7 +27,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 
 class RemoveAITextActionsEnabledSetting < ActiveRecord::Migration[8.1]
-  ENV_SETTING_NAMES = %w[ai_text_actions_enabled ai_text_transform_actions_enabled].freeze
+  ENV_VARIABLES = %w[
+    OPENPROJECT_AI__TEXT__TRANSFORM__ACTIONS__ENABLED
+    OPENPROJECT_AI_TEXT_TRANSFORM_ACTIONS_ENABLED
+    OPENPROJECT_AI__TEXT__ACTIONS__ENABLED
+    OPENPROJECT_AI_TEXT_ACTIONS_ENABLED
+  ].freeze
 
   def up
     unless enabled_in_database? || enabled_in_environment?
@@ -56,13 +61,11 @@ class RemoveAITextActionsEnabledSetting < ActiveRecord::Migration[8.1]
   end
 
   def enabled_in_environment?
-    ENV_SETTING_NAMES.any? do |name|
-      [name.upcase.gsub("_", "__"), name.upcase].any? do |key|
-        value = ENV.fetch("OPENPROJECT_#{key}", nil)
-        value.present? && YAML.safe_load(value) == true
-      rescue Psych::Exception
-        false
-      end
+    ENV_VARIABLES.any? do |name|
+      value = ENV.fetch(name, nil)
+      value.present? && YAML.safe_load(value) == true
+    rescue Psych::Exception
+      false
     end
   end
 end

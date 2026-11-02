@@ -77,16 +77,17 @@ RSpec.describe RemoveAITextActionsEnabledSetting, type: :model do
   end
 
   context "without a stored setting but with a truthy environment override" do
-    it "keeps the actions active for the nested variable name" do
-      with_environment("OPENPROJECT_AI__TEXT__TRANSFORM__ACTIONS__ENABLED" => "true") { migrate }
+    {
+      "OPENPROJECT_AI__TEXT__TRANSFORM__ACTIONS__ENABLED" => "true",
+      "OPENPROJECT_AI_TEXT_TRANSFORM_ACTIONS_ENABLED" => "true",
+      "OPENPROJECT_AI__TEXT__ACTIONS__ENABLED" => "yes",
+      "OPENPROJECT_AI_TEXT_ACTIONS_ENABLED" => "yes"
+    }.each do |variable, value|
+      it "keeps the actions active for #{variable}" do
+        with_environment(variable => value) { migrate }
 
-      expect(text_action.reload).to be_active
-    end
-
-    it "keeps the actions active for the plain variable name" do
-      with_environment("OPENPROJECT_AI_TEXT_ACTIONS_ENABLED" => "yes") { migrate }
-
-      expect(text_action.reload).to be_active
+        expect(text_action.reload).to be_active
+      end
     end
   end
 
