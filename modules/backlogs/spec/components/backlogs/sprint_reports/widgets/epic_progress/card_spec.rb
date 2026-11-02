@@ -201,8 +201,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card do
         create_task(parent: nested_sub_epic)
       end
 
-      it "excludes the sub-epics and everything below them" do
-        expect(rendered_component).to have_text("0 / 2 work packages")
+      it "counts the sub-epics, but not the work below them" do
+        expect(rendered_component).to have_text("0 / 4 work packages")
       end
     end
 
@@ -277,8 +277,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card do
           create_task(:created_in_past, parent: nested_sub_epic, created_at: before_completion)
         end
 
-        it "excludes the sub-epics and everything below them" do
-          expect(rendered_component).to have_text("0 / 2 work packages")
+        it "counts the sub-epics, but not the work below them" do
+          expect(rendered_component).to have_text("0 / 4 work packages")
         end
       end
     end

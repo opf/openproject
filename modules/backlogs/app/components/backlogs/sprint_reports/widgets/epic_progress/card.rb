@@ -62,16 +62,14 @@ module Backlogs
           def work_packages_in_epic
             @work_packages_in_epic ||=
               if historic?
-                work_packages_at_report_time.where(id: descendant_ids_excluding_sub_epics).visible(current_user)
+                work_packages_at_report_time.where(id: descendant_ids_excluding_sub_epic_descendants).visible(current_user)
               else
-                epic.descendants.where.not(id: sub_epic_subtree_ids).visible(current_user)
+                epic.descendants.where.not(id: sub_epic_descendant_ids).visible(current_user)
               end
           end
 
-          def sub_epic_subtree_ids
-            sub_epics = epic.descendants.where(type_id: epic.type_id)
-
-            WorkPackageHierarchy.where(ancestor: sub_epics).select(:descendant_id)
+          def sub_epic_descendant_ids
+            WorkPackage.with_ancestor(epic.descendants.where(type_id: epic.type_id)).select(:id)
           end
 
           def resolved_work_packages_count
@@ -82,24 +80,26 @@ module Backlogs
             @total_work_packages_count ||= work_packages_in_epic.count
           end
 
-          def descendant_ids_excluding_sub_epics
+          def descendant_ids_excluding_sub_epic_descendants
             found = Set.new
-            children = [epic.id]
+            parent_ids = [epic.id]
 
-            until children.empty?
-              children = non_epic_child_ids(children) - found
-              found.merge(children)
+            until parent_ids.empty?
+              child_ids, sub_epic_ids = child_ids_and_sub_epic_ids(parent_ids)
+              new_ids = child_ids - found
+
+              found.merge(new_ids)
+              parent_ids = new_ids - sub_epic_ids
             end
 
             found
           end
 
-          def non_epic_child_ids(parent_ids)
-            work_packages_at_report_time
-              .where(parent_id: parent_ids)
-              .where.not(type_id: epic.type_id)
-              .pluck(:id)
-              .to_set
+          def child_ids_and_sub_epic_ids(parent_ids)
+            rows = work_packages_at_report_time.where(parent_id: parent_ids).pluck(:id, :type_id)
+            sub_epic_rows = rows.select { |_id, type_id| type_id == epic.type_id }
+
+            [rows.to_set(&:first), sub_epic_rows.to_set(&:first)]
           end
         end
       end
