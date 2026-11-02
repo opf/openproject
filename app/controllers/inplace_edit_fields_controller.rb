@@ -31,8 +31,6 @@
 class InplaceEditFieldsController < ApplicationController
   include OpTurbo::ComponentStream
 
-  SERVER_SIDE_ARGUMENTS = %w[attribute model update_registry].freeze
-
   before_action :find_model
   before_action :set_attribute
   before_action :authorize_project_custom_field_visibility!, if: :custom_field_attribute?
@@ -66,7 +64,7 @@ class InplaceEditFieldsController < ApplicationController
       OpenProject::Common::InplaceEditFieldDialogComponent.new(
         model: @model,
         attribute: @attribute,
-        system_arguments: system_arguments.to_h.symbolize_keys
+        system_arguments:
       )
     )
   end
@@ -203,7 +201,7 @@ class InplaceEditFieldsController < ApplicationController
   end
 
   def component(enforce_edit_mode: false)
-    args = system_arguments.to_h.symbolize_keys
+    args = system_arguments
 
     # When saving from a dialog, restore the page component's id so the Turbo
     # Stream replacement targets the correct wrapper on the page. Also strip
@@ -227,20 +225,18 @@ class InplaceEditFieldsController < ApplicationController
   # Stream targets the correct wrapper inside the dialog, and preserves
   # :wrapper_id / :form_id so the re-rendered form still submits via the dialog.
   def dialog_field_component
-    args = system_arguments.to_h.symbolize_keys
-
     OpenProject::Common::InplaceEditFieldComponent.new(
       model: @model,
       attribute: @attribute,
       enforce_edit_mode: true,
       show_action_buttons: false,
       update_registry:,
-      **args
+      **system_arguments
     )
   end
 
   def dialog_id
-    wrapper_id = system_arguments.to_h["wrapper_id"]
+    wrapper_id = system_arguments[:wrapper_id]
     wrapper_id&.delete_prefix("#")
   end
 
@@ -265,10 +261,8 @@ class InplaceEditFieldsController < ApplicationController
 
     # Use the field's own system_arguments sent by the client from the DOM data attribute.
     # Fall back to an empty hash if not present (e.g. in tests or non-JS contexts).
-    field_args = stable_key_system_arguments
-                   .fetch(stable_key, {})
-                   .except(*SERVER_SIDE_ARGUMENTS)
-                   .symbolize_keys
+    field_args = OpenProject::InplaceEdit::SystemArguments
+                   .verify(stable_key_system_arguments_token(stable_key))
                    .except(:id) # exclude UUID so the component generates a fresh one
 
     comp = OpenProject::Common::InplaceEditFieldComponent.new(
@@ -285,17 +279,9 @@ class InplaceEditFieldsController < ApplicationController
     )
   end
 
-  def stable_key_system_arguments
-    @stable_key_system_arguments ||= parse_stable_key_system_arguments
-  end
-
-  def parse_stable_key_system_arguments
-    raw = params[:stable_key_system_arguments]
-    return {} if raw.blank?
-
-    JSON.parse(raw)
-  rescue JSON::ParserError
-    {}
+  def stable_key_system_arguments_token(stable_key)
+    tokens = params[:stable_key_system_arguments]
+    tokens[stable_key] if tokens.is_a?(ActionController::Parameters)
   end
 
   def update_registry
@@ -303,11 +289,7 @@ class InplaceEditFieldsController < ApplicationController
   end
 
   def system_arguments
-    arguments = params[:system_arguments_json].presence || params.to_unsafe_h
-                                    .values
-                                    .filter_map { |v| v["system_arguments_json"] }
-                                    .first
-
-    arguments.nil? ? {} : JSON.parse(arguments).except(*SERVER_SIDE_ARGUMENTS)
+    token = params[:system_arguments].presence || params.dig(@model.model_name.param_key, :system_arguments)
+    OpenProject::InplaceEdit::SystemArguments.verify(token)
   end
 end
