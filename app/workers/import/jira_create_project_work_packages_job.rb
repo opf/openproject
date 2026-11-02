@@ -438,7 +438,7 @@ module Import
     def prepare_attachment(jira_issue, project, payload)
       Rails.logger.tagged("jira_object_type:attachment", "jira_object_id_or_name:#{payload['filename']}") do
         author = find_user(payload.dig("author", "key"))
-        create_member(project, author) if author
+        create_member(project, author) if author.present? && !author.is_a?(DeletedUser)
         attachment = create_prepared_attachment(payload, author || @system_user)
 
         jira_attachment =
