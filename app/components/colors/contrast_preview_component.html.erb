@@ -30,9 +30,6 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render Primer::Beta::Subhead.new(mt: 0, mb: 3) do |subhead| %>
     <% subhead.with_heading(tag: :h3, size: :medium) { t("colors.contrast.title") } %>
     <% subhead.with_description { t("colors.contrast.description") } %>
-    <% subhead.with_actions do %>
-      <%= render Primer::Beta::Text.new(color: :muted, data: { color_contrast_target: "summary" }) %>
-    <% end %>
   <% end %>
   <%= flex_layout(direction: [:column, nil, :row], align_items: :stretch, classes: "gap-3") do |modes| %>
     <% %w[light dark].each do |mode| %>

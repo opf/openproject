@@ -54,7 +54,6 @@ function fixture({ serverInvalid = false } = {}):string {
         </div>
       </div>
       <section data-color-contrast-target="preview" hidden>
-        <span data-color-contrast-target="summary"></span>
       </section>
     </form>
   `;
@@ -100,7 +99,6 @@ function resultsFixture(hex = ''):string {
         </div>
       </div>
       <section data-color-contrast-target="preview" hidden>
-        <span data-color-contrast-target="summary"></span>
         <ul>
           ${card('light', 'foreground')}
           ${card('light', 'background')}
@@ -123,7 +121,6 @@ describe('ColorContrastController', () => {
   let announceSpy:MockInstance<typeof LiveRegionElement.prototype.announce>;
 
   beforeEach(async () => {
-    window.I18n.store({ en: { js: { colors: { contrast: { summary: '%{passed} of 4 pass' } } } } });
     document.body.appendChild(document.createElement('live-region'));
     announceSpy = vi.spyOn(LiveRegionElement.prototype, 'announce');
     ctx = await setupStimulusTest({
@@ -244,7 +241,6 @@ describe('ColorContrastController', () => {
       await ctx.mount(resultsFixture('#FF69B4'));
 
       expect(preview()).toBeVisible();
-      expect(ctx.screen.getByText('3 of 4 pass')).toBeVisible();
       expect(cards().map(valuesOf).every((value) => value.ratio !== '')).toBe(true);
     });
 
@@ -268,7 +264,6 @@ describe('ColorContrastController', () => {
             { foreground: '#FF7EBF', background: '#0D1117', ratio: '8.11:1', verdict: 'Pass' },
             { foreground: '#FF7EBF', background: '#392133', ratio: '6.27:1', verdict: 'Pass' },
           ]);
-          expect(ctx.screen.getByText('3 of 4 pass')).toBeVisible();
         } finally {
           originalAttributes.forEach(([name, value]) => {
             if (value === null) document.body.removeAttribute(name);
@@ -290,8 +285,6 @@ describe('ColorContrastController', () => {
         { foreground: '#68A6E9', background: '#0D1117', ratio: '7.38:1', verdict: 'Pass' },
         { foreground: '#68A6E9', background: '#102339', ratio: '6.20:1', verdict: 'Pass' },
       ]);
-      expect(ctx.screen.getByText('4 of 4 pass')).toBeVisible();
-      expect(ctx.screen.queryByText('3 of 4 pass')).toBeNull();
     });
   });
 

@@ -30,12 +30,11 @@ import { announce } from '@primer/live-region-element';
 import { composite, computedColor, contrastRatio, formatContrastRatio, normalizeHex, toHex } from '../../helpers/color-contrast';
 
 export default class ColorContrastController extends Controller {
-  static targets = ['hexcode', 'preview', 'card', 'summary'];
+  static targets = ['hexcode', 'preview', 'card'];
 
   declare readonly hexcodeTarget:HTMLInputElement;
   declare readonly previewTarget:HTMLElement;
   declare readonly cardTargets:HTMLElement[];
-  declare readonly summaryTarget:HTMLElement;
 
   connect():void {
     if (normalizeHex(this.hexcodeTarget.value)) this.check();
@@ -60,13 +59,12 @@ export default class ColorContrastController extends Controller {
     // Mirrors Colors::HexColor#perceived_lightness (app/models/colors/hex_color.rb),
     // including the four-place rounding; keep both in step.
     const lightness = ((channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722) / 255).toFixed(4);
-    const results = this.cardTargets.map((card) => {
+    this.cardTargets.forEach((card) => {
       const sample = card.querySelector<HTMLElement>('[data-color-contrast-target="sample"]')!;
       sample.style.setProperty('--hl-color', hex);
       sample.style.setProperty('--hl-perceived-lightness', lightness);
-      return this.evaluate(sample, card);
+      this.evaluate(sample, card);
     });
-    this.summaryTarget.textContent = I18n.t('js.colors.contrast.summary', { passed: results.filter(Boolean).length });
   }
 
   private setInvalid(invalid:boolean):void {
@@ -103,7 +101,7 @@ export default class ColorContrastController extends Controller {
     return this.validationElement.querySelector<HTMLElement>('span:not(.FormControl-inlineValidation--visual)')!;
   }
 
-  private evaluate(sample:HTMLElement, card:HTMLElement):boolean {
+  private evaluate(sample:HTMLElement, card:HTMLElement):void {
     const style = getComputedStyle(sample);
     const surface = sample.closest('.color-contrast--surface')!;
     const surfaceColor = computedColor(getComputedStyle(surface).backgroundColor);
@@ -123,6 +121,5 @@ export default class ColorContrastController extends Controller {
     card.querySelectorAll<HTMLElement>('[data-contrast-verdict]').forEach((verdict) => {
       verdict.hidden = verdict.dataset.contrastVerdict !== (pass ? 'pass' : 'fail');
     });
-    return pass;
   }
 }
