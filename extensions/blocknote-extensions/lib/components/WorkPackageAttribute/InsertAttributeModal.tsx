@@ -88,17 +88,19 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
   const [notice, setNotice] = useState<string | null>(null);
 
   const prefilledId = !picked && prefilled ? Number(prefilled.wpid) : undefined;
+  const wantedId = picked?.id ?? prefilledId;
   // Loaded even when picked: the schema comes embedded with the loaded work package.
   const {
     workPackage: loaded,
     unauthorized,
     error,
     retry: retrySchema,
-  } = useWorkPackage(picked?.id ?? prefilledId);
-  const workPackage = picked ?? loaded;
-  const loadedPicked = !!loaded && loaded.id === workPackage?.id;
-  const schema = loadedPicked ? cachedWorkPackageSchema(loaded) : undefined;
-  const schemaError = unauthorized || !!error || (loadedPicked && !schema);
+  } = useWorkPackage(wantedId);
+  // Until the load of another work package settles, the hook still holds the previous one.
+  const loadedWanted = loaded && loaded.id === wantedId ? loaded : null;
+  const workPackage = picked ?? loadedWanted;
+  const schema = loadedWanted ? cachedWorkPackageSchema(loadedWanted) : undefined;
+  const schemaError = unauthorized || !!error || (!!loadedWanted && !schema);
 
   const attributes = useMemo(
     () => (schema ? listAttributes(schema).filter((option) => isOffered(option, offersLongText)) : []),
@@ -124,12 +126,16 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
     setNotice(null);
   };
 
-  const clearPrefill = () => {
+  const deselectWorkPackage = () => {
     setPrefilled(undefined);
     setPicked(null);
+    setNotice(null);
+  };
+
+  const clearPrefill = () => {
+    deselectWorkPackage();
     setAttribute('');
     setDisplay('value');
-    setNotice(null);
   };
 
   const insert = () => {
@@ -212,6 +218,7 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
                   selected={workPackage}
                   autoFocus={!prefilled}
                   onPick={pickWorkPackage}
+                  onDeselect={deselectWorkPackage}
                   onEscape={onCancel}
                 />
               </FieldRow>

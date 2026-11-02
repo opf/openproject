@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
 import { colorDotStyles, defaultWpVariables, nonSelectableStyles, WorkPackageId, WorkPackageType } from '../WorkPackage/atoms';
-import { FieldLabel, PickerControl } from '../CreateWorkPackage/atoms';
+import { FieldLabel, PickerControl, roomForActions } from '../CreateWorkPackage/atoms';
 
 // Drawn inward, so that it adds nothing to the height.
 const ATTRIBUTE_BORDER = 'inset 0 0 0 1px var(--borderColor-default, #d1d9e0)';
@@ -156,9 +156,9 @@ export const WorkPackageReference = styled.span`
 `;
 
 // Drawn over the empty field: a plain input cannot color the type.
-export const SelectedWorkPackage = styled.span`
+export const SelectedWorkPackage = styled.span<{ $actions:number }>`
   position: absolute;
-  inset: 0 calc(var(--spacer-l) + 28px) 0 calc(var(--spacer-l) + 1px);
+  inset: 0 ${({ $actions }) => roomForActions($actions)} 0 calc(var(--spacer-l) + 1px);
   display: flex;
   align-items: center;
   overflow: hidden;

@@ -28,7 +28,7 @@ const actionSize = '20px';
 const actionsGap = 'var(--spacer-s)';
 const actionsInset = 'calc(var(--spacer-l) - 4px)';
 
-const roomForActions = (actions:number) => `calc(${actionsInset} + ${actions} * ${actionSize}`
+export const roomForActions = (actions:number) => `calc(${actionsInset} + ${actions} * ${actionSize}`
   + ` + ${actions - 1} * ${actionsGap} + var(--spacer-s))`;
 
 const actionStyles = css`

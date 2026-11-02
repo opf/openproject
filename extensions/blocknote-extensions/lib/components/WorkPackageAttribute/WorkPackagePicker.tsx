@@ -1,14 +1,21 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { XCircleFillIcon } from '@primer/octicons-react';
 import type { WorkPackage } from '../../openProjectTypes';
 import { useWorkPackageSearchDropdown } from '../../hooks/useWorkPackageSearchDropdown';
 import { typeColor } from '../../services/colors';
 import { formatWorkPackageId } from '../../utils/id';
 import { WorkPackageId, WorkPackageType } from '../WorkPackage/atoms';
 import { Suggestions, usePickerMotion } from '../CreateWorkPackage/Suggestions';
-import { PickerControl, TrailingActions, TypeaheadWrapper } from '../CreateWorkPackage/atoms';
+import {
+  ACTION_ICON_SIZE,
+  PickerControl,
+  TrailingActions,
+  TrailingButton,
+  TypeaheadWrapper,
+} from '../CreateWorkPackage/atoms';
 import type { ListedValue } from '../CreateWorkPackage/formSchema';
-import { PickerToggle } from '../CreateWorkPackage/PickerToggle';
+import { PickerToggle, toggleList } from '../CreateWorkPackage/PickerToggle';
 import { SelectedSubject, SelectedText, SelectedWorkPackage, WorkPackageReference } from './atoms';
 
 const BLUR_DELAY = 150;
@@ -30,10 +37,11 @@ interface WorkPackagePickerProps {
   selected?:WorkPackage | null;
   autoFocus?:boolean;
   onPick:(workPackage:WorkPackage) => void;
+  onDeselect:() => void;
   onEscape:() => void;
 }
 
-export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onEscape }:WorkPackagePickerProps) => {
+export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onDeselect, onEscape }:WorkPackagePickerProps) => {
   const { t } = useTranslation();
   const [inputEl, setInputEl] = useState<HTMLInputElement | null>(null);
   const blurTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -63,23 +71,37 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onEs
 
   useEffect(() => () => clearTimeout(blurTimerRef.current), []);
 
-  const onListClosed = useCallback(() => {
-    onClosed();
-    if (!editing) setSearchQuery('');
-  }, [onClosed, editing, setSearchQuery]);
-
-  // The query stays until the list has rolled up, so its rows do not empty out on the way.
   const restore = () => {
     setEditing(false);
     setIsDropdownOpen(false);
-    if (!mounted) setSearchQuery('');
   };
+
+  const openLastSearch = () => {
+    if (!searchQuery) return;
+
+    const selectedIndex = searchResults.findIndex((workPackage) => workPackage.id === selected?.id);
+    setEditing(true);
+    setFocusedIndex(Math.max(selectedIndex, 0));
+    setIsDropdownOpen(true);
+  };
+
+  const toggle = (next:boolean) => toggleList(next, {
+    open: openLastSearch,
+    close: () => setIsDropdownOpen(false),
+    field: inputEl,
+  });
 
   function pick(workPackage:WorkPackage) {
     restore();
     setMarked(false);
     onPick(workPackage);
   }
+
+  const clear = () => {
+    restore();
+    if (selected) onDeselect();
+    inputEl?.focus();
+  };
 
   const options:ListedValue[] = searchResults.map((workPackage, index) => ({
     href: String(workPackage.id),
@@ -92,11 +114,13 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onEs
   }));
   const optionId = (index:number) => `${id}-option-${index}`;
   const showsSelected = !!selected && !editing;
+  const clearable = !!selected || (editing && !!searchQuery);
+  const actions = clearable ? 2 : 1;
   const workPackageOf = (option:{ href:string }) =>
     searchResults.find((workPackage) => String(workPackage.id) === option.href);
 
   return (
-    <TypeaheadWrapper>
+    <TypeaheadWrapper $actions={actions}>
       <PickerControl
         id={id}
         $namesPick
@@ -124,14 +148,30 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onEs
           setIsDropdownOpen(event.target.value.length > 0);
         }}
         onKeyDown={(event) => {
-          if (event.key !== 'Escape') {
-            handleKeyDown(event);
-            return;
+          switch (event.key) {
+            case 'Escape':
+              // One step at a time: the search first, then whatever holds the picker.
+              event.stopPropagation();
+              if (editing || isDropdownOpen) restore();
+              else onEscape();
+              return;
+            case 'ArrowDown':
+              if (isDropdownOpen) break;
+              event.preventDefault();
+              openLastSearch();
+              return;
+            case 'Enter':
+              // The results of the last search stay around while the list is closed.
+              if (!isDropdownOpen) return;
+              break;
+            case 'Backspace':
+            case 'Delete':
+              if (!showsSelected) break;
+              event.preventDefault();
+              clear();
+              return;
           }
-          // One step at a time: the search first, then whatever holds the picker.
-          event.stopPropagation();
-          if (editing || isDropdownOpen) restore();
-          else onEscape();
+          handleKeyDown(event);
         }}
         onBlur={() => {
           setMarked(false);
@@ -141,7 +181,7 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onEs
       />
 
       {showsSelected && (
-        <SelectedWorkPackage id={selectedId} data-testid={selectedId}>
+        <SelectedWorkPackage id={selectedId} data-testid={selectedId} $actions={actions}>
           <SelectedText $marked={marked}>
             <Reference workPackage={selected} />
             <SelectedSubject>{selected.subject}</SelectedSubject>
@@ -150,11 +190,22 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onEs
       )}
 
       <TrailingActions>
+        {clearable && (
+          <TrailingButton
+            aria-label={t(selected ? 'createWorkPackage.deselect' : 'createWorkPackage.clear')}
+            data-testid={`${id}-clear`}
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={clear}
+          >
+            <XCircleFillIcon size={ACTION_ICON_SIZE} />
+          </TrailingButton>
+        )}
+
         <PickerToggle
           isOpen={isDropdownOpen}
           controls={listId}
           testId={`${id}-toggle`}
-          onToggle={() => inputEl?.focus()}
+          onToggle={toggle}
         />
       </TrailingActions>
 
@@ -165,19 +216,21 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onEs
           anchorEl={inputEl}
           options={options}
           focusedIndex={focusedIndex}
+          selectedHref={selected ? String(selected.id) : undefined}
           optionId={optionId}
           onFocusIndex={setFocusedIndex}
           onPick={(option) => {
             const workPackage = workPackageOf(option);
             if (workPackage) pick(workPackage);
           }}
+          onDeselect={clear}
           onToggleExpanded={() => undefined}
           leadingOf={(option) => {
             const workPackage = workPackageOf(option);
             return workPackage ? <Reference workPackage={workPackage} /> : null;
           }}
           open={open}
-          onClosed={onListClosed}
+          onClosed={onClosed}
         >
           {loading ? t('createWorkPackage.loading') : t(error ? 'search.error' : 'search.noResults')}
         </Suggestions>
