@@ -60,7 +60,7 @@ module API
 
         MULTI_VALUED_LINK_PROPERTIES = %w[target_versions observed_in_versions labels].freeze
 
-        SUPPORTED_CUSTOM_PROPERTIES = [/^custom_field_\d+$/].freeze
+        SUPPORTED_CUSTOM_PROPERTIES = [CustomField::ATTRIBUTE_NAME_PATTERN].freeze
 
         SUPPORTED_PROPERTIES = (SUPPORTED_NON_LINK_PROPERTIES + SUPPORTED_LINK_PROPERTIES).freeze
 

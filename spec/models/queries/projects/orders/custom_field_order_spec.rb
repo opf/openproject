@@ -98,7 +98,7 @@ RSpec.describe Queries::Projects::Orders::CustomFieldOrder do
       allow(ProjectCustomField).to receive(:where).and_return(where)
       allow(where).to receive(:not).with(field_format: %w[text]).and_return(where_not)
       allow(where_not).to receive(:visible).and_return(visible)
-      allow(visible).to receive(:find_by).with(id: id.to_s).and_return(custom_field)
+      allow(visible).to receive(:find_by).with(id:).and_return(custom_field)
     end
 
     context "when custom field exists" do
