@@ -62,7 +62,8 @@ RSpec.describe "default colors administration", :js do
 
       expect(page).to have_heading "Contrast preview"
       expect(page).to have_text("standard light and dark themes")
-      expect(page).to have_text("3 of 4 pass")
+      expect(page).to have_element(:output, text: "Fail", count: 1)
+      expect(page).to have_element(:output, text: "Pass", count: 3)
       within(:list, accessible_name: "Light mode") do
         within(:list_item, text: "Used as foreground") do
           expect(page).to have_text("#C7C7C7")
@@ -118,7 +119,8 @@ RSpec.describe "default colors administration", :js do
         click_on "Preview color"
       end
       expect(page).to have_heading "Contrast preview"
-      expect(page).to have_text("3 of 4 pass")
+      expect(page).to have_element(:output, text: "Fail", count: 1)
+      expect(page).to have_element(:output, text: "Pass", count: 3)
     end
 
     it "checks contrast when a color is picked" do
@@ -133,7 +135,7 @@ RSpec.describe "default colors administration", :js do
       fill_in "Name", with: ""
       fill_in "Hex code", with: "#1F75D3"
 
-      expect(page).to have_text("4 of 4 pass")
+      expect(page).to have_element(:output, text: "Pass", count: 4)
 
       click_on "Save"
       wait_for_reload
@@ -141,7 +143,7 @@ RSpec.describe "default colors administration", :js do
       expect(page).to have_field("Name", validation_error: "Name can't be blank.")
       expect(page).to have_field("Hex code", with: "#1F75D3")
       expect(page).to have_heading "Contrast preview"
-      expect(page).to have_text("4 of 4 pass")
+      expect(page).to have_element(:output, text: "Pass", count: 4)
     end
 
     it "clears the server error when the hex code is edited" do
