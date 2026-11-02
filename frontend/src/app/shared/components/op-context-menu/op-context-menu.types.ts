@@ -28,6 +28,8 @@
 import { InjectionToken } from '@angular/core';
 import type { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 
+export type OpContextMenuCloseReason = 'escape'|'action'|'outside'|'scroll';
+
 export const OpContextMenuLocalsToken = new InjectionToken<OpContextMenuLocalsMap>('CONTEXT_MENU_LOCALS');
 
 export interface OpContextMenuItem {

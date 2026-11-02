@@ -31,6 +31,7 @@ import { TableEventComponent } from 'core-app/features/work-packages/components/
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { timelineCellClassName } from '../../builders/timeline/timeline-row-builder';
 import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
+import { keyboardNavigationEnabled } from '../state/keyboard/roving-tabindex';
 import { ContextMenuHandler } from './context-menu-handler';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
@@ -39,8 +40,8 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
     super(injector);
   }
 
-  public get EVENT():EventType {
-    return 'contextmenu'; // N.B.: contextmenu is not supported by Safari on iOS.
+  public get EVENT():EventType[] {
+    return ['contextmenu', 'pointerdown']; // N.B.: contextmenu is not supported by Safari on iOS.
   }
 
   public get SELECTOR() {
@@ -55,13 +56,29 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
     if (!view.workPackageTable.configuration.contextMenuEnabled) {
       return false;
     }
+
+    if (evt.type === 'pointerdown') {
+      this.forgetKeyboardOpen(view.workPackageTable);
+      return true;
+    }
+
     const target = evt.target as HTMLElement;
+
+    if (keyboardNavigationEnabled(view.workPackageTable.configuration) && this.isEditing(target)) {
+      return true;
+    }
 
     // We want to keep the original context menu on hrefs
     // (currently, this is only the id
     if (target.closest(`.${uiStateLinkClass}`)) {
       debugLog('Allowing original context menu on state link');
       return true;
+    }
+
+    if (this.consumeCompanion(view.workPackageTable, target)) {
+      evt.preventDefault();
+      evt.stopPropagation();
+      return false;
     }
 
     // Locate the row from event

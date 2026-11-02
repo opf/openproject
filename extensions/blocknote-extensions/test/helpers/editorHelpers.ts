@@ -3,6 +3,14 @@ import { page, userEvent } from 'vitest/browser';
 
 export const SEARCH_PLACEHOLDER = 'Search by work package ID or subject';
 
+// BlockNote leaves an empty display:none toolbar container in the DOM when
+// closed, so presence alone is not enough - only a rendered one counts.
+export const formattingToolbarVisible = () =>
+  Array.from(document.querySelectorAll('[class*="formatting-toolbar"]')).some((el) => {
+    const he = el as HTMLElement;
+    return getComputedStyle(he).display !== 'none' && he.childElementCount > 0;
+  });
+
 function touchAt(element:Element) {
   const rect = element.getBoundingClientRect();
   return new Touch({
@@ -139,7 +147,7 @@ export async function openBlockCardSizeMenu() {
 
 export async function convertToCompactCard(displayId = '#123') {
   await openInlineWorkPackageSizeMenu(displayId);
-  await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
+  await userEvent.click(page.getByRole('menuitemradio', { name: 'Compact card', exact: true }));
   await expect.element(page.getByTestId('block-card')).toBeVisible();
 }
 

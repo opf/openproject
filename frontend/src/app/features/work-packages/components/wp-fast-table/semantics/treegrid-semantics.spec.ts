@@ -353,6 +353,20 @@ describe('TreegridSemantics', () => {
     expectHidden(harness.tbody);
   });
 
+  it.each<[string, Partial<TableHarnessOptions>]>([
+    ['expansion', { workPackages: [parent, child], showHierarchies: true }],
+    ['placeholder and section visibility', { workPackages: [], configuration: { dragAndDropEnabled: true } }],
+  ])('leaves unchanged %s untouched when repainting', async (_, options) => {
+    mount(options);
+    await harness.render();
+    const observer = new MutationObserver(() => undefined);
+    observer.observe(harness.tbody, { subtree: true, attributes: true, attributeFilter: ['aria-expanded', 'aria-hidden'] });
+    harness.table.semantics!.paint();
+    const records = observer.takeRecords();
+    observer.disconnect();
+    expect(records).toEqual([]);
+  });
+
   it('pins relation rows of a collapsed hierarchy parent', async () => {
     mount({
       workPackages: [parent, child, { id: '3' }],

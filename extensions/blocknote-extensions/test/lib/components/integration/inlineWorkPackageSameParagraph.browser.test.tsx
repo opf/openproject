@@ -36,7 +36,7 @@ describe('Inline chip - identical chips in the same paragraph', () => {
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
     await userEvent.click(page.getByTitle('Change size'));
     await expect.element(page.getByTestId('size-menu')).toBeVisible();
-    await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Tiny', exact: true }));
 
     // Only the second chip shrank to XXS (no status badge); the first chip
     // stays at S and keeps its status badge.
@@ -52,7 +52,7 @@ describe('Inline chip - identical chips in the same paragraph', () => {
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
     await userEvent.click(page.getByTitle('Change size'));
     await expect.element(page.getByTestId('size-menu')).toBeVisible();
-    await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Tiny', exact: true }));
 
     const statusBadges = page.getByText('In Progress');
     expect((await statusBadges.all()).length).toBe(1);
@@ -88,7 +88,7 @@ describe('Inline chip - identical chips in the same paragraph', () => {
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
     await userEvent.click(page.getByTitle('Change size'));
     await expect.element(page.getByTestId('size-menu')).toBeVisible();
-    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Compact card', exact: true }));
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
     // The first chip remains an inline chip; only the second became a block card.

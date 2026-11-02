@@ -203,6 +203,8 @@ fr:
     description_select_work_package: 'Sélectionner le lot de travaux #%{id}'
     description_subwork_package: 'Enfant du lot de travaux #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: Une erreur s'est produite dans CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'L''enregistrement du document a échoué en raison de l''erreur suivante : %{error}'
@@ -1092,11 +1094,26 @@ fr:
       scheduling:
         is_parent: Les dates de ce lot de travaux sont automatiquement déduites de ses enfants. Activez la « Planification manuelle » pour définir les dates.
         is_switched_from_manual_to_automatic: Les dates de ce lot de travaux peuvent devoir être recalculées après le passage de la planification manuelle à la planification automatique en raison de relations avec d'autres lots de travaux.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Afficher tous les utilisateurs avec lesquels le lot de travaux a été partagé
         title: Partager le lot de travaux
       table:
         configure_button: Configurer le tableau des lots de travaux
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tableau dont les lignes correspondent aux lots de travaux et les colonnes à leurs attributs.
         text_inline_edit: La plupart des cellules de ce tableau sont des boutons qui permettent de modifier en ligne l'attribut correspondant.
         text_select_hint: Les listes de sélection doivent être ouvertes avec la touche « ALT » et les flèches directionnelles.

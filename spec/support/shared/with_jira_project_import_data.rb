@@ -60,6 +60,10 @@ RSpec.shared_context "with jira project import data" do
     Import::JiraCreateProjectRoleJob.perform_now(jira_import.id)
   end
 
+  def create_labels
+    Import::JiraCreateLabelsJob.perform_now(jira_import.id)
+  end
+
   def create_project
     Import::JiraCreateProjectJob.perform_now(jira_import.id, jira_project.id)
   end
@@ -72,6 +76,10 @@ RSpec.shared_context "with jira project import data" do
     Import::JiraCreateProjectWorkPackageAttachmentsJob.perform_now(jira_import.id, jira_project.id)
   end
 
+  def create_parent_child_relations
+    Import::JiraCreateParentChildRelationsFromSubtasksJob.perform_now(jira_import.id, jira_project.id)
+  end
+
   def create_time_entries
     Import::JiraCreateProjectTimeEntriesJob.perform_now(jira_import.id, jira_project.id)
   end
@@ -79,8 +87,10 @@ RSpec.shared_context "with jira project import data" do
   # Runs every per-project stage of the import in the order Import::JiraStagedImportJob enqueues them.
   def import_project
     create_project_role
+    create_labels
     create_project
     create_work_packages
+    create_parent_child_relations
     create_work_package_attachments
     create_time_entries
   end

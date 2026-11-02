@@ -227,14 +227,19 @@ module WorkPackageTypes
       params.expect(record.model_name.param_key => %i[name description]).to_h.symbolize_keys
     end
 
+    # The matrix submits its inputs with the wizard form, along with the roles and
+    # transition tab it was showing, so that only that slice is rewritten. Without a tab
+    # the lazily loaded matrix never rendered, and there is nothing to persist.
     def update_matrix
+      return ServiceResult.success unless params.key?(:tab)
+
       context = ::Workflows::MatrixContext.new(workflow: @variant.workflow,
                                                variant: @variant,
                                                tab: params[:tab],
                                                role_ids: params[:role_ids])
 
       ::Workflows::MatrixUpdateService
-        .new(workflow: @variant.workflow, roles: context.roles, tab: context.tab)
+        .new(context:)
         .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
     end
 

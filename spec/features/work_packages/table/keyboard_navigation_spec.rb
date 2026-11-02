@@ -78,9 +78,6 @@ RSpec.describe "Work package table keyboard navigation", :js do
     end
     expect(page).to have_css(".generic-table--sort-header #subject.asc")
     wp_table.expect_work_package_order(sibling, parent, child)
-
-    # The column menu drops focus to body after an action until DREAM-894.
-    wp_table.tab_into_table
     wp_table.expect_focus_on_column_header("Subject")
 
     wp_table.press_keys(:down)
@@ -88,6 +85,19 @@ RSpec.describe "Work package table keyboard navigation", :js do
 
     wp_table.press_keys(%i[shift tab])
     wp_table.expect_focus_outside_table
+  end
+
+  it "closes a column menu with Escape and keeps the header focused" do
+    wp_table.tab_into_table
+    wp_table.press_keys(:right, :right, :up)
+    wp_table.expect_focus_on_column_header("Subject")
+
+    wp_table.press_keys(:enter)
+    expect(page).to have_selector(:menuitem, focused: true)
+
+    wp_table.press_keys(:escape)
+    expect(page).to have_no_css("#column-context-menu")
+    wp_table.expect_focus_on_column_header("Subject")
   end
 
   it "leaves the table forward with one Tab from the last row" do
