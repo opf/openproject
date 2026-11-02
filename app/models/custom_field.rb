@@ -337,6 +337,10 @@ class CustomField < ApplicationRecord
     match[:id].to_i if match
   end
 
+  def self.column_name_pattern_for(ids)
+    /\Acf_(?<id>#{ids.join('|')})\z/
+  end
+
   # to move in project_custom_field
   def self.for_all
     where(is_for_all: true)

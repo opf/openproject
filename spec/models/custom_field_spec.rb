@@ -135,6 +135,35 @@ RSpec.describe CustomField do
     end
   end
 
+  describe ".column_name_pattern_for" do
+    subject(:pattern) { described_class.column_name_pattern_for([4, 12]) }
+
+    it "matches the column names of the given ids" do
+      expect(pattern).to match("cf_4")
+      expect(pattern).to match("cf_12")
+    end
+
+    it "does not match the column name of another id" do
+      expect(pattern).not_to match("cf_1")
+    end
+
+    it "does not match a column name that only starts with a given id" do
+      expect(pattern).not_to match("cf_123")
+    end
+
+    it "captures the id" do
+      expect(pattern.match("cf_12")[:id]).to eq("12")
+    end
+
+    context "without ids" do
+      subject(:pattern) { described_class.column_name_pattern_for([]) }
+
+      it "does not match any custom field column name" do
+        expect(pattern).not_to match("cf_4")
+      end
+    end
+  end
+
   describe "#name" do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_length_of(:name).is_at_most(256) }
