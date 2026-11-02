@@ -36,12 +36,16 @@ import { expansionStateOf } from '../helpers/row-expansion';
 
 export type RowRecordKind = TableRowKind|'header';
 
-export const edgeRowKeys = {
+const edgeRowKeys = {
   header: 'header',
   totals: 'totals',
   inlineCreate: 'inlineCreate',
   emptyResults: 'emptyResults',
 } as const;
+
+type EdgeRowKind = keyof typeof edgeRowKeys;
+
+const isEdgeRowKind = (kind:RowRecordKind):kind is EdgeRowKind => kind in edgeRowKeys;
 
 export interface RowState {
   readonly kind:RowRecordKind;
@@ -68,14 +72,14 @@ export class RowClassifier {
 
   /** Every row of the table, in document order, across all its sections. */
   public rows():RowRecord[] {
-    const element = this.table.tbody.closest('table');
-    if (!element) return [];
-    return Array.from(element.rows).map((row) => this.record(element, row));
+    const tableElement = this.table.tbody.closest('table');
+    if (!tableElement) return [];
+    return Array.from(tableElement.rows).map((row) => this.record(tableElement, row));
   }
 
-  private record(table:HTMLTableElement, row:HTMLTableRowElement):RowRecord {
+  private record(tableElement:HTMLTableElement, row:HTMLTableRowElement):RowRecord {
     const occurrence = this.table.ledger.byElement(row) ?? null;
-    const kind = this.kindOf(table, row);
+    const kind = this.kindOf(tableElement, row);
     return {
       key: occurrence?.key ?? this.edgeKeyOf(kind),
       element: row,
@@ -89,13 +93,13 @@ export class RowClassifier {
     };
   }
 
-  private kindOf(table:HTMLTableElement, row:HTMLTableRowElement):RowRecordKind {
-    if (row.parentElement === table.tHead) return 'header';
+  private kindOf(tableElement:HTMLTableElement, row:HTMLTableRowElement):RowRecordKind {
+    if (row.parentElement === tableElement.tHead) return 'header';
     return classifyRow(this.table, row);
   }
 
   private edgeKeyOf(kind:RowRecordKind):string|null {
-    return kind in edgeRowKeys ? edgeRowKeys[kind as keyof typeof edgeRowKeys] : null;
+    return isEdgeRowKind(kind) ? edgeRowKeys[kind] : null;
   }
 
   private expansionOf(occurrence:RenderedOccurrence|null, kind:RowRecordKind):boolean|null {
