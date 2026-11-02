@@ -116,7 +116,7 @@ export class WorkPackageCardDragAndDropService {
   /**
    * Get current order
    */
-  private get currentOrder():string[] {
+  public get currentOrder():string[] {
     return this.workPackages
       .filter((wp) => wp && !isNewResource(wp))
       .map((el) => el.id!);
@@ -399,7 +399,8 @@ export class WorkPackageCardDragAndDropService {
     } catch (e) {
       this.notificationService.handleRawError(e, workPackage);
       if (membershipPersisted) {
-        if (!this.destroyed && this.stillAt(revision, after)) {
+        // Not `stillAt`: a same-order refresh bumps the revision without saving the position.
+        if (!this.destroyed && this.currentOrderEquals(after)) {
           this.cardView.orderSaveFailed.emit();
         }
       } else if (this.stillAt(revision, after)) {

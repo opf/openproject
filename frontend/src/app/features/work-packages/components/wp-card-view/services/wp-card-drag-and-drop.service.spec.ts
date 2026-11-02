@@ -572,6 +572,24 @@ describe('WorkPackageCardDragAndDropService', () => {
       expect(cardView.orderSaveFailed.emit).not.toHaveBeenCalled();
     });
 
+    it('requests a reload when a same-order refresh landed before the order save failed', async () => {
+      seed('x', 'p', 'q');
+      service.workPackages = ['p', 'q'].map(buildWp);
+      cardView.workPackageAddedHandler.mockResolvedValue({ membershipPersisted: true });
+      let rejectAdd!:(error:Error) => void;
+      reorderServiceStub.add.mockReturnValue(new Promise((_resolve, reject) => { rejectAdd = reject; }));
+      service.handleDrop(buildDropEvent({
+        sourceId: 'x', sourceListId: 'source-list', targetId: 'q', edge: 'top', complete: vi.fn(),
+      }));
+      await flush();
+
+      service.workPackages = [...service.workPackages];
+      rejectAdd(new Error('add persistence failed'));
+      await flush();
+
+      expect(cardView.orderSaveFailed.emit).toHaveBeenCalledOnce();
+    });
+
     it('does not roll back a failed add when a refresh changed the order meanwhile', async () => {
       seed('x', 'p', 'q');
       service.workPackages = ['p', 'q'].map(buildWp);
