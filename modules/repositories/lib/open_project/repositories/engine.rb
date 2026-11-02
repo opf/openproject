@@ -77,15 +77,6 @@ module OpenProject::Repositories
           current_user.allowed_in_work_package?(:show_repository_content, represented)
       }
 
-      link :repositories, cache_if: show_repositories do
-        next if represented.new_record?
-
-        {
-          href: "#{work_package_path(id: represented.id)}/tabs/repositories",
-          title: "repositories" # TODO: localize?
-        }
-      end
-
       %i[repository_issues repository_merge_requests repository_branches repository_commits].each do |resource|
         link resource.to_s.camelize(:lower).to_sym, cache_if: show_repositories do
           next if represented.new_record?
