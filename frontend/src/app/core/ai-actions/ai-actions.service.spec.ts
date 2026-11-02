@@ -81,7 +81,7 @@ function fakeEditor(field?:string, data = 'Login page dont work.') {
   const root = { name: '$root' };
   const graveyard = { name: '$graveyard' };
   const range = { root, rangeIn: root };
-  const selectedRange = { root, selected: true };
+  const selectedRange = { root, isCollapsed: false, selected: true };
   const selectedContent = { fragment: true };
   const parsed = { parsed: true };
   const markers = new Map<string, IFakeMarker>();
@@ -95,7 +95,7 @@ function fakeEditor(field?:string, data = 'Login page dont work.') {
     document: {
       getRoot: vi.fn(() => root),
       graveyard,
-      selection: { isCollapsed: true, getFirstRange: vi.fn(() => selectedRange) },
+      selection: { isCollapsed: true, rangeCount: 1, getFirstRange: vi.fn(() => selectedRange) },
     },
     markers: { get: (name:string) => markers.get(name) ?? null },
     createRangeIn: vi.fn(() => range),
@@ -431,6 +431,17 @@ describe('AiActionsService', () => {
         expect(markers.size).toBe(0);
       });
 
+      it('runs on the whole document when several ranges are selected', async () => {
+        const { asEditor, model, markers, select } = fakeEditor();
+        select('| Login | page |');
+        model.document.selection.rangeCount = 2;
+
+        await service.run(fixGrammar, asEditor);
+
+        expect(requestBody()).toMatchObject({ scope: 'document', input: 'Login page dont work.' });
+        expect(markers.size).toBe(0);
+      });
+
       it('runs an action that injects the type template on the whole document', async () => {
         const { asEditor, editor, markers, select } = fakeEditor('description');
         select('Login page dont work.');
@@ -473,7 +484,10 @@ describe('AiActionsService', () => {
 
       it.each([
         ['was deleted meanwhile', (markers:Map<string, IFakeMarker>, graveyard:unknown) => {
-          markers.forEach((marker) => { marker.getRange = () => ({ root: graveyard }); });
+          markers.forEach((marker) => { marker.getRange = () => ({ root: graveyard, isCollapsed: false }); });
+        }],
+        ['collapsed when its blocks merged', (markers:Map<string, IFakeMarker>) => {
+          markers.forEach((marker) => { marker.getRange = () => ({ isCollapsed: true }); });
         }],
         ['lost its marker', (markers:Map<string, IFakeMarker>) => markers.clear()],
       ])('changes nothing and reports it when the selected text %s', async (_, loseSelection) => {

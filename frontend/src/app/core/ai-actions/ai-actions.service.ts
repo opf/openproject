@@ -35,6 +35,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import type { Marker, ModelRange } from '@ckeditor/ckeditor5-engine';
 import type { ICKEditorInstance } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
@@ -63,6 +64,11 @@ interface IPendingRequest {
   requestId:string;
   editor:IAiActionsEditor;
   scope:IScope;
+}
+
+interface IRequestInput {
+  scope:IScope;
+  input:string;
 }
 
 type IDescriptionContext = { workPackageId:string }|{ projectId:string, typeId:string };
@@ -141,15 +147,15 @@ export class AiActionsService {
 
     const requestId = uuidv4();
     // An action that injects the type template rewrites the whole description.
-    const selection = action.injectsTypeTemplate ? null : this.markSelection(editor, requestId);
-    const scope:IScope = selection === null ? 'document' : 'selection';
+    const { scope, input } = (action.injectsTypeTemplate ? null : this.markSelection(editor, requestId))
+      ?? { scope: 'document', input: editor.getData() };
 
     const body = new FormData();
     Object.entries({
       request_id: requestId,
       action_id: String(action.id),
       scope,
-      input: selection ?? editor.getData(),
+      input,
       ...this.paneContext(resource, editor.config.get('openProject.context.field') as string|undefined),
     }).forEach(([name, value]) => body.set(name, value));
 
@@ -177,7 +183,7 @@ export class AiActionsService {
       return;
     }
 
-    // Not forget(): it would remove the marker that holds the range to replace.
+    // The marker holds the range to replace, so it is removed only below.
     this.pending = null;
     if (request.editor.state === 'destroyed') {
       return;
@@ -185,12 +191,13 @@ export class AiActionsService {
 
     const { model, data } = request.editor;
     const marker = model.markers.get(this.markerName(requestId));
-    const range = request.scope === 'document' ? model.createRangeIn(model.document.getRoot()!) : marker?.getRange();
-    // Deleting the marked text moves the marker into the graveyard instead of removing it.
-    const ok = range !== undefined && range.root !== model.document.graveyard;
+    const range = request.scope === 'document'
+      ? model.createRangeIn(model.document.getRoot()!)
+      : this.markedRange(request.editor, marker);
+    const ok = range !== null;
 
     model.change((writer) => {
-      if (ok) {
+      if (range) {
         model.insertContent(data.parse(text), range);
       }
       if (marker) {
@@ -203,17 +210,20 @@ export class AiActionsService {
 
   private forget(requestId:string):void {
     if (this.pending?.requestId === requestId) {
-      this.removeMarker(this.pending.editor, requestId);
+      if (this.pending.scope === 'selection') {
+        this.removeMarker(this.pending.editor, requestId);
+      }
       this.pending = null;
     }
   }
 
-  // The marker follows edits elsewhere while the run streams; deleting the selected text removes it.
-  private markSelection(editor:IAiActionsEditor, requestId:string):string|null {
+  // The marker follows edits elsewhere while the run streams. A selection of several ranges, such as
+  // table cells, cannot be replaced as one range, so it runs on the whole document.
+  private markSelection(editor:IAiActionsEditor, requestId:string):IRequestInput|null {
     const { model, data } = editor;
     const { selection } = model.document;
     const range = selection.getFirstRange();
-    if (selection.isCollapsed || !range) {
+    if (selection.isCollapsed || selection.rangeCount !== 1 || !range) {
       return null;
     }
 
@@ -226,7 +236,17 @@ export class AiActionsService {
       writer.addMarker(this.markerName(requestId), { range, usingOperation: false });
     });
 
-    return markdown;
+    return { scope: 'selection', input: markdown };
+  }
+
+  // Deleting the marked text moves the marker into the graveyard, or collapses it when blocks merge.
+  private markedRange(editor:IAiActionsEditor, marker:Marker|null):ModelRange|null {
+    const range = marker?.getRange();
+    if (!range || range.isCollapsed || range.root === editor.model.document.graveyard) {
+      return null;
+    }
+
+    return range;
   }
 
   private removeMarker(editor:IAiActionsEditor, requestId:string):void {
