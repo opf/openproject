@@ -305,8 +305,8 @@ en:
               show_all_label: "View all: %{heading}"
           closed_work_packages: "Closed work packages"
           resolved_summary:
-            one: "%{percentage}% (%{resolved} of %{total} work package)"
-            other: "%{percentage}% (%{resolved} of %{total} work packages)"
+            one: "%{percentage} (%{resolved} of %{total} work package)"
+            other: "%{percentage} (%{resolved} of %{total} work packages)"
           title: "Work packages within the sprint"
         work_package_table:
           added:
