@@ -135,16 +135,6 @@ module Admin
       end
     end
 
-    def toggle_setting
-      Setting.ai_text_actions_enabled = boolean_param(:value)
-
-      update_via_turbo_stream(component: Admin::TextActions::SettingToggleComponent.new)
-      update_list_via_turbo_stream
-      respond_with_turbo_streams do |format|
-        format.html { redirect_to action: :index }
-      end
-    end
-
     private
 
     def find_text_action

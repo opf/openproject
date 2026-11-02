@@ -2221,11 +2221,12 @@ en:
         description: "The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions."
         label_add_action: "Action"
         label_aria_add_action: "Add text action"
+        section_title: "Actions"
       index_component:
         blank_slate:
           description: "Add an action to see it here"
           title: "No text actions configured yet"
-        disabled_warning: "Text actions are disabled. The following actions will not be available anywhere."
+        disabled_warning: "All text actions are disabled. The text editor will not show the text action options at all."
         label_disable_all: "Disable all"
         label_enable_all: "Enable all"
         title: "Text actions"
@@ -6425,7 +6426,6 @@ en:
     <br/>
     Example: %{example_code}
 
-  setting_ai_text_actions_enabled: "Enable text actions"
   setting_allowed_link_protocols: "Allowed link protocols"
   setting_allowed_link_protocols_text_html: >-
     Allow these protocols to be rendered as links in work package descriptions, long text fields and comments.

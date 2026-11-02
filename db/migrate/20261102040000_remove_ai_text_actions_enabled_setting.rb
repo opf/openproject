@@ -25,26 +25,23 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
 
-module Admin
-  module TextActions
-    class SettingToggleComponent < ApplicationComponent
-      include OpTurbo::Streamable
+class RemoveAITextActionsEnabledSetting < ActiveRecord::Migration[8.1]
+  def up
+    execute <<~SQL.squish
+      UPDATE ai_text_actions SET active = false, updated_at = NOW()
+      WHERE NOT EXISTS (
+        SELECT 1 FROM settings WHERE name = 'ai_text_actions_enabled' AND value IN ('1', 't', 'true')
+      )
+    SQL
+    execute "DELETE FROM settings WHERE name = 'ai_text_actions_enabled'"
+  end
 
-      SETTING_NAME = "ai_text_actions_enabled"
-
-      def self.wrapper_key = :text_actions_setting
-
-      private
-
-      def enabled?
-        Setting.ai_text_actions_enabled?
-      end
-
-      def writable?
-        Setting.ai_text_actions_enabled_writable?
-      end
-    end
+  def down
+    execute <<~SQL.squish
+      INSERT INTO settings (name, value, created_at, updated_at)
+      SELECT 'ai_text_actions_enabled', '1', NOW(), NOW()
+      WHERE NOT EXISTS (SELECT 1 FROM settings WHERE name = 'ai_text_actions_enabled')
+    SQL
   end
 end

@@ -30,8 +30,7 @@
 require "spec_helper"
 
 RSpec.describe AI::TextTransforms::Availability,
-               with_flag: { ai_text_actions: true },
-               with_settings: { ai_text_actions_enabled: true } do
+               with_flag: { ai_text_actions: true } do
   shared_let(:type) { create(:type) }
   shared_let(:other_type) { create(:type) }
   shared_let(:project) { create(:project, types: [type, other_type]) }
@@ -44,17 +43,13 @@ RSpec.describe AI::TextTransforms::Availability,
   let(:action) { create(:ai_text_action) }
 
   describe "#assistant" do
-    it "is available when flag, setting and gateway agree" do
+    it "is available when flag and gateway agree" do
       expect(availability.assistant).to be_available
       expect(availability.assistant.reason).to be_nil
     end
 
     it "reports the feature flag", with_flag: { ai_text_actions: false } do
       expect(availability.assistant.reason).to eq(:feature_disabled)
-    end
-
-    it "reports the setting", with_settings: { ai_text_actions_enabled: false } do
-      expect(availability.assistant.reason).to eq(:assistant_disabled)
     end
 
     it "reports the gateway" do
@@ -153,8 +148,8 @@ RSpec.describe AI::TextTransforms::Availability,
       expect(availability.runnable(action).reason).to eq(:action_inactive)
     end
 
-    it "reports the assistant first", with_settings: { ai_text_actions_enabled: false } do
-      expect(availability.runnable(action).reason).to eq(:assistant_disabled)
+    it "reports the assistant first", with_flag: { ai_text_actions: false } do
+      expect(availability.runnable(action).reason).to eq(:feature_disabled)
     end
   end
 
@@ -175,7 +170,7 @@ RSpec.describe AI::TextTransforms::Availability,
       expect(availability.actions_for(no_context)).to eq([everywhere])
     end
 
-    it "is empty when the assistant is unavailable", with_settings: { ai_text_actions_enabled: false } do
+    it "is empty when the assistant is unavailable", with_flag: { ai_text_actions: false } do
       create(:ai_text_action)
 
       expect(availability.actions_for(context)).to eq([])
@@ -185,7 +180,7 @@ RSpec.describe AI::TextTransforms::Availability,
   describe "REASONS" do
     it "lists every reason the service can answer" do
       expect(described_class::REASONS)
-        .to contain_exactly(:feature_disabled, :assistant_disabled, :llm_unavailable, :action_inactive,
+        .to contain_exactly(:feature_disabled, :llm_unavailable, :action_inactive,
                             :context_required, :type_mismatch, :template_missing)
     end
   end

@@ -41,12 +41,30 @@ RSpec.describe "Admin text actions", :skip_csrf,
   describe "GET /admin/text_actions" do
     let!(:action) { create(:ai_text_action, label: "Fix grammar") }
 
-    it "renders the list with the setting toggle" do
+    it "renders the list without a global toggle" do
       get admin_text_actions_path
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Fix grammar")
-      expect(response.body).to include("Enable text actions")
+      expect(response.body).not_to include("Enable text actions")
+      expect(response.body).to include('data-test-selector="add-text-action-button"')
+      expect(response.body).not_to include("text-actions-disabled-banner")
+    end
+
+    it "renders the sub header with the section title" do
+      get admin_text_actions_path
+
+      expect(response.body).to match(%r{<[^>]+>\s*Actions\s*</[^>]+>})
+    end
+
+    context "when every action is disabled" do
+      let!(:action) { create(:ai_text_action, active: false) }
+
+      it "renders the info box" do
+        get admin_text_actions_path
+
+        expect(response.body).to include("All text actions are disabled.")
+      end
     end
   end
 
@@ -234,27 +252,6 @@ RSpec.describe "Admin text actions", :skip_csrf,
     end
   end
 
-  describe "POST /admin/text_actions/toggle_setting", :settings_reset do
-    it "enables the setting and re-renders the toggle" do
-      post toggle_setting_admin_text_actions_path, params: { value: "1" }, headers: turbo_stream_headers
-
-      expect(response).to have_http_status(:ok)
-      expect(response.media_type).to eq("text/vnd.turbo-stream.html")
-      expect(response.body).to include('target="text_actions_setting"')
-      expect(response.body).to include('target="text_actions_list"')
-      expect(Setting.ai_text_actions_enabled?).to be(true)
-    end
-
-    it "disables the setting" do
-      Setting.ai_text_actions_enabled = true
-
-      post toggle_setting_admin_text_actions_path, params: { value: "0" }, headers: turbo_stream_headers
-
-      expect(response).to have_http_status(:ok)
-      expect(Setting.ai_text_actions_enabled?).to be(false)
-    end
-  end
-
   context "when not an admin" do
     let!(:action) { create(:ai_text_action) }
 
@@ -269,12 +266,6 @@ RSpec.describe "Admin text actions", :skip_csrf,
       post toggle_admin_text_action_path(action), params: { value: "0" }
       expect(response).to have_http_status(:forbidden)
       expect(action.reload).to be_active
-    end
-
-    it "forbids toggling the setting" do
-      post toggle_setting_admin_text_actions_path, params: { value: "1" }
-      expect(response).to have_http_status(:forbidden)
-      expect(Setting.ai_text_actions_enabled?).to be(false)
     end
   end
 

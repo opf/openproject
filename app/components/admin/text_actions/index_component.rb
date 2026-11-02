@@ -38,8 +38,8 @@ module Admin
 
       private
 
-      def assistant_enabled?
-        Setting.ai_text_actions_enabled?
+      def all_disabled?
+        text_actions.any? && text_actions.none?(&:active)
       end
 
       def wrapper_data_attributes

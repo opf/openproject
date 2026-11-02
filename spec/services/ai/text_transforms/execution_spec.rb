@@ -30,8 +30,7 @@
 require "spec_helper"
 
 RSpec.describe AI::TextTransforms::Execution,
-               with_flag: { ai_text_actions: true },
-               with_settings: { ai_text_actions_enabled: true } do
+               with_flag: { ai_text_actions: true } do
   let(:run) { create(:ai_text_transform_run) }
   let(:time) { { now: 0.0 } }
   let(:clock) { -> { time[:now] } }

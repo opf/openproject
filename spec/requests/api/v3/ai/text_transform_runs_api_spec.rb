@@ -31,8 +31,7 @@ require "spec_helper"
 require "rack/test"
 
 RSpec.describe API::V3::AI::TextTransformRunsAPI,
-               with_flag: { ai_text_actions: true },
-               with_settings: { ai_text_actions_enabled: true } do
+               with_flag: { ai_text_actions: true } do
   include API::V3::Utilities::PathHelper
 
   shared_let(:type) { create(:type) }
@@ -139,12 +138,6 @@ RSpec.describe API::V3::AI::TextTransformRunsAPI,
       end
 
       it_behaves_like "action not available", :context_required
-    end
-
-    context "when the assistant is disabled", with_settings: { ai_text_actions_enabled: false } do
-      before { post_run(body) }
-
-      it_behaves_like "action not available", :assistant_disabled
     end
 
     context "with blank content" do

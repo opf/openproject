@@ -42,6 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_text { t(".section_title") }
     subheader.with_action_button(
       scheme: :primary,
       leading_icon: :plus,
@@ -54,7 +55,5 @@ See COPYRIGHT and LICENSE files for more details.
     end
   end
 %>
-
-<%= render(Admin::TextActions::SettingToggleComponent.new) %>
 
 <%= render(Admin::TextActions::IndexComponent.new(text_actions: @text_actions)) %>

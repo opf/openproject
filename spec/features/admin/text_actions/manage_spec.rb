@@ -131,7 +131,7 @@ RSpec.describe "Managing text actions", :js, with_flag: { ai_text_actions: true 
     expect_scope(action, "All work package types")
   end
 
-  it "toggles actions individually and in bulk", with_settings: { ai_text_actions_enabled: true } do
+  it "toggles actions individually and in bulk" do
     first_action = create(:ai_text_action, active: true)
     second_action = create(:ai_text_action, active: true)
 
@@ -186,21 +186,17 @@ RSpec.describe "Managing text actions", :js, with_flag: { ai_text_actions: true 
     expect(page).to have_text("No text actions configured yet")
   end
 
-  it "toggles the global setting, releasing the list from its disabled state" do
-    action = create(:ai_text_action, active: true)
+  it "shows the disabled info box only while all actions are disabled" do
+    action = create(:ai_text_action, active: false)
 
     visit admin_text_actions_path
 
-    expect(page).to have_button(accessible_name: "Enable text actions", aria: { pressed: false })
     expect(page).to have_test_selector("text-actions-disabled-banner")
-    expect(page).to have_button(accessible_name: toggle_label(action), disabled: true)
 
-    wait_for_turbo_stream { find(:button, accessible_name: "Enable text actions").click }
+    wait_for_turbo_stream { click_on "Enable all" }
 
-    expect(page).to have_button(accessible_name: "Enable text actions", aria: { pressed: true })
     expect(page).to have_no_test_selector("text-actions-disabled-banner")
-    expect(page).to have_button(accessible_name: toggle_label(action), aria: { pressed: true })
-    expect(Setting.find_by(name: "ai_text_actions_enabled")&.value).to be(true)
+    expect_toggle_state(action, pressed: true)
   end
 
   it "hides the menu entry and the page when the feature flag is inactive",
