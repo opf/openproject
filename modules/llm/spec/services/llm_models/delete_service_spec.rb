@@ -53,6 +53,23 @@ RSpec.describe LlmModels::DeleteService do
     expect(connection.reload.env_provisioned_at).to be_present
   end
 
+  context "when the model was deleted after it was loaded" do
+    let(:loaded_before) { LlmModel.find(llm_model.id) }
+
+    before do
+      loaded_before
+      described_class.new(user: admin, model: llm_model).call
+      create(:llm_model, :manual, llm_connection: connection, external_id: "bge-m3")
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3")
+    end
+
+    it "leaves the model re-added under the same identifier alone" do
+      expect { described_class.new(user: admin, model: loaded_before).call }
+        .to raise_error(ActiveRecord::RecordNotFound)
+      expect(connection.capability_verdicts.for_model("bge-m3")).to exist
+    end
+  end
+
   context "for a discovered model" do
     let!(:llm_model) { create(:llm_model, llm_connection: connection) }
 

@@ -98,6 +98,23 @@ RSpec.describe LlmModels::UpdateService do
     end
   end
 
+  context "when another rename committed after the model was loaded" do
+    let(:loaded_before) { LlmModel.find(llm_model.id) }
+
+    before do
+      loaded_before
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3")
+      described_class.new(user: admin, model: llm_model).call(external_id: "bge-m3-first")
+    end
+
+    it "cascades from the committed identifier" do
+      result = described_class.new(user: admin, model: loaded_before).call(**params)
+
+      expect(result).to be_success
+      expect(connection.capability_verdicts.pluck(:model_id)).to eq(["bge-m3-v2"])
+    end
+  end
+
   context "for a discovered model" do
     let!(:llm_model) { create(:llm_model, llm_connection: connection, external_id: "bge-m3") }
 

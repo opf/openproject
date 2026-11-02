@@ -27,9 +27,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module LlmModels
-  # A seed applying the environment's values holds the connection's advisory lock
-  # until it commits, so the contracts judge the environment-named defaults on
-  # the committed row.
+  # A seed applying the environment's values, and any concurrent rename or delete,
+  # holds the connection's advisory lock until it commits. Both records are
+  # re-read under the lock so a write is judged and cascaded on committed rows.
   module LockedOnConnection
     private
 
@@ -37,8 +37,9 @@ module LlmModels
       in_mutex_context(connection, send_notifications:, &)
     end
 
-    def before_perform(service_call)
+    def validate_params
       connection.reload
+      model.reload
 
       super
     end
