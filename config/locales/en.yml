@@ -1098,8 +1098,8 @@ en:
         one: "Action"
         other: "Actions"
       ai/text_action:
-        one: "Text action"
-        other: "Text actions"
+        one: "Text assistant action"
+        other: "Text assistant actions"
       ai/text_transform_run:
         one: "Text transform run"
         other: "Text transform runs"
@@ -2210,7 +2210,7 @@ en:
       delete_dialog_component:
         description: "Users will no longer be able to run this action in the rich text editor."
         heading: 'Are you sure you want to delete the action "%{label}"?'
-        title: "Delete text action"
+        title: "Delete text assistant action"
       form:
         injects_type_template_caption: "If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template."
         label_caption: "This is the name that will be visible to users in the editor."
@@ -2220,18 +2220,18 @@ en:
       index:
         description: "The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions."
         label_add_action: "Action"
-        label_aria_add_action: "Add text action"
-        section_title: "Text actions"
+        label_aria_add_action: "Add text assistant action"
+        section_title: "Actions"
       index_component:
         blank_slate:
           description: "Add an action to see it here"
-          title: "No text actions configured yet"
+          title: "No text assistant actions configured yet"
         disabled_warning: "All text actions are disabled. The text editor will not show the text action options at all."
         label_disable_all: "Disable all"
         label_enable_all: "Enable all"
-        title: "Text actions"
+        title: "Text assistant actions"
       new:
-        title: "New text action"
+        title: "New text assistant action"
       row_component:
         label_actions: "Action menu"
         label_toggle: "Toggle %{label}"
