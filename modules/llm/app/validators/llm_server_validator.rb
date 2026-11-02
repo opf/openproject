@@ -75,8 +75,6 @@ class LlmServerValidator < ActiveModel::EachValidator
     contract.model.changed_attributes.keys.intersect?(CONNECTION_ATTRIBUTES)
   end
 
-  # Pre-flight check, so the administrator sees a message naming the
-  # allowlist environment variable on save.
   def host_allowed?(contract, attribute, value)
     host = URI.parse(value).hostname
     return false if host.blank?
