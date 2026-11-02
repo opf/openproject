@@ -9,5 +9,11 @@
       )
     end
     header.with_breadcrumbs(breadcrumb_items)
+    header.with_action_button(
+      data: { show_dialog_id: Help::ProjectLifeCycleDialogComponent::DIALOG_ID },
+      test_selector: "project-life-cycle-contextual-help",
+      aria: { haspopup: "dialog" }
+    ) { t("contextual_help.open") }
   end
 %>
+<%= render Help::ProjectLifeCycleDialogComponent.new %>
