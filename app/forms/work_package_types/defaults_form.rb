@@ -42,13 +42,7 @@ module WorkPackageTypes
 
       if show_enterprise_banner?
         subject_form.html_content do
-          render(
-            EnterpriseEdition::BannerComponent.new(
-              :work_package_subject_generation,
-              variant: :medium,
-              image: "enterprise/automatically-generated-subjects.png"
-            )
-          )
+          render(EnterpriseEdition::BannerComponent.new(:work_package_subject_generation))
         end
       end
 

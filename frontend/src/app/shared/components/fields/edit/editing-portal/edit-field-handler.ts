@@ -145,7 +145,7 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
 
   public abstract setErrors(newErrors:string[]):void;
 
-  public previewContext(resource:HalResource):string|undefined {
+  public previewContext(_resource:HalResource):string|undefined {
     return undefined;
   }
 }

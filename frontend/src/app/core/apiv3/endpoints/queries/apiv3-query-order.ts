@@ -63,7 +63,7 @@ export class ApiV3QueryOrder extends SimpleResource {
 
   public delete(id:string, ...wpIds:string[]) {
     const delta:QueryOrder = {};
-    wpIds.forEach((id) => delta[id] = -1);
+    wpIds.forEach((id) => { delta[id] = -1; });
 
     return this.update(delta);
   }

@@ -88,6 +88,9 @@ import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-el
 import {
   EmbeddedTablesMacroComponent,
 } from 'core-app/features/work-packages/components/wp-table/embedded/embedded-tables-macro.component';
+import {
+  WorkPackageEmbeddedTableEntryComponent,
+} from 'core-app/features/work-packages/components/wp-table/embedded/wp-embedded-table-entry.component';
 import { OpPrincipalComponent } from 'core-app/shared/components/principal/principal.component';
 import {
   OpBasicSingleDatePickerComponent,
@@ -208,6 +211,7 @@ import { MyPageComponent } from './features/my-page/my-page.component';
 import { DashboardComponent } from './features/overview/dashboard.component';
 import { BurndownChartComponent } from './features/backlogs/burndown-chart.component';
 import { CreatedResolvedComponent } from './features/backlogs/created-resolved-chart.component';
+import { VelocityChartComponent } from './features/backlogs/velocity-chart.component';
 import { BudgetByCostTypeComponent } from './shared/components/budget-graphs/overview/budget-by-cost-type.component';
 import { ActualCostsComponent } from './shared/components/budget-graphs/overview/actual-costs.component';
 import { ProjectTimelineGraphComponent } from './shared/components/project-timeline-graph/project-timeline-graph.component';
@@ -362,6 +366,7 @@ export class OpenProjectModule implements DoBootstrap {
 
   private registerCustomElements(injector:Injector) {
     registerCustomElement('opce-macro-embedded-table', EmbeddedTablesMacroComponent, { injector });
+    registerCustomElement('opce-embedded-work-package-table', WorkPackageEmbeddedTableEntryComponent, { injector });
     registerCustomElement('opce-principal', OpPrincipalComponent, { injector });
     registerCustomElement('opce-basic-single-date-picker', OpBasicSingleDatePickerComponent, { injector });
     registerCustomElement('opce-basic-single-datetime-picker', OpBasicSingleDatetimePickerComponent, { injector });
@@ -420,6 +425,7 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-dashboard', DashboardComponent, { injector });
     registerCustomElement('opce-burndown-chart', BurndownChartComponent, { injector });
     registerCustomElement('opce-created-resolved-chart', CreatedResolvedComponent, { injector });
+    registerCustomElement('opce-velocity-chart', VelocityChartComponent, { injector });
     registerCustomElement('opce-budget-by-cost-type', BudgetByCostTypeComponent, { injector });
     registerCustomElement('opce-actual-costs', ActualCostsComponent, { injector });
     registerCustomElement('opce-project-timeline-graph', ProjectTimelineGraphComponent, { injector });

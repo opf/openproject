@@ -30,7 +30,7 @@
 require "digest/sha1"
 
 class User < Principal
-  ScimEmail = Struct.new("ScimEmail", :value, :primary, :type)
+  ScimEmail = Struct.new(:value, :primary, :type)
 
   VALID_NAME_CHARS = "\\d\\p{Alpha}\\p{Mark}\\p{Space}\\p{Emoji}'\\u{2019}´\\-_.,@()+&*–"
   INVALID_NAME_REGEX = /[^#{VALID_NAME_CHARS}]/
@@ -657,7 +657,6 @@ class User < Principal
     self.mail = email&.value
   end
 
-  # rubocop:disable Naming/PredicateMethod
   def scim_active=(is_active)
     if is_active
       activate
@@ -671,7 +670,6 @@ class User < Principal
   def scim_active
     active?
   end
-  # rubocop:enable Naming/PredicateMethod
 
   def self.scim_resource_type
     Scimitar::Resources::User

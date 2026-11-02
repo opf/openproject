@@ -37,20 +37,43 @@ import { Observable, switchMap } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { generateId } from 'core-app/shared/helpers/dom-helpers';
 
 @Component({
   selector: 'opce-time-entry-trigger-actions',
   template: `
-    <a (click)="editTimeEntry()"
-       [title]="text.edit"
-       class="no-decoration-on-hover">
+    <button type="button"
+       [attr.id]="editButtonId"
+       [attr.aria-labelledby]="editTooltipId"
+       (click)="editTimeEntry()"
+       class="button--link no-decoration-on-hover">
       <op-icon icon-classes="icon-context icon-edit" />
-    </a>
-    <a (click)="deleteTimeEntry()"
-       [title]="text.delete"
-       class="no-decoration-on-hover">
+    </button>
+    <tool-tip
+      class="sr-only position-absolute"
+      [attr.for]="editButtonId"
+      [attr.id]="editTooltipId"
+      popover="manual"
+      data-direction="s"
+      data-type="label"
+      [textContent]="text.edit"
+      />
+    <button type="button"
+       [attr.id]="deleteButtonId"
+       [attr.aria-labelledby]="deleteTooltipId"
+       (click)="deleteTimeEntry()"
+       class="button--link no-decoration-on-hover">
       <op-icon icon-classes="icon-context icon-delete" />
-    </a>
+    </button>
+    <tool-tip
+      class="sr-only position-absolute"
+      [attr.for]="deleteButtonId"
+      [attr.id]="deleteTooltipId"
+      popover="manual"
+      data-direction="s"
+      data-type="label"
+      [textContent]="text.delete"
+      />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -76,6 +99,14 @@ export class TriggerActionsEntryComponent {
   readonly pathHelper = inject(PathHelperService);
 
   readonly turboRequestService = inject(TurboRequestsService);
+
+  readonly editButtonId = generateId('time-entry-edit');
+
+  readonly editTooltipId = generateId('tooltip');
+
+  readonly deleteButtonId = generateId('time-entry-delete');
+
+  readonly deleteTooltipId = generateId('tooltip');
 
   public text = {
     edit: this.i18n.t('js.button_edit'),

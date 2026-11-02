@@ -203,6 +203,24 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
     include_examples "contract is valid"
   end
 
+  context "when the base URL is blank" do
+    let(:base_url) { "" }
+
+    include_examples "contract is invalid", base_url: :blank
+
+    it "does not contact the server" do
+      contract.validate
+
+      expect(models_request).not_to have_been_made
+    end
+  end
+
+  context "with an unknown API format" do
+    before { connection.api_format = "carrier_pigeon" }
+
+    include_examples "contract is invalid", api_format: :inclusion
+  end
+
   context "when the base URL is not a URL at all" do
     let(:base_url) { "not a url" }
 
@@ -305,8 +323,8 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
 
     context "with a model the server says is an embedding model" do
       before do
-        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
-                                               state: "supported", source: "probe", checked_at: Time.current)
+        create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
+                                        state: "supported", source: "probe")
         connection.default_chat_model = connection.models.find_by(external_id: "bge-m3")
       end
 
@@ -315,8 +333,8 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
 
     context "with an embedding model the server has ruled out" do
       before do
-        connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
-                                               state: "unsupported", source: "probe", checked_at: Time.current)
+        create(:llm_capability_verdict, llm_connection: connection, model_id: "qwen3.6-27b", capability: "embeddings",
+                                        state: "unsupported", source: "probe")
         connection.default_embedding_model = connection.models.find_by(external_id: "qwen3.6-27b")
       end
 

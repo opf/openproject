@@ -30,7 +30,7 @@
 module Admin
   module CustomFields
     module CustomFieldProjects
-      class RowComponent < Projects::RowComponent
+      class RowComponent < ::Projects::RowComponent
         include OpTurbo::Streamable
 
         def wrapper_uniq_by

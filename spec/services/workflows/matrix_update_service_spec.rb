@@ -39,8 +39,10 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
 
   subject(:service_call) { instance.call(**call_params) }
 
-  let(:instance) { described_class.new(workflow:, roles:, tab:) }
+  let(:instance) { described_class.new(context:) }
+  let(:context) { Workflows::MatrixContext.new(workflow:, role_ids:, tab:) }
   let(:roles) { [role] }
+  let(:role_ids) { roles.map(&:id) }
   let(:tab) { "always" }
   let(:call_params) { { status: } }
   let(:status) { { status_a.id.to_s => { status_b.id.to_s => ["always"] } } }
@@ -119,6 +121,31 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
 
       expect(transitions_for(role, author: true)).to contain_exactly([status_a.id, status_b.id])
       expect(transitions_for(role)).to be_empty
+    end
+  end
+
+  describe "without an explicit selection" do
+    before do
+      create(:status_transition, role_id: role.id, workflow_id: workflow.id,
+                                 old_status_id: status_b.id, new_status_id: status_c.id)
+    end
+
+    context "without a tab" do
+      let(:tab) { nil }
+
+      it "fails and keeps the saved transitions" do
+        expect(service_call).to be_failure
+        expect(transitions_for(role)).to contain_exactly([status_b.id, status_c.id])
+      end
+    end
+
+    context "without roles" do
+      let(:role_ids) { nil }
+
+      it "fails and keeps the saved transitions" do
+        expect(service_call).to be_failure
+        expect(transitions_for(role)).to contain_exactly([status_b.id, status_c.id])
+      end
     end
   end
 

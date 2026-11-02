@@ -284,7 +284,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
     };
   }
 
-  public valueFromQuery(query:QueryResource) {
+  public valueFromQuery(_query:QueryResource) {
     return undefined;
   }
 
@@ -313,7 +313,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
     return false;
   }
 
-  hasChanged(query:QueryResource):boolean {
+  hasChanged(_query:QueryResource):boolean {
     return false;
   }
 

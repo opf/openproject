@@ -82,18 +82,16 @@ module WorkPackageTypes
       projects = ::Project.where(id: selected_project_ids)
       return refuse_empty_selection if projects.empty?
 
+      switching = switching_project_types(projects)
+      if unconfirmed_switch?(switching)
+        return ask_to_switch(switching, url: link_variant_projects_path(@variant), project_ids: projects.ids)
+      end
+
       result = apply_to(projects)
 
       close_dialog_via_turbo_stream(ProjectsTab::AddFormComponent::DIALOG_ID)
-      refresh_projects
-
-      if result.success?
-        render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
-      else
-        render_error_flash_message_via_turbo_stream(message: aggregate_refusal_message(result))
-      end
-
-      respond_to_with_turbo_streams(status: result)
+      result.on_success { render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update)) }
+      respond_to_bulk_change(result)
     end
 
     def unlink
@@ -126,16 +124,11 @@ module WorkPackageTypes
     end
 
     def enable_all_projects
-      result = if params[:value] == "1"
-                 apply_to(::Project.where.not(id: @variant.projects.select(:id)))
-               else
-                 remove_from(@variant.projects)
-               end
-
-      refresh_projects
-      result.on_failure { render_error_flash_message_via_turbo_stream(message: aggregate_refusal_message(result)) }
-
-      respond_to_with_turbo_streams(status: result)
+      if params[:value] == "1"
+        enable_everywhere
+      else
+        respond_to_bulk_change(remove_from(@variant.projects))
+      end
     end
 
     private
@@ -294,6 +287,48 @@ module WorkPackageTypes
         status: :bad_request
       )
       respond_with_turbo_streams
+    end
+
+    def switching_project_types(projects)
+      ::ProjectType
+        .where(type_id: @type.id, project: projects)
+        .where.not(variant: @variant)
+        .joins(:project)
+        .merge(::Project.order(:lft))
+        .preload(:project, :variant)
+    end
+
+    def switch_confirmed? = params[:confirm_switch] == "1"
+
+    def unconfirmed_switch?(switching) = switching.any? && !switch_confirmed?
+
+    def ask_to_switch(switching, url:, project_ids: [])
+      dialog_via_turbo_stream(
+        component: ProjectsTab::SwitchConfirmDialogComponent.new(variant: @variant, switching:, url:, project_ids:)
+      )
+      respond_with_turbo_streams
+    end
+
+    def close_switch_dialog
+      close_dialog_via_turbo_stream(ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID) if switch_confirmed?
+    end
+
+    def enable_everywhere
+      projects = ::Project.where.not(id: @variant.projects.select(:id))
+      switching = switching_project_types(projects)
+      if unconfirmed_switch?(switching)
+        return ask_to_switch(switching, url: enable_all_variant_projects_path(@variant, value: "1"))
+      end
+
+      respond_to_bulk_change(apply_to(projects))
+    end
+
+    def respond_to_bulk_change(result)
+      close_switch_dialog
+      refresh_projects
+      result.on_failure { render_error_flash_message_via_turbo_stream(message: aggregate_refusal_message(result)) }
+
+      respond_to_with_turbo_streams(status: result)
     end
 
     def tree_form_builder

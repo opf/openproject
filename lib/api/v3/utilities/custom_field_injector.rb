@@ -195,7 +195,10 @@ module API
             type: resource_type(custom_field),
             name_source: ->(*) { custom_field.name },
             required: custom_field.is_required,
-            href_callback: ->(*) { api_v3_paths.custom_field_items(custom_field.id) }
+            href_callback: ->(*) do
+              project_id = represented.project&.id if custom_field.project_specific_value_restriction
+              api_v3_paths.custom_field_items(custom_field.id, project: project_id)
+            end
           )
         end
 
@@ -246,24 +249,21 @@ module API
                       getter:)
         end
 
+        # An undisclosed link keeps the stored values that are no longer available. For a multi value
+        # custom field it remains among the values, so the undisclosed values can be retained once
+        # the customized object is known.
         def link_value_setter_for(custom_field, property, expected_namespace)
+          parse_href = ->(href) do
+            next href if href == ::API::V3::URN_UNDISCLOSED
+
+            ::API::Utilities::ResourceLinkParser.parse_id(href, property:, expected_version: "3", expected_namespace:)
+          end
+
           ->(fragment:, represented:, **) {
-            values = Array([fragment].flatten).flat_map do |link|
-              href = link["href"]
-              value =
-                if href
-                  ::API::Utilities::ResourceLinkParser.parse_id(
-                    href,
-                    property:,
-                    expected_version: "3",
-                    expected_namespace:
-                  )
-                end
+            hrefs = Array([fragment].flatten).filter_map { |link| link["href"] }
+            next if hrefs.include?(::API::V3::URN_UNDISCLOSED) && !custom_field.multi_value?
 
-              [value].compact
-            end
-
-            represented.send(custom_field.attribute_setter, values)
+            represented.send(custom_field.attribute_setter, hrefs.filter_map(&parse_href))
           }
         end
 

@@ -36,7 +36,7 @@ da:
         label: Initialer
   empty_file_error: Overfør et gyldigt billede (jpg, png, gif)
   error_image_size: Billedet er for stort.
-  error_image_upload: Fejl under lagring af billedet.
+  error_image_upload: Billedet kunne ikke gemmes.
   label_avatar: Avatar
   label_avatar_plural: Avatarer
   label_choose_avatar: Vælg avatar fra fil

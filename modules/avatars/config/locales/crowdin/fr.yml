@@ -46,4 +46,4 @@ fr:
     description: Ce plugin permet aux utilisateurs d'OpenProject de téléverser une image à utiliser comme avatar ou d'utiliser des images enregistrées dans Gravatar.
     name: Avatars
   unable_to_delete_avatar: L'avatar n'a pas pu être supprimé.
-  wrong_file_format: Les formats autorisés sont Jpg, Png et Gif
+  wrong_file_format: Les formats autorisés sont JPG, PNG et GIF

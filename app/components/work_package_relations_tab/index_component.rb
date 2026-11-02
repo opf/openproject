@@ -118,7 +118,7 @@ class WorkPackageRelationsTab::IndexComponent < ApplicationComponent
 
   def render_relation_group(title:, relation_group:, &)
     render(
-      OpenProject::Common::BorderBoxListComponent.new(
+      OpPrimer::BorderBoxListComponent.new(
         container: "op-relation-group-#{relation_group.type}",
         padding: :condensed,
         test_selector: "op-relation-group-#{relation_group.type}"

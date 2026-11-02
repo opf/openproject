@@ -44,7 +44,7 @@ describe('Create work package from the search of the slash command', () => {
 
     await expect.element(page.getByText('#999')).toBeVisible();
     await expect.element(page.getByTestId('block-card')).not.toBeInTheDocument();
-    await expect.element(page.getByRole('textbox')).not.toHaveTextContent('Redesign the landing page');
+    await expect.element(page.getByRole('textbox')).not.toMatchTextContent('Redesign the landing page');
   });
 
   it('leaves nothing behind when the form is cancelled', async () => {
@@ -69,8 +69,8 @@ describe('Create work package from the hash menu', () => {
     await createWithFilledForm('Redesign the landing page');
 
     await expect.element(page.getByText(mockCreatedWorkPackage.subject)).toBeVisible();
-    await expect.element(page.getByRole('textbox')).not.toHaveTextContent('##');
-    await expect.element(page.getByRole('textbox')).not.toHaveTextContent('Redesign the landing page');
+    await expect.element(page.getByRole('textbox')).not.toMatchTextContent('##');
+    await expect.element(page.getByRole('textbox')).not.toMatchTextContent('Redesign the landing page');
   });
 
   it('puts a block card in the place of a block trigger', async () => {
@@ -91,6 +91,6 @@ describe('Create work package from the hash menu', () => {
     await userEvent.click(page.getByRole('button', { name: 'Cancel' }));
 
     await expect.element(page.getByTestId('create-wp-modal')).not.toBeInTheDocument();
-    await expect.element(page.getByRole('textbox')).toHaveTextContent('See ##Redesign the landing page');
+    await expect.element(page.getByRole('textbox')).toMatchTextContent('See ##Redesign the landing page');
   });
 });

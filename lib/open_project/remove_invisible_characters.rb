@@ -34,11 +34,17 @@ module OpenProject
   #
   #   normalizes :name, with: OpenProject::RemoveInvisibleCharacters
   #
-  ASCII_CONTROL_CHARACTERS = /[\x00-\x1F\x7F]/
-  ZERO_WIDTH_CHARACTERS = /[\u200B\u200C\u200D\uFEFF\u2060]/
-  INVISIBLE_CHARACTERS = Regexp.union(ASCII_CONTROL_CHARACTERS, ZERO_WIDTH_CHARACTERS)
+  class RemoveInvisibleCharacters
+    ASCII_CONTROL_CHARACTERS = /[\x00-\x1F\x7F]/
+    ZERO_WIDTH_CHARACTERS = /[\u200B\u200C\u200D\uFEFF\u2060]/
+    INVISIBLE_CHARACTERS = Regexp.union(ASCII_CONTROL_CHARACTERS, ZERO_WIDTH_CHARACTERS)
 
-  private_constant :ASCII_CONTROL_CHARACTERS, :ZERO_WIDTH_CHARACTERS, :INVISIBLE_CHARACTERS
+    private_constant :ASCII_CONTROL_CHARACTERS, :ZERO_WIDTH_CHARACTERS, :INVISIBLE_CHARACTERS
 
-  RemoveInvisibleCharacters = ->(value) { value.is_a?(String) ? value.gsub(INVISIBLE_CHARACTERS, "") : value }
+    def self.call(value)
+      return value unless value.is_a?(String)
+
+      value.gsub(INVISIBLE_CHARACTERS, "")
+    end
+  end
 end

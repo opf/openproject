@@ -35,7 +35,7 @@ RSpec.describe "Cost report showing my own times", :js do
   let(:user2) { create(:admin) }
 
   let(:work_package) { create(:work_package, project:) }
-  let!(:hourly_rate1) { create(:default_hourly_rate, user:, rate: 1.00, valid_from: 1.year.ago) }
+  let!(:hourly_rate1) { create(:default_hourly_rate, principal: user, rate: 1.00, valid_from: 1.year.ago) }
 
   let!(:time_entry1) do
     create(:time_entry,

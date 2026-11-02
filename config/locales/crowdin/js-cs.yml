@@ -203,6 +203,8 @@ cs:
     description_select_work_package: 'Vyberte pracovní balíček #%{id}'
     description_subwork_package: 'Podřazený pracovního balíčku #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: Došlo k chybě v CKEditoru
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Uložení dokumentu se nezdařilo s následující chybou: %{error}'
@@ -1108,11 +1110,30 @@ cs:
       scheduling:
         is_parent: Data tohoto pracovního balíčku jsou automaticky odvozena od jeho dětí. Aktivujte 'Manuální plánování' pro ručné nastavení dat.
         is_switched_from_manual_to_automatic: Data tohoto pracovního balíčku budou možná muset být přepočítána po přepnutí z manuálu na automatické plánování kvůli vztahům s ostatními pracovními balíčky.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          many: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Zobrazit všechny uživatele, s nimiž byl pracovní balíček sdílen s
         title: Sdílet pracovní balíček
       table:
         configure_button: Konfigurovat tabulku pracovních balíčků
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabulka s řádky pracovního balíčku a atributy sloupců pracovního balíčku.
         text_inline_edit: Většina buněk v této tabulce jsou tlačítka, která aktivují funkci úpravy inline-editace atributu.
         text_select_hint: Vyberte pole by mělo být otevřeno pomocí kláves "ALT" a šipkami.

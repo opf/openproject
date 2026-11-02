@@ -48,7 +48,7 @@ export class ApiV3RolesPaths extends ApiV3ResourceCollection<RoleResource, ApiV3
       .get<CollectionResource<RoleResource>>(this.path)
       .pipe(
         tap((collection) => {
-          collection.elements.forEach((resource, id) => {
+          collection.elements.forEach((resource) => {
             this.id(resource.id!).cache.updateValue(resource.id!, resource);
           });
         }),

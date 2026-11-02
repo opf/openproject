@@ -30,22 +30,29 @@ module API
     module CustomFields
       module Hierarchy
         class ItemAPI < ::API::OpenProjectAPI
+          helpers ::API::V3::CustomFields::ProjectSpecificValuesHelper
+
           resource :custom_field_items do
             route_param :id, type: Integer, desc: "Custom Field Item ID" do
               after_validation do
                 authorize_logged_in
 
                 @custom_field_item = CustomField::Hierarchy::Item.find(params[:id])
+                custom_field = CustomField.visible.find(@custom_field_item.root.custom_field_id)
 
-                # Only for checking the authorization.
-                CustomField.visible.find(@custom_field_item.root.custom_field_id)
+                @visible_value_ids = visible_value_ids(custom_field)
+                if !@custom_field_item.root? && hidden_value?(@custom_field_item, @visible_value_ids)
+                  raise ::API::Errors::NotFound
+                end
               end
 
               get &::API::V3::Utilities::Endpoints::Show
                      .new(model: CustomField::Hierarchy::Item,
                           render_representer: HierarchyItemRepresenter,
                           instance_generator: ->(*) do
-                            HierarchicalItemAggregate.new(item: @custom_field_item, depth: @custom_field_item.depth - 1)
+                            HierarchicalItemAggregate.new(item: @custom_field_item,
+                                                          depth: @custom_field_item.depth - 1,
+                                                          visible_ids: @visible_value_ids)
                           end)
                      .mount
 

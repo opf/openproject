@@ -28,14 +28,14 @@ da:
         duration: Varighed
         end_time: Sluttidspunkt
         location: Placering
-        notes: Kommentarer
+        notes: Noter
         notify: Send notifikationer
         participant:
           one: "%{count} deltager"
           other: "%{count} deltagere"
         participants: Deltagere
         participants_added: 'Deltagere tilføjet:'
-        participants_attended: Tilsluttede
+        participants_attended: Deltog
         participants_invited: Inviterede
         participants_removed: 'Deltagere fjernet:'
         project: Projekt
@@ -48,7 +48,7 @@ da:
         type: Mødetype
       meeting_agenda_item:
         author: Forfatter
-        description: Kommentarer
+        description: Noter
         duration_in_minutes: Varighed
         item_type: Type
         lock_version: Låseversion
@@ -147,9 +147,9 @@ da:
           updated_html: ændret fra <i>%{old_value}</i> til <i>%{value}</i>
   caption_meeting_template_select: Vælg en skabelon for automatisk at kopiere dens dagsordenspunkter
   caption_template_project_select: Vælg det projekt, mødeskabelonen skal oprettes i
-  description_attended: tilsluttede
+  description_attended: deltog
   error_notification: Notifikationen kunne ikke sendes.
-  error_notification_with_errors: 'Kunne ikke sende påmindelse. Følgende modtagere blev ikke nået: %{recipients}'
+  error_notification_with_errors: 'Notifikationen kunne ikke sendes. Følgende modtagere kunne ikke få besked: %{recipients}'
   events:
     meeting: Mødet er ændret
     meeting_agenda: Mødedagsorden er ændret
@@ -182,12 +182,12 @@ da:
   label_agenda_item_move: Flyt
   label_agenda_item_move_down: Flyt ned
   label_agenda_item_move_to_backlog: Flyt til backlog
-  label_agenda_item_move_to_bottom: Flyt til bunden
+  label_agenda_item_move_to_bottom: Flyt nederst
   label_agenda_item_move_to_current_meeting: Flyt til det aktuelle møde
   label_agenda_item_move_to_next: Flyt til næste møde
   label_agenda_item_move_to_next_title: Vil du flytte til næste møde?
   label_agenda_item_move_to_section: Flyt til afsnit
-  label_agenda_item_move_to_top: Flyt til toppen
+  label_agenda_item_move_to_top: Flyt øverst
   label_agenda_item_move_up: Flyt op
   label_agenda_item_remove_from_agenda: Fjern fra dagsordenen
   label_agenda_item_remove_from_backlog: Fjern fra backlog
@@ -228,7 +228,7 @@ da:
   label_meeting_delete: Slet møde
   label_meeting_details: Mødedetaljer
   label_meeting_details_edit: Rediger mødedetaljer
-  label_meeting_diff: Uenigheder
+  label_meeting_diff: Forskelle
   label_meeting_duplicate: Dupliker møde
   label_meeting_edit: Rediger møde
   label_meeting_edit_title: Rediger mødets titel
@@ -263,7 +263,7 @@ da:
   label_meeting_state_cancelled: Aflyst
   label_meeting_state_closed: Lukket
   label_meeting_state_draft: Kladde
-  label_meeting_state_in_progress: Igangværende
+  label_meeting_state_in_progress: I gang
   label_meeting_state_open: Åben
   label_meeting_state_planned: Planlagt
   label_meeting_state_skipped: Sprunget over
@@ -324,20 +324,20 @@ da:
   meeting:
     agenda_sorting:
       change: Skift sortering
-      current_mode: Currently in %{mode} mode
+      current_mode: 'Sortering lige nu: %{mode}'
       invalid_reaction: Kun stemmer op og ned er tilladt på dagsordenspunkter.
       manual: Manuel
-      manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
+      manual_description: Du kan selv placere dagsordenspunkterne i den rækkefølge, du vil, ved at trække dem op eller ned.
       manual_order_disabled: Dagsordenspunkterne er sorteret efter stemmer. Skift til manuel sortering for at ændre rækkefølgen.
       remove_thumbs_down: Fjern stemme ned
       remove_thumbs_up: Fjern stemme op
-      sidebar_title: Agenda sorting
+      sidebar_title: Sortering af dagsorden
       sorted_by_votes: Dagsordenen er sorteret efter stemmer.
       thumbs_down: Stem ned
       thumbs_up: Stem op
       title: Sortering
       vote_based: Efter stemmer
-      vote_based_description: 'Participants can vote agenda items up or down. Items with the most votes are put on top within each section. Sections remain manually sorted.
+      vote_based_description: 'Deltagerne kan stemme dagsordenspunkter op eller ned. Punkterne med flest stemmer kommer øverst i hvert afsnit. Afsnittene sorteres fortsat manuelt.
 
         '
       votes: 'Stemmer: %{count}'
@@ -466,7 +466,7 @@ da:
       templates:
         default:
           caption: Standardskabelonen passer til de fleste møder og viser den nuværende tilstand.
-          label: Forhåndsvalgt
+          label: Standard
         minutes:
           caption: Skabelonen til referat passer til lukkede og arkiverede møder.
           label: Referat
@@ -506,7 +506,7 @@ da:
         no_participants: Ingen deltagere
         participants: Deltagere
         remove_participant: Fjern deltager
-        show_all: Vis alt
+        show_all: Vis alle
       text:
         manage_participants: Søg efter projektmedlemmer, og tilføj dem som deltagere i mødet.
         search_for_members: Søg efter projektmedlemmer
@@ -583,7 +583,7 @@ da:
   permission_manage_agendas_explanation: Giver mulighed for at oprette, redigere og fjerne dagsordenspunkter
   permission_manage_outcomes: Administrer resultater
   permission_send_meeting_invites_and_outcomes: Send mødeinvitationer og resultater til deltagerne
-  permission_view_meetings: Se møder
+  permission_view_meetings: Vis møder
   placeholder_meeting_template_no_templates_for_project: Der er ingen tilgængelige skabeloner til projektet
   placeholder_meeting_template_select_project_first: Vælg først et projekt
   placeholder_section_select_meeting_first: Der skal først vælges et møde
@@ -750,7 +750,7 @@ da:
   text_exit_draft_mode_dialog_title: Vil du åbne mødet og sende invitationer?
   text_in_hours: i timer
   text_meeting_agenda_for_meeting: dagsorden for mødet "%{meeting}"
-  text_meeting_agenda_open_are_you_sure: Dette vil overskrive alle ændringer i minutterne! Vil du fortsætte?
+  text_meeting_agenda_open_are_you_sure: Alle ændringer i referatet overskrives! Vil du fortsætte?
   text_meeting_closed_description: Mødet er lukket. Du kan ikke længere tilføje eller fjerne dagsordenspunkter.
   text_meeting_closed_dropdown_description: Mødet er lukket. Du kan ikke længere ændre dagsordenspunkter eller resultater.
   text_meeting_closing_are_you_sure: Er du sikker på, at du vil lukke mødets dagsorden?
@@ -763,7 +763,7 @@ da:
   text_meeting_ics_meeting_series_description: 'Link til mødeserien: %{url}'
   text_meeting_in_progress_description: Du kan ændre dagsordenen, dokumentere resultater for hvert punkt og registrere, hvilke deltagere der deltog. Når mødet er færdigt, kan du markere det som lukket for at låse det.
   text_meeting_in_progress_dropdown_description: Dokumentér resultater som informationsbehov eller beslutninger, der træffes på mødet.
-  text_meeting_minutes_for_meeting: referat  for mødet "%{meeting}"
+  text_meeting_minutes_for_meeting: referat for mødet "%{meeting}"
   text_meeting_not_editable_anymore: Mødet kan ikke længere redigeres.
   text_meeting_not_present_anymore: Mødet er slettet. Vælg et andet møde.
   text_meeting_occurrence_ics_description: 'Link til forekomsten af mødet: %{url} Link til mødeserien: %{series_url}'

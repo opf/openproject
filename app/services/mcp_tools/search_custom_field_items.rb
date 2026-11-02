@@ -76,11 +76,19 @@ module McpTools
     end
 
     def flatten_hierarchy(custom_field)
+      visible_ids = visible_value_ids(custom_field)
+
       ::CustomFields::Hierarchy::HierarchicalItemService
         .new
         .hashed_subtree(item: custom_field.hierarchy_root)
-        .fmap { |tree| ::CustomFields::Hierarchy::HierarchicalItemAggregator.flatten_tree_hash(tree) }
+        .fmap { |tree| ::CustomFields::Hierarchy::HierarchicalItemAggregator.flatten_tree_hash(tree, visible_ids:) }
         .value_or([])
+    end
+
+    def visible_value_ids(custom_field)
+      return if custom_field.project_specific_value_restriction.nil?
+
+      custom_field.visible_values_for(current_user).pluck(:id).to_set
     end
   end
 end

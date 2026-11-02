@@ -32,5 +32,6 @@ module Queries::FormConfigurations
     filter Filters::NameFilter
     filter Filters::TypeFilter
     filter Filters::ProjectFilter
+    filter Filters::CustomFieldFilter
   end
 end

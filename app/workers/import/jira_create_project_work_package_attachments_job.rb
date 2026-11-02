@@ -30,6 +30,7 @@
 module Import
   class JiraCreateProjectWorkPackageAttachmentsJob < ProgressableJob
     include Import::JiraJobUtils
+    include Import::JiraProjectIssuesJob
 
     on_complete do
       tagged_log("jira_import_id:#{arguments[0]}",
@@ -41,20 +42,6 @@ module Import
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
-    end
-
-    def progress
-      jira_import = Import::JiraImport.find(arguments[0])
-      cursor = jira_import.get_job_cursor(self)
-      if cursor.present?
-        issues = Import::JiraIssue.where(jira_import:, jira_project_id: arguments[1])
-        total = issues.count
-        current = issues.where(id: ..cursor).count
-        percentage = (current.to_f / total * 100).round(2)
-        { current:, total:, percentage: }
-      else
-        { current: 0, total: 0, percentage: 0 }
-      end
     end
 
     # rubocop:disable-next Metrics/AbcSize
@@ -105,7 +92,7 @@ module Import
                 key = attachment.dig("author", "key")
                 Rails.logger.tagged("author:#{key}") do
                   author = find_user(key)
-                  create_member(@project, author) if author.present?
+                  create_member(@project, author) if author.present? && !author.is_a?(DeletedUser)
                   create_attachment(work_package, attachment, author || User.system)
                 end
               end
@@ -164,48 +151,6 @@ module Import
 
       attached_at = Time.zone.parse(created)
       record.update_columns(created_at: attached_at, updated_at: attached_at)
-    end
-
-    def create_member(project, member)
-      service_call = Members::CreateService
-                       .new(user: @system_user, contract_class: EmptyContract)
-                       .call(
-                         project:,
-                         roles: [@project_role],
-                         user_id: member.id,
-                         principal: member
-                       )
-      return if service_call.success?
-
-      if service_call.errors.find { |error| error.type == :taken }.blank?
-        Rails.logger.error service_call.message
-        raise service_call.message
-      end
-    end
-
-    def find_user(jira_user_key)
-      return if jira_user_key.blank?
-
-      Rails.logger.tagged("jira_object_type:user", "jira_object_id_or_name:#{jira_user_key}") do
-        jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
-        if jira_user
-          ref = JiraOpenProjectReference.find_by(
-            jira_entity_class: "Import::JiraUser",
-            jira_entity_id: jira_user.id
-          )
-          if ref.present?
-            ref.op_leg
-          else
-            log_message = "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
-            Rails.logger.error log_message
-            raise log_message
-          end
-        else
-          log_message = "Import::JiraUser with jira_user_key #{jira_user_key} not found!"
-          Rails.logger.error log_message
-          raise log_message
-        end
-      end
     end
   end
 end

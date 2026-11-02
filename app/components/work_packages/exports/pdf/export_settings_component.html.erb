@@ -27,7 +27,7 @@
             )
           end
         end %>
-    <%= render OpenProject::Common::DividerComponent.new %>
+    <%= render OpPrimer::DividerComponent.new %>
   <% end %>
   <% pdf_export_types.reject { |entry| entry[:disabled] }.each do |entry| %>
     <%= container.with_row(

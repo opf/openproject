@@ -58,15 +58,18 @@ module API
             def link_value_getter_values(represented, custom_field)
               Array(represented.custom_value_for(custom_field)).flat_map do |custom_value|
                 if custom_value && custom_value.value.present?
-                  title = link_value_title(custom_value, custom_field)
-
-                  [{
-                    title:,
-                    href: link_value_href(custom_field, custom_value)
-                  }]
+                  [link_value(custom_value, custom_field)]
                 else
                   []
                 end
+              end
+            end
+
+            def link_value(custom_value, custom_field)
+              if custom_value.available_in_project?
+                { title: link_value_title(custom_value, custom_field), href: link_value_href(custom_field, custom_value) }
+              else
+                { title: I18n.t(:label_custom_value_no_longer_available), href: API::V3::URN_UNDISCLOSED }
               end
             end
 

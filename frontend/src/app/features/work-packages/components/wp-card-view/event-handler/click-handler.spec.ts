@@ -29,10 +29,12 @@ import { usePlatform } from 'core-common/testing/platform';
 import { ElementRef, EventEmitter, Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { fireEvent } from '@testing-library/dom';
+import { LiveRegionElement } from '@primer/live-region-element';
+import { type MockInstance } from 'vitest';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { registerWorkPackageSelectAll } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/wp-selection-keyboard';
+import { registerWorkPackageDeselectAll, registerWorkPackageSelectAll } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/wp-selection-keyboard';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
@@ -120,6 +122,40 @@ describe('CardClickHandler', () => {
     click('C', { shiftKey: true });
     expect(selected()).toEqual(['A', 'C']);
     expect(itemClicked.map((event) => event.workPackageId)).toEqual(['A', 'C', 'E', 'C']);
+  });
+
+  describe('with a live region on the page', () => {
+    let announce:MockInstance<typeof LiveRegionElement.prototype.announce>;
+    let unregisterDeselectAll:() => void;
+
+    beforeEach(() => {
+      document.body.append(document.createElement('live-region'));
+      announce = vi.spyOn(LiveRegionElement.prototype, 'announce');
+      unregisterDeselectAll = registerWorkPackageDeselectAll({
+        root,
+        hasState: () => selection.hasSelectionState,
+        clear: () => selection.reset(),
+      });
+    });
+
+    afterEach(() => {
+      unregisterDeselectAll();
+      announce.mockRestore();
+      document.querySelector('live-region')?.remove();
+    });
+
+    it('never announces selection changes', () => {
+      click('A');
+      click('C', { ctrlKey: true });
+      click('E', { shiftKey: true });
+      fireEvent.keyDown(cardSurface('E'), { key: 'a', ctrlKey: true });
+      expect(selected()).toEqual(['A', 'B', 'C', 'D', 'E']);
+
+      fireEvent.keyDown(cardSurface('A'), { key: 'Escape' });
+
+      expect(selected()).toEqual([]);
+      expect(announce).not.toHaveBeenCalled();
+    });
   });
 
   it('keeps the final member deselected after its focus update', () => {

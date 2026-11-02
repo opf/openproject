@@ -18,24 +18,24 @@ da:
     errors:
       models:
         bim/bcf/issue:
-          uuid_already_taken: Kan ikke importere dette BCF problem, da der allerede er en anden med den samme GUID. Kunne det være, at dette BCF-problem allerede var blevet importeret til et andet projekt?
+          uuid_already_taken: BCF-sagen kan ikke importeres, fordi der allerede findes en anden med samme GUID. Er sagen måske allerede importeret i et andet projekt?
         bim/bcf/viewpoint:
           bitmaps_not_writable: bitmaps er ikke skrivbar, da den endnu ikke er implementeret.
           index_not_integer: index er ikke et heltal.
           invalid_clipping_planes: clipping_planes er ugyldig.
-          invalid_components: komponenter er ugyldige.
-          invalid_lines: linjer er ugyldige.
+          invalid_components: components er ugyldig.
+          invalid_lines: lines er ugyldig.
           invalid_orthogonal_camera: orthogonal_camera er ugyldig.
           invalid_perspective_camera: perspective_camera er ugyldig.
-          mismatching_guid: Guid i json_viewpoint matcher ikke modellens guid.
-          no_json: Er ikke en velstruktureret json.
+          mismatching_guid: GUID'en i json_viewpoint svarer ikke til modellens GUID.
+          no_json: Er ikke gyldig JSON.
           snapshot_data_blank: snapshot_data skal angives.
           snapshot_type_unsupported: snapshot_type skal være enten 'png' eller 'jpg'.
-          unsupported_key: En ikke-understøttet json-egenskab er inkluderet.
+          unsupported_key: Der er medtaget en JSON-egenskab, som ikke understøttes.
         bim/ifc_models/ifc_model:
           attributes:
             base:
-              ifc_attachment_missing: Ingen ifc-fil vedhæftet.
+              ifc_attachment_missing: Der er ikke vedhæftet nogen IFC-fil.
               invalid_ifc_file: Den angivne fil er ikke en gyldig IFC-fil.
     models:
       bim/bcf/comment:
@@ -57,15 +57,15 @@ da:
       export: Eksportér
       import:
         add_as_members_with_role: Tilføj dem som medlemmer til projektet "%{project}" med rollen
-        bcf_file_not_found: Kunne ikke finde BCF- fil. Start venligst upload processen igen.
-        button_back_to_list: Tilbage til liste
+        bcf_file_not_found: BCF-filen blev ikke fundet. Start overførslen forfra.
+        button_back_to_list: Tilbage til listen
         button_perform_import: Bekræft import
         button_prepare: Forbered import
         button_proceed: Fortsæt med import
         contact_project_admin: Kontakt din projektadministrator for at tilføje dem som medlemmer og starte denne import igen.
         continue_anyways: Vil du fortsætte og afslutte importen alligevel?
         description: Angiv en BCF-XML v2.1-fil, der skal importeres til dette projekt. Du kan undersøge dens indhold, før du udfører importen.
-        import_as_system_user: Importer dem som "System"-bruger.
+        import_as_system_user: Importér dem som "System"-bruger.
         import_priorities_as: Sæt alle disse prioriteter til
         import_statuses_as: Sæt alle disse statusser til
         import_types_as: Sæt alle disse typer til
@@ -79,23 +79,23 @@ da:
         no_status_provided: Ingen status angivet
         no_type_provided: Ingen type angivet
         non_members_found: Ikke-projektmedlemmer fundet
-        num_issues_found: "%{x_bcf_issues} er indeholdt i BCF-XML-filen, deres detaljer er angivet nedenfor."
+        num_issues_found: BCF-XML-filen indeholder %{x_bcf_issues}. Detaljerne vises nedenfor.
         perform_description: Vil du importere eller opdatere de sager, der er vist ovenfor?
         replace_with_system_user: Erstat dem med "System"-brugeren
         unknown_emails_found: Ukendte e-mailadresser fundet
         unknown_property: Ukendt egenskab
         what_to_do: Hvad vil du gøre?
-        work_package_has_newer_changes: Forældet! Dette emne blev ikke opdateret, da de seneste ændringer på serveren var nyere end "ModifiedDate" for det importerede emne. Kommentarer til emnet blev dog importeret.
+        work_package_has_newer_changes: Forældet! Sagen blev ikke opdateret, fordi de seneste ændringer på serveren er nyere end "ModifiedDate" for den importerede sag. Kommentarerne til sagen blev dog importeret.
       import_canceled: BCF-XML-import annulleret.
-      import_failed: 'Kan ikke importere BCF-fil: %{error}'
-      import_failed_unsupported_bcf_version: 'Kunne ikke læse BCF- filen: BCF- versionen understøttes ikke. Kontroller, at versionen er mindst %{minimal_version} eller højere.'
+      import_failed: 'BCF-filen kan ikke importeres: %{error}'
+      import_failed_unsupported_bcf_version: 'BCF-filen kunne ikke læses: BCF-versionen understøttes ikke. Sørg for, at versionen er mindst %{minimal_version}.'
       import_successful: "%{count} BCF-sager er importeret"
       import_title: Importér
       import_update_comment: "(Opdateret i BCF-import)"
       type_not_active: Typen er ikke aktiveret i dette projekt.
-      xml_file: BCF XML-fil
+      xml_file: BCF-XML-fil
     exceptions:
-      file_invalid: BCF-fil ugyldig
+      file_invalid: Ugyldig BCF-fil
     issues: Sager
     label_bcf: BCF
     label_bcf_issue_associated: Tilknyttet BCF-sag
@@ -107,7 +107,7 @@ da:
     recommended: anbefalet
     x_bcf_issues:
       one: "%{count} BCF-sag"
-      other: "%{count} BCF sager"
+      other: "%{count} BCF-sager"
       zero: Ingen BCF-sager
   bim:
     error_direct_upload_failed: Den direkte overførsel mislykkedes.
@@ -130,23 +130,25 @@ da:
       processing: Behandles
     flash_messages:
       upload_successful: Overførslen lykkedes. Filen behandles nu og er klar til brug om et par minutter.
-    label_default_ifc_models: Standard IFC-modeller
+    label_default_ifc_models: Standard-IFC-modeller
     label_edit_defaults: Rediger standarder
     label_ifc_models: IFC-modeller
     label_new_ifc_model: Ny IFC-model
     label_show_defaults: Vis standarder
     no_defaults_warning:
       check_1: Tjek, at du har overført mindst én IFC-model.
-      check_2: Kontroller, at mindst én IFC-model er indstillet til "Standard".
-      title: Ingen IFC-model blev indstillet som standard for dette projekt.
+      check_2: Tjek, at mindst én IFC-model er angivet som "Standard".
+      title: Der er ikke angivet nogen IFC-model som standard i dette projekt.
     no_results: Der er ikke overført nogen IFC-modeller i dette projekt.
     processing_notice:
-      processing_default: 'Følgende standard IFC-modeller er stadig under behandling og er derfor ikke tilgængelige endnu:'
+      processing_default: 'Følgende standard-IFC-modeller behandles stadig og er derfor ikke tilgængelige endnu:'
   oauth:
     scopes:
-      bcf_v2_1: Fuld adgang til BCF v2.1 API'en
-      bcf_v2_1_text: Applikationen får fuld læse- og skriveadgang til OpenProject BCF API v2.1 for at udføre handlinger på dine vegne.
-  permission_delete_bcf: Slet BCF sager
+      bcf_v2_1: Adgang til BCF v2.1 API'en
+      bcf_v2_1_text: Programmet får fuld læse- og skriveadgang til OpenProjects BCF API v2.1 for at udføre handlinger på dine vegne.
+      explanations_admin:
+        bcf_v2_1: Programmet får fuld læse- og skriveadgang til OpenProject BCF API v2.1 for at udføre handlinger på brugerens vegne.
+  permission_delete_bcf: Slet BCF-sager
   permission_manage_bcf: Importér og administrer BCF-sager
   permission_manage_bcf_explanation: |
     Giver mulighed for at administrere BCF-sager, herunder masseimport og -opdateringer.

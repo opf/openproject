@@ -1,10 +1,9 @@
 import { describe, it, expect, afterEach } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
-import { http, HttpResponse } from 'msw';
 import { renderEditor } from '../../../helpers/renderEditor';
 import { insertInlineWorkPackageViaSlashMenu, convertToCompactCard } from '../../../helpers/editorHelpers';
 import { worker } from '../../../mocks/browser';
-import { mockWorkPackage } from '../../../mocks/handlers';
+import { requestsDuring } from '../../../helpers/requestHelpers';
 
 describe('Drag and drop - inline chip', () => {
   afterEach(() => worker.resetHandlers());
@@ -65,21 +64,16 @@ describe('Drag and drop - inline chip', () => {
 
     await expect.element(page.getByText('#123')).toBeVisible();
 
-    let fetchCount = 0;
-    worker.use(
-      http.get('http://localhost:3000/api/v3/work_packages/:id', ({ params }) => {
-        fetchCount += 1;
-        return HttpResponse.json({ ...mockWorkPackage, id: Number(params.id), displayId: String(params.id) });
-      })
-    );
+    const requests = await requestsDuring('/api/v3/work_packages', async () => {
+      await userEvent.dragAndDrop(
+        document.querySelector('.op-bn-inline-wp')!,
+        page.getByText('Last line'),
+      );
 
-    await userEvent.dragAndDrop(
-      document.querySelector('.op-bn-inline-wp')!,
-      page.getByText('Last line'),
-    );
+      await expect.element(page.getByText('#123')).toBeVisible();
+    });
 
-    await expect.element(page.getByText('#123')).toBeVisible();
-    expect(fetchCount).toBe(0);
+    expect(requests).toHaveLength(0);
   });
 });
 
@@ -114,23 +108,17 @@ describe('Drag and drop - block card', () => {
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
 
-    let fetchCount = 0;
-    worker.use(
-      http.get('http://localhost:3000/api/v3/work_packages/:id', ({ params }) => {
-        fetchCount += 1;
-        return HttpResponse.json({ ...mockWorkPackage, id: Number(params.id), displayId: String(params.id) });
-      })
-    );
+    const requests = await requestsDuring('/api/v3/work_packages', async () => {
+      // Drop onto the block-level container of the target paragraph, not the text span,
+      // so ProseMirror can resolve a valid block-level drop position.
+      const blockContainer = page.getByTestId('block-card').element().closest('.op-bn-extensions')!;
+      const dropTarget = page.getByText('After card').element().closest('[data-node-type="blockOuter"]')!;
+      await userEvent.dragAndDrop(blockContainer, dropTarget);
 
-    // Drop onto the block-level container of the target paragraph, not the text span,
-    // so ProseMirror can resolve a valid block-level drop position.
-    const blockContainer = page.getByTestId('block-card').element().closest('.op-bn-extensions')!;
-    const dropTarget = page.getByText('After card').element().closest('[data-node-type="blockOuter"]')!;
-    await userEvent.dragAndDrop(blockContainer, dropTarget);
+      // Yield to the browser event loop so React effects have time to run
+      await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    });
 
-    // Yield to the browser event loop so React effects have time to run
-    await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-
-    expect(fetchCount).toBe(0);
+    expect(requests).toHaveLength(0);
   });
 });

@@ -91,6 +91,40 @@ RSpec.describe LlmConnections::EnvSyncService do
     end
   end
 
+  context "with the features switch given as a string" do
+    let(:env_config) { { "base_url" => "https://example.com/v1", "enabled" => "false" } }
+
+    before { Setting.llm_features_enabled = true }
+
+    it "casts it rather than taking any string for true" do
+      expect(result).to be_success
+
+      expect(Setting.llm_features_enabled?).to be(false)
+    end
+  end
+
+  context "without the features switch" do
+    let(:env_config) { { "base_url" => "https://example.com/v1" } }
+
+    before { Setting.llm_features_enabled = true }
+
+    it "leaves the instance-wide switch as it is" do
+      expect(result).to be_success
+
+      expect(Setting.llm_features_enabled?).to be(true)
+    end
+  end
+
+  context "when the environment changes the server of an existing connection", :webmock do
+    let(:env_config) { { "base_url" => "https://other.example.com/v1", "api_key" => "sk-from-env" } }
+
+    it "contacts neither the previous server nor the new one" do
+      expect(result).to be_success
+
+      expect(a_request(:any, %r{\Ahttps://(other\.)?example\.com/})).not_to have_been_made
+    end
+  end
+
   context "when an administrator's save commits while the seed waits for the connection's lock" do
     let(:env_config) { { "base_url" => "https://example.com/v1", "api_key" => "sk-stored" } }
 
@@ -161,8 +195,8 @@ RSpec.describe LlmConnections::EnvSyncService do
     end
 
     before do
-      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
-                                             state: "supported", source: "admin", checked_at: Time.current)
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
+                                      state: "supported", source: "admin")
     end
 
     it "fails and keeps the stored connection as it was" do

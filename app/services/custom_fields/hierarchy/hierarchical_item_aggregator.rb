@@ -31,7 +31,9 @@ module CustomFields
   module Hierarchy
     class HierarchicalItemAggregator
       class << self
-        def flatten_tree_hash(hash)
+        # Items not in visible_ids are skipped together with their descendants. The item the tree
+        # starts at is always included. visible_ids of nil means that all items are visible.
+        def flatten_tree_hash(hash, visible_ids: nil)
           flat_list = []
           queue = [hash.merge({ depth: -1 })]
 
@@ -46,13 +48,21 @@ module CustomFields
             depth = current[:depth]
             item, children = current.shift
 
-            flat_list << API::V3::CustomFields::Hierarchy::HierarchicalItemAggregate.new(item:, depth:)
-
             queue.unshift(current) unless current.keys == [:depth]
+            next if hidden?(item, depth, visible_ids)
+
+            flat_list << API::V3::CustomFields::Hierarchy::HierarchicalItemAggregate.new(item:, depth:, visible_ids:)
+
             queue.unshift(children.merge({ depth: depth + 1 })) unless children.empty?
           end
 
           flat_list
+        end
+
+        private
+
+        def hidden?(item, depth, visible_ids)
+          !visible_ids.nil? && depth >= 0 && visible_ids.exclude?(item.id)
         end
       end
     end

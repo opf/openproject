@@ -30,6 +30,7 @@
 class CustomField < ApplicationRecord
   include CustomField::OrderStatements
   include CustomField::CalculatedValue
+  include CustomField::ProjectSpecificValues
   include Lists::MoveAfterAnchor
 
   SORTABLE_LIST_TYPE = "custom_field"

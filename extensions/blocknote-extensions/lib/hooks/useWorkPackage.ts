@@ -1,56 +1,50 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import type { WorkPackage } from '../openProjectTypes';
-import { OpenProjectApiError, fetchWorkPackage } from '../services/openProjectApi';
-
-const workPackageCache:Record<number, WorkPackage> = {};
-
-export function clearWorkPackageCache():void {
-  for (const key in workPackageCache) {
-    delete workPackageCache[key as unknown as number];
-  }
-}
+import { OpenProjectApiError } from '../services/openProjectApi';
+import { cachedWorkPackage, loadWorkPackage } from '../services/workPackageLoader';
 
 export function useWorkPackage(wpid:number|undefined) {
   const [workPackage, setWorkPackage] = useState<WorkPackage | null>(
-    () => (wpid != null ? workPackageCache[wpid] ?? null : null)
+    () => (wpid != null ? cachedWorkPackage(wpid) ?? null : null)
   );
   const [loading, setLoading] = useState(false);
   const [unauthorized, setUnauthorized] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const getWorkPackage = useCallback(async () => {
-    if (!wpid) {
-      setWorkPackage(null);
-      return;
-    }
-    if (workPackageCache[wpid]) {
-      setWorkPackage(workPackageCache[wpid]);
-      return;
-    }
-    setLoading(true);
-    setError(null);
-    setUnauthorized(false);
-    try {
-      const data = await fetchWorkPackage(wpid);
-      workPackageCache[wpid] = data;
-      setWorkPackage(data);
-    } catch (error) {
-      if (error instanceof OpenProjectApiError && error.responseStatus === 404) {
-        setUnauthorized(true);
-        setWorkPackage(null);
-      } else {
-        setError((error as Error).message);
-        setWorkPackage(null);
-      }
-    } finally {
-      setLoading(false);
-    }
-  }, [wpid]);
-
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    void getWorkPackage();
-  }, [getWorkPackage]);
+    setError(null);
+    setUnauthorized(false);
+
+    const cached = wpid ? cachedWorkPackage(wpid) : undefined;
+    if (!wpid || cached) {
+      setWorkPackage(cached ?? null);
+      setLoading(false);
+      return;
+    }
+
+    let superseded = false;
+    setLoading(true);
+
+    loadWorkPackage(wpid)
+      .then((data) => {
+        if (!superseded) setWorkPackage(data);
+      })
+      .catch((error:unknown) => {
+        if (superseded) return;
+        if (error instanceof OpenProjectApiError && error.responseStatus === 404) {
+          setUnauthorized(true);
+        } else {
+          setError((error as Error).message);
+        }
+        setWorkPackage(null);
+      })
+      .finally(() => {
+        if (!superseded) setLoading(false);
+      });
+
+    return () => { superseded = true; };
+  }, [wpid]);
 
   return { workPackage, loading, unauthorized, error };
 }

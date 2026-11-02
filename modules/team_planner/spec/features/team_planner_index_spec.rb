@@ -30,7 +30,6 @@ require_relative "shared_context"
 
 RSpec.describe "Team planner index",
                :js,
-               :selenium,
                with_ee: %i[team_planner_view] do
   shared_let(:project) do
     create(:project)

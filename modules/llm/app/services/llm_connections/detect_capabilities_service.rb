@@ -37,7 +37,7 @@ module LlmConnections
   class DetectCapabilitiesService
     # Naming is a hint for which models are worth spending a probe on, never a
     # verdict in itself.
-    EMBEDDING_NAME_HINT = %r{embed|bge|nomic|minilm|(^|[-_./])(e5|gte)}i
+    EMBEDDING_NAME_HINT = %r{embed|bge|nomic|minilm|(^|[-_./:])(e5|gte)($|[-_./:])}i
     BACKGROUND_LIMIT = 10
     RETRY_INCONCLUSIVE_AFTER = 1.day
 

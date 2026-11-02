@@ -38,6 +38,7 @@ module Projects::CustomFields
                                                      inverse_of: :project
     has_many :project_custom_fields, through: :project_custom_field_project_mappings,
                                      class_name: "ProjectCustomField"
+    has_many :custom_field_value_restrictions, class_name: "CustomField::ProjectSpecificValueRestriction", dependent: nil
 
     def enabled_custom_field_ids
       project_custom_field_project_mappings.map(&:custom_field_id)

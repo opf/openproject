@@ -83,7 +83,7 @@ RSpec.describe "layouts/base" do
       end
 
       it "shows a login form" do
-        expect(rendered).to include "Username"
+        expect(rendered).to include "Username or email"
         expect(rendered).to include "Password"
       end
     end
@@ -95,7 +95,7 @@ RSpec.describe "layouts/base" do
       end
 
       it "shows no password login form" do
-        expect(rendered).not_to include "Username"
+        expect(rendered).not_to include "Username or email"
         expect(rendered).not_to include "Password"
       end
     end

@@ -489,5 +489,59 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
     end
   end
 
+  context "with project-specific values" do
+    let(:project) { create(:project) }
+    let(:journal) { instance_double(Journal, id:, project:) }
+    let(:options) { { html: false } }
+    let(:placeholder) { I18n.t(:label_custom_value_no_longer_available) }
+
+    shared_examples "hiding hierarchical items no longer available" do |factory|
+      let(:custom_field) { create(factory, :project_specific_allowlist) }
+      let(:item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Acme") }
+      let(:values) { [nil, item.id.to_s] }
+
+      it "shows the placeholder instead of the item" do
+        expect(rendered).to eq(I18n.t(:text_journal_set_to, label: custom_field.name, value: placeholder))
+      end
+    end
+
+    context "for a multi list custom field" do
+      let(:custom_field) do
+        create(:list_wp_custom_field, :project_specific_allowlist, multi_value: true, possible_values: %w[A B])
+      end
+      let(:option_a) { custom_field.custom_options.find_by!(value: "A") }
+      let(:option_b) { custom_field.custom_options.find_by!(value: "B") }
+
+      before do
+        create(:project_specific_value_restriction, project:, custom_option: option_a)
+      end
+
+      describe "with an available and an unavailable option" do
+        let(:values) { [nil, "#{option_a.id},#{option_b.id}"] }
+
+        it "shows the placeholder for the unavailable option only" do
+          expect(rendered).to eq(I18n.t(:text_journal_set_to, label: custom_field.name, value: "A, #{placeholder}"))
+        end
+      end
+
+      describe "with an unavailable option being replaced" do
+        let(:values) { [option_b.id.to_s, option_a.id.to_s] }
+
+        it "shows the placeholder as the old value" do
+          expect(rendered).to eq(I18n.t(:text_journal_changed_plain,
+                                        label: custom_field.name, linebreak: "", old: placeholder, new: "A"))
+        end
+      end
+    end
+
+    context "for a hierarchy custom field", with_ee: [:custom_field_hierarchies] do
+      it_behaves_like "hiding hierarchical items no longer available", :hierarchy_wp_custom_field
+    end
+
+    context "for a weighted item list custom field", with_ee: [:weighted_item_lists] do
+      it_behaves_like "hiding hierarchical items no longer available", :weighted_item_list_wp_custom_field
+    end
+  end
+
   it_behaves_like "has a permission_granted? check for rendering details"
 end

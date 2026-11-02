@@ -79,7 +79,9 @@ module HasDetailsTable
       end
 
       # Register as a named constant so it appears in stack traces, queries, etc.
-      Object.const_set("#{name}Detail", klass)
+      class_name = "#{name}Detail"
+      Object.send(:remove_const, class_name) if Object.const_defined?(class_name, false)
+      Object.const_set(class_name, klass)
     end
 
     def setup_detail_association(association_name, detail_class, foreign_key) # rubocop:disable Metrics/AbcSize

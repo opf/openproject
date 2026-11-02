@@ -161,4 +161,30 @@ describe('WorkPackageTable', () => {
       expect(harness.table.ledger.byElement(harness.row('1'))?.key).toBe('wp:1');
     });
   });
+
+  describe('rowsRefreshed$', () => {
+    beforeEach(async () => {
+      harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }] });
+      await harness.render();
+    });
+
+    it('emits the work package id after replacing its row', () => {
+      const emitted:string[] = [];
+      harness.table.rowsRefreshed$.subscribe((id) => emitted.push(id));
+
+      harness.table.refreshRows(buildWorkPackage({ id: '1', subject: 'Renamed' }));
+
+      expect(emitted).toEqual(['1']);
+      expect(harness.table.ledger.byWorkPackageId('1')[0].element).toBe(harness.row('1'));
+    });
+
+    it('emits nothing for an unknown work package', () => {
+      const emitted:string[] = [];
+      harness.table.rowsRefreshed$.subscribe((id) => emitted.push(id));
+
+      harness.table.refreshRows(buildWorkPackage({ id: '99' }));
+
+      expect(emitted).toEqual([]);
+    });
+  });
 });

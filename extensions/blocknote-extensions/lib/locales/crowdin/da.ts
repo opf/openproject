@@ -54,7 +54,8 @@ export const en = {
       'placeholder': "Søg efter arbejdspakkens id eller emne",
       'dropdownAriaLabel': "Søgeresultater for arbejdspakker",
       'noResults': "Ingen resultater",
-      'error': "Fejl. Indholdet kunne ikke indlæses."
+      'error': "Fejl. Indholdet kunne ikke indlæses.",
+      'createWorkPackage': "Opret ny arbejdspakke"
     },
     'unavailableWorkPackage': {
       'loading': {
@@ -76,6 +77,9 @@ export const en = {
       'openInNewTab': "Åbn i ny fane",
       'open': "Åbn",
       'changeSize': "Skift størrelse",
+      'changeSizeAriaLabel': "Skift størrelse: {{size}}",
+      'menuAriaLabel': "Valgmuligheder for arbejdspakke {{id}}",
+      'selectedAnnouncement': "{{description}}. Tryk på Enter for at åbne dens valgmuligheder.",
       'remove': "Fjern",
       'removeAriaLabel': "Fjern arbejdspakke",
       'openAriaLabel': "Åbn arbejdspakke {{id}} i ny fane",

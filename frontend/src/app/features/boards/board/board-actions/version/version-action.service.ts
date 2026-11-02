@@ -26,7 +26,6 @@
 //++
 
 import { Injectable, inject } from '@angular/core';
-import { Board } from 'core-app/features/boards/board/board';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { VersionResource } from 'core-app/features/hal/resources/version-resource';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
@@ -40,7 +39,6 @@ import { VersionAutocompleterComponent } from 'core-app/shared/components/autoco
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import {
-  firstValueFrom,
   Observable,
   of,
 } from 'rxjs';

@@ -46,12 +46,12 @@ RSpec.describe TimeEntry do
   let(:user2) { create(:user) }
   let(:date) { Time.zone.today }
   let(:rate) { build(:cost_rate) }
-  let!(:hourly_one) { create(:hourly_rate, valid_from: 2.days.ago, project:, user:) }
-  let!(:hourly_three) { create(:hourly_rate, valid_from: 4.days.ago, project:, user:) }
-  let!(:hourly_five) { create(:hourly_rate, valid_from: 6.days.ago, project:, user:) }
-  let!(:default_hourly_one) { create(:default_hourly_rate, valid_from: 2.days.ago, project:, user: user2) }
-  let!(:default_hourly_three) { create(:default_hourly_rate, valid_from: 4.days.ago, project:, user: user2) }
-  let!(:default_hourly_five) { create(:default_hourly_rate, valid_from: 6.days.ago, project:, user: user2) }
+  let!(:hourly_one) { create(:hourly_rate, valid_from: 2.days.ago, project:, principal: user) }
+  let!(:hourly_three) { create(:hourly_rate, valid_from: 4.days.ago, project:, principal: user) }
+  let!(:hourly_five) { create(:hourly_rate, valid_from: 6.days.ago, project:, principal: user) }
+  let!(:default_hourly_one) { create(:default_hourly_rate, valid_from: 2.days.ago, project:, principal: user2) }
+  let!(:default_hourly_three) { create(:default_hourly_rate, valid_from: 4.days.ago, project:, principal: user2) }
+  let!(:default_hourly_five) { create(:default_hourly_rate, valid_from: 6.days.ago, project:, principal: user2) }
   let(:hours) { 5.0 }
   let(:start_time) { 10 * 60 } # 10:00
   let(:time_entry) do
@@ -173,7 +173,7 @@ RSpec.describe TimeEntry do
       (hourly = HourlyRate.new.tap do |hr|
         hr.valid_from = 1.day.ago
         hr.rate       = 1.0
-        hr.user       = User.current
+        hr.principal  = User.current
         hr.project    = hourly_one.project
       end).save!
       time_entry.reload
@@ -190,7 +190,7 @@ RSpec.describe TimeEntry do
       (hourly = HourlyRate.new.tap do |hr|
         hr.valid_from = 3.days.ago.to_date
         hr.rate       = 1.0
-        hr.user       = User.current
+        hr.principal  = User.current
         hr.project    = hourly_one.project
       end).save!
       time_entry.reload
@@ -255,7 +255,7 @@ RSpec.describe TimeEntry do
       (hourly = DefaultHourlyRate.new.tap do |dhr|
         dhr.valid_from = 1.day.ago.to_date
         dhr.rate       = 1.0
-        dhr.user       = user2
+        dhr.principal  = user2
       end).save!
       default_example.reload
       expect(default_example.rate).not_to eq(default_hourly_one)
@@ -271,7 +271,7 @@ RSpec.describe TimeEntry do
       (hourly = DefaultHourlyRate.new.tap do |dhr|
         dhr.valid_from = 3.days.ago.to_date
         dhr.rate       = 1.0
-        dhr.user       = user2
+        dhr.principal  = user2
       end).save!
       default_example.reload
       expect(default_example.rate).not_to eq(default_hourly_three)
@@ -310,7 +310,7 @@ RSpec.describe TimeEntry do
       (rate = HourlyRate.new.tap do |hr|
         hr.valid_from = 10.days.ago.to_date
         hr.rate       = 1337.0
-        hr.user       = default_example.user
+        hr.principal  = default_example.user
         hr.project    = project
       end).save!
 

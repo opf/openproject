@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, cleanup } from 'vitest-browser-react';
 import { page, userEvent } from 'vitest/browser';
-import { http, HttpResponse } from 'msw';
 import { useState } from 'react';
 import { InlineWorkPackageChip } from '../../../../lib/components/InlineWorkPackage/InlineWorkPackageChip';
 import { worker } from '../../../mocks/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import { insertBlockWorkPackageViaSlashMenu } from '../../../helpers/editorHelpers';
+import { loadServerErrorWorkPackages, loadUnavailableWorkPackages } from '../../../helpers/requestHelpers';
 
 afterEach(() => {
   cleanup();
@@ -35,11 +35,7 @@ async function insertUnavailableInlineWorkPackage() {
 
 describe('Inline chip - unavailable work package', () => {
   it('shows eye-closed icon and "Work package unavailable: no permission" on 404', async () => {
-    worker.use(
-      http.get('http://localhost:3000/api/v3/work_packages/999', () =>
-        HttpResponse.json({ message: 'Not found' }, { status: 404 })
-      )
-    );
+    loadUnavailableWorkPackages(999);
 
     render(
       <InlineWorkPackageChip
@@ -59,11 +55,7 @@ describe('Inline chip - unavailable work package', () => {
   });
 
   it('shows alert icon and "Unavailable: error" on server error', async () => {
-    worker.use(
-      http.get('http://localhost:3000/api/v3/work_packages/999', () =>
-        HttpResponse.json({ message: 'Internal Server Error' }, { status: 500 })
-      )
-    );
+    loadServerErrorWorkPackages(999);
 
     render(
       <InlineWorkPackageChip
@@ -78,12 +70,8 @@ describe('Inline chip - unavailable work package', () => {
     ).not.toBeNull();
   });
 
-  it('renders only the icon with an aria-label and no native tooltip for size xxs', async () => {
-    worker.use(
-      http.get('http://localhost:3000/api/v3/work_packages/999', () =>
-        HttpResponse.json({ message: 'Not found' }, { status: 404 })
-      )
-    );
+  it('renders only the icon, named for assistive tech and without a native tooltip, for size xxs', async () => {
+    loadUnavailableWorkPackages(999);
 
     render(
       <InlineWorkPackageChip
@@ -99,28 +87,29 @@ describe('Inline chip - unavailable work package', () => {
     expect(chip?.textContent).toBe('');
     // The full message now lives in the preview, not a native tooltip.
     expect(chip?.getAttribute('title')).toBeNull();
-    expect(chip?.getAttribute('aria-label')).toBe('Work package unavailable: no permission');
+    const icon = page.getByRole('button', { name: 'Work package #999, Work package unavailable: no permission' });
+    await expect.element(icon).toHaveAttribute('aria-haspopup', 'menu');
   });
 
   it('shows the unavailable card in the preview on hover for size xxs', async () => {
-    worker.use(
-      http.get('http://localhost:3000/api/v3/work_packages/999', () =>
-        HttpResponse.json({ message: 'Not found' }, { status: 404 })
-      )
-    );
+    loadUnavailableWorkPackages(999);
 
+    // Off the corner: vitest 5 starts the pointer at (0,0), so hovering a chip
+    // rendered there never fires mouseenter.
     render(
-      <InlineWorkPackageChip
-        inlineContent={{ props: { wpid: '999', size: 'xxs', instanceId: 'test-xxs-preview' } }}
-        contentRef={vi.fn()}
-      />
+      <div style={{ padding: 20 }}>
+        <InlineWorkPackageChip
+          inlineContent={{ props: { wpid: '999', size: 'xxs', instanceId: 'test-xxs-preview' } }}
+          contentRef={vi.fn()}
+        />
+      </div>
     );
 
     await vi.waitFor(() => {
       expect(document.querySelector('.op-bn-inline-wp .octicon-eye-closed')).not.toBeNull();
     });
 
-    await userEvent.hover(page.getByRole('img'));
+    await userEvent.hover(page.getByRole('button', { name: /Work package unavailable/ }));
 
     await expect.element(page.getByTestId('wp-preview')).toBeVisible();
     await expect.element(page.getByText('Linked work package unavailable')).toBeVisible();
@@ -136,11 +125,7 @@ describe('Inline chip - unavailable work package', () => {
   });
 
   it('gets the selection outline on click and can be copied and pasted', async () => {
-    worker.use(
-      http.get('http://localhost:3000/api/v3/work_packages/123', () =>
-        HttpResponse.json({ message: 'Not found' }, { status: 404 })
-      )
-    );
+    loadUnavailableWorkPackages(123);
 
     renderEditor();
     await insertUnavailableInlineWorkPackage();
@@ -162,6 +147,21 @@ describe('Inline chip - unavailable work package', () => {
     await vi.waitFor(() => {
       expect(document.querySelectorAll('.op-bn-inline-wp').length).toBe(2);
     });
+  });
+  it('shows the work package once the chip points to one that is already loaded', async () => {
+    loadUnavailableWorkPackages(999);
+    const chipFor = (wpid:string) => (
+      <InlineWorkPackageChip inlineContent={{ props: { wpid, size: 's', displayId: wpid } }} contentRef={vi.fn()} />
+    );
+
+    const { rerender } = await render(chipFor('123'));
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+
+    await rerender(chipFor('999'));
+    await expect.element(page.getByText('Work package unavailable: no permission')).toBeVisible();
+
+    await rerender(chipFor('123'));
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
   });
 });
 
@@ -197,11 +197,7 @@ describe('Unavailable work package - preview indicator (touch)', () => {
   afterEach(() => vi.unstubAllGlobals());
 
   it('opens the unavailable card from the indicator for size xxs', async () => {
-    worker.use(
-      http.get('http://localhost:3000/api/v3/work_packages/999', () =>
-        HttpResponse.json({ message: 'Not found' }, { status: 404 })
-      )
-    );
+    loadUnavailableWorkPackages(999);
 
     render(
       <InlineWorkPackageChip
@@ -213,7 +209,7 @@ describe('Unavailable work package - preview indicator (touch)', () => {
     const indicator = page.getByTestId('wp-preview-indicator');
     await expect.element(indicator).toBeVisible();
     expect(document.querySelector('.op-bn-inline-wp')?.getAttribute('role')).toBeNull();
-    const stateIcon = page.getByRole('button', { name: 'Work package unavailable: no permission' });
+    const stateIcon = page.getByRole('button', { name: 'Work package #999, Work package unavailable: no permission' });
     await expect.element(stateIcon).toBeVisible();
 
     await userEvent.click(indicator);
@@ -225,11 +221,7 @@ describe('Unavailable work package - preview indicator (touch)', () => {
 
 describe('Unavailable work package - options popover (BNE-112)', () => {
   it('inline chip: opens the popover with the Open button and resizes', async () => {
-    worker.use(
-      http.get('http://localhost:3000/api/v3/work_packages/999', () =>
-        HttpResponse.json({ message: 'Not found' }, { status: 404 })
-      )
-    );
+    loadUnavailableWorkPackages(999);
 
     render(<UnavailableChipWrapper initialSize="s" />);
 
@@ -242,20 +234,15 @@ describe('Unavailable work package - options popover (BNE-112)', () => {
 
     await userEvent.click(page.getByTitle('Change size'));
     await expect.element(page.getByTestId('size-menu')).toBeVisible();
-    await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Tiny', exact: true }));
 
-    // xxs renders icon-only with the message exposed to assistive tech via aria-label
-    await vi.waitFor(() => {
-      expect(document.querySelector('.op-bn-inline-wp')?.getAttribute('aria-label')).toBe('Work package unavailable: no permission');
-    });
+    // xxs renders icon-only, the icon named for assistive tech in place of the message
+    await expect.element(page.getByRole('button', { name: 'Work package #999, Work package unavailable: no permission' }))
+      .toBeVisible();
   });
 
   it('inline chip: removes the chip from the document', async () => {
-    worker.use(
-      http.get('http://localhost:3000/api/v3/work_packages/123', () =>
-        HttpResponse.json({ message: 'Not found' }, { status: 404 })
-      )
-    );
+    loadUnavailableWorkPackages(123);
 
     renderEditor();
     await insertUnavailableInlineWorkPackage();
@@ -271,11 +258,7 @@ describe('Unavailable work package - options popover (BNE-112)', () => {
   });
 
   it('block card: opens the popover with the Open button and removes the block', async () => {
-    worker.use(
-      http.get('http://localhost:3000/api/v3/work_packages/123', () =>
-        HttpResponse.json({ message: 'Not found' }, { status: 404 })
-      )
-    );
+    loadUnavailableWorkPackages(123);
 
     renderEditor();
     await insertBlockWorkPackageViaSlashMenu();
@@ -295,11 +278,7 @@ describe('Unavailable work package - options popover (BNE-112)', () => {
 
 describe('Block card - unavailable work package', () => {
   it('shows eye-closed icon and "Linked work package unavailable" on 404', async () => {
-    worker.use(
-      http.get('http://localhost:3000/api/v3/work_packages/123', () =>
-        HttpResponse.json({ message: 'Not found' }, { status: 404 })
-      )
-    );
+    loadUnavailableWorkPackages(123);
 
     renderEditor();
     await insertBlockWorkPackageViaSlashMenu();
@@ -316,11 +295,7 @@ describe('Block card - unavailable work package', () => {
   });
 
   it('shows alert icon and "Error" on server error', async () => {
-    worker.use(
-      http.get('http://localhost:3000/api/v3/work_packages/123', () =>
-        HttpResponse.json({ message: 'Internal Server Error' }, { status: 500 })
-      )
-    );
+    loadServerErrorWorkPackages(123);
 
     renderEditor();
     await insertBlockWorkPackageViaSlashMenu();

@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work Package highlighting fields", :js, :selenium do
+RSpec.describe "Work Package highlighting fields", :js do
   let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
@@ -154,8 +154,8 @@ RSpec.describe "Work Package highlighting fields", :js, :selenium do
 
     wp1_row = wp_table.row(wp_1)
     wp2_row = wp_table.row(wp_2)
-    expect(wp1_row.native.css_value("background-color")).to eq("rgba(255, 0, 0, 1)")
-    expect(wp2_row.native.css_value("background-color")).to eq("rgba(240, 240, 240, 1)")
+    expect(wp1_row).to match_style("background-color" => "rgb(255, 0, 0)")
+    expect(wp2_row).to match_style("background-color" => "rgb(240, 240, 240)")
 
     # Save query
     wp_table.save
@@ -178,8 +178,8 @@ RSpec.describe "Work Package highlighting fields", :js, :selenium do
 
     wp1_row = wp_table.row(wp_1)
     wp2_row = wp_table.row(wp_2)
-    expect(wp1_row.native.css_value("background-color")).to eq("rgba(18, 52, 86, 1)")
-    expect(wp2_row.native.css_value("background-color")).to eq("rgba(0, 0, 0, 0)")
+    expect(wp1_row).to match_style("background-color" => "rgb(18, 52, 86)")
+    expect(wp2_row).to match_style("background-color" => "rgba(0, 0, 0, 0)")
 
     # Highlighting is kept even after a hard reload (Regression #30217)
     page.driver.refresh

@@ -428,15 +428,21 @@ module Redmine
         end
 
         def build_default_custom_values(custom_field)
-          if custom_field.multi_value? && custom_field.default_value.present?
-            custom_field.default_value.map do |value|
+          default_value = default_custom_field_value(custom_field)
+
+          if custom_field.multi_value? && default_value.present?
+            default_value.map do |value|
               build_custom_value(custom_field, value:)
             end
-          elsif custom_field.multi_value? && custom_field.default_value.blank?
+          elsif custom_field.multi_value? && default_value.blank?
             build_custom_value(custom_field, value: nil)
           else
-            build_custom_value(custom_field, value: custom_field.default_value)
+            build_custom_value(custom_field, value: default_value)
           end
+        end
+
+        def default_custom_field_value(custom_field)
+          custom_field.default_value
         end
 
         def build_custom_value(custom_field, value:)

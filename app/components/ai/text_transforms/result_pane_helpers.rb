@@ -30,6 +30,7 @@
 module AI
   module TextTransforms
     module ResultPaneHelpers
+      STIMULUS_CONTROLLER = "ai-text-transform-pane"
       CLOSE_FORM_ID = "ai-text-transform-pane-close"
       APPLY_FORM_ID = "ai-text-transform-pane-apply"
       RETRY_FORM_ID = "ai-text-transform-pane-retry"
@@ -38,6 +39,14 @@ module AI
 
       def label(key)
         I18n.t("ai.text_transform.pane.#{key}")
+      end
+
+      def target(name)
+        { ai_text_transform_pane_target: name }
+      end
+
+      def action(**events_by_name)
+        { action: events_by_name.map { |name, event| "#{event}->#{STIMULUS_CONTROLLER}##{name}" }.join(" ") }
       end
     end
   end

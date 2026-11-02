@@ -76,6 +76,12 @@ export default defineConfig({
         return false;
       }
 
+      // CKEditor warns about toolbar items whose plugins the specs leave
+      // unconfigured (image upload, macros, preview).
+      if (log.includes('toolbarview-item-unavailable')) {
+        return false;
+      }
+
       return undefined;
     },
   },

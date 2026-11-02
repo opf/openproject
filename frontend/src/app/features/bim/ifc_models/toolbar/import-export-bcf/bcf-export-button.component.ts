@@ -27,6 +27,7 @@
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { generateId } from 'core-app/shared/helpers/dom-helpers';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-helper.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -39,13 +40,23 @@ import { JobStatusModalService } from 'core-app/features/job-status/job-status-m
 
 @Component({
   template: `
-    <a [title]="text.export_hover"
+    <a [attr.id]="buttonId"
+       [attr.aria-describedby]="tooltipId"
        class="button export-bcf-button"
        [attr.href]="exportLink"
        (click)="showDelayedExport($event)">
       <op-icon icon-classes="button--icon icon-export" />
       <span class="button--text"> {{text.export}} </span>
     </a>
+    <tool-tip
+      class="sr-only position-absolute"
+      [attr.for]="buttonId"
+      [attr.id]="tooltipId"
+      popover="manual"
+      data-direction="s"
+      data-type="description"
+      [textContent]="text.export_hover"
+      />
   `,
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'bcf-export-button',
@@ -66,6 +77,10 @@ export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnI
   readonly injector = inject(Injector);
   readonly toastService = inject(ToastService);
   readonly cdRef = inject(ChangeDetectorRef);
+
+  readonly buttonId = generateId('bcf-export-button');
+
+  readonly tooltipId = generateId('tooltip');
 
   public text = {
     export: this.I18n.t('js.bcf.export'),

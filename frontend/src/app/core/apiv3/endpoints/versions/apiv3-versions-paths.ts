@@ -30,7 +30,6 @@ import { VersionResource } from 'core-app/features/hal/resources/version-resourc
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
 import { Observable } from 'rxjs';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { ApiV3AvailableProjectsPaths } from 'core-app/core/apiv3/endpoints/projects/apiv3-available-projects-paths';
 import { ApiV3VersionPaths } from 'core-app/core/apiv3/endpoints/versions/apiv3-version-paths';

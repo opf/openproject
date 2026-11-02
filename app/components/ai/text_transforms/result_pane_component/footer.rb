@@ -31,6 +31,32 @@ module AI
   module TextTransforms
     class ResultPaneComponent
       class Footer < Section
+        private
+
+        def state_data
+          {
+            **target(:state),
+            state:,
+            run: pane.run&.uuid,
+            seq: pane.last_seq,
+            request_id: pane.request_id,
+            poll_url:
+          }
+        end
+
+        def poll_url
+          ai_text_transform_pane_path(pane.uuid, **form_params) if pane.run
+        end
+
+        def form_params
+          { request_id: pane.request_id, scope: pane.scope, **pane.context_ids }
+        end
+
+        def pane_form(id:, url:, method:, fields: form_params)
+          form_with(url:, method:, id:) do
+            safe_join(fields.map { |name, value| hidden_field_tag(name, value, id: nil) })
+          end
+        end
       end
     end
   end

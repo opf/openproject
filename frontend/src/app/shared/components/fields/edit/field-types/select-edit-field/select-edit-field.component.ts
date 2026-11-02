@@ -73,7 +73,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     onKeydown: (event:KeyboardEvent) => this.handler.handleUserKeydown(event, true),
     onOpen: () => this.onOpen(),
     onClose: () => this.onClose(),
-    onAfterViewInit: (component:CreateAutocompleterComponent) => this._autocompleterComponent = component,
+    onAfterViewInit: (component:CreateAutocompleterComponent) => { this._autocompleterComponent = component; },
   };
 
   public get selectedOption() {
@@ -285,7 +285,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   // Subclasses shall be able to override the filters with which the
   // allowed values are reduced in the backend.
-  protected allowedValuesFilter(query?:string) {
+  protected allowedValuesFilter(_query?:string) {
     return {};
   }
 

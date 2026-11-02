@@ -33,10 +33,6 @@ import {
   TypeRelationQueryColumn,
 } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
-import {
-  QUERY_SORT_BY_ASC,
-  QUERY_SORT_BY_DESC, QuerySortByDirection,
-} from 'core-app/features/hal/resources/query-sort-by-resource';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
@@ -46,6 +42,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TableUiWork } from 'core-app/features/work-packages/components/wp-fast-table/table-ui-work';
 import { onDestroySafely, runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
+import { primarySortDirection } from './primary-sort-direction';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -79,6 +76,8 @@ export class SortHeaderDirective implements AfterViewInit {
 
   private currentTable:WorkPackageTable;
 
+  keyboardNavigationEnabled = false;
+
   private viewReady = false;
 
   private initializedTable?:WorkPackageTable;
@@ -91,6 +90,7 @@ export class SortHeaderDirective implements AfterViewInit {
     runCleanup(() => this.releaseTableCallback?.());
     this.releaseTableCallback = undefined;
     this.currentTable = table;
+    this.keyboardNavigationEnabled = table?.configuration.keyboardNavigationEnabled ?? false;
     this.initializedTable = undefined;
     if (table && !table.destroyed && !this.destroyRef.destroyed) {
       this.releaseTableCallback = onDestroySafely(table.destroyRef, () => this.uiWork.cancel());
@@ -124,7 +124,7 @@ export class SortHeaderDirective implements AfterViewInit {
 
   baselineIncompatible = false;
 
-  private currentSortDirection:QuerySortByDirection|null;
+  private currentSortDirection:'asc'|'desc'|null;
 
   constructor() {
     onDestroySafely(this.destroyRef, () => {
@@ -162,18 +162,12 @@ export class SortHeaderDirective implements AfterViewInit {
         filter(() => this.table === table && !table.destroyed && !this.destroyRef.destroyed),
       )
       .subscribe(() => {
-        const latestSortElement = this.wpTableSortBy.current[0];
-
-        if (this.headerColumn.href !== latestSortElement?.column.href) {
-          this.currentSortDirection = null;
-        } else {
-          this.currentSortDirection = latestSortElement.direction;
-        }
+        this.currentSortDirection = primarySortDirection(this.wpTableSortBy.current, this.headerColumn);
         this.setActiveColumnClass();
 
         this.sortable = this.wpTableSortBy.isSortable(this.headerColumn);
 
-        this.directionClass = this.getDirectionClass();
+        this.directionClass = this.currentSortDirection ?? '';
 
         this.cdRef.detectChanges();
       }));
@@ -272,21 +266,6 @@ export class SortHeaderDirective implements AfterViewInit {
     } else {
       this.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.show');
       this.hierarchyIcon = 'icon-no-hierarchy';
-    }
-  }
-
-  private getDirectionClass():string {
-    if (!this.currentSortDirection) {
-      return '';
-    }
-
-    switch (this.currentSortDirection.href) {
-      case QUERY_SORT_BY_ASC:
-        return 'asc';
-      case QUERY_SORT_BY_DESC:
-        return 'desc';
-      default:
-        return '';
     }
   }
 

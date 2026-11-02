@@ -341,7 +341,7 @@ RSpec.describe "Projects", "editing settings", :js do
         general_page.expect_field_label_with_help_text "Subproject of"
       end
 
-      it "shows help text link next to status button", :selenium do
+      it "shows help text link next to status button" do
         within_section "Status" do
           button = find_button("Edit status")
           expect(page).to have_link accessible_name: "Show help text", right_of: button

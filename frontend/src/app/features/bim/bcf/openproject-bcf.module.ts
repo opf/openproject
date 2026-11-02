@@ -26,6 +26,7 @@
 //++
 
 import {
+  CUSTOM_ELEMENTS_SCHEMA,
   Injector,
   NgModule,
   inject,
@@ -93,6 +94,7 @@ export const viewerBridgeServiceFactory = (injector:Injector) => {
     BcfExportButtonComponent,
     RefreshButtonComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class OpenprojectBcfModule {
   static bootstrapCalled = false;

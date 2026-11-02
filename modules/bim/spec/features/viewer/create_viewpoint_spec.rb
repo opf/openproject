@@ -29,7 +29,6 @@ require_relative "../../spec_helper"
 
 RSpec.describe "Create viewpoint from BCF details page",
                :js,
-               :selenium,
                with_config: { edition: "bim" } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:user) { create(:admin) }
@@ -77,7 +76,7 @@ RSpec.describe "Create viewpoint from BCF details page",
       bcf_details.add_viewpoint
       bcf_details.expect_viewpoint_count(1)
 
-      page.driver.browser.navigate.refresh
+      page.refresh
 
       bcf_details.ensure_page_loaded
       show_model_page.finished_loading

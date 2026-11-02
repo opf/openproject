@@ -61,7 +61,7 @@ export abstract class WorkPackageViewBaseService<T> {
    * @param {QueryResource} querywp-view-group-by.service
    * @param {QuerySchemaResource} schema
    */
-  public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource) {
+  public initialize(query:QueryResource, results:WorkPackageCollectionResource, _schema?:QuerySchemaResource) {
     const initial = this.valueFromQuery(query, results)!;
     this.pristineState.putValue(initial);
   }

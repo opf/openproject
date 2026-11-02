@@ -34,7 +34,11 @@ module AssignableCustomFieldValues
     def assignable_custom_field_values(custom_field)
       case custom_field.field_format
       when "list"
-        custom_field.possible_values
+        if custom_field.project_specific_value_restriction
+          custom_field.usable_values_in(project)
+        else
+          custom_field.possible_values
+        end
       when "version"
         assignable_versions(only_open: !custom_field.allow_non_open_versions?)
       end

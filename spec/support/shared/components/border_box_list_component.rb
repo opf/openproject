@@ -28,7 +28,7 @@
 #++
 
 # Shared expectations for lists rendered through
-# OpenProject::Common::BorderBoxListComponent.
+# OpPrimer::BorderBoxListComponent.
 #
 # Asserts the heading is a real heading element rendered inside the
 # +.Box-header+, not merely text that happens to appear somewhere.

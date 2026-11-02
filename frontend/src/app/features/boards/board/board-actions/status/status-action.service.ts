@@ -26,7 +26,6 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { Board } from 'core-app/features/boards/board/board';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import { CachedBoardActionService } from 'core-app/features/boards/board/board-actions/cached-board-action.service';
 import { StatusBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/status/status-board-header.component';

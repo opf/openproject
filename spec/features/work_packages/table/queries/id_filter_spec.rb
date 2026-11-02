@@ -77,7 +77,8 @@ RSpec.describe "Work package filtering by id", :js do
     wp_table.expect_no_work_package_listed
 
     filters.remove_filter "id"
-    filters.add_filter_by("ID", "is (OR)", [work_package.id.to_s])
+    filters.add_filter_by("ID", "is (OR)", nil)
+    filters.select_value("id", query: work_package.id.to_s, select_text: "##{work_package.id}")
     filters.expect_filter_by("ID", "is (OR)", ["##{work_package.id} #{work_package.subject}"])
 
     wp_table.expect_work_package_listed(work_package)
