@@ -144,10 +144,10 @@ module API
         # collapses long custom field column names to be represented in their short form
         # (e.g. custom_field_1 -> cf_1)
         def collapse_custom_field_name(attribute)
-          match = attribute.match /\Acustom_field_(?<id>\d+)\z/
+          custom_field_id = CustomField.id_from_attribute_name(attribute)
 
-          if match
-            "cf_#{match[:id]}"
+          if custom_field_id
+            "cf_#{custom_field_id}"
           else
             attribute
           end

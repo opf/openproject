@@ -107,7 +107,7 @@ module API
         # contains the lower camel-cased names.
         def rendered_properties_for_links
           @rendered_properties_for_links ||= rendered_properties.map do |property|
-            if property.starts_with?("custom_field_") || MULTI_VALUED_LINK_PROPERTIES.include?(property)
+            if CustomField.custom_field_attribute?(property) || MULTI_VALUED_LINK_PROPERTIES.include?(property)
               API::Utilities::PropertyNameConverter.from_ar_name(property)
             else
               property

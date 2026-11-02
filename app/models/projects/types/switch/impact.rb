@@ -127,7 +127,7 @@ module Projects
         end
 
         def custom_field_id(field)
-          field.key.delete_prefix("custom_field_").to_i if field.kind == :custom_field
+          CustomField.id_from_attribute_name(field.key) if field.kind == :custom_field
         end
 
         # A subquery rather than plucked ids, so a project with tens of thousands
