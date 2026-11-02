@@ -65,12 +65,12 @@ export class RowStatePainter {
   /** The column header, totals, inline-create and empty-results rows live in their own sections, outside the results body. */
   private paintEdgeRows():void {
     if (this.table.destroyed) return;
-    const element = this.table.tbody.closest('table');
-    if (element?.tHead) {
-      setOrRemove(element.tHead, 'role', 'rowgroup');
-      Array.from(element.tHead.rows).forEach((row) => paintRowRole(row, 1, 'columnheader'));
+    const tableElement = this.table.tbody.closest('table');
+    if (tableElement?.tHead) {
+      setOrRemove(tableElement.tHead, 'role', 'rowgroup');
+      Array.from(tableElement.tHead.rows).forEach((row) => paintRowRole(row, 1, 'columnheader'));
     }
-    const sections = Array.from(element?.tBodies ?? []);
+    const sections = Array.from(tableElement?.tBodies ?? []);
     sections
       .filter((section) => section !== this.table.tbody)
       .forEach((section) => Array.from(section.rows).forEach((row) => {

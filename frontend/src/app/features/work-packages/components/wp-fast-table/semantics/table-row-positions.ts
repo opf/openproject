@@ -171,15 +171,15 @@ export class TableRowPositions {
 
   private paintPositions():string|null {
     if (this.table.destroyed) return null;
-    const element = this.table.tbody.closest('table');
-    if (!element) return null;
+    const tableElement = this.table.tbody.closest('table');
+    if (!tableElement) return null;
     const snapshot = this.currentSnapshot();
-    if (!snapshot && !element.hasAttribute('aria-rowcount')) return this.unavailable()?.withdrawn ?? null;
+    if (!snapshot && !tableElement.hasAttribute('aria-rowcount')) return this.unavailable()?.withdrawn ?? null;
 
-    const rows = Array.from(element.rows);
-    const result = snapshot ? this.project(snapshot, element, rows) : this.unavailable();
+    const rows = Array.from(tableElement.rows);
+    const result = snapshot ? this.project(snapshot, tableElement, rows) : this.unavailable();
     const projection = result && 'indices' in result ? result : null;
-    setOrRemove(element, 'aria-rowcount', projection ? String(projection.count ?? -1) : null);
+    setOrRemove(tableElement, 'aria-rowcount', projection ? String(projection.count ?? -1) : null);
     rows.forEach((row) => {
       const position = projection?.indices.get(row);
       setOrRemove(row, 'aria-rowindex', position === undefined ? null : String(position));
@@ -192,17 +192,17 @@ export class TableRowPositions {
     return this.snapshot ? this.notOffered('collection changed before render') : this.committedWithdrawal;
   }
 
-  private project(snapshot:CapturedRowPositions, element:HTMLTableElement, rows:HTMLTableRowElement[]):Projection|WithdrawnRowPositions {
+  private project(snapshot:CapturedRowPositions, tableElement:HTMLTableElement, rows:HTMLTableRowElement[]):Projection|WithdrawnRowPositions {
     const { body } = snapshot;
-    const header = element.tHead?.rows;
-    if (header?.length !== 1) return this.withdraw('header rows');
+    const headerRows = tableElement.tHead?.rows;
+    if (headerRows?.length !== 1) return this.withdraw('header rows');
 
-    const indices = new Map<HTMLTableRowElement, number>([[header[0], 1]]);
+    const indices = new Map<HTMLTableRowElement, number>([[headerRows[0], 1]]);
     const trailers:HTMLTableRowElement[] = [];
     const seen = new Set<'totals'|'inlineCreate'>();
     let emptySurrogate:HTMLTableRowElement|null = null;
     for (const row of rows) {
-      if (row === header[0]) continue;
+      if (row === headerRows[0]) continue;
       const kind = classifyRow(this.table, row);
       if (kind === 'foreign') {
         this.reportForeignRow();
