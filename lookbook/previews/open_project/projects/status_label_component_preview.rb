@@ -29,19 +29,19 @@
 
 module OpenProject::Projects
   # @logical_path OpenProject/Projects
-  class StatusBadgeComponentPreview < ViewComponent::Preview
+  class StatusLabelComponentPreview < ViewComponent::Preview
     # @label Playground
     # @param with_icon [boolean]
     def playground(with_icon: false)
       project = FactoryBot.build_stubbed(:project, :with_status)
 
-      render(Projects::StatusBadgeComponent.new(project:, with_icon:))
+      render(Projects::StatusLabelComponent.new(project:, with_icon:))
     end
 
     def with_icon(with_icon: true)
       project = FactoryBot.build_stubbed(:project, :with_status)
 
-      render(Projects::StatusBadgeComponent.new(project:, with_icon:))
+      render(Projects::StatusLabelComponent.new(project:, with_icon:))
     end
   end
 end

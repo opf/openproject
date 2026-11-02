@@ -58,7 +58,7 @@ See COPYRIGHT and LICENSE files for more details.
       end
 
       row.with_column do
-        render(Projects::StatusBadgeComponent.new(project: @project, size: :large, with_icon: true, data: { test_selector: "status-badge-#{@id}" }))
+        render(Projects::StatusLabelComponent.new(project: @project, size: :large, with_icon: true, data: { test_selector: "status-label-#{@id}" }))
       end
     end
   end

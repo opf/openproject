@@ -29,57 +29,53 @@
 
 require "rails_helper"
 
-RSpec.describe Projects::StatusBadgeComponent, type: :component do
+RSpec.describe WorkPackages::StatusLabelComponent, type: :component do
   def render_component(...)
     render_inline(described_class.new(...))
   end
 
-  let(:project) { build_stubbed(:project, status_code:) }
-  let(:status_code) { nil }
+  let(:lock) { "[aria-label='#{Status.human_attribute_name(:is_readonly)}']" }
+  let(:status) { build_stubbed(:status, name: "In progress") }
 
   subject(:rendered_component) do
-    render_component(project:)
+    render_component(status:)
   end
 
-  context "when status code is not set" do
-    it "renders nothing" do
-      expect(rendered_component.to_s).to be_empty
+  it "renders the status name" do
+    expect(rendered_component).to have_primer_label "In progress"
+  end
+
+  it "does not lock a status that permits changes" do
+    expect(rendered_component).to have_no_css lock
+  end
+
+  context "with a read-only status", with_ee: %i[readonly_work_packages] do
+    let(:status) { build_stubbed(:status, :readonly, name: "Rejected") }
+
+    it "renders the status name" do
+      expect(rendered_component).to have_primer_label "Rejected"
     end
 
-    context "and with_icon is true" do
+    it "locks the badge, naming what the lock means" do
+      expect(rendered_component).to have_css lock
+    end
+
+    context "when rendered in the secondary scheme" do
       subject(:rendered_component) do
-        render_component(project:, with_icon: true)
+        render_component(status:, scheme: :secondary)
       end
 
-      it "still renders nothing" do
-        expect(rendered_component.to_s).to be_empty
+      it "still locks the badge" do
+        expect(rendered_component).to have_css lock
       end
     end
   end
 
-  context "when status code is set" do
-    let(:status_code) { :off_track }
+  context "with a read-only status and no Enterprise token" do
+    let(:status) { build_stubbed(:status, :readonly, name: "Rejected") }
 
-    it "renders a label" do
-      expect(rendered_component).to have_primer_label "Off track"
-    end
-
-    it "does not render an icon by default" do
-      expect(rendered_component).to have_no_css "svg.octicon"
-    end
-
-    context "with with_icon: true" do
-      subject(:rendered_component) do
-        render_component(project:, with_icon: true)
-      end
-
-      it "renders the label text" do
-        expect(rendered_component).to have_primer_label "Off track"
-      end
-
-      it "renders an icon inside the label" do
-        expect(rendered_component).to have_css ".Label svg.octicon"
-      end
+    it "does not lock the badge, matching what the contract allows" do
+      expect(rendered_component).to have_no_css lock
     end
   end
 end
