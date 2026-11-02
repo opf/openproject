@@ -240,8 +240,8 @@ fr:
             one: Bar chart of committed and completed story points of the last sprint.
             other: Bar chart of committed and completed story points of the last %{count} sprints.
           summary_average: 'Average velocity: %{average}.'
-          title: Velocity chart
-          velocity: "%{sprint}:"
+          title: Graphique de vélocité
+          velocity: "%{sprint} :"
           y_axis_title: Story points
         work_package_graph:
           title: Graphique des lots de travaux
@@ -271,9 +271,9 @@ fr:
           added:
             blankslate:
               empty:
-                description: Work packages that were added after the sprint start date will appear here.
+                description: Les lots de travaux qui ont été ajoutés après la date de début du sprint apparaîtront ici.
               no_dates:
-                description: Sprint start and finish dates are necessary to show added work packages.
+                description: Les dates de début et de fin de sprint sont nécessaires pour afficher les lots de travaux ajoutés.
               not_started:
                 description: Added work packages will appear here after the sprint starts.
             title: Scope increase after sprint start
