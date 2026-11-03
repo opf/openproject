@@ -618,17 +618,20 @@ describe('WorkPackageTable lifecycle', () => {
     expect(harness.row('1').firstElementChild).toHaveAttribute('role', 'gridcell');
   });
 
-  it('installs drag handles when positions resolve before commit', async () => {
+  it('installs drag handles when positions resolve before commit, settling only with the commit', async () => {
     const harness = await mount({ workPackages: [{ id: '1' }], configuration: { dragAndDropEnabled: true } });
     vi.spyOn(harness.injector.get(WorkPackageViewOrderService), 'positionsFor').mockResolvedValue({ '1': 100 });
     const frames = harness.holdFrames();
+    const { generation } = harness.table.committedRows();
     try {
       harness.table.redrawTableAndTimeline();
       await nextTask();
+      expect(harness.table.committedRows().generation).toBe(generation);
       frames.commit();
 
       expect(harness.row('1').querySelector('.wp-table--drag-and-drop-handle')).not.toBeNull();
       expect(harness.row('1').firstElementChild).toHaveAttribute('role', 'gridcell');
+      expect(harness.table.committedRows().generation).toBe(generation + 1);
     } finally {
       frames.release();
     }

@@ -80,9 +80,13 @@ public readonly injector:Injector,
         }
       });
       if (replacements.size === 0) return;
-      this.table.mutate(new Set(replacements.keys()), () => {
-        replacements.forEach(({ element, handle }) => element.replaceChild(handle, element.firstElementChild!));
-      });
+      const swap = () => replacements.forEach(({ element, handle }) => element.replaceChild(handle, element.firstElementChild!));
+      const committed = this.table.lastRenderPass === this.tablePass;
+      if (committed) {
+        this.table.mutate(new Set(replacements.keys()), swap);
+      } else {
+        swap();
+      }
     }).catch((error:unknown) => notification.handleRawError(error));
   }
 }
