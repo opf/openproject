@@ -34,7 +34,6 @@ RSpec.describe "members pagination", :js do
   let(:project) do
     create(:project,
            name: "Project 1",
-           identifier: "project1",
            members: project_members)
   end
   let(:project_members) do

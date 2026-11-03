@@ -54,6 +54,7 @@ RSpec.describe "Open the Gitlab tab", :js do
   end
 
   let(:work_package) { create(:work_package, project:, subject: "A test work_package") }
+  let(:branch_id) { work_package.display_id.to_s.downcase }
 
   let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
   let(:gitlab_tab_element) { find(".op-tab-row--link_selected", text: "GITLAB") }
@@ -135,14 +136,14 @@ RSpec.describe "Open the Gitlab tab", :js do
         gitlab_tab.git_actions_copy_branch_name_button.click
 
         expect(page).to have_text("Copied!")
-        expect_clipboard_content("#{work_package.type.name.downcase}/#{work_package.id}-a-test-work_package")
+        expect_clipboard_content("#{work_package.type.name.downcase}/#{branch_id}-a-test-work_package")
       end
 
       it "shows a commit message with newlines between title and link" do
         page.click_on "Git snippets"
 
         within_dialog do
-          commit_message = "OP##{work_package.id} A test work_package\n#{work_package_short_url(work_package)}"
+          commit_message = "OP##{work_package.display_id} A test work_package\n#{work_package_short_url(work_package)}"
           expect(page).to have_test_selector("gitlab-snippets-commit-message", text: commit_message)
         end
       end
@@ -175,22 +176,22 @@ RSpec.describe "Open the Gitlab tab", :js do
 
         expect(page).to have_text("No issues")
         expect(page).to have_css(".octicon-issue-opened")
-        expect(page).to have_text("Link an issue by adding the code OP##{work_package.id} to " \
+        expect(page).to have_text("Link an issue by adding the code OP##{work_package.display_id} to " \
                                   "the title or description.")
 
         expect(page).to have_text("No merge requests")
         expect(page).to have_css(".octicon-git-pull-request")
-        expect(page).to have_text("Link a merge request by adding the code OP##{work_package.id} to " \
+        expect(page).to have_text("Link a merge request by adding the code OP##{work_package.display_id} to " \
                                   "the title or description.")
 
         expect(page).to have_text("No branches")
         expect(page).to have_css(".octicon-git-branch")
         expect(page).to have_text("Link a branch by naming the branch, so that it starts with " \
-                                  "#{work_package.type.name.parameterize}/#{work_package.id} or only #{work_package.id}.")
+                                  "#{work_package.type.name.parameterize}/#{branch_id} or only #{branch_id}.")
 
         expect(page).to have_text("No commits")
         expect(page).to have_css(".octicon-git-commit")
-        expect(page).to have_text("Link a commit by adding the code OP##{work_package.id} or the " \
+        expect(page).to have_text("Link a commit by adding the code OP##{work_package.display_id} or the " \
                                   "#{project_work_package_url(work_package.project, work_package)} to the commit message.")
       end
     end

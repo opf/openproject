@@ -107,9 +107,9 @@ module Pages
 
     def path(tab = "activity")
       if project
-        project_work_package_path(project, work_package.id, tab)
+        project_work_package_path(project, work_package, tab)
       else
-        project_work_package_path(work_package.project.identifier, work_package.id, tab)
+        project_work_package_path(work_package.project.identifier, work_package, tab)
       end
     end
 

@@ -122,10 +122,9 @@ RSpec.describe "Project templates", :js, with_good_job_batches: [CopyProjectJob,
 
       expect(mail).not_to be_nil
 
-      expect(page).to have_current_path /\/projects\/foo-bar\/?/, wait: 20
+      project = Project.find_by!(name: "Foo bar")
+      expect(page).to have_current_path %r{/projects/#{project.identifier}/?}, wait: 20
 
-      project = Project.find_by identifier: "foo-bar"
-      expect(project.name).to eq "Foo bar"
       expect(project).not_to be_templated
       # Members are copied by default from the template
       expect(project.users).to contain_exactly(current_user, other_user)
@@ -162,11 +161,10 @@ RSpec.describe "Project templates", :js, with_good_job_batches: [CopyProjectJob,
 
       GoodJob.perform_inline
 
-      expect(page).to have_current_path /\/projects\/project-from-template\/?/, wait: 20
-
       # Project should be created successfully even though required custom field is empty
-      project = Project.find_by(identifier: "project-from-template")
+      project = Project.find_by(name: "Project from template")
       expect(project).to be_present
+      expect(page).to have_current_path %r{/projects/#{project.identifier}/?}, wait: 20
       expect(project.template).to eq(template)
       expect(project.send(custom_field.attribute_getter)).to be_blank
     end

@@ -402,13 +402,18 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
       # instead of adding to it.
       first_target = find(".work-package-table--container tr:nth-of-type(1) .wp-table--cell-td.id")
       loading_indicator_saveguard
-      first_target.click
+      first_target.click(x: -(first_target.rect.width / 2) + 2, y: 0)
       loading_indicator_saveguard
       # :meta (not :control) mirrors select_work_package_row_spec's helper: the
       # click handler accepts either modifier, but :control replaces the
       # selection on macOS drivers instead of extending it.
       ctrl_target = find(".work-package-table--container tr:nth-of-type(2) .wp-table--cell-td.id")
-      page.driver.browser.action.key_down(:meta).click(ctrl_target.native).key_up(:meta).perform
+      page.driver.browser.action
+        .key_down(:meta)
+        .move_to(ctrl_target.native, -(ctrl_target.rect.width / 2) + 2, 0)
+        .click
+        .key_up(:meta)
+        .perform
       expect(page).to have_css(".wp-table--row.-checked", count: 2)
 
       # Probe: records mid-drag state; the Selenium chain itself is atomic.

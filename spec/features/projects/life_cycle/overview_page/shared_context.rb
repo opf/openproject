@@ -28,7 +28,7 @@
 #++
 
 RSpec.shared_context "with seeded projects and phases" do
-  shared_let(:project) { create(:project, name: "Foo project", identifier: "foo-project") }
+  shared_let(:project) { create(:project, name: "Foo project") }
   shared_let(:standard) { create(:standard_global_role) }
   shared_let(:admin) { create(:admin) }
 

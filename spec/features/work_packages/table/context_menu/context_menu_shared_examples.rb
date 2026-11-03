@@ -62,7 +62,7 @@ RSpec.shared_examples_for "provides a single WP context menu" do
     open_context_menu.call
     menu.choose("Move to another project")
     expect(page).to have_css("h2", text: I18n.t(:button_move))
-    expect(page).to have_css("a.work_package", text: "##{work_package.id}")
+    expect(page).to have_css("a.work_package", text: work_package.formatted_id)
 
     # Open Duplicate
     open_context_menu.call
@@ -98,7 +98,7 @@ RSpec.shared_examples_for "provides a single WP context menu" do
     open_context_menu.call
     menu.choose("Duplicate in another project")
     expect(page).to have_css("h2", text: I18n.t(:button_duplicate))
-    expect(page).to have_css("a.work_package", text: "##{work_package.id}")
+    expect(page).to have_css("a.work_package", text: work_package.formatted_id)
   end
 
   describe "creating work packages" do

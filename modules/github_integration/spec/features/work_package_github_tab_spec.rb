@@ -81,7 +81,7 @@ RSpec.describe "Open the GitHub tab", :js do
       github_tab.git_actions_menu_button.click
       github_tab.git_actions_copy_branch_name_button.click
       expect(page).to have_text("Copied!")
-      expect_clipboard_content("#{work_package.type.name.downcase}/#{work_package.id}-a-test-work_package")
+      expect_clipboard_content("#{work_package.type.name.downcase}/#{work_package.display_id.to_s.downcase}-a-test-work_package")
 
       expect(page).to have_text("A Test PR title")
       expect(page).to have_text("a check run name")
@@ -94,7 +94,7 @@ RSpec.describe "Open the GitHub tab", :js do
 
       commit_message_input_text = page.find_field("Commit message").value
       expect(commit_message_input_text)
-        .to eq("[##{work_package.id}] A test work_package\n\n#{work_package_short_url(work_package)}")
+        .to eq("[#{work_package.formatted_id}] A test work_package\n\n#{work_package_short_url(work_package)}")
     end
 
     context "when there are no pull requests" do
@@ -106,7 +106,7 @@ RSpec.describe "Open the GitHub tab", :js do
         work_package_page.switch_to_tab(tab: "github")
         tabs.expect_no_counter(github_tab_element)
         expect(page).to have_content("There are no pull requests")
-        expect(page).to have_content("Link an existing PR by using the code OP##{work_package.id}")
+        expect(page).to have_text("Link an existing PR by using the code OP##{work_package.display_id}")
       end
     end
 

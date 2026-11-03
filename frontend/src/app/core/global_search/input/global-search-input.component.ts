@@ -376,7 +376,8 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   private searchResultsToOptions(results:WorkPackageResource[], query:string) {
     const searchOptions = this.detailedSearchOptions();
     // If we have a direct hit, we choose it to be the selected element.
-    this.selectedItem = results.find((wp) => wp.id?.toString() === query) ?? searchOptions[0];
+    this.selectedItem = results.find((wp) => wp.id?.toString() === query
+      || wp.displayId.toLowerCase() === query.toLowerCase()) ?? searchOptions[0];
 
     if (this.selectedItem instanceof WorkPackageResource) {
       void announce(this.I18n.t('js.global_search.direct_hit_available'), { politeness: 'polite' });

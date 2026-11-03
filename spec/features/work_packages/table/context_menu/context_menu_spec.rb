@@ -110,7 +110,7 @@ RSpec.describe "Work package table context menu",
 
         # Show relations tab when selecting show-relations from menu
         menu.choose("Show relations")
-        expect(page).to have_current_path /details\/#{work_package.id}\/relations/
+        expect(page).to have_current_path /details\/#{work_package.display_id}\/relations/
       end
     end
   end

@@ -35,8 +35,7 @@ RSpec.describe "Work Package boards spec",
     create(:user,
            member_with_roles: { project => role })
   end
-  # The identifier is important to test https://community.openproject.com/wp/29754
-  let(:project) { create(:project, identifier: "boards", enabled_module_names: %i[work_package_tracking board_view]) }
+  let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:permissions) { %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries] }
   let(:role) { create(:project_role, permissions:) }
   let(:admin) { create(:admin) }
@@ -70,7 +69,7 @@ RSpec.describe "Work Package boards spec",
       .find_test_selector("op-wp-single-card--content-type")
       .double_click
 
-    expect(page).to have_current_path project_work_package_path(project, wp.id, "activity")
+    expect(page).to have_current_path project_work_package_path(project, wp, "activity")
 
     # Click back goes back to the board
     page.go_back
@@ -83,7 +82,7 @@ RSpec.describe "Work Package boards spec",
     split_view = card.open_details_view
     split_view.expect_subject
 
-    expect(page).to have_current_path /details\/#{wp.id}/
+    expect(page).to have_current_path /details\/#{wp.display_id}/
     card.expect_selected
     split_view.close
 
@@ -99,7 +98,7 @@ RSpec.describe "Work Package boards spec",
 
     # Click on the card again
     card.open_details_view
-    expect(page).to have_current_path /details\/#{wp.id}/
+    expect(page).to have_current_path /details\/#{wp.display_id}/
   end
 
   it "navigates correctly the path from overview page to the boards page",
@@ -140,7 +139,7 @@ RSpec.describe "Work Package boards spec",
     split_view = card.open_details_view
     split_view.expect_subject
     split_view.switch_to_tab tab: :relations
-    expect(page).to have_current_path /details\/#{wp.id}\/relations/
+    expect(page).to have_current_path /details\/#{wp.display_id}\/relations/
 
     # Go to full view of WP
     full_view = split_view.switch_to_fullscreen
@@ -150,7 +149,7 @@ RSpec.describe "Work Package boards spec",
     full_view.go_back
     split_view.expect_subject
 
-    expect(page).to have_current_path /details\/#{wp.id}\/relations/
+    expect(page).to have_current_path /details\/#{wp.display_id}\/relations/
     split_view.expect_tab "Relations"
   end
 

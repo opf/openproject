@@ -371,7 +371,7 @@ RSpec.describe "Projects copy", :js,
       include_context "ng-select-autocomplete helpers"
 
       shared_let(:public_project) do
-        create(:project, name: "Public Pr", identifier: "public-pr", public: true)
+        create(:project, name: "Public Pr", public: true)
       end
 
       let!(:versions) do

@@ -44,7 +44,7 @@ RSpec.describe "Work package single context menu", :js do
     wp_view.select_from_context_menu("Duplicate in another project")
 
     expect(page).to have_css("h2", text: I18n.t(:button_duplicate))
-    expect(page).to have_css("a.work_package", text: "##{work_package.id}")
+    expect(page).to have_css("a.work_package", text: work_package.formatted_id)
     expect(page).to have_current_path /work_packages\/move\/new\?copy=true&ids\[\]=#{work_package.id}/
   end
 
@@ -55,7 +55,7 @@ RSpec.describe "Work package single context menu", :js do
     # This test makes sure the copy to clipboard logic is working,
     # regardless of the browser permissions.
     # It can either succeed (showing success message) or fail (showing the URL to copy manually).
-    expect(page).to have_message_copied_to_clipboard("/wp/#{work_package.id}")
+    expect(page).to have_message_copied_to_clipboard("/wp/#{work_package.display_id}")
   end
 
   describe "'Copy numeric ID to clipboard' item" do

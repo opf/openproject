@@ -46,10 +46,10 @@ RSpec.describe "Wysiwyg work package linking", :js, :selenium do
 
     it "can reference work packages" do
       # single hash autocomplete
-      editor.click_and_type_slowly "##{work_package.id}"
+      editor.click_and_type_slowly "##{work_package.display_id}"
       editor.click_autocomplete work_package.subject
 
-      expect(editor.editor_element).to have_css("a.mention", text: "##{work_package.id}")
+      expect(editor.editor_element).to have_css("a.mention", text: "##{work_package.display_id}")
 
       # Save wiki page
       click_on "Create"
@@ -77,7 +77,7 @@ RSpec.describe "Wysiwyg work package linking", :js, :selenium do
       editor.in_editor do |_container, editable|
         expect(editable).to have_css(".op-macro-wp-quickinfo-widget")
         expect(editable).to have_css("opce-macro-wp-quickinfo[data-id='#{work_package.id}'][data-detailed='false']")
-        expect(editable).to have_css("opce-macro-wp-quickinfo > a", text: "##{work_package.id}")
+        expect(editable).to have_css("opce-macro-wp-quickinfo > a", text: work_package.formatted_id)
       end
     end
   end

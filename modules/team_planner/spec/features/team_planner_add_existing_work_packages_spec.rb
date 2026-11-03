@@ -124,13 +124,13 @@ RSpec.describe "Team planner add existing work packages",
       # Open first wp
       split_screen = team_planner.open_split_view_by_info_icon first_wp
       split_screen.expect_subject
-      expect(page).to have_current_path /\/details\/#{first_wp.id}/
+      expect(page).to have_current_path /\/details\/#{first_wp.display_id}/
 
       # Select work package in add existing
       add_existing_pane.card(second_wp).click
       split_screen = Pages::PrimerizedSplitWorkPackage.new second_wp
       # Wait for navigation to complete before checking the split panel DOM
-      expect(page).to have_current_path /\/details\/#{second_wp.id}/
+      expect(page).to have_current_path /\/details\/#{second_wp.display_id}/
       split_screen.expect_subject
     end
 
@@ -171,7 +171,7 @@ RSpec.describe "Team planner add existing work packages",
       split_view = wait_for_turbo_frame do
         team_planner.open_split_view_by_info_icon(third_wp)
       end
-      expect(page).to have_current_path /\/details\/#{third_wp.id}/
+      expect(page).to have_current_path /\/details\/#{third_wp.display_id}/
       split_view.expect_subject
     end
 

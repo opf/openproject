@@ -34,7 +34,9 @@ RSpec.describe "Projects", "creation", :js do
 
   current_user { create(:admin) }
 
-  shared_let(:project) { create(:project, name: "Foo project", identifier: "foo-project") }
+  shared_let(:project) do
+    create(:project, name: "Foo project", identifier: Project.suggest_identifier("Foo project"))
+  end
 
   let(:projects_page) { Pages::Projects::Index.new }
 
@@ -67,7 +69,7 @@ RSpec.describe "Projects", "creation", :js do
 
     expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-    expect(page).to have_current_path /\/projects\/foo-bar\/?/
+    expect(page).to have_current_path %r{/projects/#{Project.find_by!(name: 'Foo bar').identifier}/?}
     expect(page).to have_content "Foo bar"
   end
 
@@ -134,10 +136,9 @@ RSpec.describe "Projects", "creation", :js do
 
     expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-    expect(page).to have_current_path /\/projects\/foo-project-1\/?/
-
-    project = Project.last
-    expect(project.identifier).to eq "foo-project-1"
+    new_project = Project.last
+    expect(new_project.identifier).not_to eq project.identifier
+    expect(page).to have_current_path %r{/projects/#{new_project.identifier}/?}
   end
 
   it "does not create a project when the name is not present" do
@@ -196,7 +197,7 @@ RSpec.describe "Projects", "creation", :js do
 
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-      expect(page).to have_current_path /\/projects\/foo-bar\/?/
+      expect(page).to have_current_path %r{/projects/#{Project.find_by!(name: 'Foo bar').identifier}/?}
       expect(page).to have_content "Foo bar"
 
       project = Project.last
@@ -211,7 +212,7 @@ RSpec.describe "Projects", "creation", :js do
     include_context "ng-select-autocomplete helpers"
 
     shared_let(:public_project) do
-      create(:project, name: "Public Pr", identifier: "public-pr", public: true)
+      create(:project, name: "Public Pr", public: true)
     end
 
     shared_let(:versions) do
@@ -264,7 +265,7 @@ RSpec.describe "Projects", "creation", :js do
 
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-      expect(page).to have_current_path /\/projects\/foo-bar\/?/
+      expect(page).to have_current_path %r{/projects/#{Project.find_by!(name: 'Foo bar').identifier}/?}
       expect(page).to have_content "Foo bar"
 
       project = Project.last
@@ -406,7 +407,7 @@ RSpec.describe "Projects", "creation", :js do
 
         expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-        expect(page).to have_current_path /\/projects\/foo-bar\/?/
+        expect(page).to have_current_path %r{/projects/#{Project.find_by!(name: 'Foo bar').identifier}/?}
 
         project = Project.last
 
@@ -432,7 +433,7 @@ RSpec.describe "Projects", "creation", :js do
 
           expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-          expect(page).to have_current_path /\/projects\/foo-bar\/?/
+          expect(page).to have_current_path %r{/projects/#{Project.find_by!(name: 'Foo bar').identifier}/?}
 
           project = Project.last
 
@@ -449,9 +450,9 @@ RSpec.describe "Projects", "creation", :js do
 
           wait_for_turbo { click_on "Complete" }
 
-          expect(page).to have_current_path /\/projects\/foo-bar\/?/
-
           expect_and_dismiss_flash type: :success, message: "Successful creation."
+
+          expect(page).to have_current_path %r{/projects/#{Project.find_by!(name: 'Foo bar').identifier}/?}
 
           project = Project.last
 
@@ -484,7 +485,7 @@ RSpec.describe "Projects", "creation", :js do
 
             expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-            expect(page).to have_current_path /\/projects\/foo-bar\/?/
+            expect(page).to have_current_path %r{/projects/#{Project.find_by!(name: 'Foo bar').identifier}/?}
 
             project = Project.last
 
@@ -508,7 +509,7 @@ RSpec.describe "Projects", "creation", :js do
 
             expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-            expect(page).to have_current_path /\/projects\/foo-bar\/?/
+            expect(page).to have_current_path %r{/projects/#{Project.find_by!(name: 'Foo bar').identifier}/?}
 
             project = Project.last
 
@@ -552,7 +553,7 @@ RSpec.describe "Projects", "creation", :js do
 
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-      expect(page).to have_current_path %r{/projects/project-without-step-3/?}
+      expect(page).to have_current_path %r{/projects/#{Project.find_by!(name: 'Project without step 3').identifier}/?}
       expect(page).to have_content "Project without step 3"
 
       # The required_not_for_all field should NOT be activated for the new project
@@ -660,7 +661,7 @@ RSpec.describe "Projects", "creation", :js do
       parent_autocompleter.find("input").set("")
 
       dropdown = search_autocomplete(parent_autocompleter,
-                                     query: "foo-project",
+                                     query: project.identifier,
                                      results_selector: ".ng-dropdown-panel-items")
 
       within(dropdown) do

@@ -271,7 +271,7 @@ module Pages
     # @param work_package [WorkPackage] The work package object.
     # @return [Pages::FullWorkPackage] The full work package page oobject.
     def open_full_screen_by_link(work_package)
-      row(work_package).click_link(work_package.id.to_s)
+      row(work_package).click_link(work_package.display_id.to_s)
 
       FullWorkPackage.new(work_package)
     end

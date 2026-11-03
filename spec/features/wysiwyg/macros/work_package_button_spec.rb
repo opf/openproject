@@ -37,7 +37,6 @@ RSpec.describe "Wysiwyg work package button spec", :js do
   let(:project) do
     create(:valid_project,
            :with_internal_wiki,
-           identifier: "my-project",
            enabled_module_names: %w[work_package_tracking],
            name: "My project name",
            types: [type])
@@ -90,7 +89,7 @@ RSpec.describe "Wysiwyg work package button spec", :js do
         expect_flash(message: "Successful creation.")
 
         within("#content") do
-          expect(page).to have_css("a[href=\"/projects/my-project/work_packages/new?type=#{type.id}\"]")
+          expect(page).to have_css("a[href=\"/projects/#{project.identifier}/work_packages/new?type=#{type.id}\"]")
         end
       end
     end

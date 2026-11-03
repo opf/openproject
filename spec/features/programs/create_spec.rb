@@ -77,12 +77,12 @@ RSpec.describe "Programs",
 
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-      expect(page).to have_current_path /\/projects\/foo-bar\/?/
+      program = Project.last
+      expect(page).to have_current_path %r{/projects/#{program.identifier}/?}
       expect(page).to have_content "Foo bar"
 
-      program = Project.last
+      expect(program.name).to eq "Foo bar"
       expect(program.workspace_type).to eq "program"
-      expect(program.identifier).to eq "foo-bar"
       expect(program.parent).to eq root_portfolio
     end
 

@@ -77,7 +77,7 @@ module Components
 
     # TODO: Make this aware of more entities
     def expect_work_package(work_package)
-      title = "#{work_package.type.name} ##{work_package.id} #{work_package.subject}"
+      title = "#{work_package.type.name} #{work_package.formatted_id} #{work_package.subject}"
       within modal_container do
         expect(page).to have_field("time_entry_entity_type", with: "WorkPackage", type: :hidden)
         expect(page).to have_css("opce-time-entries-work-package-autocompleter .ng-value", text: title, wait: 10)

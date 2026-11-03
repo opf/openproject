@@ -206,7 +206,7 @@ RSpec.describe "work package export", :js do
     end
 
     it "opens the dialog and exports without leaving the split view" do
-      expect(page).to have_css("#work-package-details-#{wp1.id}")
+      expect(page).to have_css("#work-package-details-#{wp1.display_id}")
       show_export_dialog!
       export!
     end

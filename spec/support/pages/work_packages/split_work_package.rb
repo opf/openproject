@@ -70,9 +70,9 @@ module Pages
 
     def path(tab = "overview")
       if project
-        details_project_work_packages_path(project, work_package.id, tab)
+        details_project_work_packages_path(project, work_package.display_id, tab)
       else
-        details_work_packages_path(work_package.id, tab)
+        details_work_packages_path(work_package.display_id, tab)
       end
     end
 

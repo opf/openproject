@@ -475,7 +475,7 @@ RSpec.describe "Notification center",
 
       login_with recipient.login, "adminADMIN!", visit_signin_path: false
 
-      expect(page).to have_current_path /notifications\/details\/#{work_package.id}/
+      expect(page).to have_current_path /notifications\/details\/#{work_package.display_id}/
     end
   end
 end

@@ -270,9 +270,9 @@ RSpec.describe "Project creation wizard",
     expect(page).to have_text("Project attributes saved and artifact work package created successfully.")
 
     project.reload
+    artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
     expect(page).to have_current_path("/projects/#{project.identifier}/" \
-                                      "work_packages/#{project.project_creation_wizard_artifact_work_package_id}/" \
-                                      "activity")
+                                      "work_packages/#{artifact_work_package.display_id}/activity")
     expect(project.typed_custom_value_for(text_custom_field)).to eq("This is a test project for validation")
     expect(project.typed_custom_value_for(string_custom_field)).to eq("TEST-001")
     expect(project.typed_custom_value_for(list_custom_field)).to eq("Internal")
@@ -399,9 +399,9 @@ RSpec.describe "Project creation wizard",
       expect(page).to have_text("Project attributes saved and artifact work package created successfully.", wait: 20)
 
       project.reload
+      artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
       expect(page).to have_current_path("/projects/#{project.identifier}/" \
-                                        "work_packages/#{project.project_creation_wizard_artifact_work_package_id}/" \
-                                        "activity")
+                                        "work_packages/#{artifact_work_package.display_id}/activity")
       expect(project.typed_custom_value_for(text_custom_field)).to eq("Test description")
       expect(project.typed_custom_value_for(string_custom_field)).to eq("TEST-ENABLED")
       expect(project.typed_custom_value_for(list_custom_field)).to eq("Internal")

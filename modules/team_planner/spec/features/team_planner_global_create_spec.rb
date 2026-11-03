@@ -83,7 +83,6 @@ RSpec.describe "Team Planner",
       let(:control_project) do
         create(:project,
                name: "Unrelated Control Project",
-               identifier: "unrelated-control-project",
                member_with_permissions: { user => %w[view_team_planner manage_team_planner] })
       end
 

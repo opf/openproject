@@ -31,7 +31,7 @@ require "spec_helper"
 
 RSpec.describe "Group memberships through groups page", :js do
   shared_let(:admin) { create(:admin) }
-  let!(:project) { create(:project, name: "Project 1", identifier: "project1") }
+  let!(:project) { create(:project, name: "Project 1") }
 
   let!(:peter) { create(:user, firstname: "Peter", lastname: "Pan") }
 

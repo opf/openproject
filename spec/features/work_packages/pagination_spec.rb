@@ -33,7 +33,7 @@ RSpec.describe "Work package pagination", :js do
   shared_let(:admin) { create(:admin) }
 
   let(:project) do
-    create(:project, name: "project1", identifier: "project1")
+    create(:project, name: "project1")
   end
 
   shared_examples_for "paginated work package list" do
@@ -85,7 +85,7 @@ RSpec.describe "Work package pagination", :js do
     it_behaves_like "paginated work package list" do
       let(:path) { project_work_packages_path(project) }
       let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-      let(:expected_path) { "/projects/project1/work_packages" }
+      let(:expected_path) { "/projects/#{project.identifier}/work_packages" }
     end
   end
 

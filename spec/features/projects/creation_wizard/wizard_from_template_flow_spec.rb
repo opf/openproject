@@ -155,15 +155,13 @@ RSpec.describe "Project creation wizard from a template",
     # Run background jobs
     GoodJob.perform_inline
 
+    project = Project.find_by!(name: "My New Project")
+
     # Should redirect to the creation wizard (because project_creation_wizard_enabled is true)
-    expect(page).to have_current_path(/\/projects\/my-new-project\/creation_wizard/, wait: 20)
+    expect(page).to have_current_path(%r{/projects/#{project.identifier}/creation_wizard}, wait: 20)
 
     # Verify we're on the wizard page
     expect(page).to have_css("h3", text: "Project Information")
-
-    # Find the created project
-    project = Project.find_by(identifier: "my-new-project")
-    expect(project).to be_present
 
     # Verify user is a member with the new_project_role (no add_work_packages)
     user_member = project.members.find_by(user_id: current_user.id)

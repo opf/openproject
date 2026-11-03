@@ -84,7 +84,7 @@ RSpec.describe "show default model", :js, with_config: { edition: "bim" } do
 
       # Check the order of work packages: Latest first
       expect(show_default_page.find_all(".op-wp-single-card--content-id").map(&:text)).to(
-        eql(["##{new_work_package.id}", "##{old_work_package.id}"])
+        eql([new_work_package.formatted_id, old_work_package.formatted_id])
       )
     end
   end

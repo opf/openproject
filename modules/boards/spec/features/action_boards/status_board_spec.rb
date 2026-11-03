@@ -158,7 +158,6 @@ RSpec.describe "Status action board",
       let(:control_project) do
         create(:project,
                name: "Unrelated Control Project",
-               identifier: "unrelated-control-project",
                types: [type],
                enabled_module_names: %i[work_package_tracking board_view],
                members: { user => role })

@@ -34,7 +34,7 @@ RSpec.describe "group memberships through groups page", :js do
 
   shared_let(:admin) { create(:admin) }
   let!(:project) do
-    create(:project, name: "Project 1", identifier: "project1", members: project_members)
+    create(:project, name: "Project 1", members: project_members)
   end
 
   let!(:peter)    { create(:user, firstname: "Peter", lastname: "Pan") }
@@ -135,7 +135,6 @@ RSpec.describe "group memberships through groups page", :js do
     let!(:project2) do
       create(:project,
              name: "Project 2",
-             identifier: "project2",
              members: project_members)
     end
     let(:members_page1) { Pages::Members.new project.identifier }
@@ -191,14 +190,11 @@ RSpec.describe "group memberships through groups page", :js do
       let!(:archived_project) do
         create(:project,
                name: "Archived project",
-               identifier: "archived_project",
                active: false)
       end
 
       let!(:other_project) do
-        create(:project,
-               name: "Other project",
-               identifier: "other_project")
+        create(:project, name: "Other project")
       end
 
       it "can only a add the group to active projects in which the group is not yet a member" do
@@ -216,7 +212,7 @@ RSpec.describe "group memberships through groups page", :js do
         # projects are never offered, so the control has to be yet another
         # project the group may still be added to.
         let(:control_project) do
-          create(:project, name: "Control project", identifier: "control_project")
+          create(:project, name: "Control project")
         end
 
         before do
