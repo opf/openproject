@@ -63,7 +63,7 @@ function card(mode:'light'|'dark', usage:'foreground'|'background'):string {
   return `
     <li data-color-contrast-target="card">
       <h5>Used as ${usage}</h5>
-      <div class="color-contrast--surface" data-color-mode="${mode}" data-${mode}-theme="${mode}">
+      <div class="contrast-preview--surface" data-color-mode="${mode}" data-${mode}-theme="${mode}">
         <span class="__hl_${usage}" data-color-contrast-target="sample">Sample text</span>
       </div>
       <dl>

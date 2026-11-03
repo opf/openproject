@@ -103,7 +103,7 @@ export default class ColorContrastController extends Controller {
 
   private evaluate(sample:HTMLElement, card:HTMLElement):void {
     const style = getComputedStyle(sample);
-    const surface = sample.closest('.color-contrast--surface')!;
+    const surface = sample.closest('.contrast-preview--surface')!;
     const surfaceColor = computedColor(getComputedStyle(surface).backgroundColor);
     const background = computedColor(style.backgroundColor);
     const effectiveBackground = composite(background, surfaceColor);
