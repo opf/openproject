@@ -108,6 +108,7 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
         [:text, "Work packages within the sprint"],
         [:css, "opce-velocity-chart"],
         [:css, "opce-burndown-chart"],
+        [:css, "opce-burnup-chart"],
         [:css, "opce-wp-overview-graph"]
       ]
     end
@@ -118,6 +119,7 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
         [:text, "Work packages within the sprint"],
         [:css, "opce-velocity-chart"],
         [:css, "opce-burndown-chart"],
+        [:css, "opce-burnup-chart"],
         [:css, "opce-created-resolved-chart"],
         [:text, "Epic progress"],
         [:css, "opce-wp-overview-graph"],
