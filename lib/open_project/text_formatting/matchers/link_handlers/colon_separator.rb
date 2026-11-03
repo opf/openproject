@@ -129,7 +129,7 @@ module OpenProject::TextFormatting::Matchers
 
       def render_project
         p = Project
-            .where(["projects.identifier = :s OR LOWER(projects.name) = :s", { s: oid.downcase }])
+            .where(["LOWER(projects.identifier) = :s OR LOWER(projects.name) = :s", { s: oid.downcase }])
             .first
         if p
           link_to_project(p, { only_path: context[:only_path] }, class: "project")
