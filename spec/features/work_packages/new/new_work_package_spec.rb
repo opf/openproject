@@ -275,6 +275,25 @@ RSpec.describe "new work package", :js do
       details_subject = wp_table.edit_field(new_wp, :subject)
       details_subject.expect_state_text new_subject
     end
+
+    context "with semantic identifiers", with_settings: { work_packages_identifier: "semantic" } do
+      let(:semantic_project) { create(:project, identifier: "SPLITNEW", types:) }
+      let(:user) { create(:user, member_with_permissions: { semantic_project => permissions }) }
+      let(:wp_table) { Pages::WorkPackagesTable.new(semantic_project) }
+
+      it "opens the new work package by its semantic ID and selects its row" do
+        create_work_package(type_task)
+        expect(page).to have_selector(safeguard_selector, wait: 10)
+
+        wp_page.subject_field.set("new work package")
+        save_work_package!
+        wp_page.dismiss_toaster!
+
+        new_wp = WorkPackage.last
+        expect(page).to have_current_path(%r{/details/#{new_wp.identifier}})
+        expect(page).to have_css("#{wp_table.row_selector(new_wp)}.-checked")
+      end
+    end
   end
 
   context "full screen" do

@@ -119,7 +119,7 @@ RSpec.describe "BIM Revit Add-in navigation spec", :js,
         sleep(5)
         last_work_package = WorkPackage.find_by(subject: "Some subject")
         expect(page).to(
-          have_current_path(/bcf\/details\/#{last_work_package.id}$/, ignore_query: true)
+          have_current_path(/bcf\/details\/#{last_work_package.display_id}$/, ignore_query: true)
         )
       end
     end
