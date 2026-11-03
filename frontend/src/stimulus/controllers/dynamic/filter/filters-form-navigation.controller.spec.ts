@@ -232,4 +232,25 @@ describe('Filters form navigation', () => {
 
     await vi.waitFor(() => expect(indicator).not.toBeVisible());
   });
+
+  it('keeps a previous request\'s indicator out of the history snapshot', async () => {
+    setUrl();
+    const controller = await mount(['page', 'all'], `
+      <turbo-frame id="backlogs_container"></turbo-frame>
+      <div id="global-loading-indicator"></div>
+    `);
+    const frame = ctx.container.querySelector<HTMLElement & { loaded:Promise<void> }>('#backlogs_container')!;
+    const indicator = ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!;
+    let hiddenWhenVisiting:boolean|undefined;
+    visit.mockImplementation(() => {
+      hiddenWhenVisiting = indicator.hidden;
+      frame.loaded = new Promise(() => {});
+    });
+
+    controller.currentFiltersValue = [{ subject: { operator: '~', values: ['new'] } }];
+    controller.sendForm();
+
+    expect(hiddenWhenVisiting).toBe(true);
+    expect(indicator).toBeVisible();
+  });
 });

@@ -299,6 +299,22 @@ describe('Filters form controller', () => {
     await waitFor(() => expect(replaceState).toHaveBeenCalledOnce());
   });
 
+  it('aborts the request and leaves the URL alone when the form disconnects', async () => {
+    const controller = await renderForm();
+    const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);
+
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledOnce());
+
+    ctx.container.querySelector('[data-controller="filter--filters-form"]')!.remove();
+    await waitFor(() => expect(requestSignal(0).aborted).toBe(true));
+
+    resolveResponse(streamResponse());
+    await ctx.nextFrame();
+
+    expect(replaceState).not.toHaveBeenCalled();
+  });
+
   it('keeps the indicator visible while a superseding request is in flight', async () => {
     const controller = await renderForm();
     const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);

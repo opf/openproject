@@ -34,7 +34,7 @@ import {
   type TurboBeforeMorphElementEvent,
 } from '@hotwired/turbo';
 import { debounce } from 'lodash-es';
-import { showElement } from 'core-app/shared/helpers/dom-helpers';
+import { hideElement, showElement } from 'core-app/shared/helpers/dom-helpers';
 import { escapeFilterValue } from 'core-stimulus/helpers/filter-helpers';
 import { withLoadingIndicator } from 'core-stimulus/helpers/request-helpers';
 import { getMetaValue } from 'core-app/core/setup/globals/global-helpers';
@@ -168,6 +168,7 @@ export default class FiltersFormController extends Controller {
 
   disconnect() {
     this.abortController?.abort();
+    this.streamAbortController?.abort();
   }
 
   addFilterSelectTargetConnected() {
@@ -618,6 +619,9 @@ export default class FiltersFormController extends Controller {
     this.sentFilters = newFilters;
 
     if (this.hasTurboFrameRequestValue) {
+      // visit() snapshots the page for history; keep a previous request's indicator out of it.
+      const indicator = document.querySelector<HTMLElement>('#global-loading-indicator');
+      if (indicator) hideElement(indicator);
       visit(url, { frame: this.turboFrameRequestValue, action: 'advance' });
       const { turboFrame } = this;
       if (turboFrame) void withLoadingIndicator(turboFrame.loaded);
