@@ -32,6 +32,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 import { generateId } from 'core-app/shared/helpers/dom-helpers';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 import PrimerColorsPlugin from './../plugin.primer-colors';
@@ -54,7 +55,8 @@ interface ChartDataSet {
   styleUrls: ['./wp-embedded-graph.component.sass'],
   standalone: true,
   imports: [
-    BaseChartDirective
+    BaseChartDirective,
+    OpSharedModule,
   ],
   providers: [
     provideCharts(withDefaultRegisterables(PrimerColorsPlugin)),
