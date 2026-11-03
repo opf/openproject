@@ -60,7 +60,8 @@ RSpec.describe WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent, type
     list = page.find(:test_id, "type-projects-switching")
 
     expect(list).to have_text("Laboratory").and have_text("Firmware")
-    expect(list).to have_text("Bookshop").and have_text("Bug")
+    expect(list).to have_text("Bookshop").and have_text("Bug (parent)", normalize_ws: true)
+    expect(list).to have_no_text("Firmware (parent)", normalize_ws: true)
     expect(list).to have_no_text("Depot")
   end
 
