@@ -29,6 +29,8 @@
 
 module SortableLists
   module MoveMenu
+    # Please follow the guidance of lookbook/docs/20-patterns/10-contextual-action-menu.md.erb
+    # when choosing whether to add these items into a submenu.
     include OpPrimer::AttributesHelper
 
     Direction = Data.define(:label, :direction, :icon) do
