@@ -52,6 +52,12 @@ module ITSM
       @text ||= valid_utf8(body_text).gsub(/\r\n?/, "\n").strip
     end
 
+    def header_value(name) = valid_utf8(Array(mail.header[name]).first&.value)
+
+    def delivery_report?
+      mail.mime_type == "multipart/report" && mail.content_type_parameters["report-type"]&.casecmp?("delivery-status")
+    end
+
     private
 
     attr_reader :raw, :mail
@@ -100,7 +106,7 @@ module ITSM
       text.empty? || text == target ? target : "#{text} (#{target})"
     end
 
-    def email_addresses(addresses) = addresses.select { EmailValidator.valid?(it) }
+    def email_addresses(addresses) = EmailAddress::NORMALIZE_ALL.call(addresses.select { EmailValidator.valid?(it) })
 
     def content_based_message_id = "#{Digest::SHA256.hexdigest(raw)}@openproject.invalid"
 

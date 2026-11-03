@@ -31,7 +31,7 @@ module ITSM
   module Mailboxes
     class FetchService < ::BaseServices::BaseCallable
       include Dry::Monads[:result]
-      include Dry::Monads::Do.for(:read_all)
+      include Dry::Monads::Do.for(:process_all)
 
       BATCH_SIZE = 50
 
@@ -43,7 +43,7 @@ module ITSM
       protected
 
       def perform
-        return service_failure(:inactive) unless mailbox.active?
+        return service_failure(:inactive) unless fetchable?
 
         OpenProject::Mutex.with_advisory_lock(IncomingMailbox, "itsm_mailbox_fetch_#{mailbox.id}", timeout_seconds: 0) do
           Rails.logger.tagged("ITSM", "mailbox #{mailbox.id}") do
@@ -56,32 +56,31 @@ module ITSM
 
       attr_reader :mailbox
 
+      def fetchable? = ITSM.helpdesk_available? && IncomingMailbox.fetchable.exists?(mailbox.id)
+
       def fetch_emails
         Adapters::ImapSession.open(mail_server: mailbox.mail_server, auth_strategy:) do |session|
           Adapters::Queries::UnseenUids.call(session:, limit: BATCH_SIZE)
-            .bind { |uids| read_all(session, uids) }
+            .bind { |uids| process_all(session, uids) }
         end
       end
 
       def auth_strategy = Adapters::AuthenticationStrategies::BasicAuth.new(mailbox.credentials)
 
-      def read_all(session, uids)
-        Success(uids.filter_map { |uid| yield read(session, uid) })
+      def process_all(session, uids)
+        uids.each { |uid| yield process(session, uid) }
+        Success(uids)
       end
 
-      def read(session, uid)
-        Adapters::Queries::RawEmail.call(session:, uid:).fmap { |raw| parse(raw) if raw }
+      def process(session, uid)
+        result = ProcessEmailService.new(mailbox:, session:).call(uid:)
+        return Success() if result.success?
+
+        Failure(SimpleError.new(source: ProcessEmailService, code: result.errors.symbols_for(:base).first))
       end
 
-      def parse(raw)
-        InboundEmail.new(raw).headers
-      rescue StandardError => e
-        Rails.logger.warn { "Email not read: #{e.class.name}" }
-        nil
-      end
-
-      def fetch_succeeded(emails)
-        Rails.logger.info { "Read #{emails.size} unseen emails" }
+      def fetch_succeeded(uids)
+        Rails.logger.info { "Processed #{uids.size} unseen emails" }
         mailbox.fetch_succeeded!
         ServiceResult.success(result: mailbox)
       end

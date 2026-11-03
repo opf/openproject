@@ -89,6 +89,19 @@ RSpec.describe ITSM::InboundEmail do
     end
   end
 
+  context "with addresses in mixed case" do
+    let(:raw) do
+      "From: Jane@Customer.example\r\nTo: Support@Example.com\r\n" \
+        "Cc: Colleague@Customer.example, colleague@customer.example\r\n\r\nHello"
+    end
+
+    it "normalizes them" do
+      expect(headers).to have_attributes(from_address: "jane@customer.example",
+                                         to_addresses: %w[support@example.com],
+                                         cc_addresses: %w[colleague@customer.example])
+    end
+  end
+
   context "with a recipient header that cannot be parsed" do
     let(:raw) do
       "From: jane@customer.example\r\n" \
@@ -228,6 +241,35 @@ RSpec.describe ITSM::InboundEmail do
       it "has no text" do
         expect(text).to eq("")
       end
+    end
+  end
+
+  describe "#header_value" do
+    let(:raw) { "From: jane@customer.example\r\nAuto-Submitted: auto-replied\r\nX-Bad: \xFFvalue\r\n\r\nHello".b }
+
+    it "returns a header's value as valid UTF-8, or nothing" do
+      expect(email.header_value("Auto-Submitted")).to eq("auto-replied")
+      expect(email.header_value("X-Bad")).to eq("�value")
+      expect(email.header_value("Precedence")).to be_nil
+    end
+  end
+
+  describe "#delivery_report?" do
+    let(:content_type) { "multipart/report; report-type=delivery-status; boundary=report" }
+    let(:raw) { "From: mailer-daemon@example.com\r\nContent-Type: #{content_type}\r\n\r\n--report--" }
+
+    it { expect(email).to be_delivery_report }
+
+    context "with another kind of report" do
+      let(:content_type) { "multipart/report; report-type=disposition-notification; boundary=report" }
+
+      it { expect(email).not_to be_delivery_report }
+    end
+
+    context "with a normal email" do
+      let(:raw) { "From: jane@customer.example\r\n\r\nHello" }
+
+      it { expect(email).not_to be_delivery_report }
     end
   end
 end
