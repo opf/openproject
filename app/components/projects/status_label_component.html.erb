@@ -1,5 +1,5 @@
 <%=
-  render(Primer::Beta::Label.new(size: :medium, **@system_arguments)) do
+  render(Primer::Beta::Label.new(size: @size, **@system_arguments)) do
     render(Primer::OpenProject::FlexLayout.new(align_items: :center)) do |flex|
       if @with_icon
         flex.with_column(mr: 1) do

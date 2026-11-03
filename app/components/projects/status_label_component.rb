@@ -36,6 +36,7 @@ class Projects::StatusLabelComponent < ApplicationComponent
 
     @project = project
     @with_icon = with_icon
+    @size = with_icon ? :large : :medium
     @status = find_status(project.status_code)
     @system_arguments = system_arguments
   end
