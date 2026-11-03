@@ -48,8 +48,8 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
     end
   end
 
-  def notify(reason: :mentioned, resource: work_package, **)
-    create(:notification, recipient: user, resource:, reason:, actor: author, **)
+  def notify(reason: :mentioned, resource: work_package, journal: nil, **)
+    create(:notification, recipient: user, resource:, reason:, actor: author, journal:, **)
   end
 
   context "without a session" do
@@ -222,6 +222,38 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
         expect(json["groups"].pluck("tag")).to eq(["openproject-wp-#{older.id}", "openproject-wp-#{newer.id}"])
       end
 
+      it "puts a work package first when an aggregated journal makes its notification unread again" do
+        other = create(:work_package, project:)
+        journal = work_package.journals.sole
+        other_journal = other.journals.sole
+        journal.update_columns(updated_at: 3.minutes.ago)
+        other_journal.update_columns(updated_at: 2.minutes.ago)
+        aggregated = notify(read_ian: true, journal:)
+        notify(resource: other, journal: other_journal)
+        notify(resource: other, journal: other_journal, reason: :assigned)
+
+        journal.update!(notes: "edited")
+        Notifications::UpdateService
+          .new(model: aggregated, user: author, contract_class: EmptyContract)
+          .call(read_ian: false)
+        get "/push-notification"
+
+        expect(json["groups"].pluck("tag")).to eq(["openproject-wp-#{work_package.id}", "openproject-wp-#{other.id}"])
+        expect(json["groups"].pluck("count")).to eq([1, 2])
+      end
+
+      it "keeps the order when a digest marks older notifications as sent" do
+        older = create(:work_package, project:)
+        newer = create(:work_package, project:)
+        older_notification = notify(resource: older, created_at: 2.minutes.ago)
+        notify(resource: newer, created_at: 1.minute.ago)
+
+        Notification.where(id: older_notification.id).update_all(mail_reminder_sent: true, updated_at: Time.current)
+        get "/push-notification"
+
+        expect(json["groups"].pluck("tag")).to eq(["openproject-wp-#{newer.id}", "openproject-wp-#{older.id}"])
+      end
+
       it "caps the groups at five and reports the rest as more" do
         work_packages = create_list(:work_package, 7, project:)
         work_packages.each_with_index { |wp, i| notify(resource: wp, created_at: (7 - i).minutes.ago) }
@@ -263,7 +295,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
       it "uses the date alert headline when the latest of several has no actor" do
         notify(reason: :commented, created_at: 2.minutes.ago)
         create(:notification, recipient: user, resource: work_package, reason: :date_alert_due_date,
-                              actor: nil, created_at: 1.minute.ago)
+                              actor: nil, journal: nil, created_at: 1.minute.ago)
 
         get "/push-notification"
 

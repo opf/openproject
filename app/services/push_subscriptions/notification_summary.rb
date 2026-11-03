@@ -31,6 +31,7 @@
 module PushSubscriptions
   class NotificationSummary
     LIMIT = 5
+    ACTIVITY_AT = "COALESCE(journals.updated_at, notifications.created_at)"
     UPDATED_REASONS = %w[watched subscribed created processed prioritized scheduled].freeze
 
     def initialize(user)
@@ -53,15 +54,20 @@ module PushSubscriptions
 
     def latest_per_work_package
       unread
-        .select("DISTINCT ON (resource_id) notifications.*, COUNT(*) OVER (PARTITION BY resource_id) AS unread_count")
-        .order(:resource_id, created_at: :desc, id: :desc)
+        .left_joins(:journal)
+        .select(<<~SQL.squish)
+          DISTINCT ON (notifications.resource_id) notifications.*,
+          COUNT(*) OVER (PARTITION BY notifications.resource_id) AS unread_count,
+          #{ACTIVITY_AT} AS activity_at
+        SQL
+        .order(Arel.sql("notifications.resource_id, #{ACTIVITY_AT} DESC, notifications.id DESC"))
     end
 
     def groups
       @groups ||= Notification
         .from(latest_per_work_package, :notifications)
         .select("notifications.*, COUNT(*) OVER () AS work_package_count, (SUM(unread_count) OVER ())::integer AS unread_total")
-        .order(created_at: :desc, id: :desc)
+        .order(activity_at: :desc, id: :desc)
         .limit(LIMIT)
         .preload(:actor, :resource)
         .to_a
