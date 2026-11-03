@@ -47,10 +47,27 @@ describe('InlineCreateRowBuilder', () => {
     });
     harnesses.push(table);
     await table.render();
+    table.table.tbody.closest('table')!.classList.add('generic-table');
     return table;
   };
 
   const cancelLinks = (row:HTMLElement) => row.querySelectorAll(`.${inlineCreateCancelClassName}`);
+
+  const expectCancelBesideField = (row:HTMLTableRowElement) => {
+    const cell = row.lastElementChild as HTMLTableCellElement;
+    const cellBox = cell.getBoundingClientRect();
+    const fieldBox = cell.querySelector('.wp-table--cell-container')!.getBoundingClientRect();
+    const linkBox = within(cell).getByRole('link', { name: 'Cancel' }).getBoundingClientRect();
+
+    expect(getComputedStyle(cell).display).toBe('table-cell');
+    expect(cellBox.height).toBe(row.getBoundingClientRect().height);
+    expect(linkBox.top).toBeGreaterThanOrEqual(cellBox.top);
+    expect(linkBox.bottom).toBeLessThanOrEqual(cellBox.bottom);
+    expect(linkBox.left).toBeGreaterThanOrEqual(cellBox.left);
+    expect(linkBox.right).toBeLessThanOrEqual(cellBox.right);
+    expect(linkBox.left >= fieldBox.right || linkBox.right <= fieldBox.left).toBe(true);
+    expect(linkBox.top).toBeLessThan(fieldBox.bottom);
+  };
 
   afterEach(async () => {
     await Promise.all(harnesses.splice(0).map((table) => table.destroy()));
@@ -83,6 +100,39 @@ describe('InlineCreateRowBuilder', () => {
       const link = within(row.lastElementChild as HTMLElement).getByRole('link', { name: 'Cancel' });
       expect(link).toHaveClass(inlineCreateCancelClassName);
       expect(link).toHaveAttribute('href', '#');
+    });
+
+    it('lays out the Cancel link beside the field in a cell that fills the row height', async () => {
+      const table = await mount('macro');
+
+      const row = table.addInlineCreateRow();
+
+      expect(cancelLinks(row)).toHaveLength(1);
+      expectCancelBesideField(row);
+    });
+
+    it('keeps the Cancel link beside the field in a right-to-left table', async () => {
+      const table = await mount('macro');
+      table.table.tbody.closest('.work-package-table--container')!.setAttribute('dir', 'rtl');
+
+      const row = table.addInlineCreateRow();
+
+      const cell = row.lastElementChild as HTMLTableCellElement;
+      const field = cell.querySelector('.wp-table--cell-container')!;
+      expect(within(cell).getByRole('link', { name: 'Cancel' }).getBoundingClientRect().right)
+        .toBeLessThanOrEqual(field.getBoundingClientRect().left);
+      expectCancelBesideField(row);
+    });
+
+    it('keeps the Cancel link beside an effort field', async () => {
+      const table = await mount('macro');
+      const columns = table.injector.get(WorkPackageViewColumnsService);
+      vi.spyOn(columns, 'getColumns').mockReturnValue([...columns.getColumns(), buildColumn('estimatedTime') as QueryColumn]);
+
+      const row = table.addInlineCreateRow();
+
+      expect(row.lastElementChild).toHaveClass('estimatedTime');
+      expectCancelBesideField(row);
     });
 
     it('keeps the cell count and link after refreshRow', async () => {
@@ -128,6 +178,19 @@ describe('InlineCreateRowBuilder', () => {
   });
 
   describe('while editing', () => {
+    it('keeps the Cancel link beside the field editor in the last column', async () => {
+      const table = await mount('macro', {});
+      const row = table.addInlineCreateRow();
+      const form = Object.values(table.table.editing.forms)[0];
+      const handler = await form.activate('subject');
+      handler!.focus();
+      const editedCell = row.querySelector<HTMLTableCellElement>('td.subject')!;
+      await waitFor(() => expect(editedCell.querySelector('input.inline-edit--field')).toHaveFocus());
+
+      expect(row.lastElementChild).toBe(editedCell);
+      expectCancelBesideField(row);
+    });
+
     it('keeps the cell count and link while the last column is being edited', async () => {
       const table = await mount('macro', {});
       const row = table.addInlineCreateRow();
