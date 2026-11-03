@@ -8,7 +8,7 @@
         @if (displayMenu) {
           <op-action-menu align="end"
             [anchor]="headerCell()"
-            [label]="headerColumn.name"
+            [label]="headerColumn().name"
             [items]="items()"
             (opening)="onMenuOpening()"
             (closed)="onMenuClosed($event)">
@@ -19,8 +19,8 @@
                 class="wp-table--column-menu-button"
                 opTooltip
                 [label]="columnName"
-                [description]="headerColumn.name === columnName ? undefined : headerColumn.name"
-                [tooltipWhenTruncated]="headerColumn.name === columnName ? '' : undefined">
+                [description]="headerColumn().name === columnName ? undefined : headerColumn().name"
+                [tooltipWhenTruncated]="headerColumn().name === columnName ? '' : undefined">
                 <op-icon icon-classes="icon-context icon-relations relations-header--icon" />
                 <span class="wp-table--column-menu-name" [class.sort]="directionClass !== ''" [class.asc]="directionClass === 'asc'" [class.desc]="directionClass === 'desc'">{{ columnName }}</span>
                 <svg octicon size="small" icon="triangle-down" aria-hidden="true" class="wp-table--column-menu-indicator"></svg>
@@ -31,17 +31,17 @@
                 tabindex="-1"
                 class="wp-table--column-menu-button"
                 lang-attribute
-                [attr.lang]="locale">
+                [attr.lang]="locale()">
                 @if (showHierarchyGlyph) {
                   <svg octicon size="small" icon="op-hierarchy" aria-hidden="true" class="wp-table--column-menu-glyph"></svg>
                 }
-                <span class="wp-table--column-menu-name" [class.sort]="directionClass !== ''" [class.asc]="directionClass === 'asc'" [class.desc]="directionClass === 'desc'">{{ headerColumn.name }}</span>
+                <span class="wp-table--column-menu-name" [class.sort]="directionClass !== ''" [class.asc]="directionClass === 'asc'" [class.desc]="directionClass === 'desc'">{{ headerColumn().name }}</span>
                 <svg octicon size="small" icon="triangle-down" aria-hidden="true" class="wp-table--column-menu-indicator"></svg>
               </button>
             }
           </op-action-menu>
         } @else if (columnType === 'relation') {
-          <span class="wp-table--column-menu-name" [attr.title]="headerColumn.name">
+          <span class="wp-table--column-menu-name" [attr.title]="headerColumn().name">
             <op-icon icon-classes="icon-context icon-relations relations-header--icon" />
             {{ columnName }}
           </span>
@@ -51,8 +51,8 @@
           }
           <span class="wp-table--column-menu-name"
             lang-attribute
-            [attr.lang]="locale"
-            [class.sort]="directionClass !== ''" [class.asc]="directionClass === 'asc'" [class.desc]="directionClass === 'desc'">{{ headerColumn.name }}</span>
+            [attr.lang]="locale()"
+            [class.sort]="directionClass !== ''" [class.asc]="directionClass === 'asc'" [class.desc]="directionClass === 'desc'">{{ headerColumn().name }}</span>
         }
         @if (baselineIncompatible) {
           <span class="generic-table--sort-header--error-indicator" [attr.title]="text.baselineIncompatible">

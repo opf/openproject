@@ -32,9 +32,11 @@ import {
   Component,
   DestroyRef,
   ElementRef,
-  Input,
+  effect,
   inject,
+  input,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -85,9 +87,9 @@ export class SortHeaderDirective implements AfterViewInit, ColumnMenuHost {
 
   private readonly menu = viewChild(OpActionMenuComponent);
 
-  @Input() headerColumn:QueryColumn;
+  readonly headerColumn = input.required<QueryColumn>();
 
-  @Input() locale:string;
+  readonly locale = input<string>();
 
   private readonly destroyRef = inject(DestroyRef);
 
@@ -95,11 +97,9 @@ export class SortHeaderDirective implements AfterViewInit, ColumnMenuHost {
 
   private streams = new Subscription();
 
-  private releaseTableCallback?:() => void;
+  readonly table = input<WorkPackageTable>();
 
-  private currentTable:WorkPackageTable;
-
-  private viewReady = false;
+  private readonly viewReady = signal(false);
 
   private initializedTable?:WorkPackageTable;
 
@@ -115,25 +115,6 @@ export class SortHeaderDirective implements AfterViewInit, ColumnMenuHost {
 
   private menuStreams?:Subscription;
 
-  @Input()
-  set table(table:WorkPackageTable) {
-    this.uiWork.cancel();
-    runCleanup(() => this.streams.unsubscribe());
-    this.streams = new Subscription();
-    runCleanup(() => this.releaseTableCallback?.());
-    this.releaseTableCallback = undefined;
-    this.currentTable = table;
-    this.initializedTable = undefined;
-    if (table && !table.destroyed && !this.destroyRef.destroyed) {
-      this.releaseTableCallback = onDestroySafely(table.destroyRef, () => this.uiWork.cancel());
-    }
-    this.scheduleInitialize();
-  }
-
-  get table():WorkPackageTable {
-    return this.currentTable;
-  }
-
   sortable:boolean;
 
   directionClass = '';
@@ -145,46 +126,61 @@ export class SortHeaderDirective implements AfterViewInit, ColumnMenuHost {
 
   isHierarchyColumn:boolean;
 
-  columnType:'hierarchy'|'relation'|'sort';
+  columnType:'plain'|'hierarchy'|'relation'|'sort' = 'plain';
 
-  columnName:string;
+  columnName = '';
 
   baselineIncompatible = false;
 
   private currentSortDirection:'asc'|'desc'|null;
 
   constructor() {
-    onDestroySafely(this.destroyRef, () => {
-      this.uiWork.cancel();
-      runCleanup(() => this.menuStreams?.unsubscribe());
-      runCleanup(() => this.streams.unsubscribe());
-      runCleanup(() => this.releaseTableCallback?.());
-      this.releaseTableCallback = undefined;
+    onDestroySafely(this.destroyRef, () => runCleanup(() => this.menuStreams?.unsubscribe()));
+    effect((onCleanup) => {
+      const table = this.table();
+      if (!this.viewReady()) return;
+      this.headerColumn();
+      untracked(() => {
+        const streams = new Subscription();
+        this.streams = streams;
+        this.initializedTable = undefined;
+        const releaseTable = table && !table.destroyed && !this.destroyRef.destroyed
+          ? onDestroySafely(table.destroyRef, () => this.uiWork.cancel())
+          : undefined;
+        onCleanup(() => {
+          this.uiWork.cancel();
+          runCleanup(() => streams.unsubscribe());
+          runCleanup(() => releaseTable?.());
+        });
+        this.scheduleInitialize();
+      });
     });
   }
 
   ngAfterViewInit():void {
     this.headerCell.set(this.elementRef.nativeElement.closest('th') ?? undefined);
-    this.viewReady = true;
-    this.scheduleInitialize();
+    this.viewReady.set(true);
   }
 
   get displayMenu():boolean {
-    return !!this.table?.configuration.columnMenuEnabled;
+    return !!this.table()?.configuration.columnMenuEnabled;
   }
 
   get showHierarchyGlyph():boolean {
     return this.isHierarchyColumn
-      && !!this.table?.configuration.hierarchyToggleEnabled
+      && !!this.table()?.configuration.hierarchyToggleEnabled
       && this.wpTableHierarchies.isEnabled;
   }
 
   onMenuOpening():void {
+    const table = this.table();
+    if (!table) return;
+
     const header = this.elementRef.nativeElement;
-    this.menuCell = this.table.keyboardNavigation.positionOfCell(header);
+    this.menuCell = table.keyboardNavigation.positionOfCell(header);
     this.origin = this.menuCell;
     this.focusHeader = header.closest('th');
-    this.items.set(this.buildItems(header));
+    this.items.set(this.buildItems(table, header));
     this.cdRef.detectChanges();
     this.menuStreams = merge(
       this.wpTableSortBy.live$(),
@@ -192,7 +188,7 @@ export class SortHeaderDirective implements AfterViewInit, ColumnMenuHost {
       this.wpTableHierarchies.live$(),
       this.querySpace.available.sortBy.values$(),
       this.querySpace.available.groupBy.values$(),
-    ).subscribe(() => this.refreshItems(header));
+    ).subscribe(() => this.refreshItems(table, header));
     if (!this.querySpace.queryForm.hasValue()) {
       this.wpListService.conditionallyLoadForm().catch(() => undefined);
     }
@@ -202,8 +198,9 @@ export class SortHeaderDirective implements AfterViewInit, ColumnMenuHost {
     this.menuStreams?.unsubscribe();
     this.menuStreams = undefined;
     this.items.set([]);
-    if (this.origin && (reason === 'escape' || reason === 'action')) {
-      this.table.keyboardNavigation.returnFocusFromMenu(this.origin, this.menuCell ?? this.origin);
+    const table = this.table();
+    if (table && this.origin && (reason === 'escape' || reason === 'action')) {
+      table.keyboardNavigation.returnFocusFromMenu(this.origin, this.menuCell ?? this.origin);
     }
   }
 
@@ -211,12 +208,12 @@ export class SortHeaderDirective implements AfterViewInit, ColumnMenuHost {
     this.menu()?.close();
   }
 
-  private buildItems(header:HTMLElement):OpContextMenuItem[] {
-    return this.menuItems.build(this.headerColumn, this.table, header, this);
+  private buildItems(table:WorkPackageTable, header:HTMLElement):OpContextMenuItem[] {
+    return this.menuItems.build(this.headerColumn(), table, header, this);
   }
 
-  private refreshItems(header:HTMLElement):void {
-    const items = this.buildItems(header);
+  private refreshItems(table:WorkPackageTable, header:HTMLElement):void {
+    const items = this.buildItems(table, header);
     const shape = (list:OpContextMenuItem[]) => list.map((item) => [item.linkText, item.hidden, item.disabled, item.checked]);
     if (JSON.stringify(shape(items)) === JSON.stringify(shape(this.items()))) {
       return;
@@ -228,7 +225,9 @@ export class SortHeaderDirective implements AfterViewInit, ColumnMenuHost {
 
   followColumn(header:HTMLElement|null):void {
     this.focusHeader = header;
-    const navigation = this.table.keyboardNavigation;
+    const navigation = this.table()?.keyboardNavigation;
+    if (!navigation) return;
+
     const current = navigation.position;
     const position = header && navigation.positionOfCell(header);
     if (!this.origin || !position || !samePosition(current, this.origin)) {
@@ -241,8 +240,9 @@ export class SortHeaderDirective implements AfterViewInit, ColumnMenuHost {
   }
 
   returnFocus():void {
-    if (this.origin) {
-      this.table.keyboardNavigation.returnFocusFromMenu(this.origin, this.menuCell ?? this.origin);
+    const table = this.table();
+    if (table && this.origin) {
+      table.keyboardNavigation.returnFocusFromMenu(this.origin, this.menuCell ?? this.origin);
       return;
     }
 
@@ -251,17 +251,19 @@ export class SortHeaderDirective implements AfterViewInit, ColumnMenuHost {
   }
 
   private scheduleInitialize():void {
-    const table = this.table;
-    if (!this.viewReady || !table || table.destroyed || this.destroyRef.destroyed || this.initializedTable === table) return;
+    const table = this.table();
+    if (!this.viewReady() || !table || table.destroyed || this.destroyRef.destroyed || this.initializedTable === table) return;
     this.uiWork.cancel();
     this.uiWork.task(() => {
-      if (this.table !== table || table.destroyed || this.destroyRef.destroyed) return;
+      if (this.table() !== table || table.destroyed || this.destroyRef.destroyed) return;
       this.initializedTable = table;
       this.initialize(table);
     });
   }
 
   private initialize(table:WorkPackageTable):void {
+    this.columnType = 'plain';
+    this.columnName = '';
     this.streams.add(combineLatest([
       this.wpTableSortBy.onReadyWithAvailable(),
       this.wpTableSortBy.live$(),
@@ -269,35 +271,35 @@ export class SortHeaderDirective implements AfterViewInit, ColumnMenuHost {
       .pipe(
         takeUntilDestroyed(table.destroyRef),
         takeUntilDestroyed(this.destroyRef),
-        filter(() => this.table === table && !table.destroyed && !this.destroyRef.destroyed),
+        filter(() => this.table() === table && !table.destroyed && !this.destroyRef.destroyed),
       )
       .subscribe(() => {
-        this.currentSortDirection = primarySortDirection(this.wpTableSortBy.current, this.headerColumn);
+        this.currentSortDirection = primarySortDirection(this.wpTableSortBy.current, this.headerColumn());
         this.setActiveColumnClass();
 
-        this.sortable = this.wpTableSortBy.isSortable(this.headerColumn);
+        this.sortable = this.wpTableSortBy.isSortable(this.headerColumn());
 
         this.directionClass = this.currentSortDirection ?? '';
 
         this.cdRef.detectChanges();
       }));
 
-    this.isHierarchyColumn = this.headerColumn.id === 'subject';
+    this.isHierarchyColumn = this.headerColumn().id === 'subject';
 
-    if (this.headerColumn.id === 'sortHandle') {
+    if (this.headerColumn().id === 'sortHandle') {
       this.columnType = 'sort';
     }
     if (this.isHierarchyColumn) {
       this.columnType = 'hierarchy';
-    } else if (this.wpTableRelationColumns.relationColumnType(this.headerColumn) === 'toType') {
+    } else if (this.wpTableRelationColumns.relationColumnType(this.headerColumn()) === 'toType') {
       this.columnType = 'relation';
-      this.columnName = (this.headerColumn as TypeRelationQueryColumn).type.name;
-    } else if (this.wpTableRelationColumns.relationColumnType(this.headerColumn) === 'ofType') {
+      this.columnName = (this.headerColumn() as TypeRelationQueryColumn).type.name;
+    } else if (this.wpTableRelationColumns.relationColumnType(this.headerColumn()) === 'ofType') {
       this.columnType = 'relation';
-      this.columnName = I18n.t(`js.relation_labels.${(this.headerColumn as RelationQueryColumn).relationType}`);
-    } else if (this.headerColumn._type === queryColumnTypes.RELATION_CHILD) {
+      this.columnName = I18n.t(`js.relation_labels.${(this.headerColumn() as RelationQueryColumn).relationType}`);
+    } else if (this.headerColumn()._type === queryColumnTypes.RELATION_CHILD) {
       this.columnType = 'relation';
-      this.columnName = this.headerColumn.name;
+      this.columnName = this.headerColumn().name;
     }
 
     if (this.isHierarchyColumn) {
@@ -306,7 +308,7 @@ export class SortHeaderDirective implements AfterViewInit, ColumnMenuHost {
         .pipe(
           takeUntilDestroyed(table.destroyRef),
           takeUntilDestroyed(this.destroyRef),
-          filter(() => this.table === table && !table.destroyed && !this.destroyRef.destroyed),
+          filter(() => this.table() === table && !table.destroyed && !this.destroyRef.destroyed),
         )
         .subscribe(() => this.cdRef.detectChanges()));
     }
@@ -317,17 +319,18 @@ export class SortHeaderDirective implements AfterViewInit, ColumnMenuHost {
       .pipe(
         takeUntilDestroyed(table.destroyRef),
         takeUntilDestroyed(this.destroyRef),
-        filter(() => this.table === table && !table.destroyed && !this.destroyRef.destroyed),
+        filter(() => this.table() === table && !table.destroyed && !this.destroyRef.destroyed),
       )
       .subscribe(() => {
-        this.baselineIncompatible = this.wpTableBaseline.isActive() && this.wpTableBaseline.isIncompatibleColumn(this.headerColumn.id);
+        this.baselineIncompatible = this.wpTableBaseline.isActive() && this.wpTableBaseline.isIncompatibleColumn(this.headerColumn().id);
       }));
 
-    if (this.table === table && !table.destroyed && !this.destroyRef.destroyed) this.cdRef.detectChanges();
+    if (this.table() === table && !table.destroyed && !this.destroyRef.destroyed) this.cdRef.detectChanges();
   }
 
   setActiveColumnClass() {
-    if (!this.table || this.table.destroyed || this.destroyRef.destroyed) return;
+    const table = this.table();
+    if (!table || table.destroyed || this.destroyRef.destroyed) return;
     if (this.currentSortDirection) {
       this.elementRef.nativeElement.classList.add('active-column');
     } else {
