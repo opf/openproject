@@ -207,7 +207,7 @@ export class DragAndDropTransformer {
           && actionService.canPickup(workPackage!);
         recoverIfCurrent = () => {
           if (!isCurrent() || table.lastRenderPass !== renderPass || source.parentNode !== parentNode) return;
-          table.mutate('all', () => {
+          table.mutate('positions', () => {
             parentNode?.insertBefore(source, nextSibling?.parentNode === parentNode ? nextSibling : null);
           });
         };
@@ -237,7 +237,7 @@ export class DragAndDropTransformer {
           return;
         }
         // Only preparation observes the staged neighbors. Persistence captures no row.
-        table.mutate('all', () => {
+        table.mutate('positions', () => {
           if (target) table.tbody.insertBefore(source, edge === 'top' ? target : target.nextSibling);
           else table.tbody.appendChild(source);
         });

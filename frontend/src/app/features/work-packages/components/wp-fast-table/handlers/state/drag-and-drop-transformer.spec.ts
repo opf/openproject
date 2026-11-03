@@ -149,7 +149,7 @@ describe('DragAndDropTransformer', () => {
 
     expect(success).toBe(false);
     expect(rowIds()).toEqual(['1', '2', '3', '4']);
-    expect(mutate.mock.calls.filter(([scope]) => scope === 'all')).toHaveLength(2);
+    expect(mutate.mock.calls.map(([scope]) => scope)).toEqual(['positions', 'positions']);
     expect(snapshot(harness, harness.row('1'))).toEqual({ group: 'New', previous: undefined, next: '2' });
     expect(handleRawError).toHaveBeenCalledExactlyOnceWith(error, harness.injector.get(States).workPackages.get('1').value);
   });
