@@ -37,7 +37,12 @@ module Projects
       @project = project
       @id = project.id
       @name = project.name
+      @workspace_type = @project.workspace_type
       @user = user
+    end
+
+    def render?
+      @project&.visible?(@user)
     end
 
     def breadcrumb_items
@@ -45,7 +50,7 @@ module Projects
       return nil if ancestors.empty?
 
       (ancestors + [@project]).map do |item|
-        { href: project_overview_path(item), text: item.name, selected: item == project }
+        { href: project_overview_path(item), text: item.name, selected: item == @project }
       end
     end
   end
