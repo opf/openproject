@@ -55,7 +55,7 @@ module PushSubscriptions
       subscription = lookup(endpoint, resume)
 
       if subscription.nil?
-        ServiceResult.success
+        missing
       elsif held_by_another_user?(subscription)
         refused(subscription)
       else
@@ -104,6 +104,12 @@ module PushSubscriptions
       CreateService
         .new(user:, model: subscription)
         .call(user:, session_id:, suspended_at: nil, **device)
+    end
+
+    def missing
+      ServiceResult.failure.tap do |result|
+        result.errors.add(:endpoint, :not_found)
+      end
     end
 
     def refused(subscription)

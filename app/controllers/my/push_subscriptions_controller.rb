@@ -40,7 +40,9 @@ module My
     def create
       result = subscribe_service.call(endpoint: params[:push_endpoint].to_s, resume: resume?)
 
-      if result.failure?
+      if result.errors.of_kind?(:endpoint, :not_found)
+        head :gone
+      elsif result.failure?
         render json: { errors: result.errors.full_messages }, status: :unprocessable_entity
       elsif resume?
         head :no_content

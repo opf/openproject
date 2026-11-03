@@ -101,6 +101,17 @@ RSpec.describe "My::PushSubscriptionsController",
           expect(response).to have_http_status(:no_content)
           expect(dormant.reload).to have_attributes(session: current_session_row, suspended_at: nil)
         end
+
+        it "answers gone and claims nothing when the user has no subscription for the endpoint" do
+          other = create(:push_subscription, endpoint:, session: nil)
+
+          resume(endpoint)
+
+          expect(response).to have_http_status(:gone)
+          expect(response.body).to be_empty
+          expect(PushSubscription.sole).to eq(other)
+          expect(other.reload.session_id).to be_nil
+        end
       end
 
       it "rejects an endpoint that is not served over HTTPS" do

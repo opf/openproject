@@ -155,13 +155,13 @@ RSpec.describe PushSubscriptions::SubscribeService do
         expect(dormant.reload).to have_attributes(session: session_row, suspended_at: nil)
       end
 
-      it "succeeds with no result and writes nothing when the user has no row for the endpoint" do
+      it "fails as not found and writes nothing when the user has no row for the endpoint" do
         other = create(:push_subscription, endpoint:, session: nil)
 
         result = service.call(endpoint:, resume: true)
 
-        expect(result).to be_success
-        expect(result.result).to be_nil
+        expect(result).to be_failure
+        expect(result.errors).to be_of_kind(:endpoint, :not_found)
         expect(PushSubscription.sole).to eq(other)
         expect(other.reload.session_id).to be_nil
       end
