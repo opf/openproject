@@ -99,7 +99,7 @@ const openNotifications = async () => {
 const closeExcept = (notifications, keep) =>
   notifications.filter((notification) => !keep.has(notification.tag)).forEach((notification) => notification.close());
 
-// What was last shown per tag, so a dismissed notification stays dismissed until its content changes.
+// Digests of what was last shown per tag, so a dismissed notification stays dismissed until its content changes.
 const readShown = async () => {
   const cache = await caches.open(CACHE_NAME);
   const stored = await cache.match(SHOWN_URL);
@@ -111,8 +111,12 @@ const writeShown = async (shown) => {
   await cache.put(SHOWN_URL, new Response(JSON.stringify(shown), { headers: { "Content-Type": "application/json" } }));
 };
 
-const same = (previous, current) =>
-  previous !== undefined && previous.title === current.title && previous.body === current.body;
+const digestOf = async (...parts) => {
+  const bytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(JSON.stringify(parts)));
+  return Array.from(new Uint8Array(bytes), (byte) => byte.toString(16).padStart(2, "0")).join("");
+};
+
+const same = (previous, current) => previous !== undefined && previous === current;
 
 const groupOptions = (group) => ({
   body: group.body,
@@ -139,13 +143,14 @@ const showGroups = async ({ groups, more }) => {
   const shown = await readShown();
   const keep = new Set(groups.map((group) => group.tag));
   if (more) keep.add(PUSH_MORE_TAG);
-  closeExcept(await openNotifications(), keep);
+  const openBefore = await openNotifications();
+  closeExcept(openBefore, keep);
 
   const next = {};
   let changed = false;
 
   if (more) {
-    next[PUSH_MORE_TAG] = { title: more.title, body: "" };
+    next[PUSH_MORE_TAG] = await digestOf(more.title);
     if (!same(shown[PUSH_MORE_TAG], next[PUSH_MORE_TAG])) {
       await showMore(more);
       changed = true;
@@ -153,14 +158,17 @@ const showGroups = async ({ groups, more }) => {
   }
 
   for (const group of [...groups].reverse()) {
-    next[group.tag] = { title: group.title, body: group.body || "" };
+    next[group.tag] = await digestOf(group.revision, group.title, group.body || "");
     if (same(shown[group.tag], next[group.tag])) continue;
 
     await showGroup(group);
     changed = true;
   }
 
-  if (!changed) await refreshGroup(groups[0]);
+  if (!changed) {
+    if (openBefore.some((notification) => notification.tag === groups[0].tag)) await refreshGroup(groups[0]);
+    else await showFallback();
+  }
   await writeShown(next);
 };
 
@@ -203,8 +211,11 @@ const showUnread = async () => {
   }
 };
 
+let pushQueue = Promise.resolve();
+
 self.addEventListener("push", (event) => {
-  event.waitUntil(showUnread());
+  pushQueue = pushQueue.then(showUnread, showUnread).catch(() => undefined);
+  event.waitUntil(pushQueue);
 });
 
 const sameOriginUrl = (url) => {
