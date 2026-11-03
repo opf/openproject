@@ -378,7 +378,7 @@ export class WorkPackageTable {
       this.rebuildPendingRender();
       if (updates.size > 0) this.ledger.setHidden(updates);
     });
-    this.publishRendered();
+    if (this.ledger.generation > 0) this.publishRendered();
     const t1 = performance.now();
 
     debugLog(`Group redraw took ${t1 - t0} milliseconds.`);

@@ -486,6 +486,22 @@ describe('WorkPackageTable lifecycle', () => {
         expect(harness.row('1')).toHaveTextContent('Before');
       });
 
+      it('publishes no rendered rows when groups fold before the first commit', () => {
+        const harness = buildTable({ workPackages: [{ id: '1' }] });
+        harnesses.push(harness);
+        const frames = harness.holdFrames();
+        try {
+          void harness.render();
+          harness.table.setGroupsCollapseState({});
+
+          expect(harness.querySpace.tableRendered.hasValue()).toBe(false);
+          frames.commit();
+          expect(harness.querySpace.tableRendered.value).toHaveLength(1);
+        } finally {
+          frames.release();
+        }
+      });
+
       it('leaves the outgoing rows alone while a reload waits for its frame, then commits the update', async () => {
         const harness = await mount({ workPackages: [{ id: '1', subject: 'Before' }] });
         const frames = harness.holdFrames();
