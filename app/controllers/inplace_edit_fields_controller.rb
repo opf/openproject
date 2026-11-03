@@ -31,6 +31,10 @@
 class InplaceEditFieldsController < ApplicationController
   include OpTurbo::ComponentStream
 
+  # Keyword arguments the controller sets on the field component itself. The client
+  # echoes system arguments back as JSON, so these keys are removed to prevent a request
+  # from overriding them, e.g. the allowlisted attribute. Later versions replace this
+  # by signing the system arguments with a message verifier.
   SERVER_SIDE_ARGUMENTS = %w[attribute model update_registry].freeze
 
   before_action :find_model
