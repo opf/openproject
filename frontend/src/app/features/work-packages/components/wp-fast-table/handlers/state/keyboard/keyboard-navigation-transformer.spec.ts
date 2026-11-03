@@ -676,6 +676,18 @@ describe('KeyboardNavigationTransformer', () => {
       return menuItem;
     };
 
+    it('leaves focus on the scroll container the pointer moved to while the menu was open', async () => {
+      const table = await mount();
+      const menuItem = visitMenu(table);
+      const container = table.table.scrollContainer;
+      container.focus();
+      menuItem.remove();
+
+      navigation(table).returnFocusFromMenu(origin);
+
+      expect(container).toHaveFocus();
+    });
+
     it('focuses the origin again after focus visited the menu portal', async () => {
       const table = await mount();
       visitMenu(table).remove();
@@ -948,6 +960,34 @@ describe('KeyboardNavigationTransformer', () => {
 
       expect(overlay).not.toBeInTheDocument();
       expect(cell(table.row('2'), 1)).toHaveFocus();
+    });
+
+    it('leaves focus on the scroll container itself when a mutation settles', async () => {
+      const table = await mount();
+      table.row('2').focus();
+      const container = table.table.scrollContainer;
+      container.focus();
+
+      table.table.mutate('all', () => undefined);
+
+      expect(container).toHaveFocus();
+    });
+
+    it('leaves focus on the scroll container when a render pending since a row held focus commits', async () => {
+      const table = await mount();
+      const frames = table.holdFrames();
+      try {
+        table.row('2').focus();
+        table.table.redrawTable();
+        const container = table.table.scrollContainer;
+        container.focus();
+
+        frames.commit();
+
+        expect(container).toHaveFocus();
+      } finally {
+        frames.release();
+      }
     });
 
     it('a re-render while focus is in another table does not steal focus', async () => {

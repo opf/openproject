@@ -52,7 +52,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { editFieldContainerClass } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
-import { insideGrid } from '../wp-fast-table/handlers/state/keyboard/roving-tabindex';
+import { insideGrid, insideGridContent } from '../wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { inlineCreateRowKey } from '../wp-fast-table/row-keys';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
@@ -278,7 +278,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     const active = document.activeElement;
     const resting = !active || active === document.body;
     return (resting && this.table.keyboardNavigation?.retainsFocus !== false)
-      || insideGrid(this.table.scrollContainer, active)
+      || insideGridContent(this.table.scrollContainer, active)
       || Object.values(this.activeFields).some((field) => field.owns(active));
   }
 

@@ -49,6 +49,11 @@ export function insideGrid(root:HTMLElement, node:Node|null):boolean {
   return !element?.closest(inlineCreateSelector);
 }
 
+/** Whether `node` is grid content: inside `root` but not `root` itself, which a pointer focuses by clicking the space below the last row. */
+export function insideGridContent(root:HTMLElement, node:Node|null):boolean {
+  return node !== root && insideGrid(root, node);
+}
+
 export function isNavigableColumn(column:QueryColumn, configuration:WorkPackageTableConfiguration):boolean {
   switch (column.id) {
     case internalSortColumn.id:

@@ -49,7 +49,9 @@ import {
 } from './navigable-rows';
 import { selectableOccurrences } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
 import { KeyboardSelection, selectionChord } from './keyboard-selection';
-import { insideGrid, navigableCellClassName, navigableCells, paintRovingTabindex } from './roving-tabindex';
+import {
+  insideGrid, insideGridContent, navigableCellClassName, navigableCells, paintRovingTabindex,
+} from './roving-tabindex';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { CellInteraction } from './cell-interaction';
 
@@ -410,7 +412,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
       || active === document.body
       || !active.isConnected
       || !!closing?.owns(active)
-      || (insideGrid(this.table.scrollContainer, active) && this.hiddenOrUnlisted(active));
+      || (insideGridContent(this.table.scrollContainer, active) && this.hiddenOrUnlisted(active));
   }
 
   private hiddenOrUnlisted(element:Element):boolean {
