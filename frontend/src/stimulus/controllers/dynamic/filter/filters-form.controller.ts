@@ -615,6 +615,7 @@ export default class FiltersFormController extends Controller {
     const search = params.toString();
     const url = `${pathName}${search ? `?${search}` : ''}`;
     const browserUrl = `${window.location.pathname}${search ? `?${search}` : ''}${window.location.hash}`;
+    this.sentFilters = newFilters;
 
     if (this.hasTurboFrameRequestValue) {
       visit(url, { frame: this.turboFrameRequestValue, action: 'advance' });
@@ -636,9 +637,6 @@ export default class FiltersFormController extends Controller {
     this.streamAbortController = new AbortController();
     const { signal } = this.streamAbortController;
 
-    const previousFilters = this.sentFilters;
-    this.sentFilters = newFilters;
-
     try {
       const response = await fetch(url, { signal, headers: { Accept: 'text/vnd.turbo-stream.html' } });
       const html = await response.text();
@@ -654,7 +652,7 @@ export default class FiltersFormController extends Controller {
       console.error('Error:', error);
     }
 
-    this.sentFilters = previousFilters;
+    this.sentFilters = null;
   }
 
   private writeFiltersToHiddenInput() {

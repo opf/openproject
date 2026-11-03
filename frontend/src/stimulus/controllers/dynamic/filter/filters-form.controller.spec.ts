@@ -257,6 +257,30 @@ describe('Filters form controller', () => {
     expect(ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!.hidden).toBe(true);
   });
 
+  it('sends the original value again after a superseding request is discarded', async () => {
+    const controller = await renderForm();
+    const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);
+    const input = ctx.container.querySelector<HTMLInputElement>('input')!;
+
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledOnce());
+
+    input.value = 'new';
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2));
+
+    input.value = 'old';
+    resolveResponse(streamResponse());
+    await ctx.nextFrame();
+    await ctx.nextFrame();
+
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(3));
+
+    resolveResponse(streamResponse());
+    await waitFor(() => expect(replaceState).toHaveBeenCalledOnce());
+  });
+
   it('keeps the in-flight request when typing returns to its value before the debounce', async () => {
     const controller = await renderForm();
     const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);

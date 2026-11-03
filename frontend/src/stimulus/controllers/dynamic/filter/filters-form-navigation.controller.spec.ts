@@ -197,6 +197,20 @@ describe('Filters form navigation', () => {
     expect(visit).not.toHaveBeenCalled();
   });
 
+  it('navigates back to the applied filters while a newer visit is still loading', async () => {
+    setUrl();
+    const controller = await mount(['page', 'all']);
+
+    controller.currentFiltersValue = [{ subject: { operator: '~', values: ['mm'] } }];
+    controller.sendForm();
+    controller.currentFiltersValue = [];
+    controller.sendForm();
+
+    expect(visit).toHaveBeenCalledTimes(2);
+    const url = new URL(String(visit.mock.calls[1][0]), window.location.origin);
+    expect(url.searchParams.has('filters')).toBe(false);
+  });
+
   it('shows the loading indicator until the frame has loaded', async () => {
     setUrl();
     const controller = await mount(['page', 'all'], `
