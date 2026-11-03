@@ -107,6 +107,8 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   // Work package resource to be loaded from the cache
   public workPackage:WorkPackageResource;
 
+  private appliedTitle?:string;
+
   public projectIdentifier:string;
 
   public focusAnchorLabel:string;
@@ -167,9 +169,19 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       this.workPackage = wp;
     }
 
-    this.titleService.setFirstPart(this.workPackage.subjectWithType(-1));
+    this.applyTitle();
 
     this.cdRef.detectChanges();
+  }
+
+  // setFirstPart is not idempotent, and a semantic route param makes the
+  // work package arrive from both its semantic and its numeric cache slot.
+  private applyTitle():void {
+    const title = this.workPackage.subjectWithType(-1);
+    if (title !== this.appliedTitle) {
+      this.appliedTitle = title;
+      this.titleService.setFirstPart(title);
+    }
   }
 
   /**
