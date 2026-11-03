@@ -162,7 +162,7 @@ module API::V3::Storages
                             href = fragment["href"]
                             break if href.blank?
 
-                            represented.provider_type = STORAGE_TYPE_MAP[href] || href
+                            represented.provider_type = STORAGE_TYPE_MAP[href]
                           }
 
     link_without_resource :origin,

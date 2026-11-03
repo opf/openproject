@@ -47,6 +47,7 @@ module Storages
                     only: %i[show_oauth_application destroy edit edit_host edit_storage_audience confirm_destroy update
                              change_health_notifications_enabled replace_oauth_application ampf_sync_now]
       before_action :ensure_valid_wizard_parameters, only: [:new]
+      before_action :find_provider_type, only: [:create]
       before_action :require_ee_token, only: [:new]
 
       menu_item :external_file_storages
@@ -91,7 +92,7 @@ module Storages
                                user: current_user,
                                create_oauth_app: false,
                                contract_class: ::Storages::Storages::CreateContract.with_provider_contract(
-                                 current_step_contract(permitted_storage_params[:provider_type])
+                                 current_step_contract(@provider_type)
                                )
                              ).call(permitted_storage_params)
 
@@ -250,6 +251,14 @@ module Storages
 
       # rubocop:enable Metrics/AbcSize
 
+      def find_provider_type
+        @provider_type = Storage.provider_type_class(permitted_storage_params[:provider_type])
+        return if @provider_type
+
+        flash[:error] = I18n.t("storages.error_invalid_provider_type")
+        redirect_to admin_settings_storages_path, status: :see_other
+      end
+
       # Called by create and update above in order to check if the
       # update parameters are correctly set.
       def permitted_storage_params(model_parameter_name = storage_provider_parameter_name)
@@ -298,11 +307,10 @@ module Storages
         redirect_to(new_admin_settings_storage_path(continue_wizard: storage.id), status: :see_other)
       end
 
-      def current_step_contract(storage)
-        storage_name = storage.is_a?(String) ? Storage.shorten_provider_type(storage) : storage.to_s
+      def current_step_contract(provider)
         origin_component = params[:origin_component].presence || "general_information"
 
-        Adapters::Registry.resolve("#{storage_name}.contracts.#{origin_component}")
+        Adapters::Registry.resolve("#{provider.short_provider_name}.contracts.#{origin_component}")
       end
     end
   end

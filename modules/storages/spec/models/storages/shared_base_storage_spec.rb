@@ -36,37 +36,15 @@ RSpec.shared_examples_for "base storage" do
     }
   end
 
-  describe ".shorten_provider_type", skip: "Method being removed" do
-    context "when provider_type matches the signature" do
-      it "responds with shortened provider type" do
-        expect(
-          described_class.short_provider_name
-        ).to eq(:nextcloud)
-        expect(
-          described_class.short_provider_name
-        ).to eq(:one_drive)
-      end
+  describe ".provider_type_class" do
+    it "resolves the class by its name" do
+      expect(Storages::Storage.provider_type_class(described_class.name)).to eq(described_class)
     end
 
-    context "when provider_type is unknown" do
-      it "raises an error", :aggregate_failures do
-        expect do
-          described_class.shorten_provider_type("Storages::Nextcloud")
-        end.to raise_error("Unknown provider_type! Given: Storages::Nextcloud. " \
-                           "Known provider types are defined in Storages::Storage::PROVIDER_TYPE_SHORT_NAMES.")
-        expect do
-          described_class.shorten_provider_type("Storages:NextcloudStorage")
-        end.to raise_error("Unknown provider_type! Given: Storages:NextcloudStorage. " \
-                           "Known provider types are defined in Storages::Storage::PROVIDER_TYPE_SHORT_NAMES.")
-        expect do
-          described_class.shorten_provider_type("Storages::NextcloudStorag")
-        end.to raise_error("Unknown provider_type! Given: Storages::NextcloudStorag. " \
-                           "Known provider types are defined in Storages::Storage::PROVIDER_TYPE_SHORT_NAMES.")
-        expect do
-          described_class.shorten_provider_type("Storages::UnknownStorage")
-        end.to raise_error("Unknown provider_type! Given: Storages::UnknownStorage. " \
-                           "Known provider types are defined in Storages::Storage::PROVIDER_TYPE_SHORT_NAMES.")
-      end
+    it "does not resolve other class names", :aggregate_failures do
+      expect(Storages::Storage.provider_type_class("User")).to be_nil
+      expect(Storages::Storage.provider_type_class("Storages::Storage")).to be_nil
+      expect(Storages::Storage.provider_type_class(nil)).to be_nil
     end
   end
 
