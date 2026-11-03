@@ -13,9 +13,13 @@
     [hideSelected]="true"
     [multiple]="true"
     [model]="value"
-    [compareWith]="compareByHref"
+    [compareWith]="selection.bridge.compareWith"
     [trackByFn]="itemTracker"
     bindLabel="name"
     (change)="setValues($event)"
    />
+
+  @if (selection.state.kind === 'invalid') {
+    <op-selection-error />
+  }
 </div>

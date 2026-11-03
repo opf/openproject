@@ -39,20 +39,20 @@ import {
 import { take } from 'rxjs/internal/operators/take';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
 
+import { createQueryFilterSelectionAdapter } from '../filter-selection';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
-import { QueryFilterInstanceResource, QueryFilterValue, isQueryFilterValue } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryFilterInstanceResource, QueryFilterValue } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
-import { compareByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 import { MAGIC_FILTER_AUTOCOMPLETE_PAGE_SIZE } from 'core-app/core/apiv3/helpers/get-paginated-results';
 
 @Component({
@@ -76,6 +76,8 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 
+  readonly selection = createQueryFilterSelectionAdapter('searchable');
+
   private meValue = this.halResourceService.createHalResource({
     _links: {
       self: {
@@ -89,19 +91,13 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   initialRequest$:Observable<CollectionResource>;
 
-  itemTracker = (item:unknown):unknown => {
-    if (typeof item !== 'object' || item === null) return undefined;
-    const option = item as Record<string, unknown>;
-    return option.href ?? option.id ?? option.name;
-  };
+  itemTracker = this.selection.bridge.trackBy;
 
   groupByFn = (item:HalResource):string|null => {
     if (!this.isVersionResource) return null;
     const project = item.definingProject as HalResource | undefined;
     return project?.name ?? this.I18n.t('js.project.not_available');
   };
-
-  compareByHref = compareByHref;
 
   resourceType:'work_packages'|null = null;
 
@@ -110,12 +106,15 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   };
 
   public get value():QueryFilterValue[] {
-    return this.filter.values;
+    const { state } = this.selection;
+    return state.kind === 'invalid' ? state.lastAccepted ?? this.filter.values : this.filter.values;
   }
 
   @ViewChild('ngSelectInstance', { static: true }) ngSelectInstance:NgSelectComponent;
 
   ngOnInit():void {
+    this.selection.bridge.load(this.filter.values);
+
     if (this.filter.id === 'id' || this.filter.id === 'parent' || this.filter.id === 'ancestor') {
       this.resourceType = 'work_packages';
     }
@@ -203,19 +202,13 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   public setValues(val:unknown) {
     if (val === undefined) { return; }
-    let values:unknown[];
 
-    if (typeof val === 'string') {
-      values = val.length > 0 ? [val] : [];
-    } else {
-      values = Array.isArray(val) ? val : [val];
+    this.selection.bridge.accept(val);
+    const { state } = this.selection;
+    if (state.kind === 'ready') {
+      this.filter.values = state.value;
+      this.filterChanged.emit(this.filter);
     }
-
-    if (!values.every(isQueryFilterValue)) {
-      throw new TypeError('Unsupported query filter value');
-    }
-    this.filter.values = values;
-    this.filterChanged.emit(this.filter);
     this.cdRef.detectChanges();
   }
 
