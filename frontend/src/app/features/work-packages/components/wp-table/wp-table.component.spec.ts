@@ -27,7 +27,7 @@
 
 import { headerRowKey, inlineCreateRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 import type { PaintScope } from 'core-app/features/work-packages/components/wp-fast-table/row-mutations';
-import { Component, Injector, NO_ERRORS_SCHEMA, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, Injector, NO_ERRORS_SCHEMA, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { fireEvent, screen, waitFor, within } from '@testing-library/dom';
@@ -843,6 +843,19 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       await waitFor(() => expect(scopes).toContainEqual(new Set([inlineCreateRowKey])));
     });
 
+    it('preserves the active editor when reference permission changes', async () => {
+      await mount(inlineCreate);
+      const row = await openCreateRow();
+      const editor = within(row).getByRole('textbox');
+      editor.focus();
+
+      canReference.next(true);
+      fixture.detectChanges();
+
+      expect(within(row).getByRole('textbox')).toBe(editor);
+      expect(editor).toHaveFocus();
+    });
+
     it('repaints positions after permission and reference template changes', async () => {
       canReference.next(true);
       const component = await mount(inlineCreate);
@@ -865,7 +878,9 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
         return result;
       });
       canAdd.next(false);
+      fixture.detectChanges();
       canReference.next(false);
+      fixture.detectChanges();
       expect(exposure).toEqual([null, 'true']);
     });
 
@@ -887,6 +902,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       await waitFor(() => expectExposed());
       expect(within(createSection()).getByRole('row')).toHaveAttribute('aria-rowindex', '4');
       canAdd.next(false);
+      fixture.detectChanges();
       expect(table).toHaveAttribute('aria-rowcount', '3');
       expect(createSection()).toHaveAttribute('aria-hidden', 'true');
     });
@@ -997,6 +1013,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       const idCell = row.cells[0];
       const columns = TestBed.inject(WorkPackageViewColumnsService);
       columns.update([...columns.getColumns()]);
+      fixture.detectChanges();
 
       expect(createRow()).toBe(row);
       expect(row.cells[0]).not.toBe(idCell);
@@ -1061,6 +1078,79 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expectExposed();
     });
 
+    it('emits showing only when visibility changes', async () => {
+      await mount(inlineCreate);
+      const component = fixture.debugElement.query(By.directive(WorkPackageInlineCreateComponent))
+        .componentInstance as WorkPackageInlineCreateComponent;
+      const showing = vi.fn();
+      component.showing.subscribe(showing);
+
+      canAdd.next(true);
+      fixture.detectChanges();
+      canReference.next(true);
+      fixture.detectChanges();
+      expect(showing).not.toHaveBeenCalled();
+
+      canAdd.next(false);
+      canReference.next(false);
+      fixture.detectChanges();
+      expect(showing).toHaveBeenCalledExactlyOnceWith(false);
+    });
+
+    it.each(['replacement', 'destruction'])('ignores a pending creation after table %s', async (transition) => {
+      const component = await mount(inlineCreate);
+      const service = TestBed.inject(WorkPackageCreateService);
+      const change = await service.createOrContinueWorkPackage(undefined);
+      let complete!:(value:typeof change) => void;
+      vi.spyOn(service, 'createOrContinueWorkPackage').mockReturnValue(new Promise((resolve) => { complete = resolve; }));
+      const editing = vi.spyOn(component.workPackageTable.editing, 'startEditing');
+      fireEvent.click(within(createSection()).getByRole('button', { name: 'Create new work package' }));
+
+      if (transition === 'replacement') {
+        const body = document.createElement('div');
+        component.timeline.append(body);
+        component.registerTimeline({} as WorkPackageTimelineTableController, body);
+      } else {
+        (fixture as ComponentFixture<ListViewStandInComponent>).componentInstance.showTable.set(false);
+        fixture.detectChanges();
+      }
+      complete(change);
+      await nextTask();
+
+      expect(editing).not.toHaveBeenCalled();
+      expect(document.querySelector('.wp-row-new')).toBeNull();
+    });
+
+    it('removes an open create row when the table is replaced', async () => {
+      const component = await mount(inlineCreate);
+      await openCreateRow();
+      const previous = component.workPackageTable;
+      const mutate = vi.spyOn(previous, 'mutate');
+
+      const body = document.createElement('div');
+      component.timeline.append(body);
+      component.registerTimeline({} as WorkPackageTimelineTableController, body);
+      fixture.detectChanges();
+
+      expect(document.querySelector('.wp-row-new')).toBeNull();
+      expect(mutate).not.toHaveBeenCalled();
+      expect(component.workPackageTable).not.toBe(previous);
+      expect(within(createSection()).getByRole('button', { name: 'Create new work package' })).toBeInTheDocument();
+    });
+
+    it('leaves the live table alone when inline create goes away with an open row', async () => {
+      const component = await mount(inlineCreate);
+      await openCreateRow();
+      const mutate = vi.spyOn(component.workPackageTable, 'mutate');
+
+      component.configuration.inlineCreateEnabled = false;
+      fixture.debugElement.query(By.directive(WorkPackagesTableComponent)).injector.get(ChangeDetectorRef).detectChanges();
+
+      expect(document.querySelector('tbody[wpInlineCreate]')).toBeNull();
+      expect(component.workPackageTable.destroyed).toBe(false);
+      expect(mutate).not.toHaveBeenCalled();
+    });
+
     it('hides the section while neither permission renders a row', async () => {
       canAdd.next(false);
       await mount(inlineCreate);
@@ -1070,10 +1160,12 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(createSection().rows).toHaveLength(0);
 
       canAdd.next(true);
+      fixture.detectChanges();
       expectExposed();
       expectStructuralRow(within(createSection()).getByRole('row'));
 
       canAdd.next(false);
+      fixture.detectChanges();
       expect(createSection()).toHaveAttribute('aria-hidden', 'true');
     });
   });
