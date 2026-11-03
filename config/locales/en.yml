@@ -7621,14 +7621,14 @@ en:
           mode_label: "Configure this page manually"
           modes:
             copy:
-              caption: "Start with a one-time copy of the settings that this configuration inherits now."
-              label: "Copy inherited settings"
+              caption: "Start with a one-time copy of the settings of the parent type"
+              label: "Copy existing settings"
             default:
               caption: "Use the default settings for new types."
               label: "Default settings"
             empty:
               caption: "Set everything up from scratch, beginning from a blank configuration."
-              label: "Empty"
+              label: "Start from scratch"
           success: "The configuration mode was switched."
           title: "Manual configuration"
         parent_suffix: " (parent)"
@@ -7681,8 +7681,9 @@ en:
           other: "The type will be removed from %{count} projects:"
         title: "Delete type"
       description: >
-        Each configuration area inside types and variants can be independently configured, limited
-        from another type, or fully linked to a source.
+        Create and configure different work package types. Each type has its own default template and a set of
+        custom fields, a workflow and other settings. If you need project-specific configurations, you can also
+        create slightly different variants for each type according to the needs of each project.
       duplicate_name: "Copy of %{name}"
       duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: "Active in new projects"
