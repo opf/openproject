@@ -217,7 +217,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
       end
 
       it "describes a single unread notification as one work package group" do
-        notify
+        notification = notify(journal: work_package.journals.sole)
 
         get "/push-notification"
 
@@ -225,6 +225,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
           "count" => 1,
           "groups" => [{ "tag" => "openproject-wp-#{work_package.id}",
                          "count" => 1,
+                         "revision" => "#{notification.id}:#{(notification.journal.reload.updated_at.to_f * 1000).to_i}",
                          "title" => "Ada Lovelace mentioned you",
                          "body" => "##{work_package.id}: Fix the build",
                          "url" => "/notifications/details/#{work_package.id}/activity" }],
@@ -275,6 +276,8 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
 
         expect(json["groups"].pluck("tag")).to eq(["openproject-wp-#{work_package.id}", "openproject-wp-#{other.id}"])
         expect(json["groups"].pluck("count")).to eq([1, 2])
+        expect(json["groups"].first["revision"])
+          .to eq("#{aggregated.id}:#{(journal.reload.updated_at.to_f * 1000).to_i}")
       end
 
       it "keeps the order when a digest marks older notifications as sent" do

@@ -80,6 +80,7 @@ module PushSubscriptions
       {
         tag: "openproject-wp-#{work_package.id}",
         count: unread_count,
+        revision: "#{notification.id}:#{(notification.activity_at.to_f * 1000).to_i}",
         title: unread_count > 1 ? I18n.t("pwa.push.group_title", count: unread_count) : headline(notification),
         body: body(notification, work_package, unread_count),
         url: url_helpers.details_notifications_path(work_package, tab: :activity)
