@@ -75,7 +75,7 @@ export interface KeyboardNavigation {
   elementAt(position:FocusPosition):HTMLElement|null;
   /** Records whether focus is inside the table before a mutation replaces or hides its rows; `accumulate` keeps an earlier capture while an outer mutation or a pending render is open. */
   captureOwnership(accumulate:boolean):void;
-  /** Recovers the focus position after a mutation settled; `full` means a render committed. */
+  /** Recovers the focus position after a mutation settled; `rendered` means a render committed. */
   rowsChanged(exit:MutationExit):void;
   /** Keeps the return path open when an editor registers an overlay that already holds focus. */
   adoptOverlay(overlay:HTMLElement):void;
@@ -261,8 +261,8 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     this.owned = accumulate ? this.owned || inside : inside;
   }
 
-  public rowsChanged({ scope, full }:MutationExit):void {
-    this.recover(full ? this.requestedPosition() : null, !full, this.rowsOf(scope));
+  public rowsChanged({ scope, rendered }:MutationExit):void {
+    this.recover(rendered ? this.requestedPosition() : null, !rendered, this.rowsOf(scope));
   }
 
   /** The rows a keyed scope names; null when the whole table needs its Tab stops repainted. */

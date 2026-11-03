@@ -32,8 +32,8 @@ export type PaintScope = 'all'|'positions'|ReadonlySet<RowKey>;
 
 export interface MutationExit {
   readonly scope:PaintScope;
-  /** True when a full render committed inside this mutation. */
-  readonly full:boolean;
+  /** True when a render committed inside this mutation. */
+  readonly rendered:boolean;
 }
 
 export interface MutationHooks {
@@ -58,7 +58,7 @@ export class RowMutations {
 
   private scope:PaintScope = new Set();
 
-  private full = false;
+  private rendered = false;
 
   constructor(
     private readonly hooks:MutationHooks,
@@ -69,19 +69,19 @@ export class RowMutations {
     return this.level;
   }
 
-  public run(scope:PaintScope, change:() => void, { full = false }:{ full?:boolean } = {}):void {
+  public run(scope:PaintScope, change:() => void, { rendered = false }:{ rendered?:boolean } = {}):void {
     this.hooks.enter(this.level > 0 || this.renderPending());
     this.level += 1;
     this.scope = widen(this.scope, scope);
-    this.full ||= full;
+    this.rendered ||= rendered;
     try {
       change();
     } finally {
       this.level -= 1;
       if (this.level === 0) {
-        const exit:MutationExit = { scope: this.scope, full: this.full };
+        const exit:MutationExit = { scope: this.scope, rendered: this.rendered };
         this.scope = new Set();
-        this.full = false;
+        this.rendered = false;
         this.hooks.exit(exit);
       }
     }

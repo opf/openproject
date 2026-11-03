@@ -47,7 +47,7 @@ describe('RowMutations', () => {
     mutations.run(new Set(['a']), () => calls.push('change'));
 
     expect(calls).toEqual(['enter:false', 'change', 'exit']);
-    expect(exits).toEqual([{ scope: new Set(['a']), full: false }]);
+    expect(exits).toEqual([{ scope: new Set(['a']), rendered: false }]);
   });
 
   it('widens nested scopes and exits once', () => {
@@ -57,7 +57,7 @@ describe('RowMutations', () => {
     });
 
     expect(calls).toEqual(['enter:false', 'enter:true', 'inner', 'exit']);
-    expect(exits).toEqual([{ scope: new Set(['a', 'b']), full: false }]);
+    expect(exits).toEqual([{ scope: new Set(['a', 'b']), rendered: false }]);
     expect(mutations.depth).toBe(0);
   });
 
@@ -67,7 +67,7 @@ describe('RowMutations', () => {
       mutations.run(new Set(['c']), () => undefined);
     });
 
-    expect(exits).toEqual([{ scope: 'all', full: false }]);
+    expect(exits).toEqual([{ scope: 'all', rendered: false }]);
   });
 
   it('widens a positions-only scope joined with keyed rows to all', () => {
@@ -78,7 +78,7 @@ describe('RowMutations', () => {
       mutations.run('positions', () => undefined);
     });
 
-    expect(exits).toEqual([{ scope: 'all', full: false }, { scope: 'all', full: false }]);
+    expect(exits).toEqual([{ scope: 'all', rendered: false }, { scope: 'all', rendered: false }]);
   });
 
   it('keeps positions-only scopes positions-only when joined with no rows', () => {
@@ -87,7 +87,7 @@ describe('RowMutations', () => {
       mutations.run(new Set(), () => undefined);
     });
 
-    expect(exits).toEqual([{ scope: 'positions', full: false }]);
+    expect(exits).toEqual([{ scope: 'positions', rendered: false }]);
   });
 
   it('treats an empty scope as naming no rows', () => {
@@ -95,7 +95,7 @@ describe('RowMutations', () => {
       mutations.run(new Set(['a']), () => undefined);
     });
 
-    expect(exits).toEqual([{ scope: new Set(['a']), full: false }]);
+    expect(exits).toEqual([{ scope: new Set(['a']), rendered: false }]);
   });
 
   it('paints and releases after a throwing nested change', () => {
@@ -104,7 +104,7 @@ describe('RowMutations', () => {
     });
 
     expect(run).toThrow('boom');
-    expect(exits).toEqual([{ scope: new Set(['a', 'b']), full: false }]);
+    expect(exits).toEqual([{ scope: new Set(['a', 'b']), rendered: false }]);
     expect(mutations.depth).toBe(0);
 
     mutations.run(new Set(['c']), () => undefined);
@@ -112,12 +112,12 @@ describe('RowMutations', () => {
     expect(calls.filter((call) => call === 'enter:false')).toHaveLength(2);
   });
 
-  it('marks the exit full when any nested run was full', () => {
+  it('marks the exit rendered when any nested run rendered', () => {
     mutations.run(new Set(['a']), () => {
-      mutations.run('all', () => undefined, { full: true });
+      mutations.run('all', () => undefined, { rendered: true });
     });
 
-    expect(exits).toEqual([{ scope: 'all', full: true }]);
+    expect(exits).toEqual([{ scope: 'all', rendered: true }]);
   });
 
   it('accumulates ownership on entry while a render is pending', () => {

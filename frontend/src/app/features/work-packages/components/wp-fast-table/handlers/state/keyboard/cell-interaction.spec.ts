@@ -606,7 +606,7 @@ describe('CellInteraction', () => {
     const events:string[] = [];
     const rowsChanged = navigation.rowsChanged.bind(navigation);
     vi.spyOn(navigation, 'rowsChanged').mockImplementation((exit) => {
-      events.push(`rowsChanged:${exit.full}:${scopeKeys(exit.scope).join(',')}`);
+      events.push(`rowsChanged:${exit.rendered}:${scopeKeys(exit.scope).join(',')}`);
       rowsChanged(exit);
     });
     const returnFocus = navigation.returnFocus.bind(navigation);

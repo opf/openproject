@@ -441,7 +441,7 @@ describe('WorkPackageTable lifecycle', () => {
         const harness = await mount({ workPackages: [{ id: '1' }] });
         const frames = harness.holdFrames();
         const exits:boolean[] = [];
-        vi.spyOn(harness.table.keyboardNavigation!, 'rowsChanged').mockImplementation(({ full }) => { exits.push(full); });
+        vi.spyOn(harness.table.keyboardNavigation!, 'rowsChanged').mockImplementation(({ rendered }) => { exits.push(rendered); });
         const paint = vi.spyOn(harness.table.painter, 'paint');
         const subscription = harness.querySpace.tableRendered.values$().pipe(skip(1))
           .subscribe(() => harness.table.mutate('positions', () => undefined));

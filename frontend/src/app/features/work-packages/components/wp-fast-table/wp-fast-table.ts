@@ -254,10 +254,10 @@ export class WorkPackageTable {
     this.mutate(keys, change);
   }
 
-  private settle({ scope, full }:MutationExit):void {
+  private settle({ scope, rendered }:MutationExit):void {
     if (this.destroyed) return;
     this.painter.paint(scope);
-    this.keyboardNavigation?.rowsChanged({ scope, full });
+    this.keyboardNavigation?.rowsChanged({ scope, rendered });
     this.committedRowsState.update(({ generation }) => ({ generation: generation + 1, scope }));
   }
 
@@ -348,7 +348,7 @@ export class WorkPackageTable {
       this.ledger.commit(pass.draft);
       this.painter.commitPositions(pending.positions);
       this.lastRenderPass = pass;
-    }, { full: true });
+    }, { rendered: true });
     this.publishRendered();
   }
 
