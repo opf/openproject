@@ -41,7 +41,9 @@ RSpec.describe Backlogs::SprintReports::Widgets::CompletedTable,
   let(:breakdown_stubs) do
     {
       done_status_ids: [1, 2],
-      completed: Sprints::WorkPackageBreakdown::Block.new(work_package_count: completed_count, story_points: 8)
+      completed: Sprints::WorkPackageBreakdown::Block.new(
+        work_package_count: completed_count, story_points: 8, estimated_hours: 0
+      )
     }
   end
 
