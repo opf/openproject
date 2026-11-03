@@ -47,9 +47,11 @@ module Backlogs
         def show_widget_content? = sprint.date_range_set?
 
         def resolved_percentage
-          return 0 if progress_denominator.zero? || progress_numerator.zero?
+          resolved = comparable_value(progress_numerator)
+          total = comparable_value(progress_denominator)
+          return 0 if total.zero? || resolved.zero?
 
-          [(progress_numerator * 100 / progress_denominator).floor, 1].max
+          [resolved * 100 / total, 1].max
         end
 
         def show_secondary_metric?
@@ -118,6 +120,12 @@ module Backlogs
             total: format_metric(progress_denominator),
             count: progress_denominator
           )
+        end
+
+        # Estimated hours are floats, whose division can land just below a whole percentage
+        # and get floored; whole minutes keep the integer division exact.
+        def comparable_value(value)
+          active_metric == :time ? (value * 60).round : value
         end
 
         def format_metric(value)

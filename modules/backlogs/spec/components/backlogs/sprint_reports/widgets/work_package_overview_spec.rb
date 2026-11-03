@@ -188,6 +188,32 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
           expect(rendered_component).to have_text("30% (1d 4h of 5d 0h)")
         end
       end
+
+      context "when all estimated time is completed in fractional hours" do
+        let(:completed) do
+          Sprints::WorkPackageBreakdown::Block.new(work_package_count: 1, story_points: 0, estimated_hours: 10 / 60.0)
+        end
+        let(:unfinished) do
+          Sprints::WorkPackageBreakdown::Block.new(work_package_count: 0, story_points: 0, estimated_hours: 0)
+        end
+
+        it "shows 100%" do
+          expect(rendered_component.css(".Progress-item").first["style"]).to include("width: 100%")
+        end
+      end
+
+      context "when half of the estimated time is completed in fractional hours" do
+        let(:completed) do
+          Sprints::WorkPackageBreakdown::Block.new(work_package_count: 1, story_points: 0, estimated_hours: 5 / 60.0)
+        end
+        let(:unfinished) do
+          Sprints::WorkPackageBreakdown::Block.new(work_package_count: 1, story_points: 0, estimated_hours: 5 / 60.0)
+        end
+
+        it "shows 50%" do
+          expect(rendered_component.css(".Progress-item").first["style"]).to include("width: 50%")
+        end
+      end
     end
 
     context "when the project's estimation unit is none", with_flag: { project_settings_estimation_unit: true } do
