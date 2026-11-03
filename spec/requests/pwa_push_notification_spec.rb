@@ -403,6 +403,23 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
         expect(json.dig("groups", 0, "title")).to eq("Due date alert")
       end
 
+      it "has wording for every notification reason" do
+        missing = Notification::REASONS.keys.reject { I18n.exists?("pwa.push.reasons.#{it}") || PushSubscriptions::NotificationSummary::UPDATED_REASONS.include?(it.to_s) }
+
+        expect(missing).to be_empty
+      end
+
+      it "falls back to the generic wording for a reason without its own text" do
+        notify
+        allow(I18n).to receive(:t).and_wrap_original do |original, key, **options|
+          original.call(key == "pwa.push.reasons.mentioned" ? "pwa.push.reasons.unmapped" : key, **options)
+        end
+
+        get "/push-notification"
+
+        expect(json.dig("groups", 0, "title")).to eq("Ada Lovelace updated")
+      end
+
       it "names a deleted actor" do
         notify(actor: nil)
 

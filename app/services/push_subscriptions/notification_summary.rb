@@ -105,11 +105,11 @@ module PushSubscriptions
     def headline(notification)
       reason = UPDATED_REASONS.include?(notification.reason) ? "updated" : notification.reason
       actor_name = notification.actor&.name || I18n.t("user.deleted")
-      I18n.t("pwa.push.reasons.#{reason}", actor: actor_name)
+      I18n.t("pwa.push.reasons.#{reason}", actor: actor_name, default: I18n.t("pwa.push.reasons.updated", actor: actor_name))
     end
 
     def url_helpers
-      OpenProject::StaticRouting::StaticUrlHelpers.new
+      @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
     end
   end
 end
