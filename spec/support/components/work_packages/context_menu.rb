@@ -82,6 +82,26 @@ module Components
         end
       end
 
+      def open_submenu(label)
+        within_menu do
+          find(:menuitem, label, exact_text: true) { |item| item[:"aria-haspopup"] }.click
+        end
+        expect(page).to have_selector(:menu, label)
+      end
+
+      def choose_in_submenu(submenu, target)
+        open_submenu(submenu)
+        within(:menu, submenu) do
+          find(:menuitem, text: target, exact_text: true).click
+        end
+      end
+
+      def expect_no_submenu(label)
+        within_menu do
+          expect(page).to have_no_selector(:menuitem, label, exact_text: true) { |item| item[:"aria-haspopup"] }
+        end
+      end
+
       def choose_delete_and_confirm_deletion
         choose "Delete"
 

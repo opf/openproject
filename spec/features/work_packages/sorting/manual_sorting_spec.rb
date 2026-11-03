@@ -372,7 +372,7 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
 
     it "moves a work package down with the keyboard" do
       open_menu_by_keyboard(work_package1)
-      context_menu.choose "Move down"
+      context_menu.choose_in_submenu "Move", "Move down"
 
       wp_table.expect_work_package_order work_package2, work_package1, work_package3, work_package4
       expect_query_order(query, [work_package2, work_package1, work_package3, work_package4].map(&:id))
@@ -381,7 +381,7 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
 
     it "moves a work package to the bottom and keeps focus on it" do
       open_menu_by_keyboard(work_package1)
-      context_menu.choose "Move to bottom"
+      context_menu.choose_in_submenu "Move", "Move to bottom"
 
       wp_table.expect_work_package_order work_package2, work_package3, work_package4, work_package1
       expect_query_order(query, [work_package2, work_package3, work_package4, work_package1].map(&:id))
@@ -390,8 +390,9 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
 
     it "disables moving the first work package up" do
       open_menu_by_keyboard(work_package1)
+      context_menu.open_submenu "Move"
 
-      within(:menu, "Work package context menu") do
+      within(:menu, "Move") do
         expect(page).to have_selector(:menuitem, "Move up", disabled: true)
         expect(page).to have_selector(:menuitem, "Move to top", disabled: true)
         expect(page).to have_selector(:menuitem, "Move down", disabled: false)
@@ -405,11 +406,7 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
       it "offers no move actions" do
         open_menu_by_keyboard(work_package2)
 
-        within(:menu, "Work package context menu") do
-          ["Move to top", "Move up", "Move down", "Move to bottom"].product([true, false]).each do |label, disabled|
-            expect(page).to have_no_selector(:menuitem, label, disabled:)
-          end
-        end
+        context_menu.expect_no_submenu "Move"
       end
     end
   end

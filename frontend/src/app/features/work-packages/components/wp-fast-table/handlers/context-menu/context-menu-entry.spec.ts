@@ -137,12 +137,12 @@ describe('Context menu entry', () => {
   });
 
   describe('Move actions', () => {
-    interface MenuItem { linkText?:string; isHeader?:boolean; disabled?:boolean; onClick?:() => boolean }
+    interface MenuItem { linkText?:string; disabled?:boolean; children?:MenuItem[]; onClick?:() => boolean }
 
     const menuItems = ():MenuItem[] => (opened.mock.calls.at(-1)![0] as unknown as { locals:{ items:MenuItem[] } }).locals.items;
-    const moveLabels = ['Move to top', 'Move up', 'Move down', 'Move to bottom'];
-    const moveItems = () => menuItems().filter((item) => !item.isHeader && moveLabels.includes(item.linkText ?? ''));
-    const hasMoveHeader = () => menuItems().some((item) => item.isHeader && item.linkText === 'Move');
+    const moveMenu = () => menuItems().find((item) => item.children && item.linkText === 'Move');
+    const moveItems = () => moveMenu()?.children ?? [];
+    const hasMoveSubmenu = () => moveMenu() !== undefined;
 
     const dragAndDropTable = { contextMenuEnabled: true, dragAndDropEnabled: true };
 
@@ -165,7 +165,7 @@ describe('Context menu entry', () => {
     it('offers the move group for one work package', () => {
       openFromKeyboard('2');
 
-      expect(hasMoveHeader()).toBe(true);
+      expect(hasMoveSubmenu()).toBe(true);
       expect(moveItems().map((item) => item.linkText)).toEqual(['Move to top', 'Move up', 'Move down', 'Move to bottom']);
       expect(moveItems().map((item) => item.disabled)).toEqual([false, false, false, false]);
     });
@@ -198,7 +198,7 @@ describe('Context menu entry', () => {
 
       openFromKeyboard('2');
 
-      expect(hasMoveHeader()).toBe(false);
+      expect(hasMoveSubmenu()).toBe(false);
       expect(moveItems()).toEqual([]);
     });
 
@@ -208,7 +208,7 @@ describe('Context menu entry', () => {
 
       openFromKeyboard('2');
 
-      expect(hasMoveHeader()).toBe(false);
+      expect(hasMoveSubmenu()).toBe(false);
     });
 
     it('offers no move group when the table has drag and drop disabled', async () => {
@@ -217,7 +217,7 @@ describe('Context menu entry', () => {
 
       openFromKeyboard('2');
 
-      expect(hasMoveHeader()).toBe(false);
+      expect(hasMoveSubmenu()).toBe(false);
       expect(moveItems()).toEqual([]);
     });
 

@@ -60,23 +60,27 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
     const directions = mover?.movableDirections(id);
     if (!mover || !directions) return;
 
-    const entries:[MoveDirection, string][] = [
-      ['top', I18n.t('js.label_sort_highest')],
-      ['up', I18n.t('js.label_sort_higher')],
-      ['down', I18n.t('js.label_sort_lower')],
-      ['bottom', I18n.t('js.label_sort_lowest')],
+    const entries:[MoveDirection, string, string][] = [
+      ['top', I18n.t('js.label_sort_highest'), 'move-to-top'],
+      ['up', I18n.t('js.label_sort_higher'), 'chevron-up'],
+      ['down', I18n.t('js.label_sort_lower'), 'chevron-down'],
+      ['bottom', I18n.t('js.label_sort_lowest'), 'move-to-bottom'],
     ];
     this.items.push(
       { divider: true },
-      { isHeader: true, linkText: I18n.t('js.button_move') },
-      ...entries.map(([direction, linkText]) => ({
-        linkText,
-        disabled: !directions.has(direction),
-        onClick: () => {
-          mover.move(id, direction);
-          return true;
-        },
-      })),
+      {
+        linkText: I18n.t('js.button_move'),
+        octicon: 'op-arrow-in',
+        children: entries.map(([direction, linkText, octicon]) => ({
+          linkText,
+          octicon,
+          disabled: !directions.has(direction),
+          onClick: () => {
+            mover.move(id, direction);
+            return true;
+          },
+        })),
+      },
     );
   }
 
