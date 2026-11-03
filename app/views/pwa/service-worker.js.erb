@@ -5,7 +5,9 @@ const CACHE_NAME = <%== pwa_cache_name.to_json %>;
 const OFFLINE_URL = <%== pwa_offline_path.to_json %>;
 const HOME_URL = <%== root_path.to_json %>;
 const PUSH_URL = <%== pwa_push_notification_path.to_json %>;
+const PUSH_TAG_PREFIX = "openproject-";
 const PUSH_TAG = "openproject-unread";
+const PUSH_MORE_TAG = "openproject-more";
 const PUSH_FETCH_TIMEOUT_MS = 10000;
 const PUSH_FALLBACK_TITLE = <%== I18n.t("pwa.push.fallback_title", locale: Setting.default_language).to_json %>;
 const PUSH_ALL_READ_TITLE = <%== I18n.t("pwa.push.all_read_title", locale: Setting.default_language).to_json %>;
@@ -88,16 +90,65 @@ const showFallback = () =>
     data: { url: HOME_URL },
   });
 
+const openNotifications = async () => {
+  const notifications = await self.registration.getNotifications();
+  return notifications.filter((notification) => notification.tag.startsWith(PUSH_TAG_PREFIX));
+};
+
+const closeExcept = (notifications, keep) =>
+  notifications.filter((notification) => !keep.has(notification.tag)).forEach((notification) => notification.close());
+
+const unchanged = (existing, title, body) =>
+  existing !== undefined && existing.title === title && (existing.body || "") === (body || "");
+
+const groupOptions = (group) => ({
+  body: group.body,
+  tag: group.tag,
+  icon: PUSH_ICON,
+  data: { url: group.url },
+});
+
+const showGroup = (group) =>
+  self.registration.showNotification(group.title, { ...groupOptions(group), renotify: true });
+
+const refreshGroup = (group) =>
+  self.registration.showNotification(group.title, { ...groupOptions(group), renotify: false });
+
+const showMore = (more) =>
+  self.registration.showNotification(more.title, {
+    tag: PUSH_MORE_TAG,
+    icon: PUSH_ICON,
+    silent: true,
+    data: { url: more.url },
+  });
+
+const showGroups = async ({ groups, more }) => {
+  const existing = await openNotifications();
+  const byTag = new Map(existing.map((notification) => [notification.tag, notification]));
+  const keep = new Set(groups.map((group) => group.tag));
+  if (more) keep.add(PUSH_MORE_TAG);
+  closeExcept(existing, keep);
+
+  if (more && !unchanged(byTag.get(PUSH_MORE_TAG), more.title, "")) await showMore(more);
+
+  const changed = groups.filter((group) => !unchanged(byTag.get(group.tag), group.title, group.body));
+  for (const group of changed.reverse()) await showGroup(group);
+
+  if (changed.length === 0) await refreshGroup(groups[0]);
+};
+
 const showUnread = async () => {
   const data = await fetchUnread();
 
   if (data?.signedOut) {
     await navigator.clearAppBadge?.().catch(() => undefined);
+    closeExcept(await openNotifications(), new Set());
     return showFallback();
   }
   if (!data) return showFallback();
 
   if (data.count === 0) {
+    closeExcept(await openNotifications(), new Set());
     await self.registration.showNotification(PUSH_ALL_READ_TITLE, {
       tag: PUSH_TAG,
       icon: PUSH_ICON,
@@ -108,13 +159,7 @@ const showUnread = async () => {
   }
 
   await navigator.setAppBadge?.(data.count).catch(() => undefined);
-  return self.registration.showNotification(data.title, {
-    body: data.body,
-    tag: PUSH_TAG,
-    renotify: true,
-    icon: PUSH_ICON,
-    data: { url: data.url },
-  });
+  return showGroups(data);
 };
 
 self.addEventListener("push", (event) => {
