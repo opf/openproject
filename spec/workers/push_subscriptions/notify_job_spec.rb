@@ -43,7 +43,11 @@ RSpec.describe PushSubscriptions::NotifyJob,
   before do
     allow(OpenProject::SsrfProtection)
       .to receive(:post)
-      .and_return(instance_double(Net::HTTPResponse, code: response_code))
+      .and_return(push_response(response_code))
+  end
+
+  def push_response(code, retry_after: nil)
+    instance_double(Net::HTTPResponse, code:, "[]": retry_after)
   end
 
   def perform
@@ -237,7 +241,7 @@ RSpec.describe PushSubscriptions::NotifyJob,
           failing.update_columns(endpoint: "https://fcm.googleapis.com/failing")
           healthy.update_columns(endpoint: "https://fcm.googleapis.com/ok", updated_at: 1.day.ago)
           allow(OpenProject::SsrfProtection).to receive(:post) do |endpoint, **|
-            instance_double(Net::HTTPResponse, code: endpoint.end_with?("/failing") ? code.to_s : "201")
+            push_response(endpoint.end_with?("/failing") ? code.to_s : "201")
           end
         end
 
@@ -254,6 +258,40 @@ RSpec.describe PushSubscriptions::NotifyJob,
             perform
 
             scheduled_at = ActiveJob::Base.queue_adapter.enqueued_jobs.last[:at]
+            expect(scheduled_at).to be_between(3.seconds.from_now.to_f, 3.15.seconds.from_now.to_f)
+          end
+        end
+      end
+    end
+
+    context "when the push service answers 429 with a Retry-After header" do
+      let(:retry_after) { "300" }
+
+      before do
+        allow(OpenProject::SsrfProtection)
+          .to receive(:post)
+          .and_return(push_response("429", retry_after:))
+      end
+
+      def scheduled_at
+        ActiveJob::Base.queue_adapter.enqueued_jobs.last[:at]
+      end
+
+      it "waits for the server's Retry-After before retrying" do
+        freeze_time do
+          perform
+
+          expect(scheduled_at).to be_within(2).of(300.seconds.from_now.to_f)
+        end
+      end
+
+      context "when the header is unusable" do
+        let(:retry_after) { "soon" }
+
+        it "keeps its own backoff when Retry-After is unusable" do
+          freeze_time do
+            perform
+
             expect(scheduled_at).to be_between(3.seconds.from_now.to_f, 3.15.seconds.from_now.to_f)
           end
         end

@@ -51,8 +51,9 @@
 # * 404, 410   the endpoint is gone; the subscription is deleted
 # * 429, 5xx, timeouts, DNS or socket errors
 #              transient; the failed subscriptions are retried with polynomial
-#              backoff, up to MAX_ATTEMPTS, as a separate job that does not block
-#              the next debounce window
+#              backoff, or after the server's Retry-After when that is longer,
+#              up to MAX_ATTEMPTS, as a separate job that does not block the next
+#              debounce window
 # * other 4xx  logged and left alone; the user can re-subscribe from My account
 #
 # Deactivated and deleted users lose their subscriptions here as well as through
@@ -62,6 +63,7 @@ class PushSubscriptions::NotifyJob < ApplicationJob
 
   DEBOUNCE = 10.seconds
   MAX_ATTEMPTS = 4
+  MAX_RETRY_DELAY = 1.hour
   # Apple rejects a topic whose length is 4n+1, which is not a valid unpadded base64url length.
   TOPIC = "openproject-unread"
 
@@ -71,6 +73,8 @@ class PushSubscriptions::NotifyJob < ApplicationJob
     enqueue_limit: 1,
     key: -> { [self.class.name, *arguments].join("-") }
   )
+
+  Retry = Data.define(:server_delay)
 
   TRANSIENT_ERRORS = [
     Net::OpenTimeout, Net::ReadTimeout, Net::WriteTimeout,
@@ -104,19 +108,22 @@ class PushSubscriptions::NotifyJob < ApplicationJob
   def deliver_all(user, subscription_ids, attempt)
     subscriptions = user.push_subscriptions.order(:id)
     subscriptions = subscriptions.where(id: subscription_ids) if subscription_ids
-    failed_ids = subscriptions.filter_map { it.id if deliver(it) == :retry }
+    retries = subscriptions.map { [it.id, deliver(it)] }.select { |_, outcome| outcome.is_a?(Retry) }
+    return if retries.empty?
 
-    retry_later(user.id, failed_ids, attempt) if failed_ids.any?
+    server_delay = retries.filter_map { |_, outcome| outcome.server_delay }.max
+    retry_later(user.id, retries.map(&:first), attempt, server_delay)
   end
 
-  def retry_later(user_id, subscription_ids, attempt)
+  def retry_later(user_id, subscription_ids, attempt, server_delay)
     if attempt >= MAX_ATTEMPTS
       Rails.logger.warn("Giving up on push wake-up for user #{user_id} after repeated transient failures")
       return
     end
 
-    wait = determine_delay(seconds_or_duration_or_algorithm: :polynomially_longer, executions: attempt)
-    self.class.set(wait: wait.seconds).perform_later(user_id, subscription_ids, attempt + 1)
+    backoff = determine_delay(seconds_or_duration_or_algorithm: :polynomially_longer, executions: attempt).seconds
+    wait = [[backoff, server_delay&.seconds].compact.max, MAX_RETRY_DELAY].min
+    self.class.set(wait:).perform_later(user_id, subscription_ids, attempt + 1)
   end
 
   def wakeable?(user)
@@ -132,23 +139,34 @@ class PushSubscriptions::NotifyJob < ApplicationJob
       http_options: { open_timeout: 5, read_timeout: 10 }
     )
 
-    handle_response(subscription, response.code.to_i)
+    handle_response(subscription, response)
   rescue *TRANSIENT_ERRORS
-    :retry
+    Retry.new(nil)
   rescue SsrfFilter::Error => e
     Rails.logger.warn("Push subscription #{subscription.id} rejected: #{e.class}")
   end
 
-  def handle_response(subscription, code)
+  def handle_response(subscription, response)
+    code = response.code.to_i
+
     case code
     when 200..299 then subscription.touch
     when 404, 410 then subscription.destroy!
-    when 429, 500..599 then :retry
+    when 429, 500..599 then Retry.new(retry_after(response))
     else
       Rails.logger.warn(
         "Push service #{URI(subscription.endpoint).host} answered #{code} for subscription #{subscription.id}"
       )
     end
+  end
+
+  def retry_after(response)
+    value = response["Retry-After"].to_s.strip
+    return value.to_i if value.match?(/\A\d+\z/)
+
+    [Time.httpdate(value) - Time.current, 0].max
+  rescue ArgumentError
+    nil
   end
 
   def headers_for(subscription)
