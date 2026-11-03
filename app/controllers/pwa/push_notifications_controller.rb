@@ -30,11 +30,11 @@
 
 module Pwa
   class PushNotificationsController < ApplicationController
+    prepend_before_action :prevent_response_caching
     before_action :require_login
     guard_feature_flag :progressive_web_app
     before_action :require_web_push
     no_authorization_required! :show
-    before_action :prevent_response_caching
 
     def show
       render json: PushSubscriptions::NotificationSummary.new(current_user).as_json

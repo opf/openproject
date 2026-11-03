@@ -57,6 +57,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
       get "/push-notification"
 
       expect(response).to have_http_status(:unauthorized)
+      expect(response.headers["Cache-Control"]).to include("no-store")
     end
   end
 
@@ -156,6 +157,17 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
 
       expect(response).to have_http_status(:ok)
       expect(request.session[:updated_at]).to eq(last_seen)
+    end
+
+    it "does not touch the session row on wake-ups" do
+      sessions = Sessions::UserSession.for_user(password_user.id)
+      sessions.update_all(updated_at: 1.day.ago)
+      touched_at = sessions.sole.updated_at
+
+      travel_to(10.minutes.from_now) { get "/push-notification", headers: json_headers }
+
+      expect(response).to have_http_status(:ok)
+      expect(sessions.sole.updated_at).to eq(touched_at)
     end
 
     it "answers 401 instead of redirecting once the session has idled past its lifetime" do
@@ -265,6 +277,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
         get "/push-notification"
 
         expect(response).to have_http_status(:not_found)
+        expect(response.headers["Cache-Control"]).to include("no-store")
       end
     end
 
