@@ -178,11 +178,9 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
       global_search.submit_in_global_scope
       expect(page).to have_current_path(%r{/search}, ignore_query: true)
       expect(page).to have_current_query_params(
-        a_hash_including(
-          "q" => "##{search_target.id}",
-          "filter" => "work_packages",
-          "scope" => "all"
-        )
+        "q" => "##{search_target.id}",
+        "filter" => "work_packages",
+        "scope" => "all"
       )
     end
 
@@ -304,11 +302,9 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
 
         expect(page).to have_current_path(%r{/#{project.identifier}/search}, ignore_query: true)
         expect(page).to have_current_query_params(
-          a_hash_including(
-            "q" => query,
-            "filter" => "work_packages",
-            "scope" => "current_project"
-          )
+          "q" => query,
+          "filter" => "work_packages",
+          "scope" => "current_project"
         )
 
         table = Pages::EmbeddedWorkPackagesTable.new(find(".work-packages-embedded-view--container"))
@@ -366,11 +362,9 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
         table.ensure_work_package_not_listed! other_work_package
 
         expect(page).to have_current_query_params(
-          a_hash_including(
-            "q" => "Other work package",
-            "filter" => "work_packages",
-            "scope" => "current_project"
-          )
+          "q" => "Other work package",
+          "filter" => "work_packages",
+          "scope" => "current_project"
         )
 
         # Expect to find custom field values
@@ -395,11 +389,9 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
         # Expect that the project scope is not set and work_packages module continues to stay selected.
         expect(page).to have_current_path(%r{/#{project.identifier}/search}, ignore_query: true)
         expect(page).to have_current_query_params(
-          a_hash_including(
-            "q" => "Other work package",
-            "filter" => "work_packages",
-            "scope" => ""
-          )
+          "q" => "Other work package",
+          "filter" => "work_packages",
+          "scope" => ""
         )
 
         table = Pages::EmbeddedWorkPackagesTable.new(find(".work-packages-embedded-view--container"))
