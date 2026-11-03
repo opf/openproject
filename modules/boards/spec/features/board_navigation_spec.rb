@@ -209,4 +209,23 @@ RSpec.describe "Work Package boards spec",
 
     expect(page).to have_current_path "/projects/#{project.identifier}/work_packages"
   end
+
+  # Only classic identifiers can be lowercase and thus equal the boards route segment.
+  context "with a project identified as 'boards' (Regression #29754)",
+          with_settings: { work_packages_identifier: "classic", notifications_polling_interval: 1_000 } do
+    let(:project) { create(:project, identifier: "boards", enabled_module_names: %i[work_package_tracking board_view]) }
+
+    it "navigates from the project to a board" do
+      visit project_path(project)
+
+      page.find_test_selector("main-menu-toggler--boards", wait: 10).click
+      page.find_test_selector("op-submenu--item-action", text: "My board", wait: 10).click
+
+      board_page = Pages::Board.new board_view
+      board_page.expect_query "List 1", editable: true
+      board_page.add_card "List 1", "Task 1"
+      board_page.expect_toast message: I18n.t(:notice_successful_create)
+      expect(page).to have_current_path project_work_package_board_path(project, board_view)
+    end
+  end
 end
