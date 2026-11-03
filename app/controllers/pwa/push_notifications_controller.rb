@@ -49,8 +49,8 @@ module Pwa
       head :unauthorized
     end
 
-    def current_autologin_user
-      nil
+    def find_current_user
+      current_session_user
     end
 
     def require_web_push

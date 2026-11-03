@@ -89,6 +89,17 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
       expect(response).to have_http_status(:unauthorized)
     end
 
+    it "answers 401 for a valid SSO header without a session" do
+      allow(OpenProject::Configuration)
+        .to receive(:auth_source_sso).and_return(header: "X-Remote-User", optional: true)
+      sso_user = create(:user, login: "sso_user", ldap_auth_source: create(:ldap_auth_source))
+
+      get "/push-notification", headers: { "X-Remote-User" => sso_user.login }
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(Sessions::UserSession.for_user(sso_user.id)).to be_empty
+    end
+
     it "answers 401 for a valid autologin cookie instead of starting a session",
        with_settings: { autologin: 1 } do
       token = create(:autologin_token, user:)
@@ -98,6 +109,30 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
 
       expect(response).to have_http_status(:unauthorized)
       expect(Sessions::UserSession.for_user(user.id)).to be_empty
+    end
+  end
+
+  context "with a stale session and other credentials", :skip_csrf,
+          with_settings: { web_push_enabled: true, autologin: 1 } do
+    let(:password) { "Sup3rS3cret!pass" }
+    let(:password_user) { create(:user, password:, password_confirmation: password) }
+
+    it "answers 401 and starts no session when the session user is locked" do
+      allow(OpenProject::Configuration)
+        .to receive(:auth_source_sso).and_return(header: "X-Remote-User", optional: true)
+      host! Setting.host_name
+      post "/login", params: { username: password_user.login, password: }
+      follow_redirect! while response.redirect?
+      token = create(:autologin_token, user: password_user)
+      cookies[OpenProject::Configuration["autologin_cookie_name"]] = token.plain_value
+      password_user.lock!
+      sessions_before = Sessions::UserSession.for_user(password_user.id).count
+
+      get "/push-notification",
+          headers: { "Accept" => "application/json", "X-Remote-User" => password_user.login }
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(Sessions::UserSession.for_user(password_user.id).count).to eq(sessions_before)
     end
   end
 
