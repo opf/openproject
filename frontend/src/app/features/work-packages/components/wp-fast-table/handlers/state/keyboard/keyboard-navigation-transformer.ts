@@ -36,7 +36,7 @@ import { isApplePlatform } from 'core-common/platform';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import type { WorkPackageTable } from '../../../wp-fast-table';
-import type { MutationExit } from '../../../row-mutations';
+import type { MutationExit, PaintScope } from '../../../row-mutations';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import type { TableEventComponent } from '../../table-handler-registry';
 import { activateRow } from '../../row/click-handler';
@@ -50,7 +50,7 @@ import {
 import { selectableOccurrences } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
 import { KeyboardSelection, selectionChord } from './keyboard-selection';
 import {
-  insideGrid, insideGridContent, navigableCellClassName, navigableCells, paintRovingTabindex,
+  insideGrid, insideGridContent, navigableCellClassName, navigableCells, paintRovingTabindex, rovingStopSelector,
 } from './roving-tabindex';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { CellInteraction } from './cell-interaction';
@@ -261,8 +261,16 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     this.owned = accumulate ? this.owned || inside : inside;
   }
 
-  public rowsChanged({ full }:MutationExit):void {
-    this.recover(full ? this.requestedPosition() : null, !full);
+  public rowsChanged({ scope, full }:MutationExit):void {
+    this.recover(full ? this.requestedPosition() : null, !full, this.rowsOf(scope));
+  }
+
+  /** The rows a keyed scope names; null when the whole table needs its Tab stops repainted. */
+  private rowsOf(scope:PaintScope):HTMLTableRowElement[]|null {
+    if (scope === 'all' || scope === 'positions') return null;
+    return Array.from(scope)
+      .map((key) => this.rowElement(key))
+      .filter((row):row is HTMLTableRowElement => row !== null);
   }
 
   public adoptOverlay(overlay:HTMLElement):void {
@@ -335,7 +343,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     return requested;
   }
 
-  private recover(requested:FocusPosition|null, retainStop = false):void {
+  private recover(requested:FocusPosition|null, retainStop = false, changedRows:HTMLElement[]|null = null):void {
     if (this.table.destroyed) {
       return;
     }
@@ -363,7 +371,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
       if (owned && this.mayRestoreFocus()) {
         this.focusPosition(remembered.position);
       } else {
-        this.paintRoving(this.elementAt(remembered.position));
+        this.paintRoving(this.elementAt(remembered.position), changedRows);
       }
       return;
     }
@@ -376,12 +384,12 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     }
 
     const painted = this.current ?? (retainStop ? this.retainedStop(rows) : null) ?? initialPosition(rows);
-    this.paintRoving(painted && this.elementAt(painted));
+    this.paintRoving(painted && this.elementAt(painted), changedRows);
   }
 
   /** The position of the row or cell that still carries the Tab stop, when it is still a visible navigable row, so a mutation that kept it does not move it to the first row. */
   private retainedStop(rows:readonly NavigableRow[]):FocusPosition|null {
-    const stop = this.table.scrollContainer.querySelector<HTMLElement>('tr[tabindex="0"], td[tabindex="0"], th[tabindex="0"]');
+    const stop = this.table.scrollContainer.querySelector<HTMLElement>(rovingStopSelector);
     const position = stop ? this.positionOf(stop) : null;
     return position && rows.some((row) => row.key === position.key && !row.hidden) ? position : null;
   }
@@ -709,9 +717,16 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     }
   }
 
-  private paintRoving(focused:HTMLElement|null):void {
+  /** With `changedRows`, the rows outside them keep the Tab stops they were painted with, so only those rows, the old stop and `focused` are repainted. */
+  private paintRoving(focused:HTMLElement|null, changedRows:HTMLElement[]|null = null):void {
     const engaged = this.interaction.preparePaint();
-    paintRovingTabindex(this.table.scrollContainer, focused, engaged);
+    if (changedRows === null) {
+      paintRovingTabindex(this.table.scrollContainer, focused, engaged);
+      return;
+    }
+    const stop = this.table.scrollContainer.querySelector<HTMLElement>(rovingStopSelector);
+    const roots = [...changedRows, stop, focused].filter((root):root is HTMLElement => root !== null);
+    paintRovingTabindex(roots, focused, engaged);
   }
 
   private scrollIntoView(element:HTMLElement):void {

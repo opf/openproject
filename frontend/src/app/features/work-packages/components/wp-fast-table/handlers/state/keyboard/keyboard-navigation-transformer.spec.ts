@@ -962,6 +962,36 @@ describe('KeyboardNavigationTransformer', () => {
       expect(cell(table.row('2'), 1)).toHaveFocus();
     });
 
+    it('repaints Tab stops only within the rows a keyed mutation names and the stop', async () => {
+      const table = await mount();
+      const stop = table.row('1');
+      expect(stop).toHaveAttribute('tabindex', '0');
+      const observer = new MutationObserver(() => undefined);
+      observer.observe(table.table.scrollContainer, { attributes: true, attributeFilter: ['tabindex'], subtree: true });
+
+      table.table.mutateWorkPackages(['3'], () => undefined);
+
+      const touched = observer.takeRecords().map((record) => record.target as HTMLElement);
+      observer.disconnect();
+      expect(touched.filter((element) => !table.row('3').contains(element) && !stop.contains(element))).toEqual([]);
+      expect(stop).toHaveAttribute('tabindex', '0');
+    });
+
+    it('repaints Tab stops only within the changed rows while focus rests on another row', async () => {
+      const table = await mount();
+      table.row('2').focus();
+      const observer = new MutationObserver(() => undefined);
+      observer.observe(table.table.scrollContainer, { attributes: true, attributeFilter: ['tabindex'], subtree: true });
+
+      table.table.mutateWorkPackages(['3'], () => undefined);
+
+      const touched = observer.takeRecords().map((record) => record.target as HTMLElement);
+      observer.disconnect();
+      expect(touched.filter((element) => !table.row('3').contains(element) && !table.row('2').contains(element))).toEqual([]);
+      expect(table.row('2')).toHaveFocus();
+      expect(table.row('2')).toHaveAttribute('tabindex', '0');
+    });
+
     it('leaves focus on the scroll container itself when a mutation settles', async () => {
       const table = await mount();
       table.row('2').focus();
