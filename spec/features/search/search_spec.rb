@@ -191,6 +191,17 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
         page.evaluate_script("document.querySelector('live-region').shadowRoot.textContent")
       end.to match(/\d+ items available/)
     end
+
+    context "with semantic work package IDs", with_settings: { work_packages_identifier: "semantic" } do
+      let(:semantic_project) { create(:project, :semantic) }
+      let!(:semantic_wp) { create(:work_package, subject: "Semantic direct hit", project: semantic_project) }
+
+      it "marks the work package typed by its semantic ID as the direct hit" do
+        global_search.search(semantic_wp.reload.identifier, submit: false)
+
+        global_search.expect_work_package_marked(semantic_wp)
+      end
+    end
   end
 
   describe "search for work packages" do
