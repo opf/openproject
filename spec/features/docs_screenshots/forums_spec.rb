@@ -51,6 +51,13 @@ RSpec.describe "Forums user guide screenshots", :docs_screenshots, :js, with_ee:
     end
   end
 
+  # The reply editor renders late and changes the page height, which would shift a centered element.
+  def scroll_to_center(element)
+    expect(page).to have_css("#reply .ck-content")
+    page.driver.wait_for_network_idle
+    scroll_to element, align: :center
+  end
+
   def move_mouse_aside
     page.driver.browser.mouse.move(x: 100, y: 790)
   end
@@ -97,14 +104,14 @@ RSpec.describe "Forums user guide screenshots", :docs_screenshots, :js, with_ee:
 
   it "captures a long topic with hidden replies" do
     visit project_forum_topic_path(project, usability_topics, long_topic)
-    scroll_to find_test_selector("forum-thread-gap"), align: :center
+    scroll_to_center find_test_selector("forum-thread-gap")
     docs_screenshot "forums/openproject_user_guide_forums_load_previous_replies"
   end
 
   it "captures replying to a topic and the actions on a reply" do
     visit project_forum_topic_path(project, customer_feedback, topic)
     find("#reply .ck-content").base.send_keys "A board per team keeps ours readable."
-    scroll_to find_by_id("reply"), align: :center
+    scroll_to_center find_by_id("reply")
     docs_screenshot "forums/openproject_user_guide_forums_reply_form"
 
     click_button "Reply"
@@ -113,7 +120,7 @@ RSpec.describe "Forums user guide screenshots", :docs_screenshots, :js, with_ee:
 
     reply = topic.children.find_by!(content: "Thank you both, I passed it on to the product team.")
     visit project_forum_topic_path(project, customer_feedback, topic)
-    scroll_to find_test_selector("forum-post-#{reply.id}"), align: :center
+    scroll_to_center find_test_selector("forum-post-#{reply.id}")
     open_post_actions(reply)
     docs_screenshot "forums/openproject_user_guide_forums_post_actions"
   end
@@ -121,7 +128,7 @@ RSpec.describe "Forums user guide screenshots", :docs_screenshots, :js, with_ee:
   it "captures creating a work package from a reply" do
     reply = topic.children.find_by!(author: User.find_by!(login: "jonas.weber"))
     visit project_forum_topic_path(project, customer_feedback, topic)
-    scroll_to find_test_selector("forum-post-#{reply.id}"), align: :center
+    scroll_to_center find_test_selector("forum-post-#{reply.id}")
     find_test_selector("forum-post-#{reply.id}").hover
     docs_screenshot "forums/openproject_user_guide_forums_add_work_package_button"
 
@@ -148,7 +155,7 @@ RSpec.describe "Forums user guide screenshots", :docs_screenshots, :js, with_ee:
   it "captures mentioning a member in a reply" do
     editor = Components::WysiwygEditor.new("#reply")
     visit project_forum_topic_path(project, customer_feedback, topic)
-    scroll_to find_by_id("reply"), align: :center
+    scroll_to_center find_by_id("reply")
     editor.click_and_type_slowly("@Ama")
     expect(page).to have_css(".mention-list-item", text: "Amara Okafor")
     docs_screenshot "forums/openproject_user_guide_forums_mention_member"
@@ -164,7 +171,7 @@ RSpec.describe "Forums user guide screenshots", :docs_screenshots, :js, with_ee:
   it "captures accepting a reply as solution" do
     reply = topic.children.find_by!(author: User.find_by!(login: "amara.okafor"))
     visit project_forum_topic_path(project, customer_feedback, topic)
-    scroll_to find_test_selector("forum-post-#{reply.id}"), align: :center
+    scroll_to_center find_test_selector("forum-post-#{reply.id}")
     open_post_actions(reply)
     docs_screenshot "forums/openproject_user_guide_forums_accept_as_solution"
 
