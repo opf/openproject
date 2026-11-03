@@ -13,7 +13,7 @@ As an OpenProject Enterprise add-on you can replace the default OpenProject logo
 
 Navigate to _Administration_ → _Design_ in order to customize your OpenProject theme and logo.
 
-The design page provides several options to customize your OpenProject Enterprise edition, grouped in five tabs, **Interface, Branding, Default colors, PDF export styles and PDF export font**. 
+The design page provides several options to customize your OpenProject Enterprise edition, grouped in four tabs, **Interface, Branding, Default colors, and PDF export styles**. 
 You can [choose a color theme](#choose-a-color-theme) in the first two tabs. 
 
 Under **Interface** you can also choose [custom colors](#interface-colors) for elements of the interface, such as the primary button color, accent color, the background of the top navigation header and the main menu.
