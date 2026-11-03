@@ -205,6 +205,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
 
         get "/push-notification"
 
+        expect(json["count"]).to eq(7)
         expect(json["groups"].pluck("tag")).to eq(work_packages.last(5).reverse.map { "openproject-wp-#{it.id}" })
         expect(json["more"]).to eq("count" => 2, "title" => "2 more work packages", "url" => "/notifications")
       end

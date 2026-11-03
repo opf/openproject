@@ -5,6 +5,7 @@ const CACHE_NAME = <%== pwa_cache_name.to_json %>;
 const OFFLINE_URL = <%== pwa_offline_path.to_json %>;
 const HOME_URL = <%== root_path.to_json %>;
 const PUSH_URL = <%== pwa_push_notification_path.to_json %>;
+const SHOWN_URL = `${PUSH_URL}?shown`;
 const PUSH_TAG_PREFIX = "openproject-";
 const PUSH_TAG = "openproject-unread";
 const PUSH_MORE_TAG = "openproject-more";
@@ -98,8 +99,20 @@ const openNotifications = async () => {
 const closeExcept = (notifications, keep) =>
   notifications.filter((notification) => !keep.has(notification.tag)).forEach((notification) => notification.close());
 
-const unchanged = (existing, title, body) =>
-  existing !== undefined && existing.title === title && (existing.body || "") === (body || "");
+// What was last shown per tag, so a dismissed notification stays dismissed until its content changes.
+const readShown = async () => {
+  const cache = await caches.open(CACHE_NAME);
+  const stored = await cache.match(SHOWN_URL);
+  return stored ? stored.json() : {};
+};
+
+const writeShown = async (shown) => {
+  const cache = await caches.open(CACHE_NAME);
+  await cache.put(SHOWN_URL, new Response(JSON.stringify(shown), { headers: { "Content-Type": "application/json" } }));
+};
+
+const same = (previous, current) =>
+  previous !== undefined && previous.title === current.title && previous.body === current.body;
 
 const groupOptions = (group) => ({
   body: group.body,
@@ -123,32 +136,51 @@ const showMore = (more) =>
   });
 
 const showGroups = async ({ groups, more }) => {
-  const existing = await openNotifications();
-  const byTag = new Map(existing.map((notification) => [notification.tag, notification]));
+  const shown = await readShown();
   const keep = new Set(groups.map((group) => group.tag));
   if (more) keep.add(PUSH_MORE_TAG);
-  closeExcept(existing, keep);
+  closeExcept(await openNotifications(), keep);
 
-  if (more && !unchanged(byTag.get(PUSH_MORE_TAG), more.title, "")) await showMore(more);
+  const next = {};
+  let changed = false;
 
-  const changed = groups.filter((group) => !unchanged(byTag.get(group.tag), group.title, group.body));
-  for (const group of changed.reverse()) await showGroup(group);
+  if (more) {
+    next[PUSH_MORE_TAG] = { title: more.title, body: "" };
+    if (!same(shown[PUSH_MORE_TAG], next[PUSH_MORE_TAG])) {
+      await showMore(more);
+      changed = true;
+    }
+  }
 
-  if (changed.length === 0) await refreshGroup(groups[0]);
+  for (const group of [...groups].reverse()) {
+    next[group.tag] = { title: group.title, body: group.body || "" };
+    if (same(shown[group.tag], next[group.tag])) continue;
+
+    await showGroup(group);
+    changed = true;
+  }
+
+  if (!changed) await refreshGroup(groups[0]);
+  await writeShown(next);
 };
 
-const showUnread = async () => {
+const closeAll = async () => {
+  closeExcept(await openNotifications(), new Set());
+  await writeShown({});
+};
+
+const renderUnread = async () => {
   const data = await fetchUnread();
 
   if (data?.signedOut) {
     await navigator.clearAppBadge?.().catch(() => undefined);
-    closeExcept(await openNotifications(), new Set());
+    await closeAll();
     return showFallback();
   }
   if (!data) return showFallback();
 
   if (data.count === 0) {
-    closeExcept(await openNotifications(), new Set());
+    await closeAll();
     await self.registration.showNotification(PUSH_ALL_READ_TITLE, {
       tag: PUSH_TAG,
       icon: PUSH_ICON,
@@ -160,6 +192,15 @@ const showUnread = async () => {
 
   await navigator.setAppBadge?.(data.count).catch(() => undefined);
   return showGroups(data);
+};
+
+// A push has to end in a visible notification whatever went wrong on the way.
+const showUnread = async () => {
+  try {
+    await renderUnread();
+  } catch {
+    await showFallback();
+  }
 };
 
 self.addEventListener("push", (event) => {
