@@ -2,7 +2,7 @@
   @switch (columnType) {
     @case ('hierarchy') {
       <span class="generic-table--sort-header">
-        @if (displayHierarchyIcon) {
+        @if (displayHierarchyIcon()) {
           <span
             class="hierarchy-header--icon"
             (click)="toggleHierarchy($event)"
@@ -15,17 +15,19 @@
         <!--suppress XmlDuplicatedId -->
         @if (sortable) {
           <a href="#"
-            [ngClass]="[directionClass && 'sort', directionClass]"
+            [class.sort]="!!directionClass"
+            [class.asc]="directionClass === 'asc'"
+            [class.desc]="directionClass === 'desc'"
             lang-attribute
-            lang="{{locale}}"
-            id="{{ headerColumn.id }}"
+            lang="{{locale()}}"
+            id="{{ headerColumn().id }}"
             tabindex="-1"
-          rel="nofollow">{{headerColumn.name}}</a>
+          rel="nofollow">{{headerColumn().name}}</a>
         }
         @if (!sortable) {
-          <a>{{headerColumn.name}}</a>
+          <a>{{headerColumn().name}}</a>
         }
-        @if (displayDropdownIcon) {
+        @if (displayDropdownIcon()) {
           <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
             icon-title="{{ text.openMenu }}"
            />
@@ -34,11 +36,11 @@
     }
     @case ('relation') {
       <span class="generic-table--sort-header">
-        <a [attr.title]="headerColumn.name">
+        <a [attr.title]="headerColumn().name">
           <op-icon icon-classes="icon-context icon-relations relations-header--icon" />
           {{columnName}}
         </a>
-        @if (displayDropdownIcon) {
+        @if (displayDropdownIcon()) {
           <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
             icon-title="{{ text.openMenu }}"
            />
@@ -55,15 +57,17 @@
         <!--suppress XmlDuplicatedId -->
         @if (sortable) {
           <a href="#"
-            [ngClass]="[directionClass && 'sort', directionClass]"
+            [class.sort]="!!directionClass"
+            [class.asc]="directionClass === 'asc'"
+            [class.desc]="directionClass === 'desc'"
             lang-attribute
-            lang="{{locale}}"
-            id="{{ headerColumn.id }}"
+            lang="{{locale()}}"
+            id="{{ headerColumn().id }}"
             tabindex="-1"
-          rel="nofollow">{{headerColumn.name}}</a>
+          rel="nofollow">{{headerColumn().name}}</a>
         }
         @if (!sortable) {
-          <a>{{headerColumn.name}}</a>
+          <a>{{headerColumn().name}}</a>
         }
         @if (baselineIncompatible) {
           <span
@@ -73,7 +77,7 @@
             <svg alert-icon size="small"></svg>
           </span>
         }
-        @if (displayDropdownIcon) {
+        @if (displayDropdownIcon()) {
           <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
             icon-title="{{ text.openMenu }}"
            />

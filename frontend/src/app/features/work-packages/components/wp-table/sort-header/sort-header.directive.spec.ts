@@ -89,7 +89,7 @@ describe('SortHeaderDirective input readiness', () => {
   }
 
   function sort() {
-    const column = fixture.componentInstance.headerColumn;
+    const column = fixture.componentInstance.headerColumn();
     TestBed.inject(WorkPackageViewSortByService).update([
       { column, direction: { href: QUERY_SORT_BY_ASC } } as QuerySortByResource,
     ]);
@@ -212,10 +212,28 @@ describe('SortHeaderDirective input readiness', () => {
     expect(hierarchies.isEnabled).toBe(false);
   });
 
+  it('resets presentation when a relation input becomes an ordinary column', async () => {
+    fixture.componentRef.setInput('headerColumn', {
+      id: 'relations', name: 'Children', _type: queryColumnTypes.RELATION_CHILD,
+    });
+    fixture.detectChanges();
+    await nextTask();
+    expect(fixture.nativeElement).toHaveTextContent('Children');
+
+    fixture.componentRef.setInput('headerColumn', {
+      id: 'status', name: 'Status', _type: queryColumnTypes.PROPERTY,
+    });
+    fixture.detectChanges();
+    await nextTask();
+
+    expect(fixture.nativeElement).toHaveTextContent('Status');
+    expect(fixture.nativeElement).not.toHaveTextContent('Children');
+  });
+
   it('marks its column only while it is the primary criterion', async () => {
     fixture.detectChanges();
     await nextTask();
-    const column = fixture.componentInstance.headerColumn;
+    const column = fixture.componentInstance.headerColumn();
     const status = { id: 'status', href: '/api/v3/queries/columns/status' } as QueryColumn;
     const sortBy = TestBed.inject(WorkPackageViewSortByService);
 

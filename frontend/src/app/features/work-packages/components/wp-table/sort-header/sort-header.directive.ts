@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, ElementRef, Input, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, ElementRef, input, inject, effect, signal, untracked, computed } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   QueryColumn, queryColumnTypes,
@@ -62,9 +62,9 @@ export class SortHeaderDirective implements AfterViewInit {
   private cdRef = inject(ChangeDetectorRef);
   private I18n = inject(I18nService);
 
-  @Input() headerColumn:QueryColumn;
+  readonly headerColumn = input.required<QueryColumn>();
 
-  @Input() locale:string;
+  readonly locale = input<string>();
 
   private readonly destroyRef = inject(DestroyRef);
 
@@ -72,32 +72,15 @@ export class SortHeaderDirective implements AfterViewInit {
 
   private streams = new Subscription();
 
-  private releaseTableCallback?:() => void;
+  readonly table = input<WorkPackageTable>();
 
-  private currentTable:WorkPackageTable;
+  readonly displayDropdownIcon = computed(() => this.table()?.configuration.columnMenuEnabled ?? false);
 
-  private viewReady = false;
+  readonly displayHierarchyIcon = computed(() => this.table()?.configuration.hierarchyToggleEnabled ?? false);
+
+  private readonly viewReady = signal(false);
 
   private initializedTable?:WorkPackageTable;
-
-  @Input()
-  set table(table:WorkPackageTable) {
-    this.uiWork.cancel();
-    runCleanup(() => this.streams.unsubscribe());
-    this.streams = new Subscription();
-    runCleanup(() => this.releaseTableCallback?.());
-    this.releaseTableCallback = undefined;
-    this.currentTable = table;
-    this.initializedTable = undefined;
-    if (table && !table.destroyed && !this.destroyRef.destroyed) {
-      this.releaseTableCallback = onDestroySafely(table.destroyRef, () => this.uiWork.cancel());
-    }
-    this.scheduleInitialize();
-  }
-
-  get table():WorkPackageTable {
-    return this.currentTable;
-  }
 
   sortable:boolean;
 
@@ -111,9 +94,9 @@ export class SortHeaderDirective implements AfterViewInit {
 
   isHierarchyColumn:boolean;
 
-  columnType:'hierarchy'|'relation'|'sort';
+  columnType:'plain'|'hierarchy'|'relation'|'sort' = 'plain';
 
-  columnName:string;
+  columnName = '';
 
   hierarchyIcon:string;
 
@@ -124,31 +107,45 @@ export class SortHeaderDirective implements AfterViewInit {
   private currentSortDirection:'asc'|'desc'|null;
 
   constructor() {
-    onDestroySafely(this.destroyRef, () => {
-      this.uiWork.cancel();
-      runCleanup(() => this.streams.unsubscribe());
-      runCleanup(() => this.releaseTableCallback?.());
-      this.releaseTableCallback = undefined;
+    effect((onCleanup) => {
+      const table = this.table();
+      if (!this.viewReady()) return;
+      this.headerColumn();
+      untracked(() => {
+        const streams = new Subscription();
+        this.streams = streams;
+        this.initializedTable = undefined;
+        const releaseTable = table && !table.destroyed && !this.destroyRef.destroyed
+          ? onDestroySafely(table.destroyRef, () => this.uiWork.cancel())
+          : undefined;
+        onCleanup(() => {
+          this.uiWork.cancel();
+          runCleanup(() => streams.unsubscribe());
+          runCleanup(() => releaseTable?.());
+        });
+        this.scheduleInitialize();
+      });
     });
   }
 
   ngAfterViewInit():void {
-    this.viewReady = true;
-    this.scheduleInitialize();
+    this.viewReady.set(true);
   }
 
   private scheduleInitialize():void {
-    const table = this.table;
-    if (!this.viewReady || !table || table.destroyed || this.destroyRef.destroyed || this.initializedTable === table) return;
+    const table = this.table();
+    if (!this.viewReady() || !table || table.destroyed || this.destroyRef.destroyed || this.initializedTable === table) return;
     this.uiWork.cancel();
     this.uiWork.task(() => {
-      if (this.table !== table || table.destroyed || this.destroyRef.destroyed) return;
+      if (this.table() !== table || table.destroyed || this.destroyRef.destroyed) return;
       this.initializedTable = table;
       this.initialize(table);
     });
   }
 
   private initialize(table:WorkPackageTable):void {
+    this.columnType = 'plain';
+    this.columnName = '';
     this.streams.add(combineLatest([
       this.wpTableSortBy.onReadyWithAvailable(),
       this.wpTableSortBy.live$(),
@@ -156,13 +153,13 @@ export class SortHeaderDirective implements AfterViewInit {
       .pipe(
         takeUntilDestroyed(table.destroyRef),
         takeUntilDestroyed(this.destroyRef),
-        filter(() => this.table === table && !table.destroyed && !this.destroyRef.destroyed),
+        filter(() => this.table() === table && !table.destroyed && !this.destroyRef.destroyed),
       )
       .subscribe(() => {
-        this.currentSortDirection = primarySortDirection(this.wpTableSortBy.current, this.headerColumn);
+        this.currentSortDirection = primarySortDirection(this.wpTableSortBy.current, this.headerColumn());
         this.setActiveColumnClass();
 
-        this.sortable = this.wpTableSortBy.isSortable(this.headerColumn);
+        this.sortable = this.wpTableSortBy.isSortable(this.headerColumn());
 
         this.directionClass = this.currentSortDirection ?? '';
 
@@ -170,22 +167,22 @@ export class SortHeaderDirective implements AfterViewInit {
       }));
 
     // Place the hierarchy icon left to the subject column
-    this.isHierarchyColumn = this.headerColumn.id === 'subject';
+    this.isHierarchyColumn = this.headerColumn().id === 'subject';
 
-    if (this.headerColumn.id === 'sortHandle') {
+    if (this.headerColumn().id === 'sortHandle') {
       this.columnType = 'sort';
     }
     if (this.isHierarchyColumn) {
       this.columnType = 'hierarchy';
-    } else if (this.wpTableRelationColumns.relationColumnType(this.headerColumn) === 'toType') {
+    } else if (this.wpTableRelationColumns.relationColumnType(this.headerColumn()) === 'toType') {
       this.columnType = 'relation';
-      this.columnName = (this.headerColumn as TypeRelationQueryColumn).type.name;
-    } else if (this.wpTableRelationColumns.relationColumnType(this.headerColumn) === 'ofType') {
+      this.columnName = (this.headerColumn() as TypeRelationQueryColumn).type.name;
+    } else if (this.wpTableRelationColumns.relationColumnType(this.headerColumn()) === 'ofType') {
       this.columnType = 'relation';
-      this.columnName = I18n.t(`js.relation_labels.${(this.headerColumn as RelationQueryColumn).relationType}`);
-    } else if (this.headerColumn._type === queryColumnTypes.RELATION_CHILD) {
+      this.columnName = I18n.t(`js.relation_labels.${(this.headerColumn() as RelationQueryColumn).relationType}`);
+    } else if (this.headerColumn()._type === queryColumnTypes.RELATION_CHILD) {
       this.columnType = 'relation';
-      this.columnName = this.headerColumn.name;
+      this.columnName = this.headerColumn().name;
     }
 
     if (this.isHierarchyColumn) {
@@ -198,7 +195,7 @@ export class SortHeaderDirective implements AfterViewInit {
         .pipe(
           takeUntilDestroyed(table.destroyRef),
           takeUntilDestroyed(this.destroyRef),
-          filter(() => this.table === table && !table.destroyed && !this.destroyRef.destroyed),
+          filter(() => this.table() === table && !table.destroyed && !this.destroyRef.destroyed),
         )
         .subscribe(() => {
           this.isHierarchyDisabled = this.wpTableGroupBy.isEnabled;
@@ -211,7 +208,7 @@ export class SortHeaderDirective implements AfterViewInit {
         .pipe(
           takeUntilDestroyed(table.destroyRef),
           takeUntilDestroyed(this.destroyRef),
-          filter(() => this.table === table && !table.destroyed && !this.destroyRef.destroyed),
+          filter(() => this.table() === table && !table.destroyed && !this.destroyRef.destroyed),
         )
         .subscribe(() => {
           this.setHierarchyIcon();
@@ -228,21 +225,13 @@ export class SortHeaderDirective implements AfterViewInit {
       .pipe(
         takeUntilDestroyed(table.destroyRef),
         takeUntilDestroyed(this.destroyRef),
-        filter(() => this.table === table && !table.destroyed && !this.destroyRef.destroyed),
+        filter(() => this.table() === table && !table.destroyed && !this.destroyRef.destroyed),
       )
       .subscribe(() => {
-        this.baselineIncompatible = this.wpTableBaseline.isActive() && this.wpTableBaseline.isIncompatibleColumn(this.headerColumn.id);
+        this.baselineIncompatible = this.wpTableBaseline.isActive() && this.wpTableBaseline.isIncompatibleColumn(this.headerColumn().id);
       }));
 
-    if (this.table === table && !table.destroyed && !this.destroyRef.destroyed) this.cdRef.detectChanges();
-  }
-
-  public get displayDropdownIcon() {
-    return this.table?.configuration.columnMenuEnabled;
-  }
-
-  public get displayHierarchyIcon() {
-    return this.table?.configuration.hierarchyToggleEnabled;
+    if (this.table() === table && !table.destroyed && !this.destroyRef.destroyed) this.cdRef.detectChanges();
   }
 
   toggleHierarchy(evt:Event) {
@@ -267,7 +256,8 @@ export class SortHeaderDirective implements AfterViewInit {
   }
 
   setActiveColumnClass() {
-    if (!this.table || this.table.destroyed || this.destroyRef.destroyed) return;
+    const table = this.table();
+    if (!table || table.destroyed || this.destroyRef.destroyed) return;
     if (this.currentSortDirection) {
       this.elementRef.nativeElement.classList.add('active-column');
     } else {
