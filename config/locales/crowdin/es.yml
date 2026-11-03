@@ -7211,6 +7211,7 @@ es:
         invalid_attribute_groups: El contenido del formulario no es válido.
         invalid_query: La configuración de la consulta insertada no es válida.
         label_group: Sección
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: No hay atributos inactivos
         not_found: No se ha encontrado el elemento del formulario solicitado.
         query_group_label: Tabla de paquetes de trabajo relacionados
@@ -7230,6 +7231,7 @@ es:
         reset_title: Restablecer formulario
         reset_to_defaults: Restablecer formulario
         row_actions: Acciones de fila
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Formulario
         untitled_group: Grupo sin nombre
       overview:
@@ -7842,7 +7844,7 @@ es:
           automatic_with_children: Fechas determinadas por paquetes de trabajo secundarios.
           automatic_with_predecessor: La fecha de inicio la fija un predecesor.
           manual_mobile: Programado manualmente.
-          manually_scheduled: Programado manualmente. Fechas no afectadas por relaciones.
+          manually_scheduled: Programado manualmente. No afectadas por relaciones.
       blankslate:
         description: Para activar la programación automática, este paquete de trabajo debe tener al menos un predecesor. Entonces se programará automáticamente para que comience después del predecesor más cercano.
         title: Sin predecesores

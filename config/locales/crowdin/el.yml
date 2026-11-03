@@ -7227,6 +7227,7 @@ el:
         invalid_attribute_groups: The form payload is invalid.
         invalid_query: The embedded query configuration is invalid.
         label_group: Section
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: No inactive attributes
         not_found: The requested form item could not be found.
         query_group_label: Related work packages table
@@ -7246,6 +7247,7 @@ el:
         reset_title: Reset form
         reset_to_defaults: Reset form
         row_actions: Row actions
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Form
         untitled_group: Untitled group
       overview:

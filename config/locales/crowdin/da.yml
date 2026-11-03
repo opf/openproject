@@ -4096,7 +4096,7 @@ da:
   label_duplicate: dublet
   label_duplicated_by: dubleret af
   label_duplicates: dublerer
-  label_edit: Redigér
+  label_edit: Rediger
   label_edit_x: 'Rediger: %{x}'
   label_empty_element: "(tom)"
   label_enable_multi_select: Slå flervalg til/fra
@@ -7221,6 +7221,7 @@ da:
         invalid_attribute_groups: Formularens data er ugyldige.
         invalid_query: Konfigurationen af den indlejrede forespørgsel er ugyldig.
         label_group: Afsnit
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: Ingen inaktive attributter
         not_found: Det ønskede formularelement blev ikke fundet.
         query_group_label: Tabel med relaterede arbejdspakker
@@ -7240,6 +7241,7 @@ da:
         reset_title: Nulstil formular
         reset_to_defaults: Nulstil formular
         row_actions: Handlinger for rækken
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Formular
         untitled_group: Unavngiven gruppe
       overview:

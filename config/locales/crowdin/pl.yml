@@ -7579,6 +7579,7 @@ pl:
         invalid_attribute_groups: Ładunek danych formularza jest nieprawidłowy.
         invalid_query: Konfiguracja wbudowanego zapytania jest nieprawidłowa.
         label_group: Sekcja
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: Brak nieaktywnych atrybutów
         not_found: Nie można znaleźć żądanego elementu formularza.
         query_group_label: Tabela powiązanych pakietów roboczych
@@ -7598,6 +7599,7 @@ pl:
         reset_title: Zresetuj formularz
         reset_to_defaults: Zresetuj formularz
         row_actions: Działania wiersza
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Formularz
         untitled_group: Grupa bez nazwy
       overview:

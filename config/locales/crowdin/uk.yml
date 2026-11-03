@@ -4515,7 +4515,7 @@ uk:
   label_index_by_title: Індекс за назвою
   label_information: Інформація
   label_information_plural: Інформація
-  label_installation_guides: Інструкції зі встановлення
+  label_installation_guides: Інструкції із встановлення
   label_integer: Ціле число
   label_integrations: Інтеграції
   label_interface: Інтерфейс
@@ -7594,6 +7594,7 @@ uk:
         invalid_attribute_groups: Дані форми є недійсними.
         invalid_query: Конфігурація вбудованого запиту недійсна.
         label_group: Розділ
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: Немає неактивних атрибутів
         not_found: Не вдалося знайти потрібний елемент форми.
         query_group_label: Таблиця пов’язаних робочих пакетів
@@ -7613,6 +7614,7 @@ uk:
         reset_title: Скинути форму
         reset_to_defaults: Скинути форму
         row_actions: Дії з рядком
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Форма
         untitled_group: Безіменна група
       overview:
