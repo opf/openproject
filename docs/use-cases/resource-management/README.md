@@ -115,30 +115,29 @@ The initial planner displays the work packages and their planned dates, but no r
 
 Create an allocation for upcoming work by clicking **+ Allocate** or by selecting the timeline next to a specific work package.
 
-You can allocate:
+In the **Assignee** field you can select:
 
 - A specific user
-- A resource based on filter criteria such as role, job title, skills, qualifications, or other user attributes
+- A **[placeholder user](../../system-admin-guide/users-permissions/placeholder-users/)** with criteria such as job title, skills, qualifications, or other user attributes
 
-Using filter criteria is useful when you know **what capabilities you need**, but have not yet decided who should perform the work.
-
-![Create resource allocation dialog in OpenProject with options to select a specific user or define filter criteria](resource-management-planner-allocation-form-options.png)
+Using a placeholder user is useful when you know **what capabilities you need**, but have not yet decided who should perform the work.
 
 ### Define the resource requirements
 
 For example, the work package **Define event concept and format** requires 12 hours of work between August 10 and August 14.
 
-If you cannot immediately assign a specific person, define the requirements for the resource:
+If you cannot immediately assign a specific person, describe the person you need with a placeholder user, for example **Event planner** with these criteria:
 
 - **Skill:** Event planning
-- **Language:** English
-- **Language:** French
-- **Required capacity:** 12 hours
-- **Period:** August 10–14
+- **Language:** English or French
 
-These criteria are later used to identify users who match the requirements and evaluate their availability.
+Placeholder users and their criteria are usually set up by an administrator under **[System administration → Users and permissions → Placeholder users](../../system-admin-guide/users-permissions/placeholder-users/#placeholder-user-criteria)**. If you are allowed to create placeholder users, you can also create one directly from the allocation dialog. Type the name in the **Assignee** field and select **Create placeholder user with filter criteria**.
 
-![Resource request for Define event concept and format requiring event planning skills, English and French language skills, and 12 hours of capacity](resource-management-planner-allocation-form-options-filters.png)
+![Dialog for creating the placeholder user Event planner with skill and language criteria](openproject_use_case_rm_create_placeholder_user.png)
+
+Select the placeholder user as **Assignee**, choose the work package and enter the dates and the required hours. The criteria of the placeholder user are displayed below the **Assignee** field. They are later used to identify users who match the requirements and evaluate their availability.
+
+![Allocation of 12 hours for Define event concept and format to the placeholder user Event planner](openproject_use_case_rm_allocate_placeholder_user.png)
 
 ### Review open resource requests
 
@@ -156,7 +155,7 @@ Once resource requirements have been planned, use **Staffing** to resolve open r
 
 ![Staffing view showing suitable resources for an open resource request](openproject_use_case_rm_staffing_list.png)
 
-Open a resource request to review potential matches. OpenProject automatically matches the requirements defined in the request with your users and shows their availability during the requested period. If a user meets the requirements but does not have enough capacity for the requested hours, a warning indicates the conflict.
+Open a resource request to review potential matches. OpenProject automatically matches the criteria of the placeholder user with the members of the project and shows their availability during the requested period. If a user meets the requirements but does not have enough capacity for the requested hours, a warning indicates the conflict.
 
 Use this information to decide whether to adjust existing allocations, change the requested period or capacity, or select another suitable person. Once you have found the right match, select the user and assign them to the resource request. 
 

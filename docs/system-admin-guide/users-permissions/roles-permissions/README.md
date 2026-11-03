@@ -166,11 +166,15 @@ The form shows the available global permissions which can be assigned to the new
 - [Create, edit, and delete placeholder users](../placeholder-users/)
 
 > [!NOTE]
-> Users with this global permission cannot automatically see and edit all placeholder user in all projects. It is restricted to the placeholder users in projects in which the user has the respective permission to see or edit project member.
+> Users with this global permission cannot automatically see and edit all placeholder users in all projects. It is restricted to the placeholder users in projects in which the user has the respective permission to see or edit project members.
+>
+> Independently of this permission, users with the **Allocate user resources** permission in at least one project can see all placeholder users with criteria, including their criteria, when they [allocate work to a placeholder user](../../../user-guide/resource-management/#allocate-to-a-placeholder-user). They cannot edit them.
 
 - View all users' mail addresses
 - Edit attribute help texts
 - Manage public project lists
+- [View global resource planners](../../../user-guide/resource-management/#global-resource-planners)
+- [Manage public global resource planners](../../../user-guide/resource-management/#global-resource-planners)
 
 ### Edit and delete roles
 

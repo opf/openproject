@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Placeholder users
   priority: 980
 description: Manage placeholder users in in OpenProject.
-keywords: placeholder user, example, wildcard, place holder
+keywords: placeholder user, example, wildcard, place holder, criteria, resource management
 ---
 
 # Placeholder users (Enterprise add-on)
@@ -15,28 +15,30 @@ In OpenProject you can add placeholder users to your instance. They can be creat
 Placeholder users can be used to plan a project with or for users who haven't been added to that project yet. This way you can set up projects before staffing them.
 Another use case would be to include customers, vendors or partners in your planning without them knowing it.
 
+In [Resource management](../../../user-guide/resource-management/), placeholder users with [criteria](#placeholder-user-criteria) describe the kind of person you need, for example a developer who speaks German and English. You can allocate work to such a placeholder user and later assign a matching user in the [Staffing](../../../user-guide/resource-management/#staffing) view.
+
 Placeholder users can be managed by system admins and by users with the [role](../roles-permissions/#global-role) "Create, edit and delete placeholder users".
 
 | Topic                                                                 | Content                                              |
 |-----------------------------------------------------------------------|------------------------------------------------------|
 | [Placeholder user list](#placeholder-user-list)                       | Manage placeholder users in OpenProject.             |
 | [Create placeholder users](#create-placeholder-users)                 | Add new placeholder users.                           |
-| [Manage placeholder user settings](#manage-placeholder-user-settings) | Change names and add placeholders users to projects. |
+| [Manage placeholder user settings](#manage-placeholder-user-settings) | Change names, hourly rates and add placeholders users to projects. |
+| [Placeholder user criteria](#placeholder-user-criteria)               | Describe which users match a placeholder user.       |
 
 ## Placeholder user list
 
-To manage placeholder users navigate to **Administration -> Users and permissions -> Placeholder users**. The placeholder user list gives you an overview of all placeholder users with their names and creation dates. From here you can also [add](#create-placeholder-users) placeholder users, [edit](#manage-placeholder-user-settings) them and [delete](#delete-placeholder-users) them.
+To manage placeholder users navigate to **Administration -> Users and permissions -> Placeholder users**. The placeholder user list gives you an overview of all placeholder users with their names, [criteria](#placeholder-user-criteria) and creation dates. From here you can also [add](#create-placeholder-users) placeholder users, [edit](#manage-placeholder-user-settings) them and [delete](#delete-placeholder-users) them.
 
 The column headers can be clicked to toggle sort direction. Arrows indicate sort order, up for ascending (a-z/0-9) and down for descending (z-a/9-0).
 
-![Placeholder users overview in OpenProject](openrpoject_system_guide_placeholder_users.png)
+![Placeholder users overview in OpenProject](openproject_system_guide_placeholder_users_criteria_column.png)
 
 ### Filter placeholder users
 
-The placeholder user list can be filtered by name.
+Use the search icon to filter the list by name. You can enter any part of a placeholder user name.
 
-At the top of the user list is a filter box. Enter a name, then click the green **Apply** button to filter the list. Click the **Clear** button to reset the filter field and refresh the list.
-You can enter any parts of a placeholder user name, this can also contain a **%** wild card for zero or more characters.
+Select **With criteria** or **Without criteria** to only show placeholder users that have criteria set or that have none. Select **All** to show all placeholder users again.
 
 ### Delete placeholder users
 
@@ -49,10 +51,13 @@ You will then be asked to type in the placeholder user name to confirm the delet
 > [!CAUTION]
 > Deleting a placeholder user account is an irreversible action and cannot be revoked. The previous activities from this user will still be displayed in the system but reassigned to **Deleted user**.
 
+A placeholder user that is still used in resource allocations cannot be deleted. In this case OpenProject shows the message *This placeholder user is still used in resource allocations. Reassign or remove these allocations before deleting it.* Assign a user to these allocations in the [Staffing](../../../user-guide/resource-management/#staffing) view or delete the allocations first.
+
 ## Create placeholder users
 
 To add a new placeholder, user click on **+ Placeholder user** in the upper right corner of the [placeholder user list](#placeholder-user-list).
-Enter a name and click on **Create** to save or on **Create and continue** to save and create another placeholder user.
+Enter a name and optionally a description. To describe which users match this placeholder user, select **Match users by criteria** and add one or more filters (see [Placeholder user criteria](#placeholder-user-criteria)).
+Click on **Create** to save or on **Create and continue** to save and create another placeholder user.
 
 ![create-new-placeholder-user](openrpoject_system_guide_new_placeholder_user.png)
 
@@ -77,10 +82,29 @@ If you edit the placeholder user's role(s) don't forget to use the **Change** bu
 
 **Note**: You can also use a project's [member list](../../../user-guide/members) to manage a placeholder user's participation in a project.
 
+### Hourly rates
+
+On the **Rate history** tab you can define hourly rates for a placeholder user, the same way as for [users](../users/#rate-history). This tab is visible for users with the **Manage default hourly rates** permission.
+
+With an hourly rate, placeholder users can be used for planned labor costs in [budgets](../../../user-guide/budgets/#add-planned-labor-costs). This way you can plan the costs of a project before you know who will do the work.
+
 ### Additional settings
 
 Placeholder users cannot be added to groups and cannot be assigned global roles. The avatar currently looks like that of users without a profile picture.
-In the future, additional changes and features for placeholder users will be implemented.
+
+## Placeholder user criteria
+
+Criteria describe which users can fill a placeholder user. They are used in [Resource management](../../../user-guide/resource-management/): when you allocate work to a placeholder user, the [Staffing](../../../user-guide/resource-management/#staffing) view only suggests project members that match its criteria.
+
+Only placeholder users with criteria can be selected when allocating work in Resource management.
+
+To set criteria, open the placeholder user and select the **Criteria** tab. Turn on **Activate filter criteria** and add filters. You can filter by the standard user attributes, such as name, group membership or status, and by [user attributes](../user-attributes/) like job title, skills or spoken languages.
+
+Changes are saved automatically. On the right side you see the users that currently meet the criteria. If more than 50 users match, select **Show all matching users** to open the full list.
+
+![Criteria tab of a placeholder user in OpenProject](openproject_system_guide_placeholder_user_criteria_tab.png)
+
+To remove the criteria, turn off **Activate filter criteria**.
 
 ## Placeholder user profile
 
