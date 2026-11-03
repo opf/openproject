@@ -92,6 +92,12 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.body).to include("getNotifications()", '"openproject-"', '"openproject-more"')
     end
 
+    it "closes its notifications when the user signs out" do
+      expect(response.body).to include('const SIGNOUT_URL = "/logout"', "event.waitUntil(signOut())",
+                                       "pushQueue.then(clearForSignOut, clearForSignOut)",
+                                       "generation !== signOutGeneration")
+    end
+
     it "stores only digests of what it showed" do
       expect(response.body).to include("crypto.subtle.digest")
       expect(response.body).not_to include("JSON.stringify({ title")
