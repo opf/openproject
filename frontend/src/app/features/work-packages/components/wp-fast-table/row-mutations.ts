@@ -27,8 +27,8 @@
 
 import type { RowKey } from './row-keys';
 
-/** `'all'` or the keys of the rows whose own attributes changed; keyed rows keep their positions, anything else repaints them for the whole table. */
-export type PaintScope = 'all'|ReadonlySet<RowKey>;
+/** `'all'`, `'positions'` when rows moved but none changed, or the keys of the rows whose own attributes changed; keyed rows keep their positions, anything else repaints them for the whole table. */
+export type PaintScope = 'all'|'positions'|ReadonlySet<RowKey>;
 
 export interface MutationExit {
   readonly scope:PaintScope;
@@ -43,8 +43,13 @@ export interface MutationHooks {
   exit(exit:MutationExit):void;
 }
 
+/** Keyed rows keep their positions, so joining them with a positions-only scope must repaint everything. */
 function widen(scope:PaintScope, addition:PaintScope):PaintScope {
   if (scope === 'all' || addition === 'all') return 'all';
+  if (scope === 'positions' || addition === 'positions') {
+    const rows = scope === 'positions' ? addition : scope;
+    return rows === 'positions' || rows.size === 0 ? 'positions' : 'all';
+  }
   return new Set([...scope, ...addition]);
 }
 

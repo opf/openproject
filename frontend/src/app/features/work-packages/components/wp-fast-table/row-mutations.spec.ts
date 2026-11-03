@@ -70,6 +70,34 @@ describe('RowMutations', () => {
     expect(exits).toEqual([{ scope: 'all', full: false }]);
   });
 
+  it('widens a positions-only scope joined with keyed rows to all', () => {
+    mutations.run('positions', () => {
+      mutations.run(new Set(['a']), () => undefined);
+    });
+    mutations.run(new Set(['b']), () => {
+      mutations.run('positions', () => undefined);
+    });
+
+    expect(exits).toEqual([{ scope: 'all', full: false }, { scope: 'all', full: false }]);
+  });
+
+  it('keeps positions-only scopes positions-only when joined with no rows', () => {
+    mutations.run('positions', () => {
+      mutations.run('positions', () => undefined);
+      mutations.run(new Set(), () => undefined);
+    });
+
+    expect(exits).toEqual([{ scope: 'positions', full: false }]);
+  });
+
+  it('treats an empty scope as naming no rows', () => {
+    mutations.run(new Set(), () => {
+      mutations.run(new Set(['a']), () => undefined);
+    });
+
+    expect(exits).toEqual([{ scope: new Set(['a']), full: false }]);
+  });
+
   it('paints and releases after a throwing nested change', () => {
     const run = () => mutations.run(new Set(['a']), () => {
       mutations.run(new Set(['b']), () => { throw new Error('boom'); });

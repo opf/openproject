@@ -414,14 +414,14 @@ describe('WorkPackageTable lifecycle', () => {
         vi.spyOn(harness.table.keyboardNavigation!, 'rowsChanged').mockImplementation(({ full }) => { exits.push(full); });
         const paint = vi.spyOn(harness.table.painter, 'paint');
         const subscription = harness.querySpace.tableRendered.values$().pipe(skip(1))
-          .subscribe(() => harness.table.mutate(new Set(), () => undefined));
+          .subscribe(() => harness.table.mutate('positions', () => undefined));
         try {
           harness.table.redrawTable();
           expect(() => frames.commit()).not.toThrow();
 
           expect(exits).toEqual([true, false]);
           expect(paint).toHaveBeenCalledTimes(2);
-          expect(paint.mock.calls.map(([scope]) => scope)).toEqual(['all', new Set()]);
+          expect(paint.mock.calls.map(([scope]) => scope)).toEqual(['all', 'positions']);
         } finally {
           subscription.unsubscribe();
           frames.release();

@@ -1099,7 +1099,7 @@ describe('KeyboardNavigationTransformer', () => {
       document.body.append(outside);
       try {
         table.row('1').focus();
-        table.table.mutate(new Set(), () => {
+        table.table.mutate('positions', () => {
           outside.focus();
           outside.remove();
           table.table.refreshRows(resource(table, '1'));
@@ -1201,7 +1201,7 @@ describe('KeyboardNavigationTransformer', () => {
         table.table.redrawTableAndTimeline();
         await Promise.resolve();
         table.row('2').blur();
-        table.table.mutate(new Set(), () => undefined);
+        table.table.mutate('positions', () => undefined);
 
         frames.commit();
 

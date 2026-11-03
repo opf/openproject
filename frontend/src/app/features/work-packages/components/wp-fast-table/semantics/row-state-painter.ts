@@ -55,7 +55,7 @@ export class RowStatePainter {
   public paint(scope:PaintScope = 'all'):PaintResult {
     if (scope === 'all') {
       this.semantics.paint();
-    } else {
+    } else if (scope !== 'positions') {
       this.semantics.paintKeys(scope);
     }
     this.paintEdgeRows();
@@ -63,9 +63,9 @@ export class RowStatePainter {
     return { positionsWithdrawn: this.positions.paint() };
   }
 
-  /** Rows named by occurrence keys changed in place and keep their indices; anything else (edge rows, an unnamed structural change, a full render) recomputes positions from the DOM order. */
+  /** Rows named by occurrence keys changed in place and keep their indices; anything else (edge rows, moved rows, a full render) recomputes positions from the DOM order. */
   private carriesPositions(scope:PaintScope):boolean {
-    return scope !== 'all' && scope.size > 0 && Array.from(scope).every((key) => this.table.ledger.byKey(key) !== undefined);
+    return scope !== 'all' && scope !== 'positions' && Array.from(scope).every((key) => this.table.ledger.byKey(key) !== undefined);
   }
 
   /** The column header, totals, inline-create and empty-results rows live in their own sections, outside the results body. */

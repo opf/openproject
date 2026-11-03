@@ -215,7 +215,7 @@ describe('WorkPackageTable', () => {
       TestBed.tick();
       const paint = vi.spyOn(harness.table.painter, 'paint');
 
-      harness.table.mutate(new Set(), () => undefined);
+      harness.table.mutate('positions', () => undefined);
       TestBed.tick();
 
       expect(seen).toHaveLength(2);
@@ -226,9 +226,9 @@ describe('WorkPackageTable', () => {
     it('captures ownership on every entry so a late focus entry during a nested mutation is kept', () => {
       expect(document.body).toHaveFocus();
 
-      harness.table.mutate(new Set(), () => {
+      harness.table.mutate('positions', () => {
         harness.row('2').focus();
-        harness.table.mutate(new Set(), () => harness.row('2').blur());
+        harness.table.mutate('positions', () => harness.row('2').blur());
         expect(document.body).toHaveFocus();
       });
 

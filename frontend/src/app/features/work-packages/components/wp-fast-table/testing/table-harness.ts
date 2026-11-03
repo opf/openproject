@@ -170,7 +170,7 @@ export interface TableHarnessOptions {
 
 /** The keys of a paint scope for assertions; `'all'` stays a single marker. */
 export function scopeKeys(scope:PaintScope):string[] {
-  return scope === 'all' ? ['all'] : Array.from(scope);
+  return typeof scope === 'string' ? [scope] : Array.from(scope);
 }
 
 /** A `WorkPackageTable.mutate` stand-in for fakes: runs the change, paints nothing. */

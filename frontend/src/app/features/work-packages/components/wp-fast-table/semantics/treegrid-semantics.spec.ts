@@ -222,7 +222,7 @@ describe('TreegridSemantics', () => {
     expect(harness.totalsRow()).not.toHaveAttribute('aria-hidden');
 
     harness.totalsRow().replaceChildren(document.createElement('td'));
-    harness.table.painter.paint(new Set());
+    harness.table.painter.paint('positions');
 
     expect(harness.totalsRow()).toHaveAttribute('aria-hidden', 'true');
   });

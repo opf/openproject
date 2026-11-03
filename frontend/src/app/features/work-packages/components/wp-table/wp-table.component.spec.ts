@@ -853,7 +853,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(row).toHaveAttribute('aria-rowindex', '4');
       const editor = within(row).getByRole('textbox');
       editor.focus();
-      component.workPackageTable.painter.paint(new Set());
+      component.workPackageTable.painter.paint('positions');
       expect(document.activeElement).toBe(editor);
 
       fireEvent.keyDown(editor, { key: 'Escape' });
@@ -910,7 +910,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       editor.focus();
       const focused = document.activeElement;
       painted.mockRestore();
-      component.workPackageTable.painter.paint(new Set());
+      component.workPackageTable.painter.paint('positions');
       expect(document.activeElement).toBe(focused);
 
       const removed = vi.spyOn(component.workPackageTable.painter, 'paint').mockImplementation(() => {
