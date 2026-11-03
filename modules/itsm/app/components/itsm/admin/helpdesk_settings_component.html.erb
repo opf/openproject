@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
           if wizard.section_name(step_name) != last_section
             section_name = wizard.section_name(step_name)
             box.with_row(scheme: :neutral, color: :muted) do
-              render(Primer::Beta::Text.new(font_weight: :semibold)) { t("itsm.admin.#{section_name}.title") }
+              render(Primer::Beta::Text.new(font_weight: :semibold)) { t("itsm.admin.#{section_name}") }
             end
             last_section = section_name
           end

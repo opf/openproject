@@ -33,8 +33,33 @@ See COPYRIGHT and LICENSE files for more details.
       grid.with_area(:item, tag: :div, mr: 3) do
         concat(
           render(Primer::Beta::Text.new(font_weight: :bold, mr: 1)) do
-            t("itsm.admin.mail_servers.imap_configuration")
+            t(".title")
           end
+        )
+
+        if configured?
+          concat(render(Primer::Beta::Label.new(scheme: :success)) { t(:label_completed) })
+        end
+      end
+
+      grid.with_area(:description, classes: "wb-break-word", tag: :div, color: :subtle) do
+        if configured?
+          render(Primer::Beta::Text.new(font_size: :small)) { "CONFIG DATA GOES HERE ..." }
+        else
+          render(Primer::Beta::Text.new(font_size: :small)) { t(".description") }
+        end
+      end
+
+      grid.with_area(:"icon-button", tag: :div, color: :muted) do
+        render(
+          Primer::Beta::IconButton.new(
+            icon: :pencil,
+            scheme: :invisible,
+            tag: :a,
+            href: "#",
+            aria: { label: t(".edit") },
+            data: { turbo_stream: true }
+          )
         )
       end
     end

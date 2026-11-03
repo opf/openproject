@@ -33,6 +33,10 @@ module ITSM
     class ImapServerConfigurationComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+
+      def configured?
+        MailServer.imap.exists?
+      end
     end
   end
 end
