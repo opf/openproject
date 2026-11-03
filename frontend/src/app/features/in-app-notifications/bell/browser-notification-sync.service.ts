@@ -26,6 +26,7 @@
 //++
 
 import { Injectable, inject } from '@angular/core';
+import { concatMap, from } from 'rxjs';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { getMetaValue } from 'core-app/core/setup/globals/global-helpers';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -51,15 +52,17 @@ export class BrowserNotificationSyncService {
       return;
     }
 
-    this.ianBell.loadedUnread$.subscribe((count) => {
-      this.reconcile(count).catch(() => undefined);
-    });
+    this.ianBell.loadedUnread$
+      .pipe(concatMap((count) => from(this.reconcile(count).catch(() => undefined))))
+      .subscribe();
   }
 
   private get available():boolean {
-    return 'serviceWorker' in navigator
-      && 'Notification' in window
-      && Notification.permission === 'granted';
+    return 'serviceWorker' in navigator && 'Notification' in window;
+  }
+
+  private get permitted():boolean {
+    return Notification.permission === 'granted';
   }
 
   private get flagEnabled():boolean {
@@ -67,13 +70,16 @@ export class BrowserNotificationSyncService {
   }
 
   private async reconcile(count:number):Promise<void> {
-    if (count < 0) {
+    if (count < 0 || !this.permitted) {
       return;
     }
 
     const registration = await navigator.serviceWorker.getRegistration();
-    const open = (await registration?.getNotifications() ?? [])
-      .filter((notification) => notification.tag.startsWith(TAG_PREFIX));
+    if (!registration) {
+      return;
+    }
+
+    const open = await this.openNotifications(registration);
     if (open.length === 0) {
       return;
     }
@@ -83,13 +89,30 @@ export class BrowserNotificationSyncService {
       return;
     }
 
+    const keep = await this.tagsToKeep();
+    if (!keep) {
+      return;
+    }
+
+    // The list is read again after the fetch so a push that replaced a tag in the meantime is not closed.
+    (await this.openNotifications(registration))
+      .filter((notification) => !keep.has(notification.tag))
+      .forEach((notification) => notification.close());
+  }
+
+  private async openNotifications(registration:ServiceWorkerRegistration):Promise<Notification[]> {
+    const notifications = await registration.getNotifications();
+    return notifications.filter((notification) => notification.tag.startsWith(TAG_PREFIX));
+  }
+
+  private async tagsToKeep():Promise<Set<string>|undefined> {
     const response = await fetch(`${this.pathHelper.appBasePath}/push-notification`, {
       headers: { Accept: 'application/json' },
       credentials: 'same-origin',
       cache: 'no-store',
     });
     if (!response.ok) {
-      return;
+      return undefined;
     }
 
     const summary = await response.json() as PushSummary;
@@ -97,9 +120,6 @@ export class BrowserNotificationSyncService {
     if (summary.more) {
       keep.add(MORE_TAG);
     }
-
-    open
-      .filter((notification) => !keep.has(notification.tag))
-      .forEach((notification) => notification.close());
+    return keep;
   }
 }

@@ -116,13 +116,40 @@ describe('BrowserNotificationSyncService', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
+  it('keeps the overflow notification while the server still reports more', async () => {
+    const [wp1, more] = [notification('openproject-wp-1'), notification('openproject-more')];
+    getNotifications.mockResolvedValue([wp1, more]);
+    fetchMock.mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ count: 9, groups: [{ tag: 'openproject-wp-1' }], more: { count: 4 } }),
+    });
+    setup().initialize();
+
+    loadedUnread$.next(9);
+    await flush();
+
+    expect(wp1.close).not.toHaveBeenCalled();
+    expect(more.close).not.toHaveBeenCalled();
+  });
+
+  it('leaves notifications open when the summary cannot be fetched', async () => {
+    const wp1 = notification('openproject-wp-1');
+    getNotifications.mockResolvedValue([wp1]);
+    fetchMock.mockResolvedValue({ ok: false, status: 401 });
+    setup().initialize();
+
+    loadedUnread$.next(1);
+    await flush();
+
+    expect(wp1.close).not.toHaveBeenCalled();
+  });
+
   it('stays inert without notification permission', async () => {
     setup({ permission: 'default' }).initialize();
 
     loadedUnread$.next(3);
     await flush();
 
-    expect(loadedUnread$.observed).toBe(false);
     expect(getRegistration).not.toHaveBeenCalled();
   });
 });
