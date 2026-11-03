@@ -130,7 +130,7 @@ RSpec.describe "My::PushSubscriptionsController",
       it "keeps this session's subscription when the new endpoint is rejected" do
         stale = create(:push_subscription, user:, session: current_session_row)
 
-        subscribe("https://evil.example/x")
+        subscribe("http://evil.example/x")
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(PushSubscription.exists?(stale.id)).to be(true)
