@@ -74,7 +74,7 @@ export class RowStatePainter {
       .filter((section) => section !== this.table.tbody)
       .flatMap((section) => this.table.rows.rowsOf(section))
       .forEach(({ element, state: { kind, hidden } }) => {
-        if (kind !== 'totals' && kind !== 'inlineCreate' && kind !== 'emptyResults') return;
+        if (!['totals', 'inlineCreate', 'emptyResults'].includes(kind)) return;
         paintRowRole(element, 1);
         if (kind === 'totals') setOrRemove(element, 'aria-hidden', hidden ? 'true' : null);
       });
