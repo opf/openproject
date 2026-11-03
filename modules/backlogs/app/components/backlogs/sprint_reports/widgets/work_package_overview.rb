@@ -59,7 +59,7 @@ module Backlogs
         end
 
         def secondary_metric_text(block)
-          if project.estimation_unit_time?
+          if active_metric == :time
             DurationConverter.output(block.estimated_hours)
           else
             t("backlogs.story_points", count: block.story_points)
@@ -67,10 +67,21 @@ module Backlogs
         end
 
         def secondary_metric_change_text
-          if project.estimation_unit_time?
+          if active_metric == :time
             hours_change_text
           else
             story_points_change_text
+          end
+        end
+
+        def progress_label
+          case progress_metric
+          when :time
+            t(".completed_estimated_time")
+          when :story_points
+            t(".completed_story_points")
+          else
+            t(".closed_work_packages")
           end
         end
 
@@ -87,9 +98,10 @@ module Backlogs
 
         def story_points_change_text
           t(
-            ".blocks.changed_after_start.story_points_change",
+            ".blocks.changed_after_start.story_points_change_html",
             added: breakdown.changed_after_start.added_story_points,
-            removed: breakdown.changed_after_start.removed_story_points
+            removed: breakdown.changed_after_start.removed_story_points,
+            divider: divider_text
           )
         end
 
@@ -102,7 +114,7 @@ module Backlogs
         end
 
         def metric_value(block)
-          case active_metric
+          case progress_metric
           when :time
             block.estimated_hours
           when :story_points
@@ -114,7 +126,7 @@ module Backlogs
 
         def resolved_summary_text
           t(
-            ".resolved_summary.#{active_metric}",
+            ".resolved_summary.#{progress_metric}",
             percentage: helpers.number_to_percentage(resolved_percentage, precision: 0),
             resolved: format_metric(progress_numerator),
             total: format_metric(progress_denominator),
@@ -125,21 +137,27 @@ module Backlogs
         # Estimated hours are floats, whose division can land just below a whole percentage
         # and get floored; whole minutes keep the integer division exact.
         def comparable_value(value)
-          active_metric == :time ? (value * 60).round : value
+          progress_metric == :time ? (value * 60).round : value
         end
 
         def format_metric(value)
-          active_metric == :time ? DurationConverter.output(value) : value
+          progress_metric == :time ? DurationConverter.output(value) : value
+        end
+
+        def progress_metric
+          return :work_packages unless OpenProject::FeatureDecisions.project_settings_estimation_unit_active?
+
+          active_metric
         end
 
         def active_metric
-          if project.estimation_unit_time?
-            :time
-          elsif project.estimation_unit_story_points?
-            :story_points
-          else
-            :work_packages
-          end
+          @active_metric ||= if project.estimation_unit_time?
+                               :time
+                             elsif project.estimation_unit_story_points?
+                               :story_points
+                             else
+                               :work_packages
+                             end
         end
 
         def resolved_work_packages_count

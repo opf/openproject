@@ -152,14 +152,6 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       end
     end
 
-    it "bases the progress bar on the sums of story points" do
-      expect(rendered_component.css(".Progress-item").first["style"]).to include("width: 61%")
-    end
-
-    it "summarizes the progress in story points next to the bar" do
-      expect(rendered_component).to have_text("61% (8 of 13 story points)")
-    end
-
     context "when the project's estimation unit is time", with_flag: { project_settings_estimation_unit: true } do
       before { project.estimation_unit = "time" }
 
@@ -187,6 +179,10 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
         it "summarizes the progress in days and hours rather than a plain hour count" do
           expect(rendered_component).to have_text("30% (1d 4h of 5d 0h)")
         end
+      end
+
+      it "labels the progress bar as completed estimated time" do
+        expect(rendered_component).to have_css("[role='progressbar'][aria-label='Completed estimated time']")
       end
 
       context "when all estimated time is completed in fractional hours" do
@@ -233,6 +229,51 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       it "summarizes the progress in work packages next to the bar" do
         expect(rendered_component).to have_text("60% (3 of 5 work packages)")
       end
+
+      it "labels the progress bar as closed work packages" do
+        expect(rendered_component).to have_css("[role='progressbar'][aria-label='Closed work packages']")
+      end
+    end
+
+    context "when the estimation unit feature is inactive", with_flag: { project_settings_estimation_unit: false } do
+      it "bases the progress bar on the work package counts" do
+        expect(rendered_component.css(".Progress-item").first["style"]).to include("width: 60%")
+      end
+
+      it "summarizes the progress in work packages next to the bar" do
+        expect(rendered_component).to have_text("60% (3 of 5 work packages)")
+      end
+
+      it "labels the progress bar as closed work packages" do
+        expect(rendered_component).to have_css("[role='progressbar'][aria-label='Closed work packages']")
+      end
+
+      it "still shows story points for each block" do
+        expect(rendered_component).to have_text("13 story points")
+      end
+    end
+
+    context "when the project's estimation unit is story points",
+            with_flag: { project_settings_estimation_unit: true } do
+      before { project.estimation_unit = "story_points" }
+
+      it "bases the progress bar on the sums of story points" do
+        expect(rendered_component.css(".Progress-item").first["style"]).to include("width: 61%")
+      end
+
+      it "summarizes the progress in story points next to the bar" do
+        expect(rendered_component).to have_text("61% (8 of 13 story points)")
+      end
+
+      it "labels the progress bar as completed story points" do
+        expect(rendered_component).to have_css("[role='progressbar'][aria-label='Completed story points']")
+      end
+
+      it "separates the scope change in story points with the styled divider" do
+        scope_change = rendered_component.css(".op-wp-overview--blocks > div").find { it.text.include?("Scope change") }
+
+        expect(scope_change.css("span.color-fg-muted", text: "/").size).to eq(2)
+      end
     end
   end
 
@@ -274,8 +315,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
 
       current_user { create(:user, member_with_roles: { project => role }) }
 
-      it "counts the work package's story points in the progress bar" do
-        expect(rendered_component).to have_text("0 of 5 story points")
+      it "counts the work package in the progress bar" do
+        expect(rendered_component).to have_text("0 of 1 work package")
       end
 
       it "counts the work package in the initially planned and unfinished boxes" do
@@ -298,7 +339,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       current_user { create(:user, member_with_roles: { project => role }) }
 
       it "excludes the work package from the progress bar" do
-        expect(rendered_component).to have_text("0 of 0 story points")
+        expect(rendered_component).to have_text("0 of 0 work packages")
       end
 
       it "excludes the work package from every breakdown box" do

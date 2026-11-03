@@ -84,6 +84,10 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         expect(rendered_component).to have_text("8 points", normalize_ws: true)
       end
 
+      it "keeps the story points total and its unit on one line" do
+        expect(rendered_component.css(".velocity").text.strip).to eq("8 points")
+      end
+
       context "when the project's estimation unit is time", with_flag: { project_settings_estimation_unit: true } do
         before do
           project.update!(estimation_unit: "time")

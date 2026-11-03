@@ -295,7 +295,7 @@ en:
             changed_after_start:
               change_html: "+%{added} %{divider} -%{removed}"
               heading: "Scope change"
-              story_points_change: "+%{added} / -%{removed} story points"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: "Completed"
             initially_planned:
@@ -307,6 +307,8 @@ en:
               show_all: "View all"
               show_all_label: "View all: %{heading}"
           closed_work_packages: "Closed work packages"
+          completed_estimated_time: "Completed estimated time"
+          completed_story_points: "Completed story points"
           resolved_summary:
             story_points:
               one: "%{percentage} (%{resolved} of %{total} story point)"
