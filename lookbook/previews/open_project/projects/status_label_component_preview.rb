@@ -46,37 +46,43 @@ module OpenProject::Projects
       render(Projects::StatusLabelComponent.new(project:, with_icon:))
     end
 
-    def on_track()
+    # @param with_icon [boolean]
+    def on_track(with_icon: true)
       project = FactoryBot.build_stubbed(:project, status_code: :on_track, status_explanation: "some explanation")
 
       render(Projects::StatusLabelComponent.new(project:, with_icon:))
     end
 
-    def at_risk()
+    # @param with_icon [boolean]
+    def at_risk(with_icon: true)
       project = FactoryBot.build_stubbed(:project, status_code: :at_risk, status_explanation: "some explanation")
 
       render(Projects::StatusLabelComponent.new(project:, with_icon:))
     end
 
-    def off_track()
+    # @param with_icon [boolean]
+    def off_track(with_icon: true)
       project = FactoryBot.build_stubbed(:project, status_code: :off_track, status_explanation: "some explanation")
 
       render(Projects::StatusLabelComponent.new(project:, with_icon:))
     end
 
-    def not_started()
+    # @param with_icon [boolean]
+    def not_started(with_icon: true)
       project = FactoryBot.build_stubbed(:project, status_code: :not_started, status_explanation: "some explanation")
 
       render(Projects::StatusLabelComponent.new(project:, with_icon:))
     end
 
-    def finished()
+    # @param with_icon [boolean]
+    def finished(with_icon: true)
       project = FactoryBot.build_stubbed(:project, status_code: :finished, status_explanation: "some explanation")
 
       render(Projects::StatusLabelComponent.new(project:, with_icon:))
     end
 
-    def discontinued()
+    # @param with_icon [boolean]
+    def discontinued(with_icon: true)
       project = FactoryBot.build_stubbed(:project, status_code: :discontinued, status_explanation: "some explanation")
 
       render(Projects::StatusLabelComponent.new(project:, with_icon:))
