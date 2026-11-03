@@ -94,9 +94,10 @@ export class BrowserNotificationSyncService {
       return;
     }
 
-    // The list is read again after the fetch so a push that replaced a tag in the meantime is not closed.
+    // Only tags seen before the fetch are closed, so a notification a push showed meanwhile survives.
+    const seen = new Set(open.map((notification) => notification.tag));
     (await this.openNotifications(registration))
-      .filter((notification) => !keep.has(notification.tag))
+      .filter((notification) => seen.has(notification.tag) && !keep.has(notification.tag))
       .forEach((notification) => notification.close());
   }
 
@@ -110,6 +111,7 @@ export class BrowserNotificationSyncService {
       headers: { Accept: 'application/json' },
       credentials: 'same-origin',
       cache: 'no-store',
+      signal: AbortSignal.timeout(10000),
     });
     if (!response.ok) {
       return undefined;

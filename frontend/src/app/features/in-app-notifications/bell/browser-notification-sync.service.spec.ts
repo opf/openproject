@@ -94,6 +94,23 @@ describe('BrowserNotificationSyncService', () => {
     expect(more.close).toHaveBeenCalled();
   });
 
+  it('leaves a notification that appeared during the fetch open', async () => {
+    const [wp1, wp2, wp3] = [notification('openproject-wp-1'), notification('openproject-wp-2'), notification('openproject-wp-3')];
+    getNotifications.mockResolvedValueOnce([wp1, wp2]).mockResolvedValueOnce([wp1, wp2, wp3]);
+    fetchMock.mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ count: 1, groups: [{ tag: 'openproject-wp-1' }], more: null }),
+    });
+    setup().initialize();
+
+    loadedUnread$.next(1);
+    await flush();
+
+    expect(wp2.close).toHaveBeenCalled();
+    expect(wp1.close).not.toHaveBeenCalled();
+    expect(wp3.close).not.toHaveBeenCalled();
+  });
+
   it('closes every notification without fetching when nothing is unread', async () => {
     const open = [notification('openproject-wp-1'), notification('openproject-unread')];
     getNotifications.mockResolvedValue(open);
