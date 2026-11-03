@@ -6,6 +6,7 @@ const OFFLINE_URL = <%== pwa_offline_path.to_json %>;
 const HOME_URL = <%== root_path.to_json %>;
 const PUSH_URL = <%== pwa_push_notification_path.to_json %>;
 const SHOWN_URL = `${PUSH_URL}?shown`;
+const STATE_CACHE = `${CACHE_PREFIX}push-state`;
 const PUSH_TAG_PREFIX = "openproject-";
 const PUSH_TAG = "openproject-unread";
 const PUSH_MORE_TAG = "openproject-more";
@@ -41,7 +42,7 @@ self.addEventListener("activate", (event) => {
       .then((names) =>
         Promise.all(
           names
-            .filter((name) => name.startsWith(CACHE_PREFIX) && name !== CACHE_NAME)
+            .filter((name) => name.startsWith(CACHE_PREFIX) && name !== CACHE_NAME && name !== STATE_CACHE)
             .map((name) => caches.delete(name)),
         ),
       )
@@ -88,7 +89,7 @@ const showFallback = () =>
     icon: PUSH_ICON,
     silent: true,
     renotify: false,
-    data: { url: HOME_URL },
+    data: { url: HOME_URL, revision: "fallback" },
   });
 
 const openNotifications = async () => {
@@ -101,13 +102,13 @@ const closeExcept = (notifications, keep) =>
 
 // Digests of what was last shown per tag, so a dismissed notification stays dismissed until its content changes.
 const readShown = async () => {
-  const cache = await caches.open(CACHE_NAME);
+  const cache = await caches.open(STATE_CACHE);
   const stored = await cache.match(SHOWN_URL);
   return stored ? stored.json() : {};
 };
 
 const writeShown = async (shown) => {
-  const cache = await caches.open(CACHE_NAME);
+  const cache = await caches.open(STATE_CACHE);
   await cache.put(SHOWN_URL, new Response(JSON.stringify(shown), { headers: { "Content-Type": "application/json" } }));
 };
 
@@ -122,7 +123,7 @@ const groupOptions = (group) => ({
   body: group.body,
   tag: group.tag,
   icon: PUSH_ICON,
-  data: { url: group.url },
+  data: { url: group.url, revision: group.revision },
 });
 
 const showGroup = (group) =>
@@ -136,7 +137,7 @@ const showMore = (more) =>
     tag: PUSH_MORE_TAG,
     icon: PUSH_ICON,
     silent: true,
-    data: { url: more.url },
+    data: { url: more.url, revision: more.title },
   });
 
 const showGroups = async ({ groups, more }) => {
@@ -148,10 +149,12 @@ const showGroups = async ({ groups, more }) => {
 
   const next = {};
   let changed = false;
+  const nothingOpen = openBefore.length === 0;
 
   if (more) {
     next[PUSH_MORE_TAG] = await digestOf(more.title);
-    if (!same(shown[PUSH_MORE_TAG], next[PUSH_MORE_TAG])) {
+    const moreOpen = openBefore.some((notification) => notification.tag === PUSH_MORE_TAG);
+    if (!same(shown[PUSH_MORE_TAG], next[PUSH_MORE_TAG]) || !moreOpen) {
       await showMore(more);
       changed = true;
     }
@@ -159,17 +162,20 @@ const showGroups = async ({ groups, more }) => {
 
   for (const group of [...groups].reverse()) {
     next[group.tag] = await digestOf(group.revision, group.title, group.body || "");
-    if (same(shown[group.tag], next[group.tag])) continue;
-
-    await showGroup(group);
-    changed = true;
+    if (nothingOpen) {
+      await refreshGroup(group);
+      changed = true;
+    } else if (!same(shown[group.tag], next[group.tag])) {
+      await showGroup(group);
+      changed = true;
+    }
   }
 
   if (!changed) {
     if (openBefore.some((notification) => notification.tag === groups[0].tag)) await refreshGroup(groups[0]);
     else await showFallback();
   }
-  await writeShown(next);
+  await writeShown(more ? { ...shown, ...next } : next);
 };
 
 const closeAll = async () => {
@@ -193,7 +199,7 @@ const renderUnread = async () => {
       tag: PUSH_TAG,
       icon: PUSH_ICON,
       silent: true,
-      data: { url: HOME_URL },
+      data: { url: HOME_URL, revision: "all-read" },
     });
     return navigator.clearAppBadge?.().catch(() => undefined);
   }

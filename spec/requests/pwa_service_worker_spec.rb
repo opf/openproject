@@ -92,6 +92,10 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.body).not_to include("JSON.stringify({ title")
     end
 
+    it "keeps the push state in a cache that survives upgrades" do
+      expect(response.body).to include("push-state", "name !== STATE_CACHE")
+    end
+
     it "precaches the offline page under the configured cache name" do
       expect(response.body).to include(ApplicationController.helpers.pwa_cache_name, '"/offline"')
     end
