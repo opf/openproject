@@ -60,7 +60,7 @@
 class PushSubscriptions::NotifyJob < ApplicationJob
   include GoodJob::ActiveJobExtensions::Concurrency
 
-  DEBOUNCE = 1.minute
+  DEBOUNCE = 10.seconds
   MAX_ATTEMPTS = 4
   # Apple rejects a topic whose length is 4n+1, which is not a valid unpadded base64url length.
   TOPIC = "openproject-unread"
