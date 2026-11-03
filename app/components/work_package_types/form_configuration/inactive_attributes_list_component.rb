@@ -31,6 +31,7 @@ module WorkPackageTypes
   module FormConfiguration
     class InactiveAttributesListComponent < ApplicationComponent
       include OpTurbo::Streamable
+      include AttributeItemData
 
       def initialize(context:, inactive_attributes:)
         super
@@ -44,22 +45,19 @@ module WorkPackageTypes
         {
           "test-selector": "type-form-configuration-inactive-container",
           "admin--type-form-configuration--main-target": "inactiveContainer",
-          "admin--type-form-configuration--rows-drag-and-drop-target": "container",
-          "target-container-accessor": "[data-test-selector='type-form-configuration-inactive-list']",
-          "target-id": "inactive",
-          "target-allowed-drag-type": "attribute"
+          controller: "sortable-lists--list",
+          sortable_lists__list_type_value: SortableTypes::INACTIVE_ATTRIBUTE,
+          sortable_lists__list_accepted_type_value: SortableTypes::ATTRIBUTE,
+          sortable_lists__list_name_value: t("types.edit.form_configuration.inactive_attributes_heading"),
+          sortable_lists__list_rows_container_element: ".type-form-configuration-page--inactive-list"
         }
       end
 
       def item_data(attribute)
-        {
-          attr_key: attribute[:key],
-          attr_translation: attribute[:translation],
-          attr_is_cf: attribute[:is_cf],
-          "draggable-id": attribute[:key],
-          "draggable-type": "attribute",
-          "drop-url": @context.row_path(:drop, row_key: attribute[:key])
-        }
+        merge_data(
+          { data: attribute_item_data(attribute) },
+          { data: { "filter--filter-list-target": "searchItem" } }
+        )
       end
     end
   end
