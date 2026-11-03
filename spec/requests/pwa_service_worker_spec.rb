@@ -83,6 +83,11 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.body).to include("No unread notifications", "renotify: true", "silent: true")
     end
 
+    it "alerts only on newer activity and brings back groups pushed out by the overflow silently" do
+      expect(response.body).to include("at > previous.at", "evicted: true", "silent: true, renotify: false",
+                                       "notification.tag === PUSH_TAG")
+    end
+
     it "closes notifications of work packages that are no longer unread" do
       expect(response.body).to include("getNotifications()", '"openproject-"', '"openproject-more"')
     end

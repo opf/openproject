@@ -100,7 +100,7 @@ const openNotifications = async () => {
 const closeExcept = (notifications, keep) =>
   notifications.filter((notification) => !keep.has(notification.tag)).forEach((notification) => notification.close());
 
-// Digests of what was last shown per tag, so a dismissed notification stays dismissed until its content changes.
+// What was last shown per tag, so a dismissed notification stays dismissed until newer activity arrives.
 const readShown = async () => {
   const cache = await caches.open(STATE_CACHE);
   const stored = await cache.match(SHOWN_URL);
@@ -117,7 +117,7 @@ const digestOf = async (...parts) => {
   return Array.from(new Uint8Array(bytes), (byte) => byte.toString(16).padStart(2, "0")).join("");
 };
 
-const same = (previous, current) => previous !== undefined && previous === current;
+const activityAt = (group) => Number(group.revision.split(":")[1]) || 0;
 
 const groupOptions = (group) => ({
   body: group.body,
@@ -130,7 +130,7 @@ const showGroup = (group) =>
   self.registration.showNotification(group.title, { ...groupOptions(group), renotify: true });
 
 const refreshGroup = (group) =>
-  self.registration.showNotification(group.title, { ...groupOptions(group), renotify: false });
+  self.registration.showNotification(group.title, { ...groupOptions(group), silent: true, renotify: false });
 
 const showMore = (more) =>
   self.registration.showNotification(more.title, {
@@ -149,24 +149,35 @@ const showGroups = async ({ groups, more }) => {
 
   const next = {};
   let changed = false;
-  const nothingOpen = openBefore.length === 0;
+  const nothingOpen = openBefore.every((notification) => notification.tag === PUSH_TAG);
+  const openTags = new Set(openBefore.map((notification) => notification.tag));
 
   if (more) {
-    next[PUSH_MORE_TAG] = await digestOf(more.title);
-    const moreOpen = openBefore.some((notification) => notification.tag === PUSH_MORE_TAG);
-    if (!same(shown[PUSH_MORE_TAG], next[PUSH_MORE_TAG]) || !moreOpen) {
+    // A group closed here may only have been pushed out of the top five, so it comes back silently.
+    openBefore
+      .filter((notification) => !keep.has(notification.tag) && shown[notification.tag]?.at !== undefined)
+      .forEach((notification) => {
+        next[notification.tag] = { ...shown[notification.tag], evicted: true };
+      });
+
+    next[PUSH_MORE_TAG] = { digest: await digestOf(more.title) };
+    if (shown[PUSH_MORE_TAG]?.digest !== next[PUSH_MORE_TAG].digest || !openTags.has(PUSH_MORE_TAG)) {
       await showMore(more);
       changed = true;
     }
   }
 
   for (const group of [...groups].reverse()) {
-    next[group.tag] = await digestOf(group.revision, group.title, group.body || "");
-    if (nothingOpen) {
-      await refreshGroup(group);
-      changed = true;
-    } else if (!same(shown[group.tag], next[group.tag])) {
+    const previous = shown[group.tag];
+    const at = activityAt(group);
+    const digest = await digestOf(group.revision, group.title, group.body || "");
+    next[group.tag] = { digest, at: Math.max(at, previous?.at || 0) };
+
+    if (previous?.at === undefined || at > previous.at) {
       await showGroup(group);
+      changed = true;
+    } else if (nothingOpen || previous.evicted || (openTags.has(group.tag) && previous.digest !== digest)) {
+      await refreshGroup(group);
       changed = true;
     }
   }
