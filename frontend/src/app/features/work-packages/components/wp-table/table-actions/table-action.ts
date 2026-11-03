@@ -35,6 +35,7 @@ export const contextMenuTdClassName = 'wp-table--context-menu-td';
 export const contextMenuSpanClassName = 'wp-table--context-menu-span';
 export const contextMenuLinkClassName = 'wp-table-context-menu-link';
 export const contextColumnIcon = 'wp-table-context-menu-icon';
+export const destructiveControlAttribute = 'data-wp-table-destructive';
 
 export abstract class OpTableAction {
   @LazyInject() I18n!:I18nService;

@@ -69,6 +69,7 @@ describe('Ancestor row selection', () => {
     { platform: 'MacIntel', metaKey: true },
   ])('anchors Select All on the ancestor on $platform', ({ platform, ...modifiers }) => {
     pretendPlatform(platform);
+    harness.row('1').focus();
     expect(fireEvent.keyDown(harness.row('1'), { key: 'a', ...modifiers })).toBe(false);
     harness.click('2', { shiftKey: true });
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);
@@ -85,7 +86,7 @@ describe('Ancestor row selection', () => {
       table: harness.table,
       classIdentifier: harness.row('1').dataset.classIdentifier,
     });
-    expect(form.findCell('subject')).toBe(harness.row('1').querySelector('td.subject'));
+    expect(form.findCell('subject')).toBe(harness.row('1').querySelector(':scope > .wp-table--cell-td.subject'));
   });
 
   it('retains both lookup identities through a row refresh', () => {

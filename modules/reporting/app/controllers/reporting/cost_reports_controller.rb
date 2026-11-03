@@ -116,6 +116,7 @@ module Reporting
     # Renders the option tags for the available values of a single filter.
     def available_values
       return head :bad_request if params[:filter_name].blank?
+      return head :not_found if requested_filter_class.nil?
 
       render Widget::Filters::Option.new(requested_filter), layout: !request.xhr?
     end
@@ -123,9 +124,13 @@ module Reporting
     private
 
     def requested_filter
-      filter_class(params[:filter_name]).new.tap do |filter|
+      requested_filter_class.new.tap do |filter|
         filter.values = requested_filter_values if params[:values].present?
       end
+    end
+
+    def requested_filter_class
+      ::CostQuery::Filter.named(params[:filter_name])
     end
 
     def requested_filter_values
@@ -221,10 +226,6 @@ module Reporting
     def load_all
       ::CostQuery::GroupBy.all
       ::CostQuery::Filter.all
-    end
-
-    def filter_class(name)
-      ::CostQuery::Filter.all.detect { |filter| filter.underscore_name == name }
     end
 
     def make_public?

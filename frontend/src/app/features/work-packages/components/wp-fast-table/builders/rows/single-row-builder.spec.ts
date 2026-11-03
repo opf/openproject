@@ -27,10 +27,12 @@
 
 import { States } from 'core-app/core/states/states.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { page } from 'vitest/browser';
+import { InlineCreateRowBuilder } from '../../../wp-inline-create/inline-create-row-builder';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { nextFrame } from 'core-common/testing/timing';
-import { buildTable, TableHarness } from '../../testing/table-harness';
+import { buildColumn, buildTable, TableHarness } from '../../testing/table-harness';
 import { buildWorkPackage } from '../../testing/work-package-fixture';
 import { SingleRowBuilder } from './single-row-builder';
 
@@ -46,7 +48,7 @@ describe('SingleRowBuilder with two tables showing the same work package', () =>
     return table;
   };
 
-  const subjectCell = (table:TableHarness) => table.row('1').querySelector('td.subject');
+  const subjectCell = (table:TableHarness) => table.row('1').querySelector(':scope > .wp-table--cell-td.subject');
 
   beforeEach(async () => {
     const states = new States();
@@ -97,11 +99,10 @@ describe('SingleRowBuilder physical columns', () => {
     await harness.render();
   };
 
-  describe.each([true, false])('on an enabled table with drag and drop %s', (drag) => {
+  describe.each([true, false])('with drag and drop %s', (drag) => {
     describe.each([true, false])('and baseline %s', (baseline) => {
       it.each([true, false])('spans the same columns in every row with a trailing column %s', async (trailing) => {
         await mount({
-          keyboardNavigationEnabled: true,
           dragAndDropEnabled: drag,
           columnMenuEnabled: trailing,
         }, baseline);
@@ -113,13 +114,6 @@ describe('SingleRowBuilder physical columns', () => {
         expect(new SingleRowBuilder(harness.injector, harness.table).placeholderRow.cells[0].colSpan).toBe(expected);
       });
     });
-  });
-
-  it('keeps the augmented columns of a capability-off table', async () => {
-    await mount({ dragAndDropEnabled: true, columnMenuEnabled: false, actionsColumnEnabled: false }, true);
-
-    expect(harness.row('1').cells).toHaveLength(3 + 1 + 1);
-    expect(new SingleRowBuilder(harness.injector, harness.table).placeholderRow.cells[0].colSpan).toBe(3 + 1 + 1 + 1);
   });
 });
 
@@ -134,7 +128,7 @@ describe('SingleRowBuilder baseline status text', () => {
     updated: 'Modified within the comparison time period',
   };
 
-  const mount = async (keyboardNavigationEnabled:boolean) => {
+  const mount = async () => {
     harness = buildTable({
       workPackages: [{ id: '1', baseline: 'added' }, { id: '2', baseline: 'removed' }, { id: '3', baseline: 'updated' }, { id: '4' }],
       baseline: true,
@@ -143,7 +137,6 @@ describe('SingleRowBuilder baseline status text', () => {
         'js.work_packages.baseline.removal_label': labels.removed,
         'js.work_packages.baseline.modification_label': labels.updated,
       },
-      configuration: { keyboardNavigationEnabled },
     });
     await harness.render();
   };
@@ -154,41 +147,41 @@ describe('SingleRowBuilder baseline status text', () => {
     ['1', 'added'],
     ['2', 'removed'],
     ['3', 'updated'],
-  ] as const)('names row %s with its %s status', async (workPackageId, state) => {
-    await mount(true);
+  ] as const)('describes row %s with its %s status', async (workPackageId, state) => {
+    await mount();
 
-    expect(harness.row(workPackageId)).toHaveAccessibleName(expect.stringContaining(labels[state]));
+    expect(harness.row(workPackageId)).toHaveAccessibleName(`Work package ${workPackageId}`);
+    expect(harness.row(workPackageId)).toHaveAccessibleDescription(labels[state]);
+  });
+
+  it('keeps the status in the content name of rows without a header', async () => {
+    await mount();
+    const rendered = harness.nextRender();
+    harness.setColumns(['status']);
+    await rendered;
+
+    expect(harness.row('1')).toHaveAccessibleName(expect.stringContaining(labels.added));
+    expect(harness.row('1')).not.toHaveAttribute('aria-describedby');
   });
 
   it('adds no status text to unchanged rows', async () => {
-    await mount(true);
+    await mount();
 
     expect(baselineCell('4')).toBeEmptyDOMElement();
-    Object.values(labels).forEach((label) => {
-      expect(harness.row('4')).not.toHaveAccessibleName(expect.stringContaining(label));
-    });
+    expect(harness.row('4')).toHaveAccessibleName('Work package 4');
+    expect(harness.row('4')).not.toHaveAttribute('aria-describedby');
   });
 
   it('rebuilds icon and status text together when the baseline state changes', async () => {
-    await mount(true);
+    await mount();
 
     harness.table.refreshRows(buildWorkPackage({ id: '1', baseline: 'removed' }));
 
     expect(baselineCell('1').querySelector('.op-table-baseline--icon-removed')).toBeInTheDocument();
     expect(baselineCell('1').querySelector('.op-table-baseline--icon-added')).not.toBeInTheDocument();
-    expect(harness.row('1')).toHaveAccessibleName(expect.stringContaining(labels.removed));
-    expect(harness.row('1')).not.toHaveAccessibleName(expect.stringContaining(labels.added));
+    expect(harness.row('1')).toHaveAccessibleName('Work package 1');
+    expect(harness.row('1')).toHaveAccessibleDescription(labels.removed);
     expect(baselineCell('1')).toHaveAttribute('role', 'gridcell');
-  });
-
-  it('keeps the baseline cell of a capability-off table on refresh', async () => {
-    await mount(false);
-    const cell = baselineCell('1');
-
-    harness.table.refreshRows(buildWorkPackage({ id: '1', baseline: 'removed' }));
-
-    expect(baselineCell('1')).toBe(cell);
-    expect(within(cell).queryByText(labels.added)).not.toBeInTheDocument();
   });
 });
 
@@ -197,25 +190,228 @@ describe('SingleRowBuilder refresh with an active editor', () => {
 
   afterEach(() => harness.destroy());
 
+  it('keeps the editor input focused while replacing non-retained cells', async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }],
+      editing: {},
+      productionMarkup: true,
+    });
+    await harness.render();
+    const subjectCell = harness.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
+    subjectCell.focus();
+    fireEvent.keyDown(subjectCell, { key: 'Enter' });
+    await waitFor(() => expect(within(harness.row('1')).getByRole('textbox')).toHaveFocus());
+    const input = within(harness.row('1')).getByRole<HTMLInputElement>('textbox');
+    await page.elementLocator(input).fill('Draft subject');
+    input.setSelectionRange(2, 5);
+    const idCell = harness.row('1').querySelector(':scope > .wp-table--cell-td.id');
+
+    harness.table.refreshRows(harness.injector.get(States).workPackages.get('1').value!);
+
+    expect(within(harness.row('1')).getByRole('textbox')).toBe(input);
+    expect(input.closest('th')).toBe(subjectCell);
+    expect(input).toHaveFocus();
+    expect(input.selectionStart).toBe(2);
+    expect(input.selectionEnd).toBe(5);
+    expect(within(harness.row('1')).getByRole('rowheader')).toBe(subjectCell);
+    expect(subjectCell).toHaveAttribute('scope', 'row');
+    expect(subjectCell).not.toHaveAttribute('role');
+    expect(harness.row('1').querySelector(':scope > .wp-table--cell-td.subject')).toBe(subjectCell);
+    expect(harness.row('1').querySelector(':scope > .wp-table--cell-td.id')).not.toBe(idCell);
+  });
+
+  it('replaces an untagged column menu cell instead of shifting the rebuilt cells', async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }],
+      editing: {},
+      productionMarkup: true,
+      configuration: { actionsColumnEnabled: false, columnMenuEnabled: true },
+    });
+    await harness.render();
+    const subjectCell = harness.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
+    subjectCell.focus();
+    fireEvent.keyDown(subjectCell, { key: 'Enter' });
+    await waitFor(() => expect(within(harness.row('1')).getByRole('textbox')).toHaveFocus());
+    const cellCount = harness.row('1').cells.length;
+
+    harness.table.refreshRows(harness.injector.get(States).workPackages.get('1').value!);
+
+    expect(harness.row('1').cells).toHaveLength(cellCount);
+    expect(harness.row('1').cells[0]).toHaveClass('id');
+    expect(harness.row('1').cells[1]).toBe(subjectCell);
+  });
+
+  it('keeps an inline-create editor focused during refresh', async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }],
+      editing: {},
+      productionMarkup: true,
+    });
+    await harness.render();
+    const row = harness.addInlineCreateRow();
+    const form = Object.values(harness.table.editing.forms)[0];
+    const handler = await form.activate('subject');
+    handler!.focus();
+    const input = within(row).getByRole('textbox');
+    const idCell = row.querySelector(':scope > .wp-table--cell-td.id');
+    const wp = form.resource;
+
+    new InlineCreateRowBuilder(harness.injector, harness.table).refreshRow(wp, row);
+
+    expect(input.isConnected).toBe(true);
+    expect(input).toHaveFocus();
+    expect(row.querySelector(':scope > .wp-table--cell-td.id')).not.toBe(idCell);
+    expect(Array.from(row.cells).every((cell) => cell.tagName === 'TD')).toBe(true);
+    expect(within(row).queryAllByRole('rowheader')).toEqual([]);
+  });
+
+  it('preserves augmented-column order around multiple retained editors', async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1', attributes: { location: 'Here' } }],
+      columns: ['id', 'subject', 'location'],
+      editing: { fields: ['subject', 'location'] },
+      productionMarkup: true,
+    });
+    await harness.render();
+    const wp = harness.injector.get(States).workPackages.get('1').value!;
+    harness.table.editing.startEditing(wp, harness.row('1').dataset.classIdentifier!);
+    const form = harness.table.editing.forms['1'];
+    const subject = await form.activate('subject');
+    const location = await form.activate('location');
+    subject!.focus();
+    location!.focus();
+    const input = within(harness.row('1').querySelector('td.location')!).getByRole('textbox');
+    const columnClasses = () => Array.from(harness.row('1').querySelectorAll(':scope > .wp-table--cell-td'))
+      .map((cell) => cell.classList.contains('created_at') ? 'created_at'
+        : cell.classList.contains('location') ? 'location'
+          : cell.classList.contains('subject') ? 'subject' : 'id');
+    const refreshWith = (columns:string[]) => {
+      const builder = new SingleRowBuilder(harness.injector, harness.table);
+      Object.defineProperty(builder, 'augmentedColumns', { value: columns.map(buildColumn) });
+      builder.refreshRow(wp, harness.row('1'));
+    };
+
+    refreshWith(['location', 'subject', 'id']);
+    expect(columnClasses()).toEqual(['location', 'subject', 'id']);
+    expect(input).toHaveFocus();
+
+    refreshWith(['id', 'created_at', 'location', 'subject']);
+    expect(columnClasses()).toEqual(['id', 'created_at', 'location', 'subject']);
+    expect(input).toHaveFocus();
+
+    refreshWith(['location', 'subject']);
+    expect(columnClasses()).toEqual(['location', 'subject']);
+    expect(input).toHaveFocus();
+    const header = within(harness.row('1')).getByRole('rowheader');
+    expect(header.tagName).toBe('TH');
+    expect(header).toHaveAttribute('scope', 'row');
+  });
+
   it('retains the editor cell with its role, the row level and selection', async () => {
     harness = buildTable({
       workPackages: [{ id: '1' }, { id: '2' }],
       editing: {},
-      configuration: { keyboardNavigationEnabled: true },
     });
     await harness.render();
     harness.click('1');
-    const subjectCell = harness.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+    const subjectCell = harness.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
     subjectCell.focus();
     fireEvent.keyDown(subjectCell, { key: 'Enter' });
     await waitFor(() => expect(within(harness.row('1')).getByRole('textbox')).toHaveFocus());
-    expect(within(harness.row('1')).getByRole('textbox').closest('td')).toBe(subjectCell);
+    expect(within(harness.row('1')).getByRole('textbox').closest('td, th')).toBe(subjectCell);
 
     harness.table.refreshRows(harness.injector.get(States).workPackages.get('1').value!);
 
-    expect(within(harness.row('1')).getByRole('textbox').closest('td')).toBe(subjectCell);
-    expect(subjectCell).toHaveAttribute('role', 'gridcell');
+    expect(within(harness.row('1')).getByRole('textbox').closest('td, th')).toBe(subjectCell);
+    expect(subjectCell.tagName).toBe('TH');
+    expect(subjectCell).toHaveAttribute('scope', 'row');
+    expect(subjectCell).not.toHaveAttribute('role');
+    expect(subjectCell).toHaveAccessibleName('Work package 1');
     expect(harness.row('1')).toHaveAttribute('aria-level', '1');
     expect(harness.row('1')).toHaveAttribute('aria-selected', 'true');
+  });
+
+  it('refreshes duplicate displays while retaining only the active occurrence editor', async () => {
+    harness = buildTable({
+      workPackages: [
+        { id: '1', children: [{ id: '2', subject: 'Original' }] },
+        { id: '3', children: [{ id: '2', subject: 'Original' }] },
+        { id: '2', subject: 'Original' },
+      ],
+      columns: [
+        'id', 'subject',
+        { id: 'relationsOfTypeFollows', relationType: 'follows' },
+        { id: 'children', children: true },
+      ],
+      relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
+      editing: {},
+    });
+    harness.expand('1', 'relationsOfTypeFollows');
+    harness.expand('3', 'children');
+    await harness.render();
+
+    const originalRows = [harness.row('2'), harness.relationRow('1', '2'), harness.relationRow('3', '2', 'children')];
+    for (const row of originalRows) {
+      expect(within(row).getAllByRole('rowheader')).toHaveLength(1);
+      const header = within(row).getByRole('rowheader', { name: 'Original' });
+      expect(header.tagName).toBe('TH');
+      expect(header).toHaveAttribute('scope', 'row');
+      expect(row).toHaveAttribute('aria-labelledby', header.id);
+      expect(row).toHaveAccessibleName('Original');
+    }
+    expect(new Set(originalRows.map((row) => row.getAttribute('aria-labelledby'))).size).toBe(3);
+
+    const origin = harness.row('2').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
+    const siblingCells = [
+      harness.relationRow('1', '2').querySelector(':scope > .wp-table--cell-td.subject'),
+      harness.relationRow('3', '2', 'children').querySelector(':scope > .wp-table--cell-td.subject'),
+    ];
+
+    const navigation = harness.table.keyboardNavigation!;
+    navigation.focusPosition(navigation.positionOfCell(origin)!);
+    fireEvent.keyDown(origin, { key: 'Enter' });
+    const input = await waitFor(() => within(origin).getByRole<HTMLInputElement>('textbox'));
+    await waitFor(() => expect(input).toHaveFocus());
+    input.value = 'Draft in the origin';
+
+    const form = harness.table.editing.forms['2'];
+    const handler = form.activeFields.subject;
+    const renamed = buildWorkPackage({ id: '2', subject: 'Renamed' });
+    form.resource = renamed;
+    harness.injector.get(States).workPackages.get('2').putValue(renamed);
+
+    await waitFor(() => {
+      [harness.relationRow('1', '2'), harness.relationRow('3', '2', 'children')]
+        .forEach((row, index) => {
+          const cell = row.querySelector(':scope > .wp-table--cell-td.subject')!;
+          expect(cell).not.toBe(siblingCells[index]);
+          expect(within(row).getByRole('rowheader', { name: 'Renamed' })).toBe(cell);
+          expect(cell.querySelector('.inline-edit--display-field')).toHaveTextContent('Renamed');
+          expect(within(row).queryByRole('textbox')).toBeNull();
+        });
+    });
+
+    expect(harness.row('2').querySelector(':scope > .wp-table--cell-td.subject')).toBe(origin);
+    expect(within(origin).getByRole('textbox')).toBe(input);
+    expect(input).toHaveFocus();
+    expect(input).toHaveValue('Draft in the origin');
+    expect(form.activeFields.subject).toBe(handler);
+    expect(origin).toHaveAccessibleName('Original');
+
+    handler.deactivate(true, true);
+    await waitFor(() => expect(within(origin).queryByRole('textbox')).toBeNull());
+
+    expect(origin).toHaveFocus();
+    expect(origin.querySelector('.inline-edit--display-field')).toHaveTextContent('Renamed');
+    const renamedRows = [harness.row('2'), harness.relationRow('1', '2'), harness.relationRow('3', '2', 'children')];
+    for (const row of renamedRows) {
+      expect(within(row).getAllByRole('rowheader')).toHaveLength(1);
+      const header = within(row).getByRole('rowheader', { name: 'Renamed' });
+      expect(header.tagName).toBe('TH');
+      expect(header).toHaveAttribute('scope', 'row');
+      expect(row).toHaveAttribute('aria-labelledby', header.id);
+      expect(row).toHaveAccessibleName('Renamed');
+    }
+    expect(new Set(renamedRows.map((row) => row.getAttribute('aria-labelledby'))).size).toBe(3);
   });
 });

@@ -34,7 +34,6 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/r
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
-import { keyboardNavigationEnabled } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { PrimaryRenderPass } from '../primary-render-pass';
 
 export class DragDropHandleRenderPass {
@@ -76,9 +75,7 @@ public readonly injector:Injector,
         const handle = this.dragDropHandleBuilder.build(latestWorkPackage, positions[workPackage.id!]);
 
         if (handle && element) {
-          if (keyboardNavigationEnabled(this.table.configuration)) {
-            handle.setAttribute('role', 'gridcell');
-          }
+          handle.setAttribute('role', 'gridcell');
           element.replaceChild(handle, element.firstElementChild!);
         }
       });
