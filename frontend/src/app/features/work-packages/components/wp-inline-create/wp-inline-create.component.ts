@@ -282,6 +282,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
     if (rowElement && this.currentWorkPackage) {
       builder.refreshRow(this.currentWorkPackage, rowElement);
+      this.reconcileExposure();
     }
   }
 
@@ -350,6 +351,6 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   }
 
   private reconcileExposure():void {
-    this.table.reconcileSection(this.element);
+    this.table.reconcileSection();
   }
 }

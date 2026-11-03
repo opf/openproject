@@ -34,7 +34,7 @@ import { occurrenceRowKind } from './structural-rows';
 /** The row's navigation category, or null when the occurrence is excluded from keyboard navigation. */
 export function rowKindOf(occurrence:RenderedOccurrence):RowKind|null {
   const kind = occurrenceRowKind(occurrence);
-  return kind === 'placeholder' || kind === 'foreign' ? null : kind;
+  return kind === 'placeholder' ? null : kind;
 }
 
 export function expansionStateOf(
@@ -47,7 +47,7 @@ export function expansionStateOf(
     return !table.workPackageViewCollapsedGroupsService.config.state[occurrence.groupIdentifier ?? ''];
   }
 
-  if (kind === 'workPackage' && occurrence.element?.querySelector('.wp-table--hierarchy-indicator')) {
+  if (kind === 'workPackage' && occurrence.element?.dataset.expandable !== undefined) {
     return !hierarchies.collapsed(occurrence.workPackageId!);
   }
 

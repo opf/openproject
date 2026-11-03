@@ -197,6 +197,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
       td.style.maxWidth = '';
       this.cellBuilder.refresh(cell, this.resource, fieldName);
       td.classList.remove(editModeClassName);
+      this.table.painter.paint(this.table.painter.keysOf(this.resource.id!));
 
       if (focus || userEnded) {
         this.returnFocusFrom(cell, fieldName, focus, closing);

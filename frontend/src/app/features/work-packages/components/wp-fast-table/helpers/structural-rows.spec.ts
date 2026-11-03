@@ -97,7 +97,7 @@ describe('structural rows', () => {
       expect(kind(harness.row('1'))).toBe('workPackage');
       expect(kind(harness.table.ledger.byKey(groupOccurrenceKey(0, 'sums'))!.element!)).toBe('sums');
       expect(kind(harness.totalsRow())).toBe('totals');
-      expect(kind(createRow())).toBe('create');
+      expect(kind(createRow())).toBe('inlineCreate');
     });
 
     it('names placeholder, empty, unexposed and unknown rows', async () => {
@@ -110,15 +110,15 @@ describe('structural rows', () => {
       harness.tbody.before(empty);
       const unknown = harness.tbody.closest('table')!.createTBody().insertRow();
       expect(kind(harness.table.ledger.byKey(placeholderOccurrenceKey())!.element!)).toBe('placeholder');
-      expect(kind(emptyRow)).toBe('empty');
+      expect(kind(emptyRow)).toBe('emptyResults');
       expect(kind(unknown)).toBe('foreign');
       unknown.hidden = true;
       expect(kind(unknown)).toBe('unexposed');
     });
 
-    it('treats an occurrence it cannot name as foreign', () => {
-      const occurrence = { key: 'banner', workPackageId: null } as RenderedOccurrence;
-      expect(occurrenceRowKind(occurrence)).toBe('foreign');
+    it('reads the kind the render pass registered rather than parsing the key', () => {
+      const occurrence = { key: 'group:0:header', kind: 'workPackage', workPackageId: null } as RenderedOccurrence;
+      expect(occurrenceRowKind(occurrence)).toBe('workPackage');
     });
   });
 });

@@ -65,7 +65,8 @@ public readonly injector:Injector,
     const { occurrences } = this.tablePass.draft;
     void this.wpTableOrder.positionsFor(query).then((positions:QueryOrder) => {
       if (this.table.destroyed || this.table.querySpace.query.value !== query) return;
-      occurrences.forEach(({ workPackage, renderType, element }) => {
+      const replaced = new Set<string>();
+      occurrences.forEach(({ key, workPackage, renderType, element }) => {
         // We only care for rows that are natural work packages and are not relation sub-rows
         if (!workPackage || renderType !== 'primary') {
           return;
@@ -75,10 +76,11 @@ public readonly injector:Injector,
         const handle = this.dragDropHandleBuilder.build(latestWorkPackage, positions[workPackage.id!]);
 
         if (handle && element) {
-          handle.setAttribute('role', 'gridcell');
           element.replaceChild(handle, element.firstElementChild!);
+          replaced.add(key);
         }
       });
+      if (replaced.size > 0) this.table.painter.paint(replaced);
     }).catch((error:unknown) => notification.handleRawError(error));
   }
 }
