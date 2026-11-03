@@ -54,6 +54,7 @@
               "src/styles.scss",
               "node_modules/codemirror/lib/codemirror.css",
               "node_modules/flatpickr/dist/flatpickr.min.css",
+              "node_modules/katex/dist/katex.min.css",
               "src/vendor/ckeditor/ckeditor.css"
             ],
             "stylePreprocessorOptions": {

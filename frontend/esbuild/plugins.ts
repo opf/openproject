@@ -105,4 +105,20 @@ if (hadPreviousDollar) {
   },
 };
 
-export default [customConfigPlugin, jqueryInjectionPlugin];
+// The production build cannot bundle KaTeX's fonts; angular.json loads the stylesheet instead.
+const katexStylesheetFromJsPlugin:Plugin = {
+  name: 'katex-stylesheet-from-js',
+  setup(build) {
+    build.onResolve({ filter: /^katex\/dist\/katex\.min\.css$/ }, (args) => {
+      if (args.kind !== 'import-statement') {
+        return undefined;
+      }
+
+      return { path: args.path, namespace: 'katex-stylesheet-from-js' };
+    });
+
+    build.onLoad({ filter: /.*/, namespace: 'katex-stylesheet-from-js' }, () => ({ contents: '', loader: 'empty' }));
+  },
+};
+
+export default [customConfigPlugin, jqueryInjectionPlugin, katexStylesheetFromJsPlugin];

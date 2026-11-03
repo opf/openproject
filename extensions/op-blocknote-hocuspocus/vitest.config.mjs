@@ -31,5 +31,7 @@ export default defineConfig({
   test: {
     include: ["test/**/*.test.ts"],
     setupFiles: ["test/setup.ts"],
+    // Lets Vite handle the KaTeX stylesheet `@blocknote/math-block` imports, which Node cannot load.
+    server: { deps: { inline: ["@blocknote/math-block"] } },
   },
 });

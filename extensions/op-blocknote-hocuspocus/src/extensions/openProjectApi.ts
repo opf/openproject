@@ -35,6 +35,7 @@ import {
 } from "@openproject/op-blocknote-extensions/server";
 import * as Y from "yjs";
 import { TokenExpired, TokenExpiryMissing, unauthorized } from "../closeEvents";
+import { mathBlockStaticSpec, mathInlineStaticSpec } from "../mathSpecs";
 import { decryptAndValidateToken } from "../services/tokenValidationService";
 import type { ApiResponseDocument } from "../types";
 import { fetchResource } from "../services/resourceService";
@@ -42,9 +43,11 @@ import { fetchResource } from "../services/resourceService";
 export const editorSchema = BlockNoteSchema.create().extend({
   blockSpecs: {
     openProjectWorkPackageBlock: openProjectWorkPackageStaticBlockSpec(),
+    mathBlock: mathBlockStaticSpec(),
   },
   inlineContentSpecs: {
     openProjectWorkPackageInline: openProjectWorkPackageStaticInlineSpec,
+    math: mathInlineStaticSpec,
   },
 });
 
