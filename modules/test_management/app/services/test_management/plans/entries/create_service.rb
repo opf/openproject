@@ -4,6 +4,12 @@ module TestManagement
   module Plans
     module Entries
       class CreateService < ::BaseServices::Create
+        private
+
+        def instance_class
+          TestManagement::TestPlanEntry
+        end
+
         protected
 
         def after_perform(call)

@@ -1430,6 +1430,7 @@ en:
           are read-only; new results are recorded in iteration %{current}.
       new: New run
       no_cases: This run has no test cases.
+      pass_rate_text: "%{rate}% passed"
       pass_rate_value: "%{percent}% passed"
       passed: passed
       progress_label: Status breakdown

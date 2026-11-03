@@ -88,15 +88,34 @@ RSpec.describe "Test management runs", :skip_csrf, type: :rails_request do
       expect(TestManagement::TestRun.count).to eq(0)
     end
 
-    it "creates a run with selected cases and redirects to it" do
+    it "creates a run with selected cases and redirects to the show page" do
       post project_test_management_test_runs_path(project),
            params: { test_run: { name: "Checkout run", selection_mode: "specific", selection_submitted: "1",
                                  assigned_to_id: manager.id, test_case_ids: [test_case.id] } }
 
       run = TestManagement::TestRun.last
       expect(response).to redirect_to(project_test_management_test_run_path(project, run))
+      follow_redirect!
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Checkout run", "tm-run-title")
       expect(run.test_cases).to eq([test_case])
       expect(run.run_cases.first.assigned_to).to eq(manager)
+    end
+
+    context "as admin" do
+      let(:current_user) { create(:admin) }
+
+      it "renders show after create with admin header actions" do
+        post project_test_management_test_runs_path(project),
+             params: { test_run: { name: "Admin run", selection_mode: "specific", selection_submitted: "1",
+                                   test_case_ids: [test_case.id] } }
+
+        run = TestManagement::TestRun.last
+        expect(response).to redirect_to(project_test_management_test_run_path(project, run))
+        follow_redirect!
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Admin run", "tm-run-ci-trigger", "tm-run-delete", "tm-run-export-menu")
+      end
     end
 
     it "re-renders the form on errors" do

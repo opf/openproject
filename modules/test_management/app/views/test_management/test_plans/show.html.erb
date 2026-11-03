@@ -15,7 +15,8 @@
     if can_manage && @plan.active?
       header.with_action_button(
         tag: :a, href: edit_project_test_management_test_plan_path(@project, @plan),
-        scheme: :secondary
+        scheme: :secondary,
+        mobile_icon: :pencil, mobile_label: t(:button_edit)
       ) { t(:button_edit) }
     end
   end

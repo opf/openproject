@@ -72,16 +72,6 @@
         t("test_management.runs.cancel")
       end
     end
-    if User.current.allowed_in_project?(:trigger_test_automation, @project)
-      header.with_action_button(
-        tag: :a, href: new_project_test_management_ci_trigger_path(@project, run_id: @test_run.id),
-        mobile_icon: :play, mobile_label: t("test_management.ci_triggers.button"),
-        data: { test_selector: "tm-run-ci-trigger" }
-      ) do |button|
-        button.with_leading_visual_icon(icon: :play)
-        t("test_management.ci_triggers.button")
-      end
-    end
     header.with_action_menu(
       menu_arguments: { anchor_align: :end, data: { test_selector: "tm-run-export-menu" } },
       button_arguments: {
@@ -102,6 +92,26 @@
           item.with_leading_visual_icon(icon: format == "pdf" ? :"file-media" : :table)
         end
       end
+      if User.current.allowed_in_project?(:trigger_test_automation, @project)
+        menu.with_item(
+          label: t("test_management.ci_triggers.button"),
+          href: new_project_test_management_ci_trigger_path(@project, run_id: @test_run.id),
+          data: { test_selector: "tm-run-ci-trigger" }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :play)
+        end
+      end
+      if User.current.allowed_in_project?(:delete_test_runs, @project)
+        menu.with_item(
+          label: t(:button_delete),
+          href: delete_dialog_project_test_management_test_run_path(@project, @test_run),
+          scheme: :danger,
+          content_arguments: { data: { controller: "async-dialog" } },
+          data: { test_selector: "tm-run-delete" }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :trash)
+        end
+      end
     end
     if can_manage && @test_run.finished?
       header.with_action_button(
@@ -111,22 +121,6 @@
       ) do |button|
         button.with_leading_visual_icon(icon: :sync)
         t("test_management.runs.reopen")
-      end
-    end
-    if User.current.allowed_in_project?(:delete_test_runs, @project)
-      header.with_action_button(
-        tag: :a,
-        href: delete_dialog_project_test_management_test_run_path(@project, @test_run),
-        scheme: :danger,
-        mobile_icon: :trash,
-        mobile_label: t(:button_delete),
-        data: {
-          controller: "async-dialog",
-          test_selector: "tm-run-delete"
-        }
-      ) do |button|
-        button.with_leading_visual_icon(icon: :trash)
-        t(:button_delete)
       end
     end
   end
