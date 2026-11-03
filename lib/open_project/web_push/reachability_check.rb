@@ -68,8 +68,11 @@ module OpenProject::WebPush
     end
 
     def probe(host)
+      url = probe_url(host)
+      return unreachable(host, :invalid_host) unless url
+
       response = OpenProject::SsrfProtection.head(
-        URI::HTTPS.build(host:, path: "/").to_s,
+        url,
         max_redirects: 0,
         allow_unfollowed_redirects: true,
         http_options: { open_timeout: TIMEOUT, read_timeout: TIMEOUT, write_timeout: TIMEOUT }
@@ -85,8 +88,14 @@ module OpenProject::WebPush
       unreachable(host, :filtered)
     rescue OpenSSL::SSL::SSLError
       unreachable(host, :tls)
-    rescue SystemCallError, SocketError, IOError, Net::ProtocolError, Net::HTTPBadResponse
+    rescue SystemCallError, SocketError, IOError, URI::InvalidURIError, Net::ProtocolError, Net::HTTPBadResponse
       unreachable(host, :connection)
+    end
+
+    def probe_url(host)
+      URI::HTTPS.build(host:, path: "/").to_s
+    rescue URI::InvalidComponentError, URI::InvalidURIError
+      nil
     end
 
     def unreachable(host, reason)

@@ -80,7 +80,8 @@ RSpec.describe OpenProject::WebPush::ReachabilityCheck do
     SocketError.new => :connection,
     EOFError.new => :connection,
     IOError.new => :connection,
-    Net::HTTPBadResponse.new => :connection
+    Net::HTTPBadResponse.new => :connection,
+    URI::InvalidURIError.new("x") => :connection
   }.each do |error, reason|
     context "when the request raises #{error.class}" do
       before { allow(OpenProject::SsrfProtection).to receive(:head).and_raise(error) }
@@ -145,6 +146,18 @@ RSpec.describe OpenProject::WebPush::ReachabilityCheck do
                                            updates.push.services.mozilla.com
                                            web.push.apple.com
                                            push.example.org])
+    end
+  end
+
+  context "with a stored host that is not a valid host name" do
+    before { allow(PushSubscription).to receive(:endpoint_hosts).and_return(["bad host"]) }
+
+    it "reports it as an invalid host without failing the known services" do
+      expect(results.to_h { [it.host, [it.reachable?, it.reason]] })
+        .to eq("fcm.googleapis.com" => [true, nil],
+               "updates.push.services.mozilla.com" => [true, nil],
+               "web.push.apple.com" => [true, nil],
+               "bad host" => [false, :invalid_host])
     end
   end
 

@@ -2142,6 +2142,7 @@ en:
         reasons:
           connection: "The connection failed"
           filtered: "The request was blocked by SSRF protection"
+          invalid_host: "The host name is not valid"
           private_address: "The host resolved to a private address"
           sample_unresolved: "Sample host could not be resolved; result inconclusive"
           timeout: "No response within %{seconds} seconds"
