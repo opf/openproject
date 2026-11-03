@@ -228,6 +228,7 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
 
   let(:attachment) { create(:attachment, container:, author:) }
   let(:container) { send attachment_type }
+  let(:text_disposition) { "inline" }
 
   let(:attachment_type) { raise "attachment type goes here, e.g. work_package" }
   let(:permissions) { all_permissions }
@@ -510,7 +511,7 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
         it_behaves_like "for a local file" do
           let(:expected_content_type) { "text/plain; charset=#{Setting.attachment_default_charset}" }
           let(:mock_file) { FileHelpers.mock_uploaded_file name: "foobar.txt" }
-          let(:content_disposition) { "inline; filename=foobar.txt" }
+          let(:content_disposition) { "#{text_disposition}; filename=foobar.txt" }
           let(:attachment) do
             att = create(:attachment, container:, file: mock_file, author: current_user)
             att.file.store!
@@ -527,7 +528,7 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
         it_behaves_like "for a local file" do
           let(:expected_content_type) { "text/plain; charset=#{Setting.attachment_default_charset}" }
           let(:mock_file) { FileHelpers.mock_uploaded_file name: "foobar.js", content_type: "text/x-javascript" }
-          let(:content_disposition) { "inline; filename=foobar.js" }
+          let(:content_disposition) { "#{text_disposition}; filename=foobar.js" }
           let(:attachment) do
             att = create(:attachment, container:, file: mock_file, author: current_user)
             att.file.store!
@@ -544,7 +545,7 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
         it_behaves_like "for a local file" do
           let(:expected_content_type) { "text/plain; charset=utf-8" }
           let(:mock_file) { FileHelpers.mock_uploaded_file name: "foobar.txt" }
-          let(:content_disposition) { "inline; filename=foobar.txt" }
+          let(:content_disposition) { "#{text_disposition}; filename=foobar.txt" }
           let(:attachment) do
             att = create(:attachment, container:, file: mock_file, author: current_user)
             att.file.store!
@@ -565,7 +566,7 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
                                            content: Rails.root.join("spec/fixtures/encoding/iso-8859-1.txt").binread,
                                            binary: true
           end
-          let(:content_disposition) { "inline; filename=iso.txt" }
+          let(:content_disposition) { "#{text_disposition}; filename=iso.txt" }
           let(:attachment) do
             att = create(:attachment, container:, file: mock_file, author: current_user)
             att.file.store!
