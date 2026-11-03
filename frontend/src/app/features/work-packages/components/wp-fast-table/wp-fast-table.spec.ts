@@ -136,6 +136,23 @@ describe('WorkPackageTable', () => {
     expect(relationRow).not.toHaveClass(Highlighting.resourceClass('status', '13'));
   });
 
+  it('repaints the row highlight when a refresh changes the highlighted attribute', async () => {
+    const status = (id:string) => ({ status: { id, href: `/api/v3/statuses/${id}` } });
+    harness = buildTable({ workPackages: [{ id: '1', attributes: status('11') }], highlightingMode: 'status' });
+    await harness.render();
+    expect(harness.row('1')).toHaveClass(...Highlighting.backgroundClass('status', '11').split(' '));
+
+    harness.table.refreshRows(buildWorkPackage({ id: '1', attributes: status('12') }));
+
+    expect(harness.row('1')).toHaveClass(...Highlighting.backgroundClass('status', '12').split(' '));
+    expect(harness.row('1')).not.toHaveClass(Highlighting.resourceClass('status', '11'));
+
+    harness.table.refreshRows(buildWorkPackage({ id: '1', attributes: { status: null } }));
+
+    expect(harness.row('1')).not.toHaveClass('__hl_background');
+    expect(harness.row('1')).not.toHaveClass(Highlighting.resourceClass('status', '12'));
+  });
+
   it('renders the children of a work package once when it is also a relation target', async () => {
     harness = buildTable({
       workPackages: [{ id: '2' }, { id: '1', children: [{ id: '3' }] }, { id: '3' }],

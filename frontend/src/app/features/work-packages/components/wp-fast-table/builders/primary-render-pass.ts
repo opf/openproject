@@ -142,6 +142,7 @@ public readonly injector:Injector,
       oldRow.replaceWith(replacement);
       replacement.dataset.occurrenceKey = occurrence.key;
     }
+    if (occurrence.renderType === 'primary') this.highlighting.refreshRow(replacement, workPackage);
 
     return replacement;
   }
