@@ -385,6 +385,36 @@ describe('WorkPackageTable lifecycle', () => {
         }
       });
 
+      it('commits current content for a work package only the pending draft shows', async () => {
+        const harness = await mount({ workPackages: [{ id: '1' }] });
+        const frames = harness.holdFrames();
+        try {
+          harness.table.initialSetup([buildWorkPackage({ id: '1' }), buildWorkPackage({ id: '3', subject: 'Initial' })]);
+          harness.table.refreshRows(buildWorkPackage({ id: '3', subject: 'Renamed' }));
+          frames.commit();
+
+          expect(harness.row('3')).toHaveTextContent('Renamed');
+        } finally {
+          frames.release();
+        }
+      });
+
+      it('rebuilds no pending draft for a work package the draft does not show', async () => {
+        const harness = await mount({ workPackages: [{ id: '1' }] });
+        const frames = harness.holdFrames();
+        try {
+          harness.table.redrawTable();
+          const buildRows = vi.spyOn(harness.table.rowBuilder, 'buildRows');
+
+          harness.table.refreshRows(buildWorkPackage({ id: '2', subject: 'Elsewhere' }));
+          harness.table.refreshRows(buildWorkPackage({ id: '1', subject: 'Renamed' }));
+
+          expect(buildRows).toHaveBeenCalledOnce();
+        } finally {
+          frames.release();
+        }
+      });
+
       it('commits nothing when destroyed while pending', async () => {
         const harness = await mount({ workPackages: [{ id: '1' }] });
         const frames = harness.holdFrames();

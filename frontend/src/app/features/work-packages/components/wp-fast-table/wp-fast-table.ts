@@ -269,6 +269,10 @@ export class WorkPackageTable {
     this.publishRendered();
   }
 
+  private pendingDraftShows(workPackageId:string):boolean {
+    return this.pendingRender?.pass.draft.occurrences.some((occurrence) => occurrence.workPackageId === workPackageId) ?? false;
+  }
+
   private rebuildPendingRender():void {
     if (this.pendingRender) {
       this.performRenderPass({ timeline: this.pendingRender.timeline });
@@ -286,15 +290,16 @@ export class WorkPackageTable {
       return;
     }
 
-    const indexed = this.originalRowIndex[workPackage.id!];
+    const id = workPackage.id!;
+    const indexed = this.originalRowIndex[id];
     if (indexed) indexed.object = workPackage;
-    this.rebuildPendingRender();
-    const keys = this.ledger.keysOf(workPackage.id!);
+    if (this.pendingDraftShows(id)) this.rebuildPendingRender();
+    const keys = this.ledger.keysOf(id);
     if (keys.size === 0) return;
 
     this.mutate(keys, () => {
       const replacements:RowReplacement[] = [];
-      this.ledger.byWorkPackageId(workPackage.id!).forEach((occurrence) => {
+      this.ledger.byWorkPackageId(id).forEach((occurrence) => {
         const previous = occurrence.element;
         const replacement = pass.refresh(occurrence, workPackage);
         if (replacement) {
