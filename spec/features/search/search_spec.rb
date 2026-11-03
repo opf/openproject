@@ -178,11 +178,9 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
       global_search.submit_in_global_scope
       expect(page).to have_current_path(%r{/search}, ignore_query: true)
       expect(page).to have_current_query_params(
-        a_hash_including(
-          "q" => "##{search_target.id}",
-          "filter" => "work_packages",
-          "scope" => "all"
-        )
+        "q" => "##{search_target.id}",
+        "filter" => "work_packages",
+        "scope" => "all"
       )
     end
 
@@ -304,11 +302,9 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
 
         expect(page).to have_current_path(%r{/#{project.identifier}/search}, ignore_query: true)
         expect(page).to have_current_query_params(
-          a_hash_including(
-            "q" => query,
-            "filter" => "work_packages",
-            "scope" => "current_project"
-          )
+          "q" => query,
+          "filter" => "work_packages",
+          "scope" => "current_project"
         )
 
         table = Pages::EmbeddedWorkPackagesTable.new(find(".work-packages-embedded-view--container"))

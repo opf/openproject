@@ -133,7 +133,7 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
       expect(page).to have_test_selector("workflow-selector", text: "Standard flow")
       click_on I18n.t(:button_continue)
 
-      expect(page).to have_current_query_params(a_hash_including("step" => "projects"))
+      expect(page).to have_current_query_params("step" => "projects")
       expect(transitions_of(existing)).to contain_exactly([status_a.id, status_b.id])
     end
 
@@ -161,7 +161,8 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
 
       accept_lost_statuses
       expect(page).to have_current_query_params(
-        a_hash_including("started_workflow_id" => variant.reload.workflow_id.to_s)
+        "step" => "workflows",
+        "started_workflow_id" => variant.reload.workflow_id.to_s
       )
       expect_chosen("new")
       expect(page).to have_no_test_selector("workflow-selector")
@@ -196,7 +197,7 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
 
       accept_lost_statuses
 
-      expect(page).to have_current_query_params(a_hash_including("started_workflow_id"))
+      expect(page).to have_current_query_params("step" => "workflows", "started_workflow_id" => be_present)
       started = variant.reload.workflow
       create(:status_transition, workflow: started, role:, old_status: status_a, new_status: create(:status, name: "Closed"))
 
@@ -243,7 +244,7 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
 
       accept_lost_statuses
 
-      expect(page).to have_current_query_params(a_hash_including("started_workflow_id"))
+      expect(page).to have_current_query_params("step" => "workflows", "started_workflow_id" => be_present)
 
       started = variant.reload.workflow
       expect(started).not_to eq(existing)
@@ -261,7 +262,7 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
         click_on I18n.t(:button_continue)
       end
 
-      expect(page).to have_current_query_params(a_hash_including("started_workflow_id"))
+      expect(page).to have_current_query_params("step" => "workflows", "started_workflow_id" => be_present)
 
       started = variant.reload.workflow
       expect(started).not_to eq(existing)
@@ -289,7 +290,7 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
         click_on I18n.t(:button_confirm)
       end
 
-      expect(page).to have_current_query_params(a_hash_including("started_workflow_id"))
+      expect(page).to have_current_query_params("step" => "workflows", "started_workflow_id" => be_present)
       started = variant.reload.workflow
       expect(started).not_to eq(existing)
       expect(transitions_of(started)).to contain_exactly([status_a.id, status_b.id])

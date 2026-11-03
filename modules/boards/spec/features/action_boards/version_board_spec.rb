@@ -178,8 +178,7 @@ RSpec.describe "Version action board",
       board_page.expect_card("Open version", "Foo", present: false)
       board_page.expect_card("A second version", "Task 1", present: true)
 
-      # Expect query props to be present
-      expect(page).to have_current_query_params(a_hash_including("query_props"))
+      expect(page).to have_current_query_params("query_props" => be_present)
 
       # Save that filter
       board_page.save
