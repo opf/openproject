@@ -61,6 +61,27 @@ RSpec.describe "onboarding tour for new users", :js do
       expect(page).to have_css ".enjoyhint_next_btn:not(.enjoyhint_hide)"
     end
 
+    context "with a demo project seeded with a semantic identifier",
+            with_settings: { work_packages_identifier: "semantic" } do
+      let(:project) do
+        create(:project, :with_internal_wiki, name: "Demo project", identifier: "DEMO", public: true,
+                                              enabled_module_names: %w[work_package_tracking gantt]).reload
+      end
+
+      after do
+        page.execute_script("window.sessionStorage.clear();")
+      end
+
+      it "continues the tutorial in the demo project" do
+        visit home_path first_time_user: true
+        select "English", from: "user_language"
+        click_button "Save"
+
+        next_button.click
+        expect(page).to have_current_path "/projects/DEMO/work_packages?start_onboarding_tour=true"
+      end
+    end
+
     context "the tutorial does not start" do
       before do
         allow(Setting).to receive(:welcome_text).and_return("<a> #{project.name} </a>")
