@@ -88,6 +88,17 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
 
       expect(response).to have_http_status(:unauthorized)
     end
+
+    it "answers 401 for a valid autologin cookie instead of starting a session",
+       with_settings: { autologin: 1 } do
+      token = create(:autologin_token, user:)
+      cookies[OpenProject::Configuration["autologin_cookie_name"]] = token.plain_value
+
+      get "/push-notification", headers: json_headers
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(Sessions::UserSession.for_user(user.id)).to be_empty
+    end
   end
 
   context "with a signed-in browser session", :skip_csrf,
@@ -116,6 +127,18 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
       travel_to(3.hours.from_now) { get "/push-notification", headers: json_headers }
 
       expect(response).to have_http_status(:unauthorized)
+    end
+
+    it "keeps the user's other sessions when this one expires on a wake-up" do
+      allow(OpenProject::Configuration).to receive(:drop_old_sessions_on_logout?).and_return(true)
+      current_session_id = Sessions::UserSession.for_user(password_user.id).sole.session_id
+      other_session = create(:user_session, user: password_user)
+
+      travel_to(3.hours.from_now) { get "/push-notification", headers: json_headers }
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(Sessions::UserSession.where(session_id: other_session.session_id)).to exist
+      expect(Sessions::UserSession.where(session_id: current_session_id)).not_to exist
     end
   end
 

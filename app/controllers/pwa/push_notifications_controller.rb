@@ -45,8 +45,12 @@ module Pwa
     def check_session_lifetime
       return unless current_user.logged? && session_ttl_expired?
 
-      self.logged_user = nil
+      Users::LogoutService.new(controller: self).call!(current_user, drop_other_sessions: false)
       head :unauthorized
+    end
+
+    def current_autologin_user
+      nil
     end
 
     def require_web_push
