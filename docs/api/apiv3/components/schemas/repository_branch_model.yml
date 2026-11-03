@@ -5,56 +5,48 @@ properties:
   id:
     type: integer
     description: Identifier of the resource within OpenProject
-    readOnly: true
   name:
     type: string
     description: Name of the branch
-    readOnly: true
   projectName:
     type: string
     description: Name of the project on the provider, e.g. `my-group/my-project`
-    readOnly: true
   webUrl:
     type: string
     format: uri
     description: URL of the branch on the provider's website
-    readOnly: true
   author:
     description: The user on the provider who created the resource. Null if unknown.
     oneOf:
-    - $ref: "./repository_user_model.yml"
-    - type: "null"
+      - $ref: "./repository_user_model.yml"
+      - type: "null"
   createdAt:
     type: string
     format: date-time
     description: Time the resource was first synchronized into OpenProject
-    readOnly: true
   updatedAt:
     type: string
     format: date-time
     description: Time the resource was last synchronized into OpenProject
-    readOnly: true
   _links:
     type: object
     required:
-    - self
+      - self
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This branch
+          - $ref: "./link.yml"
+          - description: |-
+              This branch
 
-            **Resource**: RepositoryBranch
-          readOnly: true
+              **Resource**: RepositoryBranch
       workPackage:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The work package this branch belongs to
+          - $ref: "./link.yml"
+          - description: |-
+              The work package this branch belongs to
 
-            **Resource**: WorkPackage
-          readOnly: true
+              **Resource**: WorkPackage
 example:
   _type: RepositoryBranch
   _links:

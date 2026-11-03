@@ -2,7 +2,7 @@
 description: |-
   Repository resources are issues, merge requests, branches and commits of external code hosting
   providers (e.g. GitLab) that were linked to work packages. They are synchronized into OpenProject
-  by the provider integration and can only be read through the API.
+  by the provider integration and the APIv3 only provides read access to them.
 
   A repository resource is visible to a user if it is linked to at least one work package for which the
   user has the permission to show repository content.

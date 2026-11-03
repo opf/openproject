@@ -19,7 +19,6 @@ allOf:
                   This collection of repository issues
 
                   **Resource**: RepositoryIssueCollectionModel
-                readOnly: true
       _embedded:
         type: object
         required:

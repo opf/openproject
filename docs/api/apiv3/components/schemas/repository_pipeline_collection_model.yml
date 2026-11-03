@@ -19,7 +19,6 @@ allOf:
                   This collection of repository pipelines
 
                   **Resource**: RepositoryPipelineCollectionModel
-                readOnly: true
       _embedded:
         type: object
         required:

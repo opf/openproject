@@ -19,7 +19,6 @@ allOf:
                   This collection of repository commits
 
                   **Resource**: RepositoryCommitCollectionModel
-                readOnly: true
       _embedded:
         type: object
         required:

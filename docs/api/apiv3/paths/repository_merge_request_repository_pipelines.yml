@@ -8,8 +8,6 @@ get:
   description: |-
     Returns a paginated collection of the CI pipelines run for the given merge request,
     ordered from the oldest to the latest one. Pipelines that have not started yet come last.
-
-    Request it with `pageSize=0` to only retrieve the total number of pipelines.
   parameters:
   - name: id
     description: Repository merge request id

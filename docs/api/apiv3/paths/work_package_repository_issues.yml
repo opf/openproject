@@ -8,8 +8,6 @@ get:
   - Repositories
   description: |-
     Returns a paginated collection of the repository issues linked to the given work package.
-
-    Request it with `pageSize=0` to only retrieve the total number of issues.
   parameters:
   - name: id
     description: Work package id

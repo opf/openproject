@@ -5,28 +5,22 @@ properties:
   id:
     type: integer
     description: Identifier of the resource within OpenProject
-    readOnly: true
   displayId:
     type: string
     description: Identifier of the issue as displayed by the provider, e.g. `42`
-    readOnly: true
   title:
     type: string
     description: Title of the issue
-    readOnly: true
   description:
     allOf:
-    - $ref: "./formattable.yml"
-    - description: Description of the issue
-      readOnly: true
+      - $ref: "./formattable.yml"
+      - description: Description of the issue
   state:
     type: string
     description: State of the issue as reported by the provider, e.g. `opened`
-    readOnly: true
   labels:
     type: array
     description: Labels attached to the resource on the provider
-    readOnly: true
     items:
       type: object
       properties:
@@ -38,45 +32,39 @@ properties:
   projectName:
     type: string
     description: Name of the project on the provider, e.g. `my-group/my-project`
-    readOnly: true
   webUrl:
     type: string
     format: uri
     description: URL of the resource on the provider's website
-    readOnly: true
   author:
     description: The user on the provider who created the resource. Null if unknown.
     oneOf:
-    - $ref: "./repository_user_model.yml"
-    - type: "null"
+      - $ref: "./repository_user_model.yml"
+      - type: "null"
   externalUpdatedAt:
     type: string
     format: date-time
     description: Time the resource was last updated on the provider
-    readOnly: true
   createdAt:
     type: string
     format: date-time
     description: Time the resource was first synchronized into OpenProject
-    readOnly: true
   updatedAt:
     type: string
     format: date-time
     description: Time the resource was last synchronized into OpenProject
-    readOnly: true
   _links:
     type: object
     required:
-    - self
+      - self
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This issue
+          - $ref: "./link.yml"
+          - description: |-
+              This issue
 
-            **Resource**: RepositoryIssue
-          readOnly: true
+              **Resource**: RepositoryIssue
 example:
   _type: RepositoryIssue
   _links:
@@ -92,8 +80,8 @@ example:
     html: "<p>Steps to reproduce...</p>"
   state: opened
   labels:
-  - title: bug
-    color: "#d9534f"
+    - title: bug
+      color: "#d9534f"
   projectName: my-group/my-project
   webUrl: https://gitlab.example.com/my-group/my-project/-/issues/42
   author:

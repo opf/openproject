@@ -8,8 +8,6 @@ get:
   - Repositories
   description: |-
     Returns a paginated collection of the repository branches linked to the given work package.
-
-    Request it with `pageSize=0` to only retrieve the total number of branches.
   parameters:
   - name: id
     description: Work package id

@@ -5,62 +5,52 @@ properties:
   id:
     type: integer
     description: Identifier of the resource within OpenProject
-    readOnly: true
   sha:
     type: string
     description: SHA of the commit
-    readOnly: true
   message:
     allOf:
-    - $ref: "./formattable.yml"
-    - description: Commit message
-      readOnly: true
+      - $ref: "./formattable.yml"
+      - description: Commit message
   authorName:
     type: string
     description: Author name as recorded in the commit
-    readOnly: true
   authoredAt:
     type: string
     format: date-time
     description: Time the commit was authored
-    readOnly: true
   projectName:
     type: string
     description: Name of the project on the provider, e.g. `my-group/my-project`
-    readOnly: true
   webUrl:
     type: string
     format: uri
     description: URL of the resource on the provider's website
-    readOnly: true
   author:
     description: The user on the provider who created the resource. Null if unknown.
     oneOf:
-    - $ref: "./repository_user_model.yml"
-    - type: "null"
+      - $ref: "./repository_user_model.yml"
+      - type: "null"
   createdAt:
     type: string
     format: date-time
     description: Time the resource was first synchronized into OpenProject
-    readOnly: true
   updatedAt:
     type: string
     format: date-time
     description: Time the resource was last synchronized into OpenProject
-    readOnly: true
   _links:
     type: object
     required:
-    - self
+      - self
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This commit
+          - $ref: "./link.yml"
+          - description: |-
+              This commit
 
-            **Resource**: RepositoryCommit
-          readOnly: true
+              **Resource**: RepositoryCommit
 example:
   _type: RepositoryCommit
   _links:

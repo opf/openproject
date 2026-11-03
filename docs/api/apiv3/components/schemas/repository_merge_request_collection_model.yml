@@ -19,7 +19,6 @@ allOf:
                   This collection of repository merge requests
 
                   **Resource**: RepositoryMergeRequestCollectionModel
-                readOnly: true
       _embedded:
         type: object
         required:

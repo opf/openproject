@@ -5,28 +5,22 @@ properties:
   id:
     type: integer
     description: Identifier of the resource within OpenProject
-    readOnly: true
   displayId:
     type: string
     description: Identifier of the merge request as displayed by the provider, e.g. `42`
-    readOnly: true
   title:
     type: string
     description: Title of the merge request
-    readOnly: true
   description:
     allOf:
-    - $ref: "./formattable.yml"
-    - description: Description of the merge request
-      readOnly: true
+      - $ref: "./formattable.yml"
+      - description: Description of the merge request
   state:
     type: string
     description: State of the merge request as reported by the provider, e.g. `opened`
-    readOnly: true
   labels:
     type: array
     description: Labels attached to the resource on the provider
-    readOnly: true
     items:
       type: object
       properties:
@@ -38,62 +32,54 @@ properties:
   projectName:
     type: string
     description: Name of the project on the provider, e.g. `my-group/my-project`
-    readOnly: true
   webUrl:
     type: string
     format: uri
     description: URL of the resource on the provider's website
-    readOnly: true
   author:
     description: The user on the provider who created the resource. Null if unknown.
     oneOf:
-    - $ref: "./repository_user_model.yml"
-    - type: "null"
+      - $ref: "./repository_user_model.yml"
+      - type: "null"
   externalUpdatedAt:
     type: string
     format: date-time
     description: Time the resource was last updated on the provider
-    readOnly: true
   createdAt:
     type: string
     format: date-time
     description: Time the resource was first synchronized into OpenProject
-    readOnly: true
   updatedAt:
     type: string
     format: date-time
     description: Time the resource was last synchronized into OpenProject
-    readOnly: true
   _links:
     type: object
     required:
-    - self
+      - self
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This merge request
+          - $ref: "./link.yml"
+          - description: |-
+              This merge request
 
-            **Resource**: RepositoryMergeRequest
-          readOnly: true
+              **Resource**: RepositoryMergeRequest
       pipelines:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            All of the CI pipelines that ran for this merge request
+          - $ref: "./link.yml"
+          - description: |-
+              All of the CI pipelines that ran for this merge request
 
-            **Resource**: RepositoryPipelineCollectionModel
-          readOnly: true
+              **Resource**: RepositoryPipelineCollectionModel
       latestPipeline:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The CI pipeline that started last. A pipeline that has not started yet counts as the latest one.
-            Omitted if the merge request has no pipelines.
+          - $ref: "./link.yml"
+          - description: |-
+              The CI pipeline that started last. A pipeline that has not started yet counts as the latest one.
+              Omitted if the merge request has no pipelines.
 
-            **Resource**: RepositoryPipeline
-          readOnly: true
+              **Resource**: RepositoryPipeline
 example:
   _type: RepositoryMergeRequest
   _links:
