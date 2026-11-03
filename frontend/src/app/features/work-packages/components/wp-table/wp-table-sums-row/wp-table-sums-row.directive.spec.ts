@@ -342,6 +342,36 @@ describe('WorkPackageTableSumsRowController semantics', () => {
     expect(row.cells.length).toBeGreaterThan(0);
   });
 
+  it('keeps current sums when an older schema request completes last', async () => {
+    const harness = await setUp({});
+    const pending:(() => void)[] = [];
+    const load = directive.schemaCache.ensureLoaded.bind(directive.schemaCache);
+    vi.spyOn(directive.schemaCache, 'ensureLoaded').mockImplementation((resource) => load(resource)
+      .then((loaded) => new Promise((resolve) => { pending.push(() => resolve(loaded)); })));
+    attach(harness, true);
+    await resolveSchema();
+
+    const querySpace = TestBed.inject(IsolatedQuerySpace);
+    querySpace.results.putValue({
+      ...querySpace.results.value!, totalSums: { storyPoints: 55 },
+    } as unknown as WorkPackageCollectionResource);
+    detectChanges();
+    await nextTask();
+    expect(pending).toHaveLength(2);
+
+    pending[1]();
+    await nextTask();
+    expect(within(row).getByText('55')).toBeInTheDocument();
+    const painted = vi.spyOn(harness.table.painter, 'paint');
+
+    pending[0]();
+    await nextTask();
+
+    expect(within(row).getByText('55')).toBeInTheDocument();
+    expect(within(row).queryByText('34')).not.toBeInTheDocument();
+    expect(painted).not.toHaveBeenCalled();
+  });
+
   it('stays empty when the schema resolves after sums were disabled', async () => {
     const harness = await setUp({});
     attach(harness, true);

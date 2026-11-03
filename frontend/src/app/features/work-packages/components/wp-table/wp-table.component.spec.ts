@@ -26,10 +26,11 @@
 //++
 
 import { CommonModule } from '@angular/common';
-import { headerRowKey, inlineCreateRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
+import { headerRowKey, inlineCreateRowKey, totalsRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 import type { PaintScope } from 'core-app/features/work-packages/components/wp-fast-table/row-mutations';
 import { ChangeDetectorRef, Component, Injector, NgModule, NO_ERRORS_SCHEMA, signal } from '@angular/core';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
+import { WorkPackageTableSumsRowController } from './wp-table-sums-row/wp-table-sums-row.directive';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { fireEvent, screen, waitFor, within } from '@testing-library/dom';
@@ -65,6 +66,7 @@ import {
 import { buildWorkPackage, WorkPackageFixture } from '../wp-fast-table/testing/work-package-fixture';
 import { WorkPackageTimelineTableController } from './timeline/container/wp-timeline-container.directive';
 import { WorkPackagesTableComponent } from './wp-table.component';
+import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
 
 /** Shows the table or the card view, as `wp-list-view` does when the viewport or query changes. */
 @Component({
@@ -416,7 +418,7 @@ function configureTableModule():void {
   TestBed.overrideModule(OpenprojectWorkPackagesModule, {
     set: {
       imports: [CommonModule, NoResultsComponent],
-      declarations: [WorkPackagesTableComponent, WorkPackageInlineCreateComponent],
+      declarations: [WorkPackagesTableComponent, WorkPackageInlineCreateComponent, WorkPackageTableSumsRowController],
       exports: [WorkPackagesTableComponent],
       providers: [],
       schemas: [NO_ERRORS_SCHEMA],
@@ -635,6 +637,66 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     sortBy(['subject', QUERY_SORT_BY_DESC]);
 
     expect(events).toEqual(['paint', 'navigation']);
+    expect(table.committedRows().generation).toBe(generation + 1);
+  });
+
+  it('publishes nested header and child effects once when the table is replaced', async () => {
+    const component = await mount({ inlineCreateEnabled: true });
+    const previous = component.workPackageTable;
+    const focused = screen.getByRole('button', { name: 'Create new work package' });
+    focused.focus();
+    const events:string[] = [];
+    const scopes:PaintScope[] = [];
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const mutate = WorkPackageTable.prototype.mutate;
+    let observed = false;
+    vi.spyOn(WorkPackageTable.prototype, 'mutate').mockImplementation(function mutateAndObserve(this:WorkPackageTable, scope, change) {
+      if (this === previous || observed || typeof scope === 'string' || !scope.has(headerRowKey)) {
+        return mutate.call(this, scope, change);
+      }
+      observed = true;
+      const generation = this.committedRows().generation;
+      const paint = this.painter.paint.bind(this.painter);
+      vi.spyOn(this.painter, 'paint').mockImplementation((paintScope) => {
+        events.push('paint');
+        scopes.push(paintScope ?? 'all');
+        return paint(paintScope);
+      });
+      const rowsChanged = this.keyboardNavigation.rowsChanged.bind(this.keyboardNavigation);
+      vi.spyOn(this.keyboardNavigation, 'rowsChanged').mockImplementation((event) => {
+        events.push('navigation');
+        rowsChanged(event);
+        expect(this.committedRows().generation).toBe(generation);
+        expect(headerRow()).toHaveAttribute('role', 'row');
+        expect(screen.getByRole('button', { name: 'Create new work package' }).closest('td')).toHaveAttribute('role', 'gridcell');
+        expect(screen.getByRole('treegrid').querySelector('.wp-table--sums-row')).toHaveAttribute('aria-hidden', 'true');
+      });
+      const result = mutate.call(this, scope, change);
+      expect(this.committedRows().generation).toBe(generation + 1);
+      return result;
+    });
+
+    const body = document.createElement('div');
+    component.timeline.append(body);
+    component.registerTimeline({} as WorkPackageTimelineTableController, body);
+
+    expect(events).toEqual(['paint', 'navigation']);
+    expect(scopes).toEqual([new Set([headerRowKey, totalsRowKey, inlineCreateRowKey])]);
+    expect(focused).toHaveFocus();
+    vi.restoreAllMocks();
+  });
+
+  it('does not feed committed row publications back into producer effects', async () => {
+    const component = await mount({ inlineCreateEnabled: true });
+    const table = component.workPackageTable;
+    const mutated = vi.spyOn(table, 'mutate');
+    const generation = table.committedRows().generation;
+
+    table.mutate(new Set([headerRowKey]), () => undefined);
+    fixture.detectChanges();
+    fixture.detectChanges();
+
+    expect(mutated).toHaveBeenCalledTimes(1);
     expect(table.committedRows().generation).toBe(generation + 1);
   });
 
