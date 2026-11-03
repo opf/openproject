@@ -303,6 +303,120 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
       end
     end
 
+    context "with a document notification" do
+      shared_let(:document_project) do
+        create(:project,
+               enabled_module_names: %w[documents],
+               members: { recipient => create(:project_role, permissions: %i[view_documents]) })
+      end
+      shared_let(:document) { create(:document, project: document_project) }
+      # Created with read_ian set explicitly as documents do not yet support
+      # in app notifications when created via the services.
+      shared_let(:document_notification) do
+        create(:notification,
+               recipient:,
+               reason: :mentioned,
+               resource: document,
+               journal: nil,
+               read_ian: false)
+      end
+
+      it_behaves_like "API V3 collection response", 3, 3, "Notification" do
+        let(:elements) { [document_notification, date_alert_notification, mentioned_notification] }
+      end
+
+      it "links but does not embed the document" do
+        expect(last_response.body)
+          .to be_json_eql(api_v3_paths.document(document.id).to_json)
+                .at_path("_embedded/elements/0/_links/resource/href")
+        expect(last_response.body)
+          .to be_json_eql(document.title.to_json)
+                .at_path("_embedded/elements/0/_links/resource/title")
+        expect(last_response.body)
+          .not_to have_json_path("_embedded/elements/0/_embedded/resource")
+        expect(last_response.body)
+          .to be_json_eql(api_v3_paths.project(document_project.id).to_json)
+                .at_path("_embedded/elements/0/_links/project/href")
+      end
+
+      it "still links the work package titled by its subject" do
+        expect(last_response.body)
+          .to be_json_eql(api_v3_paths.work_package(work_package.id).to_json)
+                .at_path("_embedded/elements/1/_links/resource/href")
+        expect(last_response.body)
+          .to be_json_eql(work_package.subject.to_json)
+                .at_path("_embedded/elements/1/_links/resource/title")
+      end
+
+      context "with a project filter" do
+        let(:filters) do
+          [{ "project" => { "operator" => "=", "values" => [document_project.id.to_s] } }]
+        end
+
+        it_behaves_like "API V3 collection response", 1, 1, "Notification" do
+          let(:elements) { [document_notification] }
+        end
+      end
+
+      context "with a resourceType filter" do
+        let(:filters) do
+          [{ "resourceType" => { "operator" => "=", "values" => [Document.name] } }]
+        end
+
+        it_behaves_like "API V3 collection response", 1, 1, "Notification" do
+          let(:elements) { [document_notification] }
+        end
+      end
+
+      context "with a project groupBy" do
+        let(:send_request) do
+          get api_v3_paths.path_for :notifications, group_by: :project
+        end
+
+        let(:groups) { parsed_response["groups"] }
+
+        it_behaves_like "API V3 collection response", 3, 3, "Notification"
+
+        it "contains the project groups", :aggregate_failures do
+          keyed = groups.index_by { |el| el["value"] }
+          expect(keyed.keys).to contain_exactly document_project.name, work_package.project.name
+          expect(keyed[work_package.project.name]["count"]).to eq 2
+          expect(keyed[document_project.name]["count"]).to eq 1
+
+          expect(keyed.dig(document_project.name, "_links", "valueLink")[0]["href"])
+            .to eq api_v3_paths.project(document_project.id)
+        end
+      end
+
+      context "with a project filter, groupBy and sortBy combined" do
+        let(:send_request) do
+          get api_v3_paths.path_for :notifications,
+                                    filters: [{ "project" => { "operator" => "=",
+                                                               "values" => [document_project.id.to_s,
+                                                                            work_package.project_id.to_s] } }],
+                                    group_by: :project,
+                                    sort_by: [%w[project desc]]
+        end
+
+        it_behaves_like "API V3 collection response", 3, 3, "Notification"
+
+        it "contains the project groups" do
+          expect(parsed_response["groups"].to_h { |group| [group["value"], group["count"]] })
+            .to eq(document_project.name => 1, work_package.project.name => 2)
+        end
+      end
+
+      context "when having lost the permission to see the document" do
+        let(:additional_setup) do
+          Member.where(principal: recipient, project: document_project).destroy_all
+        end
+
+        it_behaves_like "API V3 collection response", 2, 2, "Notification" do
+          let(:elements) { [date_alert_notification, mentioned_notification] }
+        end
+      end
+    end
+
     context "when having lost the permission to see the work package" do
       let(:additional_setup) do
         Member.where(principal: recipient).destroy_all

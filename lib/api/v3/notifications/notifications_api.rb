@@ -85,7 +85,12 @@ module API
 
             def bulk_update_status(attributes)
               if notification_query.valid?
-                notification_query.results.update_all({ updated_at: Time.zone.now }.merge(attributes))
+                # Notifications not supporting in app notifications (read_ian being nil) must not
+                # be turned into in app notifications by marking them as (un)read.
+                notification_query
+                  .results
+                  .where.not(read_ian: nil)
+                  .update_all({ updated_at: Time.zone.now }.merge(attributes))
                 status 204
               else
                 raise_query_errors(notification_query)

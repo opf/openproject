@@ -1,0 +1,51 @@
+<div
+  class="op-ian-item--top-line"
+  >
+  <div class="op-ian-item--status">
+    <op-in-app-notification-status [status]="workPackage.status" />
+  </div>
+  <a
+    class="op-ian-item--work-package-id-link spot-link"
+    [class.spot-link_inactive]="isMobile()"
+    [attr.title]="workPackage.subject"
+    [textContent]="workPackage.formattedId"
+    [attr.href]="pathHelper.workPackagePath(workPackage.displayId)"
+    (click)="onLinkClick($event)"
+    >
+  </a>
+  <ng-content />
+</div>
+<div
+  class="op-ian-item--middle-line"
+  >
+  <span
+    [ngClass]="'op-ian-item--work-package-type ' + typeHighlightingClass(workPackage)"
+    [textContent]="workPackage.type.name">
+  </span>
+  <span
+    [textContent]="workPackage.subject"
+    class="op-ian-item--work-package-subject"
+    [class.-read]="notification.readIAN"
+    >
+  </span>
+</div>
+<div
+  class="op-ian-item--bottom-line"
+  >
+  @if (hasReminderAlert) {
+    <op-in-app-notification-reminder-alert
+      [aggregatedNotifications]="aggregatedNotifications"
+      />
+  }
+  @if (!hasReminderAlert) {
+    @if (showDateAlert) {
+      <op-in-app-notification-date-alert [aggregatedNotifications]="aggregatedNotifications"
+       />
+    }
+    @if (!showDateAlert) {
+      <op-in-app-notification-actors-line [notification]="notification"
+        [aggregatedNotifications]="aggregatedNotifications"
+       />
+    }
+  }
+</div>

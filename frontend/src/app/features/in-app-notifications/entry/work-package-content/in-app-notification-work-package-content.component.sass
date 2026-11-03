@@ -1,0 +1,14 @@
+.op-ian-work-package-content
+  display: contents
+
+  .op-ian-item--top-line
+    grid-template-columns: max-content max-content minmax(0, max-content) minmax(0, max-content) auto minmax(20px, max-content)
+    grid-template-areas: "status wpIdLink project reason count buttons"
+
+.op-ian-item
+  &--work-package-id-link
+    grid-area: wpIdLink
+
+  &--status
+    grid-area: status
+    margin-right: 5px

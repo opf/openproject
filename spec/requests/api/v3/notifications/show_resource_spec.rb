@@ -63,6 +63,54 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
     end
 
     it_behaves_like "represents the notification"
+
+    it "embeds the work package" do
+      expect(last_response.body)
+        .to be_json_eql("WorkPackage".to_json)
+              .at_path("_embedded/resource/_type")
+    end
+  end
+
+  describe "recipient user for a document notification" do
+    shared_let(:document_project) do
+      create(:project,
+             enabled_module_names: %w[documents],
+             members: { recipient => create(:project_role, permissions: %i(view_documents)) })
+    end
+    shared_let(:document) { create(:document, project: document_project) }
+    # Created with read_ian set explicitly as documents do not yet support
+    # in app notifications when created via the services.
+    shared_let(:notification) do
+      create(:notification,
+             recipient:,
+             resource: document,
+             journal: nil,
+             read_ian: false)
+    end
+
+    current_user { recipient }
+
+    before do
+      send_request
+    end
+
+    it_behaves_like "represents the notification"
+
+    it "links but does not embed the document", :aggregate_failures do
+      expect(last_response.body)
+        .to be_json_eql(api_v3_paths.document(document.id).to_json)
+              .at_path("_links/resource/href")
+      expect(last_response.body)
+        .to be_json_eql(document.title.to_json)
+              .at_path("_links/resource/title")
+      expect(last_response.body)
+        .not_to have_json_path("_embedded/resource")
+      expect(last_response.body)
+        .to be_json_eql(api_v3_paths.project(document_project.id).to_json)
+              .at_path("_links/project/href")
+      expect(last_response.body)
+        .not_to have_json_path("_links/activity")
+    end
   end
 
   describe "recipient user for a dateAlert notification" do

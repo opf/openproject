@@ -112,7 +112,7 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
                                               actor: caller_user,
                                               reason: "mentioned",
                                               journal: nil,
-                                              read_ian: nil,
+                                              read_ian: false,
                                               mail_alert_sent: true,
                                               mail_reminder_sent: nil)
     end

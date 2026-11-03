@@ -82,7 +82,12 @@ module API
                             v3_path: :activity,
                             skip_render: ->(*) { represented.journal_id.nil? }
 
-        polymorphic_resource :resource
+        # Documents are only linked, never embedded, as their representation contains the
+        # large content_binary.
+        polymorphic_resource :resource,
+                             skip_render: ->(*) { represented.resource.is_a?(Document) },
+                             skip_link: ->(*) { false },
+                             link_title_attribute: ->(resource) { resource.is_a?(Document) ? :title : :name }
 
         resource :project,
                  getter: ->(*) {

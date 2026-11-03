@@ -30,25 +30,27 @@
 class Queries::Notifications::Orders::ProjectOrder < Queries::Orders::Base
   self.model = Notification
 
+  PROJECTS_ALIAS = "notification_projects"
+
   def self.key
     :project
   end
 
   def joins
-    <<~SQL.squish
-      JOIN #{WorkPackage.table_name} work_packages_order
-      ON work_packages_order.id = #{Notification.table_name}.resource_id
-      AND #{Notification.table_name}.resource_type = 'WorkPackage'
-      JOIN #{Project.table_name}
-      ON #{Project.table_name}.id = work_packages_order.project_id
-    SQL
+    [
+      Queries::Notifications::ResourceProject.joins,
+      <<~SQL.squish
+        LEFT OUTER JOIN #{Project.table_name} #{PROJECTS_ALIAS}
+        ON #{PROJECTS_ALIAS}.id = #{Queries::Notifications::ResourceProject.project_id_sql}
+      SQL
+    ]
   end
 
   protected
 
   def order(scope)
     with_raise_on_invalid do
-      order_string = "#{Project.table_name}.name"
+      order_string = "#{PROJECTS_ALIAS}.name"
       order_string += " DESC" if direction == :desc
 
       scope.order(order_string)

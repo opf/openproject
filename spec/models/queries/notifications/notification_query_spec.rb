@@ -188,16 +188,140 @@ RSpec.describe Queries::Notifications::NotificationQuery do
 
     describe "#results" do
       it "is the same as handwriting the query" do
+        project_id = Arel.sql("COALESCE(notification_work_packages.project_id, notification_documents.project_id)")
         expected = base_scope
-                     .joins("JOIN work_packages " \
-                            "ON notifications.resource_id = work_packages.id " \
-                            "AND notifications.resource_type = 'WorkPackage'")
-                     .group(:project_id)
-                     .order(project_id: :asc)
-                     .select(:project_id, Arel.sql("COUNT(*)"))
+                     .joins("LEFT OUTER JOIN work_packages notification_work_packages " \
+                            "ON notification_work_packages.id = notifications.resource_id " \
+                            "AND notifications.resource_type = 'WorkPackage' " \
+                            "LEFT OUTER JOIN documents notification_documents " \
+                            "ON notification_documents.id = notifications.resource_id " \
+                            "AND notifications.resource_type = 'Document'")
+                     .group(project_id)
+                     .order(project_id)
+                     .select(project_id, Arel.sql("COUNT(*)"))
                      .to_sql
 
         expect(instance.groups.to_sql).to eql expected
+      end
+    end
+  end
+
+  context "with work package and document notifications in different projects" do
+    shared_let(:document_project) do
+      create(:project,
+             name: "A document project",
+             enabled_module_names: %w[work_package_tracking documents])
+    end
+    shared_let(:other_project) do
+      create(:project,
+             name: "Z other project",
+             enabled_module_names: %w[work_package_tracking documents])
+    end
+    shared_let(:document_recipient) do
+      create(:user,
+             member_with_permissions: {
+               project => %i[view_work_packages],
+               document_project => %i[view_documents],
+               other_project => %i[view_work_packages view_documents]
+             })
+    end
+    shared_let(:work_package_notification) do
+      create(:notification, recipient: document_recipient, resource: work_package)
+    end
+    shared_let(:document_notification) do
+      create(:notification,
+             recipient: document_recipient,
+             resource: create(:document, project: document_project),
+             journal: nil)
+    end
+    shared_let(:other_work_package_notification) do
+      create(:notification,
+             recipient: document_recipient,
+             resource: create(:work_package, project: other_project))
+    end
+    shared_let(:other_document_notification) do
+      create(:notification,
+             recipient: document_recipient,
+             resource: create(:document, project: other_project),
+             journal: nil)
+    end
+
+    let(:instance) { described_class.new(user: document_recipient) }
+
+    current_user { document_recipient }
+
+    context "with a project filter" do
+      it "returns the notifications of work packages and documents in the project" do
+        instance.where(:project_id, "=", [other_project.id])
+
+        expect(instance.results)
+          .to contain_exactly(other_work_package_notification, other_document_notification)
+      end
+
+      it "returns document notifications of a project with only documents visible" do
+        instance.where(:project_id, "=", [document_project.id])
+
+        expect(instance.results)
+          .to contain_exactly(document_notification)
+      end
+
+      it "returns the notifications of resources outside of the project for the negated operator" do
+        instance.where(:project_id, "!", [other_project.id])
+
+        expect(instance.results)
+          .to contain_exactly(work_package_notification, document_notification)
+      end
+    end
+
+    context "with a resource type filter" do
+      it "returns only the document notifications" do
+        instance.where(:resource_type, "=", [Document.name])
+
+        expect(instance.results)
+          .to contain_exactly(document_notification, other_document_notification)
+      end
+    end
+
+    context "with a resource id filter for a document" do
+      it "returns the document notification" do
+        instance.where(:resource_id, "=", [document_notification.resource_id])
+        instance.where(:resource_type, "=", [Document.name])
+
+        expect(instance).to be_valid
+        expect(instance.results)
+          .to contain_exactly(document_notification)
+      end
+    end
+
+    context "with a project group_by" do
+      it "counts work package and document notifications per project" do
+        instance.group(:project)
+
+        expect(instance.group_values)
+          .to eq(project => 1, document_project => 1, other_project => 2)
+      end
+    end
+
+    context "with a project order" do
+      it "orders work package and document notifications by the project name" do
+        instance.order(project: :asc)
+
+        expect(instance.results.map { |notification| notification.resource.project })
+          .to eq [document_project, project, other_project, other_project]
+      end
+    end
+
+    context "with a project filter, group_by and order combined" do
+      it "returns the notifications of the project" do
+        instance.where(:project_id, "=", [other_project.id, document_project.id])
+        instance.group(:project)
+        instance.order(project: :desc)
+
+        # Within the same project, notifications are ordered by id descending.
+        expect(instance.results)
+          .to eq [other_document_notification, other_work_package_notification, document_notification]
+        expect(instance.group_values)
+          .to eq(other_project => 2, document_project => 1)
       end
     end
   end

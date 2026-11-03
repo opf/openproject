@@ -19,7 +19,7 @@
             [aggregatedNotifications]="records"
             attr.data-test-selector="op-ian-notification-item-{{records[0].id}}"
             [attr.data-qa-ian-read]="records[0].readIAN === true || undefined"
-            [attr.data-qa-ian-selected]="notificationMatchesSelectedWorkPackage(records[0], selectedWorkPackage$ | async)"
+            [attr.data-qa-ian-selected]="notificationMatchesSelectedWorkPackage(records[0], selectedWorkPackage$ | async) || undefined"
            />
         </cdk-virtual-scroll-viewport>
       } @else {

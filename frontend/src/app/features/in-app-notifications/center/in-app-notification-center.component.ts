@@ -40,6 +40,7 @@ import { IanBellService } from 'core-app/features/in-app-notifications/bell/stat
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { notificationWorkPackageId } from 'core-app/features/in-app-notifications/notification-resource-id';
 import {
   ColorsService,
 } from 'core-app/shared/components/colors/colors.service';
@@ -182,9 +183,12 @@ export class InAppNotificationCenterComponent implements OnInit {
   }
 
   notificationMatchesSelectedWorkPackage(notification:INotification, selected:string|null):boolean {
-    const href = notification._links.resource?.href;
-    const workPackageId = href ? idFromLink(href) : null;
-    const workPackage = workPackageId ? this.apiV3.work_packages.cache.current(workPackageId) : null;
+    const workPackageId = notificationWorkPackageId(notification);
+    if (!workPackageId) {
+      return false;
+    }
+
+    const workPackage = this.apiV3.work_packages.cache.current(workPackageId);
 
     return selected === workPackageId || selected === workPackage?.displayId;
   }
