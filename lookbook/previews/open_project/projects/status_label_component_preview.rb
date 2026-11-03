@@ -32,14 +32,52 @@ module OpenProject::Projects
   class StatusLabelComponentPreview < ViewComponent::Preview
     # @label Playground
     # @param with_icon [boolean]
-    def playground(with_icon: false)
-      project = FactoryBot.build_stubbed(:project, :with_status)
+    # @param status [Symbol] select [on_track, at_risk, off_track, not_started, finished, discontinued]
+    # @param with_icon [boolean]
+    def playground(with_icon: false, status: :on_track)
+      project = FactoryBot.build_stubbed(:project, status_code: status, status_explanation: "some explanation")
 
       render(Projects::StatusLabelComponent.new(project:, with_icon:))
     end
 
-    def with_icon(with_icon: true)
-      project = FactoryBot.build_stubbed(:project, :with_status)
+    def with_icon(with_icon: true, status: :on_track)
+      project = FactoryBot.build_stubbed(:project, status_code: status, status_explanation: "some explanation")
+
+      render(Projects::StatusLabelComponent.new(project:, with_icon:))
+    end
+
+    def on_track()
+      project = FactoryBot.build_stubbed(:project, status_code: :on_track, status_explanation: "some explanation")
+
+      render(Projects::StatusLabelComponent.new(project:, with_icon:))
+    end
+
+    def at_risk()
+      project = FactoryBot.build_stubbed(:project, status_code: :at_risk, status_explanation: "some explanation")
+
+      render(Projects::StatusLabelComponent.new(project:, with_icon:))
+    end
+
+    def off_track()
+      project = FactoryBot.build_stubbed(:project, status_code: :off_track, status_explanation: "some explanation")
+
+      render(Projects::StatusLabelComponent.new(project:, with_icon:))
+    end
+
+    def not_started()
+      project = FactoryBot.build_stubbed(:project, status_code: :not_started, status_explanation: "some explanation")
+
+      render(Projects::StatusLabelComponent.new(project:, with_icon:))
+    end
+
+    def finished()
+      project = FactoryBot.build_stubbed(:project, status_code: :finished, status_explanation: "some explanation")
+
+      render(Projects::StatusLabelComponent.new(project:, with_icon:))
+    end
+
+    def discontinued()
+      project = FactoryBot.build_stubbed(:project, status_code: :discontinued, status_explanation: "some explanation")
 
       render(Projects::StatusLabelComponent.new(project:, with_icon:))
     end
