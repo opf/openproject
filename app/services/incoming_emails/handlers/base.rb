@@ -191,7 +191,7 @@ module IncomingEmails::Handlers
       # TODO: other ways to specify project:
       # * parse the email To field
       # * specific project (eg. Setting.mail_handler_target_project)
-      target = Project.find_by(identifier: get_keyword(:project))
+      target = Project.find_by("LOWER(identifier) = ?", get_keyword(:project).to_s.downcase)
       raise IncomingEmails::MissingInformation.new("Unable to determine target project") if target.nil?
 
       target
