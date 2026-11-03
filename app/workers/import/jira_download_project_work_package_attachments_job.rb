@@ -107,6 +107,8 @@ module Import
         store_attachment_file(attachment, tempfile)
       end
     rescue Import::JiraClient::Error => e
+      raise if e.retryable?
+
       warn_skipped_download(payload, e)
       mark_attachment_as_failed(attachment)
     end

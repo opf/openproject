@@ -29,9 +29,15 @@
 
 module Import
   class JiraClient
-    class Error < StandardError; end
+    class Error < StandardError
+      def retryable? = false
+    end
 
     class ConnectionError < Error; end
+
+    class UnreachableError < ConnectionError
+      def retryable? = true
+    end
 
     class SsrfError < ConnectionError; end
 
@@ -71,6 +77,10 @@ module Import
 
       def to_s
         "#{super}. STATUS: #{@status} RESPONSE_BODY: #{@response_body} RESPONSE_HEADERS: #{@response_headers}"
+      end
+
+      def retryable?
+        status == 401 || status == 429 || status >= 500
       end
     end
 
@@ -420,9 +430,11 @@ module Import
       when SsrfFilter::PrivateIPAddress
         SsrfError.new(I18n.t("admin.jira.client.ssrf_blocked"))
       when OpenSSL::SSL::SSLError
-        ConnectionError.new(I18n.t("admin.jira.client.ssl_error", message: error.message))
+        UnreachableError.new(I18n.t("admin.jira.client.ssl_error", message: error.message))
       when Timeout::Error
-        ConnectionError.new(I18n.t("admin.jira.client.connection_timeout", message: error.message))
+        UnreachableError.new(I18n.t("admin.jira.client.connection_timeout", message: error.message))
+      when SsrfFilter::UnresolvedHostname, SocketError, Errno::ECONNREFUSED, Errno::EHOSTUNREACH
+        UnreachableError.new(I18n.t("admin.jira.client.connection_error", message: error.message))
       else
         ConnectionError.new(I18n.t("admin.jira.client.connection_error", message: error.message))
       end

@@ -136,6 +136,15 @@ RSpec.describe Import::JiraDownloadProjectWorkPackageAttachmentsJob,
       end
     end
 
+    context "when Jira fails to serve the file" do
+      before { stub_request(:get, download_attachment_url).to_return(status: 503) }
+
+      it "fails the job, leaving the attachment to be downloaded when the import is resumed" do
+        expect { download_work_package_attachments }.to raise_error(Import::JiraClient::ApiError)
+        expect(attachment.status).to eq("import_prepared")
+      end
+    end
+
     context "when storing the file fails" do
       before do
         # rubocop:disable-next RSpec/AnyInstance
