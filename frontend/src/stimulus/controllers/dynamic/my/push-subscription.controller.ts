@@ -69,8 +69,9 @@ function assertOk(response:{ ok:boolean; statusCode:number }):void {
  * otherwise it is dropped, because a revoke from another device, a logout or a
  * key rotation has already invalidated it. A server row for this device without
  * a browser subscription (the browser deactivates it when notification
- * permission is revoked) is revoked. A row that lost its session but matches
- * this browser's subscription is resumed by registering it again.
+ * permission is revoked) is revoked. A known row that is not bound to this
+ * session is resumed; a gone answer means the row was revoked elsewhere, so the
+ * browser subscription is dropped.
  *
  * Flow
  *
@@ -228,12 +229,11 @@ export default class PushSubscriptionController extends Controller {
 
     const known = this.knownToServer(subscription);
     if (subscription && known && this.boundToCurrentKey(subscription)) {
-      if (known.dormant) {
-        await this.registerWithServer(subscription);
-        if (!isLatestRun()) return;
+      if (known.current) {
+        this.render('enabled');
+      } else {
+        await this.resumeWithServer(subscription, isLatestRun);
       }
-
-      this.render('enabled');
       return;
     }
 
@@ -316,6 +316,24 @@ export default class PushSubscriptionController extends Controller {
       responseKind: 'turbo-stream',
     });
     assertOk(response);
+  }
+
+  private async resumeWithServer(subscription:PushSubscription, isLatestRun:() => boolean):Promise<void> {
+    const response = await post(this.createUrlValue, {
+      body: JSON.stringify({ push_endpoint: subscription.endpoint, resume: true }),
+      contentType: 'application/json',
+      responseKind: 'turbo-stream',
+    });
+    if (!isLatestRun()) return;
+
+    if (response.statusCode === 410) {
+      await this.forget(subscription);
+      if (isLatestRun()) this.render('disabled');
+      return;
+    }
+
+    assertOk(response);
+    this.render('enabled');
   }
 
   private async revokeOnServer(known:KnownSubscription, { silent = false } = {}):Promise<void> {
