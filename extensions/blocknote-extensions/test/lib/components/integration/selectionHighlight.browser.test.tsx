@@ -41,6 +41,20 @@ describe('Block WP – blue border on focus (BNE-95)', () => {
     await userEvent.click(page.getByTestId('block-wp-wrapper'));
     await expect.poll(blockIsSelected).toBe(true);
   });
+
+  it('draws only its own border when node-selected with the arrow keys (BNE-180)', async () => {
+    renderEditor();
+    await userEvent.click(page.getByRole('textbox'));
+    await userEvent.keyboard('above{Enter}');
+    await insertBlockWorkPackageViaSlashMenu();
+
+    await userEvent.keyboard('{ArrowUp}');
+
+    const wrapper = page.getByTestId('block-wp-wrapper').element();
+    await expect.poll(() => wrapper.closest('.ProseMirror-selectednode')).not.toBeNull();
+    expect(blockIsSelected()).toBe(true);
+    expect(getComputedStyle(wrapper, '::after').content).toBe('none');
+  });
 });
 
 const SAFARI_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Safari/605.1.15';
