@@ -59,8 +59,8 @@ module ITSM
 
         Rails.logger.tagged("email #{email.headers.message_id}") { handle(email) }
       rescue StandardError => e
-        OpenProject.logger.error("Email #{uid} failed (#{e.class.name}), retrying with the next fetch", exception: e)
-        Success()
+        OpenProject.logger.error("Email #{uid} failed (#{e.class.name})", exception: e)
+        Adapters::Commands::MarkEmailSeen.call(session:, uid:)
       end
 
       def handle(email)

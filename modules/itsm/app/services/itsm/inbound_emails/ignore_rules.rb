@@ -30,7 +30,7 @@
 module ITSM
   module InboundEmails
     class IgnoreRules
-      AUTOMATIC_HEADERS = %w[Auto-Submitted X-Autoreply X-Autorespond].freeze
+      AUTOMATIC_HEADERS = %w[Auto-Submitted X-Autoreply X-Autorespond List-Unsubscribe].freeze
       PRECEDENCE_HEADERS = %w[Precedence X-Precedence].freeze
       BULK_PRECEDENCES = %w[auto_reply bulk junk list].freeze
 

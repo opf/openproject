@@ -55,7 +55,7 @@ RSpec.describe ITSM::InboundEmails::IgnoreRules, with_settings: { host_name: "op
     it { is_expected.to be_nil }
   end
 
-  %w[X-Autoreply X-Autorespond].each do |name|
+  %w[X-Autoreply X-Autorespond List-Unsubscribe].each do |name|
     context "with #{name}" do
       let(:extra_headers) { "#{name}: yes\r\n" }
 

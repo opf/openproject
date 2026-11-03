@@ -148,12 +148,11 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
       allow(OpenProject.logger).to receive(:error)
     end
 
-    it "leaves it unseen for the next fetch and reports the error" do
+    it "marks it as seen and reports the error" do
       expect(result).to be_success
-      expect(imap).not_to have_received(:uid_store)
+      expect(imap).to have_received(:uid_store).with(7, "+FLAGS", [:Seen])
       expect(OpenProject.logger).to have_received(:error)
-        .with("Email 7 failed (ActiveRecord::StatementInvalid), retrying with the next fetch",
-              exception: instance_of(ActiveRecord::StatementInvalid))
+        .with("Email 7 failed (ActiveRecord::StatementInvalid)", exception: instance_of(ActiveRecord::StatementInvalid))
     end
   end
 
