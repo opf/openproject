@@ -251,7 +251,7 @@ export class WorkPackageTable {
   /** Mutates every rendered occurrence of the work packages; with none rendered, `change` runs with nothing to repaint. */
   public mutateWorkPackages(ids:Iterable<string>, change:() => void):void {
     if (this.destroyed) return;
-    const keys = new Set(Array.from(ids).flatMap((id) => Array.from(this.ledger.keysOf(id))));
+    const keys = this.ledger.keysOfAll(ids);
     if (keys.size === 0) {
       change();
       return;
@@ -288,27 +288,26 @@ export class WorkPackageTable {
     const id = workPackage.id!;
     if (this.hasPendingRender || this.ledger.keysOf(id).size > 0) this.refreshed.set(id, workPackage);
     // While the next query loads its rows, the committed ones are on their way out
-    if (this.querySpace.tableRendered.hasValue()) this.refreshCommitted([workPackage]);
+    if (this.querySpace.tableRendered.hasValue()) this.refreshCommitted([[id, workPackage]]);
   }
 
   private reapplyRefreshed():void {
     this.refreshed.forEach((_, id) => {
       if (this.ledger.keysOf(id).size === 0) this.refreshed.delete(id);
     });
-    this.refreshCommitted(this.refreshed.values());
+    this.refreshCommitted(this.refreshed.entries());
   }
 
-  private refreshCommitted(workPackages:Iterable<WorkPackageResource>):void {
+  private refreshCommitted(updates:Iterable<[string, WorkPackageResource]>):void {
     const pass = this.lastRenderPass;
     if (!pass) return;
-    const shown = Array.from(workPackages).filter((workPackage) => this.ledger.keysOf(workPackage.id!).size > 0);
+    const shown = Array.from(updates).filter(([id]) => this.ledger.keysOf(id).size > 0);
     if (shown.length === 0) return;
 
-    const keys = new Set(shown.flatMap((workPackage) => Array.from(this.ledger.keysOf(workPackage.id!))));
-    this.mutate(keys, () => {
+    this.mutate(this.ledger.keysOfAll(shown.map(([id]) => id)), () => {
       const replacements:RowReplacement[] = [];
-      shown.forEach((workPackage) => {
-        this.ledger.byWorkPackageId(workPackage.id!).forEach((occurrence) => {
+      shown.forEach(([id, workPackage]) => {
+        this.ledger.byWorkPackageId(id).forEach((occurrence) => {
           const previous = occurrence.element;
           const replacement = pass.refresh(occurrence, workPackage);
           if (replacement) {

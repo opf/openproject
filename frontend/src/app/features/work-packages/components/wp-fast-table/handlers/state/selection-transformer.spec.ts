@@ -92,7 +92,7 @@ describe('SelectionTransformer', () => {
       destroyRef: lifetime.get(DestroyRef),
       tableAndTimelineContainer: root,
       renderedRows,
-      ledger: { generation: 1, size: 1, keysOf: () => new Set() }, mutate: runMutation,
+      ledger: { generation: 1, size: 1, keysOf: () => new Set(), keysOfAll: () => new Set() }, mutate: runMutation,
     } as unknown as WorkPackageTable;
     new SelectionTransformer(injector, table);
 
@@ -131,7 +131,7 @@ describe('SelectionTransformer', () => {
       const lifetime = Injector.create({ providers: [], parent: injector });
       const root = document.createElement('div');
       document.body.append(root);
-      new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger: { generation: 1, size: 1, keysOf: () => new Set() }, mutate: runMutation } as unknown as WorkPackageTable);
+      new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger: { generation: 1, size: 1, keysOf: () => new Set(), keysOfAll: () => new Set() }, mutate: runMutation } as unknown as WorkPackageTable);
       return { injector, lifetime, root, reset };
     };
     const first = build();
@@ -166,7 +166,7 @@ describe('SelectionTransformer', () => {
     const root = document.createElement('div');
     root.innerHTML = '<div class="wp-table--row" tabindex="0" data-work-package-id="2" data-class-identifier="wp-row-2">Row</div>';
     document.body.append(root);
-    new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger: { generation: 1, size: 1, keysOf: () => new Set() }, mutate: runMutation } as unknown as WorkPackageTable);
+    new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger: { generation: 1, size: 1, keysOf: () => new Set(), keysOfAll: () => new Set() }, mutate: runMutation } as unknown as WorkPackageTable);
     selection.initializeSelection(['2']);
 
     const allowed = fireEvent.keyDown(root.firstElementChild!, {
@@ -183,7 +183,7 @@ describe('SelectionTransformer', () => {
   it('prunes selection only after its own table has committed', () => {
     const tableRendered = new Subject<RenderedWorkPackage[]>();
     const retainRendered = vi.fn();
-    const ledger = { generation: 0, size: 0, keysOf: () => new Set() };
+    const ledger = { generation: 0, size: 0, keysOf: () => new Set(), keysOfAll: () => new Set() };
     const parent = TestBed.inject(EnvironmentInjector);
     const injector = createEnvironmentInjector([
       { provide: IsolatedQuerySpace, useValue: { tableRendered: { values$: () => tableRendered }, stopAllSubscriptions: new Subject<void>() } },

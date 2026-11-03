@@ -94,7 +94,7 @@ export class SelectionTransformer {
       [this.painted.focused, current.focused].forEach((id) => { if (id) changed.add(id); });
     }
     this.painted = current;
-    const keys = new Set(Array.from(changed).flatMap((id) => Array.from(this.table.ledger.keysOf(id))));
+    const keys = this.table.ledger.keysOfAll(changed);
     if (keys.size === 0) return;
     this.table.mutate(keys.size > this.table.ledger.size / 2 ? 'all' : keys, () => undefined);
   }
