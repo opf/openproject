@@ -6,6 +6,7 @@ value:
   title: 'Meeting No 42'
   location: 'Death Star - Level 1337 L13/42'
   lockVersion: 13
+  agendaSortingMode: 'manual'
   startTime: '2026-02-16T10:00:00.000Z'
   endTime: '2026-02-16T11:00:00.000Z'
   duration: 1.0

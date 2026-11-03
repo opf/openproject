@@ -20,12 +20,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-  See COPYRIGHT and LICENSE files for more details.
+See COPYRIGHT and LICENSE files for more details.
 
-  ++# %>
+++#%>
 
   <%= component_wrapper do
         primer_form_with(**form_options) do |form|
@@ -38,8 +37,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
             body.with_row(display: show_user ? :block : :none) do
               render(TimeEntries::UserForm.new(form, visible: show_user))
             end
-            body.with_row { render(TimeEntries::DaysAndHoursForm.new(form)) }
-            body.with_row(display: show_work_package ? :block : :none) do
+            body.with_row(classes: "FormControl-horizontalGroup--sm-vertical") do
+              render(TimeEntries::DaysAndHoursForm.new(form))
+            end
+            body.with_row do
               render(
                 TimeEntries::EntityForm.new(form, visible: show_work_package, limit_to_project_id: limit_to_project_id)
               )

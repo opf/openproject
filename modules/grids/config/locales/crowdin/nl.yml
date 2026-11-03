@@ -31,7 +31,7 @@ nl:
         title: Leden
         view_all_members: Alle leden bekijken
         x_more:
-          one: and one more member.
+          one: and %{count} more member.
           other: and %{count} more members.
       news:
         no_results: Niets nieuws om te rapporteren.

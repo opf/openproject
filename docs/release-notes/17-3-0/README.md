@@ -219,7 +219,7 @@ We want to thank Community member [@cheezzz](https://github.com/cheezzz) for con
 - Bugfix: Update &quot;finish&quot; sprint to &quot;complete&quot; sprint \[[#73535](https://community.openproject.org/wp/73535)\]
 - Bugfix: Performance Issues with Backlog on v17.2.2 \[[#73557](https://community.openproject.org/wp/73557)\]
 - Bugfix: Spurious connection error blips while editing a document \[[#73571](https://community.openproject.org/wp/73571)\]
-- Bugfix: Datepicker &quot;today&quot; field uses wrong colour \[[#73574](https://community.openproject.org/wp/73574)\]
+- Bugfix: Datepicker &quot;today&quot; field uses wrong color \[[#73574](https://community.openproject.org/wp/73574)\]
 - Bugfix: User facing work package link from Github tab is not the shortened version \[[#73678](https://community.openproject.org/wp/73678)\]
 - Bugfix: User does not meet password requirements during Jira Import. \[[#73707](https://community.openproject.org/wp/73707)\]
 - Bugfix: Improve Backlogs and Sprints page performance by deferring story menu loading \[[#73737](https://community.openproject.org/wp/73737)\]

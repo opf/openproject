@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -77,7 +76,7 @@ RSpec.describe "SAML provider callback",
   end
 
   shared_examples "request succeeds" do
-    it "redirects user when no errors occured" do
+    it "redirects user when no errors occurred" do
       expect(subject.status).to eq(302)
       expect(subject.headers["Location"]).to eq("http://#{Setting.host_name}/two_factor_authentication/request")
     end

@@ -304,13 +304,13 @@ In OpenProject, a member is defined as a single person in a project. Project mem
 
 A module in OpenProject is defined as an independent unit of functionality that can be used to extend and improve the existing core functions. A project admin can activate and de-activate modules in the project settings. Some examples for modules in OpenProject are: Forums, Time and costs, Wiki or the Work packages module. [See our user guide for more information on all modules in OpenProject](../user-guide/#overview-of-modules-in-openproject).
 
-### My time tracking
-
-My time tracking is the name of an OpenProject [module](#module) that allows users to view, log and edit their personal time tracked on work packages. It can be displayed in a calendar or list view. A [system admin](#admin) can decide whether exact time tracking is allowed, which means users can add start and finish time to their entries. If administrators want to force their users to log start and finish time, an option to 'Require exact times' is available as an [Enterprise add-on](#enterprise-add-on). [Read more about time tracking with OpenProject in our user guide](../user-guide/time-and-costs/time-tracking/).
-
 ### My page
 
 The My page in OpenProject is defined as your personal [dashboard](#dashboard) with important overarching project information, such as work package reports, news, spent time, or a calendar. It can be configured to your specific needs. [Read more about the My page in OpenProject](../getting-started/my-page/).
+
+### My work
+
+My work is the name of an OpenProject [module](#module) that allows users to view, log and edit their personal time tracked on work packages. It can be displayed in a calendar or list view. A [system admin](#admin) can decide whether exact time tracking is allowed, which means users can add start and finish time to their entries. If administrators want to force their users to log start and finish time, an option to 'Require exact times' is available as an [Enterprise add-on](#enterprise-add-on). [Read more about time tracking with OpenProject in our user guide](../user-guide/time-and-costs/time-tracking/).
 
 ## N
 

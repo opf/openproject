@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -111,8 +110,8 @@ module Redmine
         # The role of this method is to provide flexibility on enabling just a subset of
         # available_custom_fields on the UI while enabling all_available_custom_fields via the api.
         # A good example is the Project's attributes, the UI allows the enabled attributes only,
-        # and the Projects API still provides the old behaviour where all the custom fields are available.
-        # Once the api behaviour is aligned to the UI behaviour, this method can be removed in favor of
+        # and the Projects API still provides the old behavior where all the custom fields are available.
+        # Once the api behavior is aligned to the UI behavior, this method can be removed in favor of
         # the available_custom_fields method.
         def all_available_custom_fields
           @all_available_custom_fields ||= available_custom_fields
@@ -171,6 +170,10 @@ module Redmine
         end
 
         def custom_field_values(all: false) = cached_custom_field_values[all ? :all_available : :available]
+
+        def custom_field_required?(custom_field)
+          custom_field.required?
+        end
 
         # Finds a comment for the given custom field using a Ruby finder.
         #
@@ -425,15 +428,21 @@ module Redmine
         end
 
         def build_default_custom_values(custom_field)
-          if custom_field.multi_value? && custom_field.default_value.present?
-            custom_field.default_value.map do |value|
+          default_value = default_custom_field_value(custom_field)
+
+          if custom_field.multi_value? && default_value.present?
+            default_value.map do |value|
               build_custom_value(custom_field, value:)
             end
-          elsif custom_field.multi_value? && custom_field.default_value.blank?
+          elsif custom_field.multi_value? && default_value.blank?
             build_custom_value(custom_field, value: nil)
           else
-            build_custom_value(custom_field, value: custom_field.default_value)
+            build_custom_value(custom_field, value: default_value)
           end
+        end
+
+        def default_custom_field_value(custom_field)
+          custom_field.default_value
         end
 
         def build_custom_value(custom_field, value:)
@@ -477,7 +486,7 @@ module Redmine
             # N.B. we do no strict type checking here, it would be possible to assign a user
             # to an integer custom field...
             value = value.id if value.respond_to?(:id)
-            self.custom_field_values = { custom_field.id => Array(value) }
+            self.custom_field_values = { custom_field.id => Array.wrap(value) }
           end
 
           define_singleton_method custom_field.comment_attribute_setter do |text|
@@ -493,11 +502,21 @@ module Redmine
         end
 
         def update_custom_value(custom_field_id, existing_cv_by_value, new_values)
-          new_values = Array(new_values).map { |v| v.respond_to?(:id) ? v.id.to_s : v.to_s }
+          new_values = Array.wrap(new_values).map { |v| custom_value_string(v) }
 
           assign_new_values(custom_field_id, existing_cv_by_value, new_values)
           delete_obsolete_custom_values(existing_cv_by_value, new_values)
           handle_minimum_custom_value(custom_field_id, existing_cv_by_value, new_values)
+        end
+
+        def custom_value_string(value)
+          if value.respond_to?(:id)
+            value.id.to_s
+          elsif value.respond_to?(:iso8601)
+            value.iso8601
+          else
+            value.to_s
+          end
         end
 
         def assign_new_values(custom_field_id, existing_cv_by_value, new_values)

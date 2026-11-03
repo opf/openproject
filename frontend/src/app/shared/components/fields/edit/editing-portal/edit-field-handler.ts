@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -81,7 +80,7 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
   /**
    * Call field submission callback handlers
    */
-  public onSubmit():Promise<any> {
+  public onSubmit():Promise<void[]> {
     return Promise.all(this._onSubmitHandlers.map((cb) => cb()));
   }
 
@@ -92,7 +91,7 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
   /**
    * Call field before-submission callback handlers
    */
-  public onBeforeSubmit():any {
+  public onBeforeSubmit():void[] {
     return this._onBeforeSubmitHandlers.map((cb) => cb());
   }
 
@@ -114,7 +113,7 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
   /**
    * Handle a user submitting the field (e.g, ng-change)
    */
-  public abstract handleUserSubmit():Promise<any>;
+  public abstract handleUserSubmit():Promise<unknown>;
 
   /**
    * Handle users pressing enter inside an edit mode.
@@ -146,7 +145,7 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
 
   public abstract setErrors(newErrors:string[]):void;
 
-  public previewContext(resource:HalResource):string|undefined {
+  public previewContext(_resource:HalResource):string|undefined {
     return undefined;
   }
 }

@@ -23,10 +23,15 @@
 bg:
   js:
     button_log_costs: Разходи за единична регистрация
+    costs:
+      widgets:
+        actual_costs:
+          chart_label: Actual costs by month chart
+          chart_month: "%{month}: %{values}"
+          chart_summary: 'Actual costs by month: %{months}.'
+          chart_value: "%{label}: %{value}"
     label_hour: час
     label_hours: Часове
-    myTimeTracking:
-      noSpecificTime: No specific time
     text_are_you_sure: Сигурни ли сте?
     work_packages:
       properties:

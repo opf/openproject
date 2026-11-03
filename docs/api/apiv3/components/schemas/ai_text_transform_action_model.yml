@@ -1,0 +1,51 @@
+# Schema: AITextTransformActionModel
+---
+type: object
+required:
+  - _type
+  - id
+  - label
+  - position
+  - injectsTypeTemplate
+  - _links
+properties:
+  _type:
+    type: string
+    enum:
+      - AITextTransformAction
+  id:
+    type: integer
+    description: Action id
+    minimum: 1
+  label:
+    type: string
+    description: Label shown to the user
+  position:
+    type: integer
+    description: Sort index of the action
+  injectsTypeTemplate:
+    type: boolean
+    description: Whether the action injects the work package type's description template into the prompt
+  _links:
+    type: object
+    required:
+      - self
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This text transform action. The link identifies the action; there is no endpoint to fetch a single action.
+
+              **Resource**: AITextTransformAction
+
+example:
+  _type: AITextTransformAction
+  id: 1
+  label: Improve writing
+  position: 1
+  injectsTypeTemplate: false
+  _links:
+    self:
+      href: /api/v3/ai_text_transform_actions/1
+      title: Improve writing

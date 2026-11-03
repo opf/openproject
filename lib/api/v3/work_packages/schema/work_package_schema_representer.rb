@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,12 +36,14 @@ module API
 
           # type_variant is part of the key on top of type: the configuration in force changes
           # when the project resolves the family to a different variant, which touches neither
-          # the project's nor the type's timestamp.
-          cached_representer key_parts: %i[project type type_variant],
+          # the project's nor the type's timestamp. form_configuration is a record of its own,
+          # shared between variants, so editing it touches neither of the above either.
+          cached_representer key_parts: %i[project type type_variant form_configuration],
                              dependencies: -> {
                                all_permissions_granted_to_user_under_project +
                                  [Setting.work_package_done_ratio,
-                                  Setting::WorkPackageMultipleVersions.active?]
+                                  Setting::WorkPackageMultipleVersions.active?,
+                                  OpenProject::FeatureDecisions.work_package_labels_active?]
                              }
 
           custom_field_injector type: :schema_representer
@@ -59,11 +60,21 @@ module API
               end
             end
 
+            def required(property, given)
+              custom_field_id = property.to_s[/\AcustomField(\d+)\z/, 1]
+              return given if custom_field_id.nil?
+
+              lambda do
+                given || represented.custom_field_required?(custom_field_id.to_i)
+              end
+            end
+
             # override the various schema methods to include
 
             def schema(property, *args)
               opts, = args
               opts[:attribute_group] = attribute_group property
+              opts[:required] = required(property, opts.fetch(:required, true))
 
               super(property, **opts)
             end
@@ -71,6 +82,7 @@ module API
             def schema_with_allowed_link(property, *args)
               opts, = args
               opts[:attribute_group] = attribute_group property
+              opts[:required] = required(property, opts.fetch(:required, true))
 
               super(property, **opts)
             end
@@ -78,6 +90,7 @@ module API
             def schema_with_allowed_collection(property, *args)
               opts, = args
               opts[:attribute_group] = attribute_group property
+              opts[:required] = required(property, opts.fetch(:required, true))
 
               super(property, **opts)
             end
@@ -192,14 +205,6 @@ module API
                  required: false,
                  writable: false
 
-          schema :spent_time,
-                 type: "Duration",
-                 required: false,
-                 show_if: ->(*) {
-                   current_user.allowed_in_project?(:view_time_entries, represented.project) ||
-                     current_user.allowed_in_any_work_package?(:view_own_time_entries, in_project: represented.project)
-                 }
-
           schema :percentage_done,
                  type: "Integer",
                  name_source: :done_ratio,
@@ -275,6 +280,12 @@ module API
                                    required: false,
                                    href_callback: ->(*) { assignee_user_autocompleter }
 
+          schema_with_allowed_link :labels,
+                                   type: "[]Label",
+                                   required: false,
+                                   show_if: ->(*) { OpenProject::FeatureDecisions.work_package_labels_active? },
+                                   href_callback: ->(*) { labels_autocompleter }
+
           schema_with_allowed_collection :type,
                                          value_representer: Types::TypeRepresenter,
                                          link_factory: ->(type) {
@@ -305,7 +316,7 @@ module API
                                          },
                                          required: false
 
-          # Deprecated in favour of `targetVersions`
+          # Deprecated in favor of `targetVersions`
           # Removed from the API if multiple_versions is enabled on the instance
           schema_with_allowed_collection :version,
                                          value_representer: Versions::VersionRepresenter,
@@ -441,6 +452,7 @@ module API
              I18n.locale,
              represented.project,
              represented.type_variant,
+             represented.form_configuration,
              represented.available_custom_fields.sort_by(&:id)]
               .flatten
               .compact
@@ -454,6 +466,12 @@ module API
               .flatten
               .uniq
               .sort
+          end
+
+          def labels_autocompleter
+            project_id = represented.work_package&.project_id
+
+            api_v3_paths.labels_by_workspace(project_id) if project_id
           end
 
           def assignee_user_autocompleter

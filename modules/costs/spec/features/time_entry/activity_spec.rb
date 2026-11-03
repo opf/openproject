@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -57,21 +56,35 @@ RSpec.describe "Time entry activity", :js do
     expect(page).to have_current_path(admin_settings_time_entry_activities_path)
     expect(page).to have_content("Development")
 
-    expect(TimeEntryActivity).to exist(name: "Development")
+    activity = TimeEntryActivity.find_by(name: "Development")
+    expect(activity).to be_present
     expect(TimeEntryActivity).not_to exist(name: "A new activity")
 
     visit project_settings_general_path(project)
 
     click_on "Time and costs"
 
-    expect(page).to have_field("Development", checked: true)
+    within("[data-test-selector='project-time-entry-activity-#{activity.id}']") do
+      expect_checked_state
 
-    uncheck "Development"
+      page.find("[data-test-selector='toggle-project-time-entry-activity-mapping-#{activity.id}'] > button").click
 
-    click_on "Save"
+      expect_unchecked_state
+    end
 
-    expect(page).to have_content "Successful update."
+    # persisted after a full page reload
+    visit project_settings_time_entry_activities_path(project)
 
-    expect(page).to have_field("Development", checked: false)
+    within("[data-test-selector='project-time-entry-activity-#{activity.id}']") do
+      expect_unchecked_state
+    end
+  end
+
+  def expect_checked_state
+    expect(page).to have_css(".ToggleSwitch-statusOn")
+  end
+
+  def expect_unchecked_state
+    expect(page).to have_css(".ToggleSwitch-statusOff")
   end
 end

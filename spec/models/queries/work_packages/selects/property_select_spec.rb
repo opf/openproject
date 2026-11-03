@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -111,6 +110,98 @@ RSpec.describe Queries::WorkPackages::Selects::PropertySelect do
         expect(column.groupable).to include("work_package_versions")
         expect(column.groupable).to include("kind = 'observed_in'")
       end
+    end
+
+    describe "labels column", with_flag: { work_package_labels: true } do
+      it "is displayable, sortable and groupable" do
+        column = described_class.instances.find { it.name == :labels }
+
+        expect(column).to be_displayable
+        expect(column).to be_sortable
+        expect(column).to be_groupable
+        expect(column.caption).to eq WorkPackage.human_attribute_name(:labels)
+      end
+
+      it "sorts and groups via the labelings join rows, scoped to work packages" do
+        column = described_class.instances.find { it.name == :labels }
+
+        expect(Array(column.sortable)).to all include("labelings")
+        expect(Array(column.sortable)).to all include("labelable_type = 'WorkPackage'")
+        expect(column.groupable).to include("labelings")
+        expect(column.groupable).to include("labelable_type = 'WorkPackage'")
+      end
+
+      context "when the feature flag is inactive", with_flag: { work_package_labels: false } do
+        it "is not offered" do
+          expect(described_class.instances.map(&:name)).not_to include :labels
+        end
+      end
+    end
+  end
+
+  describe ".stored_name" do
+    it "translates the version select to its stored target_versions column" do
+      expect(described_class.stored_name(:version)).to eq "target_versions"
+      expect(described_class.stored_name("version")).to eq "target_versions"
+    end
+
+    it "returns names without a stored alias untouched" do
+      expect(described_class.stored_name(:target_versions)).to equal :target_versions
+      expect(described_class.stored_name(:subject)).to equal :subject
+      expect(described_class.stored_name("assigned_to")).to eq "assigned_to"
+      expect(described_class.stored_name(:done_ratio)).to equal :done_ratio
+    end
+
+    it "returns nil and unknown names untouched" do
+      expect(described_class.stored_name(nil)).to be_nil
+      expect(described_class.stored_name(:nope)).to equal :nope
+    end
+  end
+
+  describe ".offered_name" do
+    context "with the setting enabled",
+            with_settings: { work_package_multiple_versions: true } do
+      it "keeps the stored target_versions column as is" do
+        expect(described_class.offered_name(:target_versions)).to equal :target_versions
+      end
+
+      it "translates the retired version name to the stored target_versions column" do
+        expect(described_class.offered_name("version")).to eq "target_versions"
+        expect(described_class.offered_name(:version)).to eq "target_versions"
+      end
+    end
+
+    context "with the setting disabled",
+            with_settings: { work_package_multiple_versions: false } do
+      it "translates the stored target_versions column back to version" do
+        expect(described_class.offered_name(:target_versions)).to eq "version"
+        expect(described_class.offered_name("target_versions")).to eq "version"
+      end
+
+      it "keeps the retired version name untouched, since it is already the offered one" do
+        expect(described_class.offered_name(:version)).to equal :version
+      end
+    end
+
+    it "returns names without a stored alias untouched" do
+      expect(described_class.offered_name(:subject)).to equal :subject
+      expect(described_class.offered_name(:done_ratio)).to equal :done_ratio
+    end
+
+    it "returns nil and unknown names untouched" do
+      expect(described_class.offered_name(nil)).to be_nil
+      expect(described_class.offered_name(:nope)).to equal :nope
+    end
+
+    it "returns the stored name untouched when no alias is currently offered" do
+      allow(described_class).to receive(:property_selects).and_return(
+        {
+          foo: { if: -> { false }, stored_as: :bar },
+          baz: { if: -> { false }, stored_as: :bar }
+        }
+      )
+
+      expect(described_class.offered_name(:bar)).to equal :bar
     end
   end
 end

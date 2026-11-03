@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,8 +28,7 @@
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
-
-const UNDISCLOSED_ANCESTOR = 'urn:openproject-org:api:v3:undisclosed';
+import { URN_UNDISCLOSED } from 'core-app/core/apiv3/api-v3-urns';
 
 // Helper function that recursively inserts a project into the hierarchy at the right place
 export const insertInList = (
@@ -44,7 +42,7 @@ export const insertInList = (
   // the project hierarchy, they can be ignored.
   // Additionally, if the list of projects is incomplete, an ancestor might also be effectively invisible and can also be ignored
   const visibleAncestors = ancestors.filter((ancestor) => {
-    return ancestor.href !== UNDISCLOSED_ANCESTOR &&
+    return ancestor.href !== URN_UNDISCLOSED &&
       projects.find((projectInList) => projectInList._links.self.href === ancestor.href);
   });
 

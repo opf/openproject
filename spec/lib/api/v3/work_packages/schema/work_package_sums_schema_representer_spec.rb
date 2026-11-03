@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -79,36 +78,6 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter d
       let(:path) { "remainingTime" }
       let(:type) { "Duration" }
       let(:name) { I18n.t("activerecord.attributes.work_package.remaining_hours") }
-      let(:required) { false }
-      let(:writable) { false }
-    end
-  end
-
-  describe "overallCosts" do
-    it_behaves_like "has basic schema properties" do
-      let(:path) { "overallCosts" }
-      let(:type) { "String" }
-      let(:name) { I18n.t("activerecord.attributes.work_package.overall_costs") }
-      let(:required) { false }
-      let(:writable) { false }
-    end
-  end
-
-  describe "laborCosts" do
-    it_behaves_like "has basic schema properties" do
-      let(:path) { "laborCosts" }
-      let(:type) { "String" }
-      let(:name) { I18n.t("activerecord.attributes.work_package.labor_costs") }
-      let(:required) { false }
-      let(:writable) { false }
-    end
-  end
-
-  describe "materialCosts" do
-    it_behaves_like "has basic schema properties" do
-      let(:path) { "materialCosts" }
-      let(:type) { "String" }
-      let(:name) { I18n.t("activerecord.attributes.work_package.material_costs") }
       let(:required) { false }
       let(:writable) { false }
     end

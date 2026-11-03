@@ -24,16 +24,17 @@ pl:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sorting mode
         duration: Czas trwania
         end_time: Czas zakończenia
         location: Lokalizacja
         notes: Notatki
         notify: Wysyłaj powiadomienia
         participant:
-          one: 1 uczestnik
-          few: "%{count} uczestników"
-          many: "%{count} uczestników"
-          other: "%{count} uczestnika"
+          one: "%{count} Participant"
+          few: "%{count} Participants"
+          many: "%{count} Participants"
+          other: "%{count} Participants"
         participants: Uczestnicy
         participants_added: 'Dodani uczestnicy:'
         participants_attended: Uczestnicy
@@ -90,14 +91,18 @@ pl:
         invalid_time_format: 'nie jest prawidłowy. Wymagany format to: GG:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Sekcja nie należy do tego samego spotkania.
           user_invalid: nie jest prawidłowym uczestnikiem.
+          vote_based_sorting_required: Voting requires vote-based agenda sorting.
         meeting_participant:
           user_invalid: nie jest prawidłowym uczestnikiem.
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: W serii znajduje się jedno otwarte spotkanie, które nie jest uwzględnione w nowym harmonogramie. Dostosuj harmonogram tak, aby obejmował wszystkie istniejące spotkania.
+            one: There is %{count} open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
             other: W serii znajdują się otwarte spotkania (%{count}), które nie są uwzględnione w nowym harmonogramie. Dostosuj harmonogram tak, aby obejmował wszystkie istniejące spotkania.
         recurring_meeting_interim_response:
           not_an_occurrence: nie jest prawidłowym czasem wystąpienia tego spotkania cyklicznego
@@ -170,6 +175,10 @@ pl:
     meeting_agenda_opened: Otwarto plan spotkania
     meeting_minutes: Protokół ze spotkania edytowany
     meeting_minutes_created: Protokół ze spotkania utworzony
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Dodaj do spotkania
   label_add_work_package_to_meeting_dialog_title: Wybierz spotkanie
   label_add_work_package_to_meeting_section_label: Sekcja
@@ -178,6 +187,8 @@ pl:
   label_agenda_backlog_clear_title: Wyczyścić backlog planu spotkania?
   label_agenda_item_actions: Działania punktów planu spotkania
   label_agenda_item_add: Dodaj punkt planu spotkania
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Dodawanie notatek
   label_agenda_item_add_outcome: Dodaj wynik
   label_agenda_item_convert_to_work_package: Przekonwertuj na pakiet roboczy
@@ -185,6 +196,7 @@ pl:
   label_agenda_item_duplicate: Duplikuj
   label_agenda_item_duplicate_in_next: Duplikuj w następnym spotkaniu
   label_agenda_item_duplicate_in_next_title: Zduplikować w następnym spotkaniu?
+  label_agenda_item_include_outcomes: Include outcomes
   label_agenda_item_move: Przenieś
   label_agenda_item_move_down: Przenieś niżej
   label_agenda_item_move_to_backlog: Przenieś do backlogu
@@ -248,10 +260,10 @@ pl:
   label_meeting_last_updated: Ostatnia aktualizacja
   label_meeting_minutes: Protokół ze spotkania
   label_meeting_more:
-    one: Jest jeszcze jedno spotkanie.
-    few: Są jeszcze %{count} spotkania.
-    many: Jest jeszcze %{count} spotkań.
-    other: Jest jeszcze %{count} spotkania.
+    one: There is %{count} more meeting.
+    few: There are %{count} more meetings.
+    many: There are %{count} more meetings.
+    other: There are %{count} more meetings.
   label_meeting_new: Nowe spotkanie
   label_meeting_new_dynamic: Nowe spotkanie jednorazowe
   label_meeting_new_recurring: Nowe spotkanie cykliczne
@@ -296,15 +308,15 @@ pl:
   label_recurring_meeting_delete: Usuń wystąpienie
   label_recurring_meeting_duplicate: Duplikuj jako jednorazowe spotkanie
   label_recurring_meeting_more:
-    one: Jest jeszcze jedno zaplanowane spotkanie (%{schedule}).
-    few: Są jeszcze %{count} zaplanowane spotkania (%{schedule}).
-    many: Jest jeszcze %{count} zaplanowanych spotkań (%{schedule}).
-    other: Jest jeszcze %{count} zaplanowanego spotkania (%{schedule}).
+    one: There is %{count} more scheduled meeting (%{schedule}).
+    few: There are %{count} more scheduled meetings (%{schedule}).
+    many: There are %{count} more scheduled meetings (%{schedule}).
+    other: There are %{count} more scheduled meetings (%{schedule}).
   label_recurring_meeting_more_past:
-    one: Jest jeszcze jedno poprzednie spotkanie.
-    few: Są jeszcze %{count} poprzednie spotkania.
-    many: Jest jeszcze %{count} poprzednich spotkań.
-    other: Jest jeszcze %{count} poprzedniego spotkania.
+    one: There is %{count} more past meeting.
+    few: There are %{count} more past meetings.
+    many: There are %{count} more past meetings.
+    other: There are %{count} more past meetings.
   label_recurring_meeting_new: Nowe spotkanie cykliczne
   label_recurring_meeting_next_occurrence: Następne wystąpienie
   label_recurring_meeting_no_end_date: Jest więcej zaplanowanych spotkań (%{schedule}).
@@ -334,6 +346,25 @@ pl:
   label_view_meeting_series: Wyświetl serię spotkań
   label_write_outcome: Zapisz wynik
   meeting:
+    agenda_sorting:
+      change: Change sorting mode
+      current_mode: Currently in %{mode} mode
+      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      manual: Manual
+      manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
+      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
+      remove_thumbs_down: Remove downvote
+      remove_thumbs_up: Remove upvote
+      sidebar_title: Agenda sorting
+      sorted_by_votes: Agenda sorted by votes.
+      thumbs_down: Downvote
+      thumbs_up: Upvote
+      title: Sorting mode
+      vote_based: Vote-based
+      vote_based_description: 'Participants can vote agenda items up or down. Items with the most votes are put on top within each section. Sections remain manually sorted.
+
+        '
+      votes: 'Votes: %{count}'
     attachments:
       onetime_template: Załączone pliki będą uwzględniane we wszystkich przyszłych spotkaniach używających tego szablonu.
       series_template: Załączone pliki zostaną uwzględnione we wszystkich przyszłych spotkaniach z tej serii.
@@ -341,6 +372,9 @@ pl:
     blankslate:
       desc: Możesz utworzyć nowe spotkanie lub zmienić kryteria filtrowania
       title: Nie ma żadnych spotkań do wyświetlenia
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'Skopiowano ze spotkania #%{id}'
     copy:
       agenda: Kopiuj agendę spotkania
@@ -384,6 +418,7 @@ pl:
         header: 'Anulowano: spotkanie „%{title}”'
         header_occurrence: 'Anulowano: wystąpienie spotkania „%{title}”'
         header_series: 'Anulowano: serię spotkań „%{title}”'
+        reason: Reason for cancellation
         summary: "„%{title}” anulował użytkownik %{actor} lub usunięto Cię jako uczestnika"
         summary_occurrence: Wystąpienie „%{title}” zostało anulowane przez użytkownika %{actor} lub usunięto Cię jako uczestnika
         summary_series: Seria spotkań „%{title}” została anulowana przez użytkownika %{actor} lub usunięto Cię jako uczestnika
@@ -508,6 +543,7 @@ pl:
       no_items: Brak pozycji planu spotkania
       no_items_flash: Nie ma żadnych pozycji planu spotkania do zaprezentowania.
       previous: Poprzedni
+      slide_progress: Slide %{current}/%{total}
       title: Tryb prezentacji
       total_items: "%{current} z %{total}"
     types:
@@ -584,15 +620,15 @@ pl:
     caption:
       ends_on: To skutkuje serią kończącą się %{date}
       occurrences:
-        one: To skutkuje 1 nadchodzącym wystąpieniem
-        few: To skutkuje %{count} nadchodzącymi wystąpieniami
-        many: To skutkuje %{count} nadchodzącymi wystąpieniami
-        other: To skutkuje %{count} nadchodzącego wystąpienia
+        one: This results in %{count} upcoming occurrence
+        few: This results in %{count} upcoming occurrences
+        many: This results in %{count} upcoming occurrences
+        other: This results in %{count} upcoming occurrences
       occurrences_capped: To skutkuje ponad %{count} nadchodzącymi wystąpieniami
     day_of_month_skipping_info: Miesiące z liczbą dni mniejszą niż %{monthly_day} zostaną pominięte
     delete_dialog:
       confirmation_message_html:
-        one: 'Usunięcie <strong>%{title}</strong> usunie także jedno wystąpienie w tej serii. To działanie jest nieodwracalne. Postępuj ostrożnie.
+        one: 'Deleting <strong>%{title}</strong> will also delete %{count} occurrence in this series. This action is not reversible. Please proceed with caution.
 
           '
         other: 'Usunięcie <strong>%{title}</strong> usunie wszystkie wystąpienia (%{count}) w tej serii. To działanie jest nieodwracalne. Postępuj ostrożnie.
@@ -663,7 +699,7 @@ pl:
       error_no_next: Nie ma następnego wystąpienia tego spotkania.
       error_template_draft: Szablon serii spotkań jest nadal w trybie wersji roboczej.
       first_already_exists: Pierwsze wystąpienie tej serii spotkań jest już tworzone.
-      first_created: 'Pierwsze spotkanie zostało utworzone z szablonu. Wszystkie przyszłe spotkania zostaną utworzone automatycznie o godzinie poprzedniego wystąpienia.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Spotkanie to jest częścią serii spotkań cyklicznych.
@@ -725,9 +761,10 @@ pl:
   text_agenda_item_dialog_skipping_closed_many: "%{count} zamkniętych spotkań"
   text_agenda_item_dialog_skipping_closed_one: spotkania zamkniętego w dniu %{date}
   text_agenda_item_dialog_skipping_note: 'Uwaga: pomijanie %{details}.'
-  text_agenda_item_duplicate_in_next_meeting: Czy na pewno chcesz dodać kopię tego punktu planu spotkania do następnego spotkania w dniu %{date} o godzinie %{time}? Wyniki nie będą duplikowane.
+  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}?
   text_agenda_item_duplicated_in_next_meeting: Pozycję planu spotkania zduplikowano w następnym spotkaniu w dniu %{date}
   text_agenda_item_move_next_meeting: Punkt ten zostanie przeniesiony na następne spotkanie w dniu %{date} o %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Punkt planu spotkania przeniesiono na następne spotkanie w dniu %{date}
   text_agenda_item_no_available_occurrence: Nie są dostępne żadne nadchodzące wystąpienia.
   text_agenda_item_no_notes: Brak uwag

@@ -72,6 +72,10 @@ lt:
           attributes:
             project_ids:
               blank: Please select a project.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -158,7 +162,6 @@ lt:
   button_add_time_entry: Registruoti laiką
   button_log_costs: Vesti į žurnalą vieneto kaštus
   button_log_time: Log
-  button_stop_timer: Stop timer
   button_update_limits: Update limits
   button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Įrašytas projektui
@@ -192,9 +195,13 @@ lt:
       cost_types:
         for_all_projects_hint: This cost type is enabled in all projects.
         heading: Cost types
+        hint: Select which cost types are displayed in your project when members log their costs.
         in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
         none_active: No cost types are currently active in this project.
       time_and_costs: Time and costs
+      time_entry_activities:
+        heading: Time tracking
+        hint: Select which time tracking activities are displayed in your project when members log their time.
   costs:
     widgets:
       actual_costs:
@@ -225,9 +232,9 @@ lt:
   label_costlog: Į žurnalą surinkti vieneto kaštai
   label_costs: Kaštai
   label_costs_per_page: Kaštų puslapyje
+  label_current: Current
   label_current_default_rate: Esamas numatytasis koeficientas
   label_date_on: įjungta
-  label_day: Diena
   label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Panaikinti kaštų tipai
   label_display_cost_entries: Rodyti vieneto kaštus
@@ -243,21 +250,12 @@ lt:
   label_less_or_equal: "<="
   label_list: Sąrašas
   label_log_costs: Vesti į žurnalą vieneto kaštus
-  label_month: Mėnuo
-  label_my_time_tracking: My time tracking
   label_new_time_entry_activity: New time entry activity
-  label_next_day: Next day
-  label_next_month: Next month
-  label_next_week: Sekanti savaitė
-  label_next_workweek: Next work week
   label_no: Ne
-  label_no_time: No time tracked
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_option_plural: Nustatymai
   label_overall_costs: Bendri kaštai
-  label_previous_day: Previous day
-  label_previous_month: Previous month
-  label_previous_week: Ankstesnė savaitė
-  label_previous_workweek: Previous work week
   label_rate_plural: Koeficientai
   label_show: Rodyti
   label_specific_day: Day %{day}
@@ -266,15 +264,14 @@ lt:
   label_status_finished: Baigta
   label_time: Laikas
   label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
-  label_timer_since: Started at %{time}
   label_today_capitalized: Šiandien
   label_units: Kaštų vienetai
   label_until: iki
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Galioja nuo
-  label_view_mode_switcher: Change view
   label_work_package_filter_add: Pridėti darbų paketo filtrą
-  label_workweek: Darbo savaitė
   label_yes: Taip
   notice_cost_logged_successfully: Vieneto kaštai į žurnalą įrašyti sėkmingai.
   notice_different_time_zones: This user has a different time zone (%{tz}). Time will be logged using their time zone.
@@ -290,6 +287,10 @@ lt:
   permission_edit_rates: Redaguoti koeficientus
   permission_log_costs: Įrašyti vieneto kaštus
   permission_log_own_costs: Įrašyti vieneto kaštus už save
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Peržiūrėti įrašytus kaštus
   permission_view_cost_rates: Peržiūrėti išlaidų koeficientus
   permission_view_hourly_rates: Peržiūrėti visus valandinius koeficientus
@@ -327,6 +328,11 @@ lt:
   text_destroy_cost_entries_question: "%{cost_entries} buvo pranešta Jūsų ketinamiems ištrinti darbų paketams. Ką Jūs norite daryti?"
   text_destroy_time_and_cost_entries: Ištrinti praneštas valandas ir kaštus
   text_destroy_time_and_cost_entries_question: "%{hours} valandos, %{cost_entries} buvo pranešti Jūsų ketinamiems ištrinti darbų paketams. Ką Jūs norite daryti?"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 'Iš naujo priskirti praneštas valandas ir kaštus šiam darbų paketui:'
   text_warning_hidden_elements: Kai kurie įrašai galimai atskirti nuo agregacijos.
   total_times:

@@ -28,7 +28,7 @@ their homepage.
 Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install
 Ruby. We always require the latest ruby versions, and you can check which version is required
 by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At
-the time of writing, this version is "4.0.6"
+the time of writing, this version is "4.0.9"
 
 #### Install rbenv and ruby-build
 
@@ -48,18 +48,18 @@ With both installed, we can now install the actual ruby version.
 You can check available ruby versions with `rbenv install --list`.
 
 We suggest you install the version we require in [.ruby-version](https://github.com/opf/openproject/blob/dev/.ruby-version).
-Read the first line e.g. `4.0.6` and install that version.
+Read the first line e.g. `4.0.9` and install that version.
 
 ```shell
 # Install the required version as read from the .ruby-version file
-rbenv install 4.0.6
+rbenv install 4.0.9
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to
 globally activate this version
 
 ```shell
-rbenv global 4.0.6
+rbenv global 4.0.9
 ```
 
 You also need to install [bundler](https://github.com/bundler/bundler/), the ruby gem bundler.
@@ -115,11 +115,11 @@ nodenv init
 
 You can find the latest LTS version here: [nodejs.org/en/download](https://nodejs.org/en/download/)
 
-At the time of writing this is v24.18.0. Install and activate it with:
+At the time of writing this is v24.22.1. Install and activate it with:
 
 ```shell
-nodenv install 24.18.0
-nodenv global 24.18.0
+nodenv install 24.22.1
+nodenv global 24.22.1
 ```
 
 #### Update NPM to the latest version
@@ -134,13 +134,13 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```shell
 $ ruby --version
-ruby 4.0.6 (2026-07-14 revision 03b6d3f889) +PRISM [arm64-darwin25]
+ruby 4.0.9 (2026-10-23 revision 3e93b23afc) +PRISM [arm64-darwin25]
 
 $ bundler --version
-4.0.16
+4.0.21
 
 node --version
-v24.18.0
+v24.22.1
 
 npm --version
 11.16.0

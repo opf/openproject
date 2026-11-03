@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -107,21 +106,15 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
       includeNonWorkingDays,
       scheduleManually } } = event as { detail:{ duration:number, startDate:Date, dueDate:Date, includeNonWorkingDays:boolean, scheduleManually:boolean } };
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.resource.duration = duration ? this.timezoneService.toISODuration(duration, 'days') : null;
     // debugger;
     if (this.isMilestone()) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       this.resource.date = startDate;
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       this.resource.dueDate = dueDate;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       this.resource.startDate = startDate;
     }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.resource.ignoreNonWorkingDays = includeNonWorkingDays;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.resource.scheduleManually = scheduleManually;
 
     this.onModalClosed();

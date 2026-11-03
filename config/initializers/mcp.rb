@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,7 +30,7 @@
 MCP.configure do |config|
   config.exception_reporter = lambda do |exception, server_context|
     cause = exception.cause
-    message = "Unhandled exception occured during MCP request: #{exception}"
+    message = "Unhandled exception occurred during MCP request: #{exception}"
     message += if cause
                  ", caused by #{cause} at #{cause.backtrace.first}"
                else
@@ -56,6 +55,7 @@ Rails.application.config.to_prepare do
                     McpTools::ListWorkPackageRelations,
                     McpTools::SearchCustomFields,
                     McpTools::SearchCustomFieldItems,
+                    McpTools::SearchLabels,
                     McpTools::SearchPortfolios,
                     McpTools::SearchPrograms,
                     McpTools::SearchProjects,
@@ -67,6 +67,7 @@ Rails.application.config.to_prepare do
 
   McpResources.register McpResources::CurrentUser,
                         McpResources::CustomField,
+                        McpResources::Label,
                         McpResources::Project,
                         McpResources::Status,
                         McpResources::StatusList,

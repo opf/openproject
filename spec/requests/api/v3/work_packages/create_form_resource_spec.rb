@@ -22,10 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
 
 require "spec_helper"
 require "rack/test"
@@ -149,6 +149,45 @@ RSpec.describe "POST api/v3/workspaces/:id/work_packages/form" do
     end
   end
 
+  describe "labels", with_flag: :work_package_labels do
+    let(:parameters) do
+      {
+        _links: {
+          project: { href: api_v3_paths.project(project.id) },
+          labels: [{ href: nil, title: "Needs triage" }]
+        },
+        subject: "lorem ipsum"
+      }
+    end
+
+    it "has 0 validation errors" do
+      expect(subject.body).to have_json_size(0).at_path("_embedded/validationErrors")
+    end
+
+    it "echoes the pending name without creating the label" do
+      expect(subject.body)
+        .to be_json_eql({ href: nil, title: "Needs triage" }.to_json)
+              .at_path("_embedded/payload/_links/labels/0")
+      expect(Label.where(name: "Needs triage")).not_to exist
+    end
+
+    context "for a user who may add work packages but not create labels" do
+      shared_let(:user) do
+        create(:user, member_with_permissions: { project => %i[view_project view_work_packages add_work_packages] })
+      end
+
+      it "has a validation error on labels" do
+        expect(subject.body).to have_json_path("_embedded/validationErrors/labels")
+      end
+
+      it "reports the unauthorized message" do
+        expect(subject.body)
+          .to be_json_eql("Labels #{I18n.t('activerecord.errors.messages.error_unauthorized')}".to_json)
+                .at_path("_embedded/validationErrors/labels/message")
+      end
+    end
+  end
+
   describe "with empty version links and no project (as sent back by the global creation form)" do
     let(:parameters) do
       {
@@ -179,7 +218,6 @@ RSpec.describe "POST api/v3/workspaces/:id/work_packages/form" do
                field_format: "string",
                name: "Department",
                is_required: true,
-               projects: [project],
                types: [type])
       end
 

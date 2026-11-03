@@ -20,7 +20,6 @@ inherit_mode:
     - Exclude
 
 AllCops:
-  TargetRubyVersion: 3.4
   # Enable any new cops in new versions by default
   NewCops: enable
   Exclude:
@@ -93,8 +92,16 @@ Lint/SuppressedException:
 Lint/UnderscorePrefixedVariableName:
   Enabled: false
 
+Lint/UselessDefaultValueArgument:
+  AllowedReceivers:
+    - JournalFormatterCache
+
 Lint/Void:
   Enabled: false
+
+Lint/UnusedMethodArgument:
+  NotImplementedExceptions:
+    - SubclassResponsibilityError
 
 Metrics/AbcSize:
   Enabled: true
@@ -140,6 +147,15 @@ Naming/MethodParameterName:
   AllowedNames:
     - id
     - cf # custom fields are commonly abbreviated like that
+    - to # pairs with `from` for ranges, as in Day.from_range(from:, to:)
+    - "on"
+    - "if" # conditional options, as in enabled_by_default!(if: -> { ... })
+    - "if"
+
+Naming/PredicateMethod:
+  # disabling this cop as it enforces a method name solely based on the return type (if the method returns a boolean, the name must end in "?")
+  # This would also affect side-effect-rich methods that only return a boolean success indicator.
+  Enabled: false
 
 Naming/PredicatePrefix:
   ForbiddenPrefixes:
@@ -153,18 +169,14 @@ Naming/VariableNumber:
 
 OpenProject/AddPreviewForViewComponent:
   Include:
-    - app/components/op_turbo/**.rb
-    - app/components/op_primer/**.rb
-    - app/components/open_project/**.rb
-    - app/components/concerns/**.rb
+    - app/components/op_turbo/*.rb
+    - app/components/op_primer/*.rb
+    - app/components/open_project/*.rb
 
 # Specs overwhelmingly hold a type the example created itself and assert against that member's
 # own configuration, which is the shape the cop cannot tell apart from a work package's stored
 # root. Note the gap this leaves: a spec that builds a work package and reads configuration off
 # its `type` is the real bug and is no longer flagged here.
-
-Performance/Casecmp:
-  Enabled: false
 
 # Don't force us to use tag instead of content_tag
 # as this breaks angular elements
@@ -249,6 +261,11 @@ RSpecRails/HttpStatus:
 
 # The block form of `travel_to` is often the tighter and safer option in our Rails specs.
 RSpecRails/TravelAround:
+  Enabled: false
+
+# Specs stub job classes and assert `have_received(:perform_later)`;
+# switching to `have_enqueued_job` needs the ActiveJob test adapter.
+RSpecRails/ReceivePerformLater:
   Enabled: false
 
 # expect not_to change is not working as expected

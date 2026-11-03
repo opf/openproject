@@ -29,7 +29,7 @@ ja:
         title: 会員
         view_all_members: すべてのメンバーを表示
         x_more:
-          other: と %{count}。
+          other: and %{count} more members.
       news:
         no_results: 新しい報告はありません。
       not_available: このウィジェットは使用できません。

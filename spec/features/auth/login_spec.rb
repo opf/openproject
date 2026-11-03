@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -48,7 +47,7 @@ RSpec.describe "Login" do
 
   def expect_not_being_logged_in
     expect(page)
-      .to have_field("Username")
+      .to have_field("Username or email")
   end
 
   context "sign in user" do
@@ -151,7 +150,7 @@ RSpec.describe "Login" do
       visit my_page_path
 
       expect(page)
-        .to have_field("Username")
+        .to have_field("Username or email")
 
       login_with(user.login, user_password)
 
@@ -206,7 +205,7 @@ RSpec.describe "Login" do
 
         fill_in "Current password", with: user_password
         fill_in "New password", with: new_user_password
-        fill_in "Confirmation", with: new_user_password
+        fill_in "Password confirmation", with: new_user_password
 
         click_button "Change password"
 

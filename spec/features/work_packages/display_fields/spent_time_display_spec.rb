@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -106,7 +105,12 @@ RSpec.describe "Logging time within the work package view", :js, :with_cuprite d
       end
 
       it "can log time for that user" do
-        # click on button opens modal
+        # Simulate a link rendered before midnight.
+        time_log_link = page.find(".inline-edit--container.spentTime .icon-time")
+        page.execute_script(<<~JS, time_log_link)
+          arguments[0].href = arguments[0].href.replace(/date=[^&]+/, "date=2000-01-01")
+        JS
+
         spent_time_field.open_time_log_modal
 
         log_time_via_modal log_for_user: other_user

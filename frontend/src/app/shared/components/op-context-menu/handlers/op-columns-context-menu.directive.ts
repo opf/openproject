@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -41,6 +40,8 @@ import { WpTableConfigurationModalComponent } from 'core-app/features/work-packa
 import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { computePosition, ComputePositionReturn, flip, shift } from '@floating-ui/dom';
+import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
+import { OpContextMenuCloseReason } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 
 @Directive({
   selector: '[opColumnsContextMenu]',
@@ -56,9 +57,13 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
   readonly I18n = inject(I18nService);
   readonly confirmDialog = inject(ConfirmDialogService);
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('opColumnsContextMenu-column') public column:QueryColumn;
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('opColumnsContextMenu-table') public table:WorkPackageTable;
+
+  private origin:FocusPosition|null = null;
 
   public text = {
     confirmDelete: {
@@ -72,7 +77,17 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       return;
     }
     this.buildItems();
+    this.origin = this.table.keyboardNavigation?.positionOfCell(this.element) ?? null;
     this.opContextMenu.show(this, evt);
+  }
+
+  public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {
+    if (this.origin && (reason === 'escape' || reason === 'action')) {
+      this.table.keyboardNavigation?.returnFocusFromMenu(this.origin);
+      return;
+    }
+
+    super.onClose(focus);
   }
 
   public get locals() {
@@ -83,7 +98,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
     };
   }
 
-  public computePosition(floating:HTMLElement, openerEvent:Event):Promise<ComputePositionReturn> {
+  public computePosition(floating:HTMLElement, _openerEvent:Event):Promise<ComputePositionReturn> {
     const reference = this.element.querySelector<HTMLElement>('.generic-table--sort-header-outer')!;
     return computePosition(reference, floating, {
       placement: this.placement,
@@ -95,7 +110,21 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
   }
 
   protected get afterFocusOn() {
-    return this.element.querySelector<HTMLElement>(`#${this.column.id}`)!;
+    return this.element.querySelector<HTMLElement>(`#${this.column.id}`)
+      ?? this.element.closest<HTMLElement>('th')
+      ?? this.element;
+  }
+
+  private followColumn(header:HTMLElement|null):void {
+    const navigation = this.table.keyboardNavigation;
+    const current = navigation?.position;
+    const position = header && navigation?.positionOfCell(header);
+    if (!navigation || !this.origin || !position || current?.key !== this.origin.key || current.cell !== this.origin.cell) {
+      return;
+    }
+
+    navigation.recordPosition(position);
+    this.origin = position;
   }
 
   private buildItems() {
@@ -107,7 +136,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         hidden: !this.wpTableSortBy.isSortable(c),
         linkText: this.I18n.t('js.work_packages.query.sort_descending'),
         icon: 'icon-sort-descending',
-        onClick: (evt:any) => {
+        onClick: () => {
           if (this.wpTableSortBy.isManualSortingMode) {
             this.confirmDialog.confirm({
               text: this.text.confirmDelete,
@@ -126,7 +155,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         hidden: !this.wpTableSortBy.isSortable(c),
         linkText: this.I18n.t('js.work_packages.query.sort_ascending'),
         icon: 'icon-sort-ascending',
-        onClick: (evt:any) => {
+        onClick: () => {
           if (this.wpTableSortBy.isManualSortingMode) {
             this.confirmDialog.confirm({
               text: this.text.confirmDelete,
@@ -160,6 +189,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         icon: 'icon-column-left',
         onClick: () => {
           this.wpTableColumns.shift(c, -1);
+          this.followColumn(this.element);
           return true;
         },
       },
@@ -170,6 +200,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         icon: 'icon-column-right',
         onClick: () => {
           this.wpTableColumns.shift(c, 1);
+          this.followColumn(this.element);
           return true;
         },
       },
@@ -179,10 +210,14 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         icon: 'icon-delete',
         onClick: () => {
           const focusColumn = this.wpTableColumns.previous(c) || this.wpTableColumns.next(c);
+          const headerRow = this.element.closest('tr');
           this.wpTableColumns.removeColumn(c);
+          if (focusColumn) {
+            this.followColumn(headerRow?.querySelector<HTMLElement>(`#${CSS.escape(focusColumn.id)}`) ?? null);
+          }
 
           setTimeout(() => {
-            if (focusColumn) {
+            if (focusColumn && !this.origin) {
               document.querySelector<HTMLElement>(`#${focusColumn.id}`)?.focus();
             }
           });

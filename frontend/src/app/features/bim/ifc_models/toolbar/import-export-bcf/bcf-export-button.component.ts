@@ -20,20 +20,19 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { generateId } from 'core-app/shared/helpers/dom-helpers';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-helper.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
-import { StateService } from '@uirouter/core';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -41,14 +40,25 @@ import { JobStatusModalService } from 'core-app/features/job-status/job-status-m
 
 @Component({
   template: `
-    <a [title]="text.export_hover"
+    <a [attr.id]="buttonId"
+       [attr.aria-describedby]="tooltipId"
        class="button export-bcf-button"
        [attr.href]="exportLink"
        (click)="showDelayedExport($event)">
       <op-icon icon-classes="button--icon icon-export" />
       <span class="button--text"> {{text.export}} </span>
     </a>
+    <tool-tip
+      class="sr-only position-absolute"
+      [attr.for]="buttonId"
+      [attr.id]="tooltipId"
+      popover="manual"
+      data-direction="s"
+      data-type="description"
+      [textContent]="text.export_hover"
+      />
   `,
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'bcf-export-button',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.
@@ -66,8 +76,11 @@ export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnI
   readonly httpClient = inject(HttpClient);
   readonly injector = inject(Injector);
   readonly toastService = inject(ToastService);
-  readonly state = inject(StateService);
   readonly cdRef = inject(ChangeDetectorRef);
+
+  readonly buttonId = generateId('bcf-export-button');
+
+  readonly tooltipId = generateId('tooltip');
 
   public text = {
     export: this.I18n.t('js.bcf.export'),
@@ -97,7 +110,7 @@ export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnI
       });
   }
 
-  public showDelayedExport(event:any) {
+  public showDelayedExport(event:Event) {
     this.requestExport(this.exportLink);
 
     event.preventDefault();

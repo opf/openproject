@@ -20,14 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 // FLIP: run a DOM mutation, then slide each affected element from where it was
-// to where it landed. Honours prefers-reduced-motion by applying the mutation
+// to where it landed. Honors prefers-reduced-motion by applying the mutation
 // without animation.
 export function flipMove(elements:HTMLElement[], mutate:() => void, durationMs = 200):void {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

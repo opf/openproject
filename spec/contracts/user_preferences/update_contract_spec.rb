@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,6 +51,7 @@ RSpec.describe UserPreferences::UpdateContract do
       time_zone: "America/Sao_Paulo",
       warn_on_leaving_unsaved: true,
       disable_keyboard_shortcuts: true,
+      require_double_click_for_inline_edit: true,
       workdays: [1, 2, 4, 6]
     }
   end
@@ -210,6 +210,14 @@ RSpec.describe UserPreferences::UpdateContract do
       it_behaves_like "contract is valid"
     end
 
+    context "without a time_zone but an unassignable default", with_settings: { user_default_timezone: "Nowhere" } do
+      let(:settings) do
+        {}
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
     context "with a full time_zone" do
       let(:settings) do
         {
@@ -248,6 +256,94 @@ RSpec.describe UserPreferences::UpdateContract do
       end
 
       it_behaves_like "contract is invalid", time_zone: :inclusion
+    end
+
+    context "with a valid avatar_color" do
+      let(:settings) do
+        {
+          avatar_color: "#AABBCC"
+        }
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "with an invalid avatar_color" do
+      let(:settings) do
+        {
+          avatar_color: "red"
+        }
+      end
+
+      it_behaves_like "contract is invalid", avatar_color: :invalid
+    end
+
+    context "with an allowed date_format" do
+      let(:settings) do
+        {
+          date_format: "%d.%m.%Y"
+        }
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "with an unallowed date_format" do
+      let(:settings) do
+        {
+          date_format: "%Y foo %m bar %d"
+        }
+      end
+
+      it_behaves_like "contract is invalid", date_format: :inclusion
+    end
+
+    context "with an allowed time_format" do
+      let(:settings) do
+        {
+          time_format: "%I:%M %p"
+        }
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "with an unallowed time_format" do
+      let(:settings) do
+        {
+          time_format: "%H foo %M"
+        }
+      end
+
+      it_behaves_like "contract is invalid", time_format: :inclusion
+    end
+
+    [nil, "", "x", "OP", "山田", "本田", "Жя", "𐐀𐐁", "👩🏽‍💻", "👨‍👩‍👧‍👦", "🇯🇵", "🏳️‍🌈", "❤️", "👍🏽", "1️⃣",
+     "e\u0301x", "<&", "12", "1#", "🚀🚀", "A🚀", "👨‍👩‍👧‍👦🇯🇵", "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "👩🏽‍❤️‍💋‍👨🏿", "क्षि"].each do |text|
+      context "with avatar_text #{text.inspect}" do
+        let(:settings) { { avatar_text: text } }
+
+        it_behaves_like "contract is valid"
+      end
+    end
+
+    ["ABC", "本田技", "🚀🚀🚀", "👨‍👩‍👧‍👦🇯🇵a"].each do |text|
+      context "with too much avatar text #{text.inspect}" do
+        let(:settings) { { avatar_text: text } }
+
+        it_behaves_like "contract is invalid", avatar_text: :too_long
+      end
+    end
+
+    ["\u0000", "\u0001", "\n", "\uFFFE", "\uFFFF", "\u200B\u200B", "A\u202E", "a#{"\u0301" * 5}", 123, ["x"]].each do |text|
+      context "with invalid avatar_text #{text.inspect}" do
+        let(:settings) { { avatar_text: text } }
+
+        it "rejects the text" do
+          expect(contract.validate).to be false
+          expect(contract.errors[:avatar_text]).to be_present
+        end
+      end
     end
 
     context "with duplicate workday entries" do

@@ -40,7 +40,7 @@ export class WorkPackagesGitlabIssueService extends WorkPackageLinkedResourceCac
 
 
   protected load(workPackage:WorkPackageResource):Promise<HalResource[]> {
-    return workPackage.gitlab_issues.$update().then((data:any) => {
+    return (workPackage.gitlab_issues as HalResource).$update().then((data:any) => {
       return this.sortList(data.elements);
     });
   }

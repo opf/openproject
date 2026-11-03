@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,7 +31,7 @@ require "spec_helper"
 require_relative "../../support/pages/backlog"
 
 RSpec.describe "Move a backlog card via its menu",
-               :js, :selenium do
+               :js do
   include RSpec::Wait
 
   let!(:project) do
@@ -73,7 +72,7 @@ RSpec.describe "Move a backlog card via its menu",
                                     items: [sprint_wp1, sprint_wp2, sprint_wp3, sprint_wp4])
 
     # Arm the reload probe before triggering the move: a full frame reload
-    # (the old behaviour) would still leave the list in the expected order
+    # (the old behavior) would still leave the list in the expected order
     # once it settles, so the order assertion alone can't tell an optimistic
     # client-side move from a reload that happens to finish within the wait
     # window. The probe does: it only flips if `#backlogs_container` actually

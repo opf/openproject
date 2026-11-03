@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -46,6 +45,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     set_attachments_attributes(attributes)
     claim_attachments_referenced_in_description(attributes)
     set_versions_attributes(attributes)
+    set_labels_attributes(attributes)
     set_static_attributes(attributes)
 
     model.change_by_system do
@@ -82,6 +82,15 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
     model.target_version_ids_replacements = Array(target_ids).map(&:to_i) if target_ids
     model.observed_in_version_ids_replacements = Array(observed_in_ids).map(&:to_i) if observed_in_ids
+  end
+
+  def set_labels_attributes(attributes)
+    label_ids = attributes.delete(:label_ids)
+    label_names = attributes.delete(:label_names)
+
+    model.label_id_replacements = label_ids if label_ids
+
+    model.label_name_replacements = label_names if label_names
   end
 
   def set_static_attributes(attributes)
@@ -170,7 +179,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     work_package.values_at(*fields).one?(&:present?)
   end
 
-  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable-next Metrics/AbcSize
   def update_derivable_date_attribute
     case derivable_date_attribute
     when :duration
@@ -190,7 +199,6 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
       work_package.start_date = days.start_date(work_package.due_date, work_package.duration)
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   def invalid_duration?
     return false if work_package.duration.nil?
@@ -258,7 +266,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     TypeVariant
       .pluck(:default_work_package_description)
       .compact
-      .map(&method(:normalize_whitespace))
+      .map { |desc| normalize_whitespace(desc) }
       .include?(normalize_whitespace(work_package.description))
   end
 
@@ -271,7 +279,22 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
       CustomField.custom_field_attribute?(key) && work_package.respond_to?(key)
     end
 
-    work_package.attributes = assignable_attributes
+    work_package.attributes = assignable_attributes.to_h do |key, value|
+      [key, retain_undisclosed_custom_values(key, value)]
+    end
+  end
+
+  # Values of a multi value custom field coming from the API carry the undisclosed URN in place
+  # of the stored values that are no longer available in the project.
+  def retain_undisclosed_custom_values(key, values)
+    return values unless Array(values).include?(API::V3::URN_UNDISCLOSED)
+
+    custom_field = work_package.all_available_custom_fields.find { it.attribute_name == key.to_s }
+    undisclosed_values = Array(work_package.custom_value_for(custom_field))
+                           .reject(&:available_in_project?)
+                           .map(&:value)
+
+    values - [API::V3::URN_UNDISCLOSED] + undisclosed_values
   end
 
   def custom_field_context_changed?

@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 # This is a feature spec for the project creation wizard, but only when creating
@@ -266,8 +266,8 @@ RSpec.describe "Project creation wizard",
                         query: user_assignee.name
     fill_in "Team Size", with: "5"
 
-    wait_for_turbo { click_button "Complete" }
-    expect(page).to have_text("Project attributes saved and artefact work package created successfully.")
+    wait_for_turbo(wait: 20) { click_button "Complete" }
+    expect(page).to have_text("Project attributes saved and artifact work package created successfully.")
 
     project.reload
     expect(page).to have_current_path("/projects/#{project.identifier}/" \
@@ -386,17 +386,17 @@ RSpec.describe "Project creation wizard",
       click_button "Continue"
       click_link "Project Details"
 
-      select_autocomplete page.find("[data-custom-field-id='#{list_custom_field.id}']"),
+      select_autocomplete -> { page.find("[data-custom-field-id='#{list_custom_field.id}']") },
                           results_selector: "body",
                           query: "Internal"
-      select_autocomplete page.find("[data-custom-field-id='#{user_custom_field.id}']"),
+      select_autocomplete -> { page.find("[data-custom-field-id='#{user_custom_field.id}']") },
                           results_selector: "body",
                           query: user_assignee.name
       fill_in "Team Size", with: "3"
 
-      wait_for_turbo { click_button "Complete" }
+      click_button "Complete"
 
-      expect(page).to have_text("Project attributes saved and artefact work package created successfully.")
+      expect(page).to have_text("Project attributes saved and artifact work package created successfully.", wait: 20)
 
       project.reload
       expect(page).to have_current_path("/projects/#{project.identifier}/" \
@@ -481,7 +481,7 @@ RSpec.describe "Project creation wizard",
       select_autocomplete page.find("[data-custom-field-id='#{user_custom_field.id}']"),
                           results_selector: "body",
                           query: user_assignee.name
-      wait_for_turbo { click_button "Complete" }
+      wait_for_turbo(wait: 20) { click_button "Complete" }
 
       # Comment should be saved
       expect(project.reload.send(string_custom_field.comment_attribute_name)).to eq "foo"

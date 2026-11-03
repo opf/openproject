@@ -20,15 +20,12 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module OpenProject::JournalFormatter::CustomField::SharedMethods
-  include OpenProject::JournalFormatter::CustomFieldPermission
-
   private
 
   def custom_field_for_key(key)
@@ -42,15 +39,6 @@ module OpenProject::JournalFormatter::CustomField::SharedMethods
       custom_field.name
     else
       I18n.t(:label_deleted_custom_field)
-    end
-  end
-
-  # The (user, project) visibility check queries the DB every time it runs; activity feeds
-  # render many custom-field journal entries per request, often for the same project, so we
-  # cache the verdict set per request and per user.
-  def visible_custom_field_ids(project)
-    JournalFormatterCache.fetch(WorkPackageCustomField, project.id) do # rubocop:disable Lint/UselessDefaultValueArgument
-      WorkPackageCustomField.visible(User.current, project:).pluck(:id).to_set
     end
   end
 end

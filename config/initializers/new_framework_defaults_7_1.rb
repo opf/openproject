@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -240,7 +239,7 @@ Rails.application.config.active_record.marshalling_format_version = 7.1
 
 ###
 # Run `after_commit` and `after_*_commit` callbacks in the order they are defined in a model.
-# This matches the behaviour of all other callbacks.
+# This matches the behavior of all other callbacks.
 # In previous versions of Rails, they ran in the inverse order.
 #++
 # Rails.application.config.active_record.run_after_transaction_callbacks_in_order_defined = true

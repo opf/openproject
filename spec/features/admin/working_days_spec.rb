@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -81,6 +80,15 @@ RSpec.describe "Working Days", :js do
     find(".fc-next-button")
   end
 
+  def save_and_reschedule
+    within_dialog("Change working days") do
+      click_button "Save and reschedule"
+    end
+    Capybara.using_wait_time(30) do
+      expect(page).to have_no_selector(:dialog, "Change working days")
+    end
+  end
+
   describe "week days" do
     # Using this way instead of Setting.working_days as that is cached.
     def working_days_setting
@@ -129,7 +137,7 @@ RSpec.describe "Working Days", :js do
       click_on "Apply changes"
 
       perform_enqueued_jobs do
-        within_dialog("Change working days") { click_button "Save and reschedule" }
+        save_and_reschedule
       end
 
       expect_flash(message: "Successful update.")
@@ -170,7 +178,7 @@ RSpec.describe "Working Days", :js do
       click_on "Apply changes"
 
       perform_enqueued_jobs do
-        within_dialog("Change working days") { click_button "Save and reschedule" }
+        save_and_reschedule
       end
 
       expect_flash(type: :error, message: "At least one day of the week must be defined as a working day.")
@@ -201,7 +209,7 @@ RSpec.describe "Working Days", :js do
       click_on "Apply changes"
 
       # Not executing the background jobs
-      within_dialog("Change working days") { click_button "Save and reschedule" }
+      save_and_reschedule
 
       expect_flash(type: :error,
                    message: "The previous changes to the working days configuration have not been applied yet.")
@@ -222,7 +230,7 @@ RSpec.describe "Working Days", :js do
       click_on "Apply changes"
 
       perform_enqueued_jobs do
-        within_dialog("Change working days") { click_button "Save and reschedule" }
+        save_and_reschedule
       end
 
       expect_flash(message: "Successful update.")
@@ -306,7 +314,7 @@ RSpec.describe "Working Days", :js do
       end
 
       click_on "Apply changes"
-      click_on "Save and reschedule"
+      save_and_reschedule
 
       expect_flash(message: "Successful update.")
 
@@ -347,10 +355,14 @@ RSpec.describe "Working Days", :js do
       delete_button = page.first(".op-non-working-days-list--delete-icon .icon-delete", visible: :all)
       delete_button.hover
       delete_button.click
+      expect(page).to have_css(
+        "input[name='settings[non_working_days_attributes][#{non_working_days.first.id}][_destroy]'][value='true']",
+        visible: :hidden
+      )
 
       click_on "Apply changes"
 
-      within_dialog("Change working days") { click_button "Save and reschedule" }
+      save_and_reschedule
 
       # Remove the first date
       expect(page).to have_no_css("tr", text: non_working_days.first.date.strftime("%B %-d, %Y"))
@@ -369,10 +381,14 @@ RSpec.describe "Working Days", :js do
       delete_button = page.first(".op-non-working-days-list--delete-icon .icon-delete", visible: :all)
       delete_button.hover
       delete_button.click
+      expect(page).to have_css(
+        "input[name='settings[non_working_days_attributes][#{non_working_days.second.id}][_destroy]'][value='true']",
+        visible: :hidden
+      )
 
       click_on "Apply changes"
 
-      within_dialog("Change working days") { click_button "Save and reschedule" }
+      save_and_reschedule
 
       # Keep the second date hidden
       expect(page).to have_no_css("tr", text: non_working_days.second.date.strftime("%B %-d, %Y"))

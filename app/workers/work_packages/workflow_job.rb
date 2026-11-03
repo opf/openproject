@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,7 +38,7 @@ module WorkPackages
 
       # The job runs with a clean request store, so User.current would be
       # Anonymous here. Act as the user who caused the journalized change so the
-      # generated artefacts (attachment and its journal entry) are attributed to them.
+      # generated artifacts (attachment and its journal entry) are attributed to them.
       User.execute_as(journal.user) do
         services.each do |service|
           service.new(current_user: journal.user, work_package:).call!(changes:)

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -130,7 +129,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter, "parsing" d
           }
         end
 
-        it "only honours targetVersions" do
+        it "only honors targetVersions" do
           expect(subject.target_version_ids).to eq([other_version.id.to_s])
         end
       end
@@ -154,6 +153,65 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter, "parsing" d
 
     it "writes the ids through to observed_in_version_ids" do
       expect(subject.observed_in_version_ids).to eq([version.id.to_s, other_version.id.to_s])
+    end
+  end
+
+  describe "labels", with_flag: { work_package_labels: true } do
+    let(:label) { build_stubbed(:label) }
+    let(:other_label) { build_stubbed(:label) }
+    let(:labels_links) { [] }
+    let(:hash) { { _links: { "labels" => labels_links } } }
+
+    context "with existing labels and a pending one" do
+      let(:labels_links) do
+        [
+          { "href" => api_v3_paths.label(label.id) },
+          { "href" => api_v3_paths.label(other_label.id) },
+          { "href" => nil, "title" => "Needs triage" }
+        ]
+      end
+
+      it "writes the ids to label_ids and the pending names to label_names" do
+        expect(subject.label_ids).to eq([label.id.to_s, other_label.id.to_s])
+        expect(subject.label_names).to eq(["Needs triage"])
+      end
+    end
+
+    context "with an entry lacking both href and title" do
+      let(:labels_links) { [{ "href" => nil }] }
+
+      it "clears the ids and sets no names" do
+        expect(subject.label_ids).to eq([])
+        expect(subject.to_h).not_to have_key(:label_names)
+      end
+    end
+
+    context "with a title that is not a string" do
+      let(:labels_links) { [{ "href" => nil, "title" => { "a" => 1 } }] }
+
+      it "sets no names" do
+        expect(subject.to_h).not_to have_key(:label_names)
+      end
+    end
+
+    context "with an empty array" do
+      it "clears the ids" do
+        expect(subject.label_ids).to eq([])
+      end
+    end
+
+    context "with the feature flag off", with_flag: { work_package_labels: false } do
+      let(:labels_links) do
+        [
+          { "href" => api_v3_paths.label(label.id) },
+          { "href" => nil, "title" => "Needs triage" }
+        ]
+      end
+
+      it "ignores the labels links" do
+        expect(subject.label_ids).to be_nil
+        expect(subject.label_names).to be_nil
+      end
     end
   end
 end

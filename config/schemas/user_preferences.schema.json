@@ -9,6 +9,22 @@
                 "time_zone": {
                     "type": ["string", "null"]
                 },
+                "date_format": {
+                    "type": ["string", "null"]
+                },
+                "time_format": {
+                    "type": ["string", "null"]
+                },
+                "avatar_color": {
+                    "type": ["string", "null"]
+                },
+                "avatar_text": {
+                    "type": ["string", "null"]
+                },
+                "avatar_type": {
+                    "type": ["string", "null"],
+                    "enum": [null, "gravatar", "image", "initials"]
+                },
                 "theme": {
                   "type": "string",
                   "enum": ["light", "dark", "sync_with_os"]
@@ -25,6 +41,9 @@
                 "disable_keyboard_shortcuts": {
                     "type": "boolean"
                 },
+                "require_double_click_for_inline_edit": {
+                    "type": "boolean"
+                },
                 "warn_on_leaving_unsaved": {
                     "type": "boolean"
                 },
@@ -38,6 +57,14 @@
                 "diff_type": {
                   "type": "string",
                   "enum": ["inline", "sbs"]
+                },
+                "my_time_management_view_mode": {
+                  "type": "string",
+                  "enum": ["list", "calendar", "stack"]
+                },
+                "my_time_management_mode": {
+                  "type": "string",
+                  "enum": ["day", "week", "workweek", "month"]
                 },
                 "workdays": {
                   "type": "array",

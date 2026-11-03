@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -42,16 +44,16 @@ module Pages
       "/work_packages/#{work_package_id}/tabs/gitlab"
     end
 
-    def git_actions_menu_button
-      find(".gitlab-git-copy:not([disabled])", text: "Git")
+    def wait_for_tab_loaded
+      wait_for { page }.to have_test_selector("op-work-package-gitlab-tab-container")
     end
 
     def git_actions_copy_branch_name_button
-      find(".git-actions-menu .copy-button:not([disabled])", match: :first)
+      find("clipboard-copy#copy_branch_name")
     end
 
     def git_actions_copy_commit_message_button
-      all(".git-actions-menu .copy-button:not([disabled])")[1]
+      find("#{test_selector('gitlab-snippets-commit-message')} clipboard-copy")
     end
 
     def paste_clipboard_content

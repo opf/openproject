@@ -1,0 +1,59 @@
+<strong>Check All component</strong> is a control that allows checking and unchecking multiple checkboxes. It relies on one or more Stimulus controllers to provide its behavior.
+
+<%= embed OpPrimer::CheckAllComponentPreview, :default %>
+
+## Anatomy
+
+Visually, the Check All component consists of two buttons and a separator.
+
+![Check All component anatomy](<%= image_path("lookbook/check_all_component.png") %>)
+
+## Usage
+
+You will need to add the markup to integrate the Stimulus `checkable` controller:
+
+1. Connect the `checkable` controller by adding `data-controller="checkable"` to the checkboxes' container element. This container will typically be a `fieldset`, `form` or `section` element.
+2. Add `data-checkable-target="checkbox"` to every checkbox that should be toggled.
+
+The Check All component supports two render placements:
+
+1. **Inside the checkbox container**: Render the component as a descendant of the element that has the checkable Stimulus controller attached (e.g., `data-controller="checkable"`).
+2. **Outside the checkbox container**: Render the component elsewhere in the DOM (i.e., not within the checkable controller’s element subtree).
+
+### Inside the checkbox container
+
+This is the default behavior and you do not need to provide any additional arguments.
+
+<%= embed OpPrimer::CheckAllComponentPreview, :default, panels: %i[source] %>
+
+### Outside the checkbox container
+
+When rendered outside the container, the component must reference the target checkable controller. Pass the `checkable_id:` argument, which should be a DOM id of an **ancestor of the checkbox container**.
+
+<%= embed OpPrimer::CheckAllComponentPreview, :with_checkable_id, panels: %i[source] %>
+
+## Additional customization
+
+By default the Check All component renders buttons using the [`link` scheme](lookbook/inspect/primer/beta/button/link), along with a `|` character as a separator.
+
+Additional customization is possible via slots. Button slots accept standard [button arguments](/lookbook/inspect/primer/beta/button/playground) as well as their own slots (for leading and trailing visuals, as well as actions).
+
+<%= embed OpPrimer::CheckAllComponentPreview, :with_custom_buttons, panels: %i[source] %>
+
+## Used in
+
+* Administration > Work packages > Edit workflow page
+* Administration > Users and permissions > Roles and permissions
+* Administration > Users and permissions > Permissions report
+
+## Technical notes
+
+With both render placements you are responsible for connecting the `checkable` Stimulus controller.
+
+When the Check All component is used outside of the checkbox container, it connects an additional `check-all` Stimulus controller under-the-hood. The `check-all` controller then uses [outlets](https://stimulus.hotwired.dev/reference/outlets) to communicate with the referenced `checkable` controller. For most use cases you will not need to manually add `check-all` targets or action descriptors.
+
+### Advanced use cases
+
+The `checkable` Stimulus controller also provides the `toggleSelection` action, supporting toggling a filtered subset of checkboxes. A typical use case might be a grid of checkboxes.
+
+While the Check All component does not (currently) provide any sort of View Component wrapper for this functionality, it should also not get in the way of adding the relevant action descriptors to markup.

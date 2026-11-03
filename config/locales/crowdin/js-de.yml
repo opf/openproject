@@ -61,6 +61,7 @@ de:
         single: "%{name} auswählen"
       remove: Entferne %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Keine Elemente gefunden
       placeholder: Suchbegriff eintippen
       project:
@@ -162,6 +163,7 @@ de:
     button_stop_timer: Timer anhalten
     button_uncheck_all: Alle abwählen
     button_update: Aktualisieren
+    button_view_markdown: View Markdown
     caption_rate_history: Stundensatz-Historie
     card:
       add_new: Neue Karte hinzufügen
@@ -199,9 +201,12 @@ de:
     description_available_columns: Verfügbare Spalten
     description_current_position: 'Sie sind hier: '
     description_select_work_package: 'Arbeitspaket #%{id} auswählen'
-    description_subwork_package: 'Unteraufgabe von Arbeitspaket #%{id}'
+    description_subwork_package: 'Kind von Arbeitspaket #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: Innerhalb des Editors ist ein Fehler aufgetreten
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Fehler beim Speichern des Dokuments: %{error}'
       macro:
         attribute_reference:
@@ -358,8 +363,8 @@ de:
     ical_sharing_modal:
       copy_url_label: URL kopieren
       description: Sie können die URL (iCalendar) verwenden, um diesen Kalender in einem externen Client zu abonnieren und aktuelle Arbeitspaket-Informationen von dort aus anzuzeigen.
-      ical_generation_error_text: Beim Generieren der Kalender-URL ist ein Fehler aufgetreten.
-      inital_setup_error_message: Beim Abrufen der Daten ist ein Fehler aufgetreten.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: Die URL "%{name}" wurde erfolgreich in Ihre Zwischenablage kopiert. Fügen Sie sie in Ihren Kalender-Client ein, um das Abonnement abzuschließen.
       title: Kalender abonnieren
       token_name_description_text: Wenn Sie diesen Kalender auf mehreren Geräten abonnieren, wird Ihnen dieser Name helfen, zwischen diesen in der Liste der <a href="%{myAccessTokensUrl}", target="_blank">Zugriffstoken</a> zu unterscheiden.
@@ -551,6 +556,8 @@ de:
     label_reset: Zurücksetzen
     label_resize_project_menu: Größe des Projektmenüs ändern
     label_save_as: Speichern unter
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Spalte suchen
     label_select_watcher: Beobachter auswählen ...
     label_selected_filter_list: Ausgewählte Filter
@@ -582,7 +589,7 @@ de:
     label_uploaded_by: Hochgeladen von
     label_user_plural: Benutzer
     label_validation_error: 'Das Arbeitspaket konnte aufgrund folgender Fehler nicht gespeichert werden:'
-    label_value_derived_from_children: "(aggregierter Wert von Unteraufgaben)"
+    label_value_derived_from_children: "(aggregierter Wert von Kindelementen)"
     label_version_plural: Versionen
     label_view_has_changed: Diese Ansicht hat ungespeicherte Änderungen. Klicken, um sie zu speichern.
     label_visibility_settings: Sichtbarkeits-Einstellungen
@@ -623,7 +630,7 @@ de:
     notifications:
       center:
         and_more_users:
-          one: und ein weiterer
+          one: und %{count} weitere
           other: und %{count} weitere
         empty_state:
           no_notification: Alle Benachrichtungen abgearbeitet.
@@ -722,6 +729,7 @@ de:
     placeholders:
       default: "-"
       description: 'Beschreibung: Zum Bearbeiten klicken...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Klicken, um eine Beschreibung für diese Beziehung anzulegen
       selection: Bitte auswählen
       subject: Titel hier eingeben
@@ -808,12 +816,32 @@ de:
       sorting_disabled: Sortierung ist deaktiviert
     sortable_lists:
       announcements:
+        batch_too_large: Es ist nicht möglich, %{count} Element auf einmal zu verschieben. Wählen Sie nicht mehr als %{max} aus.
         fallback_item_label: Element
         fallback_list_name: andere Liste
         move_failed_check_position: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Elements.
+        move_failed_check_positions_batch:
+          other: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Elements.
         move_failed_rolled_back: Verschieben fehlgeschlagen. %{label} wieder an seiner vorherigen Position.
+        move_failed_rolled_back_batch:
+          other: Die Verschiebung ist fehlgeschlagen. %{count} Elemente wurden an ihre ursprünglichen Positionen zurückgesetzt.
         moved: "%{label} verschoben auf Position %{position} von %{total}"
+        moved_batch:
+          other: "%{count} Elemente auf die Positionen %{first} bis %{last} von %{total} verschoben"
+        moved_batch_to_list:
+          other: "%{count} Elemente zu %{list} auf die Positionen %{first} bis %{last} von %{total} verschoben"
         moved_to_list: "%{label} verschoben nach %{list}, Position %{position} von %{total}"
+      selection:
+        cleared: Auswahl aufgehoben.
+        not_selectable: Auswahl unverändert. Dieses Element hat keinen Einfluss auf die Reihenfolge dieser Liste.
+        range_blocked: Auswahl unverändert. Sie enthält ein Element ohne Einfluss auf die Reihenfolge dieser Liste.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Auswahl unverändert. Erweitern Sie diese Liste, um diesen Bereich auszuwählen.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Modal schließen
@@ -827,9 +855,7 @@ de:
     text_user_wrote: "%{value} schrieb:"
     text_work_packages_destroy_confirmation: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?
     time_entry:
-      stop: Anhalten
       title: Zeit buchen
-      tracking: Zeiterfassung
       work_package_required: Benötigt zuerst die Auswahl eines Arbeitspakets.
     timer:
       button_stop: Aktuellen Timer stoppen
@@ -864,20 +890,20 @@ de:
       label_two_factor_authentication: Zwei-Faktor-Authentifizierung
     units:
       child_work_packages:
-        one: eine Unteraufgabe
-        other: "%{count} untergeordnete Arbeitspakete"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 Tag
+        one: "%{count} day"
         other: "%{count} Tage"
         zero: 0 Tage
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: 1 Wort
-        other: "%{count} Wörter"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: Arbeitspaket
         other: Arbeitspakete
@@ -930,7 +956,7 @@ de:
         button: Erstellen
         header: 'Neu: %{type}'
         header_no_type: Neues Arbeitspaket (Typ noch nicht gesetzt)
-        header_with_parent: 'Neu: %{type} (Unteraufgabe von %{parent_type} #%{id})'
+        header_with_parent: 'Neu: %{type} (Kind von %{parent_type} #%{id})'
         title: Neues Arbeitspaket
       default_queries:
         all_open: Alle offenen
@@ -1070,11 +1096,26 @@ de:
       scheduling:
         is_parent: Die Termine dieses Arbeitspakets werden automatisch von seinen Unteraufgaben aggregiert. Aktivieren Sie "Manuelle Planung", um die Termine frei zu setzen.
         is_switched_from_manual_to_automatic: Die Termine dieses Arbeitspakets müssen nach dem Wechsel auf automatische Planung neu berechnet werden.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Alle Benutzer anzeigen, für die das Arbeitspaket geteilt wurde
         title: Arbeitspaket teilen
       table:
         configure_button: Arbeitspaket-Tabelle konfigurieren
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen dieser Arbeitspakete.
         text_inline_edit: Die meisten Zellen dieser Tabelle sind Schalter, über die Sie einzelne Attribute direkt bearbeiten können.
         text_select_hint: Auswahlfelder können mit 'ALT' und Pfeiltasten geöffnet werden.

@@ -56,7 +56,7 @@ de:
 
           '
       label_n_groups_found:
-        one: 1 Gruppe vom Filter gefunden
+        one: "%{count} group found by the filter"
         other: "%{count} Gruppen vom Filter gefunden"
         zero: Es wurden keine Gruppen durch den Filter gefunden
       plural: Synchronisierte LDAP-Filter
@@ -91,7 +91,7 @@ de:
       plural: Synchronisierte LDAP-Gruppen
       singular: Synchronisierte LDAP-Gruppe
       upsell:
-        description: Nutzen Sie synchronisierte LDAP-Gruppen, um Benutzer zu verwalten, ihre Berechtigungen zu ändern und die Benutzerverwaltung über Gruppen hinweg zu vereinfachen.
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: Synchronisierung von LDAP-Gruppenmitgliedschaften.
     name: OpenProject LDAP-Gruppen

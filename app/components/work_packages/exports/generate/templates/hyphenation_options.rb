@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,49 +22,20 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module WorkPackages
   module Exports
     module Generate
       module Templates
         module HyphenationOptions
-          # This is a list of languages that are supported by the hyphenation library
-          # https://rubygems.org/gems/text-hyphen
-          # The labels are the language names in the language itself (NOT to be put I18n)
           def hyphenation_options
             [
               { label: "-", value: "" },
-              { label: "Català", value: "ca" },
-              { label: "Dansk", value: "da" },
-              { label: "Deutsch", value: "de" },
-              { label: "Eesti", value: "et" },
-              { label: "English", value: "en" },
-              { label: "Español", value: "es" },
-              { label: "Euskara", value: "eu" },
-              { label: "Français", value: "fr" },
-              { label: "Gaeilge", value: "ga" },
-              { label: "Hrvatski", value: "hr" },
-              { label: "Indonesia", value: "id" },
-              { label: "Interlingua", value: "ia" },
-              { label: "Italiano", value: "it" },
-              { label: "Magyar", value: "hu" },
-              { label: "Melayu", value: "ms" },
-              { label: "Nederlands", value: "nl" },
-              { label: "Norsk", value: "no" },
-              { label: "Polski", value: "pl" },
-              { label: "Português", value: "pt" },
-              { label: "Slovenčina", value: "sk" },
-              { label: "Suomi", value: "fi" },
-              { label: "Svenska", value: "sv" },
-              { label: "Ísland", value: "is" },
-              { label: "Čeština", value: "cs" },
-              { label: "Монгол", value: "mn" },
-              { label: "Русский", value: "ru" }
+              *::Exports::PDF::Common::Common::HYPHENATION_LANGUAGES.map { |value, label| { label:, value: } }
             ]
           end
 

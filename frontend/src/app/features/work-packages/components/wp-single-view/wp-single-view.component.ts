@@ -20,15 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { isEqual } from 'lodash-es';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, Input, OnInit, inject } from '@angular/core';
-import { StateService } from '@uirouter/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, first, map } from 'rxjs/operators';
 
@@ -52,12 +50,13 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ProjectStoragesResourceService } from 'core-app/core/state/project-storages/project-storages.service';
 import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalSource } from 'core-app/features/hal/interfaces';
 
 export interface FieldDescriptor {
   name:string;
@@ -78,6 +77,21 @@ export interface GroupDescriptor {
   type:string;
 }
 
+interface WorkPackageFormAttributeGroup {
+  _type:'WorkPackageFormAttributeGroup';
+  name:string;
+  attributes:string[];
+}
+
+interface WorkPackageFormQueryGroup {
+  _type:'WorkPackageFormChildrenQueryGroup'|'WorkPackageFormRelationQueryGroup';
+  name:string;
+  relationType?:string;
+  _embedded:{ query:HalSource };
+}
+
+type FormAttributeGroup = WorkPackageFormAttributeGroup|WorkPackageFormQueryGroup;
+
 export interface ResourceContextChange {
   isNew:boolean;
   schema:string|null;
@@ -88,6 +102,7 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
 
 @Component({
   templateUrl: './wp-single-view.component.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-single-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
@@ -97,7 +112,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   private readonly states = inject(States);
   private readonly I18n = inject(I18nService);
   private readonly hook = inject(HookService);
-  private readonly $state = inject(StateService);
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly cdRef = inject(ChangeDetectorRef);
   private readonly PathHelper = inject(PathHelperService);
@@ -150,8 +164,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
   public isNewResource:boolean;
 
-  public uiSelfRef:string;
-
   element:HTMLElement;
 
   projectStorages = new BehaviorSubject<IProjectStorage[]>([]);
@@ -160,8 +172,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     this.element = this.elementRef.nativeElement;
 
     this.isNewResource = isNewResource(this.workPackage);
-
-    this.uiSelfRef = this.$state.$current.name;
 
     const change = this.halEditing.changeFor<WorkPackageResource, WorkPackageChangeset>(this.workPackage);
     this.refresh(change);
@@ -187,7 +197,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     if (!resource.project) {
       this.projectContext = { matches: false, href: null, id: null };
     } else {
-      const project = resource.project as unknown&{ href:string, id:string };
+      const project = resource.project as { href:string, id:string };
       const workPackageId = this.workPackage.id;
       if (!workPackageId) {
         throw new Error('work package id is invalid');
@@ -204,8 +214,11 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
       this.updateWorkPackageCreationState(change);
     }
 
-    // eslint-disable-next-line no-underscore-dangle
-    this.groupedFields = this.rebuildGroupedFields(change, this.schema(resource)._attributeGroups) as GroupDescriptor[];
+    this.groupedFields = this.rebuildGroupedFields(
+      change,
+      // eslint-disable-next-line no-underscore-dangle
+      this.schema(resource)._attributeGroups as FormAttributeGroup[]|undefined,
+    ) as GroupDescriptor[];
     this.cdRef.detectChanges();
   }
 
@@ -213,13 +226,13 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     const resource = change.projectedResource;
     if (!this.currentProject.inProjectContext) {
       this.projectContext.field = this.getFields(change, ['project']);
-      this.workPackage.project = resource.project as HalResource;
+      this.workPackage.project = resource.project;
     }
 
     if (resource.project === null) {
       this.projectStorages.next([]);
     } else {
-      const project = resource.project as unknown&{ href:string, id:string };
+      const project = resource.project as { href:string, id:string };
       combineLatest([
         this.projectsResourceService.requireEntity(project.href),
         this.projectStoragesService.requireCollection({ filters: [['projectId', '=', [project.id]]] }),
@@ -304,12 +317,12 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     return this.element.getBoundingClientRect().width > 750;
   }
 
-  private rebuildGroupedFields(change:WorkPackageChangeset, attributeGroups:any) {
+  private rebuildGroupedFields(change:WorkPackageChangeset, attributeGroups:FormAttributeGroup[]|undefined) {
     if (!attributeGroups) {
       return [];
     }
 
-    return attributeGroups.map((group:any) => {
+    return attributeGroups.map((group) => {
       const groupId = this.getAttributesGroupId(group);
 
       if (group._type === 'WorkPackageFormAttributeGroup') {
@@ -401,13 +414,13 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     const projectHref:string|null = workPackage.project?.href;
 
     if (schema.baseSchema) {
-      schemaHref = schema.baseSchema.href;
+      schemaHref = (schema.baseSchema as HalResource).href;
     } else {
       schemaHref = schema.href;
     }
 
     return {
-      isNew: workPackage.isNew,
+      isNew: workPackage.isNew as boolean,
       schema: schemaHref,
       project: projectHref,
     };
@@ -422,9 +435,9 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     );
   }
 
-  private getAttributesGroupId(group:any):string {
+  private getAttributesGroupId(group:{ name:string }):string {
     const overflowingIdentifier = this.element
-      .querySelector<HTMLElement>(`[data-group-name=\'${group.name}\']`)
+      .querySelector<HTMLElement>(`[data-group-name='${group.name}']`)
       ?.dataset[overflowingContainerAttribute];
 
     if (overflowingIdentifier) {

@@ -1,0 +1,20 @@
+# Example: Nextcloud storage file
+---
+value:
+  _type: StorageFile
+  id: '264'
+  name: HOW_TO_TUTORIAL.md
+  size: 554
+  mimeType: text/markdown
+  createdAt: '2026-04-27T12:55:02.000Z'
+  lastModifiedAt: '2026-04-27T12:55:02.000Z'
+  createdByName: Darth Vader
+  lastModifiedByName: Darth Vader
+  location: '/Data/Introducions%20%26%20Tutorials/HOW_TO_TUTORIAL.md'
+  permissions:
+    - readable
+    - writable
+  _links: 
+    self: 
+      href: '/api/v3/storages/2/files/264'
+      title: HOW_TO_TUTORIAL.md

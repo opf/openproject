@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -163,7 +162,7 @@ namespace :redmine do
               apop=1                   use APOP authentication (default: false)
               delete_unprocessed=1     delete messages that could not be processed
                                        successfully from the server (default
-                                       behaviour is to leave them on the server)
+                                       behavior is to leave them on the server)
       #{'      '}
             See redmine:email:receive_imap for more options and examples.
     END_DESC

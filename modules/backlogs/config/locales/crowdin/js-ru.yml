@@ -16,15 +16,55 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
 ru:
   js:
-    burndown:
-      day: День
-      points: Точки
+    backlogs:
+      announcements:
+        batch_too_large: Невозможно переместить сразу несколько пакетов работ %{count}. Выберите не более %{max}.
+        fallback_item_label: Пакет работ
+        fallback_list_name: другой список
+        move_failed_check_position: Перемещение не удалось. Проверьте текущую позицию пакета работ.
+        move_failed_check_positions_batch:
+          other: Перемещение не удалось. Проверьте текущие позиции пакетов работ.
+        move_failed_rolled_back: Перемещение не удалось. %{label} остался на прежней позиции.
+        move_failed_rolled_back_batch:
+          other: Перемещение не удалось. %{count} пакетов работ осталось на прежней позиции.
+        moved: "%{label} перемещен на позицию %{position} %{total}"
+        moved_batch:
+          other: "%{count} пакетов работ перемещено на позиции с %{first} по %{last} из %{total}"
+        moved_batch_to_list:
+          other: "%{count} пакетов работ перемещено в %{list}, позиции с %{first} по %{last} из %{total}"
+        moved_to_list: "%{label} перемещен в %{list}, на позицию %{position} из %{total}"
+      selection:
+        card_state: Выбрано
+        cleared: Выбор очищен.
+        not_selectable: Выборка осталась без изменений. Данный пакет работ не влияет на порядок элементов в этом списке.
+        range_blocked: Выборка осталась без изменений. Данный диапазон содержит пакет работ, который не влияет на порядок элементов в этом списке.
+        range_restarted:
+          one: Could not extend the range. %{count} work package selected.
+          few: Could not extend the range. %{count} work packages selected.
+          many: Could not extend the range. %{count} work packages selected.
+          other: Could not extend the range. %{count} work packages selected.
+        range_unavailable: Выборка не изменена. Разверните этот список, чтобы выбрать этот диапазон.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
+    burndown_chart:
+      chart_day: 'Day %{day}: %{values}'
+      chart_label: Burndown chart
+      chart_summary: 'Burndown chart data: %{days}.'
+      chart_value: "%{label}: %{value}"
+      story_points: Story points
+    created_resolved_chart:
+      work_packages: Work packages
+    sprint_charts:
+      non_working_day: Non-working day
     work_packages:
       properties:
         storyPoints: Исторические точки

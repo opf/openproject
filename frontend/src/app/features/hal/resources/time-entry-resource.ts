@@ -20,13 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { InputState } from '@openproject/reactivestates';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -48,6 +48,10 @@ export class TimeEntryResource extends HalResource {
 
   ongoing:boolean;
 
+  hours:string;
+
+  delete:CallableHalLink;
+
   public get state():InputState<this> {
     return this.states.timeEntries.get(this.id!) as unknown as InputState<this>;
   }
@@ -58,10 +62,6 @@ export class TimeEntryResource extends HalResource {
   public $linkableKeys():string[] {
     return super.$linkableKeys().filter((key) => key !== 'schema');
   }
-}
-
-export interface TimeEntryResource {
-  delete():Promise<unknown>;
 }
 
 export function formatTimeEntryEntityName(entity:WorkPackageResource|MeetingResource):string {

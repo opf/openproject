@@ -1,0 +1,144 @@
+[files]
+extend-exclude = [
+  "**/locales/crowdin/**",
+  "modules/*/config/locales/de.yml", # German translations kept outside Crowdin
+  "config/locales/generated/**",
+  "**/fixtures/**",
+  "**/vcr_cassettes/**",
+  "frontend/src/vendor/**",
+  "frontend/patches/openapi-explorer+*.patch", # vendored dist bundle
+  "vendor/**",
+  "vendored-plugins/**",
+  "*.min.*",
+  "lookbook/previews/open_project/deprecated/forms_preview/multiple_fields_per_row.html.erb", # German month names
+  "publiccode.yml", # German description
+  "spec/seeders/source/translate_spec.rb", # French test strings
+]
+
+[default]
+locale = "en-us"
+extend-ignore-re = [
+  "code=[A-Za-z0-9]{20,}", # OAuth code in an example request
+  "filemane with spaces", # file in the SCM test repository
+  "FND-\\d+", # ticket reference
+  "\\b(Ben(jamin)? Tey|Valentin Ege|Abou-Rikab)\\b", # contributor names
+  "Bitte stimmen Sie den neuen Bedingungen zu|deutsches Dokument|Mein schöner Titel|Noch mal ein Dialog", # German test strings
+  "Nam vel neque|sea tak|asperiores possimus nam doloribus ab", # Lorem ipsum
+  "IfcEntites", # comment in the vendored BCF markup.xsd
+  "&#x[0-9A-Fa-f]+;", # SVG glyph code points
+  "(?m)^\\s*[A-Za-z0-9+/]{50,}={0,2}\\s*$", # Base64 blobs
+  "[\"']\\b(ba|gam|Hel|tre|Taks|toi|TOI|FPT|offen)\\b[\"']", # test inputs; follow-up
+  "%w\\[uno due tre quattro\\]",
+  "(?m)# b[a-z]\\d?(, b[a-z]\\d?)*$", # sort-order annotations naming logins like ba, bb1
+  "wp-table--hierarchy-aditional-row", # CSS class; follow-up
+  "ba@o\\.p",
+  "ae_oe_ue_ss",
+  "work-package-activites-container", # DOM id in activity-tab.html; follow-up
+  "SELECTs",
+  "\"(b!|v1\\.)?[A-Za-z0-9+/=]{30,}", # quoted base64 tokens, IDs and certificates
+  "b![A-Za-z0-9_-]{30,}", # SharePoint drive IDs
+  "\"[A-Za-z0-9+/=_-]{60,}\"", # quoted base64url tokens
+  "\\b0[14]A[A-Z0-9]{30,}\\b", # OneDrive/SharePoint item IDs
+  "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", # UUIDs
+  "Workin' on it", # status name in test data
+  "RSVP=TRU", # folded iCalendar line in test data
+  "NextcloudStorag\"|NextcloudStorag\\.", # invalid provider type in test input
+  "fileNam_", # invalid parameter in test input
+  "YOURE_LOOKING_FOR",
+  "error: \"An error occured\"", # stubbed error payload; follow-up
+  "op-project-life-cyle-section-container", # CSS class; follow-up
+  "add_uniqueness_contrain_to_bcf_topic_on_uuid", # migration name
+  "[\\w./-]+\\.(png|jpe?g|gif|webp)", # image file names; renames are follow-ups
+  "GssapiSSLonly", # Apache directive
+  "eazyBI", # product name
+  "\\(BA\\)", # Business Analyst
+  "icon-correct-high-postioning-rules", # Sass mixin; follow-up
+  "cachable-apiv3-(resource|collection)", # file names; follow-up
+  "fourty minutes", # commented-out parser input
+  "\\.highlight \\.nd", # Rouge token class
+  "op-header-project-select--no-favourites", # CSS class; follow-up
+  "(::|module |class )Artefact\\b|\\bArtefact::", # PMflex artefact export constants; follow-up
+  "[\"']artefact[\"']|%w\\[[^\\]]*\\bartefact\\b[^\\]]*\\]", # PDF export template id stored in type settings; follow-up
+  "\\bartefact(_spec)?\\.rb|/artefact/", # PMflex artefact export file names; follow-up
+  "</?organisation(Scope)?>", # Nextcloud user query payload
+  "\\), labelled AS \\(|FROM labelled\\b", # CTE alias in a shipped migration
+  "Centre of [Ee]xcellence\\s+in\\s+PM", # name of the EU PM² body
+  "\"Aluminium \\(0\\.4\\)\"", # value shown in the release notes screenshot
+  "(?m)^\\s+favoured:|help_texts\\.views\\.favoured", # i18n key
+  "\\btrialling\\?", # public EnterpriseToken.trialling?; follow-up
+  "\\btrialling\\(", # public BannersService#trialling; follow-up
+  "\\bsignalled(<|\\()", # public APIv3 resource method; follow-up
+  "aria-labelledby", # HTML attribute
+  "4-project-organisation-and-roles", # docs directory, part of public URLs
+  "(?m)^keywords: .*\\bfavourite\\b", # search keyword for British spelling
+]
+extend-ignore-identifiers-re = [
+  "^(with|without)_trailling_slash$", # public SCM adapter API; follow-up
+  "^(create_service|results_sort)_intergration_spec$", # file names; follow-up
+  "^work_packags_export_factory$", # file name; follow-up
+  "^_?hierachy_custom_field_layout$", # Sass partial file name; follow-up
+  "containered", # public Attachment#containered? and specs named after it; follow-up
+  "^delete_sucessful$", # i18n key
+  "^:?aggreagate_failures$", # spec metadata typo disables aggregate_failures; follow-up
+  "^expect_emoji_reactions_highlited_in_overlay$", # spec helper; follow-up
+  "^fo$", # form builder block variable
+  "^(grouped_)?setable_permissions$", # public helper; follow-up
+  "^activites$", # module name typo in a spec, so the module is never enabled; follow-up
+  "^blured$", # public component method bound in template; follow-up
+  "^inital_setup_error_message$", # i18n key
+  "^isLoggedInAndHasCapabalities\\$?$", # public service method; follow-up
+  "^iterate_user_statusses$", # public helper; follow-up
+  "^loading_indicator_saveguard$", # spec helper used across modules; follow-up
+  "^mesage_type$", # ServiceResult kwarg typo raises ArgumentError; follow-up bug
+  "^no_role_assigment$", # i18n key
+  "^notice_annoucement_active$", # public helper; follow-up
+  "^notifiation_message$", # spec sets the wrong attribute, so the assertion is vacuous; follow-up
+  "^parms$", # Apache mod_perl convention
+  "^readonly_default_exlusive$", # i18n key
+  "^start_colum$", # spec slices a non-existent attribute; follow-up
+  "^sur_name$", # SAML attribute name
+  "^text_notificiation_invited$", # i18n key
+  "^scim_jwt_authetication_method$", # static link key
+  "^selectInputOnInitalFocus$", # public component method; follow-up
+  "^colum_index$", # public delegator; follow-up
+  "^currenty_selects$", # public class attribute; follow-up
+  "^expect_not_referencable$", # spec helper; follow-up
+  "^select_leafs$", # public menu helper; follow-up
+  "^text_caracters_(minimum|maximum)$", # i18n keys
+  "^unaccessable_work_package_changed$", # i18n key
+  "^utc_offest_for_timezone$", # public core extension; follow-up
+  "WorkPackageViewHierarchyIdentationService", # public service; follow-up
+  "^validate_start_after_preceeding_phases$", # public contract method; follow-up
+  "(?i)threed", # 3D icon components
+  "^wait_thr$", # Open3 convention
+  "^wheres$", # Arel API
+  "^wil_", # weighted item list
+  "^\\w*(_artefact|artefact_)\\w*$", # PMflex artefact export code, i18n keys and routes; follow-up
+  "^\\w*[a-z]Artefact\\w*$|^Artefact[A-Z]\\w*$", # PMflex artefact export classes; follow-up
+  "^(a|A)uthorisationService$", # public frontend service; follow-up
+  "^labelled_tabular_form_(for|with)$", # public form helpers; follow-up
+  "^server_flavour$", # key in stored LLM connection options; follow-up
+  "^group__bim_modellers$|^(finishing_)?modelling_\\w+$", # BIM seed data keys; follow-up
+  "^(non_)?trialling_features$|^triallingFeatures$", # public enterprise token API; follow-up
+  "^set_favoured$", # page object helper shared by calendar and team planner specs; follow-up
+  "^labour_query\\?*$", # public reporting table method; follow-up
+  "^getEnterPriseEditionUrl$", # public banners service method; follow-up
+  "^localised_(other_)?name$", # methods in a shipped migration
+  "^marshalling_format_version$", # Rails configuration option
+  "(?i)^aria_?labelledby$", # aria-labelledby attribute
+  "^will_remove_all_(group|user)_access_priveleges$", # i18n keys
+]
+
+[default.extend-words]
+anc = "anc" # SQL alias and index names for ancestor
+axe = "axe" # axe-core accessibility engine
+lod = "lod" # level of detail / BIM level of development
+tweek = "tweek" # time_entries column; follow-up
+HELO = "HELO" # SMTP command
+unauthenticate = "unauthenticate"
+unparseable = "unparseable" # follow-up
+varius = "varius" # Lorem ipsum
+navigatable = "navigatable" # menu_items column; follow-up
+noteable = "noteable" # GitLab webhook payload field
+opf = "opf"
+writeable = "writeable" # Representable kwarg

@@ -1,0 +1,117 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module API
+  module V3
+    module AI
+      class TextTransformRunsAPI < ::API::OpenProjectAPI
+        resources :ai_text_transform_runs do
+          helpers do
+            def context_from_params
+              call = ::AI::TextTransforms::ResolveContext
+                       .new(user: current_user)
+                       .call(work_package_id: params[:workPackageId],
+                             project_id: params[:projectId],
+                             type_id: params[:typeId])
+
+              raise_context_failure(call.errors) if call.failure?
+
+              call.result
+            end
+
+            def raise_context_failure(errors)
+              not_found = errors.find { |error| error.type == :error_not_found }
+              raise ::API::Errors::NotFound.new(model: not_found.base.model_name.element) if not_found
+
+              raise ::API::Errors::ErrorBase.create_and_merge_errors(errors)
+            end
+
+            def run_representer(run, after: 0)
+              TextTransformRunRepresenter.new(run, current_user:, after:)
+            end
+
+            def raise_create_failure(errors)
+              unavailable = errors.details[:base].find { |detail| detail[:error] == :not_available }
+              raise ::API::Errors::ErrorBase.create_and_merge_errors(errors) unless unavailable
+
+              raise ::API::Errors::UnprocessableContent.new(errors.full_messages_for(:base).first,
+                                                            details: { reason: unavailable[:reason] })
+            end
+          end
+
+          params do
+            requires :actionId, type: Integer
+            requires :content, type: String
+            optional :workPackageId, type: Integer
+            optional :projectId, type: Integer
+            optional :typeId, type: Integer
+            mutually_exclusive :workPackageId, :projectId
+            all_or_none_of :projectId, :typeId
+          end
+          post do
+            authorize_logged_in
+
+            context = context_from_params
+            action = ::AI::TextTransformAction.find_by(id: params[:actionId])
+            call = ::AI::TextTransforms::CreateRun
+                     .new(user: current_user, action:, context:, content: params[:content])
+                     .call
+
+            raise_create_failure(call.errors) if call.failure?
+
+            status 202
+            run_representer(call.result)
+          end
+
+          route_param :uuid, type: String do
+            after_validation do
+              @run = ::AI::TextTransformRun.find_by(uuid: params[:uuid], user_id: current_user.id)
+              raise ::API::Errors::NotFound unless @run
+            end
+
+            params do
+              optional :after, type: Integer, default: 0, values: ->(value) { value >= 0 }
+            end
+            get do
+              run_representer(@run, after: params[:after])
+            end
+
+            namespace :cancel do
+              post do
+                @run.request_cancel!
+
+                status 204
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+end

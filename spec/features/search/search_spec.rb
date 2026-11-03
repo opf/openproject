@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" } do
+RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   create_shared_association_defaults_for_work_package_factory
@@ -61,8 +60,7 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
     create(:text_wp_custom_field,
            is_filter:,
            searchable:).tap do |custom_field|
-      project.work_package_custom_fields << custom_field
-      work_packages.first.type.default_variant.custom_fields << custom_field
+      work_packages.first.type.default_variant.custom_field_ids |= [custom_field.id]
 
       create(:work_package_custom_value,
              custom_field:,
@@ -77,7 +75,7 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
            is_filter:,
            searchable:).tap do |custom_field|
       custom_field.save
-      work_packages.first.type.default_variant.custom_fields << custom_field
+      work_packages.first.type.default_variant.custom_field_ids |= [custom_field.id]
 
       create(:work_package_custom_value,
              custom_field:,
@@ -99,6 +97,11 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
       expect(page).to have_text("Subject #{char_for(n)} WP")
       expect(page).to have_css("a[href*='#{work_package_path(work_packages[n - 1].id)}']")
     end
+  end
+
+  def search_in_global_scope(query)
+    global_search.search(query)
+    global_search.submit_in_global_scope
   end
 
   before do
@@ -181,15 +184,11 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
     end
 
     it "announces the number of items via aria-live" do
-      input = page.find(".top-menu-search--input")
-      input.set "Subject"
+      global_search.search("Subject")
 
-      live_region = page.find(
-        "live-region",
-        visible: :all
-      )
-
-      expect(live_region).to have_text(/\d+ items available/, wait: 5)
+      wait_for do
+        page.evaluate_script("document.querySelector('live-region').shadowRoot.textContent")
+      end.to match(/\d+ items available/)
     end
   end
 
@@ -201,10 +200,7 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
         let(:searchable) { false }
 
         it "does not find WP via custom fields" do
-          select_autocomplete(page.find(".top-menu-search--input"),
-                              query: "text",
-                              select_text: "In all projects ↵",
-                              wait_dropdown_open: false)
+          search_in_global_scope("text")
           table = Pages::EmbeddedWorkPackagesTable.new(find(".work-packages-embedded-view--container"))
           table.ensure_work_package_not_listed!(work_packages[0])
           table.ensure_work_package_not_listed!(work_packages[1])
@@ -215,20 +211,14 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
         let(:is_filter) { false }
 
         it "finds WP global custom fields" do
-          select_autocomplete(page.find(".top-menu-search--input"),
-                              query: "string",
-                              select_text: "In all projects ↵",
-                              wait_dropdown_open: false)
+          search_in_global_scope("string")
           table = Pages::EmbeddedWorkPackagesTable.new(find(".work-packages-embedded-view--container"))
           table.ensure_work_package_not_listed!(work_packages[0])
           table.expect_work_package_subject(work_packages[1].subject)
         end
 
         it "finds WP non global custom fields" do
-          select_autocomplete(page.find(".top-menu-search--input"),
-                              query: "text",
-                              select_text: "In all projects ↵",
-                              wait_dropdown_open: false)
+          search_in_global_scope("text")
           table = Pages::EmbeddedWorkPackagesTable.new(find(".work-packages-embedded-view--container"))
           table.ensure_work_package_not_listed!(work_packages[1])
           table.expect_work_package_subject(work_packages[0].subject)
@@ -237,20 +227,14 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
 
       context "when custom fields are searchable" do
         it "finds WP global custom fields" do
-          select_autocomplete(page.find(".top-menu-search--input"),
-                              query: "string",
-                              select_text: "In all projects ↵",
-                              wait_dropdown_open: false)
+          search_in_global_scope("string")
           table = Pages::EmbeddedWorkPackagesTable.new(find(".work-packages-embedded-view--container"))
           table.ensure_work_package_not_listed!(work_packages[0])
           table.expect_work_package_subject(work_packages[1].subject)
         end
 
         it "finds WP non global custom fields" do
-          select_autocomplete(page.find(".top-menu-search--input"),
-                              query: "text",
-                              select_text: "In all projects ↵",
-                              wait_dropdown_open: false)
+          search_in_global_scope("text")
           table = Pages::EmbeddedWorkPackagesTable.new(find(".work-packages-embedded-view--container"))
           table.ensure_work_package_not_listed!(work_packages[1])
           table.expect_work_package_subject(work_packages[0].subject)
@@ -261,10 +245,7 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
         let(:work_package) { work_packages.last }
 
         it "loads the WP results table with the correct WP" do
-          select_autocomplete(page.find(".top-menu-search--input"),
-                              query: "##{work_package.id}",
-                              select_text: "In all projects ↵",
-                              wait_dropdown_open: false)
+          search_in_global_scope("##{work_package.id}")
           table = Pages::EmbeddedWorkPackagesTable.new(find(".work-packages-embedded-view--container"))
           table.ensure_work_package_not_listed!(*work_packages[0...-1])
           table.expect_work_package_subject(work_package.subject)
@@ -282,7 +263,7 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
         end
       end
 
-      context "when a work package is closed" do
+      context "when a work package is closed", driver: :rack_test, js: false do
         let(:params) { [{ q: query, scope: "all" }] }
         let(:run_visit) { false }
         let(:work_package) { work_packages.last }
@@ -416,10 +397,8 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
         top_menu.search_and_select subproject.name
         top_menu.expect_current_project subproject.name
 
-        select_autocomplete(page.find(".top-menu-search--input"),
-                            query:,
-                            select_text: "In this project ↵",
-                            wait_dropdown_open: false)
+        global_search.search(query)
+        global_search.submit_in_current_project
 
         filters.expect_closed
         page.find(".advanced-filters--toggle").click
@@ -467,7 +446,7 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
   end
 
   describe "when semantic work package IDs are active",
-           with_settings: { work_packages_identifier: "semantic" } do
+           driver: :rack_test, js: false, with_settings: { work_packages_identifier: "semantic" } do
     let(:run_visit) { false }
     let(:semantic_project) { create(:project, :semantic) }
     let(:semantic_wp) do
@@ -489,7 +468,7 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
     end
   end
 
-  describe "search for notes" do
+  describe "search for notes", driver: :rack_test, js: false do
     let(:work_package) { work_packages[0] }
     let!(:note_one) do
       create(:work_package_journal,
@@ -505,9 +484,7 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
     end
 
     it "highlights last note" do
-      global_search.search "note"
-      global_search.submit_in_global_scope
-      global_search.open_tab "All"
+      visit search_path(q: "note", scope: "all")
 
       within("dt.work_package-note + dd") do
         expect(page).to have_css(".description", text: note_two.notes)
@@ -525,10 +502,9 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
     let!(:other_project) { create(:project, name: "Other project") }
 
     subject do
-      select_autocomplete(page.find(".top-menu-search--input"),
-                          query:,
-                          select_text: "In all projects ↵",
-                          wait_dropdown_open: false)
+      search_in_global_scope(query)
+      page.find("body").send_keys(:escape)
+      expect(page).to have_no_css(".global-search .ng-dropdown-panel", visible: :visible)
 
       within_test_selector("search-tabs") do
         click_on "Projects"
@@ -562,7 +538,7 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
 
       it_behaves_like "finds the project"
 
-      describe "searching for list project custom field" do
+      describe "searching for list project custom field", driver: :rack_test, js: false do
         let(:possible_values) { %w[Value1 Value2 Value3] }
         let!(:project_list_cf) do
           create(:list_project_custom_field,
@@ -576,6 +552,10 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
           end
         end
         let(:query) { project_list_cf.possible_values.pick(:value) }
+
+        subject do
+          visit search_path(q: query, scope: "all", filter: "projects")
+        end
 
         it_behaves_like "finds the project"
 
@@ -593,7 +573,7 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
           it_behaves_like "does not find the project"
         end
 
-        context "when using % in the query string the escaping works correcly and" do
+        context "when using % in the query string the escaping works correctly and" do
           let(:query) { "%#{project_list_cf.possible_values.pick(:value)}" }
 
           it_behaves_like "does not find the project"
@@ -608,7 +588,7 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
     end
   end
 
-  describe "pagination" do
+  describe "pagination", driver: :rack_test, js: false do
     context "for project wide search" do
       it "works" do
         expect_range 13, 22

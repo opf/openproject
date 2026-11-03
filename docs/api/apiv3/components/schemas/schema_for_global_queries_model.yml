@@ -118,6 +118,7 @@ example:
     hasDefault: true
     writable: true
     location: _links
+    deprecated: true
     _links: {}
   filters:
     type: "[]QueryFilterInstance"

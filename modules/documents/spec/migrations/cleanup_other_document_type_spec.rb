@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,24 +32,6 @@ require_module_spec_helper
 require Rails.root.join("modules/documents/db/migrate/20251031071403_cleanup_other_document_type.rb")
 
 RSpec.describe CleanupOtherDocumentType, type: :model do
-  before do
-    I18n.backend.store_translations(:de, {
-                                      seeds: {
-                                        common: {
-                                          document_categories: {
-                                            item_2: { # rubocop:disable Naming/VariableNumber
-                                              name: "Andere"
-                                            }
-                                          }
-                                        }
-                                      }
-                                    })
-  end
-
-  after do
-    I18n.backend.reload! # Clean up mock translations
-  end
-
   describe "up migration" do
     context "when 'Other' document type has no associated documents" do
       let!(:other_type) { create(:document_type, name: "Other") }
@@ -89,6 +70,14 @@ RSpec.describe CleanupOtherDocumentType, type: :model do
     end
 
     context "with default language set to German", with_settings: { default_language: "de" } do
+      before do
+        allow(I18n).to receive(:t!).and_call_original
+        allow(I18n)
+          .to receive(:t!)
+                .with("seeds.common.document_categories.item_2.name", locale: "de")
+                .and_return("Andere")
+      end
+
       context "when localized 'Andere' type has no associated documents" do
         let!(:andere_type) { create(:document_type, name: "Andere") }
         let!(:kept_type) { create(:document_type, name: "Bericht") }

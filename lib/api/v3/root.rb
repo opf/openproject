@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -45,6 +44,8 @@ module API
 
       mount ::API::V3::Actions::ActionsAPI
       mount ::API::V3::Activities::ActivitiesAPI
+      mount ::API::V3::AI::TextTransformActionsAPI
+      mount ::API::V3::AI::TextTransformRunsAPI
       mount ::API::V3::Attachments::AttachmentsAPI
       mount ::API::V3::Backups::BackupsAPI
       mount ::API::V3::Capabilities::CapabilitiesAPI
@@ -58,6 +59,7 @@ module API
       mount ::API::V3::Grids::GridsAPI
       mount ::API::V3::Notifications::NotificationsAPI
       mount ::API::V3::HelpTexts::HelpTextsAPI
+      mount ::API::V3::Labels::LabelsAPI
       mount ::API::V3::Memberships::MembershipsAPI
       mount ::API::V3::News::NewsAPI
       mount ::API::V3::OAuth::OAuthApplicationsAPI

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,8 +55,8 @@ module Components
       end
     end
 
-    def expect_value(value, row)
-      expect(page).to have_css("#{row_selector(row)} .units", text: value)
+    def expect_value(value, row, wait: Capybara.default_max_wait_time)
+      expect(page).to have_css("#{row_selector(row)} .units", text: value, wait:)
     end
 
     def expect_cell_text(value, row, column)
@@ -81,15 +80,14 @@ module Components
       time_logging_modal.activity_input_disabled_because_work_package_missing? false
 
       time_logging_modal.submit
-
       if using_cuprite?
-        wait_for_reload
+        wait_for_reload(20)
       else
         sleep 1
       end
 
       expect_action_icon "edit", row
-      expect_value l_hours(hours), row
+      expect_value l_hours(hours), row, wait: 20
     end
 
     def edit_cost_entry(new_value, row, cost_entry_id)

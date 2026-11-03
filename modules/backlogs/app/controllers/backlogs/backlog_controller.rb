@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,6 +36,7 @@ module Backlogs
       :backlog
     end
 
+    before_action :redirect_legacy_filter_params, only: %i[show details]
     before_action :build_backlog_query, only: %i[show details]
 
     def show
@@ -62,8 +62,20 @@ module Backlogs
 
     private
 
+    def redirect_legacy_filter_params
+      converted_legacy_params = request.query_parameters
+                                    .slice("bucket_ids", "sprint_ids")
+                                    .select { |_, ids| ids.is_a?(Array) }
+                                    .transform_values(&:to_json)
+
+      return if converted_legacy_params.empty?
+
+      redirect_to action: action_name,
+                  params: permitted_params.backlog_filters.merge(converted_legacy_params)
+    end
+
     def build_backlog_query
-      @backlog_query = Backlogs::BacklogQueryBuilder.new(project: @project, user: current_user, params:).build
+      @backlog_query = backlog_query_builder.build
     end
 
     def split_view_base_route

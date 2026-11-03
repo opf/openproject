@@ -61,6 +61,7 @@ pt-BR:
         single: Selecionar "%{name}"
       remove: Remover %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Nenhum item encontrado
       placeholder: Escreva para pesquisar
       project:
@@ -162,6 +163,7 @@ pt-BR:
     button_stop_timer: Parar temporizador
     button_uncheck_all: Desmarcar todos
     button_update: Atualizar
+    button_view_markdown: View Markdown
     caption_rate_history: Taxa histórica
     card:
       add_new: Adicionar novo cartão
@@ -201,7 +203,10 @@ pt-BR:
     description_select_work_package: 'Selecionar o pacote de trabalho #%{id}'
     description_subwork_package: 'Filho do pacote de trabalho #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: 'Ocorreu um erro no CKEditor '
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Não foi possível salvar o documento pelo seguinte erro: %{error}'
       macro:
         attribute_reference:
@@ -358,8 +363,8 @@ pt-BR:
     ical_sharing_modal:
       copy_url_label: Copiar URL
       description: Você pode usar a URL (iCalendar) para assinar este calendário em um cliente externo e exibir informações atualizadas do pacote de trabalho a partir dele.
-      ical_generation_error_text: Ocorreu um erro ao gerar o URL do calendário.
-      inital_setup_error_message: Ocorreu um erro ao buscar dados.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: O URL "%{name}" foi copiado com sucesso para sua área de transferência. Cole-o em seu cliente de calendário para concluir a assinatura.
       title: Assinar calendário
       token_name_description_text: Se você assinar este calendário em vários dispositivos, este nome ajudará a diferenciá-los na sua lista de <a href="%{myAccessTokensUrl}" target="_blank">tokens de acesso</a>.
@@ -551,6 +556,8 @@ pt-BR:
     label_reset: Reiniciar
     label_resize_project_menu: Redimensionar menu do projeto
     label_save_as: Salvar como
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Buscar uma coluna
     label_select_watcher: Selecione um observador...
     label_selected_filter_list: Filtros selecionados
@@ -623,8 +630,8 @@ pt-BR:
     notifications:
       center:
         and_more_users:
-          one: e 1 outro
-          other: e %{count} outros
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Parece que você já está com tudo em dia.
           no_notification_for_filter: Parece que você já está com tudo em dia para este filtro.
@@ -720,6 +727,7 @@ pt-BR:
     placeholders:
       default: "-"
       description: 'Descrição: Clique em editar...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Clique para adicionar a descrição para esta relação
       selection: Por favor selecione
       subject: Informe o assunto aqui
@@ -806,12 +814,32 @@ pt-BR:
       sorting_disabled: ordenação está desativada
     sortable_lists:
       announcements:
+        batch_too_large: Não é possível mover %{count} itens de uma vez. Selecione no máximo %{max}.
         fallback_item_label: Item
         fallback_list_name: outra lista
         move_failed_check_position: Falha ao mover. Verifique a posição atual do item.
+        move_failed_check_positions_batch:
+          other: Falha ao mover. Verifique as posições atuais dos itens.
         move_failed_rolled_back: Falha ao mover. %{label} retornou à sua posição anterior.
+        move_failed_rolled_back_batch:
+          other: Falha ao mover. %{count} pacotes de trabalho retornaram às suas posições anteriores.
         moved: "%{label} foi movido para a posição %{position} de %{total}"
+        moved_batch:
+          other: "%{count} itens movidos para as posições %{first} a %{last} de %{total}"
+        moved_batch_to_list:
+          other: "%{count} itens movidos para %{list}, posições %{first} a %{last} de %{total}"
         moved_to_list: "%{label} foi movido para %{list}, na posição %{position} de %{total}"
+      selection:
+        cleared: Seleção removida.
+        not_selectable: Seleção inalterada. Este item não faz parte da ordenação desta lista.
+        range_blocked: Seleção inalterada. Esse intervalo contém um item que não faz parte da ordenação desta lista.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Seleção inalterada. Expanda a lista para selecionar todo o intervalo.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Fechar o modal
@@ -825,9 +853,7 @@ pt-BR:
     text_user_wrote: "%{value} escreveu:"
     text_work_packages_destroy_confirmation: Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?
     time_entry:
-      stop: Parar
       title: Registro de tempo
-      tracking: Controle de tempo
       work_package_required: É necessário selecionar primeiro um pacote de trabalho.
     timer:
       button_stop: Interromper temporizador atual
@@ -862,20 +888,20 @@ pt-BR:
       label_two_factor_authentication: Autenticação de dois fatores
     units:
       child_work_packages:
-        one: um pacote de trabalho filho
-        other: "%{count} pacotes de trabalho filhos"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 dia
+        one: "%{count} day"
         other: "%{count} dias"
         zero: 0 dias
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} hs"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: 1 palavra
-        other: "%{count} palavras"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: pacote de trabalho
         other: pacotes de trabalho
@@ -1068,11 +1094,26 @@ pt-BR:
       scheduling:
         is_parent: As datas deste pacote de trabalho são deduzidas automaticamente de seus filhos. Ative o 'Planejamento manual' para definir as datas.
         is_switched_from_manual_to_automatic: As datas deste pacote de trabalho podem precisar ser recalculadas após a alteração de planejamento manual para automático devido a relações com outros pacotes de trabalho.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Exibir todos os usuários com quem o pacote de trabalho foi compartilhado
         title: Compartilhar pacote de trabalho
       table:
         configure_button: Configurar a tabela de pacote de trabalho
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Tabela com linhas de pacote de trabalho e colunas com atributos do pacote de trabalho.
         text_inline_edit: A maioria das células desta tabela são botões que ativam a funcionalidade de edição em linha do atributo.
         text_select_hint: Caixas de seleção devem ser abertas com 'ALT' e teclas de seta.

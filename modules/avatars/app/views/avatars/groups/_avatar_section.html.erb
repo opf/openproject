@@ -1,0 +1,8 @@
+<% group = local_assigns.fetch(:group, @group) %>
+<%= render(
+      Avatars::FormSectionComponent.new(
+        principal: group,
+        target_avatar_path: edit_group_avatar_path(group),
+        avatar_settings_path: update_settings_edit_group_avatar_path(group)
+      )
+    ) %>

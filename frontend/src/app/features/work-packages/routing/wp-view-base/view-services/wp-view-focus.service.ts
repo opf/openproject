@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,10 +28,10 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { WorkPackageViewBaseService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-base.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { WorkPackageViewSelectionService } from './wp-view-selection.service';
 
 export interface WPFocusState {
   workPackageId:string;
@@ -42,7 +41,7 @@ export interface WPFocusState {
 
 @Injectable()
 export class WorkPackageViewFocusService extends WorkPackageViewBaseService<WPFocusState> {
-  wpTableSelection = inject(WorkPackageViewSelectionService);
+  private readonly selection = inject(WorkPackageViewSelectionService);
 
   public isFocused(workPackageId:string) {
     return this.current?.workPackageId === workPackageId;
@@ -91,11 +90,27 @@ export class WorkPackageViewFocusService extends WorkPackageViewBaseService<WPFo
       );
   }
 
+  /**
+   * Selects the work package a detail view opened or a creation produced,
+   * then focuses it.
+   *
+   * @remarks
+   * Selection happens only when nothing is selected; an existing batch, its
+   * anchor and its range session stay as the user left them. When
+   * initialization adds membership, it publishes that membership before
+   * emitting focus. Ordinary focus movement goes through {@link updateFocus},
+   * which never touches selection.
+   *
+   * @param workPackageId - The work package the view opened or created.
+   * @param setFocusAfterRender - Whether the row should receive DOM focus once rendered.
+   * @param navigate - Whether the split view should follow the work package.
+   */
+  public initializeSelectionAndFocus(workPackageId:string, setFocusAfterRender = false, navigate = true):void {
+    this.selection.ensureSelected(workPackageId);
+    this.updateFocus(workPackageId, setFocusAfterRender, navigate);
+  }
+
   public updateFocus(workPackageId:string, setFocusAfterRender = false, navigate = true) {
-    // Set the selection to this row, if nothing else is selected.
-    if (this.wpTableSelection.isEmpty) {
-      this.wpTableSelection.setRowState(workPackageId, true);
-    }
     this.update({ workPackageId, focusAfterRender: setFocusAfterRender, navigate });
   }
 

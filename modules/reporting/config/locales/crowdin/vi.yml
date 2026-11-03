@@ -22,8 +22,14 @@
 ---
 vi:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        other: Cost reports
+      cost_report:
         other: Cost reports
   button_save_report_as: Lưu báo cáo dưới dạng...
   comments: bình luận
@@ -73,7 +79,7 @@ vi:
   label_money: Giá trị tiền mặt
   label_month_reporting: Tháng (Chi tiêu)
   label_new_report: Báo cáo chi phí mới
-  label_no: không
+  label_no: Không
   label_no_reports: Chưa có báo cáo chi phí.
   label_none: "(không có dữ liệu)"
   label_open: mở
@@ -98,7 +104,6 @@ vi:
   plugin_openproject_reporting:
     description: Plugin này cho phép tạo báo cáo chi phí tùy chỉnh với tính năng lọc và nhóm được tạo bởi plugin Thời gian và chi phí OpenProject.
     name: Báo cáo OpenProject
-  project_module_reporting_module: Các báo cáo chi phí
   reporting:
     group_by:
       selected_columns: Cột đã chọn

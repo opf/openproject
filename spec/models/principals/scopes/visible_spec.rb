@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -80,7 +79,7 @@ RSpec.describe Principals::Scopes::Visible do
       end
     end
 
-    shared_examples "sees principals in same projets and groups" do
+    shared_examples "sees principals in same projects and groups" do
       it "sees only the users, groups, and placeholder users in the same project" do
         expect(subject).to contain_exactly(current_user, project_user, project_group, project_placeholder_user)
       end
@@ -92,7 +91,7 @@ RSpec.describe Principals::Scopes::Visible do
                       member_with_roles: { project => role })
       end
 
-      include_examples "sees principals in same projets and groups"
+      include_examples "sees principals in same projects and groups"
     end
 
     context "when user has no manage_members project permission, and is member of a project" do
@@ -101,7 +100,7 @@ RSpec.describe Principals::Scopes::Visible do
                       member_with_permissions: { project => %i[view_work_packages] })
       end
 
-      include_examples "sees principals in same projets and groups"
+      include_examples "sees principals in same projects and groups"
     end
 
     context "when user has view_all_principals global permission" do

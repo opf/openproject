@@ -29,7 +29,7 @@ id:
         title: Anggota
         view_all_members: View all members
         x_more:
-          other: dan %{count} anggota lainnya.
+          other: and %{count} more members.
       news:
         no_results: Nothing new to report.
       not_available: Widget ini tidak tersedia.

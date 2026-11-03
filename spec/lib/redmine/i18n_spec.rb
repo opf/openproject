@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,10 +33,9 @@ module OpenProject
   RSpec.describe I18n, type: :helper do
     include Redmine::I18n
 
-    let(:format) { "%d/%m/%Y" }
-    let(:user) { build_stubbed(:user) }
-
     describe "#format_date with time" do
+      let(:format) { "%d/%m/%Y" }
+
       current_user { build_stubbed(:user, preferences: { time_zone: user_time_zone }) }
 
       describe "with user time zone" do
@@ -129,6 +127,49 @@ module OpenProject
       it "has multiple languages" do
         expect(all_languages).to include "en", "de", "fr", "es"
         expect(all_languages.size).to be >= 25
+      end
+    end
+
+    describe "#translate_language" do
+      subject(:language_options) { all_languages.map { translate_language(it) } }
+
+      it 'has all languages translated ("English" should appear only once)' do
+        impostor_locales = language_options.filter_map { |lang, locale| locale if lang == "English" && locale != "en" }
+        expect(impostor_locales.count).to eq(0), <<~ERR
+          The locales #{impostor_locales.to_sentence} display themselves as "English"!
+
+          Probably because new languages were added, and the translation for their language is not
+          available, so it fallbacks to the English translation.
+
+          To fix it, generate translation files from CLDR by running
+
+              script/i18n/generate_languages_translations
+
+          And commit the yml files added in "config/locales/generated/*.yml".
+        ERR
+      end
+
+      it "has distinct languages translation" do
+        duplicates =
+          language_options
+            .group_by(&:first)
+            .transform_values { it.map(&:last) }
+            .reject { |_lang, locales| locales.one? }
+
+        expect(duplicates).to be_empty, <<~ERR
+          Some identical language names are used for different locales!
+
+            duplicates: #{duplicates}
+
+          This happens when a new language is added to Crowdin: new translation files are
+          generated and the new language is available in Setting.all_languages, but there
+          is no translation for its name yet, and so it falls back to "English".
+
+          To fix it:
+            - run the script "script/i18n/generate_languages_translations"
+            - commit the additional translation file generated in
+              "config/locales/generated/*.yml".
+        ERR
       end
     end
 
@@ -228,15 +269,13 @@ module OpenProject
     end
 
     describe "link_translation" do
-      let(:urls) do
-        { url_1: "http://openproject.com/foo", url_2: "/baz" }
-      end
+      let(:urls) { { url1: "http://openproject.com/foo", url2: "/baz" } }
 
       before do
         allow(::I18n)
           .to receive(:translate)
           .with("translation_with_a_link", *any_args)
-          .and_return("There is a [link](url_1) in this translation! Maybe even [two](url_2)?")
+          .and_return("There is a [link](url1) in this translation! Maybe even [two](url2)?")
       end
 
       it "allows to insert links into translations" do
@@ -273,9 +312,7 @@ module OpenProject
       end
 
       context "when passing URLs as a list of symbols" do
-        let(:urls) do
-          { url_1: [:a, :b], url_2: [:a, :c] }
-        end
+        let(:urls) { { url1: %i[a b], url2: %i[a c] } }
 
         before do
           allow(OpenProject::Static::Links).to receive(:url_for).and_return("/no-args")
@@ -301,16 +338,25 @@ module OpenProject
 
     describe "#format_date" do
       context "without a date_format setting", with_settings: { date_format: "" } do
-        it "uses the locale formate" do
-          expect(format_date(Date.today))
-            .to eql described_class.l(Date.today)
+        it "uses the locale format" do
+          expect(format_date(Time.zone.today))
+            .to eql described_class.l(Time.zone.today)
         end
       end
 
       context "with a date_format setting", with_settings: { date_format: "%d %m %Y" } do
         it "adheres to the format" do
-          expect(format_date(Date.today))
-            .to eql Date.today.strftime("%d %m %Y")
+          expect(format_date(Time.zone.today))
+            .to eql Time.zone.today.strftime("%d %m %Y")
+        end
+
+        context "with a date_format preference" do
+          current_user { build_stubbed(:user, preferences: { date_format: "%Y-%m-%d" }) }
+
+          it "adheres to the preference" do
+            expect(format_date(Time.zone.today))
+              .to eql Time.zone.today.strftime("%Y-%m-%d")
+          end
         end
       end
 
@@ -318,7 +364,7 @@ module OpenProject
         context "for lang #{lang}" do
           it "raises no error" do
             described_class.with_locale lang do
-              expect { format_date(Date.today) }
+              expect { format_date(Time.zone.today) }
                 .not_to raise_error
             end
           end
@@ -326,7 +372,7 @@ module OpenProject
       end
     end
 
-    describe "#numer_to_human_size" do
+    describe "#number_to_human_size" do
       valid_languages.each do |lang|
         context "for locale #{lang}" do
           it "does not raise an error" do
@@ -387,6 +433,27 @@ module OpenProject
         time_format: "%H:%M",
         date_format: "%Y-%m-%d"
       } do
+        it "renders date and hours" do
+          expect(format_time(now))
+            .to eql "2011-02-20 15:45"
+        end
+
+        it "renders only hours" do
+          expect(format_time(now, include_date: false))
+            .to eql "15:45"
+        end
+      end
+
+      context "with a different user preference" do
+        current_user do
+          build_stubbed(:user,
+                        preferences: {
+                          time_zone: user_time_zone,
+                          date_format: "%Y-%m-%d",
+                          time_format: "%H:%M"
+                        })
+        end
+
         it "renders date and hours" do
           expect(format_time(now))
             .to eql "2011-02-20 15:45"
@@ -557,12 +624,32 @@ module OpenProject
       end
     end
 
+    describe "#date_time_format_example" do
+      it "renders the sample date, independent of the current date" do
+        travel_to(Time.utc(2020, 1, 1)) do
+          expect(date_time_format_example("%d.%m.%Y")).to eq "28.02.2026"
+        end
+      end
+
+      it "renders every allowed date format distinctly" do
+        examples = Settings::Definition[:date_format].allowed.map { date_time_format_example(it) }
+
+        expect(examples).to eq(examples.uniq)
+      end
+
+      it "renders every allowed time format distinctly" do
+        examples = Settings::Definition[:time_format].allowed.map { date_time_format_example(it) }
+
+        expect(examples).to eq(examples.uniq)
+      end
+    end
+
     describe ".l" do
       valid_languages.each do |lang|
         context "for locale #{lang}" do
           it "is not 'default' for a date" do
             described_class.with_locale lang do
-              expect(described_class.l(Date.today, format: :default))
+              expect(described_class.l(Time.zone.today, format: :default))
                 .not_to eq "default"
             end
           end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,7 +43,7 @@ module Accounts::SessionLifetime
   # but it will never be expired later than that, ensuring that the setting is considered a maximum.
   #
   # The interval is a fraction of the configured TTL, with min and max values at 1 and 5 minutes respectively.
-  # This alllows us to save more writes on longer TTLs, while keeping the "expire ahead" minimal for smaller values.
+  # This allows us to save more writes on longer TTLs, while keeping the "expire ahead" minimal for smaller values.
   SESSION_ACTIVITY_REFRESH_RATIO = 0.2
   SESSION_ACTIVITY_REFRESH_MIN = 1.minute
   SESSION_ACTIVITY_REFRESH_MAX = 5.minutes
@@ -69,12 +68,14 @@ module Accounts::SessionLifetime
   end
 
   def session_expired?
-    !api_request? && current_user.logged? && session_ttl_expired?
+    !api_request? && !api_key_authenticated? && current_user.logged? && session_ttl_expired?
   end
 
   # Only write to the session if we really need to, to prevent a session write
   # that has no effect other than bumping updated_at.
   def refresh_session_activity
+    return if api_key_authenticated?
+
     last_seen = session[:updated_at]
     return if last_seen.present? && last_seen > session_activity_refresh_interval.ago
 

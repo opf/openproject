@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -58,7 +57,7 @@ module WorkPackages
 
         export_and_store!
       rescue ::Exports::ExportError => e
-        Rails.logger.error("Artefact export failed for work package ##{work_package.id}: #{e.message}")
+        Rails.logger.error("Artifact export failed for work package ##{work_package.id}: #{e.message}")
       end
 
       private
@@ -83,7 +82,7 @@ module WorkPackages
           journalize_attachment(attachment.author)
         else
           Rails.logger.error(
-            "Failed to attach artefact to work package ##{work_package.id}: " \
+            "Failed to attach artifact to work package ##{work_package.id}: " \
             "#{attachment.errors.full_messages.join(', ')}"
           )
         end
@@ -99,7 +98,7 @@ module WorkPackages
       end
 
       # Creating the attachment through the association does not create a work package
-      # journal on its own, so the artefact would only surface in the Activity tab after
+      # journal on its own, so the artifact would only surface in the Activity tab after
       # the next unrelated change. Create the journal explicitly so it shows up right away.
       def journalize_attachment(author)
         OpenProject::Mutex.with_advisory_lock_transaction(work_package) do
@@ -118,7 +117,7 @@ module WorkPackages
         result = upload(export, project_storage)
         return if result.success?
 
-        Rails.logger.error("Artefact upload failed for work package ##{work_package.id}: #{result.message}")
+        Rails.logger.error("Artifact upload failed for work package ##{work_package.id}: #{result.message}")
       end
 
       def upload(export, project_storage)
@@ -134,7 +133,7 @@ module WorkPackages
       def log_missing_storage
         Rails.logger.info(
           "No automatically-managed Nextcloud storage for project ##{project.id}; " \
-          "skipping artefact upload for work package ##{work_package.id}"
+          "skipping artifact upload for work package ##{work_package.id}"
         )
       end
 

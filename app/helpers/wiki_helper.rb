@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,6 +39,14 @@ module WikiHelper
 
     s + wiki_page_options_for_select_of_level(pages.group_by(&:parent),
                                               ids:)
+  end
+
+  def wiki_page_cancel_href(page, project)
+    if page.new_record?
+      url_for(controller: "/wiki", action: "index", project_id: project.identifier)
+    else
+      url_for(controller: "/wiki", action: "show", project_id: project.identifier, id: page)
+    end
   end
 
   def breadcrumb_for_page(project, page, action = nil)

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -198,6 +197,45 @@ module CustomFields
         )
       end
 
+      if show_project_specific_value_restriction_field?
+        details_form.radio_button_group(
+          name: :project_specific_value_restriction,
+          label: label(:project_specific_value_restriction)
+        ) do |group|
+          group.radio_button(
+            value: "",
+            checked: model.project_specific_value_restriction.nil?,
+            label: I18n.t("custom_fields.project_specific_values.all.label"),
+            caption: I18n.t("custom_fields.project_specific_values.all.caption"),
+            data: mode_switch_cause_data
+          )
+          group.radio_button(
+            value: "allow",
+            checked: model.project_specific_value_restriction_allow?,
+            disabled: mode_unavailable?("allow"),
+            label: I18n.t("custom_fields.project_specific_values.allow.label"),
+            caption: helpers.t("custom_fields.project_specific_values.allow.caption_html"),
+            data: mode_switch_cause_data
+          )
+          group.radio_button(
+            value: "block",
+            checked: model.project_specific_value_restriction_block?,
+            disabled: mode_unavailable?("block"),
+            label: I18n.t("custom_fields.project_specific_values.block.label"),
+            caption: I18n.t("custom_fields.project_specific_values.block.caption"),
+            data: mode_switch_cause_data
+          )
+        end
+
+        details_form.html_content do
+          render(EnterpriseEdition::BannerComponent.new(:project_specific_list_values))
+        end
+
+        mode_switch_banner(details_form, mode: "all", value: "")
+        mode_switch_banner(details_form, mode: "allow", value: "allow")
+        mode_switch_banner(details_form, mode: "block", value: "block")
+      end
+
       if show_right_to_left_field?
         details_form.check_box(
           name: :content_right_to_left,
@@ -259,7 +297,7 @@ module CustomFields
     end
 
     def show_default_text_field?
-      %w[list bool date text user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
+      %w[list bool date datetime text user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
     end
 
     def show_default_rich_text_field?
@@ -287,7 +325,7 @@ module CustomFields
     end
 
     def show_regex_field?
-      %w[list bool date user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
+      %w[list bool date datetime user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
     end
 
     def show_right_to_left_field?
@@ -303,16 +341,55 @@ module CustomFields
     end
 
     def show_is_for_all_field?
-      model.is_a?(WorkPackageCustomField) || model.is_a?(ProjectCustomField)
+      model.is_a?(ProjectCustomField)
     end
 
     def show_is_filter_field?
       model.is_a?(WorkPackageCustomField)
     end
 
+    def show_project_specific_value_restriction_field?
+      model.is_a?(WorkPackageCustomField) && %w[list hierarchy weighted_item_list].include?(model.field_format)
+    end
+
+    def project_specific_values_enterprise?
+      EnterpriseToken.allows_to?(:project_specific_list_values)
+    end
+
+    def mode_unavailable?(mode)
+      !project_specific_values_enterprise? && model.project_specific_value_restriction != mode
+    end
+
+    def mode_switch_cause_data
+      { show_when_value_selected_target: "cause", target_name: "project_specific_value_restriction" }
+    end
+
+    def mode_switch_banner(details_form, mode:, value:)
+      return if mode == (model.project_specific_value_restriction_in_database || "all")
+
+      details_form.html_content do
+        render(
+          Primer::BaseComponent.new(
+            tag: :div,
+            hidden: (model.project_specific_value_restriction || "all") != mode,
+            test_selector: "project-specific-values-switch-to-#{mode}",
+            data: {
+              show_when_value_selected_target: "effect",
+              target_name: "project_specific_value_restriction",
+              value:
+            }
+          )
+        ) do
+          render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert)) do
+            I18n.t("custom_fields.project_specific_values.switch_warning.#{mode}")
+          end
+        end
+      end
+    end
+
     def show_is_searchable_field?
       (model.is_a?(WorkPackageCustomField) || model.is_a?(ProjectCustomField)) &&
-        %w[bool date float int user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
+        %w[bool date datetime float int user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
     end
 
     def show_non_open_versions_field?

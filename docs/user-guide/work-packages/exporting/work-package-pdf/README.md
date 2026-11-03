@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Work package PDF export
   priority: 400
 description: How to export a single work package in PDF format in OpenProject
-keywords: work package exports, single work package, PDF, contract template, PMflex artefact
+keywords: work package exports, single work package, PDF, contract template, PMflex artifact
 ---
 
 # Work package PDF export
@@ -68,10 +68,10 @@ In addition to the options above, you can adjust the following:
 
 - **Footer text**, which is displayed at the center of the footer of every page, with the export date to the left and the page number to the right of it. The work package subject will be suggested as footer text. You can adjust the suggested footer text.
 
-## PMflex Artefact
+## PMflex Artifact
 
-This template renders the work package as a PMflex Artefact: a structured document that combines the context of the project with the content of the work package and its related work packages. 
-The [PM² Project Management Guide](../../../../project-management-guide/3-overview-pm2/#33-pm-phase-drivers-and-key-artefacts) describes the key artefacts of the methodology and the phases they belong to.
+This template renders the work package as a PMflex Artifact: a structured document that combines the context of the project with the content of the work package and its related work packages. 
+The [PM² Project Management Guide](../../../../project-management-guide/3-overview-pm2/#33-pm-phase-drivers-and-key-artifacts) describes the key artifacts of the methodology and the phases they belong to.
 
 The export contains:
 
@@ -82,7 +82,7 @@ The export contains:
 - The project's lifecycle (phases) and budgets, if the options below are activated.
 - All work package attributes, grouped as in the form configuration of the work package type.
 - Related work packages from embedded tables of the form configuration. Unlike the other templates, 
-  these are not listed as table rows but rendered with their attributes, their description and their long text custom fields, so the artefact is complete on its own.
+  these are not listed as table rows but rendered with their attributes, their description and their long text custom fields, so the artifact is complete on its own.
 
 In addition to the options above, you can adjust the following:
 
@@ -91,7 +91,7 @@ In addition to the options above, you can adjust the following:
 - **Project budgets** - if selected, a planned cost breakdown of the project's [budgets](../../../budgets/) is added. Each budget is listed with its planned total, its base amount if it has one, and its planned unit cost and planned labor cost items, each item with its quantity, cost per unit and sum. Every group carries a subtotal and the section closes with a total across all budgets. Spent and available amounts are not part of the export, and budget item comments are not exported. The section is only shown to users who can view the project's budgets, and individual amounts are left blank for users who may not see the underlying rates - just as they are in the budget views, which means the amounts a partially permitted user sees do not necessarily add up to the subtotal shown. This option is deactivated by default.
 
 > [!TIP]
-> Administrators can configure [automatic artefact export](../../../../system-admin-guide/manage-work-packages/work-package-types/pdf-export/#automatic-artefact-export) for a work package type. The artefact is then generated whenever the status of a work package changes and either added to the work package as an attachment or uploaded to the connected Nextcloud folder of the project.
+> Administrators can configure [automatic artifact export](../../../../system-admin-guide/manage-work-packages/work-package-types/pdf-export/#automatic-artifact-export) for a work package type. The artifact is then generated whenever the status of a work package changes and either added to the work package as an attachment or uploaded to the connected Nextcloud folder of the project.
 
 ## Generate the export
 

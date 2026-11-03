@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,6 +34,8 @@ class DocumentsController < ApplicationController
   include OpTurbo::ComponentStream
 
   default_search_scope :documents
+
+  helper_method :document_html_title_parts
 
   before_action :find_project_by_project_id, only: %i[index search new create]
   before_action :find_document, except: %i[index search new create]
@@ -48,7 +49,7 @@ class DocumentsController < ApplicationController
 
   def search
     index
-    replace_via_turbo_stream component: Documents::ListComponent.new(@documents, project: @project)
+    replace_via_turbo_stream component: Documents::TableComponent.new(rows: @documents, project: @project)
     current_url = url_for(params.permit(:controller, :filters, :sortBy).merge(action: "index"))
     turbo_streams << turbo_stream.push_state(current_url)
 
@@ -128,6 +129,7 @@ class DocumentsController < ApplicationController
 
     state = call.success? ? :show : :edit
     update_header_component_via_turbo_stream(state:)
+    set_page_title_via_turbo_stream(*document_html_title_parts, project: @project) if call.success?
 
     respond_with_turbo_streams
   end
@@ -170,6 +172,10 @@ class DocumentsController < ApplicationController
   end
 
   private
+
+  def document_html_title_parts
+    [I18n.t(:label_document_plural), @document.title]
+  end
 
   def find_document
     @document = Document.visible.find(params[:id])

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -81,9 +80,13 @@ export default class ExpandableTextController extends Controller<HTMLElement> {
     this.abortController?.abort();
   }
 
-  expandedValueChanged(value:boolean) {
+  expandedValueChanged(value:boolean, previousValue?:boolean) {
     if (this.inlineValue && this.hasExpanderTarget) {
-      this.expanderButton.setAttribute('aria-label', value ? I18n.t('js.label_collapse_text') : I18n.t('js.label_expand_text'));
+      // The collapsed label is server-rendered. Translations may not be loaded
+      // yet when the controller connects, so it is only written on a change.
+      if (value !== Boolean(previousValue)) {
+        this.expanderButton.setAttribute('aria-label', value ? I18n.t('js.label_collapse_text') : I18n.t('js.label_expand_text'));
+      }
       this.expanderButton.setAttribute('aria-expanded', String(value));
 
       if (this.modeValue === 'multi_line') {

@@ -9,22 +9,22 @@ da:
         demo-project:
           meeting_series:
             item_0:
-              title: Weekly
+              title: Ugentligt
           meeting_agenda_items:
             item_0:
-              title: Good news
-              notes: What went well this week?
+              title: Gode nyheder
+              notes: Hvad gik godt i denne uge?
             item_1:
-              title: Team updates
-              notes: News and focused topics for the upcoming week.
+              title: Nyt fra teamet
+              notes: Nyheder og fokusemner for den kommende uge.
             item_2:
-              notes: "**Today's topic**: Organizing the open-source conference."
+              notes: "**Dagens emne**: Planlægning af open source-konferencen."
             item_3:
-              title: Review of quarterly goals
-              notes: Assessing the status and progress of the defined quarterly goals.
+              title: Gennemgang af kvartalsmål
+              notes: Vurdering af status og fremdrift for de fastlagte kvartalsmål.
             item_4:
-              title: Core values feedback
-              notes: Highlight employees who have lived the core values this week.
+              title: Tilbagemelding om kerneværdier
+              notes: Fremhæv medarbejdere, der har efterlevet kerneværdierne i denne uge.
             item_5:
-              title: General topics
-              notes: Solving or discussing topics together.
+              title: Generelle emner
+              notes: Løsning eller drøftelse af emner i fællesskab.

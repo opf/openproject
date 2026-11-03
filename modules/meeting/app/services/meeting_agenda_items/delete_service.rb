@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -21,21 +22,18 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module MeetingAgendaItems
   class DeleteService < ::BaseServices::Delete
-    include AfterPerformHook
+    include Meetings::JournalAfterPerform
     include JournalizeWorkPackageActivity
 
-    alias_method :original_after_perform, :after_perform
-
     def after_perform(call)
-      original_after_perform(call)
+      super
 
       if call.success?
         journalize_agenda_item(call.result, Journal::CausedByMeetingAgendaItemRemoved.new(call.result.meeting))

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -100,7 +99,7 @@ RSpec.describe API::V3::Utilities::PathHelper do
     it_behaves_like "index", :capability
     it_behaves_like "show", :capability
 
-    describe "#capabilties_contexts_global" do
+    describe "#capabilities_contexts_global" do
       subject { helper.capabilities_contexts_global }
 
       it_behaves_like "api v3 path", "/capabilities/contexts/global"
@@ -489,6 +488,12 @@ RSpec.describe API::V3::Utilities::PathHelper do
       subject { helper.versions_available_projects }
 
       it_behaves_like "api v3 path", "/versions/available_projects"
+    end
+
+    describe "#labels_by_workspace" do
+      subject { helper.labels_by_workspace 42 }
+
+      it_behaves_like "api v3 path", "/workspaces/42/labels"
     end
 
     describe "#versions_by_project" do

@@ -61,6 +61,7 @@ hy:
         single: Ընտրել "%{name}"
       remove: Հեռացնել %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Տարրեր չեն գտնվել
       placeholder: Մուտքագրեք որոնելու համար
       project:
@@ -162,6 +163,7 @@ hy:
     button_stop_timer: Դադարեցնել ժամաչափը
     button_uncheck_all: Հանել բոլոր նշումները
     button_update: Թարմացնել
+    button_view_markdown: View Markdown
     caption_rate_history: Դրույքի պատմություն
     card:
       add_new: Ավելացնել նոր քարտ
@@ -201,7 +203,10 @@ hy:
     description_select_work_package: 'Ընտրել #%{id} աշխատանքային փաթեթը'
     description_subwork_package: "#%{id} աշխատանքային փաթեթի ենթատարր"
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: CKEditor-ում սխալ է տեղի ունեցել
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: Փաստաթղթի պահպանումը ձախողվեց հետևյալ սխալով՝ %{error}
       macro:
         attribute_reference:
@@ -358,8 +363,8 @@ hy:
     ical_sharing_modal:
       copy_url_label: Պատճենել URL-ը
       description: Դուք կարող եք օգտագործել URL-ը (iCalendar)՝ արտաքին հաճախորդում այս օրացույցին բաժանորդագրվելու և այնտեղից աշխատանքային փաթեթների արդիական տեղեկությունները դիտելու համար։
-      ical_generation_error_text: Օրացույցի URL-ը ստեղծելիս սխալ առաջացավ։
-      inital_setup_error_message: Տվյալները ստանալիս սխալ առաջացավ։
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: '"%{name}" URL-ը հաջողությամբ պատճենվել է Ձեր փոխանակման բուֆերում։ Տեղադրեք այն Ձեր օրացույցի հաճախորդում՝ բաժանորդագրությունն ավարտելու համար։'
       title: Բաժանորդագրվել օրացույցին
       token_name_description_text: Եթե այս օրացույցին բաժանորդագրվեք մի քանի սարքից, այս անունը կօգնի Ձեզ տարբերել դրանք Ձեր <a href="%{myAccessTokensUrl}" target="_blank">մուտքի թոքենների</a> ցանկում։
@@ -551,6 +556,8 @@ hy:
     label_reset: Վերակայել
     label_resize_project_menu: Փոխել նախագծի ցանկի չափը
     label_save_as: Պահպանել որպես
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Որոնել սյունակ
     label_select_watcher: Ընտրեք հետևող...
     label_selected_filter_list: Ընտրված զտիչներ
@@ -623,8 +630,8 @@ hy:
     notifications:
       center:
         and_more_users:
-          one: և ևս 1 օգտատեր
-          other: և ևս %{count} օգտատեր
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Կարծես թե ամեն ինչ արդեն դիտված է։
           no_notification_for_filter: Կարծես թե այս զտիչի համար ամեն ինչ արդեն դիտված է։
@@ -720,6 +727,7 @@ hy:
     placeholders:
       default: "-"
       description: Նկարագրություն՝ սեղմեք խմբագրելու համար...
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Սեղմեք՝ այս կապի նկարագրությունն ավելացնելու համար
       selection: Ընտրեք
       subject: Մուտքագրեք վերնագիրն այստեղ
@@ -806,12 +814,32 @@ hy:
       sorting_disabled: դասավորումն անջատված է
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Տարր
         fallback_list_name: մեկ այլ ցանկ
         move_failed_check_position: Տեղափոխումը ձախողվեց։ Ստուգեք տարրի ընթացիկ դիրքը։
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Տեղափոխումը ձախողվեց։ %{label} վերադարձավ իր նախորդ դիրքին։
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} տեղափոխվեց դիրք %{position} %{total}-ից"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} տեղափոխվեց %{list}, դիրք %{position} %{total}-ից"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Փակել պատուհանը
@@ -825,9 +853,7 @@ hy:
     text_user_wrote: "%{value}-ը գրել է՝"
     text_work_packages_destroy_confirmation: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել ընտրված աշխատանքային փաթեթ(ներ)ը։
     time_entry:
-      stop: Դադարեցնել
       title: Գրանցել ժամանակ
-      tracking: Ժամանակի հաշվառում
       work_package_required: Նախ անհրաժեշտ է ընտրել աշխատանքային փաթեթ։
     timer:
       button_stop: Դադարեցնել ընթացիկ ժամաչափը
@@ -862,20 +888,20 @@ hy:
       label_two_factor_authentication: Երկգործոն նույնականացում
     units:
       child_work_packages:
-        one: մեկ դուստր աշխատանքային փաթեթ
-        other: "%{count} դուստր աշխատանքային փաթեթ"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 օր
+        one: "%{count} day"
         other: "%{count} օր"
         zero: 0 օր
       hour:
-        one: 1 ժ
+        one: "%{count} h"
         other: "%{count} ժ"
         zero: 0 ժ
       hour_string: "%{hours} ժ"
       word:
-        one: 1 բառ
-        other: "%{count} բառ"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: աշխատանքային փաթեթ
         other: աշխատանքային փաթեթ
@@ -1068,11 +1094,26 @@ hy:
       scheduling:
         is_parent: Այս աշխատանքային փաթեթի ամսաթվերն ավտոմատ կերպով հաշվարկվում են դրա ենթատարրերից։ Ամսաթվերը սահմանելու համար ակտիվացրեք 'Ձեռքով պլանավորումը'։
         is_switched_from_manual_to_automatic: Այս աշխատանքային փաթեթի ամսաթվերը կարող է անհրաժեշտ լինի վերահաշվարկել ձեռքով պլանավորումից ավտոմատին անցնելուց հետո՝ այլ աշխատանքային փաթեթների հետ ունեցած կապերի պատճառով։
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Ցուցադրել բոլոր օգտատերերին, որոնց հետ համօգտագործվել է աշխատանքային փաթեթը
         title: Համօգտագործել աշխատանքային փաթեթը
       table:
         configure_button: Կազմաձևել աշխատանքային փաթեթների աղյուսակը
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Աղյուսակ՝ աշխատանքային փաթեթների տողերով և աշխատանքային փաթեթների հատկանիշների սյունակներով։
         text_inline_edit: Այս աղյուսակի բջիջների մեծ մասը կոճակներ են, որոնք ակտիվացնում են տվյալ հատկանիշի տեղում խմբագրման գործառույթը։
         text_select_hint: Ընտրության դաշտերը պետք է բացվեն 'ALT' և սլաքների ստեղներով։

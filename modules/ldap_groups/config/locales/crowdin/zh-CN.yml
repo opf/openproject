@@ -54,7 +54,7 @@ zh-CN:
 
           '
       label_n_groups_found:
-        one: 筛选器找到了 1 个组
+        one: "%{count} group found by the filter"
         other: 筛选器找到了 %{count} 个组
         zero: 筛选器未找到组
       plural: LDAP 组同步筛选器
@@ -88,7 +88,7 @@ zh-CN:
       plural: 同步的 LDAP 组
       singular: 同步LDAP组
       upsell:
-        description: 利用同步的 LDAP 组来管理用户、更改其权限并促进跨组的用户管理。
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
-    description: LDAP组成员同步。
+    description: LDAP 组成员同步。
     name: OpenProject LDAP 组

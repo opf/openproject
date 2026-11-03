@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -60,6 +59,7 @@ import {
 import { delegate, DelegateEvent } from '@knowledgecode/delegate';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[wpInlineCreate]',
   templateUrl: './wp-inline-create.component.html',
   standalone: false,
@@ -108,14 +108,18 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
   private editingSubscription:Subscription|undefined;
 
-  private element:HTMLElement;
+  private element:HTMLTableSectionElement;
 
   get isActive():boolean {
     return this.mode !== 'inactive';
   }
 
+  get treegrid():boolean {
+    return this.table.configuration.keyboardNavigationEnabled;
+  }
+
   ngOnInit() {
-    this.element = this.elementRef.nativeElement;
+    this.element = this.elementRef.nativeElement as HTMLTableSectionElement;
   }
 
   ngAfterViewInit():void {
@@ -130,6 +134,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
         this.canAdd = canAdd;
         this.canReference = this.hasReferenceClass && canReference;
         this.cdRef.detectChanges();
+        this.reconcileExposure();
         this.showing.emit(this.canAdd || this.canReference);
       });
 
@@ -187,14 +192,13 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
         this.untilDestroyed(),
       )
       .subscribe((wp:WorkPackageResource) => {
-        // eslint-disable-next-line no-underscore-dangle
         if (this.currentWorkPackage?.__initialized_at === wp.__initialized_at) {
           // Remove row and focus
           this.resetRow();
 
           // Split view on the last inserted id if any
           if (!this.table.configuration.isEmbedded) {
-            this.wpTableFocus.updateFocus(wp.id!);
+            this.wpTableFocus.initializeSelectionAndFocus(wp.id!);
           }
 
           // Notify inline create service
@@ -217,6 +221,8 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
   public handleReferenceClick() {
     this.mode = 'reference';
+    this.cdRef.detectChanges();
+    this.reconcileExposure();
     return false;
   }
 
@@ -229,7 +235,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   }
 
   public addWorkPackageRow() {
-    this.wpCreate
+    void this.wpCreate
       .createOrContinueWorkPackage(this.projectIdentifier)
       .then((change:WorkPackageChangeset) => {
         const wp = this.currentWorkPackage = change.projectedResource;
@@ -289,14 +295,24 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
     const [row] = builder.buildNew(wp, form);
     this.element.append(row);
+    this.reconcileExposure();
 
     return form;
+  }
+
+  @HostListener('keydown.escape', ['$event'])
+  public cancelOnEscape(event:KeyboardEvent) {
+    if (this.mode === 'inactive') {
+      return;
+    }
+
+    event.preventDefault();
+    this.resetRow();
   }
 
   /**
    * Reset the new work package row and refocus on the button
    */
-  @HostListener('keydown.escape')
   public resetRow() {
     this.focus = true;
     this.removeWorkPackageRow();
@@ -311,6 +327,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
     this.wpCreate.cancelCreation();
     this.currentWorkPackage = null;
     this.element.querySelector('.wp-row-new')?.remove();
+    this.reconcileExposure();
     if (this.editingSubscription) {
       this.editingSubscription.unsubscribe();
     }
@@ -319,10 +336,18 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   public showRow() {
     this.mode = 'inactive';
     this.cdRef.detectChanges();
+    this.reconcileExposure();
   }
 
   public hideRow() {
     this.mode = 'create';
     this.cdRef.detectChanges();
+    this.reconcileExposure();
+  }
+
+  private reconcileExposure():void {
+    if (this.treegrid) {
+      this.table.reconcileSection(this.element);
+    }
   }
 }

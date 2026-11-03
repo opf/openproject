@@ -20,13 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injector } from '@angular/core';
+import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { States } from 'core-app/core/states/states.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
@@ -52,6 +52,12 @@ export class WorkPackageTimelineCellsRenderer {
       milestone: new TimelineMilestoneCellRenderer(this.injector, wpTimeline),
       generic: new TimelineCellRenderer(this.injector, wpTimeline),
     };
+  }
+
+  public destroy():void {
+    const cells = Object.values(this.cells);
+    this.cells = {};
+    cells.forEach((cell) => runCleanup(() => cell.clear()));
   }
 
   public hasCell(wpId:string) {

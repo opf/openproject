@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,8 +32,10 @@ require "rails_helper"
 RSpec.describe HealthReports::ResultComponent, type: :component do
   let(:group_key) { :base_configuration }
 
+  let(:docs_href) { "https://docs.example.com" }
+
   subject(:result_component) do
-    described_class.new(group: group_key, result: check_result, i18n_scope: "test.scope", docs_href: "https://docs.example.com")
+    described_class.new(group: group_key, result: check_result, i18n_scope: "test.scope", docs_href:)
   end
 
   before do
@@ -97,6 +98,16 @@ RSpec.describe HealthReports::ResultComponent, type: :component do
       expect(page).to have_text("Translated error")
       expect(page).to have_link("More information", href: "https://docs.example.com")
       expect(page).to have_test_selector("op-health-report--result-status")
+    end
+
+    context "without a documentation page" do
+      let(:docs_href) { false }
+
+      it "still shows the error code, but no link" do
+        expect(page).to have_css(".Label", text: "ERR_#{check_result.code.upcase}")
+        expect(page).to have_text("Translated error")
+        expect(page).to have_no_link("More information")
+      end
     end
   end
 end

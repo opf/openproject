@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -48,7 +47,7 @@ module OpenProject::Bim
         permission :view_ifc_models,
                    {
                      "bim/ifc_models/ifc_models": %i[index show defaults],
-                     "bim/ifc_models/ifc_viewer": %i[show],
+                     "bim/ifc_models/ifc_viewer": %i[index split_view split_create],
                      "bim/menus": %i[show]
                    },
                    permissible_on: :project,
@@ -143,7 +142,6 @@ module OpenProject::Bim
 
     patch_with_namespace :OpenProject, :CustomStyles, :ColorThemes
     patch_with_namespace :API, :V3, :Activities, :ActivityRepresenter
-    patch_with_namespace :API, :V3, :WorkPackages, :EagerLoading, :Checksum
 
     patch_with_namespace :DemoData, :QueryBuilder
     patch_with_namespace :DemoData, :ProjectSeeder
@@ -153,6 +151,8 @@ module OpenProject::Bim
     config.to_prepare do
       # needed for `#bcf_issue?` calls in the work package representer
       ::API::V3::WorkPackages::WorkPackageRepresenter.to_eager_load << :bcf_issue
+
+      ::API::V3::WorkPackages::EagerLoading::Checksum.add_checksum_associations(:bcf_issue)
     end
 
     extend_api_response(:v3, :work_packages, :work_package) do

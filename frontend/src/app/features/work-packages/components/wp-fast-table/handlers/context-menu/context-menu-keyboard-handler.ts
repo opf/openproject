@@ -20,14 +20,15 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injector } from '@angular/core';
 import { TableEventComponent } from 'core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry';
+import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
+import { keyboardNavigationEnabled } from '../state/keyboard/roving-tabindex';
 import { ContextMenuHandler } from './context-menu-handler';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
@@ -45,31 +46,54 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
   }
 
   public handleEvent(component:TableEventComponent, evt:KeyboardEvent):boolean {
-    if (!component.workPackageTable.configuration.contextMenuEnabled) {
+    const { configuration } = component.workPackageTable;
+    if (!configuration.contextMenuEnabled) {
       return false;
     }
 
     const target = evt.target as HTMLElement;
+    const keyboardNavigation = keyboardNavigationEnabled(configuration);
 
-    if (!(evt.key === 'F10' && evt.shiftKey && evt.altKey)) {
+    if (!this.isMenuChord(evt, keyboardNavigation)
+      || (keyboardNavigation && (this.isEditing(target) || target.closest(`.${uiStateLinkClass}`)))) {
+      return true;
+    }
+
+    const row = target.closest<HTMLTableRowElement>(this.SELECTOR);
+
+    if (!row?.dataset.workPackageId || this.isUnsavedRow(row)) {
       return true;
     }
 
     evt.preventDefault();
     evt.stopPropagation();
 
-    // Locate the row from event
-    const element = target.closest<HTMLTableRowElement>(this.SELECTOR)!;
-    const wpId = element.dataset.workPackageId!;
+    if (evt.repeat) {
+      this.refreshKeyboardOpen(component.workPackageTable, row);
+      return false;
+    }
 
     super.openContextMenu(
       component.workPackageTable,
       evt,
-      wpId,
+      row,
       // Set position args to open at element
       { placement: 'bottom-start', reference: target }
     );
+    this.noteKeyboardOpen(component.workPackageTable, row);
 
     return false;
+  }
+
+  private isMenuChord(evt:KeyboardEvent, keyboardNavigation:boolean):boolean {
+    if (!keyboardNavigation) {
+      return evt.key === 'F10' && evt.shiftKey && evt.altKey;
+    }
+
+    if (evt.key === 'ContextMenu') {
+      return true;
+    }
+
+    return evt.key === 'F10' && evt.shiftKey && !evt.ctrlKey && !evt.metaKey;
   }
 }

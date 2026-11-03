@@ -106,7 +106,7 @@ tr:
     not_recommended: tavsiye edilmez
     recommended: Tavsiye edilen
     x_bcf_issues:
-      one: Bir BCF sorunu
+      one: "%{count} BCF issue"
       other: "%{count} BCF sorunu"
       zero: BCF sorunu yok
   bim:
@@ -144,8 +144,10 @@ tr:
       processing_default: 'Aşağıdaki varsayılan IFC modelleri hala işlenmektedir ve bu nedenle henüz kullanılamamaktadır:'
   oauth:
     scopes:
-      bcf_v2_1: BCF v2.1 API'sine tam erişim
+      bcf_v2_1: Access to the BCF v2.1 API
       bcf_v2_1_text: Uygulama, sizin adınıza işlem yapmak için OpenProject BCF API v2.1'e tam okuma ve yazma erişimi alacaktır.
+      explanations_admin:
+        bcf_v2_1: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on the user's behalf.
   permission_delete_bcf: BCF sorunlarını sil
   permission_manage_bcf: BCF sorunlarını içe aktarın ve yönetin
   permission_manage_bcf_explanation: |

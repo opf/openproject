@@ -27,7 +27,7 @@ cs:
         author: Autor
         available: Dostupné
         base_amount: Základní částka
-        budget: Plánované
+        budget: Rozpočet
         budget_ratio: Stráveno (poměr)
         description: Popis
         labor_budget: Plánované mzdové náklady
@@ -67,6 +67,8 @@ cs:
   attributes:
     budget: Rozpočet
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: No hourly rate on %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -112,7 +114,7 @@ cs:
   events:
     budget: Rozpočet editován
   help_click_to_edit: Klikněte zde pro úpravu.
-  help_currency_format: Formát zobrazených hodnot měn. %n je nahrazen hodnotou měny, %u je nahrazen jednotkou měny.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Zadejte hodnotu zde pro přepsání výchozí sazby.
   label_budget_available: Dostupný rozpočet
   label_budget_details: Podrobnosti o rozpočtu

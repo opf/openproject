@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,6 +51,8 @@ module OpenProject::Documents
       end
 
       project_module :documents do |_map|
+        enabled_by_default! if: -> { Setting.real_time_text_collaboration_enabled? }
+
         permission :view_documents,
                    {
                      documents: %i[
@@ -108,13 +109,7 @@ module OpenProject::Documents
 
     patches %i[Project]
 
-    add_api_path :documents do
-      "#{root}/documents"
-    end
-
-    add_api_path :document do |id|
-      "#{root}/documents/#{id}"
-    end
+    add_api_resource_paths :document, only: %i[index show]
 
     add_api_path :attachments_by_document do |id|
       "#{document(id)}/attachments"

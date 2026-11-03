@@ -20,29 +20,38 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  render(
-    Primer::OpenProject::DangerDialog.new(
-      id:,
-      title:,
-      form_arguments: {
-        action: project_recurring_meeting_path(@project, @recurring_meeting),
-        method: :delete,
-        data: { turbo: false }
-      }
-    )
-  ) do |dialog|
-    dialog.with_confirmation_message do |message|
-      message.with_heading(tag: :h2) { I18n.t("recurring_meeting.delete_dialog.heading") }
-      message.with_description_content(confirmation_message)
-    end
-    dialog.with_confirmation_check_box_content(I18n.t("text_permanent_delete_confirmation_checkbox_label"))
-  end
-%>
+<%= render(
+      Primer::OpenProject::DangerDialog.new(
+        id:,
+        title:,
+        size: :medium_portrait,
+        form_arguments: {
+          action: project_recurring_meeting_path(@project, @recurring_meeting),
+          method: :delete,
+          data: { turbo: false }
+        }
+      )
+    ) do |dialog| %>
+  <% dialog.with_confirmation_message do |message| %>
+    <% message.with_heading(tag: :h2) { I18n.t("recurring_meeting.delete_dialog.heading") } %>
+    <% message.with_description_content(confirmation_message) %>
+  <% end %>
+  <% dialog.with_additional_details(display: :block) do %>
+    <%= render(
+          Primer::Alpha::TextArea.new(
+            name: :cancellation_reason,
+            label: t("meeting.cancel.reason_label"),
+            caption: t("meeting.cancel.reason_caption"),
+            full_width: true,
+            rows: 3
+          )
+        ) %>
+  <% end %>
+  <% dialog.with_confirmation_check_box_content(I18n.t("text_permanent_delete_confirmation_checkbox_label")) %>
+<% end %>

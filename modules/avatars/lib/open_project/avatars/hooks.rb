@@ -1,8 +1,15 @@
 # frozen_string_literal: true
 
-# OpenProject Avatars plugin
-#
+#-- copyright
+# OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -15,8 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
 
 module OpenProject
   module Avatars
@@ -30,6 +39,11 @@ module OpenProject
       # where it replaces the former standalone "Avatar" my-menu page.
       render_on :view_my_account_top,
                 partial: "avatars/my/avatar_section"
+
+      # Renders the avatar management section at the top of the group
+      # administration "General" tab.
+      render_on :view_groups_general_top,
+                partial: "avatars/groups/avatar_section"
     end
   end
 end

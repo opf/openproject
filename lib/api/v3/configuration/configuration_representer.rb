@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -133,54 +132,11 @@ module API
         end
 
         def date_format
-          reformated(Setting.date_format) do |directive|
-            case directive
-            when "%Y"
-              "YYYY"
-            when "%y"
-              "YY"
-            when "%m"
-              "MM"
-            when "%B"
-              "MMMM"
-            when "%b", "%h"
-              "MMM"
-            when "%d"
-              "DD"
-            when "%e"
-              "D"
-            when "%j"
-              "DDDD"
-            end
-          end
+          OpenProject::Internationalization::JsDateTimeFormat.date(current_user.date_format)
         end
 
         def time_format
-          reformated(Setting.time_format) do |directive|
-            case directive
-            when "%H"
-              "HH"
-            when "%k"
-              "H"
-            when "%I"
-              "hh"
-            when "%l"
-              "h"
-            when "%P"
-              "A"
-            when "%p"
-              "a"
-            when "%M"
-              "mm"
-            end
-          end
-        end
-
-        def reformated(setting, &)
-          setting
-            .to_s
-            .gsub(/%\w/, &)
-            .presence
+          OpenProject::Internationalization::JsDateTimeFormat.time(current_user.time_format)
         end
       end
     end

@@ -78,7 +78,7 @@ Get an [introduction in the user guide](../../../user-guide/work-packages/automa
 
 ## Separate time tracking module with calendar view
 
-OpenProject 16.0 offers a separate time tracking module with a calendar view. It is accessible from the global view and listed in the left side bar navigation called [My time tracking](../../../user-guide/time-and-costs/my-time-tracking/). There, users can view and edit their logged time with start and end times. Users can switch between daily, weekly, work week and monthly views and also log new time entries directly by clicking in the calendar.
+OpenProject 16.0 offers a separate time tracking module with a calendar view. It is accessible from the global view and listed in the left side bar navigation called [My time tracking](../../../user-guide/time-and-costs/my-work/). There, users can view and edit their logged time with start and end times. Users can switch between daily, weekly, work week and monthly views and also log new time entries directly by clicking in the calendar.
 
 Each day shows the sum of the tracked time, and in the weekly and monthly views, the total tracked time is displayed in the lower right corner.
 
@@ -86,7 +86,7 @@ Each day shows the sum of the tracked time, and in the weekly and monthly views,
 
 Please note that this module has to be activated by an administrator first. Navigate to _Administration → Time and costs → Defaults_ and check the box next to 'Allow exact time tracking' to enable tracking start and finish dates. If 'Allow exact time tracking' is enabled, the calendar becomes the default view for the My time tracking module. If 'Require exact times' is checked, users must provide both start and end times when logging time. Otherwise, the list view remains the default. In the calendar view, all entries are then displayed at the top of the respective day column.
 
-Learn more about My time tracking module in [this user guide](../../../user-guide/time-and-costs/my-time-tracking/) and [this blog article](https://www.openproject.org/blog/time-tracking-module/).
+Learn more about My time tracking module in [this user guide](../../../user-guide/time-and-costs/my-work/) and [this blog article](https://www.openproject.org/blog/time-tracking-module/).
 
 ### Time entries with legally required mandatory fields: start time and finish time
 

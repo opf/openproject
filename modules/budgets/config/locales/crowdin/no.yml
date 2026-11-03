@@ -61,6 +61,8 @@
   attributes:
     budget: Budsjett
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: No hourly rate on %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -106,7 +108,7 @@
   events:
     budget: Budsjett endret
   help_click_to_edit: Klikk her for å redigere.
-  help_currency_format: Formatet på vist valuta. %n erstattes med valutaverdien, %u ertsattes av valutaenheten.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Skriv inn en verdi her for å overstyre standard sats.
   label_budget_available: Budget available
   label_budget_details: Budget details

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,7 +42,7 @@ class PermittedParams
   #
   # A controller could use a permitted_params method like this
   #
-  # model_instance.METHOD_USING_ASSIGMENT = permitted_params.name_of_the_params_key_referenced
+  # model_instance.METHOD_USING_ASSIGNMENT = permitted_params.name_of_the_params_key_referenced
   #
   attr_reader :params, :current_user
 
@@ -92,12 +91,12 @@ class PermittedParams
     params.require(:custom_field).permit(*self.class.permitted_attributes[:custom_field])
   end
 
-  def custom_action
+  def automation
     whitelisted = params
-      .require(:custom_action)
-      .permit(*self.class.permitted_attributes[:custom_action])
+      .require(:automation)
+      .permit(*self.class.permitted_attributes[:automation])
 
-    whitelisted.merge(params[:custom_action].slice(:actions, :conditions).permit!)
+    whitelisted.merge(params[:automation].slice(:actions, :conditions).permit!)
   end
 
   def custom_field_type
@@ -142,22 +141,6 @@ class PermittedParams
 
   def member
     params.require(:member).permit(*self.class.permitted_attributes[:member])
-  end
-
-  def oauth_application
-    params.require(:application).permit(*self.class.permitted_attributes[:oauth_application]).tap do |app_params|
-      scopes = app_params[:scopes]
-
-      if scopes.present?
-        app_params[:scopes] = scopes.compact_blank.join(" ")
-      end
-
-      app_params
-    end
-  end
-
-  def projects_type_ids
-    params.require(:project).require(:type_ids).map(&:to_i).select { |x| x > 0 }
   end
 
   def query
@@ -245,10 +228,6 @@ class PermittedParams
     whitelisted
   end
 
-  def type_move
-    params.require(:type).permit(*self.class.permitted_attributes[:move_to])
-  end
-
   def enumerations_move
     params.require(:enumeration).permit(*self.class.permitted_attributes[:move_to])
   end
@@ -275,6 +254,7 @@ class PermittedParams
                                    :force_dark_theme_contrast,
                                    :comments_sorting,
                                    :disable_keyboard_shortcuts,
+                                   :require_double_click_for_inline_edit,
                                    :warn_on_leaving_unsaved,
                                    :auto_hide_popups,
                                    immediate_reminders: %i[mentioned personal_reminder],
@@ -314,7 +294,6 @@ class PermittedParams
                                                 :templated,
                                                 :status_code,
                                                 :status_explanation,
-                                                work_package_custom_field_ids: [],
                                                 enabled_module_names: [],
                                                 custom_comments: {})
 
@@ -422,16 +401,12 @@ class PermittedParams
     whitelist.permit!
   end
 
-  def time_entry_activities_project
-    params.permit(time_entry_activities_project: %i[activity_id active]).require(:time_entry_activities_project)
-  end
-
   def watcher
     params.require(:watcher).permit(:watchable, :user, :user_id)
   end
 
   def reply
-    params.require(:reply).permit(:content, :subject)
+    params.require(:reply).permit(:content)
   end
 
   def wiki
@@ -507,11 +482,12 @@ class PermittedParams
           hexcode
           move_to
         ),
-        custom_action: %i(
-          name
-          description
-          move_to
-        ),
+        automation: [
+          :name,
+          :description,
+          :move_to,
+          { triggers_attributes: [:id, :type, :position, { options: {} }, :_destroy] }
+        ],
         custom_field: [
           :editable,
           :field_format,
@@ -536,6 +512,7 @@ class PermittedParams
           :allow_non_open_versions,
           :has_comment,
           :visible_on_user_card,
+          :project_specific_value_restriction,
           { custom_options_attributes: %i(id value default_value position) },
           { type_ids: [] }
         ],
@@ -574,6 +551,7 @@ class PermittedParams
           :estimated_hours,
           { target_version_ids: [] },
           { observed_in_version_ids: [] },
+          { label_ids: [] },
           :budget_id,
           :parent_id,
           :priority_id,
@@ -603,18 +581,12 @@ class PermittedParams
           :status_id,
           { target_version_ids: [] },
           { observed_in_version_ids: [] },
+          { label_ids: [] },
           :priority_id
-        ],
-        oauth_application: [
-          :name,
-          :redirect_uri,
-          :confidential,
-          :enabled,
-          :client_credentials_user_id,
-          { scopes: [] }
         ],
         placeholder_user: %i(
           name
+          description
         ),
         project_type: [
           :name,

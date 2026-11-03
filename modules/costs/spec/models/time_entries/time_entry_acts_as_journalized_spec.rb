@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -36,7 +35,7 @@ RSpec.describe TimeEntry do
     shared_let(:work_package) { create(:work_package, project:) }
     shared_let(:user) { create(:user) }
     shared_let(:other_user) { create(:user) }
-    shared_let(:rate) { create(:hourly_rate, user:, project:, valid_from: Date.new(2026, 1, 8), rate: 1) }
+    shared_let(:rate) { create(:hourly_rate, principal: user, project:, valid_from: Date.new(2026, 1, 8), rate: 1) }
     shared_let(:activity) { create(:time_entry_activity) }
 
     current_user { user }

@@ -22,33 +22,24 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module WorkPackage::Exports
   module Attributes
-    def allowed_to_view_project_phases?(project)
-      User.current.allowed_in_project?(:view_project_phases, project) && project.phases.active.any?
-    end
+    mattr_accessor :attribute_visibility_checks, default: {}
 
-    def allowed_to_view_budgets?(project)
-      User.current.allowed_in_project?(:view_budgets, project)
+    def self.add_attribute_visibility_check(*attribute_names, &check)
+      attribute_names.each { |name| attribute_visibility_checks[name.to_sym] = check }
     end
 
     def allowed_to_view_attribute?(obj, attribute_name)
       return true unless obj.is_a?(WorkPackage)
 
-      case attribute_name.to_sym
-      when :project_phase
-        allowed_to_view_project_phases?(obj.project)
-      when :budget
-        allowed_to_view_budgets?(obj.project)
-      else
-        true
-      end
+      check = attribute_visibility_checks[attribute_name.to_sym]
+      check.nil? || check.call(obj)
     end
   end
 end

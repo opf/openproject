@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -75,7 +74,7 @@ RSpec.describe "version create", :js do
       it "I can create a version with a custom field value including validation" do
         visit project_settings_versions_path(project)
 
-        click_on "Version"
+        page.find_test_selector("versions-create-button").click
 
         expect(page).to have_text("New version")
 

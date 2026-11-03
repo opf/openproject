@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -76,6 +75,14 @@ module Colors
     def brightness_yiq
       r, g, b = rgb_colors
       ((r * 299) + (g * 587) + (b * 114)) / 1000
+    end
+
+    ##
+    # Relative luminance on a 0..1 scale, using Rec. 709 luma coefficients.
+    # Consumed by the highlighting stylesheet to decide contrasting text.
+    def perceived_lightness
+      r, g, b = rgb_colors
+      (((r * 0.2126) + (g * 0.7152) + (b * 0.0722)) / 255).round(4)
     end
 
     ##

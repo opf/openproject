@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -113,7 +112,7 @@ export class UrlParamsHelperService {
 
 
   // copied more or less from angular buildUrl
-  public buildQueryString(params:any) {
+  public buildQueryString(params:object|null|undefined) {
     if (!params) {
       return undefined;
     }
@@ -256,7 +255,7 @@ export class UrlParamsHelperService {
     const properties = JSON.parse(updateJson) as QueryProps;
 
     if (properties.c) {
-      queryData['columns[]'] = properties.c.map((column:any) => column);
+      queryData['columns[]'] = properties.c.map((column) => column);
     }
     if (properties.s) {
       queryData.showSums = properties.s;
@@ -287,7 +286,7 @@ export class UrlParamsHelperService {
     }
 
     if (properties.hla) {
-      queryData['highlightedAttributes[]'] = properties.hla.map((column:any) => column);
+      queryData['highlightedAttributes[]'] = properties.hla.map((column) => column);
     }
 
     if (properties.hi !== undefined) {
@@ -319,7 +318,7 @@ export class UrlParamsHelperService {
 
     // Sortation
     if (properties.t) {
-      queryData.sortBy = JSON.stringify(properties.t.split(',').map((sort:any) => sort.split(':')));
+      queryData.sortBy = JSON.stringify(properties.t.split(',').map((sort) => sort.split(':')));
     }
 
     if (properties.ts) {
@@ -401,10 +400,11 @@ export class UrlParamsHelperService {
 
   private buildV3GetColumnsFromQueryResource(query:QueryResource):string[] {
     if (query.columns) {
-      return query.columns.map((column:any) => column.id || idFromLink(column.href)) as string[];
+      return query.columns.map((column) => column.id || idFromLink(column.href));
     }
-    if (query._links.columns) {
-      return query._links.columns.map((column:HalLink) => idFromLink(column.href)) as string[];
+    const links = query._links as { columns?:HalLink[] };
+    if (links.columns) {
+      return links.columns.map((column:HalLink) => idFromLink(column.href));
     }
 
     return [];
@@ -450,9 +450,9 @@ export class UrlParamsHelperService {
   }
 
   public buildV3GetFilterIdFromFilter(filter:QueryFilterInstanceResource) {
-    const href = filter.filter ? filter.filter.href : filter._links.filter.href;
+    const href = filter.filter ? filter.filter.href : (filter._links as { filter:HalLink }).filter.href;
 
-    return idFromLink(href as string);
+    return idFromLink(href);
   }
 
   public buildV3GetValuesFromFilter(filter:QueryFilterInstanceResource|QueryFilterResource):string[] {
@@ -466,13 +466,13 @@ export class UrlParamsHelperService {
     if (filter.operator) {
       return filter.operator.id || idFromLink(filter.operator.href);
     }
-    const { href } = filter._links.operator;
+    const { href } = (filter._links as { operator:HalLink }).operator;
 
-    return idFromLink(href as string);
+    return idFromLink(href);
   }
 
   private buildV3GetSortByFromQuery(query:QueryResource) {
-    const sortBys = query.sortBy ? query.sortBy : query._links.sortBy;
+    const sortBys = query.sortBy ? query.sortBy : (query._links as { sortBy:QuerySortByResource[] }).sortBy;
     const sortByIds = sortBys.map((sort:QuerySortByResource) => {
       if (sort.id) {
         return sort.id;

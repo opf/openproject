@@ -108,3 +108,4 @@ get:
     This endpoint is deprecated and replaced by [`/api/v3/workspaces/{id}/versions`](https://www.openproject.org/docs/api/endpoints/versions/#list-versions-available-in-a-workspace)
   operationId: List_versions_available_in_a_project
   summary: List versions available in a project
+  deprecated: true

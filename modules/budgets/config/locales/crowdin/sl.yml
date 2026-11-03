@@ -67,6 +67,8 @@ sl:
   attributes:
     budget: Proračun
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: No hourly rate on %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -112,7 +114,7 @@ sl:
   events:
     budget: Proračun urejen
   help_click_to_edit: Kliknite tukaj, za urejanje
-  help_currency_format: Oblika prikazanih vrednosti valut. %n se nadomesti z vrednostjo valute, %u je zamenjan z enoto valute.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Vnesite vrednost, da nadomestite privzeto stopnjo.
   label_budget_available: Budget available
   label_budget_details: Budget details

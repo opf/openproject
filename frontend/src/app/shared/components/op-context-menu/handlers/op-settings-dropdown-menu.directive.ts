@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -78,6 +77,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
   readonly turboRequests = inject(TurboRequestsService);
   readonly I18n = inject(I18nService);
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('opSettingsContextMenu-query') public query:QueryResource;
 
   @Input() public hideTableOptions:boolean;
@@ -86,7 +86,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
 
   private form:QueryFormResource;
 
-  private loadingPromise:PromiseLike<any>;
+  private loadingPromise:PromiseLike<unknown>;
 
   override readonly placement = 'bottom-end';
 
@@ -132,11 +132,11 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
     }
   }
 
-  private allowQueryAction(event:Event, action:any) {
+  private allowQueryAction(event:Event, action:string) {
     return this.allowAction(event, 'query', action);
   }
 
-  private allowWorkPackageAction(event:Event, action:any) {
+  private allowWorkPackageAction(event:Event, action:string) {
     return this.allowAction(event, 'work_packages', action);
   }
 
@@ -148,7 +148,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
     return false;
   }
 
-  private allowAction(event:Event, modelName:string, action:any) {
+  private allowAction(event:Event, modelName:string, action:string) {
     if (this.authorisationService.can(modelName, action)) {
       return true;
     }
@@ -191,7 +191,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
         linkText: this.I18n.t('js.toolbar.settings.configure_view'),
         hidden: this.hideTableOptions,
         icon: 'icon-settings',
-        onClick: (event:MouseEvent) => {
+        onClick: (_event:MouseEvent) => {
           this.opContextMenu.close();
           this.opModalService.show(WpTableConfigurationModalComponent, this.injector);
 
@@ -349,7 +349,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
       {
         // Settings modal
         hidden: !this.query.results.customFields || this.hideTableOptions,
-        href: this.query.results.customFields?.href,
+        href: this.query.results.customFields?.href as string|undefined,
         linkText: this.query.results.customFields?.name,
         icon: 'icon-custom-fields',
         onClick: () => false,

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -92,7 +91,7 @@ describe('ReorderDeltaBuilder', () => {
     });
   });
 
-  it('has no problems inserting in the beginning old sort oder (1..n)', () => {
+  it('has no problems inserting in the beginning old sort order (1..n)', () => {
     const positions = {
       2: 1,
       3: 2,
@@ -112,7 +111,7 @@ describe('ReorderDeltaBuilder', () => {
     expect(delta['1']).toEqual(-8191);
   });
 
-  it('has no problems inserting in the middle of old sort oder (1..n)', () => {
+  it('has no problems inserting in the middle of old sort order (1..n)', () => {
     const positions = {
       1: 0,
       2: 1,

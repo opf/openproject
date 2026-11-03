@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -42,7 +41,7 @@ import { WpGraphConfigurationService } from 'core-app/shared/components/work-pac
 import { WpGraphConfiguration } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 
-export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
+export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<unknown>>('WpTableConfigurationModalPrependComponent');
 
 @Component({
   templateUrl: '../../../../features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal.html',

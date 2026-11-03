@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -67,6 +66,7 @@ module Projects::Copy
           :custom_values,
           :target_versions,
           :observed_in_versions,
+          :labels,
           :assigned_to,
           :responsible
         )
@@ -91,16 +91,12 @@ module Projects::Copy
     def copy_work_package(source_work_package, parent_id, user_cf_ids)
       overrides = copy_work_package_attribute_overrides(source_work_package, parent_id, user_cf_ids)
 
-      service_call = WorkPackages::CopyService
-        .new(user:,
-             work_package: source_work_package,
-             contract_class: WorkPackages::CopyProjectContract)
-        .with_state(bulk_duplicate_in_progress: true)
-        .call(
-          copy_attachments: copy_attachments?,
-          copy_share_members: copy_shares?,
-          **overrides
-        )
+      service_call = nil
+      WorkPackage.with_hierarchy_savepoint do
+        service_call = call_copy_service(source_work_package, overrides)
+
+        raise ActiveRecord::Rollback if service_call.failure?
+      end
 
       if service_call.success?
         service_call.result
@@ -113,6 +109,19 @@ module Projects::Copy
 
         nil
       end
+    end
+
+    def call_copy_service(source_work_package, overrides)
+      WorkPackages::CopyService
+        .new(user:,
+             work_package: source_work_package,
+             contract_class: WorkPackages::CopyProjectContract)
+        .with_state(bulk_duplicate_in_progress: true)
+        .call(
+          copy_attachments: copy_attachments?,
+          copy_share_members: copy_shares?,
+          **overrides
+        )
     end
 
     def copy_work_packages_relations(to_copy, work_packages_map)

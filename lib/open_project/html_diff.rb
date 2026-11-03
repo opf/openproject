@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,13 +34,16 @@ module OpenProject
     module_function
 
     def from_markdown(markdown_from, markdown_to)
-      ::HTMLDiff::DiffBuilder.new(
+      html = ::HTMLDiff::DiffBuilder.new(
         format_text(markdown_from, disable_macro_expansion: true),
         format_text(markdown_to, disable_macro_expansion: true)
       ).build
        .gsub(/<ins class="diff(?:ins|mod)">(\n\r?)<\/ins>/, '\1')
        .gsub(/<del class="diff(?:del|mod)">(\n\r?)<\/del>/, '\1')
        .gsub(/^<figure class="op-uc-figure">(<figure class="table op-uc-figure_align-center op-uc-figure">)/, '\1')
+
+      # OG: html_safe after format_text + HTMLDiff ins/del wrapping.
+      html.html_safe # rubocop:disable Rails/OutputSafety
     end
   end
 end

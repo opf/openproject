@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,10 +58,15 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
     end
   end
 
+  shared_let(:labeling_rows) do
+    [work_package, work_package_parent].map do |wp|
+      create(:labeling, labelable: wp, label: create(:label))
+    end
+  end
+
   shared_let(:string_custom_field) do
     create(:string_wp_custom_field).tap do |custom_field|
-      project.work_package_custom_fields << custom_field
-      work_package.type.default_variant.custom_fields << custom_field
+      work_package.type.default_variant.custom_field_ids |= [custom_field.id]
     end
   end
   shared_let(:custom_field_not_on_type) do
@@ -71,8 +75,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
 
   shared_let(:boolean_custom_field) do
     create(:boolean_wp_custom_field).tap do |custom_field|
-      project.work_package_custom_fields << custom_field
-      work_package.type.default_variant.custom_fields << custom_field
+      work_package.type.default_variant.custom_field_ids |= [custom_field.id]
 
       work_package.send(:"custom_field_#{custom_field.id}=", false)
       work_package.save!
@@ -81,8 +84,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
 
   shared_let(:date_custom_field) do
     create(:date_wp_custom_field).tap do |custom_field|
-      project.work_package_custom_fields << custom_field
-      work_package.type.default_variant.custom_fields << custom_field
+      work_package.type.default_variant.custom_field_ids |= [custom_field.id]
 
       work_package.send(:"custom_field_#{custom_field.id}=", "2025-10-03T13:37:00Z")
       work_package.save!
@@ -91,8 +93,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
 
   shared_let(:mult_list_custom_field) do
     create(:multi_list_wp_custom_field).tap do |custom_field|
-      project.work_package_custom_fields << custom_field
-      work_package.type.default_variant.custom_fields << custom_field
+      work_package.type.default_variant.custom_field_ids |= [custom_field.id]
 
       work_package.send(:"custom_field_#{custom_field.id}=", custom_field.possible_values.take(2))
       work_package.save!
@@ -101,23 +102,23 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
 
   shared_let(:not_activated_custom_field) do
     create(:string_wp_custom_field).tap do |custom_field|
-      work_package.type.default_variant.custom_fields << custom_field
+      work_package.type.default_variant.custom_field_ids |= [custom_field.id]
     end
   end
 
-  described_class::BASE_ATTRIBUTE_TOKENS.each do |token|
+  described_class::static_tokens.each do |token|
     it "the attribute token named #{token.key} resolves successfully" do
-      context = case token.key
-                when /^parent_/
+      context = case token.context
+                when :parent
                   work_package_parent
-                when /^project_/
+                when :project
                   project
                 else
                   work_package
                 end
 
-      expect { token.call(context) }.not_to raise_error
-      expect(token.call(context)).not_to be_nil
+      expect { token.call(context, nil) }.not_to raise_error
+      expect(token.call(context, nil)).not_to be_nil
     end
   end
 
@@ -129,7 +130,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
       token = enabled.detect do |t|
         t.key == :"custom_field_#{mult_list_custom_field.id}"
       end
-      expect(token.call(work_package)).to eq("A, B")
+      expect(token.call(work_package, nil)).to eq("A, B")
     end
 
     it "supports boolean custom fields" do
@@ -138,7 +139,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         t.key == :"custom_field_#{boolean_custom_field.id}"
       end
 
-      expect(token.call(work_package)).to eq("false")
+      expect(token.call(work_package, nil)).to eq("false")
     end
 
     it "formats date custom fields with a default format" do
@@ -147,17 +148,18 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         t.key == :"custom_field_#{date_custom_field.id}"
       end
 
-      expect(token.call(work_package)).to eq("2025-10-03")
+      expect(token.call(work_package, nil)).to eq("2025-10-03")
     end
 
-    it "must return :attribute_not_available if custom field is not activated in project" do
+    # Every work package custom field gets a parent_ token, whether or not the type configures it.
+    it "must return :attribute_not_available if the custom field is on no type" do
       enabled, = subject
       token = enabled.detect do |t|
-        t.key == :"custom_field_#{not_activated_custom_field.id}"
+        t.key == :"parent_custom_field_#{custom_field_not_on_type.id}"
       end
 
-      expect { token.call(work_package) }.not_to raise_error
-      expect(token.call(work_package)).to eq(:attribute_not_available)
+      expect { token.call(work_package, nil) }.not_to raise_error
+      expect(token.call(work_package, nil)).to eq(:attribute_not_available)
     end
 
     it "returns all possible tokens as enabled" do
@@ -184,6 +186,31 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
       expect(detect(disabled, :"custom_field_#{cf.id}")&.label).to eq(cf.name)
     end
 
+    context "when the labels feature is enabled", with_flag: { work_package_labels: true } do
+      it "returns the label tokens as enabled" do
+        enabled, = subject
+
+        expect(detect(enabled, :labels)&.label).to eq(WorkPackage.human_attribute_name(:labels))
+        expect(detect(enabled, :parent_labels)&.label).to eq(WorkPackage.human_attribute_name(:labels))
+      end
+
+      it "resolves the label names" do
+        enabled, = subject
+
+        expect(detect(enabled, :labels).call(work_package, nil)).to eq(work_package.labels.first.name)
+        expect(detect(enabled, :parent_labels).call(work_package_parent, nil)).to eq(work_package_parent.labels.first.name)
+      end
+    end
+
+    context "when the labels feature is disabled", with_flag: { work_package_labels: false } do
+      it "does not return the label tokens" do
+        enabled, disabled = subject
+
+        expect(detect(enabled + disabled, :labels)).to be_nil
+        expect(detect(enabled + disabled, :parent_labels)).to be_nil
+      end
+    end
+
     context "when defining an instance date format", with_settings: { date_format: "%d.%m.%Y" } do
       it "formats date custom fields according to the instance date format" do
         enabled, = subject
@@ -191,7 +218,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
           t.key == :"custom_field_#{date_custom_field.id}"
         end
 
-        expect(token.call(work_package)).to eq("03.10.2025")
+        expect(token.call(work_package, nil)).to eq("03.10.2025")
       end
     end
 
@@ -205,7 +232,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         enabled, = subject
         token = detect(enabled, :type)
 
-        expect(token.call(work_package_of_type)).to eq("Task")
+        expect(token.call(work_package_of_type, nil)).to eq("Task")
       end
     end
 
@@ -222,7 +249,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
           enabled, = subject
           token = detect(enabled, :version)
 
-          expect(token.call(work_package)).to eq("#{version.name}, #{second_version.name}")
+          expect(token.call(work_package, nil)).to eq("#{version.name}, #{second_version.name}")
         end
 
         it "label is target versions" do
@@ -251,7 +278,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         enabled, = subject
         token = detect(enabled, :observed_in_versions)
 
-        expect(token.call(work_package).split(", "))
+        expect(token.call(work_package, nil).split(", "))
           .to contain_exactly(observed_version.name, second_observed_version.name)
       end
 
@@ -259,7 +286,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         enabled, = subject
         token = detect(enabled, :parent_observed_in_versions)
 
-        expect(token.call(work_package_parent)).to eq(observed_version.name)
+        expect(token.call(work_package_parent, nil)).to eq(observed_version.name)
       end
 
       context "when work package multiple versions is active",
@@ -276,6 +303,75 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
           enabled, = subject
           expect(detect(enabled, :observed_in_versions)&.label).to eq("Observed in versions")
         end
+      end
+    end
+
+    describe "hierarchy custom fields", with_ee: %i[custom_field_hierarchies] do
+      let!(:hierarchy_custom_field) do
+        create(:hierarchy_wp_custom_field).tap do |custom_field|
+          service = CustomFields::Hierarchy::HierarchicalItemService.new
+          contract_class = CustomFields::Hierarchy::InsertListItemContract
+          item = service.insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "Item Value",
+                                     short: "IV").value!
+
+          work_package.type.default_variant.custom_field_ids |= [custom_field.id]
+
+          work_package.send(:"custom_field_#{custom_field.id}=", item.id)
+          work_package.save!
+        end
+      end
+
+      let(:token) do
+        enabled, = subject
+        enabled.detect do |t|
+          t.key == :"custom_field_#{hierarchy_custom_field.id}"
+        end
+      end
+
+      it "formats hierarchy custom fields using the default format" do
+        expect(token.call(work_package, nil)).to eq("Item Value (IV)")
+      end
+
+      it "formats hierarchy custom fields using the label when asking for 'label' format" do
+        expect(token.call(work_package, "label")).to eq("Item Value")
+      end
+
+      it "formats hierarchy custom fields using the short when asking for 'short' format" do
+        expect(token.call(work_package, "short")).to eq("IV")
+      end
+    end
+
+    describe "weighted item list custom fields", with_ee: %i[weighted_item_lists] do
+      let!(:wil_custom_field) do
+        create(:weighted_item_list_wp_custom_field).tap do |custom_field|
+          service = CustomFields::Hierarchy::HierarchicalItemService.new
+          contract_class = CustomFields::Hierarchy::InsertWeightedItemContract
+          item = service.insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "Item Value", weight: 42).value!
+
+          work_package.type.default_variant.custom_field_ids |= [custom_field.id]
+
+          work_package.send(:"custom_field_#{custom_field.id}=", item.id)
+          work_package.save!
+        end
+      end
+
+      let(:token) do
+        enabled, = subject
+        enabled.detect do |t|
+          t.key == :"custom_field_#{wil_custom_field.id}"
+        end
+      end
+
+      it "formats hierarchy custom fields using the default format" do
+        expect(token.call(work_package, nil)).to eq("Item Value (42)")
+      end
+
+      it "formats hierarchy custom fields using the label when asking for 'label' format" do
+        expect(token.call(work_package, "label")).to eq("Item Value")
+      end
+
+      it "formats hierarchy custom fields using the weight when asking for 'weight' format" do
+        expect(token.call(work_package, "weight")).to eq("42")
       end
     end
   end

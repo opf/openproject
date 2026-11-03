@@ -32,8 +32,24 @@
           <div
             class="spot-list--item-title spot-list--item-title_ellipse-text"
             data-test-selector="op-project-include-list--item-title"
-            [opSearchHighlight]="searchText"
-          >{{ project.name }}</div>
+          >
+            <span [opSearchHighlight]="searchText">{{ project.name }}</span>
+
+            @switch (project._type) {
+              @case ('Portfolio') {
+              <span class="description">
+                  <svg briefcase-icon size="xsmall" />
+                  {{ this.I18n.t('js.include_workspaces.types.portfolio') }}
+                </span>
+              }
+              @case ('Program') {
+              <span class="description">
+                  <svg versions-icon size="xsmall" />
+                  {{ this.I18n.t('js.include_workspaces.types.program') }}
+                </span>
+              }
+            }
+          </div>
         </label>
       </ng-container>
       <p

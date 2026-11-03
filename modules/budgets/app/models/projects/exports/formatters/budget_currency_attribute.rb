@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -45,11 +44,11 @@ module Projects::Exports::Formatters
     def format(project, **)
       return unless project.module_enabled?("budgets") && User.current.allowed_in_project?(:view_budgets, project)
 
-      project_budgets = ::Budgets::Patches::Projects::RowComponentPatch::ProjectBudgets.new(project)
+      aggregation = ::Budgets::ProjectBudgetAggregation.new(project)
       budgets_attribute = BudgetCurrencyAttribute.budget_mapping.fetch(attribute.to_sym)
-      return unless project_budgets && budgets_attribute
+      return unless aggregation && budgets_attribute
 
-      project_budgets.public_send(budgets_attribute)
+      aggregation.public_send(budgets_attribute)
     end
 
     def format_options

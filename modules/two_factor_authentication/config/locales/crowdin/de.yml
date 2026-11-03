@@ -135,7 +135,7 @@ de:
     error_invalid_backup_code: Ungültiger 2FA Backup-Code
     error_is_enforced_not_active: 'Konfigurationsfehler: Zwei-Faktor-Authentifizierung wird erzwungen, aber keine aktive Strategie wurde konfiguriert.'
     error_no_device: Kein registriertes 2FA-Gerät für diesen Nutzer gefunden, obwohl Zwei-Faktor-Authentifizierung für diese Instanz erforderlich ist.
-    error_no_matching_strategy: Keine passende 2FA-Zustellungsmechanismus für diesen Nutzer. Bitte kontaktieren Sie Ihren Administrator.
+    error_no_matching_strategy: No matching 2FA strategy available for this user. Please contact your administrator.
     forced_registration:
       required_to_add_device: Der Administrator hat für diese Instanz die Zwei-Faktor-Authentifizierung aktiviert. Um sich anzumelden, fügen Sie bitte eine Methode zur Zwei-Faktor-Authentifizierung hinzu.
     label_2fa_disabled: Zwei-Faktor-Authentifizierung ist nicht aktiviert

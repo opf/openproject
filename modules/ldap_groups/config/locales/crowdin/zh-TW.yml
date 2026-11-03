@@ -5,7 +5,7 @@ zh-TW:
       ldap_groups/synchronized_filter:
         auth_source: 驗證來源
         base_dn: 搜尋基礎 DN
-        filter_string: LDAP篩選條件
+        filter_string: 簡約登入目錄制約(LDAP)篩選
         group_name_attribute: 群組名字屬性
         ldap_auth_source: LDAP 連線
         member_lookup_attribute: Group member attribute
@@ -54,7 +54,7 @@ zh-TW:
 
           '
       label_n_groups_found:
-        one: 篩選條件搜尋到 1 個群組
+        one: "%{count} group found by the filter"
         other: 篩選條件找到 %{count} 個群組
         zero: 篩選條件不到任何群組
       plural: LDAP群組同步篩選
@@ -89,7 +89,7 @@ zh-TW:
       plural: LDAP 同步群組
       singular: LDAP 同步群組
       upsell:
-        description: 利用 LDAP 同步群組來管理用戶、更改其權限並促進跨群組的用戶管理。
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: LDAP組成員同步。
     name: OpenProject LDAP 群組

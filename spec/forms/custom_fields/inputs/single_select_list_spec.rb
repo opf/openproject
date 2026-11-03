@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 #
 require "spec_helper"
 
@@ -84,6 +84,47 @@ RSpec.describe CustomFields::Inputs::SingleSelectList, type: :forms do
 
         it "pre-selects the default value" do
           expect(autocompleter["data-model"]).to be_json_eql(%{{"disabled": false, "name": "zwei", "selected": true}})
+        end
+      end
+    end
+  end
+
+  context "for a work package custom field with project-specific values" do
+    let(:type) { create(:type) }
+    let(:project) { create(:project, types: [type]) }
+    let(:custom_field) do
+      create(:list_wp_custom_field, :project_specific_allowlist,
+             types: [type], name: "List field", possible_values: %w[eins zwei drei])
+    end
+    let(:option_eins) { custom_field.custom_options.find_by!(value: "eins") }
+    let(:option_zwei) { custom_field.custom_options.find_by!(value: "zwei") }
+    let(:model) do
+      create(:work_package, project:, type:, custom_values: { custom_field.id => option_eins.id.to_s }).reload
+    end
+    let(:custom_field_mapping) { nil }
+    let(:value) { nil }
+
+    before do
+      create(:project_specific_value_restriction, project:, custom_option: option_eins)
+    end
+
+    it_behaves_like "rendering autocompleter", "List field" do
+      it "only offers the options usable in the work package's project" do
+        expect(JSON.parse(autocompleter["data-items"]).pluck("name")).to eq(%w[eins])
+      end
+    end
+
+    context "with a stored option that is no longer usable" do
+      let(:model) do
+        create(:work_package, project:, type:, custom_values: { custom_field.id => option_zwei.id.to_s }).reload
+      end
+
+      it_behaves_like "rendering autocompleter", "List field" do
+        it "keeps the stored option selected under the placeholder" do
+          placeholder = I18n.t(:label_custom_value_no_longer_available)
+
+          expect(JSON.parse(autocompleter["data-items"]).pluck("name")).to eq(["eins", placeholder])
+          expect(autocompleter["data-model"]).to be_json_eql(%{{"disabled": false, "name": "#{placeholder}", "selected": true}})
         end
       end
     end

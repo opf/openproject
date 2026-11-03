@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,7 +43,7 @@ RSpec.describe WorkPackages::ActivitiesTab::CommentService do
   before do
     allow(AddWorkPackageNoteService).to receive(:new).with(user:, work_package:).and_return(add_service)
     allow(Journals::UpdateService).to receive(:new).and_return(update_service)
-    allow(sanitizer).to receive(:sanitize).and_return("sanitised")
+    allow(sanitizer).to receive(:sanitize).and_return("sanitized")
   end
 
   describe "#add" do
@@ -55,14 +54,14 @@ RSpec.describe WorkPackages::ActivitiesTab::CommentService do
       expect(sanitizer).not_to have_received(:sanitize)
     end
 
-    it "sanitises the notes for an internal comment" do
+    it "sanitizes the notes for an internal comment" do
       service(journal: { notes: "raw", internal: "true" }).add
 
       expect(sanitizer).to have_received(:sanitize).with(work_package, "raw")
-      expect(add_service).to have_received(:call).with("sanitised", send_notifications: true, internal: true)
+      expect(add_service).to have_received(:call).with("sanitized", send_notifications: true, internal: true)
     end
 
-    it "honours an explicit notify=false flag" do
+    it "honors an explicit notify=false flag" do
       service(journal: { notes: "hi", internal: "false" }, notify: "false").add
 
       expect(add_service).to have_received(:call).with("hi", send_notifications: false, internal: false)
@@ -81,16 +80,16 @@ RSpec.describe WorkPackages::ActivitiesTab::CommentService do
       expect(sanitizer).not_to have_received(:sanitize)
     end
 
-    it "sanitises the notes when the comment is internal" do
+    it "sanitizes the notes when the comment is internal" do
       service(journal: { notes: "raw" }).update(internal_journal)
 
-      expect(update_service).to have_received(:call).with(notes: "sanitised")
+      expect(update_service).to have_received(:call).with(notes: "sanitized")
     end
   end
 
   describe "#sanitized_notes" do
-    it "passes the raw notes through the mentions sanitiser" do
-      expect(service(journal: { notes: "raw" }).sanitized_notes).to eq("sanitised")
+    it "passes the raw notes through the mentions sanitizer" do
+      expect(service(journal: { notes: "raw" }).sanitized_notes).to eq("sanitized")
       expect(sanitizer).to have_received(:sanitize).with(work_package, "raw")
     end
   end

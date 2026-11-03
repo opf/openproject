@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -76,6 +75,10 @@ class My::LookAndFeelForm < ApplicationForm
       fg.check_box name: :disable_keyboard_shortcuts,
                    label: attribute_name(:disable_keyboard_shortcuts),
                    caption: disable_keyboard_shortcuts_caption
+
+      fg.check_box name: :require_double_click_for_inline_edit,
+                   label: attribute_name(:require_double_click_for_inline_edit),
+                   caption: attribute_name(:require_double_click_for_inline_edit_caption)
 
       fg.submit(name: :submit,
                 label: attribute_name(:button_update_look_and_feel),

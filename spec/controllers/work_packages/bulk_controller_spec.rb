@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,8 +48,7 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
   end
   shared_let(:project1) do
     create(:project,
-           types: [type],
-           work_package_custom_fields: [custom_field2])
+           types: [type])
   end
   shared_let(:project2) do
     create(:project,
@@ -646,6 +644,57 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
                 expect(work_packages.map { |wp| wp.observed_in_versions.pluck(:id) }.uniq)
                   .to contain_exactly([])
               end
+            end
+          end
+        end
+
+        describe "#labels" do
+          shared_let(:existing_label) { create(:label) }
+          shared_let(:new_label) { create(:label) }
+
+          before do
+            work_packages.each { |wp| create(:labeling, label: existing_label, labelable: wp) }
+
+            put :update,
+                params: {
+                  ids: work_package_ids,
+                  work_package: { label_ids: }
+                }
+          end
+
+          subject { work_packages.map { |wp| wp.labels.pluck(:id) }.uniq }
+
+          context "with labels selected" do
+            let(:label_ids) { [new_label.id.to_s] }
+
+            it "replaces the labels on every selected work package" do
+              expect(response).to be_redirect
+              expect(subject).to contain_exactly([new_label.id])
+            end
+          end
+
+          context "with none selected" do
+            let(:label_ids) { ["none"] }
+
+            it "clears the labels on every selected work package" do
+              expect(subject).to contain_exactly([])
+            end
+          end
+
+          context "with none selected together with a label" do
+            let(:label_ids) { ["none", new_label.id.to_s] }
+
+            it "clears the labels on every selected work package" do
+              expect(response).to be_redirect
+              expect(subject).to contain_exactly([])
+            end
+          end
+
+          context "with the no change option selected" do
+            let(:label_ids) { [""] }
+
+            it "keeps the labels on every selected work package" do
+              expect(subject).to contain_exactly([existing_label.id])
             end
           end
         end

@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -292,12 +291,12 @@ RSpec.describe CostQuery, :reporting_query_helper do
       expect(query.result.count).to eq(8)
     end
 
-    it "accepts row as a specialised group_by" do
+    it "accepts row as a specialized group_by" do
       query.row :project_id
       expect(query.chain.type).to eq(:row)
     end
 
-    it "accepts column as a specialised group_by" do
+    it "accepts column as a specialized group_by" do
       query.column :project_id
       expect(query.chain.type).to eq(:column)
     end

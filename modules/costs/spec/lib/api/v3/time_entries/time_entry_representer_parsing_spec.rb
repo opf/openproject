@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -137,12 +136,9 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "parsing" do
         api_v3_paths.meeting(meeting.id)
       end
 
-      context "entity" do
-        it "updates the meeting" do
-          time_entry = representer.from_hash(hash)
-          expect(time_entry.entity_id).to eql(meeting.id)
-          expect(time_entry.entity_type).to eql("Meeting")
-        end
+      it "rejects the meeting" do
+        expect { representer.from_hash(hash) }
+          .to raise_error(API::Errors::InvalidResourceLink)
       end
     end
   end

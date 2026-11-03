@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -107,7 +106,7 @@ function buildWidget():HTMLElement {
   // region, so users cannot place their caret inside it or delete it.
   span.setAttribute('contenteditable', 'false');
   // Reuse the same translated string the body-level ExternalLinksController
-  // references via aria-describedby, keeping i18n centralised in Rails.
+  // references via aria-describedby, keeping i18n centralized in Rails.
   // Captured at decoration-creation time, so a mid-session locale change
   // keeps stale text until the next rebuild. Leading NBSP is a separator
   // for the link's computed accessible name — without it, AT can announce

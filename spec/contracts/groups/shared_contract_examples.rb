@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,13 +40,7 @@ RSpec.shared_examples_for "group contract" do
   end
 
   shared_context "with real group users" do
-    # make sure users actually exist (not just stubbed) in this case
-    # so GroupUser validations checking for the existence of group and user don't fail
-    before do
-      group_users_user_ids.each do |id|
-        create(:user, id:)
-      end
-    end
+    let(:group_users_user_ids) { create_list(:user, 2).map(&:id) }
   end
 
   it_behaves_like "contract is valid for active admins and invalid for regular users" do

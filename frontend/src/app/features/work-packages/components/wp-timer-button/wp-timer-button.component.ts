@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,7 +32,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { Observable, timer } from 'rxjs';
-import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { isTimerForWorkPackage, OngoingTimer } from 'core-app/shared/components/time_entries/services/ongoing-timer';
 import {
   HalResourceEditingService,
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
@@ -73,7 +72,7 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin {
     .pipe(
       switchMap(() => this.timer$),
       filter((timeEntry) => timeEntry !== null),
-      map((timeEntry:TimeEntryResource) => formatElapsedTime(timeEntry.createdAt as string)),
+      map((timeEntry:OngoingTimer) => formatElapsedTime(timeEntry.createdAt)),
     );
 
   text = {
@@ -84,8 +83,8 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin {
   };
 
 
-  activeForWorkPackage(entry:TimeEntryResource | null):boolean {
-    return !!entry && entry.entity.href === this.workPackage.href;
+  activeForWorkPackage(entry:OngoingTimer|null):boolean {
+    return isTimerForWorkPackage(entry, this.workPackage);
   }
 
   clear():void {
@@ -93,7 +92,7 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin {
   }
 
   start():void {
-    this.timeEntryService.start(this.workPackage);
+    void this.timeEntryService.start(this.workPackage);
   }
 
   stop():void {

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,7 +38,7 @@ RSpec.describe "Listing SCIM clients", :js, :selenium, driver: :firefox_de do
     it "renders an enterprise banner and no table" do
       visit admin_scim_clients_path
 
-      expect(page).to be_axe_clean.within("#content")
+      expect(page).to be_axe_clean
 
       expect(page).to have_enterprise_banner(:corporate)
       expect(page).to have_no_test_selector("Admin::ScimClients::TableComponent")

@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -26,6 +26,7 @@ zh-TW:
       project:
         allow_multiple_active_sprints: 允許多個活躍的衝刺
         backlog_excluded_types: 不包含的工作包類型
+        estimation_unit: 單位
         sprint_sharing: Sprint 共用
         statuses_considered_closed: 被視為已關閉的狀態
       sprint:
@@ -72,7 +73,7 @@ zh-TW:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                other: 本衝刺中尚有 %{count} 個工作包尚未完成。
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: 目前處於非活躍狀態，因此無法關閉。
         sprint_goal:
@@ -130,9 +131,21 @@ zh-TW:
       details: 待辦事項桶「%{name}」將被刪除，所有工作包將移至待辦事項收件匣。不會刪除任何工作包。
       title: 刪除積壓桶？
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: 設定衝刺的開始和結束日期，以產生燃盡圖表。
         blankslate_title: 沒有可用的燃盡圖資料
+    created_resolved_chart:
+      series:
+        created: Created work packages
+        resolved: Resolved work packages
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
+    estimation_unit: 單位
     excluded_work_package_types_caption: '選擇要從待辦清單中隱藏哪些工作包類型。所選類型的項目將不會自動出現在待辦清單中，使待辦清單能專注於對您的團隊至關重要的工作。例如，可將「史詩」或「里程碑」這類在更高層級管理的類型隱藏起來，讓待辦清單專注於可執行的項目。
 
       '
@@ -155,7 +168,7 @@ zh-TW:
       drop_zone_label: 將此項目拖放至此處以新增
       label_actions: 收件匣操作
       show_more:
-        other: 再顯示 %{count} 項
+        other: Show %{count} more items
       title: 收件匣
     index_subheader_component:
       label_search_by_subject: 依主題搜尋工作項目
@@ -178,6 +191,8 @@ zh-TW:
     remaining_hours: 剩餘工時
     sharing: 共用衝刺
     show_burndown_chart: 未完成圖
+    show_created_resolved_chart: Created vs resolved work packages
+    show_work_package_overview: 衝刺中的工作包
     sprint_component:
       action_menu:
         add_existing_work_package: 新增現有的工作套件
@@ -200,9 +215,89 @@ zh-TW:
       shared_sprint_info_banner: 這是個共用衝刺。所做的修改將會反映在所有使用此衝刺的專案中。
       shared_sprint_warning_banner: 這是個共享的衝刺。您沒有編輯它的必要權限。
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: 報告
         title: "%{sprint} 報告"
+      widgets:
+        velocity_chart:
+          average:
+            other: 'Average of previous %{count} sprints:'
+          average_legend: Average
+          committed: Committed
+          completed: Completed
+          story_points: "%{value} SP"
+          summary:
+            other: Bar chart of committed and completed story points of the last %{count} sprints.
+          summary_average: 'Average velocity: %{average}.'
+          title: Velocity chart
+          velocity: "%{sprint}:"
+          y_axis_title: Story points
+        work_package_graph:
+          title: 工作套件圖表
+        work_package_overview:
+          blankslate:
+            description: 設定衝刺的開始與結束日期，以產生工作項目概覽。
+            heading: 沒有衝刺數據
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: 範圍變更
+              story_points_change: "+%{added} / -%{removed} 故事點數"
+            completed:
+              heading: 已完成
+            initially_planned:
+              heading: 最初的計畫是
+            unfinished:
+              heading: 未完成
+          breakdown_block:
+            blocks:
+              show_all: 查看全部
+          closed_work_packages: 已關閉的工作項目
+          resolved_summary:
+            other: "%{percentage}% (%{resolved} 佔 %{total} 工作項目)"
+        work_package_table:
+          added:
+            blankslate:
+              empty:
+                description: Work packages that were added after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show added work packages.
+              not_started:
+                description: Added work packages will appear here after the sprint starts.
+            title: Scope increase after sprint start
+          blankslate:
+            heading: No work packages to display
+          completed:
+            blankslate:
+              empty:
+                description: Work packages that were completed in the sprint will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show completed work packages.
+              not_started:
+                description: Completed work packages will appear here after the sprint starts.
+            title: Completed work
+          removed:
+            blankslate:
+              empty:
+                description: Work packages that were removed after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show removed work packages.
+              not_started:
+                description: Removed work packages will appear here after the sprint starts.
+            title: Scope decrease after sprint start
+          unfinished:
+            blankslate:
+              empty:
+                description: All work packages in this sprint are completed.
+                heading: Wow, all done!
+              no_dates:
+                description: Sprint start and finish dates are necessary to show unfinished work packages.
+              not_started:
+                description: Unfinished work packages will appear here after the sprint starts.
+            title: Unfinished work
     sprints:
       row_component:
         action_menu:
@@ -231,7 +326,6 @@ zh-TW:
       header_backlogs: 待辦清單模組
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: 複製網址到剪貼簿
         copy_work_package_id: 複製工作項目 ID
         move_menu: 移動至該位置
         move_to_backlog_bucket: 移至待辦事項區
@@ -242,14 +336,22 @@ zh-TW:
       add_existing_dialog:
         invalid_target: 您嘗試新增的目標無效。
         target_not_found: 找不到您嘗試新增的衝刺或待辦事項清單。
+      batch_update_service:
+        mixed_projects: 同一批次中的所有工作包必須屬於同一個專案。
+        stale_batch: 在籌備搬遷期間，至少有一個工作包發生了變更。請確認目前的狀態，並請重新嘗試。
+        stale_predecessor: 原本應插入於此處後的工作包已移至其他位置。請確認當前位置並重新嘗試。
+        unavailable_target: 目的地清單已無法使用。請重新載入頁面並再次嘗試。
+        unexpected_failure: 無法移動這些工作包。請重試。
       move:
         moved_announcement: "%{label} 已移至 %{list}，位置 %{position} 的 %{total}"
+      move_collection:
+        invalid_ids: 待移轉的工作包清單無效。
+        member_failed: "%{work_package}: %{reason}"
+        too_many_work_packages: 一次最多只能移動 %{max} 個工作包。
+        work_packages_not_found: 在此專案中，至少有一個工作包無法找到。
       update_service:
         invalid_target_type: list_type 必須為以下其中一種：帶有 list_id 的 backlog_bucket、帶有 list_id 的 sprint，或不帶有 list_id 的 inbox。
         missing_target: 必須包含 list_type 或 list_id。
-  burndown:
-    story_points: 故事點
-    story_points_ideal: 理想估算故事點數
   ee:
     features:
       multiple_active_sprints: 多個正在進行的衝刺
@@ -279,9 +381,8 @@ zh-TW:
   notice_unsuccessful_finish_with_reason: 無法完成該衝刺： %{reason}
   notice_unsuccessful_start: 無法啟動衝刺。
   notice_unsuccessful_start_with_reason: 無法完成該衝刺： %{reason}
-  notice_work_package_invisible_after_move: '該工作包已移至 %{backlog}，但因其類型或狀態被排除在待辦清單之外，因此無法顯示。
-
-    '
+  notice_work_package_invisible_after_move:
+    other: "%{count} 工作包已移至 %{backlog}，但由於其類型或狀態被排除在待辦清單之外，因此無法顯示。\n"
   permission_create_sprints: 建立衝刺
   permission_manage_sprint_items: 管理衝刺項目
   permission_select_backlog_types_and_statuses: 選擇待辦事項類型與狀態
@@ -293,13 +394,25 @@ zh-TW:
   permission_view_sprints: 檢視衝刺
   plugin_openproject_backlogs:
     description: 此模組新增了讓敏捷團隊能夠在 Scrum 專案中使用 OpenProject 的功能。
-    name: OpenProject待辦事項
+    name: OpenProject代辦事項
   project_module_backlogs: 待辦事項
   projects:
     copy:
       backlog_buckets: 待處理事項區
       sprints: 衝刺
     settings:
+      backlog_estimation_unit:
+        estimation_unit: 單位
+        options:
+          none:
+            caption: 工作包的數量將作為圖表中的預設單位。部分衝刺報告圖表將不會顯示。
+            label: 無
+          story_points:
+            caption: 這些卡片和圖表將顯示故事點數。
+            label: 故事點數
+          time:
+            caption: 這些卡片和圖表將顯示工作時間的預估值。
+            label: 預計工時
       backlog_sharing:
         options:
           no_sharing:
@@ -320,6 +433,9 @@ zh-TW:
             label: 子專案
         sprint_sharing: 共享衝刺
       backlogs:
+        estimation_unit_form_component:
+          description: 請選擇與您敏捷團隊工作流程相符的「工作量」、「速度」及「產能」預設單位。這些單位將顯示於待辦事項清單和衝刺報告中。
+          heading: 速度、功和容量的預設單位
         multiple_active_sprints:
           description: 預設情況下，每個專案一次只能有一個衝刺處於活躍狀態。您可以變更此設定，讓該專案中能同時有多個衝刺處於活躍狀態。
           heading: 正在進行的衝刺數量

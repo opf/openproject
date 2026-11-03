@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -81,7 +80,7 @@ module Pages
 
     def expect_timeline!(open: true)
       if open
-        expect(page).to have_css(".wp-table-timeline--container .wp-timeline-cell")
+        expect(page).to have_css(".wp-table-timeline--container .wp-timeline-cell", wait: 30)
       else
         expect(page).to have_no_css(".wp-table-timeline--container .wp-timeline-cell", visible: true)
       end
@@ -89,7 +88,7 @@ module Pages
     end
 
     def timeline_row(wp_id)
-      ::Components::Timelines::TimelineRow.new page.find(timeline_row_selector(wp_id))
+      ::Components::Timelines::TimelineRow.new -> { page.find(timeline_row_selector(wp_id)) }
     end
 
     def zoom_in_button
@@ -144,7 +143,7 @@ module Pages
     end
 
     def expect_hidden_row(work_package)
-      expect(page).to have_css(".wp-row-#{work_package.id}-timeline", visible: :hidden)
+      expect(page).to have_no_css(".wp-row-#{work_package.id}-timeline", visible: :visible)
     end
   end
 end

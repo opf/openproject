@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -113,7 +112,7 @@ module Import
     end
 
     # Journals::CreateService keeps the journals of a journable strictly ordered in time: a
-    # timestamp that is not newer than the preceding journal's is discarded in favour of the
+    # timestamp that is not newer than the preceding journal's is discarded in favor of the
     # current time. Entries sharing a Jira timestamp, with each other or with the creation
     # journal, would therefore be stamped with the import date, so they are spaced out by the
     # smallest step a timestamp column can represent.

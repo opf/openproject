@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -513,7 +512,7 @@ RSpec.describe Repository::Git do
           let (:encoding) { "ISO-8859-1" }
           let (:char1_hex) { (+"\xc3\x9c").force_encoding("UTF-8") }
 
-          it "latests changesets latin 1 dir" do
+          it "latest changesets latin 1 dir" do
             instance.fetch_changesets
             instance.reload
             changesets = instance.latest_changesets(

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -146,6 +145,28 @@ RSpec.describe "API v3 Work package resource",
 
       it_behaves_like "API V3 collection response", 2, 2, "WorkPackage", "WorkPackageCollection" do
         let(:elements) { [exact_match, prefix_match] }
+      end
+    end
+
+    context "when filtering by typeahead with a number beyond the 64-bit integer range and sorting by exact_match" do
+      let(:filters) do
+        [
+          {
+            typeahead: {
+              operator: "**",
+              values: "2608049472608049476767"
+            }
+          }
+        ]
+      end
+      let(:path) do
+        api_v3_paths.path_for :work_packages, filters:, sort_by: [["exact_match", "desc"], ["updatedAt", "desc"]]
+      end
+
+      before { get path }
+
+      it_behaves_like "API V3 collection response", 0, 0, "WorkPackage", "WorkPackageCollection" do
+        let(:elements) { [] }
       end
     end
 
@@ -323,8 +344,7 @@ RSpec.describe "API v3 Work package resource",
       let(:custom_field) do
         create(:string_wp_custom_field,
                name: "String CF",
-               types: project.enabled_types,
-               projects: [project])
+               types: project.enabled_types)
       end
 
       let(:custom_value) do
@@ -417,6 +437,109 @@ RSpec.describe "API v3 Work package resource",
           .at_path("_embedded/elements/0/_meta/timestamp")
       end
 
+      describe "observedInVersions" do
+        let(:timestamps) { [Timestamp.parse("2015-01-01T00:00:00Z")] }
+        let(:version_a) { create(:version, project:, name: "Version A") }
+        let(:version_b) { create(:version, project:, name: "Version B") }
+
+        before do
+          work_package.observed_in_version_ids_replacements = [version_a.id, version_b.id]
+          work_package.save!
+        end
+
+        context "when the work package was observed in fewer versions at the historic timestamp" do
+          before do
+            create(:journal_work_package_version_journal,
+                   journal: original_journal,
+                   version: version_a,
+                   kind: "observed_in")
+          end
+
+          it "links only the versions of the historic state" do
+            expect(subject.body)
+              .to be_json_eql([{ href: api_v3_paths.version(version_a.id), title: "Version A" }].to_json)
+              .at_path("_embedded/elements/0/_links/observedInVersions")
+          end
+        end
+
+        context "when the work package was not observed in any version at the historic timestamp" do
+          it "links no versions" do
+            expect(subject.body)
+              .to be_json_eql([].to_json)
+              .at_path("_embedded/elements/0/_links/observedInVersions")
+          end
+        end
+      end
+
+      describe "update links" do
+        context "when last timestamp is current" do
+          it "has the update links" do
+            expect(subject.body).to have_json_path("_embedded/elements/0/_links/update/href")
+            expect(subject.body).to have_json_path("_embedded/elements/0/_links/updateImmediately/href")
+          end
+        end
+
+        context "when requesting with one timestamp in the past" do
+          let(:timestamps) { [Timestamp.parse("P-2D")] }
+
+          it "has no update links because the historic state cannot be edited" do
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/update/href")
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/updateImmediately/href")
+          end
+        end
+
+        context "when requesting with two timestamps in the past" do
+          let(:timestamps) { [Timestamp.parse("P-5D"), Timestamp.parse("P-2D")] }
+
+          it "has no update links because the historic state cannot be edited" do
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/update/href")
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/updateImmediately/href")
+          end
+        end
+      end
+
+      context "when the labels changed and the last timestamp is historic",
+              with_flag: { work_package_labels: true } do
+        let(:timestamps) { [Timestamp.parse("2015-01-01T00:00:00Z")] }
+        let(:label_a) { create(:label) }
+        let(:label_b) { create(:label) }
+        let(:label_hrefs) do
+          JSON.parse(subject.body).dig("_embedded", "elements", 0, "_links", "labels").pluck("href")
+        end
+
+        before do
+          create(:labeling, labelable: work_package, label: label_a)
+          create(:labeling, labelable: work_package, label: label_b)
+          create(:journal_label_journal, journal: current_journal, label: label_a)
+          create(:journal_label_journal, journal: current_journal, label: label_b)
+        end
+
+        it "renders the historic labels on the work package" do
+          create(:journal_label_journal, journal: original_journal, label: label_a)
+
+          expect(label_hrefs)
+            .to contain_exactly(api_v3_paths.label(label_a.id))
+        end
+
+        it "renders no labels when the work package had none at the timestamp" do
+          expect(label_hrefs).to eq([])
+        end
+
+        context "when comparing the baseline with the current state" do
+          let(:timestamps) { [Timestamp.parse("2015-01-01T00:00:00Z"), Timestamp.now] }
+
+          it "embeds the historic labels in the baseline entry only" do
+            create(:journal_label_journal, journal: original_journal, label: label_a)
+
+            expect(subject.body)
+              .to be_json_eql([{ href: api_v3_paths.label(label_a.id), title: label_a.name }].to_json)
+                    .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_links/labels")
+            expect(subject.body)
+              .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/_links/labels")
+          end
+        end
+      end
+
       context "when a custom value changes" do
         before do
           custom_value
@@ -449,8 +572,7 @@ RSpec.describe "API v3 Work package resource",
         let(:custom_field) do
           create(:user_wp_custom_field,
                  name: "User CF",
-                 types: project.enabled_types,
-                 projects: [project])
+                 types: project.enabled_types)
         end
 
         let(:custom_value) do
@@ -505,10 +627,10 @@ RSpec.describe "API v3 Work package resource",
       end
 
       context "when there is a custom value in the past but not in the now" \
-              "as the custom field has been disabled for the project" do
+              "as the custom field is no longer on the type" do
         before do
           create_customizable_journal(journal: original_journal, custom_field:, value: "Original value")
-          project.update(work_package_custom_fields: [])
+          custom_field.form_configurations.each { it.custom_field_ids -= [custom_field.id] }
         end
 
         it "does not embed the custom fields in the attributesByTimestamp" do
@@ -725,7 +847,7 @@ RSpec.describe "API v3 Work package resource",
 
             describe "_meta" do
               describe "timestamp" do
-                it "has the baseline timestamp, which is the first timestmap" do
+                it "has the baseline timestamp, which is the first timestamp" do
                   expect(subject.body)
                     .to be_json_eql(timestamps.first.to_s.to_json)
                     .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp")
@@ -1239,7 +1361,7 @@ RSpec.describe "API v3 Work package resource",
             describe "0 (baseline attributes)" do
               describe "_meta" do
                 describe "timestamp" do
-                  it "has the baseline timestamp, which is the first timestmap" do
+                  it "has the baseline timestamp, which is the first timestamp" do
                     expect(subject.body)
                       .to be_json_eql("oneWeekAgo@11:00+00:00".to_json)
                       .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp")

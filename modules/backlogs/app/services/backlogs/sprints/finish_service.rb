@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -81,6 +80,9 @@ class Backlogs::Sprints::FinishService < BaseServices::BaseContracted
     call_args[:position] = position if position
 
     open_work_packages.order(position: order_direction).map do |wp|
+      # Moving the previous work package out of the sprint shifted this one's
+      # position via update_all, leaving the loaded record stale.
+      wp.reload
       ::WorkPackages::UpdateService
         .new(user:, model: wp, contract_class: ::Backlogs::WorkPackages::MoveToBacklogContract)
         .call(**call_args)

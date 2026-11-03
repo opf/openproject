@@ -20,13 +20,11 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Turbo from '@hotwired/turbo';
 import { applyTurboNavigationPatch } from './turbo-navigation-patch';
 
@@ -48,7 +46,7 @@ describe('turbo-navigation-patch (tripwire for hotwired/turbo#1300)', () => {
   it('upstream still sources the snapshot from the fetch response (#1300 unfixed)', () => {
     // When Turbo stops reading `responseHTML` off the fetch response, #1300
     // may be fixed upstream and this whole patch can be deleted. This guard
-    // turns that upgrade into a red test instead of a silent behaviour change.
+    // turns that upgrade into a red test instead of a silent behavior change.
     const upstream = String(original);
     expect(upstream).toContain('responseHTML');
     expect(upstream).toContain('fetchResponse');

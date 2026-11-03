@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -30,7 +29,6 @@ require_relative "../../spec_helper"
 
 RSpec.describe "Create viewpoint from BCF details page",
                :js,
-               :selenium,
                with_config: { edition: "bim" } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:user) { create(:admin) }
@@ -78,9 +76,10 @@ RSpec.describe "Create viewpoint from BCF details page",
       bcf_details.add_viewpoint
       bcf_details.expect_viewpoint_count(1)
 
-      page.driver.browser.navigate.refresh
+      page.refresh
 
       bcf_details.ensure_page_loaded
+      show_model_page.finished_loading
       bcf_details.expect_viewpoint_count(1)
       bcf_details.show_current_viewpoint
 

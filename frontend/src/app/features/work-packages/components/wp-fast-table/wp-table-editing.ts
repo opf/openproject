@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,6 +32,7 @@ import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { TableEditForm } from 'core-app/features/work-packages/components/wp-edit-form/table-edit-form';
+import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 
 export class WorkPackageTableEditingContext {
@@ -45,6 +45,13 @@ export class WorkPackageTableEditingContext {
   public forms:Record<string, TableEditForm> = {};
 
   public reset() {
+    if (this.table.destroyed) {
+      const forms = Object.values(this.forms);
+      this.forms = {};
+      forms.forEach((form) => runCleanup(() => form.destroy()));
+      return;
+    }
+
     Object.values(this.forms).forEach((form) => form.destroy());
     this.forms = {};
   }
@@ -72,6 +79,8 @@ export class WorkPackageTableEditingContext {
     }
 
     // Get any existing edit state for this work package
-    return this.forms[wpId] = new TableEditForm(this.injector, this.table, wpId, classIdentifier);
+    const form = new TableEditForm(this.injector, this.table, wpId, classIdentifier);
+    this.forms[wpId] = form;
+    return form;
   }
 }

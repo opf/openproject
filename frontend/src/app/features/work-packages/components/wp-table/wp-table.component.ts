@@ -20,13 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewEncapsulation, OnDestroy, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewEncapsulation, OnDestroy, DestroyRef, inject } from '@angular/core';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
@@ -40,7 +39,7 @@ import { WorkPackageViewSortByService } from 'core-app/features/work-packages/ro
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import { createScrollSync } from 'core-app/features/work-packages/components/wp-table/wp-table-scroll-sync';
+import { createScrollSync, ScrollSync } from 'core-app/features/work-packages/components/wp-table/wp-table-scroll-sync';
 import { WpTableHoverSync } from 'core-app/features/work-packages/components/wp-table/wp-table-hover-sync';
 import { WorkPackageTimelineTableController } from 'core-app/features/work-packages/components/wp-table/timeline/container/wp-timeline-container.directive';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
@@ -51,9 +50,13 @@ import {
   WorkPackageTableConfiguration,
   WorkPackageTableConfigurationObject,
 } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { States } from 'core-app/core/states/states.service';
+import { renderedColumns } from 'core-app/features/work-packages/components/wp-fast-table/builders/rendered-columns';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
+import { QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
+import { primarySortDirection } from 'core-app/features/work-packages/components/wp-table/sort-header/primary-sort-direction';
 
 export interface WorkPackageFocusContext {
   /** Work package that was focused */
@@ -67,10 +70,13 @@ export interface WorkPackageFocusContext {
   styleUrls: ['./wp-table.component.sass'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-table',
   standalone: false,
 })
 export class WorkPackagesTableComponent extends UntilDestroyedMixin implements OnInit, TableEventComponent, OnDestroy {
+  private readonly destroyRef = inject(DestroyRef);
+
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly injector = inject(Injector);
   readonly states = inject(States);
@@ -86,9 +92,8 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
   @Input() projectIdentifier:string;
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
-
-  @Output() selectionChanged = new EventEmitter<string[]>();
 
   @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();
 
@@ -98,7 +103,7 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
   private element:HTMLElement;
 
-  private scrollSyncUpdate:(timelineVisible:boolean) => any;
+  private scrollSync?:ScrollSync;
 
   private wpTableHoverSync:WpTableHoverSync;
 
@@ -114,7 +119,18 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
   public locale:string;
 
-  public text:any;
+  public text:{
+    cancel:string;
+    noResults:{ title:string; description:string };
+    limitedResults:(count:number, total:number) => string;
+    sorting:string;
+    tableName:string;
+    tableSummary:string;
+    tableSummaryHints:string;
+    actionsHeader:string;
+    baselineHeader:string;
+    configurationHeader:string;
+  };
 
   public results:WorkPackageCollectionResource;
 
@@ -124,6 +140,8 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
   public numTableColumns:number;
 
+  public trailingColumnRendered = true;
+
   public timelineVisible:boolean;
 
   public manualSortEnabled:boolean;
@@ -131,6 +149,8 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
   public baselineEnabled:boolean;
 
   public limitedResults = false;
+
+  public sortDescription = '';
 
   // We need to sync certain height difference to the timeline
   // depending on whether inline create or sums rows are being shown
@@ -142,24 +162,26 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
     this.configuration = new WorkPackageTableConfiguration(this.configurationObject);
     this.element = this.elementRef.nativeElement;
 
-    // Clear any old table subscribers
-    this.querySpace.stopAllSubscriptions.next();
-
     this.locale = I18n.locale;
 
     this.text = {
-      cancel: I18n.t('js.button_cancel'),
+      cancel: this.I18n.t('js.button_cancel'),
       noResults: {
-        title: I18n.t('js.work_packages.no_results.title'),
-        description: I18n.t('js.work_packages.no_results.description'),
+        title: this.I18n.t('js.work_packages.no_results.title'),
+        description: this.I18n.t('js.work_packages.no_results.description'),
       },
-      limitedResults: (count:number, total:number) => I18n.t('js.work_packages.limited_results', { count, total }),
-      tableSummary: I18n.t('js.work_packages.table.summary'),
+      limitedResults: (count:number, total:number) => this.I18n.t('js.work_packages.limited_results', { count, total }),
+      sorting: this.I18n.t('js.label_sorting'),
+      tableName: this.I18n.t('js.label_work_package_plural'),
+      tableSummary: this.I18n.t('js.work_packages.table.summary'),
       tableSummaryHints: [
-        I18n.t('js.work_packages.table.text_inline_edit'),
-        I18n.t('js.work_packages.table.text_select_hint'),
-        I18n.t('js.work_packages.table.text_sort_hint'),
+        this.I18n.t('js.work_packages.table.text_inline_edit'),
+        this.I18n.t('js.work_packages.table.text_select_hint'),
+        this.I18n.t('js.work_packages.table.text_sort_hint'),
       ].join(' '),
+      actionsHeader: this.I18n.t('js.work_packages.table.grid_actions_header'),
+      baselineHeader: this.I18n.t('js.work_packages.table.grid_baseline_header'),
+      configurationHeader: this.I18n.t('js.toolbar.settings.configure_view'),
     };
 
     const statesCombined = combineLatest([
@@ -174,7 +196,7 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
     statesCombined.pipe(
       this.untilDestroyed(),
-    ).subscribe(([results, groupBy, columns, timelines, sort, sums]) => {
+    ).subscribe(([results, groupBy, columns, timelines, _sort, sums]) => {
       this.query = this.querySpace.query.value!;
 
       this.results = results;
@@ -183,43 +205,58 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
       this.groupBy = groupBy;
       this.columns = columns;
 
+      const wasTimelineVisible = this.timelineVisible;
       this.timelineVisible = timelines.visible;
 
       this.manualSortEnabled = this.wpTableSortBy.isManualSortingMode;
       this.baselineEnabled = this.wpTableBaseline.isActive();
       this.limitedResults = this.manualSortEnabled && results.total > results.count;
 
-      // Total columns = all available columns + id + context menu
-      this.numTableColumns = this.columns.length + 2;
+      if (this.configuration.keyboardNavigationEnabled) {
+        this.sortDescription = this.describeSort();
+        const rendered = renderedColumns(this.configuration, this.baselineEnabled);
+        this.trailingColumnRendered = rendered.trailing;
+        this.numTableColumns = rendered.count(this.columns.length);
+      } else {
+        // Total columns = all available columns + id + context menu
+        this.numTableColumns = this.columns.length + 2;
 
-      if (this.manualSortEnabled) {
-        this.numTableColumns += 1;
-      }
+        if (this.manualSortEnabled) {
+          this.numTableColumns += 1;
+        }
 
-      if (this.baselineEnabled) {
-        this.numTableColumns += 1;
+        if (this.baselineEnabled) {
+          this.numTableColumns += 1;
+        }
       }
 
       if (this.workPackageTable) {
         this.workPackageTable.colspan = this.numTableColumns;
       }
 
-      if (this.scrollSyncUpdate && this.timelineVisible !== timelines.visible) {
-        this.scrollSyncUpdate(timelines.visible);
+      if (this.scrollSync && wasTimelineVisible !== timelines.visible) {
+        this.scrollSync.update(timelines.visible);
       }
 
-      this.cdRef.detectChanges();
+      this.renderHeader();
     });
 
     this.cdRef.detectChanges();
   }
 
   public ngOnDestroy():void {
+    this.workPackageTable?.destroy();
+    this.wpTableHoverSync?.deactivate();
+    this.scrollSync?.destroy();
     super.ngOnDestroy();
-    this.wpTableHoverSync.deactivate();
   }
 
   public registerTimeline(controller:WorkPackageTimelineTableController, timelineBody:HTMLElement) {
+    if (this.destroyRef.destroyed) {
+      return;
+    }
+    this.workPackageTable?.destroy();
+
     const tbody = this.element.querySelector<HTMLTableSectionElement>('.work-package--results-tbody')!;
     const scrollContainer = this.element.querySelector<HTMLElement>('.work-package-table--container')!;
     this.workPackageTable = new WorkPackageTable(
@@ -249,18 +286,65 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
     this.timeline = tableAndTimeline[1];
 
     // sync hover from table to timeline
-    this.wpTableHoverSync = new WpTableHoverSync(this.element);
-    this.wpTableHoverSync.activate();
+    const hover = this.wpTableHoverSync = new WpTableHoverSync(this.element);
+    const scroll = this.scrollSync = createScrollSync(this.element);
+    onDestroySafely(this.workPackageTable.destroyRef, () => hover.deactivate());
+    onDestroySafely(this.workPackageTable.destroyRef, () => scroll.destroy());
+    hover.activate();
+    scroll.update(this.timelineVisible);
 
-    // sync scroll from table to timeline
-    this.scrollSyncUpdate = createScrollSync(this.element);
-    this.scrollSyncUpdate(this.timelineVisible);
+    this.renderHeader();
+  }
 
+  private renderHeader():void {
     this.cdRef.detectChanges();
+    this.workPackageTable?.rowPositions?.paint();
   }
 
   public get isEmbedded() {
     return this.configuration.isEmbedded;
+  }
+
+  public get sortDescriptionId():string|null {
+    return this.workPackageTable ? `${this.workPackageTable.domId}-sort` : null;
+  }
+
+  public ariaSort(column:QueryColumn):'ascending'|'descending'|null {
+    if (!this.configuration.keyboardNavigationEnabled) {
+      return null;
+    }
+
+    switch (primarySortDirection(this.wpTableSortBy.current, column)) {
+      case 'asc':
+        return 'ascending';
+      case 'desc':
+        return 'descending';
+      default:
+        return null;
+    }
+  }
+
+  private describeSort():string {
+    const sortBy = this.wpTableSortBy.current;
+
+    if (this.wpTableSortBy.isManualSortingMode) {
+      return this.I18n.t('js.work_packages.table.sorted_manually');
+    }
+
+    if (sortBy.length === 0) {
+      return '';
+    }
+
+    const criteria = sortBy.map(({ column, direction }) => this.I18n.t(
+      direction.href === QUERY_SORT_BY_DESC
+        ? 'js.work_packages.table.sort_criterion_descending'
+        : 'js.work_packages.table.sort_criterion_ascending',
+      { column: column.name },
+    ));
+
+    return this.I18n.t('js.work_packages.table.sorted_by', {
+      criteria: new Intl.ListFormat(this.I18n.locale, { type: 'conjunction' }).format(criteria),
+    });
   }
 
   private getTableAndTimelineElement():[HTMLElement, HTMLElement] {

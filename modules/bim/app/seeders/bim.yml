@@ -211,7 +211,7 @@ groups:
     reference: :group__bim_coordinators
   - t_name: BIM Managers
     reference: :group__bim_managers
-  - t_name: BIM Modellers
+  - t_name: BIM Modelers
     reference: :group__bim_modellers
   - t_name: Lead BIM Coordinators
     reference: :group__lead_bim_coordinators
@@ -1113,18 +1113,18 @@ projects:
             :type: follows
         :children:
           - :start: 56
-            :t_subject: Modelling initial BIM model
+            :t_subject: Modeling initial BIM model
             :reference: :modelling_initial_bim_model
             :t_description: |-
               # Goal
 
-              *   Modelling the initial BIM model
+              *   Modeling the initial BIM model
               *   Creating a BIM model for the whole project team
 
               # Description
 
-              *   According to the gathered data from the customer, the initial model will be modelled
-              *   The model shall be modelled according to the LOD Matrices and contain the information needed
+              *   According to the gathered data from the customer, the initial model will be modeled
+              *   The model shall be modeled according to the LOD Matrices and contain the information needed
               *   ...
             :status: :default_status_new
             :type: :default_type_task
@@ -1168,7 +1168,7 @@ projects:
               - :to: :initial_internal_model_check_and_revising
                 :type: follows
       - :start: 66
-        :t_subject: Modelling, first cycle
+        :t_subject: Modeling, first cycle
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
@@ -1191,7 +1191,7 @@ projects:
 
               # Description
 
-              *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
+              *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
               *   ...
             :status: :default_status_new
             :type: :default_type_task
@@ -1202,7 +1202,7 @@ projects:
               - :to: :submitting_initial_bim_model
                 :type: follows
           - :start: 67
-            :t_subject: Modelling the BIM model
+            :t_subject: Modeling the BIM model
             :reference: :modelling_of_the_bim_model
             :t_description: |-
               # Goal
@@ -1308,7 +1308,7 @@ projects:
               - :to: :issue_management_first_cycle
                 :type: follows
       - :start: 84
-        :t_subject: Modelling & coordinating, second cycle
+        :t_subject: Modeling & coordinating, second cycle
         :reference: :modelling_and_coordinating_second_cycle
         :t_description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n*   ..."
         :status: :default_status_new
@@ -1320,7 +1320,7 @@ projects:
           - :to: :finishing_coordination_first_cycle
             :type: follows
       - :start: 85
-        :t_subject: Modelling & coordinating, ... cycle
+        :t_subject: Modeling & coordinating, ... cycle
         :reference: :modelling_and_coordinating_another_cycle
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
@@ -1333,7 +1333,7 @@ projects:
           - :to: :modelling_and_coordinating_second_cycle
             :type: follows
       - :start: 86
-        :t_subject: Modelling & coordinating, (n-th minus 1) cycle
+        :t_subject: Modeling & coordinating, (n-th minus 1) cycle
         :reference: :modelling_and_coordinating_penultimate_cycle
         :t_description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n*   ..."
         :status: :default_status_new
@@ -1345,7 +1345,7 @@ projects:
           - :to: :modelling_and_coordinating_another_cycle
             :type: follows
       - :start: 87
-        :t_subject: Modelling & coordinating n-th cycle
+        :t_subject: Modeling & coordinating n-th cycle
         :reference: :modelling_and_coordinating_last_cycle
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
@@ -1358,7 +1358,7 @@ projects:
           - :to: :modelling_and_coordinating_penultimate_cycle
             :type: follows
       - :start: 88
-        :t_subject: Finishing modelling & coordinating, n-th cycle
+        :t_subject: Finishing modeling & coordinating, n-th cycle
         :reference: :finishing_modelling_and_coordinating
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -70,7 +69,9 @@ module Import
              :deletable?,
              to: :state_machine
 
-    delegate :client, to: :jira
+    delegate :client,
+             :exclude_resolution_fields?,
+             to: :jira
 
     def find_op_leg(jira_leg)
       Import::JiraOpenProjectReference
@@ -79,6 +80,18 @@ module Import
                jira_import_id: id)
         .first
         &.op_leg
+    end
+
+    def find_op_leg!(jira_leg)
+      op_leg = find_op_leg(jira_leg)
+
+      return op_leg if op_leg
+
+      message = "Reference was expected to be found, but it was not. #{jira_leg.class} with id #{jira_leg.id}"
+
+      Rails.logger.error message
+
+      raise ActiveRecord::RecordNotFound, message
     end
 
     def find_jira_leg(op_leg)

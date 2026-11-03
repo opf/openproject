@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,7 +51,6 @@ class Day < ApplicationRecord
       from = today.at_beginning_of_month
       to = today.next_month.at_end_of_month
       from_range(from:, to:)
-        .includes(:non_working_days)
         .order("days.id")
     end
 
@@ -102,6 +100,15 @@ class Day < ApplicationRecord
       # Look up only the next 8 days, because the Setting.working_days must have at least 1 working weekday.
       # Exclude the current day
       from_range(from: from + 1.day, to: from + 9.days).where(working: true).first
+    end
+
+    # The non working days in the range, as consecutive date ranges.
+    def non_working_intervals(from:, to:)
+      from_range(from:, to:)
+        .where(working: false)
+        .pluck(:date)
+        .slice_when { |previous, current| current != previous + 1 }
+        .map { it.first..it.last }
     end
   end
 

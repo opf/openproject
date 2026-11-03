@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -45,9 +44,9 @@ module WorkPackages
       service_class
         .new(user:, work_packages:)
         .call(params)
-        .on_success(&method(:successful_status_update))
-        .on_failure(&method(:failure_status_update))
-        .then(&method(:wrap_result))
+        .on_success { |call| successful_status_update(call) }
+        .on_failure { |call| failure_status_update(call) }
+        .then { |call| wrap_result(call) }
     end
 
     def store_status?

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,8 +30,8 @@
 class Widget::Filters::WorkPackage < Widget::Filters::Base
   include AngularHelper
 
-  def render
-    write(content_tag(:div, id: "#{filter_class.underscore_name}_arg_1", class: "advanced-filters--filter-value") do
+  def render_filter
+    content_tag(:div, id: "#{filter_class.underscore_name}_arg_1", class: "advanced-filters--filter-value") do
       label = html_label
 
       selected_values = map_filter_values
@@ -55,7 +54,7 @@ class Widget::Filters::WorkPackage < Widget::Filters::Base
       content_tag(:span, class: "inline-label") do
         label + box
       end
-    end)
+    end
   end
 
   private

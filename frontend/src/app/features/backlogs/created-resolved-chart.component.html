@@ -1,0 +1,12 @@
+@if (hasChartData()) {
+  <div class="position-relative mx-auto op-sprint-chart--canvas">
+    <canvas
+      baseChart
+      [data]="lineChartData()"
+      [options]="lineChartOptions()"
+      [type]="'line'"
+    ></canvas>
+  </div>
+} @else {
+  <op-no-results />
+}

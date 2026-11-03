@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -48,12 +47,42 @@ RSpec.describe Type::Attributes do
         expect(attributes).not_to have_key("version")
       end
     end
+
+    context "when the work package labels feature is active", with_flag: :work_package_labels do
+      it "offers labels" do
+        expect(attributes).to have_key("labels")
+      end
+    end
+
+    context "when the work package labels feature is inactive", with_flag: { work_package_labels: false } do
+      it "hides labels" do
+        expect(attributes).not_to have_key("labels")
+      end
+    end
+
+    it "keys the cache on the feature flag state" do
+      allow(OpenProject::FeatureDecisions).to receive(:work_package_labels_active?).and_return(false)
+      expect(TypeVariant.all_work_package_form_attributes).not_to have_key("labels")
+
+      allow(OpenProject::FeatureDecisions).to receive(:work_package_labels_active?).and_return(true)
+      expect(TypeVariant.all_work_package_form_attributes).to have_key("labels")
+    end
   end
 
   describe ".translated_work_package_form_attributes" do
     it "labels the target versions field" do
       expect(TypeVariant.translated_work_package_form_attributes["target_versions"])
         .to eq(I18n.t("activerecord.attributes.work_package.target_versions"))
+    end
+  end
+
+  describe "#passes_attribute_constraint?" do
+    let(:type) { create(:type) }
+    let(:project) { create(:project, types: [type]) }
+    let(:field) { create(:work_package_custom_field) }
+
+    it "constrains a custom field by nothing but the module constraints" do
+      expect(type.default_variant.passes_attribute_constraint?(field.attribute_name, project:)).to be true
     end
   end
 end

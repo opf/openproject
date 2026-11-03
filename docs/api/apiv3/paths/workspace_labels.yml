@@ -1,0 +1,63 @@
+# /api/v3/workspaces/{id}/labels
+---
+get:
+  parameters:
+  - description: ID of the workspace whose labels will be listed
+    example: 1
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  - name: filters
+    description: |-
+      JSON specifying filter conditions.
+      Currently supported filters are:
+
+      + name: filters labels by name, with the operators `~` (contains), `!~` (does not contain) and `**` (all)
+    example: '[{ "name": { "operator": "~", "values": ["bug"] } }]'
+    in: query
+    required: false
+    schema:
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            'simple label collection':
+              $ref: "../components/examples/label_collection.yml"
+          schema:
+            "$ref": "../components/schemas/label_collection_model.yml"
+      description: OK
+      headers: {}
+    '400':
+      $ref: "../components/responses/invalid_query.yml"
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified workspace does not exist.
+      description: |-
+        Returned if the workspace does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view work packages (on given workspace)
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of a workspace.
+        That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      headers: {}
+  tags:
+  - Labels
+  description: |-
+    Returns a paginated collection of all labels, ordered by relevance for the given workspace:
+    labels already used on work packages of the workspace come first, followed by the remaining labels.
+    Within each group, labels are ordered by how often they are used overall and then by name.
+  operationId: List_labels_by_workspace
+  summary: List labels by workspace

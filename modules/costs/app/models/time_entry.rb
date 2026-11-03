@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,6 +42,7 @@ class TimeEntry < ApplicationRecord
   MIN_TIME = 0 # => 00:00
   MAX_TIME = (60 * 24) - 1 # => 23:59
   SECONDS_PER_HOUR = 3600.0
+  COMMENTS_MAX_LENGTH = 1_000
 
   acts_as_customizable validate_unless: ->(te) { te.new_record? && te.ongoing? }
 
@@ -62,7 +62,7 @@ class TimeEntry < ApplicationRecord
             allow_nil: true
 
   validates :comments,
-            length: { maximum: 1_000 },
+            length: { maximum: COMMENTS_MAX_LENGTH },
             allow_blank: true
 
   validates :start_time,
@@ -84,11 +84,23 @@ class TimeEntry < ApplicationRecord
 
   scope :on_work_packages, ->(work_packages) { where(entity: work_packages) }
 
+  scope :for_principal, ->(principal) { where(user_id: principal) }
+  scope :in_project, ->(project) { where(project_id: project) }
+
+  scope :spent_from, ->(date) { where(spent_on: date..) }
+  scope :spent_between, ->(from, to) { where(spent_on: from..to) }
+
+  scope :with_rate, ->(rate) { where(rate_id: rate) }
+  # Entries costed with a default rate, or not costed at all: the ones a project
+  # rate can still claim.
+  scope :without_project_rate, -> {
+    where(rate_id: DefaultHourlyRate.select(:id)).or(where(rate_id: nil))
+  }
+
   extend ::TimeEntries::TimeEntryScopes
   include ::Scopes::Scoped
   include Entry::Costs
   include Entry::SplashedDates
-  include Entry::DeprecatedAssociation
 
   scopes :of_user_and_day,
          :ongoing,
@@ -105,21 +117,6 @@ class TimeEntry < ApplicationRecord
 
   def self.effective_costs_sum
     sum(arel_table.coalesce(arel_table[:overridden_costs], arel_table[:costs]))
-  end
-
-  def self.update_all(updates, conditions = nil, options = {})
-    # instead of a update_all, perform an individual update during work_package#move
-    # to trigger the update of the costs based on new rates
-    if conditions.respond_to?(:keys) && conditions.keys == [:work_package_id] && updates =~ /^project_id = (\d+)$/
-      project_id = $1
-      time_entries = TimeEntry.where(conditions)
-      time_entries.each do |entry|
-        entry.project_id = project_id
-        entry.save!
-      end
-    else
-      super
-    end
   end
 
   def entity=(value)

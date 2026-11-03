@@ -75,3 +75,4 @@ get:
     This endpoint is deprecated and replaced by [`/api/v3/versions/{id}/workspaces`](https://www.openproject.org/docs/api/endpoints/projects/#list-workspaces-having-version)
   operationId: List_projects_with_version
   summary: List projects having version
+  deprecated: true

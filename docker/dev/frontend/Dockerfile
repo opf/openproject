@@ -1,4 +1,4 @@
-FROM node:24.18.0
+FROM node:24.22.1
 LABEL org.opencontainers.image.authors="operations@openproject.com"
 
 ARG DEV_UID=1000
@@ -9,8 +9,6 @@ ENV USER=node
 RUN apt-get update && apt-get install -y chromium
 
 ENV CHROME_BIN=/usr/bin/chromium
-
-RUN npm i -g npm@11.3.0
 
 RUN groupadd $USER || true
 RUN groupmod -g $DEV_GID $USER || true

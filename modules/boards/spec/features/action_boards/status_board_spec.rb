@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,6 +32,8 @@ require_relative "../support/board_page"
 RSpec.describe "Status action board",
                :js,
                :selenium do
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
+
   let(:user) do
     create(:user,
            member_with_roles: { project => role })
@@ -150,6 +151,34 @@ RSpec.describe "Status action board",
 
       expect(wp_task.status).to eq(whatever_status), "Moving the card should have updated the status"
       expect(wp_task.project).to eq(project), "Moving the card should not change the project"
+    end
+
+    it_behaves_like "a project picker searchable by identifier" do
+      let(:target_project) { project }
+      let(:control_project) do
+        create(:project,
+               name: "Unrelated Control Project",
+               identifier: "unrelated-control-project",
+               types: [type],
+               enabled_module_names: %i[work_package_tracking board_view],
+               members: { user => role })
+      end
+
+      before do
+        board_index.visit!
+
+        # Create new board
+        board_page = board_index.create_board action: "Kanban"
+
+        board_page.filters.open
+        board_page.filters.add_filter("Project")
+      end
+
+      def search_project(query)
+        search_autocomplete(page.find("#filter_project op-project-autocompleter"),
+                            query:,
+                            results_selector: ".ng-dropdown-panel-items")
+      end
     end
 
     it "allows management of boards", with_settings: { login_required: false } do

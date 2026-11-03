@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 
 RSpec.describe Projects::SprintSettings do
@@ -201,6 +228,40 @@ RSpec.describe Projects::SprintSettings do
         end
 
         it_behaves_like "executes a single SQL query"
+      end
+    end
+  end
+
+  describe "ESTIMATION_UNITS" do
+    it "defines all supported unit options" do
+      expect(described_class::ESTIMATION_UNITS).to match_array(%w[story_points time none])
+    end
+
+    it "is exposed on Project" do
+      expect(Project::ESTIMATION_UNITS).to eq(described_class::ESTIMATION_UNITS)
+    end
+  end
+
+  describe "#estimation_unit" do
+    let(:estimation_unit) { nil }
+
+    it "defaults to story_points" do
+      expect(project.estimation_unit).to eq("story_points")
+    end
+
+    context "with feature flag enabled", with_flag: :project_settings_estimation_unit do
+      it "persists configured values" do
+        project.update!(estimation_unit: "none")
+
+        expect(project.reload.estimation_unit).to eq("none")
+      end
+    end
+
+    context "without feature flag enabled" do
+      it "always returns story_points" do
+        project.update!(estimation_unit: "none")
+
+        expect(project.reload.estimation_unit).to eq("story_points")
       end
     end
   end

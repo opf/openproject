@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -293,7 +292,7 @@ RSpec.describe WikiController do
           { project_id: project, id: existing_page.title }
         end
 
-        it "is sucessful" do
+        it "is successful" do
           expect(response)
             .to have_http_status(:ok)
         end
@@ -331,7 +330,7 @@ RSpec.describe WikiController do
           %i[view_wiki_pages edit_wiki_pages manage_wiki]
         end
 
-        it "is sucessful" do
+        it "is successful" do
           expect(response)
             .to have_http_status(:ok)
         end
@@ -356,7 +355,7 @@ RSpec.describe WikiController do
           { project_id: project, id: "foobar" }
         end
 
-        it "is sucessful" do
+        it "is successful" do
           expect(response)
             .to have_http_status(:ok)
         end
@@ -1084,13 +1083,25 @@ RSpec.describe WikiController do
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item"
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected", false
         end
+      end
 
+      shared_examples_for "all wiki menu items pointing to an existing page" do
         it "is active, when the given wiki menu item is shown" do
-          get "show", params: { id: @wiki_menu_item.name, project_id: project.id }
+          get "show", params: { id: @wiki_menu_item.name, project_id: project.id } # rubocop:disable RSpec/InstanceVariable
 
           expect(response).to be_successful
 
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
+        end
+      end
+
+      shared_examples_for "all wiki menu items pointing to a page that does not exist yet" do
+        it "renders the new page form without a main menu, when the given wiki menu item is shown" do
+          get "show", params: { id: @wiki_menu_item.name, project_id: project.id } # rubocop:disable RSpec/InstanceVariable
+
+          expect(response).to be_successful
+          expect(response).to render_template(:new)
+          assert_select "#main-menu", false
         end
       end
 
@@ -1100,8 +1111,8 @@ RSpec.describe WikiController do
           get "new_child", params: { id: @wiki_menu_item.name, project_id: project.identifier }
 
           expect(response).to be_successful
-
-          assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
+          expect(response).to render_template(:new)
+          assert_select "#main-menu", false
         end
 
         it "is active, when a toc page is shown" do
@@ -1131,6 +1142,7 @@ RSpec.describe WikiController do
         end
 
         it_behaves_like "all wiki menu items"
+        it_behaves_like "all wiki menu items pointing to an existing page"
         it_behaves_like "all existing wiki menu items"
         it_behaves_like "all wiki menu items with child pages"
       end
@@ -1142,6 +1154,7 @@ RSpec.describe WikiController do
         end
 
         it_behaves_like "all wiki menu items"
+        it_behaves_like "all wiki menu items pointing to a page that does not exist yet"
       end
 
       describe "- wiki_menu_item containing special chars only" do
@@ -1154,6 +1167,7 @@ RSpec.describe WikiController do
         end
 
         it_behaves_like "all wiki menu items"
+        it_behaves_like "all wiki menu items pointing to a page that does not exist yet"
       end
     end
 
@@ -1216,7 +1230,7 @@ RSpec.describe WikiController do
         describe "on a wiki page" do
           describe "being authorized to edit wiki pages" do
             describe "with a wiki page present" do
-              it "is visible" do
+              it "is visible in the page header action menu" do
                 get "show",
                     params: { id: page_with_content.title, project_id: project.identifier }
 
@@ -1227,7 +1241,7 @@ RSpec.describe WikiController do
 
                 path = new_child_project_wiki_path(project_id: project, id: page_with_content.slug)
 
-                assert_select "#content a[href='#{path}']", "Wiki page"
+                assert_select "[data-test-selector='wiki-create-child-action-menu-item'][href='#{path}']"
               end
             end
 
@@ -1237,8 +1251,7 @@ RSpec.describe WikiController do
 
                 expect(response).to be_successful
 
-                assert_select "#content a[href='#{new_child_project_wiki_path(project_id: project, id: 'i-am-a-ghostpage')}']",
-                              text: "Wiki page", count: 0
+                assert_select "[data-test-selector='wiki-create-child-action-menu-item']", count: 0
               end
             end
           end
@@ -1253,7 +1266,7 @@ RSpec.describe WikiController do
 
               expect(response).to be_successful
 
-              assert_select "#content a", text: "Wiki page", count: 0
+              assert_select "[data-test-selector='wiki-create-child-action-menu-item']", count: 0
             end
           end
         end
@@ -1262,11 +1275,11 @@ RSpec.describe WikiController do
       describe "new page link" do
         describe "on a show page" do
           describe "being authorized to edit wiki pages" do
-            it "is visible" do
+            it "is visible in the page header action menu" do
               get "show", params: { project_id: project.id }
 
               expect(response).to be_successful
-              assert_select '[data-test-selector="wiki-new-child-button"]', "Wiki page"
+              assert_select "[data-test-selector='wiki-create-child-action-menu-item']"
             end
           end
 
@@ -1280,7 +1293,7 @@ RSpec.describe WikiController do
 
               expect(response).to be_successful
 
-              assert_select ".toolbar-items a", text: "Wiki page", count: 0
+              assert_select "[data-test-selector='wiki-create-child-action-menu-item']", count: 0
             end
           end
         end

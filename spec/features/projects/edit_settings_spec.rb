@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -270,6 +269,35 @@ RSpec.describe "Projects", "editing settings", :js do
         expect(project.parent).to eq parent_project
       end
     end
+
+    context "with a user allowed to add subprojects to other projects" do
+      # Only projects the user may add subprojects to are offered as a parent.
+      let(:candidate_project) { create(:project, name: "Alpha Initiative", identifier: "zulu-candidate") }
+      let(:other_candidate_project) { create(:project, name: "Beta Initiative", identifier: "yankee-candidate") }
+
+      current_user do
+        create(:user,
+               member_with_permissions: {
+                 project => permissions,
+                 candidate_project => %i(add_subprojects),
+                 other_candidate_project => %i(add_subprojects)
+               })
+      end
+
+      it_behaves_like "a project picker searchable by identifier" do
+        let(:general_page) { Pages::Projects::Settings::General.new(project) }
+        let(:target_project) { candidate_project }
+        let(:control_project) { other_candidate_project }
+
+        before do
+          general_page.visit!
+        end
+
+        def search_project(query)
+          general_page.parent_project_field.search_for(query)
+        end
+      end
+    end
   end
 
   describe "attribute help texts" do
@@ -313,7 +341,7 @@ RSpec.describe "Projects", "editing settings", :js do
         general_page.expect_field_label_with_help_text "Subproject of"
       end
 
-      it "shows help text link next to status button", :selenium do
+      it "shows help text link next to status button" do
         within_section "Status" do
           button = find_button("Edit status")
           expect(page).to have_link accessible_name: "Show help text", right_of: button

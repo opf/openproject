@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,7 +34,7 @@ require "support/permission_specs"
 RSpec.describe ProjectsController, "add_project permission", type: :controller do
   include PermissionSpecs
 
-  check_permission_required_for("projects#new", :add_project)
-  check_permission_required_for("projects#create", :add_project)
+  check_global_permission_required_for("projects#new", :add_project)
+  check_global_permission_required_for("projects#create", :add_project)
 end
 # rubocop:enable RSpec/EmptyExampleGroup,RSpec/SpecFilePathFormat

@@ -175,7 +175,7 @@ We added a new “Files” tab in the work package details. This way, you will h
 - Fixed: Include projects - Action bar has no round corners \[[#41582](https://community.openproject.org/wp/41582)\]
 - Fixed: Fix capitalization in two places (minor) in the Team Planner \[[#41647](https://community.openproject.org/wp/41647)\]
 - Fixed: Comments linked to another package are not shown correctly \[[#41649](https://community.openproject.org/wp/41649)\]
-- Fixed: APIv3 projects API signalling - Duplicated projects returned \[[#41673](https://community.openproject.org/wp/41673)\]
+- Fixed: APIv3 projects API signaling - Duplicated projects returned \[[#41673](https://community.openproject.org/wp/41673)\]
 - Fixed: Include projects number is wrong moving from projects page to gantt view \[[#41680](https://community.openproject.org/wp/41680)\]
 - Fixed: Toolbars in Team planner not correctly aligned \[[#41711](https://community.openproject.org/wp/41711)\]
 - Fixed: Redundant heading in file section (files + attachments) \[[#41712](https://community.openproject.org/wp/41712)\]

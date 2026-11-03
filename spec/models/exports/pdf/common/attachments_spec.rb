@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -120,6 +119,19 @@ RSpec.describe Exports::PDF::Common::Attachments do
     it "writes a file with image/png MIME type" do
       result = helper.resize_image(png_fixture)
       expect(Marcel::MimeType.for(Pathname.new(result))).to eq("image/png")
+    end
+
+    it "does not shell out to mogrify, which the module policy denies" do
+      allow(MiniMagick).to receive(:mogrify).and_call_original
+
+      helper.resize_image(png_fixture)
+
+      expect(MiniMagick).not_to have_received(:mogrify)
+    end
+
+    it "runs ImageMagick with the project policy applied" do
+      expect(MiniMagick.cli_env["MAGICK_CONFIGURE_PATH"])
+        .to eq(Rails.root.join("config/imagemagick").to_s)
     end
   end
 
@@ -229,7 +241,9 @@ RSpec.describe Exports::PDF::Common::Attachments do
     end
 
     context "when src matches a valid attachment path" do
-      let(:attachment) { instance_double(Attachment, id: 7) }
+      let(:attachment) do
+        instance_double(Attachment, id: 7, status_scanned?: false, status_uploaded?: true, pending_virus_scan?: false)
+      end
 
       before { allow(Attachment).to receive(:find_by).with(id: 7).and_return(attachment) }
 
@@ -244,6 +258,14 @@ RSpec.describe Exports::PDF::Common::Attachments do
         it "returns the attachment for the drag-and-drop path format" do
           result = helper.attachment_by_api_content_src("/attachments/7/filename.ext")
           expect(result).to eq(attachment)
+        end
+
+        context "when the upload is not completed" do
+          before { allow(attachment).to receive(:status_uploaded?).and_return(false) }
+
+          it "returns nil" do
+            expect(helper.attachment_by_api_content_src("/api/v3/attachments/7/content")).to be_nil
+          end
         end
       end
 
@@ -291,11 +313,24 @@ RSpec.describe Exports::PDF::Common::Attachments do
       allow(helper).to receive(:attachment_by_api_content_src).with(src).and_return(attachment)
       allow(helper).to receive(:pdf_embeddable?).with("image/jpeg").and_return(true)
       allow(helper).to receive(:attachment_image_local_file).with(attachment).and_return(local_file)
+      allow(OpenProject::ContentTypeDetector).to receive(:detect).with("/tmp/image.jpg").and_return("image/jpeg")
       allow(helper).to receive(:resize_image).with("/tmp/image.jpg").and_return("/tmp/resized.jpg")
     end
 
     it "returns a resized image path for a jpeg" do
       expect(helper.attachment_image_filepath(src)).to eq("/tmp/resized.jpg")
+    end
+
+    context "when the file content does not match the stored type" do
+      before do
+        allow(OpenProject::ContentTypeDetector).to receive(:detect).with("/tmp/image.jpg").and_return("application/x-bzip2")
+        allow(helper).to receive(:pdf_embeddable?).with("application/x-bzip2").and_return(false)
+      end
+
+      it "returns nil without resizing" do
+        expect(helper.attachment_image_filepath(src)).to be_nil
+        expect(helper).not_to have_received(:resize_image)
+      end
     end
 
     context "when attachment is nil" do
@@ -330,6 +365,7 @@ RSpec.describe Exports::PDF::Common::Attachments do
         allow(helper).to receive(:attachment_by_api_content_src).with(src).and_return(attachment)
         allow(helper).to receive(:pdf_embeddable?).with("image/gif").and_return(true)
         allow(helper).to receive(:attachment_image_local_file).with(attachment).and_return(local_file)
+        allow(OpenProject::ContentTypeDetector).to receive(:detect).with("/tmp/image.gif").and_return("image/gif")
         allow(helper).to receive(:convert_gif_to_png).with("/tmp/image.gif").and_return("/tmp/converted.png")
         allow(helper).to receive(:resize_image).with("/tmp/converted.png").and_return("/tmp/resized.png")
       end
@@ -349,6 +385,7 @@ RSpec.describe Exports::PDF::Common::Attachments do
         allow(helper).to receive(:attachment_by_api_content_src).with(src).and_return(attachment)
         allow(helper).to receive(:pdf_embeddable?).with("image/webp").and_return(true)
         allow(helper).to receive(:attachment_image_local_file).with(attachment).and_return(local_file)
+        allow(OpenProject::ContentTypeDetector).to receive(:detect).with("/tmp/image.webp").and_return("image/webp")
         allow(helper).to receive(:convert_webp_to_png).with("/tmp/image.webp").and_return("/tmp/converted.png")
         allow(helper).to receive(:resize_image).with("/tmp/converted.png").and_return("/tmp/resized.png")
       end
@@ -368,6 +405,7 @@ RSpec.describe Exports::PDF::Common::Attachments do
         allow(helper).to receive(:attachment_by_api_content_src).with(src).and_return(attachment)
         allow(helper).to receive(:pdf_embeddable?).with("image/gif").and_return(true)
         allow(helper).to receive(:attachment_image_local_file).with(attachment).and_return(local_file)
+        allow(OpenProject::ContentTypeDetector).to receive(:detect).with("/tmp/image.gif").and_return("image/gif")
         allow(helper).to receive(:convert_gif_to_png).with("/tmp/image.gif").and_return(nil)
       end
 

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -66,8 +65,7 @@ export default class extends Controller {
   }
 
   async request(e:Event):Promise<void> {
-    // Don't trigger edit mode if the user is selecting text or just finished a selection
-    if (window.getSelection()?.toString()) {
+    if (this.isSelectingText(e)) {
       return;
     }
 
@@ -93,8 +91,7 @@ export default class extends Controller {
   }
 
   openDialog(event:Event) {
-    // Don't trigger edit mode if the user is selecting text or just finished a selection
-    if (window.getSelection()?.toString()) {
+    if (this.isSelectingText(event)) {
       return;
     }
 
@@ -132,6 +129,17 @@ export default class extends Controller {
       }
     });
     e.formData.set('stable_key_system_arguments', JSON.stringify(result));
+  }
+
+  // A double click always selects the word under the cursor,
+  // so only a selection made in any other way should prevent activation.
+  private isSelectingText(event:Event):boolean {
+    if (event.type === 'dblclick') {
+      window.getSelection()?.removeAllRanges();
+      return false;
+    }
+
+    return !!window.getSelection()?.toString();
   }
 
   private isInteractiveElement(element:HTMLElement):boolean {
@@ -191,7 +199,7 @@ export default class extends Controller {
 
       // For plain-text inputs: store the char offset at the click position so
       // the rendered text input can place the cursor accurately via setSelectionRange.
-      let range:Range | null = null;
+      let range:Range | null;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-explicit-any
       if ((e as any).rangeParent) {
         range = document.createRange();

@@ -1,0 +1,19 @@
+# The following overrides should be copied to the core docker-compose.overrides.yml in the main directory.
+# When running OpenProject locally instead, put the same variables into your .env file.
+# Only use them if you DO NOT use the TLS setup. Otherwise, see
+# tls/docker-compose.core-override.example.yml for the garage TLS setup values.
+
+services:
+  backend:
+    environment:
+     OPENPROJECT_ATTACHMENTS__STORAGE: "fog"
+     OPENPROJECT_FOG_DIRECTORY: "openproject-uploads"
+     OPENPROJECT_FOG_CREDENTIALS_PROVIDER: "AWS"
+     OPENPROJECT_FOG_CREDENTIALS_ENDPOINT: "http://localhost:3900"
+     OPENPROJECT_FOG_CREDENTIALS_AWS__ACCESS__KEY__ID: "GKa1b2c3d4e5f60718293a4b5c"
+     OPENPROJECT_FOG_CREDENTIALS_AWS__SECRET__ACCESS__KEY: "6f70656e70726f6a6563742d6761726167652d6465762d7365637265742d3031"
+     OPENPROJECT_FOG_CREDENTIALS_PATH__STYLE: "true"
+     OPENPROJECT_FOG_CREDENTIALS_REGION: "garage"
+     # Direct uploads to S3-compatible storage are only enabled with both hosts set explicitly
+     OPENPROJECT_REMOTE__STORAGE__UPLOAD__HOST: "http://localhost:3900"
+     OPENPROJECT_REMOTE__STORAGE__DOWNLOAD__HOST: "http://localhost:3900"

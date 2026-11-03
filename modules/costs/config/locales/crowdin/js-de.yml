@@ -23,10 +23,15 @@
 de:
   js:
     button_log_costs: Stückkosten buchen
+    costs:
+      widgets:
+        actual_costs:
+          chart_label: Actual costs by month chart
+          chart_month: "%{month}: %{values}"
+          chart_summary: 'Actual costs by month: %{months}.'
+          chart_value: "%{label}: %{value}"
     label_hour: Stunde
     label_hours: Stunden
-    myTimeTracking:
-      noSpecificTime: Keine bestimmte Zeit
     text_are_you_sure: Sind Sie sicher?
     work_packages:
       properties:

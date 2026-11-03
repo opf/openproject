@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,10 +58,21 @@ module TimeEntries
                                      }
       else
         f.hidden name: :entity_id, value: model.entity_id
+        f.text_field name: :entity_label,
+                     label: TimeEntry.human_attribute_name(:work_package),
+                     value: fixed_entity_label,
+                     disabled: true
       end
     end
 
     private
+
+    def fixed_entity_label
+      entity = model.entity
+      return unless entity.is_a?(WorkPackage)
+
+      "#{entity.formatted_id} #{entity.subject}"
+    end
 
     def show_work_package_field?
       return true if model.entity_id.nil?

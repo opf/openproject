@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -74,6 +73,16 @@ RSpec.describe TimeEntries::BaseContract, "prohibiting logging for past months" 
 
     it "rejects logging for an earlier past month" do
       expect_rejected(log_time(first_day_of_last_month))
+    end
+
+    it "formats the earliest allowed date according to user preference" do
+      user.pref[:date_format] = "%d.%m.%Y"
+
+      call = log_time(first_day_of_last_month)
+
+      expect_rejected(call)
+      expect(call.errors.full_messages.join)
+        .to include(first_of_this_month.strftime("%d.%m.%Y"))
     end
 
     it "allows editing an entry within the current month" do
@@ -128,7 +137,7 @@ RSpec.describe TimeEntries::BaseContract, "prohibiting logging for past months" 
     # Evaluated inside the before hook, so still relative to the real date.
     let(:next_month) { Date.current.next_month.beginning_of_month }
 
-    # Evaluated inside the examples, so relative to the date travelled to.
+    # Evaluated inside the examples, so relative to the date traveled to.
     let(:month_that_just_ended) { Date.current.prev_month.beginning_of_month }
     let(:an_earlier_month) { Date.current.prev_month.prev_month.beginning_of_month }
 

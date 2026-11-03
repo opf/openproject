@@ -69,7 +69,7 @@ In the **My time tracking** module, the week and work week views now automatical
 
 ![OpenProject's My time tracking module in list view, only Today expanded](user-guide-my-time-tracking-module-list-view.png)
 
-[Learn more about the My time tracking module in our documentation](../../../user-guide/time-and-costs/my-time-tracking/).
+[Learn more about the My time tracking module in our documentation](../../../user-guide/time-and-costs/my-work/).
 
 ### Option to disable keyboard shortcuts for better accessibility
 

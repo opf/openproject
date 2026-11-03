@@ -1,3 +1,32 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 require_relative "support/pages/cost_report_page"
 
@@ -13,8 +42,8 @@ RSpec.describe "Cost report calculations", :js do
   end
 
   let(:work_package) { create(:work_package, project:) }
-  let!(:hourly_rate_admin) { create(:default_hourly_rate, user: admin, rate: 1.00, valid_from: 1.year.ago) }
-  let!(:hourly_rate_user) { create(:default_hourly_rate, user:, rate: 1.00, valid_from: 1.year.ago) }
+  let!(:hourly_rate_admin) { create(:default_hourly_rate, principal: admin, rate: 1.00, valid_from: 1.year.ago) }
+  let!(:hourly_rate_user) { create(:default_hourly_rate, principal: user, rate: 1.00, valid_from: 1.year.ago) }
 
   let(:report_page) { Pages::CostReportPage.new project }
 
@@ -48,7 +77,7 @@ RSpec.describe "Cost report calculations", :js do
 
   before do
     login_as current_user
-    visit "/cost_reports?set_filter=1"
+    visit reporting_cost_reports_path(filters: "")
   end
 
   context "as anonymous" do

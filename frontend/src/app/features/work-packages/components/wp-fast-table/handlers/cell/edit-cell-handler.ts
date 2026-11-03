@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -36,25 +35,23 @@ import {
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { getPosition } from 'core-app/shared/helpers/set-click-position/set-click-position';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
-import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
-import { States } from 'core-app/core/states/states.service';
+import { EditActivationCancelled } from 'core-app/shared/components/fields/edit/edit-form/edit-activation-cancelled';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
 import { ClickOrEnterHandler } from '../click-or-enter-handler';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
-  @LazyInject() public states:States;
-
   @LazyInject() public halEditing:HalResourceEditingService;
 
-  // Keep a reference to all
+  @LazyInject() public configurationService:ConfigurationService;
 
   public get EVENT():EventType[] {
-    return ['click', 'keydown'];
+    return ['click', 'dblclick', 'keydown'];
   }
 
   public get SELECTOR() {
@@ -67,6 +64,27 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
 
   constructor(public readonly injector:Injector) {
     super();
+  }
+
+  public handleEvent(view:TableEventComponent, evt:MouseEvent|KeyboardEvent) {
+    if (evt instanceof KeyboardEvent) {
+      super.handleEvent(view, evt);
+      return;
+    }
+
+    if (evt.type !== this.activationEvent) {
+      return;
+    }
+
+    if (evt.type === 'dblclick') {
+      window.getSelection()?.removeAllRanges();
+    }
+
+    this.processEvent(view.workPackageTable, evt);
+  }
+
+  private get activationEvent():'click'|'dblclick' {
+    return this.configurationService.requireDoubleClickForInlineEdit() ? 'dblclick' : 'click';
   }
 
   protected processEvent(table:WorkPackageTable, evt:MouseEvent|KeyboardEvent):void {
@@ -92,29 +110,40 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
       return;
     }
 
-    // Locate the row
-    const rowElement = target.closest<HTMLTableRowElement>(`.${tableRowClassName}`)!;
-    // Get the work package we're editing
-    const workPackageId = rowElement.dataset.workPackageId!;
-    const workPackage = this.states.workPackages.get(workPackageId).value!;
-    // Get the row context
-    const classIdentifier = rowElement.dataset.classIdentifier!;
-
-    // Get any existing edit state for this work package
-    const form = table.editing.startEditing(workPackage, classIdentifier);
-
     let positionOffset = 0;
-    if (evt.type === 'click') {
+    if (evt instanceof MouseEvent) {
       // Get the position where the user clicked.
-      positionOffset = getPosition(evt as MouseEvent);
+      positionOffset = getPosition(evt);
     }
 
-    // Activate the field
-    form.activate(fieldName)
-      .then((handler:EditFieldHandler) => {
-        handler.$onUserActivate.next();
-        handler.focus(positionOffset);
-      })
-      .catch(() => target.classList.add(readOnlyClassName));
+    activateTableField(table, target, positionOffset);
   }
+}
+
+/** Opens the inline editor of an editable display field in a table row; false when the field has no name. */
+export function activateTableField(table:WorkPackageTable, target:HTMLElement, positionOffset = 0):boolean {
+  const fieldName = target.dataset.fieldName;
+  if (!fieldName) {
+    return false;
+  }
+
+  const rowElement = target.closest<HTMLTableRowElement>(`.${tableRowClassName}`)!;
+  const workPackage = table.states.workPackages.get(rowElement.dataset.workPackageId!).value!;
+  const form = table.editing.startEditing(workPackage, rowElement.dataset.classIdentifier!);
+
+  form.activate(fieldName)
+    .then((handler) => {
+      if (table.destroyed) return;
+      if (!handler) {
+        target.classList.add(readOnlyClassName);
+        return;
+      }
+      handler.$onUserActivate.next();
+      handler.focus(positionOffset);
+    })
+    .catch((error:unknown) => {
+      if (!(error instanceof EditActivationCancelled) && !table.destroyed) target.classList.add(readOnlyClassName);
+    });
+
+  return true;
 }

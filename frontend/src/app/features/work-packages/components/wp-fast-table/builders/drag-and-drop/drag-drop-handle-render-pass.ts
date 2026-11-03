@@ -20,25 +20,31 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injector } from '@angular/core';
+import { States } from 'core-app/core/states/states.service';
 import { DragDropHandleBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/drag-and-drop/drag-drop-handle-builder';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
-import { PrimaryRenderPass, RowRenderInfo } from '../primary-render-pass';
+import { keyboardNavigationEnabled } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
+import { PrimaryRenderPass } from '../primary-render-pass';
 
 export class DragDropHandleRenderPass {
+  @LazyInject() public states:States;
+
   @LazyInject() public wpTableColumns:WorkPackageViewColumnsService;
 
   @LazyInject() public wpTableOrder:WorkPackageViewOrderService;
+
+  @LazyInject() notification:WorkPackageNotificationService;
 
   // Drag & Drop handle builder
   protected dragDropHandleBuilder = new DragDropHandleBuilder(this.injector);
@@ -51,23 +57,31 @@ public readonly injector:Injector,
   }
 
   public render() {
-    if (!this.table.configuration.dragAndDropEnabled) {
+    if (this.table.destroyed || !this.table.configuration.dragAndDropEnabled) {
       return;
     }
 
-    void this.wpTableOrder.withLoadedPositions().then((positions:QueryOrder) => {
-      this.tablePass.renderedOrder.forEach((row:RowRenderInfo) => {
+    const notification = this.notification;
+    const query = this.table.querySpace.query.value!;
+    const { occurrences } = this.tablePass.draft;
+    void this.wpTableOrder.positionsFor(query).then((positions:QueryOrder) => {
+      if (this.table.destroyed || this.table.querySpace.query.value !== query) return;
+      occurrences.forEach(({ workPackage, renderType, element }) => {
         // We only care for rows that are natural work packages and are not relation sub-rows
-        if (!row.workPackage || row.renderType === 'relations') {
+        if (!workPackage || renderType !== 'primary') {
           return;
         }
 
-        const handle = this.dragDropHandleBuilder.build(row.workPackage, positions[row.workPackage.id!]);
+        const latestWorkPackage = this.states.workPackages.get(workPackage.id!).getValueOr(workPackage);
+        const handle = this.dragDropHandleBuilder.build(latestWorkPackage, positions[workPackage.id!]);
 
-        if (handle && row.element) {
-          row.element.replaceChild(handle, row.element.firstElementChild!);
+        if (handle && element) {
+          if (keyboardNavigationEnabled(this.table.configuration)) {
+            handle.setAttribute('role', 'gridcell');
+          }
+          element.replaceChild(handle, element.firstElementChild!);
         }
       });
-    });
+    }).catch((error:unknown) => notification.handleRawError(error));
   }
 }

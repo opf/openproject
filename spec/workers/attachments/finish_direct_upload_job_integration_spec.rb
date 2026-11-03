@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -159,6 +158,19 @@ RSpec.describe Attachments::FinishDirectUploadJob, "integration", :with_direct_u
       job.perform(pending_attachment.id)
 
       expect(staged_direct_upload(pending_attachment)).to be_nil
+    end
+
+    context "with an isolated upload cache" do
+      let(:cache_dir) { Dir.mktmpdir }
+
+      before { allow(FogFileUploader).to receive(:cache_dir).and_return(cache_dir) }
+      after { FileUtils.rm_rf(cache_dir) }
+
+      it "leaves no copy of the upload in the cache" do
+        Rails.application.executor.wrap { job.perform(pending_attachment.id) }
+
+        expect(Dir.children(cache_dir)).to be_empty
+      end
     end
 
     context "without a staged upload" do

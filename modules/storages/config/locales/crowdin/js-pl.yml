@@ -26,16 +26,14 @@ pl:
         select: Wybierz pliki
         select_all: Zaznacz wszystkie
         selection:
-          zero: Wybierz pliki do połączenia
-          one: Połącz 1 plik
-          few: Połącz %{count} pliki
-          many: Połącz %{count} plików
-          other: Połącz %{count} plików
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          one: Pomyślnie utworzono 1 połączenie plików.
-          few: Pomyślnie utworzono %{count} połączenia plików.
-          many: Pomyślnie utworzono %{count} połączeń plików.
-          other: Pomyślnie utworzono %{count} połączeń plików.
+          one: Successfully created %{count} file link.
+          few: Successfully created %{count} file links.
+          many: Successfully created %{count} file links.
+          other: Successfully created %{count} file links.
         tooltip:
           not_found: Nie można znaleźć tego pliku.
           not_logged_in: Zaloguj się do magazynu, aby uzyskać dostęp do tego pliku.

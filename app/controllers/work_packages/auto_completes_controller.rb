@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -60,7 +59,7 @@ class WorkPackages::AutoCompletesController < ApplicationController
       # `displayId` collapses to the numeric id in classic mode and to the
       # semantic identifier in semantic mode. The CKEditor mention plugin
       # reads it to insert `#PROJ-7` (or `#1234`) into the markdown source.
-      # Stringified for parity with APIv3 (`WorkPackageRepresenter` serialises
+      # Stringified for parity with APIv3 (`WorkPackageRepresenter` serializes
       # `displayId` as a string).
       work_package.attributes.merge(
         "to_s" => work_package.to_s,

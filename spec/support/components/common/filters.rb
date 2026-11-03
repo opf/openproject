@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -78,29 +77,38 @@ module Components
         # Classify the row before apply_operator re-renders it; the type and
         # autocomplete markers are fixed per filter, so selecting the operator
         # does not change them. Skipped when there is nothing to set.
-        kind = filter_kind(name) if values.any?
+        kind = values.any? ? filter_kind(name) : nil
 
         apply_operator(name, human_operator)
 
         return unless values.any?
 
-        # Re-find after apply_operator: selecting the operator re-renders the
-        # filter row, leaving an earlier reference stale (ObsoleteNode).
-        within(filter_selector(name)) do
-          set_advanced_filter_value(name, kind, human_operator, values, send_keys:)
+        set_advanced_filter_value(name, kind, human_operator, values, send_keys:)
+      end
+
+      # Every filter form using this helper submits on change and re-renders the
+      # row, so it is entered only once the operator has landed. The inputs each
+      # do a single interaction that finishes before that re-render, so one
+      # scope covers them. The autocompleter cannot use one: it picks its values one
+      # after the other, and every pick re-renders the row, so a scope held
+      # across them is dead by the second value (ObsoleteNode). It is handed the
+      # filter name and re-finds the row per pick instead.
+      def set_advanced_filter_value(name, kind, human_operator, values, send_keys:)
+        if boolean_filter?(name)
+          within_filter(name) { set_toggle_filter(values) }
+        elsif kind == :autocomplete
+          set_autocomplete_filter(values, filter_name: name)
+        elsif name == "created_at"
+          within_filter(name) { set_datetime_filter(name, human_operator, values, send_keys:, kind:) }
+        elsif kind == :date && human_operator == "on"
+          within_filter(name) { set_date_filter(values, send_keys) }
         end
       end
 
-      def set_advanced_filter_value(name, kind, human_operator, values, send_keys:)
-        if boolean_filter?(name)
-          set_toggle_filter(values)
-        elsif kind == :autocomplete
-          set_autocomplete_filter(values)
-        elsif name == "created_at"
-          set_datetime_filter(name, human_operator, values, send_keys:)
-        elsif kind == :date && human_operator == "on"
-          set_date_filter(values, send_keys)
-        end
+      def within_filter(name, &)
+        wait_for_network_idle
+
+        within(filter_selector(name), &)
       end
 
       def expect_autocomplete_options_for(custom_field, options, grouping: nil, results_selector: "body")
@@ -140,6 +148,8 @@ module Components
         else
           page.find("#{filter_selector(name)} .advanced-filters--remove-filter").click
         end
+
+        wait_for_network_idle(duration: 0.3) if using_cuprite?
       end
 
       def set_toggle_filter(values)
@@ -162,37 +172,67 @@ module Components
         end
       end
 
-      def set_datetime_filter(filter_name, human_operator, values, send_keys: false)
+      def set_datetime_filter(filter_name, human_operator, values, send_keys: false, kind: :datetime_past)
         case human_operator
         when "on", "less than days ago", "more than days ago", "days ago"
           if send_keys
-            find_field(filter_name).send_keys values.first
+            field = find_field(filter_name)
+            clear_input_field_contents(field)
+            field.send_keys values.first
           else
             fill_in filter_name, with: values.first
           end
         when "between"
-          if send_keys
-            value = values.join(" - ")
-            find_field(filter_name).send_keys value
+          if kind == :date
+            set_date_range(filter_name, values, send_keys:)
           else
-            find_field(filter_name).click
-            datepicker = ::Components::RangeDatepicker.new
-            datepicker.set_date values.first
-            datepicker.set_date values.last
+            set_datetime_range(filter_name, values)
           end
+        end
+
+        wait_for_network_idle(duration: 0.3) if using_cuprite?
+      end
+
+      def set_date_range(filter_name, values, send_keys:)
+        if send_keys
+          field = find_field(filter_name)
+          clear_input_field_contents(field)
+          field.send_keys values.join(" - ")
+        else
+          find_field(filter_name).click
+          datepicker = ::Components::RangeDatepicker.new
+          datepicker.set_date values.first
+          datepicker.set_date values.last
         end
       end
 
-      def set_autocomplete_filter(values, clear: true)
-        element = find('[data-filter-autocomplete="true"]')
+      def set_datetime_range(filter_name, values)
+        from_value, to_value = values
 
-        ng_select_clear(element, raise_on_missing: false) if clear
+        fill_in "#{filter_name}_datetimeFrom", with: from_value
+        find_field("#{filter_name}_datetimeFrom").send_keys(:enter)
+
+        fill_in "#{filter_name}_datetimeTo", with: to_value
+        find_field("#{filter_name}_datetimeTo").send_keys(:enter)
+      end
+
+      def set_autocomplete_filter(values, filter_name:, clear: true)
+        ng_select_clear(autocomplete_element(filter_name), raise_on_missing: false) if clear
 
         Array(values).each do |query|
-          select_autocomplete element,
+          select_autocomplete -> { autocomplete_element(filter_name) },
                               query:,
                               results_selector: "body"
         end
+      end
+
+      # Re-found on every call, never captured in a local nor reached through an
+      # enclosing `within`: between one selected value and the next the row is
+      # gone, taking any reference to it along.
+      def autocomplete_element(filter_name)
+        wait_for_network_idle
+
+        page.find(filter_selector(filter_name)).find('[data-filter-autocomplete="true"]')
       end
 
       def set_list_filter(values)

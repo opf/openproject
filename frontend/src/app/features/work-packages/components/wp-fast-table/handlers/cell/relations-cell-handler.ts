@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -57,12 +56,20 @@ export class RelationsCellHandler extends ClickOrEnterHandler implements TableEv
     super();
   }
 
+  public handleEvent(view:TableEventComponent, evt:MouseEvent|KeyboardEvent) {
+    if (evt.type === 'keydown' && (evt.target as HTMLElement).tagName === 'BUTTON') {
+      return;
+    }
+
+    super.handleEvent(view, evt);
+  }
+
   protected processEvent(table:WorkPackageTable, evt:MouseEvent|KeyboardEvent):void {
     debugLog('Handled click on relation cell %o', evt.target);
     evt.preventDefault();
 
     // Locate the relation td
-    const td = (evt.target as HTMLElement).closest<HTMLTableColElement>(`.${relationCellTdClassName}`);
+    const td = (evt.target as HTMLElement).closest<HTMLTableCellElement>(`.${relationCellTdClassName}`);
     const columnId = td?.dataset.columnId ?? '';
 
     // Locate the row

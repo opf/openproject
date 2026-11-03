@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -41,7 +40,6 @@ import {
 } from 'rxjs/operators';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { AttachmentsStore } from 'core-app/core/state/attachments/attachments.store';
@@ -58,6 +56,7 @@ import {
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import isNewResource, { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import waitForUploadsFinished from 'core-app/core/upload/wait-for-uploads-finished';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 @Injectable()
 export class AttachmentsResourceService extends ResourceStoreService<IAttachment> {
@@ -202,10 +201,10 @@ export class AttachmentsResourceService extends ResourceStoreService<IAttachment
   }
 
   private getDirectUploadLink(resource:HalResource):string|null {
-    const links = resource.$links as { prepareAttachment:HalLink };
+    const links = resource.$links;
 
     if (links.prepareAttachment) {
-      return links.prepareAttachment.href!;
+      return (links.prepareAttachment as CallableHalLink).href!;
     }
 
     if (isNewResource(resource)) {

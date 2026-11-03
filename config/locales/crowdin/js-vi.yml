@@ -61,6 +61,7 @@ vi:
         single: Chọn "%{name}"
       remove: Xoá %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Không tìm thấy mục nào
       placeholder: Nhập để tìm kiếm
       project:
@@ -161,7 +162,8 @@ vi:
     button_start_timer: Bắt đầu hẹn giờ
     button_stop_timer: Dừng hẹn giờ
     button_uncheck_all: Bỏ chọn tất cả
-    button_update: cập nhật
+    button_update: Cập Nhật
+    button_view_markdown: View Markdown
     caption_rate_history: Lịch sử giá
     card:
       add_new: Thêm thẻ mới
@@ -201,7 +203,10 @@ vi:
     description_select_work_package: 'Chọn gói công việc #%{id}'
     description_subwork_package: 'Gói công việc con #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: Đã xảy ra lỗi trong CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Lưu tài liệu không thành công với lỗi sau: %{error}'
       macro:
         attribute_reference:
@@ -358,8 +363,8 @@ vi:
     ical_sharing_modal:
       copy_url_label: Sao chép URL
       description: Bạn có thể sử dụng URL (iCalendar) để đăng ký lịch này trong ứng dụng khách bên ngoài và xem thông tin cập nhật về gói công việc từ đó.
-      ical_generation_error_text: Đã xảy ra lỗi khi tạo URL lịch.
-      inital_setup_error_message: Đã xảy ra lỗi khi tìm nạp dữ liệu.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL "%{name}" đã được sao chép thành công vào khay nhớ tạm của bạn. Dán nó vào ứng dụng lịch của bạn để hoàn tất đăng ký.
       title: Đăng ký lịch
       token_name_description_text: Nếu bạn đăng ký lịch này từ nhiều thiết bị, tên này sẽ giúp bạn phân biệt giữa chúng trong danh sách <a href="%{myAccessTokensUrl}" target="_blank">token truy cập</a> của mình.
@@ -551,6 +556,8 @@ vi:
     label_reset: Reset
     label_resize_project_menu: Thay đổi kích thước menu dự án
     label_save_as: Lưu thành
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Tìm kiếm một cột
     label_select_watcher: Chọn một người theo dõi...
     label_selected_filter_list: Bộ lọc đã chọn
@@ -623,7 +630,7 @@ vi:
     notifications:
       center:
         and_more_users:
-          other: và %{count} người khác
+          other: and %{count} others
         empty_state:
           no_notification: Có vẻ như tất cả các bạn đã bị cuốn theo.
           no_notification_for_filter: Có vẻ như tất cả các bạn đều bị cuốn hút bởi bộ lọc này.
@@ -719,6 +726,7 @@ vi:
     placeholders:
       default: "-"
       description: 'Mô tả: Click để chỉnh sửa...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Nhấp để thêm mô tả cho mối quan hệ này
       selection: Vui lòng chọn
       subject: Nhập chủ đề vào đây
@@ -805,12 +813,30 @@ vi:
       sorting_disabled: sắp xếp bị vô hiệu hóa
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Đóng phương thức
@@ -824,9 +850,7 @@ vi:
     text_user_wrote: "%{value} đã viết:"
     text_work_packages_destroy_confirmation: Bạn có chắc chắn muốn xóa (các) gói công việc đã chọn không?
     time_entry:
-      stop: Dừng lại
       title: Đăng nhập thời gian
-      tracking: Theo dõi thời gian
       work_package_required: Yêu cầu chọn gói công việc trước tiên.
     timer:
       button_stop: Dừng bộ đếm thời gian hiện tại
@@ -861,18 +885,18 @@ vi:
       label_two_factor_authentication: Xác thực hai yếu tố
     units:
       child_work_packages:
-        other: "%{count} gói công việc trẻ em"
+        other: "%{count} work package children"
       day:
-        one: 1 ngày
+        one: "%{count} day"
         other: "%{count} ngày"
         zero: 0 ngày
       hour:
-        one: 1 giờ
+        one: "%{count} h"
         other: "%{count} giờ"
         zero: 0 giờ
       hour_string: "%{hours} giờ"
       word:
-        other: "%{count} từ"
+        other: "%{count} words"
       workPackage:
         other: gói công việc
     upsell:
@@ -1064,11 +1088,24 @@ vi:
       scheduling:
         is_parent: Ngày của gói công việc này được tự động suy ra từ các phần tử con của nó. Kích hoạt 'Lập lịch thủ công' để đặt ngày.
         is_switched_from_manual_to_automatic: Ngày của gói công việc này có thể cần được tính toán lại sau khi chuyển từ lập lịch thủ công sang lập lịch tự động do mối quan hệ với các gói công việc khác.
+      selection:
+        all_selected:
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Hiển thị tất cả người dùng đã được chia sẻ gói công việc
         title: Chia sẻ gói công việc
       table:
         configure_button: Cấu hình bảng gói công việc
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Bảng có các hàng gói công việc và các cột thuộc tính gói công việc.
         text_inline_edit: Hầu hết các ô của bảng này là các nút kích hoạt chức năng chỉnh sửa nội tuyến của thuộc tính đó.
         text_select_hint: Các hộp chọn phải được mở bằng 'ALT' và phím mũi tên.

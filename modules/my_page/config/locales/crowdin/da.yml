@@ -3,7 +3,7 @@ da:
   activerecord:
     models:
       grids/my_page:
-        one: My page
-        other: My pages
+        one: Min side
+        other: Mine sider
   my_page:
     label: Min side

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,6 +33,7 @@ module ResourceAllocations
   class ListDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
+    include ResourceManagement::PlannerRoutes
 
     DIALOG_ID = "work-package-allocations-dialog"
 
@@ -56,7 +56,12 @@ module ResourceAllocations
     end
 
     def allocate_resource_path
-      new_project_resource_allocation_path(project, work_package_id: work_package.id)
+      new_allocation_path(project, work_package_id: work_package.id)
+    end
+
+    def allocatable?
+      work_package.project.present? &&
+        User.current.allowed_in_project?(:allocate_user_resources, work_package.project)
     end
   end
 end

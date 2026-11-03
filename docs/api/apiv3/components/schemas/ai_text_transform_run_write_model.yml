@@ -1,0 +1,38 @@
+# Schema: AITextTransformRunWriteModel
+---
+type: object
+required:
+  - actionId
+  - content
+properties:
+  actionId:
+    type: integer
+    description: Id of the AI text transform action to run
+    minimum: 1
+  content:
+    type: string
+    description: |-
+      The text the action works on, usually the current content of the description field.
+      Must not be blank and must not exceed 100,000 characters.
+  workPackageId:
+    type: integer
+    description: |-
+      Id of the work package whose description is edited. Requires the permission to edit the
+      work package. Cannot be combined with `projectId`.
+    minimum: 1
+  projectId:
+    type: integer
+    description: |-
+      Id of the project a new work package is created in. Requires the permission to add work
+      packages in that project and must be combined with `typeId`.
+    minimum: 1
+  typeId:
+    type: integer
+    description: |-
+      Id of the type of the new work package. The type must be enabled in the project.
+      Must be combined with `projectId`.
+    minimum: 1
+example:
+  actionId: 1
+  content: Login page dont work on safari 17, i click submit and nothing happen.
+  workPackageId: 42

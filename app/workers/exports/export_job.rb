@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,7 +31,11 @@ require "active_storage/filename"
 
 module Exports
   class ExportJob < ::ApplicationJob
+    include GoodJob::ActiveJobExtensions::InterruptErrors
+
     queue_with_priority :above_normal
+
+    retry_on GoodJob::InterruptError, wait: 0, attempts: 2, report: true
 
     def perform(export:, user:, mime_type:, query:, query_attributes: nil, options: {})
       self.export = export

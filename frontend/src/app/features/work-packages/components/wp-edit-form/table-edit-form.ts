@@ -20,14 +20,16 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injector } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { onDestroySafely, runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
+import { EditActivationCancelled } from 'core-app/shared/components/fields/edit/edit-form/edit-activation-cancelled';
 import { States } from 'core-app/core/states/states.service';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 
@@ -49,6 +51,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { editFieldContainerClass } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
+import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
@@ -66,8 +69,13 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
 
   @LazyInject() wpListService:WorkPackagesListService;
 
+  /** The focus position of the cell the first active field was opened in; null outside rendered occurrences. */
+  public origin:FocusPosition|null = null;
+
+  private submittedOrigin:FocusPosition|null = null;
+
   // Use cell builder to reset edit fields
-  private cellBuilder = new CellBuilder(this.injector);
+  private cellBuilder = new CellBuilder(this.injector, this.table.configuration);
 
   // Subscription
   private resourceSubscription:Subscription = this
@@ -75,7 +83,8 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     .work_packages
     .id(this.workPackageId)
     .requireAndStream()
-    .subscribe((wp) => this.resource = wp);
+    .pipe(takeUntilDestroyed(this.table.destroyRef))
+    .subscribe((wp) => { this.resource = wp; });
 
   constructor(
     public injector:Injector,
@@ -88,9 +97,14 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
 
   destroy() {
     Object.values(this.activeFields).forEach((field) => {
-      field.deactivate(false);
+      if (this.table.destroyed) runCleanup(() => field.deactivate(false));
+      else field.deactivate(false);
     });
     this.resourceSubscription.unsubscribe();
+  }
+
+  protected override get activationCancelled():boolean {
+    return this.table.destroyed;
   }
 
   public findContainer(fieldName:string) {
@@ -101,9 +115,26 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     return this.rowContainer?.querySelector<HTMLTableCellElement>(`.${tdClassName}.${fieldName}`);
   }
 
+  public override async activate(fieldName:string, noWarnings = false):Promise<void|EditFieldHandler> {
+    try {
+      return await super.activate(fieldName, noWarnings);
+    } finally {
+      if (!this.hasActiveFields()) {
+        this.origin = null;
+      }
+    }
+  }
+
   public activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {
     return this.waitForContainer(fieldName)
       .then((cell) => {
+        this.assertActivationActive();
+        this.table.editing.forms[this.workPackageId] ??= this;
+        if (!this.hasActiveFields()) {
+          this.origin = this.originOf(fieldName);
+        } else if (this.origin) {
+          this.table.keyboardNavigation?.recordPosition(this.origin);
+        }
         // Forcibly set the width since the edit field may otherwise
         // be given more width. Thereby preserve a minimum width of 150.
         // To avoid flickering content, the padding is removed, too.
@@ -114,6 +145,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
         td.style.maxWidth = `${width}px`;
         td.style.width = `${width}px`;
 
+        this.assertActivationActive();
         return this.editingPortalService.create(
           cell,
           this.injector,
@@ -121,11 +153,20 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
           schema,
           fieldName,
           errors,
+          this.table.destroyRef,
         );
+      })
+      .then((field) => {
+        if (this.table.destroyed) {
+          field.deactivate(false);
+          throw new EditActivationCancelled();
+        }
+        return field;
       });
   }
 
   public reset(fieldName:string, focus?:boolean) {
+    if (this.table.destroyed) return;
     const cell = this.findContainer(fieldName);
     const td = this.findCell(fieldName)!;
 
@@ -136,23 +177,41 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
       td.classList.remove(editModeClassName);
 
       if (focus) {
-        this.FocusHelper.focus(cell);
+        this.returnFocusFrom(cell);
       }
+    }
+
+    if (!this.hasActiveFields()) {
+      this.origin = null;
     }
   }
 
-  public requireVisible(fieldName:string):Promise<any> {
-    // Ensure the query form is loaded before trying to set fields
-    // as we require new columns to be present
-    return this.wpListService
-      .conditionallyLoadForm()
-      .then(() => {
-        this.wpTableColumns.addColumn(fieldName);
-        return this.waitForContainer(fieldName);
-      });
+  public override async submit():Promise<WorkPackageResource> {
+    const origin = this.origin;
+    const resource = await super.submit();
+    this.submittedOrigin = origin;
+    return resource;
+  }
+
+  public override onSubmitComplete():void {
+    const origin = this.submittedOrigin;
+    this.submittedOrigin = null;
+    if (origin && !this.table.destroyed && !this.hasActiveFields()) {
+      this.table.keyboardNavigation?.returnFocus(origin);
+    }
+  }
+
+  public async requireVisible(fieldName:string):Promise<void> {
+    this.assertActivationActive();
+    // Query-form loading precedes the bounded DOM wait.
+    await this.wpListService.conditionallyLoadForm();
+    this.assertActivationActive();
+    this.wpTableColumns.addColumn(fieldName);
+    await this.waitForContainer(fieldName);
   }
 
   protected focusOnFirstError():void {
+    if (this.table.destroyed) return;
     // Focus the first field that is erroneous
     this.table.tableAndTimelineContainer
       ?.querySelector<HTMLElement>(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
@@ -177,15 +236,56 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   // We may want to look into MutationObserver if we need this in several places.
   private waitForContainer(fieldName:string):Promise<HTMLElement> {
     return new Promise<HTMLElement>((resolve, reject) => {
-      const interval = setInterval(() => {
-        const container = this.findContainer(fieldName);
-
-        if (container) {
-          clearInterval(interval);
-          resolve(container);
+      if (this.table.destroyed) {
+        reject(new EditActivationCancelled());
+        return;
+      }
+      let interval:ReturnType<typeof setInterval>|undefined = undefined;
+      let deadline:ReturnType<typeof setTimeout>|undefined = undefined;
+      let unregister:() => void = () => undefined;
+      const finish = (error?:Error, cell?:HTMLElement) => {
+        clearInterval(interval);
+        clearTimeout(deadline);
+        unregister();
+        if (error) reject(error);
+        else resolve(cell!);
+      };
+      const check = () => {
+        if (this.table.destroyed) {
+          finish(new EditActivationCancelled());
+          return;
         }
-      }, 100);
+        const cell = this.findContainer(fieldName);
+        if (cell) finish(undefined, cell);
+      };
+      interval = setInterval(check, 100);
+      deadline = setTimeout(() => finish(new Error(`Timed out waiting for edit field ${fieldName}`)), 5000);
+      unregister = onDestroySafely(this.table.destroyRef, () => finish(new EditActivationCancelled()));
+      check();
     });
+  }
+
+  private originOf(fieldName:string):FocusPosition|null {
+    const navigation = this.table.keyboardNavigation;
+    const td = this.findCell(fieldName);
+    if (!td || !navigation) {
+      return null;
+    }
+
+    const origin = navigation.positionOfCell(td);
+    if (origin) {
+      navigation.recordPosition(origin);
+    }
+    return origin;
+  }
+
+  private returnFocusFrom(container:HTMLElement):void {
+    const navigation = this.table.keyboardNavigation;
+    if (!navigation) {
+      this.FocusHelper.focus(container);
+    } else if (this.origin) {
+      navigation.returnFocus(this.origin);
+    }
   }
 
   private get rowContainer() {

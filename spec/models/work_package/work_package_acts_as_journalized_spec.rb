@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -576,6 +575,154 @@ RSpec.describe WorkPackage do
       end
     end
 
+    context "on label changes", with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:label) { create(:label) }
+      shared_let(:other_label) { create(:label) }
+
+      shared_let(:journable) do
+        create(:work_package)
+      end
+
+      def set_labels(labels)
+        journable.labelings.destroy_all
+        labels.each { journable.labelings.create!(label: it) }
+        journable.save!
+      end
+
+      context "when setting labels" do
+        it "creates a new journal listing the labels in the details" do
+          expect { set_labels([label, other_label]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["labels"])
+            .to eq([nil, [label.id, other_label.id].sort.join(",")])
+        end
+
+        it "journals labels assigned through label_id_replacements in the same save" do
+          journable.label_id_replacements = [label.id, other_label.id]
+
+          expect { journable.save! }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["labels"])
+            .to eq([nil, [label.id, other_label.id].sort.join(",")])
+          expect(Journal::LabelJournal.where(journal: journable.last_journal).pluck(:label_id))
+            .to contain_exactly(label.id, other_label.id)
+        end
+
+        it "touches the journable to match the journal's timestamp" do
+          expect { set_labels([label]) }
+            .to change { journable.reload.updated_at }
+
+          expect(journable.updated_at).to eq(journable.last_journal.updated_at)
+        end
+      end
+
+      context "on work package creation" do
+        it "creates an initial journal listing the labels in the details" do
+          work_package = create(:work_package, labels: [label])
+
+          expect(work_package.journals.count).to eq(1)
+          expect(work_package.last_journal.details["labels"])
+            .to eq([nil, label.id.to_s])
+          expect(Journal::LabelJournal.where(journal_id: work_package.last_journal.id).count)
+            .to eq(1)
+        end
+      end
+
+      context "when replacing a label" do
+        before do
+          set_labels([label])
+        end
+
+        it "creates a new journal with the old and new labels in the details" do
+          expect { set_labels([other_label]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["labels"])
+            .to eq([label.id.to_s, other_label.id.to_s])
+        end
+      end
+
+      context "when removing all labels" do
+        before do
+          set_labels([label])
+        end
+
+        it "creates a new journal with an empty new value in the details" do
+          expect { set_labels([]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["labels"])
+            .to eq([label.id.to_s, nil])
+        end
+      end
+
+      context "when saving with unchanged labels" do
+        before do
+          set_labels([label])
+        end
+
+        it "creates no journal and does not touch the journable" do
+          expect { set_labels([label]) }
+            .to not_change { journable.journals.count }
+            .and(not_change { journable.reload.updated_at })
+        end
+      end
+
+      context "when another labelable shares the work package's id" do
+        it "journals only the work package's own labels" do
+          Labeling.create!(label:, labelable_type: "Project", labelable_id: journable.id)
+
+          expect { set_labels([other_label]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["labels"])
+            .to eq([nil, other_label.id.to_s])
+        end
+      end
+
+      context "within aggregation time", with_settings: { journal_aggregation_time_minutes: 5 } do
+        # The initial journal lies outside the aggregation window so that only
+        # the journals created by the examples can aggregate with each other.
+        shared_let(:journable) do
+          create(:work_package,
+                 subject: "Initial subject",
+                 journals: { 10.minutes.ago => { user: } })
+        end
+
+        context "when changing labels again" do
+          before do
+            set_labels([label])
+          end
+
+          it "aggregates into the previous journal with cumulative details" do
+            expect { set_labels([label, other_label]) }
+              .not_to change { journable.journals.count }
+
+            expect(journable.last_journal.details["labels"])
+              .to eq([nil, [label.id, other_label.id].sort.join(",")])
+          end
+        end
+
+        context "when changing labels shortly after another change" do
+          before do
+            journable.update!(subject: "Changed subject")
+          end
+
+          it "aggregates into one journal capturing both changes" do
+            expect { set_labels([label]) }
+              .not_to change { journable.journals.count }
+
+            expect(journable.last_journal.details["subject"])
+              .to eq(["Initial subject", "Changed subject"])
+            expect(journable.last_journal.details["labels"])
+              .to eq([nil, label.id.to_s])
+          end
+        end
+      end
+    end
+
     context "on observed in version changes", with_settings: { journal_aggregation_time_minutes: 0 } do
       shared_let(:journable) do
         create(:work_package)
@@ -667,8 +814,7 @@ RSpec.describe WorkPackage do
       # The explicit id is needed so that the accessors ('custom_field_1') can be used
       shared_let(:custom_field) do
         create(:boolean_wp_custom_field, id: 1) do |custom_field|
-          project.work_package_custom_fields << custom_field
-          type.default_variant.custom_fields << custom_field
+          type.default_variant.custom_field_ids |= [custom_field.id]
         end
       end
 
@@ -758,8 +904,7 @@ RSpec.describe WorkPackage do
                    5.days.ago => { user: }
                  }) do
             create(:boolean_wp_custom_field, id: 2) do |cf|
-              project.work_package_custom_fields << cf
-              type.default_variant.custom_fields << cf
+              type.default_variant.custom_field_ids |= [cf.id]
             end
           end
         end
@@ -771,8 +916,7 @@ RSpec.describe WorkPackage do
       context "when nothing changed and the work package has multiple values for the same custom field" do
         shared_let(:list_cf) do
           create(:list_wp_custom_field, id: 2, possible_values: %w[A B C D]) do |cf|
-            project.work_package_custom_fields << cf
-            type.default_variant.custom_fields << cf
+            type.default_variant.custom_field_ids |= [cf.id]
           end
         end
 
@@ -1005,6 +1149,61 @@ RSpec.describe WorkPackage do
                        },
                        expected_cause: "ABC",
                        expect_new_journal: false
+    end
+
+    context "on changes without a cause within aggregation time after a journal with a cause" do
+      shared_let(:journable) do
+        create(:work_package,
+               subject: "Initial subject",
+               journals: {
+                 10.minutes.ago => { user: },
+                 4.minutes.ago => { user:, cause: "ABC" }
+               })
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "subject" => "Changed subject"
+                       },
+                       expected_values: {
+                         "subject" => ["Initial subject", "Changed subject"]
+                       },
+                       expect_new_journal: true
+
+      it "leaves the cause on the journal it explains" do
+        journable.subject = "Changed subject"
+        journable.save!
+
+        expect(journable.journals.reload[-2].cause).to eq("ABC")
+      end
+    end
+
+    context "on a comment within aggregation time after a journal with a meeting cause" do
+      let(:meeting_cause) { { "type" => "meeting_agenda_item_added", "meeting_id" => 42 } }
+
+      shared_let(:journable) do
+        create(:work_package,
+               journals: {
+                 10.minutes.ago => { user: },
+                 4.minutes.ago => { user:, cause: { "type" => "meeting_agenda_item_added", "meeting_id" => 42 } }
+               })
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_notes" => "Please prepare the figures"
+                       },
+                       expected_values: {},
+                       expected_notes: "Please prepare the figures",
+                       expect_new_journal: true
+
+      # Meeting causes decide who sees a journal; a comment folded into one would be hidden with it.
+      it "keeps the comment out of the meeting's journal" do
+        journable.journal_notes = "Please prepare the figures"
+        journable.save!
+
+        expect(journable.journals.reload[-2]).to have_attributes(cause: meeting_cause, notes: "")
+      end
     end
 
     context "on mixed journal cause, notes and attribute adding outside of aggregation time" do
@@ -1358,8 +1557,7 @@ RSpec.describe WorkPackage do
     let(:type) { create(:type) }
     let(:custom_field) do
       create(:integer_wp_custom_field) do |cf|
-        project.work_package_custom_fields << cf
-        type.default_variant.custom_fields << cf
+        type.default_variant.custom_field_ids |= [cf.id]
       end
     end
     let(:work_package) do

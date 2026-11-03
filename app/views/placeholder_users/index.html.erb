@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -32,31 +31,16 @@ See COPYRIGHT and LICENSE files for more details.
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { t(:label_placeholder_user_plural) }
     header.with_breadcrumbs(
-      [{ href: admin_index_path, text: t("label_administration") },
-       { href: admin_settings_users_path, text: t(:label_user_and_permission) },
-       t(:label_placeholder_user_plural)]
+      [
+        { href: admin_index_path, text: t("label_administration") },
+        { href: admin_settings_users_path, text: t(:label_user_and_permission) },
+        PlaceholderUser.model_name.human(count: :other)
+      ]
     )
   end
 %>
 
 <%= with_enterprise_banner_guard(:placeholder_users, variant: :large, video: "enterprise/placeholder_users.mp4") do %>
-  <%=
-    render(Primer::OpenProject::SubHeader.new) do |subheader|
-      subheader.with_action_button(
-        scheme: :primary,
-        leading_icon: :plus,
-        label: t(:label_placeholder_user_new),
-        tag: :a,
-        href: new_placeholder_user_path
-      ) do
-        PlaceholderUser.model_name.human
-      end
-
-      subheader.with_bottom_pane_component do
-        render PlaceholderUsers::PlaceholderUserFilterComponent.new(params)
-      end
-    end
-  %>
-
+  <%= render PlaceholderUsers::IndexSubHeaderComponent.new(query: @query) %>
   <%= render PlaceholderUsers::TableComponent.new(rows: @placeholder_users) %>
 <% end %>

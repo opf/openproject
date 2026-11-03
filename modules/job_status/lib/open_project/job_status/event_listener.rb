@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -131,9 +130,8 @@ module OpenProject
         ##
         # On cancellation due to the given error
         def on_cancelled(job, error)
-          upsert_status job,
-                        status: :cancelled,
-                        message: I18n.t("background_jobs.status.cancelled_due_to", message: error)
+          job.upsert_status status: :cancelled,
+                            message: I18n.t("background_jobs.status.cancelled_due_to", message: error)
         end
 
         ##

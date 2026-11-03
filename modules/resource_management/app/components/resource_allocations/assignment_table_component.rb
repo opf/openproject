@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,7 +58,7 @@ module ResourceAllocations
 
     # Scopes this table's column sizing (see assignment_table_component.sass)
     # without touching the shared border-box grid defaults used by other tables.
-    def container_class = "op-staffing-list"
+    def container_class = "op-staffing-list mb-4"
 
     def mobile_title
       I18n.t("resource_management.staffing.title")

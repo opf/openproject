@@ -22,12 +22,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require_relative "../../lib_static/open_project/opentelemetry"
+require_relative "../../lib_static/open_project/opentelemetry/excon_hash_query"
 
 Rails.application.configure do
   if OpenProject::Configuration.opentelemetry_enabled?
@@ -67,6 +68,8 @@ Rails.application.configure do
 
       c.use_all
     end
+
+    OpenProject::OpenTelemetry::ExconHashQuery.apply!
 
     # Extend the core log delegator
     handler = OpenProject::OpenTelemetry.method(:exception_handler)

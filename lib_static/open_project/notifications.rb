@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -76,7 +75,7 @@ module OpenProject
     end
 
     # Send a notification.
-    # Payload should be a Hash and might be marshalled and unmarshalled before being
+    # Payload should be a Hash and might be marshaled and unmarshaled before being
     # delivered (although it is not at the moment), so don't count on object equality
     # for the payload.
     def send(name, payload)

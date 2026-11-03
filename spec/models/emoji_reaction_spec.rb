@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,6 +58,22 @@ RSpec.describe EmojiReaction do
   end
 
   describe "Validations" do
+    it "rejects a missing reactable without raising an error" do
+      emoji_reaction = build_stubbed(:emoji_reaction, reactable: nil)
+
+      expect(emoji_reaction).not_to be_valid
+      expect(emoji_reaction.errors[:reactable]).to be_present
+    end
+
+    it "rejects a reactable that does not exist without raising an error" do
+      emoji_reaction = build_stubbed(:emoji_reaction, reactable: nil)
+      emoji_reaction.reactable_type = "Journal"
+      emoji_reaction.reactable_id = 0
+
+      expect(emoji_reaction).not_to be_valid
+      expect(emoji_reaction.errors[:reactable]).to be_present
+    end
+
     it do
       emoji_reaction = create(:emoji_reaction)
       expect(emoji_reaction).to validate_uniqueness_of(:user_id).scoped_to(%i[reactable_type reactable_id reaction])

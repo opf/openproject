@@ -1,84 +1,115 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 module Components::Autocompleter
   module NgSelectAutocompleteHelpers
-    def search_autocomplete(element, query:, results_selector: "body", wait_dropdown_open: true, wait_for_fetched_options: true)
-      SeleniumHubWaiter.wait unless using_cuprite?
-
-      # Wait for dropdown to open
-      dropdown_open = ng_dropdown_open?(element, results_selector:) if wait_dropdown_open
-      ng_click_autocompleter(element) unless dropdown_open
-
-      # Wait for autocompleter options to be loaded (data fetching is debounced by 250ms after creation or typing)
-      wait_for_network_idle if using_cuprite? && wait_for_fetched_options
-      expect(element).to have_no_css(".ng-spinner-loader")
-
-      # Insert the text to find
-      within(element) do
-        retry_block do
-          ng_enter_query(element, query, wait_for_fetched_options:)
-        end
-      end
+    def search_autocomplete(element,
+                            query:,
+                            results_selector: "body",
+                            wait_dropdown_open: true,
+                            wait_for_fetched_options: true,
+                            wait: Capybara.default_max_wait_time)
+      enter_autocomplete_query(element, query:, results_selector:, wait_dropdown_open:, wait_for_fetched_options:, wait:)
 
       # Wait for options to be refreshed after having entered some text.
-      expect(element).to have_no_css(".ng-spinner-loader")
+      expect(resolve_autocomplete(element)).to have_no_css(".ng-spinner-loader", wait:)
 
       # probably not necessary anymore
       sleep(0.5) unless using_cuprite?
 
       # Find the open dropdown
-      dropdown_list = ng_find_dropdown(element, results_selector:)
-      scroll_to_element(dropdown_list)
-      dropdown_list
+      page.document.synchronize do
+        dropdown_list = ng_find_dropdown(resolve_autocomplete(element), results_selector:)
+        scroll_to_element(dropdown_list)
+        dropdown_list
+      end
+    end
+
+    def enter_autocomplete_query(element, query:, results_selector:, wait_dropdown_open:, wait_for_fetched_options:, wait:)
+      SeleniumHubWaiter.wait unless using_cuprite?
+
+      # Wait for dropdown to open
+      dropdown_open = ng_dropdown_open?(element) if wait_dropdown_open
+      ng_click_autocompleter(element) unless dropdown_open
+      ng_find_dropdown(resolve_autocomplete(element), results_selector:) if wait_dropdown_open
+
+      # Wait for autocompleter options to be loaded (data fetching is debounced by 250ms after creation or typing)
+      wait_for_network_idle if using_cuprite? && wait_for_fetched_options
+      expect(resolve_autocomplete(element)).to have_no_css(".ng-spinner-loader", wait:)
+
+      # Insert the text to find
+      page.document.synchronize do
+        current_element = resolve_autocomplete(element)
+        within(current_element) do
+          ng_enter_query(current_element, query, wait_for_fetched_options:)
+        end
+      end
     end
 
     def ng_click_autocompleter(target)
-      input = ng_select_input(target)
+      page.document.synchronize do
+        input = ng_select_input(resolve_autocomplete(target))
 
-      scroll_to_element(input, block: :nearest)
-      input.click
+        scroll_to_element(input, block: :nearest)
+        input.click
+      end
     end
 
     def ng_find_dropdown(element, results_selector: "body", raise_on_missing: true)
-      retry_block do
-        if results_selector
-          results_selector = "#{results_selector} .ng-dropdown-panel" if results_selector == "body"
-          within_window(current_window) do
-            page.find(results_selector, wait: raise_on_missing ? 5 : 0)
-          end
-        else
-          within(element) do
-            page.find("ng-select .ng-dropdown-panel", wait: raise_on_missing ? 5 : 0)
-          end
-        end
-      rescue Capybara::ElementNotFound => e
-        return nil unless raise_on_missing
+      selector = results_selector == "body" ? "body .ng-dropdown-panel" : results_selector
+      find_dropdown(element, selector:, wait: raise_on_missing ? 5 : 0)
+    rescue Capybara::ElementNotFound
+      return nil unless raise_on_missing
 
-        ng_click_autocompleter(element)
-        raise e
-      end
+      ng_click_autocompleter(element)
+      find_dropdown(element, selector:, wait: 10)
     end
 
-    def ng_dropdown_open?(element, results_selector: "body")
-      if results_selector
-        within_window(current_window) do
-          page.has_css?(ng_panel_selector(results_selector), wait: 0)
-        end
+    def find_dropdown(element, selector:, wait:)
+      if selector
+        within_window(current_window) { page.find(selector, wait:) }
       else
-        element.has_css?("ng-select .ng-dropdown-panel", wait: 0)
+        within(element) { page.find("ng-select .ng-dropdown-panel", wait:) }
       end
     end
 
-    def ng_panel_selector(results_selector)
-      return "body .ng-dropdown-panel" if results_selector == "body"
-      return results_selector if results_selector.include?(".ng-dropdown-panel")
-
-      "#{results_selector} .ng-dropdown-panel"
+    def ng_dropdown_open?(element)
+      page.document.synchronize do
+        current_element = resolve_autocomplete(element)
+        current_element["class"].to_s.split.include?("ng-select-opened") ||
+          current_element.has_css?("ng-select.ng-select-opened", wait: 0)
+      end
     end
 
     def expect_ng_option(element, option, grouping: nil, results_selector: "body", present: true)
-      within(ng_find_dropdown(element, results_selector:)) do
-        if grouping && present
+      if grouping && present
+        within(ng_find_dropdown(element, results_selector:)) do
           # Make sure the option is displayed under correct grouping title.
           option_group = find(".ng-optgroup", text: grouping)
           option = find(".ng-option.ng-option-child", text: option, visible: :visible)
@@ -95,9 +126,15 @@ module Components::Autocompleter
             Expected the option '#{option.text}' to be under the group '#{option_group.text}',
             but it was under '#{expected_group.text}' instead.
           MSG
-        else
-          expect(page).to have_conditional_selector(present, ".ng-option", text: option)
         end
+      else
+        dropdown_selector = results_selector == "body" ? "body .ng-dropdown-panel" : results_selector
+        expect(page.document).to have_conditional_selector(
+          present,
+          "#{dropdown_selector} .ng-option",
+          text: option,
+          wait: 20
+        )
       end
     end
 
@@ -116,7 +153,7 @@ module Components::Autocompleter
     ##
     # Insert the query, typing
     def ng_enter_query(element, query, wait_for_fetched_options: true)
-      input = element.find("input[type=text]", visible: :all).native
+      input = ng_select_input(element).native
       if using_cuprite?
         clear_input_field_contents(input)
       else
@@ -125,12 +162,11 @@ module Components::Autocompleter
 
       query = query.to_s
 
-      # Send all keys but last one, and then with a delay the last one
-      # to emulate normal typing
-      send_keys(input, query.to_s[0..-2], after_typing_sleep: 0.2)
+      # Send all keys but last one, and then the last one separately to emulate normal typing
+      send_keys(input, query.to_s[0..-2], after_typing_sleep: (0.2 unless using_cuprite?))
       send_keys(input, query.to_s[-1])
 
-      wait_for_network_idle if using_cuprite? && wait_for_fetched_options
+      wait_for_network_idle(duration: 0.3) if using_cuprite? && wait_for_fetched_options
     end
 
     def send_keys(input, text, after_typing_sleep: nil)
@@ -167,29 +203,32 @@ module Components::Autocompleter
                             select_text: nil,
                             results_selector: "body",
                             wait_dropdown_open: true,
-                            wait_for_fetched_options: true)
-      search_autocomplete(element,
-                          query:,
-                          results_selector:,
-                          wait_dropdown_open:,
-                          wait_for_fetched_options:)
+                            wait_for_fetched_options: true,
+                            wait: Capybara.default_max_wait_time)
+      enter_autocomplete_query(element,
+                               query:,
+                               results_selector:,
+                               wait_dropdown_open:,
+                               wait_for_fetched_options:,
+                               wait:)
 
       ##
       # If a specific select_text is given, use that to locate the match,
       # otherwise use the query
-      text = select_text.presence || query
+      text = (select_text.presence || query).to_s
+      dropdown_selector = results_selector == "body" ? "body .ng-dropdown-panel" : results_selector
 
-      retry_block do
-        # Re-resolve the option on each attempt because ng-select may rerender
-        # the dropdown between find and click in Cuprite.
-        ng_find_dropdown(element, results_selector:)
-          .first(".ng-option", text:, wait: 15)
-          .click
+      page.document.synchronize(15) do
+        page.document.first("#{dropdown_selector} .ng-option", text:, minimum: 1, wait: 0).click
       end
     end
 
+    def resolve_autocomplete(element)
+      element.respond_to?(:call) ? element.call : element
+    end
+
     def expect_current_autocompleter_value(element, value)
-      expect(element).to have_css(".ng-value .ng-value-label", text: value, wait: 10)
+      expect(resolve_autocomplete(element)).to have_css(".ng-value .ng-value-label", text: value, wait: 10)
     end
 
     # Checks for the currently visible, expanded user auto completer to contain the provided options.

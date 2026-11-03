@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,6 +43,12 @@ RSpec.describe("Activation of storages in projects",
                :webmock,
                with_settings: { notifications_polling_interval: 1_000 }) do
   include Flash::Expectations
+
+  def open_delete_dialog
+    delete_selector = "a.icon-delete[title='#{I18n.t(:button_delete)}']"
+    delete_link = wait_for_stimulus_controller(delete_selector, "async-dialog", wait: 20)
+    wait_for_turbo_stream(wait: 20) { delete_link.click }
+  end
 
   let(:user) { create(:user) }
   # The first page is the Project -> Settings -> General page, so we need
@@ -174,7 +179,7 @@ RSpec.describe("Activation of storages in projects",
     expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
 
     # Press Delete icon to remove the storage from the project
-    page.find(".icon.icon-delete").click
+    open_delete_dialog
 
     within_test_selector("op-project-storages--delete-dialog") do
       expect(page).to have_text("Delete file storage")
@@ -188,12 +193,12 @@ RSpec.describe("Activation of storages in projects",
     expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
     expect(page).to have_text(storage.name)
 
-    page.find(".icon.icon-delete").click
+    open_delete_dialog
 
     within_test_selector("op-project-storages--delete-dialog") do
       # Approve Confirmation
       page.check "I understand that this removal cannot be reversed."
-      page.click_button("Remove permanently")
+      page.click_button("Remove permanently", wait: 20)
     end
 
     # List of ProjectStorages empty again

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -22,16 +22,18 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Admin
   module Settings
     class EnumerationsControllerBase < ApplicationController
       include OpTurbo::ComponentStream
+      include SortableLists::DropRequestValidation
+
+      configure_drop_request list_type_method: :sortable_list_type, list_id_scoped: false
 
       before_action :require_admin
       before_action :find_enumeration, only: %i[edit update destroy move reassign]
@@ -82,21 +84,17 @@ module Admin
       end
 
       def move
-        if @enumeration.update(move_params)
-          render_success_flash_message_via_turbo_stream(
-            message: I18n.t(:enumeration_caption_order_changed)
-          )
+        moved = move_after_anchor
+
+        if moved
+          render_move_success
         else
           render_error_flash_message_via_turbo_stream(
-            message: I18n.t(:enumeration_could_not_be_moved)
+            message: I18n.t(:error_invalid_list_move_anchor)
           )
         end
 
-        replace_via_turbo_stream(
-          component: index_component_class.new(enumerations: enumeration_class.all)
-        )
-
-        respond_with_turbo_streams
+        respond_with_turbo_streams(status: moved ? :ok : :unprocessable_entity)
       end
 
       def reassign
@@ -105,17 +103,27 @@ module Admin
 
       private
 
-      def move_params
-        move_to = params[:move_to]
-        position = Integer(params[:position], exception: false)
+      # Morph first: Turbo applies streams in order, so the flash only shows
+      # once the list has been reconciled.
+      def render_move_success
+        update_via_turbo_stream(component: index_component, method: :morph)
+        render_success_flash_message_via_turbo_stream(
+          message: I18n.t(:enumeration_caption_order_changed)
+        )
+      end
 
-        if move_to.in? %w(highest higher lower lowest)
-          { move_to: move_to }
-        elsif position
-          { position: position }
-        else
-          {}
-        end
+      def index_component
+        index_component_class.new(enumerations: enumeration_class.all)
+      end
+
+      def move_after_anchor
+        return false unless valid_drop_request?
+
+        @enumeration.move_after_anchor(drop_params[:prev_id], scope: enumeration_class.all)
+      end
+
+      def sortable_list_type
+        enumeration_class.model_name.param_key
       end
 
       def handle_reassignment_on_deletion

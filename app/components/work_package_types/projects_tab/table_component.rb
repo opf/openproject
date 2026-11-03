@@ -22,36 +22,66 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module WorkPackageTypes
   module ProjectsTab
-    class TableComponent < ::Projects::TableComponent
-      include ::Projects::Concerns::TableComponent::StreamablePaginationLinksConstraints
+    class TableComponent < OpPrimer::BorderBoxTableComponent
+      columns :name, :variant
+      main_column :name, :variant
+      mobile_labels :variant
 
-      def columns
-        @columns ||= query.selects.grep_v(Queries::Selects::NotExistingSelect)
+      attr_reader :variant
+
+      def initialize(rows:, variant:, filtered:)
+        super(rows:)
+
+        @variant = variant
+        @filtered = filtered
       end
 
-      def sortable? = false
+      def container_id = "project-table"
 
-      def use_quick_action_table_headers? = false
+      def switchable?
+        @switchable = variant.type.variants.many? if @switchable.nil?
+        @switchable
+      end
 
-      def variant = params[:variant]
+      def headers
+        [
+          [:name, { caption: Project.model_name.human }],
+          [:variant, { caption: I18n.t("types.edit.projects.variant_column") }]
+        ]
+      end
+
+      def has_actions? = true
+
+      def mobile_title = I18n.t("types.edit.projects.tab")
+
+      def pagination_params = { params: { action: "edit" }, turbo_action: "advance" }
 
       # Inviting the admin to add a project reads as a lie when they have just searched for one:
       # the table is empty because of the filter, not because the variant has no projects.
-      def empty_row_message
-        if params[:filtered]
+      def blank_title
+        if @filtered
           I18n.t("types.edit.projects.empty_state.no_results")
+        else
+          I18n.t("types.edit.projects.empty_state.title")
+        end
+      end
+
+      def blank_description
+        if @filtered
+          I18n.t(:no_results_title_text)
         else
           I18n.t("types.edit.projects.empty_state.description")
         end
       end
+
+      def blank_icon = :project
     end
   end
 end

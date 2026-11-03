@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# --copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require_relative "../../lib_static/open_project/feature_decisions"
 
@@ -53,12 +52,21 @@ OpenProject::FeatureDecisions.add :wiki_enhancements,
                                   description: "Enables Wiki enhancements, such as the Wikis tab and XWiki integration.",
                                   force_active: true
 
-OpenProject::FeatureDecisions.add :type_variants,
-                                  description: "Enables work package type variants."
-
 OpenProject::FeatureDecisions.add :sprint_reports,
                                   description: "Enables sprint reporting within the backlogs module. " \
                                                "It shows a dashboard with various widgets regarding the sprint progress."
 
 OpenProject::FeatureDecisions.add :ai_text_transform_actions,
                                   description: "Enables the admin UI to manage AI text transform actions."
+
+OpenProject::FeatureDecisions.add :work_package_labels,
+                                  description: "Enables labels on work packages, the labels API and the labels administration. " \
+                                               "See FND-5 for details."
+
+OpenProject::FeatureDecisions.add :project_settings_estimation_unit,
+                                  description: "Enables project settings for the unit of velocity, effort and capacity. " \
+                                               "See AGILE-198 for details."
+
+OpenProject::FeatureDecisions.add :progressive_web_app,
+                                  description: "Lets OpenProject be installed as a desktop application (PWA). " \
+                                               "See the SE-647 epic for details."

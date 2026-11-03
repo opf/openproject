@@ -22,21 +22,17 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Projects::Settings::WorkPackages::TypesController < Projects::SettingsController
   include WorkPackageTypes::TypeDeactivationErrorMessage
-  include WorkPackageTypes::TypeVariantsFeature
   include OpTurbo::ComponentStream
   include FlashMessagesOutputSafetyHelper
 
   menu_item :settings_work_packages
-
-  before_action :require_type_variants_feature, only: %i[new create destroy]
 
   def index
     @types = ::Type.all
@@ -87,18 +83,6 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
     respond_to_with_turbo_streams(status: result)
   end
 
-  def bulk_update
-    type_ids = permitted_params.projects_type_ids
-
-    if UpdateProjectsTypesService.new(@project).call(type_ids)
-      flash[:notice] = success_message
-    else
-      flash[:error] = type_deactivation_error_messages(variants_missing_from(type_ids), project_ids: [@project.id])
-    end
-
-    redirect_to project_settings_types_path(@project.identifier)
-  end
-
   private
 
   # Reload so the repainted list no longer sees the association's cached types.
@@ -114,17 +98,4 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
     respond_to_with_turbo_streams(status: :unprocessable_entity)
   end
 
-  def success_message
-    ApplicationController.helpers.sanitize(
-      t(:notice_successful_update_custom_fields_added_to_project, url: project_settings_custom_fields_path(@project)),
-      attributes: %w(href target)
-    )
-  end
-
-  def variants_missing_from(type_ids)
-    @project
-      .types_used_by_work_packages
-      .where.not(id: type_ids.presence)
-      .map { |type| @project.type_variant(type) }
-  end
 end

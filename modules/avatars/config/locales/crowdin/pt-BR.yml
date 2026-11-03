@@ -3,16 +3,37 @@ pt-BR:
   are_you_sure_delete_avatar: Tem certeza que deseja excluir sua Imagem do perfil?
   avatar_deleted: Imagem do perfil excluída com sucesso.
   avatars:
-    label_avatar: Imagem do perfil
+    background_color_hint: Leave blank for an automatic color.
+    delete_image: Delete image
+    edit_avatar: Edit avatar
+    image_hint: Choose a JPG, PNG, or GIF. Your image is saved when you select Save.
+    image_required: Choose an image, or select a different avatar option.
+    label_avatar_text: Avatar text
+    label_background_color: Background color
     label_gravatar: Gravatar
     label_local_avatar: Imagem do perfil personalizada
+    label_option: Avatar option
+    manage_gravatar: Manage your image on Gravatar
+    message_avatar_updated: Avatar changed successfully.
+    preview: Preview
+    randomize_color: Randomize color
     settings:
       enable_gravatars: Habilitar Gravatar para o usuário
       enable_local_avatars: Habilitar Imagem do perfil personalizada
       gravatar_default: Imagem Gravatar padrão
-    text_avatar_gravatar_html: O OpenProject usa seu Gravatar, se você tiver cadastrado em %{gravatar_url}. Caso contrário, será exibida uma imagem ou ícone padrão, quando disponível.
-    text_avatar_local: Você também pode enviar um avatar personalizado clicando na imagem. Ele substituirá o Gravatar. Recomendamos uma imagem de 128 × 128 pixels.
-    text_avatar_local_only: Você pode enviar um avatar personalizado clicando na imagem. Recomendamos uma imagem de 128 × 128 pixels.
+    text_avatar_text: Enter up to two characters. Leave blank to use your name's initials.
+    text_invalid_error: Use only visible characters.
+    text_length_error: Enter up to two characters.
+    types:
+      gravatar:
+        description: The image registered for your email address on Gravatar
+        label: Gravatar
+      image:
+        description: A custom image you can upload to this instance
+        label: Image
+      initials:
+        description: Use your name's initials or override them with up to two characters.
+        label: Initials
   empty_file_error: Por favor, envie uma imagem válida (jpg, png, gif)
   error_image_size: A imagem é muito grande.
   error_image_upload: Erro ao salvar a imagem.

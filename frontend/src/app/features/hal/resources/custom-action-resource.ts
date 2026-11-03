@@ -20,25 +20,28 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export interface CustomActionResourceLinks {
-  self():Promise<CustomActionResource>;
-  executeImmediately(payload:any):Promise<WorkPackageResource>;
+  self:CallableHalLink<CustomActionResource>;
+  executeImmediately:CallableHalLink<WorkPackageResource>;
 }
 
 export interface CustomActionResourceEmbedded {
   description:string;
 }
 
-export class CustomActionResource extends HalResource {
-}
+export class CustomActionResource extends HalResource implements CustomActionResourceLinks, CustomActionResourceEmbedded {
+  public self:CallableHalLink<CustomActionResource>;
 
-export interface CustomActionResource extends CustomActionResourceLinks, CustomActionResourceEmbedded {}
+  public executeImmediately:CallableHalLink<WorkPackageResource>;
+
+  public description:string;
+}

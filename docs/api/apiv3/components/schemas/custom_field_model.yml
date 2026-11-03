@@ -24,6 +24,7 @@ properties:
     enum:
     - bool
     - date
+    - datetime
     - float
     - hierarchy
     - int

@@ -106,6 +106,7 @@ value:
     required: false
     type: "[]QueryColumn"
     writable: true
+    deprecated: true
   createdAt:
     hasDefault: false
     name: Created on

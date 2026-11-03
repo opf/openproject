@@ -22,14 +22,14 @@ This guide sets out to provide an introduction to the PM² Project Management Me
 
 - a common vocabulary (glossary) which makes it easier for project teams to communicate and apply project management concepts
 - best practices-it is up to the Project Managers (PMs) and project teams to choose the PM² practices that will bring most value to their projects
-- links to PM² resources (online resources, Artefact templates and examples)
+- links to PM² resources (online resources, Artifact templates and examples)
 - an introduction to other PM² models, such as PM²-Agile, PM²-PgM (for Programme Management) and PM²-PfM (for Portfolio Management).
 
 This guide can be read from beginning to end, to learn about the methodology, or it can be used as a reference, to help you as you practise PM².
 
 ## 1.3 About the PM² methodology
 
-PM² is a Project Management Methodology developed by the European Commission. Its purpose is to enable Project Managers (PMs) to deliver solutions and benefits to their organisations by effectively managing the entire lifecycle of their project. PM² has been created with the needs of European Union Institutions and projects in mind, however, the best practices described in PM² are applicable to projects in any organisation.
+PM² is a Project Management Methodology developed by the European Commission. Its purpose is to enable Project Managers (PMs) to deliver solutions and benefits to their organizations by effectively managing the entire lifecycle of their project. PM² has been created with the needs of European Union Institutions and projects in mind, however, the best practices described in PM² are applicable to projects in any organization.
 PM² is a light and easy-to-implement methodology which project teams can tailor to their specific needs. PM² is fully supported by a comprehensive training programme (including workshops and coaching sessions), online documentation and an active Community of Practice (currently only available within the European Commission and to a number of affiliate European Institutions).
 PM² incorporates elements from a wide range of globally accepted project management best practices, captured in standards and methodologies. Its development has also been influenced by operational experience on various projects both within European Union Institutions and external bodies.
 
@@ -37,8 +37,8 @@ PM² incorporates elements from a wide range of globally accepted project manage
 
 - a project governance structure
 - process guidelines
-- artefact templates
-- guidelines for using the artefacts
+- artifact templates
+- guidelines for using the artifacts
 - a set of effective mindsets.
 
 **PM² improves the effectiveness of project management by:**
@@ -70,10 +70,10 @@ By opening PM², the Initiative aims to enhance project management competency wi
 
 Opening PM² does this by:
 
-- rationalising project management approaches across European Union Institutions and beyond
+- rationalizing project management approaches across European Union Institutions and beyond
 - establishing a common language and processes, resulting in effective project communication
 - providing a common set of productive mindsets
-- enabling transparency and visibility for cross-organisational project collaborations
+- enabling transparency and visibility for cross-organizational project collaborations
 - enabling better project management, leading to improved cost/effort efficiency
 - enabling the improved monitor and control of European Union-funded projects and grants
 - applying the European Commission decision of 12 December 2011 (2011/833/EU) on the reuse of Commission documents to promote accessibility and reuse.
@@ -89,11 +89,11 @@ You can also download directly all PM² Guides from the Publications Office of t
 
 ### 1.5.2 Project Support Network
 
-The PM² Project Support Network is an EU Institutions wide network of Local Project Support Offices (LPSOs) which are coordinated and supported by the Centre of Excellence in PM² (CoEPM²). The PM² Project Support Network (PSN) aims to become a decentralised project management support network which provides guidance and support to PM² users on both the PM² Methodology and the effective use of project management tools \& techniques more broadly.
+The PM² Project Support Network is an EU Institutions wide network of Local Project Support Offices (LPSOs) which are coordinated and supported by the Centre of Excellence in PM² (CoEPM²). The PM² Project Support Network (PSN) aims to become a decentralized project management support network which provides guidance and support to PM² users on both the PM² Methodology and the effective use of project management tools \& techniques more broadly.
 
 The Project Support Network:
 
 - promotes the exchange and sharing of knowledge, experiences and best practices
 - makes it possible to collect feedback to continuously improve and build on the PM² Methodology
 - enables the Local Project Support Offices (LPSOs) to support each other as a community
-- depends on the contributions of PM² champions (individuals and organisations).
+- depends on the contributions of PM² champions (individuals and organizations).

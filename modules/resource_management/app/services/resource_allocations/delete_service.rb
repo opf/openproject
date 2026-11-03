@@ -22,13 +22,29 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module ResourceAllocations
   class DeleteService < ::BaseServices::Delete
+    private
+
+    def before_perform(*)
+      super.tap do
+        @schedule_users = [model.principal].compact
+        ScheduledEntry.lock_schedules_of(@schedule_users)
+      end
+    end
+
+    def after_perform(call)
+      allocation = call.result
+      if allocation.allocated? && @schedule_users.any?
+        UpdateScheduleService.new.call(users: @schedule_users, from: allocation.start_date)
+      end
+
+      super
+    end
   end
 end

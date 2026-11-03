@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,6 +32,7 @@ import { HalEventsService } from 'core-app/features/hal/services/hal-events.serv
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({
   templateUrl: './progress-popover-edit-field.component.html',
@@ -64,8 +64,7 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
       Append clicked field name to URL query props
       in order to indicate which field should be focused on load.
     */
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    this.frameSrc = `${this.pathHelper.workPackageProgressModalPath(this.resource.id as string)}?field=${this.name}`;
+    this.frameSrc = `${this.pathHelper.workPackageProgressModalPath(this.resource.id!)}?field=${this.name}`;
     this.frameId = 'work_package_progress_modal';
   }
 
@@ -77,15 +76,14 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     if (this.value === null || this.value === undefined) {
       return this.text.placeholder;
     }
-    return `${this.value}%`;
+    return `${this.value as number}%`;
   }
 
   public get asHours():string {
     if (this.value === null || this.value === undefined) {
       return this.text.placeholder;
     }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    return this.timezoneService.formattedChronicDuration(this.value);
+    return this.timezoneService.formattedChronicDuration(this.value as string);
   }
 
   public formatter(value:undefined|null|string):string {
@@ -103,11 +101,8 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
   }
 
   public handleSuccessfulCreate(JSONResponse:{ estimatedTime:string, remainingTime:string, percentageDone:string }):void {
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.resource.estimatedTime = JSONResponse.estimatedTime;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.resource.remainingTime = JSONResponse.remainingTime;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.resource.percentageDone = JSONResponse.percentageDone;
 
     this.onModalClosed();
@@ -119,30 +114,20 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
 
   private updateFrameSrc():void {
     const url = new URL(
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      this.pathHelper.workPackageProgressModalPath(this.resource.id as string),
+      this.pathHelper.workPackageProgressModalPath(this.resource.id!),
       window.location.origin,
     );
 
     url.searchParams.set('field', this.name);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[initial][estimated_hours]', this.formatter(this.resource.estimatedTime));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[initial][remaining_hours]', this.formatter(this.resource.remainingTime));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[initial][done_ratio]', this.nullAsEmptyStringFormatter(this.resource.percentageDone));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[initial][status_id]', this.nullAsEmptyStringFormatter(this.resource.status?.id as string));
+    url.searchParams.set('work_package[initial][estimated_hours]', this.formatter(this.resource.estimatedTime as string|null));
+    url.searchParams.set('work_package[initial][remaining_hours]', this.formatter(this.resource.remainingTime as string|null));
+    url.searchParams.set('work_package[initial][done_ratio]', this.nullAsEmptyStringFormatter(this.resource.percentageDone as string|null));
+    url.searchParams.set('work_package[initial][status_id]', this.nullAsEmptyStringFormatter((this.resource.status as HalResource|undefined)?.id ?? null));
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[estimated_hours]', this.formatter(this.resource.estimatedTime));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[remaining_hours]', this.formatter(this.resource.remainingTime));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[done_ratio]', this.nullAsEmptyStringFormatter(this.resource.percentageDone));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[status_id]', this.nullAsEmptyStringFormatter(this.resource.status?.id as string));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    url.searchParams.set('work_package[estimated_hours]', this.formatter(this.resource.estimatedTime as string|null));
+    url.searchParams.set('work_package[remaining_hours]', this.formatter(this.resource.remainingTime as string|null));
+    url.searchParams.set('work_package[done_ratio]', this.nullAsEmptyStringFormatter(this.resource.percentageDone as string|null));
+    url.searchParams.set('work_package[status_id]', this.nullAsEmptyStringFormatter((this.resource.status as HalResource|undefined)?.id ?? null));
     if (this.resource?.id === 'new') {
       url.searchParams.set('work_package[status_id_touched]', 'true');
     }
@@ -161,8 +146,13 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
   }
 
   public onModalClosed():void {
+    // The body is teleported into a shared portal. Clear the live element
+    // before the portal detaches it so Turbo cancels an in-flight preview and
+    // cannot reload the previous URL when the modal is opened again.
+    document.getElementById(this.frameId)?.removeAttribute('src');
     this.opened = false;
     this.frameSrc = '';
+    document.dispatchEvent(new CustomEvent('work-package-progress-modal-closed'));
 
     if (!this.handler.inEditMode) {
       this.handler.deactivate(false);

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -34,6 +33,8 @@ import { WorkPackageViewSelectionService } from 'core-app/features/work-packages
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { tdClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/cell-builder';
+import { keyboardNavigationEnabled } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
+import { paintRowRole } from 'core-app/features/work-packages/components/wp-fast-table/semantics/treegrid-semantics';
 import { internalContextMenuColumn } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
@@ -69,6 +70,12 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     };
   }
 
+  protected buildAugmentedColumns():QueryColumn[] {
+    const columns = super.buildAugmentedColumns();
+
+    return columns.includes(internalContextMenuColumn) ? columns : [...columns, internalContextMenuColumn];
+  }
+
   public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLTableCellElement|null {
     switch (column.id) {
       case internalContextMenuColumn.id:
@@ -78,11 +85,15 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     }
   }
 
-  public buildNew(workPackage:WorkPackageResource, form:EditForm):[HTMLElement, boolean] {
+  public buildNew(workPackage:WorkPackageResource, _form:EditForm):[HTMLElement, boolean] {
     // Get any existing edit state for this work package
     const [row, hidden] = this.buildEmpty(workPackage);
 
-    return [row, hidden];
+    return [this.paintStructuralRow(row), hidden];
+  }
+
+  public refreshRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):HTMLTableRowElement {
+    return this.paintStructuralRow(super.refreshRow(workPackage, row));
   }
 
   /**
@@ -103,6 +114,14 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     );
 
     return tr;
+  }
+
+  private paintStructuralRow(row:HTMLTableRowElement):HTMLTableRowElement {
+    if (keyboardNavigationEnabled(this.workPackageTable.configuration)) {
+      paintRowRole(row, 1);
+    }
+
+    return row;
   }
 
   protected buildCancelButton() {

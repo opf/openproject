@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,8 +54,8 @@ RSpec.describe "updating a cost report's cost type", :js do
     report_page.save(as: "My Query", public: true)
     report_page.wait_for_page_to_reload
 
-    cost_query = CostQuery.find_by!(name: "My Query")
-    expect(page).to have_current_path("/projects/#{project.identifier}/cost_reports/#{cost_query.id}")
+    report = CostReport.find_by!(name: "My Query")
+    expect(page).to have_current_path(project_reporting_cost_report_path(project, report))
 
     expect(page).to have_field("Labor", checked: true)
 

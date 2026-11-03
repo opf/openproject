@@ -102,7 +102,7 @@ zh-TW:
     not_recommended: 不推薦
     recommended: 推薦
     x_bcf_issues:
-      one: 一個 BCF 問題
+      one: "%{count} BCF issue"
       other: "%{count} BCF 問題集"
       zero: 無 BCF 問題
   bim:
@@ -140,8 +140,10 @@ zh-TW:
       processing_default: 以下預設 IFC 模型仍在處理中，因此尚不可用：
   oauth:
     scopes:
-      bcf_v2_1: 完整存取 BCF v2.1 API
+      bcf_v2_1: Access to the BCF v2.1 API
       bcf_v2_1_text: 應用程式將接收完整讀取及寫入權限到 OpenProject BCF API v2.1 代替您執行動作。
+      explanations_admin:
+        bcf_v2_1: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on the user's behalf.
   permission_delete_bcf: 刪除 BCF 問題集
   permission_manage_bcf: 匯入及管理 BCF 問題集
   permission_manage_bcf_explanation: |

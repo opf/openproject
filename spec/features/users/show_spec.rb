@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -67,6 +66,29 @@ RSpec.describe "index users", :js do
     it "does not show the group" do
       visit user_path(user)
       expect(page).to have_no_text group.name
+    end
+  end
+
+  describe "own memberships without the permission to view members" do
+    shared_let(:reader_role) { create(:project_role, name: "Reader", permissions: %i[view_project]) }
+    shared_let(:reader_project) { create(:project, name: "Readable") }
+    shared_let(:reader) { create(:user, member_with_roles: { reader_project => [reader_role] }) }
+
+    current_user { reader }
+
+    it "lists them on the own profile, with a preview of the own role" do
+      visit user_path(reader)
+
+      expect(page).to have_text reader_project.name
+      expect(page).to have_text reader_role.name
+      expect(page).to have_css "a[href='#{role_permissions_dialog_path(reader_role)}']", visible: :all
+    end
+
+    it "hides them from another user lacking the permission" do
+      visit user_path(user)
+
+      expect(page).to have_current_path user_path(user)
+      expect(page).to have_no_text reader_project.name
     end
   end
 

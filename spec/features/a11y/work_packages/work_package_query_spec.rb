@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,7 +30,7 @@
 require "spec_helper"
 require "features/work_packages/work_packages_page"
 
-RSpec.describe "Work package index accessibility", :selenium do
+RSpec.describe "Work package index accessibility" do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
@@ -177,14 +176,14 @@ RSpec.describe "Work package index accessibility", :selenium do
         expect(page).to have_css(".wp-row-#{work_package.id}")
         expect(page).to have_css(".wp-row-#{another_work_package.id}")
 
-        find("body").native.send_keys("j")
+        find("body").send_keys("j")
         expect(page).to have_focus_on(first_row_selector)
 
         # Avoid sending keys on body since that resets focus
-        page.driver.browser.switch_to.active_element.send_keys("j")
+        send_keys_without_click(page.active_element, "j")
         expect(page).to have_focus_on(second_row_selector)
 
-        page.driver.browser.switch_to.active_element.send_keys("k")
+        send_keys_without_click(page.active_element, "k")
         expect(page).to have_focus_on(first_row_selector)
       end
     end
@@ -193,7 +192,7 @@ RSpec.describe "Work package index accessibility", :selenium do
       it "opens help popup with '?'" do
         expect_angular_frontend_initialized
 
-        new_window = window_opened_by { find("body").native.send_keys("?") }
+        new_window = window_opened_by { find("body").send_keys("?") }
         within_window new_window do
           expect(page.current_url).to start_with "https://www.openproject.org/docs"
         end
@@ -213,13 +212,13 @@ RSpec.describe "Work package index accessibility", :selenium do
         expect(page).to have_selector(source_link)
         element = find(source_link)
         element.hover
-        element.native.send_keys(keys)
+        send_keys_without_click(element, keys)
 
         # Expect to open and focus the menu
         expect(page).to have_focus_on(target_link) if sets_focus
         element = find(target_link)
 
-        element.native.send_keys(:escape)
+        send_keys_without_click(element, :escape)
         expect(page).to have_no_selector(target_link)
 
         # Expect reset focus on originating element
@@ -230,14 +229,14 @@ RSpec.describe "Work package index accessibility", :selenium do
     describe "work package context menu", :js do
       it_behaves_like "context menu" do
         let(:target_link) { "#work-package-context-menu a.detailsViewMenuItem" }
-        let(:source_link) { ".work-package-table--container tr.issue td.id a" }
+        let(:source_link) { ".work-package-table--container tr.issue td.subject" }
         let(:keys) { %i[shift alt f10] }
         let(:sets_focus) { true }
       end
 
       it_behaves_like "context menu" do
         let(:target_link) { "#work-package-context-menu a.openFullScreenView" }
-        let(:source_link) { ".work-package-table--container tr.issue td.id a" }
+        let(:source_link) { ".work-package-table--container tr.issue td.subject" }
         let(:keys) { %i[shift alt f10] }
         let(:sets_focus) { false }
       end

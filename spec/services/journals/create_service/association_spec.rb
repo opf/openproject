@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,9 +64,18 @@ RSpec.describe Journals::CreateService::Association do
       allow(journable).to receive(:respond_to?).with(:file_links).and_return(false)
       allow(journable).to receive(:respond_to?).with(:agenda_items).and_return(false)
       allow(journable).to receive(:respond_to?).with(:phases).and_return(false)
+      allow(journable).to receive(:respond_to?).with(:labels).and_return(false)
 
       associations = described_class.for(journable)
       expect(associations.map(&:class)).to include(Journals::CreateService::Attachable)
+    end
+
+    it "includes Labelable for a journable that responds to labels" do
+      journable = instance_double(WorkPackage, customizable?: false, respond_to?: false)
+      allow(journable).to receive(:respond_to?).with(:labels).and_return(true)
+
+      associations = described_class.for(journable)
+      expect(associations.map(&:class)).to include(Journals::CreateService::Labelable)
     end
 
     it "excludes associations whose #associated? returns false" do

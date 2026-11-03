@@ -13,6 +13,7 @@ sv:
         icon: Anpassad ikon
         identifier: Identifierare
         idp_cert: Offentligt certifikat för identitetsleverantör
+        idp_cert_fingerprint: Identity provider certificate fingerprint
         idp_entity_id: Identitetsleverantörens entitets-ID
         idp_slo_service_url: Utloggningsslutpunkt för identitetsleverantör
         idp_sso_service_url: Identitetsleverantörens inloggningsändpunkt
@@ -152,6 +153,9 @@ sv:
       metadata_too_large: Metadatafilen överskrider den största tillåtna storleken.
       success: Uppdaterade konfigurationen med hjälp av identitetsleverantörens metadata.
     providers:
+      apply_metadata:
+        expired: This metadata preview has expired or is invalid. Refresh the metadata again to review the latest configuration.
+        provider_changed: The provider configuration has changed since this preview. Refresh the metadata again to review the latest configuration.
       attribute_mapping: Attributmappning
       attribute_mapping_text: 'Följande fält styr vilka attribut som tillhandahålls av SAML-identitetsleverantören som används för att tillhandahålla användarattribut i OpenProject
 
@@ -171,9 +175,19 @@ sv:
       label_uid: Internt användar-id
       metadata:
         dialog: 'Detta är URL: en där OpenProject SAML-metadata finns tillgängliga. Använd den eventuellt för att konfigurera din identitetsleverantör:'
+      metadata_changes:
+        table_component:
+          current_value: Current value
+          mobile_title: Metadata changes
+          new_value: New value
       no_results_table: Inga SAML-identitetsleverantörer har definierats ännu.
       notice_created: En ny SAML-identitetsleverantör har skapats.
       plural: SAML identitetsleverantörer
+      refresh_metadata:
+        apply: Apply changes
+        description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
+        no_changes: The metadata matches the current configuration.
+        title: Review metadata changes
       request_attributes:
         format: Attributformat
         legend: 'Dessa attribut läggs till SAML XML-metadata för att beteckna den identifieringsleverantör som OpenProject kräver. Du kan fortfarande behöva konfigurera din identitetsleverantör för att skicka dessa attribut. Se dokumentationen för din idP.
@@ -197,6 +211,10 @@ sv:
         metadata_form_banner: 'Redigering av metadata kan åsidosätta befintliga värden i andra avsnitt. '
         requested_attributes: Definiera den uppsättning attribut som ska begäras i SAML-begäran som skickas till din identitetsleverantör.
       seeded_from_env: Denna leverantör har skapats från miljökonfigurationen. Den kan inte redigeras.
+      side_panel:
+        refresh_metadata_component:
+          button: Refresh metadata
+          description: You can check if the configuration fetched from your identity provider has changed.
       singular: SAML identitetsleverantör
       upsell:
         description: Anslut OpenProject till en SAML-identitetsleverantör

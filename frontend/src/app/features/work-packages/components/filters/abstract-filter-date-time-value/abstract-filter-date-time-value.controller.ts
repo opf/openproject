@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -48,7 +47,7 @@ export abstract class AbstractDateTimeValueController extends UntilDestroyedMixi
 
   public abstract get upperBoundary():Moment|null;
 
-  public isoDateParser(data:any) {
+  public isoDateParser(data:string) {
     if (!this.timezoneService.isValidISODate(data)) {
       return '';
     }
@@ -56,7 +55,7 @@ export abstract class AbstractDateTimeValueController extends UntilDestroyedMixi
     return this.timezoneService.formattedISODateTime(d);
   }
 
-  public isoDateFormatter(data:any) {
+  public isoDateFormatter(data:string) {
     if (!this.timezoneService.isValidISODateTime(data)) {
       return '';
     }

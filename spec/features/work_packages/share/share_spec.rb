@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -445,7 +444,7 @@ RSpec.describe "Work package sharing",
     end
 
     it "shows an error message when inviting an existing locked user" do
-      skip "This behavios is broken by loading the user through the visible scope, don't know yet how to fix it"
+      skip "This behavior is broken by loading the user through the visible scope, don't know yet how to fix it"
 
       share_modal.expect_shared_count_of(6)
 

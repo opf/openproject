@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -74,6 +73,19 @@ module Backlogs::Concerns
     #   this work package.
     def movable?
       sortable? && !work_package.readonly_status?
+    end
+
+    # What ordering this card takes part in.
+    #
+    # `fixed` is no part at all: no drag, no positional move, no selection.
+    # `confined` reorders within its own list but is refused by every other
+    # container. `free` may move to any list that accepts it.
+    #
+    # @return [String] one of "fixed", "confined", "free".
+    def mobility
+      return "fixed" unless sortable?
+
+      movable? ? "free" : "confined"
     end
   end
 end

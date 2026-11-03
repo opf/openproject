@@ -3,241 +3,241 @@ da:
   activerecord:
     attributes:
       wikis/page_link:
-        identifier: Identifier
-        provider: Wiki Provider
+        identifier: Id
+        provider: Wiki-udbyder
       wikis/provider:
-        name: Name
-        universal_identifier: Universal identifier
+        name: Navn
+        universal_identifier: Universelt id
       wikis/xwiki_provider:
-        authentication_method: Authentication method
+        authentication_method: Godkendelsesmetode
         authentication_methods:
-          oauth2_sso: Single-Sign-On through OpenID Connect Identity Provider
-          two_way_oauth2: Two-way OAuth 2.0 authorization code flow
-        token_exchange_scope: XWiki Scope
-        url: Instance URL
-        wiki_audience: XWiki Audience
+          oauth2_sso: Single sign-on via OpenID Connect-identitetsudbyder
+          two_way_oauth2: Tovejs OAuth 2.0 med Authorization Code-flow
+        token_exchange_scope: XWiki-scope
+        url: Installationens URL
+        wiki_audience: XWiki-audience
     errors:
       models:
         wikis/provider:
           attributes:
             url:
-              already_taken: belongs to the wiki provider that's already known as "%{name}".
-              wiki_provider_unreachable: could not be reached.
+              already_taken: tilhører den wiki-udbyder, der allerede er kendt som "%{name}".
+              wiki_provider_unreachable: kunne ikke nås.
     models:
       wikis/inline_page_link:
-        one: Inline page link
-        other: Inline page links
+        one: Sidelink i teksten
+        other: Sidelinks i teksten
       wikis/internal_provider:
-        one: Internal provider
-        other: Internal providers
+        one: Intern udbyder
+        other: Interne udbydere
       wikis/page_link:
-        one: Page link
-        other: Page links
+        one: Sidelink
+        other: Sidelinks
       wikis/provider:
-        one: Wiki provider
-        other: Wiki providers
+        one: Wiki-udbyder
+        other: Wiki-udbydere
       wikis/relation_page_link:
-        one: Relation page link
-        other: Relation page links
+        one: Relateret sidelink
+        other: Relaterede sidelinks
       wikis/xwiki_provider:
-        one: XWiki provider
-        other: XWiki providers
+        one: XWiki-udbyder
+        other: XWiki-udbydere
   menus:
     admin:
-      external_wiki_providers: External wiki providers
-      internal_wiki_provider: Project wikis
-      wikis: Wikis
+      external_wiki_providers: Eksterne wiki-udbydere
+      internal_wiki_provider: Projektwikier
+      wikis: Wikier
     project_settings:
-      wiki: Project wiki
-  permission_manage_wiki_page_links: Manage wiki page links
+      wiki: Projektwiki
+  permission_manage_wiki_page_links: Administrer links til wiki-sider
   wikis:
     admin:
       destroy_confirmation_dialog_component:
-        description_html: The wiki provider %{wiki_provider} and all the related wiki page links will be deleted. In addition, every inline wiki page link will no longer be accessible. This action is irreversible.
-        heading: Permanently delete this wiki provider?
-        title: Delete wiki provider
+        description_html: Wiki-udbyderen %{wiki_provider} og alle tilhørende links til wiki-sider slettes. Desuden er links til wiki-sider i teksten ikke længere tilgængelige. Handlingen kan ikke fortrydes.
+        heading: Vil du slette wiki-udbyderen permanent?
+        title: Slet wiki-udbyder
       forms:
         general_info_form_component:
-          provider_description: Please make sure you have administration privileges in your XWiki instance before doing the setup.
+          provider_description: Sørg for, at du har administratorrettigheder i din XWiki-installation, før du går i gang med opsætningen.
         oauth_application_form_component:
-          application_id: OpenProject OAuth Application ID
-          application_secret: OpenProject OAuth Application secret
+          application_id: Id for OpenProjects OAuth-program
+          application_secret: Hemmelighed for OpenProjects OAuth-program
         oauth_client_form_component:
-          client_id: Wiki OAuth Client ID
-          client_secret: Wiki OAuth Client secret
+          client_id: Klient-id for wikiens OAuth
+          client_secret: Klienthemmelighed for wikiens OAuth
       health_status:
         show:
           actions:
-            download_report: Download
-            rerun_checks: Re-run all checks
-            run_checks: Run checks now
-          last_check: 'Last check: %{datetime}'
-          no_health_report: No report available
-          no_health_report_description: Run the checks now for a full health status report for this wiki provider.
-          title: Health Report
+            download_report: Hent
+            rerun_checks: Kør alle kontroller igen
+            run_checks: Kør kontroller nu
+          last_check: 'Seneste kontrol: %{datetime}'
+          no_health_report: Der er ingen rapport
+          no_health_report_description: Kør kontrollerne nu for at få en fuld driftsstatusrapport for wiki-udbyderen.
+          title: Driftsstatusrapport
       internal_provider_form:
-        checkbox_caption: Allow projects to use project wikis along with external wiki providers
-        checkbox_label: Enable OpenProject project wikis
+        checkbox_caption: Tillad projekter at bruge projektwikier ud over eksterne wiki-udbydere
+        checkbox_label: Slå OpenProjects projektwikier til
       internal_wiki_provider:
         show:
-          description: Choose to enable or disable project wikis
+          description: Vælg, om projektwikier skal være slået til eller fra
       oauth_application_info_component:
-        confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in your XWiki instance and all users will have to reauthorize. Are you sure you want to proceed?
-        label_oauth_client_id: OAuth Client ID
-        replace_oauth_application: Replace OpenProject OAuth application
+        confirm_replace_oauth_application: De nuværende OAuth-legitimationsoplysninger nulstilles. Når du har bekræftet, skal du angive oplysningerne igen i din XWiki-installation, og alle brugere skal give tilladelse igen. Er du sikker på, at du vil fortsætte?
+        label_oauth_client_id: OAuth-klient-id
+        replace_oauth_application: Erstat OpenProjects OAuth-program
       oauth_client_info_component:
-        confirm_replace_oauth_client: This action will reset the current XWiki OAuth credentials. All users will need to reauthorize against XWiki. Are you sure you want to proceed?
-        label_oauth_client_id: OAuth Client ID
-        replace_oauth_client: Replace XWiki OAuth application
+        confirm_replace_oauth_client: De nuværende OAuth-legitimationsoplysninger til XWiki nulstilles. Alle brugere skal give tilladelse til XWiki igen. Er du sikker på, at du vil fortsætte?
+        label_oauth_client_id: OAuth-klient-id
+        replace_oauth_client: Erstat XWikis OAuth-program
       redirect_uri_info_component:
-        description: The redirect URI is generated once the wiki OAuth client is configured.
+        description: Omdirigerings-URI'en dannes, når wikiens OAuth-klient er konfigureret.
         label_uri: URI
-        show_redirect_uri: Show redirect URI
+        show_redirect_uri: Vis omdirigerings-URI
       side_panel:
         health_status_component:
-          last_check: 'Last check: %{datetime}'
-          open_report: Open full health report
-          run_checks: Run checks now
-          title: Health status report
+          last_check: 'Seneste kontrol: %{datetime}'
+          open_report: Åbn hele driftsstatusrapporten
+          run_checks: Kør kontroller nu
+          title: Driftsstatusrapport
       wiki_provider_list_component:
-        label_creation_time: Created
-        label_name: Name
-        label_provider: Provider
-        no_results_description: Add a wiki provider to see them here.
-        no_results_title: You don't have any wiki providers set up yet.
+        label_creation_time: Oprettet
+        label_name: Navn
+        label_provider: Udbyder
+        no_results_description: Tilføj en wiki-udbyder for at se den her.
+        no_results_title: Du har endnu ikke sat nogen wiki-udbydere op.
       wiki_providers:
-        index_description: Add an external wiki service to link work packages to existing wiki pages or create new ones directly from OpenProject.
-        label_add_new: Add new wiki provider
-        label_edit: Edit XWiki provider
-        label_new_provider: New XWiki provider
-        label_wiki_platform: Wiki provider
-        name_caption: Give your wiki provider a name so that users can differentiate between multiple wiki platforms.
-        name_placeholder: XWiki knowledge base
-        new_provider_html: Read our documentation on [setting up an XWiki integration](docs_url) for more information.
-        successful_setup: Wiki provider configured successfully!
+        index_description: Tilføj en ekstern wikitjeneste for at linke arbejdspakker til eksisterende wiki-sider eller oprette nye direkte fra OpenProject.
+        label_add_new: Tilføj ny wiki-udbyder
+        label_edit: Rediger XWiki-udbyder
+        label_new_provider: Ny XWiki-udbyder
+        label_wiki_platform: Wiki-udbyder
+        name_caption: Giv wiki-udbyderen et navn, så brugerne kan skelne mellem flere wikiplatforme.
+        name_placeholder: XWiki-vidensbase
+        new_provider_html: Læs vores dokumentation om [opsætning af en XWiki-integration](docs_url) for at få flere oplysninger.
+        successful_setup: Wiki-udbyderen er konfigureret!
         oauth:
           openproject_oauth: OpenProject OAuth
-          redirect_uri: Redirect URI
-          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
+          redirect_uri: Omdirigerings-URI
+          redirect_uri_caption: Kopiér værdien til feltet Redirect URI i registreringen af OIDC-klienten i XWiki.
         sections:
-          general_information: General information
-          oauth_configuration: OAuth configuration
-        url_caption: The host address of your wiki platform including the https://. It should not be longer than 255 characters.
+          general_information: Generelle oplysninger
+          oauth_configuration: OAuth-konfiguration
+        url_caption: Wikiplatformens værtsadresse inklusive https://. Den må højst være 255 tegn lang.
         xwiki:
           oauth:
-            openproject_oauth_description: Allow XWiki to access OpenProject data using an OAuth application.
-            provider_oauth: Wiki OAuth
-            provider_oauth_configuration: Copy these values to the [XWiki OIDC Connection client](xwiki_oidc_link).
-            provider_oauth_description: Allow OpenProject to access XWiki data using OAuth.
-          openproject_oauth_description: Allow XWiki to access OpenProject data using an OAuth.
+            openproject_oauth_description: Giv XWiki adgang til data i OpenProject via et OAuth-program.
+            provider_oauth: Wikiens OAuth
+            provider_oauth_configuration: Kopiér værdierne til [OIDC Connection-klienten i XWiki](xwiki_oidc_link).
+            provider_oauth_description: Giv OpenProject adgang til data i XWiki via OAuth.
+          openproject_oauth_description: Giv XWiki adgang til data i OpenProject via OAuth.
           xwiki_oauth: XWiki OAuth
-          xwiki_oauth_description: Allow OpenProject to access XWiki data using an OAuth.
+          xwiki_oauth_description: Giv OpenProject adgang til data i XWiki via OAuth.
     buttons:
-      connect_account: Connect %{provider} account
-      done_continue: Done, continue
-      open_wiki: Open wiki
-      save_and_continue: Save and continue
-      wiki_page: Wiki page
+      connect_account: Forbind %{provider}-konto
+      done_continue: Færdig, fortsæt
+      open_wiki: Åbn wiki
+      save_and_continue: Gem, og fortsæt
+      wiki_page: Wiki-side
     create_new_wiki_page_dialog:
-      title: Create new wiki page
+      title: Opret ny wiki-side
     deferred_inline_page_link_macro_component:
-      loading: Loading…
+      loading: Indlæser…
     delete_relation_page_link_confirmation_dialog:
-      heading: Delete related wiki page link?
-      title: Delete related wiki page link
+      heading: Vil du slette linket til den relaterede wiki-side?
+      title: Slet link til relateret wiki-side
     errors:
-      connection_error: Could not connect to the wiki provider.
-      invalid_parent: The selected page is not a valid parent page.
-      invalid_response: The wiki provider responded unexpectedly.
-      missing_token: The user account is not yet connected to the wiki provider.
-      request_failed: The wiki provider experienced an unexpected error.
-      unauthorized: An authorization error occurred.
+      connection_error: Der kunne ikke oprettes forbindelse til wiki-udbyderen.
+      invalid_parent: Den valgte side er ikke en gyldig overordnet side.
+      invalid_response: Wiki-udbyderen svarede uventet.
+      missing_token: Brugerkontoen er endnu ikke forbundet med wiki-udbyderen.
+      request_failed: Der opstod en uventet fejl hos wiki-udbyderen.
+      unauthorized: Der opstod en godkendelsesfejl.
     health_checks:
       authentication:
-        existing_token: User token
-        header: Authentication
-        user_bound_request: User-based request authentication
+        existing_token: Brugertoken
+        header: Godkendelse
+        user_bound_request: Brugerbaseret godkendelse af forespørgsler
       base_configuration:
-        header: Configuration
-        provider_configured: Configuration complete
-        universal_id_known: Provider recognized
+        header: Konfiguration
+        provider_configured: Konfigurationen er fuldført
+        universal_id_known: Udbyderen er genkendt
       errors:
-        connection_error: OpenProject could not connect to the wiki provider.
-        not_configured: The connection could not be validated. Please finish configuration first.
-        uid_mismatch: The universal identifier reported by the wiki provider does not match the identifier that OpenProject recorded during setup.
-        xwiki_oauth_connection_error: OpenProject could not connect to the configured XWiki instance.
-        xwiki_oauth_request_error: An unexpected error occurred when trying to communicate with the XWiki instance.
-        xwiki_oauth_token_missing: OpenProject cannot test the user-level communication with XWiki as the user did not yet connect their XWiki account.
-        xwiki_oauth_unauthorized: The user token was not recognized by XWiki.
+        connection_error: OpenProject kunne ikke oprette forbindelse til wiki-udbyderen.
+        not_configured: Forbindelsen kunne ikke valideres. Gør konfigurationen færdig først.
+        uid_mismatch: Det universelle id, som wiki-udbyderen oplyser, svarer ikke til det id, som OpenProject registrerede under opsætningen.
+        xwiki_oauth_connection_error: OpenProject kunne ikke oprette forbindelse til den konfigurerede XWiki-installation.
+        xwiki_oauth_request_error: Der opstod en uventet fejl under kommunikationen med XWiki-installationen.
+        xwiki_oauth_token_missing: OpenProject kan ikke teste kommunikationen med XWiki på brugerniveau, fordi brugeren endnu ikke har forbundet sin XWiki-konto.
+        xwiki_oauth_unauthorized: XWiki genkendte ikke brugertokenet.
     index:
-      column_last_edited: Last edited
-      column_name: Wiki page
-      column_parent: Parent
-      column_project: Project
-      column_sub_pages: Sub-pages
-      filter_by_name: Filter by page name
-      filter_placeholder: Search by name
+      column_last_edited: Senest redigeret
+      column_name: Wiki-side
+      column_parent: Overordnet
+      column_project: Projekt
+      column_sub_pages: Undersider
+      filter_by_name: Filtrér efter sidenavn
+      filter_placeholder: Søg efter navn
       menu_title: Wiki
-      no_results_description: No wiki pages are available.
-      no_results_title: No wiki pages yet
+      no_results_description: Der er ingen tilgængelige wiki-sider.
+      no_results_title: Der er endnu ingen wiki-sider
       queries:
-        all: All wiki pages
-        main: Main wiki pages
+        all: Alle wiki-sider
+        main: Primære wiki-sider
       sub_pages_count:
-        one: 1 sub-page
-        other: "%{count} sub-pages"
+        one: "%{count} underside"
+        other: "%{count} undersider"
     inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+      title_add: Tilføj eksisterende wiki-side
+      title_create: Opret ny wiki-side
     instructions:
       xwiki:
-        integration: XWiki Administration
-        oauth_application_details_html: The client secret value will not be accessible again after you close this window. Please copy these values into the [XWiki OpenProject Integration settings](xwiki_admin_link).
+        integration: XWiki-administration
+        oauth_application_details_html: Klienthemmeligheden kan ikke ses igen, når du har lukket vinduet. Kopiér værdierne til [indstillingerne for OpenProject-integrationen i XWiki](xwiki_admin_link).
     link_existing_wiki_page_dialog:
-      title: Add existing wiki page
+      title: Tilføj eksisterende wiki-side
     oauth_login_component:
-      connect_button: Connect %{provider} account
-      description: Log in to %{provider} to view and manage related wiki pages from this OpenProject instance.
-      heading: Not connected to %{provider}
+      connect_button: Forbind %{provider}-konto
+      description: Log ind på %{provider} for at se og administrere relaterede wiki-sider fra denne OpenProject-installation.
+      heading: Ikke forbundet med %{provider}
     page_link_component:
-      add_to_related_pages: Add to related pages
-      remove: Remove page link
+      add_to_related_pages: Føj til relaterede sider
+      remove: Fjern sidelink
     page_link_forms:
       labels:
-        page_title: Title
-        parent: Parent
-        wiki_page: Wiki page
+        page_title: Titel
+        parent: Overordnet
+        wiki_page: Wiki-side
       search:
-        no_results: No wiki pages found
-        placeholder: Search for a wiki page (or enter its URL)
+        no_results: Der blev ikke fundet nogen wiki-sider
+        placeholder: Søg efter en wiki-side (eller angiv dens URL)
     page_links:
-      aria_label: A dynamic link to a wiki page placed using a macro.
+      aria_label: Et dynamisk link til en wiki-side, der er indsat med en makro.
       errors:
-        page_access_forbidden: You do not have permission to access this wiki page
-        page_not_found: Linked wiki page no longer available
-        unexpected: An unexpected error occurred
+        page_access_forbidden: Du har ikke tilladelse til at åbne denne wiki-side
+        page_not_found: Den linkede wiki-side er ikke længere tilgængelig
+        unexpected: Der opstod en uventet fejl
       source:
-        parent: As parent
+        parent: Som overordnet
     project_settings:
       project_internal_wiki_component:
-        blankslate_description: For this instance, project wikis are disabled globally and therefore can’t be enabled per project. Please, ask your administrator to enable the global wikis in the administration settings.
-        blankslate_title: Project wikis are disabled globally
-        caption: This enables native wiki functionality for this project. Members will be able to create and read wiki pages that are stored in OpenProject.
-        enable: Enable the OpenProject wiki for this project
+        blankslate_description: Projektwikier er slået fra for hele installationen og kan derfor ikke slås til for enkelte projekter. Bed din administrator om at slå wikierne til i administrationsindstillingerne.
+        blankslate_title: Projektwikier er slået fra for hele installationen
+        caption: Slår OpenProjects egen wiki til for projektet. Medlemmerne kan oprette og læse wiki-sider, der gemmes i OpenProject.
+        enable: Slå OpenProject-wikien til for dette projekt
     provider_types:
       internal:
         name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:
-      empty_heading: No related pages
-      empty_text: Add wiki pages that are relevant to this work package.
-      link_existing: Existing wiki page
-      link_new: New wiki page
+      empty_heading: Ingen relaterede sider
+      empty_text: Tilføj wiki-sider, der er relevante for arbejdspakken.
+      link_existing: Eksisterende wiki-side
+      link_new: Ny wiki-side
     upsell:
       xwiki:
-        description: Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place.
-        title: XWiki Integration
+        description: 'Forbind XWiki med OpenProject, og hold dokumentation og arbejde synkroniseret: link sider, følg henvisninger, og styr det hele ét sted.'
+        title: XWiki-integration
     work_package_wikis_tab_component:
-      inline_page_links: Mentioned in description
-      referencing_pages: Referenced in
+      inline_page_links: Omtalt i beskrivelsen
+      referencing_pages: Henvist til i

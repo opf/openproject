@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -57,12 +56,6 @@ RSpec.describe "form query configuration", :js do
   end
   let(:wp_relation_type) { :children }
   let(:frontend_relation_type) { wp_relation_type }
-  let(:relation_target) { related_task }
-  let(:new_relation) do
-    relation = Hash.new
-    relation[wp_relation_type] = [related_bug, related_task, related_task_other_project]
-    relation
-  end
   let!(:related_task) do
     create(:work_package, project:, type: type_task)
   end
@@ -89,7 +82,7 @@ RSpec.describe "form query configuration", :js do
   describe "with EE token", with_ee: %i[edit_attribute_groups] do
     before do
       login_as(admin)
-      visit edit_type_form_configuration_path(type_bug)
+      visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
     end
 
     it "can save an empty query group" do
@@ -152,7 +145,7 @@ RSpec.describe "form query configuration", :js do
       filters.save
       wait_for_network_idle
 
-      visit edit_type_form_configuration_path(type_bug)
+      visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
       wait_for_network_idle
       form.edit_query_group(group_name)
 
@@ -176,7 +169,7 @@ RSpec.describe "form query configuration", :js do
 
         archived.update_attribute(:active, false)
 
-        visit edit_type_form_configuration_path(type_bug)
+        visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
         form.edit_query_group("Archived project")
 
         # Expect we now get the valid subset without the invalid project
@@ -286,7 +279,7 @@ RSpec.describe "form query configuration", :js do
         embedded_table.reference_work_package unrelated_task
 
         # Go back to type configuration
-        visit edit_type_form_configuration_path(type_bug)
+        visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
 
         # Edit query to remove filters
         form.edit_query_group("Subtasks")
@@ -316,18 +309,17 @@ RSpec.describe "form query configuration", :js do
       it_behaves_like "query group"
     end
 
-    context "relates_to table" do
-      it_behaves_like "query group" do
-        let(:wp_relation_type) { :relates_to }
-        let(:frontend_relation_type) { :relates }
-        let(:relation_target) { [work_package] }
-      end
-    end
+    {
+      relates: Relation::TYPE_RELATES,
+      blocks: Relation::TYPE_BLOCKED
+    }.each do |frontend_relation_type, expected_relation_type|
+      it "persists the #{frontend_relation_type} relation type" do
+        form.add_query_group("Related", frontend_relation_type)
 
-    context "blocks table" do
-      it_behaves_like "query group" do
-        let(:wp_relation_type) { :blocks }
-        let(:relation_target) { [work_package] }
+        query_group = type_bug.reload.default_variant.attribute_groups.detect { |group| group.key == "Related" }
+        relation_filter = query_group.query.filters.detect { |filter| filter.respond_to?(:relation_type) }
+
+        expect(relation_filter.relation_type).to eq(expected_relation_type)
       end
     end
   end

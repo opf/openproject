@@ -61,6 +61,7 @@ ka:
         single: Select "%{name}"
       remove: "%{name}-ის წაშლა"
     autocompleter:
+      create_label: Create label
       notFoundText: ელემენტები ვერ ვიპოვე
       placeholder: მოსაძებნად აკრიფეთ
       project:
@@ -162,6 +163,7 @@ ka:
     button_stop_timer: Stop timer
     button_uncheck_all: ყველა მონიშვნის მოხსნა
     button_update: განახლება
+    button_view_markdown: View Markdown
     caption_rate_history: ტარიფის ისტორია
     card:
       add_new: ახალი ბარათის დამატება
@@ -201,7 +203,10 @@ ka:
     description_select_work_package: 'Select work package #%{id}'
     description_subwork_package: 'Child of work package #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: An error occurred within CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
       macro:
         attribute_reference:
@@ -358,8 +363,8 @@ ka:
     ical_sharing_modal:
       copy_url_label: ბმულის კოპირება
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: An error occured while fetching data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
       title: Subscribe to calendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -551,6 +556,8 @@ ka:
     label_reset: ჩამოყრა
     label_resize_project_menu: Resize project menu
     label_save_as: შენახვა, როგორც
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Search a column
     label_select_watcher: Select a watcher...
     label_selected_filter_list: Selected filters
@@ -623,8 +630,8 @@ ka:
     notifications:
       center:
         and_more_users:
-          one: და კიდევ 1
-          other: და კიდევ %{count}
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Looks like you are all caught up.
           no_notification_for_filter: Looks like you are all caught up for this filter.
@@ -720,6 +727,7 @@ ka:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Click to add description for this relation
       selection: გთხოვთ, აირჩიეთ
       subject: Enter subject here
@@ -806,12 +814,32 @@ ka:
       sorting_disabled: sorting is disabled
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Close modal
@@ -825,9 +853,7 @@ ka:
     text_user_wrote: "%{value} wrote:"
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected work package(s)?
     time_entry:
-      stop: გაჩერება
       title: ჟურნალში დროის ჩაწერა
-      tracking: დროის ტრეკინგი
       work_package_required: Requires selecting a work package first.
     timer:
       button_stop: Stop current timer
@@ -862,19 +888,19 @@ ka:
       label_two_factor_authentication: Two-factor authentication
     units:
       child_work_packages:
-        one: one child work package
+        one: "%{count} child work package"
         other: "%{count} work package children"
       day:
-        one: 1 დღე
+        one: "%{count} day"
         other: "%{count} დღე"
         zero: 0 დღე
       hour:
-        one: 1 სთ
+        one: "%{count} h"
         other: "%{count} სთ"
         zero: 0 სთ
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: სამუშაო პაკეტი
@@ -1068,11 +1094,26 @@ ka:
       scheduling:
         is_parent: The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates.
         is_switched_from_manual_to_automatic: The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Show all users with whom the work package has been shared with
         title: Share work package
       table:
         configure_button: Configure work package table
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Table with rows of work package and columns of work package attributes.
         text_inline_edit: Most cells of this table are buttons that activate inline-editing functionality of that attribute.
         text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.

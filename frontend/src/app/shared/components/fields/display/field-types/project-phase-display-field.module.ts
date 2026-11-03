@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,6 +29,7 @@ import { opPhaseIconData, toDOMString } from '@openproject/octicons-angular';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ProjectPhaseResource } from 'core-app/features/hal/resources/project-phase-resource';
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 
 export class ProjectPhaseDisplayField extends DisplayField {
   public get value():string|null {
@@ -73,7 +73,9 @@ export class ProjectPhaseDisplayField extends DisplayField {
 
       // Use the phase definition ID for the CSS class.
       // This is more robust than using the name as it avoids issues with special characters.
-      icon.classList.add(`__hl_inline_project_phase_definition_${phaseDefinitionId}`);
+      icon.classList.add(
+        ...Highlighting.foregroundClass('project_phase_definition', phaseDefinitionId).split(' '),
+      );
     }
 
     return icon;

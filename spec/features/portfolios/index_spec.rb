@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -169,6 +168,7 @@ RSpec.describe "Portfolios", "index", :js, with_ee: :portfolio_management do # T
   end
 
   it "keeps the archived filter when searching by name (regression #SPPM-292)" do
+    Components::Submenu.new.expect_item("Archived portfolios")
     click_on "Archived portfolios"
     portfolios_page.expect_title("Archived portfolios")
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,13 +40,13 @@ RSpec.describe "Project creation wizard name settings", :js do
 
   context "with feature available", with_ee: %i[project_creation_wizard] do
     describe "configuring name settings" do
-      it "allows admin to configure artefact name" do
+      it "allows admin to configure artifact name" do
         settings_page.visit!
 
-        expect(page).to have_select("Artefact name")
-        expect(page).to have_text("Choose the name for this artefact that your project management framework recommends.")
+        expect(page).to have_select("Artifact name")
+        expect(page).to have_text("Choose the name for this artifact that your project management framework recommends.")
 
-        select "Project initiation request", from: "Artefact name"
+        select "Project initiation request", from: "Artifact name"
         click_button "Save"
 
         expect_and_dismiss_flash(message: "Successful update.")

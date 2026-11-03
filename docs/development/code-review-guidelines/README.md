@@ -21,6 +21,27 @@ at [Lefthook](https://github.com/evilmartians/lefthook). You can install these r
 are several options on how to install `lefthook` on your system, including using `brew`, `apt`, `bundle`, or `npm`. For
 example, one can add a `Gemfile.local` and thus the `lefthook` to the bundle.
 
+For spelling checks, also install [typos](https://github.com/crate-ci/typos#install).
+The pre-commit hook checks the full contents of staged files using the same
+`typos.toml` dictionary and exclusions as CI. If `typos` is not installed, the
+hook prints a warning and skips the check.
+
+Run only the spelling check with `lefthook run pre-commit --command typos`.
+To apply spelling fixes explicitly, run `lefthook run fix --command typos`,
+then review and stage the changes. The check does not modify files, and the
+fix command does not stage changes automatically.
+
+> [!TIP]
+> For an intentional spelling or project acronym, add an entry mapping the term
+> to itself in the existing `[default.extend-words]` section of `typos.toml`.
+> For example, `lod = "lod"` accepts LOD (level of detail).
+>
+> To exclude a file or directory, append a pattern such as `"path/to/file.txt"`
+> or `"path/to/directory/**"` to the existing `extend-exclude` array under
+> `[files]`. Prefer a term exception over excluding a whole file when possible.
+> See [typos: false positives](https://github.com/crate-ci/typos#false-positives)
+> for more options. These exceptions apply to both Lefthook and CI.
+
 ### Structure of commit messages
 
 - First line: less than 72 characters, this is when GitHub shows ‘…’
@@ -122,7 +143,7 @@ If there are breaking changes (e.g., to permissions, code relevant for developer
 
 - For external contributions: Check whether the author has signed a [Contributor License Agreement](../#openproject-contributor-license-agreement-cla) and kindly ask for it if not. There is a GitHub workflow ensuring the contributor signed the current CLA. If the action is green, consider this point done.
 
-- Copyright notice: When new files are added, make sure they contain the OpenProject copyright notice (copy from any file in OpenProject).
+- Copyright notice: When new files are added, follow the [copyright notice guide](../style-guide/#copyright-notices) for generators and the manual fallback when generation is unavailable.
 
 - Adding Gems: When adding gems, make sure not only the Gemfile is updated, but also the Gemfile.lock.
 

@@ -66,7 +66,7 @@ ro:
       label_add_new: Adaugă un nou webhook
       label_edit: Editați webhook
       label_x_events:
-        one: 1 event
+        one: "%{count} event"
         other: "%{count} events"
         zero: No events
       no_results_table: Nu au fost definite încă niciun fel de webhooks.

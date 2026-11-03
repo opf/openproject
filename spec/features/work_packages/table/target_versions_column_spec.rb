@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -143,6 +142,30 @@ RSpec.describe "Work package table target versions column", :js do
       columns.open_modal
       columns.expect_checked "Version"
       columns.expect_column_not_available "Target versions"
+    end
+
+    context "with a query saved while the feature was still active" do
+      let!(:query) do
+        create(:query,
+               user:,
+               project:,
+               column_names: %w[id subject target_versions],
+               group_by: "target_versions",
+               sort_criteria: [%w[target_versions asc]])
+      end
+
+      it "keeps showing the column, now as version" do
+        wp_table.visit_query query
+        wp_table.expect_work_package_listed work_package
+
+        expect(page).to have_css(".wp-table--table-header", text: "VERSION")
+
+        field = wp_table.edit_field(work_package, :version)
+        field.expect_text version_one.name
+
+        columns.open_modal
+        columns.expect_checked "Version"
+      end
     end
   end
 end

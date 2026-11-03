@@ -101,6 +101,8 @@ description: |-
   | `**`   | searches the given string in all string-based attributes     | One string value           |
   | `=d`   | are on the given date                                        | 1 ISO8601 date/datetime    |
   | `<>d`  | are between the two given dates.                             | 2 ISO8601 date/datetimes   |
+  | `>d`   | are on or after the given date                               | 1 ISO8601 date/datetime    |
+  | `<d`   | are on or before the given date                              | 1 ISO8601 date/datetime    |
   | `w`    | are in this week                                             | *nothing, values is empty* |
   | `t`    | are today                                                    | *nothing, values is empty* |
   | `~`    | are containing the given words (SQL LIKE) in that order      | At least one string value  |

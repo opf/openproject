@@ -7,6 +7,10 @@ properties:
     description: Category id
     readOnly: true
     exclusiveMinimum: 0
+  _type:
+    type: string
+    enum:
+      - Category
   name:
     type: string
     description: Category name

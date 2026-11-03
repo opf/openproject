@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -94,10 +93,8 @@ module Import
           render_block_quote(node)
         when N::MultiLineBlockQuote
           render_multi_line_block_quote(node)
-        when N::TableHeaderRow
-          render_table_header_row(node)
-        when N::TableDataRow
-          node.raw
+        when N::Table
+          render_table(node)
         when N::Panel
           render_panel(node)
         when N::BlankLine
@@ -137,21 +134,39 @@ module Import
         "#{rendered.map { |line| "> #{line}" }.join("\n")}\n"
       end
 
-      def render_table_header_row(node)
-        return "" if node.cells.empty?
+      # Emitted as HTML rather than a Markdown table: Markdown has no headerless
+      # table, and BemCssFilter decorates plain table markup on render. Kept on a
+      # single line, since a blank line would end the CommonMark HTML block.
+      def render_table(node)
+        head = node.header ? "<thead>#{render_table_row(node.header)}</thead>" : ""
+        body = node.rows.any? ? "<tbody>#{node.rows.map { |row| render_table_row(row) }.join}</tbody>" : ""
 
-        header = "| #{node.cells.join(' | ')} |"
-        separator = "| #{node.cells.map { '---' }.join(' | ')} |"
-        "#{header}\n#{separator}"
+        # Trailing newline closes the CommonMark HTML block, so Markdown on the
+        # following line is still formatted rather than swallowed as raw HTML.
+        "<table>#{head}#{body}</table>\n"
       end
 
+      def render_table_row(cells)
+        "<tr>#{cells.map { |cell| render_table_cell(cell) }.join}</tr>"
+      end
+
+      def render_table_cell(cell)
+        tag = cell.header ? "th" : "td"
+        "<#{tag}>#{cell_renderer.render_cell(cell.children)}</#{tag}>"
+      end
+
+      def cell_renderer
+        @cell_renderer ||= HtmlCellRenderer.new(@document)
+      end
+
+      # Markdown has no panel, so it becomes its title above its content. Jira does
+      # not parse the title as wiki markup, so it is emphasized as a plain label.
       def render_panel(node)
+        content = render_inline(node.children)
         title = node.params["title"]
-        if title.present?
-          "**#{title}**\n#{node.content}"
-        else
-          node.content
-        end
+        return content if title.blank?
+
+        "**#{title}**\n#{content}"
       end
 
       def render_list(list, depth)
@@ -181,6 +196,9 @@ module Import
         {
           N::Text => :render_text,
           N::BlockQuote => :render_inline_block_quote,
+          N::CodeBlock => :render_code_block,
+          N::NoformatBlock => :render_noformat_block,
+          N::Panel => :render_panel,
           N::Bold => :render_bold,
           N::Italic => :render_italic,
           N::Strikethrough => :render_strikethrough,
@@ -253,7 +271,23 @@ module Import
       def render_image(node)
         # TODO get work package attachment and use OP image syntax (HTML <img> tag with data attributes)
         alt = node.params["alt"] || ""
-        "![#{alt}](#{node.url})"
+        "![#{alt}](#{markdown_destination(attachment_reference(node.url))})"
+      end
+
+      # An attachment is stored under a name sanitized by CarrierWave, and
+      # AttachmentFilter resolves an image by matching src against that name, so a
+      # reference to "My Shot.png" has to be written the way it was stored. Reusing
+      # the uploader's own expression keeps the two from drifting apart.
+      def attachment_reference(url)
+        return url if url.match?(%r{\A(\w+://|//|/|www\.)}i)
+
+        url.gsub(CarrierWave::SanitizedFile.sanitize_regexp, "_")
+      end
+
+      # A remote URL may still carry spaces, which CommonMark only accepts in a
+      # destination wrapped in angle brackets.
+      def markdown_destination(url)
+        url.match?(/\s/) ? "<#{url}>" : url
       end
 
       def render_mention(node)

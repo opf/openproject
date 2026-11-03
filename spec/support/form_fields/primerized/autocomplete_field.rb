@@ -1,11 +1,39 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require_relative "form_field"
 
 module FormFields
   module Primerized
     class AutocompleteField < FormField
       include RSpec::Wait
+      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
       ### actions
 
@@ -13,9 +41,9 @@ module FormFields
         values.each do |val|
           open_options
 
-          expect(page).to have_css(".ng-option", text: val, visible: :all)
-          page.find(".ng-option", text: val, visible: :all).click
-          sleep 0.25 # still required?
+          expect(dropdown).to have_css(".ng-option", text: val, visible: :all)
+          dropdown.find(".ng-option", text: val, visible: :all).click
+          expect_selected(val)
         end
       end
 
@@ -23,14 +51,14 @@ module FormFields
         values.each do |val|
           open_options
           page.find(".ng-value", text: val, visible: :all).find(".ng-value-icon").click
-          sleep 0.25 # still required?
+          expect_not_selected(val)
         end
-        field_container.find(".ng-arrow-wrapper").click # close dropdown
-        sleep 0.25
+        field_container.find(".ng-input input").send_keys(:escape)
+        expect(field_container).to have_no_css("ng-select.ng-select-opened")
       end
 
       def search(text)
-        field_container.find(".ng-select-container input").set text
+        search_autocomplete(-> { field_container }, query: text)
       end
 
       # For remote typeahead autocompleters, where options are only loaded for
@@ -40,7 +68,7 @@ module FormFields
         values.each do |value|
           search(value)
           wait_for_autocompleter_options_to_be_loaded
-          page.find(".ng-option", text: value, visible: :all).click
+          dropdown.find(".ng-option", text: value, visible: :all).click
         end
       end
 
@@ -57,7 +85,7 @@ module FormFields
           # risking to remove some elements in a mult-select (clicking the "x")
           # this may close the dropdown, but it will be clicked again if it's not open anyway.
           field_container.find(".ng-select-container .ng-arrow-wrapper").click
-          page
+          page.document
         end.to have_css(".ng-dropdown-panel-items", wait: 0.25)
       end
 
@@ -81,13 +109,13 @@ module FormFields
 
       def expect_disabled(*values)
         values.each do |val|
-          expect(page).to have_css(".ng-option.ng-option-disabled", text: val)
+          expect(dropdown).to have_css(".ng-option.ng-option-disabled", text: val)
         end
       end
 
       def expect_not_disabled(*values)
         values.each do |val|
-          expect(page).to have_no_css(".ng-option.ng-option-disabled", text: val, wait: 1)
+          expect(dropdown).to have_no_css(".ng-option.ng-option-disabled", text: val, wait: 1)
         end
       end
 
@@ -96,15 +124,15 @@ module FormFields
       end
 
       def expect_no_option(option)
-        expect(page)
+        expect(dropdown)
           .to have_no_css(".ng-option", text: option, visible: :all, wait: 1)
       end
 
       def expect_option(option, grouping: nil)
         if grouping
           # Make sure the option is displayed under correct grouping title.
-          option_group = find(".ng-optgroup", text: grouping)
-          option = find(".ng-option.ng-option-child", text: option, visible: :visible)
+          option_group = dropdown.find(".ng-optgroup", text: grouping)
+          option = dropdown.find(".ng-option.ng-option-child", text: option, visible: :visible)
 
           expected_group = begin
             option.find(:xpath,
@@ -119,7 +147,7 @@ module FormFields
             but it was under '#{expected_group.text}' instead.
           MSG
         else
-          expect(page)
+          expect(dropdown)
             .to have_css(".ng-option", text: option, visible: :visible)
         end
       end
@@ -130,7 +158,14 @@ module FormFields
 
       def expect_error(string = nil)
         expect(field_container).to have_css(".FormControl-inlineValidation", visible: :all)
-        expect(field_container).to have_content(string) if string
+        expect(field_container).to have_text(string) if string
+      end
+
+      private
+
+      def dropdown
+        input = field_container.find(".ng-select-container input")
+        page.document.find(:combo_box_list_box, input)
       end
     end
   end

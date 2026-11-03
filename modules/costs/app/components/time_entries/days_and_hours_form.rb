@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,54 +35,73 @@ module TimeEntries
       # force the form to submit the ongoing flag as false to stop active timers
       f.hidden name: :ongoing, value: false
 
-      f.single_date_picker name: :spent_on,
-                           type: "date",
-                           required: true,
-                           datepicker_options: { inDialog: "time-entry-dialog" },
-                           value: model.spent_on&.iso8601,
-                           label: TimeEntry.human_attribute_name(:spent_on)
-
-      if show_start_and_end_time_fields?
-        f.group(layout: :horizontal) do |g|
-          g.text_field name: :start_time,
-                       type: "time",
-                       required: start_and_end_time_required?,
-                       label: TimeEntry.human_attribute_name(:start_time),
-                       value: start_time_in_local_time,
-                       show_clear_button: true,
-                       data: {
-                         "time-entry-target" => "startTimeInput",
-                         "action" => "input->time-entry#timeInputChanged"
-                       }
-
-          g.text_field name: :end_time,
-                       type: "time",
-                       required: start_and_end_time_required?,
-                       label: TimeEntry.human_attribute_name(:end_time),
-                       value: end_time_in_local_time,
-                       show_clear_button: true,
-                       caption: end_time_caption,
-                       data: {
-                         "time-entry-target" => "endTimeInput",
-                         "action" => "input->time-entry#timeInputChanged"
-                       }
-        end
-      end
-
       f.hidden name: :hours,
                value: precise_hours_value,
                data: { "time-entry-target" => "hoursHiddenInput" }
 
-      f.text_field name: :hours_display,
-                   required: true,
-                   label: TimeEntry.human_attribute_name(:hours),
-                   value: hours_value,
-                   validation_message: hours_validation_message,
-                   data: { "time-entry-target" => "hoursInput",
-                           "action" => "blur->time-entry#hoursChanged keypress.enter->time-entry#hoursKeyEnterPress" }
+      if show_start_and_end_time_fields?
+        date_field(f)
+
+        f.group(layout: :horizontal) do |g|
+          start_time_field(g)
+          end_time_field(g)
+          hours_field(g)
+        end
+      else
+        f.group(layout: :horizontal) do |g|
+          date_field(g)
+          hours_field(g)
+        end
+      end
     end
 
     private
+
+    def date_field(form)
+      form.single_date_picker name: :spent_on,
+                              type: "date",
+                              required: true,
+                              datepicker_options: { inDialog: "time-entry-dialog" },
+                              value: model.spent_on&.iso8601,
+                              label: TimeEntry.human_attribute_name(:spent_on)
+    end
+
+    def start_time_field(form)
+      form.text_field name: :start_time,
+                      type: "time",
+                      required: start_and_end_time_required?,
+                      label: TimeEntry.human_attribute_name(:start_time),
+                      value: start_time_in_local_time,
+                      show_clear_button: true,
+                      data: {
+                        "time-entry-target" => "startTimeInput",
+                        "action" => "input->time-entry#timeInputChanged"
+                      }
+    end
+
+    def end_time_field(form)
+      form.text_field name: :end_time,
+                      type: "time",
+                      required: start_and_end_time_required?,
+                      label: TimeEntry.human_attribute_name(:end_time),
+                      value: end_time_in_local_time,
+                      show_clear_button: true,
+                      caption: end_time_caption,
+                      data: {
+                        "time-entry-target" => "endTimeInput",
+                        "action" => "input->time-entry#timeInputChanged"
+                      }
+    end
+
+    def hours_field(form)
+      form.text_field name: :hours_display,
+                      required: true,
+                      label: TimeEntry.human_attribute_name(:hours),
+                      value: hours_value,
+                      validation_message: hours_validation_message,
+                      data: { "time-entry-target" => "hoursInput",
+                              "action" => "blur->time-entry#hoursChanged keypress.enter->time-entry#hoursKeyEnterPress" }
+    end
 
     # Validations record their errors on :hours, which is only rendered as a hidden input.
     def hours_validation_message

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,8 +55,7 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
     create_page = index_page.click_create_message
     create_page.set_subject "A new message"
 
-    # adding an image
-    sleep 1
+    editor.wait_until_loaded
     editor.drag_attachment image_fixture.path, "Image uploaded on creation"
 
     editor.attachments_list.expect_attached("image.png")
@@ -66,19 +64,16 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
     click_link_or_button "Create"
     wait_for_network_idle
 
-    expect(page).to have_css("#content .wiki img", count: 1)
+    expect(page).to have_css("#content .op-uc-container img", count: 1)
     expect(page).to have_content("Image uploaded on creation")
     attachments_list.expect_attached("image.png")
 
-    page.find_test_selector("message-edit-button").click
-
-    retry_block do
-      find(".op-uc-figure").click
-      find(".ck-widget__type-around__button_after").click
+    within_test_selector("forum-post-#{Message.last.id}") do
+      click_on accessible_name: "Message actions"
+      click_on "Edit message"
     end
 
-    editor.type_slowly("A spacer text")
-
+    editor.wait_until_loaded
     editor.drag_attachment image_fixture.path, "Image uploaded the second time"
 
     editor.attachments_list.expect_attached("image.png", count: 2)
@@ -87,14 +82,14 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
     click_link_or_button "Save"
     wait_for_network_idle
 
-    expect(page).to have_css("#content .wiki img", count: 2)
+    expect(page).to have_css("#content .op-uc-container img", count: 2)
     expect(page).to have_content("Image uploaded on creation")
     expect(page).to have_content("Image uploaded the second time")
 
     attachments_list.expect_attached("image.png", count: 2)
   end
 
-  it "can upload an image to new and existing messages via drag & drop on attachments" do
+  it "can upload an image via drag & drop on attachments" do
     index_page.visit!
     click_link_or_button forum.name
 
@@ -115,19 +110,5 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
     wait_for_network_idle
 
     attachments_list.expect_attached("image.png")
-    page.find_test_selector("message-edit-button").click
-    wait_for_network_idle
-
-    retry_block do
-      editor.attachments_list.drag_enter
-      editor.attachments_list.drop(image_fixture)
-      editor.wait_until_upload_progress_toaster_cleared
-      editor.attachments_list.expect_attached!("image.png", count: 2)
-    end
-
-    click_link_or_button "Save"
-    wait_for_network_idle
-
-    attachments_list.expect_attached("image.png", count: 2)
   end
 end

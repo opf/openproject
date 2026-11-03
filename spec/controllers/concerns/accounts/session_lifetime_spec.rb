@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -84,6 +83,19 @@ RSpec.describe ApplicationController, "session lifetime handling" do # rubocop:d
         expect(controller).not_to have_received(:refresh_session_activity)
         expect(response).to have_http_status(:redirect)
         expect(flash[:warning]).to eq(I18n.t(:notice_forced_logout, ttl_time: Setting.session_ttl))
+      end
+    end
+
+    context "and the request was authenticated by API key" do
+      it "neither logs out nor refreshes the session" do
+        allow(controller).to receive_messages(api_key_authenticated?: true)
+        last_seen = 3.hours.ago
+        session[:updated_at] = last_seen
+
+        get :index
+
+        expect(response).to have_http_status(:ok)
+        expect(session[:updated_at]).to eq(last_seen)
       end
     end
   end

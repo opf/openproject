@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Exports
   class Exporter
     include Redmine::I18n
@@ -69,12 +69,17 @@ module Exports
     protected
 
     def formatter_for(attribute, export_format)
-      ::Exports::Register.formatter_for(model, attribute, export_format)
+      formatter_cache[[attribute, export_format]] ||=
+        ::Exports::Register.formatter_for(model, attribute, export_format)
+    end
+
+    def formatter_cache
+      @formatter_cache ||= {}
     end
 
     def format_attribute(object, attribute, export_format, **)
       formatter = formatter_for(attribute, export_format)
-      formatter.format(object, **)
+      formatter.format(object, current_user:, **)
     end
   end
 end

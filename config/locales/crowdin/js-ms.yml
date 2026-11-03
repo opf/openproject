@@ -61,6 +61,7 @@ ms:
         single: Pilih "%{name}"
       remove: Keluarkan %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Tiada item ditemui
       placeholder: Taip untuk cari
       project:
@@ -162,6 +163,7 @@ ms:
     button_stop_timer: Stop timer
     button_uncheck_all: Batalkan semua pilihan
     button_update: Kemas kini
+    button_view_markdown: View Markdown
     caption_rate_history: Sejarah kadar
     card:
       add_new: Tambah kad baharu
@@ -201,7 +203,10 @@ ms:
     description_select_work_package: 'Pilih pakej kerja #%{id}'
     description_subwork_package: 'Anak kepada pakej kerja #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
       ckeditor_error: Ralat berlaku dalam CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Penyimpanan dokumen gagal dengan ralat yang berikut: %{error}'
       macro:
         attribute_reference:
@@ -358,8 +363,8 @@ ms:
     ical_sharing_modal:
       copy_url_label: Salin URL
       description: Anda boleh menggunakan URL (iCalendar) untuk melanggan kalendar ini dalam pelanggan luaran dan lihat maklumat pakej kerja terkini dari situ.
-      ical_generation_error_text: Ralat berlaku semasa menjana URL kalendar.
-      inital_setup_error_message: Ralat berlaku ketika sedang mengambil data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: '"%{name}" URL berjaya disalin ke papan klip anda. Sisipkan ia dalam kalendar pelanggan anda untuk lengkapkan langganan.'
       title: Langgan kalendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -551,6 +556,8 @@ ms:
     label_reset: Tetapkan semula
     label_resize_project_menu: Resize project menu
     label_save_as: Simpan sebagai
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Cari kolum
     label_select_watcher: Pilih pemerhati...
     label_selected_filter_list: Penyaring yang dipilih
@@ -623,7 +630,7 @@ ms:
     notifications:
       center:
         and_more_users:
-          other: dan %{count} yang lain
+          other: and %{count} others
         empty_state:
           no_notification: Nampaknya anda telah selesaikan semuanya.
           no_notification_for_filter: Nampaknya anda semua terperangkap untuk penapis ini.
@@ -719,6 +726,7 @@ ms:
     placeholders:
       default: "-"
       description: 'Deskripsi: Klik untuk edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Klik untuk tambah deskripsi untuk hubungan ini
       selection: Sila pilih
       subject: Masukkan subjek di sini
@@ -805,12 +813,30 @@ ms:
       sorting_disabled: penyusunan dinyahaktifkan
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Tutup modal
@@ -824,9 +850,7 @@ ms:
     text_user_wrote: "%{value} menulis:"
     text_work_packages_destroy_confirmation: Adakah anda pasti anda ingin memadam pakej kerja yang dipilih tersebut?
     time_entry:
-      stop: Berhenti
       title: Masa log
-      tracking: Penjejakan masa
       work_package_required: Memerlukan pemilihan pakej kerja dahulu.
     timer:
       button_stop: Hentikan pemasa semasa
@@ -861,18 +885,18 @@ ms:
       label_two_factor_authentication: Pengesahan dua faktor
     units:
       child_work_packages:
-        other: "%{count} pakej kerja anak"
+        other: "%{count} work package children"
       day:
-        one: 1 hari
+        one: "%{count} day"
         other: "%{count} hari"
         zero: 0 hari
       hour:
-        one: 1 j
+        one: "%{count} h"
         other: "%{count} j"
         zero: 0 j
       hour_string: "%{hours} h"
       word:
-        other: "%{count} perkataan"
+        other: "%{count} words"
       workPackage:
         other: pakej kerja
     upsell:
@@ -1064,11 +1088,24 @@ ms:
       scheduling:
         is_parent: Tarikh pakej kerja ini disimpulkan secara automatik dari anaknya. Aktifkan 'Penjadualan Manual' untuk tetapkan tarikh.
         is_switched_from_manual_to_automatic: Tarikh pakej kerja ini mungkin perlu dikira semula selepas menukar dari penjadualan manual ke automatik kerana hubungan dengan pakej kerja lain.
+      selection:
+        all_selected:
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Paparkan kepada semua pengguna dengan siapa pakej kerja telah dikongsikan
         title: Kongsi pakej kerja
       table:
         configure_button: Konfigurasi jadual pakej kerja
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
         summary: Jadual dengan baris pakej kerja dan kolum atribut pakej kerja.
         text_inline_edit: Kebanyakkan sel jadual ini ialah butang yang mengaktifkan kefungsian edit sebaris bagi atribut tersebut.
         text_select_hint: Pilih kotak yang sepatutnya dibuka dengan 'ALT' dan kekunci anak panah.

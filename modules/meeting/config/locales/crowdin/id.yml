@@ -24,13 +24,14 @@ id:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sorting mode
         duration: Durasi
         end_time: End time
         location: Lokasi
         notes: Note
         notify: Send notifications
         participant:
-          other: "%{count} Peserta"
+          other: "%{count} Participants"
         participants: Partisipan
         participants_added: 'Participants added:'
         participants_attended: Peserta
@@ -87,14 +88,18 @@ id:
         invalid_time_format: bukanlah waktu yang valid. Format seharusnya; JJ:MM
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Section does not belong to the same meeting.
           user_invalid: is not a valid participant.
+          vote_based_sorting_required: Voting requires vote-based agenda sorting.
         meeting_participant:
           user_invalid: is not a valid participant.
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: Terdapat satu pertemuan terbuka dalam rangkaian pertemuan yang tidak tercakup dalam jadwal baru. Sesuaikan jadwal untuk mencakup semua pertemuan yang sudah ada.
+            one: There is %{count} open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
             other: Terdapat %{count} pertemuan terbuka dalam rangkaian pertemuan yang tidak tercakup dalam jadwal baru. Sesuaikan jadwal untuk mencakup semua pertemuan yang sudah ada.
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
@@ -143,6 +148,10 @@ id:
     meeting_agenda_opened: Agenda rapat dibuka
     meeting_minutes: Laporan rapat diedit
     meeting_minutes_created: Laporan rapat dibuat
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Tambahkan ke rapat
   label_add_work_package_to_meeting_dialog_title: Pilih rapat
   label_add_work_package_to_meeting_section_label: Bagian
@@ -151,6 +160,8 @@ id:
   label_agenda_backlog_clear_title: Hapus backlog agenda?
   label_agenda_item_actions: Tindakan item agenda
   label_agenda_item_add: Tambahkan item agenda
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Tambahkan catatan
   label_agenda_item_add_outcome: Tambahkan hasil
   label_agenda_item_convert_to_work_package: Convert to work package
@@ -158,6 +169,7 @@ id:
   label_agenda_item_duplicate: Duplikat
   label_agenda_item_duplicate_in_next: Duplicate in next meeting
   label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
+  label_agenda_item_include_outcomes: Include outcomes
   label_agenda_item_move: Pindahkan
   label_agenda_item_move_down: Pindahkan ke bawah
   label_agenda_item_move_to_backlog: Pindahkan ke backlog
@@ -221,7 +233,7 @@ id:
   label_meeting_last_updated: Terakhir diperbarui
   label_meeting_minutes: Laporan
   label_meeting_more:
-    other: Terdapat %{count} rapat lagi.
+    other: There are %{count} more meetings.
   label_meeting_new: Rapat Baru
   label_meeting_new_dynamic: Rapat satu waktu baru
   label_meeting_new_recurring: Rapat berulang baru
@@ -266,9 +278,9 @@ id:
   label_recurring_meeting_delete: Hapus acara
   label_recurring_meeting_duplicate: Duplikat sebagai pertemuan sekali saja
   label_recurring_meeting_more:
-    other: Terdapat %{count} rapat terjadwal lagi (%{schedule}).
+    other: There are %{count} more scheduled meetings (%{schedule}).
   label_recurring_meeting_more_past:
-    other: Terdapat %{count} rapat sebelumnya lagi.
+    other: There are %{count} more past meetings.
   label_recurring_meeting_new: Rapat berulang baru
   label_recurring_meeting_next_occurrence: Acara berikutnya
   label_recurring_meeting_no_end_date: Ada lebih banyak rapat yang dijadwalkan (%{schedule}).
@@ -298,6 +310,25 @@ id:
   label_view_meeting_series: Lihat jajaran rapat
   label_write_outcome: Tulis hasil
   meeting:
+    agenda_sorting:
+      change: Change sorting mode
+      current_mode: Currently in %{mode} mode
+      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      manual: Manual
+      manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
+      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
+      remove_thumbs_down: Remove downvote
+      remove_thumbs_up: Remove upvote
+      sidebar_title: Agenda sorting
+      sorted_by_votes: Agenda sorted by votes.
+      thumbs_down: Downvote
+      thumbs_up: Upvote
+      title: Sorting mode
+      vote_based: Vote-based
+      vote_based_description: 'Participants can vote agenda items up or down. Items with the most votes are put on top within each section. Sections remain manually sorted.
+
+        '
+      votes: 'Votes: %{count}'
     attachments:
       onetime_template: These attached files will be included in all future meetings using this template.
       series_template: These attached files will be included in all future meetings in the series.
@@ -305,6 +336,9 @@ id:
     blankslate:
       desc: Anda dapat membuat pertemuan baru atau mengubah kriteria filter
       title: Tidak ada rapat yang ditampilkan
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'Disalin dari Meeting #%{id}'
     copy:
       agenda: Salin agenda
@@ -348,6 +382,7 @@ id:
         header: 'Dibatalkan: Rapat ''%{title}'''
         header_occurrence: 'Dibatalkan: Rapat terjadwal ''%{title}'''
         header_series: 'Dibatalkan: Seri rapat ''%{title}'''
+        reason: Reason for cancellation
         summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
         summary_occurrence: An occurrence of '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
         summary_series: Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
@@ -472,6 +507,7 @@ id:
       no_items: Tidak ada agenda
       no_items_flash: Tidak ada agenda yang akan dibahas.
       previous: Sebelumnya
+      slide_progress: Slide %{current}/%{total}
       title: Mode Presentasi
       total_items: "%{current} dari %{total}"
     types:
@@ -553,7 +589,7 @@ id:
     day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
     delete_dialog:
       confirmation_message_html:
-        one: 'Menghapus <strong>%{title}</strong> juga akan menghapus satu entri dalam seri ini. Tindakan ini tidak dapat dibatalkan. Harap berhati-hati saat melakukannya.
+        one: 'Deleting <strong>%{title}</strong> will also delete %{count} occurrence in this series. This action is not reversible. Please proceed with caution.
 
           '
         other: 'Menghapus <strong>%{title}</strong> akan menghapus %{count} entri dalam seri ini. Tindakan ini tidak dapat dibatalkan. Harap berhati-hati saat melakukannya.
@@ -615,7 +651,7 @@ id:
       error_no_next: Tidak ada jadwal acara berikutnya untuk rapat ini.
       error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Rapat pertama dalam rangkaian rapat ini telah dilaksanakan.
-      first_created: 'Rapat pertama telah berhasil dibuat dari templat. Semua rapat berikutnya akan dibuat secara otomatis pada waktu terjadinya acara sebelumnya.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Rapat ini merupakan bagian dari rangkaian rapat yang berkala.
@@ -677,9 +713,10 @@ id:
   text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
   text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
   text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
-  text_agenda_item_duplicate_in_next_meeting: Apakah Anda yakin ingin menambahkan salinan item agenda ini ke rapat berikutnya pada %{date} pukul %{time}? Hasil rapat tidak akan diduplikasi.
+  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}?
   text_agenda_item_duplicated_in_next_meeting: Agenda item yang sama terulang dalam rapat berikutnya, yaitu pada %{date}
   text_agenda_item_move_next_meeting: Item ini akan dipindahkan ke rapat selanjutnya pada %{date} pukul %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Item agenda ini dipindahkan ke rapat berikutnya, yaitu pada %{date}
   text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
   text_agenda_item_no_notes: Tidak ada catatan yang diberikan

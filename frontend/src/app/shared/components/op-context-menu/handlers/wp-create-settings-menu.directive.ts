@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,6 +32,7 @@ import { States } from 'core-app/core/states/states.service';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[wpCreateSettingsMenu]',
   standalone: false,
 })
@@ -63,7 +63,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
 
     if (queryCustomFields) {
       this.items.push({
-        href: queryCustomFields.href,
+        href: queryCustomFields.href as string|undefined,
         icon: 'icon-custom-fields',
         linkText: queryCustomFields.name,
         onClick: () => false,
@@ -72,7 +72,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
 
     if (configureFormLink) {
       this.items.push({
-        href: configureFormLink.href,
+        href: configureFormLink.href as string|undefined,
         icon: 'icon-settings3',
         linkText: configureFormLink.name,
         onClick: () => false,

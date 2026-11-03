@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -115,7 +114,7 @@ module Pages
 
       action_menu_button.click
 
-      # quick and dirty fix for popover element not recognised as visible (and then as interactible)
+      # quick and dirty fix for popover element not recognized as visible (and then as interactible)
       # https://github.com/teamcapybara/capybara/issues/2755
       # https://github.com/SeleniumHQ/selenium/issues/13700
       anchored_position = action_menu_button.find(:xpath, "./ancestor::action-menu//anchored-position")
@@ -146,9 +145,9 @@ module Pages
     # @param group_membership [Boolean] True if the member is added through a group.
     #                                   Such members cannot be removed separately which
     #                                   is why there must be only an edit and no delete button.
-    def has_user?(name, roles: nil, group_membership: nil, group: false)
+    def has_user?(name, roles: nil, group_membership: nil, group: false, wait: 0.5)
       css = group ? "tr.group" : "tr"
-      has_selector?(css, text: name, wait: 0.5) &&
+      has_selector?(css, text: name, wait:) &&
         (roles.nil? || has_roles?(name, roles, group:)) &&
         (group_membership.nil? || group_membership == has_group_membership?(name))
     end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -124,21 +123,45 @@ RSpec.describe Import::JiraCreateProjectWorkPackageAttachmentsJob,
       expect(project.users).to include(op_user)
     end
 
+    context "when the attachment author is not found in the import data" do
+      let(:deleted_user) { DeletedUser.first }
+
+      before do
+        jira_user.destroy!
+        jira_user_reference.destroy!
+        allow(Rails.logger).to receive(:warn)
+      end
+
+      it "logs a warning and uses DeletedUser as a fallback for the author" do
+        create_work_package_attachments
+
+        expect(Rails.logger).to have_received(:warn).with(/JIRAUSER10000 not found! Using DeletedUser instead\./)
+        expect(WorkPackage.find("DPPP-6").attachments.sole.author).to eq(deleted_user)
+      end
+
+      it "does not add the DeletedUser as member to the project" do
+        expect { create_work_package_attachments }.to not_change(Member, :count)
+
+        project = Project.find_by!(identifier: jira_project_key)
+        expect(Member.where(project:, principal: deleted_user)).not_to exist
+      end
+    end
+
     context "when the attachment download fails with a redirect" do
       before do
         stub_request(:get, download_attachment_url).to_return(
           status: 302, body: "Redirect body.", headers: { "Location" => "https://login.example.com" }
         )
-        allow(Rails.logger).to receive(:error)
+        allow(Rails.logger).to receive(:warn)
       end
 
-      it "logs the error with context details" do
+      it "logs a warning with context details and continues the import" do
         create_work_package_attachments
 
         # rubocop:disable-next Layout/LineLength
-        expect(Rails.logger).to have_received(:error).with(
+        expect(Rails.logger).to have_received(:warn).with(
           a_string_including(
-            "Error during jira import attachment creation. Error: Jira API returned error status 302.",
+            "Could not create jira import attachment, skipping it. Error: Jira API returned error status 302.",
             "STATUS: 302 RESPONSE_BODY: Redirect body. RESPONSE_HEADERS: {\"location\" => [\"https://login.example.com\"]}.",
             "Jira Project: {\"identifier\" => \"DPPP\"}",
             "Jira Issue: {\"identifier\" => \"DPPP-6\"}.",

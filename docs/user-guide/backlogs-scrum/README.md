@@ -151,7 +151,7 @@ If search or filters are active, the number of hidden work packages is adjusted 
 Next to every work package listed in the Inbox backlog, backlog bucket, or sprint, you can access the **More (three dots)** menu, including the following options:
 
 - Open **details view** or **fullscreen view** of a work package. These options allow you to choose how much information (about the backlog item) you'd like to be displayed.
-- **Copy** the work package URL or ID to the clipboard.
+- **Copy link to clipboard** or **Copy work package ID** to copy the work package URL or ID to the clipboard.
 - **Move to backlog inbox**
 - **Move to backlog bucket**
 - **Move to sprint**

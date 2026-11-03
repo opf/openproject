@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -32,23 +31,23 @@ import {
   centerOf,
   towardsEdgeOf,
 } from 'core-common/drag-and-drop/testing/native-drag-simulation';
-import {
-  createSortableRoot,
-  type SortableDropIntent,
-  type SortableDropTransaction,
-  type SortableSource,
+import type {
+  createSortableRoot as createSortableRootFn,
+  SortableDropIntent,
+  SortableDropTransaction,
+  SortableSource,
 } from './sortable-lists-engine';
 
-const { autoScrollRegistrations } = vi.hoisted(() => ({
-  autoScrollRegistrations: [] as {
-    element:Element;
-    getAllowedAxis:() => string;
-    cleanup:() => void;
-    cleaned:boolean;
-  }[],
-}));
+// `doMock` is not hoisted, so this initializes before the factory below runs
+// and a plain const does the job `vi.hoisted()` used to.
+const autoScrollRegistrations:{
+  element:Element;
+  getAllowedAxis:() => string;
+  cleanup:() => void;
+  cleaned:boolean;
+}[] = [];
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
+vi.doMock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
   autoScrollForElements: (args:{ element:Element; getAllowedAxis:() => string }) => {
     const entry = {
       element: args.element,
@@ -61,6 +60,8 @@ vi.mock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
     return entry.cleanup;
   },
 }));
+
+let createSortableRoot:typeof createSortableRootFn;
 
 const liveRegistrations = () => autoScrollRegistrations.filter((r) => !r.cleaned);
 
@@ -144,6 +145,10 @@ function buildCardGrid(items:string[], columns:number):{ root:HTMLElement; cards
 
 describe('createSortableRoot', () => {
   let cleanupFns:(() => void)[] = [];
+
+  beforeAll(async () => {
+    ({ createSortableRoot } = await import('./sortable-lists-engine'));
+  });
 
   beforeEach(() => { autoScrollRegistrations.length = 0; });
 
@@ -362,6 +367,7 @@ describe('createSortableRoot', () => {
     it('destroying with a pending transaction clears busy and allows a fresh root to drag', async () => {
       const { root, rows, transactions, sortableRoot } = setup();
       const simulation = new NativeDragSimulation(rows[0]);
+      const freshTransactions:SortableDropTransaction[] = [];
 
       await simulation.start();
       await simulation.drop(rows[2], towardsEdgeOf(rows[2], 'bottom'));
@@ -378,7 +384,10 @@ describe('createSortableRoot', () => {
       const freshIntents:SortableDropIntent[] = [];
       const freshRoot = createSortableRoot({
         element: root,
-        onDrop: (transaction) => freshIntents.push(transaction.intent),
+        onDrop: (transaction) => {
+          freshIntents.push(transaction.intent);
+          freshTransactions.push(transaction);
+        },
       });
       const freshListCleanup = freshRoot.registerList({ element: root, listId: 'l1' });
       const freshItemCleanups = rows.map((row, index) => freshRoot.registerItem({
@@ -391,10 +400,50 @@ describe('createSortableRoot', () => {
       const freshSimulation = new NativeDragSimulation(rows[0]);
       await freshSimulation.start();
       await freshSimulation.drop(rows[2], towardsEdgeOf(rows[2], 'bottom'));
+      expect(root.getAttribute('data-sortable-lists-busy')).toBe('true');
+
+      // The old completion queues a UI settle after this replacement root
+      // has claimed the shared busy marker. Its promise still resolves.
+      transactions[0].complete(false);
+      transactions[0].finalize();
+      transactions[0].complete(true);
+      transactions[0].finalize();
+      await expect(transactions[0].completion).resolves.toBe(false);
+      expect(root.getAttribute('data-sortable-lists-busy')).toBe('true');
+
+      freshTransactions[0].complete(true);
+      freshTransactions[0].complete(false);
+      freshTransactions[0].finalize();
+      freshTransactions[0].finalize();
+      await expect(freshTransactions[0].completion).resolves.toBe(true);
+      expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false);
+
+      const thirdSimulation = new NativeDragSimulation(rows[0]);
+      await thirdSimulation.start();
+      await thirdSimulation.drop(rows[2], towardsEdgeOf(rows[2], 'bottom'));
 
       expect(freshIntents).toEqual([{
         sourceId: 'a', sourceListId: 'l1', targetListId: 'l1', targetItemId: 'c', edge: 'bottom', axis: 'vertical',
+      }, {
+        sourceId: 'a', sourceListId: 'l1', targetListId: 'l1', targetItemId: 'c', edge: 'bottom', axis: 'vertical',
       }]);
+      freshTransactions[1].complete(false);
+      await freshTransactions[1].completion;
+    });
+
+    it('resolves completion queued before root destruction', async () => {
+      const { root, rows, transactions, sortableRoot } = setup();
+      const simulation = new NativeDragSimulation(rows[0]);
+
+      await simulation.start();
+      await simulation.drop(rows[2], towardsEdgeOf(rows[2], 'bottom'));
+      const transaction = transactions[0];
+
+      transaction.complete(true);
+      sortableRoot.destroy();
+
+      await expect(transaction.completion).resolves.toBe(true);
+      expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false);
     });
 
     it('registerList and registerItem are inert no-ops after destroy', async () => {
@@ -548,6 +597,19 @@ describe('createSortableRoot', () => {
       transaction.complete(true);
       await transaction.completion;
 
+      expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false);
+    });
+
+    it('same-list failed transactions resolve failure and clear busy', async () => {
+      const { root, rows, transactions } = setup();
+      const simulation = new NativeDragSimulation(rows[0]);
+
+      await simulation.start();
+      await simulation.drop(rows[2], towardsEdgeOf(rows[2], 'bottom'));
+      const transaction = transactions[0];
+
+      transaction.complete(false);
+      await expect(transaction.completion).resolves.toBe(false);
       expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false);
     });
 

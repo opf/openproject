@@ -79,7 +79,7 @@ wp-single-card[data-drop-position]
     box-shadow: none
 
   // `min-width` overrides the flex item's auto minimum, without which it
-  // never shrinks below its text and so never ellipsises.
+  // never shrinks below its text and so never gets truncated.
   > *
     min-width: 0
     white-space: nowrap
@@ -99,6 +99,10 @@ html:not(.-browser-mobile)
 
   .issue:hover .wp-table-context-menu-icon,
   .issue:hover .wp-table--drag-and-drop-handle,
+  .issue:focus .wp-table-context-menu-icon,
+  .issue:focus .wp-table--drag-and-drop-handle,
+  .issue:focus-within .wp-table-context-menu-icon,
+  .issue:focus-within .wp-table--drag-and-drop-handle,
   .wp-table--context-menu-td:focus,
   .wp-table-context-menu-icon:focus
     // Hide by default

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,7 +32,7 @@ module Redmine
     module Customizable
       module HumanAttributeName
         # If a model acts_as_customizable it will inject attributes like 'custom_field_1' into itself.
-        # Using this method, they can now be i18ned same as every other attribute. This is for example
+        # Using this method, they can now be translated same as every other attribute. This is for example
         # for error messages following the format of '%{attribute} %{message}' where `attribute` is resolved
         # by calling IncludingClass.human_attribute_name
         def human_attribute_name(attribute, options = {})
