@@ -469,7 +469,7 @@ RSpec.describe "Notification center",
 
   describe "logging into deep link", with_settings: { login_required: true } do
     it "redirects to the notification deep link" do
-      visit details_notifications_path(work_package.id, tab: :activity)
+      visit details_notifications_path(work_package.display_id, tab: :activity)
 
       expect(page).to have_current_path /login/
 

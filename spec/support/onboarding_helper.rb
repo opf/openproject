@@ -38,7 +38,7 @@ module OnboardingHelper
     expect(page).to have_text sanitize_string(I18n.t("js.onboarding.steps.wp.list")), normalize_ws: true
 
     find(".enjoyhint_next_btn").click
-    expect(page).to have_current_path project_work_package_path(project, wp.id, "activity")
+    expect(page).to have_current_path project_work_package_path(project, wp, "activity")
     expect(page).to have_no_css(".op-loading-indicator")
     expect(page).to have_text sanitize_string(I18n.t("js.onboarding.steps.wp.full_view")), normalize_ws: true, wait: 10
 

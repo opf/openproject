@@ -130,8 +130,8 @@ RSpec.describe "Project templates", :js, with_good_job_batches: [CopyProjectJob,
       expect(project.users).to contain_exactly(current_user, other_user)
       expect(project.enabled_module_names.sort).to eq(template.enabled_module_names.sort)
 
-      wp_source = template.work_packages.first.attributes.except(*%w[id author_id project_id updated_at created_at])
-      wp_target = project.work_packages.first.attributes.except(*%w[id author_id project_id updated_at created_at])
+      wp_source = template.work_packages.first.attributes.except(*%w[id identifier author_id project_id updated_at created_at])
+      wp_target = project.work_packages.first.attributes.except(*%w[id identifier author_id project_id updated_at created_at])
       expect(wp_target).to eq(wp_source)
 
       wiki_source = template.wiki.pages.first
