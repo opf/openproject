@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Wiki page identifier
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Wiki page identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -55,7 +55,7 @@ get:
         **Required permission:** view wiki page in the page's project
       headers: {}
   tags:
-  - Wiki Pages
+    - Wiki Pages
   description: Retrieve an individual wiki page as identified by the id parameter
   operationId: View_Wiki_Page
   summary: View Wiki Page

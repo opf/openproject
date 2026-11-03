@@ -27,16 +27,16 @@ properties:
   _links:
     type: object
     required:
-    - self
+      - self
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This priority
+          - "$ref": "./link.yml"
+          - description: |-
+              This priority
 
-            **Resource**: Priority
-          readOnly: true
+              **Resource**: Priority
+            readOnly: true
 example:
   _type: Priority
   _links:

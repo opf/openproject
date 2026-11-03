@@ -22,7 +22,7 @@ get:
       required: false
       schema:
         type: boolean
-      example: true 
+      example: true
   responses:
     '303':
       headers:

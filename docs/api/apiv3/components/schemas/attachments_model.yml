@@ -17,7 +17,7 @@ allOf:
               - "$ref": "./link.yml"
               - description: |-
                   The attachments collection
-                  
+
                   **Resource**: AttachmentsCollection
                 readOnly: true
       _embedded:
@@ -27,6 +27,6 @@ allOf:
             type: array
             readOnly: true
             items:
-                allOf:
+              allOf:
                 - "$ref": "./attachment_model.yml"
                 - description: Collection of Attachments

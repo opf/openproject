@@ -2,7 +2,7 @@
 ---
 type: object
 required:
-- subject
+  - subject
 properties:
   id:
     type: integer
@@ -17,22 +17,22 @@ properties:
     properties:
       addAttachment:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Attach a file to the post
+          - "$ref": "./link.yml"
+          - description: |-
+              Attach a file to the post
 
-            # Conditions
+              # Conditions
 
-            **Permission**: edit messages
-          readOnly: true
+              **Permission**: edit messages
+            readOnly: true
       topic:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The post that opens the topic: the post itself, or the post it replies to
+          - "$ref": "./link.yml"
+          - description: |-
+              The post that opens the topic: the post itself, or the post it replies to
 
-            **Resource**: Post
-          readOnly: true
+              **Resource**: Post
+            readOnly: true
 example:
   _type: Post
   id: 1

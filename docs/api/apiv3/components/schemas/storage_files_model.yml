@@ -93,4 +93,3 @@ example:
   _links:
     self:
       href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'
-

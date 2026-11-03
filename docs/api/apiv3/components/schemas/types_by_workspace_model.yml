@@ -17,7 +17,7 @@ allOf:
               - "$ref": "./link.yml"
               - description: |-
                   The types collection
-                  
+
                   **Resource**: TypesCollection
                 readOnly: true
       _embedded:

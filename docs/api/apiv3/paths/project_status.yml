@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Project status id
-    example: on_track
-    in: path
-    name: id
-    required: true
-    schema:
-      type: string
+    - description: Project status id
+      example: on_track
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
   responses:
     '200':
       content:
@@ -40,7 +40,7 @@ get:
       description: Returned if the project status does not exist.
       headers: {}
   tags:
-  - Projects
+    - Projects
   description: ''
   operationId: View_project_status
   summary: View project status

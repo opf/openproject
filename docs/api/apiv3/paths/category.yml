@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Category id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Category id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -54,7 +54,7 @@ get:
         a category. That's why a 404 is returned here, even if a 403 might be more appropriate.*
       headers: {}
   tags:
-  - Categories
+    - Categories
   description: ''
   operationId: View_Category
   summary: View Category

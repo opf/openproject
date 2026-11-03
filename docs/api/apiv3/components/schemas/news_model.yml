@@ -17,9 +17,9 @@ properties:
     readOnly: true
   description:
     allOf:
-    - "$ref": "./formattable.yml"
-    - description: The main body of the news with all the details
-      readOnly: true
+      - "$ref": "./formattable.yml"
+      - description: The main body of the news with all the details
+        readOnly: true
   createdAt:
     type: string
     format: date-time
@@ -28,33 +28,33 @@ properties:
   _links:
     type: object
     required:
-    - self
-    - project
-    - author
+      - self
+      - project
+      - author
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This news
+          - "$ref": "./link.yml"
+          - description: |-
+              This news
 
-            **Resource**: News
-          readOnly: true
+              **Resource**: News
+            readOnly: true
       project:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The workspace the news is situated in
+          - "$ref": "./link.yml"
+          - description: |-
+              The workspace the news is situated in
 
-            **Resource**: workspace
+              **Resource**: workspace
       author:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The user having created the news
+          - "$ref": "./link.yml"
+          - description: |-
+              The user having created the news
 
-            **Resource**: User
-          readOnly: true
+              **Resource**: User
+            readOnly: true
       updateImmediately:
         allOf:
           - "$ref": "./link.yml"

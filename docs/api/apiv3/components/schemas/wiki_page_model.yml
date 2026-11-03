@@ -2,7 +2,7 @@
 ---
 type: object
 required:
-- title
+  - title
 properties:
   id:
     type: integer
@@ -17,14 +17,14 @@ properties:
     properties:
       addAttachment:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Attach a file to the wiki page
+          - "$ref": "./link.yml"
+          - description: |-
+              Attach a file to the wiki page
 
-            # Conditions
+              # Conditions
 
-            **Permission**: edit wiki page
-          readOnly: true
+              **Permission**: edit wiki page
+            readOnly: true
 example:
   _type: WikiPage
   id: 72

@@ -17,7 +17,7 @@ allOf:
               - "$ref": "./link.yml"
               - description: |-
                   The categories collection
-                  
+
                   **Resource**: CategoriesCollection
                 readOnly: true
       _embedded:

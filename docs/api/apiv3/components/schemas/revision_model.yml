@@ -2,11 +2,11 @@
 ---
 type: object
 required:
-- identifier
-- formattedIdentifier
-- authorName
-- message
-- createdAt
+  - identifier
+  - formattedIdentifier
+  - authorName
+  - message
+  - createdAt
 properties:
   id:
     type: integer
@@ -29,9 +29,9 @@ properties:
     readOnly: true
   message:
     allOf:
-    - "$ref": "./formattable.yml"
-    - description: The commit message of the revision
-      readOnly: true
+      - "$ref": "./formattable.yml"
+      - description: The commit message of the revision
+        readOnly: true
   createdAt:
     type: string
     format: date-time
@@ -39,42 +39,42 @@ properties:
   _links:
     type: object
     required:
-    - self
-    - project
-    - showRevision
+      - self
+      - project
+      - showRevision
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This revision
+          - "$ref": "./link.yml"
+          - description: |-
+              This revision
 
-            **Resource**: Revision
-          readOnly: true
+              **Resource**: Revision
+            readOnly: true
       project:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The project to which the revision belongs
+          - "$ref": "./link.yml"
+          - description: |-
+              The project to which the revision belongs
 
-            **Resource**: Project
-          readOnly: true
+              **Resource**: Project
+            readOnly: true
       author:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The user that added this revision, if the authorName was mapped to a user in OpenProject
+          - "$ref": "./link.yml"
+          - description: |-
+              The user that added this revision, if the authorName was mapped to a user in OpenProject
 
-            **Resource**: User
-          readOnly: true
+              **Resource**: User
+            readOnly: true
       showRevision:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            A URL to the repository view (outside APIv3) showing this revision
+          - "$ref": "./link.yml"
+          - description: |-
+              A URL to the repository view (outside APIv3) showing this revision
 
-            **Resource**: -
-          readOnly: true
+              **Resource**: -
+            readOnly: true
 example:
   _type: Revision
   _links:

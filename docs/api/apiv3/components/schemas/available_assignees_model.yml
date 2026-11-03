@@ -17,7 +17,7 @@ allOf:
               - "$ref": "./link.yml"
               - description: |-
                   The available assignees collection
-                  
+
                   **Resource**: AvailableAssigneesCollection
                 readOnly: true
       _embedded:
@@ -27,6 +27,6 @@ allOf:
             type: array
             readOnly: true
             items:
-                allOf:
+              allOf:
                 - "$ref": "./user_model.yml"
                 - description: Collection of Users

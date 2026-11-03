@@ -2,14 +2,14 @@
 ---
 get:
   parameters:
-  - description: QuerySortBy identifier. The identifier is a combination of the column
-      identifier and the direction.
-    example: status-asc
-    in: path
-    name: id
-    required: true
-    schema:
-      type: string
+    - description: QuerySortBy identifier. The identifier is a combination of the column
+        identifier and the direction.
+      example: status-asc
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
   responses:
     '200':
       content:
@@ -64,7 +64,7 @@ get:
       description: Returned if the QuerySortBy does not exist.
       headers: {}
   tags:
-  - Query Sort Bys
+    - Query Sort Bys
   description: Retrieve an individual QuerySortBy as identified by the id parameter.
   operationId: View_Query_Sort_By
   summary: View Query Sort By

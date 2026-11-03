@@ -4,7 +4,7 @@ description: A sprint resource example
 value:
   _type: Sprint
   id: 3
-  name: Sprint 11 
+  name: Sprint 11
   startDate: "2026-02-02"
   finishDate: "2026-02-09"
   createdAt: "2026-02-06T09:30:49.157Z"

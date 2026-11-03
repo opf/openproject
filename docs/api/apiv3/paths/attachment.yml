@@ -2,13 +2,13 @@
 ---
 delete:
   parameters:
-  - description: Attachment id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Attachment id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '204':
       description: |-
@@ -59,13 +59,13 @@ delete:
   summary: Delete attachment
 get:
   parameters:
-  - description: Attachment id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Attachment id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:

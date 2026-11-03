@@ -103,17 +103,17 @@ example:
   _type: Schema
   _dependencies: []
   _attributeGroups:
-  - _type: ProjectFormCustomFieldSection
-    name: Project Details
-    attributes:
-    - customField30
-    - customField34
-  - _type: ProjectFormCustomFieldSection
-    name: Budget Information
-    attributes:
-    - customField31
-    - customField32
-    - customField35
+    - _type: ProjectFormCustomFieldSection
+      name: Project Details
+      attributes:
+        - customField30
+        - customField34
+    - _type: ProjectFormCustomFieldSection
+      name: Budget Information
+      attributes:
+        - customField31
+        - customField32
+        - customField35
   id:
     type: Integer
     name: ID
@@ -162,12 +162,12 @@ example:
     writable: true
     _links:
       allowedValues:
-      - href: "/api/v3/project_statuses/on_track"
-        title: On track
-      - href: "/api/v3/project_statuses/at_risk"
-        title: At risk
-      - href: "/api/v3/project_statuses/off_track"
-        title: Off track
+        - href: "/api/v3/project_statuses/on_track"
+          title: On track
+        - href: "/api/v3/project_statuses/at_risk"
+          title: At risk
+        - href: "/api/v3/project_statuses/off_track"
+          title: Off track
   statusExplanation:
     type: Formattable
     name: Status explanation

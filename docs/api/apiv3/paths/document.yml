@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Document id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Document id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -79,20 +79,20 @@ get:
         **Required permission** `view documents` in the project the document belongs to
       headers: {}
   tags:
-  - Documents
+    - Documents
   description: ''
   operationId: View_document
   summary: View document
 
 patch:
   parameters:
-  - description: Document id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Document id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   requestBody:
     content:
       application/json:
@@ -108,9 +108,6 @@ patch:
                 raw:
                   type: string
                   description: The raw markdown content
-            # content_binary:
-            #   type: string
-            #   description: The binary content of the document, base64 encoded
         examples:
           request:
             value:
@@ -223,7 +220,7 @@ patch:
         Returned if the request body contains validation errors.
       headers: {}
   tags:
-  - Documents
+    - Documents
   description: Updates a document's attributes.
   operationId: Update_document
   summary: Update document

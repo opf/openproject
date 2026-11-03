@@ -2,7 +2,7 @@
 ---
 type: object
 required:
-- id
+  - id
 properties:
   id:
     type: string

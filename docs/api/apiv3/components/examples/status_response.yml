@@ -1,3 +1,4 @@
+---
 description: A standard status resource response.
 value:
   _type: Status

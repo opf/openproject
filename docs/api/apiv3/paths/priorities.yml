@@ -29,7 +29,7 @@ get:
         **Required permission:** view work package (on any project)
       headers: {}
   tags:
-  - Priorities
+    - Priorities
   description: ''
   operationId: List_all_Priorities
   summary: List all Priorities

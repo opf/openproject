@@ -38,37 +38,37 @@ example:
       status:
         _links:
           allowedValues:
-          - href: "/api/v3/statuses/1"
-            title: New
-          - href: "/api/v3/statuses/2"
-            title: Closed
+            - href: "/api/v3/statuses/1"
+              title: New
+            - href: "/api/v3/statuses/2"
+              title: Closed
         type: Status
         _embedded:
           allowedValues:
-          - _links:
-              self:
-                href: "/api/v3/statuses/1"
-            _type: Status
-            id: 1
-            name: New
-            position: 1
-            isDefault: true
-            isClosed: false
-            defaultDoneRatio: 0
-            createdAt: '2014-05-21T08:51:20.759Z'
-            updatedAt: '2014-05-21T09:12:00.237Z'
-          - _links:
-              self:
-                href: "/api/v3/statuses/2"
-            _type: Status
-            id: 2
-            name: Closed
-            position: 2
-            isDefault: false
-            isClosed: true
-            defaultDoneRatio: 100
-            createdAt: '2014-05-21T08:51:20.759Z'
-            updatedAt: '2014-05-21T09:12:00.237Z'
+            - _links:
+                self:
+                  href: "/api/v3/statuses/1"
+              _type: Status
+              id: 1
+              name: New
+              position: 1
+              isDefault: true
+              isClosed: false
+              defaultDoneRatio: 0
+              createdAt: '2014-05-21T08:51:20.759Z'
+              updatedAt: '2014-05-21T09:12:00.237Z'
+            - _links:
+                self:
+                  href: "/api/v3/statuses/2"
+              _type: Status
+              id: 2
+              name: Closed
+              position: 2
+              isDefault: false
+              isClosed: true
+              defaultDoneRatio: 100
+              createdAt: '2014-05-21T08:51:20.759Z'
+              updatedAt: '2014-05-21T09:12:00.237Z'
     validationErrors:
       subject:
         _type: Error

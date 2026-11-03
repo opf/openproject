@@ -2,8 +2,8 @@
 ---
 type: object
 required:
-- id
-- name
+  - id
+  - name
 properties:
   id:
     type: string

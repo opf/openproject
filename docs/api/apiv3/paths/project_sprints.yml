@@ -11,7 +11,7 @@ get:
         type: integer
     - description: |-
         JSON specifying filter conditions.
-        
+
         Accepts the same format and filters as returned by the [sprints](https://www.openproject.org/docs/api/endpoints/sprints/) endpoint.
 
       example: '[{ "definingWorkspace": { "operator": "=", "values": ["1"] } }]'

@@ -26,16 +26,16 @@ properties:
   _links:
     type: object
     required:
-    - self
+      - self
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This label
+          - "$ref": "./link.yml"
+          - description: |-
+              This label
 
-            **Resource**: Label
-          readOnly: true
+              **Resource**: Label
+            readOnly: true
 example:
   _type: Label
   _links:

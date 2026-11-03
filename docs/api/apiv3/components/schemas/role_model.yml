@@ -2,7 +2,7 @@
 ---
 type: object
 required:
-- name
+  - name
 properties:
   _type:
     type: string
@@ -19,16 +19,16 @@ properties:
   _links:
     type: object
     required:
-    - self
+      - self
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This role
+          - "$ref": "./link.yml"
+          - description: |-
+              This role
 
-            **Resource**: Role
-          readOnly: true
+              **Resource**: Role
+            readOnly: true
 example:
   _type: Role
   id: 3

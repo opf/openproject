@@ -4,27 +4,27 @@ get:
   summary: List queries
   operationId: List_queries
   tags:
-  - Queries
+    - Queries
   description: Returns a collection of queries. The collection can be filtered via
     query parameters similar to how work packages are filtered. Please note however,
     that the filters are applied to the queries and not to the work packages the queries
     in turn might return.
   parameters:
-  - description: |-
-      JSON specifying filter conditions.
-      Currently supported filters are:
+    - description: |-
+        JSON specifying filter conditions.
+        Currently supported filters are:
 
-      + project: filters queries by the project they are assigned to. If the project filter is passed with the `!*` (not any) operator, global queries are returned.
+        + project: filters queries by the project they are assigned to. If the project filter is passed with the `!*` (not any) operator, global queries are returned.
 
-      + id: filters queries based on their id
+        + id: filters queries based on their id
 
-      + updated_at: filters queries based on the last time they where updated
-    example: '[{ "project_id": { "operator": "!*", "values": null } }]'
-    in: query
-    name: filters
-    required: false
-    schema:
-      type: string
+        + updated_at: filters queries based on the last time they where updated
+      example: '[{ "project_id": { "operator": "!*", "values": null } }]'
+      in: query
+      name: filters
+      required: false
+      schema:
+        type: string
   responses:
     '200':
       content:
@@ -56,7 +56,7 @@ post:
   summary: Create query
   operationId: Create_query
   tags:
-  - Queries
+    - Queries
   description: |-
     When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
     The required fields of a Query can be found in its schema, which is embedded in the respective form.

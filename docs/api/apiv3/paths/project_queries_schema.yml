@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Project id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Project id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -34,7 +34,7 @@ get:
       description: "**Required permission:** view work package in the project"
       headers: {}
   tags:
-  - Queries
+    - Queries
   description: |-
     Retrieve the schema for project queries.
 

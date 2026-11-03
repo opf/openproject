@@ -25,32 +25,32 @@ properties:
   _links:
     type: object
     required:
-    - self
-    - project
-    - attachments
+      - self
+      - project
+      - attachments
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This document
+          - "$ref": "./link.yml"
+          - description: |-
+              This document
 
-            **Resource**: Document
-          readOnly: true
+              **Resource**: Document
+            readOnly: true
       project:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The project the document is in
+          - "$ref": "./link.yml"
+          - description: |-
+              The project the document is in
 
-            **Resource**: Project
+              **Resource**: Project
       attachments:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The attachments belonging to the document
+          - "$ref": "./link.yml"
+          - description: |-
+              The attachments belonging to the document
 
-            **Resource**: []Attachment
+              **Resource**: []Attachment
 example:
   _type: Document
   id: 1

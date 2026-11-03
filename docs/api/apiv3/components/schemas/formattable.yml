@@ -2,14 +2,14 @@
 ---
 type: object
 required:
-- format
+  - format
 properties:
   format:
     type: string
     enum:
-    - plain
-    - markdown
-    - custom
+      - plain
+      - markdown
+      - custom
     readOnly: true
     description: Indicates the formatting language of the raw text
     example: markdown

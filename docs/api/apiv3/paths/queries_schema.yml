@@ -4,7 +4,7 @@ get:
   summary: View schema for global queries
   operationId: View_schema_for_global_queries
   tags:
-  - Queries
+    - Queries
   description: Retrieve the schema for global queries, those, that are not assigned
     to a project.
   responses:

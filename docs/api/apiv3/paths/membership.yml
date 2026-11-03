@@ -147,7 +147,7 @@ patch:
         Returned if the client does not have sufficient permissions.
 
         **Required permission:** Manage members in the membership's project.
-      headers: { }
+      headers: {}
     '404':
       content:
         application/hal+json:

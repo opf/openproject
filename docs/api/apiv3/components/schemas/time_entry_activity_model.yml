@@ -69,7 +69,7 @@ example:
   position: 8
   default: false
   _embedded:
-    projects: [ ]
+    projects: []
   _links:
     self:
       href: "/api/v3/time_entries/activities/18"

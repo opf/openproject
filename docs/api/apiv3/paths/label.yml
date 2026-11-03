@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Label id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Label id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -59,7 +59,7 @@ get:
       description: Returned if the label does not exist.
       headers: {}
   tags:
-  - Labels
+    - Labels
   description: ''
   operationId: View_Label
   summary: View Label

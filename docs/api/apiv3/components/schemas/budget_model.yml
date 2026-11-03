@@ -15,16 +15,16 @@ properties:
   _links:
     type: object
     required:
-    - self
+      - self
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This budget
+          - "$ref": "./link.yml"
+          - description: |-
+              This budget
 
-            **Resource**: Budget
-          readOnly: true
+              **Resource**: Budget
+            readOnly: true
 example:
   _type: Budget
   _links:

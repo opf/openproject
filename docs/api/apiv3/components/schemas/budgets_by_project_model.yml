@@ -10,17 +10,17 @@ example:
   count: 2
   _embedded:
     elements:
-    - _type: Budget
-      _links:
-        self:
-          href: "/api/v3/budgets/1"
-          title: Q3 2015
-      id: 1
-      subject: Q3 2015
-    - _type: Budget
-      _links:
-        self:
-          href: "/api/v3/budgets/2"
-          title: Q4 2015
-      id: 2
-      subject: Q4 2015
+      - _type: Budget
+        _links:
+          self:
+            href: "/api/v3/budgets/1"
+            title: Q3 2015
+        id: 1
+        subject: Q3 2015
+      - _type: Budget
+        _links:
+          self:
+            href: "/api/v3/budgets/2"
+            title: Q4 2015
+        id: 2
+        subject: Q4 2015
