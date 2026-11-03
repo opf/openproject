@@ -1,5 +1,39 @@
 # /api/v3/reminders/{id}
 ---
+get:
+  summary: Get a reminder
+  operationId: get_reminder
+  tags:
+    - Reminders
+  description: |-
+    Returns the reminder identified by the given id.
+
+    A user can only see their own active reminder.
+
+    **Required permission:** view work packages for the project the reminder is contained in.
+  parameters:
+    - name: id
+      in: path
+      description: Reminder ID
+      example: 1
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/reminder_model.yml'
+    '404':
+      description: |-
+        Returned if the reminder does not exist or the client does not have sufficient permissions to see it.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+
 patch:
   summary: Update a reminder
   operationId: update_reminder
