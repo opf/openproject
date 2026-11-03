@@ -33,19 +33,14 @@ import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/w
 import {
   OpAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ApiV3Filter, ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import {
   WorkPackageNotificationService,
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { TOpAutocompleterResource } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
+import { AutocompleterResource } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
-
-export interface IWorkPackageAutocompleteItem extends WorkPackageResource {
-  id:string,
-}
 
 @Component({
   // Please address the disabled eslint rule when making major changes to this file.
@@ -56,7 +51,7 @@ export interface IWorkPackageAutocompleteItem extends WorkPackageResource {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterComponent<IWorkPackageAutocompleteItem> {
+export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterComponent<WorkPackageResource> {
   @Input() workPackage:WorkPackageResource;
 
   @Input() selectedRelationType:string;
@@ -69,7 +64,7 @@ export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterCo
 
   readonly schemaCacheService = inject(SchemaCacheService);
 
-  resource:TOpAutocompleterResource = 'work_packages';
+  resource:AutocompleterResource|undefined = 'work_packages';
 
   appendTo = 'body';
 
@@ -82,8 +77,8 @@ export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterCo
     this.cancel.emit();
   }
 
-  changed(workPackage:IWorkPackageAutocompleteItem|null) {
-    if (workPackage) {
+  changed(workPackage:unknown) {
+    if (workPackage instanceof WorkPackageResource) {
       void this.schemaCacheService
         .ensureLoaded(workPackage)
         .then(() => {
@@ -97,7 +92,7 @@ export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterCo
     repositionDropdownBugfix(this.ngSelectInstance);
   }
 
-  getAutocompleterData(query:string|null):Observable<HalResource[]> {
+  getAutocompleterData(query:string|null):Observable<WorkPackageResource[]> {
     // Return when the search string is empty
     if (query === null || query.length === 0) {
       return of([]);

@@ -41,7 +41,7 @@ import { map } from 'rxjs/operators';
 export class BoardSubprojectActionService extends CachedBoardActionService {
   filterName = 'onlySubproject';
 
-  resourceName = 'subproject';
+  resourceName = 'subproject' as const;
 
   text = this.I18n.t('js.boards.board_type.board_type_title.subproject');
 

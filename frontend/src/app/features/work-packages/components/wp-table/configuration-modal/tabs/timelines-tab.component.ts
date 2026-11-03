@@ -54,7 +54,7 @@ export class WpTableConfigurationTimelinesTabComponent implements TabComponent, 
 
   public labels:TimelineLabels;
 
-  public availableLabels:string[];
+  public availableLabels:(keyof TimelineLabels)[];
 
   public zoomLevel:TimelineZoomLevel;
 
@@ -96,6 +96,13 @@ export class WpTableConfigurationTimelinesTabComponent implements TabComponent, 
     });
   }
 
+  public updateZoomLevel(value:string):void {
+    const level = this.availableZoomLevels.find((option) => option === value);
+    if (level !== undefined) {
+      this.zoomLevel = level;
+    }
+  }
+
   public updateLabels(key:keyof TimelineLabels, value:string|null) {
     if (value === '') {
       value = null;
@@ -113,7 +120,9 @@ export class WpTableConfigurationTimelinesTabComponent implements TabComponent, 
     // Current label models
     const { labels } = this.wpTableTimeline;
     this.labels = { ...labels };
-    this.availableLabels = Object.keys(this.labels);
+    this.availableLabels = Object.keys(this.labels).filter(
+      (key):key is keyof TimelineLabels => key === 'left' || key === 'right' || key === 'farRight',
+    );
 
     // Available labels
     const availableColumns = this.wpTableColumns

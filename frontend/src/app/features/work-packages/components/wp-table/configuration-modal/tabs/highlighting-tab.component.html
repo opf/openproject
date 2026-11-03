@@ -6,7 +6,7 @@
         <label class="option-label">
           <input type="radio"
                  [(ngModel)]="highlightingMode"
-                 (change)="updateMode($event.target.value)"
+                 (change)="updateMode('inline')"
                  value="inline"
                  name="highlighting_mode_switch">
           <span [textContent]="text.highlighting_mode.inline"></span>&nbsp;
@@ -73,7 +73,7 @@
         <label class="option-label">
           <input type="radio"
                  [(ngModel)]="highlightingMode"
-                 (change)="updateMode($event.target.value)"
+                 (change)="updateMode('none')"
                  value="none"
                  name="highlighting_mode_switch">
           <span [textContent]="text.highlighting_mode.none"></span>

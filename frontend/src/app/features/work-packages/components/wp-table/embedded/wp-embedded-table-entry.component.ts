@@ -26,6 +26,8 @@
 //++
 
 import { ChangeDetectionStrategy, Component, ElementRef, Input, inject } from '@angular/core';
+import { WorkPackageTableConfigurationObject } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { QueryRequestParams } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
@@ -50,9 +52,9 @@ export const wpTableEntrySelector = 'wp-embedded-table-entry';
 export class WorkPackageEmbeddedTableEntryComponent {
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  @Input() public queryProps:unknown;
+  @Input() public queryProps:Partial<QueryRequestParams>;
 
-  @Input() public configuration:unknown;
+  @Input() public configuration:WorkPackageTableConfigurationObject;
 
   @Input() public initialLoadingIndicator = true;
 

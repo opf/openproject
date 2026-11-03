@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export type WorkPackageTableConfigurationObject = Partial<{ [field in keyof WorkPackageTableConfiguration]:string|boolean }>;
+export type WorkPackageTableConfigurationObject = Partial<WorkPackageTableConfiguration>;
 
 export class WorkPackageTableConfiguration {
   /** Render the table results, set to false when only wanting the table initialization */
@@ -81,8 +81,10 @@ export class WorkPackageTableConfiguration {
 
   constructor(providedConfig:WorkPackageTableConfigurationObject) {
     Object.entries(providedConfig).forEach(([k, value]) => {
-      const key = (k as keyof WorkPackageTableConfiguration);
-      (this as Record<string, unknown>)[key] = value;
+      if (value !== undefined) {
+        const key = (k as keyof WorkPackageTableConfiguration);
+        (this as Record<string, unknown>)[key] = value;
+      }
     });
   }
 }

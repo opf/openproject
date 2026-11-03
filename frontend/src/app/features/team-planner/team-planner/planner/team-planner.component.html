@@ -75,7 +75,7 @@
             }
             @if (resource && !resource.extendedProps.principal && !resource.id.startsWith('skeleton')) {
               <op-tp-add-assignee (selectAssignee)="addAssignee($event)"
-                [alreadySelected]="principalIds$ | async"
+                [alreadySelected]="(principalIds$ | async) ?? []"
                />
             }
           </ng-template>
@@ -93,7 +93,7 @@
                 [showInfoButton]="true"
                 [disabledInfo]="showDisabledText(wp)"
                 [isClosed]="isStatusClosed(wp)"
-                [showAsGhost]="shouldShowAsGhost(wp.id, (globalDraggingItem$ | async))"
+                [showAsGhost]="shouldShowAsGhost(wp.id, (globalDraggingItem$ | async) ?? undefined)"
                 [showAsInlineCard]="true"
                 [showStartDate]="!isWpStartDateInCurrentView(wp)"
                 [showEndDate]="!isWpEndDateInCurrentView(wp)"

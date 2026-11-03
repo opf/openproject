@@ -36,6 +36,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { WorkPackageRelationsService } from '../wp-relations.service';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import { EditFieldControl } from 'core-app/shared/components/fields/edit/field-controls/edit-field-controls.component';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 
 
@@ -83,13 +84,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
     showRelationInfo: false,
   };
 
-  // Create a quasi-field object
-  public fieldController = {
-    handler: {
-      active: true,
-    },
-    required: false,
-  };
+  public fieldController:EditFieldControl = { required: false };
 
   public relation:RelationResource;
 
@@ -186,7 +181,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
     }
   }
 
-  public cancelRelationTypeEditOnEscape(_evt:KeyboardEvent) {
+  public cancelRelationTypeEditOnEscape() {
     this.userInputs.showRelationTypesForm = false;
   }
 

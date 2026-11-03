@@ -29,6 +29,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angu
 import {
   BehaviorSubject,
   Observable,
+  isObservable,
 } from 'rxjs';
 import {
   finalize,
@@ -37,7 +38,7 @@ import {
 import { take } from 'rxjs/internal/operators/take';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { IToast, ToastService, ToastType } from 'core-app/shared/components/toaster/toast.service';
+import { IToast, ToastService, ToastType, ToastUpload } from 'core-app/shared/components/toaster/toast.service';
 
 @Component({
   templateUrl: './toast.component.html',
@@ -76,15 +77,15 @@ export class ToastComponent implements OnInit {
     this.removable = !['upload', 'loading'].includes(this.type);
 
     if (this.type === 'upload') {
-      const data = this.data as [File, Observable<unknown>];
+      const data = this.uploads;
       this.removable = false;
       this.canBeHidden = data && data.length > 5;
     }
 
-    if (this.type === 'loading') {
+    if (this.type === 'loading' && this.loadingObservable) {
       this.removable = false;
       this.loading$.next(true);
-      (this.data as Observable<unknown>)
+      this.loadingObservable
         .pipe(
           take(1),
           timeout(20000),
@@ -99,6 +100,22 @@ export class ToastComponent implements OnInit {
 
   public get data():unknown {
     return this.toast.data;
+  }
+
+  public get errors():unknown[] {
+    const errors:unknown[] = Array.isArray(this.data) ? this.data : [];
+    return this.type === 'error' ? errors : [];
+  }
+
+  public get uploads():ToastUpload[] {
+    if (this.type !== 'upload' || !Array.isArray(this.data)) return [];
+
+    return this.data.filter((entry:unknown):entry is ToastUpload =>
+      Array.isArray(entry) && entry.length === 2 && entry[0] instanceof File && isObservable(entry[1]));
+  }
+
+  public get loadingObservable():Observable<unknown>|undefined {
+    return this.type === 'loading' && isObservable(this.data) ? this.data : undefined;
   }
 
   public remove():void {
@@ -121,7 +138,7 @@ export class ToastComponent implements OnInit {
   }
 
   public get uploadText():string {
-    const count = (this.data as unknown[]).length;
+    const count = this.uploads.length;
     return this.I18n.t('js.label_upload_counter', { done: this.uploadCount, count });
   }
 }

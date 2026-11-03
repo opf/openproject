@@ -60,7 +60,7 @@
               op-project-include-list
               [projects]="projects"
               [selected]="selectedProjects"
-              [includeSubprojects]="includeSubprojects$ | async"
+              [includeSubprojects]="(includeSubprojects$ | async) === true"
               [searchText]="searchableProjectListService.searchText"
               [root]="true"
               [queryWorkspaceHref]="queryWorkspaceHref"

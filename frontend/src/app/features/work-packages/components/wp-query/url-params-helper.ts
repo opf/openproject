@@ -32,7 +32,7 @@ import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { Injectable, inject } from '@angular/core';
-import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryFilterInstanceResource, QueryFilterValue } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { ApiV3Filter, ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -99,8 +99,6 @@ export interface QueryRequestParams {
   timestamps:string;
   valid_subset?:boolean;
 }
-
-type QueryFilterValue = HalResource|string|boolean;
 
 interface QueryValueLink {
   href:string;
@@ -216,7 +214,7 @@ export class UrlParamsHelperService {
       const filterProps:QueryPropsFilter[] = filters.map((filter) => ({
         n: filter.id,
         o: filter.operator.id,
-        v: filter.values.map((value:HalResource|string) => this.queryFilterValueToParam(value)),
+        v: filter.values.map((value) => this.queryFilterValueToParam(value)),
       }));
 
       return { f: filterProps };
@@ -378,7 +376,7 @@ export class UrlParamsHelperService {
     return Object.assign(additionalParams, queryData);
   }
 
-  public queryFilterValueToParam(value:HalResource|string|boolean):string {
+  public queryFilterValueToParam(value:QueryFilterValue|boolean):string {
     if (typeof (value) === 'boolean') {
       return value ? 't' : 'f';
     }
@@ -387,15 +385,22 @@ export class UrlParamsHelperService {
       return '';
     }
 
-    const halValue = value as HalResource;
-    if (halValue.id) {
-      return halValue.id.toString();
-    }
-    if (halValue.href) {
-      return halValue.href.split('/').pop()!;
+    if (typeof value === 'string' || typeof value === 'number') {
+      return value.toString();
     }
 
-    return value.toString();
+    if (value.id) {
+      return value.id.toString();
+    }
+    if (value.href) {
+      return value.href.split('/').pop()!;
+    }
+
+    if (value instanceof HalResource) {
+      return value.toString();
+    }
+
+    return String(value.id ?? '');
   }
 
   private buildV3GetColumnsFromQueryResource(query:QueryResource):string[] {
@@ -457,7 +462,7 @@ export class UrlParamsHelperService {
 
   public buildV3GetValuesFromFilter(filter:QueryFilterInstanceResource|QueryFilterResource):string[] {
     if (filter.values) {
-      return (filter.values as QueryFilterValue[]).map((v) => this.queryFilterValueToParam(v));
+      return (filter.values as (QueryFilterValue|boolean)[]).map((v) => this.queryFilterValueToParam(v));
     }
     return (filter._links as { values:QueryValueLink[] }).values.map((v) => idFromLink(v.href));
   }

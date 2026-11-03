@@ -35,12 +35,58 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { QueryFilterInstanceSchemaResource } from 'core-app/features/hal/resources/query-filter-instance-schema-resource';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 
+export type QueryFilterReference =
+  | { id:string|number; href?:string|null; name?:string }
+  | { id?:string|number|null; href:string; name?:string };
+
+export type QueryFilterValue = HalResource|string|number|QueryFilterReference;
+
+function isFilterId(value:unknown):value is string|number {
+  return typeof value === 'string' || (typeof value === 'number' && Number.isFinite(value));
+}
+
+function isQueryFilterReference(value:object):value is QueryFilterReference {
+  const id = 'id' in value ? value.id : undefined;
+  const href = 'href' in value ? value.href : undefined;
+  const name = 'name' in value ? value.name : undefined;
+
+  return (id == null || isFilterId(id))
+    && (href == null || typeof href === 'string')
+    && (name === undefined || typeof name === 'string')
+    && (isFilterId(id) || (typeof href === 'string' && href.length > 0));
+}
+
+export function isQueryFilterValue(value:unknown):value is QueryFilterValue {
+  if (isFilterId(value) || value instanceof HalResource) {
+    return true;
+  }
+
+  return typeof value === 'object' && value !== null && !Array.isArray(value) && isQueryFilterReference(value);
+}
+
+export function queryFilterValueId(value:unknown):string|number|null {
+  if (typeof value === 'string' || typeof value === 'number') {
+    return value;
+  }
+
+  if (value instanceof HalResource) {
+    return value.id ?? (value.href ? idFromLink(value.href) : null);
+  }
+
+  if (typeof value === 'object' && value !== null && 'id' in value
+    && (typeof value.id === 'string' || typeof value.id === 'number')) {
+    return value.id;
+  }
+
+  return null;
+}
+
 export class QueryFilterInstanceResource extends HalResource {
   public filter:QueryFilterResource;
 
   public operator:QueryOperatorResource;
 
-  public values:HalResource[]|string[];
+  public values:QueryFilterValue[];
 
   private memoizedCurrentSchemas:Record<string, QueryFilterInstanceSchemaResource> = {};
 

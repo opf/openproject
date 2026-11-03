@@ -1,7 +1,7 @@
 <op-basic-single-datetime-picker (valueChange)="begin = $event"
   [value]="begin"
   [opAutofocus]="shouldFocus"
-  required="true"
+  [required]="true"
   [id]="'values-' + filter.id + '-begin'"
   [name]="'v[' + filter.id + ']-begin'"
   class="advanced-filters--date-field"

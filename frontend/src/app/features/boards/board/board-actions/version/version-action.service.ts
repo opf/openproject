@@ -75,7 +75,7 @@ export class BoardVersionActionService extends CachedBoardActionService {
     return [this.attributeName, this.filterName];
   }
 
-  resourceName = 'version';
+  resourceName = 'version' as const;
 
   text = this.I18n.t('js.boards.board_type.board_type_title.version');
 

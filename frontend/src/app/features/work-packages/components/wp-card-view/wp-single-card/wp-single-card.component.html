@@ -9,11 +9,11 @@
   [attr.data-qa-selected]="selected || undefined"
   [ngClass]="cardClasses()"
   [title]="cardTitle()"
-  (click)="cardClicked.emit({ workPackageId: workPackage.id, event: $event })"
-  (keydown.enter)="cardClicked.emit({ workPackageId: workPackage.id, event: $event })"
-  (keydown.space)="cardClicked.emit({ workPackageId: workPackage.id, event: $event })"
-  (dblclick)="cardDblClicked.emit({ workPackageId: workPackage.id, event: $event })"
-  (contextmenu)="cardContextMenu.emit({ workPackageId: workPackage.id, event: $event })"
+  (click)="emitCardClicked($event)"
+  (keydown.enter)="emitCardClicked($event)"
+  (keydown.space)="emitCardClicked($event)"
+  (dblclick)="workPackage.id !== null && cardDblClicked.emit({ workPackageId: workPackage.id, event: $event })"
+  (contextmenu)="workPackage.id !== null && cardContextMenu.emit({ workPackageId: workPackage.id, event: $event })"
   >
 
   <div class="op-wp-single-card--highlighting"

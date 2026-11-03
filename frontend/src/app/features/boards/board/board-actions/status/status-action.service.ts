@@ -37,7 +37,7 @@ import { Observable } from 'rxjs';
 export class BoardStatusActionService extends CachedBoardActionService {
   filterName = 'status';
 
-  resourceName = 'status';
+  resourceName = 'status' as const;
 
   text = this.I18n.t('js.boards.board_type.board_type_title.status');
 

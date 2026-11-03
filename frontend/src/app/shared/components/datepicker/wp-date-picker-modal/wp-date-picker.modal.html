@@ -7,8 +7,8 @@
     <turbo-frame
       [src]="turboFrameSrc"
       opModalWithTurboContent
-      [change]="locals.change"
-      [resource]="locals.resource"
+      [change]="change"
+      [resource]="resource"
       (successfulCreate)="handleSuccessfulCreate($event)"
       (successfulUpdate)="handleSuccessfulUpdate()"
       (cancel)="handleCancel()"

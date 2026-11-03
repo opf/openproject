@@ -165,9 +165,9 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
     return this.filters[index];
   }
 
-  public isFilterAvailable(filter:QueryFilterResource):boolean {
+  public isFilterAvailable(filter:QueryFilterInstanceResource):boolean {
     return (this.wpTableFilters.availableFilters.some((availableFilter) => availableFilter.id === filter.id)
-      && !(this.wpTableFilters.hidden.includes(filter.id) || (filter as QueryFilterResource & { isTemplated():boolean }).isTemplated()));
+      && !(this.wpTableFilters.hidden.includes(filter.id) || filter.isTemplated()));
   }
 
   public onOpen() {

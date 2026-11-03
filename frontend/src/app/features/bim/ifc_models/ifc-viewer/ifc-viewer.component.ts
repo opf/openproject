@@ -188,8 +188,8 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   @HostListener('window:mousedown', ['$event.target'])
-  disableKeyboard(target:Element):void {
-    if (this.modelCount && !this.outerContainer.nativeElement.contains(target)) {
+  disableKeyboard(target:EventTarget|null):void {
+    if (this.modelCount && target instanceof Element && !this.outerContainer.nativeElement.contains(target)) {
       this.keyboardEnabled = false;
       this.ifcViewerService.setKeyboardEnabled(false);
     }

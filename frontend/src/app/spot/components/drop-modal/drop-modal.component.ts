@@ -225,7 +225,7 @@ export class SpotDropModalComponent implements OnDestroy {
     this.cleanupFloatingUI?.();
   }
 
-  onBodyClick(e:MouseEvent):void {
+  onBodyClick(e:Event):void {
     // We stop propagation here so that clicks inside the body do not
     // close the modal when the event reaches the document body
     e.stopPropagation();

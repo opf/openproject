@@ -32,6 +32,7 @@ import { HalEventsService } from 'core-app/features/hal/services/hal-events.serv
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { isProgressCreateResponse, ModalCreateResponse } from 'core-app/shared/components/fields/edit/modal-with-turbo-content/modal-create-response';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({
@@ -100,7 +101,8 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     return value;
   }
 
-  public handleSuccessfulCreate(JSONResponse:{ estimatedTime:string, remainingTime:string, percentageDone:string }):void {
+  public handleSuccessfulCreate(JSONResponse:ModalCreateResponse):void {
+    if (!isProgressCreateResponse(JSONResponse)) return;
     this.resource.estimatedTime = JSONResponse.estimatedTime;
     this.resource.remainingTime = JSONResponse.remainingTime;
     this.resource.percentageDone = JSONResponse.percentageDone;

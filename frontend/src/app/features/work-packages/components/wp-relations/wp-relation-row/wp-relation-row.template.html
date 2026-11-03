@@ -38,7 +38,7 @@
               (change)="saveRelationType()"
               role="listbox"
               opAutofocus
-              (keydown.escape)="cancelRelationTypeEditOnEscape($event)"
+              (keydown.escape)="cancelRelationTypeEditOnEscape()"
               >
               @for (relationType of availableRelationTypes; track relationType.name) {
                 <option

@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import type { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { truncate } from 'lodash-es';
 import { InputState } from '@openproject/reactivestates';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -58,7 +59,7 @@ export interface WorkPackageResourceEmbedded {
   assignee:HalResource|null;
   attachments:AttachmentCollectionResource;
   fileLinks?:CollectionResource;
-  author:HalResource;
+  author:UserResource;
   availableWatchers:HalResource;
   category:HalResource|null;
   children:WorkPackageResource[];
@@ -147,7 +148,7 @@ export class WorkPackageBaseResource extends HalResource {
     return formatWorkPackageId(this.displayId);
   }
 
-  public updatedAt:Date;
+  public updatedAt:string;
 
   public lockVersion:number;
 

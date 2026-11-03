@@ -34,7 +34,6 @@ import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/r
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
-import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 import { QueryOperatorResource } from 'core-app/features/hal/resources/query-operator-resource';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 
@@ -63,9 +62,9 @@ export class QueryFilterComponent implements OnInit {
 
   @Input() public filter:QueryFilterInstanceResource;
 
-  @Output() public filterChanged = new EventEmitter<QueryFilterResource>();
+  @Output() public filterChanged = new EventEmitter<void>();
 
-  @Output() public deactivateFilter = new EventEmitter<QueryFilterResource>();
+  @Output() public deactivateFilter = new EventEmitter<QueryFilterInstanceResource>();
 
   public availableOperators:QueryOperatorResource[];
 

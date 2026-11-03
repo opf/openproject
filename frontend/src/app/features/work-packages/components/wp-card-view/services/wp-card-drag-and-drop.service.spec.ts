@@ -968,7 +968,7 @@ describe('WorkPackageCardDragAndDropService — real two-list directive fixture'
         @for (wp of items(); track wp.id) {
           <div
             class="item"
-            [opSortableListsItem]="wp.id"
+            [opSortableListsItem]="wp.id!"
             [opSortableListsItemCanDrag]="itemCanDrag()"
             style="height: 40px; width: 200px;"
           >{{ wp.id }}</div>

@@ -159,7 +159,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     return !!(this.editForm && this.schema.isAttributeEditable(this.fieldName));
   }
 
-  public activateIfEditable(event:MouseEvent|KeyboardEvent):boolean {
+  public activateIfEditable(event:Event):boolean {
     if (event instanceof MouseEvent && event.type !== this.activationEvent) {
       return true;
     }
@@ -202,7 +202,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
       .catch(() => this.deactivate(true));
   }
 
-  public handleUserActivate(evt:MouseEvent|KeyboardEvent|null):boolean {
+  public handleUserActivate(evt:Event|null):boolean {
     if (!this.isEditable) {
       return false;
     }

@@ -37,7 +37,7 @@ import { DynamicIconDirective } from 'core-app/shared/components/primer/dynamic-
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BlankslateIconComponent {
-  readonly icon = input<string>();
+  readonly icon = input.required<string>();
 }
 
 @Component({
