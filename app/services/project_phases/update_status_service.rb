@@ -41,7 +41,7 @@ module ProjectPhases
     private
 
     def cascade_to_other_phases
-      earlier, later = project.available_phases
+      earlier, later = project.phases.active.order_by_position
                               .reject { it == model }
                               .partition { it.position < model.position }
 

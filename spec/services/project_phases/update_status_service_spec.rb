@@ -37,7 +37,6 @@ RSpec.describe ProjectPhases::UpdateStatusService, type: :model do
   let(:target_index) { 0 }
   let(:permissions) { [:edit_project_phases] }
 
-  # Each factory call creates its own definition, so positions follow creation order.
   let!(:phases) do
     initial_statuses.map { |status| create(:project_phase, project:, status:) }
   end
@@ -52,11 +51,6 @@ RSpec.describe ProjectPhases::UpdateStatusService, type: :model do
     mock_permissions_for(user) do |mock|
       permissions.each { |permission| mock.allow_in_project(permission, project:) }
     end
-
-    # Project#available_phases is scoped through Project.allowed_to (a SQL scope that
-    # mock_permissions_for does not cover), so without these stubs it is empty.
-    allow(Project).to receive(:allowed_to).with(user, :view_project_attributes).and_return(Project.all)
-    allow(Project).to receive(:allowed_to).with(user, :view_project_phases).and_return(Project.all)
   end
 
   describe "changing the status of a single phase" do
