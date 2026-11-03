@@ -95,10 +95,12 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true, semantic_search:
         expect(resolution.model_id).to eq("qwen3.6-27b")
       end
 
-      # semantic_search's vectors were written with the bound model; a different
+      # semantic_search's vectors were written with the index's model; a different
       # one at query time is silently wrong answers, not a preference.
       it "is ignored by a feature that is not overridable" do
-        create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", model_id: "bge-m3")
+        semantic_index = create(:semantic_index, state: "ready", model_id: "bge-m3", embedding_vector_dimensions: 3)
+        create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search",
+                                     semantic_index:)
         create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
                                         state: "supported", source: "admin")
 
@@ -126,7 +128,10 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true, semantic_search:
     let(:feature_key) { :semantic_search }
     let!(:connection) { create(:llm_connection, :with_models) }
 
-    before { create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", model_id: "qwen3.6-27b") }
+    before do
+      semantic_index = create(:semantic_index, state: "ready", model_id: "qwen3.6-27b", embedding_vector_dimensions: 3)
+      create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", semantic_index:)
+    end
 
     it "blocks on a definite unsupported verdict" do
       create(:llm_capability_verdict, llm_connection: connection, model_id: "qwen3.6-27b", capability: "embeddings",
