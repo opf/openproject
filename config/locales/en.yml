@@ -2743,7 +2743,7 @@ en:
     user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
 
   contextual_help:
-    open: "PMflex & help"
+    open: "Learn more about phases and phase gates"
     project_life_cycle:
       example_note: >-
         Example mapping for PMflex-based projects. Follow your organisation's agreed methodology and configuration.
