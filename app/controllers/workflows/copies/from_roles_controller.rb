@@ -90,7 +90,8 @@ class Workflows::Copies::FromRolesController < ApplicationController
     if standalone?
       workflow_matrix_path(@workflow, tab: params[:tab], role_ids:)
     else
-      variant_workflow_matrix_path(variant_scope_project, @source_variant, tab: params[:tab], role_ids:)
+      variant_workflow_matrix_path(variant_scope_project, @source_variant, tab: params[:tab], role_ids:,
+                                                                           wizard: params[:wizard].presence)
     end
   end
 
