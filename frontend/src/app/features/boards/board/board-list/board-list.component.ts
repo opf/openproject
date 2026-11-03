@@ -561,8 +561,11 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
           return attribute && changes ? { id: event.id, value: changes[attribute] } : undefined;
         }),
         filter((change):change is { id:string, value:ChangeItem } => !!change),
-        filter(({ id }) => !this.savingWorkPackageIds.has(id)),
-        filter(({ id, value }) => listNeedsReload(this.actionResource?.href, this.cardDragDrop.workPackages ?? [], id, value)),
+        // A project move also moves the descendants on the server, which the cards
+        // cannot show, so subproject lists keep reloading on every change.
+        filter(({ id, value }) => this.board.actionAttribute === 'subproject'
+          || (!this.savingWorkPackageIds.has(id)
+            && listNeedsReload(this.actionResource?.href, this.cardDragDrop.workPackages ?? [], id, value))),
         this.untilDestroyed(),
       )
       .subscribe(() => {
