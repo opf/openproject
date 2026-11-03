@@ -40,6 +40,10 @@ RSpec.describe "Projects", "creation", :js do
 
   let(:projects_page) { Pages::Projects::Index.new }
 
+  def expect_project_path(name)
+    expect(page).to have_current_path %r{/projects/#{Project.find_by!(name:).identifier}/?}
+  end
+
   before do
     projects_page.visit!
   end
@@ -69,7 +73,7 @@ RSpec.describe "Projects", "creation", :js do
 
     expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-    expect(page).to have_current_path %r{/projects/#{Project.find_by!(name: 'Foo bar').identifier}/?}
+    expect_project_path("Foo bar")
     expect(page).to have_content "Foo bar"
   end
 
@@ -197,7 +201,7 @@ RSpec.describe "Projects", "creation", :js do
 
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-      expect(page).to have_current_path %r{/projects/#{Project.find_by!(name: 'Foo bar').identifier}/?}
+      expect_project_path("Foo bar")
       expect(page).to have_content "Foo bar"
 
       project = Project.last
@@ -265,7 +269,7 @@ RSpec.describe "Projects", "creation", :js do
 
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-      expect(page).to have_current_path %r{/projects/#{Project.find_by!(name: 'Foo bar').identifier}/?}
+      expect_project_path("Foo bar")
       expect(page).to have_content "Foo bar"
 
       project = Project.last
@@ -407,7 +411,7 @@ RSpec.describe "Projects", "creation", :js do
 
         expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-        expect(page).to have_current_path %r{/projects/#{Project.find_by!(name: 'Foo bar').identifier}/?}
+        expect_project_path("Foo bar")
 
         project = Project.last
 
@@ -433,7 +437,7 @@ RSpec.describe "Projects", "creation", :js do
 
           expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-          expect(page).to have_current_path %r{/projects/#{Project.find_by!(name: 'Foo bar').identifier}/?}
+          expect_project_path("Foo bar")
 
           project = Project.last
 
@@ -452,7 +456,7 @@ RSpec.describe "Projects", "creation", :js do
 
           expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-          expect(page).to have_current_path %r{/projects/#{Project.find_by!(name: 'Foo bar').identifier}/?}
+          expect_project_path("Foo bar")
 
           project = Project.last
 
@@ -485,7 +489,7 @@ RSpec.describe "Projects", "creation", :js do
 
             expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-            expect(page).to have_current_path %r{/projects/#{Project.find_by!(name: 'Foo bar').identifier}/?}
+            expect_project_path("Foo bar")
 
             project = Project.last
 
@@ -509,7 +513,7 @@ RSpec.describe "Projects", "creation", :js do
 
             expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-            expect(page).to have_current_path %r{/projects/#{Project.find_by!(name: 'Foo bar').identifier}/?}
+            expect_project_path("Foo bar")
 
             project = Project.last
 
@@ -553,11 +557,11 @@ RSpec.describe "Projects", "creation", :js do
 
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-      expect(page).to have_current_path %r{/projects/#{Project.find_by!(name: 'Project without step 3').identifier}/?}
+      expect_project_path("Project without step 3")
       expect(page).to have_content "Project without step 3"
 
       # The required_not_for_all field should NOT be activated for the new project
-      new_project = Project.find_by(name: "Project without step 3")
+      new_project = Project.find_by!(name: "Project without step 3")
       expect(new_project.project_custom_field_ids).not_to include(required_not_for_all_custom_field.id)
     end
   end

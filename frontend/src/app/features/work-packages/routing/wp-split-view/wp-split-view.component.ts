@@ -81,7 +81,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   @HostListener('document:turbo:render')
   restoreTitle():void {
     if (this.workPackage) {
-      this.titleService.setFirstPart(this.workPackage.subjectWithType(-1));
+      this.applyTitle(true);
     }
   }
 

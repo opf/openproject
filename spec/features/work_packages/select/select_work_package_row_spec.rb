@@ -57,9 +57,9 @@ RSpec.describe "Select work package row", :js do
     loading_indicator_saveguard
     case mouse_button_behavior
     when :right
-      element.right_click(**above_id_link(element))
+      element.right_click(**wp_table.id_cell_click_offset(element))
     else
-      element.click(**above_id_link(element))
+      element.click(**wp_table.id_cell_click_offset(element))
     end
   end
 
@@ -67,19 +67,14 @@ RSpec.describe "Select work package row", :js do
     element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell-td.id")
     loading_indicator_saveguard
 
-    element.click(:shift, **above_id_link(element))
+    element.click(:shift, **wp_table.id_cell_click_offset(element))
   end
 
   def select_work_package_row_with_ctrl(number)
     element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell-td.id")
     loading_indicator_saveguard
 
-    element.click(:meta, **above_id_link(element))
-  end
-
-  # The id cell is mostly covered by the link to the full view, which a click on the cell center would follow.
-  def above_id_link(cell)
-    { x: 0, y: -(cell.rect["height"] / 2) + 2 }
+    element.click(:meta, **wp_table.id_cell_click_offset(element))
   end
 
   def expect_row_checked(*indices)

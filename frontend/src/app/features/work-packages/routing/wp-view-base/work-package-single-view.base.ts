@@ -169,15 +169,19 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       this.workPackage = wp;
     }
 
-    // setFirstPart is not idempotent, and a semantic route param makes the
-    // work package arrive from both its semantic and its numeric cache slot.
+    this.applyTitle();
+
+    this.cdRef.detectChanges();
+  }
+
+  // setFirstPart is not idempotent, and a semantic route param makes the
+  // work package arrive from both its semantic and its numeric cache slot.
+  protected applyTitle(force = false):void {
     const title = this.workPackage.subjectWithType(-1);
-    if (title !== this.appliedTitle) {
+    if (force || title !== this.appliedTitle) {
       this.appliedTitle = title;
       this.titleService.setFirstPart(title);
     }
-
-    this.cdRef.detectChanges();
   }
 
   /**

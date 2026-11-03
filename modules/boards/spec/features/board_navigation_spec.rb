@@ -101,25 +101,30 @@ RSpec.describe "Work Package boards spec",
     expect(page).to have_current_path /details\/#{wp.display_id}/
   end
 
-  it "navigates correctly the path from overview page to the boards page",
-     # The polling interval is only lowered as the sidemenu relies on Angular's change
-     # detection to be updated. This is a bug.
-     # In reality, it does not really matter as the user will always move the mouse or do
-     # a similar action.
-     with_settings: { notifications_polling_interval: 1_000 } do
-    visit project_path(project)
+  shared_examples "navigation from the overview page to the boards page" do
+    it "navigates correctly the path from overview page to the boards page" do
+      visit project_path(project)
 
-    page.find_test_selector("main-menu-toggler--boards", wait: 10).click
+      page.find_test_selector("main-menu-toggler--boards", wait: 10).click
 
-    subitem = page.find_test_selector("op-submenu--item-action", text: "My board", wait: 10)
-    # Ends with boards due to lazy route
-    expect(subitem[:href]).to end_with project_work_package_board_path(project, board_view.id)
+      subitem = page.find_test_selector("op-submenu--item-action", text: "My board", wait: 10)
+      # Ends with boards due to lazy route
+      expect(subitem[:href]).to end_with project_work_package_board_path(project, board_view.id)
 
-    subitem.click
+      subitem.click
 
-    board_page = Pages::Board.new board_view
-    board_page.expect_query "List 1", editable: true
-    board_page.add_card "List 1", "Task 1"
+      board_page = Pages::Board.new board_view
+      board_page.expect_query "List 1", editable: true
+      board_page.add_card "List 1", "Task 1"
+    end
+  end
+
+  # The polling interval is only lowered as the sidemenu relies on Angular's change
+  # detection to be updated. This is a bug.
+  # In reality, it does not really matter as the user will always move the mouse or do
+  # a similar action.
+  context "with a lowered polling interval", with_settings: { notifications_polling_interval: 1_000 } do
+    it_behaves_like "navigation from the overview page to the boards page"
   end
 
   it "navigates from boards to the WP details view then go to full view then go back (see #33747)" do
@@ -215,17 +220,6 @@ RSpec.describe "Work Package boards spec",
           with_settings: { work_packages_identifier: "classic", notifications_polling_interval: 1_000 } do
     let(:project) { create(:project, identifier: "boards", enabled_module_names: %i[work_package_tracking board_view]) }
 
-    it "navigates from the project to a board" do
-      visit project_path(project)
-
-      page.find_test_selector("main-menu-toggler--boards", wait: 10).click
-      page.find_test_selector("op-submenu--item-action", text: "My board", wait: 10).click
-
-      board_page = Pages::Board.new board_view
-      board_page.expect_query "List 1", editable: true
-      board_page.add_card "List 1", "Task 1"
-      board_page.expect_toast message: I18n.t(:notice_successful_create)
-      expect(page).to have_current_path project_work_package_board_path(project, board_view)
-    end
+    it_behaves_like "navigation from the overview page to the boards page"
   end
 end
