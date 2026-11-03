@@ -51,13 +51,13 @@ RSpec.describe SquashTMIntegration::Client, :webmock do
     it "raises a response error on an unexpected status" do
       stub_request(:get, projects_url).to_return(status: 404)
 
-      expect { client.projects }.to raise_error(described_class::ResponseError)
+      expect { client.projects }.to raise_error(described_class::UnexpectedStatusError)
     end
 
     it "raises a plain response error on an unexpected client error status" do
       stub_request(:get, projects_url).to_return(status: 422)
 
-      expect { client.projects }.to raise_error(described_class::ResponseError) { |error|
+      expect { client.projects }.to raise_error(described_class::UnexpectedStatusError) { |error|
         expect(error).not_to be_a(described_class::ServerError)
       }
     end
@@ -75,7 +75,7 @@ RSpec.describe SquashTMIntegration::Client, :webmock do
     it "raises a response error when the body is not JSON" do
       stub_request(:get, projects_url).to_return(status: 200, body: "<html>Login</html>")
 
-      expect { client.projects }.to raise_error(described_class::ResponseError)
+      expect { client.projects }.to raise_error(described_class::InvalidResponseError)
     end
 
     it "raises an SSRF error when the host is blocked" do

@@ -37,11 +37,8 @@ module SquashTMIntegration
     class TimeoutError < ConnectionError; end
     class SslError < ConnectionError; end
     class InvalidUrlError < ConnectionError; end
-    class AuthenticationError < Error; end
-    class ResponseError < Error; end
-    class NotFoundError < ResponseError; end
 
-    class ServerError < ResponseError
+    class UnexpectedStatusError < Error
       attr_reader :status
 
       def initialize(status)
@@ -49,6 +46,11 @@ module SquashTMIntegration
         super("SquashTM responded with #{status}")
       end
     end
+
+    class AuthenticationError < UnexpectedStatusError; end
+    class NotFoundError < UnexpectedStatusError; end
+    class ServerError < UnexpectedStatusError; end
+    class InvalidResponseError < Error; end
 
     COLLECTION_PAGE_SIZE = 200
 
@@ -102,23 +104,20 @@ module SquashTMIntegration
     end
 
     def get(path, query = {})
-      response = session.get(uri_for(path, query))
+      response = session.get(uri_for(path), params: query)
       handle_transport_error(response) if response.is_a?(HTTPX::ErrorResponse)
       handle_status(response)
       parse(response)
-    rescue OpenProject::ServerSideRequestForgeryError
-      raise SsrfError
     end
 
     def session
-      OpenProject.httpx.with(headers: { "authorization" => "Bearer #{api_token}", "accept" => "application/json" })
+      OpenProject.httpx.bearer_auth(api_token).with(headers: { "accept" => "application/json" })
     end
 
-    def uri_for(path, query)
+    def uri_for(path)
       uri = URI.parse("#{base_url}#{API_PATH}/#{path}")
       raise InvalidUrlError unless uri.is_a?(URI::HTTP) && uri.host.present?
 
-      uri.query = query.to_query if query.present?
       uri
     rescue URI::InvalidURIError
       raise InvalidUrlError
@@ -135,17 +134,23 @@ module SquashTMIntegration
 
     def handle_status(response)
       return if response.status.in?(200..299)
-      raise AuthenticationError if response.status.in?([401, 403])
-      raise NotFoundError if response.status == 404
-      raise ServerError.new(response.status) if response.status >= 500
 
-      raise ResponseError, "SquashTM responded with #{response.status}"
+      raise error_class_for(response.status).new(response.status)
+    end
+
+    def error_class_for(status)
+      case status
+      when 401, 403 then AuthenticationError
+      when 404 then NotFoundError
+      when 500.. then ServerError
+      else UnexpectedStatusError
+      end
     end
 
     def parse(response)
       JSON.parse(response.body.to_s)
     rescue JSON::ParserError
-      raise ResponseError, "SquashTM response is not valid JSON"
+      raise InvalidResponseError, "SquashTM response is not valid JSON"
     end
   end
 end
