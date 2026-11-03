@@ -56,8 +56,14 @@ module OpenProject::ITSM
                                  writable: true,
                                  default: false,
                                  format: :boolean
-      ::Settings::Definition.add :helpdesk_user_id, format: :integer, default: nil
-      ::Settings::Definition.add :helpdesk_role_id, format: :integer, default: nil
+      ::Settings::Definition.add :helpdesk_user_id,
+                                 description: "Help desk user, set automatically when the help desk is first used.",
+                                 format: :integer,
+                                 default: nil
+      ::Settings::Definition.add :helpdesk_role_id,
+                                 description: "Role of the help desk user, set automatically when the help desk is first used.",
+                                 format: :integer,
+                                 default: nil
     end
 
     register "openproject-itsm", author_url: "https://www.openproject.org", bundled: true do
