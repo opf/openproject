@@ -128,6 +128,9 @@ export class WorkPackageTable {
 
   private schedulingRender = false;
 
+  /** Resources refreshed for rows this table shows since the query's rows were set up; every commit reapplies them to its rows, which keep the query's structure, and forgets those it no longer shows. */
+  private readonly refreshed = new Map<string, WorkPackageResource>();
+
   // Work package editing context handler in the table, which handles open forms
   // and their contexts
   public editing:WorkPackageTableEditingContext = new WorkPackageTableEditingContext(this, this.injector);
@@ -160,6 +163,7 @@ export class WorkPackageTable {
   public destroy():void {
     if (this.destroyed) return;
     this.pendingRender = null;
+    this.refreshed.clear();
     try {
       this.lifetimeInjector.destroy();
     } finally {
@@ -198,6 +202,7 @@ export class WorkPackageTable {
    */
   public initialSetup(rows:WorkPackageResource[]) {
     if (this.destroyed) return;
+    this.refreshed.clear();
     // Build the row representation
     this.buildIndex(rows);
     this.requestedRelationTargets.clear();
@@ -269,10 +274,6 @@ export class WorkPackageTable {
     this.publishRendered();
   }
 
-  private pendingDraftShows(workPackageId:string):boolean {
-    return this.pendingRender?.pass.draft.occurrences.some((occurrence) => occurrence.workPackageId === workPackageId) ?? false;
-  }
-
   private rebuildPendingRender():void {
     if (this.pendingRender) {
       this.performRenderPass({ timeline: this.pendingRender.timeline });
@@ -284,28 +285,36 @@ export class WorkPackageTable {
    */
   public refreshRows(workPackage:WorkPackageResource) {
     if (this.destroyed) return;
-    const pass = this.lastRenderPass;
-    if (!pass) {
-      debugLog('Trying to refresh a singular row without a previous render pass.');
-      return;
-    }
-
     const id = workPackage.id!;
-    const indexed = this.originalRowIndex[id];
-    if (indexed) indexed.object = workPackage;
-    if (this.pendingDraftShows(id)) this.rebuildPendingRender();
-    const keys = this.ledger.keysOf(id);
-    if (keys.size === 0) return;
+    if (this.hasPendingRender || this.ledger.keysOf(id).size > 0) this.refreshed.set(id, workPackage);
+    this.refreshCommitted([workPackage]);
+  }
 
+  private reapplyRefreshed():void {
+    this.refreshed.forEach((_, id) => {
+      if (this.ledger.keysOf(id).size === 0) this.refreshed.delete(id);
+    });
+    this.refreshCommitted(this.refreshed.values());
+  }
+
+  private refreshCommitted(workPackages:Iterable<WorkPackageResource>):void {
+    const pass = this.lastRenderPass;
+    if (!pass) return;
+    const shown = Array.from(workPackages).filter((workPackage) => this.ledger.keysOf(workPackage.id!).size > 0);
+    if (shown.length === 0) return;
+
+    const keys = new Set(shown.flatMap((workPackage) => Array.from(this.ledger.keysOf(workPackage.id!))));
     this.mutate(keys, () => {
       const replacements:RowReplacement[] = [];
-      this.ledger.byWorkPackageId(id).forEach((occurrence) => {
-        const previous = occurrence.element;
-        const replacement = pass.refresh(occurrence, workPackage);
-        if (replacement) {
-          this.ledger.replaceElement(occurrence.key, replacement);
-          replacements.push({ key: occurrence.key, previous, replacement });
-        }
+      shown.forEach((workPackage) => {
+        this.ledger.byWorkPackageId(workPackage.id!).forEach((occurrence) => {
+          const previous = occurrence.element;
+          const replacement = pass.refresh(occurrence, workPackage);
+          if (replacement) {
+            this.ledger.replaceElement(occurrence.key, replacement);
+            replacements.push({ key: occurrence.key, previous, replacement });
+          }
+        });
       });
       this.painter.carryPositions(replacements);
     });
@@ -337,19 +346,23 @@ export class WorkPackageTable {
 
   private commitRender(pending:PendingRender):void {
     if (this.destroyed || this.pendingRender !== pending) return;
-    this.mutations.run('all', () => {
-      this.pendingRender = null;
-      const { pass } = pending;
-      this.tbody.replaceChildren(pass.tableBody);
-      const timelinePass = pending.timeline ? pass.timeline : null;
-      if (timelinePass) {
-        this.timelineBody.replaceChildren(timelinePass.timelineBody);
-      }
-      this.ledger.commit(pass.draft);
-      this.painter.commitPositions(pending.positions);
-      this.lastRenderPass = pass;
-    }, { rendered: true });
-    this.publishRendered();
+    try {
+      this.mutations.run('all', () => {
+        this.pendingRender = null;
+        const { pass } = pending;
+        this.tbody.replaceChildren(pass.tableBody);
+        const timelinePass = pending.timeline ? pass.timeline : null;
+        if (timelinePass) {
+          this.timelineBody.replaceChildren(timelinePass.timelineBody);
+        }
+        this.ledger.commit(pass.draft);
+        this.painter.commitPositions(pending.positions);
+        this.lastRenderPass = pass;
+        this.reapplyRefreshed();
+      }, { rendered: true });
+    } finally {
+      if (this.lastRenderPass === pending.pass) this.publishRendered();
+    }
   }
 
   private publishRendered():void {

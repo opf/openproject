@@ -399,20 +399,67 @@ describe('WorkPackageTable lifecycle', () => {
         }
       });
 
-      it('rebuilds no pending draft for a work package the draft does not show', async () => {
-        const harness = await mount({ workPackages: [{ id: '1' }] });
+      it('keeps the query grouping when a work package changes group while a render is pending', async () => {
+        const harness = await mount({
+          workPackages: [
+            { id: '1', attributes: { status: status.new } },
+            { id: '2', attributes: { status: status.new } },
+            { id: '3', attributes: { status: status.inProgress } },
+          ],
+          groups: [
+            { value: 'New', href: status.new.href, count: 2 },
+            { value: 'In progress', href: status.inProgress.href, count: 1 },
+          ],
+        });
+        const frames = harness.holdFrames();
+        try {
+          harness.table.redrawTable();
+          const moved = buildWorkPackage({ id: '1', subject: 'Moved', attributes: { status: status.inProgress } });
+          expect(() => harness.table.refreshRows(moved)).not.toThrow();
+          const [collapsing] = harness.querySpace.groups.value!;
+          expect(() => harness.injector.get(WorkPackageViewCollapsedGroupsService).toggleGroupCollapseState(collapsing.identifier)).not.toThrow();
+          frames.commit();
+          expect(() => harness.table.redrawTable()).not.toThrow();
+          frames.commit();
+
+          expect(harness.tbody.querySelectorAll('.wp-table--group-header')).toHaveLength(2);
+          expect(harness.row('1')).toHaveTextContent('Moved');
+          expect(harness.row('1')).not.toBeVisible();
+        } finally {
+          frames.release();
+        }
+      });
+
+      it('rebuilds no draft however many updates arrive while a render is pending', async () => {
+        const harness = await mount({ workPackages: [{ id: '1' }, { id: '2' }] });
         const frames = harness.holdFrames();
         try {
           harness.table.redrawTable();
           const buildRows = vi.spyOn(harness.table.rowBuilder, 'buildRows');
 
-          harness.table.refreshRows(buildWorkPackage({ id: '2', subject: 'Elsewhere' }));
-          harness.table.refreshRows(buildWorkPackage({ id: '1', subject: 'Renamed' }));
+          ['A', 'B', 'C'].forEach((suffix) => {
+            harness.table.refreshRows(buildWorkPackage({ id: '1', subject: `One ${suffix}` }));
+            harness.table.refreshRows(buildWorkPackage({ id: '2', subject: `Two ${suffix}` }));
+          });
+          frames.commit();
 
-          expect(buildRows).toHaveBeenCalledOnce();
+          expect(buildRows).not.toHaveBeenCalled();
+          expect(harness.row('1')).toHaveTextContent('One C');
+          expect(harness.row('2')).toHaveTextContent('Two C');
         } finally {
           frames.release();
         }
+      });
+
+      it('keeps refreshed content through a later redraw', async () => {
+        const harness = await mount({ workPackages: [{ id: '1', subject: 'Initial' }] });
+        harness.table.refreshRows(buildWorkPackage({ id: '1', subject: 'Renamed' }));
+
+        const rendered = harness.nextRender();
+        harness.table.redrawTable();
+        await rendered;
+
+        expect(harness.row('1')).toHaveTextContent('Renamed');
       });
 
       it('commits nothing when destroyed while pending', async () => {
@@ -759,6 +806,25 @@ describe('WorkPackageTable lifecycle', () => {
       await nextFrame();
       await nextFrame();
     };
+
+    it.each([
+      { query: [], current: [{ id: '2' }], shown: true },
+      { query: [{ id: '2' }], current: [], shown: false },
+    ])('expands the children a refresh left on the parent ($current.length after $query.length)', async ({ query, current, shown }) => {
+      const harness = buildTable({
+        workPackages: [{ id: '1', children: query }, { id: '2' }],
+        columns: ['id', 'subject', { id: 'children', children: true }],
+      });
+      harnesses.push(harness);
+      await harness.render();
+      harness.injector.get(States).workPackages.get('1').putValue(buildWorkPackage({ id: '1', children: current }));
+
+      const rendered = harness.nextRender();
+      harness.expand('1', 'children');
+      await rendered;
+
+      expect(harness.tbody.querySelector('[data-occurrence-key="relation:children:1:2"]') !== null).toBe(shown);
+    });
 
     it('requests a missing child once until the next initial setup', async () => {
       const unresolved:WorkPackageResource[] = [];
