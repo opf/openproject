@@ -28,6 +28,10 @@ Attach it alongside whatever controller already owns the element's ordinary beha
 * **Touch and pen keep the native long-press menu.** There is no touch-sized design for the menu, so the gesture is left to the browser.
 * **It never touches the menu's contents.** The controller adds entry points only; what the menu offers, and any selection state, stays with whatever else owns the element.
 
+## Choosing the menu's contents
+
+Keep the actions a user came for on the top level, and nest the rest in a [sub-menu](/lookbook/inspect/primer/alpha/action_menu/sub_menus) so the menu stays short enough to scan. The same action can land on either level depending on what the element is for. E.g. the move actions that stand in for drag and drop sit on the top level in a list whose order is the setting being edited, and in a sub-menu where reordering is an occasional correction rather than the reason the action menu is needed.
+
 ## Preparing or suppressing an invocation
 
 The controller dispatches a cancelable `contextual-action-menu:beforeOpen` event carrying `{ origin: 'pointer' | 'keyboard' }`. Calling `preventDefault()` on it suppresses the invocation and hands the gesture back to the browser.
