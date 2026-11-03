@@ -52,6 +52,10 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
     create(:notification, recipient: user, resource:, reason:, actor: author, journal:, **)
   end
 
+  def wp_tag(work_package)
+    "openproject-#{user.id}-wp-#{work_package.id}"
+  end
+
   context "without a session" do
     it "answers 401 instead of redirecting" do
       get "/push-notification"
@@ -304,7 +308,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
 
         expect(json).to eq(
           "count" => 1,
-          "groups" => [{ "tag" => "openproject-wp-#{work_package.id}",
+          "groups" => [{ "tag" => wp_tag(work_package),
                          "count" => 1,
                          "revision" => "#{notification.id}:#{(notification.journal.reload.updated_at.to_f * 1000).to_i}",
                          "title" => "Ada Lovelace mentioned you",
@@ -328,6 +332,19 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
                                              "body" => "Ada Lovelace mentioned you: ##{work_package.id} Fix the build")
       end
 
+      it "scopes the tag to the recipient so another user gets a different tag for the same work package" do
+        notify
+        other_user = create(:user, member_with_permissions: { project => %i[view_work_packages] })
+        create(:notification, recipient: other_user, resource: work_package, reason: :mentioned, actor: author)
+
+        get "/push-notification"
+
+        other_tag = PushSubscriptions::NotificationSummary.new(other_user).as_json.dig(:groups, 0, :tag)
+
+        expect(json.dig("groups", 0, "tag")).to eq(wp_tag(work_package))
+        expect(other_tag).to eq("openproject-#{other_user.id}-wp-#{work_package.id}")
+      end
+
       it "orders groups by their latest activity" do
         older = create(:work_package, project:)
         newer = create(:work_package, project:)
@@ -336,7 +353,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
 
         get "/push-notification"
 
-        expect(json["groups"].pluck("tag")).to eq(["openproject-wp-#{older.id}", "openproject-wp-#{newer.id}"])
+        expect(json["groups"].pluck("tag")).to eq([wp_tag(older), wp_tag(newer)])
       end
 
       it "puts a work package first when an aggregated journal makes its notification unread again" do
@@ -355,7 +372,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
           .call(read_ian: false)
         get "/push-notification"
 
-        expect(json["groups"].pluck("tag")).to eq(["openproject-wp-#{work_package.id}", "openproject-wp-#{other.id}"])
+        expect(json["groups"].pluck("tag")).to eq([wp_tag(work_package), wp_tag(other)])
         expect(json["groups"].pluck("count")).to eq([1, 2])
         expect(json["groups"].first["revision"])
           .to eq("#{aggregated.id}:#{(journal.reload.updated_at.to_f * 1000).to_i}")
@@ -370,7 +387,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
         Notification.where(id: older_notification.id).update_all(mail_reminder_sent: true, updated_at: Time.current)
         get "/push-notification"
 
-        expect(json["groups"].pluck("tag")).to eq(["openproject-wp-#{newer.id}", "openproject-wp-#{older.id}"])
+        expect(json["groups"].pluck("tag")).to eq([wp_tag(newer), wp_tag(older)])
       end
 
       it "caps the groups at five and reports the rest as more" do
@@ -380,7 +397,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
         get "/push-notification"
 
         expect(json["count"]).to eq(7)
-        expect(json["groups"].pluck("tag")).to eq(work_packages.last(5).reverse.map { "openproject-wp-#{it.id}" })
+        expect(json["groups"].pluck("tag")).to eq(work_packages.last(5).reverse.map { wp_tag(it) })
         expect(json["more"]).to eq("count" => 2, "title" => "2 more work packages", "url" => "/notifications")
       end
 
@@ -391,7 +408,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
           get "/push-notification"
 
           expect(json.dig("groups", 0, "url")).to eq("/notifications/details/#{work_package.to_param}/activity")
-          expect(json.dig("groups", 0, "tag")).to eq("openproject-wp-#{work_package.id}")
+          expect(json.dig("groups", 0, "tag")).to eq(wp_tag(work_package))
         end
       end
 
