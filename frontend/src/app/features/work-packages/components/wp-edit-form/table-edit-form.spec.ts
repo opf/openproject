@@ -56,6 +56,7 @@ import { buildWorkPackage } from '../wp-fast-table/testing/work-package-fixture'
 import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { wpOccurrenceKey } from '../wp-fast-table/rendered-occurrence-ledger';
+import { inlineCreateRowKey } from '../wp-fast-table/row-keys';
 
 function deferred<T>() {
   let resolve!:(value:T) => void;
@@ -458,6 +459,19 @@ describe('TableEditForm origin', () => {
       expect(handler).toBeDefined();
       expect(row).toContainElement(within(row).getByRole('textbox'));
       expect(form.originFor('subject')).toBeNull();
+    });
+
+    it('cancelling an editor in the inline-create row closes it and commits that row', async () => {
+      await mountTwoRows();
+      const row = harness.addInlineCreateRow();
+      const handler = await harness.table.editing.forms[HAL_NEW_RESOURCE_ID].activate('subject');
+      expect(within(row).getByRole('textbox')).toBeInTheDocument();
+      const { generation } = harness.table.committedRows();
+
+      handler!.handleUserCancel();
+
+      expect(within(row).queryByRole('textbox')).not.toBeInTheDocument();
+      expect(harness.table.committedRows()).toEqual({ generation: generation + 1, scope: new Set([inlineCreateRowKey]) });
     });
 
     it('a failed activation leaves no origin behind', async () => {

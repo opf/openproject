@@ -53,6 +53,8 @@ import { editFieldContainerClass } from 'core-app/shared/components/fields/displ
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
 import { insideGrid } from '../wp-fast-table/handlers/state/keyboard/roving-tabindex';
+import { inlineCreateRowKey } from '../wp-fast-table/row-keys';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
@@ -193,7 +195,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     const td = this.findCell(fieldName)!;
 
     if (cell) {
-      this.table.mutateWorkPackages([this.resource.id!], () => {
+      this.mutateOwnRow(() => {
         td.style.width = '';
         td.style.maxWidth = '';
         this.cellBuilder.refresh(cell, this.resource, fieldName);
@@ -206,6 +208,14 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     }
 
     this.origins.delete(fieldName);
+  }
+
+  private mutateOwnRow(change:() => void):void {
+    if (isNewResource(this.resource)) {
+      this.table.mutate(new Set([inlineCreateRowKey]), change);
+    } else {
+      this.table.mutateWorkPackages([this.resource.id!], change);
+    }
   }
 
   public override async submit(fieldName?:string):Promise<WorkPackageResource> {
