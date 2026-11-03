@@ -39,6 +39,26 @@ RSpec.describe "Help desk MODULE_ENABLED event", with_flag: { helpdesk: true } d
     expect(Member.find_by(project:, principal: ITSM.helpdesk_user).roles).to contain_exactly(ITSM.helpdesk_role)
   end
 
+  it "adds the help desk user to a project created with the help desk" do
+    created = create(:project, enabled_module_names: %w[work_package_tracking helpdesk])
+
+    expect(Member.find_by(project: created, principal: ITSM.helpdesk_user).roles).to contain_exactly(ITSM.helpdesk_role)
+  end
+
+  context "when the help desk user cannot be created" do
+    before do
+      create(:project_role, name: "Help desk")
+      allow(OpenProject.logger).to receive(:error)
+    end
+
+    it "still enables the module and logs the failure" do
+      project.enabled_modules.create!(name: "helpdesk")
+
+      expect(project.reload.module_enabled?(:helpdesk)).to be(true)
+      expect(OpenProject.logger).to have_received(:error).with(/Help desk user not added to project #{project.id}/)
+    end
+  end
+
   it "does not add the help desk user for other modules" do
     project.enabled_modules.create!(name: "calendar_view")
 

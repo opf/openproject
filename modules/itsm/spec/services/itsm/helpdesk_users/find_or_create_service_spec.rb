@@ -69,6 +69,29 @@ RSpec.describe ITSM::HelpdeskUsers::FindOrCreateService do
       expect(user).to eq(existing_user)
       expect(ProjectRole.where(name: "Help desk").count).to eq(1)
     end
+
+    it "does not take the lock" do
+      allow(OpenProject::Mutex).to receive(:with_advisory_lock)
+
+      result
+
+      expect(OpenProject::Mutex).not_to have_received(:with_advisory_lock)
+    end
+  end
+
+  context "when the account cannot be saved" do
+    before do
+      allow(I18n).to receive(:t).and_call_original
+      allow(I18n).to receive(:t).with(:label_helpdesk_user, any_args).and_return("")
+    end
+
+    it "rolls back the role, also inside another transaction" do
+      outer_result = ActiveRecord::Base.transaction { result }
+
+      expect(outer_result).to be_failure
+      expect(outer_result.errors.symbols_for(:name)).to eq([:blank])
+      expect(ProjectRole.where(name: "Help desk")).not_to exist
+    end
   end
 
   context "when the account was deleted" do

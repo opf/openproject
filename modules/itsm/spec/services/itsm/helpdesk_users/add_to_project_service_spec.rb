@@ -41,12 +41,22 @@ RSpec.describe ITSM::HelpdeskUsers::AddToProjectService, with_flag: { helpdesk: 
     expect(member.roles).to contain_exactly(ITSM.helpdesk_role)
   end
 
+  context "when the help desk user cannot be created" do
+    before { create(:project_role, name: "Help desk") }
+
+    it "fails without adding a member" do
+      expect(result).to be_failure
+      expect(Member.where(project:)).to be_empty
+    end
+  end
+
   context "when the help desk user is already a member with the role" do
     before { described_class.new.call(project:) }
 
     it "changes nothing" do
       expect { result }.not_to change(MemberRole, :count)
       expect(result).to be_success
+      expect(result.result).not_to be_changed_for_autosave
     end
   end
 

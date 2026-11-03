@@ -37,14 +37,17 @@ module ITSM
       protected
 
       def perform
-        OpenProject::Mutex.with_advisory_lock(ServiceAccount, "itsm_helpdesk_user") do
-          in_transaction { find_or_create_role.bind { find_or_create_user } }
-            .either(->(user) { ServiceResult.success(result: user) },
-                    ->(record) { ServiceResult.failure(errors: record.errors) })
-        end
+        find_existing
+          .or { in_transaction { locked { find_or_create_role.bind { find_or_create_user } } } }
+          .either(->(user) { ServiceResult.success(result: user) },
+                  ->(record) { ServiceResult.failure(errors: record.errors) })
       end
 
       private
+
+      def find_existing
+        find(ProjectRole, Setting.helpdesk_role_id).bind { find(ServiceAccount, Setting.helpdesk_user_id) }
+      end
 
       def find_or_create_role
         find_or_create(ProjectRole, :helpdesk_role_id) do
@@ -66,9 +69,11 @@ module ITSM
 
       def persist(record) = record.save ? Success(record) : Failure(record)
 
+      def locked(&) = OpenProject::Mutex.with_advisory_lock(ServiceAccount, "itsm_helpdesk_user", transaction: true, &)
+
       def in_transaction
         result = nil
-        ActiveRecord::Base.transaction do
+        ActiveRecord::Base.transaction(requires_new: true) do
           result = yield
           raise ActiveRecord::Rollback if result.failure?
         end

@@ -33,18 +33,26 @@ module ITSM
       protected
 
       def perform
-        Member.find_or_initialize_by(project: params[:project], principal: ITSM.helpdesk_user, entity: nil)
-          .then { |member| with_helpdesk_role(member) }
-          .then { |member| ServiceResult.new(success: member.save, result: member) }
+        FindOrCreateService.new.call.bind { |user| add_member(user) }
       end
 
       private
 
-      def with_helpdesk_role(member)
-        member.tap { it.member_roles.build(role: helpdesk_role) unless it.roles.include?(helpdesk_role) }
+      def add_member(user)
+        Member.find_or_initialize_by(project: params[:project], principal: user, entity: nil)
+          .then { |member| with_role(member, ITSM.helpdesk_role) }
+          .then { |member| persist(member) }
       end
 
-      def helpdesk_role = ITSM.helpdesk_role
+      def with_role(member, role)
+        member.tap { it.member_roles.build(role:) unless it.roles.include?(role) }
+      end
+
+      def persist(member)
+        return ServiceResult.success(result: member) unless member.changed_for_autosave?
+
+        ServiceResult.new(success: member.save, result: member)
+      end
     end
   end
 end
