@@ -1,0 +1,76 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render layout: "mailer/spacer_table" do %>
+  <%= render partial: "mailer/mailer_header",
+             locals: {
+               summary: I18n.t(:"documents.mail.mentioned.mentioned_by", user: @author),
+               button_href: document_url(@document),
+               button_text: I18n.t(:"documents.mail.mentioned.open_document"),
+               user: @user
+             } %>
+
+  <a style="text-decoration: none;display: block;"
+     href="<%= document_url(@document) %>"
+     target="_blank">
+    <%= render layout: "mailer/border_table" do %>
+      <tr>
+        <%= placeholder_cell("12px", vertical: true) %>
+        <td width="100%" style="color: #878787;">
+          <%= @document.project.name %>
+        </td>
+        <%= placeholder_cell("12px", vertical: true) %>
+      </tr>
+      <tr>
+        <%= placeholder_cell("12px", vertical: true) %>
+        <%= placeholder_cell("16px", vertical: false) %>
+        <%= placeholder_cell("12px", vertical: true) %>
+      </tr>
+      <tr>
+        <%= placeholder_cell("12px", vertical: true) %>
+        <td width="100%" style="color: #333333;font-size:16px;font-weight:bold;">
+          <%= @document.title %>
+        </td>
+        <%= placeholder_cell("12px", vertical: true) %>
+      </tr>
+    <% end %>
+  </a>
+
+  <table <%= placeholder_table_styles %>>
+    <tr>
+      <%= placeholder_cell("24px", vertical: false) %>
+    </tr>
+  </table>
+
+  <%= render partial: "mailer/notification_settings_table",
+             locals: {
+               button_url: my_notifications_url(tab: "reminders"),
+               button_text: I18n.t(:"mail.notification.settings")
+             } %>
+<% end %>

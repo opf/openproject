@@ -801,6 +801,12 @@ en:
             date:
               format: "%{message}"
               taken: "A non-working day already exists for %{value}."
+        notification:
+          attributes:
+            recipient:
+              not_an_active_user: "is not an active user."
+            resource:
+              mentions_not_supported: "does not support mentioning users."
         notifications:
           at_least_one_channel: "At least one channel for sending notifications needs to be specified."
           attributes:

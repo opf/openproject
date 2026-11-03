@@ -102,7 +102,8 @@ class NotificationSetting < ApplicationRecord
   belongs_to :user
 
   include Scopes::Scoped
-  scopes :applicable
+  scopes :applicable,
+         :enabled_for
 
   def start_date_active
     start_date.present?

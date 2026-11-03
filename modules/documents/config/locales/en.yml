@@ -141,6 +141,12 @@ en:
     label_categories: "Categories"
     last_updated_at_html: "Last saved %{time}."
 
+    mail:
+      mentioned:
+        mentioned_by: "%{user} mentioned you in a document"
+        open_document: "Open document"
+        subject: "[%{project_name}] %{user_name} mentioned you in %{title}"
+
     menu:
       all: "All documents"
       collaboration_settings: "Real-time collaboration"

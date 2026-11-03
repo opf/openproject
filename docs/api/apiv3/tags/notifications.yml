@@ -4,7 +4,7 @@ description: |-
   Notifications are triggered by actions carried out in the system by users, e.g. editing a work package, but can also be send out because
   of time passing e.g. when a user is notified of a work package that is overdue.
 
-  This endpoint only returns in-app notifications.
+  Listing notifications only returns in-app notifications, not notifications that are only send via email.
 
   ## Actions
 
