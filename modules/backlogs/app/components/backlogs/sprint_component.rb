@@ -117,7 +117,7 @@ module Backlogs
     end
 
     def estimated_hours_total
-      work_packages.filter_map(&:estimated_hours).sum
+      @estimated_hours_total ||= work_packages.filter_map(&:estimated_hours).sum
     end
 
     def show_velocity?
