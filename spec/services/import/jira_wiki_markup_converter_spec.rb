@@ -483,6 +483,30 @@ RSpec.describe Import::JiraWikiMarkupConverter do
       end
     end
 
+    context "with a sized image on its own line followed by a heading" do
+      let(:input) { "!screenshot.png|thumbnail!\nh2. Heading" }
+
+      it "leaves a blank line between them, so the heading is not taken for part of the image's HTML" do
+        expect(result).to eq(%(<img src="screenshot.png" alt="" style="width:200px">\n\n## Heading))
+      end
+    end
+
+    context "with a sized image and trailing spaces on its own line followed by a heading" do
+      let(:input) { "!screenshot.png|thumbnail!  \nh2. Heading" }
+
+      it "leaves a blank line between them, so the heading is not taken for part of the image's HTML" do
+        expect(result).to eq(%(<img src="screenshot.png" alt="" style="width:200px">  \n\n## Heading))
+      end
+    end
+
+    context "with a sized image in a list item" do
+      let(:input) { "* !screenshot.png|thumbnail! text\n* next" }
+
+      it "keeps the text after the image in the list item" do
+        expect(result).to eq(%(- <img src="screenshot.png" alt="" style="width:200px"> text\n- next))
+      end
+    end
+
     context "with a width and height" do
       let(:input) { "!screenshot.png|width=681,height=403!" }
 
@@ -500,7 +524,9 @@ RSpec.describe Import::JiraWikiMarkupConverter do
     context "with a width in percent" do
       let(:input) { "!screenshot.png|width=50%!" }
 
-      it { is_expected.to eq(%(<img src="screenshot.png" alt="" style="width:50%">)) }
+      it "ignores it, as OpenProject sizes images in pixels only" do
+        expect(result).to eq("![](screenshot.png)")
+      end
     end
 
     context "with only a height" do

@@ -36,6 +36,8 @@ module Import
 
       JIRA_THUMBNAIL_STYLE = "width:200px"
 
+      LONE_HTML_IMAGE = /\A[ \t]*<img [^>]*>[ \t]*$/
+
       EMOTICON_MAP = {
         ":)" => "\u{1F642}",
         ":(" => "\u{2639}\u{FE0F}",
@@ -72,13 +74,19 @@ module Import
         parts = []
         blocks.each_with_index do |block, i|
           rendered = render_block(block)
-          parts[-1] = "#{parts[-1]}\n" if i > 0 && block.is_a?(N::Paragraph) && blocks[i - 1].is_a?(N::Paragraph)
+          parts[-1] = "#{parts[-1]}\n" if i > 0 && blank_line_between?(blocks[i - 1], parts[-1], block)
           parts << rendered
         end
         parts.join("\n")
       end
 
       private
+
+      # CommonMark requires a blank line between an HTML block and Markdown.
+      def blank_line_between?(previous_block, previous_markdown, next_block)
+        (previous_block.is_a?(N::Paragraph) && next_block.is_a?(N::Paragraph)) ||
+          previous_markdown.match?(LONE_HTML_IMAGE)
+      end
 
       def render_block(node)
         case node
@@ -302,8 +310,8 @@ module Import
 
       # Keep only one dimension because OpenProject's editor resizes an image by its width alone.
       def width_or_height_style(params)
-        width = css_length(params["width"])
-        height = css_length(params["height"])
+        width = css_pixels(params["width"])
+        height = css_pixels(params["height"])
 
         if width
           "width:#{width}"
@@ -312,10 +320,10 @@ module Import
         end
       end
 
-      def css_length(value)
+      def css_pixels(value)
         case value
         when /\A\d+\z/ then "#{value}px"
-        when /\A\d+(px|%)\z/ then value
+        when /\A\d+px\z/ then value
         end
       end
 
