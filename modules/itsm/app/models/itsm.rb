@@ -31,4 +31,6 @@ module ITSM
   def self.table_name_prefix
     "itsm_"
   end
+
+  def self.helpdesk_available? = OpenProject::FeatureDecisions.helpdesk_active? && Setting.helpdesk_enabled?
 end

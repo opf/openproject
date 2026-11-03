@@ -185,7 +185,7 @@ RSpec.describe ITSM::IncomingMailbox do
     let!(:not_yet_due) { create(:itsm_incoming_mailbox, next_fetch_at: 1.minute.from_now) }
     let!(:paused) { create(:itsm_incoming_mailbox, active: false, next_fetch_at: nil) }
     let!(:in_archived_project) { create(:itsm_incoming_mailbox, project: create(:project, active: false)) }
-    let!(:help_desk_disabled) { create(:itsm_incoming_mailbox, project: create(:project, disable_modules: :helpdesk)) }
+    let!(:helpdesk_disabled) { create(:itsm_incoming_mailbox, project: create(:project, disable_modules: :helpdesk)) }
 
     it "returns the active mailboxes of help desk projects whose next check is due" do
       expect(described_class.due_for_fetch).to contain_exactly(never_fetched, due)

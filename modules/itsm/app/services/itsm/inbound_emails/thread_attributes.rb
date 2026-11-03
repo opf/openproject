@@ -45,12 +45,7 @@ module ITSM
       delegate :headers, to: :email
 
       def recipients
-        EmailAddress::NORMALIZE_ALL.call(headers.to_addresses + headers.cc_addresses) -
-          [EmailAddress::NORMALIZE.call(headers.from_address)] - own_addresses
-      end
-
-      def own_addresses
-        IncomingMailbox.pluck(:email, :aliases).flatten + OutgoingMailbox.pluck(:sender_email)
+        (headers.to_addresses + headers.cc_addresses).uniq - [headers.from_address] - EmailAddress.helpdesk_addresses
       end
     end
   end

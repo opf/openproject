@@ -30,33 +30,25 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe ITSM::Mailboxes::FetchService do
+RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, with_settings: { helpdesk_enabled: true } do
   subject(:result) { described_class.new(mailbox).call }
 
   let(:mailbox) { create(:itsm_incoming_mailbox, active:, consecutive_failures:, last_error:) }
   let(:active) { true }
   let(:consecutive_failures) { 0 }
   let(:last_error) { nil }
-  let(:imap) do
-    instance_double(Net::IMAP, login: nil, select: nil, uid_store: nil, uid_expunge: nil,
-                               logout: nil, disconnect: nil, disconnected?: false)
-  end
+  let(:imap) { instance_double(Net::IMAP, login: nil, select: nil, logout: nil, disconnect: nil, disconnected?: false) }
   let(:unseen_uids) { [2, 1] }
-  let(:emails) do
-    {
-      1 => "Message-ID: <first@customer.example>\r\nFrom: jane@customer.example\r\nSubject: First\r\n\r\nHello",
-      2 => "Message-ID: <second@customer.example>\r\nSubject: No sender\r\n\r\nHello"
-    }
-  end
+  let(:process_email_service) { instance_double(ITSM::Mailboxes::ProcessEmailService, call: ServiceResult.success(result: mailbox)) }
 
   before do
     with_ssrf_ip_allowlist(["203.0.113.10"])
     allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(->(_host) { [IPAddr.new("203.0.113.10")] })
     allow(Net::IMAP).to receive(:new).and_return(imap)
     allow(imap).to receive(:uid_search).and_return(unseen_uids)
-    allow(imap).to receive(:uid_fetch) do |uid, _attr|
-      emails[uid] && [Net::IMAP::FetchData.new(uid, { "BODY[]" => emails[uid] })]
-    end
+    allow(ITSM::Mailboxes::ProcessEmailService).to receive(:new)
+      .with(mailbox:, session: instance_of(ITSM::Adapters::ImapSession))
+      .and_return(process_email_service)
   end
 
   it "logs in with the mailbox's IMAP settings" do
@@ -66,50 +58,16 @@ RSpec.describe ITSM::Mailboxes::FetchService do
     expect(imap).to have_received(:login).with(mailbox.username, "imap-password")
   end
 
-  it "reads the unseen emails and leaves them untouched on the server" do
+  it "processes the unseen emails, oldest first" do
     expect(result).to be_success
-    expect(imap).to have_received(:uid_fetch).with(1, "BODY.PEEK[]")
-    expect(imap).to have_received(:uid_fetch).with(2, "BODY.PEEK[]")
-    expect(imap).not_to have_received(:uid_store)
-    expect(imap).not_to have_received(:uid_expunge)
+    expect(process_email_service).to have_received(:call).with(uid: 1).ordered
+    expect(process_email_service).to have_received(:call).with(uid: 2).ordered
   end
 
   it "logs out afterwards" do
     result
 
     expect(imap).to have_received(:logout)
-  end
-
-  context "when an email cannot be parsed" do
-    let(:warnings) { [] }
-
-    before do
-      allow(ITSM::InboundEmail).to receive(:new).and_call_original
-      allow(ITSM::InboundEmail).to receive(:new).with(emails[1]).and_raise(ArgumentError, "bad header from jane@customer.example")
-      allow(Rails.logger).to receive(:warn) { |&message| warnings << message.call }
-    end
-
-    it "skips it and continues with the next one" do
-      expect(result).to be_success
-      expect(imap).to have_received(:uid_fetch).with(2, "BODY.PEEK[]")
-      expect(imap).not_to have_received(:uid_store)
-    end
-
-    it "logs the error class without the email content" do
-      result
-
-      expect(warnings).to include("Email not read: ArgumentError")
-      expect(warnings.join).not_to include("jane@customer.example")
-    end
-  end
-
-  context "when an email disappears before it is fetched" do
-    before { emails.delete(1) }
-
-    it "leaves it alone" do
-      expect(result).to be_success
-      expect(imap).not_to have_received(:uid_store)
-    end
   end
 
   it "records the successful check", freeze_time: Time.current.change(usec: 0) do
@@ -121,13 +79,33 @@ RSpec.describe ITSM::Mailboxes::FetchService do
                                               last_error: nil)
   end
 
+  context "with a new email on the server" do
+    let(:mailbox) { create(:itsm_incoming_mailbox, project: create(:project_with_types)) }
+    let(:unseen_uids) { [1] }
+    let(:raw) { Mail.new(message_id: "<request-1@customer.example>", from: "jane@customer.example", body: "Hello").to_s }
+    let!(:status) { create(:default_status) }
+    let!(:priority) { create(:default_priority) }
+
+    before do
+      allow(ITSM::Mailboxes::ProcessEmailService).to receive(:new).and_call_original
+      allow(imap).to receive_messages(uid_fetch: [Net::IMAP::FetchData.new(1, { "BODY[]" => raw })],
+                                      uid_store: nil, uid_expunge: nil, capable?: true)
+    end
+
+    it "creates a work package and removes the email from the server" do
+      expect { result }.to change { WorkPackage.where(project: mailbox.project).count }.by(1)
+      expect(imap).to have_received(:uid_store).with(1, "+FLAGS", [:Deleted])
+      expect(imap).to have_received(:uid_expunge).with(1)
+    end
+  end
+
   context "with more unseen emails than one run reads" do
     before { stub_const("#{described_class}::BATCH_SIZE", 1) }
 
-    it "reads only the oldest ones" do
+    it "processes only the oldest ones" do
       result
 
-      expect(imap).to have_received(:uid_fetch).once.with(1, "BODY.PEEK[]")
+      expect(process_email_service).to have_received(:call).once.with(uid: 1)
     end
   end
 
@@ -161,11 +139,15 @@ RSpec.describe ITSM::Mailboxes::FetchService do
   end
 
   context "when the connection drops in the middle of the run" do
-    before { allow(imap).to receive(:uid_fetch).with(1, "BODY.PEEK[]").and_raise(IOError) }
+    before do
+      allow(process_email_service).to receive(:call).with(uid: 1)
+        .and_return(ServiceResult.failure(result: mailbox).tap { it.errors.add(:base, :unreachable) })
+    end
 
     it "stops and records the failure" do
       expect(result.errors.symbols_for(:base)).to eq([:unreachable])
-      expect(imap).not_to have_received(:uid_fetch).with(2, anything)
+      expect(mailbox.reload.last_error).to eq("unreachable")
+      expect(process_email_service).not_to have_received(:call).with(uid: 2)
       expect(imap).to have_received(:logout)
     end
   end
@@ -175,6 +157,29 @@ RSpec.describe ITSM::Mailboxes::FetchService do
 
     it "does not connect" do
       expect(result).to be_failure
+      expect(result.errors.symbols_for(:base)).to eq([:inactive])
+      expect(Net::IMAP).not_to have_received(:new)
+    end
+  end
+
+  context "when the help desk is turned off in the administration", with_settings: { helpdesk_enabled: false } do
+    it "does not connect" do
+      expect(result.errors.symbols_for(:base)).to eq([:inactive])
+      expect(Net::IMAP).not_to have_received(:new)
+    end
+  end
+
+  context "with the help desk feature disabled", with_flag: { helpdesk: false } do
+    it "does not connect" do
+      expect(result.errors.symbols_for(:base)).to eq([:inactive])
+      expect(Net::IMAP).not_to have_received(:new)
+    end
+  end
+
+  context "when the project no longer uses the help desk" do
+    let(:mailbox) { create(:itsm_incoming_mailbox, project: create(:project, disable_modules: :helpdesk)) }
+
+    it "does not connect" do
       expect(result.errors.symbols_for(:base)).to eq([:inactive])
       expect(Net::IMAP).not_to have_received(:new)
     end
