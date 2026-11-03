@@ -37,14 +37,14 @@ properties:
 
               **Resource**: Priority
             readOnly: true
-example:
-  _type: Priority
-  _links:
-    self:
-      href: "/api/v3/priorities/1"
-      title: Low
-  id: 1
-  name: Low
-  position: 1
-  isDefault: false
-  isActive: true
+examples:
+  - _type: Priority
+    _links:
+      self:
+        href: "/api/v3/priorities/1"
+        title: Low
+    id: 1
+    name: Low
+    position: 1
+    isDefault: false
+    isActive: true

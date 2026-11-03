@@ -29,11 +29,11 @@ properties:
 
               **Resource**: Role
             readOnly: true
-example:
-  _type: Role
-  id: 3
-  name: Manager
-  _links:
-    self:
-      href: "/api/v3/roles/3"
-      title: Manager
+examples:
+  - _type: Role
+    id: 3
+    name: Manager
+    _links:
+      self:
+        href: "/api/v3/roles/3"
+        title: Manager

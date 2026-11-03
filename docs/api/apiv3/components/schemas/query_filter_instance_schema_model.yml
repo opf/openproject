@@ -31,32 +31,32 @@ properties:
 
               **Resource**: Filter
             readOnly: true
-example:
-  _type: QueryFilterInstanceSchema
-  _dependencies:
-    - _type: SchemaDependency
-      'on': operator
-      dependencies:
-        "/api/v3/queries/operators/=":
-          values:
-            type: "[]User"
-            name: Values
-            required: true
-            hasDefault: false
-            writable: true
-            _links: {}
-        "/api/v3/queries/operators/!":
-          values:
-            type: "[]User"
-            name: Values
-            required: true
-            hasDefault: false
-            writable: true
-            _links: {}
-  name: "A name"
-  _links:
-    self:
-      href: "/api/v3/queries/filter_instance_schemas/author"
-    filter:
-      href: "/api/v3/queries/filters/author"
-      title: Author
+examples:
+  - _type: QueryFilterInstanceSchema
+    _dependencies:
+      - _type: SchemaDependency
+        'on': operator
+        dependencies:
+          "/api/v3/queries/operators/=":
+            values:
+              type: "[]User"
+              name: Values
+              required: true
+              hasDefault: false
+              writable: true
+              _links: {}
+          "/api/v3/queries/operators/!":
+            values:
+              type: "[]User"
+              name: Values
+              required: true
+              hasDefault: false
+              writable: true
+              _links: {}
+    name: "A name"
+    _links:
+      self:
+        href: "/api/v3/queries/filter_instance_schemas/author"
+      filter:
+        href: "/api/v3/queries/filters/author"
+        title: Author

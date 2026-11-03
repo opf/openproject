@@ -44,17 +44,17 @@ properties:
 
               **Resource**: User
             readOnly: true
-example:
-  _links:
-    self:
-      href: "/api/v3/categories/10"
-      title: Category with assignee
-    project:
-      href: "/api/v3/projects/11"
-      title: Example project
-    defaultAssignee:
-      href: "/api/v3/users/42"
-      title: John Sheppard
-  _type: Category
-  id: 10
-  name: Foo
+examples:
+  - _links:
+      self:
+        href: "/api/v3/categories/10"
+        title: Category with assignee
+      project:
+        href: "/api/v3/projects/11"
+        title: Example project
+      defaultAssignee:
+        href: "/api/v3/users/42"
+        title: John Sheppard
+    _type: Category
+    id: 10
+    name: Foo

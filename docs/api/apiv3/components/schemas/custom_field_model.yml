@@ -61,15 +61,15 @@ properties:
           - $ref: "./link.yml"
           - description: APIv3 self-reference of the custom field.
 
-example:
-  id: 42
-  name: Celestial Body
-  fieldFormat: hierarchy
-  isRequired: false
-  isMultiValue: false
-  createdAt: "2026-07-20T13:37:00Z"
-  updatedAt: "2026-07-20T20:13:37Z"
-  _links:
-    self:
-      href: "/api/v3/custom_fields/42"
-      title: "Celestial Body"
+examples:
+  - id: 42
+    name: Celestial Body
+    fieldFormat: hierarchy
+    isRequired: false
+    isMultiValue: false
+    createdAt: "2026-07-20T13:37:00Z"
+    updatedAt: "2026-07-20T20:13:37Z"
+    _links:
+      self:
+        href: "/api/v3/custom_fields/42"
+        title: "Celestial Body"

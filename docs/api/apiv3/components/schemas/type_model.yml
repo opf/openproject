@@ -60,16 +60,16 @@ properties:
 
               **Resource**: Type
             readOnly: true
-example:
-  _links:
-    self:
-      href: "/api/v3/types/1"
-  _type: Type
-  id: 1
-  name: Bug
-  color: "#ff0000"
-  position: 1
-  isDefault: true
-  isMilestone: false
-  createdAt: '2014-05-21T08:51:20.624Z'
-  updatedAt: '2014-05-21T08:51:20.624Z'
+examples:
+  - _links:
+      self:
+        href: "/api/v3/types/1"
+    _type: Type
+    id: 1
+    name: Bug
+    color: "#ff0000"
+    position: 1
+    isDefault: true
+    isMilestone: false
+    createdAt: '2014-05-21T08:51:20.624Z'
+    updatedAt: '2014-05-21T08:51:20.624Z'

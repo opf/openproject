@@ -25,11 +25,11 @@ properties:
 
               **Resource**: Budget
             readOnly: true
-example:
-  _type: Budget
-  _links:
-    self:
-      href: "/api/v3/budgets/1"
-      title: Q3 2015
-  id: 1
-  subject: Q3 2015
+examples:
+  - _type: Budget
+    _links:
+      self:
+        href: "/api/v3/budgets/1"
+        title: Q3 2015
+    id: 1
+    subject: Q3 2015

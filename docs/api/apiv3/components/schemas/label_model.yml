@@ -36,13 +36,13 @@ properties:
 
               **Resource**: Label
             readOnly: true
-example:
-  _type: Label
-  _links:
-    self:
-      href: "/api/v3/labels/1"
-      title: Bug
-  id: 1
-  name: Bug
-  createdAt: '2014-08-29T12:40:53.373Z'
-  updatedAt: '2014-08-29T12:40:53.373Z'
+examples:
+  - _type: Label
+    _links:
+      self:
+        href: "/api/v3/labels/1"
+        title: Bug
+    id: 1
+    name: Bug
+    createdAt: '2014-08-29T12:40:53.373Z'
+    updatedAt: '2014-08-29T12:40:53.373Z'

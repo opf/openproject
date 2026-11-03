@@ -12,17 +12,14 @@ properties:
       - custom
     readOnly: true
     description: Indicates the formatting language of the raw text
-    example: markdown
   raw:
     type: string
     description: The raw text, as entered by the user
-    example: I **am** formatted!
   html:
     type: string
     readOnly: true
     description: The text converted to HTML according to the format
-    example: I <strong>am</strong> formatted!
-example:
-  format: markdown
-  raw: I am formatted!
-  html: I am formatted!
+examples:
+  - format: markdown
+    raw: I **am** formatted!
+    html: I <strong>am</strong> formatted!

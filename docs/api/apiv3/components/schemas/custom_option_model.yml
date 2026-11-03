@@ -23,9 +23,9 @@ properties:
 
               **Resource**: CustomOption
             readOnly: true
-example:
-  _links:
-    self:
-      href: "/api/v3/custom_options/1"
-  _type: CustomOption
-  value: Foo
+examples:
+  - _links:
+      self:
+        href: "/api/v3/custom_options/1"
+    _type: CustomOption
+    value: Foo
