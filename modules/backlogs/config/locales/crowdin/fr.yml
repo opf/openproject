@@ -232,14 +232,14 @@ fr:
           average:
             one: 'Average of previous sprint:'
             other: 'Average of previous %{count} sprints:'
-          average_legend: Average
+          average_legend: Moyenne
           committed: Committed
-          completed: Completed
+          completed: Terminé
           story_points: "%{value} SP"
           summary:
-            one: Bar chart of committed and completed story points of the last sprint.
-            other: Bar chart of committed and completed story points of the last %{count} sprints.
-          summary_average: 'Average velocity: %{average}.'
+            one: Diagramme à barres représentant les points de story engagés et réalisés lors du dernier sprint.
+            other: Diagramme à barres représentant les points d'histoire engagés et achevés au cours des %{count} derniers sprints.
+          summary_average: 'Vélocité moyenne : %{average}.'
           title: Graphique de vélocité
           velocity: "%{sprint} :"
           y_axis_title: Story points
@@ -275,10 +275,10 @@ fr:
               no_dates:
                 description: Les dates de début et de fin de sprint sont nécessaires pour afficher les lots de travaux ajoutés.
               not_started:
-                description: Added work packages will appear here after the sprint starts.
-            title: Scope increase after sprint start
+                description: Les lots de travaux ajoutés apparaîtront ici après le démarrage du sprint.
+            title: Augmentation du périmètre après le démarrage du sprint
           blankslate:
-            heading: No work packages to display
+            heading: Aucun lot de travaux à afficher
           completed:
             blankslate:
               empty:
