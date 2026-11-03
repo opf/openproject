@@ -7210,6 +7210,7 @@ sv:
         invalid_attribute_groups: Formulärets nyttolast är ogiltig.
         invalid_query: Konfigurationen för den inbäddade frågan är ogiltig.
         label_group: Sektion
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: Inga inaktiva attribut
         not_found: Den begärda formulärposten hittades inte.
         query_group_label: Tabell med relaterade arbetspaket
@@ -7229,6 +7230,7 @@ sv:
         reset_title: Återställ formulär
         reset_to_defaults: Återställ formulär
         row_actions: Radåtgärder
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Formulär
         untitled_group: Namnlös grupp
       overview:

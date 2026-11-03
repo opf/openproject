@@ -7575,6 +7575,7 @@ ru:
         invalid_attribute_groups: Данные формы не соответствуют требованиям.
         invalid_query: Недопустимая конфигурация встраиваемого представления.
         label_group: Секция
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: Нет неактивных атрибутов
         not_found: Не удалось найти запрошенный элемент формы.
         query_group_label: Таблица связанных пакетов работ
@@ -7594,6 +7595,7 @@ ru:
         reset_title: Сбросить форму
         reset_to_defaults: Сбросить форму
         row_actions: Действия со строками
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Форма
         untitled_group: Безымянная группа
       overview:

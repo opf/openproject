@@ -208,9 +208,6 @@ pl:
     rebuild_positions: Przebuduj pozycje
     remaining_hours: Pozostała praca
     sharing: Udostępnianie sprintu
-    show_burndown_chart: Wykres spalania (burndown)
-    show_created_resolved_chart: Created vs resolved work packages
-    show_work_package_overview: Pakiety robocze w ramach sprintu
     sprint_component:
       action_menu:
         add_existing_work_package: Dodaj istniejący pakiet roboczy
@@ -240,6 +237,24 @@ pl:
         breadcrumb: Raport
         title: Raport dotyczący %{sprint}
       widgets:
+        burndown_chart:
+          title: Burndown chart
+        created_resolved_chart:
+          title: Created vs resolved work packages
+        epic_progress:
+          card:
+            progress_label:
+              one: "%{epic}: %{completed} of %{count} work package completed"
+              few: "%{epic}: %{completed} of %{count} work packages completed"
+              many: "%{epic}: %{completed} of %{count} work packages completed"
+              other: "%{epic}: %{completed} of %{count} work packages completed"
+            work_package_completed: "(%{percentage})"
+            work_package_counts:
+              one: "%{completed} / %{count} work package"
+              few: "%{completed} / %{count} work packages"
+              many: "%{completed} / %{count} work packages"
+              other: "%{completed} / %{count} work packages"
+          title: Epic progress
         velocity_chart:
           average:
             one: 'Average of previous sprint:'
@@ -279,12 +294,14 @@ pl:
           breakdown_block:
             blocks:
               show_all: Wyświetl wszystkie
+              show_all_label: 'View all: %{heading}'
           closed_work_packages: Zamknięte pakiety robocze
           resolved_summary:
-            one: "%{percentage}% (Pakiet roboczy %{resolved} z %{total})"
-            few: "%{percentage}% (%{resolved} z %{total} pakietów roboczych)"
-            many: "%{percentage}% (%{resolved} z %{total} pakietów roboczych)"
-            other: "%{percentage}% (%{resolved} z %{total} pakietu roboczego)"
+            one: "%{percentage} (%{resolved} of %{total} work package)"
+            few: "%{percentage} (%{resolved} of %{total} work packages)"
+            many: "%{percentage} (%{resolved} of %{total} work packages)"
+            other: "%{percentage} (%{resolved} of %{total} work packages)"
+          title: Work packages within the sprint
         work_package_table:
           added:
             blankslate:

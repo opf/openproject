@@ -7222,6 +7222,7 @@ it:
         invalid_attribute_groups: Il payload del modulo non è valido.
         invalid_query: La configurazione della query incorporata non è valida.
         label_group: Sezione
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: Nessun attributo inattivo
         not_found: Non è stato possibile trovare l'elemento del modulo richiesto.
         query_group_label: Tabella di macro-attività correlate
@@ -7241,6 +7242,7 @@ it:
         reset_title: Resetta modulo
         reset_to_defaults: Azzera modulo
         row_actions: Azioni sulle righe
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Modulo
         untitled_group: Gruppo senza titolo
       overview:

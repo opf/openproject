@@ -7224,6 +7224,7 @@ hy:
         invalid_attribute_groups: The form payload is invalid.
         invalid_query: Ներդրված հարցման կազմաձևումն անվավեր է։
         label_group: Բաժին
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: Ոչ ակտիվ հատկանիշներ չկան
         not_found: The requested form item could not be found.
         query_group_label: Կապակցված աշխատանքային փաթեթների աղյուսակ
@@ -7243,6 +7244,7 @@ hy:
         reset_title: Reset form
         reset_to_defaults: Վերակայել ձևը
         row_actions: Տողի գործողություններ
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Form
         untitled_group: Անանուն խումբ
       overview:
