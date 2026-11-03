@@ -39,6 +39,6 @@ class PushSubscription < ApplicationRecord
   validates :endpoint, presence: true, uniqueness: true
 
   def self.endpoint_hosts
-    distinct.pluck(Arel.sql("lower(substring(endpoint from '^https://([^/]+)/'))")).compact.sort
+    distinct.pluck(Arel.sql("lower(substring(endpoint from '^https://([^/:?#]+)'))")).compact.sort
   end
 end

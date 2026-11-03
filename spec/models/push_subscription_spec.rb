@@ -65,11 +65,14 @@ RSpec.describe PushSubscription do
       create(:push_subscription, endpoint: "https://web.push.apple.com/abc")
       create(:push_subscription, endpoint: "https://wns2-db5p.notify.windows.com/w/?token=abc")
       create(:push_subscription, endpoint: "https://Push.Example.org/x")
+      create(:push_subscription, endpoint: "https://fcm.googleapis.com:443/fcm/send/xyz")
+      create(:push_subscription, endpoint: "https://pathless.example.net")
     end
 
-    it "returns the sorted, distinct, lowercase hosts of the stored endpoints" do
+    it "returns the sorted, distinct, lowercase hosts of the stored endpoints without ports" do
       expect(described_class.endpoint_hosts)
-        .to eq(%w[fcm.googleapis.com push.example.org web.push.apple.com wns2-db5p.notify.windows.com])
+        .to eq(%w[fcm.googleapis.com pathless.example.net push.example.org web.push.apple.com
+                  wns2-db5p.notify.windows.com])
     end
   end
 
