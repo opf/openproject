@@ -118,7 +118,7 @@ module CalculatedValues
     end
 
     def to_id(cf_id)
-      cf_id.sub("cf_", "").to_i
+      CustomField.id_from_column_name(cf_id)
     end
   end
 end
