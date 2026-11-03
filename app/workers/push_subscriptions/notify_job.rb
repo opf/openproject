@@ -108,13 +108,18 @@ class PushSubscriptions::NotifyJob < ApplicationJob
   private
 
   def deliver_all(user, subscription_ids, attempt)
-    subscriptions = user.push_subscriptions.active.order(:id)
-    subscriptions = subscriptions.where(id: subscription_ids) if subscription_ids
-    retries = subscriptions.map { [it.id, deliver(it)] }.select { |_, outcome| outcome.is_a?(Retry) }
+    retries = active_subscriptions(user, subscription_ids)
+      .map { [it.id, deliver(it)] }
+      .select { |_, outcome| outcome.is_a?(Retry) }
     return if retries.empty?
 
     server_delay = retries.filter_map { |_, outcome| outcome.server_delay }.max
     retry_later(user.id, retries.map(&:first), attempt, server_delay)
+  end
+
+  def active_subscriptions(user, subscription_ids)
+    subscriptions = user.push_subscriptions.active.order(:id)
+    subscription_ids ? subscriptions.where(id: subscription_ids) : subscriptions
   end
 
   def retry_later(user_id, subscription_ids, attempt, server_delay)
