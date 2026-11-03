@@ -7488,7 +7488,6 @@ en:
         empty_group_hint: "Drag attributes here"
         exclusions:
           attribute_label: "Inherit %{attribute}"
-          excluded: "Hidden"
           section_label: "Inherit section %{section}"
         filter_inactive: "Filter attributes"
         group_actions: "Section actions"
@@ -7541,7 +7540,6 @@ en:
           manual:
             description: "Once you [create project attributes](administration_url), they will be visible here and can be added to a type."
             title: "No project attributes available"
-        disabled: "Disabled"
         exclusions:
           attribute_label: "Inherit %{attribute}"
         filter: "Search by section or name"
