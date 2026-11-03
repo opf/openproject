@@ -36,6 +36,8 @@ export interface OpContextMenuItem {
   disabled?:boolean;
   hidden?:boolean;
   icon?:string;
+  /** Octicon name, rendered instead of the legacy `icon` class. */
+  octicon?:string;
   href?:string;
   class?:string;
   ariaLabel?:string;
@@ -44,6 +46,8 @@ export interface OpContextMenuItem {
   divider?:boolean;
   isHeader?:boolean;
   onClick?:(event:MouseEvent) => boolean;
+  /** Items of a submenu; the item itself then only opens it. */
+  children?:OpContextMenuItem[];
 }
 
 export interface OpContextMenuLocalsMap {

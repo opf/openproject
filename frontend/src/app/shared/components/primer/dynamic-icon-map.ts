@@ -25,12 +25,30 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { circleSlashIconData, graphIconData, starIconData, SVGData, xIconData } from '@openproject/octicons-angular';
+import {
+  chevronDownIconData,
+  chevronRightIconData,
+  chevronUpIconData,
+  circleSlashIconData,
+  graphIconData,
+  moveToBottomIconData,
+  moveToTopIconData,
+  opArrowInIconData,
+  starIconData,
+  SVGData,
+  xIconData,
+} from '@openproject/octicons-angular';
 
 export const ICON_MAP:Record<string, SVGData> = {
   x: xIconData,
   star: starIconData,
   'circle-slash': circleSlashIconData,
   graph: graphIconData,
+  'chevron-down': chevronDownIconData,
+  'chevron-right': chevronRightIconData,
+  'chevron-up': chevronUpIconData,
+  'move-to-bottom': moveToBottomIconData,
+  'move-to-top': moveToTopIconData,
+  'op-arrow-in': opArrowInIconData,
   // TODO add more icons
 };

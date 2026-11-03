@@ -30,6 +30,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { States } from 'core-app/core/states/states.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { WorkPackageViewBaseService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-base.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
@@ -51,6 +52,8 @@ export interface WorkPackageViewSelectionState {
 export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<WorkPackageViewSelectionState> {
   readonly states = inject(States);
   readonly opContextMenu = inject(OPContextMenuService);
+
+  readonly actionMenu = inject(OpActionMenuService);
 
   private readonly model = new BatchSelection();
   private readonly destroyRef = inject(DestroyRef);
@@ -172,6 +175,7 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
     );
     this.publish();
     this.opContextMenu.close();
+    this.actionMenu.close();
   }
 
   /**

@@ -1,0 +1,122 @@
+<action-menu data-select-variant="none" data-view-component="true">
+  <button [id]="menuId + '-button'"
+    [attr.popovertarget]="menuId + '-overlay'"
+    [attr.aria-controls]="menuId + '-list'"
+    aria-haspopup="true"
+    type="button"
+    class="sr-only"
+    tabindex="-1"
+    [textContent]="label()"></button>
+  <anchored-position data-target="action-menu.overlay"
+    [id]="menuId + '-overlay'"
+    [attr.anchor]="menuId + '-button'"
+    align="start"
+    side="outside-bottom"
+    anchor-offset="normal"
+    popover="auto"
+    data-view-component="true">
+    <div class="Overlay Overlay--size-auto">
+      <div class="Overlay-body Overlay-body--paddingNone">
+        <ng-container *ngTemplateOutlet="list; context: { items: items(), id: menuId + '-list', label: label(), labelledBy: null }" />
+      </div>
+    </div>
+  </anchored-position>
+</action-menu>
+
+<ng-template #list let-items="items" let-id="id" let-label="label" let-labelledBy="labelledBy">
+  <action-list>
+    <div>
+      <ul [id]="id"
+        role="menu"
+        [attr.data-target]="labelledBy ? null : 'action-menu.list'"
+        [attr.aria-label]="labelledBy ? null : (label || null)"
+        [attr.aria-labelledby]="labelledBy"
+        class="ActionListWrap ActionListWrap--inset"
+        data-view-component="true">
+        @for (item of items; track $index) {
+          @if (item.divider) {
+            <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
+          } @else if (item.isHeader) {
+            <li class="ActionList-sectionDivider" role="presentation">
+              <h3 class="ActionList-sectionDivider-title">{{ item.linkText }}</h3>
+            </li>
+          } @else if (item.children) {
+            <li role="none" class="ActionListItem" [class.ActionListItem--disabled]="item.disabled">
+              <button type="button"
+                tabindex="-1"
+                role="menuitem"
+                [id]="subMenuId($index) + '-button'"
+                [attr.popovertarget]="subMenuId($index) + '-overlay'"
+                [attr.aria-controls]="subMenuId($index) + '-list'"
+                aria-haspopup="true"
+                [attr.aria-disabled]="item.disabled || null"
+                class="ActionListContent ActionListContent--visual16">
+                <ng-container *ngTemplateOutlet="leadingVisual; context: { item: item }" />
+                <span class="ActionListItem-label">{{ item.linkText }}</span>
+                <span class="ActionListItem-visual ActionListItem-visual--trailing">
+                  <svg octicon size="small" icon="chevron-right"></svg>
+                </span>
+              </button>
+              <anchored-position data-target="action-menu.overlay"
+                [id]="subMenuId($index) + '-overlay'"
+                [attr.anchor]="subMenuId($index) + '-button'"
+                align="start"
+                side="outside-right"
+                anchor-offset="normal"
+                popover="auto"
+                data-view-component="true"
+                (toggle)="refocusSubMenuItem($event, subMenuId($index) + '-button')">
+                <div class="Overlay Overlay--size-auto">
+                  <div class="Overlay-body Overlay-body--paddingNone">
+                    <ng-container *ngTemplateOutlet="list; context: { items: item.children, id: subMenuId($index) + '-list', label: null, labelledBy: subMenuId($index) + '-button' }" />
+                  </div>
+                </div>
+              </anchored-position>
+            </li>
+          } @else {
+            <li role="none" class="ActionListItem" [class.ActionListItem--disabled]="item.disabled">
+              @if (item.href) {
+                <a tabindex="-1"
+                  role="menuitem"
+                  [attr.href]="item.href"
+                  data-turbo="false"
+                  [ngClass]="item.class"
+                  [attr.aria-disabled]="item.disabled || null"
+                  [attr.aria-label]="item.ariaLabel || null"
+                  [attr.title]="item.title || null"
+                  class="ActionListContent ActionListContent--visual16"
+                  (click)="handleClick(item, $event)">
+                  <ng-container *ngTemplateOutlet="leadingVisual; context: { item: item }" />
+                  <span class="ActionListItem-label">{{ item.linkText }}</span>
+                </a>
+              } @else {
+                <button type="button"
+                  tabindex="-1"
+                  role="menuitem"
+                  [ngClass]="item.class"
+                  [attr.aria-disabled]="item.disabled || null"
+                  [attr.aria-label]="item.ariaLabel || null"
+                  [attr.title]="item.title || null"
+                  class="ActionListContent ActionListContent--visual16"
+                  (click)="handleClick(item, $event)">
+                  <ng-container *ngTemplateOutlet="leadingVisual; context: { item: item }" />
+                  <span class="ActionListItem-label">{{ item.linkText }}</span>
+                </button>
+              }
+            </li>
+          }
+        }
+      </ul>
+    </div>
+  </action-list>
+</ng-template>
+
+<ng-template #leadingVisual let-item="item">
+  <span class="ActionListItem-visual ActionListItem-visual--leading">
+    @if (item.octicon) {
+      <svg octicon size="small" [icon]="item.octicon"></svg>
+    } @else if (item.icon) {
+      <op-icon icon-classes="icon-action-menu {{ item.icon }}" />
+    }
+  </span>
+</ng-template>

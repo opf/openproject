@@ -32,6 +32,7 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { WorkPackageViewSelectionService } from './wp-view-selection.service';
 import { WorkPackageViewSelectionGesturesService } from './wp-view-selection-gestures.service';
 
@@ -50,6 +51,7 @@ describe('WorkPackageViewSelectionService', () => {
       WorkPackageViewSelectionService,
       WorkPackageViewSelectionGesturesService,
       { provide: OPContextMenuService, useValue: { close: () => undefined } },
+      { provide: OpActionMenuService, useValue: { close: () => undefined } },
     ] });
     selection = TestBed.inject(WorkPackageViewSelectionService);
     gestures = TestBed.inject(WorkPackageViewSelectionGesturesService);
@@ -125,12 +127,15 @@ describe('WorkPackageViewSelectionService', () => {
     expect(selection.getSelectedWorkPackageIds()).toEqual(['2']);
   });
 
-  it('closes the context menu only when Select All has selectable rows', () => {
+  it('closes the context menus only when Select All has selectable rows', () => {
     const close = vi.spyOn(TestBed.inject(OPContextMenuService), 'close');
+    const closeActionMenu = vi.spyOn(TestBed.inject(OpActionMenuService), 'close');
     selection.selectAll([]);
     expect(close).not.toHaveBeenCalled();
+    expect(closeActionMenu).not.toHaveBeenCalled();
     selection.selectAll(rows, rows[1]);
     expect(close).toHaveBeenCalledOnce();
+    expect(closeActionMenu).toHaveBeenCalledOnce();
   });
 
   it('selects all with the requested occurrence as the range anchor', () => {
