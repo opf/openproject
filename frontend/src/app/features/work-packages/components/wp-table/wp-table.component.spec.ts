@@ -913,13 +913,18 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       component.workPackageTable.painter.paint('positions');
       expect(document.activeElement).toBe(focused);
 
-      const removed = vi.spyOn(component.workPackageTable.painter, 'paint').mockImplementation(() => {
-        expect(createRow()).not.toBeInTheDocument();
-        return { positionsWithdrawn: null };
+      const { painter } = component.workPackageTable;
+      const paint = painter.paint.bind(painter);
+      const rowPresentOnPaint:boolean[] = [];
+      const removing = vi.spyOn(painter, 'paint').mockImplementation((scope) => {
+        rowPresentOnPaint.push(createRow() !== null);
+        return paint(scope);
       });
       fireEvent.keyDown(editor, { key: 'Escape' });
-      expect(removed).toHaveBeenCalled();
-      removed.mockRestore();
+      await waitFor(() => expect(createRow()).not.toBeInTheDocument());
+      expect(rowPresentOnPaint).toContain(true);
+      expect(rowPresentOnPaint.at(-1)).toBe(false);
+      removing.mockRestore();
       await waitFor(() => expectExposed());
     });
 

@@ -601,7 +601,6 @@ describe('CellInteraction', () => {
     fireEvent.keyDown(cellA, { key: 'Enter' });
     const inputA = await waitFor(() => within(cellA).getByRole<HTMLInputElement>('textbox'));
     await waitFor(() => expect(inputA).toHaveFocus());
-    const handlerA = table.table.editing.forms['1'].activeFields.subject;
     const navigation = table.table.keyboardNavigation!;
     const events:string[] = [];
     const rowsChanged = navigation.rowsChanged.bind(navigation);
@@ -615,7 +614,7 @@ describe('CellInteraction', () => {
       return returnFocus(origin, closing);
     });
 
-    handlerA.handleUserCancel();
+    fireEvent.keyDown(inputA, { key: 'Escape' });
 
     expect(events).toEqual([`rowsChanged:false:${Array.from(table.table.ledger.keysOf('1')).join(',')}`, 'returnFocus']);
     expect(navigableCells(table.row('1'))[1]).toHaveFocus();
@@ -629,7 +628,6 @@ describe('CellInteraction', () => {
     fireEvent.keyDown(cellA, { key: 'Enter' });
     const inputA = await waitFor(() => within(cellA).getByRole<HTMLInputElement>('textbox'));
     await waitFor(() => expect(inputA).toHaveFocus());
-    const handlerA = table.table.editing.forms['1'].activeFields.subject;
     const cellB = navigableCells(table.row('2'))[1];
     fireEvent.mouseDown(cellB, { button: 0 });
     cellB.focus();
@@ -643,7 +641,7 @@ describe('CellInteraction', () => {
     fireEvent.mouseUp(inputA, { button: 0 });
     expect(inputA).toHaveFocus();
 
-    handlerA.handleUserCancel();
+    fireEvent.keyDown(inputA, { key: 'Escape' });
 
     expect(navigableCells(table.row('1'))[1]).toHaveFocus();
   });
@@ -656,7 +654,7 @@ describe('CellInteraction', () => {
     const inputA = await waitFor(() => within(cellA).getByRole<HTMLInputElement>('textbox'));
     await waitFor(() => expect(inputA).toHaveFocus());
     const form = table.table.editing.forms['1'];
-    const handlerC = (await form.activate('status'))!;
+    await form.activate('status');
     const cellC = navigableCells(table.row('1'))[2];
     const inputC = within(cellC).getByRole<HTMLInputElement>('textbox');
     await userEvent.tab();
@@ -673,7 +671,7 @@ describe('CellInteraction', () => {
     }
     expect(inputC).toHaveFocus();
 
-    handlerC.handleUserCancel();
+    fireEvent.keyDown(inputC, { key: 'Escape' });
 
     expect(navigableCells(table.row('1'))[2]).toHaveFocus();
   });

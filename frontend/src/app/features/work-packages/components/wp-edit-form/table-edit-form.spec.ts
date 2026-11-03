@@ -464,11 +464,11 @@ describe('TableEditForm origin', () => {
     it('cancelling an editor in the inline-create row closes it and commits that row', async () => {
       await mountTwoRows();
       const row = harness.addInlineCreateRow();
-      const handler = await harness.table.editing.forms[HAL_NEW_RESOURCE_ID].activate('subject');
-      expect(within(row).getByRole('textbox')).toBeInTheDocument();
+      await harness.table.editing.forms[HAL_NEW_RESOURCE_ID].activate('subject');
+      const input = within(row).getByRole('textbox');
       const { generation } = harness.table.committedRows();
 
-      handler!.handleUserCancel();
+      fireEvent.keyDown(input, { key: 'Escape' });
 
       expect(within(row).queryByRole('textbox')).not.toBeInTheDocument();
       expect(harness.table.committedRows()).toEqual({ generation: generation + 1, scope: new Set([inlineCreateRowKey]) });

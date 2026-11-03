@@ -580,6 +580,7 @@ class FakeEditingPortalService {
     container.appendChild(wrapper);
     const handler = new HalResourceEditFieldHandler(injector, form, fieldName, schema, container, injector.get(PathHelperService), errors, destroyRef);
     input.id = handler.htmlId;
+    input.addEventListener('keydown', (event) => { void handler.handleUserKeydown(event); });
     label.htmlFor = handler.htmlId;
     const markErrors = () => {
       wrapper.classList.toggle('-error', handler.isErrorenous);
