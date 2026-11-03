@@ -94,12 +94,9 @@ export class SelectionTransformer {
       [this.painted.focused, current.focused].forEach((id) => { if (id) changed.add(id); });
     }
     this.painted = current;
-    if (this.table.ledger.size === 0) return;
-    if (changed.size > this.table.ledger.size / 2) {
-      this.table.mutate('all', () => undefined);
-    } else {
-      this.table.mutateWorkPackages(changed, () => undefined);
-    }
+    const keys = new Set(Array.from(changed).flatMap((id) => Array.from(this.table.ledger.keysOf(id))));
+    if (keys.size === 0) return;
+    this.table.mutate(keys.size > this.table.ledger.size / 2 ? 'all' : keys, () => undefined);
   }
 
   private currentMarkers():SelectionMarkers {

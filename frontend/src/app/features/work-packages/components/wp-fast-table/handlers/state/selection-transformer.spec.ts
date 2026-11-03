@@ -92,7 +92,7 @@ describe('SelectionTransformer', () => {
       destroyRef: lifetime.get(DestroyRef),
       tableAndTimelineContainer: root,
       renderedRows,
-      ledger: { generation: 1, size: 1 }, mutate: runMutation, mutateWorkPackages: (_ids:Iterable<string>, change:() => void) => change(),
+      ledger: { generation: 1, size: 1, keysOf: () => new Set() }, mutate: runMutation,
     } as unknown as WorkPackageTable;
     new SelectionTransformer(injector, table);
 
@@ -131,7 +131,7 @@ describe('SelectionTransformer', () => {
       const lifetime = Injector.create({ providers: [], parent: injector });
       const root = document.createElement('div');
       document.body.append(root);
-      new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger: { generation: 1, size: 1 }, mutate: runMutation, mutateWorkPackages: (_ids:Iterable<string>, change:() => void) => change() } as unknown as WorkPackageTable);
+      new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger: { generation: 1, size: 1, keysOf: () => new Set() }, mutate: runMutation } as unknown as WorkPackageTable);
       return { injector, lifetime, root, reset };
     };
     const first = build();
@@ -166,7 +166,7 @@ describe('SelectionTransformer', () => {
     const root = document.createElement('div');
     root.innerHTML = '<div class="wp-table--row" tabindex="0" data-work-package-id="2" data-class-identifier="wp-row-2">Row</div>';
     document.body.append(root);
-    new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger: { generation: 1, size: 1 }, mutate: runMutation, mutateWorkPackages: (_ids:Iterable<string>, change:() => void) => change() } as unknown as WorkPackageTable);
+    new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger: { generation: 1, size: 1, keysOf: () => new Set() }, mutate: runMutation } as unknown as WorkPackageTable);
     selection.initializeSelection(['2']);
 
     const allowed = fireEvent.keyDown(root.firstElementChild!, {
@@ -183,7 +183,7 @@ describe('SelectionTransformer', () => {
   it('prunes selection only after its own table has committed', () => {
     const tableRendered = new Subject<RenderedWorkPackage[]>();
     const retainRendered = vi.fn();
-    const ledger = { generation: 0 };
+    const ledger = { generation: 0, size: 0, keysOf: () => new Set() };
     const parent = TestBed.inject(EnvironmentInjector);
     const injector = createEnvironmentInjector([
       { provide: IsolatedQuerySpace, useValue: { tableRendered: { values$: () => tableRendered }, stopAllSubscriptions: new Subject<void>() } },
@@ -194,7 +194,7 @@ describe('SelectionTransformer', () => {
     const root = document.createElement('div');
     document.body.append(root);
     new SelectionTransformer(injector, {
-      injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger, mutate: runMutation, mutateWorkPackages: (_ids:Iterable<string>, change:() => void) => change(),
+      injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger, mutate: runMutation,
     } as unknown as WorkPackageTable);
 
     const stale = [{ workPackageId: '2', classIdentifier: 'wp-card-2', hidden: false }];
@@ -250,6 +250,17 @@ describe('SelectionTransformer scoped repaint', () => {
 
     expect(painted()).toEqual([]);
     expect(harness.rows().every((row) => row.getAttribute('aria-selected') === 'false')).toBe(true);
+  });
+
+  it('repaints nothing for an unrendered work package even when the table has a single row', async () => {
+    await harness.destroy();
+    harness = buildTable({ workPackages: [{ id: '1' }] });
+    await harness.render();
+    const painted = scopes();
+
+    harness.selection.replaceSelection('999');
+
+    expect(painted()).toEqual([]);
   });
 
   it('repaints the previous and current focused rows', () => {
