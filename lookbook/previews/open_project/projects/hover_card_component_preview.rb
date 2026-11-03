@@ -42,7 +42,7 @@ module OpenProject::Projects
       user = FactoryBot.build_stubbed(:admin)
       root = FactoryBot.build_stubbed(:project, name: "Arcanos Flight Planning")
       child = FactoryBot.build_stubbed(:project, name: "Mobile app", parent: root)
-      leaf = FactoryBot.build_stubbed(:project, active: false, name: "Data sources", parent: child, status_code: 1)
+      leaf = FactoryBot.build_stubbed(:project, active: true, name: "Data sources", parent: child, status_code: :at_risk, status_explanation: "some explanation")
 
       chain = [root, child, leaf]
 
