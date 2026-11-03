@@ -462,6 +462,48 @@ describe('WorkPackageTable lifecycle', () => {
         expect(harness.row('1')).toHaveTextContent('Renamed');
       });
 
+      it('commits a work package update that arrives before the first frame', () => {
+        const harness = buildTable({ workPackages: [{ id: '1', subject: 'Before' }] });
+        harnesses.push(harness);
+        const frames = harness.holdFrames();
+        try {
+          void harness.render();
+          harness.injector.get(States).workPackages.get('1').putValue(buildWorkPackage({ id: '1', subject: 'After' }));
+          frames.commit();
+
+          expect(harness.row('1')).toHaveTextContent('After');
+        } finally {
+          frames.release();
+        }
+      });
+
+      it('leaves the outgoing rows alone while the next query loads', async () => {
+        const harness = await mount({ workPackages: [{ id: '1', subject: 'Before' }] });
+        harness.querySpace.tableRendered.clear();
+
+        harness.injector.get(States).workPackages.get('1').putValue(buildWorkPackage({ id: '1', subject: 'After' }));
+
+        expect(harness.row('1')).toHaveTextContent('Before');
+      });
+
+      it('leaves the outgoing rows alone while a reload waits for its frame, then commits the update', async () => {
+        const harness = await mount({ workPackages: [{ id: '1', subject: 'Before' }] });
+        const frames = harness.holdFrames();
+        try {
+          harness.querySpace.tableRendered.clear();
+          void harness.render();
+          const outgoing = harness.row('1');
+
+          harness.injector.get(States).workPackages.get('1').putValue(buildWorkPackage({ id: '1', subject: 'After' }));
+
+          expect(outgoing).toHaveTextContent('Before');
+          frames.commit();
+          expect(harness.row('1')).toHaveTextContent('After');
+        } finally {
+          frames.release();
+        }
+      });
+
       it('commits nothing when destroyed while pending', async () => {
         const harness = await mount({ workPackages: [{ id: '1' }] });
         const frames = harness.holdFrames();

@@ -287,7 +287,8 @@ export class WorkPackageTable {
     if (this.destroyed) return;
     const id = workPackage.id!;
     if (this.hasPendingRender || this.ledger.keysOf(id).size > 0) this.refreshed.set(id, workPackage);
-    this.refreshCommitted([workPackage]);
+    // While the next query loads its rows, the committed ones are on their way out
+    if (this.querySpace.tableRendered.hasValue()) this.refreshCommitted([workPackage]);
   }
 
   private reapplyRefreshed():void {
