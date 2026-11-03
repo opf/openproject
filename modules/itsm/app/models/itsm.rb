@@ -33,10 +33,9 @@ module ITSM
   end
 
   def self.helpdesk_user
-    result = HelpdeskUsers::FindOrCreateService.new.call
-    raise "Unable to create the help desk user: #{result.message}" if result.failure?
-
-    result.result
+    HelpdeskUsers::FindOrCreateService.new.call
+      .on_failure { raise "Unable to create the help desk user: #{it.message}" }
+      .result
   end
 
   def self.helpdesk_role = ProjectRole.find_by(id: Setting.helpdesk_role_id)

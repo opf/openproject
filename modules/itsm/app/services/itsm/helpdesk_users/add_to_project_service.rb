@@ -33,11 +33,18 @@ module ITSM
       protected
 
       def perform
-        member = Member.find_or_initialize_by(project: params[:project], principal: ITSM.helpdesk_user, entity: nil)
-        member.member_roles.build(role: ITSM.helpdesk_role) unless member.roles.include?(ITSM.helpdesk_role)
-
-        ServiceResult.new(success: member.save, result: member)
+        Member.find_or_initialize_by(project: params[:project], principal: ITSM.helpdesk_user, entity: nil)
+          .then { |member| with_helpdesk_role(member) }
+          .then { |member| ServiceResult.new(success: member.save, result: member) }
       end
+
+      private
+
+      def with_helpdesk_role(member)
+        member.tap { it.member_roles.build(role: helpdesk_role) unless it.roles.include?(helpdesk_role) }
+      end
+
+      def helpdesk_role = ITSM.helpdesk_role
     end
   end
 end

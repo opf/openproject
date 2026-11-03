@@ -30,33 +30,49 @@
 module ITSM
   module HelpdeskUsers
     class FindOrCreateService < ::BaseServices::BaseCallable
+      include Dry::Monads[:result]
+
       PERMISSIONS = %i[view_work_packages add_work_packages add_work_package_comments].freeze
 
       protected
 
       def perform
         OpenProject::Mutex.with_advisory_lock(ServiceAccount, "itsm_helpdesk_user") do
-          ActiveRecord::Base.transaction do
-            find_or_create_role
-            ServiceResult.success(result: find_or_create_user)
-          end
+          in_transaction { find_or_create_role.bind { find_or_create_user } }
+            .either(->(user) { ServiceResult.success(result: user) },
+                    ->(record) { ServiceResult.failure(errors: record.errors) })
         end
-      rescue ActiveRecord::RecordInvalid => e
-        ServiceResult.failure(errors: e.record.errors)
       end
 
       private
 
       def find_or_create_role
-        ProjectRole.find_by(id: Setting.helpdesk_role_id) ||
-          ProjectRole.create!(name: translated(:label_helpdesk_role), permissions: PERMISSIONS)
-            .tap { Setting.helpdesk_role_id = it.id }
+        find_or_create(ProjectRole, :helpdesk_role_id) do
+          ProjectRole.new(name: translated(:label_helpdesk_role), permissions: PERMISSIONS)
+        end
       end
 
       def find_or_create_user
-        ServiceAccount.find_by(id: Setting.helpdesk_user_id) ||
-          ServiceAccount.create!(name: translated(:label_helpdesk_user))
-            .tap { Setting.helpdesk_user_id = it.id }
+        find_or_create(ServiceAccount, :helpdesk_user_id) { ServiceAccount.new(name: translated(:label_helpdesk_user)) }
+      end
+
+      def find_or_create(model, setting)
+        find(model, Setting[setting]).or do
+          persist(yield).fmap { |record| record.tap { Setting[setting] = it.id } }
+        end
+      end
+
+      def find(model, id) = model.find_by(id:).then { it ? Success(it) : Failure() }
+
+      def persist(record) = record.save ? Success(record) : Failure(record)
+
+      def in_transaction
+        result = nil
+        ActiveRecord::Base.transaction do
+          result = yield
+          raise ActiveRecord::Rollback if result.failure?
+        end
+        result
       end
 
       def translated(key) = I18n.t(key, locale: Setting.default_language)
