@@ -53,7 +53,7 @@ describe('PwaPushResumeController', () => {
       .mockImplementation(() => Promise.resolve(new Response(null, { status: 204 })));
     const registration = { pushManager: { getSubscription } };
 
-    document.body.dataset.renderedAt = new Date().toISOString();
+    document.dispatchEvent(new CustomEvent('turbo:visit', { detail: { action: 'advance' } }));
     localStorage.clear();
     vi.stubGlobal('isSecureContext', true);
     vi.stubGlobal('PushManager', class {});
@@ -69,7 +69,6 @@ describe('PwaPushResumeController', () => {
     ctx.dispose();
     vi.unstubAllGlobals();
     delete (navigator as { serviceWorker?:unknown }).serviceWorker;
-    delete document.body.dataset.renderedAt;
     document.documentElement.removeAttribute('data-turbo-preview');
     localStorage.clear();
   });
@@ -134,11 +133,41 @@ describe('PwaPushResumeController', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('does not post from a page rendered more than two minutes ago', async () => {
-    document.body.dataset.renderedAt = new Date(Date.now() - 3 * 60 * 1000).toISOString();
+  it('skips a restored history snapshot', async () => {
+    document.dispatchEvent(new CustomEvent('turbo:visit', { detail: { action: 'restore' } }));
     await mount();
 
     expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('resumes after an ordinary visit', async () => {
+    document.dispatchEvent(new CustomEvent('turbo:visit', { detail: { action: 'advance' } }));
+    await mount();
+
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+  });
+
+  it('resumes again on an ordinary visit after a restored one', async () => {
+    document.dispatchEvent(new CustomEvent('turbo:visit', { detail: { action: 'restore' } }));
+    await mount();
+    expect(fetchMock).not.toHaveBeenCalled();
+    ctx.dispose();
+
+    document.dispatchEvent(new CustomEvent('turbo:visit', { detail: { action: 'advance' } }));
+    await mount();
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+  });
+
+  it('does not retry when there is nothing to resume', async () => {
+    fetchMock.mockResolvedValueOnce(new Response('', { status: 410 }));
+    await mount();
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+    ctx.dispose();
+
+    await mount();
+    await ctx.nextFrame();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(localStorage.getItem('push-resume-attempted')).toBe('["session-a"]');
   });
 
   it('does not post without a browser subscription', async () => {

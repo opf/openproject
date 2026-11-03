@@ -31,16 +31,22 @@ import { currentPushSubscription } from 'core-stimulus/helpers/push-subscription
 
 const ATTEMPTED_STORAGE_KEY = 'push-resume-attempted';
 const ATTEMPTED_SESSIONS_LIMIT = 5;
-const RENDERED_AT_MAX_AGE_MS = 120000;
+
+let lastVisitAction:string|undefined;
+
+document.addEventListener('turbo:visit', (event) => {
+  lastVisitAction = (event as CustomEvent<{ action:string }>).detail.action;
+});
 
 /**
  * Re-registers this browser's push subscription with the server after a new
  * sign-in, once per session. A failed attempt is forgotten so the next page
- * load tries again.
+ * load tries again; a gone answer means the server has nothing to resume, so it
+ * is not retried.
  *
- * It does not run on Turbo previews or on pages rendered more than two minutes
- * ago, because a restored snapshot can carry a stale CSRF token and a CSRF
- * failure resets the session. The Browser notifications tab handles its own page.
+ * It does not run on Turbo previews or restored history snapshots, because they
+ * can carry a stale CSRF token and a CSRF failure resets the session. The
+ * Browser notifications tab handles its own page.
  */
 export default class PwaPushResumeController extends Controller {
   static values = {
@@ -53,9 +59,10 @@ export default class PwaPushResumeController extends Controller {
 
   connect():void {
     if (document.documentElement.hasAttribute('data-turbo-preview')) return;
+    if (lastVisitAction === 'restore') return;
     if (!this.pushAvailable()) return;
     if (document.querySelector('[data-controller~="my--push-subscription"]')) return;
-    if (this.alreadyAttempted() || this.renderedTooLongAgo()) return;
+    if (this.alreadyAttempted()) return;
 
     this.markAttempted();
     void this.resume();
@@ -71,7 +78,7 @@ export default class PwaPushResumeController extends Controller {
         contentType: 'application/json',
         responseKind: 'turbo-stream',
       });
-      if (!response.ok) this.unmarkAttempted();
+      if (!response.ok && response.statusCode !== 410) this.unmarkAttempted();
     } catch {
       this.unmarkAttempted();
     }
@@ -112,10 +119,5 @@ export default class PwaPushResumeController extends Controller {
     } catch {
       return [];
     }
-  }
-
-  private renderedTooLongAgo():boolean {
-    const renderedAt = Date.parse(document.body.dataset.renderedAt ?? '');
-    return Number.isNaN(renderedAt) || Date.now() - renderedAt > RENDERED_AT_MAX_AGE_MS;
   }
 }
