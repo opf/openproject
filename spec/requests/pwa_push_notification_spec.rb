@@ -177,6 +177,74 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
     end
   end
 
+  context "with a signed-in browser session behind an SSO header", :skip_csrf, with_settings: { web_push_enabled: true } do
+    let(:password) { "Sup3rS3cret!pass" }
+    let(:password_user) { create(:user, password:, password_confirmation: password) }
+    let(:sso_config) { { header: "X-Remote-User" } }
+    let(:headers) { { "Accept" => "application/json" } }
+
+    before do
+      host! Setting.host_name
+      post "/login", params: { username: password_user.login, password: }
+      follow_redirect! while response.redirect?
+      allow(OpenProject::Configuration).to receive(:auth_source_sso).and_return(sso_config)
+    end
+
+    it "serves the session user when the SSO header names them" do
+      get "/push-notification", headers: headers.merge("X-Remote-User" => password_user.login)
+
+      expect(response).to have_http_status(:ok)
+      expect(json).to eq("count" => 0)
+    end
+
+    it "answers 401 when the SSO header names another user" do
+      other = create(:user)
+      session_ids = Sessions::UserSession.for_user(password_user.id).pluck(:session_id)
+
+      get "/push-notification", headers: headers.merge("X-Remote-User" => other.login)
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(Sessions::UserSession.for_user(password_user.id).pluck(:session_id)).to eq(session_ids)
+      expect(Sessions::UserSession.for_user(other.id)).to be_empty
+    end
+
+    it "answers 401 when the SSO header is missing and not optional" do
+      get "/push-notification", headers: headers
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    context "when the SSO header carries an invalid secret" do
+      let(:sso_config) { { header: "X-Remote-User", secret: "s3cr3t" } }
+
+      it "answers 401 when the SSO header carries an invalid secret" do
+        get "/push-notification", headers: headers.merge("X-Remote-User" => "#{password_user.login}:wrong")
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      context "when the SSO header is also optional" do
+        let(:sso_config) { { header: "X-Remote-User", secret: "s3cr3t", optional: true } }
+
+        it "still answers 401" do
+          get "/push-notification", headers: headers.merge("X-Remote-User" => "#{password_user.login}:wrong")
+
+          expect(response).to have_http_status(:unauthorized)
+        end
+      end
+    end
+
+    context "when the SSO header is optional" do
+      let(:sso_config) { { header: "X-Remote-User", optional: true } }
+
+      it "serves the session user without a header" do
+        get "/push-notification", headers: headers
+
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
+
   context "with the feature flag off", with_flag: { progressive_web_app: false } do
     it "is not routed" do
       login_as user

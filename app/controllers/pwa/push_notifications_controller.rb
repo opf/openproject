@@ -50,7 +50,16 @@ module Pwa
     end
 
     def find_current_user
-      current_session_user
+      user = current_session_user
+      user if user && sso_header_accepts?(user)
+    end
+
+    def sso_header_accepts?(user)
+      return true unless auth_source_sso_enabled?
+      return header_optional? if op_auth_header_value.blank?
+
+      login = read_sso_login
+      login.present? && user.login.casecmp?(login)
     end
 
     def require_web_push
