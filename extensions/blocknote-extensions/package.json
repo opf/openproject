@@ -1,5 +1,5 @@
 {
-  "name": "@openproject/op-blocknote-extensions",
+  "name": "@openproject/blocknote-extensions",
   "version": "0.3.3",
   "description": "Extensions for BlockNote for integrating with OpenProject",
   "license": "GPL-3.0-only",
@@ -16,19 +16,19 @@
     "provenance": true
   },
   "type": "module",
-  "module": "./dist/op-blocknote-extensions.es.js",
+  "module": "./dist/blocknote-extensions.es.js",
   "types": "./dist/index.d.ts",
-  "main": "./dist/op-blocknote-extensions.cjs.js",
+  "main": "./dist/blocknote-extensions.cjs.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/op-blocknote-extensions.es.js",
-      "require": "./dist/op-blocknote-extensions.cjs.js"
+      "import": "./dist/blocknote-extensions.es.js",
+      "require": "./dist/blocknote-extensions.cjs.js"
     },
     "./server": {
       "types": "./dist/server.d.ts",
-      "import": "./dist/op-blocknote-extensions-server.es.js",
-      "require": "./dist/op-blocknote-extensions-server.cjs.js"
+      "import": "./dist/blocknote-extensions-server.es.js",
+      "require": "./dist/blocknote-extensions-server.cjs.js"
     }
   },
   "files": [
