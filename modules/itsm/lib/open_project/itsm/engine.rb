@@ -56,6 +56,8 @@ module OpenProject::ITSM
                                  writable: true,
                                  default: false,
                                  format: :boolean
+      ::Settings::Definition.add :helpdesk_user_id, format: :integer, default: nil
+      ::Settings::Definition.add :helpdesk_role_id, format: :integer, default: nil
     end
 
     register "openproject-itsm", author_url: "https://www.openproject.org", bundled: true do
