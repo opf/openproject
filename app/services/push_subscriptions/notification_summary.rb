@@ -30,6 +30,7 @@
 
 module PushSubscriptions
   class NotificationSummary
+    LIMIT = 5
     UPDATED_REASONS = %w[watched subscribed created processed prioritized scheduled].freeze
 
     def initialize(user)
@@ -37,9 +38,9 @@ module PushSubscriptions
     end
 
     def as_json(*)
-      return { count: 0 } if latest.nil?
+      return { count: 0 } if groups.empty?
 
-      count > 1 ? summary : single
+      { count: groups.first.unread_total, groups: groups.map { group_json(it) }, more: more_json }
     end
 
     private
@@ -50,45 +51,54 @@ module PushSubscriptions
       Notification.visible(user).where(read_ian: false)
     end
 
-    def count
-      @count ||= unread.count
+    def latest_per_work_package
+      unread
+        .select("DISTINCT ON (resource_id) notifications.*, COUNT(*) OVER (PARTITION BY resource_id) AS unread_count")
+        .order(:resource_id, created_at: :desc, id: :desc)
     end
 
-    def latest
-      @latest ||= unread.order(created_at: :desc, id: :desc).preload(:actor, :resource).first
+    def groups
+      @groups ||= Notification
+        .from(latest_per_work_package, :notifications)
+        .select("notifications.*, COUNT(*) OVER () AS work_package_count, (SUM(unread_count) OVER ())::integer AS unread_total")
+        .order(created_at: :desc, id: :desc)
+        .limit(LIMIT)
+        .preload(:actor, :resource)
+        .to_a
     end
 
-    def single
-      { count:, title: headline, body: "#{work_package.formatted_id}: #{work_package.subject}", url: work_package_path }
-    end
+    def group_json(notification)
+      work_package = notification.resource
+      unread_count = notification.unread_count
 
-    def summary
       {
-        count:,
-        title: I18n.t("pwa.push.title", count:),
-        body: "#{headline}: #{work_package.formatted_id} #{work_package.subject}",
-        url: url_helpers.notifications_center_path
+        tag: "openproject-wp-#{work_package.id}",
+        count: unread_count,
+        title: unread_count > 1 ? I18n.t("pwa.push.group_title", count: unread_count) : headline(notification),
+        body: body(notification, work_package, unread_count),
+        url: url_helpers.details_notifications_path(work_package, tab: :activity)
       }
     end
 
-    def headline
-      I18n.t("pwa.push.reasons.#{reason_key}", actor: actor_name)
+    def body(notification, work_package, unread_count)
+      if unread_count > 1
+        "#{headline(notification)}: #{work_package.formatted_id} #{work_package.subject}"
+      else
+        "#{work_package.formatted_id}: #{work_package.subject}"
+      end
     end
 
-    def reason_key
-      UPDATED_REASONS.include?(latest.reason) ? "updated" : latest.reason
+    def more_json
+      remaining = groups.first.work_package_count - groups.size
+      return if remaining.zero?
+
+      { count: remaining, title: I18n.t("pwa.push.more_title", count: remaining), url: url_helpers.notifications_center_path }
     end
 
-    def actor_name
-      latest.actor&.name || I18n.t("user.deleted")
-    end
-
-    def work_package
-      latest.resource
-    end
-
-    def work_package_path
-      url_helpers.work_package_path(work_package)
+    def headline(notification)
+      reason = UPDATED_REASONS.include?(notification.reason) ? "updated" : notification.reason
+      actor_name = notification.actor&.name || I18n.t("user.deleted")
+      I18n.t("pwa.push.reasons.#{reason}", actor: actor_name)
     end
 
     def url_helpers

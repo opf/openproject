@@ -158,28 +158,66 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
         expect(json).to eq("count" => 0)
       end
 
-      it "describes a single unread notification and links to its work package" do
+      it "describes a single unread notification as one work package group" do
         notify
 
         get "/push-notification"
 
-        expect(json).to eq("count" => 1,
-                           "title" => "Ada Lovelace mentioned you",
-                           "body" => "##{work_package.id}: Fix the build",
-                           "url" => "/work_packages/#{work_package.id}")
+        expect(json).to eq(
+          "count" => 1,
+          "groups" => [{ "tag" => "openproject-wp-#{work_package.id}",
+                         "count" => 1,
+                         "title" => "Ada Lovelace mentioned you",
+                         "body" => "##{work_package.id}: Fix the build",
+                         "url" => "/notifications/details/#{work_package.id}/activity" }],
+          "more" => nil
+        )
       end
 
-      it "summarises several unread notifications and links to the notification centre" do
+      it "counts several unread notifications on one work package as a single group" do
         notify(reason: :commented, created_at: 3.minutes.ago)
         notify(reason: :assigned, created_at: 2.minutes.ago)
         notify(reason: :mentioned, created_at: 1.minute.ago)
 
         get "/push-notification"
 
-        expect(json).to eq("count" => 3,
-                           "title" => "3 unread notifications",
-                           "body" => "Ada Lovelace mentioned you: ##{work_package.id} Fix the build",
-                           "url" => "/notifications")
+        expect(json["count"]).to eq(3)
+        expect(json["groups"].size).to eq(1)
+        expect(json["groups"][0]).to include("count" => 3,
+                                             "title" => "3 updates",
+                                             "body" => "Ada Lovelace mentioned you: ##{work_package.id} Fix the build")
+      end
+
+      it "orders groups by their latest activity" do
+        older = create(:work_package, project:)
+        newer = create(:work_package, project:)
+        notify(resource: newer, created_at: 2.minutes.ago)
+        notify(resource: older, created_at: 1.minute.ago)
+
+        get "/push-notification"
+
+        expect(json["groups"].pluck("tag")).to eq(["openproject-wp-#{older.id}", "openproject-wp-#{newer.id}"])
+      end
+
+      it "caps the groups at five and reports the rest as more" do
+        work_packages = create_list(:work_package, 7, project:)
+        work_packages.each_with_index { |wp, i| notify(resource: wp, created_at: (7 - i).minutes.ago) }
+
+        get "/push-notification"
+
+        expect(json["groups"].pluck("tag")).to eq(work_packages.last(5).reverse.map { "openproject-wp-#{it.id}" })
+        expect(json["more"]).to eq("count" => 2, "title" => "2 more work packages", "url" => "/notifications")
+      end
+
+      context "when semantic identifiers are on", with_settings: { work_packages_identifier: "semantic" } do
+        it "links the group to the semantic identifier but tags it with the numeric id" do
+          notify
+
+          get "/push-notification"
+
+          expect(json.dig("groups", 0, "url")).to eq("/notifications/details/#{work_package.to_param}/activity")
+          expect(json.dig("groups", 0, "tag")).to eq("openproject-wp-#{work_package.id}")
+        end
       end
 
       it "words date alerts without an actor" do
@@ -187,7 +225,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
 
         get "/push-notification"
 
-        expect(json["title"]).to eq("Due date alert")
+        expect(json.dig("groups", 0, "title")).to eq("Due date alert")
       end
 
       it "names a deleted actor" do
@@ -195,7 +233,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
 
         get "/push-notification"
 
-        expect(json["title"]).to eq("Deleted user mentioned you")
+        expect(json.dig("groups", 0, "title")).to eq("Deleted user mentioned you")
       end
 
       it "uses the date alert headline when the latest of several has no actor" do
@@ -205,7 +243,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
 
         get "/push-notification"
 
-        expect(json["body"]).to start_with("Due date alert: ")
+        expect(json.dig("groups", 0, "body")).to start_with("Due date alert: ")
       end
 
       it "does not count mail-only notifications" do
@@ -219,21 +257,13 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
       context "when served under a path prefix" do
         include_context "with a relative url root"
 
-        it "prefixes the single notification url" do
-          notify
+        it "prefixes the group and overflow urls" do
+          create_list(:work_package, 6, project:).each { notify(resource: it) }
 
           get "/push-notification", env: { "SCRIPT_NAME" => "/openproject" }
 
-          expect(json["url"]).to start_with("/openproject/")
-        end
-
-        it "prefixes the summary url" do
-          notify(reason: :commented)
-          notify
-
-          get "/push-notification", env: { "SCRIPT_NAME" => "/openproject" }
-
-          expect(json["url"]).to eq("/openproject/notifications")
+          expect(json.dig("groups", 0, "url")).to start_with("/openproject/notifications/details/")
+          expect(json.dig("more", "url")).to eq("/openproject/notifications")
         end
       end
 
