@@ -105,10 +105,12 @@ module CalculatedValues
     end
 
     # Returns a list of all custom field ids that could not compute a value.
+    # TODO: Handle lists differently. Right now, they result in an unknown error.
     def cf_ids_with_missing_values
-      @cf_ids_with_missing_values ||= given_values.merge(calculation_errors).filter_map do |k, v|
-        to_id(k) unless CustomField::CalculatedValue.computed_value?(v)
-      end
+      @cf_ids_with_missing_values ||= given_values
+        .filter { |_k, v| v.nil? }
+        .merge(calculation_errors)
+        .map { |k, _v| to_id(k) }
     end
 
     def create_error_records!(error_contexts)

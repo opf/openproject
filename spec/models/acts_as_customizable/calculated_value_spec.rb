@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_values] do
+RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_values weighted_item_lists] do
   using CustomFieldFormulaReferencing
   include CalculatedValues::ErrorsHelper
 
@@ -514,20 +514,73 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
     end
 
     context "when using weighted item lists" do
-      let(:cf_list) { build_stubbed(:weighted_item_list_project_custom_field) }
-      let(:cf1) { build_stubbed(:calculated_value_project_custom_field, formula: "#{cf_list} * 2") }
-      let(:hierarchy_item) { create(:hierarchy_item, weight: 7) }
-
       let(:enabled_custom_field_ids) { [cf_list, cf1].map(&:id) }
-      let(:custom_field_values) do
-        {
-          cf_list => hierarchy_item.id
-        }.map { |custom_field, value| build_stubbed(:custom_value, custom_field:, value:) }
+      let(:item1) { create(:hierarchy_item, weight: 1.5) }
+      let(:item2) { create(:hierarchy_item, weight: 2) }
+      let(:custom_field_values) { items.map { build_stubbed(:custom_value, custom_field: cf_list, value: it) } }
+
+      context "with a single value field" do
+        let(:cf_list) { build_stubbed(:weighted_item_list_project_custom_field, hierarchy_root: nil) }
+        let(:items) { [item1] }
+
+        context "when used as a number" do
+          let(:cf1) { build_stubbed(:calculated_value_project_custom_field, formula: "#{cf_list} * 2") }
+
+          it "calculates the value using the weight of the selected entry" do
+            instance.calculate_custom_fields([cf1])
+            expect(instance).to have_received(:custom_field_values=).with(cf1.id => 1.5 * 2).once
+          end
+        end
+
+        context "when used in a list function" do
+          let(:cf1) { build_stubbed(:calculated_value_project_custom_field, formula: "SUM(#{cf_list}, 1)") }
+
+          it "calculates the value using the weight of the selected entry" do
+            instance.calculate_custom_fields([cf1])
+            expect(instance).to have_received(:custom_field_values=).with(cf1.id => 1.5 + 1).once
+          end
+        end
       end
 
-      it "calculates values using the weight of the selected entry" do
-        instance.calculate_custom_fields([cf1])
-        expect(instance).to have_received(:custom_field_values=).with(cf1.id => 2 * 7).once
+      context "with a multi-value field" do
+        let(:cf_list) { build_stubbed(:weighted_item_list_project_custom_field, multi_value: true, hierarchy_root: nil) }
+        let(:items) { [item1, item2] }
+
+        context "when used in a list function" do
+          let(:cf1) { build_stubbed(:calculated_value_project_custom_field, formula: "SUM(#{cf_list}, 1)") }
+
+          it "calculates the value using the weight of all selected entries" do
+            instance.calculate_custom_fields([cf1])
+            expect(instance).to have_received(:custom_field_values=).with(cf1.id => 1.5 + 2 + 1).once
+          end
+
+          context "with nothing selected" do
+            let(:custom_field_values) { [build_stubbed(:custom_value, custom_field: cf_list, value: nil)] }
+
+            it "calculates the value without entries" do
+              instance.calculate_custom_fields([cf1])
+              expect(instance).to have_received(:custom_field_values=).with(cf1.id => 1).once
+            end
+          end
+        end
+
+        context "when used as a number" do
+          let(:cf1) { build_stubbed(:calculated_value_project_custom_field, formula: "#{cf_list} * 2") }
+
+          it "cannot compute a value" do
+            instance.calculate_custom_fields([cf1])
+            expect(instance).to have_received(:custom_field_values=).with(cf1.id => nil).once
+          end
+
+          context "with only a single item selected" do
+            let(:items) { [item1] }
+
+            it "still cannot compute a value" do
+              instance.calculate_custom_fields([cf1])
+              expect(instance).to have_received(:custom_field_values=).with(cf1.id => nil).once
+            end
+          end
+        end
       end
     end
   end
@@ -800,6 +853,29 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
           expect_no_calculated_value_errors(a_plus_b, project)
           expect_no_calculated_value_errors(a_minus_b, project)
           expect_calculated_value_error(nested_calculation, project, "ERROR_MATHEMATICAL")
+        end
+      end
+
+      describe "when applying an arithmetic operation to a list" do
+        let(:cf_list) { create(:weighted_item_list_project_custom_field, multi_value: true, projects: [project]) }
+        let!(:cf_sum) do
+          create(:calculated_value_project_custom_field, :skip_validations, projects: [project], formula: "SUM(#{cf_list})")
+        end
+        let!(:cf_add) do
+          create(:calculated_value_project_custom_field, :skip_validations, projects: [project], formula: "#{cf_list} + 0")
+        end
+        let(:items) { [1.5, 2].map { create(:hierarchy_item, parent: cf_list.hierarchy_root, weight: it) } }
+
+        before { items.each { create(:custom_value, customized: project, custom_field: cf_list, value: it) } }
+
+        it "reports an error for the arithmetic operation" do
+          project.calculate_custom_fields([cf_sum, cf_add])
+
+          expect(project.typed_custom_value_for(cf_sum)).to eq(3.5)
+          expect_no_calculated_value_errors(cf_sum, project)
+
+          expect(project.typed_custom_value_for(cf_add)).to be_nil
+          expect_calculated_value_error(cf_add, project, "ERROR_UNKNOWN")
         end
       end
     end

@@ -91,7 +91,8 @@ module ActsAsCustomizable::CalculatedValue
 
       custom_field_values(all: true)
         .select { it.custom_field_id.in?(given_ids) }
-        .to_h { [it.custom_field.column_name, as_calculable(it.typed_value)] }
+        .group_by(&:custom_field)
+        .to_h { |cf, cv| [cf.column_name, calculable_value(cf, cv)] }
     end
 
     def calculated_value_fields_to_compute(custom_fields:, enabled_ids:)
@@ -128,6 +129,11 @@ module ActsAsCustomizable::CalculatedValue
         given_values: given_cfs,
         calculated_fields: enabled_calculated_fields
       )
+    end
+
+    def calculable_value(custom_field, custom_values)
+      values = custom_values.map { as_calculable(it.typed_value) }
+      custom_field.multi_value? ? values.compact : values.first
     end
 
     def as_calculable(value)
