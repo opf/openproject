@@ -33,7 +33,9 @@ import { ID } from '@datorama/akita';
 import {
   markNotificationsAsRead,
   markNotificationsAsReadByFilters,
+  markNotificationsAsUnread,
   notificationsMarkedRead,
+  notificationsMarkedUnread,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import {
   EffectCallback,
@@ -68,6 +70,18 @@ export class InAppNotificationsResourceService extends ResourceStoreService<INot
       );
   }
 
+  markAsUnread(notifications:ID[]):Observable<unknown> {
+    return this
+      .apiV3Service
+      .notifications
+      .markAsUnreadByIds(notifications)
+      .pipe(
+        tap(() => {
+          this.store.update(notifications, { readIAN: false });
+        }),
+      );
+  }
+
   /**
    * Mark the given notification IDs as read through the API.
    */
@@ -89,6 +103,18 @@ export class InAppNotificationsResourceService extends ResourceStoreService<INot
       .subscribe(() => {
         this.actions$.dispatch(notificationsMarkedRead({ origin: action.origin, notifications: [], all: true }));
       });
+  }
+
+  /**
+   * Mark the given notification IDs as unread through the API.
+   */
+  @EffectCallback(markNotificationsAsUnread)
+  private markNotificationsAsUnread(action:ReturnType<typeof markNotificationsAsUnread>) {
+    this
+      .markAsUnread(action.notifications)
+      .subscribe(() => (
+        this.actions$.dispatch(notificationsMarkedUnread(action))
+      ));
   }
 
   protected createStore():ResourceStore<INotification> {

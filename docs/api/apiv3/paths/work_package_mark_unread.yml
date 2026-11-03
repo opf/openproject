@@ -1,0 +1,46 @@
+# /api/v3/work_packages/{id}/mark_unread
+---
+post:
+  summary: Mark work package as unread
+  operationId: mark_work_package_unread
+  tags:
+    - Work Packages
+  description: |-
+    Marks the latest activity of the work package that is visible to the current user as unread.
+
+    If the current user already has a notification for that activity, it is marked as unread and keeps its reason.
+    Otherwise, an unread notification with the reason `marked_as_unread` is created. No email is sent for it.
+  parameters:
+    - name: id
+      in: path
+      description: Work package id
+      example: 1
+      required: true
+      schema:
+        type: integer
+  responses:
+    '204':
+      description: OK
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: Returned if the client is not logged in.
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package

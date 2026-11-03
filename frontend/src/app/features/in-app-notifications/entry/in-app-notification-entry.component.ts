@@ -65,6 +65,14 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
 
   @Input() aggregatedNotifications:INotification[];
 
+  // A WP's aggregated notifications can mix read and unread (e.g. one unread
+  // comment plus older read ones). The row is "unread" if any of them are
+  // unread; relying on notification.readIAN alone picks whichever entry
+  // happens to sort first and misreports the state.
+  get hasUnreadAggregated():boolean {
+    return this.aggregatedNotifications.some((n) => !n.readIAN);
+  }
+
   workPackage$:Observable<WorkPackageResource>|null = null;
 
   // Latest streamed work package, cached for synchronous reads from click
@@ -85,6 +93,7 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
     loading: this.I18n.t('js.ajax.loading'),
     placeholder: this.I18n.t('js.placeholders.default'),
     mark_as_read: this.I18n.t('js.notifications.center.mark_as_read'),
+    mark_as_unread: this.I18n.t('js.notifications.center.mark_as_unread'),
   };
 
   private clickTimer:ReturnType<typeof setTimeout>;
@@ -168,6 +177,11 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
   markAsRead(event:MouseEvent, notifications:INotification[]):void {
     event.stopPropagation();
     this.storeService.markAsRead(notifications.map((el) => el.id));
+  }
+
+  markAsUnread(event:MouseEvent, notifications:INotification[]):void {
+    event.stopPropagation();
+    this.storeService.markAsUnread(notifications.map((el) => el.id));
   }
 
   isMobile():boolean {

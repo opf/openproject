@@ -31,8 +31,13 @@ import { ApiV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource
 import { ApiV3WorkPackagesPaths } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-packages-paths';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 import { ApiV3WorkPackageForm } from 'core-app/core/apiv3/endpoints/work_packages/apiv3-work-package-form';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 export class ApiV3WorkPackagePaths extends ApiV3Resource<WorkPackageResource> {
+  @LazyInject() http:HttpClient;
+
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/relations
   public readonly relations = this.subResource('relations', ApiV3RelationsPaths);
 
@@ -56,6 +61,16 @@ export class ApiV3WorkPackagePaths extends ApiV3Resource<WorkPackageResource> {
 
   // /api/v3/(projects/:projectIdentifier)/work_packages/(:workPackageId)/form
   public readonly form:ApiV3WorkPackageForm = this.subResource('form', ApiV3WorkPackageForm);
+
+  public markUnread():Observable<unknown> {
+    return this
+      .http
+      .post(
+        `${this.path}/mark_unread`,
+        {},
+        { withCredentials: true },
+      );
+  }
 
   protected createCache():StateCacheService<WorkPackageResource> {
     return (this.parent as ApiV3WorkPackagesPaths).cache;

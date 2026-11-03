@@ -36,8 +36,10 @@ import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.s
 import {
   centerUpdatedInPlace,
   markNotificationsAsRead,
+  markNotificationsAsUnread,
   notificationCountChanged,
   notificationsMarkedRead,
+  notificationsMarkedUnread,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { EffectCallback, EffectHandler } from 'core-app/core/state/effects/effect-handler.decorator';
@@ -225,6 +227,12 @@ export class IanCenterService extends UntilDestroyedMixin {
     );
   }
 
+  markAsUnread(notifications:ID[]):void {
+    this.actions$.dispatch(
+      markNotificationsAsUnread({ origin: this.id, notifications }),
+    );
+  }
+
   openSplitScreen(workPackageId:string, tabIdentifier = 'activity'):void {
     const link = this.pathHelper.notificationsDetailsPath(workPackageId, tabIdentifier) + window.location.search;
     Turbo.visit(link, { frame: 'content-bodyRight', action: 'advance' });
@@ -292,18 +300,66 @@ export class IanCenterService extends UntilDestroyedMixin {
       return;
     }
 
-    const { activeCollection } = this.query.getValue();
-    this.store.update({
-      activeCollection: {
-        ids: activeCollection.ids.filter((activeID) => !action.notifications.includes(activeID)),
-      },
-    });
+    const { activeCollection, activeFacet } = this.query.getValue();
 
-    if (!this.deviceService.isMobile && window.location.href.includes('details')) {
+    if (activeFacet === 'unread') {
+      // The row no longer matches the current filter, drop it so it
+      // disappears without a visible gap.
+      this.store.update({
+        activeCollection: {
+          ids: activeCollection.ids.filter((activeID) => !action.notifications.includes(activeID)),
+        },
+      });
+    } else {
+      // Keep the id in activeCollection so the row stays visible on the All
+      // facet. The store entity was already flipped to readIAN:true by
+      // markAsRead, so re-emitting activeCollection (same ids, new reference)
+      // is enough for selectNotifications$ to re-run its lookups and the row
+      // to re-render with the new icon in place — no flicker from a fetch.
+      this.store.update({
+        activeCollection: { ...activeCollection, ids: [...activeCollection.ids] },
+      });
+    }
+
+    if (activeFacet === 'unread' && !this.deviceService.isMobile && window.location.href.includes('details')) {
       this.showNextNotification();
     }
 
     // Reload the sidemenu frame
+    void this.menuFrame.reload();
+  }
+
+  /**
+   * React to a notification being marked unread. The store entity was already
+   * flipped to readIAN:false by `markAsUnread`, so we just need `activeCollection$`
+   * to re-emit — nothing is re-fetched. Skipping the fetch avoids a trackBy
+   * change (trackNotificationGroups includes `updatedAt`) that would otherwise
+   * unmount and remount the row, visible as a flicker.
+   */
+  @EffectCallback(notificationsMarkedUnread)
+  private reloadOnNotificationUnread() {
+    const { activeCollection } = this.query.getValue();
+    this.store.update({
+      activeCollection: { ...activeCollection, ids: [...activeCollection.ids] },
+    });
+
+    void this.menuFrame.reload();
+    this.ianBellService.fetchUnread().subscribe();
+  }
+
+  /**
+   * Full refresh triggered by external notification changes (e.g. a user marked
+   * a journal unread from within the activity tab). The notification set may
+   * have grown or shrunk, so we re-fetch rather than re-emit in place.
+   */
+  refresh():void {
+    this.onReload.pipe(take(1)).subscribe((collection) => {
+      this.store.update({ activeCollection: collection });
+      this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
+    });
+
+    this.reload.next(false);
+
     void this.menuFrame.reload();
   }
 

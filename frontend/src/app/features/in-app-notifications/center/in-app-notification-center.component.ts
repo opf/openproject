@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -62,6 +62,15 @@ export class InAppNotificationCenterComponent implements OnInit {
   readonly colorsService = inject(ColorsService);
 
   maxSize = NOTIFICATIONS_MAX_SIZE;
+
+  // Refresh when a backend action (e.g. mark unread from the activity tab)
+  // reports that notifications changed. Sibling components in the WP split
+  // view already listen for this; the center list needs it too.
+  @HostListener('document:ian-update-immediate')
+  @HostListener('document:op-dispatched:notifications:updated')
+  triggerImmediateUpdate() {
+    this.storeService.refresh();
+  }
 
   hasMoreThanPageSize$ = this.storeService.hasMoreThanPageSize$;
 

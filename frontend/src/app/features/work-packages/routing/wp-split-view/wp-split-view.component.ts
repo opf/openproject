@@ -72,6 +72,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   // e.g. a stimulus controller
   // currently used by the new activities tab which does its own polling
   @HostListener('document:ian-update-immediate')
+  @HostListener('document:op-dispatched:notifications:updated')
   triggerImmediateUpdate() {
     this.storeService.reload();
   }

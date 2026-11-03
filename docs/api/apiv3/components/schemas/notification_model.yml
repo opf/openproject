@@ -18,6 +18,7 @@ properties:
       - commented
       - created
       - dateAlert
+      - marked_as_unread
       - mentioned
       - prioritized
       - processed

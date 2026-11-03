@@ -57,7 +57,8 @@ RSpec.describe Notification do
           date_alert_start_date: 10,
           date_alert_due_date: 11,
           shared: 12,
-          reminder: 13
+          reminder: 13,
+          marked_as_unread: 14
         )
         .with_prefix
         .backed_by_column_of_type(:integer)

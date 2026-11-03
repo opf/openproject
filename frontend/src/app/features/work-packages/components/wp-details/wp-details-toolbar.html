@@ -2,9 +2,7 @@
   <wp-watcher-button [workPackage]="workPackage" />
 
   @if (displayNotificationsButton) {
-    <op-work-package-mark-notification-button [workPackage]="workPackage"
-      data-test-selector="mark-notification-read-button"
-     />
+    <op-work-package-mark-notification-button [workPackage]="workPackage" />
   }
 
   @if (displayShareButton$ | async) {

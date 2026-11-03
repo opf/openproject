@@ -29,6 +29,8 @@ import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'op-work-package-mark-notification-button',
@@ -39,17 +41,38 @@ import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-
 export class WorkPackageMarkNotificationButtonComponent {
   private I18n = inject(I18nService);
   private storeService = inject(WpSingleViewService);
+  private toastService = inject(ToastService);
 
   @Input() public workPackage:WorkPackageResource;
 
   text = {
     mark_as_read: this.I18n.t('js.notifications.center.mark_as_read'),
+    mark_as_unread: this.I18n.t('js.notifications.center.mark_as_unread'),
   };
+
+  hasUnreadNotifications$ = this.storeService.hasNotifications$;
 
   markAllBelongingNotificationsAsRead():void {
     this.storeService.markAllAsRead();
-    // emit custom event in order to inform the activity tab stimulus controller
-    // will trigger an update of the activities list
+    this.notifyActivityTab();
+  }
+
+  markAsUnread():void {
+    this
+      .storeService
+      .markAsUnread(this.workPackage.id!)
+      .subscribe({
+        next: () => {
+          document.dispatchEvent(new Event('ian-update-immediate'));
+          this.notifyActivityTab();
+        },
+        error: (error:HttpErrorResponse) => this.toastService.addError(error),
+      });
+  }
+
+  // emit custom event in order to inform the activity tab stimulus controller
+  // will trigger an update of the activities list
+  private notifyActivityTab():void {
     document.dispatchEvent(
       new CustomEvent('work-package-notifications-updated'),
     );

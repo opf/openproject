@@ -26,7 +26,6 @@
 //++
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit, inject } from '@angular/core';
-import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
@@ -52,7 +51,6 @@ import { Observable, of } from 'rxjs';
 })
 export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase implements OnInit {
   recentItemsService = inject(RecentItemsService);
-  readonly currentUserService = inject(CurrentUserService);
   readonly cdRef = inject(ChangeDetectorRef);
 
   // Watcher properties
@@ -83,6 +81,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   // e.g. a stimulus controller
   // currently used by the new activities tab which does its own polling
   @HostListener('document:ian-update-immediate')
+  @HostListener('document:op-dispatched:notifications:updated')
   triggerImmediateUpdate() {
     this.storeService.reload();
   }

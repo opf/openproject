@@ -1,0 +1,46 @@
+# /api/v3/activities/{id}/mark_unread
+---
+post:
+  summary: Mark activity as unread
+  operationId: mark_activity_unread
+  tags:
+    - Activities
+  description: |-
+    Marks the given work package activity as unread for the current user.
+
+    If the current user already has a notification for that activity, it is marked as unread and keeps its reason.
+    Otherwise, an unread notification with the reason `marked_as_unread` is created. No email is sent for it.
+  parameters:
+    - name: id
+      in: path
+      description: Activity id
+      example: 1
+      required: true
+      schema:
+        type: integer
+  responses:
+    '204':
+      description: OK
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: Returned if the client is not logged in or the activity does not belong to a work package.
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the activity does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package

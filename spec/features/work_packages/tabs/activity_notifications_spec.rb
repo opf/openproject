@@ -92,6 +92,28 @@ RSpec.describe "Activity tab notifications", :js do
     it "shows no button to mark the notifications as read" do
       expect(page).not_to have_test_selector("mark-notification-read-button")
     end
+
+    it "marks the latest activity as unread via the toolbar button" do
+      page.find_test_selector("mark-notification-unread-button").click
+
+      expect(page).to have_test_selector("mark-notification-read-button")
+      expect(page).to have_test_selector(tab_counter_selector, text: "1")
+      activity_tab.expect_notification_bubble
+      expect(Notification.where(recipient: admin, read_ian: false).sole)
+        .to have_attributes(journal: work_package.journals.last, reason: "marked_as_unread")
+    end
+
+    it "marks a single activity as unread via its action menu" do
+      journal = work_package.journals.second
+
+      activity_tab.select_journal_action(journal, "mark-unread")
+
+      activity_tab.within_journal_entry(journal) do
+        expect(page).to have_test_selector("op-journal-unread-notification")
+      end
+      expect(page).to have_test_selector("mark-notification-read-button")
+      expect(Notification.where(recipient: admin, read_ian: false).sole.journal).to eq journal
+    end
   end
 
   context "when on full view" do
@@ -139,6 +161,13 @@ RSpec.describe "Activity tab notifications", :js do
 
       full_view.expect_no_toaster type: :error, message: "Http failure response for"
       full_view.expect_no_toaster
+    end
+
+    it "does not offer to mark the work package as unread" do
+      full_view.visit_tab! "activity"
+      full_view.wait_for_activity_tab
+
+      expect(page).not_to have_test_selector("mark-notification-unread-button")
     end
   end
 end

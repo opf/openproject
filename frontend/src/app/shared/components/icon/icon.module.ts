@@ -81,6 +81,7 @@ import {
   XCircleIconComponent,
   KebabHorizontalIconComponent,
   ReadIconComponent,
+  MailIconComponent,
   EyeIconComponent,
   EyeClosedIconComponent,
   ArrowLeftIconComponent,
@@ -226,6 +227,7 @@ import {
 
     KebabHorizontalIconComponent,
     ReadIconComponent,
+  MailIconComponent,
     EyeIconComponent,
     EyeClosedIconComponent,
     ArrowLeftIconComponent,
@@ -335,6 +337,7 @@ import {
 
     KebabHorizontalIconComponent,
     ReadIconComponent,
+  MailIconComponent,
     EyeIconComponent,
     EyeClosedIconComponent,
     ArrowLeftIconComponent,
