@@ -139,8 +139,22 @@ module Queries::WorkPackages::Filter::FilterOnVersionsMixin
   end
 
   def version_associations
+    if context&.historic?
+      historic_version_associations
+    else
+      current_version_associations
+    end
+  end
+
+  def current_version_associations
     WorkPackageVersion
       .where(kind: version_kind)
       .where("#{WorkPackageVersion.table_name}.work_package_id = #{WorkPackage.table_name}.id")
+  end
+
+  def historic_version_associations
+    Journal::WorkPackageVersionJournal
+      .where(kind: version_kind)
+      .where("#{Journal::WorkPackageVersionJournal.table_name}.journal_id = #{WorkPackage.table_name}.journal_id")
   end
 end
