@@ -379,7 +379,7 @@ describe('WorkPackagesTableComponent physical columns', () => {
         expect(element.querySelectorAll('colgroup col')).toHaveLength(expected);
         element.querySelectorAll<HTMLTableRowElement>('tr.wp-table--row[data-work-package-id]')
           .forEach((row) => expect(spannedColumns(row)).toBe(expected));
-        expect(component.numTableColumns).toBe(expected);
+        expect(component.numTableColumns()).toBe(expected);
         expect(component.workPackageTable.colspan).toBe(expected);
       });
     });
@@ -584,6 +584,33 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     sortBy(['subject', QUERY_SORT_BY_DESC]);
 
     expect(painted).not.toHaveLength(0);
+  });
+
+  it('settles current header state before navigation and publication', async () => {
+    const component = await mount({});
+    const table = component.workPackageTable;
+    const events:string[] = [];
+    const generation = table.committedRows().generation;
+    const paint = table.painter.paint.bind(table.painter);
+    vi.spyOn(table.painter, 'paint').mockImplementation((scope) => {
+      events.push('paint');
+      expect(table.colspan).toBe(3);
+      expect(headerRow().querySelector('[aria-label="Comparison status"]')).not.toBeNull();
+      expect(headerRow().querySelector('[aria-sort="descending"]')).not.toBeNull();
+      expect(screen.getByRole('treegrid')).toHaveAccessibleDescription('Sorted by subject descending.');
+      return paint(scope);
+    });
+    vi.spyOn(table.keyboardNavigation, 'rowsChanged').mockImplementation(() => {
+      events.push('navigation');
+      expect(table.committedRows().generation).toBe(generation);
+      expect(headerRow()).toHaveAttribute('aria-level', '1');
+    });
+
+    baselineActive = true;
+    sortBy(['subject', QUERY_SORT_BY_DESC]);
+
+    expect(events).toEqual(['paint', 'navigation']);
+    expect(table.committedRows().generation).toBe(generation + 1);
   });
 
   describe('header structure', () => {

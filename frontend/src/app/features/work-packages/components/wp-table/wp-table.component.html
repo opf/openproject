@@ -1,37 +1,38 @@
-@if (query) {
+@let view = viewState();
+@if (view && view.query) {
   <div class="work-packages-split-view--tabletimeline-content">
     <div class="work-packages-tabletimeline--table-side work-package-table--container __hidden_overflow_container">
       <table
         class="keyboard-accessible-list generic-table work-package-table"
         data-controller="table-highlighting"
         [attr.id]="workPackageTable?.domId ?? null"
-        [class.op-table-baseline]="baselineEnabled"
+        [class.op-table-baseline]="view.baselineEnabled"
         role="treegrid"
         aria-multiselectable="true"
         [attr.aria-label]="configuration.labelledBy ? null : text.tableName"
         [attr.aria-labelledby]="configuration.labelledBy"
-        [attr.aria-describedby]="sortDescription ? sortDescriptionId : null"
+        [attr.aria-describedby]="view.sortDescription ? sortDescriptionId : null"
         >
           <colgroup>
             @if (configuration.dragAndDropEnabled) {
               <col data-highlight="false">
             }
-            @if (baselineEnabled) {
+            @if (view.baselineEnabled) {
               <col data-highlight="false">
             }
             <!-- Generate col elements dynamically(!) for each requested column plus one for the action menu's column. -->
-            @for (column of [].constructor(columns.length); track $index) {
+            @for (column of view.columns; track column.href) {
               <col>
             }
             @if (configuration.columnMenuEnabled) {
               <col>
             }
-            @if (!configuration.columnMenuEnabled && trailingColumnRendered) {
+            @if (!configuration.columnMenuEnabled && view.trailingColumnRendered) {
               <col data-highlight="false">
             }
           </colgroup>
           <caption class="sr-only">
-            <span [attr.id]="sortDescriptionId">{{sortDescription}}</span>
+            <span [attr.id]="sortDescriptionId">{{view.sortDescription}}</span>
           </caption>
           <thead class="-sticky">
             <tr>
@@ -39,13 +40,13 @@
                 <th class="wp-table--manual-sort-th -short hide-when-print">
                   <div class="generic-table--empty-header">
                     <span class="sr-only">{{text.sorting}}</span>
-                    @if (manualSortEnabled) {
+                    @if (view.manualSortEnabled) {
                       <op-icon icon-classes="icon-sort-by" />
                     }
                   </div>
                 </th>
               }
-              @if (baselineEnabled) {
+              @if (view.baselineEnabled) {
                 <th class="wp-table--baseline-th -short hide-when-print"
                   [attr.aria-label]="text.baselineHeader">
                   <div class="generic-table--empty-header op-table-baseline--column-header">
@@ -53,7 +54,7 @@
                   </div>
                 </th>
               }
-              @for (column of columns; track column.href) {
+              @for (column of view.columns; track column.href) {
                 <th
                   [attr.aria-label]="column.name"
                   [ngClass]="{'-max': column.id === 'subject', '-min-200': ['estimatedTime', 'remainingTime'].includes(column.id) }"
@@ -81,10 +82,10 @@
               }
             </tr>
           </thead>
-          @if (!isEmbedded && query && results.count === 0) {
+          @if (!isEmbedded && view.query && view.results.count === 0) {
             <tbody class="work-package--empty-tbody">
               <tr id="empty-row-notification">
-                <td [attr.colspan]="numTableColumns">
+                <td [attr.colspan]="view.numTableColumns">
                   <span>
                     <op-icon icon-classes="icon-info1 icon-context" />
                     <span>
@@ -107,7 +108,7 @@
           @if (tableElement && configuration.inlineCreateEnabled) {
             <tbody
               wpInlineCreate
-              [colspan]="numTableColumns"
+              [colspan]="view.numTableColumns"
               [table]="workPackageTable"
               [projectIdentifier]="projectIdentifier"
               (showing)="inlineCreateVisible = $event"
@@ -127,7 +128,8 @@
         </div>
       }
       <div class="work-packages-tabletimeline--timeline-side" aria-hidden="true" tabindex="-1"
-        [ngClass]="{ '-single-margin': (sumVisible || inlineCreateVisible) && !(sumVisible && inlineCreateVisible), '-double-margin': sumVisible && inlineCreateVisible }">
+        [class.-single-margin]="(view.sumVisible || inlineCreateVisible) && !(view.sumVisible && inlineCreateVisible)"
+        [class.-double-margin]="view.sumVisible && inlineCreateVisible">
         <wp-timeline-container />
       </div>
     </div>
