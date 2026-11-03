@@ -157,7 +157,7 @@ public readonly injector:Injector,
       case 'child_relations':
         return this.childRelations.refreshRelationRow(occurrence, workPackage, oldRow);
       default:
-        return this.rowBuilder.refreshRow(workPackage, oldRow);
+        return this.rowBuilder.refreshRow(workPackage, oldRow, occurrence.level - 1);
     }
   }
 
