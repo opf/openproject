@@ -31,10 +31,14 @@ module Llm
   module WorkPackages
     module SemanticSearch
       def self.available?
-        resolution = Llm::Runtime.for(:semantic_search)
-        return false unless resolution.ready?
+        return false unless runtime.ready?
 
-        feature_binding(resolution)&.locked? || false
+        active_semantic_index&.ready? || false
+      end
+
+      # Memoized per request: availability check and embedding share one resolution.
+      def self.runtime
+        RequestStore.fetch(:semantic_search_runtime) { Llm::Runtime.for(:semantic_search) }
       end
 
       # Memoized per request: the query filter and the similarity sort both need it.
@@ -42,24 +46,21 @@ module Llm
         RequestStore.fetch([:semantic_search_query_vector, query]) { fetch_query_vector(query) }
       end
 
+      # The index query embedding and result ranking run against.
+      def self.active_semantic_index
+        RequestStore.fetch(:semantic_search_active_index) { SemanticIndex.active }
+      end
+
       private_class_method def self.fetch_query_vector(query)
         return if query.blank?
+        return unless available?
 
-        resolution = Llm::Runtime.for(:semantic_search)
-        return unless resolution.ready?
-
-        binding = feature_binding(resolution)
-        return unless binding&.locked?
-
-        embed(query, resolution, binding.dimensions)
+        embed(query)
       end
 
-      private_class_method def self.feature_binding(resolution)
-        resolution.connection.feature_bindings.find_by(feature_key: "semantic_search")
-      end
-
-      private_class_method def self.embed(query, resolution, dimensions)
-        vector = resolution.embed(query, dimensions:).vectors
+      private_class_method def self.embed(query)
+        vector = runtime.embed(query,
+                               dimensions: active_semantic_index.embedding_vector_dimensions).vectors
         WorkPackageEmbedding.vector_literal(vector) if vector.present?
       rescue Llm::Errors::Error
         nil
