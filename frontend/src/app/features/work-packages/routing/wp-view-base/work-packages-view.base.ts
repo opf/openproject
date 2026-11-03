@@ -315,7 +315,8 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
     }
 
     const created = events.find(
-      (event) => event.eventType === 'created' && resolveRoutingId(this.states, event.id) === details.routingId,
+      (event) => event.eventType === 'created'
+        && [event.id, resolveRoutingId(this.states, event.id)].includes(details.routingId),
     );
 
     if (created) {
