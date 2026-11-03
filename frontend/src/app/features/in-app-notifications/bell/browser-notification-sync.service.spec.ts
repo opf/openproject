@@ -186,6 +186,30 @@ describe('BrowserNotificationSyncService', () => {
     expect(wp1.close).not.toHaveBeenCalled();
   });
 
+  it('closes every notification when browser push is turned off', async () => {
+    const open = [notification('openproject-wp-1'), notification('openproject-more')];
+    getNotifications.mockResolvedValue(open);
+    fetchMock.mockResolvedValue({ ok: false, status: 404 });
+    setup().initialize();
+
+    loadedUnread$.next(1);
+    await flush();
+
+    open.forEach((item) => expect(item.close).toHaveBeenCalled());
+  });
+
+  it('leaves notifications open on a server error', async () => {
+    const wp1 = notification('openproject-wp-1');
+    getNotifications.mockResolvedValue([wp1]);
+    fetchMock.mockResolvedValue({ ok: false, status: 500 });
+    setup().initialize();
+
+    loadedUnread$.next(1);
+    await flush();
+
+    expect(wp1.close).not.toHaveBeenCalled();
+  });
+
   it('stays inert without notification permission', async () => {
     setup({ permission: 'default' }).initialize();
 

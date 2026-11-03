@@ -129,6 +129,10 @@ export class BrowserNotificationSyncService {
       cache: 'no-store',
       signal: AbortSignal.timeout(10000),
     });
+    if (response.status === 404) {
+      return new Set();
+    }
+
     if (!response.ok) {
       return undefined;
     }
