@@ -127,6 +127,21 @@ RSpec.describe "My::PushSubscriptionsController",
         expect(existing.reload.user).to eq(user)
       end
 
+      it "retries once when a concurrent request stored the endpoint before validation" do
+        existing = create(:push_subscription, user:, endpoint:)
+        calls = 0
+        allow(PushSubscription).to receive(:find_or_initialize_by).and_wrap_original do |original, **args|
+          calls += 1
+          calls == 1 ? PushSubscription.new(**args) : original.call(**args)
+        end
+
+        subscribe(endpoint)
+
+        expect(response).to have_http_status(:ok)
+        expect(existing.reload.session).to eq(current_session_row)
+        expect(PushSubscription.where(endpoint:).count).to eq(1)
+      end
+
       it "keeps this session's subscription when the new endpoint is rejected" do
         stale = create(:push_subscription, user:, session: current_session_row)
 

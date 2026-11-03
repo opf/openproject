@@ -37,6 +37,8 @@ module My
     before_action :require_web_push
     no_authorization_required! :create, :destroy
 
+    SUBSCRIBE_ATTEMPTS = 2
+
     def create
       result = subscribe(params[:push_endpoint].to_s)
 
@@ -63,18 +65,23 @@ module My
     end
 
     def subscribe(endpoint)
-      attempts = 0
-
-      begin
-        attempts += 1
-        subscription = PushSubscription.find_or_initialize_by(endpoint:)
-        return takeover_refused_result(subscription) if held_by_another_user?(subscription)
-
-        replace_session_subscription(subscription)
+      (1..SUBSCRIBE_ATTEMPTS).each do |attempt|
+        result = register_endpoint(endpoint)
+        return result unless endpoint_taken?(result) && attempt < SUBSCRIBE_ATTEMPTS
       rescue ActiveRecord::RecordNotUnique
-        retry if attempts < 2
-        raise
+        raise if attempt == SUBSCRIBE_ATTEMPTS
       end
+    end
+
+    def register_endpoint(endpoint)
+      subscription = PushSubscription.find_or_initialize_by(endpoint:)
+      return takeover_refused_result(subscription) if held_by_another_user?(subscription)
+
+      replace_session_subscription(subscription)
+    end
+
+    def endpoint_taken?(result)
+      result.failure? && result.errors.of_kind?(:endpoint, :taken)
     end
 
     def replace_session_subscription(subscription)
