@@ -75,6 +75,17 @@ $blocknote-side-menu-gutter: 48px // Left lane for BlockNote's side menu (drag h
 
       [data-content-type="heading"]:hover .op-heading-link
         opacity: 1
+
+    // The global `select` rule (full width, page background) turns BlockNote's language picker
+    // into a band across the top of every code block.
+    .bn-block-content[data-content-type="codeBlock"] > div > select
+      width: auto
+      height: auto
+      padding: 0
+      background: transparent !important
+
+      > option
+        color: var(--fgColor-default)
   > .bn-default-styles
     font-family: var(--body-font-family)
 
