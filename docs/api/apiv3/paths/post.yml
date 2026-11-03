@@ -34,7 +34,7 @@ get:
                 id: 1
                 subject: A post with a subject
           schema:
-            "$ref": "../components/schemas/post_model.yml"
+            $ref: "../components/schemas/post_model.yml"
       description: OK
       headers: {}
     '404':

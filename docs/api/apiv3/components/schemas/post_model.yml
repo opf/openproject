@@ -17,7 +17,7 @@ properties:
     properties:
       addAttachment:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               Attach a file to the post
 
@@ -27,7 +27,7 @@ properties:
             readOnly: true
       topic:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               The post that opens the topic: the post itself, or the post it replies to
 

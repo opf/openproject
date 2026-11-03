@@ -9,7 +9,7 @@ get:
             'simple priority collection':
               $ref: "../components/examples/priority_collection.yml"
           schema:
-            "$ref": "../components/schemas/priority_collection_model.yml"
+            $ref: "../components/schemas/priority_collection_model.yml"
       description: OK
       headers: {}
     '403':

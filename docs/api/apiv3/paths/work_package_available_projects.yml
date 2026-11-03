@@ -77,7 +77,7 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/available_projects_for_work_package_model.yml"
+            $ref: "../components/schemas/available_projects_for_work_package_model.yml"
       description: OK
       headers: {}
     '403':

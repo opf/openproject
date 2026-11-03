@@ -97,9 +97,9 @@ get:
         application/hal+json:
           examples:
             "with custom fields":
-              "$ref": "../components/examples/project.yml"
+              $ref: "../components/examples/project.yml"
           schema:
-            "$ref": "../components/schemas/project_model.yml"
+            $ref: "../components/schemas/project_model.yml"
       description: OK
       headers: {}
     '404':
@@ -143,16 +143,16 @@ patch:
           $ref: '../components/schemas/project_model.yml'
         examples:
           "with custom fields":
-            "$ref": "../components/examples/project_body.yml"
+            $ref: "../components/examples/project_body.yml"
   responses:
     '200':
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/project_model.yml"
+            $ref: "../components/schemas/project_model.yml"
           examples:
             "with custom fields":
-              "$ref": "../components/examples/project.yml"
+              $ref: "../components/examples/project.yml"
       description: OK
       headers: {}
     '400':

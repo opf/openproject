@@ -197,7 +197,7 @@ get:
                 timelineVisible: false
                 timelineZoomLevel: days
           schema:
-            "$ref": "../components/schemas/default_query_model.yml"
+            $ref: "../components/schemas/default_query_model.yml"
       description: OK
       headers: {}
     '403':

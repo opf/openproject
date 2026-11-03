@@ -19,7 +19,7 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/available_projects_for_time_entries_model.yml"
+            $ref: "../components/schemas/available_projects_for_time_entries_model.yml"
       description: OK
       headers: {}
     '403':

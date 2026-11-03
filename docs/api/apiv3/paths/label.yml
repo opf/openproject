@@ -26,7 +26,7 @@ get:
                 createdAt: '2014-08-29T12:40:53.373Z'
                 updatedAt: '2014-08-29T12:40:53.373Z'
           schema:
-            "$ref": "../components/schemas/label_model.yml"
+            $ref: "../components/schemas/label_model.yml"
       description: OK
       headers: {}
     '403':

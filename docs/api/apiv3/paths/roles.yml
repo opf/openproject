@@ -67,7 +67,7 @@ get:
                 count: 5
                 total: 5
           schema:
-            "$ref": "../components/schemas/roles_model.yml"
+            $ref: "../components/schemas/roles_model.yml"
       description: OK
       headers: {}
   tags:

@@ -109,7 +109,7 @@ patch:
                 sums: false
                 updatedAt: '2015-05-20T18:16:53.089Z'
           schema:
-            "$ref": "../components/schemas/star_query_model.yml"
+            $ref: "../components/schemas/star_query_model.yml"
       description: OK
       headers: {}
     '400':

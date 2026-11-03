@@ -64,14 +64,14 @@ allOf:
         properties:
           self:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   This time entry
 
                   **Resource**: TimeEntry
           updateImmediately:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   Directly perform edits on this time entry
 
@@ -80,7 +80,7 @@ allOf:
                   **Permission**: 'edit time entries' or 'edit own time entries' if the time entry belongs to the user
           update:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   Form endpoint that aids in preparing and performing edits on a TimeEntry
 
@@ -89,7 +89,7 @@ allOf:
                   **Permission**: 'edit time entries' or 'edit own time entries' if the time entry belongs to the user
           delete:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   Delete this time entry
 
@@ -98,14 +98,14 @@ allOf:
                   **Permission**: 'edit time entries' or 'edit own time entries' if the time entry belongs to the user
           schema:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   The time entry schema
 
                   **Resource**: Schema
           project:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   The project the time entry is bundled in. The project might be different from the work package's project once the workPackage is moved.
 
@@ -113,7 +113,7 @@ allOf:
           workPackage:
             deprecated: true
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   The work package the time entry is created on
 
@@ -127,21 +127,21 @@ allOf:
                   Read and write `entity` instead.
           entity:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   The entity the time entry is created on
 
                   **Resource**: WorkPackage
           user:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   The user the time entry tracks expenditures for
 
                   **Resource**: User
           activity:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   The time entry activity the time entry is categorized as
 

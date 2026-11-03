@@ -17,7 +17,7 @@ properties:
     properties:
       self:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               This custom option.
 

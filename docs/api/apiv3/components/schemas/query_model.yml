@@ -85,7 +85,7 @@ properties:
     properties:
       star:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               Elevates the query to the status of 'starred'
 
@@ -95,7 +95,7 @@ properties:
             readOnly: true
       unstar:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               Removes the 'starred' status
 
@@ -105,7 +105,7 @@ properties:
             readOnly: true
       update:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               Use the Form based process to verify the query before persisting
 
@@ -115,7 +115,7 @@ properties:
             readOnly: true
       updateImmediately:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               Persist the query without using a Form based process for guidance
 

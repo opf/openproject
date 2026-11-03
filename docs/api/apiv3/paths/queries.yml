@@ -31,9 +31,9 @@ get:
         application/hal+json:
           examples:
             Queries:
-              "$ref": "../components/examples/queries.yml"
+              $ref: "../components/examples/queries.yml"
           schema:
-            "$ref": "../components/schemas/queries_model.yml"
+            $ref: "../components/schemas/queries_model.yml"
       description: OK
       headers: {}
     '403':
@@ -65,16 +65,16 @@ post:
     content:
       application/json:
         schema:
-          "$ref": "../components/schemas/query_create_form.yml"
+          $ref: "../components/schemas/query_create_form.yml"
   responses:
     '201':
       content:
         application/hal+json:
           examples:
             Query:
-              "$ref": "../components/examples/query.yml"
+              $ref: "../components/examples/query.yml"
           schema:
-            "$ref": "../components/schemas/query_model.yml"
+            $ref: "../components/schemas/query_model.yml"
       description: Created
       headers: {}
     '400':

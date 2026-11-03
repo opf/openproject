@@ -52,7 +52,7 @@ get:
                   sumptus. Comparo crapula depopulo demonstro.
                 title: asperiores possimus nam doloribus ab
           schema:
-            "$ref": "../components/schemas/news_model.yml"
+            $ref: "../components/schemas/news_model.yml"
       description: OK
       headers: {}
     '404':

@@ -108,7 +108,7 @@ get:
                 count: 4
                 total: 4
           schema:
-            "$ref": "../components/schemas/list_capabilities_model.yml"
+            $ref: "../components/schemas/list_capabilities_model.yml"
       description: OK
       headers: {}
   tags:

@@ -31,7 +31,7 @@ properties:
     properties:
       self:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               This document
 
@@ -39,14 +39,14 @@ properties:
             readOnly: true
       project:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               The project the document is in
 
               **Resource**: Project
       attachments:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               The attachments belonging to the document
 

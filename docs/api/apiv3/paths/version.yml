@@ -20,7 +20,7 @@ get:
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/version_read_model.yml"
+            $ref: "../components/schemas/version_read_model.yml"
           examples:
             response:
               $ref: "../components/examples/version_simple_response.yml"
@@ -130,7 +130,7 @@ patch:
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/version_read_model.yml"
+            $ref: "../components/schemas/version_read_model.yml"
           examples:
             response:
               $ref: "../components/examples/version_simple_response.yml"

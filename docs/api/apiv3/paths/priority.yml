@@ -27,7 +27,7 @@ get:
                 name: Low
                 position: 1
           schema:
-            "$ref": "../components/schemas/priority_model.yml"
+            $ref: "../components/schemas/priority_model.yml"
       description: OK
       headers: {}
     '403':

@@ -58,7 +58,7 @@ get:
                   type: String
                   writable: false
           schema:
-            "$ref": "../components/schemas/query_filter_instance_schema_model.yml"
+            $ref: "../components/schemas/query_filter_instance_schema_model.yml"
       description: OK
       headers: {}
     '403':

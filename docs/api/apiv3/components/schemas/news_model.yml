@@ -17,7 +17,7 @@ properties:
     readOnly: true
   description:
     allOf:
-      - "$ref": "./formattable.yml"
+      - $ref: "./formattable.yml"
       - description: The main body of the news with all the details
         readOnly: true
   createdAt:
@@ -34,7 +34,7 @@ properties:
     properties:
       self:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               This news
 
@@ -42,14 +42,14 @@ properties:
             readOnly: true
       project:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               The workspace the news is situated in
 
               **Resource**: workspace
       author:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               The user having created the news
 
@@ -57,14 +57,14 @@ properties:
             readOnly: true
       updateImmediately:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               Directly perform edits on the news
 
               **Permission** manage news
       delete:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               Delete the news
 

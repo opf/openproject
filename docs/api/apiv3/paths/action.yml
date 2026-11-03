@@ -29,7 +29,7 @@ get:
                   - work_packages
                 name: Add work package
           schema:
-            "$ref": "../components/schemas/view_action_model.yml"
+            $ref: "../components/schemas/view_action_model.yml"
       description: OK
       headers: {}
     '404':

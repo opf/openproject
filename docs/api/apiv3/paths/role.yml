@@ -24,7 +24,7 @@ get:
                 id: 3
                 name: Manager
           schema:
-            "$ref": "../components/schemas/role_model.yml"
+            $ref: "../components/schemas/role_model.yml"
       description: OK
       headers: {}
     '403':

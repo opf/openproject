@@ -30,7 +30,7 @@ get:
                 id: 10
                 name: Foo
           schema:
-            "$ref": "../components/schemas/category_model.yml"
+            $ref: "../components/schemas/category_model.yml"
       description: OK
       headers: {}
     '404':

@@ -23,7 +23,7 @@ get:
                 id: on_track
                 name: On track
           schema:
-            "$ref": "../components/schemas/view_project_status_model.yml"
+            $ref: "../components/schemas/view_project_status_model.yml"
       description: OK
       headers: {}
     '404':

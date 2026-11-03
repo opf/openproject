@@ -23,7 +23,7 @@ get:
                 _type: QueryFilter
                 id: status
           schema:
-            "$ref": "../components/schemas/query_filter_model.yml"
+            $ref: "../components/schemas/query_filter_model.yml"
       description: OK
       headers: {}
     '403':

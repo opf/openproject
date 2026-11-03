@@ -24,7 +24,7 @@ get:
                 id: priority
                 name: Priority
           schema:
-            "$ref": "../components/schemas/query_column_model.yml"
+            $ref: "../components/schemas/query_column_model.yml"
       description: OK
       headers: {}
     '403':

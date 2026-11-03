@@ -22,7 +22,7 @@ get:
                 _type: CustomOption
                 value: Foo
           schema:
-            "$ref": "../components/schemas/custom_option_model.yml"
+            $ref: "../components/schemas/custom_option_model.yml"
       description: OK
       headers: {}
     '404':

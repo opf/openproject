@@ -211,9 +211,9 @@ get:
         application/hal+json:
           examples:
             Query:
-              "$ref": "../components/examples/query.yml"
+              $ref: "../components/examples/query.yml"
           schema:
-            "$ref": "../components/schemas/query_model.yml"
+            $ref: "../components/schemas/query_model.yml"
       description: OK
       headers: {}
     '404':
@@ -357,7 +357,7 @@ patch:
                 sums: false
                 updatedAt: '2015-05-20T18:16:53.884Z'
           schema:
-            "$ref": "../components/schemas/query_model.yml"
+            $ref: "../components/schemas/query_model.yml"
       description: OK
       headers: {}
     '400':

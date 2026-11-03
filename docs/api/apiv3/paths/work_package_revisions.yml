@@ -75,7 +75,7 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/revisions_model.yml"
+            $ref: "../components/schemas/revisions_model.yml"
       description: OK
       headers: {}
     '403':

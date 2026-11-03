@@ -95,7 +95,7 @@ get:
                   type: WorkPackage
                   writable: true
           schema:
-            "$ref": "../components/schemas/view_time_entry_schema_model.yml"
+            $ref: "../components/schemas/view_time_entry_schema_model.yml"
       description: OK
       headers: {}
     '403':

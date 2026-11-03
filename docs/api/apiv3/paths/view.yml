@@ -15,9 +15,9 @@ get:
         application/hal+json:
           examples:
             ViewWorkPackagesTable:
-              "$ref": "../components/examples/view_work_packages_table.yml"
+              $ref: "../components/examples/view_work_packages_table.yml"
             ViewTeamPlanner:
-              "$ref": "../components/examples/view_team_planner.yml"
+              $ref: "../components/examples/view_team_planner.yml"
       description: Returns the result of a single view, dependent of the view type.
     '400':
       $ref: "../components/responses/invalid_request_body.yml"
@@ -103,9 +103,9 @@ post:
             type: object
           examples:
             'Views::WorkPackagesTable':
-              "$ref": "../components/examples/view_work_packages_table.yml"
+              $ref: "../components/examples/view_work_packages_table.yml"
             'Views::TeamPlanner':
-              "$ref": "../components/examples/view_team_planner.yml"
+              $ref: "../components/examples/view_team_planner.yml"
       description: Created
       headers: {}
     '400':

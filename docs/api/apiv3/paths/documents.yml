@@ -114,7 +114,7 @@ get:
                 pageSize: 30
                 total: 2
           schema:
-            "$ref": "../components/schemas/documents_model.yml"
+            $ref: "../components/schemas/documents_model.yml"
       description: OK
       headers: {}
     '400':

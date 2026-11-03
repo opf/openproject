@@ -107,7 +107,7 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/query_filter_instance_schemas_for_workspace_model.yml"
+            $ref: "../components/schemas/query_filter_instance_schemas_for_workspace_model.yml"
       description: OK
       headers: {}
     '403':

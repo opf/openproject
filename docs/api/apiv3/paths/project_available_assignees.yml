@@ -69,7 +69,7 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/available_assignees_model.yml"
+            $ref: "../components/schemas/available_assignees_model.yml"
       description: OK
       headers: {}
     '403':

@@ -126,7 +126,7 @@ get:
                   type: DateTime
                   writable: false
           schema:
-            "$ref": "../components/schemas/view_user_schema_model.yml"
+            $ref: "../components/schemas/view_user_schema_model.yml"
       description: OK
       headers: {}
   tags:

@@ -28,7 +28,7 @@ get:
             'simple label collection':
               $ref: "../components/examples/label_collection.yml"
           schema:
-            "$ref": "../components/schemas/label_collection_model.yml"
+            $ref: "../components/schemas/label_collection_model.yml"
       description: OK
       headers: {}
     '400':

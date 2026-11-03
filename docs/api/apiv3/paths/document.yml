@@ -59,7 +59,7 @@ get:
                 id: 1
                 title: Some other document
           schema:
-            "$ref": "../components/schemas/document_model.yml"
+            $ref: "../components/schemas/document_model.yml"
       description: OK
       headers: {}
     '404':
@@ -154,7 +154,7 @@ patch:
                 id: 1
                 title: Updated document title
           schema:
-            "$ref": "../components/schemas/document_model.yml"
+            $ref: "../components/schemas/document_model.yml"
       description: OK
       headers: {}
     '400':

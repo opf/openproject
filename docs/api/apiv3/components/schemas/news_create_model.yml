@@ -21,7 +21,7 @@ properties:
     properties:
       project:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               The project the news is situated in
 

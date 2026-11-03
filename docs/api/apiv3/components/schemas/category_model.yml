@@ -22,7 +22,7 @@ properties:
     properties:
       self:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               This category
 
@@ -30,7 +30,7 @@ properties:
             readOnly: true
       project:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               The project of this category
 
@@ -38,7 +38,7 @@ properties:
             readOnly: true
       defaultAssignee:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               Default assignee for work packages of this category
 

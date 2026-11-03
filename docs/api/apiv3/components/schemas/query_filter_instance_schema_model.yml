@@ -17,7 +17,7 @@ properties:
     properties:
       self:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               This QueryFilterInstanceSchema (same as for schema)
 
@@ -25,7 +25,7 @@ properties:
             readOnly: true
       filter:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               The filter for which this schema is specific
 

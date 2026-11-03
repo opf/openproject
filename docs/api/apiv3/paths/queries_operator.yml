@@ -24,7 +24,7 @@ get:
                 id: "!"
                 name: is not
           schema:
-            "$ref": "../components/schemas/query_operator_model.yml"
+            $ref: "../components/schemas/query_operator_model.yml"
       description: OK
       headers: {}
     '403':

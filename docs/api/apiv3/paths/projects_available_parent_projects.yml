@@ -123,7 +123,7 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/list_available_parent_project_candidates_model.yml"
+            $ref: "../components/schemas/list_available_parent_project_candidates_model.yml"
       description: OK
       headers: {}
     '403':

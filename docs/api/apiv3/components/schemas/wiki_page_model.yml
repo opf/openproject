@@ -17,7 +17,7 @@ properties:
     properties:
       addAttachment:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               Attach a file to the wiki page
 

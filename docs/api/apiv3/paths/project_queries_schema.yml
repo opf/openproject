@@ -15,9 +15,9 @@ get:
         application/hal+json:
           examples:
             QuerySchema:
-              "$ref": "../components/examples/query_schema.yml"
+              $ref: "../components/examples/query_schema.yml"
           schema:
-            "$ref": "../components/schemas/schema_for_workspace_queries_model.yml"
+            $ref: "../components/schemas/schema_for_workspace_queries_model.yml"
       description: OK
       headers: {}
     '403':

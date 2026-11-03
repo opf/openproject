@@ -24,7 +24,7 @@ get:
                 id: 1
                 subject: Q3 2015
           schema:
-            "$ref": "../components/schemas/budget_model.yml"
+            $ref: "../components/schemas/budget_model.yml"
       description: OK
       headers: {}
     '403':

@@ -45,7 +45,7 @@ get:
                     project:
                       href: null
           schema:
-            "$ref": "../components/schemas/user_preferences_model.yml"
+            $ref: "../components/schemas/user_preferences_model.yml"
       description: OK
       headers: {}
     '401':
@@ -111,7 +111,7 @@ patch:
                     project:
                       href: null
           schema:
-            "$ref": "../components/schemas/user_preferences_model.yml"
+            $ref: "../components/schemas/user_preferences_model.yml"
       description: OK
       headers: {}
     '400':

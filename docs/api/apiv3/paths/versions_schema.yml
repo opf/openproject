@@ -97,7 +97,7 @@ get:
                   type: DateTime
                   writable: false
           schema:
-            "$ref": "../components/schemas/version_schema_model.yml"
+            $ref: "../components/schemas/version_schema_model.yml"
       description: OK
       headers: {}
     '403':

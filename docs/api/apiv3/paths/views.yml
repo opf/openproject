@@ -23,7 +23,7 @@ get:
         application/hal+json:
           examples:
             Queries:
-              "$ref": "../components/examples/views.yml"
+              $ref: "../components/examples/views.yml"
       description: OK
       headers: {}
   tags:

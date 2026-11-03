@@ -124,7 +124,7 @@ get:
                 pageSize: 2
                 total: 78
           schema:
-            "$ref": "../components/schemas/list_of_news_model.yml"
+            $ref: "../components/schemas/list_of_news_model.yml"
       description: OK
       headers: {}
     '400':

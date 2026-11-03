@@ -1,7 +1,7 @@
 # Schema: WatchersModel
 ---
 allOf:
-  - "$ref": "./collection_model.yml"
+  - $ref: "./collection_model.yml"
   - type: object
     required:
       - _links
@@ -14,7 +14,7 @@ allOf:
         properties:
           self:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   The watcher list
 
@@ -28,7 +28,7 @@ allOf:
             readOnly: true
             items:
               allOf:
-                - "$ref": "./user_model.yml"
+                - $ref: "./user_model.yml"
                 - description: Collection of Users
 example:
   _links:
