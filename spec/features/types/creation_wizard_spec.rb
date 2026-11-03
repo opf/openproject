@@ -164,6 +164,55 @@ RSpec.describe "Type creation wizard", :js do
     expect(type.default_variant.reload.default_work_package_description).to eq("Reproduce the bug first")
   end
 
+  describe "the projects step" do
+    shared_let(:plant) { create(:project, name: "Plant") }
+    shared_let(:office) { create(:project, name: "Office") }
+
+    let(:type) { Type.find_by!(name: "Incident") }
+
+    def visit_projects_step
+      start_wizard
+      complete_details_step("Incident")
+      visit type_creation_wizard_path(type, step: :projects)
+    end
+
+    def expect_on_projects_step
+      expect(page).to have_current_path(/step=projects/)
+      expect(page).to have_heading(I18n.t("types.creation_wizard.steps.projects"))
+    end
+
+    it "enables the type in the projects added through the dialog" do
+      visit_projects_step
+
+      find_test_selector("type-projects-add-button").click
+      within_test_selector(WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID) do
+        find(:role, :treeitem, accessible_name: "Plant").click
+        click_on I18n.t(:button_add)
+      end
+
+      within("#project-table") { expect(page).to have_text("Plant") }
+      expect_on_projects_step
+      expect(type.projects).to contain_exactly(plant)
+
+      click_on I18n.t(:button_continue)
+      expect_step_saved(:projects)
+    end
+
+    it "enables the type everywhere and narrows the list by name" do
+      visit_projects_step
+
+      find_test_selector("type-projects-enable-all").click
+
+      within("#project-table") { expect(page).to have_text("Plant").and have_text("Office") }
+      expect(type.projects).to contain_exactly(plant, office)
+
+      fill_in I18n.t("projects.index.search.label"), with: "Off"
+
+      within("#project-table") { expect(page).to have_no_text("Plant") }
+      expect_on_projects_step
+    end
+  end
+
   describe "adding a variant" do
     shared_let(:bug_type) { create(:type, name: "Bug") }
 
