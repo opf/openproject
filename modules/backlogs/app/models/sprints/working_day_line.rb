@@ -32,8 +32,8 @@ module Sprints
   # One straight line from an origin to a target value at +finish+, measured in working days rather
   # than in clock time: +slope+ is what a whole day takes, and every point is that slope applied to
   # the distance still to run. Non working days are no distance at all, which is what leaves them flat.
-  # Only two points can land inside a day -- the one the line opens on and, where the chart closes
-  # before +finish+ does, the one it closes on.
+  # +finish+ may fall partway through a day, in which case the rest of that day is no distance either.
+  # Only two points can land inside a day -- the one the line opens on and the one the chart closes on.
   class WorkingDayLine
     def initialize(window:, finish:)
       @window = window
@@ -46,7 +46,11 @@ module Sprints
 
       return [origin] if days.none?(&:working)
 
-      slope = (origin.value - to) / still_ahead(days, days.first, origin_from)
+      capacity = still_ahead(days, days.first, origin_from)
+
+      return [origin] unless capacity.positive?
+
+      slope = (origin.value - to) / capacity
 
       points_along(days, slope:, to:).prepend(origin)
     end
@@ -66,7 +70,7 @@ module Sprints
     # What the line has left to spend after +from+, which falls inside +day+. Taken at the
     # origin it is the whole capacity, and at the last sample it is nothing.
     def still_ahead(days, day, from)
-      working_days_after(days, day.date) + part_of_day_after(day, from)
+      working_days_after(days, day.date) + part_of_day_after(day, from) - part_of_day_after(days.last, finish)
     end
 
     # Each day paired with the last moment the series has a value in it: the day's close, or where
