@@ -631,7 +631,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
   private toggle(row:NavigableRow):void {
     if (row.kind === 'groupHeader') {
-      this.collapsedGroups.toggleGroupCollapseState(row.groupIdentifier ?? '');
+      this.toggleGroup(row.groupIdentifier);
       return;
     }
 
@@ -639,6 +639,10 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     if (workPackageId) {
       this.wpTableHierarchies.toggle(workPackageId);
     }
+  }
+
+  private toggleGroup(groupIdentifier:string|undefined):void {
+    if (groupIdentifier !== undefined) this.collapsedGroups.toggleGroupCollapseState(groupIdentifier);
   }
 
   private activate(position:FocusPosition, key:ActivationKey):boolean {
@@ -649,7 +653,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
       const occurrence = this.table.ledger.byKey(position.key);
       if (occurrence && rowKindOf(occurrence) === 'groupHeader' && key === 'Enter') {
-        this.collapsedGroups.toggleGroupCollapseState(occurrence.groupIdentifier ?? '');
+        this.toggleGroup(occurrence.groupIdentifier);
         this.focusPosition(position);
         return true;
       }
@@ -664,7 +668,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
     switch (rowKindOf(occurrence)) {
       case 'groupHeader':
-        this.collapsedGroups.toggleGroupCollapseState(occurrence.groupIdentifier ?? '');
+        this.toggleGroup(occurrence.groupIdentifier);
         this.focusPosition(position);
         return true;
       case 'workPackage':
