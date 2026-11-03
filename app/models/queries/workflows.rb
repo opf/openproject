@@ -32,5 +32,6 @@ module Queries::Workflows
     filter Filters::NameFilter
     filter Filters::TypeFilter
     filter Filters::ProjectFilter
+    filter Filters::StatusFilter
   end
 end
