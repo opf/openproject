@@ -190,6 +190,22 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
           expect(attachment_ids_by_journal).to all(eq([attachment.id]))
         end
 
+        context "with an attachment missing the date it was attached" do
+          let(:jira_issue_payload) do
+            super().tap do |payload|
+              attachments = payload["fields"]["attachment"]
+              attachments << attachments.sole.merge("id" => "10101", "filename" => "undated.jpg").except("created")
+            end
+          end
+          let(:undated_attachment) { work_package.attachments.find_by!(filename: "undated.jpg") }
+
+          it "dates it at the time of the import" do
+            create_work_packages
+
+            expect(undated_attachment.created_at).to be_within(1.minute).of(Time.current)
+          end
+        end
+
         context "with an uploader not otherwise involved in the issue" do
           let(:uploader) { create(:user) }
           let(:jira_issue_payload) do

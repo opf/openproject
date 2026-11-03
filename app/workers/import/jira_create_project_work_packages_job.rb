@@ -422,7 +422,8 @@ module Import
     def prepare_attachments(jira_issue, project)
       # When there are several attachments with the same name, Jira uses the most recent one. Sorting here
       # guarantees it comes last and overwrites the older ones in attachment_paths_by_name.
-      payloads = (jira_issue.payload.dig("fields", "attachment") || []).sort_by { |payload| attached_at(payload) }
+      payloads = (jira_issue.payload.dig("fields", "attachment") || [])
+                   .sort_by { |payload| attached_at(payload) || Time.zone.at(0) }
       attachment_ids = payloads.map { |payload| prepare_attachment(jira_issue, project, payload) }
       attachment_paths_by_name = payloads.zip(attachment_ids).to_h do |payload, id|
         [payload["filename"], attachment_content_path(id)]
@@ -476,7 +477,7 @@ module Import
     end
 
     def attached_at(payload)
-      Time.zone.parse(payload.fetch("created"))
+      Time.zone.parse(payload["created"].to_s)
     end
 
     def match_attachment_updated_at_to_created_at(attachment_ids)
