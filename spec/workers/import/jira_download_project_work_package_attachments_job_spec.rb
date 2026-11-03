@@ -136,6 +136,18 @@ RSpec.describe Import::JiraDownloadProjectWorkPackageAttachmentsJob,
       end
     end
 
+    context "when storing the file fails" do
+      before do
+        # rubocop:disable-next RSpec/AnyInstance
+        allow_any_instance_of(Attachment).to receive(:save!).and_raise(Timeout::Error)
+      end
+
+      it "fails the job, leaving the attachment to be downloaded" do
+        expect { download_work_package_attachments }.to raise_error(Timeout::Error)
+        expect(attachment.status).to eq("import_prepared")
+      end
+    end
+
     context "when the import is aborting" do
       before do
         # rubocop:disable-next RSpec/AnyInstance

@@ -328,17 +328,25 @@ module Import
     # @return [nil]
     # @raise [ConnectionError] If SSRF protection blocks the request or connection fails
     # @raise [ApiError] If the server returns a non-success response
-    def download_attachment(content_url, filename) # rubocop:disable Metrics/AbcSize
-      tempfile = nil
+    def download_attachment(content_url, filename)
+      Tempfile.create(filename, binmode: true) do |tempfile|
+        write_attachment(content_url, tempfile)
+        tempfile.rewind
+        yield tempfile
+      end
+
+      nil
+    end
+
+    private
+
+    def write_attachment(content_url, tempfile)
       OpenProject::SsrfProtection.get(content_url, headers: @headers, http_options: HTTP_OPTIONS, max_redirects: 0) do |response|
         case response
         when Net::HTTPSuccess
-          tempfile = Tempfile.create(filename, binmode: true)
           response.read_body do |chunk|
             tempfile.write chunk
           end
-          tempfile.rewind
-          yield tempfile
         else
           status = response.code.to_i
           raise ApiError.new(I18n.t("admin.jira.client.api_error", status:),
@@ -347,17 +355,9 @@ module Import
                              response_headers: response.to_hash)
         end
       end
-      nil
     rescue *CONNECTION_ERRORS => e
       raise connection_error(e)
-    ensure
-      if tempfile
-        FileUtils.rm_f(tempfile.path)
-        tempfile.close
-      end
     end
-
-    private
 
     def paged_custom_field_options(custom_field_id, scope, options, total)
       collected = options.index_by { |option| custom_field_option_key(option) }
