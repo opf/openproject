@@ -39,10 +39,10 @@ describe('BrowserNotificationSyncService', () => {
   let fetchMock:ReturnType<typeof vi.fn>;
   let meta:HTMLMetaElement;
 
-  const notification = (tag:string) => ({ tag, close: vi.fn() });
+  const notification = (tag:string, revision?:string) => ({ tag, data: { revision }, close: vi.fn() });
 
-  const setup = ({ permission = 'granted' }:{ permission?:string } = {}) => {
-    meta.dataset.loggedIn = 'true';
+  const setup = ({ permission = 'granted', loggedIn = 'true' }:{ permission?:string; loggedIn?:string } = {}) => {
+    meta.dataset.loggedIn = loggedIn;
     vi.stubGlobal('Notification', { permission });
     vi.stubGlobal('fetch', fetchMock);
     Object.defineProperty(navigator, 'serviceWorker', { configurable: true, value: { getRegistration } });
@@ -111,16 +111,41 @@ describe('BrowserNotificationSyncService', () => {
     expect(wp3.close).not.toHaveBeenCalled();
   });
 
-  it('closes every notification without fetching when nothing is unread', async () => {
+  it('closes every notification when the summary reports nothing unread', async () => {
     const open = [notification('openproject-wp-1'), notification('openproject-unread')];
     getNotifications.mockResolvedValue(open);
+    fetchMock.mockResolvedValue({ ok: true, json: () => Promise.resolve({ count: 0 }) });
     setup().initialize();
 
     loadedUnread$.next(0);
     await flush();
 
     open.forEach((item) => expect(item.close).toHaveBeenCalled());
+    expect(fetchMock).toHaveBeenCalled();
+  });
+
+  it('keeps a notification a push replaced during the fetch', async () => {
+    const [before, after] = [notification('openproject-wp-1', 'a'), notification('openproject-wp-1', 'b')];
+    getNotifications.mockResolvedValueOnce([before]).mockResolvedValueOnce([after]);
+    fetchMock.mockResolvedValue({ ok: true, json: () => Promise.resolve({ count: 1, groups: [], more: null }) });
+    setup().initialize();
+
+    loadedUnread$.next(1);
+    await flush();
+
+    expect(after.close).not.toHaveBeenCalled();
+  });
+
+  it('closes every notification when signed out', async () => {
+    const open = [notification('openproject-wp-1'), notification('openproject-more')];
+    getNotifications.mockResolvedValue(open);
+    const subscribe = vi.spyOn(loadedUnread$, 'pipe');
+    setup({ loggedIn: 'false' }).initialize();
+    await flush();
+
+    open.forEach((item) => expect(item.close).toHaveBeenCalled());
     expect(fetchMock).not.toHaveBeenCalled();
+    expect(subscribe).not.toHaveBeenCalled();
   });
 
   it('does nothing when no OpenProject notification is open', async () => {

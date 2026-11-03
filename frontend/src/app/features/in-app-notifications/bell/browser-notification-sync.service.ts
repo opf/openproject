@@ -48,7 +48,12 @@ export class BrowserNotificationSyncService {
   private readonly pathHelper = inject(PathHelperService);
 
   initialize():void {
-    if (!this.available || !this.flagEnabled || getMetaValue('current_user', 'loggedIn') !== 'true') {
+    if (!this.available || !this.flagEnabled) {
+      return;
+    }
+
+    if (getMetaValue('current_user', 'loggedIn') !== 'true') {
+      void this.closeAll().catch(() => undefined);
       return;
     }
 
@@ -84,21 +89,32 @@ export class BrowserNotificationSyncService {
       return;
     }
 
-    if (count === 0) {
-      open.forEach((notification) => notification.close());
-      return;
-    }
-
     const keep = await this.tagsToKeep();
     if (!keep) {
       return;
     }
 
-    // Only tags seen before the fetch are closed, so a notification a push showed meanwhile survives.
-    const seen = new Set(open.map((notification) => notification.tag));
+    // A notification is closed only if it was open before the fetch and no push replaced it since.
+    const seen = new Map(open.map((notification) => [notification.tag, this.revisionOf(notification)]));
     (await this.openNotifications(registration))
       .filter((notification) => seen.has(notification.tag) && !keep.has(notification.tag))
+      .filter((notification) => seen.get(notification.tag) === this.revisionOf(notification))
       .forEach((notification) => notification.close());
+  }
+
+  private async closeAll():Promise<void> {
+    if (!this.permitted) {
+      return;
+    }
+
+    const registration = await navigator.serviceWorker.getRegistration();
+    if (registration) {
+      (await this.openNotifications(registration)).forEach((notification) => notification.close());
+    }
+  }
+
+  private revisionOf(notification:Notification):unknown {
+    return (notification.data as { revision?:unknown }|null)?.revision;
   }
 
   private async openNotifications(registration:ServiceWorkerRegistration):Promise<Notification[]> {
