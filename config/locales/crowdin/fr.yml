@@ -7223,6 +7223,7 @@ fr:
         invalid_attribute_groups: Les données du formulaire ne sont pas valides.
         invalid_query: La configuration de la requête intégrée n'est pas valide.
         label_group: Section
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: Aucun attribut inactif
         not_found: L'élément du formulaire demandé est introuvable.
         query_group_label: Tableau des lots de travaux associés
@@ -7242,6 +7243,7 @@ fr:
         reset_title: Réinitialiser le formulaire
         reset_to_defaults: Réinitialiser le formulaire
         row_actions: Actions de ligne
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Formulaire
         untitled_group: Groupe sans titre
       overview:

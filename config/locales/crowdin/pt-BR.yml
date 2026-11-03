@@ -7214,6 +7214,7 @@ pt-BR:
         invalid_attribute_groups: O conteúdo do formulário é inválido.
         invalid_query: A configuração da consulta incorporada é inválida.
         label_group: Seção
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: Nenhum atributo inativo
         not_found: O item de formulário solicitado não foi encontrado.
         query_group_label: Tabela de pacotes de trabalho relacionados
@@ -7233,6 +7234,7 @@ pt-BR:
         reset_title: Redefinir formulário
         reset_to_defaults: Redefinir formulário
         row_actions: Ações da linha
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Formulário
         untitled_group: Grupo sem título
       overview:

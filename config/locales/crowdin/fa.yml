@@ -2382,7 +2382,7 @@ fa:
     body: بدنه
     category: دسته‌بندی
     color: رنگ
-    comment: نظر
+    comment: دیدگاه
     comments: دیدگاه
     content: محتوا
     created_at: ایجادشده در
@@ -7226,6 +7226,7 @@ fa:
         invalid_attribute_groups: داده فرم نامعتبر است.
         invalid_query: پیکربندی Query توکار نامعتبر است.
         label_group: بخش
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: ویژگی غیرفعالی وجود ندارد
         not_found: مورد درخواستی فرم پیدا نشد.
         query_group_label: جدول بسته‌های کاری مرتبط
@@ -7245,6 +7246,7 @@ fa:
         reset_title: بازنشانی فرم
         reset_to_defaults: بازنشانی فرم
         row_actions: اقدام‌های ردیف
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: فرم
         untitled_group: گروه بدون عنوان
       overview:

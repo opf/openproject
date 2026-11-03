@@ -207,7 +207,7 @@ zh-CN:
         column_count: 列数
         page: 页
         row_count: 行数
-        widgets: 小部件
+        widgets: 微件
       group:
         avatar_color: Fallback color
         avatar_text: Avatar text
@@ -1453,7 +1453,7 @@ zh-CN:
         title: 删除企业令牌
       enterprise_link: 如需了解详细信息，请单击此处。
       get_quote: 获取报价
-      order: 订购本地部署的 Enterprise edition
+      order: 订购本地部署版的 Enterprise edition
       paste: 粘贴您企业版的支持令牌
       replace_token: 替换您当前的支持令牌
       required_for_feature: 此功能仅限具激活的企业版支持令牌的订阅者使用。
@@ -4309,7 +4309,7 @@ zh-CN:
   label_revision_plural: 修订
   label_roadmap: 路线图
   label_roadmap_due_in: "%{value} 到期"
-  label_roadmap_edit: 编辑路线图 %{name}
+  label_roadmap_edit: 编辑路线图%{name}
   label_roadmap_no_work_packages: 该版本没有工作包。
   label_roadmap_overdue: "%{value} 超时"
   label_role_and_permissions: 角色和权限
@@ -5992,7 +5992,7 @@ zh-CN:
       setup_documentation_details: 如果您在配置新文件存储方面需要帮助，请查看文档：
       setup_documentation_details_link_text: 文件存储设置
       show_warning_details: 要使用此文件存储，请记得在每个所需项目的项目设置中激活模块和特定存储。
-      update_timeout: 在 N 分钟内保留存储库最后所需磁盘空间的信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。
+      update_timeout: 在 N 分钟内保留存储库最后所需的磁盘空间信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。
     subversion:
       existing_introduction: 如果您已有本地 Git 存储库，可以将其链接到 OpenProject 来访问。
       existing_title: 现有的 Subversion 存储库
@@ -6268,7 +6268,7 @@ zh-CN:
   setting_smtp_user_name: SMTP 用户名
   setting_start_of_week: 一周起始日
   setting_sys_api_description: 存储库管理网页服务提供了集成的，用户授权的存储库访问。
-  setting_sys_api_enabled: 启用版本库管理 web 服务
+  setting_sys_api_enabled: 启用存储库管理网页服务
   setting_sys_api_key: API key
   setting_time_format: 时间
   setting_total_percent_complete_mode: 计算 完成% 层次结构总数
@@ -7032,6 +7032,7 @@ zh-CN:
         invalid_attribute_groups: 表单有效负载无效。
         invalid_query: 嵌入式查询配置无效。
         label_group: 小节
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: 没有停用的特性
         not_found: 找不到请求的表单条目。
         query_group_label: 相关的工作包表
@@ -7051,6 +7052,7 @@ zh-CN:
         reset_title: 重置表单
         reset_to_defaults: 重置表单
         row_actions: 行操作
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: 表单
         untitled_group: 无标题群组
       overview:
@@ -7465,7 +7467,7 @@ zh-CN:
   warning_user_limit_reached_admin_html: '添加额外的用户将超出当前限值。请[升级您的方案](upgrade_url)，以确保外部用户能够访问此实例。
 
     '
-  warning_user_limit_reached_instructions: '您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise edition计划并添加其他用户。
+  warning_user_limit_reached_instructions: '您已达到用户限制（%{current}/%{max} 活跃用户）。请联系 sales@openproject.com 升级您的企业版计划以添加额外用户。
 
     '
   wiki:
