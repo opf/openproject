@@ -4515,7 +4515,7 @@ uk:
   label_index_by_title: Індекс за назвою
   label_information: Інформація
   label_information_plural: Інформація
-  label_installation_guides: Інструкції зі встановлення
+  label_installation_guides: Інструкції із встановлення
   label_integer: Ціле число
   label_integrations: Інтеграції
   label_interface: Інтерфейс
@@ -7186,6 +7186,12 @@ uk:
         Крім статусу, ви не зможете змінювати жодні атрибути.
         <br>
         <strong>Примітка</strong>: успадковані значення (напр., значення дочірніх елементів або зв’язки) не зміняться.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        few: This status is used by %{count} workflows.
+        many: This status is used by %{count} workflows.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Не вдалося перемістити статус.
       headers:
@@ -7195,6 +7201,11 @@ uk:
       no_results_content_text: Додати новий статус
       no_results_title_text: Наразі немає статусів робочих пакетів.
       status_actions: Дії зі статусом
+      workflows_count:
+        one: "%{count} workflow"
+        few: "%{count} workflows"
+        many: "%{count} workflows"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: і
@@ -7594,6 +7605,7 @@ uk:
         invalid_attribute_groups: Дані форми є недійсними.
         invalid_query: Конфігурація вбудованого запиту недійсна.
         label_group: Розділ
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: Немає неактивних атрибутів
         not_found: Не вдалося знайти потрібний елемент форми.
         query_group_label: Таблиця пов’язаних робочих пакетів
@@ -7613,6 +7625,7 @@ uk:
         reset_title: Скинути форму
         reset_to_defaults: Скинути форму
         row_actions: Дії з рядком
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Форма
         untitled_group: Безіменна група
       overview:

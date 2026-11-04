@@ -43,7 +43,7 @@ import type { KeyboardNavigation } from '../../wp-fast-table/handlers/state/keyb
 import { totalsRowKey } from '../../wp-fast-table/handlers/state/keyboard/navigable-rows';
 import { WorkPackageTableSumsRowController } from './wp-table-sums-row.directive';
 
-@Component({ template: '<table><tbody><tr wpTableSumsRow></tr></tbody></table>', standalone: false })
+@Component({ template: '<table><tbody><tr class="wp-table--sums-row wp-table--row" wpTableSumsRow></tr></tbody></table>', standalone: false })
 class SumsHostComponent {}
 
 describe('WorkPackageTableSumsRowController input readiness', () => {
@@ -217,6 +217,7 @@ describe('WorkPackageTableSumsRowController semantics', () => {
     directive = debug.injector.get(WorkPackageTableSumsRowController);
     hostChangeDetector = debug.injector.get(ChangeDetectorRef);
     row = debug.nativeElement as HTMLTableRowElement;
+    harness.tbody.closest('table')!.append(row.parentElement!);
     TestBed.inject(IsolatedQuerySpace).results.putValue({
       elements: [], sumsSchema: { href: '/api/v3/sums/schema' }, totalSums: { storyPoints: 34 },
     } as unknown as WorkPackageCollectionResource);
@@ -244,11 +245,14 @@ describe('WorkPackageTableSumsRowController semantics', () => {
   });
 
   it('repaints positions once per update and before the row notification', async () => {
-    const harness = await setUp({ keyboardNavigationEnabled: true });
+    const harness = await setUp({});
     const events:string[] = [];
-    vi.spyOn(harness.table.rowPositions!, 'paint').mockImplementation(() => {
+    const paint = harness.table.painter.paint.bind(harness.table.painter);
+    vi.spyOn(harness.table.painter, 'paint').mockImplementation((scope) => {
+      const result = paint(scope);
       events.push(`paint:${row.getAttribute('aria-hidden')}:${row.cells.length > 0}`);
       expect(row).toHaveAttribute('role', 'row');
+      return result;
     });
     harness.table.rowsRefreshed$.subscribe(() => events.push('notify'));
     attach(harness, true);
@@ -263,7 +267,7 @@ describe('WorkPackageTableSumsRowController semantics', () => {
   });
 
   it('paints roles and exposure before notifying the table', async () => {
-    const harness = await setUp({ keyboardNavigationEnabled: true });
+    const harness = await setUp({});
     const painted = firstValueFrom(harness.table.rowsRefreshed$.pipe(take(1), map((key) => ({
       key,
       role: row.getAttribute('role'),
@@ -290,7 +294,7 @@ describe('WorkPackageTableSumsRowController semantics', () => {
   });
 
   it('hides the empty row and section until its cells render, and again after clearing', async () => {
-    const harness = await setUp({ keyboardNavigationEnabled: true });
+    const harness = await setUp({});
     attach(harness, false);
 
     expect(row).toBeEmptyDOMElement();
@@ -311,13 +315,14 @@ describe('WorkPackageTableSumsRowController semantics', () => {
   });
 
   it('repaints only the replacement table after a pending schema resolves', async () => {
-    const previous = await setUp({ keyboardNavigationEnabled: true });
+    const previous = await setUp({});
     attach(previous, true);
-    const previousPaint = vi.spyOn(previous.table.rowPositions!, 'paint');
-    const replacement = buildTable({ workPackages: [], configuration: { keyboardNavigationEnabled: true } });
+    const previousPaint = vi.spyOn(previous.table.painter, 'paint');
+    const replacement = buildTable({ workPackages: [], configuration: {} });
     tables.push(replacement);
+    replacement.tbody.closest('table')!.append(row.parentElement!);
     directive.workPackageTable = replacement.table;
-    const replacementPaint = vi.spyOn(replacement.table.rowPositions!, 'paint');
+    const replacementPaint = vi.spyOn(replacement.table.painter, 'paint');
     previous.table.destroy();
 
     await resolveSchema();
@@ -328,12 +333,12 @@ describe('WorkPackageTableSumsRowController semantics', () => {
   });
 
   it('stays hidden when the schema resolves after sums were disabled', async () => {
-    const harness = await setUp({ keyboardNavigationEnabled: true });
+    const harness = await setUp({});
     const refreshed = vi.fn();
     harness.table.rowsRefreshed$.subscribe(refreshed);
     attach(harness, true);
     directive.wpTableSums.setEnabled(false);
-    const painted = vi.spyOn(harness.table.rowPositions!, 'paint');
+    const painted = vi.spyOn(harness.table.painter, 'paint');
 
     await resolveSchema();
 
@@ -345,10 +350,10 @@ describe('WorkPackageTableSumsRowController semantics', () => {
   });
 
   it('stays hidden when the schema resolves after the table was destroyed', async () => {
-    const harness = await setUp({ keyboardNavigationEnabled: true });
+    const harness = await setUp({});
     attach(harness, true);
     harness.table.destroy();
-    const painted = vi.spyOn(harness.table.rowPositions!, 'paint');
+    const painted = vi.spyOn(harness.table.painter, 'paint');
 
     await resolveSchema();
 
@@ -359,7 +364,7 @@ describe('WorkPackageTableSumsRowController semantics', () => {
   });
 
   it.each([true, false])('names the totals row and describes its values with drag and drop %s', async (dragAndDropEnabled) => {
-    const harness = await setUp({ keyboardNavigationEnabled: true, dragAndDropEnabled });
+    const harness = await setUp({ dragAndDropEnabled });
     attach(harness, true);
 
     await resolveSchema();
@@ -369,18 +374,5 @@ describe('WorkPackageTableSumsRowController semantics', () => {
     expect(row).toHaveAccessibleName(expect.stringContaining('34'));
     expect(within(row).getByText('Total sum').id).toBe(`${harness.table.domId}-sum-total`);
     expect(valueCell()).toHaveAccessibleDescription('Total sum');
-  });
-
-  it('leaves the totals row of a capability-off table untouched', async () => {
-    const harness = await setUp({});
-    attach(harness, true);
-
-    await resolveSchema();
-
-    expect(row).toHaveTextContent('Total sum');
-    [row, section(), ...Array.from(row.cells)].forEach((node) => {
-      ['role', 'aria-level', 'aria-hidden', 'aria-describedby'].forEach((name) => expect(node).not.toHaveAttribute(name));
-    });
-    expect(within(row).getByText('Total sum')).not.toHaveAttribute('id');
   });
 });

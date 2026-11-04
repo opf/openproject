@@ -1114,10 +1114,6 @@ fa:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: جدولی با سطرهای بسته کاری و ستون‌های ویژگی‌های بسته کاری.
-        text_inline_edit: بیشتر سلول‌های این جدول دکمه‌هایی هستند که ویرایش درون‌خطی آن ویژگی را فعال می‌کنند.
-        text_select_hint: کادرهای انتخاب باید با «ALT» و کلیدهای جهت‌نما باز شوند.
-        text_sort_hint: با پیوندهای سربرگ جدول می‌توانید ستون‌ها را مرتب، گروه‌بندی، جابه‌جا، حذف یا اضافه کنید.
       table_configuration:
         button: پیکربندی این جدول بسته کاری
         choose_display_mode: نمایش بسته‌های کاری به‌شکل

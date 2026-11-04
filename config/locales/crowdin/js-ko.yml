@@ -1106,10 +1106,6 @@ ko:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: 작업 패키지의 행 및 작업 패키지 특성의 열이 있는 테이블.
-        text_inline_edit: 이 테이블의 셀 대부분은 해당 특성의 인라인 편집 기능을 활성화하는 버튼입니다.
-        text_select_hint: 선택 상자는 'ALT'와 화살표 키로 열어야 합니다.
-        text_sort_hint: 테이블 헤더의 링크를 사용하여 테이블 열을 정렬, 그룹화, 다시 정렬, 제거, 추가할 수 있습니다.
       table_configuration:
         button: 이 작업 패키지 테이블 구성
         choose_display_mode: 다음으로 작업 패키지 표시

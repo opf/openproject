@@ -1130,10 +1130,6 @@ sk:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabuľka s riadkami pracovného balíka a so stĺpcami pracovného balíka atribútov.
-        text_inline_edit: Väčšina buniek tabuľky sú tlačidlá, ktoré aktivujú funkcionalitu inline editácie tohto atribútu.
-        text_select_hint: Výber polí by sa mal otvoriť pomocou klávesov "ALT" a šípkami.
-        text_sort_hint: Pomocou odkazov v záhlaví tabuľky môžete zoradiť, zoskupiť, rozmiestniť, odstrániť alebo pridať stĺpce.
       table_configuration:
         button: Konfigurovať tabuľku tohoto pracovného balíčka
         choose_display_mode: Zobraziť pracovné balíčky ako

@@ -162,7 +162,7 @@ ro:
     button_start_timer: Pornește cronometrul
     button_stop_timer: Oprește cronometrul
     button_uncheck_all: Deselectează tot
-    button_update: Actualizare
+    button_update: Actualizează
     button_view_markdown: View Markdown
     caption_rate_history: Istoric cotă
     card:
@@ -1122,10 +1122,6 @@ ro:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabel cu pachete de lucru pe rânduri şi câmpurile pachetelor pe coloane.
-        text_inline_edit: Majoritatea celulelor din acest tabel sunt butoane care activează editarea "inline" a câmpului respectiv.
-        text_select_hint: Casetele de selectare ar trebui să fie deschise cu 'ALT' si tastele săgeată.
-        text_sort_hint: Cu link-urile din capul de tabel poți sorta, grupa, reordona, elimina și adăuga coloane la tabel.
       table_configuration:
         button: Configurează acest tabel al pachetului de lucru
         choose_display_mode: Afișare pachete de lucru din subproiecte pe pagina proiectului principal

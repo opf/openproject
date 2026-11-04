@@ -61,7 +61,7 @@ de:
         single: "%{name} auswählen"
       remove: Entferne %{name}
     autocompleter:
-      create_label: Create label
+      create_label: Bezeichnung erstellen
       notFoundText: Keine Elemente gefunden
       placeholder: Suchbegriff eintippen
       project:
@@ -201,7 +201,7 @@ de:
     description_available_columns: Verfügbare Spalten
     description_current_position: 'Sie sind hier: '
     description_select_work_package: 'Arbeitspaket #%{id} auswählen'
-    description_subwork_package: 'Kind von Arbeitspaket #%{id}'
+    description_subwork_package: 'Unteraufgabe von Arbeitspaket #%{id}'
     editor:
       ai_actions:
         caption: Assistant
@@ -556,8 +556,8 @@ de:
     label_reset: Zurücksetzen
     label_resize_project_menu: Größe des Projektmenüs ändern
     label_save_as: Speichern unter
-    label_scroll_left: Scroll left
-    label_scroll_right: Scroll right
+    label_scroll_left: Nach links scrollen
+    label_scroll_right: Nach rechts scrollen
     label_search_columns: Spalte suchen
     label_select_watcher: Beobachter auswählen ...
     label_selected_filter_list: Ausgewählte Filter
@@ -589,7 +589,7 @@ de:
     label_uploaded_by: Hochgeladen von
     label_user_plural: Benutzer
     label_validation_error: 'Das Arbeitspaket konnte aufgrund folgender Fehler nicht gespeichert werden:'
-    label_value_derived_from_children: "(aggregierter Wert von Kindelementen)"
+    label_value_derived_from_children: "(aggregierter Wert von Unteraufgaben)"
     label_version_plural: Versionen
     label_view_has_changed: Diese Ansicht hat ungespeicherte Änderungen. Klicken, um sie zu speichern.
     label_visibility_settings: Sichtbarkeits-Einstellungen
@@ -837,11 +837,11 @@ de:
         range_blocked: Auswahl unverändert. Sie enthält ein Element ohne Einfluss auf die Reihenfolge dieser Liste.
         range_restarted:
           one: Could not extend the range. %{count} item selected.
-          other: Could not extend the range. %{count} items selected.
+          other: Die Auswahl konnte nicht erweitert werden. %{count} Elemente ausgewählt.
         range_unavailable: Auswahl unverändert. Erweitern Sie diese Liste, um diesen Bereich auszuwählen.
         selected:
           one: "%{count} item selected."
-          other: "%{count} items selected."
+          other: "%{count} Elemente ausgewählt."
     spot:
       drop_modal:
         close: Modal schließen
@@ -891,9 +891,9 @@ de:
     units:
       child_work_packages:
         one: "%{count} child work package"
-        other: "%{count} work package children"
+        other: "%{count} untergeordnete Arbeitspakete"
       day:
-        one: "%{count} day"
+        one: "%{count} Tag"
         other: "%{count} Tage"
         zero: 0 Tage
       hour:
@@ -903,7 +903,7 @@ de:
       hour_string: "%{hours} h"
       word:
         one: "%{count} word"
-        other: "%{count} words"
+        other: "%{count} Wörter"
       workPackage:
         one: Arbeitspaket
         other: Arbeitspakete
@@ -956,7 +956,7 @@ de:
         button: Erstellen
         header: 'Neu: %{type}'
         header_no_type: Neues Arbeitspaket (Typ noch nicht gesetzt)
-        header_with_parent: 'Neu: %{type} (Kind von %{parent_type} #%{id})'
+        header_with_parent: 'Neu: %{type} (Unteraufgabe von %{parent_type} #%{id})'
         title: Neues Arbeitspaket
       default_queries:
         all_open: Alle offenen
@@ -1100,26 +1100,22 @@ de:
         all_selected:
           one: All %{count} work package on this page selected.
           other: All %{count} work packages on this page selected.
-        cleared: Selection cleared.
+        cleared: Auswahl aufgehoben.
         selected:
-          one: "%{count} work package selected."
-          other: "%{count} work packages selected."
+          one: "%{count} Arbeitspaket ausgewählt."
+          other: "%{count} Arbeitspakete ausgewählt."
       sharing:
         show_all_users: Alle Benutzer anzeigen, für die das Arbeitspaket geteilt wurde
         title: Arbeitspaket teilen
       table:
         configure_button: Arbeitspaket-Tabelle konfigurieren
-        grid_actions_header: Actions
+        grid_actions_header: Aktionen
         grid_baseline_header: Comparison status
         relations_button: Relations in %{column} for %{work_package}
         sort_criterion_ascending: "%{column} ascending"
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen dieser Arbeitspakete.
-        text_inline_edit: Die meisten Zellen dieser Tabelle sind Schalter, über die Sie einzelne Attribute direkt bearbeiten können.
-        text_select_hint: Auswahlfelder können mit 'ALT' und Pfeiltasten geöffnet werden.
-        text_sort_hint: Über die Links in den Spaltenüberschriften können Spalten sortiert, gruppiert, verschoben, entfernt oder hinzugefügt werden.
       table_configuration:
         button: Konfigurieren Sie diese Arbeitspaket-Tabelle
         choose_display_mode: Arbeitspakete anzeigen als

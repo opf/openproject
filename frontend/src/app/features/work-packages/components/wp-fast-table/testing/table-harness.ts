@@ -226,6 +226,54 @@ const harnessConfiguration:WorkPackageTableConfigurationObject = {
   dragAndDropEnabled: false,
 };
 
+export type ConsumerName = 'list'|'search'|'macro'|'widget'|'queryGroup'|'bcf';
+
+const consumerLiterals:Record<ConsumerName, WorkPackageTableConfigurationObject> = {
+  list: {
+    dragAndDropEnabled: true,
+  },
+  search: {
+    actionsColumnEnabled: false,
+    columnMenuEnabled: true,
+    contextMenuEnabled: false,
+    inlineCreateEnabled: false,
+    withFilters: true,
+    showFilterButton: true,
+  },
+  macro: {
+    actionsColumnEnabled: false,
+    columnMenuEnabled: false,
+    contextMenuEnabled: false,
+  },
+  widget: {
+    actionsColumnEnabled: false,
+    columnMenuEnabled: false,
+    hierarchyToggleEnabled: true,
+    contextMenuEnabled: false,
+  },
+  queryGroup: {
+    actionsColumnEnabled: true,
+    hierarchyToggleEnabled: false,
+    inlineCreateEnabled: true,
+    compactTableStyle: true,
+    columnMenuEnabled: false,
+    contextMenuEnabled: false,
+    projectContext: false,
+  },
+  bcf: {
+    dragAndDropEnabled: false,
+  },
+};
+
+export function consumerConfiguration(name:ConsumerName):WorkPackageTableConfigurationObject {
+  const productionDefaults = Object.fromEntries(
+    Object.entries(new WorkPackageTableConfiguration({}))
+      .filter(([, value]) => typeof value === 'boolean'),
+  ) as WorkPackageTableConfigurationObject;
+
+  return { ...productionDefaults, ...consumerLiterals[name] };
+}
+
 const unbuildableColumns:WorkPackageTableConfigurationObject = {
   actionsColumnEnabled: false,
   columnMenuEnabled: false,
@@ -413,7 +461,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
 
     click(workPackageId, init = {}) {
       const row = this.row(workPackageId);
-      const target = row.querySelector('td') ?? row;
+      const target = row.cells[0] ?? row;
       fireEvent.click(target, init);
     },
 
@@ -482,11 +530,14 @@ class FakeEditingPortalService {
   create(container:HTMLElement, injector:Injector, form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[], destroyRef?:DestroyRef):Promise<EditFieldHandler> {
     const wrapper = document.createElement('div');
     wrapper.className = activeFieldContainerClassName;
+    const formElement = document.createElement('form');
+    formElement.tabIndex = -1;
     const label = document.createElement('label');
     label.className = 'sr-only';
     const input = document.createElement('input');
     input.className = activeFieldClassName;
-    wrapper.append(label, input);
+    formElement.append(label, input);
+    wrapper.append(formElement);
     container.appendChild(wrapper);
     const handler = new HalResourceEditFieldHandler(injector, form, fieldName, schema, container, injector.get(PathHelperService), errors, destroyRef);
     input.id = handler.htmlId;
@@ -511,7 +562,12 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
   const editable = !!options.editing;
   const formWritable = options.editing?.formWritable ?? true;
   const editableFields = options.editing?.fields ?? ['subject'];
-  const fieldSchema = (name:string, writable:boolean) => (editableFields.includes(name) ? { type: 'String', name, writable } : undefined);
+  const fieldSchema = (name:string, writable:boolean) => {
+    if (name === 'id') {
+      return { type: 'Integer', name: 'ID', writable: false };
+    }
+    return editableFields.includes(name) ? { type: 'String', name, writable } : undefined;
+  };
   const sumsSchema = buildSumsSchema(options.groups ?? []);
 
   return [
@@ -652,9 +708,8 @@ function productionMarkupElement<T extends HTMLElement = HTMLElement>(wrapper:HT
 }
 
 function fillProductionMarkup(wrapper:HTMLElement, query:QueryResource, configuration:WorkPackageTableConfiguration) {
-  const keyboardNavigationEnabled = configuration.keyboardNavigationEnabled;
-  const tabindex = keyboardNavigationEnabled ? ' tabindex="-1"' : '';
-  const navigable = keyboardNavigationEnabled ? ' wp-table--navigable-cell' : '';
+  const tabindex = ' tabindex="-1"';
+  const navigable = ' wp-table--navigable-cell';
   const columns = query.columns as unknown as { id:string, name:string, sortable?:boolean }[];
   const headerCells = columns.map(({ id, name, sortable }) => `
     <th class="wp-table--table-header${navigable}">
@@ -662,19 +717,26 @@ function fillProductionMarkup(wrapper:HTMLElement, query:QueryResource, configur
         <span class="generic-table--sort-header">${sortable === false ? `<a${tabindex}>${name}</a>` : `<a href="#" id="${id}"${tabindex}>${name}</a>`}</span>
       </div>
     </th>`).join('');
-  const configurationCell = `
+  const hasConfigurationCell = configuration.columnMenuEnabled || configuration.actionsColumnEnabled;
+  const configurationCell = !hasConfigurationCell ? '' : `
     <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th${navigable}">
-      <button type="button" class="wp-table--columns-selection"${tabindex}></button>
+      ${configuration.columnMenuEnabled ? `<button type="button" class="wp-table--columns-selection"${tabindex}></button>` : ''}
     </th>`;
 
   productionMarkupElement(wrapper, 'thead tr').innerHTML = headerCells + configurationCell;
+  if (configuration.inlineCreateEnabled) {
+    wrapper.querySelector('tbody.work-package--results-tbody')!.closest('table')!.insertAdjacentHTML(
+      'beforeend',
+      '<tbody wpInlineCreate><tr><td><button type="button" class="spot-link">Create new work package</button></td></tr></tbody>',
+    );
+  }
   const augmentedColumns = [
     ...(configuration.dragAndDropEnabled ? [internalSortColumn] : []),
     ...(columns as QueryColumn[]),
-    internalContextMenuColumn,
+    ...(hasConfigurationCell ? [internalContextMenuColumn] : []),
   ];
   productionMarkupElement(wrapper, 'tr.wp-table--sums-row').innerHTML = augmentedColumns
-    .map((column) => `<td${keyboardNavigationEnabled && isNavigableColumn(column, configuration) ? ` class="${navigableCellClassName}"` : ''}></td>`)
+    .map((column) => `<td${isNavigableColumn(column, configuration) ? ` class="${navigableCellClassName}"` : ''}></td>`)
     .join('');
 }
 
@@ -700,7 +762,6 @@ export function buildDom(options:{ productionMarkup?:boolean } = {}) {
         ${options.productionMarkup ? '<thead class="-sticky"><tr></tr></thead>' : ''}
         <tbody class="work-package--results-tbody"></tbody>
         ${options.productionMarkup ? '<tbody><tr class="wp-table--sums-row wp-table--row"></tr></tbody>' : ''}
-        ${options.productionMarkup ? '<tbody wpInlineCreate><tr><td><button type="button" class="spot-link">Create new work package</button></td></tr></tbody>' : ''}
       </table>
     </div>
     <div class="work-packages-tabletimeline--timeline-side"><div class="wp-table-timeline--body"></div></div>
@@ -737,7 +798,7 @@ export function buildQuery(columns:(string|RelationColumnSpec|NonSortableColumnS
   } as unknown as QueryResource;
 }
 
-function buildColumn(column:string|RelationColumnSpec|NonSortableColumnSpec) {
+export function buildColumn(column:string|RelationColumnSpec|NonSortableColumnSpec) {
   if (typeof column === 'string') {
     return { id: column, name: column, _type: 'QueryColumn', href: `/api/v3/queries/columns/${column}` };
   }

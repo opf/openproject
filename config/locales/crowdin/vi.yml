@@ -2260,7 +2260,7 @@ vi:
     body: cơ thể
     category: thể loại
     color: màu sắc
-    comment: Nhận xét
+    comment: bình luận
     comments: bình luận
     content: Nội dung
     created_at: Tạo ngày
@@ -6652,6 +6652,9 @@ vi:
         Không có thuộc tính nào có thể được thay đổi ngoại trừ trạng thái.
         <br>
         <strong>Lưu ý</strong>: Các giá trị được kế thừa (ví dụ: từ con cái hoặc quan hệ) sẽ vẫn được áp dụng.
+      used_by_workflows:
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Status could not be moved.
       headers:
@@ -6661,6 +6664,8 @@ vi:
       no_results_content_text: Thêm trạng thái mới
       no_results_title_text: Hiện tại không có trạng thái gói công việc.
       status_actions: Status actions
+      workflows_count:
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: và
@@ -7057,6 +7062,7 @@ vi:
         invalid_attribute_groups: The form payload is invalid.
         invalid_query: The embedded query cấu hình không hợp lệ.
         label_group: Section
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: No inactive attributes
         not_found: The requested form item could not be found.
         query_group_label: Related work packages table
@@ -7076,6 +7082,7 @@ vi:
         reset_title: Reset form
         reset_to_defaults: Reset form
         row_actions: Row actions
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Form
         untitled_group: Untitled group
       overview:

@@ -6633,6 +6633,9 @@ ko:
         상태를 제외하고 특성은 변경할 수 없습니다.
         <br>
         <strong>참고</strong>: 상속된 값(예: 자식 또는 관계의 값)은 계속 적용됩니다.
+      used_by_workflows:
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: 상태를 이동할 수 없습니다.
       headers:
@@ -6642,6 +6645,8 @@ ko:
       no_results_content_text: 새 상태 추가
       no_results_title_text: 작업 패키지 상태가 없습니다.
       status_actions: 상태 작업
+      workflows_count:
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: 그리고
@@ -7038,6 +7043,7 @@ ko:
         invalid_attribute_groups: 양식 페이로드가 유효하지 않습니다.
         invalid_query: 포함된 쿼리 구성이 유효하지 않습니다.
         label_group: 섹션
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: 비활성 특성 없음
         not_found: 요청한 양식 항목을 찾을 수 없습니다.
         query_group_label: 관련 작업 패키지 테이블
@@ -7057,6 +7063,7 @@ ko:
         reset_title: 양식 재설정
         reset_to_defaults: 양식 재설정
         row_actions: 행 작업
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: 양식
         untitled_group: 제목이 없는 그룹
       overview:

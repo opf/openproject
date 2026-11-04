@@ -6818,6 +6818,10 @@ hy:
         Բացի կարգավիճակից՝ ոչ մի հատկանիշ չի կարող փոփոխվել։
         <br>
         <strong>Նշում</strong>՝ ժառանգված արժեքները (օրինակ՝ ենթատարրերից կամ կապերից) դեռևս կկիրառվեն։
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Status could not be moved.
       headers:
@@ -6827,6 +6831,9 @@ hy:
       no_results_content_text: Ավելացրեք նոր կարգավիճակ
       no_results_title_text: Ներկայումս աշխատանքային փաթեթների կարգավիճակներ չկան։
       status_actions: Status actions
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: և
@@ -7224,6 +7231,7 @@ hy:
         invalid_attribute_groups: The form payload is invalid.
         invalid_query: Ներդրված հարցման կազմաձևումն անվավեր է։
         label_group: Բաժին
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: Ոչ ակտիվ հատկանիշներ չկան
         not_found: The requested form item could not be found.
         query_group_label: Կապակցված աշխատանքային փաթեթների աղյուսակ
@@ -7243,6 +7251,7 @@ hy:
         reset_title: Reset form
         reset_to_defaults: Վերակայել ձևը
         row_actions: Տողի գործողություններ
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Form
         untitled_group: Անանուն խումբ
       overview:

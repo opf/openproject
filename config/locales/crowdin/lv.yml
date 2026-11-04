@@ -7008,6 +7008,11 @@ lv:
         No attributes can be changed with the exception of the status.
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+      used_by_workflows:
+        zero: This status is used by %{count} workflows.
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Status could not be moved.
       headers:
@@ -7017,6 +7022,10 @@ lv:
       no_results_content_text: Pievienot jaunu statusu
       no_results_title_text: Pašlaik nav nevienas darba pakas statuss.
       status_actions: Status actions
+      workflows_count:
+        zero: "%{count} workflows"
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: and
@@ -7415,6 +7424,7 @@ lv:
         invalid_attribute_groups: The form payload is invalid.
         invalid_query: The embedded query configuration is invalid.
         label_group: Section
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: No inactive attributes
         not_found: The requested form item could not be found.
         query_group_label: Related work packages table
@@ -7434,6 +7444,7 @@ lv:
         reset_title: Reset form
         reset_to_defaults: Reset form
         row_actions: Row actions
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Form
         untitled_group: Untitled group
       overview:

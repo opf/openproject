@@ -25,36 +25,35 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import TypeFormConfigurationDragAndDropController from './drag-and-drop.controller';
-import type { Drake } from 'dragula';
-import type { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
+import { ResourcesDisplayField } from './resources-display-field.module';
 
-interface ReconnectableDragAndDropController {
-  drake:Drake|null;
-  autoscroll:DomAutoscrollService|null;
-  connect:() => void;
+function span(text:string, ...classes:string[]):HTMLSpanElement {
+  const el = document.createElement('span');
+  el.classList.add(...classes);
+  el.textContent = text;
+  return el;
 }
 
-export default class TypeFormConfigurationRowsDragAndDropController extends TypeFormConfigurationDragAndDropController {
-  static targets = ['container', 'scrollContainer'];
+export class LabelsDisplayField extends ResourcesDisplayField {
+  protected renderValues(_values:string[], element:HTMLElement):void {
+    const isSingleView = this.context.container === 'single-view';
+    const { resources } = this;
+    const visible = isSingleView ? resources : resources.slice(0, 2);
 
-  async drop(el:Element, target:Element, source:Element|null, sibling:Element|null) {
-    await super.drop(el, target, source, sibling);
+    const container = document.createElement('div');
+    container.classList.add('op-labels-display-field', 'd-inline-flex', 'flex-items-center', 'gap-1', 'v-align-middle');
+    container.classList.toggle('flex-wrap', isSingleView);
 
-    // After drop completes and DOM updates, reinitialize dragula
-    setTimeout(() => {
-      if (!this.element.isConnected) return;
+    visible.forEach(({ name }) => {
+      const label = span(name, 'Label');
+      label.classList.toggle('Label--large', isSingleView);
+      container.append(label);
+    });
 
-      const parent = this as unknown as ReconnectableDragAndDropController;
-      if (parent.drake) {
-        parent.drake.destroy();
-        parent.drake = null;
-      }
-      if (parent.autoscroll) {
-        parent.autoscroll.destroy();
-        parent.autoscroll = null;
-      }
-      super.connect();
-    }, 300);
+    if (resources.length > visible.length) {
+      container.append('...', span(resources.length.toString(), 'badge'));
+    }
+
+    element.append(container);
   }
 }

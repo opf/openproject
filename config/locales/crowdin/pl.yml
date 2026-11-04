@@ -7171,6 +7171,12 @@ pl:
         Nie można zmienić żadnych atrybutów z wyjątkiem stanu.
         <br>
         <strong>Uwaga</strong>: wartości dziedziczone (np. po elementach podrzędnych lub relacjach) będą nadal stosowane.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        few: This status is used by %{count} workflows.
+        many: This status is used by %{count} workflows.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Nie można przenieść statusu.
       headers:
@@ -7180,6 +7186,11 @@ pl:
       no_results_content_text: Dodaj nowy status
       no_results_title_text: Nie ma aktualnie żadnych statusów Zestawu zadań.
       status_actions: Działania statusu
+      workflows_count:
+        one: "%{count} workflow"
+        few: "%{count} workflows"
+        many: "%{count} workflows"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: i
@@ -7579,6 +7590,7 @@ pl:
         invalid_attribute_groups: Ładunek danych formularza jest nieprawidłowy.
         invalid_query: Konfiguracja wbudowanego zapytania jest nieprawidłowa.
         label_group: Sekcja
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: Brak nieaktywnych atrybutów
         not_found: Nie można znaleźć żądanego elementu formularza.
         query_group_label: Tabela powiązanych pakietów roboczych
@@ -7598,6 +7610,7 @@ pl:
         reset_title: Zresetuj formularz
         reset_to_defaults: Zresetuj formularz
         row_actions: Działania wiersza
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Formularz
         untitled_group: Grupa bez nazwy
       overview:

@@ -6814,6 +6814,10 @@ pt-BR:
         Nenhum atributo poderá ser alterado, exceto o status.
         <br>
         <strong>Nota</strong>: Valores herdados (por exemplo, de itens filhos ou relações) ainda serão aplicados.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: O estado não pôde ser alterado.
       headers:
@@ -6823,6 +6827,9 @@ pt-BR:
       no_results_content_text: Adicionar uma nova situação
       no_results_title_text: Atualmente, não há nenhuma situação de pacote de trabalho.
       status_actions: Ações de estado
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: e
@@ -7214,6 +7221,7 @@ pt-BR:
         invalid_attribute_groups: O conteúdo do formulário é inválido.
         invalid_query: A configuração da consulta incorporada é inválida.
         label_group: Seção
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: Nenhum atributo inativo
         not_found: O item de formulário solicitado não foi encontrado.
         query_group_label: Tabela de pacotes de trabalho relacionados
@@ -7233,6 +7241,7 @@ pt-BR:
         reset_title: Redefinir formulário
         reset_to_defaults: Redefinir formulário
         row_actions: Ações da linha
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Formulário
         untitled_group: Grupo sem título
       overview:

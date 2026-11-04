@@ -3983,7 +3983,7 @@ zh-TW:
   label_filter_add: 新增條件
   label_filter_any_name_attribute: 名稱屬性
   label_filter_by: 篩選條件：
-  label_filter_plural: 篩選器
+  label_filter_plural: 篩選條件
   label_filters_toggle: 顯示/隱藏篩選條件
   label_float: 浮點數
   label_folder: 資料夾
@@ -4005,10 +4005,10 @@ zh-TW:
   label_global_roles: 全域角色
   label_go_back: 回到上一層選單
   label_go_forward: 開啟 %{module} 子選單
-  label_greater_or_equal: ">="
+  label_greater_or_equal: 之前
   label_group: 群組
   label_group_attributes_plural: Group attributes
-  label_group_by: 分組依據
+  label_group_by: 分類
   label_group_named: 群組名稱 %{name}
   label_group_new: 新增群組
   label_group_plural: 群組
@@ -4076,7 +4076,7 @@ zh-TW:
   label_ldap_auth_source_plural: LDAP 連線
   label_ldap_authentication: LDAP 認證
   label_learn_more: 了解更多
-  label_less_or_equal: "<="
+  label_less_or_equal: 之後
   label_less_than_ago: 幾天內
   label_life_cycle_step_plural: 專案生命週期
   label_link_url: 連結(URL)
@@ -4367,7 +4367,7 @@ zh-TW:
   label_storage_used_space: 已用磁碟空間
   label_string: 文字
   label_subitems: 子項目
-  label_subject_or_id: 主旨或 id
+  label_subject_or_id: 名稱或 id
   label_subproject: 子專案
   label_subproject_add: Add subproject
   label_subproject_plural: 子專案
@@ -6642,6 +6642,9 @@ zh-TW:
         除狀態外，任何屬性都無法改變。
         <br>
         <strong>注意</strong>：繼承的值（例如來自子項或關係）仍然適用。
+      used_by_workflows:
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Status could not be moved.
       headers:
@@ -6651,6 +6654,8 @@ zh-TW:
       no_results_content_text: 新增一個狀態
       no_results_title_text: 目前沒有任何工作套件狀態。
       status_actions: Status actions
+      workflows_count:
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: 和
@@ -7047,6 +7052,7 @@ zh-TW:
         invalid_attribute_groups: The form payload is invalid.
         invalid_query: The embedded query configuration is invalid.
         label_group: Section
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: No inactive attributes
         not_found: The requested form item could not be found.
         query_group_label: Related work packages table
@@ -7066,6 +7072,7 @@ zh-TW:
         reset_title: Reset form
         reset_to_defaults: Reset form
         row_actions: Row actions
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Form
         untitled_group: Untitled group
       overview:

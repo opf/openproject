@@ -48,7 +48,7 @@ get:
                 count: 2
                 total: 5
     '400':
-      $ref: "../components/responses/invalid_request_body.yml"
+      $ref: "../components/responses/invalid_query.yml"
     '403':
       content:
         application/hal+json:

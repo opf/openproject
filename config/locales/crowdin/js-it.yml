@@ -1114,10 +1114,6 @@ it:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabella con righe di macro-attività e colonne dei loro attributi.
-        text_inline_edit: Molte celle di questa tabella sono pulsanti che attivano le funzionalità di modifica in linea di tale attributo.
-        text_select_hint: Le caselle di selezione devono essere aperte con ' ALT ' e i tasti freccia.
-        text_sort_hint: Con i collegamenti nelle intestazioni di tabella puoi ordinare, raggruppare, riordinare, rimuovere e aggiungere le colonne della tabella.
       table_configuration:
         button: Configura questa tabella di macro-attività
         choose_display_mode: Visualizza la macro-attività come

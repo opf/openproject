@@ -1114,10 +1114,6 @@ pt-BR:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabela com linhas de pacote de trabalho e colunas com atributos do pacote de trabalho.
-        text_inline_edit: A maioria das células desta tabela são botões que ativam a funcionalidade de edição em linha do atributo.
-        text_select_hint: Caixas de seleção devem ser abertas com 'ALT' e teclas de seta.
-        text_sort_hint: Com os links nos cabeçalhos da tabela você pode classificar, agrupar, reordenar, remover e adicionar colunas na tabela.
       table_configuration:
         button: Configurar esta tabela de pacote de trabalho
         choose_display_mode: Exibir pacotes de trabalho como
