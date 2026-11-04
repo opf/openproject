@@ -439,6 +439,12 @@ class OfflinePage {
   }
 }
 
+/*****************************************************************************************
+ * BROWSER EVENTS
+ *
+ * The browser calls the worker only through these listeners: install, activate, fetch,
+ * push and notificationclick. Each one delegates to the classes above.
+ *****************************************************************************************/
 const pushHandler = new PushHandler();
 
 self.addEventListener("install", (event) => {
