@@ -93,9 +93,9 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
     end
 
     it "closes its notifications when the user signs out" do
-      expect(response.body).to include('signOut: "/logout"', "event.waitUntil(pushHandler.signOut())",
-                                       "this.pending > 0 ? this.enqueue(() => this.clearForSignOut())",
-                                       "generation !== this.signOutGeneration")
+      expect(response.body).to include('signOut: "/logout"', "event.waitUntil(pushHandler.signOut(response))",
+                                       "this.enqueue(() => this.clearForSignOut())",
+                                       "generation !== this.signOutGeneration || this.signOutsInProgress > 0")
     end
 
     it "stores only digests of what it showed" do

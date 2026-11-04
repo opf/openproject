@@ -279,10 +279,11 @@ class Digest {
  *
  * any error on the way ► fallback
  *
- * logout navigation ──► bump sign-out generation
+ * logout navigation ──► bump sign-out generation, sign-out in progress
  *                         ├─ clear now
- *                         └─ push queued or running? clear again after it (it may have re-shown some)
- * summary fetched across a sign-out ► discarded, fallback
+ *                         └─ response settled ► bump generation again, clear once more behind any
+ *                                               push (it may have re-shown some)
+ * summary fetched across a sign-out, or while one is in progress ► discarded, fallback
  * ```
  */
 class PushHandler {
@@ -290,6 +291,7 @@ class PushHandler {
     this.queue = Promise.resolve();
     this.pending = 0;
     this.signOutGeneration = 0;
+    this.signOutsInProgress = 0;
     this.signOutPath = new URL(Config.urls.signOut, self.location.href).pathname;
   }
 
@@ -297,11 +299,18 @@ class PushHandler {
     return new URL(request.url).pathname === this.signOutPath;
   }
 
-  signOut() {
+  signOut(navigation = Promise.resolve()) {
     this.signOutGeneration += 1;
+    this.signOutsInProgress += 1;
     const cleared = this.clearForSignOut().catch(() => undefined);
-    const clearedAfterPush = this.pending > 0 ? this.enqueue(() => this.clearForSignOut()) : undefined;
-    return Promise.all([cleared, clearedAfterPush]);
+    const clearedAfterSettled = navigation
+      .catch(() => undefined)
+      .then(() => {
+        this.signOutGeneration += 1;
+        this.signOutsInProgress -= 1;
+        return this.enqueue(() => this.clearForSignOut());
+      });
+    return Promise.all([cleared, clearedAfterSettled]);
   }
 
   onPush(event) {
@@ -332,7 +341,7 @@ class PushHandler {
   async render() {
     const generation = this.signOutGeneration;
     const summary = await UnreadSummary.fetch();
-    if (generation !== this.signOutGeneration) return Notifications.showFallback();
+    if (generation !== this.signOutGeneration || this.signOutsInProgress > 0) return Notifications.showFallback();
 
     switch (summary.outcome) {
       case "signedOut":
@@ -421,7 +430,9 @@ class OfflinePage {
     const { request } = event;
     if (request.mode !== "navigate" || request.destination !== "document" || request.method !== "GET") return;
 
-    event.respondWith(OfflinePage.load(event));
+    const response = OfflinePage.load(event);
+    event.respondWith(response);
+    return response;
   }
 
   static async load(event) {
@@ -471,10 +482,10 @@ self.addEventListener("activate", (event) => {
 // Sign-out is detected on navigation because the worker is the only place that sees every logout, including SSO redirects.
 self.addEventListener("fetch", (event) => {
   const { request } = event;
+  const response = OfflinePage.respondTo(event);
   if (request.mode === "navigate" && request.method === "GET" && pushHandler.isSignOut(request)) {
-    event.waitUntil(pushHandler.signOut());
+    event.waitUntil(pushHandler.signOut(response));
   }
-  OfflinePage.respondTo(event);
 });
 
 self.addEventListener("push", (event) => pushHandler.onPush(event));
