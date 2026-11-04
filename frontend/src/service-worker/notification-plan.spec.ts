@@ -28,7 +28,7 @@
 import { NotificationPlan, type GroupWithFingerprint, type MoreWithFingerprint, type PushStateMap } from './notification-plan';
 import { Tags } from './constants';
 
-const tagOf = (id:number) => `openproject-wp-${id}`;
+const tagOf = (id:number) => `openproject-1-wp-${id}`;
 
 const group = (id:number, at:number, fingerprint = `fingerprint-${id}`):GroupWithFingerprint => ({
   tag: tagOf(id),

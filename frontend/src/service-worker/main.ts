@@ -51,7 +51,7 @@ import { sw } from './sw-global';
  * BROWSER EVENTS
  *
  * The browser calls the worker only through these listeners: install, activate, fetch,
- * push, notificationclick and message. Each one delegates to the classes above.
+ * push, notificationclick and message. Each one delegates to the imported classes.
  *****************************************************************************************/
 const pushHandler = new PushHandler();
 
