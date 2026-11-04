@@ -83,7 +83,7 @@ module API
         end
 
         def highlighted_attributes_to_v3
-          return unless query.read_attribute(:highlighting_mode).to_s == "inline"
+          return unless query.highlighting_mode == :inline
 
           query.read_attribute(:highlighted_attributes).presence&.map do |name|
             API::V3::Utilities::PathHelper::ApiV3Path.query_column(convert_to_v3(name))
