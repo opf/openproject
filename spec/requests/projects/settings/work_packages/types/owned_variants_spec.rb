@@ -378,9 +378,9 @@ RSpec.describe "Configuring the variants a project owns",
     end
 
     # Advancing has to skip the step the variant does not have, or the wizard walks the user
-    # straight into a 404 on the step after workflows.
-    it "advances past the workflows step to the one after projects" do
-      patch project_type_variant_creation_wizard_path(**ours_in_project, step: "workflows")
+    # straight into a 404 on the step after project attributes.
+    it "advances past the project attributes step to the one after projects" do
+      patch project_type_variant_creation_wizard_path(**ours_in_project, step: "project_attributes")
 
       expect(response).to redirect_to(project_type_variant_creation_wizard_path(**ours_in_project, step: "pdf"))
     end

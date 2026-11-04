@@ -132,7 +132,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
       click_on I18n.t(:button_save)
     end
 
-    expect(page).to have_current_path(/step=project_attributes/)
+    expect(page).to have_current_path(/step=workflows/)
     form = type.default_variant.reload.form_configuration
     expect(form).not_to eq(existing)
     expect(form.name).to eq("Incident intake")
@@ -168,7 +168,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
 
     click_on I18n.t(:button_continue)
 
-    expect(page).to have_current_path(/step=project_attributes/)
+    expect(page).to have_current_path(/step=workflows/)
     expect(page).to have_no_css("dialog[open]")
     expect(existing.reload.name).to eq("Standard form")
   end
