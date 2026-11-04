@@ -168,11 +168,14 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
           expect(root.reload.children).to be_empty
         end
 
-        it "updates the position_cache" do
+        it "does not recalculate the position_cache" do
+          leia = service.insert_item(contract_class:, parent: root, label: "leia").value!
+          expect(leia.position_cache).to eq(4)
+
           result = service.delete_branch(item: luke)
 
           expect(result).to be_success
-          expect(root.reload.position_cache).to eq(1)
+          expect(leia.reload.position_cache).to eq(4)
         end
 
         context "if the item or its descendants were assigned as a custom value" do
