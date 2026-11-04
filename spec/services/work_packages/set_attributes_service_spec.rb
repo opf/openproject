@@ -140,6 +140,16 @@ RSpec.describe WorkPackages::SetAttributesService,
     it_behaves_like "service call"
   end
 
+  context "when writing a read-only attribute via attributes" do
+    let(:call_attributes) { { created_at: 2.days.ago } }
+
+    it "journals the write as a default attribute written cause" do
+      instance.call(call_attributes)
+
+      expect(work_package.journal_cause).to be_an_instance_of(Journal::CausedByDefaultAttributeWritten)
+    end
+  end
+
   # Scenarios specified in https://community.openproject.org/wp/40749
   # Just checking that everything is correctly wired up. All other scenarios tested in:
   # - spec/services/work_packages/set_attributes_service/derive_progress_values_status_based_spec.rb

@@ -1114,10 +1114,6 @@ nl:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabel met rijen van werkpakket en kolommen werk pakket kenmerken.
-        text_inline_edit: De meeste cellen van deze tabel zijn knoppen die de inline-bewerken functionaliteit van dat kenmerk te activeren.
-        text_select_hint: Selecteer vakken die moeten worden geopend met 'ALT' en pijl.
-        text_sort_hint: Met de koppelingen in de tabelkoppen kunt u sorteren, groeperen, rangschikken, verwijderen en tabelkolommen toevoegen.
       table_configuration:
         button: Configureer deze werkpakkettabel
         choose_display_mode: Werkpakketten weergeven als

@@ -59,7 +59,7 @@ RSpec.describe Projects::CreationWizardStatusComponent, type: :component do
     context "when project_creation_wizard_enabled is true" do
       let(:project_creation_wizard_enabled) { true }
 
-      context "when artifact_id is present" do
+      context "when artefact_id is present" do
         let(:project_creation_wizard_artifact_work_package_id) { 123 }
 
         before do
@@ -92,7 +92,7 @@ RSpec.describe Projects::CreationWizardStatusComponent, type: :component do
         end
       end
 
-      context "when artifact_id is not present" do
+      context "when artefact_id is not present" do
         let(:project_creation_wizard_artifact_work_package_id) { nil }
 
         context "when user has edit_project_attributes permission" do
@@ -124,7 +124,7 @@ RSpec.describe Projects::CreationWizardStatusComponent, type: :component do
   end
 
   describe "rendered status text" do
-    context "when artifact_id is not present" do
+    context "when artefact_id is not present" do
       let(:project_creation_wizard_artifact_work_package_id) { nil }
 
       before do
@@ -138,7 +138,7 @@ RSpec.describe Projects::CreationWizardStatusComponent, type: :component do
       end
     end
 
-    context "when artifact_id is present" do
+    context "when artefact_id is present" do
       let(:project_creation_wizard_artifact_work_package_id) { 123 }
 
       before do
@@ -155,7 +155,7 @@ RSpec.describe Projects::CreationWizardStatusComponent, type: :component do
   end
 
   describe "rendered status explanation" do
-    context "when artifact_id is not present" do
+    context "when artefact_id is not present" do
       let(:project_creation_wizard_artifact_work_package_id) { nil }
 
       before do
@@ -174,7 +174,7 @@ RSpec.describe Projects::CreationWizardStatusComponent, type: :component do
       end
     end
 
-    context "when artifact_work_package is found" do
+    context "when artefact_work_package is found" do
       let(:project_creation_wizard_artifact_work_package_id) { 123 }
       let(:work_package) { build_stubbed(:work_package, id: 123) }
 
@@ -189,8 +189,8 @@ RSpec.describe Projects::CreationWizardStatusComponent, type: :component do
         expect(rendered.text).to include(expected_text)
       end
 
-      it "sets artifact_work_package" do
-        expect(component.artifact_work_package).to eq(work_package)
+      it "sets artefact_work_package" do
+        expect(component.artefact_work_package).to eq(work_package)
       end
 
       it "renders a button linking to the work package" do
@@ -199,7 +199,7 @@ RSpec.describe Projects::CreationWizardStatusComponent, type: :component do
       end
     end
 
-    context "when artifact_id is present but work package is not visible" do
+    context "when artefact_id is present but work package is not visible" do
       let(:project_creation_wizard_artifact_work_package_id) { 123 }
 
       before do
@@ -212,8 +212,8 @@ RSpec.describe Projects::CreationWizardStatusComponent, type: :component do
         expect(rendered.text).not_to include(submitted_text)
       end
 
-      it "sets artifact_work_package to nil" do
-        expect(component.artifact_work_package).to be_nil
+      it "sets artefact_work_package to nil" do
+        expect(component.artefact_work_package).to be_nil
       end
 
       it "does not render any button" do
@@ -233,8 +233,8 @@ RSpec.describe Projects::CreationWizardStatusComponent, type: :component do
       expect(component.current_user).to eq(current_user)
     end
 
-    it "sets artifact_id from project" do
-      expect(component.artifact_id).to eq(project_creation_wizard_artifact_work_package_id)
+    it "sets artefact_id from project" do
+      expect(component.artefact_id).to eq(project_creation_wizard_artifact_work_package_id)
     end
 
     context "when current_user is not provided" do

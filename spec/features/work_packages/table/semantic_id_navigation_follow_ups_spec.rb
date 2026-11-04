@@ -61,7 +61,7 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
       semantic_id = work_package.reload.identifier
 
       details_anchor = within(wp_table.row(work_package)) do
-        find_link(title: "Open details view", visible: :all)
+        find(:link, accessible_name: "Open details view", exact: true, visible: :all)
       end
 
       expect(details_anchor[:href]).to include("/details/#{semantic_id}")

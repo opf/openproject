@@ -329,6 +329,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
 
         # clearing the text filter and searching by a just a custom field works
         page.find_by_id("filter-by-text-input").set("")
+        table.expect_work_package_listed(*work_packages[17..22]) # This line ensures that the table is completely rendered.
         filters.add_filter_by(custom_field_string.name,
                               "is",
                               [custom_field_string_value],

@@ -1112,10 +1112,6 @@ es:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabla con filas de paquetes de trabajo y columnas con sus atributos.
-        text_inline_edit: La mayoría de las celdas de esta tabla son botones que activan la funcionalidad de edición de dicho atributo.
-        text_select_hint: Los cuadros de selección deben ser abiertos con 'ALT' y las teclas de cursor.
-        text_sort_hint: Con los enlaces en los encabezamientos de las tablas puede ordenar, agrupar, reordenar, quitar y añadir columnas de las tablas.
       table_configuration:
         button: Configurar esta tabla de paquetes de trabajo
         choose_display_mode: Mostrar paquetes de trabajo como

@@ -1130,10 +1130,6 @@ pl:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabela, której wiersze zawierają pakiety pracy, a kolumny ich atrybuty.
-        text_inline_edit: Większość komórek w tej tabeli to przyciski uruchamiające edycję danego atrybutu.
-        text_select_hint: Zaznacz boxy które powinny zostać otwarte poprzez jednoczesne użycie klawisza 'ALT' oraz strzałek.
-        text_sort_hint: Za pomocą linków w nagłówkach tabeli można sortować, grupować, zmieniać kolejność, usuwać i dodać kolumny.
       table_configuration:
         button: Konfiguruj tę tabelę pakietów roboczych
         choose_display_mode: Wyświetlaj pakiety robocze jako

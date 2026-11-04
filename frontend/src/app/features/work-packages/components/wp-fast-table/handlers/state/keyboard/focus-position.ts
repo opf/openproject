@@ -25,7 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export type RowKind = 'header'|'workPackage'|'groupHeader'|'sums'|'totals';
+import type { RowRecordKind } from '../../../semantics/row-classifier';
+
+export const ROW_KINDS = ['header', 'workPackage', 'groupHeader', 'sums', 'totals'] as const satisfies readonly RowRecordKind[];
+
+export type RowKind = (typeof ROW_KINDS)[number];
 
 export interface NavigableRow {
   key:string;

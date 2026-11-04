@@ -62,20 +62,20 @@ properties:
 
                 **Resource**: Project
 
-example:
-  _type: TimeEntriesActivity
-  id: 18
-  name: Management
-  position: 8
-  default: false
-  _embedded:
-    projects: [ ]
-  _links:
-    self:
-      href: "/api/v3/time_entries/activities/18"
-      title: Management
-    projects:
-      - href: "/api/v3/projects/death_star_v2"
-        title: DeathStarV2
-      - href: "/api/v3/projects/star_killer_base"
-        title: StarKillerBase
+examples:
+  - _type: TimeEntriesActivity
+    id: 18
+    name: Management
+    position: 8
+    default: false
+    _embedded:
+      projects: []
+    _links:
+      self:
+        href: "/api/v3/time_entries/activities/18"
+        title: Management
+      projects:
+        - href: "/api/v3/projects/death_star_v2"
+          title: DeathStarV2
+        - href: "/api/v3/projects/star_killer_base"
+          title: StarKillerBase

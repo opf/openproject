@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Type id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Type id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -29,7 +29,7 @@ get:
                 position: 1
                 updatedAt: '2014-05-21T08:51:20.396Z'
           schema:
-            "$ref": "../components/schemas/type_model.yml"
+            $ref: "../components/schemas/type_model.yml"
       description: OK
       headers: {}
     '403':
@@ -49,7 +49,7 @@ get:
         **Required permission:** view work package or manage types (on any project)
       headers: {}
   tags:
-  - Types
+    - Types
   description: ''
   operationId: View_Type
   summary: View Type

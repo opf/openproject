@@ -26,6 +26,8 @@
 #++
 
 class CostQuery::GroupBy::Tweek < Report::GroupBy::Base
+  not_selectable!
+
   def self.label
     I18n.t(:label_week_reporting)
   end

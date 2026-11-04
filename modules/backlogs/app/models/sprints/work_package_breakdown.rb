@@ -32,9 +32,10 @@
 # sprint_id/status_id/story_points values from work_package_journals.
 module Sprints
   class WorkPackageBreakdown
-    Block = Data.define(:work_package_count, :story_points)
-    ChangeBlock = Data.define(:added_count, :removed_count, :added_story_points, :removed_story_points)
-    Snapshot = Data.define(:work_package_id, :story_points, :status_id)
+    Block = Data.define(:work_package_count, :story_points, :estimated_hours)
+    ChangeBlock = Data.define(:added_count, :removed_count, :added_story_points, :removed_story_points,
+                              :added_estimated_hours, :removed_estimated_hours)
+    Snapshot = Data.define(:work_package_id, :story_points, :estimated_hours, :status_id)
 
     def initialize(sprint:, project:, user: User.current)
       @sprint = sprint
@@ -62,8 +63,10 @@ module Sprints
         ChangeBlock.new(
           added_count: added_ids.size,
           removed_count: removed_ids.size,
-          added_story_points: added_ids.sum { |id| finish_points[id] || 0 },
-          removed_story_points: removed_ids.sum { |id| start_points[id] || 0 }
+          added_story_points: sum_values(added_ids, finish_points),
+          removed_story_points: sum_values(removed_ids, start_points),
+          added_estimated_hours: sum_values(added_ids, finish_hours),
+          removed_estimated_hours: sum_values(removed_ids, start_hours)
         )
       end
     end
@@ -104,6 +107,14 @@ module Sprints
       @finish_points ||= points_by_id(finish_snapshots)
     end
 
+    def start_hours
+      @start_hours ||= hours_by_id(start_snapshots)
+    end
+
+    def finish_hours
+      @finish_hours ||= hours_by_id(finish_snapshots)
+    end
+
     def start_snapshots
       snapshots_at(reference_start)
     end
@@ -124,7 +135,7 @@ module Sprints
       @snapshots_by_tick ||= ::WorkPackages::JournalTimeline
                                .new(sprint_journals, ticks:, user: @user)
                                .relation
-                               .pluck(:tick, :work_package_id, :story_points, :status_id)
+                               .pluck(:tick, :work_package_id, :story_points, :estimated_hours, :status_id)
                                .group_by { |tick, *| tick.to_i }
                                .transform_values { |rows| rows.map { |_tick, *attributes| Snapshot.new(*attributes) } }
     end
@@ -134,11 +145,23 @@ module Sprints
     end
 
     def block(snapshots)
-      Block.new(work_package_count: snapshots.size, story_points: snapshots.sum { it.story_points || 0 })
+      Block.new(
+        work_package_count: snapshots.size,
+        story_points: snapshots.sum { it.story_points || 0 },
+        estimated_hours: snapshots.sum { it.estimated_hours || 0 }
+      )
     end
 
     def points_by_id(snapshots)
       snapshots.to_h { [it.work_package_id, it.story_points] }
+    end
+
+    def hours_by_id(snapshots)
+      snapshots.to_h { [it.work_package_id, it.estimated_hours] }
+    end
+
+    def sum_values(ids, values_by_id)
+      ids.sum { |id| values_by_id[id] || 0 }
     end
 
     def done?(snapshot)

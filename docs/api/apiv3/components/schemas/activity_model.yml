@@ -104,37 +104,37 @@ properties:
               The emoji reactions collection of this activity
 
               **Resource**: EmojiReactions
-example:
-  id: 1
-  _type: Activity::Comment
-  _links:
-    self:
-      href: "/api/v3/activity/1"
-      title: Priority changed from High to Low
-    workPackage:
-      href: "/api/v3/work_packages/1"
-      title: quis numquam qui voluptatum quia praesentium blanditiis nisi
-    user:
-      href: "/api/v3/users/1"
-      title: John Sheppard - admin
-    attachments:
-      href: "/api/v3/activities/1/attachments"
-    emojiReactions:
-      href: "/api/v3/activities/1/emoji_reactions"
-    addAttachment:
-      href: "/api/v3/activities/1/attachments"
-      method: post
-    update:
-      href: "/api/v3/activities/1"
-      method: "patch"
-  details:
-    - format: markdown
+examples:
+  - id: 1
+    _type: Activity::Comment
+    _links:
+      self:
+        href: "/api/v3/activity/1"
+        title: Priority changed from High to Low
+      workPackage:
+        href: "/api/v3/work_packages/1"
+        title: quis numquam qui voluptatum quia praesentium blanditiis nisi
+      user:
+        href: "/api/v3/users/1"
+        title: John Sheppard - admin
+      attachments:
+        href: "/api/v3/activities/1/attachments"
+      emojiReactions:
+        href: "/api/v3/activities/1/emoji_reactions"
+      addAttachment:
+        href: "/api/v3/activities/1/attachments"
+        method: post
+      update:
+        href: "/api/v3/activities/1"
+        method: "patch"
+    details:
+      - format: markdown
+        raw: Lorem ipsum dolor sit amet.
+        html: "<p>Lorem ipsum dolor sit amet.</p>"
+    comment:
+      format: markdown
       raw: Lorem ipsum dolor sit amet.
       html: "<p>Lorem ipsum dolor sit amet.</p>"
-  comment:
-    format: markdown
-    raw: Lorem ipsum dolor sit amet.
-    html: "<p>Lorem ipsum dolor sit amet.</p>"
-  createdAt: '2014-05-21T08:51:20.721Z'
-  updatedAt: '2014-05-21T09:14:02.929Z'
-  version: 31
+    createdAt: '2014-05-21T08:51:20.721Z'
+    updatedAt: '2014-05-21T09:14:02.929Z'
+    version: 31

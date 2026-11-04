@@ -6809,6 +6809,10 @@ es:
         Excepto el estado, ningún otro atributo se puede modificar.
         <br>
         <strong>Nota</strong>: Los valores heredados (por ejemplo, de elementos secundarios o relaciones) seguirán aplicándose.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: El estado no se pudo trasladar.
       headers:
@@ -6818,6 +6822,9 @@ es:
       no_results_content_text: Añadir un nuevo estado
       no_results_title_text: Actualmente no hay estados de paquetes de trabajo.
       status_actions: Acciones de estado
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: "y"

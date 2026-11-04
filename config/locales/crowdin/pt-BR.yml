@@ -6814,6 +6814,10 @@ pt-BR:
         Nenhum atributo poderá ser alterado, exceto o status.
         <br>
         <strong>Nota</strong>: Valores herdados (por exemplo, de itens filhos ou relações) ainda serão aplicados.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: O estado não pôde ser alterado.
       headers:
@@ -6823,6 +6827,9 @@ pt-BR:
       no_results_content_text: Adicionar uma nova situação
       no_results_title_text: Atualmente, não há nenhuma situação de pacote de trabalho.
       status_actions: Ações de estado
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: e

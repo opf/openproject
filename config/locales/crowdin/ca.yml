@@ -6813,6 +6813,10 @@ ca:
         No attributes can be changed with the exception of the status.
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Status could not be moved.
       headers:
@@ -6822,6 +6826,9 @@ ca:
       no_results_content_text: Afegir un nou estat
       no_results_title_text: Actualment no hi ha cap estat de paquet de treball.
       status_actions: Status actions
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: i

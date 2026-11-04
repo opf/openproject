@@ -100,6 +100,8 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
   public focus = false;
 
+  public focusTarget:'create'|'reference' = 'create';
+
   public text = this.wpInlineCreate.buttonTexts;
 
   private currentWorkPackage:WorkPackageResource|null;
@@ -112,10 +114,6 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
   get isActive():boolean {
     return this.mode !== 'inactive';
-  }
-
-  get treegrid():boolean {
-    return this.table.configuration.keyboardNavigationEnabled;
   }
 
   ngOnInit() {
@@ -155,6 +153,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   private registerCancelHandler() {
     const handler = (evt:DelegateEvent) => {
       onClickOrEnter(evt.originalEvent, () => {
+        evt.preventDefault();
         this.resetRow();
       });
 
@@ -196,6 +195,8 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
           // Remove row and focus
           this.resetRow();
 
+          this.table.keyboardNavigation?.rememberWorkPackageAfterRender(wp.id!);
+
           // Split view on the last inserted id if any
           if (!this.table.configuration.isEmbedded) {
             this.wpTableFocus.initializeSelectionAndFocus(wp.id!);
@@ -215,11 +216,13 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   }
 
   public handleAddRowClick() {
+    this.focusTarget = 'create';
     this.addWorkPackageRow();
     return false;
   }
 
   public handleReferenceClick() {
+    this.focusTarget = 'reference';
     this.mode = 'reference';
     this.cdRef.detectChanges();
     this.reconcileExposure();
@@ -279,6 +282,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
     if (rowElement && this.currentWorkPackage) {
       builder.refreshRow(this.currentWorkPackage, rowElement);
+      this.reconcileExposure();
     }
   }
 
@@ -302,7 +306,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
   @HostListener('keydown.escape', ['$event'])
   public cancelOnEscape(event:KeyboardEvent) {
-    if (this.mode === 'inactive') {
+    if (this.mode === 'inactive' || event.defaultPrevented) {
       return;
     }
 
@@ -336,6 +340,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   public showRow() {
     this.mode = 'inactive';
     this.cdRef.detectChanges();
+    this.focus = false;
     this.reconcileExposure();
   }
 
@@ -346,8 +351,6 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   }
 
   private reconcileExposure():void {
-    if (this.treegrid) {
-      this.table.reconcileSection(this.element);
-    }
+    this.table.reconcileSection();
   }
 }

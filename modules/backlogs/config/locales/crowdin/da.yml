@@ -226,19 +226,19 @@ da:
         title: Rapport for %{sprint}
       widgets:
         burndown_chart:
-          title: Burndown chart
+          title: Burndown-diagram
         created_resolved_chart:
-          title: Created vs resolved work packages
+          title: Oprettede og løste arbejdspakker
         epic_progress:
           card:
             progress_label:
-              one: "%{epic}: %{completed} of %{count} work package completed"
-              other: "%{epic}: %{completed} of %{count} work packages completed"
+              one: "%{epic}: %{completed} af %{count} arbejdspakke er færdig"
+              other: "%{epic}: %{completed} af %{count} arbejdspakker er færdige"
             work_package_completed: "(%{percentage})"
             work_package_counts:
-              one: "%{completed} / %{count} work package"
-              other: "%{completed} / %{count} work packages"
-          title: Epic progress
+              one: "%{completed} / %{count} arbejdspakke"
+              other: "%{completed} / %{count} arbejdspakker"
+          title: Fremdrift for epics
         velocity_chart:
           average:
             one: 'Gennemsnit af den forrige sprint:'
@@ -262,9 +262,9 @@ da:
             heading: Der er ingen data om sprinten
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: Ændret omfang
-              story_points_change: "+%{added} / -%{removed} story points"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: Færdige
             initially_planned:
@@ -274,12 +274,19 @@ da:
           breakdown_block:
             blocks:
               show_all: Vis alle
-              show_all_label: 'View all: %{heading}'
+              show_all_label: 'Vis alle: %{heading}'
           closed_work_packages: Lukkede arbejdspakker
+          completed_estimated_time: Completed estimated time
+          completed_story_points: Completed story points
           resolved_summary:
-            one: "%{percentage} (%{resolved} of %{total} work package)"
-            other: "%{percentage} (%{resolved} of %{total} work packages)"
-          title: Work packages within the sprint
+            story_points:
+              one: "%{percentage} (%{resolved} of %{total} story point)"
+              other: "%{percentage} (%{resolved} of %{total} story points)"
+            time: "%{percentage} (%{resolved} of %{total})"
+            work_packages:
+              one: "%{percentage} (%{resolved} of %{total} work package)"
+              other: "%{percentage} (%{resolved} of %{total} work packages)"
+          title: Arbejdspakker i sprinten
         work_package_table:
           added:
             blankslate:

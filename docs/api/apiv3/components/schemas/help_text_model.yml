@@ -62,24 +62,24 @@ properties:
           - description: |-
               Add an attachment to the help text.
 
-example:
-  _type: HelpText
-  id: 1
-  attribute: id
-  scope: WorkPackage
-  caption: "Some plain text caption"
-  helpText:
-    format: markdown
-    raw: Help text for id attribute.
-    html: '<p>Help text for id attribute.</p>'
-  _links:
-    self:
-      href: '/api/v3/help_texts/1'
-    editText:
-      href: '/admin/attribute_help_texts/1/edit'
-      type: text/html
-    attachments:
-      href: '/api/v3/help_texts/1/attachments'
-    addAttachment:
-      href: '/api/v3/help_texts/1/attachments'
-      method: post
+examples:
+  - _type: HelpText
+    id: 1
+    attribute: id
+    scope: WorkPackage
+    caption: "Some plain text caption"
+    helpText:
+      format: markdown
+      raw: Help text for id attribute.
+      html: '<p>Help text for id attribute.</p>'
+    _links:
+      self:
+        href: '/api/v3/help_texts/1'
+      editText:
+        href: '/admin/attribute_help_texts/1/edit'
+        type: text/html
+      attachments:
+        href: '/api/v3/help_texts/1/attachments'
+      addAttachment:
+        href: '/api/v3/help_texts/1/attachments'
+        method: post

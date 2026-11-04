@@ -1150,10 +1150,6 @@ hu:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Táblázat melynek sorai munkacsomagok és oszlopai munkacsomag attribútumok.
-        text_inline_edit: A legtöbb mezője ennek a táblázatnak olyan gomb, mely aktiválja a soron belüli szerkesztését az attribútumnak.
-        text_select_hint: Válassza ki a megnyitni kíván mezőket és használja az "ALT" és nyílgombokat.
-        text_sort_hint: A táblázat fejlécében található hivatkozásokkal rendezhet, csoportosíthat, átsorolhat, törölhet és hozzáadhat oszlopokat.
       table_configuration:
         button: Ennek a feladatcsoportnak a beállítása
         choose_display_mode: Feladatcsoportok megjelenése

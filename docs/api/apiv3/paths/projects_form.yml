@@ -8,7 +8,7 @@ post:
           type: object
         examples:
           "with custom fields":
-            "$ref": "../components/examples/project_body.yml"
+            $ref: "../components/examples/project_body.yml"
           "empty":
             description: Empty request to get the form initially in order to start the guided creation of a project
             value: {}
@@ -25,35 +25,35 @@ post:
                   payload:
                     _links:
                       customField26:
-                        href: 
-                        title: 
+                        href:
+                        title:
                       customField31:
-                        href: 
-                        title: 
+                        href:
+                        title:
                       parent:
-                        href: 
+                        href:
                       status:
-                        href: 
+                        href:
                     active: true
-                    customField30: 
-                    customField34: 
+                    customField30:
+                    customField34:
                     customField35: Text custom field value
                     customField41:
                       format: markdown
                       html: ''
                       raw: ''
-                    customField42: 
+                    customField42:
                     description:
                       format: markdown
                       html: ''
-                      raw: 
+                      raw:
                     identifier: new_project_identifier
                     name: New project name
                     public: false
                     statusExplanation:
                       format: markdown
                       html: "<p></p>"
-                      raw: 
+                      raw:
                   schema:
                     _dependencies: []
                     _links: {}
@@ -91,35 +91,35 @@ post:
                     customField31:
                       _embedded:
                         allowedValues:
-                        - _links:
-                            self:
-                              href: "/api/v3/custom_options/513"
-                              title: abc
-                          _type: CustomOption
-                          id: 513
-                          value: abc
-                        - _links:
-                            self:
-                              href: "/api/v3/custom_options/514"
-                              title: def
-                          _type: CustomOption
-                          id: 514
-                          value: def
-                        - _links:
-                            self:
-                              href: "/api/v3/custom_options/515"
-                              title: ghi
-                          _type: CustomOption
-                          id: 515
-                          value: ghi
+                          - _links:
+                              self:
+                                href: "/api/v3/custom_options/513"
+                                title: abc
+                            _type: CustomOption
+                            id: 513
+                            value: abc
+                          - _links:
+                              self:
+                                href: "/api/v3/custom_options/514"
+                                title: def
+                            _type: CustomOption
+                            id: 514
+                            value: def
+                          - _links:
+                              self:
+                                href: "/api/v3/custom_options/515"
+                                title: ghi
+                            _type: CustomOption
+                            id: 515
+                            value: ghi
                       _links:
                         allowedValues:
-                        - href: "/api/v3/custom_options/513"
-                          title: abc
-                        - href: "/api/v3/custom_options/514"
-                          title: def
-                        - href: "/api/v3/custom_options/515"
-                          title: ghi
+                          - href: "/api/v3/custom_options/513"
+                            title: abc
+                          - href: "/api/v3/custom_options/514"
+                            title: def
+                          - href: "/api/v3/custom_options/515"
+                            title: ghi
                       hasDefault: false
                       location: _links
                       name: list project cf
@@ -203,12 +203,12 @@ post:
                     status:
                       _links:
                         allowedValues:
-                        - href: "/api/v3/project_statuses/on_track"
-                          title: On track
-                        - href: "/api/v3/project_statuses/at_risk"
-                          title: At risk
-                        - href: "/api/v3/project_statuses/off_track"
-                          title: Off track
+                          - href: "/api/v3/project_statuses/on_track"
+                            title: On track
+                          - href: "/api/v3/project_statuses/at_risk"
+                            title: At risk
+                          - href: "/api/v3/project_statuses/off_track"
+                            title: Off track
                       hasDefault: true
                       name: Status
                       required: false
@@ -267,7 +267,7 @@ post:
     '415':
       $ref: "../components/responses/unsupported_media_type.yml"
   tags:
-  - Projects
+    - Projects
   description: ''
   operationId: Project_create_form
   summary: Project create form

@@ -6817,6 +6817,10 @@ da:
         Ingen attributter kan ændres undtagen status.
         <br>
         <strong>Bemærk</strong>: Nedarvede værdier (fx fra underordnede eller relationer) gælder fortsat.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Statussen kunne ikke flyttes.
       headers:
@@ -6826,6 +6830,9 @@ da:
       no_results_content_text: Tilføj en ny status
       no_results_title_text: Der er i øjeblikket ingen statusser for arbejdspakker.
       status_actions: Handlinger for status
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: og
@@ -7221,7 +7228,7 @@ da:
         invalid_attribute_groups: Formularens data er ugyldige.
         invalid_query: Konfigurationen af den indlejrede forespørgsel er ugyldig.
         label_group: Afsnit
-        move_failed: The move could not be saved. Please reload the page and try again.
+        move_failed: Flytningen kunne ikke gemmes. Genindlæs siden, og prøv igen.
         no_inactive_attributes: Ingen inaktive attributter
         not_found: Det ønskede formularelement blev ikke fundet.
         query_group_label: Tabel med relaterede arbejdspakker
@@ -7241,7 +7248,7 @@ da:
         reset_title: Nulstil formular
         reset_to_defaults: Nulstil formular
         row_actions: Handlinger for rækken
-        save_failed: The change could not be saved. Please reload the page and try again.
+        save_failed: Ændringen kunne ikke gemmes. Genindlæs siden, og prøv igen.
         tab: Formular
         untitled_group: Unavngiven gruppe
       overview:

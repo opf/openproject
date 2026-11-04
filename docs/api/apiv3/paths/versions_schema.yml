@@ -97,7 +97,7 @@ get:
                   type: DateTime
                   writable: false
           schema:
-            "$ref": "../components/schemas/version_schema_model.yml"
+            $ref: "../components/schemas/version_schema_model.yml"
       description: OK
       headers: {}
     '403':
@@ -117,7 +117,7 @@ get:
         **Required permission:** view work packages or manage versions on any project
       headers: {}
   tags:
-  - Versions
+    - Versions
   description: ''
   operationId: View_version_schema
   summary: View version schema

@@ -1146,10 +1146,6 @@ ar:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: أسطر الجدول كتب عمل والاعمدة واصفات لكتب العمل.
-        text_inline_edit: معظم خلايا الجدول هي أزرار لتنشيط وظائف التحرير المضمنة لتلك الواصفة.
-        text_select_hint: يجب فتح الخانات المختارة بمفتاح "ألت" ومفاتيح الأسهم.
-        text_sort_hint: مع الارتباطات الموجودة في رؤوس الجدول يمكنك فرز، والمجموعة، وإعادة ترتيب، وإزالة وإضافة أعمدة الجدول.
       table_configuration:
         button: Configure this work package table
         choose_display_mode: Display work packages as

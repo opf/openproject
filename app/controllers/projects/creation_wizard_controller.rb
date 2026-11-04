@@ -52,7 +52,7 @@ class Projects::CreationWizardController < ApplicationController
 
     if service_call.success?
       if last_page?
-        create_work_package_artifact
+        create_work_package_artefact
       else
         redirect_to project_creation_wizard_path(@project, section: params[:next_section])
       end
@@ -68,14 +68,14 @@ class Projects::CreationWizardController < ApplicationController
     render :show, status: :unprocessable_entity
   end
 
-  def create_work_package_artifact # rubocop:disable Metrics/AbcSize
+  def create_work_package_artefact # rubocop:disable Metrics/AbcSize
     creation_call = User.execute_as_admin(current_user) do
-      Projects::CreationWizard::SubmitArtifactService
+      Projects::CreationWizard::SubmitArtefactService
         .new(user: current_user, project: @project)
         .call
     end
 
-    # even when successful, there can be errors related to the artifact
+    # even when successful, there can be errors related to the artefact
     # upload to Nextcloud that needs to be shown to the user
     if creation_call.success?
       flash[:error] = creation_call.errors.full_messages if creation_call.errors.any?

@@ -7173,6 +7173,12 @@ ru:
         Никакие атрибуты не могут быть изменены за исключением статуса.
         <br>
         <strong>Примечание</strong>: Будут применены унаследованные значения (например, от дочерних или родительских пакетов работ).
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        few: This status is used by %{count} workflows.
+        many: This status is used by %{count} workflows.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Статус не может быть перемещён.
       headers:
@@ -7182,6 +7188,11 @@ ru:
       no_results_content_text: Добавить новый статус
       no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
       status_actions: Действия, связанные со статусом
+      workflows_count:
+        one: "%{count} workflow"
+        few: "%{count} workflows"
+        many: "%{count} workflows"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: и

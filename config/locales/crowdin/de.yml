@@ -189,7 +189,7 @@ de:
       favorite:
         favorited: Favorisiert
       form_configuration:
-        attribute_groups: Form
+        attribute_groups: Formular
         description: Beschreibung
         name: Name
         type_variants: Types and variants using this form
@@ -740,9 +740,9 @@ de:
             attribute_groups:
               attribute_unknown: Ungültige Arbeitspaket-Attribute verwendet.
               attribute_unknown_name: 'Ungültige Arbeitspaket-Attribute verwendet: %{attribute}'
-              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              duplicate_group: Der Gruppen-Name '%{group}' wird mehr als einmal verwendet. Gruppen-Namen müssen eindeutig sein.
               group_without_name: Gruppenname darf nicht leer sein.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              query_invalid: 'Die eingebettete Ansicht ''%{group}'' ist ungültig: %{details}'
             base:
               default_undeletable: The default form cannot be deleted. Mark another form as default first.
         grids/grid:
@@ -1079,7 +1079,7 @@ de:
         body: 'Bitte überprüfen Sie die folgenden Felder:'
         header:
           one: "%{count} error prohibited this %{model} from being saved"
-          other: "%{count} errors prohibited this %{model} from being saved"
+          other: "%{count} Fehler haben das Speichern dieses %{model} verhindert"
     models:
       action:
         one: Aktion
@@ -1208,8 +1208,8 @@ de:
         one: Priorität
         other: Prioritäten
       label:
-        one: Label
-        other: Labels
+        one: Bezeichnung
+        other: Bezeichnungen
       ldap_auth_source:
         one: LDAP-Verbindung
         other: LDAP-Verbindungen
@@ -1486,7 +1486,7 @@ de:
         favicon:
           field: Favicon
           field_description: The image should be 32x32px in PNG format on transparent background.
-          title: Custom favicon
+          title: Benutzerdefiniertes Favicon
           title_description: This is the tiny icon that appears next to the page title in the browser. By default the OpenProject favicon is used, but if you upload a new favicon the theme will automatically be changed to Custom theme.
         mobile:
           description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
@@ -1504,7 +1504,7 @@ de:
         touch_icon:
           field: Touch icon
           field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
-          title: Custom touch icon
+          title: Benutzerdefiniertes Touch-Icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
         base_colors: Grundfarben
@@ -1524,7 +1524,7 @@ de:
         description: Legen Sie eine Farbpalette für die Verwendung an verschiedenen Stellen der Anwendung fest. Beispielsweise können Sie auf die Palette bei der Auswahl einer Farbe zur Darstellung eines Status oder eines Typs zugreifen.
       edit_color: "%{color} bearbeiten"
       export:
-        description: Upload and manage custom image files used in your PDF exports.
+        description: Laden Sie benutzerdefinierte Bilddateien für Ihre PDF-Exporte hoch.
         title: Custom export
       fonts:
         file_is_invalid: ist keine gültige TTF-Schriftdatei.
@@ -1770,7 +1770,7 @@ de:
               other: "%{count} Projekte"
             statuses:
               one: "%{count} status"
-              other: "%{count} statuses"
+              other: "%{count} Statusse"
             types:
               one: "%{count} Typ"
               other: "%{count} Typen"
@@ -1845,7 +1845,7 @@ de:
               caption_done: Abgeschlossen
               caption_done_description:
                 one: "%{count} project selected as scope"
-                other: "%{count} projects selected as scope"
+                other: "%{count} Projekte als Anwendungsbereich ausgewählt"
               description: Wählen Sie aus den verfügbaren Daten, die Sie aus der Host-Jira-Instanz abrufen, die Daten aus, die Sie importieren möchten.
               elements:
                 custom_fields: Ein Teil der benutzerdefinierten Felder
@@ -1890,7 +1890,7 @@ de:
               title: Create time entries
             '11':
               rest_line_text: Downloading attachments for %{projects_number} more projects
-              title: Download attachments
+              title: Anhänge herunterladen
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -1936,7 +1936,7 @@ de:
         '
     labels:
       delete_dialog_component:
-        confirmation: I understand that this action is not reversible
+        confirmation: Ich verstehe, dass diese Aktion nicht rückgängig gemacht werden kann
         description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
         heading: Diese Bezeichnung löschen?
         title: Diese Bezeichnung löschen?
@@ -2019,7 +2019,7 @@ de:
         description: Die Freigabe dieser Kennung kann nicht rückgängig gemacht werden. Externe Links und Integrationen, die diese Kennung verwenden, werden nicht mehr aufgelöst, und der Name wird für neue Projekte verfügbar, die ihn beansprucht.
         description_with_work_packages:
           one: Unreserving this project identifier (and its %{count} work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          other: Die Freigabe dieser Kennung (und %{count} zugehörigen Arbeitspaketkennungen) kann nicht rückgängig gemacht werden. Externe Links und Integrationen, die diese Kennung verwenden, werden nicht mehr aufgelöst, und der Name wird für neue Projekte verfügbar, die ihn beansprucht.
         heading: '"%{identifier}" freigeben?'
         title: Kennung freigeben
       empty_body: Wenn sich die Projektkennung ändert, wird die vorherige Kennung hier angezeigt, damit Sie diese freigeben können, sobald es sicher ist.
@@ -2226,7 +2226,7 @@ de:
         text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
 
           '
-        title: Important changes
+        title: Wichtige Änderungen
       role_selector:
         label: 'Rolle: %{role}'
         no_role: Rolle auswählen
@@ -3533,14 +3533,14 @@ de:
       new_title: Create form
     index:
       actions:
-        edit: Edit form
+        edit: Formular bearbeiten
         menu: Aktionen für %{name}
         rename: Name und Beschreibung bearbeiten
       blank_slate:
         description: Create a form to define the attribute groups a type or variant shows on its work packages.
         filtered_description: No form matches the current filters.
-        filtered_title: No matching forms
-        title: No forms
+        filtered_title: Es wurden keine passenden Formulare gefunden
+        title: Keine Formulare
       columns:
         name: Form name
         projects: Projekte
@@ -3548,7 +3548,7 @@ de:
       description: Every named work package form in this instance, with the types and variants using it.
       filters:
         name: Formular
-        name_placeholder: Filter by form name or description…
+        name_placeholder: Nach Formularname oder Beschreibung filtern…
         projects_placeholder: Projekte filtern …
       projects_count:
         one: "%{count} Projekt"
@@ -3584,10 +3584,10 @@ de:
         text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
-        title: Important changes
+        title: Wichtige Änderungen
     usage:
       dialog:
-        button: View dependent types
+        button: Abhängige Typen ansehen
         caption_html: The form %{name} is used in the following types and variants.
         title: Form used in types
         variant_of: Variante von %{type}
@@ -3728,7 +3728,7 @@ de:
         warning: Warnung
   help_texts:
     views:
-      favoured: Mark this view as favorite and add to the saved views sidebar on the left.
+      favoured: Markiert diese Ansicht als Favoriten und fügt sie der Sidebar links hinzu.
       project: "%{plural} sind immer einem Projekt zugeordnet. Sie können hier nur Projekte auswählen, bei denen das %{plural} -Modul aktiv ist. Nach dem Erstellen eines %{singular} können Sie Arbeitspakete aus anderen Projekten hinzufügen.\n"
       public: Veröffentlichen Sie diese Ansicht und erlauben Sie anderen Benutzern, auf sie zuzugreifen. Benutzer mit der Berechtigung "Öffentliche Ansichten verwalten" können öffentliche Abfragen ändern oder entfernen. Dies hat keinen Einfluss auf die Sichtbarkeit von Arbeitspaketen in dieser Ansicht und je nach Berechtigung, können Benutzer unterschiedliche Ergebnisse sehen.
   homescreen:
@@ -3770,13 +3770,13 @@ de:
               url: https://www.openproject.org/docs/release-notes/18-0-0/
             line_3:
               description: Create and reuse tags
-              title: Labels
+              title: Bezeichnungen
               url: https://www.openproject.org/docs/release-notes/18-0-0/
             line_4:
               description: Configure or delegate custom fields per project
-              title: Project-specific values
+              title: Projektspezifische Werte
               url: https://www.openproject.org/docs/release-notes/18-0-0/
-          new_features_title: 'The release contains various new features and improvements, such as:
+          new_features_title: 'Dieses Release enthält verschiedene neue Funktionen und Verbesserungen, wie z. B:
 
             '
         header: Lesen Sie über neue Funktionen und Updates.
@@ -4580,7 +4580,7 @@ de:
   label_users_settings: Benutzereinstellungen
   label_value: Wert
   label_value_x: 'Wert: %{x}'
-  label_version_custom_field_plural: Version custom fields
+  label_version_custom_field_plural: Benutzerdefinierte Felder
   label_version_edit: Version bearbeiten
   label_version_new: Neue Version
   label_version_plural: Versionen
@@ -5342,7 +5342,7 @@ de:
           tb: TB
   oauth:
     application:
-      basic_details: Basic details
+      basic_details: Allgemeine Einstellungen
       builtin: Vordefinierte Anwendung für diese Instanz
       client_credentials: Anmeldeinformationen des Clients
       confidential: Vertraulich
@@ -5402,7 +5402,7 @@ de:
       api_v3_text: Die Anwendung erhält vollen Lese- und Schreibzugriff auf die OpenProject API v3, um Aktionen in Ihrem Namen durchzuführen.
       explanations_admin:
         api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
-        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+        mcp: Die Anwendung erhält Zugriff auf die OpenProject-MCP-Endpunkte. Dabei handelt es sich um eine Untermenge von APIv3 Endpunkten, die speziell für die Verwendung mit KI-Agenten ausgelegt ist.
       mcp: Access to Model Context Protocol
       mcp_text: Die Anwendung erhält Zugriff auf die OpenProject-MCP-Endpunkte. Dabei handelt es sich um eine Untermenge von APIv3 Endpunkten, die speziell für die Verwendung mit KI-Agenten ausgelegt ist.
   oauth_client:
@@ -5516,11 +5516,11 @@ de:
   op_primer:
     work_package_card_component:
       drag_handle:
-        label: Drag to reorder
+        label: Ziehen zum Neuordnen
       menu:
-        label_actions: Work package actions
-      parent: Parent
-      undisclosed: Undisclosed
+        label_actions: Arbeitspaket Aktionen
+      parent: Übergeordnete Seite
+      undisclosed: Nicht sichtbar
   open_link_in_a_new_tab: Link in neuem Tab öffnen
   page:
     text: Text
@@ -5890,11 +5890,11 @@ de:
           no_status_when_submitted: Der Antrag auf Projektinitiierung konnte nicht aktiviert werden, da für den Arbeitspaket-Typ %{type} mindestens ein Status erforderlich ist, der mit ihm verknüpft ist. Bitte aktivieren Sie mindestens einen Status-Workflow für diesen Arbeitspaket-Typ.
           no_work_package_type: Die Anfrage zur Projektinitiierung konnte nicht aktiviert werden, da dafür mindestens ein aktiver Arbeitspaket-Typ erforderlich ist und dieses Projekt keinen hat. Bitte fügen Sie diesem Projekt mindestens einen Arbeitspaket-Typ hinzu.
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: Das erzeugte Artefakt wird als PDF-Anhang zum erstellten Arbeitspaket gespeichert.
+          description_file_link_export: Das erstellte Arbeitspaket enthält einen Dateilink zu einer PDF-Datei, die in einem externen Dateispeicher gespeichert ist. Erfordert einen aktiven Dateispeicher mit automatisch verwalteten Projektordnern. Im Moment werden nur Nextcloud-Dateispeicher unterstützt.
           description_file_storage_selection: Wählen Sie, welcher der konfigurierten externen Dateispeicher verwendet werden soll.
           external_file_storage: Externe Dateispeicher
-          label_artifact_export: Artifact export
+          label_artifact_export: Artefakt-Export
           label_attachment_export: Als Dateianhang des Arbeitspakets speichern
           label_file_link_export: Datei in externen Dateispeicher hochladen und Dateilink zum Arbeitspaket hinzufügen
           pdf_file_storage: PDF-Datei-Speicherort
@@ -5904,7 +5904,7 @@ de:
 
           '
       custom_fields:
-        changes_heading: Important changes
+        changes_heading: Wichtige Änderungen
         changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
 
           '
@@ -6033,14 +6033,14 @@ de:
     status:
       button_edit: Status bearbeiten
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artifact_storage_error: Artefakt konnte nicht im Dateispeicher gespeichert werden
+      create_artifact_work_package_error: Arbeitspaket für das Artefakt der Anfrage konnte nicht erstellt werden
       no_custom_fields_html: Für dieses Projekt sind keine Projektattribute für den Assistenten aktiviert. Bitte aktivieren Sie mindestens eines davon in den <a href="%{link}">Projekteinstellungen</a>.
       no_help_text: Für dieses Feld ist kein Hilfetext definiert.
       progress_label: "%{current} von %{total}"
       sections: Abschnitte
       sidebar_content_title: Inhalt
-      success: Project attributes saved and artifact work package created successfully.
+      success: Projektattribute gespeichert und Artefakt der Anfrage als Arbeitspaket erstellt.
       title: Projektinitiierungsantrag
   pwa:
     offline:
@@ -6215,7 +6215,7 @@ de:
         other: 'Diese Rolle ist noch %{count} Mitgliedern zugewiesen:'
       heading_unused: Bist du sicher, dass Sie die Rolle „%{name}“ löschen möchten?
       losing_project_access:
-        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        one: Von diesen Benutzern verliert %{count} den Zugriff auf Projekte, in denen dies ihre einzige Rolle war. Möchten Sie diese Rolle wirklich löschen?
         other: Von diesen Benutzern verliert %{count} den Zugriff auf Projekte, in denen dies ihre einzige Rolle war. Möchten Sie diese Rolle wirklich löschen?
         zero: Keiner dieser Benutzer wird den Zugriff auf seine Projekte verlieren. Möchten Sie diese Rolle wirklich löschen?
       show_memberships: Zeige alle Mitgliedschaften mit dieser Rolle
@@ -6622,12 +6622,12 @@ de:
         confirmation_message: Der Projektinitiierungsantrag wird für neue Projekte, die auf dieser Vorlage basieren, nicht mehr verfügbar sein. Projektmanager und Projektverantwortliche müssen die entsprechenden Informationen in der Projektübersicht manuell konfigurieren und ausfüllen.
         heading: Diesen Projektinitiationsantrag deaktivieren?
         title: Projektinitiierungsantrag deaktivieren
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject kann einen Schritt-für-Schritt-Assistenten erstellen, der beim Ausfüllen eines Projektinitiierungsantrags unterstützt. Sie können die abgefragten Projektattribute wählen und ein Artefakt als Ergebnis erzeugen lassen.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artifact_name: Name des Artefakts
+        artifact_name_caption: Wählen Sie den Namen für dieses Artefakt, passend zu Ihrer Projektmanagement-Methodik.
         options:
           project_creation_wizard: Projekterstellungs-Assistent
           project_initiation_request: Projektinitiierungsantrag
@@ -6647,8 +6647,8 @@ de:
           Sie haben einen Antrag auf Projektinitiierung für **%{project_name}** eingereicht. Dieser wartet nun auf seine Überprüfung.
           Klicken Sie auf den untenstehenden Link, um das Arbeitspaket mit Ihrem Antrag aufzurufen.
         confirmation_email_text: Text der Bestätigungs-E-Mail
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: Wenn ein Benutzer eine Anfrage zur Projektinitiierung einreicht, wird ein neues Arbeitspaket erstellt, an das ein Artefakt der Anfrage als PDF-Datei angehängt wird. Die folgenden Einstellungen definieren den Typ, den Status und den Empfänger für dieses neue Arbeitspaket.
+        description_template: "**Dieses Arbeitspaket wurde automatisch nach Abschluss des %{wizard_name} Workflows erstellt.** Ein PDF-Artefakt mit allen eingereichten Informationen wurde generiert und zu Referenz- und Prüfzwecken an dieses Arbeitspaket angehängt. Wenn Sie die Einleitungsschritte aktualisieren oder erneut ausführen müssen, können Sie den Assistenten jederzeit über den unten stehenden Link erneut öffnen:\n"
         send_confirmation_email: Senden Sie eine Bestätigungs-E-Mail an den Benutzer, der den Projektinitiierungsantrag gestellt hat
         status_when_submitted: Status bei Einreichung
         status_when_submitted_caption: Der Status, in den das erstellte Arbeitspaket übergeht, sobald der Antrag eingereicht wird.
@@ -6656,7 +6656,7 @@ de:
         work_package_comment_caption: Der oben ausgewählte Empfänger wird automatisch in dem Kommentar @erwähnt.
         work_package_comment_default: Ein Antrag auf Projektinitiierung für **%{project_name}** wurde eingereicht und wartet auf seine Prüfung.
         work_package_type: Arbeitspaket-Typ
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: Der Arbeitspaket-Typ, der zum Speichern des Artefakts verwendet wird.
       wizard_status_button:
         project_creation_wizard: Projekterstellungs-Assistent öffnen
         project_initiation_request: Projektinitiierungsantrag öffnen
@@ -6822,6 +6822,10 @@ de:
         Außer dem Status selbst können dann keine Attribute verändert werden.
         <br>
         <strong>Hinweis</strong>: Vererbte Attribute (z.B. von Unteraufgaben oder Relationen) werden auch auf Arbeitspakete in diesen Status angewandt.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Status konnte nicht verschoben werden.
       headers:
@@ -6831,6 +6835,9 @@ de:
       no_results_content_text: Neuen Status hinzufügen
       no_results_title_text: Derzeit gibt es keine Arbeitspaket-Status.
       status_actions: Statusaktionen
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: und
@@ -7122,7 +7129,7 @@ de:
           inherit_title: Use the same settings as the type
           lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance. A variant is an alternative version of a work package type. It starts with the configuration of the original type and lets you adapt individual settings without creating an entirely new type.
           manual_description: Start with a copy of the parent type's current settings and customize them independently, or start from scratch. Changes to the parent type will not affect this configuration.
-          manual_title: Manual configuration
+          manual_title: Manuelle Konfiguration
           next_steps: You will configure your variant in the next steps, choosing the settings that best fit your needs.
           objects_description: Workflows and forms are standalone objects that can be shared across multiple types and variants. You can select an existing workflow or form, create a new one from a copy, or start from scratch.
           objects_heading: Reuse workflow and form objects
@@ -7839,14 +7846,14 @@ de:
         other: Dieses Arbeitspaket enthält %{count} Unteraufgaben, die Sie nicht sehen können. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
       hidden_descendants_warning:
         one: All visible descendants will be removed. However, there is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
-        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        other: Alle sichtbaren Unteraufgaben werden entfernt. Es gibt jedoch %{count} Unteraufgaben, die Sie nicht sehen können. Sie werden nicht gelöscht, aber deren Verknüpfungen zum Elternelement werden entfernt.
       title: "%{count} Arbeitspakete löschen"
       undeletable_descendants_warning:
         one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        other: Sie können %{count} Unteraufgaben nicht löschen, da Ihnen die erforderlichen Berechtigungen fehlen. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
       undeletable_descendants_warning_html:
         one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        other: Sie können %{count} Unteraufgaben nicht löschen, da Ihnen die erforderlichen Berechtigungen in %{projects} fehlen. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
     datepicker_modal:
       banner:
         description:
@@ -7904,21 +7911,21 @@ de:
       heading: Dieses Arbeitspaket unwiderruflich löschen?
       hidden_descendants_only_warning:
         one: This work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
-        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        other: Dieses Arbeitspaket enthält %{count} Unteraufgaben, die Sie nicht sehen können. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
       hidden_descendants_warning:
         one: All visible descendants will be deleted. However, this work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
-        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        other: Alle sichtbaren Unteraufgaben werden entfernt. Es gibt jedoch %{count} Unteraufgaben, die Sie nicht sehen können. Sie werden nicht gelöscht, aber deren Verknüpfungen zum Elternelement werden entfernt.
       title: Arbeitspaket löschen
       undeletable_descendants_warning:
         one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        other: Sie können %{count} Unteraufgaben nicht löschen, da Ihnen die erforderlichen Berechtigungen fehlen. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
       undeletable_descendants_warning_html:
         one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        other: Sie können %{count} Unteraufgaben nicht löschen, da Ihnen die erforderlichen Berechtigungen in %{projects} fehlen. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
     import:
       check_file: Datei prüfen
       checking_file: Checking %{filename}
-      clear: Clear
+      clear: Zurücksetzen
       csv:
         file:
           empty: Diese Datei ist leer.
@@ -7994,7 +8001,7 @@ de:
           text: Nothing has been created yet. Review the summary below, then import.
           title:
             one: "%{count} line checked, no problems found"
-            other: "%{count} lines checked, no problems found"
+            other: "%{count} Zeilen geprüft, keine Probleme festgestellt"
         download_problems: Als CSV herunterladen
         file_rejected:
           heading: Kopfzeile
@@ -8083,7 +8090,7 @@ de:
           no_results_title_text: Derzeit sind keine Versionen verfügbar.
     x_descendants:
       one: "%{count} descendant work package"
-      other: "%{count} work package descendants"
+      other: "%{count} untergeordnete Arbeitspakete"
   workflows:
     change:
       confirm:
@@ -8114,7 +8121,7 @@ de:
         other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
       body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
       button: Delete workflow
-      confirmation_checkbox_label: I understand that this action is not reversible.
+      confirmation_checkbox_label: Ich verstehe, dass diese Aktion nicht rückgängig gemacht werden kann.
       no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
       replace_caption: The selected workflow will be applied to all types and variants listed above.
       replace_label: Replace with workflow
@@ -8123,12 +8130,12 @@ de:
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.
-        label: Copy from
+        label: Kopieren von
         placeholder: Select a workflow…
       description:
         caption: Add a short description about where and how will this workflow be used.
         label: Beschreibung
-      edit_title: Edit workflow
+      edit_title: Workflow bearbeiten
       matrix_caption: Workflow-Matrix
       matrix_caption_assignee: Workflow-Matrix für Zugewiesene
       matrix_caption_author: Workflow-Matrix für den Autor
@@ -8203,7 +8210,7 @@ de:
         caption_html: The workflow %{name} is used in the following types and variants.
         title: Workflow used in types
         variant_of: Variante von %{type}
-        variant_of_html: Variant of %{type}
+        variant_of_html: Variante von %{type}
         variants: Varianten
       unused: No type or variant uses this workflow yet.
       used_by_types:

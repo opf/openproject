@@ -7171,6 +7171,12 @@ pl:
         Nie można zmienić żadnych atrybutów z wyjątkiem stanu.
         <br>
         <strong>Uwaga</strong>: wartości dziedziczone (np. po elementach podrzędnych lub relacjach) będą nadal stosowane.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        few: This status is used by %{count} workflows.
+        many: This status is used by %{count} workflows.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Nie można przenieść statusu.
       headers:
@@ -7180,6 +7186,11 @@ pl:
       no_results_content_text: Dodaj nowy status
       no_results_title_text: Nie ma aktualnie żadnych statusów Zestawu zadań.
       status_actions: Działania statusu
+      workflows_count:
+        one: "%{count} workflow"
+        few: "%{count} workflows"
+        many: "%{count} workflows"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: i

@@ -1114,10 +1114,6 @@ bg:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Таблица с атрибути от редове и колони на работен пакет.
-        text_inline_edit: Повечето клетки на тази таблица са бутони, които активират инлайн редактиране функционалност на този атрибут.
-        text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
-        text_sort_hint: С линковете в заглавията на колоните в таблицата можете да сортирате, преподреждате, премахвате и добавяте колони.
       table_configuration:
         button: Configure this work package table
         choose_display_mode: Display work packages as
