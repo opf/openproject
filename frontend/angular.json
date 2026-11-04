@@ -40,7 +40,12 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "sass",
             "assets": [
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "service-worker.js",
+                "input": "tmp/service-worker",
+                "output": "."
+              }
             ],
             "styles": [
               {

@@ -1,0 +1,60 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { spawn, spawnSync } from 'node:child_process';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const frontendDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const buildScript = path.join(frontendDir, 'scripts/build-service-worker.mjs');
+const ngBin = path.join(frontendDir, 'node_modules/@angular/cli/bin/ng.js');
+
+// The worker file must exist before Angular globs its assets, so it is built once up front.
+const initial = spawnSync(process.execPath, [buildScript, '--dev'], { stdio: 'inherit', cwd: frontendDir });
+if (initial.status !== 0) {
+  process.exit(initial.status ?? 1);
+}
+
+const children = [
+  spawn(process.execPath, [buildScript, '--dev', '--watch'], { stdio: 'inherit', cwd: frontendDir }),
+  spawn(process.execPath, [...process.execArgv, ngBin, 'serve', ...process.argv.slice(2)], {
+    stdio: 'inherit',
+    cwd: frontendDir,
+  }),
+];
+
+let exitCode;
+function shutdown(code) {
+  exitCode ??= code;
+  children.forEach((child) => child.kill('SIGTERM'));
+}
+
+['SIGINT', 'SIGTERM', 'SIGHUP'].forEach((signal) => process.on(signal, () => shutdown(0)));
+children.forEach((child) => child.on('exit', (code) => shutdown(code ?? 1)));
+children.forEach((child) => child.on('close', () => {
+  if (children.every((c) => c.exitCode !== null || c.signalCode !== null)) process.exit(exitCode ?? 0);
+}));
