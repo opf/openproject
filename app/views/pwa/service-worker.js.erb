@@ -279,13 +279,14 @@ class Digest {
  *
  * logout navigation ──► bump sign-out generation
  *                         ├─ clear now
- *                         └─ clear again after the queued push (it may have re-shown some)
+ *                         └─ push queued or running? clear again after it (it may have re-shown some)
  * summary fetched across a sign-out ► discarded, fallback
  * ```
  */
 class PushHandler {
   constructor() {
     this.queue = Promise.resolve();
+    this.pending = 0;
     this.signOutGeneration = 0;
     this.signOutPath = new URL(Config.urls.signOut, self.location.href).pathname;
   }
@@ -296,8 +297,9 @@ class PushHandler {
 
   signOut() {
     this.signOutGeneration += 1;
-    const queued = this.enqueue(() => this.clearForSignOut());
-    return Promise.all([this.clearForSignOut().catch(() => undefined), queued]);
+    const cleared = this.clearForSignOut().catch(() => undefined);
+    const clearedAfterPush = this.pending > 0 ? this.enqueue(() => this.clearForSignOut()) : undefined;
+    return Promise.all([cleared, clearedAfterPush]);
   }
 
   onPush(event) {
@@ -305,7 +307,15 @@ class PushHandler {
   }
 
   enqueue(task) {
-    this.queue = this.queue.then(task, task).catch(() => undefined);
+    this.pending += 1;
+    const run = async () => {
+      try {
+        await task();
+      } finally {
+        this.pending -= 1;
+      }
+    };
+    this.queue = this.queue.then(run, run).catch(() => undefined);
     return this.queue;
   }
 
