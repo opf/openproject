@@ -47,4 +47,20 @@ RSpec.describe ITSM do
       end
     end
   end
+
+  describe ".helpdesk_role" do
+    subject(:helpdesk_role) { described_class.helpdesk_role }
+
+    it "creates the help desk role when it does not exist yet" do
+      expect(helpdesk_role).to have_attributes(name: "Help desk", id: Setting.helpdesk_role_id)
+    end
+
+    context "when the role was deleted" do
+      before { described_class.helpdesk_role.destroy }
+
+      it "creates it again" do
+        expect(helpdesk_role).to be_persisted
+      end
+    end
+  end
 end

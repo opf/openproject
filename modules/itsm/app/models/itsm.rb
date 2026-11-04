@@ -38,5 +38,7 @@ module ITSM
       .result
   end
 
-  def self.helpdesk_role = ProjectRole.find_by(id: Setting.helpdesk_role_id)
+  def self.helpdesk_role
+    helpdesk_user && ProjectRole.find_by(id: Setting.helpdesk_role_id)
+  end
 end
