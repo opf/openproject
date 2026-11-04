@@ -348,6 +348,20 @@ module Settings
         writable: false,
         secret: true
       },
+      database_encryption_key: {
+        description: "Key for data that OpenProject encrypts in the database. Defaults to a key derived from SECRET_KEY_BASE",
+        format: :string,
+        default: nil,
+        writable: false,
+        secret: true
+      },
+      database_encryption_previous_key: {
+        description: "Previous encryption key or SECRET_KEY_BASE, used to decrypt data during key rotation",
+        format: :string,
+        default: nil,
+        writable: false,
+        secret: true
+      },
       date_format: {
         format: :string,
         default: nil,
