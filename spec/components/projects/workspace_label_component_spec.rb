@@ -34,15 +34,14 @@ RSpec.describe Projects::WorkspaceLabelComponent, type: :component do
     render_inline(described_class.new(...))
   end
 
-  let(:project) { build_stubbed(:project, workspace_type:) }
-  let(:workspace_type) { :project }
+  let(:type) { :project }
 
   subject(:rendered_component) do
-    render_component(project:)
+    render_component(type:)
   end
 
   context "when the workspace is a project" do
-    let(:workspace_type) { :project }
+    let(:type) { :project }
 
     it "renders the project label" do
       expect(rendered_component).to have_text "Project"
@@ -50,7 +49,7 @@ RSpec.describe Projects::WorkspaceLabelComponent, type: :component do
   end
 
   context "when the workspace is a program" do
-    let(:workspace_type) { :program }
+    let(:type) { :program }
 
     it "renders the program label" do
       expect(rendered_component).to have_text "Program"
@@ -58,7 +57,7 @@ RSpec.describe Projects::WorkspaceLabelComponent, type: :component do
   end
 
   context "when the workspace is a portfolio" do
-    let(:workspace_type) { :portfolio }
+    let(:type) { :portfolio }
 
     it "renders the portfolio label" do
       expect(rendered_component).to have_text "Portfolio"
@@ -71,7 +70,7 @@ RSpec.describe Projects::WorkspaceLabelComponent, type: :component do
 
   context "with system arguments" do
     subject(:rendered_component) do
-      render_component(project:, classes: "my-custom-class")
+      render_component(type:, classes: "my-custom-class")
     end
 
     it "forwards them to the wrapper" do

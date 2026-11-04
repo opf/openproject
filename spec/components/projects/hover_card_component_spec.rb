@@ -43,9 +43,11 @@ RSpec.describe Projects::HoverCardComponent, type: :component do
              grandparent => [:view_project],
              parent => [:view_project],
              project => [:view_project],
-             standalone_project => [:view_project]
+             standalone_project => [:view_project],
+             displayed_project => [:view_project]
            })
   end
+
   let(:displayed_project) { project }
 
   subject { described_class.new(project: displayed_project, user: current_user) }
@@ -61,7 +63,7 @@ RSpec.describe Projects::HoverCardComponent, type: :component do
   end
 
   it "renders the project name as a heading" do
-    expect(page).to have_css("h3", text: "Leaf project")
+    expect(page).to have_css("h2", text: "Leaf project")
   end
 
   it "renders the workspace label" do
@@ -84,6 +86,7 @@ RSpec.describe Projects::HoverCardComponent, type: :component do
 
   context "when the project is archived" do
     let(:displayed_project) { create(:project, active: false) }
+    let(:current_user) { create(:admin) }
 
     it "shows the archived label" do
       expect(page).to have_text(I18n.t("project.archive.archived"))

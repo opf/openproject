@@ -42,7 +42,7 @@ module Projects
     end
 
     def render?
-      @project&.visible?(@user)
+      @project.public? || @user.admin? || @user.access_to?(@project)
     end
 
     def breadcrumb_items
