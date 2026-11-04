@@ -7466,7 +7466,6 @@ en:
         tab: "Generate PDF"
         templates:
           readonly_error: "Cannot be changed while linked to a source type."
-          section_title: "PDF export templates"
           settings:
             edit_link: "Edit settings"
             reset_to_default: "Reset to default"
@@ -7619,7 +7618,7 @@ en:
           mode_label: "Configure this page manually"
           modes:
             copy:
-              caption: "Start with a one-time copy of the settings of the parent type"
+              caption: "Start with a one-time copy of the settings of the parent type."
               label: "Copy existing settings"
             default:
               caption: "Use the default settings for new types."
