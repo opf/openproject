@@ -32,52 +32,39 @@ require "services/base_services/behaves_like_update_service"
 
 RSpec.describe Projects::UpdateService do
   it_behaves_like "BaseServices update service" do
-    let!(:model_instance) do
-      build_stubbed(:project, :with_status)
+    let!(:model_instance) { build_stubbed(:project, :with_status) }
+
+    before do
+      allow(OpenProject::Notifications).to receive(:send)
+      allow(WorkPackage).to receive(:update_versions_from_hierarchy_change)
     end
 
     it "sends an update notification" do
-      expect(OpenProject::Notifications)
-        .to(receive(:send))
-        .with(OpenProject::Events::PROJECT_UPDATED, project: model_instance)
-
       subject
+      expect(OpenProject::Notifications).to have_received(:send)
+        .with(OpenProject::Events::PROJECT_UPDATED, project: model_instance)
     end
 
     context "if the identifier is altered" do
       let(:call_attributes) { { identifier: "Some identifier" } }
 
-      before do
-        allow(model_instance)
-          .to(receive(:changes))
-          .and_return("identifier" => %w(lorem ipsum))
-      end
+      before { allow(model_instance).to(receive(:changes)).and_return("identifier" => %w(lorem ipsum)) }
 
       it "sends the notification" do
-        expect(OpenProject::Notifications)
-          .to(receive(:send))
-          .with(OpenProject::Events::PROJECT_UPDATED, project: model_instance)
-        expect(OpenProject::Notifications)
-          .to(receive(:send))
-          .with(OpenProject::Events::PROJECT_RENAMED, project: model_instance)
-
         subject
+        expect(OpenProject::Notifications).to have_received(:send)
+          .with(OpenProject::Events::PROJECT_UPDATED, project: model_instance)
+        expect(OpenProject::Notifications).to have_received(:send)
+          .with(OpenProject::Events::PROJECT_RENAMED, project: model_instance)
       end
     end
 
     context "if the parent is altered" do
-      before do
-        allow(model_instance)
-          .to(receive(:changes))
-          .and_return("parent_id" => [nil, 5])
-      end
+      before { allow(model_instance).to(receive(:changes)).and_return("parent_id" => [nil, 5]) }
 
       it "updates the versions associated with the work packages" do
-        expect(WorkPackage)
-          .to(receive(:update_versions_from_hierarchy_change))
-          .with(model_instance)
-
         subject
+        expect(WorkPackage).to have_received(:update_versions_from_hierarchy_change).with(model_instance)
       end
     end
 
