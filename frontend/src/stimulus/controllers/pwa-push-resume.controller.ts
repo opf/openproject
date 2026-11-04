@@ -31,8 +31,10 @@ import { currentPushSubscription } from 'core-stimulus/helpers/push-subscription
 
 const ATTEMPTED_STORAGE_KEY = 'push-resume-attempted';
 const ATTEMPTED_SESSIONS_LIMIT = 5;
+const REQUEST_TIMEOUT_MS = 15000;
 
 let lastVisitAction:string|undefined;
+let sessionInFlight:string|undefined;
 
 document.addEventListener('turbo:visit', (event) => {
   lastVisitAction = (event as CustomEvent<{ action:string }>).detail.action;
@@ -40,13 +42,16 @@ document.addEventListener('turbo:visit', (event) => {
 
 /**
  * Re-registers this browser's push subscription with the server after a new
- * sign-in, once per session. A failed attempt is forgotten so the next page
- * load tries again; a gone answer means the server has nothing to resume, so it
- * is not retried.
+ * sign-in, once per session. A session is remembered once the server gave a
+ * definitive answer, such as ok or gone (nothing to resume); a transient
+ * failure (network error, timeout, 408, 429 or 5xx) is tried again on the next
+ * page load.
  *
- * It does not run on Turbo previews or restored history snapshots, because they
- * can carry a stale CSRF token and a CSRF failure resets the session. The
- * Browser notifications tab handles its own page.
+ * It does not run on Turbo previews, restored history snapshots or pages
+ * served from the back/forward cache, because they can carry a stale CSRF token
+ * and a CSRF failure resets the session. The page is checked again right before
+ * posting, since a snapshot can replace it while the subscription lookup is
+ * pending. The Browser notifications tab handles its own page.
  */
 export default class PwaPushResumeController extends Controller {
   static values = {
@@ -58,30 +63,48 @@ export default class PwaPushResumeController extends Controller {
   declare readonly sessionValue:string;
 
   connect():void {
-    if (document.documentElement.hasAttribute('data-turbo-preview')) return;
-    if (lastVisitAction === 'restore') return;
+    if (!this.pageIsFresh()) return;
     if (!this.pushAvailable()) return;
     if (document.querySelector('[data-controller~="my--push-subscription"]')) return;
-    if (this.alreadyAttempted()) return;
+    if (this.alreadyAttempted() || sessionInFlight === this.sessionValue) return;
 
-    this.markAttempted();
+    sessionInFlight = this.sessionValue;
     void this.resume();
   }
 
   private async resume():Promise<void> {
     try {
       const subscription = await currentPushSubscription();
-      if (!subscription) return;
+      if (!subscription || !this.pageIsFresh()) return;
 
       const response = await post(this.urlValue, {
         body: JSON.stringify({ push_endpoint: subscription.endpoint, resume: true }),
         contentType: 'application/json',
-        responseKind: 'turbo-stream',
+        responseKind: 'json',
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
       });
-      if (!response.ok && response.statusCode !== 410) this.unmarkAttempted();
+      if (this.definitiveAnswer(response.statusCode)) this.markAttempted();
     } catch {
-      this.unmarkAttempted();
+      return;
+    } finally {
+      sessionInFlight = undefined;
     }
+  }
+
+  private definitiveAnswer(status:number):boolean {
+    return status < 500 && status !== 408 && status !== 429;
+  }
+
+  private pageIsFresh():boolean {
+    return this.element.isConnected
+      && !document.documentElement.hasAttribute('data-turbo-preview')
+      && lastVisitAction !== 'restore'
+      && !(lastVisitAction === undefined && this.loadedFromHistory());
+  }
+
+  private loadedFromHistory():boolean {
+    const [navigation] = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[];
+    return navigation?.type === 'back_forward';
   }
 
   private pushAvailable():boolean {
@@ -98,10 +121,6 @@ export default class PwaPushResumeController extends Controller {
 
   private markAttempted():void {
     this.storeAttemptedSessions([this.sessionValue, ...this.attemptedSessions()].slice(0, ATTEMPTED_SESSIONS_LIMIT));
-  }
-
-  private unmarkAttempted():void {
-    this.storeAttemptedSessions(this.attemptedSessions().filter((entry) => entry !== this.sessionValue));
   }
 
   private storeAttemptedSessions(sessions:string[]):void {
