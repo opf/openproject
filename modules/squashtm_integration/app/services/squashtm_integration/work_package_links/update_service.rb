@@ -30,6 +30,26 @@
 module SquashTMIntegration
   module WorkPackageLinks
     class UpdateService < ::BaseServices::Update
+      include Journalizable
+
+      protected
+
+      def after_perform(service_call)
+        journalize_replacement(service_call.result)
+
+        super
+      end
+
+      private
+
+      def journalize_replacement(link)
+        return unless link.saved_change_to_squashtm_requirement_id?
+
+        journalize(link.work_package, Journal::CausedBySquashTMRequirementUnlinked,
+                   link.squashtm_requirement_id_before_last_save, link.squashtm_requirement_name_before_last_save,
+                   link.squashtm_requirement_reference_before_last_save)
+        journalize_linked(link)
+      end
     end
   end
 end

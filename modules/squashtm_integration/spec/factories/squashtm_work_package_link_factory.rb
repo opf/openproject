@@ -32,5 +32,6 @@ FactoryBot.define do
     work_package
     squashtm_requirement_id { 1 }
     squashtm_requirement_name { "Users can sign in" }
+    squashtm_requirement_reference { "REQ-001" }
   end
 end

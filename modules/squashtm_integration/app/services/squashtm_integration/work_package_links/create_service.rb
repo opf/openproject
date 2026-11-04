@@ -30,6 +30,8 @@
 module SquashTMIntegration
   module WorkPackageLinks
     class CreateService < ::BaseServices::Create
+      include Journalizable
+
       protected
 
       def persist(service_result)
@@ -39,6 +41,12 @@ module SquashTMIntegration
         service_result.errors = service_result.result.errors
         service_result.success = false
         service_result
+      end
+
+      def after_perform(service_call)
+        journalize_linked(service_call.result)
+
+        super
       end
     end
   end

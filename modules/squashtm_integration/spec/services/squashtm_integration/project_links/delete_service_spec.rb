@@ -51,6 +51,18 @@ RSpec.describe SquashTMIntegration::ProjectLinks::DeleteService do
   context "when removing the work package links" do
     let(:params) { { unlink_work_packages: true } }
 
+    it "journals the unlinked requirement on the work package, but not on other projects" do
+      result
+
+      expect(work_package_link.work_package.journals.last.cause).to include(
+        "type" => "squashtm_requirement_unlinked",
+        "squashtm_requirement_id" => work_package_link.squashtm_requirement_id,
+        "squashtm_requirement_name" => work_package_link.squashtm_requirement_name,
+        "squashtm_requirement_reference" => work_package_link.squashtm_requirement_reference
+      )
+      expect(other_project_work_package_link.work_package.journals.last.cause).to be_blank
+    end
+
     it "unlinks the project and its work packages but leaves other projects alone" do
       expect(result).to be_success
       expect(SquashTMIntegration::ProjectLink).not_to exist(project_link.id)

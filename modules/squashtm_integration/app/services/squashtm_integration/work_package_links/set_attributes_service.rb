@@ -42,7 +42,10 @@ module SquashTMIntegration
         return unless project_linked?
 
         requirement = Client.for(Server.first).requirement(model.squashtm_requirement_id)
-        model.change_by_system { model.squashtm_requirement_name = requirement.fetch("name") }
+        model.change_by_system do
+          model.squashtm_requirement_name = requirement.fetch("name")
+          model.squashtm_requirement_reference = requirement.dig("current_version", "reference").presence
+        end
       rescue Client::Error, KeyError
         nil
       end

@@ -33,6 +33,7 @@ class CreateSquashTMWorkPackageLinks < ActiveRecord::Migration[8.1]
       t.references :work_package, null: false, foreign_key: { on_delete: :cascade }, index: { unique: true }
       t.bigint :squashtm_requirement_id, null: false, index: true
       t.string :squashtm_requirement_name, null: false
+      t.string :squashtm_requirement_reference
 
       t.timestamps
     end

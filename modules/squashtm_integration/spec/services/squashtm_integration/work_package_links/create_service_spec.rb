@@ -36,7 +36,9 @@ RSpec.describe SquashTMIntegration::WorkPackageLinks::CreateService do
   let(:permissions) { %i[view_work_packages view_squashtm_test_results manage_squashtm_links] }
   let(:user) { create(:user, member_with_permissions: { project => permissions }) }
   let(:client) { instance_double(SquashTMIntegration::Client) }
-  let(:requirement) { { "id" => 11, "name" => "Users can sign in", "project" => { "id" => 1 } } }
+  let(:requirement) do
+    { "id" => 11, "name" => "Users can sign in", "current_version" => { "reference" => "REQ-001" }, "project" => { "id" => 1 } }
+  end
 
   subject(:result) { described_class.new(user:).call(work_package:, squashtm_requirement_id: "11") }
 
@@ -54,7 +56,31 @@ RSpec.describe SquashTMIntegration::WorkPackageLinks::CreateService do
     it "links the work package and caches the requirement name" do
       expect(result).to be_success
       expect(result.result).to have_attributes(work_package:, squashtm_requirement_id: 11,
-                                               squashtm_requirement_name: "Users can sign in")
+                                               squashtm_requirement_name: "Users can sign in",
+                                               squashtm_requirement_reference: "REQ-001")
+    end
+
+    it "journals the linked requirement on the work package" do
+      result
+
+      expect(work_package.journals.last.cause).to include(
+        "type" => "squashtm_requirement_linked",
+        "squashtm_requirement_id" => 11,
+        "squashtm_requirement_name" => "Users can sign in",
+        "squashtm_requirement_reference" => "REQ-001"
+      )
+    end
+
+    it "stores no reference when SquashTM does not provide one" do
+      requirement.delete("current_version")
+
+      expect(result.result.squashtm_requirement_reference).to be_nil
+    end
+
+    it "does not journal a rejected link" do
+      requirement["project"]["id"] = 2
+
+      expect { result }.not_to change { work_package.journals.count }
     end
 
     it "allows several work packages to link the same requirement" do

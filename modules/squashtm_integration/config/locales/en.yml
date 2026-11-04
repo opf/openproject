@@ -46,6 +46,14 @@ en:
               squashtm_requirement_unavailable: "The SquashTM requirement %{squashtm_requirement_id} could not be verified because the SquashTM server is not reachable. Please try again later."
               squashtm_server_not_configured: "No SquashTM server is configured. Please contact your instance administrator."
               work_package_already_linked: "The work package is already linked to a SquashTM requirement."
+  journals:
+    cause_descriptions:
+      squashtm_requirement: "%{name}"
+      squashtm_requirement_id_only: "ID %{id}"
+      squashtm_requirement_with_reference: "%{reference} – %{name}"
+    caused_changes:
+      squashtm_requirement_linked: "SquashTM requirement linked:"
+      squashtm_requirement_unlinked: "SquashTM requirement unlinked:"
   permission_manage_squashtm_integration: "Manage SquashTM integration"
   permission_manage_squashtm_links: "Manage SquashTM requirement links"
   permission_view_squashtm_test_results: "View SquashTM test results"

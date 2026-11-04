@@ -30,6 +30,15 @@
 module SquashTMIntegration
   module WorkPackageLinks
     class DeleteService < ::BaseServices::Delete
+      include Journalizable
+
+      protected
+
+      def after_perform(service_call)
+        journalize_unlinked(service_call.result)
+
+        super
+      end
     end
   end
 end
