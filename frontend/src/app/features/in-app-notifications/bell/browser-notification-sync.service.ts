@@ -31,8 +31,6 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { getMetaValue } from 'core-app/core/setup/globals/global-helpers';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 
-const TAG_PREFIX = 'openproject-';
-
 type WorkerMessage = { type:'reconcile' }|{ type:'account'; userId:string };
 
 @Injectable({ providedIn: 'root' })
@@ -46,7 +44,7 @@ export class BrowserNotificationSyncService {
     }
 
     if (getMetaValue('current_user', 'loggedIn') !== 'true') {
-      void this.closeAll().catch(() => undefined);
+      this.requestReconcile();
       return;
     }
 
@@ -57,9 +55,7 @@ export class BrowserNotificationSyncService {
 
     this.ianBell.loadedUnread$
       .pipe(filter((count) => count >= 0))
-      .subscribe(() => {
-        void this.post({ type: 'reconcile' }).catch(() => undefined);
-      });
+      .subscribe(() => this.requestReconcile());
   }
 
   private get available():boolean {
@@ -74,6 +70,10 @@ export class BrowserNotificationSyncService {
     return this.configuration.activeFeatureFlags.includes('progressiveWebApp');
   }
 
+  private requestReconcile():void {
+    void this.post({ type: 'reconcile' }).catch(() => undefined);
+  }
+
   private async post(message:WorkerMessage):Promise<void> {
     if (!this.permitted) {
       return;
@@ -81,19 +81,5 @@ export class BrowserNotificationSyncService {
 
     const registration = await navigator.serviceWorker.ready;
     registration.active?.postMessage(message);
-  }
-
-  private async closeAll():Promise<void> {
-    if (!this.permitted) {
-      return;
-    }
-
-    const registration = await navigator.serviceWorker.getRegistration();
-    if (registration) {
-      const notifications = await registration.getNotifications();
-      notifications
-        .filter((notification) => notification.tag.startsWith(TAG_PREFIX))
-        .forEach((notification) => notification.close());
-    }
   }
 }

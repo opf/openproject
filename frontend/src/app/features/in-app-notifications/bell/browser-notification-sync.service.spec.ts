@@ -33,19 +33,15 @@ import { BrowserNotificationSyncService } from 'core-app/features/in-app-notific
 
 describe('BrowserNotificationSyncService', () => {
   let loadedUnread$:Subject<number>;
-  let getNotifications:ReturnType<typeof vi.fn>;
-  let getRegistration:ReturnType<typeof vi.fn>;
   let postMessage:ReturnType<typeof vi.fn>;
   let meta:HTMLMetaElement;
-
-  const notification = (tag:string) => ({ tag, close: vi.fn() });
 
   const setup = ({ permission = 'granted', loggedIn = 'true', flags = ['progressiveWebApp'] }:{ permission?:string; loggedIn?:string; flags?:string[] } = {}) => {
     meta.dataset.loggedIn = loggedIn;
     vi.stubGlobal('Notification', { permission });
     Object.defineProperty(navigator, 'serviceWorker', {
       configurable: true,
-      value: { getRegistration, ready: Promise.resolve({ active: { postMessage } }) },
+      value: { ready: Promise.resolve({ active: { postMessage } }) },
     });
 
     TestBed.configureTestingModule({
@@ -62,8 +58,6 @@ describe('BrowserNotificationSyncService', () => {
 
   beforeEach(() => {
     loadedUnread$ = new Subject<number>();
-    getNotifications = vi.fn();
-    getRegistration = vi.fn().mockResolvedValue({ getNotifications });
     postMessage = vi.fn();
     meta = document.createElement('meta');
     meta.name = 'current_user';
@@ -104,18 +98,14 @@ describe('BrowserNotificationSyncService', () => {
     expect(postMessage).not.toHaveBeenCalledWith({ type: 'reconcile' });
   });
 
-  it('closes every notification and stays quiet when signed out', async () => {
-    const open = [notification('openproject-1-wp-1'), notification('openproject-more'), notification('other-app')];
-    getNotifications.mockResolvedValue(open);
+  it('asks the worker to reconcile once when signed out and sends no account', async () => {
     setup({ loggedIn: 'false' }).initialize();
 
     loadedUnread$.next(3);
     await flush();
 
-    expect(open[0].close).toHaveBeenCalled();
-    expect(open[1].close).toHaveBeenCalled();
-    expect(open[2].close).not.toHaveBeenCalled();
-    expect(postMessage).not.toHaveBeenCalled();
+    expect(postMessage).toHaveBeenCalledTimes(1);
+    expect(postMessage).toHaveBeenCalledWith({ type: 'reconcile' });
   });
 
   it('stays inert without notification permission', async () => {
@@ -125,7 +115,6 @@ describe('BrowserNotificationSyncService', () => {
     await flush();
 
     expect(postMessage).not.toHaveBeenCalled();
-    expect(getRegistration).not.toHaveBeenCalled();
   });
 
   it('stays inert when the feature flag is off', async () => {
