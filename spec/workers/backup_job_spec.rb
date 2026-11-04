@@ -154,8 +154,10 @@ RSpec.describe BackupJob, type: :model do
 
       let!(:attachment) { create(:attachment) }
       let!(:pending_direct_upload) { create(:pending_direct_upload) }
+      let!(:custom_style) { create(:custom_style_with_logo) }
       let(:stored_backup) { Attachment.where(container_type: "Export").last }
       let(:backup_files) { Zip::File.open(stored_backup.file.path) { |zip| zip.entries.map(&:name) } }
+      let(:backed_up_logo) { "custom_style/logo/#{custom_style.id}/#{custom_style[:logo]}" }
 
       def backed_up_attachment(attachment)
         "attachment/file/#{attachment.id}/#{attachment.filename}"
@@ -183,6 +185,16 @@ RSpec.describe BackupJob, type: :model do
 
       it "does not leave the temporary archive behind" do
         expect(File.exist?("/tmp/openproject.zip")).to be false
+      end
+
+      it "includes the custom style files in the backup" do
+        Zip::File.open(stored_backup.file.path) do |zip|
+          expect(zip.read(backed_up_logo)).to eq File.binread(custom_style.logo.local_file.path)
+        end
+      end
+
+      it "does not include empty custom style fields" do
+        expect(backup_files.grep(%r{\Acustom_style/})).to eq [backed_up_logo]
       end
 
       if opts[:include_attachments] == false

@@ -175,6 +175,7 @@ class BackupJob < ApplicationJob
         archive_attachment! zos, attachment
       end
 
+      archive_custom_styles! zos
       write_missing_attachments! zos
       write_to_archive! zos, "openproject.sql", db_dump_file_name
     end
@@ -229,13 +230,46 @@ class BackupJob < ApplicationJob
   end
 
   def archive_readable_attachment!(zos, attachment)
-    Tempfile.create(["backup-attachment-#{attachment.id}", ".bin"]) do |tmp|
+    archive_uploaded_file! zos, attachment.file, backup_attachment_entry_name(attachment)
+  end
+
+  def archive_uploaded_file!(zos, uploader, entry_name)
+    Tempfile.create(["backup-file", ".bin"]) do |tmp|
       tmp.binmode
-      attachment.file.stream_to(tmp)
+      uploader.stream_to(tmp)
       tmp.flush
 
-      write_to_archive! zos, backup_attachment_entry_name(attachment), tmp.path
+      write_to_archive! zos, entry_name, tmp.path
     end
+  end
+
+  def archive_custom_styles!(zos)
+    CustomStyle.find_each do |custom_style|
+      CustomStyle.uploaders.each_key do |field|
+        archive_custom_style_file! zos, custom_style, field
+      end
+    end
+  end
+
+  def archive_custom_style_file!(zos, custom_style, field)
+    uploader = custom_style.public_send(field)
+    return if uploader.blank?
+
+    unless uploader.readable?
+      return log_custom_style_error!(custom_style, field, "file not readable")
+    end
+
+    archive_uploaded_file! zos, uploader, backup_custom_style_entry_name(custom_style, field)
+  rescue StandardError => e
+    log_custom_style_error!(custom_style, field, e.message)
+  end
+
+  def backup_custom_style_entry_name(custom_style, field)
+    "custom_style/#{field}/#{custom_style.id}/#{custom_style[field]}"
+  end
+
+  def log_custom_style_error!(custom_style, field, message)
+    Rails.logger.error { "Failed to access custom style #{custom_style.id} #{field} for backup: #{message}" }
   end
 
   def backup_attachment_entry_name(attachment)
