@@ -317,7 +317,8 @@ export default class PushSubscriptionController extends Controller {
 
   private async revokeOnServer(known:KnownSubscription, { silent = false } = {}):Promise<void> {
     const query = silent ? { silent: 'true' } : undefined;
-    assertOk(await destroy(known.revokeUrl, { responseKind: 'turbo-stream', query }));
+    const response = await destroy(known.revokeUrl, { responseKind: 'turbo-stream', query });
+    if (response.statusCode !== 404) assertOk(response);
   }
 
   private async forget(subscription:PushSubscription|null|undefined):Promise<void> {

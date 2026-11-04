@@ -510,6 +510,17 @@ describe('PushSubscriptionController', () => {
     expect(unsubscribe).not.toHaveBeenCalled();
   });
 
+  it('unsubscribes and shows the disabled state when the row was already revoked elsewhere', async () => {
+    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe, options: currentKey });
+    fetchMock.mockImplementation(() => Promise.resolve(new Response('', { status: 404 })));
+    await mount();
+    disableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.disabled));
+    expect(unsubscribe).toHaveBeenCalled();
+    expectOnlyBanner('warning');
+  });
+
   it('sends no request when the current subscription has no known revoke url', async () => {
     getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe, options: currentKey });
     await mount();
