@@ -26,22 +26,23 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% if @server.nil? %>
+<% case state %>
+<% when :server_not_configured %>
   <%=
     render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert, mb: 3, test_selector: "squashtm--no-server")) do
       t(".server_not_configured")
     end
   %>
-<% elsif @squashtm_projects.nil? %>
+<% when :projects_unavailable %>
   <%=
     render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop, mb: 3, test_selector: "squashtm--projects-unavailable")) do
       t(".projects_unavailable")
     end
   %>
-<% else %>
+<% when :linked_project_missing %>
   <%=
     render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert, mb: 3, test_selector: "squashtm--linked-project-missing")) do
-      t(".linked_project_missing", name: @project_link.squashtm_project_name_in_database)
+      t(".linked_project_missing", name: @project_link.stored_squashtm_project_name)
     end
   %>
 <% end %>

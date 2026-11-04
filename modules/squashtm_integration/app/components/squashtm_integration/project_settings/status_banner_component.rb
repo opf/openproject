@@ -30,6 +30,11 @@
 module SquashTMIntegration
   module ProjectSettings
     class StatusBannerComponent < ApplicationComponent
+      # @param server [SquashTMIntegration::Server, nil] The SquashTM server configured in OpenProject.
+      # @param project_link [SquashTMIntegration::ProjectLink] The link between this OpenProject project and a SquashTM
+      #   project.
+      # @param squashtm_projects [Array<Hash>, nil] The projects fetched from SquashTM (+id+ and +name+) that the
+      #   configured access token can see, or nil if SquashTM is not available.
       def initialize(server:, project_link:, squashtm_projects:)
         super()
         @server = server
@@ -37,15 +42,29 @@ module SquashTMIntegration
         @squashtm_projects = squashtm_projects
       end
 
+      # Whether there is anything to report. Renders nothing while the link is healthy.
       def render?
-        @server.nil? || @squashtm_projects.nil? || linked_project_missing?
+        state.present?
       end
 
       private
 
-      def linked_project_missing?
-        @project_link.persisted? &&
-          @squashtm_projects.none? { |squashtm_project| squashtm_project[:id] == @project_link.squashtm_project_id_in_database }
+      # @return [Symbol, nil] The first problem found, in this order: no server configured in OpenProject, SquashTM
+      #   unreachable (no project list), or the linked project missing from SquashTM's list.
+      def state
+        if @server.nil?
+          :server_not_configured
+        elsif @squashtm_projects.nil?
+          :projects_unavailable
+        elsif linked_project_missing_in_squashtm?
+          :linked_project_missing
+        end
+      end
+
+      # Compares against the stored id, since a failed update leaves the rejected project in memory. The list only holds
+      # the projects visible to the SquashTM account of OpenProject, so this is also true after that account lost access.
+      def linked_project_missing_in_squashtm?
+        @project_link.persisted? && @squashtm_projects.pluck(:id).exclude?(@project_link.stored_squashtm_project_id)
       end
     end
   end
