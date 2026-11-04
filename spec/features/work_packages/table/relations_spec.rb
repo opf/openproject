@@ -64,12 +64,12 @@ RSpec.describe "Work Package table child relations",
 
     wp_table.press_keys(:enter)
     expect(wp_table.row(parent))
-      .to have_button(accessible_name: "Relations in Children for ##{parent.id}", aria: { expanded: true }, count: 1)
+      .to have_button(accessible_name: "Relations in Children for #{parent.formatted_id}", aria: { expanded: true }, count: 1)
     wp_table.expect_focus_on_cell(parent, :relationChild)
 
     wp_table.press_keys(:enter)
     expect(wp_table.row(parent))
-      .to have_button(accessible_name: "Relations in Children for ##{parent.id}", aria: { expanded: false }, count: 1)
+      .to have_button(accessible_name: "Relations in Children for #{parent.formatted_id}", aria: { expanded: false }, count: 1)
     wp_table.expect_focus_on_cell(parent, :relationChild)
   end
 
@@ -81,7 +81,7 @@ RSpec.describe "Work Package table child relations",
 
     wp_table.press_keys(:tab)
     expect(wp_table.row(parent))
-      .to have_button(accessible_name: "Relations in Children for ##{parent.id}", focused: true)
+      .to have_button(accessible_name: "Relations in Children for #{parent.formatted_id}", focused: true)
     wp_table.press_keys(:tab)
     wp_table.expect_focus_on_control(parent, "Open details view")
   end

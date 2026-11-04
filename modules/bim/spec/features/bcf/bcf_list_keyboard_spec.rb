@@ -74,7 +74,7 @@ RSpec.describe "BCF list keyboard navigation", :js, with_config: { edition: "bim
   end
 
   it_behaves_like "an embedded keyboard table", editable: true do
-    let(:first_row_controls) { [rows.first.id.to_s, "Open details view", "Open context menu"] }
+    let(:first_row_controls) { [rows.first.display_id.to_s, "Open details view", "Open context menu"] }
     let(:next_control) { { role: :button, name: "Create new work package" } }
     let(:context_menu_enabled) { true }
     let(:axe_states) do
@@ -93,7 +93,7 @@ RSpec.describe "BCF list keyboard navigation", :js, with_config: { edition: "bim
     let(:view_name) { "Viewer and table" }
 
     it_behaves_like "an embedded keyboard table", editable: true, letter_shortcuts: false do
-      let(:first_row_controls) { [rows.first.id.to_s, "Open details view", "Open context menu"] }
+      let(:first_row_controls) { [rows.first.display_id.to_s, "Open details view", "Open context menu"] }
       let(:next_control) { { role: :button, name: "Create new work package" } }
       let(:context_menu_enabled) { true }
     end
