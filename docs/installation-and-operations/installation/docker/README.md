@@ -665,7 +665,7 @@ We will show both possibilities later in the configuration.
 
 ### 3) Create stack
 
-To create a stack you need a stack file. The easiest way is to just copy OpenProject's [docker-compose.yml](https://github.com/opf/openproject/blob/stable/17/docker-compose.yml). Just download it and save it as, say, `openproject-stack.yml`.
+To create a stack you need a stack file. The easiest way is to just copy OpenProject's [docker-compose.yml](https://github.com/opf/openproject-docker-compose/blob/stable/17/docker-compose.yml). Just download it and save it as, say, `openproject-stack.yml`.
 
 #### Configuring storage
 
@@ -687,17 +687,13 @@ x-op-app: &app
   environment:
     # ...
   volumes:
-    - "opdata:/var/openproject/assets"
+    - "${OPDATA:-opdata}:/var/openproject/assets"
   depends_on:
     # ...
 ```
 
-As you can see it already mounts a local directory by default.
-You can either change this to a path in your mounted NFS folder or just create a symlink:
-
-```shell
-ln -s /mnt/openproject/assets /var/openproject/assets
-```
+It mounts a local, named docker volume by default.
+You could simply change `$OPDATA` to a path in your mounted NFS folder.
 
 ###### AWS S3
 
@@ -752,8 +748,9 @@ x-op-app: &app
   environment:
     # ...
   volumes:
-    - "pgdata:/mnt/openproject/pgdata"
-    - "opdata:/mnt/openproject/assets"
+    # where /mnt/openproject is the shared NFS mount
+    - "/mnt/openproject/pgdata:/var/openproject/pgdata"
+    - "/mnt/openproject/assets:/var/openproject/assets"
   depends_on:
     # ...
 ```
