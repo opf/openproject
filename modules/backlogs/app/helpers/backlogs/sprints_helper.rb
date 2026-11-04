@@ -52,7 +52,7 @@ module Backlogs
       query_props = {
         f: [{ n: "sprintId", o: "=", v: [sprint.id.to_s] }] + extra_filters,
         t: "position:asc",
-        c: default_columns | ["sprint"],
+        c: default_columns | ["sprint", *estimation_column(project)],
         is: false
       }
       if timestamps.present?
