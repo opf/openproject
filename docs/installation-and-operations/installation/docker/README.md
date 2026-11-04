@@ -791,7 +791,7 @@ docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest
 qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/openproject:17
-cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:13
+cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:17
 uvtfnc9dnlbn        openproject_proxy    replicated          1/1                 openproject/openproject:17   *:8080->80/tcp
 g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/openproject:17
 canb3m7ilkjn        openproject_web      replicated          1/1                 openproject/openproject:17
@@ -834,7 +834,7 @@ docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest
 qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/openproject:17
-cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:10
+cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:17
 uvtfnc9dnlbn        openproject_proxy    replicated          2/2                 openproject/openproject:17   *:8080->80/tcp
 g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/openproject:17
 canb3m7ilkjn        openproject_web      replicated          6/6                 openproject/openproject:17
