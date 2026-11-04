@@ -26,6 +26,8 @@ get:
               "$ref": "../components/examples/views.yml"
       description: OK
       headers: {}
+    '400':
+      $ref: "../components/responses/invalid_query.yml"
   tags:
     - Views
   description: Returns a collection of Views. The collection can be filtered via

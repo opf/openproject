@@ -47,17 +47,18 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
 
     let(:breakdown) { instance_double(Sprints::WorkPackageBreakdown) }
     let(:planned) do
-      Sprints::WorkPackageBreakdown::Block.new(work_package_count: 5, story_points: 13)
+      Sprints::WorkPackageBreakdown::Block.new(work_package_count: 5, story_points: 13, estimated_hours: 20)
     end
     let(:changed) do
       Sprints::WorkPackageBreakdown::ChangeBlock.new(added_count: 4, removed_count: 1, added_story_points: 6,
-                                                     removed_story_points: 2)
+                                                     removed_story_points: 2, added_estimated_hours: 10,
+                                                     removed_estimated_hours: 4)
     end
     let(:completed) do
-      Sprints::WorkPackageBreakdown::Block.new(work_package_count: 3, story_points: 8)
+      Sprints::WorkPackageBreakdown::Block.new(work_package_count: 3, story_points: 8, estimated_hours: 12)
     end
     let(:unfinished) do
-      Sprints::WorkPackageBreakdown::Block.new(work_package_count: 2, story_points: 5)
+      Sprints::WorkPackageBreakdown::Block.new(work_package_count: 2, story_points: 5, estimated_hours: 28)
     end
 
     before do
@@ -107,18 +108,31 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       end
     end
 
-    context "when almost every work package is completed" do
-      let(:completed) { Sprints::WorkPackageBreakdown::Block.new(work_package_count: 199, story_points: 0) }
-      let(:unfinished) { Sprints::WorkPackageBreakdown::Block.new(work_package_count: 1, story_points: 0) }
+    context "when almost every work package is completed", with_flag: { project_settings_estimation_unit: true } do
+      before { project.estimation_unit = "none" }
+
+      let(:completed) do
+        Sprints::WorkPackageBreakdown::Block.new(work_package_count: 199, story_points: 0, estimated_hours: 0)
+      end
+      let(:unfinished) do
+        Sprints::WorkPackageBreakdown::Block.new(work_package_count: 1, story_points: 0, estimated_hours: 0)
+      end
 
       it "rounds the percentage down so an unfinished sprint never shows 100%" do
         expect(rendered_component).to have_text("99% (199 of 200 work packages)")
       end
     end
 
-    context "when only a tiny fraction of work packages is completed" do
-      let(:completed) { Sprints::WorkPackageBreakdown::Block.new(work_package_count: 1, story_points: 0) }
-      let(:unfinished) { Sprints::WorkPackageBreakdown::Block.new(work_package_count: 299, story_points: 0) }
+    context "when only a tiny fraction of work packages is completed",
+            with_flag: { project_settings_estimation_unit: true } do
+      before { project.estimation_unit = "none" }
+
+      let(:completed) do
+        Sprints::WorkPackageBreakdown::Block.new(work_package_count: 1, story_points: 0, estimated_hours: 0)
+      end
+      let(:unfinished) do
+        Sprints::WorkPackageBreakdown::Block.new(work_package_count: 299, story_points: 0, estimated_hours: 0)
+      end
 
       it "shows at least 1%" do
         expect(rendered_component).to have_text("1% (1 of 300 work packages)")
@@ -135,6 +149,130 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
 
       it "hides every block's 'View all' link" do
         expect(rendered_component).to have_no_text("View all")
+      end
+    end
+
+    context "when the project's estimation unit is time", with_flag: { project_settings_estimation_unit: true } do
+      before { project.estimation_unit = "time" }
+
+      it "shows estimated time instead of story points for each block" do
+        expect(rendered_component).to have_no_text("story points")
+        expect(rendered_component).to have_text(DurationConverter.output(20))
+        expect(rendered_component).to have_text(DurationConverter.output(12))
+        expect(rendered_component).to have_text(DurationConverter.output(28))
+        expect(rendered_component).to have_text(
+          "+#{DurationConverter.output(10)} / -#{DurationConverter.output(4)}", normalize_ws: true
+        )
+      end
+
+      it "bases the progress bar on the sums of estimated hours" do
+        expect(rendered_component.css(".Progress-item").first["style"]).to include("width: 30%")
+      end
+
+      it "summarizes the progress using the formatted duration next to the bar" do
+        expect(rendered_component).to have_text(
+          "30% (#{DurationConverter.output(12)} of #{DurationConverter.output(40)})"
+        )
+      end
+
+      context "when the duration format is set to days and hours", with_settings: { duration_format: "days_and_hours" } do
+        it "summarizes the progress in days and hours rather than a plain hour count" do
+          expect(rendered_component).to have_text("30% (1d 4h of 5d 0h)")
+        end
+      end
+
+      it "labels the progress bar as completed estimated time" do
+        expect(rendered_component).to have_css("[role='progressbar'][aria-label='Completed estimated time']")
+      end
+
+      context "when all estimated time is completed in fractional hours" do
+        let(:completed) do
+          Sprints::WorkPackageBreakdown::Block.new(work_package_count: 1, story_points: 0, estimated_hours: 10 / 60.0)
+        end
+        let(:unfinished) do
+          Sprints::WorkPackageBreakdown::Block.new(work_package_count: 0, story_points: 0, estimated_hours: 0)
+        end
+
+        it "shows 100%" do
+          expect(rendered_component.css(".Progress-item").first["style"]).to include("width: 100%")
+        end
+      end
+
+      context "when half of the estimated time is completed in fractional hours" do
+        let(:completed) do
+          Sprints::WorkPackageBreakdown::Block.new(work_package_count: 1, story_points: 0, estimated_hours: 5 / 60.0)
+        end
+        let(:unfinished) do
+          Sprints::WorkPackageBreakdown::Block.new(work_package_count: 1, story_points: 0, estimated_hours: 5 / 60.0)
+        end
+
+        it "shows 50%" do
+          expect(rendered_component.css(".Progress-item").first["style"]).to include("width: 50%")
+        end
+      end
+    end
+
+    context "when the project's estimation unit is none", with_flag: { project_settings_estimation_unit: true } do
+      before { project.estimation_unit = "none" }
+
+      it "shows only the work package counts, without story points or estimated time" do
+        expect(rendered_component).to have_no_text("story points")
+        expect(rendered_component).to have_text("5")
+        expect(rendered_component).to have_text("3")
+        expect(rendered_component).to have_text("2")
+      end
+
+      it "bases the progress bar on the work package counts" do
+        expect(rendered_component.css(".Progress-item").first["style"]).to include("width: 60%")
+      end
+
+      it "summarizes the progress in work packages next to the bar" do
+        expect(rendered_component).to have_text("60% (3 of 5 work packages)")
+      end
+
+      it "labels the progress bar as closed work packages" do
+        expect(rendered_component).to have_css("[role='progressbar'][aria-label='Closed work packages']")
+      end
+    end
+
+    context "when the estimation unit feature is inactive", with_flag: { project_settings_estimation_unit: false } do
+      it "bases the progress bar on the work package counts" do
+        expect(rendered_component.css(".Progress-item").first["style"]).to include("width: 60%")
+      end
+
+      it "summarizes the progress in work packages next to the bar" do
+        expect(rendered_component).to have_text("60% (3 of 5 work packages)")
+      end
+
+      it "labels the progress bar as closed work packages" do
+        expect(rendered_component).to have_css("[role='progressbar'][aria-label='Closed work packages']")
+      end
+
+      it "still shows story points for each block" do
+        expect(rendered_component).to have_text("13 story points")
+      end
+    end
+
+    context "when the project's estimation unit is story points",
+            with_flag: { project_settings_estimation_unit: true } do
+      before { project.estimation_unit = "story_points" }
+
+      it "bases the progress bar on the sums of story points" do
+        expect(rendered_component.css(".Progress-item").first["style"]).to include("width: 61%")
+      end
+
+      it "summarizes the progress in story points next to the bar" do
+        expect(rendered_component).to have_text("61% (8 of 13 story points)")
+      end
+
+      it "labels the progress bar as completed story points" do
+        expect(rendered_component).to have_css("[role='progressbar'][aria-label='Completed story points']")
+      end
+
+      it "separates the scope change in story points with the styled divider" do
+        scope_change = rendered_component.css(".op-wp-overview--blocks > div").find { it.text.include?("Scope change") }
+
+        expect(scope_change.css("span.color-fg-muted", text: "/").size).to eq(2)
       end
     end
   end

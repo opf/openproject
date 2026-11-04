@@ -2,20 +2,17 @@
   @if (mode === 'inactive') {
     <tr
       class="wp-inline-create-button-row hide-when-print"
-      [attr.role]="treegrid ? 'row' : null"
-      [attr.aria-level]="treegrid ? 1 : null"
       >
       <td
         [attr.colspan]="colspan"
         class="wp-inline-create-button-td"
-        [attr.role]="treegrid ? 'gridcell' : null"
         >
         @if (canAdd) {
           <button
             type="button"
             class="spot-link"
             [class.wp-inline-create--split-link]="hasReferenceClass"
-            [opAutofocus]="focus"
+            [opAutofocus]="focus && focusTarget === 'create'"
             (click)="handleAddRowClick()"
             [attr.aria-label]="text.create"
             aria-haspopup="true"
@@ -29,8 +26,9 @@
           <button
             type="button"
             class="spot-link wp-inline-create--split-link"
+            [opAutofocus]="focus && focusTarget === 'reference'"
             (click)="handleReferenceClick()"
-            [attr.aria-label]="text.create"
+            [attr.aria-label]="text.reference"
             aria-haspopup="true"
             data-test-selector="op-wp-inline-create-reference"
             >
@@ -44,13 +42,10 @@
   @if (hasReferenceClass && mode === 'reference') {
     <tr
       class="wp-inline-create-button-row hide-when-print"
-      [attr.role]="treegrid ? 'row' : null"
-      [attr.aria-level]="treegrid ? 1 : null"
       >
       <td
         [attr.colspan]="colspan"
         class="wp-inline-reference-row-td -no-highlighting"
-        [attr.role]="treegrid ? 'gridcell' : null"
         >
         <ng-container *ngComponentOutlet="referenceClass; injector: injector" />
       </td>

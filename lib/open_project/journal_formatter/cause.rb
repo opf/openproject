@@ -106,6 +106,8 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
       total_percent_complete_mode_changed_to_simple_average_message
     when "import"
       import_message
+    when "label_deleted"
+      label_deleted_message
     when "work_package_parent_deleted"
       I18n.t("journals.cause_descriptions.work_package_parent_deleted")
     else
@@ -131,6 +133,15 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
       end
     message = I18n.t("journals.cause_descriptions.system_update.#{feature}", **options)
     html? ? message : Sanitize.fragment(message)
+  end
+
+  def label_deleted_message
+    names = cause["label_names"]
+    return if names.blank?
+
+    label_names = names.map { |name| "'#{html? ? h(name) : name}'" }.join(", ")
+
+    I18n.t("journals.cause_descriptions.label_deleted", count: names.size, label_names:)
   end
 
   def working_days_changed_message(changed_dates)

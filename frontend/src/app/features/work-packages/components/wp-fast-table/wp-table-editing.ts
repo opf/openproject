@@ -30,10 +30,23 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
-import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { TableEditForm } from 'core-app/features/work-packages/components/wp-edit-form/table-edit-form';
 import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { insideGrid } from './handlers/state/keyboard/roving-tabindex';
+
+export interface ActiveTableField {
+  form:TableEditForm;
+  handler:EditFieldHandler;
+}
+
+let nextTableEditorOwner = 0;
+
+function tableEditorOwnerId():string {
+  nextTableEditorOwner += 1;
+  return `wp-table-${nextTableEditorOwner}`;
+}
 
 export class WorkPackageTableEditingContext {
   @LazyInject() public halEditing:HalResourceEditingService;
@@ -43,6 +56,38 @@ export class WorkPackageTableEditingContext {
   }
 
   public forms:Record<string, TableEditForm> = {};
+
+  public readonly ownerId = tableEditorOwnerId();
+
+  public activeTableFields():ActiveTableField[] {
+    return Object.values(this.forms).flatMap((form) =>
+      Object.values(form.activeFields).map((handler) => ({ form, handler })));
+  }
+
+  public activeGridFields():ActiveTableField[] {
+    return this.activeTableFields().filter(({ handler }) => insideGrid(this.table.scrollContainer, handler.element ?? null));
+  }
+
+  public fieldForCell(cell:HTMLElement):ActiveTableField|null {
+    return this.activeGridFields().find(({ handler }) => cell.contains(handler.element ?? null)) ?? null;
+  }
+
+  public fieldOwning(node:Node|null):ActiveTableField|null {
+    return this.activeTableFields().find(({ handler }) => handler.owns(node)) ?? null;
+  }
+
+  public gridFieldOwning(node:Node|null):ActiveTableField|null {
+    return this.activeGridFields().find(({ handler }) => handler.owns(node)) ?? null;
+  }
+
+  public owns(node:Node|null):boolean {
+    return this.fieldOwning(node) !== null;
+  }
+
+  public markOverlay(overlay:HTMLElement):void {
+    overlay.dataset.wpTableEditor = this.ownerId;
+    this.table.keyboardNavigation?.adoptOverlay(overlay);
+  }
 
   public reset() {
     if (this.table.destroyed) {
@@ -71,7 +116,7 @@ export class WorkPackageTableEditingContext {
     }
   }
 
-  public startEditing(workPackage:WorkPackageResource, classIdentifier:string):EditForm {
+  public startEditing(workPackage:WorkPackageResource, classIdentifier:string):TableEditForm {
     const wpId = workPackage.id!;
     const existing = this.forms[wpId];
     if (existing) {

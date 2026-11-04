@@ -101,6 +101,9 @@ describe('WorkPackageIdDisplayField', () => {
 
       expect(link).toBeTruthy();
       expect(link!.textContent).toEqual('PROJ-7');
+      expect(link).toHaveAttribute('title', '');
+      expect(container.querySelector('tool-tip')).toBeNull();
+      expect(container.textContent).toBe('PROJ-7');
     });
 
     it('uses the semantic displayId in the href for pretty URLs', () => {
