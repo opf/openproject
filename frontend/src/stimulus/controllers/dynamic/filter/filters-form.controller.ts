@@ -598,7 +598,7 @@ export default class FiltersFormController extends Controller {
     const params = new URLSearchParams(window.location.search);
     const newFilters = this.buildFiltersParam(this.currentFilters());
 
-    if (newFilters === (this.sentFilters ?? params.get('filters') ?? '')) {
+    if (newFilters === this.requestedFilters()) {
       // Some fields may be triggered via the input event and the change event too.
       // This early return will prevent firing request when the filter params are not changed.
       return;
@@ -616,7 +616,6 @@ export default class FiltersFormController extends Controller {
     const search = params.toString();
     const url = `${pathName}${search ? `?${search}` : ''}`;
     const browserUrl = `${window.location.pathname}${search ? `?${search}` : ''}${window.location.hash}`;
-    this.sentFilters = newFilters;
 
     if (this.hasTurboFrameRequestValue) {
       // visit() snapshots the page for history; keep a previous request's indicator out of it.
@@ -636,10 +635,23 @@ export default class FiltersFormController extends Controller {
     }
   }
 
+  private requestedFilters():string {
+    // Check for in-flight stream requests
+    if (this.sentFilters !== null) return this.sentFilters;
+
+    // Check for in-flight frame requests, otherwise use the browser href.
+    const frame = this.turboFrame;
+    const requestedUrl = frame?.hasAttribute('busy') && frame.src ? frame.src : window.location.href;
+
+    return new URL(requestedUrl, window.location.href).searchParams.get('filters') ?? '';
+  }
+
   private async renderStreamResponse(url:string, newFilters:string, browserUrl:string) {
     this.streamAbortController?.abort();
     this.streamAbortController = new AbortController();
     const { signal } = this.streamAbortController;
+
+    this.sentFilters = newFilters;
 
     try {
       const response = await fetch(url, { signal, headers: { Accept: 'text/vnd.turbo-stream.html' } });

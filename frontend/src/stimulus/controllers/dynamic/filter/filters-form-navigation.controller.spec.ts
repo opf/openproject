@@ -197,9 +197,24 @@ describe('Filters form navigation', () => {
     expect(visit).not.toHaveBeenCalled();
   });
 
+  async function mountLoadingFrame() {
+    const controller = await mount(['page', 'all'], `
+      <turbo-frame id="backlogs_container" disabled></turbo-frame>
+      <div id="global-loading-indicator" hidden></div>
+    `);
+    const frame = ctx.container.querySelector<HTMLElement & { loaded:Promise<void> }>('#backlogs_container')!;
+    visit.mockImplementation((location) => {
+      frame.setAttribute('src', location);
+      frame.setAttribute('busy', '');
+      frame.loaded = new Promise(() => {});
+    });
+
+    return { controller, frame };
+  }
+
   it('navigates back to the applied filters while a newer visit is still loading', async () => {
     setUrl();
-    const controller = await mount(['page', 'all']);
+    const { controller } = await mountLoadingFrame();
 
     controller.currentFiltersValue = [{ subject: { operator: '~', values: ['mm'] } }];
     controller.sendForm();
@@ -241,7 +256,7 @@ describe('Filters form navigation', () => {
     `);
     const frame = ctx.container.querySelector<HTMLElement & { loaded:Promise<void> }>('#backlogs_container')!;
     const indicator = ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!;
-    let hiddenWhenVisiting:boolean|undefined;
+    let hiddenWhenVisiting:HTMLElement['hidden']|undefined;
     visit.mockImplementation(() => {
       hiddenWhenVisiting = indicator.hidden;
       frame.loaded = new Promise(() => {});
@@ -252,5 +267,34 @@ describe('Filters form navigation', () => {
 
     expect(hiddenWhenVisiting).toBe(true);
     expect(indicator).toBeVisible();
+  });
+
+  it('resends the same filters once a failed visit left the URL unchanged', async () => {
+    setUrl();
+    const { controller, frame } = await mountLoadingFrame();
+
+    controller.currentFiltersValue = [{ subject: { operator: '~', values: ['mm'] } }];
+    controller.sendForm();
+    controller.sendForm();
+    expect(visit).toHaveBeenCalledOnce();
+
+    frame.removeAttribute('busy');
+    controller.sendForm();
+
+    expect(visit).toHaveBeenCalledTimes(2);
+  });
+
+  it('does not resend the filters a finished visit has applied', async () => {
+    setUrl();
+    const { controller, frame } = await mountLoadingFrame();
+
+    controller.currentFiltersValue = [{ subject: { operator: '~', values: ['mm'] } }];
+    controller.sendForm();
+
+    frame.removeAttribute('busy');
+    setUrl('subject ~ "mm"');
+    controller.sendForm();
+
+    expect(visit).toHaveBeenCalledOnce();
   });
 });
