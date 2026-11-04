@@ -7,5 +7,5 @@
     "types": []
   },
   "include": ["src/service-worker/**/*.ts"],
-  "exclude": ["src/service-worker/**/*.spec.ts"]
+  "exclude": ["src/service-worker/**/*.spec.ts", "src/service-worker/**/*.spec.d.ts"]
 }
