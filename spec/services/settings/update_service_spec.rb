@@ -78,5 +78,29 @@ RSpec.describe Settings::UpdateService do
         include_examples "successful call"
       end
     end
+
+    context "with the web_push_enabled setting" do
+      let(:setting_name) { :web_push_enabled }
+      let(:setting_definition) { instance_double(Settings::Definition, secret?: false) }
+      let(:user) { create(:admin) }
+
+      before { create(:push_subscription) }
+
+      context "when it is switched off" do
+        let(:new_setting_value) { "0" }
+
+        it "deletes every push subscription" do
+          expect { subject }.to change(PushSubscription, :count).from(1).to(0)
+        end
+      end
+
+      context "when it is switched on" do
+        let(:new_setting_value) { "1" }
+
+        it "keeps the push subscriptions" do
+          expect { subject }.not_to change(PushSubscription, :count)
+        end
+      end
+    end
   end
 end

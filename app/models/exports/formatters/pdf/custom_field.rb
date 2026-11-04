@@ -33,7 +33,7 @@ module Exports
     module PDF
       class CustomField < ::Exports::Formatters::CustomField
         def self.apply?(attribute, export_format)
-          export_format == :pdf && attribute.start_with?("cf_")
+          export_format == :pdf && ::CustomField.column_name?(attribute)
         end
 
         def format_value(value, options)
