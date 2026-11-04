@@ -47,14 +47,35 @@ const children = [
   }),
 ];
 
+// Ctrl-C reaches both children and this runner at once, so an interrupt-style exit counts as a clean stop.
+const interruptCodes = new Set([130, 143]);
+const interruptSignals = new Set(['SIGINT', 'SIGTERM', 'SIGHUP']);
+const finished = new Set();
 let exitCode;
-function shutdown(code) {
-  exitCode ??= code;
+
+function stopAll() {
   children.forEach((child) => child.kill('SIGTERM'));
 }
 
-['SIGINT', 'SIGTERM', 'SIGHUP'].forEach((signal) => process.on(signal, () => shutdown(0)));
-children.forEach((child) => child.on('exit', (code) => shutdown(code ?? 1)));
-children.forEach((child) => child.on('close', () => {
-  if (children.every((c) => c.exitCode !== null || c.signalCode !== null)) process.exit(exitCode ?? 0);
+function settle(child, code) {
+  finished.add(child);
+  exitCode ??= code;
+  stopAll();
+  if (finished.size === children.length) process.exit(exitCode);
+}
+
+interruptSignals.forEach((signal) => process.on(signal, () => {
+  exitCode ??= 0;
+  stopAll();
 }));
+
+children.forEach((child) => {
+  child.on('error', (error) => {
+    console.error(error);
+    settle(child, 1);
+  });
+  child.on('exit', (code, signal) => {
+    const interrupted = interruptSignals.has(signal) || interruptCodes.has(code);
+    settle(child, interrupted ? 0 : (code ?? 1));
+  });
+});
