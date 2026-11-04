@@ -266,6 +266,23 @@ RSpec.describe "API v3 Recurring Meeting resource", content_type: :json do
         expect(last_response).to have_http_status(:ok)
         expect(ActionMailer::Base.deliveries.flat_map(&:to)).to include(invited_user.mail)
       end
+
+      context "with an instantiated upcoming occurrence" do
+        let!(:upcoming_occurrence) do
+          create(:recurring_meeting_occurrence, recurring_meeting:, start_time: recurring_meeting.start_time + 2.weeks)
+        end
+
+        before do
+          create(:meeting_participant, meeting: upcoming_occurrence, user: invited_user, invited: true)
+        end
+
+        it "cancels the occurrence under its title" do
+          perform_enqueued_jobs { response }
+
+          expect(ActionMailer::Base.deliveries.map(&:subject))
+            .to include(a_string_including(I18n.t("meeting.email.cancelled.header", title: upcoming_occurrence.title)))
+        end
+      end
     end
 
     context "without edit_meetings permission" do
