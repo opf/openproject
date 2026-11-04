@@ -340,7 +340,7 @@ class PushHandler {
     return Promise.race([navigation.catch(() => undefined), timeout]).finally(() => clearTimeout(timer));
   }
 
-  signOut(navigation = Promise.resolve()) {
+  signOut(navigation) {
     this.signOutGeneration += 1;
     this.signOutsInProgress += 1;
     const cleared = this.clearForSignOut().catch(() => undefined);
@@ -590,9 +590,8 @@ self.addEventListener("activate", (event) => {
 
 // Sign-out is detected on navigation because the worker is the only place that sees every logout, including SSO redirects.
 self.addEventListener("fetch", (event) => {
-  const { request } = event;
   const response = OfflinePage.respondTo(event);
-  if (request.mode === "navigate" && request.method === "GET" && pushHandler.isSignOut(request)) {
+  if (response && pushHandler.isSignOut(event.request)) {
     event.waitUntil(pushHandler.signOut(response));
   }
 });
