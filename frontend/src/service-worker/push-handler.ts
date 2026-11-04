@@ -28,7 +28,7 @@
 import { Badge } from './badge';
 import { Config } from './config';
 import { SIGN_OUT_TIMEOUT_MS } from './constants';
-import { Digest } from './digest';
+import { NotificationFingerprint } from './notification-fingerprint';
 import { NotificationPlan, type SummaryGroup, type SummaryMore } from './notification-plan';
 import { Notifications } from './notifications';
 import { PushState } from './push-state';
@@ -51,7 +51,7 @@ import { UnreadSummary } from './unread-summary';
  *                            ├─ empty ........ close and forget all, "all read", clear badge
  *                            └─ unread ....... set badge
  *                                              close notifications no longer listed
- *                                              digest groups ► plan ► show each item
+ *                                              fingerprint groups ► plan ► show each item
  *                                              save state
  *
  * any error on the way ► fallback
@@ -217,7 +217,7 @@ export class PushHandler {
     const { state, openTags } = await this.closeStale(summary);
     if (groups.length === 0) return Notifications.showFallback();
 
-    const plan = NotificationPlan.for({ ...(await Digest.addTo({ groups, more })), openTags, state });
+    const plan = NotificationPlan.for({ ...(await NotificationFingerprint.addTo({ groups, more })), openTags, state });
     for (const item of plan.show) await Notifications.show(item);
     await PushState.write(plan.state);
   }

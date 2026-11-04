@@ -25,22 +25,22 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { NotificationPlan, type DigestedGroup, type DigestedMore, type PushStateMap } from './notification-plan';
+import { NotificationPlan, type GroupWithFingerprint, type MoreWithFingerprint, type PushStateMap } from './notification-plan';
 import { Tags } from './constants';
 
 const tagOf = (id:number) => `openproject-wp-${id}`;
 
-const group = (id:number, at:number, digest = `digest-${id}`):DigestedGroup => ({
+const group = (id:number, at:number, fingerprint = `fingerprint-${id}`):GroupWithFingerprint => ({
   tag: tagOf(id),
   title: `Work package ${id}`,
   url: `/work_packages/${id}`,
   revision: `rev:${at}`,
-  digest,
+  fingerprint,
 });
 
-const more = (digest = 'more-digest'):DigestedMore => ({ title: '3 more', url: '/notifications', digest });
+const more = (fingerprint = 'more-fingerprint'):MoreWithFingerprint => ({ title: '3 more', url: '/notifications', fingerprint });
 
-const plan = (input:{ groups?:DigestedGroup[]; more?:DigestedMore; openTags?:string[]; state?:PushStateMap }) =>
+const plan = (input:{ groups?:GroupWithFingerprint[]; more?:MoreWithFingerprint; openTags?:string[]; state?:PushStateMap }) =>
   NotificationPlan.for({ groups: [], openTags: [], state: {}, ...input });
 
 const kinds = (result:ReturnType<typeof plan>) => result.show.map((item) => item.kind);
@@ -51,11 +51,11 @@ describe('NotificationPlan', () => {
       const result = plan({ groups: [group(1, 100)] });
 
       expect(kinds(result)).toEqual(['alert']);
-      expect(result.state[tagOf(1)]).toEqual({ digest: 'digest-1', at: 100 });
+      expect(result.state[tagOf(1)]).toEqual({ fingerprint: 'fingerprint-1', at: 100 });
     });
 
     it('alerts when the group has newer activity than last shown', () => {
-      const state = { [tagOf(1)]: { digest: 'old', at: 100 } };
+      const state = { [tagOf(1)]: { fingerprint: 'old', at: 100 } };
 
       const result = plan({ groups: [group(1, 200)], openTags: [tagOf(1)], state });
 
@@ -63,7 +63,7 @@ describe('NotificationPlan', () => {
     });
 
     it('refreshes silently when an open group changed without newer activity', () => {
-      const state = { [tagOf(1)]: { digest: 'old', at: 100 } };
+      const state = { [tagOf(1)]: { fingerprint: 'old', at: 100 } };
 
       const result = plan({ groups: [group(1, 100)], openTags: [tagOf(1)], state });
 
@@ -72,8 +72,8 @@ describe('NotificationPlan', () => {
 
     it('skips a dismissed group that has not changed', () => {
       const state = {
-        [tagOf(1)]: { digest: 'old', at: 200 },
-        [tagOf(2)]: { digest: 'digest-2', at: 100 },
+        [tagOf(1)]: { fingerprint: 'old', at: 200 },
+        [tagOf(2)]: { fingerprint: 'fingerprint-2', at: 100 },
       };
 
       const result = plan({ groups: [group(1, 200), group(2, 100)], openTags: [tagOf(1)], state });
@@ -82,7 +82,7 @@ describe('NotificationPlan', () => {
     });
 
     it('rebuilds silently when only the placeholder is open', () => {
-      const state = { [tagOf(1)]: { digest: 'digest-1', at: 100 } };
+      const state = { [tagOf(1)]: { fingerprint: 'fingerprint-1', at: 100 } };
 
       const result = plan({ groups: [group(1, 100)], openTags: [Tags.placeholder], state });
 
@@ -96,7 +96,7 @@ describe('NotificationPlan', () => {
     });
 
     it('never moves the stored activity time back', () => {
-      const state = { [tagOf(1)]: { digest: 'old', at: 300 } };
+      const state = { [tagOf(1)]: { fingerprint: 'old', at: 300 } };
 
       const result = plan({ groups: [group(1, 100)], openTags: [tagOf(1)], state });
 
@@ -110,7 +110,7 @@ describe('NotificationPlan', () => {
   });
 
   describe('when nothing qualifies', () => {
-    const state = { [tagOf(1)]: { digest: 'digest-1', at: 100 }, [tagOf(2)]: { digest: 'digest-2', at: 50 } };
+    const state = { [tagOf(1)]: { fingerprint: 'fingerprint-1', at: 100 }, [tagOf(2)]: { fingerprint: 'fingerprint-2', at: 50 } };
 
     it('refreshes the newest group when it is open', () => {
       const result = plan({ groups: [group(1, 100)], openTags: [tagOf(1), tagOf(2)], state });
@@ -126,14 +126,14 @@ describe('NotificationPlan', () => {
   });
 
   describe('overflow into the "more" notification', () => {
-    const stale = { [tagOf(2)]: { digest: 'digest-2', at: 50 } };
+    const stale = { [tagOf(2)]: { fingerprint: 'fingerprint-2', at: 50 } };
 
     it('remembers a group that dropped out of the list as evicted', () => {
       const result = plan({
         groups: [group(1, 100)], more: more(), openTags: [tagOf(1), tagOf(2), Tags.more], state: stale,
       });
 
-      expect(result.state[tagOf(2)]).toEqual({ digest: 'digest-2', at: 50, evicted: true });
+      expect(result.state[tagOf(2)]).toEqual({ fingerprint: 'fingerprint-2', at: 50, evicted: true });
     });
 
     it('does not remember a stale tag that never had activity recorded', () => {
@@ -143,7 +143,7 @@ describe('NotificationPlan', () => {
     });
 
     it('returns silently when an evicted group comes back without newer activity', () => {
-      const state = { [tagOf(1)]: { digest: 'digest-1', at: 100, evicted: true } };
+      const state = { [tagOf(1)]: { fingerprint: 'fingerprint-1', at: 100, evicted: true } };
 
       const result = plan({ groups: [group(1, 100)], openTags: [tagOf(2)], state });
 
@@ -151,7 +151,7 @@ describe('NotificationPlan', () => {
     });
 
     it('alerts when an evicted group comes back with newer activity', () => {
-      const state = { [tagOf(1)]: { digest: 'digest-1', at: 100, evicted: true } };
+      const state = { [tagOf(1)]: { fingerprint: 'fingerprint-1', at: 100, evicted: true } };
 
       const result = plan({ groups: [group(1, 200)], openTags: [tagOf(2)], state });
 
@@ -159,7 +159,7 @@ describe('NotificationPlan', () => {
     });
 
     it('shows the "more" notification when it is not open', () => {
-      const state = { ...stale, [Tags.more]: { digest: 'more-digest' } };
+      const state = { ...stale, [Tags.more]: { fingerprint: 'more-fingerprint' } };
 
       const result = plan({ groups: [group(1, 100)], more: more(), openTags: [tagOf(1)], state });
 
@@ -167,7 +167,7 @@ describe('NotificationPlan', () => {
     });
 
     it('does not reshow the "more" notification when it is open and unchanged', () => {
-      const state = { [Tags.more]: { digest: 'more-digest' } };
+      const state = { [Tags.more]: { fingerprint: 'more-fingerprint' } };
 
       const result = plan({ groups: [group(1, 100)], more: more(), openTags: [tagOf(1), Tags.more], state });
 
@@ -177,7 +177,7 @@ describe('NotificationPlan', () => {
     it('keeps the state of groups that are not in the current list', () => {
       const result = plan({ groups: [group(1, 100)], more: more(), state: stale });
 
-      expect(result.state[tagOf(2)]).toEqual({ digest: 'digest-2', at: 50 });
+      expect(result.state[tagOf(2)]).toEqual({ fingerprint: 'fingerprint-2', at: 50 });
     });
 
     it('shows only the "more" notification when there are no groups', () => {
@@ -205,8 +205,8 @@ describe('NotificationPlan', () => {
 
   describe('stateAfterClose', () => {
     const state = {
-      [tagOf(1)]: { digest: 'd1', at: 100 },
-      [tagOf(2)]: { digest: 'd2', at: 50 },
+      [tagOf(1)]: { fingerprint: 'd1', at: 100 },
+      [tagOf(2)]: { fingerprint: 'd2', at: 50 },
     };
 
     it('forgets the closed groups when nothing collapsed into "more"', () => {
@@ -220,7 +220,7 @@ describe('NotificationPlan', () => {
 
       expect(result).toEqual({
         [tagOf(1)]: state[tagOf(1)],
-        [tagOf(2)]: { digest: 'd2', at: 50, evicted: true },
+        [tagOf(2)]: { fingerprint: 'd2', at: 50, evicted: true },
       });
     });
   });

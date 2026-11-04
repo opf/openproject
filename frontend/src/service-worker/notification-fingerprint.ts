@@ -25,20 +25,26 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import type { DigestedGroup, DigestedMore, SummaryGroup, SummaryMore } from './notification-plan';
+import type { GroupWithFingerprint, MoreWithFingerprint, SummaryGroup, SummaryMore } from './notification-plan';
 
-export class Digest {
+/**
+ * Fingerprints what each notification shows, so the plan can tell whether an open notification
+ * is out of date. The fingerprint covers the activity revision, title and body; a change refreshes
+ * the notification silently, while only newer activity makes a sound.
+ */
+export class NotificationFingerprint {
   static async of(...parts:string[]):Promise<string> {
     const bytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(parts)));
     return Array.from(new Uint8Array(bytes), (byte) => byte.toString(16).padStart(2, '0')).join('');
   }
 
-  static async addTo({ groups, more }:{ groups:SummaryGroup[]; more?:SummaryMore }):Promise<{ groups:DigestedGroup[]; more?:DigestedMore }> {
-    const moreWithDigest = more && { ...more, digest: await Digest.of(more.title) };
-    const reversed:DigestedGroup[] = [];
-    for (const group of [...groups].reverse()) {
-      reversed.push({ ...group, digest: await Digest.of(group.revision, group.title, group.body ?? '') });
-    }
-    return { groups: reversed.reverse(), more: moreWithDigest };
+  static async addTo({ groups, more }:{ groups:SummaryGroup[]; more?:SummaryMore }):Promise<{ groups:GroupWithFingerprint[]; more?:MoreWithFingerprint }> {
+    return {
+      groups: await Promise.all(groups.map(async (group) => ({
+        ...group,
+        fingerprint: await NotificationFingerprint.of(group.revision, group.title, group.body ?? ''),
+      }))),
+      more: more && { ...more, fingerprint: await NotificationFingerprint.of(more.title) },
+    };
   }
 }

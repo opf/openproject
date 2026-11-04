@@ -27,7 +27,7 @@
 
 import { Config } from './config';
 import { Tags } from './constants';
-import type { DigestedGroup, DigestedMore, PlanItem } from './notification-plan';
+import type { GroupWithFingerprint, MoreWithFingerprint, PlanItem } from './notification-plan';
 import { sw } from './sw-global';
 
 /** Lists, closes and shows the worker's notifications; every tag carries the worker's prefix. */
@@ -62,7 +62,7 @@ export class Notifications {
     }
   }
 
-  static showGroup(group:DigestedGroup, flags:ShowOptions):Promise<void> {
+  static showGroup(group:GroupWithFingerprint, flags:ShowOptions):Promise<void> {
     return Notifications.display(group.title, {
       tag: group.tag,
       body: group.body,
@@ -71,7 +71,7 @@ export class Notifications {
     });
   }
 
-  static showMore(more:DigestedMore):Promise<void> {
+  static showMore(more:MoreWithFingerprint):Promise<void> {
     return Notifications.display(more.title, {
       tag: Tags.more,
       silent: true,

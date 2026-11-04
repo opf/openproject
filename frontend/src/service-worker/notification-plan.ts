@@ -40,16 +40,16 @@ export interface SummaryMore {
   url:string;
 }
 
-export interface DigestedGroup extends SummaryGroup {
-  digest:string;
+export interface GroupWithFingerprint extends SummaryGroup {
+  fingerprint:string;
 }
 
-export interface DigestedMore extends SummaryMore {
-  digest:string;
+export interface MoreWithFingerprint extends SummaryMore {
+  fingerprint:string;
 }
 
 export interface StateEntry {
-  digest?:string;
+  fingerprint?:string;
   at?:number;
   evicted?:boolean;
 }
@@ -57,8 +57,8 @@ export interface StateEntry {
 export type PushStateMap = Record<string, StateEntry>;
 
 export type PlanItem =
-  | { kind:'alert'|'refresh'; group:DigestedGroup }
-  | { kind:'more'; more:DigestedMore }
+  | { kind:'alert'|'refresh'; group:GroupWithFingerprint }
+  | { kind:'more'; more:MoreWithFingerprint }
   | { kind:'fallback' };
 
 export interface PlanResult {
@@ -102,10 +102,10 @@ export class NotificationPlan {
     return previous?.at === undefined || at > previous.at;
   }
 
-  static needsRefresh({ group, previous, openTags }:{ group:DigestedGroup; previous:StateEntry|undefined; openTags:string[] }):boolean {
+  static needsRefresh({ group, previous, openTags }:{ group:GroupWithFingerprint; previous:StateEntry|undefined; openTags:string[] }):boolean {
     const onlyPlaceholderOpen = openTags.every((tag) => tag === Tags.placeholder);
     return (
-      onlyPlaceholderOpen || !!previous?.evicted || (openTags.includes(group.tag) && previous?.digest !== group.digest)
+      onlyPlaceholderOpen || !!previous?.evicted || (openTags.includes(group.tag) && previous?.fingerprint !== group.fingerprint)
     );
   }
 
@@ -129,8 +129,8 @@ export class NotificationPlan {
   }
 
   static for({ groups, more, openTags, state }:{
-    groups:DigestedGroup[];
-    more?:DigestedMore;
+    groups:GroupWithFingerprint[];
+    more?:MoreWithFingerprint;
     openTags:string[];
     state:PushStateMap;
   }):PlanResult {
@@ -140,8 +140,8 @@ export class NotificationPlan {
 
     if (more) {
       Object.assign(nextState, NotificationPlan.evictedState(closeTags, state));
-      nextState[Tags.more] = { digest: more.digest };
-      if (state[Tags.more]?.digest !== more.digest || !openTags.includes(Tags.more)) {
+      nextState[Tags.more] = { fingerprint: more.fingerprint };
+      if (state[Tags.more]?.fingerprint !== more.fingerprint || !openTags.includes(Tags.more)) {
         show.push({ kind: 'more', more });
       }
     }
@@ -150,7 +150,7 @@ export class NotificationPlan {
     for (const group of [...groups].reverse()) {
       const previous:StateEntry|undefined = state[group.tag];
       const at = NotificationPlan.activityAt(group);
-      nextState[group.tag] = { digest: group.digest, at: Math.max(at, previous?.at ?? 0) };
+      nextState[group.tag] = { fingerprint: group.fingerprint, at: Math.max(at, previous?.at ?? 0) };
 
       if (NotificationPlan.isNewActivity(previous, at)) {
         show.push({ kind: 'alert', group });

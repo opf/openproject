@@ -30,7 +30,7 @@ import type { PushStateMap } from './notification-plan';
 
 /**
  * What the worker last showed, kept in the cache because the worker stops between pushes.
- * Per notification tag it remembers the content digest and the time of the latest activity.
+ * Per notification tag it remembers the content fingerprint and the time of the latest activity.
  */
 export class PushState {
   static get shownUrl():string {
