@@ -33,15 +33,24 @@ const frontendDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 const buildScript = path.join(frontendDir, 'scripts/build-service-worker.mjs');
 const ngBin = path.join(frontendDir, 'node_modules/@angular/cli/bin/ng.js');
 
+const commands = {
+  serve: { ng: ['serve'], worker: [] },
+  // Angular must keep the worker file in the output directory it writes to.
+  build: { ng: ['build', '--watch', '--no-delete-output-path'], worker: ['--outdir=../public/assets/frontend'] },
+};
+const [first, ...rest] = process.argv.slice(2);
+const [command, ngArgs] = first === 'build' ? ['build', rest] : ['serve', process.argv.slice(2)];
+const workerArgs = ['--dev', ...commands[command].worker];
+
 // The worker file must exist before Angular globs its assets, so it is built once up front.
-const initial = spawnSync(process.execPath, [buildScript, '--dev'], { stdio: 'inherit', cwd: frontendDir });
+const initial = spawnSync(process.execPath, [buildScript, ...workerArgs], { stdio: 'inherit', cwd: frontendDir });
 if (initial.status !== 0) {
   process.exit(initial.status ?? 1);
 }
 
 const children = [
-  spawn(process.execPath, [buildScript, '--dev', '--watch'], { stdio: 'inherit', cwd: frontendDir }),
-  spawn(process.execPath, [...process.execArgv, ngBin, 'serve', ...process.argv.slice(2)], {
+  spawn(process.execPath, [buildScript, ...workerArgs, '--watch'], { stdio: 'inherit', cwd: frontendDir }),
+  spawn(process.execPath, [...process.execArgv, ngBin, ...commands[command].ng, ...ngArgs], {
     stdio: 'inherit',
     cwd: frontendDir,
   }),
