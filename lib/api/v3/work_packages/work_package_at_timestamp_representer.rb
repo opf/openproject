@@ -42,6 +42,7 @@ module API
           due_date
           start_date
           subject
+          story_points
         ].freeze
 
         SUPPORTED_LINK_PROPERTIES = %w[
