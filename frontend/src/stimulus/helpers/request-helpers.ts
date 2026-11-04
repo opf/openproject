@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import type { FrameElement } from '@hotwired/turbo';
 import { FetchRequest, FetchResponse, Options } from '@rails/request.js';
 import { hideElement, showElement } from 'core-app/shared/helpers/dom-helpers';
 import { TurboHelpers } from 'core-turbo/helpers';
@@ -62,6 +63,22 @@ export function withProgressBar(request:Promise<FetchResponse>) {
 
   return request.finally(() => {
     TurboHelpers.hideProgressBar();
+  });
+}
+
+// frame.loaded never settles when a reload cancels the request or the response lacks the frame.
+// A cancelled request dispatches neither event, but the request replacing it does.
+export function frameResponded(frame:FrameElement):Promise<void> {
+  return new Promise((resolve) => {
+    const listeners = new AbortController();
+    const settle = (event:Event) => {
+      if (event.target !== frame) return;
+
+      listeners.abort();
+      resolve();
+    };
+    frame.addEventListener('turbo:before-fetch-response', settle, { signal: listeners.signal });
+    frame.addEventListener('turbo:fetch-request-error', settle, { signal: listeners.signal });
   });
 }
 

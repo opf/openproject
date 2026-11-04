@@ -35,7 +35,12 @@ import {
 } from '@hotwired/turbo';
 import { debounce } from 'lodash-es';
 import { escapeFilterValue } from 'core-stimulus/helpers/filter-helpers';
-import { hideLoadingIndicator, showLoadingIndicator, withLoadingIndicator } from 'core-stimulus/helpers/request-helpers';
+import {
+  frameResponded,
+  hideLoadingIndicator,
+  showLoadingIndicator,
+  withLoadingIndicator,
+} from 'core-stimulus/helpers/request-helpers';
 import { getMetaValue } from 'core-app/core/setup/globals/global-helpers';
 import { endOfDayISO, startOfDayISO } from 'core-common/local-datetime';
 import { PrimerMultiInputElement } from '@primer/view-components/app/lib/primer/forms/primer_multi_input';
@@ -69,22 +74,6 @@ function resetControls(row:HTMLElement) {
     } else {
       control.value = control.defaultValue;
     }
-  });
-}
-
-// frame.loaded never settles when a reload cancels the request or the response lacks the frame.
-// A cancelled request dispatches neither event, but the request replacing it does.
-function frameResponded(frame:FrameElement):Promise<void> {
-  return new Promise((resolve) => {
-    const listeners = new AbortController();
-    const settle = (event:Event) => {
-      if (event.target !== frame) return;
-
-      listeners.abort();
-      resolve();
-    };
-    frame.addEventListener('turbo:before-fetch-response', settle, { signal: listeners.signal });
-    frame.addEventListener('turbo:fetch-request-error', settle, { signal: listeners.signal });
   });
 }
 
@@ -679,7 +668,7 @@ export default class FiltersFormController extends Controller {
         return;
       }
     } catch (error) {
-      // Like a cancelled Turbo frame request: never settle, the newer request owns the indicator.
+      // Never settle: the newer request owns the indicator.
       if (signal.aborted) await new Promise<never>(() => {});
       console.error('Error:', error);
     }

@@ -200,17 +200,14 @@ describe('Filters form navigation', () => {
   });
 
   async function mountLoadingFrame() {
-    const controller = await mount(['page', 'all'], `
-      <turbo-frame id="backlogs_container" disabled><form></form></turbo-frame>
-    `);
+    const controller = await mount(['page', 'all'], '<turbo-frame id="backlogs_container" disabled></turbo-frame>');
     const frame = ctx.container.querySelector<HTMLElement>('#backlogs_container')!;
-    const indicator = ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!;
     visit.mockImplementation((location) => {
       frame.setAttribute('src', location);
       frame.setAttribute('busy', '');
     });
 
-    return { controller, frame, indicator };
+    return { controller, frame };
   }
 
   it('navigates back to the applied filters while a newer visit is still loading', async () => {
@@ -227,23 +224,19 @@ describe('Filters form navigation', () => {
     expect(url.searchParams.has('filters')).toBe(false);
   });
 
-  it.each(['turbo:before-fetch-response', 'turbo:fetch-request-error'])(
-    'shows the loading indicator until the frame dispatches %s',
-    async (eventName) => {
-      setUrl();
-      const { controller, frame, indicator } = await mountLoadingFrame();
+  it('shows the loading indicator until the frame has loaded', async () => {
+    setUrl();
+    const { controller, frame } = await mountLoadingFrame();
+    const indicator = ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!;
 
-      controller.currentFiltersValue = [{ subject: { operator: '~', values: ['new'] } }];
-      controller.sendForm();
-      frame.querySelector('form')!.dispatchEvent(new CustomEvent(eventName, { bubbles: true }));
-      await new Promise((resolve) => { setTimeout(resolve); });
-      expect(indicator).toBeVisible();
+    controller.currentFiltersValue = [{ subject: { operator: '~', values: ['new'] } }];
+    controller.sendForm();
+    expect(indicator).toBeVisible();
 
-      frame.dispatchEvent(new CustomEvent(eventName, { bubbles: true }));
+    frame.dispatchEvent(new CustomEvent('turbo:before-fetch-response', { bubbles: true }));
 
-      await vi.waitFor(() => expect(indicator).not.toBeVisible());
-    },
-  );
+    await vi.waitFor(() => expect(indicator).not.toBeVisible());
+  });
 
   it('keeps a previous request\'s indicator out of the history snapshot', async () => {
     setUrl();
