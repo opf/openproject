@@ -79,6 +79,11 @@ namespace :assets do
     end
 
     Rake::Task["assets:rebuild_manifest"].invoke
+
+    unless JSON.parse(OpenProject::Assets.manifest_path.read).key?("service-worker.js")
+      raise "The service worker bundle is missing from the assets manifest. " \
+            "Check the output of `npm run build:service-worker`."
+    end
   end
 
   desc "Write angular assets manifest"
