@@ -156,6 +156,18 @@ RSpec.describe Import::JiraRevertImportJob do
         expect(Type).to exist(pre_existing_type.id)
       end
     end
+
+    context "when they are still used by a work package outside the import" do
+      before { create(:work_package, type:, status:, priority:) }
+
+      it "keeps them" do
+        job.send(:delete_types_statuses_and_issue_priorities)
+
+        expect(Type).to exist(type.id)
+        expect(Status).to exist(status.id)
+        expect(IssuePriority).to exist(priority.id)
+      end
+    end
   end
 
   describe "#delete_users" do
