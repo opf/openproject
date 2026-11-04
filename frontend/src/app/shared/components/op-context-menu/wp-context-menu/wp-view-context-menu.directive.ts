@@ -43,6 +43,7 @@ import {
 } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import {
   copyIdActionLabel,
+  copyIdValue,
   isActionVisibleFor,
   isCopyIdAction,
   PERMITTED_CONTEXT_MENU_ACTIONS,
@@ -125,6 +126,11 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
       return;
     }
 
+    if (isCopyIdAction(action.key)) {
+      this.copyToClipboardService.copy(copyIdValue(this.workPackage, action.key));
+      return;
+    }
+
     switch (action.key) {
       case 'delete':
         this.deleteSelectedWorkPackages();
@@ -143,14 +149,6 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         this.copyToClipboardService.copy(url.toString());
         break;
       }
-      case 'copy_numeric_id_to_clipboard':
-        this.copyToClipboardService.copy(`${id}`);
-        break;
-
-      case 'copy_alphanumeric_id_to_clipboard':
-        this.copyToClipboardService.copy(this.workPackage.displayId);
-        break;
-
       case 'copy_to_other_project':
         window.location.href = `${this.pathHelper.staticBase}/work_packages/move/new?copy=true&ids[]=${id}`;
         break;

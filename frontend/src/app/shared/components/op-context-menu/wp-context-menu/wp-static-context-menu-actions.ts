@@ -31,10 +31,13 @@ import {
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { formatWorkPackageId, isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 
-export const COPY_ID_ACTION_KEYS = ['copy_numeric_id_to_clipboard', 'copy_alphanumeric_id_to_clipboard'];
+const COPY_ID_LABELS:Record<string, string> = {
+  copy_alphanumeric_id_to_clipboard: 'js.button_copy_id',
+  copy_numeric_id_to_clipboard: 'js.button_copy_internal_id',
+};
 
 export function isCopyIdAction(key:string):boolean {
-  return COPY_ID_ACTION_KEYS.includes(key);
+  return key in COPY_ID_LABELS;
 }
 
 // Copying the numeric ID is only useful in semantic mode, where the
@@ -43,11 +46,12 @@ export function isActionVisibleFor(workPackage:WorkPackageResource, key:string):
   return key !== 'copy_numeric_id_to_clipboard' || isSemanticWorkPackageId(workPackage.displayId);
 }
 
+export function copyIdValue(workPackage:WorkPackageResource, key:string):string {
+  return key === 'copy_numeric_id_to_clipboard' ? workPackage.id!.toString() : workPackage.displayId;
+}
+
 export function copyIdActionLabel(workPackage:WorkPackageResource, key:string):string {
-  return I18n.t(`js.button_${key}`, {
-    numeric_id: workPackage.id!,
-    display_id: formatWorkPackageId(workPackage.displayId),
-  });
+  return I18n.t(COPY_ID_LABELS[key], { id: formatWorkPackageId(copyIdValue(workPackage, key)) });
 }
 
 export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [

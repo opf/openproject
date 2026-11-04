@@ -37,6 +37,7 @@ import {
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import {
   copyIdActionLabel,
+  copyIdValue,
   isActionVisibleFor,
   isCopyIdAction,
   PERMITTED_CONTEXT_MENU_ACTIONS,
@@ -114,6 +115,11 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
       return;
     }
 
+    if (isCopyIdAction(key)) {
+      this.copyToClipboardService.copy(copyIdValue(this.workPackage, key));
+      return;
+    }
+
     switch (key) {
       case 'copy_to_other_project':
         window.location.href = `${this.PathHelper.staticBase}/work_packages/move/new?copy=true&ids[]=${this.workPackage.id!}`;
@@ -142,12 +148,6 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         this.copyToClipboardService.copy(url.toString());
         break;
       }
-      case 'copy_numeric_id_to_clipboard':
-        this.copyToClipboardService.copy(`${this.workPackage.id!}`);
-        break;
-      case 'copy_alphanumeric_id_to_clipboard':
-        this.copyToClipboardService.copy(this.workPackage.displayId);
-        break;
       default:
         window.location.href = link!;
         break;
@@ -210,11 +210,6 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
     this.items = permittedActions.map((action:WorkPackageAction) => {
       const { key } = action;
-
-      // "Copy ID" items copy a plain value rather than navigating anywhere.
-      // Rendering them as links would show a misleading link preview on hover and
-      // make the clipboard copy originate from an anchor, so render them as
-      // buttons (no href).
       const href = isCopyIdAction(key) || action.turboRequest ? undefined : action.link;
 
       return {
