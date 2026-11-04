@@ -36,12 +36,12 @@ describe('BrowserNotificationSyncService', () => {
   let postMessage:ReturnType<typeof vi.fn>;
   let meta:HTMLMetaElement;
 
-  const setup = ({ permission = 'granted', loggedIn = 'true', flags = ['progressiveWebApp'] }:{ permission?:string; loggedIn?:string; flags?:string[] } = {}) => {
+  const setup = ({ permission = 'granted', loggedIn = 'true', flags = ['progressiveWebApp'], active = { postMessage } }:{ permission?:string; loggedIn?:string; flags?:string[]; active?:{ postMessage:typeof postMessage }|null } = {}) => {
     meta.dataset.loggedIn = loggedIn;
     vi.stubGlobal('Notification', { permission });
     Object.defineProperty(navigator, 'serviceWorker', {
       configurable: true,
-      value: { ready: Promise.resolve({ active: { postMessage } }) },
+      value: { ready: Promise.resolve({ active }) },
     });
 
     TestBed.configureTestingModule({
@@ -77,6 +77,32 @@ describe('BrowserNotificationSyncService', () => {
     await flush();
 
     expect(postMessage).toHaveBeenCalledWith({ type: 'account', userId: '7' });
+  });
+
+  it('sends no account message without a user id', async () => {
+    delete meta.dataset.id;
+    setup().initialize();
+    await flush();
+
+    expect(postMessage).not.toHaveBeenCalledWith(expect.objectContaining({ type: 'account' }));
+  });
+
+  it('posts nothing and does not throw when the registration has no active worker', async () => {
+    setup({ active: null }).initialize();
+
+    loadedUnread$.next(3);
+    await flush();
+
+    expect(postMessage).not.toHaveBeenCalled();
+  });
+
+  it('asks the worker to reconcile on the first emission after page load', async () => {
+    setup().initialize();
+
+    loadedUnread$.next(0);
+    await flush();
+
+    expect(postMessage).toHaveBeenCalledWith({ type: 'reconcile' });
   });
 
   it('asks the worker to reconcile whenever the unread count changes', async () => {
