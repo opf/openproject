@@ -36,7 +36,7 @@ module WorkPackageTypes
           @label_model = label_model
         end
 
-        def add(key, value_fn, formatter = Formatters::DefaultFormatter, label: key, enabled_fn: -> { true })
+        def add(key, value_fn, formatter = Formatters::DefaultFormatter, label: key)
           label_fn = label
           unless label_fn.respond_to?(:call)
             raise ArgumentError, "label must be passed as function when no label_model is provided" if @label_model.nil?
@@ -44,7 +44,7 @@ module WorkPackageTypes
             label_fn = -> { @label_model.human_attribute_name(label) }
           end
 
-          TokenPropertyMapper.add_static_attribute(key, @context, label_fn, value_fn, formatter, enabled_fn:)
+          TokenPropertyMapper.add_static_attribute(key, @context, label_fn, value_fn, formatter)
         end
       end
 
@@ -53,12 +53,12 @@ module WorkPackageTypes
           StaticAttributeDSL.new(context:, label_model:).instance_exec(&)
         end
 
-        def add_static_attribute(key, context, label_fn, value_fn, formatter = STRING_OR_NIL, enabled_fn: -> { true })
-          static_token_definitions << [AttributeToken.new(key, context, label_fn, value_fn, formatter), enabled_fn]
+        def add_static_attribute(key, context, label_fn, value_fn, formatter = STRING_OR_NIL)
+          static_token_definitions << AttributeToken.new(key, context, label_fn, value_fn, formatter)
         end
 
         def static_tokens
-          static_token_definitions.filter_map { |token, enabled_fn| token if enabled_fn.call }
+          static_token_definitions
         end
 
         def static_token_definitions
