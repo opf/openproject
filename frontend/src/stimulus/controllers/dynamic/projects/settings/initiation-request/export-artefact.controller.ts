@@ -27,7 +27,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 
-export default class ExportArtifactController extends Controller {
+export default class ExportArtefactController extends Controller {
 
   static targets = [
     'projectStoragesSelectList',

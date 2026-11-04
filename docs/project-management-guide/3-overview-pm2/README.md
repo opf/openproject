@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: 3 PM² methodology overview
   priority: 850
-description: "Presents the House of PM² framework and explains its four pillars: Governance, Lifecycle, Processes, and Artifacts, all supported by PM² Mindsets. It introduces the four project lifecycle phases (Initiating, Planning, Executing, Closing) and explains tailoring to different project contexts."
+description: "Presents the House of PM² framework and explains its four pillars: Governance, Lifecycle, Processes, and Artefacts, all supported by PM² Mindsets. It introduces the four project lifecycle phases (Initiating, Planning, Executing, Closing) and explains tailoring to different project contexts."
 ---
 
 # 3 Overview of the PM² methodology
@@ -14,7 +14,7 @@ The PM² Methodology is built on Project Management best practices and is suppor
 1. a project governance model (i.e. Roles \& Responsibilities)
 2. a project lifecycle (i.e. Project Phases)
 3. a set of processes (i.e. project management activities)
-4. a set of project Artifacts (i.e. documentation templates and guidelines).
+4. a set of project Artefacts (i.e. documentation templates and guidelines).
 
 ![Fig 3.1 The House of PM²](03.01.png)
 
@@ -128,7 +128,7 @@ At the end of each phase, the project passes through a review and approval gate.
 - RfE (Ready for Executing): at the end of the Planning Phase
 - RfC (Ready for Closing): at the end of the Executing Phase.
 
-## 3.3 PM² Phase Drivers and Key Artifacts
+## 3.3 PM² Phase Drivers and Key Artefacts
 
 Projects depend on people to define, plan and execute them. These project drivers change from phase to phase in a PM² project.
 
@@ -175,7 +175,7 @@ The number of the above characteristics, apparent in a project, drive the tailor
 
 ## 3.5 PM² Mindsets
 
-The PM² processes, artifacts, tools and techniques help project teams make decisions on trade-offs between a project's time, cost, scope and quality dimensions.
+The PM² processes, artefacts, tools and techniques help project teams make decisions on trade-offs between a project's time, cost, scope and quality dimensions.
 
 The PM² Mindsets are the attitudes and behaviors that help project teams focus on what is crucial to achieving their project's goals. They help project teams navigate the complexities of managing projects in organizations and make the PM² Methodology both more effective and complete.
 
@@ -220,7 +220,7 @@ The PM² Mindsets:
 
 To ensure that the PM² Methodology effectively serves an organization's and a project's needs, some level of tailoring or/and customization may be required.
 
-Tailoring refers to changing specific parts of the methodology, such as process steps, the content of artifacts, the distribution of responsibilities amongst the various roles, etc. Organizations do this to adapt the methodology to the specific needs of their structure and culture, and to align the methodology to organizational processes, policies, etc.
+Tailoring refers to changing specific parts of the methodology, such as process steps, the content of artefacts, the distribution of responsibilities amongst the various roles, etc. Organizations do this to adapt the methodology to the specific needs of their structure and culture, and to align the methodology to organizational processes, policies, etc.
 
 Tailoring makes more sense at the organisation/departmental level, but some tailoring can also take place at the project level, based, for instance, on the complexity, size or type of a project. In addition to any tailoring, further customization may also be required at the project level to reflect the project's specific management needs. Examples of such customizations are the definition of decision thresholds for escalation, risk tolerances based on the risk appetite of the stakeholders, etc.
 
@@ -228,7 +228,7 @@ All tailoring and customizations should be documented in the Project Handbook.
 The following guidelines should be considered when tailoring or customizing the PM² Methodology:
 
 - First, understand the purpose and value of the methodology element to be tailored, and then proceed with its tailoring.
-- Avoid simplifying the methodology by eliminating whole chunks (e.g. a phase, a role, an activity or an artifact), but rather scale down (or up) the scope of that element.
+- Avoid simplifying the methodology by eliminating whole chunks (e.g. a phase, a role, an activity or an artefact), but rather scale down (or up) the scope of that element.
 - Balance the level of control a project needs against the extra effort such control requires.
 - Eliminate waste (lean approach) but remain aligned with the spirit of the PM² Methodology as this is reflected by its four pillars and mindsets.
 - Remember that the methodology was designed as an integrated whole, so avoid unnecessary deviations.

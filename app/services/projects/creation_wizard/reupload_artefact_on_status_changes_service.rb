@@ -28,16 +28,16 @@
 #++
 
 module Projects::CreationWizard
-  class ReuploadArtifactOnStatusChangesService
+  class ReuploadArtefactOnStatusChangesService
     prepend Projects::Concerns::UpdateDemoData
 
-    attr_reader :current_user, :artifact_work_package
+    attr_reader :current_user, :artefact_work_package
 
-    delegate :project, to: :artifact_work_package
+    delegate :project, to: :artefact_work_package
 
     def initialize(current_user:, work_package:)
       @current_user = current_user
-      @artifact_work_package = work_package
+      @artefact_work_package = work_package
     end
 
     def self.applicable?(work_package:, changes:)
@@ -47,24 +47,24 @@ module Projects::CreationWizard
     end
 
     def call!(changes:)
-      return unless self.class.applicable?(work_package: artifact_work_package, changes:)
+      return unless self.class.applicable?(work_package: artefact_work_package, changes:)
 
       User.execute_as_admin(current_user) do
-        update_artifact
+        update_artefact
       end
     end
 
     private
 
-    def update_artifact
-      call = UploadArtifactService
-        .new(user: current_user, project:, work_package: artifact_work_package)
+    def update_artefact
+      call = UploadArtefactService
+        .new(user: current_user, project:, work_package: artefact_work_package)
         .call
 
       if call.success?
-        Rails.logger.debug { "Updated artifact for creation wizard in ##{artifact_work_package.id}" }
+        Rails.logger.debug { "Updated artefact for creation wizard in ##{artefact_work_package.id}" }
       else
-        Rails.logger.error("Failed to process artifact change for ##{artifact_work_package.id}: ##{call.message}")
+        Rails.logger.error("Failed to process artefact change for ##{artefact_work_package.id}: ##{call.message}")
       end
     end
   end

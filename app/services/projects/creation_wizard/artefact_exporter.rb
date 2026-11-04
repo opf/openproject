@@ -28,45 +28,43 @@
 #++
 
 module Projects::CreationWizard
-  class SubmitArtifactService
-    attr_reader :user, :project
-
-    def initialize(user:, project:)
-      @user = user
-      @project = project
-    end
-
-    def call
-      if artifact_work_package_exists?
-        upload_artifact
-      else
-        create_artifact_work_package
-      end
-    end
-
+  module ArtefactExporter
     private
 
-    def artifact_work_package_exists?
-      WorkPackage.exists?(project.project_creation_wizard_artifact_work_package_id)
+    def store_attachment_locally?
+      project.project_creation_wizard_artifact_export_type == "attachment"
     end
 
-    def create_artifact_work_package
-      CreateArtifactWorkPackageService
-        .new(user:, model: project)
-        .call
+    def project_storage
+      return @project_storage if defined?(@project_storage)
+
+      @project_storage = project
+        .project_storages
+        .find_by(id: project.project_creation_wizard_artifact_export_storage)
     end
 
-    def upload_artifact
-      work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
-      upload_call = UploadArtifactService
-        .new(user:, project:, work_package:)
-        .call
+    def create_pdf_export!
+      Project::PDFExport::ProjectInitiation.new(project).export!
+    end
 
-      service_call = ServiceResult.success(result: project)
-      upload_call.on_failure do
-        service_call.merge!(upload_call, without_success: true)
-      end
-      service_call
+    def upload_artefact_to_storage
+      export = create_pdf_export!
+
+      Storages::UploadFileService
+        .call(
+          container: artefact_work_package,
+          project_storage:,
+          file_path: artefact_storage_folder_name,
+          file_data: StringIO.new(export.content),
+          filename: export.title
+        )
+    end
+
+    def artefact_storage_folder_name
+      I18n.t(project.project_creation_wizard_artifact_name,
+             locale: Setting.default_language,
+             default: :project_initiation_request,
+             scope: "settings.project_initiation_request.name.options")
     end
   end
 end

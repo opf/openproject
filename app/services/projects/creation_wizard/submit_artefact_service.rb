@@ -27,21 +27,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectArtifactsMailerPreview < ActionMailer::Preview
-  # Preview emails at http://localhost:3000/rails/mailers/project_artifacts_mailer
+module Projects::CreationWizard
+  class SubmitArtefactService
+    attr_reader :user, :project
 
-  def creation_wizard_submitted
-    project = FactoryBot.build_stubbed(:project)
-    work_package = FactoryBot.build_stubbed(:work_package, project: project)
-    project.project_creation_wizard_enabled = true
-    project.project_creation_wizard_notification_text = <<~STR
-      Hello,
+    def initialize(user:, project:)
+      @user = user
+      @project = project
+    end
 
-      You submitted a project initiation request for **#{project.name}**. It is now awaiting review.
-      Click the link below to access the work package with your request.
-    STR
-    user = FactoryBot.build_stubbed(:user)
+    def call
+      if artefact_work_package_exists?
+        upload_artefact
+      else
+        create_artefact_work_package
+      end
+    end
 
-    ProjectArtifactsMailer.creation_wizard_submitted(user, project, work_package)
+    private
+
+    def artefact_work_package_exists?
+      WorkPackage.exists?(project.project_creation_wizard_artifact_work_package_id)
+    end
+
+    def create_artefact_work_package
+      CreateArtefactWorkPackageService
+        .new(user:, model: project)
+        .call
+    end
+
+    def upload_artefact
+      work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
+      upload_call = UploadArtefactService
+        .new(user:, project:, work_package:)
+        .call
+
+      service_call = ServiceResult.success(result: project)
+      upload_call.on_failure do
+        service_call.merge!(upload_call, without_success: true)
+      end
+      service_call
+    end
   end
 end
