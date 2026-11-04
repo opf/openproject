@@ -134,5 +134,5 @@ get:
   description: The schema response use two exemplary custom fields that extend the
     schema response. Depending on your instance and custom field configuration, the
     response will look somewhat different.
-  operationId: View_user_schema
+  operationId: get_user_schema
   summary: View user schema

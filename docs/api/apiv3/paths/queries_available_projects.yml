@@ -84,5 +84,5 @@ get:
     - Queries
   description: Gets a list of projects that are available as projects a query can
     be assigned to.
-  operationId: Available_projects_for_query
+  operationId: list_available_projects_for_query
   summary: Available projects for query

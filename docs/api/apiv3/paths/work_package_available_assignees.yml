@@ -110,5 +110,5 @@ get:
   tags:
     - Work Packages
   description: Gets a list of users that can be assigned to the given work package.
-  operationId: Work_Package_Available_assignees
+  operationId: list_available_assignees_for_work_package
   summary: Work Package Available assignees

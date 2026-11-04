@@ -63,5 +63,5 @@ get:
   tags:
     - Types
   description: ''
-  operationId: List_all_Types
+  operationId: list_all_types
   summary: List all Types

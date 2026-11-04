@@ -108,7 +108,7 @@ get:
   tags:
     - Work Packages
   description: ''
-  operationId: List_watchers
+  operationId: list_watchers
   summary: List watchers
 post:
   parameters:
@@ -206,7 +206,7 @@ post:
     The response will be user added as watcher.
     In case the user was already watching the work package an `HTTP 200` is returned, an
     `HTTP 201` if the user was added as a new watcher.
-  operationId: Add_watcher
+  operationId: add_watcher
   requestBody:
     content:
       application/json:

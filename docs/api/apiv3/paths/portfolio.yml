@@ -40,7 +40,7 @@ get:
   tags:
     - Portfolios
   description: ''
-  operationId: View_portfolio
+  operationId: get_portfolio
   summary: View portfolio
 patch:
   parameters:
@@ -135,7 +135,7 @@ patch:
     - Portfolios
   description: Updates the given portfolio by applying the attributes provided in the
     body.
-  operationId: Update_Portfolio
+  operationId: update_portfolio
   summary: Update Portfolio
 delete:
   parameters:
@@ -217,5 +217,5 @@ delete:
     Deletes the portfolio permanently. As this is a lengthy process, the actual deletion is carried out asynchronously.
     So the portfolio might exist well after the request has returned successfully. To prevent unwanted changes to
     the portfolio scheduled for deletion, it is archived at once.
-  operationId: Delete_Portfolio
+  operationId: delete_portfolio
   summary: Delete Portfolio

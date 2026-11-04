@@ -76,5 +76,5 @@ get:
     - Types
     - Workspaces
   description: This endpoint lists the types that are *available* in a given workspace.
-  operationId: List_types_available_in_a_workspace
+  operationId: list_types_available_in_a_workspace
   summary: List types available in a workspace
