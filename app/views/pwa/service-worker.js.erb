@@ -42,7 +42,7 @@ const Config = Object.freeze({
 
 /**
  * What the worker last showed, kept in the cache because the worker stops between pushes.
- * Per notification tag it remembers the content digest and the time of the latest activity.
+ * Per notification tag it remembers the content fingerprint and the time of the latest activity.
  */
 class PushState {
   static get shownUrl() {
@@ -104,7 +104,7 @@ class NotificationPlan {
   static needsRefresh({ group, previous, openTags }) {
     const onlyPlaceholderOpen = openTags.every((tag) => tag === Config.tags.placeholder);
     return (
-      onlyPlaceholderOpen || previous.evicted || (openTags.includes(group.tag) && previous.digest !== group.digest)
+      onlyPlaceholderOpen || previous.evicted || (openTags.includes(group.tag) && previous.fingerprint !== group.fingerprint)
     );
   }
 
@@ -130,8 +130,8 @@ class NotificationPlan {
 
     if (more) {
       Object.assign(nextState, NotificationPlan.evictedState(closeTags, state));
-      nextState[Config.tags.more] = { digest: more.digest };
-      if (state[Config.tags.more]?.digest !== more.digest || !openTags.includes(Config.tags.more)) {
+      nextState[Config.tags.more] = { fingerprint: more.fingerprint };
+      if (state[Config.tags.more]?.fingerprint !== more.fingerprint || !openTags.includes(Config.tags.more)) {
         show.push({ kind: "more", more });
       }
     }
@@ -140,7 +140,7 @@ class NotificationPlan {
     for (const group of [...groups].reverse()) {
       const previous = state[group.tag];
       const at = NotificationPlan.activityAt(group);
-      nextState[group.tag] = { digest: group.digest, at: Math.max(at, previous?.at || 0) };
+      nextState[group.tag] = { fingerprint: group.fingerprint, at: Math.max(at, previous?.at || 0) };
 
       if (NotificationPlan.isNewActivity(previous, at)) {
         show.push({ kind: "alert", group });
@@ -262,19 +262,25 @@ class Badge {
   }
 }
 
-class Digest {
+/**
+ * Fingerprints what each notification shows, so the plan can tell whether an open notification
+ * is out of date. The fingerprint covers the activity revision, title and body; a change refreshes
+ * the notification silently, while only newer activity makes a sound.
+ */
+class NotificationFingerprint {
   static async of(...parts) {
     const bytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(JSON.stringify(parts)));
     return Array.from(new Uint8Array(bytes), (byte) => byte.toString(16).padStart(2, "0")).join("");
   }
 
   static async addTo({ groups, more }) {
-    const moreWithDigest = more && { ...more, digest: await Digest.of(more.title) };
-    const reversed = [];
-    for (const group of [...groups].reverse()) {
-      reversed.push({ ...group, digest: await Digest.of(group.revision, group.title, group.body || "") });
-    }
-    return { groups: reversed.reverse(), more: moreWithDigest };
+    return {
+      groups: await Promise.all(groups.map(async (group) => ({
+        ...group,
+        fingerprint: await NotificationFingerprint.of(group.revision, group.title, group.body || ""),
+      }))),
+      more: more && { ...more, fingerprint: await NotificationFingerprint.of(more.title) },
+    };
   }
 }
 
@@ -294,7 +300,7 @@ class Digest {
  *                            ├─ empty ........ close and forget all, "all read", clear badge
  *                            └─ unread ....... set badge
  *                                              close notifications no longer listed
- *                                              digest groups ► plan ► show each item
+ *                                              fingerprint groups ► plan ► show each item
  *                                              save state
  *
  * any error on the way ► fallback
@@ -458,7 +464,7 @@ class PushHandler {
     const { state, openTags } = await this.closeStale(summary);
     if (groups.length === 0) return Notifications.showFallback();
 
-    const plan = NotificationPlan.for({ ...(await Digest.addTo({ groups, more })), openTags, state });
+    const plan = NotificationPlan.for({ ...(await NotificationFingerprint.addTo({ groups, more })), openTags, state });
     for (const item of plan.show) await Notifications.show(item);
     await PushState.write(plan.state);
   }

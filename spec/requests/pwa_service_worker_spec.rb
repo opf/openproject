@@ -112,7 +112,7 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.body).to include("response.status === 404", 'case "pushOff":')
     end
 
-    it "stores only digests of what it showed" do
+    it "stores only fingerprints of what it showed" do
       expect(response.body).to include("crypto.subtle.digest")
       expect(response.body).not_to include("JSON.stringify({ title")
     end
