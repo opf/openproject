@@ -1114,10 +1114,6 @@ da:
         sort_criterion_descending: "%{column} faldende"
         sorted_by: Sorteret efter %{criteria}.
         sorted_manually: Sorteret manuelt.
-        summary: Tabel med arbejdspakker som rækker og deres attributter som kolonner.
-        text_inline_edit: De fleste celler i tabellen er knapper, der gør det muligt at redigere attributten direkte i tabellen.
-        text_select_hint: Rullelister åbnes med 'ALT' og piletasterne.
-        text_sort_hint: Med linkene i tabeloverskrifterne kan du sortere, gruppere, flytte, fjerne og tilføje tabelkolonner.
       table_configuration:
         button: Konfigurer denne tabel med arbejdspakker
         choose_display_mode: Vis arbejdspakker som

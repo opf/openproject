@@ -1114,10 +1114,6 @@ tr:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: İş paketi satır tabloları ve iş paketi nitelik sütunları.
-        text_inline_edit: Bu tablodaki çoğu hücre o öznitelikteki satır içi düzenleme işlevselliğini etkinleşirme düğmeleridir.
-        text_select_hint: Seçim kutuları 'ALT' ve ok tuşları ile açılmalıdır.
-        text_sort_hint: Tablo başlığındaki bağlantılardan tablo sütunlarını sırayalabilir, gruplayabilir, yeniden düzenleyebilir, silebilir ya da ekleyebilirsiniz.
       table_configuration:
         button: Bu iş paketi tablosunu yapılandır
         choose_display_mode: İş paketlerini farklı olarak göster

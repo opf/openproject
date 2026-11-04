@@ -46,21 +46,21 @@ de:
         range_blocked: Auswahl unverändert. Sie enthält ein Arbeitspaket ohne Einfluss auf die Reihenfolge dieser Liste.
         range_restarted:
           one: Could not extend the range. %{count} work package selected.
-          other: Could not extend the range. %{count} work packages selected.
+          other: Die Auswahl konnte nicht erweitert werden. %{count} Arbeitspakete ausgewählt.
         range_unavailable: Auswahl unverändert. Erweitern Sie diese Liste, um diesen Bereich auszuwählen.
         selected:
           one: "%{count} Arbeitspaket ausgewählt."
           other: "%{count} Arbeitspakete ausgewählt."
     burndown_chart:
       chart_day: 'Day %{day}: %{values}'
-      chart_label: Burndown chart
+      chart_label: Burndown-Diagramm
       chart_summary: 'Burndown chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      story_points: Story points
+      story_points: Story-Points
     created_resolved_chart:
-      work_packages: Work packages
+      work_packages: Arbeitspakete
     sprint_charts:
-      non_working_day: Non-working day
+      non_working_day: Arbeitsfreier Tag
     work_packages:
       properties:
         storyPoints: Story Punkte

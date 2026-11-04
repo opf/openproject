@@ -1114,10 +1114,6 @@ sv:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabell med ett arbetspaket för varje rad och kolumner för varje arbetspaketsattribut.
-        text_inline_edit: Du kan klicka på de flesta celler i den här tabellen för att redigera attributens funktion.
-        text_select_hint: Valda celler öppnas med 'ALT' och piltangenterna.
-        text_sort_hint: Med hjälp av länkarna i tabellrubrikerna kan du sortera, gruppera, ändra ordning, radera och lägga till kolumner.
       table_configuration:
         button: Konfigurera den här arbetspaketstabellen
         choose_display_mode: Visa arbetspaket som

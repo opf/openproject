@@ -1114,10 +1114,6 @@
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabell med rader for arbeidspakke og kolonner for arbeidspakkeegenskaper.
-        text_inline_edit: De fleste celler i denne tabellen er knapper som aktiverer inkorporering av funksjonaliteten til den egenskapen.
-        text_select_hint: Velg bokser skal åpnes med 'ALT' og piltaster.
-        text_sort_hint: Med lenkene i tabelloverskriftene kan du sortere, gruppe, omorganisere og legge til tabellkolonner.
       table_configuration:
         button: Konfigurer tabellen for arbeidspakker
         choose_display_mode: Vis arbeidspakker som

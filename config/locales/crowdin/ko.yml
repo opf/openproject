@@ -6633,6 +6633,9 @@ ko:
         상태를 제외하고 특성은 변경할 수 없습니다.
         <br>
         <strong>참고</strong>: 상속된 값(예: 자식 또는 관계의 값)은 계속 적용됩니다.
+      used_by_workflows:
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: 상태를 이동할 수 없습니다.
       headers:
@@ -6642,6 +6645,8 @@ ko:
       no_results_content_text: 새 상태 추가
       no_results_title_text: 작업 패키지 상태가 없습니다.
       status_actions: 상태 작업
+      workflows_count:
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: 그리고

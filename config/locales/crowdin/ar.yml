@@ -7544,6 +7544,14 @@ ar:
         No attributes can be changed with the exception of the status.
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+      used_by_workflows:
+        zero: This status is used by %{count} workflows.
+        one: This status is used by %{count} workflow.
+        two: This status is used by %{count} workflows.
+        few: This status is used by %{count} workflows.
+        many: This status is used by %{count} workflows.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Status could not be moved.
       headers:
@@ -7553,6 +7561,13 @@ ar:
       no_results_content_text: إضافة حالة جديدة
       no_results_title_text: لا يوجد حالياً حالات لحزمة العمل.
       status_actions: Status actions
+      workflows_count:
+        zero: "%{count} workflows"
+        one: "%{count} workflow"
+        two: "%{count} workflows"
+        few: "%{count} workflows"
+        many: "%{count} workflows"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: و

@@ -6627,6 +6627,9 @@ zh-CN:
         除了状态外，不能更改其他属性。
         <br>
         <strong>注</strong>：继承值（例如，来自子级或关系的值）仍然适用。
+      used_by_workflows:
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: 无法移动状态。
       headers:
@@ -6636,6 +6639,8 @@ zh-CN:
       no_results_content_text: 添加新的状态
       no_results_title_text: 目前没有工作包状态。
       status_actions: 状态操作
+      workflows_count:
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: 和

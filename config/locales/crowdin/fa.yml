@@ -6820,6 +6820,10 @@ fa:
         هیچ ویژگی‌ای به‌جز وضعیت قابل تغییر نخواهد بود.
         <br>
         <strong>توجه</strong>: مقادیر به‌ارث‌رسیده (برای مثال از فرزندان یا روابط) همچنان اعمال می‌شوند.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: جابه‌جایی وضعیت ممکن نشد.
       headers:
@@ -6829,6 +6833,9 @@ fa:
       no_results_content_text: افزودن وضعیت جدید
       no_results_title_text: در حال حاضر هیچ وضعیت بسته کاری وجود ندارد.
       status_actions: عملیات وضعیت
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: و

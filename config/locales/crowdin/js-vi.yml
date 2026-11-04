@@ -1106,10 +1106,6 @@ vi:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Bảng có các hàng gói công việc và các cột thuộc tính gói công việc.
-        text_inline_edit: Hầu hết các ô của bảng này là các nút kích hoạt chức năng chỉnh sửa nội tuyến của thuộc tính đó.
-        text_select_hint: Các hộp chọn phải được mở bằng 'ALT' và phím mũi tên.
-        text_sort_hint: Với các liên kết trong tiêu đề bảng, bạn có thể sắp xếp, nhóm, sắp xếp lại, xóa và thêm các cột trong bảng.
       table_configuration:
         button: Định cấu hình bảng gói công việc này
         choose_display_mode: Hiển thị các gói công việc dưới dạng

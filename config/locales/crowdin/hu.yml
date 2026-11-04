@@ -6930,6 +6930,10 @@ hu:
         No attributes can be changed with the exception of the status.
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Status could not be moved.
       headers:
@@ -6939,6 +6943,9 @@ hu:
       no_results_content_text: Új státusz hozzáadása
       no_results_title_text: Jelenleg nincsenek feladatcsoport státuszok.
       status_actions: Status actions
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: és
