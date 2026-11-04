@@ -33,6 +33,7 @@ module Backlogs
     module Widgets
       class WorkPackageTable < Grids::WidgetComponent
         include Backlogs::CommonHelper
+        include Backlogs::SprintsHelper
 
         param :sprint
         param :project
@@ -95,14 +96,6 @@ module Backlogs
         end
 
         def empty? = raise SubclassResponsibilityError
-
-        def estimation_column
-          if project.estimation_unit_story_points?
-            "story_points"
-          elsif project.estimation_unit_time?
-            "estimated_hours"
-          end
-        end
 
         def filters
           [
