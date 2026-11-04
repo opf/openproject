@@ -42,6 +42,16 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
     expect { get "/service-worker.js" }.to raise_error(ActionController::RoutingError)
   end
 
+  it "imports the hashed bundle when the manifest has one" do
+    allow(FrontendAssetHelper).to receive(:assets_proxied?).and_return(false)
+    allow(OpenProject::Assets).to receive(:lookup_asset).and_call_original
+    allow(OpenProject::Assets).to receive(:lookup_asset).with("service-worker.js").and_return("service-worker-abc123.js")
+
+    get "/service-worker"
+
+    expect(response.body).to include('importScripts("/assets/frontend/service-worker-abc123.js")')
+  end
+
   describe "GET /service-worker", with_settings: { login_required: true } do
     before { get "/service-worker" }
 
