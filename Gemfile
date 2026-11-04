@@ -398,7 +398,8 @@ gem "googleauth", require: false
 gem "disposable", "~> 0.6.2"
 
 # Used for formula evaluation of calculated values
-gem "dentaku", "~> 3.5", git: "https://github.com/opf/dentaku", ref: "78eece45bf3f4ed021c05dd2f5411d1c3f9b168a"
+# Pinned to an unreleased commit that loads MUL. Switch back to a release once there is a new one.
+gem "dentaku", "~> 4.1.0", git: "https://github.com/rubysolo/dentaku", ref: "a43d9e328b800409a7af8f0c5ef072b9a0ae9fee"
 
 # Used for more powerful counter caches
 gem "counter_culture", "~> 3.14"
