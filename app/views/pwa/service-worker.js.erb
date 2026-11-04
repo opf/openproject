@@ -1,21 +1,21 @@
-const CACHE_PREFIX = <%== pwa_cache_prefix.to_json %>;
-
 <% if OpenProject::FeatureDecisions.progressive_web_app_active? %>
-self.OP_SW = <%== pwa_service_worker_config.to_json %>;
-importScripts(<%== raw_variable_asset_path("service-worker.js").to_json %>);
+  self.OP_SW = <%== pwa_service_worker_config.to_json %>;
+  importScripts(<%== raw_variable_asset_path("service-worker.js").to_json %>);
 <% else %>
-self.addEventListener("install", (event) => {
-  event.waitUntil(self.skipWaiting());
-});
+  const CACHE_PREFIX = <%== pwa_cache_prefix.to_json %>;
 
-self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches
-      .keys()
-      .then((names) =>
-        Promise.all(names.filter((name) => name.startsWith(CACHE_PREFIX)).map((name) => caches.delete(name))),
-      )
-      .then(() => self.registration.unregister()),
-  );
-});
+  self.addEventListener("install", (event) => {
+    event.waitUntil(self.skipWaiting());
+  });
+
+  self.addEventListener("activate", (event) => {
+    event.waitUntil(
+      caches
+        .keys()
+        .then((names) =>
+          Promise.all(names.filter((name) => name.startsWith(CACHE_PREFIX)).map((name) => caches.delete(name))),
+        )
+        .then(() => self.registration.unregister()),
+    );
+  });
 <% end %>
