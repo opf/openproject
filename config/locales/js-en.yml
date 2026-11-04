@@ -1180,10 +1180,6 @@ en:
         sort_criterion_descending: "%{column} descending"
         sorted_by: "Sorted by %{criteria}."
         sorted_manually: "Sorted manually."
-        summary: "Table with rows of work package and columns of work package attributes."
-        text_inline_edit: "Most cells of this table are buttons that activate inline-editing functionality of that attribute."
-        text_select_hint: "Select boxes should be opened with 'ALT' and arrow keys."
-        text_sort_hint: "With the links in the table headers you can sort, group, reorder, remove and add table columns."
       table_configuration:
         button: "Configure this work package table"
         choose_display_mode: "Display work packages as"

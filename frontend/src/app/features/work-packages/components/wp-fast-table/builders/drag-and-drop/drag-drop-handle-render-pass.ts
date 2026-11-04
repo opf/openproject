@@ -34,7 +34,6 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/r
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
-import { keyboardNavigationEnabled } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { PrimaryRenderPass } from '../primary-render-pass';
 
 export class DragDropHandleRenderPass {
@@ -66,7 +65,8 @@ public readonly injector:Injector,
     const { occurrences } = this.tablePass.draft;
     void this.wpTableOrder.positionsFor(query).then((positions:QueryOrder) => {
       if (this.table.destroyed || this.table.querySpace.query.value !== query) return;
-      occurrences.forEach(({ workPackage, renderType, element }) => {
+      const replaced = new Set<string>();
+      occurrences.forEach(({ key, workPackage, renderType, element }) => {
         // We only care for rows that are natural work packages and are not relation sub-rows
         if (!workPackage || renderType !== 'primary') {
           return;
@@ -76,12 +76,11 @@ public readonly injector:Injector,
         const handle = this.dragDropHandleBuilder.build(latestWorkPackage, positions[workPackage.id!]);
 
         if (handle && element) {
-          if (keyboardNavigationEnabled(this.table.configuration)) {
-            handle.setAttribute('role', 'gridcell');
-          }
           element.replaceChild(handle, element.firstElementChild!);
+          replaced.add(key);
         }
       });
+      if (replaced.size > 0) this.table.painter.paint(replaced);
     }).catch((error:unknown) => notification.handleRawError(error));
   }
 }

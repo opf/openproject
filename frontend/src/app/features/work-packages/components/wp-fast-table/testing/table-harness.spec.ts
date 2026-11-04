@@ -25,7 +25,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
@@ -42,7 +41,7 @@ describe('table harness production markup', () => {
   });
 
   it('renders a sticky header row with one cell per column plus the configuration cell, and a totals row', async () => {
-    harness = buildTable({ workPackages: [{ id: '1' }], columns: ['id', 'subject'], productionMarkup: true });
+    harness = buildTable({ workPackages: [{ id: '1' }], columns: ['id', 'subject'], productionMarkup: true, configuration: { columnMenuEnabled: true } });
     await harness.render();
 
     expect(harness.headerCells().map((th) => th.textContent?.trim())).toEqual(['id', 'subject', '']);
@@ -52,9 +51,12 @@ describe('table harness production markup', () => {
     expect(harness.headerCells()[2].querySelector('button.wp-table--columns-selection')).not.toBeNull();
   });
 
-  it('keyboardNavigationEnabled defaults to false and can be turned on', () => {
-    expect(new WorkPackageTableConfiguration({}).keyboardNavigationEnabled).toBe(false);
-    expect(new WorkPackageTableConfiguration({ keyboardNavigationEnabled: true }).keyboardNavigationEnabled).toBe(true);
+  it('renders neither the configuration cell nor its totals cell without the column menu or actions column', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }], columns: ['id', 'subject'], productionMarkup: true });
+    await harness.render();
+
+    expect(harness.headerCells()).toHaveLength(2);
+    expect(harness.totalsRow().cells).toHaveLength(2);
   });
 
   it('keeps the baseline inactive and the translator returning keys by default', () => {

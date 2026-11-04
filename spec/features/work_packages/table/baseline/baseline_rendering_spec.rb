@@ -311,6 +311,18 @@ RSpec.describe "baseline rendering",
                                          assignee: ["Assigned User", "Itsa Me"],
                                          responsible: ["Assigned User", "Itsa Me"]
 
+      changed_header = wp_table.row(wp_task_changed).find(:element, :th, scope: "row", role: "rowheader",
+                                                                         accessible_name: "New subject", exact: true)
+      expect(changed_header.style("padding-right")).to eq("padding-right" => "2px")
+      expect(wp_table.table_container)
+        .to have_element(:tr, role: "row", exact: true,
+                              accessible_name: "New subject",
+                              accessible_description: "Modified within the comparison time period")
+      expect(wp_table.table_container)
+        .to have_element(:tr, role: "row", exact: true,
+                              accessible_name: "Bug changed to Task",
+                              accessible_description: "Added to view within the comparison time period")
+
       baseline.expect_changed_attributes wp_task_assigned,
                                          assignee: ["-", "Itsa Me"]
 
