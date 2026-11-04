@@ -30,25 +30,6 @@
 require "spec_helper"
 
 RSpec.describe SquashTMIntegration::Server do
-  describe "#api_token", with_config: { "database_cipher_key" => "secret" } do
-    let(:server) { create(:squashtm_server, api_token: "plain-token") }
-
-    it "is encrypted at rest" do
-      expect(server.read_attribute(:api_token)).to start_with("aes-256-cbc:")
-      expect(server.read_attribute(:api_token)).not_to include("plain-token")
-    end
-
-    it "is decrypted when read" do
-      expect(described_class.find(server.id).api_token).to eq("plain-token")
-    end
-
-    it "stays empty when blank" do
-      server.api_token = ""
-
-      expect(server.read_attribute(:api_token)).to be_nil
-    end
-  end
-
   describe "#api_token_stored?" do
     it "is false for a new server" do
       expect(build(:squashtm_server)).not_to be_api_token_stored

@@ -29,8 +29,6 @@
 
 module SquashTMIntegration
   class Server < ApplicationRecord
-    include Redmine::Ciphering
-
     self.table_name = "squashtm_servers"
 
     validate :single_server, on: :create
@@ -41,19 +39,6 @@ module SquashTMIntegration
 
     def self.configured?
       exists?
-    end
-
-    def api_token
-      read_ciphered_attribute(:api_token)
-    end
-
-    # Redmine::Ciphering would encrypt nil into the ciphertext of an empty string.
-    def api_token=(value)
-      if value.present?
-        write_ciphered_attribute(:api_token, value)
-      else
-        write_attribute(:api_token, nil)
-      end
     end
 
     def api_token_stored?
