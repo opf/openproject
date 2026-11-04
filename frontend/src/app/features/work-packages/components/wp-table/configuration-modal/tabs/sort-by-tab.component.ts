@@ -124,16 +124,22 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
         this.getManualSortingOption();
 
         this.wpTableSortBy.current.forEach((sort) => {
-          if (!sort.column.href!.endsWith('/parent')) {
-            this.sortationObjects.push(
-              new SortModalObject({ name: sort.column.name, href: sort.column.href },
-                sort.direction.href!),
-            );
-            if (sort.column.href === this.manualSortColumn.href) {
-              this.updateSortingMode('manual');
-            }
+          if (sort.column.href!.endsWith('/parent')) return;
+
+          if (sort.column.href === this.manualSortColumn?.href) {
+            this.updateSortingMode('manual');
+            return;
           }
+
+          this.sortationObjects.push(
+            new SortModalObject({ name: sort.column.name, href: sort.column.href },
+              sort.direction.href!),
+          );
         });
+
+        if (this.sortingMode === 'manual' && this.sortationObjects.length === 0) {
+          this.seedDefaultSortation();
+        }
 
         this.updateUsedColumns();
         this.fillUpSortElements();
@@ -163,6 +169,13 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
 
   private getMatchingSort(column:string, direction:string) {
     return this.wpTableSortBy.available.find((sort) => sort.column.href === column && sort.direction.href === direction);
+  }
+
+  private seedDefaultSortation() {
+    const idColumn = this.allColumns.find((column) => column.href!.endsWith('/id'));
+    if (idColumn) {
+      this.sortationObjects.push(new SortModalObject(idColumn, QUERY_SORT_BY_ASC));
+    }
   }
 
   private fillUpSortElements() {
