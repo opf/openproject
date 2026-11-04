@@ -30,27 +30,19 @@
 require "spec_helper"
 
 RSpec.describe Redmine::Ciphering, with_config: { "database_cipher_key" => "secret" } do
-  describe ".encrypt_text" do
-    it "encodes long encrypted values without line breaks" do
-      encrypted = described_class.encrypt_text("x" * 40)
-
-      expect(encrypted).not_to include("\n")
-    end
-  end
-
   describe ".decrypt_text" do
-    it "decrypts long encrypted values" do
-      plaintext = "x" * 40
-
-      expect(described_class.decrypt_text(described_class.encrypt_text(plaintext))).to eq(plaintext)
+    it "decrypts legacy encrypted values" do
+      expect(described_class.decrypt_text("aes-256-cbc:w8ptVp+/egSM1uKWSLw4CA==--MDEyMzQ1Njc4OWFiY2RlZg=="))
+        .to eq("legacy-password")
     end
 
     it "decrypts values stored with line-wrapped Base64 encoding" do
-      plaintext = "x" * 40
-      encrypted = described_class.encrypt_text(plaintext)
-      legacy_encrypted = encrypted.sub(/\A(aes-256-cbc:.{60})/, "\\1\n")
+      expect(described_class.decrypt_text("aes-256-cbc:w8ptVp+/egSM1uKWSLw\n4CA==--MDEyMzQ1Njc4OWFiY2RlZg=="))
+        .to eq("legacy-password")
+    end
 
-      expect(described_class.decrypt_text(legacy_encrypted)).to eq(plaintext)
+    it "returns plaintext values unchanged" do
+      expect(described_class.decrypt_text("plaintext")).to eq("plaintext")
     end
   end
 end

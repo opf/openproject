@@ -32,7 +32,7 @@ require "net/ldap"
 class LdapAuthSource < ApplicationRecord
   class Error < ::StandardError; end
 
-  include Redmine::Ciphering
+  encrypts :account_password
 
   has_many :users,
            dependent: :nullify
@@ -113,14 +113,6 @@ class LdapAuthSource < ApplicationRecord
 
   def seeded_from_env?
     Setting.seed_ldap&.key?(name)
-  end
-
-  def account_password
-    read_ciphered_attribute(:account_password)
-  end
-
-  def account_password=(arg)
-    write_ciphered_attribute(:account_password, arg)
   end
 
   def authenticate(login, password)
