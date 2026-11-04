@@ -73,7 +73,9 @@ class PushState {
  * comes back. Groups are shown oldest first so the newest ends on top.
  *
  * A push must end with something visible: if nothing qualifies, the newest group is refreshed when
- * it is open, otherwise the fallback is shown.
+ * it is open, otherwise the fallback is shown. The refresh is needed even when that notification is
+ * already on screen: Safari only counts a push that calls showNotification and drops every
+ * subscription of the site after three pushes that did not.
  */
 class NotificationPlan {
   static activityAt(group) {
