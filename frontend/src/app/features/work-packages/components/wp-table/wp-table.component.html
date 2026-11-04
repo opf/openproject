@@ -57,7 +57,8 @@
               @for (column of view.columns; track column.href) {
                 <th
                   [attr.aria-label]="column.name"
-                  [ngClass]="{'-max': column.id === 'subject', '-min-200': ['estimatedTime', 'remainingTime'].includes(column.id) }"
+                  [class.-max]="column.id === 'subject'"
+                  [class.-min-200]="column.id === 'estimatedTime' || column.id === 'remainingTime'"
                   class="wp-table--table-header wp-table--navigable-cell"
                   [attr.aria-sort]="ariaSort(column)">
                   <sortHeader [headerColumn]="column"
