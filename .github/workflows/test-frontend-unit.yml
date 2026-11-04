@@ -79,6 +79,10 @@ jobs:
         if: ${{ !cancelled() && steps.typecheck-app.outcome != 'skipped' }}
         run: npm run typecheck:spec
 
+      - name: Typecheck service worker
+        if: ${{ !cancelled() && steps.typecheck-app.outcome != 'skipped' }}
+        run: npm run typecheck:sw
+
   unit:
     name: Units (${{ matrix.browser }})
     needs: playwright-version
