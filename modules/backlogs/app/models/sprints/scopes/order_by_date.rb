@@ -32,11 +32,21 @@ module Sprints::Scopes::OrderByDate
 
   class_methods do
     def order_by_date
-      order(Arel.sql("CASE WHEN sprints.status = 'in_planning' THEN 1 ELSE 0 END"),
-            Arel.sql("COALESCE(sprints.started_at, sprints.start_date) ASC NULLS LAST"),
-            Arel.sql("COALESCE(sprints.completed_at, sprints.finish_date) ASC NULLS LAST"),
+      order(in_planning_last,
+            coalesce(:started_at, :start_date).asc.nulls_last,
+            coalesce(:completed_at, :finish_date).asc.nulls_last,
             arel_table[:name].asc,
             arel_table[:id].asc)
+    end
+
+    private
+
+    def in_planning_last
+      Arel::Nodes::Case.new(arel_table[:status]).when("in_planning").then(1).else(0).asc
+    end
+
+    def coalesce(*columns)
+      Arel::Nodes::NamedFunction.new("COALESCE", columns.map { arel_table[it] })
     end
   end
 end
