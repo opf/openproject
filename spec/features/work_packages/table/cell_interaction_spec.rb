@@ -96,6 +96,7 @@ RSpec.describe "Work package table cell interaction", :js do
     menu = Components::WorkPackages::ContextMenu.new
     menu.expect_open
     expect(page).to have_css("#work-package-context-menu", count: 1)
+    expect(page).to have_selector(:menuitem, focused: true)
 
     wp_table.press_keys(:escape)
     menu.expect_closed
