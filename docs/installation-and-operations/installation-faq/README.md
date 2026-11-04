@@ -64,7 +64,7 @@ However, the OpenProject **BIM edition** is only supported on AMD64.
 
 ### Can I install OpenProject offline?
 
-For the packaged installation there are quite a few dependencies which would have to be loaded during installation (like SQLite3, unzip, poppler-utils, unrtf, ...). Therefore, we recommend  to use a Docker setup for offline installation. A Docker image contains all dependencies and can really be transferred as single files (via docker save ) without further dependencies. Please find out more about air-gapped installation [here](../installation/docker#offlineair-gapped-installation).
+For the packaged installation there are quite a few dependencies which would have to be loaded during installation (like SQLite3, unzip, poppler-utils, unrtf, ...). Therefore, we recommend to use a Docker setup for offline installation. A Docker image contains all OpenProject application dependencies and can be transferred as a single file using `docker save`, provided Docker Engine is already installed on the target system. If Docker Engine must also be installed offline, Docker and its operating-system package dependencies need to be downloaded and transferred separately. Please find out more about air-gapped installation [here](../installation/docker#offlineair-gapped-installation).
 Alternatively, you could install OpenProject on a virtual machine with Internet access and then re-use the VM image on the offline hosts.
 
 ### Can I use MySQL instead of PostgreSQL?
