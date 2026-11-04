@@ -143,6 +143,19 @@ RSpec.describe Import::JiraClient do
     end
   end
 
+  describe "#resolutions", :webmock do
+    include_context "with ssrf stubs"
+
+    let(:body) { [{ "id" => "10000", "name" => "Done" }, { "id" => "10001", "name" => "Won't Do" }] }
+
+    it "returns all resolutions of the instance" do
+      stub_request(:get, "#{url}/rest/api/2/resolution")
+        .to_return(status: 200, body: body.to_json, headers: { "Content-Type" => "application/json" })
+
+      expect(client.resolutions).to eq(body)
+    end
+  end
+
   describe "#custom_field_options", :webmock do
     include_context "with ssrf stubs"
 

@@ -65,6 +65,7 @@ module Import
     def collect_metadata
       issue_types_count = @client.issue_types_count
       statuses_count = @client.statuses_count
+      resolutions_count = @client.resolutions.count
       issues_count = @client.issues_count
       users_count = @client.applicationrole.inject(0) do |users_count, application|
         users_count + application["userCount"]
@@ -75,6 +76,7 @@ module Import
         "projects" => projects,
         "total_issues" => issues_count,
         "total_statuses" => statuses_count,
+        "total_resolutions" => resolutions_count,
         "total_issue_types" => issue_types_count,
         "total_users" => users_count,
         "server_info" => server_info

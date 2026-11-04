@@ -214,6 +214,10 @@ module Import
       end
     end
 
+    def resolutions
+      get("/rest/api/2/resolution")
+    end
+
     def status_categories
       get("/rest/api/2/statuscategory")
     end
