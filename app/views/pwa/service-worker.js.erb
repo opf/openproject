@@ -423,28 +423,33 @@ class PushHandler {
   }
 }
 
-/** Opens a clicked notification's page in an existing window of the app, or in a new one. */
+/** Focuses an existing window of the app, controlled ones first, and opens a clicked notification's page there, or in a new one. */
 class NotificationClick {
   static sameOriginUrl(url) {
     const resolved = new URL(url, self.location.href);
     return resolved.origin === self.location.origin ? resolved.href : new URL(Config.urls.home, self.location.href).href;
   }
 
+  static async windowsInScope(options) {
+    const windows = await self.clients.matchAll({ type: "window", ...options });
+    return windows.filter((candidate) => candidate.url.startsWith(self.registration.scope));
+  }
+
   static async open(requestedUrl) {
     const url = NotificationClick.sameOriginUrl(requestedUrl);
-    const windows = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
-    const clients = windows.filter((candidate) => candidate.url.startsWith(self.registration.scope));
+    let clients = await NotificationClick.windowsInScope();
+    if (clients.length === 0) clients = await NotificationClick.windowsInScope({ includeUncontrolled: true });
+
     const client =
       clients.find((candidate) => candidate.visibilityState === "visible" || candidate.focused) || clients[0];
     if (!client) return self.clients.openWindow(url);
 
-    let navigated;
     try {
-      navigated = await client.navigate(url);
+      await client.focus();
+      await client.navigate(url);
     } catch {
       return self.clients.openWindow(url);
     }
-    return navigated?.focus();
   }
 }
 
