@@ -311,8 +311,11 @@ class Digest {
  *                                  does nothing; unread closes unlisted notifications (marked
  *                                  evicted when more are collapsed), sets the badge, saves state
  *
- * account message ──► user differs from the last one seen? bump sign-out generation
- *                     queue: close and forget the notifications of other users
+ * account message ──► user differs from the last one this worker instance saw?
+ *                       yes: bump sign-out generation; close and forget every notification
+ *                            that is not this user's, including "more" and the placeholder
+ *                       no (or first message since the worker started): close and forget only
+ *                            work package notifications of other users
  * ```
  */
 class PushHandler {
@@ -363,9 +366,10 @@ class PushHandler {
   }
 
   switchAccount(userId) {
-    if (this.accountId !== undefined && this.accountId !== userId) this.signOutGeneration += 1;
+    const changed = this.accountId !== undefined && this.accountId !== userId;
+    if (changed) this.signOutGeneration += 1;
     this.accountId = userId;
-    return this.enqueue(() => this.closeOtherAccounts(userId));
+    return this.enqueue(() => this.closeOtherAccounts(userId, changed));
   }
 
   enqueue(task) {
@@ -464,8 +468,11 @@ class PushHandler {
     await PushState.clear();
   }
 
-  async closeOtherAccounts(userId) {
-    const isOther = (tag) => ![undefined, userId].includes(Notifications.ownerOf(tag));
+  async closeOtherAccounts(userId, changed) {
+    const isOther = (tag) => {
+      const owner = Notifications.ownerOf(tag);
+      return owner === undefined ? changed : owner !== userId;
+    };
     const open = await Notifications.listOpen();
     Notifications.close(open, open.map((notification) => notification.tag).filter(isOther));
 
