@@ -57,7 +57,9 @@ module API
       def respond_with_attachment(attachment, cache_seconds: nil)
         validate_attachment_access!(attachment)
 
-        if attachment.prepared?
+        if attachment.incomplete_import?
+          raise ::API::Errors::NotFound.new
+        elsif attachment.prepared?
           redirect_to_staged_upload(attachment)
         elsif attachment.external_storage?
           prepare_cache_headers(cache_seconds) if cache_seconds

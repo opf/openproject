@@ -30,12 +30,16 @@
 require "digest/md5"
 
 class Attachment < ApplicationRecord
+  INCOMPLETE_IMPORT_STATUSES = %w[import_prepared import_failed].freeze
+
   enum :status, {
     uploaded: 0,
     prepared: 1,
     scanned: 2,
     quarantined: 3,
-    rescan: 4
+    rescan: 4,
+    import_prepared: 5,
+    import_failed: 6
   }, prefix: true
 
   belongs_to :container, polymorphic: true
@@ -69,11 +73,12 @@ class Attachment < ApplicationRecord
 
   mount_uploader :file, OpenProject::Configuration.file_uploader
 
-  after_commit :enqueue_jobs, on: :create, if: -> { !internal_container? }
+  after_commit :enqueue_jobs, on: :create, if: -> { !internal_container? && !incomplete_import? }
   after_commit :delete_staged_direct_upload, on: :destroy, if: :prepared?
 
   scope :pending_direct_upload, -> { status_prepared }
   scope :not_pending_direct_upload, -> { not_status_prepared }
+  scope :not_incomplete_import, -> { where.not(status: INCOMPLETE_IMPORT_STATUSES) }
 
   ##
   # Returns an URL if the attachment is stored in an external (fog) attachment storage
@@ -157,6 +162,10 @@ class Attachment < ApplicationRecord
 
   def prepared?
     status_prepared?
+  end
+
+  def incomplete_import?
+    INCOMPLETE_IMPORT_STATUSES.include?(status)
   end
 
   def pending_virus_scan?
