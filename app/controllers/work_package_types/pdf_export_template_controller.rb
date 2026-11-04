@@ -132,7 +132,15 @@ module WorkPackageTypes
     protected
 
     def permitted_settings
-      params.permit(*@template.settings_component.fields).to_h
+      component = @template.settings_component
+      array_fields = component.array_fields
+      scalar_fields = component.fields - array_fields
+
+      permitted = params.permit(*scalar_fields, **array_fields.index_with { [] }.symbolize_keys).to_h
+      array_fields.each do |field|
+        permitted[field] = Array(permitted[field]).compact_blank if permitted.key?(field)
+      end
+      permitted
     end
 
     def save_settings!
