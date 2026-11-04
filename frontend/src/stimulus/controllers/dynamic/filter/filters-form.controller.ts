@@ -34,9 +34,8 @@ import {
   type TurboBeforeMorphElementEvent,
 } from '@hotwired/turbo';
 import { debounce } from 'lodash-es';
-import { hideElement, showElement } from 'core-app/shared/helpers/dom-helpers';
 import { escapeFilterValue } from 'core-stimulus/helpers/filter-helpers';
-import { withLoadingIndicator } from 'core-stimulus/helpers/request-helpers';
+import { hideLoadingIndicator, showLoadingIndicator, withLoadingIndicator } from 'core-stimulus/helpers/request-helpers';
 import { getMetaValue } from 'core-app/core/setup/globals/global-helpers';
 import { endOfDayISO, startOfDayISO } from 'core-common/local-datetime';
 import { PrimerMultiInputElement } from '@primer/view-components/app/lib/primer/forms/primer_multi_input';
@@ -638,14 +637,14 @@ export default class FiltersFormController extends Controller {
     } else if (this.turboStreamRequestValue) {
       void withLoadingIndicator(this.renderStreamResponse(url, newFilters, browserUrl));
     } else {
-      showElement(document.querySelector<HTMLElement>('#global-loading-indicator')!);
+      showLoadingIndicator();
       window.location.href = url;
     }
   }
 
   private renderFrameResponse(url:string):Promise<void> {
     // visit() snapshots the page for history; keep a previous request's indicator out of it.
-    hideElement(document.querySelector<HTMLElement>('#global-loading-indicator')!);
+    hideLoadingIndicator();
     visit(url, { frame: this.turboFrameRequestValue, action: 'advance' });
 
     const { turboFrame } = this;

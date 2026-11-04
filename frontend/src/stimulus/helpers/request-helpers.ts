@@ -35,13 +35,25 @@ export function post(url:string|URL, options?:Options) {
   return withLoadingIndicator(request.perform());
 }
 
+function loadingIndicator() {
+  const indicator = document.querySelector<HTMLElement>('#global-loading-indicator');
+  invariant(indicator, 'Expected an Element with id global-loading-indicator to be present');
+  return indicator;
+}
+
+export function showLoadingIndicator() {
+  showElement(loadingIndicator());
+}
+
+export function hideLoadingIndicator() {
+  hideElement(loadingIndicator());
+}
+
 export function withLoadingIndicator<T>(request:Promise<T>) {
-  const loadingIndicator = document.querySelector<HTMLElement>('#global-loading-indicator');
-  invariant(loadingIndicator, 'Expected an Element with id global-loading-indicator to be present');
-  showElement(loadingIndicator);
+  showLoadingIndicator();
 
   return request.finally(() => {
-    hideElement(loadingIndicator);
+    hideLoadingIndicator();
   });
 }
 
