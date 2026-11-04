@@ -1,0 +1,159 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { Tags } from './constants';
+
+export interface SummaryGroup {
+  tag:string;
+  title:string;
+  body?:string;
+  url:string;
+  revision:string;
+}
+
+export interface SummaryMore {
+  title:string;
+  url:string;
+}
+
+export interface DigestedGroup extends SummaryGroup {
+  digest:string;
+}
+
+export interface DigestedMore extends SummaryMore {
+  digest:string;
+}
+
+export interface StateEntry {
+  digest?:string;
+  at?:number;
+  evicted?:boolean;
+}
+
+export type PushStateMap = Record<string, StateEntry>;
+
+export type PlanItem =
+  | { kind:'alert'|'refresh'; group:DigestedGroup }
+  | { kind:'more'; more:DigestedMore }
+  | { kind:'fallback' };
+
+export interface PlanResult {
+  show:PlanItem[];
+  state:PushStateMap;
+}
+
+/**
+ * Decides what to show for an unread summary, without touching the browser.
+ *
+ * Each group is one work package. Compared with what was shown before, per group:
+ *
+ * ```
+ * new activity since last shown ............................ alert  (sound, renotify)
+ * else: open and its content changed, nothing but the
+ *       placeholder open, or it was evicted earlier ........ refresh (silent, same tag)
+ * else .................................................... skip
+ * ```
+ *
+ * Only the newest five groups are listed; the rest collapse into one "more" notification. A group
+ * that drops out of the list is closed and remembered as evicted, so it returns silently if it
+ * comes back. Groups are shown oldest first so the newest ends on top.
+ *
+ * A push must end with something visible: if nothing qualifies, the newest group is refreshed when
+ * it is open, otherwise the fallback is shown. The refresh is needed even when that notification is
+ * already on screen: Safari only counts a push that calls showNotification and drops every
+ * subscription of the site after three pushes that did not.
+ */
+export class NotificationPlan {
+  static activityAt(group:SummaryGroup):number {
+    return Number(group.revision.split(':')[1]) || 0;
+  }
+
+  static staleTags({ groups, more, openTags }:{ groups:SummaryGroup[]; more?:SummaryMore; openTags:string[] }):string[] {
+    const keepTags = new Set(groups.map((group) => group.tag));
+    if (more) keepTags.add(Tags.more);
+    return openTags.filter((tag) => !keepTags.has(tag));
+  }
+
+  static isNewActivity(previous:StateEntry|undefined, at:number):boolean {
+    return previous?.at === undefined || at > previous.at;
+  }
+
+  static needsRefresh({ group, previous, openTags }:{ group:DigestedGroup; previous:StateEntry|undefined; openTags:string[] }):boolean {
+    const onlyPlaceholderOpen = openTags.every((tag) => tag === Tags.placeholder);
+    return (
+      onlyPlaceholderOpen || !!previous?.evicted || (openTags.includes(group.tag) && previous?.digest !== group.digest)
+    );
+  }
+
+  static evictedState(closeTags:string[], state:PushStateMap):PushStateMap {
+    const evicted:PushStateMap = {};
+    closeTags
+      .filter((tag) => state[tag]?.at !== undefined)
+      .forEach((tag) => {
+        evicted[tag] = { ...state[tag], evicted: true };
+      });
+    return evicted;
+  }
+
+  static for({ groups, more, openTags, state }:{
+    groups:DigestedGroup[];
+    more?:DigestedMore;
+    openTags:string[];
+    state:PushStateMap;
+  }):PlanResult {
+    const closeTags = NotificationPlan.staleTags({ groups, more, openTags });
+    const nextState:PushStateMap = {};
+    const show:PlanItem[] = [];
+
+    if (more) {
+      Object.assign(nextState, NotificationPlan.evictedState(closeTags, state));
+      nextState[Tags.more] = { digest: more.digest };
+      if (state[Tags.more]?.digest !== more.digest || !openTags.includes(Tags.more)) {
+        show.push({ kind: 'more', more });
+      }
+    }
+
+    // Shown oldest first, so the newest ends on top.
+    for (const group of [...groups].reverse()) {
+      const previous:StateEntry|undefined = state[group.tag];
+      const at = NotificationPlan.activityAt(group);
+      nextState[group.tag] = { digest: group.digest, at: Math.max(at, previous?.at ?? 0) };
+
+      if (NotificationPlan.isNewActivity(previous, at)) {
+        show.push({ kind: 'alert', group });
+      } else if (NotificationPlan.needsRefresh({ group, previous, openTags })) {
+        show.push({ kind: 'refresh', group });
+      }
+    }
+
+    if (show.length === 0) {
+      show.push(openTags.includes(groups[0].tag) ? { kind: 'refresh', group: groups[0] } : { kind: 'fallback' });
+    }
+
+    return { show, state: more ? { ...state, ...nextState } : nextState };
+  }
+}
