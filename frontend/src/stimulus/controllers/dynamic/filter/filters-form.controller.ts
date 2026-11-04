@@ -630,15 +630,6 @@ export default class FiltersFormController extends Controller {
     }
   }
 
-  private visitFrame(url:string):Promise<void> {
-    // visit() snapshots the page for history; keep a previous request's indicator out of it.
-    hideLoadingIndicator();
-    visit(url, { frame: this.turboFrameRequestValue, action: 'advance' });
-
-    const { turboFrame } = this;
-    return turboFrame ? frameResponded(turboFrame) : Promise.resolve();
-  }
-
   private requestedFilters():string {
     // Check for in-flight stream requests
     if (this.sentFilters !== null) return this.sentFilters;
@@ -648,6 +639,15 @@ export default class FiltersFormController extends Controller {
     const requestedUrl = frame?.hasAttribute('busy') && frame.src ? frame.src : window.location.href;
 
     return new URL(requestedUrl, window.location.href).searchParams.get('filters') ?? '';
+  }
+
+  private visitFrame(url:string):Promise<void> {
+    // visit() snapshots the page for history; keep a previous request's indicator out of it.
+    hideLoadingIndicator();
+    visit(url, { frame: this.turboFrameRequestValue, action: 'advance' });
+
+    const { turboFrame } = this;
+    return turboFrame ? frameResponded(turboFrame) : Promise.resolve();
   }
 
   private async renderStreamResponse(url:string, newFilters:string) {
