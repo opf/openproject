@@ -423,8 +423,15 @@ class OfflinePage {
   }
 
   static async load(event) {
+    let preloaded;
     try {
-      return (await event.preloadResponse) || (await fetch(event.request));
+      preloaded = await event.preloadResponse;
+    } catch {
+      preloaded = undefined;
+    }
+
+    try {
+      return preloaded || (await fetch(event.request));
     } catch {
       const cache = await caches.open(Config.cache.name);
       return (await cache.match(Config.urls.offline)) || Response.error();
