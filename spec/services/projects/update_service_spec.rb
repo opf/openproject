@@ -30,7 +30,7 @@
 require "spec_helper"
 require "services/base_services/behaves_like_update_service"
 
-RSpec.describe Projects::UpdateService, type: :model do
+RSpec.describe Projects::UpdateService do
   it_behaves_like "BaseServices update service" do
     let!(:model_instance) do
       build_stubbed(:project, :with_status)
@@ -239,6 +239,31 @@ RSpec.describe Projects::UpdateService, type: :model do
             cf_calculated1.id => "21",
             cf_calculated2.id => "-6",
             cf_calculated3.id => "-6"
+          )
+        end
+      end
+
+      context "when deselecting an item of a multi-value field referenced in calculated values",
+              with_ee: %i[weighted_item_lists calculated_values] do
+        let(:cf_list) { create(:weighted_item_list_project_custom_field, multi_value: true, projects: [project]) }
+        let(:cf_calculated) do
+          create(:calculated_value_project_custom_field, :skip_validations, projects: [project], formula: "SUM(#{cf_list})")
+        end
+        let(:item1) { create(:hierarchy_item, parent: cf_list.hierarchy_root, weight: 1.5) }
+        let(:item2) { create(:hierarchy_item, parent: cf_list.hierarchy_root, weight: 1) }
+        let(:removed_item) { create(:hierarchy_item, parent: cf_list.hierarchy_root, weight: 2) }
+        let(:call_attributes) { { custom_field_values: { cf_list.id => [item1.id.to_s, item2.id.to_s] } } }
+
+        before do
+          [item1, item2, removed_item].each { create(:custom_value, customized: project, custom_field: cf_list, value: it.id) }
+          create(:custom_value, customized: project, custom_field: cf_calculated, value: 4.5)
+        end
+
+        it "recalculates the dependent value" do
+          expect { subject }.to change(project, :custom_value_attributes).from(
+            { cf_list.id => [item1.id.to_s, item2.id.to_s, removed_item.id.to_s], cf_calculated.id => "4.5" }
+          ).to(
+            { cf_list.id => [item1.id.to_s, item2.id.to_s], cf_calculated.id => "2.5" }
           )
         end
       end
