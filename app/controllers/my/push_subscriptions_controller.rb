@@ -44,7 +44,7 @@ module My
         head :gone
       elsif result.failure?
         render json: { errors: result.errors.full_messages }, status: :unprocessable_entity
-      elsif resume?
+      elsif background_resume?
         head :no_content
       else
         render_devices
@@ -76,6 +76,10 @@ module My
 
     def resume?
       ActiveModel::Type::Boolean.new.cast(params[:resume])
+    end
+
+    def background_resume?
+      resume? && !request.format.turbo_stream?
     end
 
     def render_devices

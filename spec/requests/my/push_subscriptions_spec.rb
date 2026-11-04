@@ -57,8 +57,10 @@ RSpec.describe "My::PushSubscriptionsController",
     post "/my/push_subscriptions", params: { push_endpoint: value }.to_json, headers: json_headers
   end
 
-  def resume(value)
-    post "/my/push_subscriptions", params: { push_endpoint: value, resume: true }.to_json, headers: json_headers
+  def resume(value, accept: "application/json")
+    post "/my/push_subscriptions",
+         params: { push_endpoint: value, resume: true }.to_json,
+         headers: json_headers.merge("Accept" => accept)
   end
 
   describe "POST /my/push_subscriptions" do
@@ -99,7 +101,26 @@ RSpec.describe "My::PushSubscriptionsController",
           resume(endpoint)
 
           expect(response).to have_http_status(:no_content)
+          expect(response.body).to be_empty
           expect(dormant.reload).to have_attributes(session: current_session_row, suspended_at: nil)
+        end
+
+        it "answers a turbo stream resume with the replaced device list showing this session" do
+          dormant = create(:push_subscription, user:, endpoint:, session: nil, suspended_at: 2.days.ago)
+
+          resume(endpoint, accept: turbo_headers["Accept"])
+
+          expect(response).to have_http_status(:ok)
+          assert_select "turbo-stream[action=replace][target=my-push-subscriptions]"
+          assert_select "turbo-stream template", text: /#{Regexp.escape(I18n.t('my_account.push_notifications.this_session'))}/
+          expect(dormant.reload.session).to eq(current_session_row)
+        end
+
+        it "answers gone without a stream to a turbo stream resume for an unknown endpoint" do
+          resume(endpoint, accept: turbo_headers["Accept"])
+
+          expect(response).to have_http_status(:gone)
+          expect(response.body).to be_empty
         end
 
         it "answers gone and claims nothing when the user has no subscription for the endpoint" do
