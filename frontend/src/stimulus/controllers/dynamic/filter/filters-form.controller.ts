@@ -619,19 +619,18 @@ export default class FiltersFormController extends Controller {
     const pathName = this.urlPathNameValue || window.location.pathname;
     const search = params.toString();
     const url = `${pathName}${search ? `?${search}` : ''}`;
-    const browserUrl = `${window.location.pathname}${search ? `?${search}` : ''}${window.location.hash}`;
 
     if (this.hasTurboFrameRequestValue) {
-      void withLoadingIndicator(this.renderFrameResponse(url));
+      void withLoadingIndicator(this.visitFrame(url));
     } else if (this.turboStreamRequestValue) {
-      void withLoadingIndicator(this.renderStreamResponse(url, newFilters, browserUrl));
+      void withLoadingIndicator(this.renderStreamResponse(url, newFilters));
     } else {
       showLoadingIndicator();
       window.location.href = url;
     }
   }
 
-  private renderFrameResponse(url:string):Promise<void> {
+  private visitFrame(url:string):Promise<void> {
     // visit() snapshots the page for history; keep a previous request's indicator out of it.
     hideLoadingIndicator();
     visit(url, { frame: this.turboFrameRequestValue, action: 'advance' });
@@ -651,7 +650,10 @@ export default class FiltersFormController extends Controller {
     return new URL(requestedUrl, window.location.href).searchParams.get('filters') ?? '';
   }
 
-  private async renderStreamResponse(url:string, newFilters:string, browserUrl:string) {
+  private async renderStreamResponse(url:string, newFilters:string) {
+    const { pathname, hash } = window.location;
+    const browserUrl = `${pathname}${new URL(url, window.location.href).search}${hash}`;
+
     this.streamAbortController?.abort();
     this.streamAbortController = new AbortController();
     const { signal } = this.streamAbortController;
