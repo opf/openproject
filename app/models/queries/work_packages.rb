@@ -42,6 +42,7 @@ module Queries::WorkPackages
     filter Filter::DueDateFilter
     filter Filter::EstimatedHoursFilter
     filter Filter::GroupFilter
+    filter Filter::HasSpentTimeFilter
     filter Filter::IdFilter
     filter Filter::PriorityFilter
     filter Filter::ProjectFilter
