@@ -3980,6 +3980,7 @@ en:
       comment_retracted: "Comment retracted"
       dates_changed: "Dates changed"
       default_attribute_written: "Read-only attributes written"
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: "Imported"
       label_deleted: "Label removed:"
