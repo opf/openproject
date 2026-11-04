@@ -40,6 +40,16 @@ RSpec.describe WorkPackageTypes::FormConfiguration::QuerySummaryComponent, type:
     expect(page).to have_text("Subject contains <script>alert(1)</script>")
   end
 
+  it "lays rows out as a definition list the component styles itself", :aggregate_failures do
+    rows = [{ label: "Filters", values: ["Assignee is empty", "Status is open"] }]
+    render_inline(described_class.new(rows:))
+
+    expect(page).to have_element(:dl, class: "type-form-configuration-query-summary")
+    expect(page).to have_element(:div, class: "type-form-configuration-query-summary--item", count: 1)
+    expect(page).to have_element(:dt, class: "type-form-configuration-query-summary--term", text: "Filters")
+    expect(page).to have_element(:dd, class: "type-form-configuration-query-summary--description", count: 2)
+  end
+
   it "does not render without summary rows" do
     render_inline(described_class.new(rows: nil))
     expect(page).to have_no_element(:dl)

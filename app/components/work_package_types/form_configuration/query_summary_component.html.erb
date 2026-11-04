@@ -1,9 +1,9 @@
-<%= render(OpPrimer::DefinitionListComponent.new(classes: "type-form-configuration-page--query-summary")) do |list| %>
+<%= render(OpPrimer::DefinitionListComponent.new(classes: "type-form-configuration-query-summary")) do |list| %>
   <% @rows.each do |row| %>
-    <% list.with_item do |item| %>
-      <% item.with_term { row.fetch(:label) } %>
+    <% list.with_item(classes: "type-form-configuration-query-summary--item") do |item| %>
+      <% item.with_term(classes: "type-form-configuration-query-summary--term") { row.fetch(:label) } %>
       <% row.fetch(:values).each do |value| %>
-        <% item.with_description { value } %>
+        <% item.with_description(classes: "type-form-configuration-query-summary--description") { value } %>
       <% end %>
     <% end %>
   <% end %>
