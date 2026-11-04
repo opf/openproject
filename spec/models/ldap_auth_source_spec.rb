@@ -30,6 +30,10 @@
 require "spec_helper"
 
 RSpec.describe LdapAuthSource do
+  it_behaves_like "an encrypted credential", :account_password do
+    let(:credential_record) { create(:ldap_auth_source) }
+  end
+
   it "creates" do
     a = described_class.new(name: "My LDAP", host: "ldap.example.net", port: 389, base_dn: "dc=example,dc=net",
                             attr_login: "sAMAccountName")

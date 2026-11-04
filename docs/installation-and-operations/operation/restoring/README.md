@@ -10,6 +10,9 @@ This document describes how to restore a complete backup of OpenProject.
 
 Please look [here](./restoring-a-deleted-project/) if you want to restore a deleted project from a backup.
 
+> [!IMPORTANT]
+> Use the `SECRET_KEY_BASE` (or `OPENPROJECT_DATABASE__ENCRYPTION__KEY`) of the installation that made the backup. If the new installation uses a different value, set the old value as `OPENPROJECT_DATABASE__ENCRYPTION__PREVIOUS__KEY` and re-encrypt the passwords, as described in [Encryption of SCM and LDAP passwords](../../configuration/#encryption-of-scm-and-ldap-passwords). Without the old value, OpenProject cannot read the SCM and LDAP passwords, and you must enter them again.
+
 ## Package-based installation (DEB/RPM)
 
 Assuming you have a backup of all the OpenProject files at hand (see the [Backing up](../backing-up) guide), here is how you would restore your OpenProject installation from that backup.

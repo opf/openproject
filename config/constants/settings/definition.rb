@@ -338,7 +338,7 @@ module Settings
         description: "Escapes cells with single quote in CSV exports that begin with a spreadsheet formula character (e.g., =,@)"
       },
       database_cipher_key: {
-        description: "Encryption key for repository credentials",
+        description: "Legacy encryption key, only read to migrate SCM and LDAP credentials from older versions",
         format: :string,
         default: nil,
         writable: false,
