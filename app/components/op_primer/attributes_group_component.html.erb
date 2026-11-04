@@ -29,11 +29,11 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(Primer::BaseComponent.new(tag: :div, **system_arguments)) do %>
   <%= header %>
 
-  <div class="AttributesGroupWrap">
+  <%= render Primer::BaseComponent.new(tag: :dl, classes: "AttributesGroupWrap", m: 0) do %>
     <% attributes.each do |attribute| %>
       <div class="AttributesGroupItem">
         <%= attribute %>
       </div>
     <% end %>
-  </div>
+  <% end %>
 <% end %>
