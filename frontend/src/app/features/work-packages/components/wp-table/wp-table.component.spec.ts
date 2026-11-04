@@ -59,13 +59,15 @@ import { IntegerDisplayField } from 'core-app/shared/components/fields/display/f
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { nextFrame, nextTask } from 'core-common/testing/timing';
 import {
-  buildQuery, FakeDragAndDropService, harnessProviders, initializeViewServices,
+  buildColumn, buildQuery, FakeDragAndDropService, harnessProviders, initializeViewServices,
 } from '../wp-fast-table/testing/table-harness';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { buildWorkPackage, WorkPackageFixture } from '../wp-fast-table/testing/work-package-fixture';
 import { WorkPackageTimelineTableController } from './timeline/container/wp-timeline-container.directive';
 import { WorkPackagesTableComponent } from './wp-table.component';
 import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
 import { WorkPackageTableSumsRowController } from './wp-table-sums-row/wp-table-sums-row.directive';
+import { SortHeaderDirective } from './sort-header/sort-header.directive';
 
 /** Shows the table or the card view, as `wp-list-view` does when the viewport or query changes. */
 @Component({
@@ -434,12 +436,12 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     created = new Subject();
     newWorkPackage = Object.assign(buildWorkPackage({ id: HAL_NEW_RESOURCE_ID, subject: '' }), { __initialized_at: 1 });
     await TestBed.configureTestingModule({
-      declarations: [WorkPackagesTableComponent, WorkPackageInlineCreateComponent, WorkPackageTableSumsRowController, ListViewStandInComponent, TwoTablesStandInComponent],
+      declarations: [WorkPackagesTableComponent, WorkPackageInlineCreateComponent, WorkPackageTableSumsRowController, SortHeaderDirective, ListViewStandInComponent, TwoTablesStandInComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         ...harnessProviders(new FakeDragAndDropService(), { workPackages: [], translations, editing: {} }),
         WorkPackageViewSumService,
-        { provide: WorkPackageViewBaselineService, useValue: { isActive: () => baselineActive, isChanged: () => false, live$: () => of(null) } },
+        { provide: WorkPackageViewBaselineService, useValue: { isActive: () => baselineActive, isChanged: () => false, isIncompatibleColumn: () => false, live$: () => of(null) } },
         {
           provide: WorkPackageInlineCreateService,
           useValue: {
@@ -547,6 +549,59 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       .flatMap((element) => [element.getAttribute('aria-describedby'), element.getAttribute('aria-labelledby')])
       .flatMap((value) => value?.split(/\s+/) ?? []);
   }
+
+  describe('sort headers', () => {
+    function makeSortable(...ids:string[]) {
+      querySpace.available.sortBy.putValue(ids.map((id) => ({
+        column: { id, name: id, href: `/api/v3/queries/columns/${id}` },
+        direction: { href: QUERY_SORT_BY_ASC },
+      }) as unknown as QuerySortByResource));
+    }
+
+    const subjectLink = () => headerRow().querySelector<HTMLAnchorElement>('a#subject');
+    const subjectHeader = () => subjectLink()!.closest<HTMLElement>('th')!;
+
+    it('keeps following the sort after the table is replaced', async () => {
+      makeSortable('id', 'subject');
+      const component = await mount({});
+      const body = document.createElement('div');
+      component.timeline.append(body);
+      component.registerTimeline({} as WorkPackageTimelineTableController, body);
+
+      sortBy(['subject', QUERY_SORT_BY_DESC]);
+      await fixture.whenStable();
+
+      expect(subjectLink()).toHaveClass('sort', 'desc');
+    });
+
+    it('keeps the sort on headers rebuilt from replacement columns', async () => {
+      makeSortable('id', 'subject');
+      await mount({});
+      sortBy(['subject', QUERY_SORT_BY_ASC]);
+      await fixture.whenStable();
+
+      TestBed.inject(WorkPackageViewColumnsService).update([buildColumn('subject'), buildColumn('id')] as QueryColumn[]);
+      await fixture.whenStable();
+
+      expect(within(headerRow()).getAllByRole('columnheader')[0]).toBe(subjectHeader());
+      expect(subjectLink()).toHaveClass('sort', 'asc');
+    });
+
+    it('keeps header focus when the sort changes', async () => {
+      makeSortable('id', 'subject');
+      await mount({});
+      const header = subjectHeader();
+      header.focus();
+      expect(header).toHaveFocus();
+
+      sortBy(['subject', QUERY_SORT_BY_DESC]);
+      await fixture.whenStable();
+
+      expect(subjectHeader()).toBe(header);
+      expect(header).toHaveFocus();
+      expect(subjectLink()).toHaveClass('sort', 'desc');
+    });
+  });
 
   describe('naming', () => {
     it('names the table', async () => {
