@@ -37,11 +37,7 @@ module Wikis
 
     # @return [ServiceResult<ActiveRecord::Relation<Wikis::PageLink>]
     def call
-      @result.result = if relation.any?
-                         enrich_models(fetch_metadata)
-                       else
-                         relation
-                       end
+      @result.result = enrich_models(fetch_metadata)
 
       @result
     end
@@ -71,6 +67,8 @@ module Wikis
     end
 
     def enrich_models(metadata)
+      return relation.select("wiki_page_links.*, NULL AS title") if metadata.empty?
+
       variable_placeholders = Array.new(metadata.size, "(?,?)").join(",")
       join_string = <<~SQL.squish
         LEFT JOIN (VALUES #{variable_placeholders}) AS metadata(page_link_id, title)
