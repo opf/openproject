@@ -90,12 +90,18 @@ export class PushHandler {
     return new URL(request.url).pathname === this.signOutPath;
   }
 
-  static settled(navigation:Promise<unknown>):Promise<unknown> {
+  static async settled(navigation:Promise<unknown>):Promise<void> {
     let timer:ReturnType<typeof setTimeout>|undefined;
-    const timeout = new Promise((resolve) => {
-      timer = setTimeout(resolve, SIGN_OUT_TIMEOUT_MS);
-    });
-    return Promise.race([navigation.catch(() => undefined), timeout]).finally(() => clearTimeout(timer));
+    try {
+      await Promise.race([
+        navigation.catch(() => undefined),
+        new Promise((resolve) => {
+          timer = setTimeout(resolve, SIGN_OUT_TIMEOUT_MS);
+        }),
+      ]);
+    } finally {
+      clearTimeout(timer);
+    }
   }
 
   signOut(navigation:Promise<unknown>):Promise<unknown> {
