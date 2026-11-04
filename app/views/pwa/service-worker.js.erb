@@ -9,6 +9,8 @@ const CACHE_PREFIX = <%== pwa_cache_prefix.to_json %>;
  *     renders one notification per work package.
  *   - Notification clicks open or focus a window on the target page.
  *   - Signing out, or an admin turning push off, clears every notification, the remembered state and the app badge.
+ *   - An open page asks the worker to reconcile, which closes notifications that are no longer
+ *     unread without showing or alerting anything.
  *   - A page reporting a different signed-in user closes the previous user's notifications.
  *
  *   OpenProject --push--> push service --wake-up--> worker --GET push summary--> OpenProject
@@ -113,6 +115,11 @@ class NotificationPlan {
         evicted[tag] = { ...state[tag], evicted: true };
       });
     return evicted;
+  }
+
+  static stateAfterClose({ closeTags, more, state }) {
+    const remaining = Object.fromEntries(Object.entries(state).filter(([tag]) => !closeTags.includes(tag)));
+    return more ? { ...remaining, ...NotificationPlan.evictedState(closeTags, state) } : remaining;
   }
 
   static for({ groups, more, openTags, state }) {
@@ -297,6 +304,11 @@ class Digest {
  *                                               push (it may have re-shown some)
  * summary fetched across a sign-out, or while one is in progress ► discarded, fallback
  *
+ * reconcile message ──► queue ──► GET push summary, same outcomes as a push except that
+ *                                  nothing is shown and "all read" is not announced; unavailable
+ *                                  does nothing; unread closes unlisted notifications (marked
+ *                                  evicted when more are collapsed), sets the badge, saves state
+ *
  * account message ──► user differs from the last one seen? bump sign-out generation
  *                     queue: close and forget the notifications of other users
  * ```
@@ -335,9 +347,11 @@ class PushHandler {
 
   onMessage(event) {
     const { type, userId } = event.data || {};
-    if (type !== "account" || !userId) return;
-
-    event.waitUntil(this.switchAccount(String(userId)));
+    if (type === "reconcile") {
+      event.waitUntil(this.enqueue(() => this.reconcile()));
+    } else if (type === "account" && userId) {
+      event.waitUntil(this.switchAccount(String(userId)));
+    }
   }
 
   switchAccount(userId) {
@@ -390,11 +404,44 @@ class PushHandler {
     }
   }
 
-  async showUnreadGroups({ groups, more }) {
+  async reconcile() {
+    const generation = this.signOutGeneration;
+    const summary = await UnreadSummary.fetch();
+    if (generation !== this.signOutGeneration || this.signOutsInProgress > 0) return;
+
+    switch (summary.outcome) {
+      case "signedOut":
+      case "pushOff":
+      case "empty":
+        await this.closeAndForgetAll();
+        return Badge.clear();
+      case "unavailable":
+        return;
+      default:
+        await Badge.set(summary.count);
+        return this.closeUnlisted(summary);
+    }
+  }
+
+  async closeStale({ groups, more }) {
     const state = await PushState.read();
     const open = await Notifications.listOpen();
     const openTags = open.map((notification) => notification.tag);
-    Notifications.close(open, NotificationPlan.staleTags({ groups, more, openTags }));
+    const closeTags = NotificationPlan.staleTags({ groups, more, openTags });
+    Notifications.close(open, closeTags);
+    return { state, openTags, closeTags };
+  }
+
+  async closeUnlisted(summary) {
+    const { state, closeTags } = await this.closeStale(summary);
+    if (closeTags.length === 0) return;
+
+    await PushState.write(NotificationPlan.stateAfterClose({ closeTags, more: summary.more, state }));
+  }
+
+  async showUnreadGroups(summary) {
+    const { groups, more } = summary;
+    const { state, openTags } = await this.closeStale(summary);
     if (groups.length === 0) return Notifications.showFallback();
 
     const plan = NotificationPlan.for({ ...(await Digest.addTo({ groups, more })), openTags, state });

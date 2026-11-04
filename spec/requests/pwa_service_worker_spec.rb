@@ -92,6 +92,10 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.body).to include("getNotifications()", '"openproject-"', '"openproject-more"')
     end
 
+    it "reconciles its notifications when an open page asks" do
+      expect(response.body).to include('type === "reconcile"', "this.reconcile()")
+    end
+
     it "closes its notifications when the user signs out" do
       expect(response.body).to include('signOut: "/logout"', "event.waitUntil(pushHandler.signOut(response))",
                                        "this.enqueue(() => this.clearForSignOut())",

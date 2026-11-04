@@ -28,7 +28,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Subject } from 'rxjs';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 import { BrowserNotificationSyncService } from 'core-app/features/in-app-notifications/bell/browser-notification-sync.service';
 
@@ -37,15 +36,13 @@ describe('BrowserNotificationSyncService', () => {
   let getNotifications:ReturnType<typeof vi.fn>;
   let getRegistration:ReturnType<typeof vi.fn>;
   let postMessage:ReturnType<typeof vi.fn>;
-  let fetchMock:ReturnType<typeof vi.fn>;
   let meta:HTMLMetaElement;
 
-  const notification = (tag:string, revision?:string) => ({ tag, data: { revision }, close: vi.fn() });
+  const notification = (tag:string) => ({ tag, close: vi.fn() });
 
-  const setup = ({ permission = 'granted', loggedIn = 'true' }:{ permission?:string; loggedIn?:string } = {}) => {
+  const setup = ({ permission = 'granted', loggedIn = 'true', flags = ['progressiveWebApp'] }:{ permission?:string; loggedIn?:string; flags?:string[] } = {}) => {
     meta.dataset.loggedIn = loggedIn;
     vi.stubGlobal('Notification', { permission });
-    vi.stubGlobal('fetch', fetchMock);
     Object.defineProperty(navigator, 'serviceWorker', {
       configurable: true,
       value: { getRegistration, ready: Promise.resolve({ active: { postMessage } }) },
@@ -54,8 +51,7 @@ describe('BrowserNotificationSyncService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: IanBellService, useValue: { loadedUnread$ } },
-        { provide: ConfigurationService, useValue: { activeFeatureFlags: ['progressiveWebApp'] } },
-        { provide: PathHelperService, useValue: { appBasePath: '' } },
+        { provide: ConfigurationService, useValue: { activeFeatureFlags: flags } },
       ],
     });
 
@@ -69,7 +65,6 @@ describe('BrowserNotificationSyncService', () => {
     getNotifications = vi.fn();
     getRegistration = vi.fn().mockResolvedValue({ getNotifications });
     postMessage = vi.fn();
-    fetchMock = vi.fn();
     meta = document.createElement('meta');
     meta.name = 'current_user';
     meta.dataset.id = '7';
@@ -83,65 +78,6 @@ describe('BrowserNotificationSyncService', () => {
     delete (navigator as { serviceWorker?:unknown }).serviceWorker;
   });
 
-  it('closes notifications for work packages that are no longer unread', async () => {
-    const [wp1, wp2, more] = [notification('openproject-wp-1'), notification('openproject-wp-2'), notification('openproject-more')];
-    getNotifications.mockResolvedValue([wp1, wp2, more]);
-    fetchMock.mockResolvedValue({
-      ok: true,
-      json: () => Promise.resolve({ count: 1, groups: [{ tag: 'openproject-wp-1' }], more: null }),
-    });
-    setup().initialize();
-
-    loadedUnread$.next(1);
-    await flush();
-
-    expect(wp1.close).not.toHaveBeenCalled();
-    expect(wp2.close).toHaveBeenCalled();
-    expect(more.close).toHaveBeenCalled();
-  });
-
-  it('leaves a notification that appeared during the fetch open', async () => {
-    const [wp1, wp2, wp3] = [notification('openproject-wp-1'), notification('openproject-wp-2'), notification('openproject-wp-3')];
-    getNotifications.mockResolvedValueOnce([wp1, wp2]).mockResolvedValueOnce([wp1, wp2, wp3]);
-    fetchMock.mockResolvedValue({
-      ok: true,
-      json: () => Promise.resolve({ count: 1, groups: [{ tag: 'openproject-wp-1' }], more: null }),
-    });
-    setup().initialize();
-
-    loadedUnread$.next(1);
-    await flush();
-
-    expect(wp2.close).toHaveBeenCalled();
-    expect(wp1.close).not.toHaveBeenCalled();
-    expect(wp3.close).not.toHaveBeenCalled();
-  });
-
-  it('closes every notification when the summary reports nothing unread', async () => {
-    const open = [notification('openproject-wp-1'), notification('openproject-unread')];
-    getNotifications.mockResolvedValue(open);
-    fetchMock.mockResolvedValue({ ok: true, json: () => Promise.resolve({ count: 0 }) });
-    setup().initialize();
-
-    loadedUnread$.next(0);
-    await flush();
-
-    open.forEach((item) => expect(item.close).toHaveBeenCalled());
-    expect(fetchMock).toHaveBeenCalled();
-  });
-
-  it('keeps a notification a push replaced during the fetch', async () => {
-    const [before, after] = [notification('openproject-wp-1', 'a'), notification('openproject-wp-1', 'b')];
-    getNotifications.mockResolvedValueOnce([before]).mockResolvedValueOnce([after]);
-    fetchMock.mockResolvedValue({ ok: true, json: () => Promise.resolve({ count: 1, groups: [], more: null }) });
-    setup().initialize();
-
-    loadedUnread$.next(1);
-    await flush();
-
-    expect(after.close).not.toHaveBeenCalled();
-  });
-
   it('tells the worker which user is signed in', async () => {
     setup().initialize();
     await flush();
@@ -149,85 +85,37 @@ describe('BrowserNotificationSyncService', () => {
     expect(postMessage).toHaveBeenCalledWith({ type: 'account', userId: '7' });
   });
 
-  it('does not tell the worker about an account when signed out', async () => {
-    setup({ loggedIn: 'false' }).initialize();
-    await flush();
-
-    expect(postMessage).not.toHaveBeenCalled();
-  });
-
-  it('closes every notification when signed out', async () => {
-    const open = [notification('openproject-wp-1'), notification('openproject-more')];
-    getNotifications.mockResolvedValue(open);
-    const subscribe = vi.spyOn(loadedUnread$, 'pipe');
-    setup({ loggedIn: 'false' }).initialize();
-    await flush();
-
-    open.forEach((item) => expect(item.close).toHaveBeenCalled());
-    expect(fetchMock).not.toHaveBeenCalled();
-    expect(subscribe).not.toHaveBeenCalled();
-  });
-
-  it('does nothing when no OpenProject notification is open', async () => {
-    getNotifications.mockResolvedValue([notification('other-app')]);
+  it('asks the worker to reconcile whenever the unread count changes', async () => {
     setup().initialize();
+
+    loadedUnread$.next(3);
+    loadedUnread$.next(2);
+    await flush();
+
+    expect(postMessage.mock.calls.filter(([message]) => message.type === 'reconcile')).toHaveLength(2);
+  });
+
+  it('ignores the placeholder count before the first load', async () => {
+    setup().initialize();
+
+    loadedUnread$.next(-1);
+    await flush();
+
+    expect(postMessage).not.toHaveBeenCalledWith({ type: 'reconcile' });
+  });
+
+  it('closes every notification and stays quiet when signed out', async () => {
+    const open = [notification('openproject-1-wp-1'), notification('openproject-more'), notification('other-app')];
+    getNotifications.mockResolvedValue(open);
+    setup({ loggedIn: 'false' }).initialize();
 
     loadedUnread$.next(3);
     await flush();
 
-    expect(fetchMock).not.toHaveBeenCalled();
-  });
-
-  it('keeps the overflow notification while the server still reports more', async () => {
-    const [wp1, more] = [notification('openproject-wp-1'), notification('openproject-more')];
-    getNotifications.mockResolvedValue([wp1, more]);
-    fetchMock.mockResolvedValue({
-      ok: true,
-      json: () => Promise.resolve({ count: 9, groups: [{ tag: 'openproject-wp-1' }], more: { count: 4 } }),
-    });
-    setup().initialize();
-
-    loadedUnread$.next(9);
-    await flush();
-
-    expect(wp1.close).not.toHaveBeenCalled();
-    expect(more.close).not.toHaveBeenCalled();
-  });
-
-  it('leaves notifications open when the summary cannot be fetched', async () => {
-    const wp1 = notification('openproject-wp-1');
-    getNotifications.mockResolvedValue([wp1]);
-    fetchMock.mockResolvedValue({ ok: false, status: 401 });
-    setup().initialize();
-
-    loadedUnread$.next(1);
-    await flush();
-
-    expect(wp1.close).not.toHaveBeenCalled();
-  });
-
-  it('closes every notification when browser push is turned off', async () => {
-    const open = [notification('openproject-wp-1'), notification('openproject-more')];
-    getNotifications.mockResolvedValue(open);
-    fetchMock.mockResolvedValue({ ok: false, status: 404 });
-    setup().initialize();
-
-    loadedUnread$.next(1);
-    await flush();
-
-    open.forEach((item) => expect(item.close).toHaveBeenCalled());
-  });
-
-  it('leaves notifications open on a server error', async () => {
-    const wp1 = notification('openproject-wp-1');
-    getNotifications.mockResolvedValue([wp1]);
-    fetchMock.mockResolvedValue({ ok: false, status: 500 });
-    setup().initialize();
-
-    loadedUnread$.next(1);
-    await flush();
-
-    expect(wp1.close).not.toHaveBeenCalled();
+    expect(open[0].close).toHaveBeenCalled();
+    expect(open[1].close).toHaveBeenCalled();
+    expect(open[2].close).not.toHaveBeenCalled();
+    expect(postMessage).not.toHaveBeenCalled();
   });
 
   it('stays inert without notification permission', async () => {
@@ -236,7 +124,27 @@ describe('BrowserNotificationSyncService', () => {
     loadedUnread$.next(3);
     await flush();
 
+    expect(postMessage).not.toHaveBeenCalled();
     expect(getRegistration).not.toHaveBeenCalled();
+  });
+
+  it('stays inert when the feature flag is off', async () => {
+    setup({ flags: [] }).initialize();
+
+    loadedUnread$.next(3);
+    await flush();
+
+    expect(postMessage).not.toHaveBeenCalled();
+  });
+
+  it('stays inert without service worker support', async () => {
+    const service = setup();
+    delete (navigator as { serviceWorker?:unknown }).serviceWorker;
+    service.initialize();
+
+    loadedUnread$.next(3);
+    await flush();
+
     expect(postMessage).not.toHaveBeenCalled();
   });
 });
