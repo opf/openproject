@@ -130,8 +130,6 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
 
   private currentWorkPackage:WorkPackageResource|null;
 
-  private workPackageEditForm:EditForm|undefined;
-
   private editingSubscription:Subscription|undefined;
 
   private readonly element = this.elementRef.nativeElement;
@@ -142,7 +140,6 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
       onCleanup(() => {
         this.invalidateCreation();
         this.currentWorkPackage = null;
-        this.workPackageEditForm = undefined;
         this.modeValue.set('inactive');
         this.element.querySelector('.wp-row-new')?.remove();
       });
@@ -276,7 +273,7 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
             filter(() => this.isCurrentCreation(request, table) && !!this.currentWorkPackage),
           )
           .subscribe((form) => {
-            if (!this.isActive) {
+            if (!this.element.querySelector(`.${inlineCreateRowClassName}`)) {
               this.insertRow(wp, request, table);
             } else {
               this.schemaCache.update(this.currentWorkPackage!, form.schema);
@@ -287,9 +284,9 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
   }
 
   private insertRow(wp:WorkPackageResource, request:number, table:WorkPackageTable) {
-    this.workPackageEditForm = this.renderInlineCreateRow(wp);
-    const form = this.workPackageEditForm;
+    const form = this.renderInlineCreateRow(wp);
 
+    clearTimeout(this.activationTimer);
     this.activationTimer = setTimeout(() => {
       if (!this.isCurrentCreation(request, table)) return;
       void form.activateMissingFields().then((activeFields) => {

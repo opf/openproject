@@ -42,6 +42,8 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { WorkPackageInlineCreateComponent } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.component';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
@@ -1211,6 +1213,44 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(document.querySelector('tbody[wpInlineCreate]')).toBeNull();
       expect(component.workPackageTable.destroyed).toBe(false);
       expect(mutate).not.toHaveBeenCalled();
+    });
+
+    it('inserts one create row when the form emits again before activation', async () => {
+      const component = await mount(inlineCreate);
+      const inline = fixture.debugElement.query(By.directive(WorkPackageInlineCreateComponent))
+        .componentInstance as WorkPackageInlineCreateComponent;
+      const service = TestBed.inject(WorkPackageCreateService);
+      const forms = new Subject<{ schema:object }>();
+      const change = { ...await service.createOrContinueWorkPackage(undefined), state: { values$: () => forms } } as unknown as WorkPackageChangeset;
+      let complete!:(value:WorkPackageChangeset) => void;
+      const pending = vi.spyOn(service, 'createOrContinueWorkPackage').mockReturnValue(new Promise((resolve) => { complete = resolve; }));
+      const editing = vi.spyOn(component.workPackageTable.editing, 'startEditing');
+      const activation = vi.spyOn(inline, 'hideRow');
+      const schemaUpdate = vi.fn();
+      Object.assign(TestBed.inject(SchemaCacheService), { update: schemaUpdate });
+      const newRows = () => document.querySelectorAll('.wp-row-new');
+
+      fireEvent.click(within(createSection()).getByRole('button', { name: 'Create new work package' }));
+      complete(change);
+      await Promise.resolve();
+      forms.next({ schema: {} });
+      expect(newRows()).toHaveLength(1);
+      forms.next({ schema: {} });
+      expect(newRows()).toHaveLength(1);
+      expect(schemaUpdate).toHaveBeenCalledOnce();
+
+      await nextTask();
+      expect(newRows()).toHaveLength(1);
+      expect(editing).toHaveBeenCalledOnce();
+      expect(activation).toHaveBeenCalledOnce();
+
+      inline.resetRow();
+      expect(newRows()).toHaveLength(0);
+
+      pending.mockRestore();
+      await waitFor(() => expect(within(createSection()).getByText('Create new work package')).toBeInTheDocument());
+      fireEvent.click(within(createSection()).getByText('Create new work package'));
+      await waitFor(() => expect(newRows()).toHaveLength(1));
     });
 
     it('hides the section while neither permission renders a row', async () => {
