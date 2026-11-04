@@ -175,7 +175,6 @@ import {
 import {
   WorkPackageOverviewGraphComponent,
 } from 'core-app/shared/components/work-package-graphs/overview/wp-overview-graph.component';
-import { NoResultsComponent } from 'core-app/shared/components/no-results/no-results.component';
 import {
   OpNonWorkingDaysListComponent,
 } from 'core-app/shared/components/op-non-working-days-list/op-non-working-days-list.component';
@@ -411,7 +410,6 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-editable-query-props', EditableQueryPropsComponent, { injector });
     registerCustomElement('opce-time-entry-trigger-actions', TriggerActionsEntryComponent, { injector });
     registerCustomElement('opce-wp-overview-graph', WorkPackageOverviewGraphComponent, { injector });
-    registerCustomElement('opce-no-results', NoResultsComponent, { injector });
     registerCustomElement('opce-non-working-days-list', OpNonWorkingDaysListComponent, { injector });
     registerCustomElement('opce-main-menu-resizer', MainMenuResizerComponent, { injector });
     registerCustomElement('opce-persistent-toggle', PersistentToggleComponent, { injector });
