@@ -1,4 +1,5 @@
-import { initOpenProjectApi, probeCreateWorkPackagePermission } from './services/openProjectApi.ts';
+import { initOpenProjectApi } from './services/openProjectApi/client.ts';
+import { probeCreateWorkPackagePermission } from './services/openProjectApi/workPackageCreation.ts';
 import { initLanguage } from './services/i18n.ts';
 import { initEditorContext } from './services/editorContext.ts';
 

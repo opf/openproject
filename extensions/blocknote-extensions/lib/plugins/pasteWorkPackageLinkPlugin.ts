@@ -4,7 +4,7 @@ import { contentNodeToInlineContent, isLinkInlineContent, isStyledTextInlineCont
 import type { InlineContent, StyleSchema, StyledText } from '@blocknote/core';
 import type { AnyEditor } from '../editorTypes';
 import type { WorkPackageBlockProps } from '../components/BlockWorkPackage/externalHtml';
-import { fetchWorkPackage, parseWorkPackageUrl } from '../services/openProjectApi';
+import { fetchWorkPackage, parseWorkPackageUrl } from '../services/openProjectApi/workPackages';
 import { canBlockWorkPackageReplaceCurrentBlock, isCurrentBlockEmpty } from '../utils/blockContent';
 import { moveCursorAfterBlock } from '../utils/cursor';
 

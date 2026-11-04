@@ -5,7 +5,7 @@
 // spec and the static spec produce byte-identical output.
 
 import { buildExternalDOM, hashPrefixForSize } from '../WorkPackage/externalHtml';
-import { linkToWorkPackage } from '../../services/openProjectApi';
+import { linkToWorkPackage } from '../../services/openProjectApi/workPackages';
 
 export interface WorkPackageInlineProps {
   wpid?:string;

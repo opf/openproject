@@ -8,7 +8,7 @@ import type { HashTarget } from './hashTrigger';
 import type { HashMenuItem, HashSearchState } from './types';
 import type { AnyEditor } from '../../editorTypes';
 import { cacheColors } from '../../services/colors';
-import { canCreateWorkPackages } from '../../services/openProjectApi';
+import { canCreateWorkPackages } from '../../services/openProjectApi/workPackageCreation';
 import { closeSuggestionMenu } from '../../utils/suggestionMenu';
 
 export function useHashWpMenu(editor:AnyEditor) {
