@@ -64,11 +64,6 @@ namespace :assets do
       sh("npm run build -- --stats-json") do |ok, res|
         raise "Failed to compile angular frontend: #{res.exitstatus}" if !ok
       end
-
-      puts "Building service worker"
-      sh("npm run build:service-worker") do |ok, res|
-        raise "Failed to build service worker: #{res.exitstatus}" if !ok
-      end
     end
 
     stats_path = OpenProject::Assets.frontend_asset_path.join("stats.json")
