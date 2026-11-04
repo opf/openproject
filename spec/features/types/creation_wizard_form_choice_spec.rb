@@ -208,12 +208,10 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
       find_test_selector("form_configuration-selector").click
 
       within_test_selector("form_configuration-panel") do
-        expect(page).to have_css(".ActionListItem", text: "Company form") { |item|
-          item.has_css?(".ActionListItem-visual--trailing", text: I18n.t("form_configurations.selector.default"))
-        }
-        expect(page).to have_css(".ActionListItem", text: "Standard form") { |item|
-          item.has_no_css?(".ActionListItem-visual--trailing")
-        }
+        expect(page).to have_css(".ActionListItem-label",
+                                 text: "Company form #{I18n.t('form_configurations.selector.default')}")
+        expect(page).to have_no_css(".ActionListItem-visual--trailing")
+        expect(page).to have_css(".ActionListItem-label", text: "Standard form", exact_text: true)
       end
     end
 

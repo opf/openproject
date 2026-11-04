@@ -39,19 +39,29 @@ module WorkPackageTypes
 
         @record = record
         @model_class = model_class
+        @copy_from_id = copy_from_id
         @form_arguments = { record:, model_class:, copy_from_id:, ask_copy_source:, url: }
       end
 
       private
 
-      attr_reader :record, :model_class, :form_arguments
+      attr_reader :record, :model_class, :copy_from_id, :form_arguments
 
       def dialog_id = NameFormComponent.dialog_id(model_class)
 
       def form_id = NameFormComponent.form_id(model_class)
 
       def title
-        record.persisted? ? reference_translate("form.edit_title") : reference_translate("form.new_title")
+        return reference_translate("form.edit_title") if record.persisted?
+        return reference_translate("form.copy_title", name: copy_source.name) if copy_source
+
+        reference_translate("form.new_title")
+      end
+
+      def copy_source
+        return @copy_source if defined?(@copy_source)
+
+        @copy_source = copy_from_id.present? ? model_class.find_by(id: copy_from_id) : nil
       end
 
       def submit_label

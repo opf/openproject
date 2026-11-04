@@ -3638,6 +3638,7 @@ en:
         caption: "The new form starts with a copy of that form's attribute groups."
         label: "Copy from"
         placeholder: "Select a form…"
+      copy_title: "Copy form %{name}"
       description:
         caption: "Add a short description about where and how will this form be used."
         label: "Description"
@@ -8458,10 +8459,11 @@ en:
         caption: "The new workflow starts with a copy of that workflow's status transitions."
         label: "Copy from"
         placeholder: "Select a workflow…"
+      copy_title: "Copy workflow %{name}"
       description:
         caption: "Add a short description about where and how will this workflow be used."
         label: "Description"
-      edit_title: "Edit workflow"
+      edit_title: "Save workflow"
       matrix_caption: "Workflow matrix"
       matrix_caption_assignee: "Workflow matrix for assignee"
       matrix_caption_author: "Workflow matrix for author"
