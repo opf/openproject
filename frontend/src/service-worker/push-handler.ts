@@ -77,7 +77,6 @@ import { UnreadSummary } from './unread-summary';
  */
 export class PushHandler {
   private queue:Promise<void> = Promise.resolve();
-  private pending = 0;
   private signOutGeneration = 0;
   private signOutsInProgress = 0;
   private accountId:string|undefined;
@@ -132,15 +131,7 @@ export class PushHandler {
   }
 
   enqueue(task:() => Promise<void>):Promise<void> {
-    this.pending += 1;
-    const run = async () => {
-      try {
-        await task();
-      } finally {
-        this.pending -= 1;
-      }
-    };
-    this.queue = this.queue.then(run, run).catch(() => undefined);
+    this.queue = this.queue.then(task, task).catch(() => undefined);
     return this.queue;
   }
 

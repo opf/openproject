@@ -31,6 +31,12 @@ export interface ServiceWorkerConfig {
   push:{ fallbackTitle:string; allReadTitle:string; icon:string };
 }
 
-export const Config:Readonly<ServiceWorkerConfig> = Object.freeze(
-  (self as unknown as { OP_SW:ServiceWorkerConfig }).OP_SW,
-);
+declare global {
+  var OP_SW:ServiceWorkerConfig|undefined;
+}
+
+if (!globalThis.OP_SW) {
+  throw new Error('Service worker configuration is missing: OP_SW was not set before the bundle was imported.');
+}
+
+export const Config:Readonly<ServiceWorkerConfig> = Object.freeze(globalThis.OP_SW);
