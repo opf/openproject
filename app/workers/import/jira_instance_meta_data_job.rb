@@ -65,7 +65,7 @@ module Import
     def collect_metadata
       issue_types_count = @client.issue_types_count
       statuses_count = @client.statuses_count
-      resolutions_count = @client.resolutions.count
+      resolutions_count = @client.resolutions_count
       issues_count = @client.issues_count
       users_count = @client.applicationrole.inject(0) do |users_count, application|
         users_count + application["userCount"]
