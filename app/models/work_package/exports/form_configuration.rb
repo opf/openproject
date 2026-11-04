@@ -55,7 +55,7 @@ class WorkPackage::Exports::FormConfiguration
 
   def attribute_group(group)
     parts = group_parts(group)
-    return if parts.empty? && group.attributes.any?
+    return if parts.empty?
 
     AttributeGroup.new(key: group.key, title: group.translated_key, parts:)
   end

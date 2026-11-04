@@ -41,7 +41,7 @@ module Grids
         t(".title")
       end
 
-      def members_by_role
+      def members_by_role # rubocop:disable Metrics/AbcSize
         # Sanity check: If we can't view members, we can return immediatly.
         # This way we don't need to check if current_user is allowed to view_members
         # multiple times.
@@ -51,12 +51,16 @@ module Grids
           .joins(:members)
           .where(members: { project_id: project.id })
           .group(:id, :name)
+          .order(name: :asc)
           .count
-          .map do |(id, name), total_count|
+          .filter_map do |(id, name), total_count|
+            members = principals_for_role(id).limit(limit).load
+            next if members.none?
+
             {
               id:,
               name:,
-              members: principals_for_role(id).limit(limit),
+              members:,
               total_count: total_count,
               remaining: [total_count - limit, 0].max,
               has_more: total_count > limit
@@ -65,9 +69,15 @@ module Grids
       end
 
       def principals_for_role(role_id)
-        project
-          .principals
+        # NOTE: The principals scope on Project joins members and
+        #       since we need also member_roles, we would need to
+        #       join members again, resulting in principals being
+        #       included multiple times (e.g. when having the same
+        #       role in multiple projects).
+        Principal
+          .not_locked
           .joins(members: :member_roles)
+          .where(members: { project: })
           .where(member_roles: { role_id: })
           .order(members: { created_at: :desc })
       end

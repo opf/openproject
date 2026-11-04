@@ -290,6 +290,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
     return {
       key: this.occurrenceKey(workPackage, isAncestor),
+      kind: 'workPackage',
       classIdentifier: isAncestor ? ancestorClassIdentifier(workPackage.id!) : this.rowBuilder.classIdentifier(workPackage),
       additionalClasses: isAncestor ? [additionalHierarchyRowClassName].concat(ancestorClasses) : ancestorClasses,
       workPackage,

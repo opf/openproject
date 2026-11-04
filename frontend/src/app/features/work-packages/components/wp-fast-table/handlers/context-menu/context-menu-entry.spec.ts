@@ -25,7 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
+import { userEvent } from 'vitest/browser';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
@@ -154,6 +156,31 @@ describe('Context menu entry', () => {
   });
 });
 
+describe('Context menu origin during a row-control walk', () => {
+  it('returns Escape to the walk origin row', async () => {
+    const harness = buildTable({
+      workPackages: [{ id: '1' }],
+      productionMarkup: true,
+      configuration: { contextMenuEnabled: true },
+    });
+    await harness.render();
+    const link = document.createElement('a');
+    link.href = '#';
+    navigableCells(harness.row('1'))[0].append(link);
+    harness.table.keyboardNavigation!.focusPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    await userEvent.tab();
+    const menu = new WorkPackageTableContextMenu(harness.injector, '1', link, {}, harness.table);
+    const menuButton = document.body.appendChild(document.createElement('button'));
+    menuButton.focus();
+    menuButton.remove();
+
+    menu.onClose(true, 'escape');
+
+    expect(harness.row('1')).toHaveFocus();
+    await harness.destroy();
+  });
+});
+
 describe('Context menu entry from the actions column button', () => {
   let harness:TableHarness;
   let menuTargets:string[][];
@@ -199,6 +226,19 @@ describe('Context menu entry from the actions column button', () => {
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);
     expect(menuTargets).toEqual([['1', '2']]);
   });
+
+  it('hides the focused button tooltip before the menu takes focus', async () => {
+    const button = menuButton('1');
+    const tooltip = within(harness.row('1')).getByRole('tooltip', { hidden: true });
+
+    button.focus();
+    await waitFor(() => expect(tooltip.matches(':popover-open')).toBe(true));
+
+    fireEvent.click(button);
+
+    expect(tooltip.matches(':popover-open')).toBe(false);
+    expect(opened).toHaveBeenCalledTimes(1);
+  });
 });
 
 describe('Context menu entry on the inline-create row', () => {
@@ -209,7 +249,7 @@ describe('Context menu entry on the inline-create row', () => {
   const menuShortcut = { key: 'F10', shiftKey: true, altKey: true };
 
   const openSubjectEditor = async () => {
-    fireEvent.click(inlineCreateRow.querySelector<HTMLElement>('td.subject .inline-edit--display-field')!);
+    fireEvent.click(inlineCreateRow.querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject .inline-edit--display-field')!);
     await waitFor(() => expect(within(inlineCreateRow).getByRole('textbox')).toHaveFocus());
 
     return within(inlineCreateRow).getByRole('textbox');
@@ -231,7 +271,7 @@ describe('Context menu entry on the inline-create row', () => {
   afterEach(() => harness.destroy());
 
   it('opens no menu and keeps the selection on right-click of a cell', () => {
-    fireEvent.contextMenu(inlineCreateRow.querySelector('td.subject')!);
+    fireEvent.contextMenu(inlineCreateRow.querySelector(':scope > .wp-table--cell-td.subject')!);
 
     expect(opened).not.toHaveBeenCalled();
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
@@ -288,7 +328,7 @@ describe('Context menu keyboard chords', () => {
       workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }],
       productionMarkup: true,
       ...options,
-      configuration: { contextMenuEnabled: true, keyboardNavigationEnabled: true, ...options.configuration },
+      configuration: { contextMenuEnabled: true, ...options.configuration },
     });
     await harness.render();
 
@@ -330,7 +370,7 @@ describe('Context menu keyboard chords', () => {
 
     it('opens for the row of the focused cell', () => {
       focusKey(wpOccurrenceKey('2'));
-      const cell = harness.row('2').querySelector<HTMLElement>('td.subject')!;
+      const cell = harness.row('2').querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject')!;
       cell.focus();
 
       press(chord, cell);
@@ -400,7 +440,7 @@ describe('Context menu keyboard chords', () => {
       const link = document.createElement('a');
       link.className = uiStateLinkClass;
       link.href = '#';
-      harness.row('1').querySelector('td.subject')!.append(link);
+      harness.row('1').querySelector(':scope > .wp-table--cell-td.subject')!.append(link);
       link.focus();
 
       Object.keys(chords).forEach((chord) => expect(press(chord, link)).toBe(true));
@@ -454,7 +494,7 @@ describe('Context menu keyboard chords', () => {
       fireEvent.contextMenu(harness.row('1'));
       expect(opened).toHaveBeenCalledTimes(1);
 
-      const cell = harness.row('2').querySelector<HTMLElement>('td.subject')!;
+      const cell = harness.row('2').querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject')!;
       cell.focus();
       fireEvent.contextMenu(cell);
       expect(opened).toHaveBeenCalledTimes(2);
@@ -501,7 +541,7 @@ describe('Context menu keyboard chords', () => {
     beforeEach(() => mount({ editing: {} }));
 
     const openSubjectEditor = () => {
-      fireEvent.click(harness.row('1').querySelector<HTMLElement>('td.subject .inline-edit--display-field')!);
+      fireEvent.click(harness.row('1').querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject .inline-edit--display-field')!);
       return within(harness.row('1')).findByRole('textbox');
     };
 
@@ -524,7 +564,7 @@ describe('Context menu keyboard chords', () => {
     it('still opens on right-click of a display cell', async () => {
       await openSubjectEditor();
 
-      fireEvent.contextMenu(harness.row('2').querySelector('td.subject')!);
+      fireEvent.contextMenu(harness.row('2').querySelector(':scope > .wp-table--cell-td.subject')!);
 
       expect(opened).toHaveBeenCalledTimes(1);
       expect(menuTargets).toEqual([['2']]);
@@ -538,67 +578,13 @@ describe('Context menu keyboard chords', () => {
       const element = document.createElement('span');
       element.contentEditable = 'false';
       element.tabIndex = -1;
-      harness.row('1').querySelector('td.subject')!.append(element);
+      harness.row('1').querySelector(':scope > .wp-table--cell-td.subject')!.append(element);
       element.focus();
 
       expect(press('Shift+F10', element)).toBe(false);
-      expect(fireEvent.contextMenu(harness.row('2').querySelector('td.subject')!.appendChild(element))).toBe(false);
+      expect(fireEvent.contextMenu(harness.row('2').querySelector(':scope > .wp-table--cell-td.subject')!.appendChild(element))).toBe(false);
 
       expect(menuTargets).toEqual([['1'], ['2']]);
-    });
-  });
-
-  describe('on a capability-off table', () => {
-    beforeEach(() => mount({ editing: {}, configuration: { keyboardNavigationEnabled: false } }));
-
-    const openSubjectEditor = () => {
-      fireEvent.click(harness.row('1').querySelector<HTMLElement>('td.subject .inline-edit--display-field')!);
-      return within(harness.row('1')).findByRole('textbox');
-    };
-
-    it('leaves Shift+F10 and Menu unhandled', () => {
-      harness.row('2').focus();
-
-      expect(press('Shift+F10', harness.row('2'))).toBe(true);
-      expect(press('Menu', harness.row('2'))).toBe(true);
-
-      expect(opened).not.toHaveBeenCalled();
-    });
-
-    it('opens on Shift+Alt+F10', () => {
-      harness.row('2').focus();
-
-      expect(press('Shift+Alt+F10', harness.row('2'))).toBe(false);
-
-      expect(menuTargets).toEqual([['2']]);
-    });
-
-    it('opens the row menu on Shift+Alt+F10 on the id link', () => {
-      const link = document.createElement('a');
-      link.className = uiStateLinkClass;
-      link.href = '#';
-      harness.row('1').querySelector('td.subject')!.append(link);
-      link.focus();
-
-      expect(press('Shift+Alt+F10', link)).toBe(false);
-
-      expect(menuTargets).toEqual([['1']]);
-    });
-
-    it('opens the row menu on Shift+Alt+F10 inside an open editor', async () => {
-      const input = await openSubjectEditor();
-
-      expect(press('Shift+Alt+F10', input)).toBe(false);
-
-      expect(menuTargets).toEqual([['1']]);
-    });
-
-    it('opens the row menu on right-click inside an open editor', async () => {
-      const input = await openSubjectEditor();
-
-      expect(fireEvent.contextMenu(input)).toBe(false);
-
-      expect(menuTargets).toEqual([['1']]);
     });
   });
 
@@ -643,7 +629,7 @@ describe('Context menu focus return', () => {
       productionMarkup: true,
       providers: [OPContextMenuService],
       ...options,
-      configuration: { contextMenuEnabled: true, keyboardNavigationEnabled: true, ...options.configuration },
+      configuration: { contextMenuEnabled: true, ...options.configuration },
     });
     await harness.render();
 
@@ -695,7 +681,34 @@ describe('Context menu focus return', () => {
     await harness.destroy();
   });
 
-  describe('on a capability-on table', () => {
+  describe('after direct actions-link focus', () => {
+    beforeEach(() => mount({ configuration: { actionsColumnEnabled: true } }));
+
+    it.each([false, true])('keyboard activation and Escape return to the actions cell (row walk: %s)', async (walk) => {
+      harness.row('1').focus();
+      if (walk) {
+        await userEvent.tab();
+      }
+      const initialFocus = walk
+        ? within(harness.row('1')).getByRole('link', { name: 'js.label_open_context_menu' })
+        : harness.row('1');
+      expect(initialFocus).toHaveFocus();
+      const link = within(harness.row('2')).getByRole('link', { name: 'js.label_open_context_menu' });
+      const navigation = harness.table.keyboardNavigation!;
+      const origin = navigation.positionOfCell(link)!;
+      link.focus();
+      expect(link).toHaveFocus();
+
+      await userEvent.keyboard('{Enter}');
+      await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
+      await userEvent.keyboard('{Escape}');
+
+      expect(menu.active).toBeNull();
+      expect(navigation.elementAt(origin)).toHaveFocus();
+    });
+  });
+
+  describe('in a flat list', () => {
     beforeEach(() => mount());
 
     it('row menu: an action that re-renders the row returns focus to the origin cell, not the body', async () => {
@@ -913,28 +926,6 @@ describe('Context menu focus return', () => {
       await clickAction();
 
       await waitFor(() => expect(harness.row('1')).toHaveFocus());
-    });
-  });
-
-  describe('on a capability-off table', () => {
-    beforeEach(() => mount({ productionMarkup: false, configuration: { keyboardNavigationEnabled: false } }));
-
-    it('menu close behaves as before: an action leaves focus alone, Escape focuses the trigger', async () => {
-      const openByRightClick = () => {
-        fireEvent.contextMenu(harness.row('2'));
-        return waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
-      };
-      await openByRightClick();
-      await clickAction();
-
-      expect(document.body).toHaveFocus();
-
-      await openByRightClick();
-      fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
-
-      expect(harness.table.keyboardNavigation).toBeNull();
-      expect(menu.active).toBeNull();
-      expect(harness.row('2')).toHaveFocus();
     });
   });
 });

@@ -27,12 +27,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Attachments
-  # Creates an attachment without journalizing its container. Importers replay the source
-  # system's own history, so the container's journals are written by the importer instead.
-  class ImportCreateService < CreateService
-    private
-
-    def touch(_container) = nil
+class Journal::CausedByDefaultAttributeWritten < CauseOfChange::Base
+  def initialize
+    super("default_attribute_written")
   end
 end

@@ -29,13 +29,14 @@
 
 module Import
   class JiraWikiMarkupConverter
-    def initialize(text)
+    def initialize(text, attachment_paths_by_name: {})
       @text = text
+      @attachment_paths_by_name = attachment_paths_by_name
     end
 
     def convert
       ast = JiraWikiMarkup::Parser.new(@text).parse
-      JiraWikiMarkup::Renderer.new(ast).render
+      JiraWikiMarkup::Renderer.new(ast, attachment_paths_by_name: @attachment_paths_by_name).render
     end
   end
 end

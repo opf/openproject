@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { withTooltip } from 'core-app/shared/helpers/tooltip-helper';
 import { take } from 'lodash-es';
 import { Injectable, inject } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -61,7 +62,6 @@ export class PrincipalRendererService {
   private pathHelper = inject(PathHelperService);
   private apiV3Service = inject(ApiV3Service);
   private colors = inject(ColorsService);
-
 
   renderAbbreviated(
     container:HTMLElement,
@@ -144,7 +144,9 @@ export class PrincipalRendererService {
     if (!name.hide) {
       const el = this.renderName(principal, type, name.link, avatar.hide, title ?? principal.name, name.classes);
       this.setHoverCardAttributes(el, hoverCard, principal, type);
-      container.appendChild(el);
+      const hint = title && title !== principal.name ? title : '';
+      const nameElement = name.link ? withTooltip(el, hint, 'description') : el;
+      container.appendChild(nameElement);
     }
   }
 
@@ -281,7 +283,6 @@ export class PrincipalRendererService {
       if (standalone) {
         link.classList.add('op-principal--name_standalone');
       }
-      link.title = title;
 
       return link;
     }
