@@ -83,7 +83,9 @@ describe('Filters form navigation', () => {
     ctx = await setupStimulusTest({ controllers: { 'filter--filters-form': Controller } });
     await ctx.mount(`<div data-controller="filter--filters-form"
       data-filter--filters-form-turbo-frame-request-value="backlogs_container"
-      data-filter--filters-form-url-path-name-value="${framePath}" ${data}>${innerHtml}</div>`);
+      data-filter--filters-form-url-path-name-value="${framePath}" ${data}>${innerHtml}
+      <div id="global-loading-indicator" hidden></div>
+    </div>`);
     return ctx.getController<FiltersFormControllerType>('filter--filters-form');
   }
 
@@ -199,17 +201,16 @@ describe('Filters form navigation', () => {
 
   async function mountLoadingFrame() {
     const controller = await mount(['page', 'all'], `
-      <turbo-frame id="backlogs_container" disabled></turbo-frame>
-      <div id="global-loading-indicator" hidden></div>
+      <turbo-frame id="backlogs_container" disabled><form></form></turbo-frame>
     `);
-    const frame = ctx.container.querySelector<HTMLElement & { loaded:Promise<void> }>('#backlogs_container')!;
+    const frame = ctx.container.querySelector<HTMLElement>('#backlogs_container')!;
+    const indicator = ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!;
     visit.mockImplementation((location) => {
       frame.setAttribute('src', location);
       frame.setAttribute('busy', '');
-      frame.loaded = new Promise(() => {});
     });
 
-    return { controller, frame };
+    return { controller, frame, indicator };
   }
 
   it('navigates back to the applied filters while a newer visit is still loading', async () => {
@@ -226,40 +227,32 @@ describe('Filters form navigation', () => {
     expect(url.searchParams.has('filters')).toBe(false);
   });
 
-  it('shows the loading indicator until the frame has loaded', async () => {
-    setUrl();
-    const controller = await mount(['page', 'all'], `
-      <turbo-frame id="backlogs_container"></turbo-frame>
-      <div id="global-loading-indicator" hidden></div>
-    `);
-    const frame = ctx.container.querySelector<HTMLElement & { loaded:Promise<void> }>('#backlogs_container')!;
-    const indicator = ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!;
-    let finishLoading!:() => void;
-    visit.mockImplementation(() => {
-      frame.loaded = new Promise((resolve) => { finishLoading = resolve; });
-    });
+  it.each(['turbo:before-fetch-response', 'turbo:fetch-request-error'])(
+    'shows the loading indicator until the frame dispatches %s',
+    async (eventName) => {
+      setUrl();
+      const { controller, frame, indicator } = await mountLoadingFrame();
 
-    controller.currentFiltersValue = [{ subject: { operator: '~', values: ['new'] } }];
-    controller.sendForm();
-    expect(indicator).toBeVisible();
+      controller.currentFiltersValue = [{ subject: { operator: '~', values: ['new'] } }];
+      controller.sendForm();
+      frame.querySelector('form')!.dispatchEvent(new CustomEvent(eventName, { bubbles: true }));
+      await new Promise((resolve) => { setTimeout(resolve); });
+      expect(indicator).toBeVisible();
 
-    finishLoading();
+      frame.dispatchEvent(new CustomEvent(eventName, { bubbles: true }));
 
-    await vi.waitFor(() => expect(indicator).not.toBeVisible());
-  });
+      await vi.waitFor(() => expect(indicator).not.toBeVisible());
+    },
+  );
 
   it('keeps a previous request\'s indicator out of the history snapshot', async () => {
     setUrl();
-    const controller = await mount(['page', 'all'], `
-      <turbo-frame id="backlogs_container"></turbo-frame>
-      <div id="global-loading-indicator"></div>
-    `);
-    const frame = ctx.container.querySelector<HTMLElement & { loaded:Promise<void> }>('#backlogs_container')!;
+    const controller = await mount(['page', 'all'], '<turbo-frame id="backlogs_container"></turbo-frame>');
     const indicator = ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!;
+    indicator.hidden = false;
     let hiddenWhenVisiting:HTMLElement['hidden']|undefined;
     visit.mockImplementation(() => {
       hiddenWhenVisiting = indicator.hidden;
-      frame.loaded = new Promise(() => {});
     });
 
     controller.currentFiltersValue = [{ subject: { operator: '~', values: ['new'] } }];

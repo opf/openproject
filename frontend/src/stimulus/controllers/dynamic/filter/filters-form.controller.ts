@@ -73,6 +73,22 @@ function resetControls(row:HTMLElement) {
   });
 }
 
+// frame.loaded never settles when a reload cancels the request or the response lacks the frame.
+// A cancelled request dispatches neither event, but the request replacing it does.
+function frameResponded(frame:FrameElement):Promise<void> {
+  return new Promise((resolve) => {
+    const listeners = new AbortController();
+    const settle = (event:Event) => {
+      if (event.target !== frame) return;
+
+      listeners.abort();
+      resolve();
+    };
+    frame.addEventListener('turbo:before-fetch-response', settle, { signal: listeners.signal });
+    frame.addEventListener('turbo:fetch-request-error', settle, { signal: listeners.signal });
+  });
+}
+
 export default class FiltersFormController extends Controller {
   static targets = [
     'filterFormToggle',
@@ -618,21 +634,22 @@ export default class FiltersFormController extends Controller {
     const browserUrl = `${window.location.pathname}${search ? `?${search}` : ''}${window.location.hash}`;
 
     if (this.hasTurboFrameRequestValue) {
-      // visit() snapshots the page for history; keep a previous request's indicator out of it.
-      const indicator = document.querySelector<HTMLElement>('#global-loading-indicator');
-      if (indicator) hideElement(indicator);
-      visit(url, { frame: this.turboFrameRequestValue, action: 'advance' });
-      const { turboFrame } = this;
-      if (turboFrame) void withLoadingIndicator(turboFrame.loaded);
-      return;
-    }
-
-    if (this.turboStreamRequestValue) {
+      void withLoadingIndicator(this.renderFrameResponse(url));
+    } else if (this.turboStreamRequestValue) {
       void withLoadingIndicator(this.renderStreamResponse(url, newFilters, browserUrl));
     } else {
       showElement(document.querySelector<HTMLElement>('#global-loading-indicator')!);
       window.location.href = url;
     }
+  }
+
+  private renderFrameResponse(url:string):Promise<void> {
+    // visit() snapshots the page for history; keep a previous request's indicator out of it.
+    hideElement(document.querySelector<HTMLElement>('#global-loading-indicator')!);
+    visit(url, { frame: this.turboFrameRequestValue, action: 'advance' });
+
+    const { turboFrame } = this;
+    return turboFrame ? frameResponded(turboFrame) : Promise.resolve();
   }
 
   private requestedFilters():string {

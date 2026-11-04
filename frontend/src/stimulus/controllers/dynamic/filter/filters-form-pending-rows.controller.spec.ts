@@ -56,11 +56,13 @@ describe('Filters form pending rows', () => {
   beforeEach(() => {
     originalUrl = window.location.href;
     visit = vi.spyOn(Turbo.session as unknown as VisitingSession, 'visit').mockImplementation(() => undefined);
+    document.body.insertAdjacentHTML('beforeend', '<div id="global-loading-indicator" hidden></div>');
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
     ctx.dispose();
+    document.getElementById('global-loading-indicator')?.remove();
     window.history.replaceState(window.history.state, '', originalUrl);
   });
 
@@ -455,14 +457,12 @@ describe('Filters form pending rows', () => {
     let fetchSpy:ReturnType<typeof vi.fn>;
 
     beforeEach(() => {
-      document.body.insertAdjacentHTML('beforeend', '<div id="global-loading-indicator" hidden></div>');
       fetchSpy = vi.fn((_url:string) => Promise.resolve(new Response(streamResponse(UNKNOWN_TO_SERVER))));
       vi.stubGlobal('fetch', fetchSpy);
     });
 
     afterEach(() => {
       vi.unstubAllGlobals();
-      document.getElementById('global-loading-indicator')?.remove();
     });
 
     it('keeps the added row through the morphed response and never sends it', async () => {
