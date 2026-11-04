@@ -118,7 +118,7 @@ RSpec.describe CustomFields::UpdateService, type: :model do
       end
     end
 
-    describe "calculated value custom field", with_ee: %i[calculated_values] do
+    describe "calculated value custom field", with_ee: :calculated_values do
       using CustomFieldFormulaReferencing
 
       context "when updating not a calculated value" do
@@ -177,6 +177,27 @@ RSpec.describe CustomFields::UpdateService, type: :model do
 
           expect(subject).to be_success
           expect(subject.result).to have_attributes(is_required: true)
+        end
+      end
+    end
+
+    describe "weighted_item_lists custom field", with_ee: :weighted_item_lists do
+      let(:custom_field) { create(:weighted_item_list_project_custom_field) }
+      let(:attributes) { { name: "new name" } }
+
+      it "does not eneuque a recalculation job" do
+        expect { subject }.not_to have_enqueued_job(CustomFields::RecalculateValuesJob)
+        expect(subject).to be_success
+      end
+
+      context "when toggling multi_value" do
+        let(:attributes) { super.merge(multi_value: true) }
+
+        it "enqueues recalculation job" do
+          expect { subject }
+              .to have_enqueued_job(CustomFields::RecalculateValuesJob)
+          .with(user:, custom_field_id: custom_field.id)
+          expect(subject).to be_success
         end
       end
     end
