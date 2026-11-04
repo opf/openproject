@@ -38,27 +38,31 @@ module API
         # List of properties that are currently supported by this representer.
         # Probably, way more, maybe even all properties are supported but that is untested.
         SUPPORTED_NON_LINK_PROPERTIES = %w[
-          subject
-          start_date
-          due_date
           date
+          due_date
+          start_date
+          subject
         ].freeze
 
         SUPPORTED_LINK_PROPERTIES = %w[
           assignee
-          responsible
-          project
-          status
+          labels
+          observed_in_versions
+          parent
           priority
+          project
+          responsible
+          status
+          target_versions
           type
           version
-          target_versions
-          observed_in_versions
-          labels
-          parent
         ].freeze
 
-        MULTI_VALUED_LINK_PROPERTIES = %w[target_versions observed_in_versions labels].freeze
+        MULTI_VALUED_LINK_PROPERTIES = %w[
+          labels
+          observed_in_versions
+          target_versions
+        ].freeze
 
         SUPPORTED_CUSTOM_PROPERTIES = [/^custom_field_\d+$/].freeze
 
