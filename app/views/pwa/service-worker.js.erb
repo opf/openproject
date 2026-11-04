@@ -8,7 +8,7 @@ const CACHE_PREFIX = <%== pwa_cache_prefix.to_json %>;
  *   - Push wake-ups: a push carries no content, so the worker fetches the unread summary and
  *     renders one notification per work package.
  *   - Notification clicks open or focus a window on the target page.
- *   - Signing out clears every notification, the remembered state and the app badge.
+ *   - Signing out, or an admin turning push off, clears every notification, the remembered state and the app badge.
  *   - A page reporting a different signed-in user closes the previous user's notifications.
  *
  *   OpenProject --push--> push service --wake-up--> worker --GET push summary--> OpenProject
@@ -231,6 +231,7 @@ class UnreadSummary {
         signal: AbortSignal.timeout(Config.push.fetchTimeoutMs),
       });
       if (response.status === 401) return { outcome: "signedOut" };
+      if (response.status === 404) return { outcome: "pushOff" };
       if (!response.ok) return { outcome: "unavailable" };
 
       const data = await response.json();
@@ -279,7 +280,8 @@ class Digest {
  * ```
  * push event ──► queue ──► GET push summary
  *                            │
- *                            ├─ signed out ... clear badge, close and forget all, fallback
+ *                            ├─ signed out (401), push off (404)
+ *                            │               clear badge, close and forget all, fallback
  *                            ├─ unavailable .. fallback
  *                            ├─ empty ........ close and forget all, "all read", clear badge
  *                            └─ unread ....... set badge
@@ -372,6 +374,7 @@ class PushHandler {
 
     switch (summary.outcome) {
       case "signedOut":
+      case "pushOff":
         await Badge.clear();
         await this.closeAndForgetAll();
         return Notifications.showFallback();

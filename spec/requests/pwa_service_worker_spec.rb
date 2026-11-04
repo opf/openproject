@@ -103,6 +103,10 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
                                        "closeOtherAccounts")
     end
 
+    it "clears its notifications when the summary reports push as turned off" do
+      expect(response.body).to include("response.status === 404", 'case "pushOff":')
+    end
+
     it "stores only digests of what it showed" do
       expect(response.body).to include("crypto.subtle.digest")
       expect(response.body).not_to include("JSON.stringify({ title")
