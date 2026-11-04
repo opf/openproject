@@ -45,7 +45,7 @@ get:
           schema:
             $ref: '../components/schemas/day_collection_model.yml'
     '400':
-      $ref: "../components/responses/invalid_request_body.yml"
+      $ref: "../components/responses/invalid_query.yml"
     '406':
       $ref: "../components/responses/missing_content_type.yml"
     '415':
