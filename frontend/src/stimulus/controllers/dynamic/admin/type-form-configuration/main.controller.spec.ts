@@ -255,21 +255,28 @@ describe('Type form configuration controller', () => {
       ctx.screen.getByRole('button', { name: 'Edit query' }).click();
     }
     await waitFor(() => expect(getService).toHaveBeenCalledWith(ApplicationInitStatus));
-    const error = new Error('Configuration failed');
-    rejectInitialization(error);
+    rejectInitialization(new Error('Configuration failed'));
 
-    await waitFor(() => expect(addError).toHaveBeenCalledWith(error));
+    await waitFor(() => expect(addError).toHaveBeenCalledWith('Configuration failed'));
     expect(show).not.toHaveBeenCalled();
   });
 
   it('shows modal opening errors', async () => {
-    const error = new Error('Modal failed');
-    show.mockImplementation(() => { throw error; });
+    show.mockImplementation(() => { throw new Error('Modal failed'); });
     const controller = await renderConfiguration();
 
     controller.addQueryGroup(new CustomEvent('click'));
 
-    await waitFor(() => expect(addError).toHaveBeenCalledWith(error));
+    await waitFor(() => expect(addError).toHaveBeenCalledWith('Modal failed'));
+  });
+
+  it('shows the parse error when the rendered query is not valid JSON', async () => {
+    await renderConfiguration(savedGroup.replace('data-group-query=\'{"filters":[]}\'', 'data-group-query="not json"'));
+
+    ctx.screen.getByRole('button', { name: 'Edit query' }).click();
+
+    await waitFor(() => expect(addError).toHaveBeenCalledWith(expect.stringContaining('JSON')));
+    expect(show).not.toHaveBeenCalled();
   });
 
   it('does not open after disconnecting while Angular initializes', async () => {

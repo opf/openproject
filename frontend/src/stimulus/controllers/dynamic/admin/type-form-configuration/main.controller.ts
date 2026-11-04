@@ -194,7 +194,7 @@ export default class TypeFormConfigurationController extends Controller {
         hideDisabledTabs: true,
       });
     } catch (error) {
-      notifications.addError(error as string);
+      notifications.addError(error instanceof Error ? error.message : String(error));
     }
   }
 }
