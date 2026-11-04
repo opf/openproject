@@ -34,6 +34,13 @@ import type { Root } from 'react-dom/client';
 import { createRoot } from 'react-dom/client';
 import OpBlockNoteContainer from '../react/OpBlockNoteContainer';
 
+function stylesheetLink(href:string) {
+  const link = document.createElement('link');
+  link.setAttribute('rel', 'stylesheet');
+  link.setAttribute('href', href);
+  return link;
+}
+
 class BlockNoteElement extends HTMLElement {
   private editorRoot:HTMLDivElement;
   private editorMount:HTMLDivElement;
@@ -57,18 +64,16 @@ class BlockNoteElement extends HTMLElement {
 
     const blockNoteStylesheetUrl = this.getAttribute('blocknote-stylesheet-url');
     if (blockNoteStylesheetUrl) {
-      const link = document.createElement('link');
-      link.setAttribute('rel', 'stylesheet');
-      link.setAttribute('href', blockNoteStylesheetUrl);
-      shadowRoot.appendChild(link);
+      shadowRoot.appendChild(stylesheetLink(blockNoteStylesheetUrl));
+      // BlockNote portals its mobile formatting toolbar into `document.body`, outside the shadow root.
+      if (!document.head.querySelector(`link[rel="stylesheet"][href="${blockNoteStylesheetUrl}"]`)) {
+        document.head.appendChild(stylesheetLink(blockNoteStylesheetUrl));
+      }
     }
 
     const shadowDomStylesheetUrl = this.getAttribute('shadow-dom-stylesheet-url');
     if (shadowDomStylesheetUrl) {
-      const link = document.createElement('link');
-      link.setAttribute('rel', 'stylesheet');
-      link.setAttribute('href', shadowDomStylesheetUrl);
-      shadowRoot.appendChild(link);
+      shadowRoot.appendChild(stylesheetLink(shadowDomStylesheetUrl));
     }
   }
 
