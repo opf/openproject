@@ -61,5 +61,13 @@ module Backlogs
 
       project_work_packages_path(project, query_props: query_props.to_json)
     end
+
+    def estimation_column(project = self.project)
+      if project.estimation_unit_story_points?
+        "story_points"
+      elsif project.estimation_unit_time?
+        "estimated_hours"
+      end
+    end
   end
 end
