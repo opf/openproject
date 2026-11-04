@@ -196,9 +196,6 @@ fr:
     rebuild_positions: Reconstruire les positions
     remaining_hours: Travail restant
     sharing: Partage de sprint
-    show_burndown_chart: Graphique burndown
-    show_created_resolved_chart: Created vs resolved work packages
-    show_work_package_overview: Lots de travaux du sprint
     sprint_component:
       action_menu:
         add_existing_work_package: Ajouter un lot de travaux existant
@@ -228,6 +225,20 @@ fr:
         breadcrumb: Rapport
         title: Rapport de %{sprint}
       widgets:
+        burndown_chart:
+          title: Burndown chart
+        created_resolved_chart:
+          title: Created vs resolved work packages
+        epic_progress:
+          card:
+            progress_label:
+              one: "%{epic}: %{completed} of %{count} work package completed"
+              other: "%{epic}: %{completed} of %{count} work packages completed"
+            work_package_completed: "(%{percentage})"
+            work_package_counts:
+              one: "%{completed} / %{count} work package"
+              other: "%{completed} / %{count} work packages"
+          title: Epic progress
         velocity_chart:
           average:
             one: 'Average of previous sprint:'
@@ -263,10 +274,12 @@ fr:
           breakdown_block:
             blocks:
               show_all: Tout afficher
+              show_all_label: 'View all: %{heading}'
           closed_work_packages: Lots de travaux fermés
           resolved_summary:
-            one: "%{percentage}% (%{resolved} sur %{total} lot de travaux)"
-            other: "%{percentage}% (%{resolved} sur %{total} lots de travaux)"
+            one: "%{percentage} (%{resolved} of %{total} work package)"
+            other: "%{percentage} (%{resolved} of %{total} work packages)"
+          title: Work packages within the sprint
         work_package_table:
           added:
             blankslate:
@@ -287,7 +300,7 @@ fr:
                 description: Sprint start and finish dates are necessary to show completed work packages.
               not_started:
                 description: Completed work packages will appear here after the sprint starts.
-            title: Completed work
+            title: Travail terminé
           removed:
             blankslate:
               empty:

@@ -190,9 +190,6 @@ zh-TW:
     rebuild_positions: 重建位置
     remaining_hours: 剩餘工時
     sharing: 共用衝刺
-    show_burndown_chart: 未完成圖
-    show_created_resolved_chart: Created vs resolved work packages
-    show_work_package_overview: 衝刺中的工作包
     sprint_component:
       action_menu:
         add_existing_work_package: 新增現有的工作套件
@@ -222,6 +219,18 @@ zh-TW:
         breadcrumb: 報告
         title: "%{sprint} 報告"
       widgets:
+        burndown_chart:
+          title: Burndown chart
+        created_resolved_chart:
+          title: Created vs resolved work packages
+        epic_progress:
+          card:
+            progress_label:
+              other: "%{epic}: %{completed} of %{count} work packages completed"
+            work_package_completed: "(%{percentage})"
+            work_package_counts:
+              other: "%{completed} / %{count} work packages"
+          title: Epic progress
         velocity_chart:
           average:
             other: 'Average of previous %{count} sprints:'
@@ -255,9 +264,11 @@ zh-TW:
           breakdown_block:
             blocks:
               show_all: 查看全部
+              show_all_label: 'View all: %{heading}'
           closed_work_packages: 已關閉的工作項目
           resolved_summary:
-            other: "%{percentage}% (%{resolved} 佔 %{total} 工作項目)"
+            other: "%{percentage} (%{resolved} of %{total} work packages)"
+          title: Work packages within the sprint
         work_package_table:
           added:
             blankslate:
