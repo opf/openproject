@@ -85,7 +85,7 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
 
     it "alerts only on newer activity and brings back groups pushed out by the overflow silently" do
       expect(response.body).to include("at > previous.at", "evicted: true", "silent: true, renotify: false",
-                                       "notification.tag === PUSH_TAG")
+                                       "tag === Config.tags.placeholder")
     end
 
     it "closes notifications of work packages that are no longer unread" do
@@ -93,9 +93,9 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
     end
 
     it "closes its notifications when the user signs out" do
-      expect(response.body).to include('const SIGNOUT_URL = "/logout"', "event.waitUntil(signOut())",
-                                       "pushQueue.then(clearForSignOut, clearForSignOut)",
-                                       "generation !== signOutGeneration")
+      expect(response.body).to include('signOut: "/logout"', "event.waitUntil(pushHandler.signOut())",
+                                       "this.enqueue(() => this.clearForSignOut())",
+                                       "generation !== this.signOutGeneration")
     end
 
     it "stores only digests of what it showed" do
@@ -104,7 +104,7 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
     end
 
     it "keeps the push state in a cache that survives upgrades" do
-      expect(response.body).to include("push-state", "name !== STATE_CACHE")
+      expect(response.body).to include("push-state", "name !== Config.cache.state")
     end
 
     it "precaches the offline page under the configured cache name" do
