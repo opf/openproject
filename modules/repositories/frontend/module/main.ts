@@ -75,7 +75,8 @@ export function initializeRepositoriesPlugin(injector:Injector) {
       component: RepositoriesTabComponent,
       name: I18n.t('js.work_packages.tabs.repositories'),
       id: 'repositories',
-      displayable: (workPackage) => !!workPackage.repositoryMergeRequests,
+      displayable: (workPackage) => !!(workPackage.repositoryMergeRequests || workPackage.repositoryIssues ||
+                                       workPackage.repositoryCommits || workPackage.repositoryBranches),
       count: workPackageRepositoriesCount,
     },
   );
