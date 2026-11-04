@@ -154,15 +154,6 @@ module Components
         expect(page).to have_css(".wp-table--configuration-modal")
       end
 
-      def edit_query_group_via_link(name)
-        wait_for_turbo
-
-        group = find_group(name)
-        label = I18n.t("types.edit.form_configuration.query_group_label")
-        group.click_button(label)
-        expect(page).to have_css(".wp-table--configuration-modal")
-      end
-
       def add_attribute_group(name, expect: true)
         add_button_dropdown.click
         click_on I18n.t("types.edit.form_configuration.add_attribute_group")

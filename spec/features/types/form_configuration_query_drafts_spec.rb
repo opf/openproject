@@ -151,14 +151,14 @@ RSpec.describe "Related table drafts", :js, with_ee: %i[edit_attribute_groups] d
     click_link "Cancel", exact: true
 
     expect(page).to have_no_field("Section name")
-    expect(page).to have_no_button("Related work packages table")
+    expect(page).to have_no_element(:dt, text: "Relation type")
     expect(form_configuration.reload.attribute_groups.map(&:key)).to eq(original_groups)
     expect(Query.count).to eq(original_queries)
 
     visit current_path
 
     expect(page).to have_button("Add", exact: true)
-    expect(page).to have_no_button("Related work packages table")
+    expect(page).to have_no_element(:dt, text: "Relation type")
   end
 
   it "retains query settings after a rejected name and permits correction" do

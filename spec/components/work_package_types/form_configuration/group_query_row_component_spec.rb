@@ -73,9 +73,6 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupQueryRowComponent, type
         expect(page).to have_text("Related work packages table")
         expect(page).to have_element(:dt, text: "Relation type")
         expect(page).to have_element(:dd, text: "Children")
-        if ee_available && !readonly
-          expect(page).to have_button("Related work packages table")
-        end
       end
     end
   end

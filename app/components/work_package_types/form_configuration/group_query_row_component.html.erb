@@ -3,21 +3,8 @@
     <% row.with_column(flex_layout: true, align_items: :flex_start, flex: 1) do |left| %>
       <% left.with_column(mr: 2, classes: "type-form-configuration-page--row-alignment-spacer") %>
       <% left.with_column(flex: 1) do %>
-        <% if ee_available? && !readonly? %>
-          <%=
-            render(
-              Primer::Beta::Button.new(
-                scheme: :link,
-                data: { action: "click->admin--type-form-configuration--main#editQuery" }
-              )
-            ) do
-          %>
-            <%= t("types.edit.form_configuration.query_group_label") %>
-          <% end %>
-        <% else %>
-          <%= render(Primer::Beta::Text.new(color: :subtle, font_style: :italic)) do %>
-            <%= t("types.edit.form_configuration.query_group_label") %>
-          <% end %>
+        <%= render(Primer::Beta::Text.new(color: :subtle)) do %>
+          <%= t("types.edit.form_configuration.query_group_label") %>
         <% end %>
         <%= render(WorkPackageTypes::FormConfiguration::QuerySummaryComponent.new(rows: @group[:query_summary])) %>
       <% end %>

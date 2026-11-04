@@ -85,15 +85,6 @@ RSpec.describe "form query configuration", :js do
       visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
     end
 
-    it "can edit a query group by clicking the related work packages table link" do
-      form.add_query_group("Link test", :children, expect: false)
-      form.expect_group("Link test", "Link test")
-
-      form.edit_query_group_via_link("Link test")
-      modal.expect_open
-      modal.cancel
-    end
-
     it "loads the children from the table split view (Regression #28490)" do
       form.add_query_group("Subtasks", :children)
 
