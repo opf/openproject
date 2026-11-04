@@ -54,15 +54,11 @@ module WorkPackageTypes
         end
 
         def add_static_attribute(key, context, label_fn, value_fn, formatter = STRING_OR_NIL)
-          static_token_definitions << AttributeToken.new(key, context, label_fn, value_fn, formatter)
+          static_tokens << AttributeToken.new(key, context, label_fn, value_fn, formatter)
         end
 
         def static_tokens
-          static_token_definitions
-        end
-
-        def static_token_definitions
-          @static_token_definitions ||= []
+          @static_tokens ||= []
         end
 
         def add_custom_fields(scope_fn, context, prefix = "")
