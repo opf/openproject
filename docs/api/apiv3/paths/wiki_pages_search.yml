@@ -1,0 +1,57 @@
+# /api/v3/projects/{project_id}/wiki_pages/search
+---
+get:
+  summary: Search Wiki Pages in Project
+  operationId: Search_Wiki_Pages_In_Project
+  tags:
+    - Wiki Pages
+  description: |-
+    Full-text search over the project's wiki (matches title and body).
+
+    **Required permission:** `view_wiki_pages` in the project.
+  parameters:
+    - name: project_id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 12
+    - name: q
+      in: query
+      required: true
+      description: Search query string.
+      schema:
+        type: string
+      example: deployment
+    - name: offset
+      in: query
+      required: false
+      description: Page number inside the result set.
+      schema:
+        type: integer
+        default: 1
+    - name: pageSize
+      in: query
+      required: false
+      description: Number of results per page.
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/list_of_wiki_pages_model.yml'
+    '403':
+      description: Returned if the user lacks `view_wiki_pages` in the project.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+    '404':
+      description: Returned if the project does not exist or its wiki module is not enabled.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'

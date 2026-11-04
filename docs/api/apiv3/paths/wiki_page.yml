@@ -13,27 +13,6 @@ get:
     '200':
       content:
         application/hal+json:
-          examples:
-            response:
-              value:
-                _embedded:
-                  project:
-                    _type: Project...
-                    id: 12
-                _links:
-                  addAttachment:
-                    href: "/api/v3/wiki_pages/72/attachments"
-                    method: post
-                  attachments:
-                    href: "/api/v3/wiki_pages/72/attachments"
-                  project:
-                    href: "/api/v3/projects/12"
-                    title: some project
-                  self:
-                    href: "/api/v3/wiki_pages/72"
-                _type: WikiPage
-                id: 72
-                title: A wiki page with a name
           schema:
             "$ref": "../components/schemas/wiki_page_model.yml"
       description: OK
@@ -59,3 +38,122 @@ get:
   description: Retrieve an individual wiki page as identified by the id parameter
   operationId: View_Wiki_Page
   summary: View Wiki Page
+
+patch:
+  summary: Update Wiki Page
+  operationId: Update_Wiki_Page
+  tags:
+    - Wiki Pages
+  description: |-
+    Updates the writable attributes of a wiki page (`title`, `text`, `locked`, `parentTitle`).
+
+    **Required permission:** `edit_wiki_pages` in the page's project.
+    Changing `locked` additionally requires `manage_wiki`.
+
+    The body is a flat JSON object — see the `WikiPageUpdateModel` schema below.
+  parameters:
+    - description: Wiki page identifier
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/wiki_page_update_model.yml'
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/wiki_page_model.yml'
+      description: OK
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to update this wiki page.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** `edit_wiki_pages`
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified wiki page does not exist or you do not have permission to view it.
+      description: Returned if the wiki page does not exist or the user has insufficient
+        permissions to view it.
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _embedded:
+              details:
+                attribute: title
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Title can't be blank.
+      description: |-
+        Returned if a constraint for a property was violated (`PropertyConstraintViolation`).
+
+delete:
+  summary: Delete Wiki Page
+  operationId: Delete_Wiki_Page
+  description: Permanently deletes the specified wiki page along with its history and attachments.
+  tags:
+    - Wiki Pages
+  parameters:
+    - description: Wiki page identifier
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '204':
+      description: Returned if the wiki page was deleted successfully. The response body is empty.
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to delete this wiki page.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** `manage_wiki`
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified wiki page does not exist.
+      description: Returned if the wiki page does not exist or the user has insufficient
+        permissions to view it.

@@ -1,0 +1,56 @@
+# /api/v3/wiki_pages/{id}/move
+---
+post:
+  summary: Move Wiki Page
+  operationId: Move_Wiki_Page
+  tags:
+    - Wiki Pages
+  description: |-
+    Re-parents the page within the same wiki, or moves it into another project's
+    wiki entirely.
+
+    - To re-parent within the same wiki: supply `parentTitle` (or `null` to detach).
+    - To move across projects: supply `projectId`. The parent reference is cleared
+      in that case (target wiki may not contain the original parent).
+
+    **Required permission:** `manage_wiki` in the source project.
+    When `projectId` is set, also requires `edit_wiki_pages` in the target project.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Wiki page identifier
+      schema:
+        type: integer
+      example: 72
+  requestBody:
+    required: false
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/wiki_page_move_model.yml'
+  responses:
+    '200':
+      description: OK — returns the moved wiki page.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/wiki_page_model.yml'
+    '403':
+      description: Returned if the user lacks the required permissions.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+    '404':
+      description: Returned if the page, the target project, or the target wiki does not exist.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+    '422':
+      description: Returned if the move violates a constraint.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
