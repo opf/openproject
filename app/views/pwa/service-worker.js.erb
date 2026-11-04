@@ -366,7 +366,7 @@ class PushHandler {
 class NotificationClick {
   static sameOriginUrl(url) {
     const resolved = new URL(url, self.location.href);
-    return resolved.origin === self.location.origin ? resolved.href : Config.urls.home;
+    return resolved.origin === self.location.origin ? resolved.href : new URL(Config.urls.home, self.location.href).href;
   }
 
   static async open(requestedUrl) {
