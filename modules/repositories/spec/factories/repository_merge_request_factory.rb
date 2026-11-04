@@ -34,7 +34,7 @@ FactoryBot.define do
     repository_user { association :repository_user, provider: }
 
     sequence(:display_id, &:to_s)
-    sequence(:external_id) { |i| (100 + i).to_s } # ensure it doesn't accidentially align with display_id
+    sequence(:external_id) { |i| (100 + i).to_s } # ensure it doesn't accidentally align with display_id
     state { "opened" }
     web_url { "https://gitlab.com/#{project_name}/-/merge_requests/#{display_id}" }
 
