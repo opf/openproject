@@ -32,7 +32,10 @@
  *   - Push wake-ups: a push carries no content, so the worker fetches the unread summary and
  *     renders one notification per work package.
  *   - Notification clicks open or focus a window on the target page.
- *   - Signing out clears every notification, the remembered state and the app badge.
+ *   - Signing out, or an admin turning push off, clears every notification, the remembered state and the app badge.
+ *   - An open page asks the worker to reconcile, which closes notifications that are no longer
+ *     unread without showing or alerting anything.
+ *   - A page reporting a different signed-in user closes the previous user's notifications.
  *
  *   OpenProject --push--> push service --wake-up--> worker --GET push summary--> OpenProject
  *   worker --show / close--> notifications, app badge
@@ -48,7 +51,7 @@ import { sw } from './sw-global';
  * BROWSER EVENTS
  *
  * The browser calls the worker only through these listeners: install, activate, fetch,
- * push and notificationclick. Each one delegates to the classes above.
+ * push, notificationclick and message. Each one delegates to the classes above.
  *****************************************************************************************/
 const pushHandler = new PushHandler();
 
@@ -73,14 +76,15 @@ sw.addEventListener('activate', (event) => {
 
 // Sign-out is detected on navigation because the worker is the only place that sees every logout, including SSO redirects.
 sw.addEventListener('fetch', (event) => {
-  const { request } = event;
-  if (request.mode === 'navigate' && request.method === 'GET' && pushHandler.isSignOut(request)) {
-    event.waitUntil(pushHandler.signOut());
+  const response = OfflinePage.respondTo(event);
+  if (response && pushHandler.isSignOut(event.request)) {
+    event.waitUntil(pushHandler.signOut(response));
   }
-  OfflinePage.respondTo(event);
 });
 
 sw.addEventListener('push', (event) => pushHandler.onPush(event));
+
+sw.addEventListener('message', (event) => pushHandler.onMessage(event));
 
 sw.addEventListener('notificationclick', (event) => {
   event.notification.close();

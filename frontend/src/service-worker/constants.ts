@@ -27,8 +27,11 @@
 
 export const Tags = {
   prefix: 'openproject-',
+  workPackage: /^openproject-(\d+)-wp-/,
   placeholder: 'openproject-unread',
   more: 'openproject-more',
 } as const;
 
 export const FETCH_TIMEOUT_MS = 10000;
+
+export const SIGN_OUT_TIMEOUT_MS = 10000;

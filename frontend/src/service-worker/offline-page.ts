@@ -45,11 +45,13 @@ export class OfflinePage {
   }
 
   // The URL stays the requested one so the offline page can retry it.
-  static respondTo(event:FetchEvent):void {
+  static respondTo(event:FetchEvent):Promise<Response>|undefined {
     const { request } = event;
-    if (request.mode !== 'navigate' || request.destination !== 'document' || request.method !== 'GET') return;
+    if (request.mode !== 'navigate' || request.destination !== 'document' || request.method !== 'GET') return undefined;
 
-    event.respondWith(OfflinePage.load(event));
+    const response = OfflinePage.load(event);
+    event.respondWith(response);
+    return response;
   }
 
   static async load(event:FetchEvent):Promise<Response> {

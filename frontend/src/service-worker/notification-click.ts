@@ -28,27 +28,33 @@
 import { Config } from './config';
 import { sw } from './sw-global';
 
-/** Opens a clicked notification's page in an existing window of the app, or in a new one. */
+/** Focuses an existing window of the app, controlled ones first, and opens a clicked notification's page there, or in a new one. */
 export class NotificationClick {
   static sameOriginUrl(url:string):string {
     const resolved = new URL(url, sw.location.href);
     return resolved.origin === sw.location.origin ? resolved.href : new URL(Config.urls.home, sw.location.href).href;
   }
 
+  static async windowsInScope(options?:{ includeUncontrolled?:boolean }):Promise<WindowClient[]> {
+    const windows = await sw.clients.matchAll({ type: 'window', ...options });
+    return windows.filter((candidate) => candidate.url.startsWith(sw.registration.scope));
+  }
+
   static async open(requestedUrl:string):Promise<WindowClient|null|undefined> {
     const url = NotificationClick.sameOriginUrl(requestedUrl);
-    const windows = await sw.clients.matchAll({ type: 'window', includeUncontrolled: true });
-    const clients = windows.filter((candidate) => candidate.url.startsWith(sw.registration.scope));
+    let clients = await NotificationClick.windowsInScope();
+    if (clients.length === 0) clients = await NotificationClick.windowsInScope({ includeUncontrolled: true });
+
     const client =
       clients.find((candidate) => candidate.visibilityState === 'visible' || candidate.focused) ?? clients[0];
     if (!client) return sw.clients.openWindow(url);
 
-    let navigated:WindowClient|null;
     try {
-      navigated = await client.navigate(url);
+      await client.focus();
+      await client.navigate(url);
     } catch {
       return sw.clients.openWindow(url);
     }
-    return navigated?.focus();
+    return undefined;
   }
 }

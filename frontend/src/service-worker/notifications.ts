@@ -37,6 +37,10 @@ export class Notifications {
     return notifications.filter((notification) => notification.tag.startsWith(Tags.prefix));
   }
 
+  static ownerOf(tag:string):string|undefined {
+    return Tags.workPackage.exec(tag)?.[1];
+  }
+
   static close(open:Notification[], tags:string[]):void {
     open.filter((notification) => tags.includes(notification.tag)).forEach((notification) => notification.close());
   }

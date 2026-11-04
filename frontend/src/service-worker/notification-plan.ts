@@ -119,6 +119,15 @@ export class NotificationPlan {
     return evicted;
   }
 
+  static stateAfterClose({ closeTags, more, state }:{
+    closeTags:string[];
+    more?:SummaryMore;
+    state:PushStateMap;
+  }):PushStateMap {
+    const remaining = Object.fromEntries(Object.entries(state).filter(([tag]) => !closeTags.includes(tag)));
+    return more ? { ...remaining, ...NotificationPlan.evictedState(closeTags, state) } : remaining;
+  }
+
   static for({ groups, more, openTags, state }:{
     groups:DigestedGroup[];
     more?:DigestedMore;
