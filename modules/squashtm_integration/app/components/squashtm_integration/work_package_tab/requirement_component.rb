@@ -37,11 +37,11 @@ module SquashTMIntegration
       delegate :server, :work_package_link, :requirement, :work_package, :project, :can_manage_links?, to: :tab_state
 
       def requirement_id
-        work_package_link.squashtm_requirement_id_in_database
+        work_package_link.stored_squashtm_requirement_id
       end
 
       def name
-        requirement&.name || work_package_link.squashtm_requirement_name_in_database
+        requirement&.name || work_package_link.stored_squashtm_requirement_name
       end
 
       def url

@@ -70,6 +70,19 @@ RSpec.describe SquashTMIntegration::WorkPackageLinks::CreateService do
       expect(result.errors.details[:base].pluck(:error)).to include(:work_package_already_linked)
     end
 
+    context "when a concurrent request linked the work package after the validation ran" do
+      before do
+        create(:squashtm_work_package_link, work_package:, squashtm_requirement_id: 12)
+        allow_any_instance_of(SquashTMIntegration::WorkPackageLink).to receive(:single_link_per_work_package) # rubocop:disable RSpec/AnyInstance
+      end
+
+      it "fails with the same error as the validation and keeps the first link" do
+        expect(result).to be_failure
+        expect(result.errors).to be_added(:base, :work_package_already_linked)
+        expect(SquashTMIntegration::WorkPackageLink.sole.squashtm_requirement_id).to eq(12)
+      end
+    end
+
     it "rejects a requirement of another SquashTM project" do
       requirement["project"]["id"] = 2
 

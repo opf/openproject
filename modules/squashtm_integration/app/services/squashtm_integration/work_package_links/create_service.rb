@@ -30,6 +30,16 @@
 module SquashTMIntegration
   module WorkPackageLinks
     class CreateService < ::BaseServices::Create
+      protected
+
+      def persist(service_result)
+        ActiveRecord::Base.transaction(requires_new: true) { super }
+      rescue ActiveRecord::RecordNotUnique
+        service_result.result.errors.add(:base, :work_package_already_linked)
+        service_result.errors = service_result.result.errors
+        service_result.success = false
+        service_result
+      end
     end
   end
 end

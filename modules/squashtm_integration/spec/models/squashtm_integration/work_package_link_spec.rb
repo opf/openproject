@@ -34,6 +34,13 @@ RSpec.describe SquashTMIntegration::WorkPackageLink do
     expect(link.project).to eq(link.work_package.project)
   end
 
+  it "requires a work package" do
+    link = build(:squashtm_work_package_link, work_package: nil)
+
+    expect(link).not_to be_valid
+    expect(link.errors).to be_added(:work_package, :blank)
+  end
+
   it "allows only one link per work package" do
     existing = create(:squashtm_work_package_link)
 

@@ -93,12 +93,12 @@ module SquashTMIntegration
     end
 
     def load_requirement
-      @requirement = RequirementCoverage.new(client).call(work_package_link.squashtm_requirement_id_in_database)
+      @requirement = RequirementCoverage.new(client).call(work_package_link.stored_squashtm_requirement_id)
     rescue Client::NotFoundError
       @requirement = nil
       @requirement_error = :not_found
     rescue Client::Error => e
-      log_error("SquashTM requirement #{work_package_link.squashtm_requirement_id_in_database} could not be loaded", e)
+      log_error("SquashTM requirement #{work_package_link.stored_squashtm_requirement_id} could not be loaded", e)
       @requirement = nil
       @requirement_error = :unavailable
     end

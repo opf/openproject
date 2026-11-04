@@ -48,7 +48,7 @@ module SquashTMIntegration
       end
 
       def project_linked?
-        Server.configured? && model.work_package.present? && ProjectLink.exists?(project: model.project)
+        Server.configured? && ProjectLink.exists?(project: model.project)
       end
     end
   end

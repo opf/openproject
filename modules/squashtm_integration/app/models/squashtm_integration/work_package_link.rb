@@ -33,9 +33,19 @@ module SquashTMIntegration
 
     belongs_to :work_package
 
-    delegate :project, to: :work_package
+    delegate :project, to: :work_package, allow_nil: true
 
+    validates :work_package, presence: true
     validate :single_link_per_work_package
+
+    # After a failed update the in-memory values carry the rejected requirement, so a persisted link reports the stored ones.
+    def stored_squashtm_requirement_id
+      persisted? ? squashtm_requirement_id_in_database : squashtm_requirement_id
+    end
+
+    def stored_squashtm_requirement_name
+      persisted? ? squashtm_requirement_name_in_database : squashtm_requirement_name
+    end
 
     private
 
