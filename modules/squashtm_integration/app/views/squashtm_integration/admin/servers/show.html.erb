@@ -26,28 +26,28 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t("squashtm_integration.admin.title") %>
+<% html_title t(:label_administration), t(".title") %>
 
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { t("squashtm_integration.admin.title") }
-    header.with_description { t("squashtm_integration.admin.servers.show.description") }
+    header.with_title { t(".title") }
+    header.with_description { t(".description") }
     header.with_breadcrumbs(
       [{ href: admin_index_path, text: t(:label_administration) },
-       t("squashtm_integration.admin.title")]
+       t(".title")]
     )
   end
 %>
 
 <% if @server.persisted? %>
   <%=
-    render(Primer::Alpha::Banner.new(scheme: :success, mb: 3, test_selector: "squashtm-server--linked")) do
+    render(Primer::Alpha::Banner.new(scheme: :success, mb: 3, test_selector: "squashtm--linked-server")) do
       server_link = render(Primer::Beta::Link.new(href: @server.base_url, target: "_blank", rel: "noopener noreferrer")) do |link|
         link.with_trailing_visual_icon(icon: :"link-external")
         @server.base_url
       end
 
-      t("squashtm_integration.admin.servers.show.linked_html", url: server_link)
+      t(".linked_html", url: server_link)
     end
   %>
 
@@ -58,12 +58,16 @@ See COPYRIGHT and LICENSE files for more details.
           Primer::Beta::Button.new(
             tag: :a,
             href: test_connection_squashtm_integration_admin_server_path,
-            data: { turbo_method: :post },
-            test_selector: "squashtm-server--test-connection"
+            data: {
+              turbo_method: :post,
+              controller: "disable-when-clicked",
+              disable_when_clicked_text_value: t(".testing_connection")
+            },
+            test_selector: "squashtm--test-server-connection"
           )
         ) do |button|
           button.with_leading_visual_icon(icon: :plug)
-          t("squashtm_integration.admin.servers.show.test_connection")
+          t(".test_connection")
         end
       end
 
@@ -74,16 +78,20 @@ See COPYRIGHT and LICENSE files for more details.
             scheme: :danger,
             href: destroy_dialog_squashtm_integration_admin_server_path,
             data: { controller: "async-dialog" },
-            test_selector: "squashtm-server--delete"
+            test_selector: "squashtm--delete-server"
           )
         ) do |button|
           button.with_leading_visual_icon(icon: :unlink)
-          t("squashtm_integration.admin.servers.show.unlink")
+          t(".unlink")
         end
       end
     end
   %>
 <% else %>
+  <% if @server.errors[:base].any? %>
+    <%= render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop, mb: 3)) { @server.errors.full_messages_for(:base).to_sentence } %>
+  <% end %>
+
   <%=
     primer_form_with(
       model: @server,

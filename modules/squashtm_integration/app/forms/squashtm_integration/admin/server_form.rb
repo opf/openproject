@@ -46,7 +46,7 @@ module SquashTMIntegration
           name: :api_token,
           label: attribute_name(:api_token),
           caption: api_token_caption,
-          placeholder: (I18n.t("squashtm_integration.admin.server_form.api_token_placeholder_stored") if model.api_token_stored?),
+          placeholder: ("••••••••" if model.api_token_stored?),
           value: nil,
           type: :password,
           autocomplete: "off",

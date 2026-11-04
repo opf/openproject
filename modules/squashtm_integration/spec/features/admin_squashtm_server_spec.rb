@@ -42,7 +42,7 @@ RSpec.describe "SquashTM server administration", :js do
     click_link "SquashTM"
 
     expect(page).to have_current_path("/squashtm_integration/admin/server")
-    expect(page).to have_no_test_selector("squashtm-server--test-connection")
+    expect(page).to have_no_test_selector("squashtm--test-server-connection")
   end
 
   it "connects OpenProject to a SquashTM server" do
@@ -53,23 +53,23 @@ RSpec.describe "SquashTM server administration", :js do
     click_button "Save"
 
     expect_flash(message: I18n.t(:notice_successful_update))
-    expect(page).to have_test_selector("squashtm-server--linked",
+    expect(page).to have_test_selector("squashtm--linked-server",
                                        text: "OpenProject is linked to the SquashTM server at " \
                                              "https://squashtm.example.com/squash")
     expect(page).to have_no_field("SquashTM URL")
     expect(SquashTMIntegration::Server.sole.api_token).to eq("secret-token")
   end
 
-  it "shows why the connection check failed and saves nothing" do
-    allow(connection_check).to receive(:call) { |errors| errors.add(:api_token, :rejected) }
+  it "saves the server and warns when the connection check fails" do
+    allow(connection_check).to receive(:call) { |errors| errors.add(:base, :api_token_rejected) }
     visit squashtm_integration_admin_server_path
 
     fill_in "SquashTM URL", with: "https://squashtm.example.com/squash"
     fill_in "API token", with: "wrong-token"
     click_button "Save"
 
-    expect(page).to have_text("was rejected by the SquashTM server")
-    expect(SquashTMIntegration::Server).not_to exist
+    expect_flash(type: :warning, message: /The settings were saved, but .*The SquashTM server rejected the API token\./)
+    expect(SquashTMIntegration::Server.sole.api_token).to eq("wrong-token")
   end
 
   context "with a configured server" do
@@ -79,35 +79,35 @@ RSpec.describe "SquashTM server administration", :js do
     end
 
     it "shows the linked server and hides the form" do
-      within_test_selector("squashtm-server--linked") do
+      within_test_selector("squashtm--linked-server") do
         expect(page).to have_text("OpenProject is linked to the SquashTM server at https://squashtm.example.com/squash")
         expect(page).to have_link("https://squashtm.example.com/squash", href: "https://squashtm.example.com/squash")
         expect(find_link("https://squashtm.example.com/squash")[:target]).to eq("_blank")
       end
       expect(page).to have_no_field("SquashTM URL")
       expect(page).to have_no_field("API token")
-      expect(page).to have_test_selector("squashtm-server--test-connection")
-      expect(page).to have_test_selector("squashtm-server--delete", text: "Unlink")
-      within_test_selector("squashtm-server--delete") { expect(page).to have_css("svg.octicon-unlink") }
+      expect(page).to have_test_selector("squashtm--test-server-connection")
+      expect(page).to have_test_selector("squashtm--delete-server", text: "Unlink")
+      within_test_selector("squashtm--delete-server") { expect(page).to have_css("svg.octicon-unlink") }
     end
 
     it "tests the connection" do
-      find_test_selector("squashtm-server--test-connection").click
+      find_test_selector("squashtm--test-server-connection").click
 
       expect_flash(message: "The connection to SquashTM was successful.")
     end
 
     it "reports why the connection test failed" do
-      allow(connection_check).to receive(:call) { |errors| errors.add(:base_url, :cannot_be_connected_to) }
+      allow(connection_check).to receive(:call) { |errors| errors.add(:base, :base_url_cannot_be_connected_to, url: "https://squashtm.example.com/squash") }
 
-      find_test_selector("squashtm-server--test-connection").click
+      find_test_selector("squashtm--test-server-connection").click
 
       expect_flash(type: :error, message: /The connection to SquashTM failed: .*could not be reached/)
     end
 
     it "deletes the server after confirmation" do
-      find_test_selector("squashtm-server--delete").click
-      within_test_selector("squashtm-server--delete-dialog") do
+      find_test_selector("squashtm--delete-server").click
+      within_test_selector("squashtm--delete-server-dialog") do
         expect(page).to have_text("Delete the SquashTM server configuration?")
         click_button "Delete"
       end

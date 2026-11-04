@@ -48,13 +48,12 @@ RSpec.describe SquashTMIntegration::ConnectionCheck do
   end
 
   {
-    SsrfError: %i[base_url ssrf_filtered],
-    TimeoutError: %i[base_url request_timed_out],
-    SslError: %i[base_url ssl_error],
-    InvalidUrlError: %i[base_url invalid_url],
-    ConnectionError: %i[base_url cannot_be_connected_to],
-    AuthenticationError: %i[api_token rejected],
-    ResponseError: %i[base_url not_squashtm]
+    SsrfError: %i[base base_url_ssrf_filtered],
+    TimeoutError: %i[base base_url_request_timed_out],
+    SslError: %i[base base_url_ssl_error],
+    InvalidUrlError: %i[base base_url_invalid],
+    ConnectionError: %i[base base_url_cannot_be_connected_to],
+    InvalidResponseError: %i[base base_url_not_squashtm]
   }.each do |error_class, (attribute, error_type)|
     it "reports a #{error_class} as #{attribute} #{error_type}" do
       allow(client).to receive(:projects).and_raise(SquashTMIntegration::Client.const_get(error_class))
@@ -65,14 +64,38 @@ RSpec.describe SquashTMIntegration::ConnectionCheck do
     end
   end
 
-  it "reports a ServerError as base_url server_error with the status" do
+  {
+    NotFoundError: 404,
+    UnexpectedStatusError: 400
+  }.each do |error_class, status|
+    it "reports a #{error_class} (HTTP #{status}) as not answering like a SquashTM server" do
+      allow(client).to receive(:projects).and_raise(SquashTMIntegration::Client.const_get(error_class).new(status))
+
+      check
+
+      expect(errors.details[:base].pluck(:error)).to eq([:base_url_not_squashtm])
+    end
+  end
+
+  it "reports an AuthenticationError as api_token rejected" do
+    allow(client).to receive(:projects).and_raise(SquashTMIntegration::Client::AuthenticationError.new(401))
+
+    check
+
+    expect(errors.details[:base].pluck(:error)).to eq([:api_token_rejected])
+  end
+
+  it "reports a ServerError with the URL and status" do
     allow(client).to receive(:projects).and_raise(SquashTMIntegration::Client::ServerError.new(502))
 
     check
 
-    expect(errors.details[:base_url]).to eq([{ error: :server_error, status: 502 }])
+    expect(errors.details[:base]).to eq(
+      [{ error: :base_url_server_error, url: "https://squashtm.example.com/squash", status: 502 }]
+    )
     expect(errors.full_messages).to eq(
-      ["SquashTM URL responded with an error (HTTP 502). Please ensure the SquashTM server is running and healthy."]
+      ["The SquashTM server at https://squashtm.example.com/squash responded with an error (HTTP 502). " \
+       "Please ensure it is running and healthy."]
     )
   end
 end

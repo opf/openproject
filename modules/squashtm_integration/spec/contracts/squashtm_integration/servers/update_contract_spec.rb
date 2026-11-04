@@ -32,23 +32,21 @@ require "spec_helper"
 RSpec.describe SquashTMIntegration::Servers::UpdateContract do
   let(:server) { create(:squashtm_server) }
   let(:user) { build_stubbed(:admin) }
-  let(:connection_check) { instance_double(SquashTMIntegration::ConnectionCheck, call: nil) }
 
   subject(:contract) { described_class.new(server, user) }
-
-  before do
-    allow(SquashTMIntegration::ConnectionCheck).to receive(:new).and_return(connection_check)
-  end
 
   it "is valid for an admin changing the URL" do
     server.base_url = "https://other.example.com/squash"
 
     expect(contract).to be_valid
-    expect(connection_check).to have_received(:call)
   end
 
-  it "does not contact SquashTM when nothing about the connection changed" do
-    expect(contract).to be_valid
+  it "does not contact SquashTM" do
+    allow(SquashTMIntegration::ConnectionCheck).to receive(:new)
+    server.base_url = "https://other.example.com/squash"
+
+    contract.valid?
+
     expect(SquashTMIntegration::ConnectionCheck).not_to have_received(:new)
   end
 
@@ -73,7 +71,6 @@ RSpec.describe SquashTMIntegration::Servers::UpdateContract do
 
     expect(contract).not_to be_valid
     expect(contract.errors.details[:base_url].pluck(:error)).to include(:url_not_secure_context)
-    expect(SquashTMIntegration::ConnectionCheck).not_to have_received(:new)
   end
 
   it "requires an API token" do
@@ -81,13 +78,5 @@ RSpec.describe SquashTMIntegration::Servers::UpdateContract do
 
     expect(contract).not_to be_valid
     expect(contract.errors.details[:api_token].pluck(:error)).to include(:blank)
-  end
-
-  it "is invalid when the connection check fails" do
-    allow(connection_check).to receive(:call) { |errors| errors.add(:api_token, :rejected) }
-    server.api_token = "another-token"
-
-    expect(contract).not_to be_valid
-    expect(contract.errors.details[:api_token].pluck(:error)).to eq([:rejected])
   end
 end

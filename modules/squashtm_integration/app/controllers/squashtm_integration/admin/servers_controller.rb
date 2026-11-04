@@ -45,7 +45,7 @@ module SquashTMIntegration
         result = save_service.call(server_params)
 
         if result.success?
-          flash[:notice] = I18n.t(:notice_successful_update)
+          flash_saved(result.result)
           redirect_to squashtm_integration_admin_server_path, status: :see_other
         else
           @server = result.result
@@ -54,8 +54,7 @@ module SquashTMIntegration
       end
 
       def test_connection
-        errors = ActiveModel::Errors.new(@server)
-        ConnectionCheck.new(base_url: @server.base_url, api_token: @server.api_token).call(errors)
+        errors = connection_errors(@server)
 
         if errors.empty?
           flash[:notice] = t(".success")
@@ -83,6 +82,22 @@ module SquashTMIntegration
       end
 
       private
+
+      def connection_errors(server)
+        ActiveModel::Errors.new(server).tap do |errors|
+          ConnectionCheck.new(base_url: server.base_url, api_token: server.api_token).call(errors)
+        end
+      end
+
+      def flash_saved(server)
+        errors = connection_errors(server)
+
+        if errors.empty?
+          flash[:notice] = I18n.t(:notice_successful_update)
+        else
+          flash[:warning] = t(".connection_warning", reason: errors.full_messages.to_sentence)
+        end
+      end
 
       def set_server
         @server = Server.current

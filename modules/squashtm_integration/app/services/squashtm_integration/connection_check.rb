@@ -30,27 +30,28 @@
 module SquashTMIntegration
   class ConnectionCheck
     def initialize(base_url:, api_token:)
+      @base_url = base_url
       @client = Client.new(base_url:, api_token:)
     end
 
     def call(errors)
       @client.projects(size: 1)
     rescue Client::SsrfError
-      errors.add(:base_url, :ssrf_filtered, env_name: Settings::Definition[:ssrf_protection_ip_allowlist].env_name)
+      errors.add(:base, :base_url_ssrf_filtered, url: @base_url, env_name: Settings::Definition[:ssrf_protection_ip_allowlist].env_name)
     rescue Client::TimeoutError
-      errors.add(:base_url, :request_timed_out)
+      errors.add(:base, :base_url_request_timed_out, url: @base_url)
     rescue Client::SslError
-      errors.add(:base_url, :ssl_error)
+      errors.add(:base, :base_url_ssl_error, url: @base_url)
     rescue Client::InvalidUrlError
-      errors.add(:base_url, :invalid_url)
+      errors.add(:base, :base_url_invalid, url: @base_url)
     rescue Client::ConnectionError
-      errors.add(:base_url, :cannot_be_connected_to)
+      errors.add(:base, :base_url_cannot_be_connected_to, url: @base_url)
     rescue Client::AuthenticationError
-      errors.add(:api_token, :rejected)
+      errors.add(:base, :api_token_rejected)
     rescue Client::ServerError => e
-      errors.add(:base_url, :server_error, status: e.status)
-    rescue Client::ResponseError
-      errors.add(:base_url, :not_squashtm)
+      errors.add(:base, :base_url_server_error, url: @base_url, status: e.status)
+    rescue Client::UnexpectedStatusError, Client::InvalidResponseError
+      errors.add(:base, :base_url_not_squashtm, url: @base_url)
     end
   end
 end

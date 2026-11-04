@@ -57,7 +57,7 @@ RSpec.describe "SquashTM server administration",
       get server_path
 
       expect(response).to have_http_status(:ok)
-      banner = Capybara.string(response.body).find(test_selector("squashtm-server--linked"))
+      banner = Capybara.string(response.body).find(test_selector("squashtm--linked-server"))
       expect(banner).to have_text("OpenProject is linked to the SquashTM server at https://squashtm.example.com/squash")
       expect(banner).to have_link("https://squashtm.example.com/squash", href: "https://squashtm.example.com/squash")
       expect(banner).to have_css("a svg.octicon-link-external")
@@ -101,13 +101,23 @@ RSpec.describe "SquashTM server administration",
       expect(server.api_token).to eq("stored-token")
     end
 
-    it "shows the errors and saves nothing when the connection check fails" do
-      allow(connection_check).to receive(:call) { |errors| errors.add(:api_token, :rejected) }
+    it "saves the server and warns when the connection check fails" do
+      allow(connection_check).to receive(:call) { |errors| errors.add(:base, :api_token_rejected) }
 
       patch server_path, params: params
 
+      expect(response).to redirect_to(server_path)
+      expect(SquashTMIntegration::Server.sole.api_token).to eq("new-token")
+      expect(flash[:warning]).to eq(
+        "The settings were saved, but the connection to SquashTM failed: The SquashTM server rejected the API token."
+      )
+      expect(flash[:notice]).to be_nil
+    end
+
+    it "rejects a formally invalid URL and saves nothing" do
+      patch server_path, params: { squashtm_server: { base_url: "not a url", api_token: "new-token" } }
+
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.body).to include("was rejected by the SquashTM server")
       expect(SquashTMIntegration::Server).not_to exist
     end
   end
@@ -123,11 +133,11 @@ RSpec.describe "SquashTM server administration",
     end
 
     it "reports why the connection failed" do
-      allow(connection_check).to receive(:call) { |errors| errors.add(:api_token, :rejected) }
+      allow(connection_check).to receive(:call) { |errors| errors.add(:base, :api_token_rejected) }
 
       post "#{server_path}/test_connection"
 
-      expect(flash[:error]).to include("API token was rejected by the SquashTM server.")
+      expect(flash[:error]).to include("The SquashTM server rejected the API token.")
     end
   end
 
