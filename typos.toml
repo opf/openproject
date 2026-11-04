@@ -57,9 +57,6 @@ extend-ignore-re = [
   "fourty minutes", # commented-out parser input
   "\\.highlight \\.nd", # Rouge token class
   "op-header-project-select--no-favourites", # CSS class; follow-up
-  "(::|module |class )Artefact\\b|\\bArtefact::", # PMflex artefact export constants; follow-up
-  "[\"']artefact[\"']|%w\\[[^\\]]*\\bartefact\\b[^\\]]*\\]", # PDF export template id stored in type settings; follow-up
-  "\\bartefact(_spec)?\\.rb|/artefact/", # PMflex artefact export file names; follow-up
   "</?organisation(Scope)?>", # Nextcloud user query payload
   "\\), labelled AS \\(|FROM labelled\\b", # CTE alias in a shipped migration
   "Centre of [Ee]xcellence\\s+in\\s+PM", # name of the EU PM² body
@@ -113,8 +110,6 @@ extend-ignore-identifiers-re = [
   "^wait_thr$", # Open3 convention
   "^wheres$", # Arel API
   "^wil_", # weighted item list
-  "^\\w*(_artefact|artefact_)\\w*$", # PMflex artefact export code, i18n keys and routes; follow-up
-  "^\\w*[a-z]Artefact\\w*$|^Artefact[A-Z]\\w*$", # PMflex artefact export classes; follow-up
   "^(a|A)uthorisationService$", # public frontend service; follow-up
   "^labelled_tabular_form_(for|with)$", # public form helpers; follow-up
   "^server_flavour$", # key in stored LLM connection options; follow-up
@@ -132,6 +127,8 @@ extend-ignore-identifiers-re = [
 
 [default.extend-words]
 anc = "anc" # SQL alias and index names for ancestor
+artefact = "artefact" # project management term for a deliverable (PM²/PMflex)
+artefacts = "artefacts"
 axe = "axe" # axe-core accessibility engine
 lod = "lod" # level of detail / BIM level of development
 tweek = "tweek" # time_entries column; follow-up

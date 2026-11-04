@@ -27,22 +27,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectArtifactsMailer < ApplicationMailer
-  include ProjectsHelper
-  include Exports::PDF::Common::Macro
+class ProjectArtefactsMailerPreview < ActionMailer::Preview
+  # Preview emails at http://localhost:3000/rails/mailers/project_artefacts_mailer
 
-  def creation_wizard_submitted(user, project, artifact_work_package)
-    @project = project
-    @work_package = artifact_work_package
-    @notification_text = apply_markdown_field_macros(project.project_creation_wizard_notification_text, { project:, user: })
+  def creation_wizard_submitted
+    project = FactoryBot.build_stubbed(:project)
+    work_package = FactoryBot.build_stubbed(:work_package, project: project)
+    project.project_creation_wizard_enabled = true
+    project.project_creation_wizard_notification_text = <<~STR
+      Hello,
 
-    open_project_headers "Project" => project.identifier
+      You submitted a project initiation request for **#{project.name}**. It is now awaiting review.
+      Click the link below to access the work package with your request.
+    STR
+    user = FactoryBot.build_stubbed(:user)
 
-    message_id project, user
-
-    send_localized_mail(user) do
-      I18n.t("settings.project_initiation_request.status.submitted",
-             wizard_name: project_creation_wizard_name(project))
-    end
+    ProjectArtefactsMailer.creation_wizard_submitted(user, project, work_package)
   end
 end

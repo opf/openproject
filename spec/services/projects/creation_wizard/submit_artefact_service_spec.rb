@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe Projects::CreationWizard::SubmitArtifactService do
+RSpec.describe Projects::CreationWizard::SubmitArtefactService do
   shared_let(:status_new) { create(:status, name: "New") }
   shared_let(:type) { create(:type, name: "Project initiation") }
   shared_let(:current_user) { create(:user, lastname: "current_user") }
@@ -63,66 +63,66 @@ RSpec.describe Projects::CreationWizard::SubmitArtifactService do
     login_as current_user
   end
 
-  context "when no artifact work package exists" do
+  context "when no artefact work package exists" do
     let(:create_service_result) { ServiceResult.success(result: project) }
-    let(:create_service_instance) { instance_double(Projects::CreationWizard::CreateArtifactWorkPackageService, call: create_service_result) }
+    let(:create_service_instance) { instance_double(Projects::CreationWizard::CreateArtefactWorkPackageService, call: create_service_result) }
 
     before do
       project.update!(project_creation_wizard_artifact_work_package_id: nil)
 
-      allow(Projects::CreationWizard::CreateArtifactWorkPackageService)
+      allow(Projects::CreationWizard::CreateArtefactWorkPackageService)
         .to receive(:new)
         .with(user: current_user, model: project)
         .and_return(create_service_instance)
     end
 
-    it "delegates to CreateArtifactWorkPackageService" do
+    it "delegates to CreateArtefactWorkPackageService" do
       result = instance.call
 
       expect(result).to be_success
-      expect(Projects::CreationWizard::CreateArtifactWorkPackageService).to have_received(:new)
+      expect(Projects::CreationWizard::CreateArtefactWorkPackageService).to have_received(:new)
       expect(create_service_instance).to have_received(:call)
     end
 
-    it "returns the result from CreateArtifactWorkPackageService" do
+    it "returns the result from CreateArtefactWorkPackageService" do
       result = instance.call
 
       expect(result).to eq(create_service_result)
     end
   end
 
-  context "when the artifact work package already exists" do
+  context "when the artefact work package already exists" do
     shared_let(:work_package) do
-      create(:work_package, project:, type:, status: status_new, subject: "Existing artifact")
+      create(:work_package, project:, type:, status: status_new, subject: "Existing artefact")
     end
 
     let(:upload_result) { ServiceResult.success(result: nil) }
-    let(:upload_service_instance) { instance_double(Projects::CreationWizard::UploadArtifactService, call: upload_result) }
+    let(:upload_service_instance) { instance_double(Projects::CreationWizard::UploadArtefactService, call: upload_result) }
 
     before do
       project.update!(project_creation_wizard_artifact_work_package_id: work_package.id)
 
-      allow(Projects::CreationWizard::UploadArtifactService)
+      allow(Projects::CreationWizard::UploadArtefactService)
         .to receive(:new)
         .with(user: current_user, project:, work_package:)
         .and_return(upload_service_instance)
     end
 
-    it "delegates to UploadArtifactService" do
+    it "delegates to UploadArtefactService" do
       result = instance.call
 
       expect(result).to be_success
       expect(result.result).to eq(project)
-      expect(Projects::CreationWizard::UploadArtifactService).to have_received(:new)
+      expect(Projects::CreationWizard::UploadArtefactService).to have_received(:new)
       expect(upload_service_instance).to have_received(:call)
     end
 
-    it "does not call CreateArtifactWorkPackageService" do
-      allow(Projects::CreationWizard::CreateArtifactWorkPackageService).to receive(:new)
+    it "does not call CreateArtefactWorkPackageService" do
+      allow(Projects::CreationWizard::CreateArtefactWorkPackageService).to receive(:new)
 
       instance.call
 
-      expect(Projects::CreationWizard::CreateArtifactWorkPackageService).not_to have_received(:new)
+      expect(Projects::CreationWizard::CreateArtefactWorkPackageService).not_to have_received(:new)
     end
 
     context "when upload fails" do
@@ -141,24 +141,24 @@ RSpec.describe Projects::CreationWizard::SubmitArtifactService do
     end
   end
 
-  context "when the artifact work package id is dangling (work package was deleted)" do
+  context "when the artefact work package id is dangling (work package was deleted)" do
     let(:create_service_result) { ServiceResult.success(result: project) }
-    let(:create_service_instance) { instance_double(Projects::CreationWizard::CreateArtifactWorkPackageService, call: create_service_result) }
+    let(:create_service_instance) { instance_double(Projects::CreationWizard::CreateArtefactWorkPackageService, call: create_service_result) }
 
     before do
       project.update!(project_creation_wizard_artifact_work_package_id: 99999)
 
-      allow(Projects::CreationWizard::CreateArtifactWorkPackageService)
+      allow(Projects::CreationWizard::CreateArtefactWorkPackageService)
         .to receive(:new)
         .with(user: current_user, model: project)
         .and_return(create_service_instance)
     end
 
-    it "delegates to CreateArtifactWorkPackageService" do
+    it "delegates to CreateArtefactWorkPackageService" do
       result = instance.call
 
       expect(result).to be_success
-      expect(Projects::CreationWizard::CreateArtifactWorkPackageService).to have_received(:new)
+      expect(Projects::CreationWizard::CreateArtefactWorkPackageService).to have_received(:new)
     end
   end
 end

@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe Projects::CreationWizard::ReuploadArtifactOnStatusChangesService do
+RSpec.describe Projects::CreationWizard::ReuploadArtefactOnStatusChangesService do
   shared_let(:status_new) { create(:status, name: "New") }
   shared_let(:status_approved) { create(:status, name: "Approved") }
   shared_let(:type) { create(:type, name: "Project initiation") }
@@ -71,7 +71,7 @@ RSpec.describe Projects::CreationWizard::ReuploadArtifactOnStatusChangesService 
       project:,
       type:,
       status: status_new,
-      subject: "Artifact Work Package",
+      subject: "Artefact Work Package",
       assigned_to: assignee_user
     )
   end
@@ -114,7 +114,7 @@ RSpec.describe Projects::CreationWizard::ReuploadArtifactOnStatusChangesService 
       end
     end
 
-    context "when work package is not the artifact work package" do
+    context "when work package is not the artefact work package" do
       before do
         project.update(project_creation_wizard_artifact_work_package_id: work_package.id + 999)
       end
@@ -129,7 +129,7 @@ RSpec.describe Projects::CreationWizard::ReuploadArtifactOnStatusChangesService 
       end
     end
 
-    context "when artifact storage is internal (attachment)" do
+    context "when artefact storage is internal (attachment)" do
       before do
         project.update(project_creation_wizard_artifact_export_type: "attachment")
       end
@@ -184,7 +184,7 @@ RSpec.describe Projects::CreationWizard::ReuploadArtifactOnStatusChangesService 
       end
     end
 
-    context "when artifact storage is project storage (file link)" do
+    context "when artefact storage is project storage (file link)" do
       let(:storage) { create(:nextcloud_storage_with_local_connection) }
       let(:project_storage) { create(:project_storage, project:, storage:, project_folder_id: "/project_folder") }
       let(:service_result) { ServiceResult.success(result: nil) }
@@ -200,7 +200,7 @@ RSpec.describe Projects::CreationWizard::ReuploadArtifactOnStatusChangesService 
           .and_return(service_result)
       end
 
-      it "uploads the artifact to the project storage" do
+      it "uploads the artefact to the project storage" do
         instance.call!(changes:)
 
         work_package.reload
@@ -229,7 +229,7 @@ RSpec.describe Projects::CreationWizard::ReuploadArtifactOnStatusChangesService 
           instance.call!(changes:)
 
           expect(Storages::UploadFileService).to have_received(:call)
-          expect(Rails.logger).to have_received(:error).with(/Failed to process artifact change/)
+          expect(Rails.logger).to have_received(:error).with(/Failed to process artefact change/)
         end
       end
 
@@ -243,7 +243,7 @@ RSpec.describe Projects::CreationWizard::ReuploadArtifactOnStatusChangesService 
 
           instance.call!(changes:)
 
-          expect(Rails.logger).to have_received(:error).with(/Failed to process artifact change/)
+          expect(Rails.logger).to have_received(:error).with(/Failed to process artefact change/)
         end
 
         it "does not call the storage upload service" do
@@ -265,7 +265,7 @@ RSpec.describe Projects::CreationWizard::ReuploadArtifactOnStatusChangesService 
 
           instance.call!(changes:)
 
-          expect(Rails.logger).to have_received(:error).with(/Failed to process artifact change/)
+          expect(Rails.logger).to have_received(:error).with(/Failed to process artefact change/)
         end
       end
     end

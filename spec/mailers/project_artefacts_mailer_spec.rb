@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe ProjectArtifactsMailer do
+RSpec.describe ProjectArtefactsMailer do
   let(:project) { build_stubbed(:project) }
   let(:user) { build_stubbed(:user) }
   let(:work_package) { build_stubbed(:work_package, project:) }

@@ -28,7 +28,7 @@
 #++
 
 module Projects
-  class CreateArtifactWorkPackageContract < ::BaseContract
+  class CreateArtefactWorkPackageContract < ::BaseContract
     validate :validate_project_initiation_request_enabled
     validate :allowed_to_create_work_package
     validate :validate_work_package_type
@@ -75,7 +75,7 @@ module Projects
       elsif missing_assignee_custom_field_value?
         add_error assignee_custom_field.attribute_name, :blank
       elsif assignee_not_allowed_be_assigned_to_work_package?
-        add_error assignee_custom_field.attribute_name, :cannot_be_assigned_to_artifact_work_package
+        add_error assignee_custom_field.attribute_name, :cannot_be_assigned_to_artefact_work_package
       end
     end
 

@@ -27,44 +27,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::CreationWizard
-  module ArtifactExporter
-    private
+class ProjectArtefactsMailer < ApplicationMailer
+  include ProjectsHelper
+  include Exports::PDF::Common::Macro
 
-    def store_attachment_locally?
-      project.project_creation_wizard_artifact_export_type == "attachment"
-    end
+  def creation_wizard_submitted(user, project, artefact_work_package)
+    @project = project
+    @work_package = artefact_work_package
+    @notification_text = apply_markdown_field_macros(project.project_creation_wizard_notification_text, { project:, user: })
 
-    def project_storage
-      return @project_storage if defined?(@project_storage)
+    open_project_headers "Project" => project.identifier
 
-      @project_storage = project
-        .project_storages
-        .find_by(id: project.project_creation_wizard_artifact_export_storage)
-    end
+    message_id project, user
 
-    def create_pdf_export!
-      Project::PDFExport::ProjectInitiation.new(project).export!
-    end
-
-    def upload_artifact_to_storage
-      export = create_pdf_export!
-
-      Storages::UploadFileService
-        .call(
-          container: artifact_work_package,
-          project_storage:,
-          file_path: artifact_storage_folder_name,
-          file_data: StringIO.new(export.content),
-          filename: export.title
-        )
-    end
-
-    def artifact_storage_folder_name
-      I18n.t(project.project_creation_wizard_artifact_name,
-             locale: Setting.default_language,
-             default: :project_initiation_request,
-             scope: "settings.project_initiation_request.name.options")
+    send_localized_mail(user) do
+      I18n.t("settings.project_initiation_request.status.submitted",
+             wizard_name: project_creation_wizard_name(project))
     end
   end
 end
