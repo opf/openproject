@@ -41,13 +41,15 @@ module API
         # which contains a reference to the columns array as columns[].
         # This will match the Rails +to_query+ output
         def to_json(*_args)
-          to_h(column_key: :"columns[]").to_json
+          to_h(column_key: :"columns[]", highlighted_attributes_key: :"highlightedAttributes[]").to_json
         end
 
-        def to_h(column_key: :columns)
+        def to_h(column_key: :columns, highlighted_attributes_key: :highlightedAttributes)
           p = super.merge(display_options)
           p[:groupBy] = query.group_by if query.group_by?
           p[column_key] = columns_to_v3 unless query.has_default_columns?
+          highlighted_attributes = highlighted_attributes_to_v3
+          p[highlighted_attributes_key] = highlighted_attributes if highlighted_attributes
 
           p
         end
@@ -78,6 +80,14 @@ module API
           converted = query.sort_criteria.map { |first, last| [convert_to_v3(first), last] }
 
           JSON::dump(converted)
+        end
+
+        def highlighted_attributes_to_v3
+          return unless query.read_attribute(:highlighting_mode).to_s == "inline"
+
+          query.read_attribute(:highlighted_attributes).presence&.map do |name|
+            API::V3::Utilities::PathHelper::ApiV3Path.query_column(convert_to_v3(name))
+          end
         end
 
         def columns_to_v3

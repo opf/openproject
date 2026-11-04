@@ -73,6 +73,26 @@ RSpec.describe API::V3::Queries::QueryParamsRepresenter do
     end
   end
 
+  context "with inline highlighting of selected attributes" do
+    let(:query) { Query.new(highlighting_mode: :inline, highlighted_attributes: %i[priority]) }
+
+    it "keeps the selected attributes as column links" do
+      expect(described_class.new(query).to_h)
+        .to include(highlightedAttributes: ["/api/v3/queries/columns/priority"])
+    end
+
+    it "keys them as an array for the editor" do
+      expect(JSON.parse(described_class.new(query).to_json))
+        .to include("highlightedAttributes[]" => ["/api/v3/queries/columns/priority"])
+    end
+  end
+
+  context "with inline highlighting inherited from the instance default" do
+    it "omits highlighted attributes" do
+      expect(described_class.new(Query.new(highlighting_mode: :inline)).to_h).not_to have_key(:highlightedAttributes)
+    end
+  end
+
   context "with a non-inline instance default", with_settings: { work_package_list_default_highlighting_mode: "status" } do
     it "omits a highlighting mode inherited from the setting" do
       expect(described_class.new(Query.new).to_h).not_to have_key(:highlightingMode)

@@ -30,6 +30,8 @@
 require "spec_helper"
 
 RSpec.describe "Saved related table queries", :js, with_ee: %i[edit_attribute_groups] do
+  include_context "ng-select-autocomplete helpers"
+
   shared_let(:admin) { create(:admin) }
   let(:type) { create(:type) }
   let(:project) { create(:project, types: [type]) }
@@ -54,6 +56,7 @@ RSpec.describe "Saved related table queries", :js, with_ee: %i[edit_attribute_gr
 
   def edit_table(name = "Saved children")
     within_table(name) { click_on accessible_name: "Edit query" }
+
     expect(page).to have_dialog("Work package table configuration")
   end
 
@@ -74,13 +77,16 @@ RSpec.describe "Saved related table queries", :js, with_ee: %i[edit_attribute_gr
     end
 
     visit current_path
+
     within_table { expect(page).to have_element(:dd, text: "Subject", exact_text: true) }
     within_table("Other table") do
       expect(page).to have_element(:dd, text: "ID, Subject, Status", exact_text: true)
     end
+
     edit_table
     within_dialog "Work package table configuration" do
       find(:role, :tab, accessible_name: /Columns/i).click
+
       expect(page).to have_button(accessible_name: "Remove Subject")
       expect(page).to have_no_button(accessible_name: "Remove ID")
     end
@@ -95,13 +101,36 @@ RSpec.describe "Saved related table queries", :js, with_ee: %i[edit_attribute_gr
       baseline.select_filter "yesterday"
       wait_for_turbo_stream { click_button "Apply" }
     end
+
     within_table { expect(page).to have_element(:dt, text: "Baseline") }
 
     visit current_path
     edit_table
     within_dialog "Work package table configuration" do
       find(:role, :tab, accessible_name: /Baseline/i).click
+
       baseline.expect_selected "yesterday"
+    end
+  end
+
+  it "reopens the editor on the saved highlighted attributes" do
+    highlighting = Components::WorkPackages::Highlighting.new
+
+    edit_table
+    within_dialog "Work package table configuration" do
+      find(:role, :tab, accessible_name: /Highlighting/i).click
+    end
+    highlighting.assume_opened
+    wait_for_turbo_stream { highlighting.switch_inline_attribute_highlight "Priority" }
+
+    visit current_path
+    edit_table
+    within_dialog "Work package table configuration" do
+      find(:role, :tab, accessible_name: /Highlighting/i).click
+
+      attributes = find("ng-select[name='highlighting_attributes']")
+      expect_current_autocompleter_value(attributes, "Priority")
+      expect(attributes).to have_css(".ng-value", count: 1)
     end
   end
 
@@ -112,6 +141,7 @@ RSpec.describe "Saved related table queries", :js, with_ee: %i[edit_attribute_gr
       click_button accessible_name: "Remove ID"
       wait_for_turbo_stream { click_button "Apply" }
     end
+
     within_table { expect(page).to have_element(:dd, text: "Subject", exact_text: true) }
   end
 
@@ -128,7 +158,9 @@ RSpec.describe "Saved related table queries", :js, with_ee: %i[edit_attribute_gr
     remove_id_column_from_saved_table
 
     expect(page).to have_field("Section name", with: "Unsaved table")
+
     click_button "Save", exact: true
+
     expect(page).to have_no_field("Section name")
     within_table("Unsaved table") { expect(page).to have_no_element(:dd, text: /\bID\b/) }
   end
@@ -141,7 +173,9 @@ RSpec.describe "Saved related table queries", :js, with_ee: %i[edit_attribute_gr
     remove_id_column_from_saved_table
 
     expect(page).to have_field("Section name", with: "Typed rename")
+
     click_button "Save", exact: true
+
     expect(page).to have_no_field("Section name")
     within_table("Typed rename") do
       expect(page).to have_element(:dd, text: "ID, Subject, Status", exact_text: true)
@@ -156,15 +190,21 @@ RSpec.describe "Saved related table queries", :js, with_ee: %i[edit_attribute_gr
     remove_id_column_from_saved_table
 
     expect(page).to have_field("Section name", with: "Typed same-table rename")
+
     edit_table
     within_dialog "Work package table configuration" do
       find(:role, :tab, accessible_name: /Columns/i).click
+
       expect(page).to have_no_button(accessible_name: "Remove ID")
+
       click_button "Cancel"
     end
     click_button "Save", exact: true
+
     expect(page).to have_no_field("Section name")
+
     visit current_path
+
     within_table("Typed same-table rename") do
       expect(page).to have_element(:dd, text: "Subject", exact_text: true)
     end
@@ -178,9 +218,12 @@ RSpec.describe "Saved related table queries", :js, with_ee: %i[edit_attribute_gr
     remove_id_column_from_saved_table
 
     click_link "Cancel"
+
     expect(page).to have_no_field("Section name")
     within_table { expect(page).to have_element(:dd, text: "Subject", exact_text: true) }
+
     visit current_path
+
     within_table { expect(page).to have_element(:dd, text: "Subject", exact_text: true) }
     expect(page).to have_no_css("[data-group-key='Discarded rename']")
   end
@@ -194,11 +237,15 @@ RSpec.describe "Saved related table queries", :js, with_ee: %i[edit_attribute_gr
     end
 
     within_table { expect(page).to have_element(:dd, text: "ID, Subject", exact_text: true) }
+
     visit current_path
+
     within_table { expect(page).to have_element(:dd, text: "ID, Subject", exact_text: true) }
+
     edit_table
     within_dialog "Work package table configuration" do
       find(:role, :tab, accessible_name: /Columns/i).click
+
       expect(page).to have_button(accessible_name: "Remove ID")
       expect(page).to have_button(accessible_name: "Remove Subject")
     end
@@ -212,6 +259,7 @@ RSpec.describe "Saved related table queries", :js, with_ee: %i[edit_attribute_gr
     visit current_path
 
     expect(page).to have_text("Unavailable value")
+
     within_table { click_button accessible_name: "Section actions" }
     find(:menuitem, "Rename section").click
     fill_in "Section name", with: "   "
@@ -219,22 +267,30 @@ RSpec.describe "Saved related table queries", :js, with_ee: %i[edit_attribute_gr
 
     expect(page).to have_text("Group name can't be blank.")
     expect(page).to have_text("Unavailable value")
+
     fill_in "Section name", with: "Renamed children"
     click_button "Save", exact: true
+
     expect(page).to have_no_field("Section name")
+
     visit current_path
+
     within_table("Renamed children") { expect(page).to have_text("Unavailable value") }
+
     edit_table("Renamed children")
     within_dialog "Work package table configuration" do
       find(:role, :tab, accessible_name: /Highlighting/i).click
       choose "No highlighting"
       wait_for_turbo_stream { click_button "Apply" }
     end
+
     expect(page).to have_no_dialog("Work package table configuration")
+
     visit current_path
     edit_table("Renamed children")
     within_dialog "Work package table configuration" do
       find(:role, :tab, accessible_name: /Highlighting/i).click
+
       expect(page).to have_checked_field("No highlighting")
     end
   end
