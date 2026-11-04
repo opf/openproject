@@ -88,7 +88,7 @@ RSpec.describe "SquashTM project settings", :js do
     end
 
     it "shows the error when the SquashTM project does not exist" do
-      allow(client).to receive(:project).and_raise(SquashTMIntegration::Client::NotFoundError)
+      allow(client).to receive(:project).and_raise(SquashTMIntegration::Client::NotFoundError.new(404))
       visit project_settings_squashtm_path(project)
 
       select "Webshop", from: "SquashTM project"
