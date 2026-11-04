@@ -185,6 +185,7 @@ module Pages
     def expect_no_work_package_listed
       within(table_container) do
         expect(page).to have_css("#empty-row-notification")
+        expect(page).to have_heading(I18n.t("js.work_packages.no_results.title"), level: 3)
       end
     end
 
