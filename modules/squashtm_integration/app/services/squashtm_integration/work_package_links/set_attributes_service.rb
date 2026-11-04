@@ -35,7 +35,7 @@ module SquashTMIntegration
       def set_attributes(params)
         super
 
-        resolve_requirement if model.squashtm_requirement_id_changed? && model.squashtm_requirement_id.present?
+        resolve_requirement if model.squashtm_requirement_id.present?
       end
 
       def resolve_requirement
