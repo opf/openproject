@@ -74,7 +74,11 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(config.dig("urls", "offline")).to eq("/offline")
       expect(config.dig("urls", "push")).to eq("/push-notification")
       expect(config.dig("urls", "signOut")).to eq("/logout")
-      expect(config.dig("cache", "name")).to eq(ApplicationController.helpers.pwa_cache_name)
+      expect(config.dig("urls", "home")).to eq("/")
+      expect(config["cache"]).to include("name" => ApplicationController.helpers.pwa_cache_name,
+                                         "prefix" => ApplicationController.helpers.pwa_cache_prefix,
+                                         "state" => "#{ApplicationController.helpers.pwa_cache_prefix}push-state")
+      expect(config.dig("push", "icon")).to match(%r{/assets/pwa/icon-192.*\.png\z})
       expect(config.dig("push", "fallbackTitle")).to eq("New activity in OpenProject")
       expect(config.dig("push", "allReadTitle")).to eq("No unread notifications")
     end
@@ -141,6 +145,7 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq("text/javascript")
       expect(response.body).to include("openproject-offline-", "unregister")
+      expect(response.body).to include(%(const CACHE_PREFIX = "#{ApplicationController.helpers.pwa_cache_prefix}";))
       expect(response.body).not_to include("importScripts", "OP_SW")
     end
 
