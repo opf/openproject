@@ -70,10 +70,10 @@ RSpec.describe "Change project phase status on project overview page", :js do
     context "with permission to view project phases only" do
       let(:permissions) { %i[view_project view_project_phases] }
 
-      it "shows the phases without status buttons" do
+      it "shows the phases with disabled status buttons" do
         overview_page.within_life_cycle_sidebar do
           expect(page).to have_text(life_cycle_initiating.name)
-          expect(page).to have_no_button("Open")
+          expect(page).to have_button("Open", aria: { disabled: "true" })
           expect(page).to have_no_css("action-menu")
         end
       end
@@ -82,10 +82,10 @@ RSpec.describe "Change project phase status on project overview page", :js do
     context "with permission to edit the project but not its phases" do
       let(:permissions) { %i[view_project view_project_phases edit_project] }
 
-      it "shows the phases without status buttons" do
+      it "shows the phases with disabled status buttons" do
         overview_page.within_life_cycle_sidebar do
           expect(page).to have_text(life_cycle_initiating.name)
-          expect(page).to have_no_button("Open")
+          expect(page).to have_button("Open", aria: { disabled: "true" })
           expect(page).to have_no_css("action-menu")
         end
       end
@@ -151,11 +151,11 @@ RSpec.describe "Change project phase status on project overview page", :js do
       activity_page.show_details
 
       activity_page.within_journal(number: 1) do
-        activity_page.expect_activity("Initiating changed from Open to Completed")
-        activity_page.expect_activity("Planning changed from Open to Completed")
-        activity_page.expect_activity("Executing changed from Open to In progress")
+        activity_page.expect_activity("Initiating phase changed from Open to Completed")
+        activity_page.expect_activity("Planning phase changed from Open to Completed")
+        activity_page.expect_activity("Executing phase changed from Open to In progress")
 
-        activity_page.expect_no_activity("Closing changed")
+        activity_page.expect_no_activity("Closing phase changed")
       end
     end
   end
