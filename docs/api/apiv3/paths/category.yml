@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Category id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Category id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -30,7 +30,7 @@ get:
                 id: 10
                 name: Foo
           schema:
-            "$ref": "../components/schemas/category_model.yml"
+            $ref: "../components/schemas/category_model.yml"
       description: OK
       headers: {}
     '404':
@@ -54,7 +54,7 @@ get:
         a category. That's why a 404 is returned here, even if a 403 might be more appropriate.*
       headers: {}
   tags:
-  - Categories
+    - Categories
   description: ''
   operationId: View_Category
   summary: View Category

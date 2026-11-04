@@ -32,30 +32,30 @@ allOf:
             items:
               $ref: './ai_text_transform_action_model.yml'
 
-example:
-  _type: Collection
-  total: 2
-  count: 2
-  _links:
-    self:
-      href: /api/v3/work_packages/42/ai_text_transform_actions
-  _embedded:
-    elements:
-      - _type: AITextTransformAction
-        id: 1
-        label: Improve writing
-        position: 1
-        injectsTypeTemplate: false
-        _links:
-          self:
-            href: /api/v3/ai_text_transform_actions/1
-            title: Improve writing
-      - _type: AITextTransformAction
-        id: 2
-        label: Apply the type template
-        position: 2
-        injectsTypeTemplate: true
-        _links:
-          self:
-            href: /api/v3/ai_text_transform_actions/2
-            title: Apply the type template
+examples:
+  - _type: Collection
+    total: 2
+    count: 2
+    _links:
+      self:
+        href: /api/v3/work_packages/42/ai_text_transform_actions
+    _embedded:
+      elements:
+        - _type: AITextTransformAction
+          id: 1
+          label: Improve writing
+          position: 1
+          injectsTypeTemplate: false
+          _links:
+            self:
+              href: /api/v3/ai_text_transform_actions/1
+              title: Improve writing
+        - _type: AITextTransformAction
+          id: 2
+          label: Apply the type template
+          position: 2
+          injectsTypeTemplate: true
+          _links:
+            self:
+              href: /api/v3/ai_text_transform_actions/2
+              title: Apply the type template

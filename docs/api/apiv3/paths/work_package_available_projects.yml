@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: work package id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: work package id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -18,58 +18,58 @@ get:
               value:
                 _embedded:
                   elements:
-                  - _links:
-                      categories:
-                        href: "/api/v3/projects/6/categories"
-                      createWorkPackage:
-                        href: "/api/v3/projects/6/work_packages/form"
-                        method: post
-                      createWorkPackageImmediate:
-                        href: "/api/v3/projects/6/work_packages"
-                        method: post
-                      editWorkPackage:
-                        href: "/api/v3//work_packages/{id}/form"
-                        method: post
-                        templated: true
-                      self:
-                        href: "/api/v3/projects/6"
-                        title: A project
-                      versions:
-                        href: "/api/v3/projects/6/versions"
-                    _type: Project
-                    createdAt: '2015-07-06T13:28:14+00:00'
-                    description: Eveniet molestias omnis quis aut qui eum adipisci.
-                      Atque aut aut in exercitationem adipisci amet. Nisi asperiores
-                      quia ratione veritatis enim exercitationem magnam. Aut fuga
-                      architecto adipisci nihil. Et repellat pariatur. Aliquam et
-                      sed perferendis nostrum quaerat. Fugit doloremque voluptatem.
-                    id: 6
-                    identifier: a_project
-                    name: A project
-                    type: Customer Project
-                    updatedAt: '2015-10-01T09:55:02+00:00'
-                  - _links:
-                      categories:
-                        href: "/api/v3/projects/14/categories"
-                      createWorkPackage:
-                        href: "/api/v3/projects/14/work_packages/form"
-                        method: post
-                      createWorkPackageImmediate:
-                        href: "/api/v3/projects/14/work_packages"
-                        method: post
-                      self:
-                        href: "/api/v3/projects/14"
-                        title: Another project
-                      versions:
-                        href: "/api/v3/projects/14/versions"
-                    _type: Project
-                    createdAt: '2016-02-29T12:50:20+00:00'
-                    description: ''
-                    id: 14
-                    identifier: another_project
-                    name: Another project
-                    type: 
-                    updatedAt: '2016-02-29T12:50:20+00:00'
+                    - _links:
+                        categories:
+                          href: "/api/v3/projects/6/categories"
+                        createWorkPackage:
+                          href: "/api/v3/projects/6/work_packages/form"
+                          method: post
+                        createWorkPackageImmediate:
+                          href: "/api/v3/projects/6/work_packages"
+                          method: post
+                        editWorkPackage:
+                          href: "/api/v3//work_packages/{id}/form"
+                          method: post
+                          templated: true
+                        self:
+                          href: "/api/v3/projects/6"
+                          title: A project
+                        versions:
+                          href: "/api/v3/projects/6/versions"
+                      _type: Project
+                      createdAt: '2015-07-06T13:28:14+00:00'
+                      description: Eveniet molestias omnis quis aut qui eum adipisci.
+                        Atque aut aut in exercitationem adipisci amet. Nisi asperiores
+                        quia ratione veritatis enim exercitationem magnam. Aut fuga
+                        architecto adipisci nihil. Et repellat pariatur. Aliquam et
+                        sed perferendis nostrum quaerat. Fugit doloremque voluptatem.
+                      id: 6
+                      identifier: a_project
+                      name: A project
+                      type: Customer Project
+                      updatedAt: '2015-10-01T09:55:02+00:00'
+                    - _links:
+                        categories:
+                          href: "/api/v3/projects/14/categories"
+                        createWorkPackage:
+                          href: "/api/v3/projects/14/work_packages/form"
+                          method: post
+                        createWorkPackageImmediate:
+                          href: "/api/v3/projects/14/work_packages"
+                          method: post
+                        self:
+                          href: "/api/v3/projects/14"
+                          title: Another project
+                        versions:
+                          href: "/api/v3/projects/14/versions"
+                      _type: Project
+                      createdAt: '2016-02-29T12:50:20+00:00'
+                      description: ''
+                      id: 14
+                      identifier: another_project
+                      name: Another project
+                      type:
+                      updatedAt: '2016-02-29T12:50:20+00:00'
                 _links:
                   self:
                     href: "/api/v3/work_packages/5/available_projects"
@@ -77,7 +77,7 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/available_projects_for_work_package_model.yml"
+            $ref: "../components/schemas/available_projects_for_work_package_model.yml"
       description: OK
       headers: {}
     '403':
@@ -115,7 +115,7 @@ get:
         **Required permission:** view work package
       headers: {}
   tags:
-  - Work Packages
+    - Work Packages
   description: Gets a list of projects that are available as projects to which the
     work package can be moved.
   operationId: Available_projects_for_work_package
