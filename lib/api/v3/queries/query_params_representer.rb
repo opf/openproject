@@ -70,6 +70,7 @@ module API
           }
           stored_highlighting_mode = query.read_attribute(:highlighting_mode).presence
           options[:highlightingMode] = stored_highlighting_mode if stored_highlighting_mode
+          options[:timestamps] = query.timestamps.join(",") if query.historic?
           options
         end
 

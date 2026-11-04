@@ -40,6 +40,7 @@ RSpec.describe API::V3::Queries::QueryParamsRepresenter do
       group_by: "project",
       group_by?: true,
       has_default_columns?: true,
+      historic?: false,
       include_subprojects: true,
       ordered?: false,
       read_attribute: "none",
@@ -58,6 +59,18 @@ RSpec.describe API::V3::Queries::QueryParamsRepresenter do
 
   it "preserves highlighting when the query is serialized for editing" do
     expect(params).to include(highlightingMode: "none")
+  end
+
+  it "omits timestamps for a query at the current time" do
+    expect(params).not_to have_key(:timestamps)
+  end
+
+  context "with a baseline" do
+    it "keeps relative timestamps so the editor reopens on the saved option" do
+      query = Query.new(timestamps: %w[P-1D PT0S])
+
+      expect(described_class.new(query).to_h).to include(timestamps: "P-1D,PT0S")
+    end
   end
 
   context "with a non-inline instance default", with_settings: { work_package_list_default_highlighting_mode: "status" } do

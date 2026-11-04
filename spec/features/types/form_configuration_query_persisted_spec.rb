@@ -86,6 +86,25 @@ RSpec.describe "Saved related table queries", :js, with_ee: %i[edit_attribute_gr
     end
   end
 
+  it "reopens the editor on the saved baseline" do
+    baseline = Components::WorkPackages::BaselineModal.new
+
+    edit_table
+    within_dialog "Work package table configuration" do
+      find(:role, :tab, accessible_name: /Baseline/i).click
+      baseline.select_filter "yesterday"
+      wait_for_turbo_stream { click_button "Apply" }
+    end
+    within_table { expect(page).to have_element(:dt, text: "Baseline") }
+
+    visit current_path
+    edit_table
+    within_dialog "Work package table configuration" do
+      find(:role, :tab, accessible_name: /Baseline/i).click
+      baseline.expect_selected "yesterday"
+    end
+  end
+
   def remove_id_column_from_saved_table
     edit_table
     within_dialog "Work package table configuration" do
