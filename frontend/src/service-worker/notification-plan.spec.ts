@@ -202,4 +202,26 @@ describe('NotificationPlan', () => {
       expect(NotificationPlan.staleTags({ groups: [], openTags: [tagOf(1), Tags.more] })).toEqual([tagOf(1), Tags.more]);
     });
   });
+
+  describe('stateAfterClose', () => {
+    const state = {
+      [tagOf(1)]: { digest: 'd1', at: 100 },
+      [tagOf(2)]: { digest: 'd2', at: 50 },
+    };
+
+    it('forgets the closed groups when nothing collapsed into "more"', () => {
+      const result = NotificationPlan.stateAfterClose({ closeTags: [tagOf(2)], state });
+
+      expect(result).toEqual({ [tagOf(1)]: state[tagOf(1)] });
+    });
+
+    it('remembers the closed groups as evicted when more are collapsed', () => {
+      const result = NotificationPlan.stateAfterClose({ closeTags: [tagOf(2)], more: more(), state });
+
+      expect(result).toEqual({
+        [tagOf(1)]: state[tagOf(1)],
+        [tagOf(2)]: { digest: 'd2', at: 50, evicted: true },
+      });
+    });
+  });
 });
