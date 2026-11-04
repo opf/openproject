@@ -186,7 +186,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
       expect(detect(disabled, :"custom_field_#{cf.id}")&.label).to eq(cf.name)
     end
 
-    context "when the labels feature is enabled", with_flag: { work_package_labels: true } do
+    context "with labels" do
       it "returns the label tokens as enabled" do
         enabled, = subject
 
@@ -199,15 +199,6 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
 
         expect(detect(enabled, :labels).call(work_package, nil)).to eq(work_package.labels.first.name)
         expect(detect(enabled, :parent_labels).call(work_package_parent, nil)).to eq(work_package_parent.labels.first.name)
-      end
-    end
-
-    context "when the labels feature is disabled", with_flag: { work_package_labels: false } do
-      it "does not return the label tokens" do
-        enabled, disabled = subject
-
-        expect(detect(enabled + disabled, :labels)).to be_nil
-        expect(detect(enabled + disabled, :parent_labels)).to be_nil
       end
     end
 

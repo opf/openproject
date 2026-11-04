@@ -42,8 +42,7 @@ module API
                              dependencies: -> {
                                all_permissions_granted_to_user_under_project +
                                  [Setting.work_package_done_ratio,
-                                  Setting::WorkPackageMultipleVersions.active?,
-                                  OpenProject::FeatureDecisions.work_package_labels_active?]
+                                  Setting::WorkPackageMultipleVersions.active?]
                              }
 
           custom_field_injector type: :schema_representer
@@ -283,7 +282,6 @@ module API
           schema_with_allowed_link :labels,
                                    type: "[]Label",
                                    required: false,
-                                   show_if: ->(*) { OpenProject::FeatureDecisions.work_package_labels_active? },
                                    href_callback: ->(*) { labels_autocompleter }
 
           schema_with_allowed_collection :type,

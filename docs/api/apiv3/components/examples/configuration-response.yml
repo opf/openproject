@@ -16,7 +16,6 @@ value:
   daysPerMonth: 20
   hostName: openproject.internal
   activeFeatureFlags:
-    - workPackageLabels
     - semanticSearch
   availableFeatures:
     - scim_api
