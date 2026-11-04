@@ -196,9 +196,6 @@ da:
     rebuild_positions: Genopbyg positioner
     remaining_hours: Resterende arbejde
     sharing: Deling af sprints
-    show_burndown_chart: Burndown-diagram
-    show_created_resolved_chart: Oprettede og løste arbejdspakker
-    show_work_package_overview: Arbejdspakker i sprinten
     sprint_component:
       action_menu:
         add_existing_work_package: Tilføj eksisterende arbejdspakke
@@ -228,6 +225,20 @@ da:
         breadcrumb: Rapport
         title: Rapport for %{sprint}
       widgets:
+        burndown_chart:
+          title: Burndown-diagram
+        created_resolved_chart:
+          title: Oprettede og løste arbejdspakker
+        epic_progress:
+          card:
+            progress_label:
+              one: "%{epic}: %{completed} af %{count} arbejdspakke er færdig"
+              other: "%{epic}: %{completed} af %{count} arbejdspakker er færdige"
+            work_package_completed: "(%{percentage})"
+            work_package_counts:
+              one: "%{completed} / %{count} arbejdspakke"
+              other: "%{completed} / %{count} arbejdspakker"
+          title: Fremdrift for epics
         velocity_chart:
           average:
             one: 'Gennemsnit af den forrige sprint:'
@@ -263,10 +274,12 @@ da:
           breakdown_block:
             blocks:
               show_all: Vis alle
+              show_all_label: 'Vis alle: %{heading}'
           closed_work_packages: Lukkede arbejdspakker
           resolved_summary:
-            one: "%{percentage} % (%{resolved} af %{total} arbejdspakke)"
-            other: "%{percentage} % (%{resolved} af %{total} arbejdspakker)"
+            one: "%{percentage} (%{resolved} af %{total} arbejdspakke)"
+            other: "%{percentage} (%{resolved} af %{total} arbejdspakker)"
+          title: Arbejdspakker i sprinten
         work_package_table:
           added:
             blankslate:

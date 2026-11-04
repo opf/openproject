@@ -14,7 +14,7 @@ de:
     label_local_avatar: Selbsterstelltes Profilbild
     label_option: Avataroption
     manage_gravatar: Manage your image on Gravatar
-    message_avatar_updated: Avatar changed successfully.
+    message_avatar_updated: Das Porfilbild wurde erfolgreich geändert.
     preview: Vorschau
     randomize_color: Farbe zufällig auswählen
     settings:

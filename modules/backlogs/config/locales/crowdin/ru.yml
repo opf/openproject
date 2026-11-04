@@ -208,9 +208,6 @@ ru:
     rebuild_positions: Восстановить позиции
     remaining_hours: Оставшиеся часы
     sharing: Совместное использование спринта
-    show_burndown_chart: Диаграмма выгорания
-    show_created_resolved_chart: Created vs resolved work packages
-    show_work_package_overview: Пакеты работ в рамках спринта
     sprint_component:
       action_menu:
         add_existing_work_package: Добавить существующий пакет работ
@@ -240,6 +237,24 @@ ru:
         breadcrumb: Отчет
         title: Отчёт %{sprint}
       widgets:
+        burndown_chart:
+          title: Burndown chart
+        created_resolved_chart:
+          title: Created vs resolved work packages
+        epic_progress:
+          card:
+            progress_label:
+              one: "%{epic}: %{completed} of %{count} work package completed"
+              few: "%{epic}: %{completed} of %{count} work packages completed"
+              many: "%{epic}: %{completed} of %{count} work packages completed"
+              other: "%{epic}: %{completed} of %{count} work packages completed"
+            work_package_completed: "(%{percentage})"
+            work_package_counts:
+              one: "%{completed} / %{count} work package"
+              few: "%{completed} / %{count} work packages"
+              many: "%{completed} / %{count} work packages"
+              other: "%{completed} / %{count} work packages"
+          title: Epic progress
         velocity_chart:
           average:
             one: 'Average of previous sprint:'
@@ -279,12 +294,14 @@ ru:
           breakdown_block:
             blocks:
               show_all: Показать все
+              show_all_label: 'View all: %{heading}'
           closed_work_packages: Закрытые пакеты работ
           resolved_summary:
-            one: "%{percentage}% (решено %{resolved} из %{total} пакетов работ)"
-            few: "%{percentage}% (решено %{resolved} из %{total} пакетов работ)"
-            many: "%{percentage}% (решено %{resolved} из %{total} пакетов работ)"
-            other: "%{percentage}% (решено %{resolved} из %{total} пакетов работ)"
+            one: "%{percentage} (%{resolved} of %{total} work package)"
+            few: "%{percentage} (%{resolved} of %{total} work packages)"
+            many: "%{percentage} (%{resolved} of %{total} work packages)"
+            other: "%{percentage} (%{resolved} of %{total} work packages)"
+          title: Work packages within the sprint
         work_package_table:
           added:
             blankslate:

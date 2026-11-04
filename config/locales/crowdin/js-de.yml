@@ -61,7 +61,7 @@ de:
         single: "%{name} auswählen"
       remove: Entferne %{name}
     autocompleter:
-      create_label: Create label
+      create_label: Bezeichnung erstellen
       notFoundText: Keine Elemente gefunden
       placeholder: Suchbegriff eintippen
       project:
@@ -556,8 +556,8 @@ de:
     label_reset: Zurücksetzen
     label_resize_project_menu: Größe des Projektmenüs ändern
     label_save_as: Speichern unter
-    label_scroll_left: Scroll left
-    label_scroll_right: Scroll right
+    label_scroll_left: Nach links scrollen
+    label_scroll_right: Nach rechts scrollen
     label_search_columns: Spalte suchen
     label_select_watcher: Beobachter auswählen ...
     label_selected_filter_list: Ausgewählte Filter
@@ -837,11 +837,11 @@ de:
         range_blocked: Auswahl unverändert. Sie enthält ein Element ohne Einfluss auf die Reihenfolge dieser Liste.
         range_restarted:
           one: Could not extend the range. %{count} item selected.
-          other: Could not extend the range. %{count} items selected.
+          other: Die Auswahl konnte nicht erweitert werden. %{count} Elemente ausgewählt.
         range_unavailable: Auswahl unverändert. Erweitern Sie diese Liste, um diesen Bereich auszuwählen.
         selected:
           one: "%{count} item selected."
-          other: "%{count} items selected."
+          other: "%{count} Elemente ausgewählt."
     spot:
       drop_modal:
         close: Modal schließen
@@ -891,9 +891,9 @@ de:
     units:
       child_work_packages:
         one: "%{count} child work package"
-        other: "%{count} work package children"
+        other: "%{count} untergeordnete Arbeitspakete"
       day:
-        one: "%{count} day"
+        one: "%{count} Tag"
         other: "%{count} Tage"
         zero: 0 Tage
       hour:
@@ -903,7 +903,7 @@ de:
       hour_string: "%{hours} h"
       word:
         one: "%{count} word"
-        other: "%{count} words"
+        other: "%{count} Wörter"
       workPackage:
         one: Arbeitspaket
         other: Arbeitspakete
@@ -1100,16 +1100,16 @@ de:
         all_selected:
           one: All %{count} work package on this page selected.
           other: All %{count} work packages on this page selected.
-        cleared: Selection cleared.
+        cleared: Auswahl aufgehoben.
         selected:
-          one: "%{count} work package selected."
-          other: "%{count} work packages selected."
+          one: "%{count} Arbeitspaket ausgewählt."
+          other: "%{count} Arbeitspakete ausgewählt."
       sharing:
         show_all_users: Alle Benutzer anzeigen, für die das Arbeitspaket geteilt wurde
         title: Arbeitspaket teilen
       table:
         configure_button: Arbeitspaket-Tabelle konfigurieren
-        grid_actions_header: Actions
+        grid_actions_header: Aktionen
         grid_baseline_header: Comparison status
         relations_button: Relations in %{column} for %{work_package}
         sort_criterion_ascending: "%{column} ascending"
