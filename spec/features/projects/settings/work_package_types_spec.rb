@@ -72,6 +72,26 @@ RSpec.describe "Project settings work package types", :js do
     expect(project.project_types.find_by(type: feature).variant).to eq(research)
   end
 
+  context "with variants owned by projects" do
+    let!(:own_variant) do
+      create(:project_owned_type_variant, type: milestone, project:, variant_name: "Ours")
+    end
+    let!(:foreign_variant) do
+      create(:project_owned_type_variant, type: milestone, project: create(:project), variant_name: "Theirs")
+    end
+
+    it "offers this project's variant but not another project's" do
+      page.find("[data-test-selector='project-types-add-button']").click
+      expect(page).to have_text("Add type")
+
+      autocompleter = page.find("[data-test-selector='project-types-add-select']")
+      search_autocomplete(autocompleter, query: "Milestone")
+
+      expect_ng_option(autocompleter, "Milestone: Ours")
+      expect_no_ng_option(autocompleter, "Milestone: Theirs")
+    end
+  end
+
   it "removes a type that has no work packages" do
     settings_page.remove_type(bug.default_variant)
 
