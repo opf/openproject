@@ -229,6 +229,7 @@ export class SortHeaderDirective implements AfterViewInit {
       )
       .subscribe(() => {
         this.baselineIncompatible = this.wpTableBaseline.isActive() && this.wpTableBaseline.isIncompatibleColumn(this.headerColumn().id);
+        this.cdRef.detectChanges();
       }));
 
     if (this.table() === table && !table.destroyed && !this.destroyRef.destroyed) this.cdRef.detectChanges();

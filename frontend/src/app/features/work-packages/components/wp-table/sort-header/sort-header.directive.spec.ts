@@ -230,6 +230,23 @@ describe('SortHeaderDirective input readiness', () => {
     expect(fixture.nativeElement).not.toHaveTextContent('Children');
   });
 
+  it('repaints the baseline warning when baseline mode changes', async () => {
+    fixture.componentRef.setInput('headerColumn', {
+      id: 'category', name: 'Category', href: '/api/v3/queries/columns/category', _type: queryColumnTypes.PROPERTY,
+    });
+    fixture.detectChanges();
+    await nextTask();
+    const baseline = fixture.debugElement.injector.get(WorkPackageViewBaselineService);
+    const warning = () => (fixture.nativeElement as HTMLElement).querySelector('.generic-table--sort-header--error-indicator');
+    expect(warning()).toBeNull();
+
+    baseline.update(['2026-10-01']);
+    expect(warning()).not.toBeNull();
+
+    baseline.disable();
+    expect(warning()).toBeNull();
+  });
+
   it('marks its column only while it is the primary criterion', async () => {
     fixture.detectChanges();
     await nextTask();
