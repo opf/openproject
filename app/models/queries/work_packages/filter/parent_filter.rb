@@ -40,6 +40,6 @@ class Queries::WorkPackages::Filter::ParentFilter <
   def where
     # The filter had been called parent before and it is stored in the database like that.
     # The other association filters all have _id in their self.key.
-    operator_strategy.sql_for_field(no_templated_values, self.class.model.table_name, :parent_id)
+    operator_strategy.sql_for_field(work_package_ids, self.class.model.table_name, :parent_id)
   end
 end
