@@ -55,8 +55,8 @@ en:
       squashtm_requirement_linked: "SquashTM requirement linked:"
       squashtm_requirement_unlinked: "SquashTM requirement unlinked:"
   permission_manage_squashtm_integration: "Manage SquashTM integration"
-  permission_manage_squashtm_links: "Manage SquashTM requirement links"
-  permission_view_squashtm_test_results: "View SquashTM test results"
+  permission_manage_squashtm_requirements: "Manage SquashTM requirements"
+  permission_view_squashtm: "View SquashTM"
   project_module_squashtm: "SquashTM"
   squashtm_integration:
     admin:
@@ -97,7 +97,7 @@ en:
       warning: "Warning"
     project_settings:
       delete_project_link_dialog_component:
-        blocked: "This project cannot be unlinked while its work packages are linked to SquashTM requirements. Removing these links requires the \"Manage SquashTM requirement links\" permission. Please ask someone who has it."
+        blocked: "This project cannot be unlinked while its work packages are linked to SquashTM requirements. Removing these links requires the \"Manage SquashTM requirements\" permission. Please ask someone who has it."
         confirm: "Unlink"
         description: "Work packages of this project will no longer show SquashTM test results."
         heading: "Unlink the SquashTM project %{name}?"

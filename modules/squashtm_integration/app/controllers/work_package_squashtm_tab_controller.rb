@@ -30,7 +30,7 @@
 class WorkPackageSquashTMTabController < ApplicationController
   include OpTurbo::ComponentStream
 
-  load_and_authorize_with_permission_in_project :view_squashtm_test_results
+  load_and_authorize_with_permission_in_project :view_squashtm
 
   before_action :set_work_package
 

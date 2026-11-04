@@ -32,7 +32,7 @@ module SquashTMIntegration
     include OpTurbo::ComponentStream
     include OpTurbo::FlashStreamHelper
 
-    load_and_authorize_with_permission_in_project :manage_squashtm_links
+    load_and_authorize_with_permission_in_project :manage_squashtm_requirements
 
     before_action :set_work_package
     before_action :set_work_package_link

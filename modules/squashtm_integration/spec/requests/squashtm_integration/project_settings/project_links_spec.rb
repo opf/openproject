@@ -179,7 +179,7 @@ RSpec.describe "SquashTM project settings",
     end
 
     context "when work packages are linked to SquashTM requirements" do
-      let(:permissions) { %i[manage_squashtm_integration manage_squashtm_links view_work_packages] }
+      let(:permissions) { %i[manage_squashtm_integration manage_squashtm_requirements view_work_packages] }
       let(:work_packages) { create_list(:work_package, 5, project:) }
 
       before do
@@ -209,7 +209,7 @@ RSpec.describe "SquashTM project settings",
       end
 
       context "when the user cannot see the work packages" do
-        let(:permissions) { %i[manage_squashtm_integration manage_squashtm_links] }
+        let(:permissions) { %i[manage_squashtm_integration manage_squashtm_requirements] }
 
         it "only reports how many work packages are linked" do
           details = dialog.find(test_selector("squashtm--linked-work-packages"))
@@ -225,7 +225,7 @@ RSpec.describe "SquashTM project settings",
 
         it "explains why the project cannot be unlinked and offers no way to proceed" do
           expect(dialog).to have_css(test_selector("squashtm--unlink-project-blocked"),
-                                     text: "requires the \"Manage SquashTM requirement links\" permission")
+                                     text: "requires the \"Manage SquashTM requirements\" permission")
           expect(dialog).to have_text("5 work packages are still linked to SquashTM requirements:")
           expect(dialog).to have_link("##{work_packages.first.id} #{work_packages.first.subject}")
           expect(dialog).to have_no_field("unlink_work_packages")
@@ -277,7 +277,7 @@ RSpec.describe "SquashTM project settings",
       end
 
       context "with the permission to manage requirement links" do
-        let(:permissions) { %i[manage_squashtm_integration manage_squashtm_links] }
+        let(:permissions) { %i[manage_squashtm_integration manage_squashtm_requirements] }
 
         it "keeps everything linked when the confirmation checkbox is left unchecked" do
           delete settings_path, params: { unlink_work_packages: "0" }

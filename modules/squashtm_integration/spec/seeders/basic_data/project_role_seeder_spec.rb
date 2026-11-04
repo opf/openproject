@@ -36,17 +36,17 @@ RSpec.describe BasicData::ProjectRoleSeeder, "SquashTM permissions" do
   end
 
   it "lets readers view SquashTM test results" do
-    expect(permissions_of(:default_role_reader)).to include(:view_squashtm_test_results)
-    expect(permissions_of(:default_role_reader)).not_to include(:manage_squashtm_links, :manage_squashtm_integration)
+    expect(permissions_of(:default_role_reader)).to include(:view_squashtm)
+    expect(permissions_of(:default_role_reader)).not_to include(:manage_squashtm_requirements, :manage_squashtm_integration)
   end
 
   it "lets members view SquashTM test results and link requirements" do
-    expect(permissions_of(:default_role_member)).to include(:view_squashtm_test_results, :manage_squashtm_links)
+    expect(permissions_of(:default_role_member)).to include(:view_squashtm, :manage_squashtm_requirements)
     expect(permissions_of(:default_role_member)).not_to include(:manage_squashtm_integration)
   end
 
   it "lets project admins manage the SquashTM integration" do
     expect(permissions_of(:default_role_project_admin))
-      .to include(:view_squashtm_test_results, :manage_squashtm_links, :manage_squashtm_integration)
+      .to include(:view_squashtm, :manage_squashtm_requirements, :manage_squashtm_integration)
   end
 end

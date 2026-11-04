@@ -33,7 +33,7 @@ RSpec.describe SquashTMIntegration::WorkPackageLinks::DeleteService do
   shared_let(:project) { create(:project, enabled_module_names: %i[work_package_tracking squashtm]) }
   shared_let(:work_package) { create(:work_package, project:) }
   shared_let(:user) do
-    create(:user, member_with_permissions: { project => %i[view_work_packages view_squashtm_test_results manage_squashtm_links] })
+    create(:user, member_with_permissions: { project => %i[view_work_packages view_squashtm manage_squashtm_requirements] })
   end
 
   let!(:link) do

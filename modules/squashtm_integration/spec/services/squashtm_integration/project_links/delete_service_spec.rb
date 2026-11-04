@@ -28,7 +28,7 @@ require "spec_helper"
 
 RSpec.describe SquashTMIntegration::ProjectLinks::DeleteService do
   shared_let(:project) { create(:project, enabled_module_names: %i[work_package_tracking squashtm]) }
-  let(:permissions) { %i[manage_squashtm_integration manage_squashtm_links] }
+  let(:permissions) { %i[manage_squashtm_integration manage_squashtm_requirements] }
   let(:user) { create(:user, member_with_permissions: { project => permissions }) }
 
   let!(:project_link) { create(:squashtm_project_link, project:) }
@@ -71,7 +71,7 @@ RSpec.describe SquashTMIntegration::ProjectLinks::DeleteService do
     end
 
     it "refuses to remove them for a user who cannot manage requirement links" do
-      permissions.delete(:manage_squashtm_links)
+      permissions.delete(:manage_squashtm_requirements)
 
       expect(result).not_to be_success
       expect(result.errors.details[:base].pluck(:error)).to eq([:work_package_links_not_removable])

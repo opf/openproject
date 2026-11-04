@@ -43,7 +43,7 @@ RSpec.describe SquashTMIntegration::ProjectLinks::DeleteContract do
   end
 
   context "without that permission" do
-    let(:permissions) { %i[view_squashtm_test_results] }
+    let(:permissions) { %i[view_squashtm] }
 
     it "is invalid" do
       expect(contract).not_to be_valid
@@ -68,7 +68,7 @@ RSpec.describe SquashTMIntegration::ProjectLinks::DeleteContract do
       subject(:contract) { described_class.new(link, user, options: { unlink_work_packages: true }) }
 
       context "with the permission to manage requirement links" do
-        let(:permissions) { %i[manage_squashtm_integration manage_squashtm_links] }
+        let(:permissions) { %i[manage_squashtm_integration manage_squashtm_requirements] }
 
         it { is_expected.to be_valid }
       end

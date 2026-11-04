@@ -42,7 +42,7 @@ module SquashTMIntegration
       private
 
       def user_allowed
-        return if user.allowed_in_project?(:manage_squashtm_links, model.project)
+        return if user.allowed_in_project?(:manage_squashtm_requirements, model.project)
 
         errors.add(:base, :error_unauthorized)
       end

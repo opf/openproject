@@ -30,7 +30,7 @@ RSpec.describe "SquashTM tab on work packages", :js do
   shared_let(:project) { create(:project, enabled_module_names: %i[work_package_tracking squashtm]) }
   shared_let(:work_package) { create(:work_package, project:, subject: "Sign in screen") }
 
-  let(:permissions) { %i[view_work_packages view_squashtm_test_results manage_squashtm_links] }
+  let(:permissions) { %i[view_work_packages view_squashtm manage_squashtm_requirements] }
   let(:user) do
     create(:user, member_with_permissions: { project => permissions }, preferences: { warn_on_leaving_unsaved: false })
   end
@@ -102,7 +102,7 @@ RSpec.describe "SquashTM tab on work packages", :js do
       end
 
       context "for a user allowed to manage the integration" do
-        let(:permissions) { %i[view_work_packages view_squashtm_test_results manage_squashtm_integration] }
+        let(:permissions) { %i[view_work_packages view_squashtm manage_squashtm_integration] }
 
         it "links to the project settings" do
           work_package_page.switch_to_tab(tab: "squashtm")
@@ -163,7 +163,7 @@ RSpec.describe "SquashTM tab on work packages", :js do
       end
 
       context "without the permission to manage requirement links" do
-        let(:permissions) { %i[view_work_packages view_squashtm_test_results] }
+        let(:permissions) { %i[view_work_packages view_squashtm] }
 
         before { create(:squashtm_work_package_link, work_package:) }
 

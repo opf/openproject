@@ -64,7 +64,7 @@ module SquashTMIntegration
     end
 
     def can_manage_links?
-      user.allowed_in_project?(:manage_squashtm_links, project)
+      user.allowed_in_project?(:manage_squashtm_requirements, project)
     end
 
     def can_manage_project_link?

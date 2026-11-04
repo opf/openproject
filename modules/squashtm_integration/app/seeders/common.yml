@@ -30,8 +30,8 @@ modules_permissions:
   squashtm:
   - role: :default_role_member
     add:
-    - :view_squashtm_test_results
-    - :manage_squashtm_links
+    - :view_squashtm
+    - :manage_squashtm_requirements
   - role: :default_role_reader
     add:
-    - :view_squashtm_test_results
+    - :view_squashtm

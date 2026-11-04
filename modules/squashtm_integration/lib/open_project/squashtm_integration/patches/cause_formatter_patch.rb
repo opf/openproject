@@ -54,7 +54,7 @@ module OpenProject::SquashTMIntegration
       end
 
       def squashtm_details_visible?
-        User.current.allowed_in_project?(:view_squashtm_test_results, @journal.journable.project)
+        User.current.allowed_in_project?(:view_squashtm, @journal.journable.project)
       end
 
       def squashtm_escape(value)

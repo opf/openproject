@@ -44,7 +44,7 @@ module SquashTMIntegration
 
       def work_package_links_removable
         return if model.work_package_links.none?
-        return if user.allowed_in_project?(:manage_squashtm_links, model.project)
+        return if user.allowed_in_project?(:manage_squashtm_requirements, model.project)
 
         errors.add(:base, :work_package_links_not_removable)
       end

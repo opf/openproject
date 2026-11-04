@@ -117,7 +117,7 @@ RSpec.describe "SquashTM project settings", :js do
       end
 
       context "with the permission to manage requirement links" do
-        let(:permissions) { %i[manage_squashtm_integration manage_squashtm_links view_work_packages] }
+        let(:permissions) { %i[manage_squashtm_integration manage_squashtm_requirements view_work_packages] }
 
         it "unlinks the project together with its linked work packages only after explicit confirmation" do
           visit project_settings_squashtm_path(project)

@@ -35,7 +35,7 @@ RSpec.describe "Work package SquashTM tab",
   shared_let(:project) { create(:project, enabled_module_names: %i[work_package_tracking squashtm]) }
   shared_let(:work_package) { create(:work_package, project:) }
 
-  let(:permissions) { %i[view_work_packages view_squashtm_test_results] }
+  let(:permissions) { %i[view_work_packages view_squashtm] }
   let(:user) { create(:user, member_with_permissions: { project => permissions }) }
   let(:client) { instance_double(SquashTMIntegration::Client) }
   let(:requirement) do
@@ -101,7 +101,7 @@ RSpec.describe "Work package SquashTM tab",
       end
 
       context "for a user allowed to manage links" do
-        let(:permissions) { %i[view_work_packages view_squashtm_test_results manage_squashtm_links] }
+        let(:permissions) { %i[view_work_packages view_squashtm manage_squashtm_requirements] }
 
         it "offers the requirements to link" do
           expect(subject.body).to include("Link requirement", "Users can sign in")
@@ -166,7 +166,7 @@ RSpec.describe "Work package SquashTM tab",
         end
 
         context "for a user allowed to manage links" do
-          let(:permissions) { %i[view_work_packages view_squashtm_test_results manage_squashtm_links] }
+          let(:permissions) { %i[view_work_packages view_squashtm manage_squashtm_requirements] }
 
           it "offers to unlink the requirement" do
             expect(Capybara.string(subject.body)).to have_css("[data-test-selector='squashtm--unlink-requirement']")

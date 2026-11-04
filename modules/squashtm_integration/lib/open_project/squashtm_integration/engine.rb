@@ -80,19 +80,19 @@ module OpenProject::SquashTMIntegration
            skip_permissions_check: true,
            after: :relations,
            if: ->(project) {
-             User.current.allowed_in_project?(:view_squashtm_test_results, project)
+             User.current.allowed_in_project?(:view_squashtm, project)
            }
 
       project_module(:squashtm, dependencies: :work_package_tracking) do
-        permission :view_squashtm_test_results,
+        permission :view_squashtm,
                    { work_package_squashtm_tab: %i[index] },
                    permissible_on: :project,
                    dependencies: :view_work_packages
 
-        permission :manage_squashtm_links,
+        permission :manage_squashtm_requirements,
                    { "squashtm_integration/work_package_requirement_links": %i[update destroy_dialog destroy] },
                    permissible_on: :project,
-                   dependencies: :view_squashtm_test_results
+                   dependencies: :view_squashtm
 
         permission :manage_squashtm_integration,
                    { "squashtm_integration/project_settings/project_links": %i[show update destroy_dialog destroy] },

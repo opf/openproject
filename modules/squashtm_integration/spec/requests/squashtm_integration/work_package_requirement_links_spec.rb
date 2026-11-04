@@ -35,7 +35,7 @@ RSpec.describe "Linking SquashTM requirements to work packages",
   shared_let(:project) { create(:project, enabled_module_names: %i[work_package_tracking squashtm]) }
   shared_let(:work_package) { create(:work_package, project:) }
 
-  let(:permissions) { %i[view_work_packages view_squashtm_test_results manage_squashtm_links] }
+  let(:permissions) { %i[view_work_packages view_squashtm manage_squashtm_requirements] }
   let(:user) { create(:user, member_with_permissions: { project => permissions }) }
   let(:client) { instance_double(SquashTMIntegration::Client) }
   let(:link_path) { "/projects/#{project.id}/work_packages/#{work_package.id}/squashtm_requirement_link" }
@@ -71,7 +71,7 @@ RSpec.describe "Linking SquashTM requirements to work packages",
     end
 
     context "without the permission to manage links" do
-      let(:permissions) { %i[view_work_packages view_squashtm_test_results] }
+      let(:permissions) { %i[view_work_packages view_squashtm] }
 
       it "is forbidden" do
         patch link_path, params: { squashtm_work_package_link: { squashtm_requirement_id: "11" } }, headers: turbo_stream

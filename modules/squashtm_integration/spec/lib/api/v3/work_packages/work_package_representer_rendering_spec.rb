@@ -32,7 +32,7 @@ require "spec_helper"
 RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering the SquashTM link" do
   let(:project) { build_stubbed(:project) }
   let(:work_package) { build_stubbed(:work_package, project:) }
-  let(:permissions) { %i[view_work_packages view_squashtm_test_results] }
+  let(:permissions) { %i[view_work_packages view_squashtm] }
   let(:representer) do
     described_class.create(work_package, current_user:, embed_links: true)
   end

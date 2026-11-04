@@ -36,7 +36,7 @@ module OpenProject::SquashTMIntegration
         def extension
           ->(*) do
             link :squashtm,
-                 cache_if: -> { current_user.allowed_in_project?(:view_squashtm_test_results, represented.project) } do
+                 cache_if: -> { current_user.allowed_in_project?(:view_squashtm, represented.project) } do
               next if represented.new_record?
 
               {

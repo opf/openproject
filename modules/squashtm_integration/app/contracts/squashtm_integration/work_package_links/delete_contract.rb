@@ -30,7 +30,7 @@
 module SquashTMIntegration
   module WorkPackageLinks
     class DeleteContract < ::DeleteContract
-      delete_permission :manage_squashtm_links
+      delete_permission :manage_squashtm_requirements
     end
   end
 end

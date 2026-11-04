@@ -68,7 +68,7 @@ RSpec.describe SquashTMIntegration::WorkPackageTabState do
     end
 
     context "with the permission to manage requirement links" do
-      let(:permissions) { %i[view_work_packages manage_squashtm_links] }
+      let(:permissions) { %i[view_work_packages manage_squashtm_requirements] }
 
       it { is_expected.to be_can_manage_links }
     end

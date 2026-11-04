@@ -33,7 +33,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
   shared_let(:project) { create(:project, enabled_module_names: %i[work_package_tracking squashtm]) }
   shared_let(:work_package) { create(:work_package, project:) }
   shared_let(:permitted_user) do
-    create(:user, member_with_permissions: { project => %i[view_work_packages view_squashtm_test_results] })
+    create(:user, member_with_permissions: { project => %i[view_work_packages view_squashtm] })
   end
   shared_let(:unpermitted_user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
 

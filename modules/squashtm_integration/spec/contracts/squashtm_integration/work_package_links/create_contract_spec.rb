@@ -36,7 +36,7 @@ RSpec.describe SquashTMIntegration::WorkPackageLinks::CreateContract do
     end
   end
   let(:user) { build_stubbed(:user) }
-  let(:permissions) { %i[manage_squashtm_links] }
+  let(:permissions) { %i[manage_squashtm_requirements] }
 
   let(:client) { instance_double(SquashTMIntegration::Client) }
   let(:requirement) { { "id" => 11, "name" => "Users can sign in", "project" => { "id" => 1 } } }
@@ -89,7 +89,7 @@ RSpec.describe SquashTMIntegration::WorkPackageLinks::CreateContract do
   end
 
   context "without the permission to manage requirement links" do
-    let(:permissions) { %i[view_squashtm_test_results] }
+    let(:permissions) { %i[view_squashtm] }
 
     before do
       create(:squashtm_server)

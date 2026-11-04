@@ -33,7 +33,7 @@ RSpec.describe SquashTMIntegration::WorkPackageLinks::CreateService do
   shared_let(:project) { create(:project, enabled_module_names: %i[work_package_tracking squashtm]) }
   shared_let(:work_package) { create(:work_package, project:) }
 
-  let(:permissions) { %i[view_work_packages view_squashtm_test_results manage_squashtm_links] }
+  let(:permissions) { %i[view_work_packages view_squashtm manage_squashtm_requirements] }
   let(:user) { create(:user, member_with_permissions: { project => permissions }) }
   let(:client) { instance_double(SquashTMIntegration::Client) }
   let(:requirement) do
@@ -131,7 +131,7 @@ RSpec.describe SquashTMIntegration::WorkPackageLinks::CreateService do
     end
 
     context "without the permission to manage links" do
-      let(:permissions) { %i[view_work_packages view_squashtm_test_results] }
+      let(:permissions) { %i[view_work_packages view_squashtm] }
 
       it "fails" do
         expect(result).to be_failure

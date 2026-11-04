@@ -52,7 +52,7 @@ module SquashTMIntegration
       end
 
       def blocked?
-        work_packages_linked? && !User.current.allowed_in_project?(:manage_squashtm_links, project_link.project)
+        work_packages_linked? && !User.current.allowed_in_project?(:manage_squashtm_requirements, project_link.project)
       end
 
       def linked_work_package_count
