@@ -41,7 +41,7 @@ module SquashTMIntegration
       private
 
       def user_allowed
-        return if model.project && user.allowed_in_project?(:manage_squashtm_integration, model.project)
+        return if user.allowed_in_project?(:manage_squashtm_integration, model.project)
 
         errors.add(:base, :error_unauthorized)
       end
@@ -57,8 +57,16 @@ module SquashTMIntegration
       def squashtm_project_resolved
         return if errors.any?
 
-        error = model.squashtm_project_lookup_error || (:squashtm_project_not_found if model.squashtm_project_name.blank?)
-        errors.add(:base, error, squashtm_project_id: model.squashtm_project_id) if error
+        Client.for(Server.first).project(model.squashtm_project_id).fetch("name")
+      rescue Client::NotFoundError
+        add_squashtm_project_error(:squashtm_project_not_found)
+      rescue Client::Error, KeyError => e
+        Rails.logger.warn("SquashTM project #{model.squashtm_project_id} could not be resolved: #{e.class}: #{e.message}")
+        add_squashtm_project_error(:squashtm_project_unavailable)
+      end
+
+      def add_squashtm_project_error(key)
+        errors.add(:base, key, squashtm_project_id: model.squashtm_project_id)
       end
     end
   end

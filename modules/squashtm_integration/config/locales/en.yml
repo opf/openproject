@@ -31,8 +31,6 @@ en:
               singleton: "Only one SquashTM server can be configured."
               squashtm_version_unsupported: "The SquashTM server runs version %{version}, but version %{minimum} or newer is required."
   permission_manage_squashtm_integration: "Manage SquashTM integration"
-  permission_manage_squashtm_links: "Manage SquashTM requirement links"
-  permission_view_squashtm_test_results: "View SquashTM test results"
   project_module_squashtm: "SquashTM"
   squashtm_integration:
     admin:
@@ -63,6 +61,9 @@ en:
         description: "Work packages of this project will no longer show SquashTM test results."
         heading: "Unlink the SquashTM project %{name}?"
         title: "Unlink SquashTM project"
+      linked_project_component:
+        linked_to_html: "This project is linked to the SquashTM project %{name}."
+        unlink: "Unlink"
       project_link_form:
         squashtm_project_caption: "Only projects visible to the SquashTM account used by OpenProject are listed."
         squashtm_project_prompt: "Select a SquashTM project"
@@ -71,9 +72,8 @@ en:
           success: "The SquashTM project was unlinked."
         show:
           description: "Link this project to a SquashTM project to show its test cases, executions and results on work packages."
-          linked_project_missing: "The linked SquashTM project %{name} is no longer visible in SquashTM. It may have been deleted, or the SquashTM account used by OpenProject may have lost access to it."
-          linked_to_html: "This project is linked to the SquashTM project %{name}."
           not_linked: "This project is not linked to a SquashTM project."
-          projects_unavailable: "The SquashTM projects could not be loaded because the SquashTM server is not reachable. Please try again later or contact your instance administrator."
-          server_not_configured: "No SquashTM server is configured for this OpenProject instance. Please contact your instance administrator to set up the SquashTM integration."
-          unlink: "Unlink"
+      status_banner_component:
+        linked_project_missing: "The linked SquashTM project %{name} is no longer visible in SquashTM. It may have been deleted, or the SquashTM account used by OpenProject may have lost access to it."
+        projects_unavailable: "The SquashTM projects could not be loaded because the SquashTM server is not reachable. Please try again later or contact your instance administrator."
+        server_not_configured: "No SquashTM server is configured for this OpenProject instance. Please contact your instance administrator to set up the SquashTM integration."

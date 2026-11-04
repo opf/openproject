@@ -33,6 +33,13 @@ RSpec.describe SquashTMIntegration::ProjectLink do
     expect(link.project).to be_a(Project)
   end
 
+  it "requires a project" do
+    link = build(:squashtm_project_link, project: nil)
+
+    expect(link).not_to be_valid
+    expect(link.errors).to be_added(:project, :blank)
+  end
+
   it "allows only one link per project" do
     existing = create(:squashtm_project_link)
 

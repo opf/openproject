@@ -35,25 +35,16 @@ module SquashTMIntegration
       def set_attributes(params)
         super
 
-        resolve_squashtm_project if model.squashtm_project_id_changed? && model.squashtm_project_id.present?
+        resolve_squashtm_project if model.squashtm_project_id.present?
       end
 
       def resolve_squashtm_project
         server = Server.first
         return if server.nil?
 
-        name = fetch_squashtm_project_name(server)
-        model.change_by_system { model.squashtm_project_name = name } if name
-      end
-
-      def fetch_squashtm_project_name(server)
-        Client.for(server).project(model.squashtm_project_id).fetch("name")
-      rescue Client::NotFoundError
-        model.squashtm_project_lookup_error = :squashtm_project_not_found
-        nil
-      rescue Client::Error, KeyError => e
-        Rails.logger.warn("SquashTM project #{model.squashtm_project_id} could not be resolved: #{e.class}: #{e.message}")
-        model.squashtm_project_lookup_error = :squashtm_project_unavailable
+        name = Client.for(server).project(model.squashtm_project_id).fetch("name")
+        model.change_by_system { model.squashtm_project_name = name }
+      rescue Client::Error, KeyError
         nil
       end
     end

@@ -30,6 +30,16 @@
 module SquashTMIntegration
   module ProjectLinks
     class CreateService < ::BaseServices::Create
+      protected
+
+      def persist(service_result)
+        ActiveRecord::Base.transaction(requires_new: true) { super }
+      rescue ActiveRecord::RecordNotUnique
+        service_result.result.errors.add(:base, :project_already_linked)
+        service_result.errors = service_result.result.errors
+        service_result.success = false
+        service_result
+      end
     end
   end
 end

@@ -38,8 +38,6 @@ module SquashTMIntegration
       before_action :set_project_link
       before_action :require_persisted_project_link, only: %i[destroy_dialog destroy]
 
-      helper_method :linked_squashtm_project_missing?, :linked_squashtm_project_name
-
       def show
         load_squashtm_projects
       end
@@ -97,28 +95,6 @@ module SquashTMIntegration
           ProjectLinks::UpdateService.new(user: current_user, model: @project_link).call(attributes)
         else
           ProjectLinks::CreateService.new(user: current_user).call(attributes.merge(project: @project))
-        end
-      end
-
-      def linked_squashtm_project_missing?
-        return false unless @project_link.persisted? && @squashtm_projects
-
-        @squashtm_projects.none? { |squashtm_project| squashtm_project[:id] == @project_link.squashtm_project_id_in_database }
-      end
-
-      def linked_squashtm_project_name
-        name = @project_link.squashtm_project_name_in_database
-        return name if @server.nil?
-
-        helpers.render(
-          Primer::Beta::Link.new(
-            href: @server.project_url(@project_link.squashtm_project_id_in_database),
-            target: "_blank",
-            rel: "noopener noreferrer"
-          )
-        ) do |link|
-          link.with_trailing_visual_icon(icon: :"link-external")
-          name
         end
       end
 

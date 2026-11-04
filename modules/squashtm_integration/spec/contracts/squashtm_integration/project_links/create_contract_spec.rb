@@ -44,9 +44,15 @@ RSpec.describe SquashTMIntegration::ProjectLinks::CreateContract do
   end
 
   context "with a configured server" do
-    before { create(:squashtm_server) }
+    let(:client) { instance_double(SquashTMIntegration::Client) }
 
-    it "is valid for a resolved SquashTM project" do
+    before do
+      create(:squashtm_server)
+      allow(SquashTMIntegration::Client).to receive(:for).and_return(client)
+      allow(client).to receive(:project).with(7).and_return({ "id" => 7, "name" => "Integration Sandbox" })
+    end
+
+    it "is valid for an existing SquashTM project" do
       expect(contract).to be_valid
     end
 
@@ -57,16 +63,22 @@ RSpec.describe SquashTMIntegration::ProjectLinks::CreateContract do
       expect(contract.errors.details[:squashtm_project_id].pluck(:error)).to include(:blank)
     end
 
-    it "is invalid when the SquashTM project could not be resolved" do
-      link.change_by_system { link.squashtm_project_name = nil }
+    it "is invalid when the SquashTM project does not exist" do
+      allow(client).to receive(:project).and_raise(SquashTMIntegration::Client::NotFoundError.new(404))
 
       expect(contract).not_to be_valid
       expect(contract.errors.details[:base].pluck(:error)).to eq([:squashtm_project_not_found])
     end
 
-    it "reports a lookup error instead of a missing project" do
-      link.change_by_system { link.squashtm_project_name = nil }
-      link.squashtm_project_lookup_error = :squashtm_project_unavailable
+    it "is invalid when SquashTM is not reachable" do
+      allow(client).to receive(:project).and_raise(SquashTMIntegration::Client::TimeoutError)
+
+      expect(contract).not_to be_valid
+      expect(contract.errors.details[:base].pluck(:error)).to eq([:squashtm_project_unavailable])
+    end
+
+    it "is invalid when the SquashTM response has no project name" do
+      allow(client).to receive(:project).and_return({ "id" => 7 })
 
       expect(contract).not_to be_valid
       expect(contract.errors.details[:base].pluck(:error)).to eq([:squashtm_project_unavailable])

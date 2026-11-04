@@ -63,6 +63,20 @@ RSpec.describe SquashTMIntegration::ProjectLinks::CreateService, :webmock do
       expect(result.errors.details[:base].pluck(:error)).to eq([:squashtm_project_unavailable])
     end
 
+    context "when a concurrent request linked the project after the validation ran" do
+      before do
+        stub_request(:get, project_url).to_return(status: 200, body: { id: 7, name: "Sandbox" }.to_json)
+        create(:squashtm_project_link, project:, squashtm_project_id: 3)
+        allow_any_instance_of(SquashTMIntegration::ProjectLink).to receive(:single_link_per_project) # rubocop:disable RSpec/AnyInstance
+      end
+
+      it "fails with the same error as the validation and keeps the first link" do
+        expect(result).to be_failure
+        expect(result.errors).to be_added(:base, :project_already_linked)
+        expect(SquashTMIntegration::ProjectLink.sole.squashtm_project_id).to eq(3)
+      end
+    end
+
     it "allows several OpenProject projects to link the same SquashTM project" do
       stub_request(:get, project_url).to_return(status: 200, body: { id: 7, name: "Sandbox" }.to_json)
       create(:squashtm_project_link, squashtm_project_id: 7)

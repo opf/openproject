@@ -47,7 +47,7 @@ RSpec.describe "SquashTM project settings", :js do
     it "tells the project admin to contact the instance administrator" do
       visit project_settings_squashtm_path(project)
 
-      expect(page).to have_test_selector("squashtm-project-link--no-server")
+      expect(page).to have_test_selector("squashtm--no-server")
     end
   end
 
@@ -61,7 +61,7 @@ RSpec.describe "SquashTM project settings", :js do
       click_button "Save"
 
       expect_flash(message: I18n.t(:notice_successful_update))
-      within_test_selector("squashtm-project-link--current") do
+      within_test_selector("squashtm--linked-project") do
         expect(page).to have_text("This project is linked to the SquashTM project Integration Sandbox")
         expect(page).to have_link(
           "Integration Sandbox",
@@ -71,8 +71,8 @@ RSpec.describe "SquashTM project settings", :js do
       expect(page).to have_no_select("SquashTM project")
       expect(SquashTMIntegration::ProjectLink.sole).to have_attributes(project_id: project.id, squashtm_project_id: 1)
 
-      find_test_selector("squashtm-project-link--delete").click
-      within_test_selector("squashtm-project-link--delete-dialog") do
+      find_test_selector("squashtm--delete-project-link").click
+      within_test_selector("squashtm--delete-project-link-dialog") do
         expect(page).to have_text("Unlink the SquashTM project Integration Sandbox?")
         click_button "Unlink"
       end
@@ -102,8 +102,8 @@ RSpec.describe "SquashTM project settings", :js do
       create(:squashtm_project_link, project:, squashtm_project_id: 1, squashtm_project_name: "Integration Sandbox")
       visit project_settings_squashtm_path(project)
 
-      expect(page).to have_test_selector("squashtm-project-link--current", text: "Integration Sandbox")
-      expect(page).to have_test_selector("squashtm-project-link--delete", text: "Unlink")
+      expect(page).to have_test_selector("squashtm--linked-project", text: "Integration Sandbox")
+      expect(page).to have_test_selector("squashtm--delete-project-link", text: "Unlink")
       expect(page).to have_no_select("SquashTM project")
       expect(find_link("Integration Sandbox")[:target]).to eq("_blank")
     end

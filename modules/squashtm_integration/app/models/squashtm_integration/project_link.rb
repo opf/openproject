@@ -33,11 +33,17 @@ module SquashTMIntegration
 
     belongs_to :project
 
+    validates :project, presence: true
     validate :single_link_per_project
 
-    # Set by ProjectLinks::SetAttributesService when the SquashTM project could not be resolved,
-    # so that the contract can report it without contacting SquashTM a second time.
-    attr_accessor :squashtm_project_lookup_error
+    # After a failed update the in-memory values carry the rejected project, so a persisted link reports the stored ones.
+    def stored_squashtm_project_id
+      persisted? ? squashtm_project_id_in_database : squashtm_project_id
+    end
+
+    def stored_squashtm_project_name
+      persisted? ? squashtm_project_name_in_database : squashtm_project_name
+    end
 
     private
 

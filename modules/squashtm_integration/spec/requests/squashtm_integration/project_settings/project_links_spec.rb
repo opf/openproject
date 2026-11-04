@@ -64,7 +64,7 @@ RSpec.describe "SquashTM project settings",
       it "shows the linked SquashTM project and hides the dropdown" do
         create(:squashtm_project_link, project:, squashtm_project_id: 2, squashtm_project_name: "Another project")
 
-        banner = Capybara.string(subject.body).find(test_selector("squashtm-project-link--current"))
+        banner = Capybara.string(subject.body).find(test_selector("squashtm--linked-project"))
         expect(banner).to have_text("This project is linked to the SquashTM project Another project")
         expect(banner).to have_link(
           "Another project",
