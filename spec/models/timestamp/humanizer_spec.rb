@@ -66,11 +66,38 @@ RSpec.describe Timestamp::Humanizer do
       expect(described_class.new(timestamp).text).to eq("01.10.2026 00:00")
     end
 
-    it "keeps the relative keyword with only its localized time" do
+    it "keeps the stored clock time and omits the offset when it matches the viewer's" do
+      travel_to(Time.utc(2026, 10, 2, 12)) do
+        timestamp = Timestamp.new("oneDayAgo@23:00+02:00")
+
+        expect(described_class.new(timestamp).text).to eq("yesterday at 23:00")
+      end
+    end
+
+    it "keeps the stored clock time and names the offset when it differs from the viewer's" do
       travel_to(Time.utc(2026, 10, 2, 12)) do
         timestamp = Timestamp.new("oneDayAgo@23:00-04:00")
-        expect(described_class.new(timestamp).text).to eq("yesterday at 05:00")
+
+        expect(described_class.new(timestamp).text).to eq("yesterday at 23:00 (UTC-04:00)")
       end
+    end
+
+    it "compares against the viewer's offset at the baseline instant, not the current one" do
+      travel_to(Time.utc(2026, 11, 5, 12)) do
+        timestamp = Timestamp.new("oneMonthAgo@09:00+01:00")
+
+        expect(described_class.new(timestamp).text).to eq("last month at 09:00 (UTC+01:00)")
+      end
+    end
+
+    it "keeps half-hour offsets" do
+      timestamp = Timestamp.new("oneWeekAgo@09:15+05:30")
+
+      expect(described_class.new(timestamp).text).to eq("last week at 09:15 (UTC+05:30)")
+    end
+
+    it "returns nil for an invalid keyword timestamp" do
+      expect(described_class.new(Timestamp.new("oneDayAgo@nonsense")).text).to be_nil
     end
   end
 end

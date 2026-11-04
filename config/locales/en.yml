@@ -7275,6 +7275,7 @@ en:
     pm: "pm"
     relative_ago: "%{time} ago"
     relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
 
   timeframe:
     end: "to"

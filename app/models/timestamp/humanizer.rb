@@ -60,10 +60,24 @@ class Timestamp::Humanizer
   end
 
   def keyword_text
+    keyword, time_part = @timestamp.to_s.split("@")
+    clock = Time.strptime(time_part, "%H:%M%:z")
+
     I18n.t(
       "time.relative_at",
-      relative: I18n.t("js.baseline.drop_down.#{KEYWORD_LABELS.fetch(@timestamp.to_s.split('@').first)}"),
-      time: Redmine::I18n.format_time(@timestamp.to_time, include_date: false)
+      relative: I18n.t("js.baseline.drop_down.#{KEYWORD_LABELS.fetch(keyword)}"),
+      time: clock_text(clock)
     )
+  end
+
+  def clock_text(clock)
+    text = Redmine::I18n.format_time_of_day(clock)
+    return text if clock.utc_offset == viewer_offset_at_baseline
+
+    I18n.t("time.with_utc_offset", time: text, offset: clock.formatted_offset)
+  end
+
+  def viewer_offset_at_baseline
+    Redmine::I18n.in_user_zone(@timestamp.to_time).utc_offset
   end
 end
