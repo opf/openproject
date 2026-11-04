@@ -29,15 +29,16 @@
 
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { DynamicIconDirective } from 'core-app/shared/components/primer/dynamic-icon.directive';
+import { DynamicIconName } from 'core-app/shared/components/primer/dynamic-icon-map';
 
 @Component({
   selector: 'blankslate-icon',
-  template: '<svg octicon [icon]="icon()" />',
+  template: '<svg octicon class="octicon blankslate-icon" [icon]="icon()" aria-hidden="true" />',
   imports: [DynamicIconDirective],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BlankslateIconComponent {
-  readonly icon = input<string>();
+  readonly icon = input.required<DynamicIconName>();
 }
 
 @Component({
@@ -50,7 +51,7 @@ export class BlankslateHeadingComponent {
 
 @Component({
   selector: 'blankslate-description',
-  template: '<p><ng-content/></p>',
+  template: '<p class="blankslate-description"><ng-content/></p>',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BlankslateDescriptionComponent {
