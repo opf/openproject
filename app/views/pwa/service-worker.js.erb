@@ -9,6 +9,7 @@ const CACHE_PREFIX = <%== pwa_cache_prefix.to_json %>;
  *     renders one notification per work package.
  *   - Notification clicks open or focus a window on the target page.
  *   - Signing out clears every notification, the remembered state and the app badge.
+ *   - A page reporting a different signed-in user closes the previous user's notifications.
  *
  *   OpenProject --push--> push service --wake-up--> worker --GET push summary--> OpenProject
  *   worker --show / close--> notifications, app badge
@@ -22,7 +23,12 @@ const Config = Object.freeze({
     signOut: <%== signout_path.to_json %>,
     push: <%== pwa_push_notification_path.to_json %>,
   },
-  tags: { prefix: "openproject-", placeholder: "openproject-unread", more: "openproject-more" },
+  tags: {
+    prefix: "openproject-",
+    workPackage: /^openproject-(\d+)-wp-/,
+    placeholder: "openproject-unread",
+    more: "openproject-more",
+  },
   push: {
     fetchTimeoutMs: 10000,
     fallbackTitle: <%== I18n.t("pwa.push.fallback_title", locale: Setting.default_language).to_json %>,
@@ -148,6 +154,10 @@ class Notifications {
   static async listOpen() {
     const notifications = await self.registration.getNotifications();
     return notifications.filter((notification) => notification.tag.startsWith(Config.tags.prefix));
+  }
+
+  static ownerOf(tag) {
+    return tag.match(Config.tags.workPackage)?.[1];
   }
 
   static close(open, tags) {
@@ -284,6 +294,9 @@ class Digest {
  *                         └─ response settled ► bump generation again, clear once more behind any
  *                                               push (it may have re-shown some)
  * summary fetched across a sign-out, or while one is in progress ► discarded, fallback
+ *
+ * account message ──► user differs from the last one seen? bump sign-out generation
+ *                     queue: close and forget the notifications of other users
  * ```
  */
 class PushHandler {
@@ -292,6 +305,7 @@ class PushHandler {
     this.pending = 0;
     this.signOutGeneration = 0;
     this.signOutsInProgress = 0;
+    this.accountId = undefined;
     this.signOutPath = new URL(Config.urls.signOut, self.location.href).pathname;
   }
 
@@ -315,6 +329,19 @@ class PushHandler {
 
   onPush(event) {
     event.waitUntil(this.enqueue(() => this.showUnread()));
+  }
+
+  onMessage(event) {
+    const { type, userId } = event.data || {};
+    if (type !== "account" || !userId) return;
+
+    event.waitUntil(this.switchAccount(String(userId)));
+  }
+
+  switchAccount(userId) {
+    if (this.accountId !== undefined && this.accountId !== userId) this.signOutGeneration += 1;
+    this.accountId = userId;
+    return this.enqueue(() => this.closeOtherAccounts(userId));
   }
 
   enqueue(task) {
@@ -375,6 +402,16 @@ class PushHandler {
   async closeAndForgetAll() {
     Notifications.closeAll(await Notifications.listOpen());
     await PushState.clear();
+  }
+
+  async closeOtherAccounts(userId) {
+    const isOther = (tag) => ![undefined, userId].includes(Notifications.ownerOf(tag));
+    const open = await Notifications.listOpen();
+    Notifications.close(open, open.map((notification) => notification.tag).filter(isOther));
+
+    const state = await PushState.read();
+    const remembered = Object.entries(state).filter(([tag]) => !isOther(tag));
+    if (remembered.length !== Object.keys(state).length) await PushState.write(Object.fromEntries(remembered));
   }
 
   async clearForSignOut() {
@@ -456,7 +493,7 @@ class OfflinePage {
  * BROWSER EVENTS
  *
  * The browser calls the worker only through these listeners: install, activate, fetch,
- * push and notificationclick. Each one delegates to the classes above.
+ * push, notificationclick and message. Each one delegates to the classes above.
  *****************************************************************************************/
 const pushHandler = new PushHandler();
 
@@ -489,6 +526,8 @@ self.addEventListener("fetch", (event) => {
 });
 
 self.addEventListener("push", (event) => pushHandler.onPush(event));
+
+self.addEventListener("message", (event) => pushHandler.onMessage(event));
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();

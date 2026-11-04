@@ -36,6 +36,7 @@ describe('BrowserNotificationSyncService', () => {
   let loadedUnread$:Subject<number>;
   let getNotifications:ReturnType<typeof vi.fn>;
   let getRegistration:ReturnType<typeof vi.fn>;
+  let postMessage:ReturnType<typeof vi.fn>;
   let fetchMock:ReturnType<typeof vi.fn>;
   let meta:HTMLMetaElement;
 
@@ -45,7 +46,10 @@ describe('BrowserNotificationSyncService', () => {
     meta.dataset.loggedIn = loggedIn;
     vi.stubGlobal('Notification', { permission });
     vi.stubGlobal('fetch', fetchMock);
-    Object.defineProperty(navigator, 'serviceWorker', { configurable: true, value: { getRegistration } });
+    Object.defineProperty(navigator, 'serviceWorker', {
+      configurable: true,
+      value: { getRegistration, ready: Promise.resolve({ active: { postMessage } }) },
+    });
 
     TestBed.configureTestingModule({
       providers: [
@@ -64,9 +68,11 @@ describe('BrowserNotificationSyncService', () => {
     loadedUnread$ = new Subject<number>();
     getNotifications = vi.fn();
     getRegistration = vi.fn().mockResolvedValue({ getNotifications });
+    postMessage = vi.fn();
     fetchMock = vi.fn();
     meta = document.createElement('meta');
     meta.name = 'current_user';
+    meta.dataset.id = '7';
     document.head.appendChild(meta);
   });
 
@@ -134,6 +140,20 @@ describe('BrowserNotificationSyncService', () => {
     await flush();
 
     expect(after.close).not.toHaveBeenCalled();
+  });
+
+  it('tells the worker which user is signed in', async () => {
+    setup().initialize();
+    await flush();
+
+    expect(postMessage).toHaveBeenCalledWith({ type: 'account', userId: '7' });
+  });
+
+  it('does not tell the worker about an account when signed out', async () => {
+    setup({ loggedIn: 'false' }).initialize();
+    await flush();
+
+    expect(postMessage).not.toHaveBeenCalled();
   });
 
   it('closes every notification when signed out', async () => {
@@ -217,5 +237,6 @@ describe('BrowserNotificationSyncService', () => {
     await flush();
 
     expect(getRegistration).not.toHaveBeenCalled();
+    expect(postMessage).not.toHaveBeenCalled();
   });
 });

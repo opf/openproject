@@ -98,6 +98,11 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
                                        "generation !== this.signOutGeneration || this.signOutsInProgress > 0")
     end
 
+    it "closes the notifications of another user when a page reports a different account" do
+      expect(response.body).to include('addEventListener("message"', "pushHandler.onMessage(event)",
+                                       "closeOtherAccounts")
+    end
+
     it "stores only digests of what it showed" do
       expect(response.body).to include("crypto.subtle.digest")
       expect(response.body).not_to include("JSON.stringify({ title")

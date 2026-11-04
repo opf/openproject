@@ -57,6 +57,8 @@ export class BrowserNotificationSyncService {
       return;
     }
 
+    void this.announceAccount().catch(() => undefined);
+
     this.ianBell.loadedUnread$
       .pipe(concatMap((count) => from(this.reconcile(count).catch(() => undefined))))
       .subscribe();
@@ -72,6 +74,16 @@ export class BrowserNotificationSyncService {
 
   private get flagEnabled():boolean {
     return this.configuration.activeFeatureFlags.includes('progressiveWebApp');
+  }
+
+  private async announceAccount():Promise<void> {
+    const userId = getMetaValue('current_user', 'id', null);
+    if (!this.permitted || !userId) {
+      return;
+    }
+
+    const registration = await navigator.serviceWorker.ready;
+    registration.active?.postMessage({ type: 'account', userId });
   }
 
   private async reconcile(count:number):Promise<void> {
