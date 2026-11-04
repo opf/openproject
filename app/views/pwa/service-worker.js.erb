@@ -33,6 +33,7 @@ const Config = Object.freeze({
   },
   push: {
     fetchTimeoutMs: 10000,
+    signOutTimeoutMs: 10000,
     fallbackTitle: <%== I18n.t("pwa.push.fallback_title", locale: Setting.default_language).to_json %>,
     allReadTitle: <%== I18n.t("pwa.push.all_read_title", locale: Setting.default_language).to_json %>,
     icon: <%== image_path("pwa/icon-192.png").to_json %>,
@@ -300,8 +301,8 @@ class Digest {
  *
  * logout navigation ──► bump sign-out generation, sign-out in progress
  *                         ├─ clear now
- *                         └─ response settled ► bump generation again, clear once more behind any
- *                                               push (it may have re-shown some)
+ *                         └─ response settled, or 10 s passed ► bump generation again, clear once
+ *                                               more behind any push (it may have re-shown some)
  * summary fetched across a sign-out, or while one is in progress ► discarded, fallback
  *
  * reconcile message ──► queue ──► none of its notifications open? stop
@@ -328,17 +329,23 @@ class PushHandler {
     return new URL(request.url).pathname === this.signOutPath;
   }
 
+  static settled(navigation) {
+    let timer;
+    const timeout = new Promise((resolve) => {
+      timer = setTimeout(resolve, Config.push.signOutTimeoutMs);
+    });
+    return Promise.race([navigation.catch(() => undefined), timeout]).finally(() => clearTimeout(timer));
+  }
+
   signOut(navigation = Promise.resolve()) {
     this.signOutGeneration += 1;
     this.signOutsInProgress += 1;
     const cleared = this.clearForSignOut().catch(() => undefined);
-    const clearedAfterSettled = navigation
-      .catch(() => undefined)
-      .then(() => {
-        this.signOutGeneration += 1;
-        this.signOutsInProgress -= 1;
-        return this.enqueue(() => this.clearForSignOut());
-      });
+    const clearedAfterSettled = PushHandler.settled(navigation).then(() => {
+      this.signOutGeneration += 1;
+      this.signOutsInProgress -= 1;
+      return this.enqueue(() => this.clearForSignOut());
+    });
     return Promise.all([cleared, clearedAfterSettled]);
   }
 
