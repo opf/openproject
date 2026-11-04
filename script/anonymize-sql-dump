@@ -222,6 +222,7 @@ INSERT INTO polymorphic_types VALUES
   ('MyProjectsOverview', 'my_projects_overviews'),
   ('News', 'news'),
   ('Notification', 'notifications'),
+  ('PersistedQuery', 'persisted_queries'),
   ('PersistedView', 'persisted_views'),
   ('PlaceholderUser', 'users'),
   ('Principal', 'users'),
@@ -559,6 +560,7 @@ INSERT INTO table_manifest SELECT unnest(ARRAY[
   'autologin_session_links',
   'deploy_status_checks',
   'deploy_targets',
+  'dpa_records',
   'enterprise_tokens',
   'exports',
   'file_links',
@@ -769,6 +771,7 @@ DELETE FROM good_job_processes;
 DELETE FROM good_job_settings;
 DELETE FROM deploy_targets;
 DELETE FROM deploy_status_checks;
+DELETE FROM dpa_records;
 DELETE FROM storages;
 DELETE FROM storages_file_links_journals;
 DELETE FROM project_storages;

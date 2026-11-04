@@ -16,7 +16,7 @@ get:
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/schema_model.yml"
+            $ref: "../components/schemas/schema_model.yml"
           examples:
             'Values::Property Start date schema':
               $ref: '../components/examples/values_property_start_date_schema.yml'

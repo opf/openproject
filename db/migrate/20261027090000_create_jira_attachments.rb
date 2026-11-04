@@ -27,22 +27,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectArtifactsMailer < ApplicationMailer
-  include ProjectsHelper
-  include Exports::PDF::Common::Macro
+class CreateJiraAttachments < ActiveRecord::Migration[8.1]
+  def change
+    create_table :jira_attachments do |t|
+      t.jsonb :payload
+      t.string :origin_id, null: false
+      t.references :jira_import, null: false, foreign_key: { on_delete: :cascade, on_update: :cascade }
+      t.references :jira_project, null: false, foreign_key: { on_delete: :cascade, on_update: :cascade }
+      t.references :jira_issue, null: false, foreign_key: { on_delete: :cascade, on_update: :cascade }
+      t.index %i[jira_issue_id origin_id], unique: true
 
-  def creation_wizard_submitted(user, project, artifact_work_package)
-    @project = project
-    @work_package = artifact_work_package
-    @notification_text = apply_markdown_field_macros(project.project_creation_wizard_notification_text, { project:, user: })
-
-    open_project_headers "Project" => project.identifier
-
-    message_id project, user
-
-    send_localized_mail(user) do
-      I18n.t("settings.project_initiation_request.status.submitted",
-             wizard_name: project_creation_wizard_name(project))
+      t.timestamps
     end
   end
 end

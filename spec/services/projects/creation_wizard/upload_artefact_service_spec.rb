@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe Projects::CreationWizard::UploadArtifactService do
+RSpec.describe Projects::CreationWizard::UploadArtefactService do
   shared_let(:status_new) { create(:status, name: "New") }
   shared_let(:type) { create(:type, name: "Project initiation") }
   shared_let(:current_user) { create(:user, lastname: "current_user") }
@@ -60,7 +60,7 @@ RSpec.describe Projects::CreationWizard::UploadArtifactService do
       project:,
       type:,
       status: status_new,
-      subject: "Artifact Work Package"
+      subject: "Artefact Work Package"
     )
   end
 
@@ -72,7 +72,7 @@ RSpec.describe Projects::CreationWizard::UploadArtifactService do
     login_as current_user
   end
 
-  context "when artifact storage is internal (attachment)" do
+  context "when artefact storage is internal (attachment)" do
     before do
       project.update(project_creation_wizard_artifact_export_type: "attachment")
     end
@@ -130,7 +130,7 @@ RSpec.describe Projects::CreationWizard::UploadArtifactService do
     end
   end
 
-  context "when artifact storage is project storage (file link)" do
+  context "when artefact storage is project storage (file link)" do
     let(:storage) { create(:nextcloud_storage_with_local_connection) }
     let(:project_storage) { create(:project_storage, project:, storage:, project_folder_id: "/project_folder") }
     let(:service_result) { ServiceResult.success(result: nil) }
@@ -146,7 +146,7 @@ RSpec.describe Projects::CreationWizard::UploadArtifactService do
         .and_return(service_result)
     end
 
-    it "uploads the artifact to the project storage" do
+    it "uploads the artefact to the project storage" do
       result = instance.call
 
       expect(result).to be_success
@@ -187,7 +187,7 @@ RSpec.describe Projects::CreationWizard::UploadArtifactService do
         result = instance.call
 
         expect(result).to be_failure
-        expect(result.message).to eq(I18n.t("projects.wizard.create_artifact_storage_error"))
+        expect(result.message).to eq(I18n.t("projects.wizard.create_artefact_storage_error"))
       end
 
       it "does not call the storage upload service" do

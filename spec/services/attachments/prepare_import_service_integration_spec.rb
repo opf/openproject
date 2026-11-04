@@ -27,12 +27,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Attachments
-  # Creates an attachment without journalizing its container. Importers replay the source
-  # system's own history, so the container's journals are written by the importer instead.
-  class ImportCreateService < CreateService
-    private
+require "spec_helper"
 
-    def touch(_container) = nil
+RSpec.describe Attachments::PrepareImportService, "integration" do
+  subject(:call) do
+    described_class
+      .new(user:, contract_class: EmptyContract)
+      .call(filename: "Screen Shot.png", filesize: 1024, content_type: "image/png")
+  end
+
+  let(:user) { create(:user) }
+  let(:attachment) { call.result }
+
+  it "creates an attachment without a container" do
+    expect(call).to be_success
+    expect(attachment).to have_attributes(container: nil,
+                                          status: "import_prepared",
+                                          author: user,
+                                          filesize: 1024,
+                                          content_type: "image/png",
+                                          digest: "")
+  end
+
+  it "names the file the way it will be stored" do
+    expect(attachment.filename).to eq("Screen_Shot.png")
   end
 end

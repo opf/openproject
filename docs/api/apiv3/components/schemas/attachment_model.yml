@@ -26,8 +26,8 @@ properties:
     minimum: 0
   description:
     allOf:
-    - $ref: "./formattable.yml"
-    - description: A user provided description of the file
+      - $ref: "./formattable.yml"
+      - description: A user provided description of the file
   status:
     type: string
     enum:
@@ -36,6 +36,8 @@ properties:
       - scanned
       - quarantined
       - rescan
+      - import_prepared
+      - import_failed
   contentType:
     type: string
     description: The files MIME-Type as determined by the server
@@ -66,62 +68,62 @@ properties:
     properties:
       delete:
         allOf:
-        - $ref: "./link.yml"
-        - description: |-
-            Deletes this attachment
+          - $ref: "./link.yml"
+          - description: |-
+              Deletes this attachment
 
-            # Conditions
+              # Conditions
 
-            **Permission**: edit on attachment container or being the author for attachments without container
+              **Permission**: edit on attachment container or being the author for attachments without container
       self:
         allOf:
-        - $ref: "./link.yml"
-        - description: |-
-            This attachment
+          - $ref: "./link.yml"
+          - description: |-
+              This attachment
 
-            **Resource**: Attachment
+              **Resource**: Attachment
       container:
         allOf:
-        - $ref: "./link.yml"
-        - description: |-
-            The object (e.g. WorkPackage) housing the attachment
+          - $ref: "./link.yml"
+          - description: |-
+              The object (e.g. WorkPackage) housing the attachment
 
-            **Resource**: Anything
+              **Resource**: Anything
       author:
         allOf:
-        - $ref: "./link.yml"
-        - description: |-
-            The user who uploaded the attachment
+          - $ref: "./link.yml"
+          - description: |-
+              The user who uploaded the attachment
 
-            **Resource**: User
+              **Resource**: User
       downloadLocation:
         allOf:
-        - $ref: "./link.yml"
-        - description: |-
-            Direct download link to the attachment
+          - $ref: "./link.yml"
+          - description: |-
+              Direct download link to the attachment
 
-            **Resource**: -
-example:
-  _type: Attachment
-  _links:
-    self:
-      href: "/api/v3/attachments/1"
-    container:
-      href: "/api/v3/work_packages/1"
-    author:
-      href: "/api/v3/users/1"
-    downloadLocation:
-      href: "/some/remote/aws/url/image.png"
-  id: 1
-  fileName: cat.png
-  fileSize: 24
-  status: uploaded
-  description:
-    format: plain
-    raw: A picture of a cute cat
-    html: "<p>A picture of a cute cat</p>"
-  contentType: image/png
-  digest:
-    algorithm: md5
-    hash: 64c26a8403cd796ea4cf913cda2ee4a9
-  createdAt: '2014-05-21T08:51:20.396Z'
+              **Resource**: -
+examples:
+  - _type: Attachment
+    _links:
+      self:
+        href: "/api/v3/attachments/1"
+      container:
+        href: "/api/v3/work_packages/1"
+      author:
+        href: "/api/v3/users/1"
+      downloadLocation:
+        href: "/some/remote/aws/url/image.png"
+    id: 1
+    fileName: cat.png
+    fileSize: 24
+    status: uploaded
+    description:
+      format: plain
+      raw: A picture of a cute cat
+      html: "<p>A picture of a cute cat</p>"
+    contentType: image/png
+    digest:
+      algorithm: md5
+      hash: 64c26a8403cd796ea4cf913cda2ee4a9
+    createdAt: '2014-05-21T08:51:20.396Z'

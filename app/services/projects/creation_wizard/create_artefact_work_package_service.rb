@@ -28,14 +28,14 @@
 #++
 
 module Projects::CreationWizard
-  class CreateArtifactWorkPackageService < ::BaseServices::BaseContracted
+  class CreateArtefactWorkPackageService < ::BaseServices::BaseContracted
     include Contracted
     include ProjectsHelper
-    include ArtifactExporter
+    include ArtefactExporter
     include Rails.application.routes.url_helpers
     prepend Projects::Concerns::UpdateDemoData
 
-    def initialize(user:, model:, contract_class: Projects::CreateArtifactWorkPackageContract)
+    def initialize(user:, model:, contract_class: Projects::CreateArtefactWorkPackageContract)
       super(user:, contract_class:)
       self.model = model
     end
@@ -44,18 +44,18 @@ module Projects::CreationWizard
 
     private
 
-    attr_accessor :artifact_work_package
+    attr_accessor :artefact_work_package
 
     def persist(service_call)
-      creation_call = create_artifact_work_package
+      creation_call = create_artefact_work_package
 
       creation_call.on_success do
-        self.artifact_work_package = creation_call.result
-        project.project_creation_wizard_artifact_work_package_id = artifact_work_package.id
+        self.artefact_work_package = creation_call.result
+        project.project_creation_wizard_artifact_work_package_id = artefact_work_package.id
         project.save
       end
       creation_call.on_failure do
-        service_call.errors.add(:base, I18n.t("projects.wizard.create_artifact_work_package_error"))
+        service_call.errors.add(:base, I18n.t("projects.wizard.create_artefact_work_package_error"))
         service_call.merge!(creation_call)
       end
 
@@ -68,11 +68,11 @@ module Projects::CreationWizard
       return service_call if store_attachment_locally?
 
       if project_storage.nil?
-        service_call.errors.add(:base, I18n.t("projects.wizard.create_artifact_storage_error"))
+        service_call.errors.add(:base, I18n.t("projects.wizard.create_artefact_storage_error"))
         return service_call
       end
 
-      storage_call = upload_artifact_to_storage
+      storage_call = upload_artefact_to_storage
 
       storage_call.on_failure do
         service_call.merge!(storage_call, without_success: true)
@@ -84,12 +84,12 @@ module Projects::CreationWizard
     def send_notification_email
       return unless project.project_creation_wizard_send_confirmation_email
 
-      ProjectArtifactsMailer
-        .creation_wizard_submitted(user, project, artifact_work_package)
+      ProjectArtefactsMailer
+        .creation_wizard_submitted(user, project, artefact_work_package)
         .deliver_later
     end
 
-    def create_artifact_work_package
+    def create_artefact_work_package
       create_params = {
         project:,
         type_id: project.project_creation_wizard_work_package_type_id,
@@ -116,7 +116,7 @@ module Projects::CreationWizard
 
     def subject
       I18n.t(project.project_creation_wizard_artifact_name,
-             default: ::Projects::CreationWizard::DEFAULT_ARTIFACT_NAME_OPTION.to_sym,
+             default: ::Projects::CreationWizard::DEFAULT_ARTEFACT_NAME_OPTION.to_sym,
              scope: "settings.project_initiation_request.name.options")
     end
 
@@ -177,9 +177,9 @@ module Projects::CreationWizard
     end
 
     def wizard_relative_link
-      artifact_key = project.project_creation_wizard_artifact_name || "project_initiation_request"
+      artefact_key = project.project_creation_wizard_artifact_name || "project_initiation_request"
       link_text = I18n.t(
-        "settings.project_initiation_request.wizard_status_button.#{artifact_key}",
+        "settings.project_initiation_request.wizard_status_button.#{artefact_key}",
         default: I18n.t("settings.project_initiation_request.wizard_status_button.project_initiation_request")
       )
       "[#{link_text}](#{project_creation_wizard_path(project)})"

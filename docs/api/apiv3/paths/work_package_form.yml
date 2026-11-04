@@ -18,7 +18,7 @@ post:
     when sending `{ "startDate": "2022-08-23", duration: "P2D" }`, the response will
     include `{ "dueDate": "2022-08-24" }`.
 
-    **Custom Field Validation**  
+    **Custom Field Validation**
 
     Required custom fields are only validated when they are explicitly provided in the request body. If a custom field
     is not included in the form request, it will not be validated, allowing clients to validate partial updates
@@ -53,7 +53,7 @@ post:
             $ref: '../components/schemas/work_package_form_model.yml'
     '404':
       description: |-
-        Returned if the work package does not exist or the client does not have sufficient permissions to see it.	
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
 
         **Required permission:** view work package
       content:

@@ -45,7 +45,7 @@ type SeriesKey = 'remaining'|'guideline'|'projection';
 // expected on, and what was planned. Reordering this list reorders both.
 // It is not the order the lines are drawn in: datasets are drawn from the highest `order` down,
 // so that the filled remaining area sits under the lines, which runs the other way.
-const SERIES_STYLE:Record<SeriesKey|NonWorkingKey, SeriesStyle> = {
+const SERIES_STYLE:Record<SeriesKey|NonWorkingKey, SeriesStyle<SeriesKey>> = {
   remaining: {
     swatch: 'rect',
     borderDash: [],

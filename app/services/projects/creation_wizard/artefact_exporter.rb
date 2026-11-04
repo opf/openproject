@@ -28,44 +28,43 @@
 #++
 
 module Projects::CreationWizard
-  class ReuploadArtifactOnStatusChangesService
-    prepend Projects::Concerns::UpdateDemoData
-
-    attr_reader :current_user, :artifact_work_package
-
-    delegate :project, to: :artifact_work_package
-
-    def initialize(current_user:, work_package:)
-      @current_user = current_user
-      @artifact_work_package = work_package
-    end
-
-    def self.applicable?(work_package:, changes:)
-      return false if changes["status_id"].blank?
-
-      work_package.project.project_creation_wizard_artifact_work_package_id.to_s == work_package.id.to_s
-    end
-
-    def call!(changes:)
-      return unless self.class.applicable?(work_package: artifact_work_package, changes:)
-
-      User.execute_as_admin(current_user) do
-        update_artifact
-      end
-    end
-
+  module ArtefactExporter
     private
 
-    def update_artifact
-      call = UploadArtifactService
-        .new(user: current_user, project:, work_package: artifact_work_package)
-        .call
+    def store_attachment_locally?
+      project.project_creation_wizard_artifact_export_type == "attachment"
+    end
 
-      if call.success?
-        Rails.logger.debug { "Updated artifact for creation wizard in ##{artifact_work_package.id}" }
-      else
-        Rails.logger.error("Failed to process artifact change for ##{artifact_work_package.id}: ##{call.message}")
-      end
+    def project_storage
+      return @project_storage if defined?(@project_storage)
+
+      @project_storage = project
+        .project_storages
+        .find_by(id: project.project_creation_wizard_artifact_export_storage)
+    end
+
+    def create_pdf_export!
+      Project::PDFExport::ProjectInitiation.new(project).export!
+    end
+
+    def upload_artefact_to_storage
+      export = create_pdf_export!
+
+      Storages::UploadFileService
+        .call(
+          container: artefact_work_package,
+          project_storage:,
+          file_path: artefact_storage_folder_name,
+          file_data: StringIO.new(export.content),
+          filename: export.title
+        )
+    end
+
+    def artefact_storage_folder_name
+      I18n.t(project.project_creation_wizard_artifact_name,
+             locale: Setting.default_language,
+             default: :project_initiation_request,
+             scope: "settings.project_initiation_request.name.options")
     end
   end
 end

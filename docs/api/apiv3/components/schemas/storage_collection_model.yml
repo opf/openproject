@@ -17,7 +17,7 @@ allOf:
               - $ref: './link.yml'
               - description: |-
                   This storage collection
-                  
+
                   **Resource**: StorageCollectionReadModel
       _embedded:
         type: object

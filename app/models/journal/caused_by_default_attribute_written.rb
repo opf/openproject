@@ -27,46 +27,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::CreationWizard
-  class SubmitArtifactService
-    attr_reader :user, :project
-
-    def initialize(user:, project:)
-      @user = user
-      @project = project
-    end
-
-    def call
-      if artifact_work_package_exists?
-        upload_artifact
-      else
-        create_artifact_work_package
-      end
-    end
-
-    private
-
-    def artifact_work_package_exists?
-      WorkPackage.exists?(project.project_creation_wizard_artifact_work_package_id)
-    end
-
-    def create_artifact_work_package
-      CreateArtifactWorkPackageService
-        .new(user:, model: project)
-        .call
-    end
-
-    def upload_artifact
-      work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
-      upload_call = UploadArtifactService
-        .new(user:, project:, work_package:)
-        .call
-
-      service_call = ServiceResult.success(result: project)
-      upload_call.on_failure do
-        service_call.merge!(upload_call, without_success: true)
-      end
-      service_call
-    end
+class Journal::CausedByDefaultAttributeWritten < CauseOfChange::Base
+  def initialize
+    super("default_attribute_written")
   end
 end

@@ -27,44 +27,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::CreationWizard
-  module ArtifactExporter
-    private
+require "spec_helper"
 
-    def store_attachment_locally?
-      project.project_creation_wizard_artifact_export_type == "attachment"
-    end
+RSpec.describe Journals::CreateService do
+  let(:work_package) { build_stubbed(:work_package) }
+  let(:user) { build_stubbed(:user) }
 
-    def project_storage
-      return @project_storage if defined?(@project_storage)
-
-      @project_storage = project
-        .project_storages
-        .find_by(id: project.project_creation_wizard_artifact_export_storage)
-    end
-
-    def create_pdf_export!
-      Project::PDFExport::ProjectInitiation.new(project).export!
-    end
-
-    def upload_artifact_to_storage
-      export = create_pdf_export!
-
-      Storages::UploadFileService
-        .call(
-          container: artifact_work_package,
-          project_storage:,
-          file_path: artifact_storage_folder_name,
-          file_data: StringIO.new(export.content),
-          filename: export.title
-        )
-    end
-
-    def artifact_storage_folder_name
-      I18n.t(project.project_creation_wizard_artifact_name,
-             locale: Setting.default_language,
-             default: :project_initiation_request,
-             scope: "settings.project_initiation_request.name.options")
+  describe "#call" do
+    it "rejects a cause that is not a cause object" do
+      expect { described_class.new(work_package, user).call(cause: { "type" => "default_attribute_written" }) }
+        .to raise_error(CauseOfChange::InvalidCauseError, /got Hash/)
     end
   end
 end

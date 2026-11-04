@@ -92,7 +92,7 @@ Once all required fields are completed, click **Complete** to submit the project
 A new work package is created automatically. It contains:
 
 - A comment indicating that the project creation wizard was completed 
-- A generated PDF artifact with all submitted information attached for reference and audit purposes 
+- A generated PDF artefact with all submitted information attached for reference and audit purposes 
 - A link to reopen the project creation wizard if updates are needed 
 
 The responsible person defined during initiation is assigned to the work package and mentioned in a comment indicating that the request is awaiting review. In this example this person was earlier defined during the project initiation request, in the project attribute field called _PIR controller_. 

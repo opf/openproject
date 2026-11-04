@@ -27,29 +27,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
-
-RSpec.describe Attachments::ImportCreateService do
-  subject(:service) { described_class.new(user:, contract_class: EmptyContract) }
-
-  let(:user) { create(:admin) }
-  let(:work_package) { create(:work_package) }
-  let(:file) { FileHelpers.mock_uploaded_file(name: "picture.png", content_type: "image/png") }
-
-  it "creates the attachment on the container" do
-    call = service.call(container: work_package, filename: "picture.png", file:)
-
-    expect(call).to be_success
-    expect(work_package.attachments.reload.map(&:filename)).to eq(["picture.png"])
+class Journal::CausedByLabelDeletion < CauseOfChange::Base
+  def initialize(label_ids:, label_names:)
+    super("label_deleted", "label_ids" => label_ids, "label_names" => label_names)
   end
 
-  it "does not journalize the container" do
-    expect { service.call(container: work_package, filename: "picture.png", file:) }
-      .not_to change { work_package.journals.reload.count }
+  # Labels deleted in quick succession by the same user are merged into the same cause
+  def merge_into(predecessor_cause)
+    return unless label_deletion?(predecessor_cause)
+
+    merged = names_by_id(predecessor_cause).merge(names_by_id(to_hash))
+
+    self.class.new(label_ids: merged.keys, label_names: merged.values)
   end
 
-  it "does not touch the container" do
-    expect { service.call(container: work_package, filename: "picture.png", file:) }
-      .not_to change { work_package.reload.updated_at }
+  private
+
+  def label_deletion?(cause)
+    cause["type"] == type
+  end
+
+  def names_by_id(cause)
+    cause["label_ids"].zip(cause["label_names"]).to_h
   end
 end
