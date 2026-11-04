@@ -55,7 +55,7 @@ module Backlogs
         def query_props
           {
             filters: filters.to_json,
-            "columns[]": %w[id subject type status assigned_to story_points],
+            "columns[]": %w[id subject type status assigned_to] + Array(estimation_column),
             sortBy: [%w[position asc]].to_json,
             showHierarchies: false,
             includeSubprojects: false,
@@ -95,6 +95,14 @@ module Backlogs
         end
 
         def empty? = raise SubclassResponsibilityError
+
+        def estimation_column
+          if project.estimation_unit_story_points?
+            "story_points"
+          elsif project.estimation_unit_time?
+            "estimated_hours"
+          end
+        end
 
         def filters
           [
