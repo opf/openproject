@@ -32,17 +32,20 @@ module OpenProject::Projects
   class HoverCardComponentPreview < ViewComponent::Preview
     SCOPES = %i[visible active].freeze
 
-    def no_hierarchy
+    # @param archived [boolean]
+    def no_hierarchy(archived: false)
       user = FactoryBot.build_stubbed(:admin)
-      project = FactoryBot.build_stubbed(:project, status_code: :on_track, status_explanation: "some explanation")
+      project = FactoryBot.build_stubbed(:project, status_code: :on_track, status_explanation: "some explanation",
+                                                   active: !archived)
       render(::Projects::HoverCardComponent.new(project:, user:))
     end
 
-    def with_hierarchy
+    # @param archived [boolean]
+    def with_hierarchy(archived: false)
       user = FactoryBot.build_stubbed(:admin)
       root = FactoryBot.build_stubbed(:project, name: "Arcanos Flight Planning")
       child = FactoryBot.build_stubbed(:project, name: "Mobile app", parent: root)
-      leaf = FactoryBot.build_stubbed(:project, active: true, name: "Data sources", parent: child, status_code: :on_track,
+      leaf = FactoryBot.build_stubbed(:project, active: !archived, name: "Data sources", parent: child, status_code: :on_track,
                                                 status_explanation: "some explanation")
 
       chain = [root, child, leaf]

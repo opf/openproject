@@ -47,7 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
 
     if @show_workspace_type
       flex.with_column(mr: 2) do
-        render(Projects::WorkspaceLabelComponent.new(type: @project.workspace_type))
+        render(Projects::WorkspaceLabelComponent.new(type: @project.workspace_type, data: { test_selector: "project-info-line-workspace-type" }))
       end
     end
 
