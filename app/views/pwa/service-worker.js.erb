@@ -304,7 +304,8 @@ class Digest {
  *                                               push (it may have re-shown some)
  * summary fetched across a sign-out, or while one is in progress ► discarded, fallback
  *
- * reconcile message ──► queue ──► GET push summary, same outcomes as a push except that
+ * reconcile message ──► queue ──► none of its notifications open? stop
+ *                                  else GET push summary, same outcomes as a push except that
  *                                  nothing is shown and "all read" is not announced; unavailable
  *                                  does nothing; unread closes unlisted notifications (marked
  *                                  evicted when more are collapsed), sets the badge, saves state
@@ -406,6 +407,8 @@ class PushHandler {
 
   async reconcile() {
     const generation = this.signOutGeneration;
+    if ((await Notifications.listOpen()).length === 0) return;
+
     const summary = await UnreadSummary.fetch();
     if (generation !== this.signOutGeneration || this.signOutsInProgress > 0) return;
 
