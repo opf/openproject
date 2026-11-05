@@ -169,10 +169,9 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
 
       global_search.expect_work_package_marked(search_target)
 
-      # Expect to have 3 project scope selecting menu entries
-      global_search.expect_scope("In this project ↵")
-      global_search.expect_scope("In this project + subprojects ↵")
-      global_search.expect_scope("In all projects ↵")
+      global_search.expect_scope("In this project")
+      global_search.expect_scope("In this project + subprojects")
+      global_search.expect_scope("In all projects")
 
       # Selection project scope 'In all projects' redirects away from current project.
       global_search.submit_in_global_scope

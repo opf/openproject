@@ -38,6 +38,8 @@ module Queries::Meetings
     filter Filters::RecurringFilter
     filter Filters::TitleFilter
     filter Filters::StateFilter
+    filter Filters::SearchFilter
+    filter Filters::UpdatedAtFilter
 
     order Orders::DefaultOrder
   end
