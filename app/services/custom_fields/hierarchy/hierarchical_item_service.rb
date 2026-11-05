@@ -257,7 +257,7 @@ module CustomFields
       end
 
       def update_position_cache(root)
-        sql = <<-SQL.squish
+        sql = <<~SQL.squish
           UPDATE hierarchical_items
           SET position_cache = ranked.position
           FROM (
