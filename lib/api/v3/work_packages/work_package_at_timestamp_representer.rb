@@ -39,7 +39,9 @@ module API
         # Probably, way more, maybe even all properties are supported but that is untested.
         SUPPORTED_NON_LINK_PROPERTIES = %w[
           date
+          derived_estimated_time
           due_date
+          estimated_time
           start_date
           subject
           story_points
@@ -124,6 +126,7 @@ module API
           # This conversion is good enough for the set of supported properties as it
           # * Converts assigned_to_id to assignee
           # * does not mess with `start_date` and `due_date`
+          # * renders own and derived work together, as one cell displays both
           if represented.exists_at_current_timestamp?
             represented
               .attributes_changed_to_baseline
@@ -132,6 +135,8 @@ module API
                 API::Utilities::PropertyNameConverter.from_ar_name(property)
               elsif %w[start_date due_date].include?(property)
                 ["date", property]
+              elsif %w[estimated_hours derived_estimated_hours].include?(property)
+                %w[estimated_time derived_estimated_time]
               else
                 property
               end
