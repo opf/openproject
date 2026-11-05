@@ -53,10 +53,19 @@ class Timestamp::Humanizer
   private
 
   def duration_text
-    parts = @timestamp.to_duration.parts.filter_map do |unit, amount|
-      I18n.t("datetime.distance_in_words.x_#{unit}", count: amount.abs) unless amount.zero?
+    duration = @timestamp.to_duration
+    return I18n.t("js.label_current") if duration.zero?
+
+    parts = duration_parts(duration).filter_map do |unit, amount|
+      I18n.t("datetime.distance_in_words.x_#{unit}", count: amount) unless amount.zero?
     end
     I18n.t("time.relative_ago", time: parts.to_sentence)
+  end
+
+  def duration_parts(duration)
+    return duration.parts if duration.parts.values.none?(&:negative?)
+
+    ActiveSupport::Duration.build(duration.abs).parts
   end
 
   def keyword_text

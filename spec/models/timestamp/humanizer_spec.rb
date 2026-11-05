@@ -32,8 +32,12 @@ require "spec_helper"
 RSpec.describe Timestamp::Humanizer do
   {
     "PT0S" => "current",
+    "P0D" => "current",
     "P1W" => "1 week ago",
     "P2DT3H" => "2 days and 3 hours ago",
+    "PT36H" => "36 hours ago",
+    "P1DT-2H" => "22 hours ago",
+    "P-1DT2H" => "22 hours ago",
     "invalid" => nil
   }.each do |value, expected|
     it "describes #{value} without resolving relative dates" do
