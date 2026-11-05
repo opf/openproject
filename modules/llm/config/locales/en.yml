@@ -91,7 +91,6 @@ en:
               locked_while_indexing: "cannot be changed while it is being indexed."
             model_id:
               not_offered: "is not an embedding model offered by the configured LLM server."
-          locked_once_indexed: "cannot be changed once the Semantic Index has been indexed."
   admin:
     semantic_indexes:
       indexing:

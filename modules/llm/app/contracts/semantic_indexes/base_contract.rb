@@ -33,11 +33,11 @@ module SemanticIndexes
 
     attribute :title
     attribute :description
-    attribute :model_id
-    attribute :embedding_vector_dimensions
-    attribute :context_token_length
+    attribute :model_id, writable: -> { model.new_record? }
+    attribute :embedding_vector_dimensions, writable: -> { model.new_record? }
+    attribute :context_token_length, writable: -> { model.new_record? }
 
-    validate :model_offered, if: -> { model.model_id.present? && model.model_id_changed? }
+    validate :model_offered, if: -> { model.model_id.present? && model.new_record? }
 
     private
 

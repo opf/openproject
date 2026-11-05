@@ -37,53 +37,45 @@ RSpec.describe SemanticIndexes::UpdateContract do
 
   let(:semantic_index) { create(:semantic_index) }
   let(:contract) { described_class.new(semantic_index, current_user) }
+  let(:current_user) { build_stubbed(:admin) }
 
   it_behaves_like "contract is valid for active admins and invalid for regular users"
 
-  include_examples "contract reuses the model errors" do
-    let(:current_user) { build_stubbed(:admin) }
-  end
+  include_examples "contract reuses the model errors"
 
   context "when the stored model is no longer offered" do
-    let(:current_user) { build_stubbed(:admin) }
-
-    before { connection.capability_verdicts.destroy_all }
-
-    it "still allows renaming" do
+    before do
+      connection.capability_verdicts.destroy_all
       semantic_index.title = "Renamed"
-
-      expect(contract.validate).to be(true)
     end
+
+    it_behaves_like "contract is valid"
   end
 
-  context "when the Semantic Index has not been indexed" do
-    let(:current_user) { build_stubbed(:admin) }
-
-    it "allows changing the parameters" do
-      semantic_index.context_token_length = 4096
-
-      expect(contract.validate).to be(true)
+  context "when renaming or changing description" do
+    before do
+      semantic_index.title = "Renamed"
+      semantic_index.description = "New description"
     end
+
+    it_behaves_like "contract is valid"
   end
 
-  %w[indexing ready failed].each do |state|
-    context "when the Semantic Index is #{state}" do
-      let(:current_user) { build_stubbed(:admin) }
+  context "when changing the model_id" do
+    before { semantic_index.model_id = "other-model" }
 
-      before { semantic_index.update!(state:) }
+    it_behaves_like "contract is invalid", model_id: :error_readonly
+  end
 
-      it "allows renaming" do
-        semantic_index.title = "Renamed"
+  context "when changing the embedding_vector_dimensions" do
+    before { semantic_index.embedding_vector_dimensions = 512 }
 
-        expect(contract.validate).to be(true)
-      end
+    it_behaves_like "contract is invalid", embedding_vector_dimensions: :error_readonly
+  end
 
-      it "locks the parameters" do
-        semantic_index.context_token_length = 4096
+  context "when changing the context_token_length" do
+    before { semantic_index.context_token_length = 4096 }
 
-        expect(contract.validate).to be(false)
-        expect(contract.errors.details[:context_token_length]).to include(error: :locked_once_indexed)
-      end
-    end
+    it_behaves_like "contract is invalid", context_token_length: :error_readonly
   end
 end
