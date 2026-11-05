@@ -4,32 +4,34 @@ import { cachedWorkPackageSchema, loadWorkPackage } from '../../services/workPac
 import { findAttribute } from './attributes';
 import type { AttributeNodeKind } from './externalHtml';
 import type { AttributeMacro } from './macros';
-import type { AttributeChoice } from './types';
 
-export interface ResolvedMacro {
-  choice:AttributeChoice;
+export interface ResolvedReference {
+  wpid:string;
+  displayId:string;
+  attribute:string;
   kind:AttributeNodeKind;
 }
 
+export function referenceKey({ reference, attribute }:AttributeMacro):string {
+  return JSON.stringify([reference, attribute]);
+}
+
 // Null when the work package is not visible or has no such attribute.
-export async function resolveAttributeMacro(macro:AttributeMacro):Promise<ResolvedMacro | null> {
+export async function resolveReference({ reference, attribute }:AttributeMacro):Promise<ResolvedReference | null> {
   try {
-    const id = await workPackageIdOf(macro.reference);
+    const id = await workPackageIdOf(reference);
     if (id === undefined) return null;
 
     const workPackage = await loadWorkPackage(id);
     const schema = cachedWorkPackageSchema(workPackage);
-    const attribute = schema && findAttribute(schema, macro.attribute);
-    if (!attribute) return null;
+    const found = schema && findAttribute(schema, attribute);
+    if (!found) return null;
 
     return {
-      choice: {
-        wpid: String(workPackage.id),
-        displayId: workPackage.displayId,
-        attribute: attribute.reference,
-        display: macro.display,
-      },
-      kind: attribute.block ? 'block' : 'inline',
+      wpid: String(workPackage.id),
+      displayId: workPackage.displayId,
+      attribute: found.reference,
+      kind: found.block ? 'block' : 'inline',
     };
   }
   catch {

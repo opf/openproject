@@ -12,13 +12,14 @@ interface Node { type:string, text?:string, props?:Record<string, unknown>, cont
 interface Editor { document:Node[] }
 
 const ATTRIBUTE = 'openProjectWorkPackageAttributeInline';
+const ATTRIBUTE_BLOCK = 'openProjectWorkPackageAttributeBlock';
 
 // CKEditor keeps attribute macros as plain text, so that is what it copies.
 function pasteFromCKEditor(text:string) {
   const editable = document.querySelector('.bn-editor');
   if (!(editable instanceof HTMLElement)) throw new Error('No [contenteditable] to paste into');
   const data = new DataTransfer();
-  data.setData('text/html', `<p>${text.replace(/"/g, '&quot;')}</p>`);
+  data.setData('text/html', text.split('\n').map((line) => `<p>${line.replace(/"/g, '&quot;')}</p>`).join(''));
   data.setData('text/plain', text);
   editable.dispatchEvent(new ClipboardEvent('paste', { clipboardData: data, bubbles: true, cancelable: true }));
 }
@@ -39,8 +40,23 @@ function attributes(editor:Editor) {
   return inlineContent(editor).filter((node) => node.type === ATTRIBUTE).map((node) => node.props);
 }
 
+function textOf(nodes:Node[]):string {
+  return nodes.map((node) => (node.type === 'text' ? node.text : `[${node.type}]`)).join('');
+}
+
 function text(editor:Editor):string {
-  return inlineContent(editor).map((node) => (node.type === 'text' ? node.text : `[${node.type}]`)).join('');
+  return textOf(inlineContent(editor));
+}
+
+function blocks(editor:Editor):string[] {
+  return editor.document.map((block) => (block.content ? textOf(block.content) : `[${block.type}]`));
+}
+
+function delayWorkPackageLoads() {
+  let release = () => {};
+  const released = new Promise<void>((resolve) => { release = resolve; });
+  worker.use(http.get('http://localhost:3000/api/v3/work_packages', async () => { await released; }));
+  return release;
 }
 
 afterEach(() => {
@@ -116,7 +132,7 @@ describe('Pasting work package attribute macros from CKEditor', () => {
 
     pasteFromCKEditor('workPackageValue:321:description');
 
-    await vi.waitFor(() => expect(editor().document.find((block) => block.type === 'openProjectWorkPackageAttributeBlock')?.props)
+    await vi.waitFor(() => expect(editor().document.find((block) => block.type === ATTRIBUTE_BLOCK)?.props)
       .toEqual({ wpid: '321', displayId: 'PROJ-321', attribute: 'description', display: 'value' }));
     await expect.element(page.getByText('Kick-off')).toBeVisible();
   });
@@ -129,5 +145,49 @@ describe('Pasting work package attribute macros from CKEditor', () => {
     await vi.waitFor(() => expect(text(editor())).toBe('workPackageValue:assignee'));
     expect(attributes(editor())).toEqual([]);
   });
-});
 
+  it('converts the macros of every pasted paragraph', async () => {
+    const editor = await renderEmptyEditor();
+
+    pasteFromCKEditor('Owner workPackageValue:321:assignee\nworkPackageLabel:321:status here');
+
+    await vi.waitFor(() => expect(blocks(editor()).slice(0, 2)).toEqual([
+      `Owner [${ATTRIBUTE}]`,
+      `[${ATTRIBUTE}] here`,
+    ]));
+  });
+
+  it('splits the line around a long text, keeping the reading order', async () => {
+    const editor = await renderEmptyEditor();
+
+    pasteFromCKEditor('Before workPackageValue:321:description after');
+
+    await vi.waitFor(() => expect(blocks(editor()).slice(0, 3)).toEqual([
+      'Before ',
+      `[${ATTRIBUTE_BLOCK}]`,
+      ' after',
+    ]));
+  });
+
+  it('replaces the selected text with a long text', async () => {
+    const editor = await renderEmptyEditor('Selected text');
+    await userEvent.keyboard('{Shift>}{Home}{/Shift}');
+
+    pasteFromCKEditor('workPackageValue:321:description');
+
+    await vi.waitFor(() => expect(blocks(editor())[0]).toBe(`[${ATTRIBUTE_BLOCK}]`));
+    expect(text(editor())).not.toContain('Selected text');
+  });
+
+  it('converts the macro where it was pasted, while the user keeps typing elsewhere', async () => {
+    const release = delayWorkPackageLoads();
+    const editor = await renderEmptyEditor('Hello ');
+
+    pasteFromCKEditor('workPackageValue:321:assignee');
+    await vi.waitFor(() => expect(text(editor())).toBe('Hello workPackageValue:321:assignee'));
+    await userEvent.keyboard('{Home}Oh, ');
+    release();
+
+    await vi.waitFor(() => expect(text(editor())).toBe(`Oh, Hello [${ATTRIBUTE}]`));
+  });
+});
