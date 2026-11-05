@@ -126,18 +126,6 @@ module CustomField::CalculatedValue
   included do
     validate :validate_formula, if: :field_format_calculated_value?
 
-    def validate_formula
-      if formula_string.blank?
-        errors.add(:formula, :blank)
-      elsif !formula_contains_only_allowed_tokens?
-        errors.add(:formula, :invalid_tokens)
-      elsif !valid_formula_syntax?
-        errors.add(:formula, :invalid)
-      else
-        validate_referenced_custom_fields
-      end
-    end
-
     def formula=(value)
       if value.is_a?(String)
         super({ formula: value, referenced_custom_fields: cf_ids_used_in_formula(value) })
@@ -165,21 +153,6 @@ module CustomField::CalculatedValue
         .select { it.can_be_referenced_by?(id, cache) }
     end
 
-    def validate_referenced_custom_fields
-      # We can only validate used custom fields from a high-level perspective, since at this point in validation,
-      # we do not have a project context to check against. So we cannot check if the custom fields are actually
-      # enabled for a project and visible to a non-admin user.
-      formula_cfs = formula_referenced_custom_field_ids
-      allowed_cfs = usable_custom_field_references_for_formula.pluck(:id)
-
-      surplus_cfs = formula_cfs - allowed_cfs
-
-      if surplus_cfs.any?
-        custom_field_names = CustomField.where(id: surplus_cfs).pluck(:name).sort
-        errors.add(:formula, :not_allowed_custom_fields_referenced, custom_fields: custom_field_names.join(", "))
-      end
-    end
-
     def can_be_referenced_by?(target_id, cache = {})
       return true unless field_format_calculated_value?
 
@@ -201,6 +174,19 @@ module CustomField::CalculatedValue
 
     private
 
+    def validate_formula
+      if formula_string.blank?
+        errors.add(:formula, :blank)
+      elsif !formula_contains_only_allowed_tokens?
+        errors.add(:formula, :invalid_tokens)
+      elsif !valid_formula_syntax?
+        errors.add(:formula, :invalid)
+      else
+        validate_referenced_custom_fields
+        # validate_multi_value_list_usage
+      end
+    end
+
     def valid_formula_syntax?
       # Attempt to parse the formula. If no error is returned, the formula is syntactically valid.
       CustomField::CalculatedValue.calculator_instance.ast(formula_str_without_patterns)
@@ -218,6 +204,21 @@ module CustomField::CalculatedValue
       # Once this basic validation passes, the formula will be parsed and validated by Dentaku, which builds an AST
       # and ensures that the formula is really valid.
       formula_string.split(FORMULA_SPLITTER).all?(FORMULA_TOKENS)
+    end
+
+    def validate_referenced_custom_fields
+      # We can only validate used custom fields from a high-level perspective, since at this point in validation,
+      # we do not have a project context to check against. So we cannot check if the custom fields are actually
+      # enabled for a project and visible to a non-admin user.
+      formula_cfs = formula_referenced_custom_field_ids
+      allowed_cfs = usable_custom_field_references_for_formula.pluck(:id)
+
+      surplus_cfs = formula_cfs - allowed_cfs
+
+      if surplus_cfs.any?
+        custom_field_names = CustomField.where(id: surplus_cfs).pluck(:name).sort
+        errors.add(:formula, :not_allowed_custom_fields_referenced, custom_fields: custom_field_names.join(", "))
+      end
     end
 
     # Returns a list of custom field IDs used in the formula.
