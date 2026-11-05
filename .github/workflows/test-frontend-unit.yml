@@ -87,6 +87,8 @@ jobs:
       image: mcr.microsoft.com/playwright:v${{ needs.playwright-version.outputs.version }}-noble
       options: --ipc=host
     timeout-minutes: 15
+    env:
+      SHARDS: 3
     strategy:
       fail-fast: false
       matrix:
@@ -118,14 +120,28 @@ jobs:
         # WebKit keeps the memory of every spec iframe until it exits, so one
         # run over the whole suite exhausts the runner. Each shard starts a
         # fresh browser.
+        # The shards annotate failures but leave the job summary to the Report
+        # step, which merges their blob reports into one.
         env:
-          SHARDS: 3
           BROWSER: ${{ matrix.browser }}
         run: |
           status=0
           for shard in $(seq 1 "$SHARDS"); do
             echo "::group::Shard $shard/$SHARDS"
-            VITEST_SHARD="$shard/$SHARDS" npm test -- --browsers "$BROWSER" --reporters dot --reporters github-actions || status=1
+            GITHUB_STEP_SUMMARY='' VITEST_SHARD="$shard/$SHARDS" npm test -- --browsers "$BROWSER" --reporters dot --reporters github-actions --reporters blob || status=1
             echo "::endgroup::"
           done
           exit "$status"
+
+      - name: Report
+        if: ${{ !cancelled() }}
+        run: |
+          for shard in $(seq 1 "$SHARDS"); do
+            if [ ! -f ".vitest/blob/blob-$shard-$SHARDS.json" ]; then
+              echo "::error::Shard $shard/$SHARDS left no report, so its specs are missing from the summary."
+              printf '> [!CAUTION]\n> Shard %s/%s crashed before reporting. Its specs are missing below.\n\n' "$shard" "$SHARDS" >> "$GITHUB_STEP_SUMMARY"
+            fi
+          done
+          if ls .vitest/blob/*.json > /dev/null 2>&1; then
+            npx vitest --merge-reports .vitest/blob --reporter=github-actions || true
+          fi
