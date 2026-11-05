@@ -29,6 +29,8 @@
 
 module SquashTMIntegration
   class ConnectionCheck
+    MINIMUM_VERSION = Gem::Version.new("15.0.2")
+
     def initialize(base_url:, api_token:)
       @base_url = base_url
       @client = Client.new(base_url:, api_token:)
@@ -36,6 +38,7 @@ module SquashTMIntegration
 
     def call(errors)
       @client.projects(size: 1)
+      check_version(errors)
     rescue Client::SsrfError
       errors.add(:base, :base_url_ssrf_filtered, url: @base_url, env_name: Settings::Definition[:ssrf_protection_ip_allowlist].env_name)
     rescue Client::TimeoutError
@@ -52,6 +55,22 @@ module SquashTMIntegration
       errors.add(:base, :base_url_server_error, url: @base_url, status: e.status)
     rescue Client::UnexpectedStatusError, Client::InvalidResponseError
       errors.add(:base, :base_url_not_squashtm, url: @base_url)
+    end
+
+    private
+
+    def check_version(errors)
+      version = installed_version
+      return if version && version >= MINIMUM_VERSION
+
+      errors.add(:base, :squashtm_version_unsupported, version: version || "unknown", minimum: MINIMUM_VERSION)
+    end
+
+    def installed_version
+      number = @client.version.to_s[/\A\d+(\.\d+)*/]
+      number && Gem::Version.new(number)
+    rescue Client::NotFoundError, Client::InvalidResponseError
+      nil
     end
   end
 end

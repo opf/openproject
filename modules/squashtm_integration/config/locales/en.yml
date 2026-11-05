@@ -19,6 +19,7 @@ en:
               base_url_ssl_error: "The SquashTM server at %{url} could not be reached over a secure connection. Please check its TLS certificate."
               base_url_ssrf_filtered: "The SquashTM URL %{url} resolves to a blocked address. If the server runs on an internal network, allow its IP via the %{env_name} environment variable."
               singleton: "Only one SquashTM server can be configured."
+              squashtm_version_unsupported: "The SquashTM server runs version %{version}, but version %{minimum} or newer is required."
   permission_manage_squashtm_integration: "Manage SquashTM integration"
   permission_manage_squashtm_links: "Manage SquashTM requirement links"
   permission_view_squashtm_test_results: "View SquashTM test results"

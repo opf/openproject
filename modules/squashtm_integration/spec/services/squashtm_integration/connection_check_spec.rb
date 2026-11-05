@@ -37,6 +37,7 @@ RSpec.describe SquashTMIntegration::ConnectionCheck do
 
   before do
     allow(SquashTMIntegration::Client).to receive(:new).and_return(client)
+    allow(client).to receive(:version).and_return("15.0.2.RELEASE")
   end
 
   it "adds no errors when SquashTM answers" do
@@ -45,6 +46,47 @@ RSpec.describe SquashTMIntegration::ConnectionCheck do
     check
 
     expect(errors).to be_empty
+  end
+
+  describe "version check" do
+    before { allow(client).to receive(:projects).and_return({}) }
+
+    %w[15.0.2.RELEASE 15.0.3.RELEASE 15.1.0 16.0.0.RELEASE].each do |version|
+      it "accepts #{version}" do
+        allow(client).to receive(:version).and_return(version)
+
+        check
+
+        expect(errors).to be_empty
+      end
+    end
+
+    it "rejects a version below the minimum" do
+      allow(client).to receive(:version).and_return("14.2.0.RELEASE")
+
+      check
+
+      expect(errors.details[:base])
+        .to eq([{ error: :squashtm_version_unsupported, version: "14.2.0", minimum: Gem::Version.new("15.0.2") }])
+      expect(errors.full_messages).to eq(["The SquashTM server runs version 14.2.0, but version 15.0.2 or newer is required."])
+    end
+
+    it "rejects a server that does not report its version" do
+      allow(client).to receive(:version).and_raise(SquashTMIntegration::Client::NotFoundError.new(404))
+
+      check
+
+      expect(errors.details[:base].pluck(:error)).to eq([:squashtm_version_unsupported])
+      expect(errors.details[:base].first[:version]).to eq("unknown")
+    end
+
+    it "rejects an unparseable version" do
+      allow(client).to receive(:version).and_return("snapshot")
+
+      check
+
+      expect(errors.details[:base].first).to include(error: :squashtm_version_unsupported, version: "unknown")
+    end
   end
 
   {

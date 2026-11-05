@@ -30,6 +30,7 @@
 module SquashTMIntegration
   class Client
     API_PATH = "/api/rest/latest"
+    BACKEND_PATH = "/backend"
 
     class Error < StandardError; end
     class ConnectionError < Error; end
@@ -65,6 +66,11 @@ module SquashTMIntegration
 
     def projects(page: 0, size: 20)
       get("projects", page:, size:)
+    end
+
+    def version
+      response = request(uri_for("version", BACKEND_PATH))
+      response.fetch("version") { raise InvalidResponseError, "SquashTM version is missing" }
     end
 
     def all_projects
@@ -104,7 +110,11 @@ module SquashTMIntegration
     end
 
     def get(path, query = {})
-      response = session.get(uri_for(path), params: query)
+      request(uri_for(path), query)
+    end
+
+    def request(uri, query = {})
+      response = session.get(uri, params: query)
       handle_transport_error(response) if response.is_a?(HTTPX::ErrorResponse)
       handle_status(response)
       parse(response)
@@ -114,8 +124,8 @@ module SquashTMIntegration
       OpenProject.httpx.bearer_auth(api_token).with(headers: { "accept" => "application/json" })
     end
 
-    def uri_for(path)
-      uri = URI.parse("#{base_url}#{API_PATH}/#{path}")
+    def uri_for(path, path_prefix = API_PATH)
+      uri = URI.parse("#{base_url}#{path_prefix}/#{path}")
       raise InvalidUrlError unless uri.is_a?(URI::HTTP) && uri.host.present?
 
       uri
