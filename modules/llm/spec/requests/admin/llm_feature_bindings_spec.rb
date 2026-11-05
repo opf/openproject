@@ -115,15 +115,15 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
          with_flag: { llm_connection: true, ai_text_actions: true } do
         get llm_feature_bindings_path
 
-        expect(page).to have_link("text assistant actions", href: admin_text_actions_path)
+        expect(page).to have_link("text actions", href: admin_text_actions_path)
       end
 
       it "names the text actions without a link when they are inactive",
          with_flag: { llm_connection: true, ai_text_actions: false } do
         get llm_feature_bindings_path
 
-        expect(page).to have_text("Runs the text assistant actions users apply to work package descriptions")
-        expect(page).to have_no_link("text assistant actions")
+        expect(page).to have_text("Runs the text actions users apply to work package descriptions")
+        expect(page).to have_no_link("text actions")
       end
 
       # Semantic search is registered but not built, so it carries a flag of its

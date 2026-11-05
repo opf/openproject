@@ -1098,8 +1098,8 @@ en:
         one: "Action"
         other: "Actions"
       ai/text_action:
-        one: "Text assistant action"
-        other: "Text assistant actions"
+        one: "Text action"
+        other: "Text actions"
       ai/text_transform_run:
         one: "Text transform run"
         other: "Text transform runs"
@@ -2229,9 +2229,9 @@ en:
         disabled_warning: "All text actions are disabled. The text editor will not show the text action options at all."
         label_disable_all: "Disable all"
         label_enable_all: "Enable all"
-        title: "Actions"
+        title: "Action"
       new:
-        title: "New text assistant action"
+        title: "New text action"
       row_component:
         label_actions: "Action menu"
         label_toggle: "Toggle %{label}"

@@ -84,7 +84,7 @@ RSpec.describe "Admin text actions", :skip_csrf,
       get new_admin_text_action_path
 
       expect(response).to have_http_status(:ok)
-      expect(page).to have_text("New text assistant action")
+      expect(page).to have_text("New text action")
     end
 
     it "associates the types label, caption and select panel button" do
