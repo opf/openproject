@@ -29,6 +29,8 @@
 
 module CustomFields
   class DetailsForm < ApplicationForm
+    include Redmine::I18n
+
     form do |details_form|
       if model.new_record?
         details_form.hidden(
@@ -115,7 +117,7 @@ module CustomFields
           suggestions: formula_suggestions,
           label: I18n.t(:label_formula),
           required: true,
-          caption: instructions(:formula)
+          caption: formula_caption
         )
       end
 
@@ -459,6 +461,12 @@ module CustomFields
         keywords: { title: I18n.t("label_keyword_plural"), tokens: FORMULA_KEYWORD_SUGGESTIONS },
         constants: { title: I18n.t("label_constant_plural"), tokens: FORMULA_CONSTANT_SUGGESTIONS }
       }
+    end
+
+    private
+
+    def formula_caption
+      link_translate("custom_fields.instructions.formula.project", links: { docs_url: :calculated_value_formula_docs })
     end
   end
 end
