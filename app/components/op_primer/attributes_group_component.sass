@@ -31,3 +31,40 @@
 
     @media screen and (max-width: $breakpoint-sm)
       flex-basis: auto
+
+.AttributesGroup--tabular
+  .AttributesGroupWrap
+    display: grid
+    grid-template-columns: fit-content(40%) minmax(0, 1fr)
+    column-gap: var(--base-size-16)
+    row-gap: var(--base-size-8)
+
+  .AttributesGroupItem
+    display: grid
+    grid-column: 1 / -1
+    grid-template-columns: subgrid
+    row-gap: var(--base-size-4)
+    overflow: visible
+
+    .AttributesGroupItem-key,
+    .AttributesGroupItem-value
+      min-width: 0
+      padding: 0
+      overflow-wrap: anywhere
+
+    .AttributesGroupItem-key
+      display: block
+      grid-column: 1
+      grid-row: 1
+      font-weight: var(--base-text-weight-normal, 400)
+
+    .AttributesGroupItem-value
+      grid-column: 2
+      margin: 0
+      height: auto
+      overflow: visible
+      text-overflow: clip
+
+.AttributesGroup--mutedLabels
+  .AttributesGroupItem-key
+    color: var(--fgColor-muted)

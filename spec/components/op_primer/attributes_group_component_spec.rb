@@ -84,4 +84,80 @@ RSpec.describe OpPrimer::AttributesGroupComponent, type: :component do
       expect(page).to have_css("h3", text: "A Title")
     end
   end
+
+  it "keeps HTML block content" do
+    render_inline(described_class.new) do |component|
+      component.with_attribute(key: "Link") { "<a href=\"/docs\">Docs</a>".html_safe }
+    end
+
+    expect(page).to have_element(:dd, class: "AttributesGroupItem-value") do |dd|
+      expect(dd).to have_link("Docs", href: "/docs")
+    end
+  end
+
+  it "renders a header without attributes" do
+    render_inline(described_class.new) do |component|
+      component.with_header(title: "Empty")
+    end
+
+    expect(page).to have_element(:h3, text: "Empty")
+    expect(page).to have_no_element(:dt)
+  end
+
+  it "adds the tabular scheme" do
+    render_inline(described_class.new(scheme: :tabular)) do |component|
+      component.with_attribute(key: "Key") { "Value" }
+    end
+
+    expect(page).to have_element(:div, class: %w[AttributesGroup AttributesGroup--tabular])
+  end
+
+  it "mutes labels independently of the scheme", :aggregate_failures do
+    render_inline(described_class.new(label_color: :muted)) do |component|
+      component.with_attribute(key: "Key") { "Value" }
+    end
+
+    expect(page).to have_element(:div, class: "AttributesGroup--mutedLabels")
+    expect(page).to have_no_element(:div, class: "AttributesGroup--tabular")
+  end
+
+  it "uses the default scheme and label color without options", :aggregate_failures do
+    render_inline(described_class.new) do |component|
+      component.with_attribute(key: "Key") { "Value" }
+    end
+
+    expect(page).to have_no_element(:div, class: "AttributesGroup--tabular")
+    expect(page).to have_no_element(:div, class: "AttributesGroup--mutedLabels")
+  end
+
+  it "rejects unknown options outside production" do
+    expect { render_inline(described_class.new(scheme: :bogus)) }
+      .to raise_error(Primer::FetchOrFallbackHelper::InvalidValueError)
+  end
+
+  it "renders several values for one attribute" do
+    render_inline(described_class.new) do |component|
+      component.with_attribute(key: "Filters") do |attribute|
+        attribute.with_value { "Status is open" }
+        attribute.with_value { "Assignee is me" }
+      end
+    end
+
+    expect(page).to have_element(:div, class: "AttributesGroupItem") do |item|
+      expect(item).to have_element(:dt, text: "Filters")
+      expect(item).to have_element(:dd, text: "Status is open")
+      expect(item).to have_element(:dd, text: "Assignee is me")
+    end
+  end
+
+  it "rejects block content combined with values" do
+    expect do
+      render_inline(described_class.new) do |component|
+        component.with_attribute(key: "Filters") do |attribute|
+          attribute.with_value { "Status is open" }
+          "Assignee is me"
+        end
+      end
+    end.to raise_error(ArgumentError)
+  end
 end

@@ -34,12 +34,27 @@ module OpPrimer
     # This component is part of {AttributesGroupComponent} and should not be
     # used as a standalone component.
     class AttributeKeyValue < ::Primer::Component
+      # @!parse
+      #   # Adds a value. Use instead of block content to give an attribute several values.
+      #   def with_value(&block)
+      #   end
+      renders_many :values
+
       attr_reader :key
 
       def initialize(key:)
         super()
 
         @key = key
+      end
+
+      def before_render
+        @block_value = content.presence
+        raise ArgumentError, "Pass either block content or values, not both" if @block_value && values?
+      end
+
+      def descriptions
+        values? ? values : [@block_value]
       end
     end
   end
