@@ -48,7 +48,8 @@ module SquashTMIntegration
         render(Primer::Beta::Link.new(
                  href: @server.project_url(@project_link.stored_squashtm_project_id),
                  target: "_blank",
-                 rel: "noopener noreferrer"
+                 rel: "noopener noreferrer",
+                 data: { allow_external_link: true }
                )) do |link|
           link.with_trailing_visual_icon(icon: :"link-external")
           name
