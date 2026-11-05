@@ -28,22 +28,21 @@
 import { Config } from './config';
 import { sw } from './sw-global';
 
-/** Focuses an existing window of the app, controlled ones first, and opens a clicked notification's page there, or in a new one. */
+/** Focuses an existing controlled window of the app and opens a clicked notification's page there, or in a new one. */
 export class NotificationClick {
   static sameOriginUrl(url:string):string {
     const resolved = new URL(url, sw.location.href);
     return resolved.origin === sw.location.origin ? resolved.href : new URL(Config.urls.home, sw.location.href).href;
   }
 
-  static async windowsInScope(options?:{ includeUncontrolled?:boolean }):Promise<WindowClient[]> {
-    const windows = await sw.clients.matchAll({ type: 'window', ...options });
+  static async windowsInScope():Promise<WindowClient[]> {
+    const windows = await sw.clients.matchAll({ type: 'window' });
     return windows.filter((candidate) => candidate.url.startsWith(sw.registration.scope));
   }
 
   static async open(requestedUrl:string):Promise<WindowClient|null|undefined> {
     const url = NotificationClick.sameOriginUrl(requestedUrl);
-    let clients = await NotificationClick.windowsInScope();
-    if (clients.length === 0) clients = await NotificationClick.windowsInScope({ includeUncontrolled: true });
+    const clients = await NotificationClick.windowsInScope();
 
     const client =
       clients.find((candidate) => candidate.visibilityState === 'visible' || candidate.focused) ?? clients[0];

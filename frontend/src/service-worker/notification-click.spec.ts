@@ -43,3 +43,29 @@ describe('NotificationClick.sameOriginUrl', () => {
     expect(NotificationClick.sameOriginUrl('https://evil.example/phish')).toBe(`${location.origin}/`);
   });
 });
+
+describe('NotificationClick.open', () => {
+  let NotificationClick:typeof NotificationClickType;
+
+  beforeAll(async () => {
+    vi.stubGlobal('OP_SW', { urls: { home: '/' } });
+    ({ NotificationClick } = await import('./notification-click'));
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('opens a new window when no controlled window is in scope', async () => {
+    const matchAll = vi.fn().mockResolvedValue([]);
+    const openWindow = vi.fn().mockResolvedValue(null);
+    vi.stubGlobal('clients', { matchAll, openWindow });
+    vi.stubGlobal('registration', { scope: `${location.origin}/` });
+
+    await NotificationClick.open('/work_packages/7');
+
+    expect(openWindow).toHaveBeenCalledWith(`${location.origin}/work_packages/7`);
+    expect(matchAll).toHaveBeenCalledTimes(1);
+    expect(matchAll).not.toHaveBeenCalledWith(expect.objectContaining({ includeUncontrolled: true }));
+  });
+});
