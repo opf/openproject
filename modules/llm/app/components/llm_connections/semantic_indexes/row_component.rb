@@ -88,7 +88,7 @@ module LlmConnections
       end
 
       def activate_button
-        return unless semantic_index.ready? && !semantic_index.active?
+        return if semantic_index.active?
 
         render(
           Primer::Beta::Button.new(
