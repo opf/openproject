@@ -42,6 +42,7 @@ jobs:
       version: ${{ steps.lockfile.outputs.version }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 2
         with:
           sparse-checkout: frontend/package-lock.json
           sparse-checkout-cone-mode: false
@@ -57,6 +58,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
         with:
           persist-credentials: false
 
@@ -66,6 +68,7 @@ jobs:
           package-manager-cache: false
 
       - name: Install Dependencies
+        timeout-minutes: 5
         run: npm ci
 
       - name: Register plugins
@@ -86,7 +89,7 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v${{ needs.playwright-version.outputs.version }}-noble
       options: --ipc=host
-    timeout-minutes: 15
+    timeout-minutes: 20
     env:
       SHARDS: 3
     strategy:
@@ -96,6 +99,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -106,6 +110,7 @@ jobs:
           package-manager-cache: false
 
       - name: Install Dependencies
+        timeout-minutes: 5
         run: npm ci
 
       - name: Register plugins
@@ -123,6 +128,7 @@ jobs:
         run: chown root:root "$HOME"
 
       - name: Test
+        timeout-minutes: 12
         # WebKit keeps the memory of every spec iframe until it exits, so one
         # run over the whole suite exhausts the runner. Each shard starts a
         # fresh browser.
