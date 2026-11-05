@@ -32,8 +32,8 @@ module CustomFields
     include RequiresAdminGuard
 
     attribute :admin_only
+    stored_attribute :allow_additional_project_values, store: :settings
     stored_attribute :allow_non_open_versions, store: :settings
-    stored_attribute :allow_project_specific_values, store: :settings
     stored_attribute :content_right_to_left, store: :settings
     attribute :custom_field_section_id
     stored_attribute :default_value, store: :settings
