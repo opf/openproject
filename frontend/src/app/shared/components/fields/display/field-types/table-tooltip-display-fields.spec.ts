@@ -115,6 +115,17 @@ describe('table field tooltips', () => {
     expect(container.querySelector('tool-tip')).toHaveTextContent(/^Value derived from children$/);
   });
 
+  it('renders historic derived work without a link', () => {
+    const field = new WorkDisplayField('work', { ...context, options: { historic: true } });
+    field.apply({ work: 40, derivedWork: 60 } as unknown as HalResource, {} as IFieldSchema);
+    field.render(container, '40');
+
+    const derived = container.querySelector('.-derived-value');
+    expect(within(container).queryByRole('link')).toBeNull();
+    expect(derived).toHaveTextContent('Σ 4 h');
+    expect(derived).not.toHaveClass('__ui-state-link');
+    expect(container.querySelector('tool-tip')).toHaveTextContent(/^Value derived from children$/);
+  });
 
   it('does not restore a compound container title through DisplayFieldRenderer', () => {
     const field = new CompoundProgressDisplayField('work', context);
