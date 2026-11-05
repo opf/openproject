@@ -850,6 +850,17 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "labels", with_flag: { work_package_labels: true } do
+      before { work_package.label_name_replacements = ["Needs triage"] }
+
+      it "links the pending label by title without an href and does not embed it" do
+        expect(subject).to have_json_size(1).at_path("_links/labels")
+        expect(subject).to be_json_eql(nil.to_json).at_path("_links/labels/0/href")
+        expect(subject).to be_json_eql("Needs triage".to_json).at_path("_links/labels/0/title")
+        expect(subject).to have_json_size(0).at_path("_embedded/labels")
+      end
+    end
+
     describe "project" do
       it_behaves_like "has workspace linked"
     end

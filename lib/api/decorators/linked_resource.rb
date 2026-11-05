@@ -70,6 +70,13 @@ module API
         end
       end
 
+      def parse_new_record_titles_from_fragment(fragment)
+        fragment.filter_map do |link|
+          title = link["title"]
+          title if link["href"].blank? && title.is_a?(String) && title.present?
+        end
+      end
+
       def validate_links!(links)
         raise ::API::Errors::BadRequest.new(I18n.t("api_v3.errors.bad_request.links_not_an_object")) unless links.is_a?(Hash)
 
@@ -296,17 +303,19 @@ module API
         def associated_resources(name,
                                  as: name,
                                  representer: nil,
+                                 collection: name,
                                  v3_path: name.to_s.singularize.to_sym,
                                  skip_render: ->(*) { false },
                                  skip_link: skip_render,
                                  link_title_attribute: :name,
                                  uncacheable_link: false,
-                                 getter: associated_resources_default_getter(name, representer, as),
+                                 getter: associated_resources_default_getter(name, representer, as, collection:),
                                  setter: associated_resources_default_setter(name, v3_path),
                                  link: associated_resources_default_link(name,
                                                                          v3_path:,
                                                                          skip_link:,
-                                                                         title_attribute: link_title_attribute))
+                                                                         title_attribute: link_title_attribute,
+                                                                         collection:))
           resources(as,
                     getter:,
                     setter:,
@@ -317,13 +326,14 @@ module API
 
         def associated_resources_default_getter(name,
                                                 representer,
-                                                embed_name)
+                                                embed_name,
+                                                collection: name)
           representer ||= default_representer(name.to_s.singularize)
 
           ->(*) do
             next unless embed_link?(embed_name)
 
-            represented.send(name)&.map do |associated|
+            represented.send(collection)&.map do |associated|
               representer.create(associated, current_user:)
             end
           end
@@ -339,11 +349,12 @@ module API
         def associated_resources_default_link(name,
                                               v3_path:,
                                               skip_link:,
-                                              title_attribute:)
+                                              title_attribute:,
+                                              collection: name)
           ->(*) do
             next if instance_exec(&skip_link)
 
-            represented.send(name).map do |associated|
+            represented.send(collection).map do |associated|
               ::API::Decorators::LinkObject
                 .new(associated,
                      property_name: :itself,
