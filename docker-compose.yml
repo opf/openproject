@@ -109,6 +109,7 @@ services:
       - network
     environment:
       __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS: "openproject-assets.${OPENPROJECT_DOCKER_DEV_TLD:-local}"
+      OP_BLOCKNOTE_EXTENSIONS_LOCAL: "${OP_BLOCKNOTE_EXTENSIONS_LOCAL:-}"
     ports:
       - "${FE_PORT:-4200}:4200"
 
