@@ -1797,12 +1797,12 @@ he:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -4024,6 +4024,10 @@ he:
         header: changes by %{author}
         migrated: from Jira
         set_with_diff: "%{field} set (%{link})"
+      label_deleted:
+        one: "%{label_names} was deleted"
+        two: "%{label_names} were deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
       meeting_series_backlog_html: backlog for meeting series %{link}
@@ -4069,6 +4073,7 @@ he:
       default_attribute_written: Read-only attributes written
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Imported
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
@@ -7054,6 +7059,11 @@ he:
         No attributes can be changed with the exception of the status.
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        two: This status is used by %{count} workflows.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Status could not be moved.
       headers:
@@ -7063,6 +7073,10 @@ he:
       no_results_content_text: להוסיף סטטוס חדש
       no_results_title_text: There are currently no work package statuses.
       status_actions: Status actions
+      workflows_count:
+        one: "%{count} workflow"
+        two: "%{count} workflows"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: and

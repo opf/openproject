@@ -47,6 +47,8 @@ ro:
       draggable_hint: 'Trage pe câmpul editorului pentru a introduce o imagine sau un atașament de referință. Câmpurile de editor închise vor fi deschise în timp ce continui să tragi.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Fișierul este în carantină, deoarece a fost găsit un virus. Acesta nu este disponibil pentru descărcare.
     autocomplete_ng_select:
       add_tag: Adaugă element
@@ -1122,10 +1124,6 @@ ro:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabel cu pachete de lucru pe rânduri şi câmpurile pachetelor pe coloane.
-        text_inline_edit: Majoritatea celulelor din acest tabel sunt butoane care activează editarea "inline" a câmpului respectiv.
-        text_select_hint: Casetele de selectare ar trebui să fie deschise cu 'ALT' si tastele săgeată.
-        text_sort_hint: Cu link-urile din capul de tabel poți sorta, grupa, reordona, elimina și adăuga coloane la tabel.
       table_configuration:
         button: Configurează acest tabel al pachetului de lucru
         choose_display_mode: Afișare pachete de lucru din subproiecte pe pagina proiectului principal

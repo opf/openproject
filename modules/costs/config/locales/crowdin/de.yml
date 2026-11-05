@@ -177,13 +177,13 @@ de:
       cost_types:
         for_all_projects_hint: Diese Kostenart ist in allen Projekten aktiviert.
         heading: Kostentypen
-        hint: Select which cost types are displayed in your project when members log their costs.
+        hint: Wählen Sie aus, welche Kostentypen in Ihrem Projekt angezeigt werden sollen, wenn Teammitglieder Kosten erfassen.
         in_use_hint: Diese Kostenart kann nicht deaktiviert werden, da in diesem Projekt bereits Kosten dafür erfasst wurden.
         none_active: In diesem Projekt sind derzeit keine Kostenarten aktiv.
       time_and_costs: Zeit und Kosten
       time_entry_activities:
         heading: Zeiterfassung
-        hint: Select which time tracking activities are displayed in your project when members log their time.
+        hint: Wählen Sie aus, welche Aktivitäten für Zeiterfassung in Ihrem Projekt angezeigt werden sollen, wenn Mitglieder Arbeitszeit erfassen.
   costs:
     widgets:
       actual_costs:

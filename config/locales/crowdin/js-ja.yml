@@ -47,6 +47,8 @@ ja:
       draggable_hint: |
         埋め込み画像または添付ファイルをエディタにドラッグします。
         ドラッグしつづけると閉じているエディタ領域が開きます。
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: ウイルスが発見されたため，ファイルは隔離されています。ダウンロードできません。
     autocomplete_ng_select:
       add_tag: 項目を追加
@@ -1106,10 +1108,6 @@ ja:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: ワークパッケージの行と、ワークパッケージの属性の列から成る表。
-        text_inline_edit: この表のほとんどのセルは、属性のインライン編集機能を有効にするボタンです。
-        text_select_hint: 選択ボックスは 'ALT'と矢印キーで開きます。
-        text_sort_hint: テーブル見出しのリンクで、並べ替え、グループ化、再並べ替え、削除、およびテーブルの列を追加ができます。
       table_configuration:
         button: このワークパッケージテーブルを設定する
         choose_display_mode: ワークパッケージを次のように表示する

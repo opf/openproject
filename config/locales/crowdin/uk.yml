@@ -1911,12 +1911,12 @@ uk:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -4185,6 +4185,11 @@ uk:
         header: зміни вніс (внесла) %{author}
         migrated: з Jira
         set_with_diff: Поле «%{field}» налаштовано (%{link})
+      label_deleted:
+        one: "%{label_names} was deleted"
+        few: "%{label_names} were deleted"
+        many: "%{label_names} were deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(скасовано)"
       meeting_deleted: "(видалено)"
       meeting_series_backlog_html: беклог для серії нарад %{link}
@@ -4230,6 +4235,7 @@ uk:
       default_attribute_written: Атрибути лише для читання записано
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Імпортовано
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Додано в нараду</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Додано сюди:</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Обговорювалося на нараді</strong> %{meeting_title_information}"
@@ -7232,6 +7238,12 @@ uk:
         Крім статусу, ви не зможете змінювати жодні атрибути.
         <br>
         <strong>Примітка</strong>: успадковані значення (напр., значення дочірніх елементів або зв’язки) не зміняться.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        few: This status is used by %{count} workflows.
+        many: This status is used by %{count} workflows.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Не вдалося перемістити статус.
       headers:
@@ -7241,6 +7253,11 @@ uk:
       no_results_content_text: Додати новий статус
       no_results_title_text: Наразі немає статусів робочих пакетів.
       status_actions: Дії зі статусом
+      workflows_count:
+        one: "%{count} workflow"
+        few: "%{count} workflows"
+        many: "%{count} workflows"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: і

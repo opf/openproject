@@ -262,9 +262,9 @@ de:
             heading: Keine Sprintdaten verfügbar
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: Scope-Änderungen
-              story_points_change: "+%{added} / -%{removed} Story-Punkte"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: Abgeschlossen
             initially_planned:
@@ -276,9 +276,16 @@ de:
               show_all: Alle anzeigen
               show_all_label: 'View all: %{heading}'
           closed_work_packages: Abgeschlossene Arbeitspakete
+          completed_estimated_time: Completed estimated time
+          completed_story_points: Completed story points
           resolved_summary:
-            one: "%{percentage} (%{resolved} of %{total} work package)"
-            other: "%{percentage} (%{resolved} of %{total} work packages)"
+            story_points:
+              one: "%{percentage} (%{resolved} of %{total} story point)"
+              other: "%{percentage} (%{resolved} of %{total} story points)"
+            time: "%{percentage} (%{resolved} of %{total})"
+            work_packages:
+              one: "%{percentage} (%{resolved} of %{total} work package)"
+              other: "%{percentage} (%{resolved} of %{total} work packages)"
           title: Arbeitspakete innerhalb des Sprints
         work_package_table:
           added:

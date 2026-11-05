@@ -1685,12 +1685,12 @@ fa:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: ایجاد نسخه‌ها برای «%{jira_project_name}»
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: دریافت پیوست‌های بسته‌های کاری «%{jira_project_name}»
           JiraCreateProjectWorkPackagesJob:
             title: ایجاد بسته‌های کاری «%{jira_project_name}»
           JiraCreateUsersJob:
             title: ایجاد کاربران
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: دریافت فیلدهای سفارشی
           JiraFetchIssueTypesJob:
@@ -3863,6 +3863,9 @@ fa:
         header: تغییرات توسط %{author}
         migrated: از جیرا
         set_with_diff: "%{field} تنظیم شد (%{link})"
+      label_deleted:
+        one: "%{label_names} was deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(لغوشده)"
       meeting_deleted: "(حذف‌شده)"
       meeting_series_backlog_html: بک‌لاگ برای مجموعه جلسات %{link}
@@ -3908,6 +3911,7 @@ fa:
       default_attribute_written: ویژگی‌های فقط‌خواندنی نوشته شدند
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: واردشده
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>به جلسه اضافه شد</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>اضافه شد به</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>در جلسه بررسی شد</strong> %{meeting_title_information}"
@@ -6866,6 +6870,10 @@ fa:
         هیچ ویژگی‌ای به‌جز وضعیت قابل تغییر نخواهد بود.
         <br>
         <strong>توجه</strong>: مقادیر به‌ارث‌رسیده (برای مثال از فرزندان یا روابط) همچنان اعمال می‌شوند.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: جابه‌جایی وضعیت ممکن نشد.
       headers:
@@ -6875,6 +6883,9 @@ fa:
       no_results_content_text: افزودن وضعیت جدید
       no_results_title_text: در حال حاضر هیچ وضعیت بسته کاری وجود ندارد.
       status_actions: عملیات وضعیت
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: و

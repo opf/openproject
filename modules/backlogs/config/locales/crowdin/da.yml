@@ -262,9 +262,9 @@ da:
             heading: Der er ingen data om sprinten
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: Ændret omfang
-              story_points_change: "+%{added} / -%{removed} story points"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: Færdige
             initially_planned:
@@ -276,9 +276,16 @@ da:
               show_all: Vis alle
               show_all_label: 'Vis alle: %{heading}'
           closed_work_packages: Lukkede arbejdspakker
+          completed_estimated_time: Anslået tid for færdige arbejdspakker
+          completed_story_points: Færdige story points
           resolved_summary:
-            one: "%{percentage} (%{resolved} af %{total} arbejdspakke)"
-            other: "%{percentage} (%{resolved} af %{total} arbejdspakker)"
+            story_points:
+              one: "%{percentage} (%{resolved} af %{total} story point)"
+              other: "%{percentage} (%{resolved} af %{total} story points)"
+            time: "%{percentage} (%{resolved} af %{total})"
+            work_packages:
+              one: "%{percentage} (%{resolved} af %{total} arbejdspakke)"
+              other: "%{percentage} (%{resolved} af %{total} arbejdspakker)"
           title: Arbejdspakker i sprinten
         work_package_table:
           added:

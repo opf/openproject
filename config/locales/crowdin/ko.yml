@@ -1577,12 +1577,12 @@ ko:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -3708,6 +3708,8 @@ ko:
         header: "%{author} 님이 변경함"
         migrated: Jira에서
         set_with_diff: "%{field} 설정됨(%{link})"
+      label_deleted:
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(취소됨)"
       meeting_deleted: "(삭제됨)"
       meeting_series_backlog_html: 미팅 시리즈의 백로그 %{link}
@@ -3753,6 +3755,7 @@ ko:
       default_attribute_written: 읽기 전용 특성 작성됨
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: 가져옴
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>미팅에 추가됨:</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>다음에 추가됨:</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>미팅에서 논의됨</strong> %{meeting_title_information}"
@@ -6679,6 +6682,9 @@ ko:
         상태를 제외하고 특성은 변경할 수 없습니다.
         <br>
         <strong>참고</strong>: 상속된 값(예: 자식 또는 관계의 값)은 계속 적용됩니다.
+      used_by_workflows:
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: 상태를 이동할 수 없습니다.
       headers:
@@ -6688,6 +6694,8 @@ ko:
       no_results_content_text: 새 상태 추가
       no_results_title_text: 작업 패키지 상태가 없습니다.
       status_actions: 상태 작업
+      workflows_count:
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: 그리고

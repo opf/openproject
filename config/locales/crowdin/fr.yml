@@ -1687,12 +1687,12 @@ fr:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Créer des lots de travail pour «%{jira_project_name}»
           JiraCreateUsersJob:
             title: Créer les utilisateurs
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Récupérer les champs personnalisés
           JiraFetchIssueTypesJob:
@@ -3865,6 +3865,9 @@ fr:
         header: modifications par %{author}
         migrated: depuis Jira
         set_with_diff: "%{field} set (%{link})"
+      label_deleted:
+        one: "%{label_names} was deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(annulée)"
       meeting_deleted: "(supprimée)"
       meeting_series_backlog_html: backlog de la série de réunions %{link}
@@ -3910,6 +3913,7 @@ fr:
       default_attribute_written: Attributs en lecture seule écrits
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Importé
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Ajouté à la réunion</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Ajouté à</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Discuté lors de la réunion</strong> %{meeting_title_information}"
@@ -6863,6 +6867,10 @@ fr:
         Aucun attribut ne peut être modifié à l'exception du statut.
         <br>
         <strong>Remarque</strong> : les valeurs héritées (par exemple, des enfants ou des relations) s'appliquent toujours.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Impossible de déplacer le statut.
       headers:
@@ -6872,6 +6880,9 @@ fr:
       no_results_content_text: Ajouter un nouveau statut
       no_results_title_text: Aucun statut de lots de travaux pour le moment.
       status_actions: Actions sur le statut
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: et

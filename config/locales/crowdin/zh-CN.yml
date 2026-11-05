@@ -1577,12 +1577,12 @@ zh-CN:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -3706,6 +3706,8 @@ zh-CN:
         header: 更改者：%{author}
         migrated: 从 Jira
         set_with_diff: "“%{field}”已设置 (%{link})"
+      label_deleted:
+        other: "%{label_names} were deleted"
       meeting_cancelled: "（已取消）"
       meeting_deleted: "（已删除）"
       meeting_series_backlog_html: 系列会议 %{link} 的积压工作
@@ -3751,6 +3753,7 @@ zh-CN:
       default_attribute_written: 已写入只读属性
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: 已导入
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>已添加到会议</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>已添加到</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: 已在会议 %{meeting_title_information} 中<strong>讨论</strong>
@@ -6673,6 +6676,9 @@ zh-CN:
         除了状态外，不能更改其他属性。
         <br>
         <strong>注</strong>：继承值（例如，来自子级或关系的值）仍然适用。
+      used_by_workflows:
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: 无法移动状态。
       headers:
@@ -6682,6 +6688,8 @@ zh-CN:
       no_results_content_text: 添加新的状态
       no_results_title_text: 目前没有工作包状态。
       status_actions: 状态操作
+      workflows_count:
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: 和

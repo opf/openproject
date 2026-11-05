@@ -1687,12 +1687,12 @@ it:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -3865,6 +3865,9 @@ it:
         header: modifiche di %{author}
         migrated: da Jira
         set_with_diff: "%{field} impostato (%{link})"
+      label_deleted:
+        one: "%{label_names} was deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(annullata)"
       meeting_deleted: "(eliminata)"
       meeting_series_backlog_html: backlog per la serie di riunioni %{link}
@@ -3910,6 +3913,7 @@ it:
       default_attribute_written: Attributi di sola lettura scritti
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Importato
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Aggiunto alla riunione</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Aggiunto a</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Discusso nella riunione</strong> %{meeting_title_information}"
@@ -6866,6 +6870,10 @@ it:
         Nessun attributo può essere modificato a eccezione dello stato.
         <br>
         <strong> Nota </strong>: i valori ereditati (ad esempio, dai figli o dalle relazioni) verranno comunque applicati.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Non è stato possibile spostare lo stato.
       headers:
@@ -6875,6 +6883,9 @@ it:
       no_results_content_text: Aggiungi un nuovo stato
       no_results_title_text: Al momento non vi sono relazioni sullo stato delle macro-attività.
       status_actions: Azioni dello stato
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: e

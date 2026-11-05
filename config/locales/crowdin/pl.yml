@@ -1907,12 +1907,12 @@ pl:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -4175,6 +4175,11 @@ pl:
         header: zmiany wprowadzone przez %{author}
         migrated: z Jira
         set_with_diff: Ustawiono pole %{field} (%{link})
+      label_deleted:
+        one: "%{label_names} was deleted"
+        few: "%{label_names} were deleted"
+        many: "%{label_names} were deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(anulowano)"
       meeting_deleted: "(usunięto)"
       meeting_series_backlog_html: backlog serii spotkań %{link}
@@ -4220,6 +4225,7 @@ pl:
       default_attribute_written: Zapisano atrybuty tylko do odczytu
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Zaimportowano
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Dodano do spotkania</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Dodano do</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Omówiono podczas posiedzenia</strong> %{meeting_title_information}"
@@ -7217,6 +7223,12 @@ pl:
         Nie można zmienić żadnych atrybutów z wyjątkiem stanu.
         <br>
         <strong>Uwaga</strong>: wartości dziedziczone (np. po elementach podrzędnych lub relacjach) będą nadal stosowane.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        few: This status is used by %{count} workflows.
+        many: This status is used by %{count} workflows.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Nie można przenieść statusu.
       headers:
@@ -7226,6 +7238,11 @@ pl:
       no_results_content_text: Dodaj nowy status
       no_results_title_text: Nie ma aktualnie żadnych statusów Zestawu zadań.
       status_actions: Działania statusu
+      workflows_count:
+        one: "%{count} workflow"
+        few: "%{count} workflows"
+        many: "%{count} workflows"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: i

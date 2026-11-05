@@ -1687,12 +1687,12 @@ sv:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -3865,6 +3865,9 @@ sv:
         header: ändringar av %{author}
         migrated: från Jira
         set_with_diff: "%{field} angavs (%{link})"
+      label_deleted:
+        one: "%{label_names} was deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(avbruten)"
       meeting_deleted: "(borttagen)"
       meeting_series_backlog_html: backlogg för mötesserien %{link}
@@ -3910,6 +3913,7 @@ sv:
       default_attribute_written: Skrivskyddade attribut skrevs
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Importerad
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Tillagd i möte</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Tillagd i</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Diskuterad på möte</strong> %{meeting_title_information}"
@@ -6856,6 +6860,10 @@ sv:
         Inga attribut kan ändras förutom statusen.
         <br>
         <strong>Obs!</strong> Ärvda värden (t.ex. från underordnade objekt eller relationer) tillämpas fortfarande.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Det gick inte att flytta statusen.
       headers:
@@ -6865,6 +6873,9 @@ sv:
       no_results_content_text: Lägg till ny status
       no_results_title_text: Det finns för närvarande inga statusar för arbetspaket.
       status_actions: Statusåtgärder
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: och

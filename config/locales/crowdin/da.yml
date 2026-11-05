@@ -343,8 +343,8 @@ da:
       project_type:
         variant: Variant
       push_subscription:
-        created_at: Added
-        endpoint: Endpoint
+        created_at: Tilføjet
+        endpoint: Endepunkt
         session_id: Session
       query:
         child_work_packages: Underordnede arbejdspakker
@@ -854,7 +854,7 @@ da:
         push_subscription:
           attributes:
             base:
-              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
+              too_many_push_subscriptions: Kun %{count} enheder kan få browsernotifikationer på samme tid.
         queries/filters/base:
           attributes:
             values:
@@ -1687,12 +1687,12 @@ da:
             title: Opret tidsregistreringer for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Opret versioner for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Hent vedhæftede filer til arbejdspakker for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Opret arbejdspakker for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Opret brugere
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Hent brugerdefinerede felter
           JiraFetchIssueTypesJob:
@@ -2103,36 +2103,36 @@ da:
         move:
           error: Afsnittets placering kunne ikke ændres.
       push_notifications:
-        checking: Checking…
-        description: Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject.
-        hosts_intro: 'OpenProject sends pushes to whichever push service each user''s browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:'
+        checking: Tjekker …
+        description: Brugerne kan vælge at installere OpenProject som en progressiv webapp (PWA) i moderne browsere. Gør de det, kan de også få notifikationer fra styresystemet om aktivitet i OpenProject.
+        hosts_intro: 'OpenProject sender push til den push-tjeneste, som den enkelte brugers browser abonnerer via. Tjekket nedenfor kontakter de store browseres push-tjenester og alle tjenester, som et eksisterende abonnement bruger:'
         http_status: HTTP %{code}
-        key_managed_by_environment: The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable.
-        key_renewed: The push signing key was renewed. Every device has to turn browser notifications on again.
-        key_unreadable: The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again.
-        reachable: Reachable
+        key_managed_by_environment: Push-signeringsnøglen angives med miljøvariablen OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY. Skift variablen for at forny nøglen.
+        key_renewed: Push-signeringsnøglen er fornyet. Alle enheder skal slå browsernotifikationer til igen.
+        key_unreadable: Push-signeringsnøglen kunne ikke læses. Forny den for at få browsernotifikationerne tilbage. Derefter skal alle enheder slå browsernotifikationer til igen.
+        reachable: Kan nås
         reasons:
-          connection: The connection failed
-          filtered: The request was blocked by SSRF protection
-          invalid_host: The host name is not valid
-          private_address: The host resolved to a private address
-          sample_unresolved: Sample host could not be resolved; result inconclusive
-          timeout: No response within %{seconds} seconds
-          tls: The TLS handshake failed
-          unresolved: The host name could not be resolved
-        renew_key: Renew keys
+          connection: Forbindelsen mislykkedes
+          filtered: Anmodningen blev blokeret af SSRF-beskyttelsen
+          invalid_host: Værtsnavnet er ugyldigt
+          private_address: Værten peger på en privat adresse
+          sample_unresolved: Eksempelværten kunne ikke slås op; resultatet er ikke entydigt
+          timeout: Intet svar inden for %{seconds} sekunder
+          tls: TLS-handshake mislykkedes
+          unresolved: Værtsnavnet kunne ikke slås op
+        renew_key: Forny nøgler
         renew_key_dialog:
-          confirm_button: Renew key
-          confirmation: I understand that every device has to turn browser notifications on again.
+          confirm_button: Forny nøglen
+          confirmation: Jeg forstår, at alle enheder skal slå browsernotifikationer til igen.
           description:
-            one: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device.'
-            other: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device.'
-            zero: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device.'
-          heading: Renew the push signing key?
-          title: Renew keys
-        unreachable: Unreachable
-        verify_reachability: Verify reachability
-        verify_reachability_description: To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push.
+            one: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: det ene eksisterende abonnement slettes, og alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+            other: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: %{count} abonnementer slettes, og alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+            zero: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: der findes endnu ingen abonnementer, men alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+          heading: Vil du forny push-signeringsnøglen?
+          title: Forny nøgler
+        unreachable: Kan ikke nås
+        verify_reachability: Tjek, om tjenesterne kan nås
+        verify_reachability_description: For at tjekke for notifikationer sender OpenProject en push uden indhold, der vækker appen. Den installerede PWA henter derefter antallet af ulæste over brugerens session. Følgende push-tjenester ser abonnementets endepunkt, denne installations adresse og offentlige nøgle samt tidspunktet for hver push.
       user_custom_field_sections:
         destroy:
           error: Afsnittet kunne ikke slettes.
@@ -3867,6 +3867,9 @@ da:
         header: ændringer af %{author}
         migrated: fra Jira
         set_with_diff: "%{field} angivet (%{link})"
+      label_deleted:
+        one: "%{label_names} was deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(aflyst)"
       meeting_deleted: "(slettet)"
       meeting_series_backlog_html: backlog for mødeserien %{link}
@@ -3912,6 +3915,7 @@ da:
       default_attribute_written: Skrivebeskyttede attributter skrevet
       forum_message_html: "<strong>Oprettet ud fra meddelelse i forum</strong> %{message_information}"
       import: Importeret
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Tilføjet til mødet</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Tilføjet til</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Drøftet på mødet</strong> %{meeting_title_information}"
@@ -5051,7 +5055,7 @@ da:
       mail_notification: E-mail-notifikationer
       mails_and_notifications: E-mails og notifikationer
       mcp_configurations: Model Context Protocol (MCP)
-      push_notifications: Browser notifications
+      push_notifications: Browsernotifikationer
       text_transform_actions: Handlinger til tekstomskrivning
     quick_add:
       label: Tilføj …
@@ -6511,12 +6515,12 @@ da:
   setting_user_format: Format for brugernavne
   setting_users_deletable_by_admins: Brugerens konti kan slettes af administratorer
   setting_users_deletable_by_self: Brugererne kan selv slette deres konti
-  setting_web_push_enabled: Browser notifications
-  setting_web_push_enabled_caption: Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject.
-  setting_web_push_enabled_false: Do not allow browser notifications
-  setting_web_push_enabled_false_caption: Users are not able to enable browser notifications in their account settings even if they have the PWA installed
-  setting_web_push_enabled_true: Allow browser notifications
-  setting_web_push_enabled_true_caption: Users can enable browser notifications in their account settings if they have the PWA installed
+  setting_web_push_enabled: Browsernotifikationer
+  setting_web_push_enabled_caption: Lader brugere, der har installeret OpenProject som en progressiv webapp, få notifikationer fra styresystemet, når de har ulæste notifikationer i OpenProject.
+  setting_web_push_enabled_false: Tillad ikke browsernotifikationer
+  setting_web_push_enabled_false_caption: Brugerne kan ikke slå browsernotifikationer til i deres kontoindstillinger, heller ikke hvis de har installeret PWA'en
+  setting_web_push_enabled_true: Tillad browsernotifikationer
+  setting_web_push_enabled_true_caption: Brugerne kan slå browsernotifikationer til i deres kontoindstillinger, hvis de har installeret PWA'en
   setting_welcome_on_homescreen: Vis velkomstblok på hjemmeskærm
   setting_welcome_text: Velkomstblok-tekst
   setting_welcome_title: Velkomstblok-titel
@@ -6863,6 +6867,10 @@ da:
         Ingen attributter kan ændres undtagen status.
         <br>
         <strong>Bemærk</strong>: Nedarvede værdier (fx fra underordnede eller relationer) gælder fortsat.
+      used_by_workflows:
+        one: Statussen bruges af %{count} arbejdsgang.
+        other: Statussen bruges af %{count} arbejdsgange.
+      view_workflows_button: Vis arbejdsgange
     index:
       could_not_be_moved: Statussen kunne ikke flyttes.
       headers:
@@ -6872,6 +6880,9 @@ da:
       no_results_content_text: Tilføj en ny status
       no_results_title_text: Der er i øjeblikket ingen statusser for arbejdspakker.
       status_actions: Handlinger for status
+      workflows_count:
+        one: "%{count} arbejdsgang"
+        other: "%{count} arbejdsgange"
   support:
     array:
       sentence_connector: og

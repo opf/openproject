@@ -1687,12 +1687,12 @@ pt-PT:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -3867,6 +3867,9 @@ pt-PT:
         header: alterações de %{author}
         migrated: do Jira
         set_with_diff: "%{field} definiu (%{link})"
+      label_deleted:
+        one: "%{label_names} was deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(cancelado)"
       meeting_deleted: "(eliminado)"
       meeting_series_backlog_html: backlog da série de reuniões %{link}
@@ -3912,6 +3915,7 @@ pt-PT:
       default_attribute_written: Escrita de atributos só de leitura
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Importado
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Adicionado à reunião</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Adicionado a</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: U<strong>Discutido na reunião</strong> %{meeting_title_information}
@@ -6855,6 +6859,10 @@ pt-PT:
         Nenhum atributo pode ser alterado com a exceção do estado.
         <br>
         <strong>Nota</strong>: Valores herdados (p. ex.,: por crianças ou relações) ainda serão aplicados.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Não foi possível mover o estado.
       headers:
@@ -6864,6 +6872,9 @@ pt-PT:
       no_results_content_text: Adicione um novo estado
       no_results_title_text: Atualmente, não existem estados de pacote de trabalho.
       status_actions: Ações de estado
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: e
