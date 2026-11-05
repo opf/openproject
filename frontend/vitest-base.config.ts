@@ -85,6 +85,13 @@ export default defineConfig({
         return false;
       }
 
+      // CKEditor's toolbar and editable observe their own size. On slow CI
+      // runners a resize spans two frames and the browser fires a benign
+      // ErrorEvent without `error`, which Vitest logs instead of failing.
+      if (log.includes('ResizeObserver loop')) {
+        return false;
+      }
+
       return undefined;
     },
   },
