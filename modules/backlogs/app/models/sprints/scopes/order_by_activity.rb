@@ -32,13 +32,8 @@ module Sprints::Scopes::OrderByActivity
 
   class_methods do
     def order_by_activity
-      order(
-        Arel.sql("CASE status WHEN 'active' THEN 0 WHEN 'in_planning' THEN 1 ELSE 2 END"),
-        arel_table[:start_date].asc.nulls_last,
-        arel_table[:finish_date].asc.nulls_last,
-        arel_table[:name].asc,
-        arel_table[:id].asc
-      )
+      order(Arel::Nodes::Case.new(arel_table[:status]).when("active").then(0).when("in_planning").then(1).else(2).asc)
+        .order_by_date
     end
   end
 end
