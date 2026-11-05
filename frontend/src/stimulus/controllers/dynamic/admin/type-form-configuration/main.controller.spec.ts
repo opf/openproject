@@ -31,24 +31,22 @@ import { Controller } from '@hotwired/stimulus';
 import { vi, type Mock } from 'vitest';
 
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import type { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import type { QueryConfigurationLocals } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.component';
 import type TypeFormConfigurationControllerType from './main.controller';
 
-interface QueryEditorConfig {
-  currentQuery:unknown;
-  callback:(queryProps:unknown) => void;
-  disabledTabs:Record<string, string>;
-}
+type QueryEditorConfig = Pick<QueryConfigurationLocals, 'currentQuery'|'callback'|'disabledTabs'|'hideDisabledTabs'>;
 
 describe('Type form configuration controller', () => {
   let ctx:StimulusTestContext;
   let TypeFormConfigurationController:typeof TypeFormConfigurationControllerType;
-  let request:Mock;
-  let show:Mock;
-  let initializeConfiguration:Mock;
-  let fetchConfiguration:Mock;
+  let request:Mock<TurboRequestsService['request']>;
+  let show:Mock<(config:QueryEditorConfig) => void>;
+  let initializeConfiguration:Mock<() => Promise<void>>;
+  let fetchConfiguration:Mock<() => Promise<unknown>>;
   let applicationInitStatus:{ donePromise:Promise<void> };
-  let getService:Mock;
-  let addError:Mock;
+  let getService:Mock<(token:unknown) => unknown>;
+  let addError:Mock<(message:string) => void>;
   let originalOpenProject:typeof window.OpenProject;
   const filterLists = vi.fn();
 
@@ -302,7 +300,7 @@ describe('Type form configuration controller', () => {
       expect(show).toHaveBeenCalled();
     });
 
-    const config = show.mock.calls[0][0] as QueryEditorConfig;
+    const config = show.mock.calls[0][0];
     expect(config.currentQuery).toEqual({});
 
     config.callback({ filters: [] });
@@ -313,7 +311,7 @@ describe('Type form configuration controller', () => {
         expect.objectContaining({ method: 'POST' }),
       );
     });
-    const body = (request.mock.calls[0][1] as { body:URLSearchParams }).body;
+    const body = request.mock.calls[0][1]?.body as URLSearchParams;
     expect(body.get('group_type')).toBe('query');
     expect(body.get('query')).toBe(JSON.stringify({ filters: [] }));
   });
@@ -327,7 +325,7 @@ describe('Type form configuration controller', () => {
       expect(show).toHaveBeenCalled();
     });
 
-    const config = show.mock.calls[0][0] as QueryEditorConfig;
+    const config = show.mock.calls[0][0];
     expect(config.currentQuery).toEqual({ filters: [] });
 
     config.callback({ filters: [{ project: { operator: '=', values: ['1'] } }] });
@@ -347,13 +345,13 @@ describe('Type form configuration controller', () => {
     ctx.screen.getByRole('button', { name: 'Edit query' }).click();
     await waitFor(() => expect(show).toHaveBeenCalledTimes(1));
     const query = { highlightingMode: 'none' };
-    (show.mock.calls[0][0] as QueryEditorConfig).callback(query);
+    show.mock.calls[0][0].callback(query);
 
     await waitFor(() => expect(request).toHaveBeenCalledWith(
       '/types/1/form_configuration/group/add_group',
       expect.objectContaining({ method: 'POST' }),
     ));
-    const body = (request.mock.calls[0][1] as { body:URLSearchParams }).body;
+    const body = request.mock.calls[0][1]?.body as URLSearchParams;
     expect(body.get('name')).toBe('Draft children');
     expect(body.get('query')).toBe(JSON.stringify(query));
     expect(body.get('group_type')).toBe('query');
@@ -372,12 +370,12 @@ describe('Type form configuration controller', () => {
 
     ctx.screen.getByRole('button', { name: 'Edit query' }).click();
     await waitFor(() => expect(show).toHaveBeenCalledTimes(1));
-    (show.mock.calls[0][0] as QueryEditorConfig).callback({ columns: ['id', 'subject'] });
+    show.mock.calls[0][0].callback({ columns: ['id', 'subject'] });
     await waitFor(() => expect(original).not.toBeInTheDocument());
     await ctx.nextFrame();
     ctx.screen.getByRole('button', { name: 'Edit query' }).click();
     await waitFor(() => expect(show).toHaveBeenCalledTimes(2));
-    expect((show.mock.calls[1][0] as QueryEditorConfig).currentQuery).toEqual(serverProps);
+    expect(show.mock.calls[1][0].currentQuery).toEqual(serverProps);
     expect(original).toHaveAttribute('data-group-query', '{"filters":[]}');
   });
 
@@ -388,7 +386,7 @@ describe('Type form configuration controller', () => {
     request.mockRejectedValue(new Error('Save failed'));
     ctx.screen.getByRole('button', { name: 'Edit query' }).click();
     await waitFor(() => expect(show).toHaveBeenCalledTimes(1));
-    (show.mock.calls[0][0] as QueryEditorConfig).callback({ columns: ['subject'] });
+    show.mock.calls[0][0].callback({ columns: ['subject'] });
     await waitFor(() => expect(request).toHaveBeenCalledTimes(1));
     await ctx.nextFrame();
     expect(group.querySelector('[data-group-query]')).toHaveAttribute('data-group-query', '{"filters":[]}');
@@ -407,7 +405,7 @@ describe('Type form configuration controller', () => {
       expect(show).toHaveBeenCalled();
     });
 
-    (show.mock.calls[0][0] as QueryEditorConfig).callback({ filters: [] });
+    show.mock.calls[0][0].callback({ filters: [] });
     await ctx.nextFrame();
 
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('data-update-query-url'), group);
