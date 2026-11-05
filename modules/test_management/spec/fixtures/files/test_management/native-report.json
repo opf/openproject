@@ -1,7 +1,0 @@
-{
-  "tests": [
-    { "caseId": "__CASE_ID__", "status": "passed", "durationMs": 1500, "title": "Smoke check" },
-    { "reference": "scripts/health.sh#database", "title": "Database is reachable", "status": "failed", "message": "connection refused", "attachments": [{ "path": "health.log", "name": "Health log" }] },
-    { "title": "Unknown thing", "status": "exploded" }
-  ]
-}

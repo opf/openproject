@@ -31,7 +31,7 @@ class CreateTmAssistantProviders < ActiveRecord::Migration[8.1]
   def change
     create_table :tm_assistant_providers do |t|
       t.string :name, null: false, limit: 100
-      t.string :preset, null: false, default: "custom", limit: 32
+      t.string :preset, null: false, default: "openrouter", limit: 32
       t.string :base_url, limit: 1024
       t.string :auth_style, limit: 16
       t.text :api_key_ciphertext

@@ -60,7 +60,7 @@ RSpec.describe TestManagement::Automation::CaseMatcher do
     expect(result.matched_by).to eq("reference")
   end
 
-  it "matches ID tags and native case ids" do
+  it "matches ID tags and case ids" do
     expect(match(record(reference: "x#y", tags: ["@TC-#{by_id.id}"])).cases).to eq([by_id])
     expect(match(record(case_ids: [by_id.id.to_s])).cases).to eq([by_id])
   end

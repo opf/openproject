@@ -43,18 +43,17 @@ RSpec.describe "Test management project settings", :skip_csrf, type: :rails_requ
 
       before { login_as(user) }
 
-      it "updates folder tree layout" do
+      it "updates the display prefix" do
         patch project_test_management_project_settings_path(project),
               params: {
                 project_setting: {
-                  folder_tree_layout: "sidebar",
                   display_prefix: "TC"
                 }
               }
 
         expect(response).to redirect_to(project_test_management_project_settings_path(project))
         setting = TestManagement::ProjectSetting.find_by!(project:)
-        expect(setting.folder_tree_layout).to eq("sidebar")
+        expect(setting.display_prefix).to eq("TC")
       end
     end
 
@@ -67,11 +66,10 @@ RSpec.describe "Test management project settings", :skip_csrf, type: :rails_requ
 
       it "forbids update" do
         patch project_test_management_project_settings_path(project),
-              params: { project_setting: { folder_tree_layout: "sidebar" } }
+              params: { project_setting: { display_prefix: "XX" } }
 
         expect(response).to have_http_status(:forbidden)
-        expect(TestManagement::ProjectSetting.find_by(project:)&.folder_tree_layout)
-          .not_to eq("sidebar")
+        expect(TestManagement::ProjectSetting.find_by(project:)&.display_prefix).not_to eq("XX")
       end
     end
 
@@ -95,7 +93,7 @@ RSpec.describe "Test management project settings", :skip_csrf, type: :rails_requ
 
       it "forbids general settings update" do
         patch project_test_management_project_settings_path(project),
-              params: { project_setting: { folder_tree_layout: "sidebar", display_prefix: "XX" } }
+              params: { project_setting: { display_prefix: "XX" } }
 
         expect(response).to have_http_status(:forbidden)
         expect(TestManagement::ProjectSetting.find_by(project:)&.display_prefix).not_to eq("XX")

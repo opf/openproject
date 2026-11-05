@@ -55,15 +55,6 @@ RSpec.describe "Test management cases", :skip_csrf, type: :rails_request do
       expect(page).to have_css(row_selector(test_case))
     end
 
-    it "hides the split pane tree with the sidebar layout" do
-      create(:tm_project_setting, project:, folder_tree_layout: "sidebar")
-
-      get project_test_management_test_cases_path(project)
-
-      expect(page).to have_css("[data-folder-tree-layout='sidebar']")
-      expect(page).to have_no_css("[data-test-selector='tm-folder-pane-split']")
-    end
-
     it "lists the cases of subfolders when a parent folder is selected and counts descendants" do
       parent = create(:tm_suite, project:)
       child = create(:tm_suite, project:, parent:)

@@ -40,7 +40,6 @@ module TestManagement
 
         class RequestFailed < StandardError; end
 
-        # shortcut: GitHub only, other providers in PR6
         REGISTRY = { "github" => "TestManagement::CiTriggers::Dispatchers::Github" }.freeze
 
         def self.for(connection) = REGISTRY.fetch(connection.provider).constantize.new(connection:)

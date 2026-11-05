@@ -98,18 +98,6 @@ RSpec.describe "Test management sidebar submenu", type: :rails_request do
       end
     end
 
-    it "shows the folder tree on the cases section with the sidebar layout only" do
-      create(:tm_project_setting, project:, folder_tree_layout: "sidebar")
-      suite = create(:tm_suite, project:)
-
-      get project_test_management_menu_path(project, section: "cases")
-      expect(submenu.at_css('[data-test-selector="tm-sub-menu-folders"]')).to be_present
-      expect(submenu.at_css("[data-test-selector='tm-folder-#{suite.id}']")).to be_present
-
-      get project_test_management_menu_path(project, section: "runs")
-      expect(submenu.at_css('[data-test-selector="tm-sub-menu-folders"]')).to be_nil
-    end
-
     it "keeps the folder tree in the page with the split pane layout" do
       create(:tm_suite, project:)
 

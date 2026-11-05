@@ -1,6 +1,6 @@
 # CI and automation
 
-Upload Playwright JSON, JUnit XML or native JSON reports into test runs. Optionally trigger a
+Upload Playwright JSON or JUnit XML reports into test runs. Optionally trigger a
 GitHub Actions workflow from OpenProject ("Run in CI").
 
 ## Files

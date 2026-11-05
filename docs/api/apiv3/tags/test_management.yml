@@ -7,7 +7,7 @@ description: 'Test management: project settings, folders, test cases, test runs 
   The module guide lives in `modules/test_management/docs`.
 
 
-  Automated results are uploaded with an ingest request (Playwright JSON, JUnit XML or native JSON)
+  Automated results are uploaded with an ingest request (Playwright JSON or JUnit XML)
 
   plus optional CI metadata. Matching order for `caseMatcher: auto` is case id / `@TC-12` tag,
 

@@ -32,7 +32,6 @@ module TestManagement
     self.table_name = "tm_ci_connections"
     self.filter_attributes += %i[token_ciphertext]
 
-    # shortcut: GitHub only, other providers in PR6
     PROVIDERS = %w[github].freeze
     INGEST_MODES = %w[new_run new_iteration].freeze
     DEFAULT_BASE_URLS = { "github" => "https://api.github.com" }.freeze

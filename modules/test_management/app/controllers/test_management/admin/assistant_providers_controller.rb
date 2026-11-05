@@ -45,7 +45,7 @@ module TestManagement
       end
 
       def new
-        @record = TestManagement::AssistantProvider.new(preset: "openai")
+        @record = TestManagement::AssistantProvider.new(preset: TestManagement::Assistant::AI::Provider::DEFAULT_KEY)
         @settings = initial_settings(@record)
       end
 
@@ -164,9 +164,7 @@ module TestManagement
         settings[:assistant_provider] = target.key
         return settings if previous == target.key
 
-        entered = form["assistant_base_url"].to_s.strip
-        keep_url = target.custom? && entered.present? && !TestManagement::Assistant::AI::Provider.default_base_url?(entered)
-        settings[:assistant_base_url] = keep_url ? entered : target.base_url
+        settings[:assistant_base_url] = target.base_url
         settings[:assistant_model] = ""
         settings.delete(:verify_model)
         settings

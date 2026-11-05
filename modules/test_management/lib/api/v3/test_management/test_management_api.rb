@@ -199,17 +199,15 @@ module API
               end
 
               get :imports do
-                ImportCollectionRepresenter.new(@run.automation_imports.newest_first,
-                                                self_link: api_v3_paths.test_management_run_imports(@run.id),
-                                                current_user:)
+                unpaginated_collection(ImportRepresenter, @run.automation_imports.newest_first,
+                                       self_link: api_v3_paths.test_management_run_imports(@run.id))
               end
 
               namespace :iterations do
                 get do
                   iterations = ::TestManagement::TestRunIteration.preload_stats(@run.iterations.to_a, @run)
-                  IterationCollectionRepresenter.new(iterations,
-                                                     self_link: api_v3_paths.test_management_run_iterations(@run.id),
-                                                     current_user:)
+                  unpaginated_collection(IterationRepresenter, iterations,
+                                         self_link: api_v3_paths.test_management_run_iterations(@run.id))
                 end
 
                 post do

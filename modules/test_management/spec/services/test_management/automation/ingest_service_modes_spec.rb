@@ -36,12 +36,20 @@ RSpec.describe TestManagement::Automation::IngestService, "ingest modes and CI c
   shared_let(:case_b) { create(:tm_test_case, project:, title: "Login") }
 
   def report(status_a = "passed", status_b = "failed")
-    { tests: [{ caseId: case_a.id, status: status_a }, { caseId: case_b.id, status: status_b }] }.to_json
+    specs = [[case_a, status_a], [case_b, status_b]].map do |test_case, status|
+      {
+        title: test_case.title, file: "a.spec.ts",
+        tests: [{ projectName: "chromium", status: status == "failed" ? "unexpected" : "expected",
+                  annotations: [{ type: "tm_case", description: test_case.id.to_s }],
+                  results: [{ status:, duration: 1, retry: 0 }] }]
+      }
+    end
+    { suites: [{ title: "a.spec.ts", file: "a.spec.ts", specs:, suites: [] }] }.to_json
   end
 
   def ingest(options = nil, content: report, **keyword_options)
     options = (options || {}).merge(keyword_options)
-    described_class.new(user:, project:).call(content:, options: options.deep_stringify_keys.merge("format" => "native"))
+    described_class.new(user:, project:).call(content:, options: options.deep_stringify_keys.merge("format" => "playwright_json"))
   end
 
   def error_code
@@ -62,7 +70,7 @@ RSpec.describe TestManagement::Automation::IngestService, "ingest modes and CI c
       expect(outcome.import.iteration).to eq(outcome.iteration)
       expect(TestManagement::TestResult.where(iteration: outcome.iteration).count).to eq(2)
 
-      shard = ingest({ externalRef: "ci:1" }, content: { tests: [{ caseId: case_a.id, status: "failed" }] }.to_json)
+      shard = ingest({ externalRef: "ci:1" }, content: report("failed", "failed"))
       expect(shard).to have_attributes(created_run: false, created_iteration: false, replay: false)
       expect(shard.iteration).to eq(outcome.iteration)
     end
@@ -104,7 +112,7 @@ RSpec.describe TestManagement::Automation::IngestService, "ingest modes and CI c
     it "puts shards of one build into the same iteration and replays an identical upload" do
       first = ingest(mode: "new_iteration", targetRun: "Smoke", externalRef: "gh:7")
       shard = ingest({ mode: "new_iteration", targetRun: "Smoke", externalRef: "gh:7" },
-                     content: { tests: [{ caseId: case_a.id, status: "failed" }] }.to_json)
+                     content: report("failed", "failed").then { |c| c })
       replay = ingest(mode: "new_iteration", targetRun: "Smoke", externalRef: "gh:7")
 
       expect(shard.iteration).to eq(first.iteration)

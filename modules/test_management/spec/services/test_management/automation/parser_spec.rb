@@ -91,15 +91,6 @@ RSpec.describe TestManagement::Automation::Parser do
     end
   end
 
-  describe "native JSON" do
-    it "reads caseId and reference" do
-      format, records = described_class.parse(fixture("native-report.json", 7), "auto")
-
-      expect(format).to eq("native")
-      expect(records.size).to eq(3)
-      expect(records[0].case_ids).to eq(["7"])
-    end
-  end
 
   describe "invalid input" do
     it "rejects empty and unreadable reports with :bad_request" do

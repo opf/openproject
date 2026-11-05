@@ -29,6 +29,8 @@
 
 module TestManagement
   class ProjectSettingsController < ::Projects::SettingsController
+    helper TestManagement::TestRunsHelper
+
     menu_item :settings_test_management
 
     before_action :load_setting

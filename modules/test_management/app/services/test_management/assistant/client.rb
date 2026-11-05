@@ -47,11 +47,6 @@ module TestManagement
         raise NotConfigured, I18n.t("test_management.assistant.errors.not_configured") unless config.configured?
 
         limit = (max_tokens.presence || config.max_tokens).to_i.clamp(1, ProviderConfig::MAX_TOKENS_RANGE.max)
-        if config.anthropic?
-          body = AnthropicAdapter.body(model: config.model, messages:, max_tokens: limit)
-          return parse_anthropic(request(body))
-        end
-
         body = { model: config.model, messages:, config.provider.token_param => limit }
         parse(request(body))
       end
@@ -84,12 +79,6 @@ module TestManagement
         fail!(I18n.t("test_management.assistant.errors.empty_reply")) if content.blank?
 
         Response.new(content:, finish_reason: json.dig("choices", 0, "finish_reason"))
-      rescue JSON::ParserError
-        fail!(I18n.t("test_management.assistant.errors.unexpected_response"))
-      end
-
-      def parse_anthropic(text)
-        AnthropicAdapter.parse(JSON.parse(text)) || fail!(I18n.t("test_management.assistant.errors.unexpected_response"))
       rescue JSON::ParserError
         fail!(I18n.t("test_management.assistant.errors.unexpected_response"))
       end

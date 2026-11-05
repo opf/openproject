@@ -112,9 +112,15 @@ module TestManagement
     end
 
     def delete_dialog
-      respond_with_dialog TestManagement::TestCases::DeleteDialogComponent.new(
-        test_case: @test_case,
-        project: @project
+      respond_with_dialog TestManagement::ConfirmDialogComponent.new(
+        id: "tm-test-case-delete-dialog",
+        test_selector: "tm-case-delete-dialog",
+        i18n_scope: "test_management.cases.delete_dialog",
+        form_arguments: {
+          action: project_test_management_test_case_path(@project, @test_case),
+          method: :delete
+        },
+        label: "#{@test_case.formatted_id} #{@test_case.title}"
       )
     end
 

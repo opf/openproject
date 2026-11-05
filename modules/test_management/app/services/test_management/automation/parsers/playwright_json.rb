@@ -83,14 +83,15 @@ module TestManagement
             properties:,
             project_name: test["projectName"].presence,
             retry: last["retry"].to_i
-          ).tap { |record| override_reference(record, properties) }
+          ).tap { |record| apply_properties(record, properties) }
         end
 
-        def override_reference(record, properties)
-          return if properties["tm_ref"].blank?
-
-          record.reference = properties["tm_ref"].first
-          record.external_id = [record.reference, record.project_name && "[#{record.project_name}]"].compact.join(" ")
+        def apply_properties(record, properties)
+          if properties["tm_ref"].present?
+            record.reference = properties["tm_ref"].first
+            record.external_id = [record.reference, record.project_name && "[#{record.project_name}]"].compact.join(" ")
+          end
+          record.case_ids = Array(properties["tm_case"]).flat_map { |value| value.to_s.scan(/\d+/) }
         end
 
         def status(test, last)

@@ -1261,8 +1261,6 @@ components:
       "$ref": "./components/schemas/test_management_ingest_options.yml"
     TestManagementIngestResultModel:
       "$ref": "./components/schemas/test_management_ingest_result_model.yml"
-    TestManagementNativeTest:
-      "$ref": "./components/schemas/test_management_native_test.yml"
     TestManagementProjectSettingModel:
       "$ref": "./components/schemas/test_management_project_setting_model.yml"
     TestManagementProjectSettingWriteModel:

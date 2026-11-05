@@ -38,20 +38,9 @@ RSpec.describe TestManagement::ProjectSetting do
     expect(setting.split_pane_layout?).to be(true)
   end
 
-  it "persists sidebar layout" do
-    setting = described_class.for_project(project)
-    setting.folder_tree_layout = "sidebar"
-    setting.save!
-
-    reloaded = described_class.find(setting.id)
-    expect(reloaded.effective_folder_tree_layout).to eq("sidebar")
-    expect(reloaded.sidebar_layout?).to be(true)
-    expect(described_class.folder_tree_layout_for(project)).to eq("sidebar")
-  end
-
   it "rejects unknown layouts" do
     setting = described_class.for_project(project)
-    setting.folder_tree_layout = "floating"
+    setting.folder_tree_layout = "sidebar"
     expect(setting).not_to be_valid
     expect(setting.errors[:folder_tree_layout]).to be_present
   end

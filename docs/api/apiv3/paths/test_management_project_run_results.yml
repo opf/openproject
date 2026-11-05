@@ -32,7 +32,7 @@ post:
             file:
               type: string
               format: binary
-              description: The report (Playwright JSON, JUnit XML or native JSON). Max. 50 MB, 20 000
+              description: The report (Playwright JSON or JUnit XML). Max. 50 MB, 20 000
                 tests.
             metadata:
               allOf:
@@ -45,18 +45,7 @@ post:
         schema:
           $ref: ../components/schemas/test_management_ingest_json_request.yml
         examples:
-          native:
-            summary: Native format
-            value:
-              externalRef: jenkins:shop-nightly:311
-              closeRun: true
-              tests:
-              - caseId: 12
-                status: passed
-                durationMs: 820
-              - reference: api/orders#rejects an empty cart
-                status: failed
-                message: expected 422, got 500
+
           newIteration:
             summary: New iteration of the Smoke run
             value:

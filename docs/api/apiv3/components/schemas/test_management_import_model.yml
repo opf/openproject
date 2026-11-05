@@ -18,7 +18,6 @@ properties:
     enum:
     - playwright_json
     - junit
-    - native
   state:
     type: string
     enum:

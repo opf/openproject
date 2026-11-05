@@ -44,7 +44,13 @@ RSpec.describe TestManagement::Automation::IngestService, "mixed manual/automate
   let(:manual) { create(:tm_test_case, project:, title: "Manual check", automated: false) }
   let(:run) { create(:tm_test_run, :in_progress, project:, selection_mode: "specific") }
   let(:report) do
-    { tests: [{ reference: automated.automation_reference, title: "signs in", status: "passed" }] }.to_json
+    {
+      suites: [{ title: "tests/login.spec.ts", file: "tests/login.spec.ts", specs: [{
+        title: "signs in", file: "tests/login.spec.ts",
+        tests: [{ projectName: "chromium", status: "expected", annotations: [],
+                  results: [{ status: "passed", duration: 1, retry: 0 }] }]
+      }], suites: [] }]
+    }.to_json
   end
 
   before do
@@ -54,7 +60,7 @@ RSpec.describe TestManagement::Automation::IngestService, "mixed manual/automate
 
   def ingest(**options)
     described_class.new(user:, project:)
-                   .call(content: report, options: options.deep_stringify_keys.merge("format" => "native", "runId" => run.id))
+                   .call(content: report, options: options.deep_stringify_keys.merge("format" => "playwright_json", "runId" => run.id))
   end
 
   it "updates only matched automated cases and leaves manual statuses untouched" do
@@ -67,9 +73,16 @@ RSpec.describe TestManagement::Automation::IngestService, "mixed manual/automate
   end
 
   it "can create, fill and close a standalone run via CI" do
-    content = { tests: [{ caseId: automated.id, status: "passed" }] }.to_json
+    content = {
+      suites: [{ title: "a.spec.ts", file: "a.spec.ts", specs: [{
+        title: automated.title, file: "a.spec.ts",
+        tests: [{ projectName: "chromium", status: "expected",
+                  annotations: [{ type: "tm_case", description: automated.id.to_s }],
+                  results: [{ status: "passed", duration: 1, retry: 0 }] }]
+      }], suites: [] }]
+    }.to_json
     outcome = described_class.new(user:, project:)
-                             .call(content:, options: { "format" => "native", "externalRef" => "ci:create-close",
+                             .call(content:, options: { "format" => "playwright_json", "externalRef" => "ci:create-close",
                                                         "closeRun" => true })
 
     expect(outcome.run).to be_persisted

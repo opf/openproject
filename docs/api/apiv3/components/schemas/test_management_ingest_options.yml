@@ -12,7 +12,6 @@ properties:
     - auto
     - playwright_json
     - junit
-    - native
     - allure
     - cucumber_json
     - cucumber_messages

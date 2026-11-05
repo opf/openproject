@@ -42,7 +42,10 @@ module API
         end
 
         link :repository do
-          { href: represented.repository_url }
+          href = represented.repository_url.to_s.strip
+          next unless href.match?(%r{\Ahttps?://[^\s]+\z}i)
+
+          { href: }
         end
 
         property :id

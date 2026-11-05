@@ -34,8 +34,8 @@ RSpec.describe TestManagement::Assistant::AI::ConnectionTest, "SSRF protection" 
 
   it "explains the allowlist for a private address" do
     merged, = TestManagement::Assistant::ProviderConfig.apply(
-      {}, "assistant_provider" => "custom", "assistant_auth_style" => "none",
-          "assistant_base_url" => "http://127.0.0.1:9/v1"
+      {}, "assistant_provider" => "openrouter", "assistant_base_url" => "http://127.0.0.1:9/v1",
+          "assistant_api_key" => "k"
     )
     result = described_class.new(TestManagement::Assistant::ProviderConfig.new(merged)).call
 

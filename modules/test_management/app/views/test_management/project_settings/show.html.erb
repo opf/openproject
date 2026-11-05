@@ -34,22 +34,6 @@
         </div>
       </div>
 
-      <div class="form--field">
-        <%= f.label :folder_tree_layout, t("test_management.project_settings.folder_tree_layout") %>
-        <div class="form--field-container">
-          <%= f.select :folder_tree_layout,
-                       [
-                         [t("test_management.project_settings.layout_split_pane"), "split_pane"],
-                         [t("test_management.project_settings.layout_sidebar"), "sidebar"]
-                       ],
-                       {},
-                       class: "form--select",
-                       data: { test_selector: "tm-folder-tree-layout" } %>
-        </div>
-        <div class="form--field-instructions">
-          <%= t("test_management.project_settings.folder_tree_layout_hint") %>
-        </div>
-      </div>
     </fieldset>
 
     <fieldset class="form--fieldset">
@@ -60,7 +44,7 @@
           <%= t("test_management.project_settings.enable_#{feature}") %>
         </label>
         <% if feature != "ci" %>
-          <div class="form--field-instructions"><%= t("test_management.project_settings.enable_#{feature}_hint") %></div>
+          <div class="form--field-instructions"><%= t("test_management.project_settings.later_release") %></div>
         <% end %>
       <% end %>
     </fieldset>

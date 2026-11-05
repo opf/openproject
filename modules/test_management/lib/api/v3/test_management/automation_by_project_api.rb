@@ -63,9 +63,8 @@ module API
           namespace :folders do
             get do
               authorize_in_project(%i[view_test_cases], project: @project)
-              FolderCollectionRepresenter.new(@project.tm_suites.ordered.to_a,
-                                              self_link: api_v3_paths.project_test_management_folders(@project.id),
-                                              current_user:)
+              unpaginated_collection(FolderRepresenter, @project.tm_suites.ordered.to_a,
+                                     self_link: api_v3_paths.project_test_management_folders(@project.id))
             end
 
             post do
@@ -84,10 +83,9 @@ module API
                   priority: params[:priority], automated: params[:automated] }.compact_blank
               )
               filters = params.slice(:folderId, :search, :status, :priority, :automated).to_h
-              TestCaseCollectionRepresenter.new(query.results.includes(:steps).order(:id),
-                                                self_link: api_v3_paths.project_test_management_cases(@project.id),
-                                                query_params: filters,
-                                                current_user:, **offset_page_params)
+              paginated_collection(TestCaseRepresenter, query.results.includes(:steps).order(:id),
+                                   self_link: api_v3_paths.project_test_management_cases(@project.id),
+                                   query_params: filters, **offset_page_params)
             end
 
             post do
@@ -109,9 +107,8 @@ module API
           namespace :ci_connections do
             get do
               authorize_in_project(%i[manage_test_ci] + UPLOAD_PERMISSIONS, project: @project)
-              CiConnectionCollectionRepresenter.new(@project.tm_ci_connections.ordered.to_a,
-                                                    self_link: api_v3_paths.project_test_management_ci_connections(@project.id),
-                                                    current_user:)
+              unpaginated_collection(CiConnectionRepresenter, @project.tm_ci_connections.ordered.to_a,
+                                     self_link: api_v3_paths.project_test_management_ci_connections(@project.id))
             end
 
             post do
@@ -153,10 +150,9 @@ module API
               runs = runs.where(state: params[:state]) if params[:state].present?
               runs = runs.where(source: params[:source]) if params[:source].present?
               runs = runs.where("LOWER(tm_test_runs.name) = ?", params[:name].to_s.downcase) if params[:name].present?
-              RunCollectionRepresenter.new(::TestManagement::TestRun.preload_stats(runs.limit(500)),
-                                           self_link: api_v3_paths.project_test_management_runs(@project.id),
-                                           query: params.slice(:externalRef, :state, :source, :name).to_h,
-                                           current_user:)
+              unpaginated_collection(RunRepresenter, ::TestManagement::TestRun.preload_stats(runs.limit(500)),
+                                     self_link: api_v3_paths.project_test_management_runs(@project.id),
+                                     query: params.slice(:externalRef, :state, :source, :name).to_h)
             end
 
             post do

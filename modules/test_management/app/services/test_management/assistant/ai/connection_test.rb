@@ -38,9 +38,6 @@ module TestManagement
         VERIFY_MAX_TOKENS = 16
         VERIFY_PROMPT = "Reply with OK."
 
-        NON_CHAT = /embed|whisper|tts|dall-e|davinci|babbage|moderation|audio|realtime|transcribe|
-                    image|imagine|video|search|sora|computer-use|rerank|ocr/x
-
         Result = Struct.new(:ok, :models, :error_kind, :message, :listed, :scope, keyword_init: true) do
           def ok? = ok
           def listed? = listed
@@ -56,22 +53,20 @@ module TestManagement
           end
         end
 
-        def initialize(config)
-          @config = config
-        end
+        def initialize(config) = (@config = config)
 
         def call
           precheck!
           @scope = provider.models_scope
           models = list
           Result.new(ok: true, models: models.first(MAX_MODELS), listed: true,
-                     message: success_message(models), scope: @scope)
+                     message: models.empty? ? t("success_no_models") : t("success", count: models.size), scope: @scope)
         rescue Failure => e
           Result.new(ok: false, models: [], error_kind: e.kind, message: filter(e.message), listed: false,
                      scope: provider.models_scope)
         end
 
-        def verify_model # rubocop:disable Metrics/AbcSize
+        def verify_model
           precheck!
           raise Failure.new(:incomplete, t("errors.model_missing")) if config.model.blank?
 
@@ -79,17 +74,11 @@ module TestManagement
           Result.new(ok: true, models: [], listed: false, scope: provider.models_scope,
                      message: t("verify.ok", model: config.model))
         rescue Failure => e
-          Result.new(ok: false, models: [], error_kind: e.kind, message: filter(e.message), listed: false,
-                     scope: provider.models_scope)
+          failed(:model, e.message)
         rescue Client::Error => e
-          verify_failed(e.message)
-        rescue StandardError => e # raised by the HTTP stack instead of an error response
-          verify_failed(e.class.name.to_s.demodulize)
-        end
-
-        def verify_failed(detail)
-          Result.new(ok: false, models: [], error_kind: :model, listed: false, scope: provider.models_scope,
-                     message: filter(t("verify.failed", model: config.model, detail:)))
+          failed(:model, t("verify.failed", model: config.model, detail: e.message))
+        rescue StandardError => e
+          failed(:model, t("verify.failed", model: config.model, detail: e.class.name.to_s.demodulize))
         end
 
         private
@@ -98,41 +87,64 @@ module TestManagement
 
         delegate :provider, to: :config
 
+        def failed(kind, message)
+          Result.new(ok: false, models: [], error_kind: kind, listed: false, scope: provider.models_scope,
+                     message: filter(message))
+        end
+
         def precheck!
-          unless ProviderConfig.valid_url?(config.base_url)
-            raise Failure.new(:incomplete, t("errors.base_url_missing"))
-          end
+          raise Failure.new(:incomplete, t("errors.base_url_missing")) unless ProviderConfig.valid_url?(config.base_url)
           raise Failure.new(:auth, t("errors.key_missing")) if config.key_required? && config.api_key.blank?
         end
 
         def list
-          models = if provider.models == "anthropic"
-                     ids(get(config.models_url("limit=1000")))
-                   else
-                     ids(get(config.models_url)).grep_v(NON_CHAT)
-                   end
-          models.uniq.sort_by { [it.downcase, it] }
+          ids = case provider.models
+                when "openrouter" then openrouter_for_key
+                when "mistral" then mistral_ids(get(config.models_url))
+                else []
+                end
+          ids.uniq.sort_by { [it.downcase, it] }
         end
 
-        def ids(json)
-          Array(json.is_a?(Hash) ? json["data"] : json).filter_map do |item|
-            id = item.is_a?(Hash) ? item["id"] : item
-            id.to_s.strip.presence if id.is_a?(String)
+        def openrouter_for_key
+          openrouter_ids(get(config.sibling_url("/models/user")))
+        rescue Failure => e
+          raise unless e.kind == :not_found
+
+          @scope = "catalogue"
+          get(config.sibling_url("/key"))
+          openrouter_ids(get(config.models_url))
+        end
+
+        def openrouter_ids(json)
+          Array(json["data"]).filter_map do |item|
+            next unless item.is_a?(Hash) && item["id"].is_a?(String)
+
+            architecture = item["architecture"].is_a?(Hash) ? item["architecture"] : {}
+            outputs = Array(architecture["output_modalities"])
+            item["id"] if outputs.empty? || outputs.include?("text")
           end
         end
 
-        def get(url) # rubocop:disable Metrics/AbcSize
+        def mistral_ids(json)
+          Array(json["data"]).filter_map do |item|
+            next unless item.is_a?(Hash) && item["id"].is_a?(String) && !item["archived"]
+
+            capabilities = item["capabilities"]
+            item["id"] if !capabilities.is_a?(Hash) || capabilities["completion_chat"]
+          end
+        end
+
+        def get(url)
           response = begin
             http.get(url, headers: config.headers.except("Content-Type"))
-          rescue StandardError => e # raised instead of wrapped in an ErrorResponse
+          rescue StandardError => e
             error!(e)
           end
           error!(response.error) if CiConnections::Http.error_response?(response)
-          length = Array(response.headers["content-length"]).first.to_i
-          raise Failure.new(:unexpected, t("errors.too_large")) if length > MAX_BYTES
-
           text = response.body.to_s
-          raise Failure.new(:unexpected, t("errors.too_large")) if text.bytesize > MAX_BYTES
+          length = [Array(response.headers["content-length"]).first.to_i, text.bytesize].max
+          raise Failure.new(:unexpected, t("errors.too_large")) if length > MAX_BYTES
 
           status!(response.status.to_i, text)
           JSON.parse(text)
@@ -167,24 +179,18 @@ module TestManagement
           nil
         end
 
-        def error!(error) # rubocop:disable Metrics/AbcSize
+        def error!(error)
           if CiConnections::Http.ssrf?(error)
             addresses = CiConnections::Http.resolve(config.host.to_s)
             raise Failure.new(:ssrf, t("errors.ssrf", host: config.host, env: CiConnections::Http::SSRF_ENV,
                                                       addresses: addresses.any? ? addresses.join(", ") : "?"))
           end
-          raise Failure.new(:timeout, t("errors.timeout", host: config.host, seconds: TIMEOUT)) if timeout?(error)
+          if error.is_a?(::Timeout::Error) || (defined?(::HTTPX::TimeoutError) && error.is_a?(::HTTPX::TimeoutError))
+            raise Failure.new(:timeout, t("errors.timeout", host: config.host, seconds: TIMEOUT))
+          end
           raise Failure.new(:tls, t("errors.tls", host: config.host, detail: error.message.to_s.first(200))) if CiConnections::Http.tls?(error)
 
           raise Failure.new(:network, t("errors.network", host: config.host, detail: error.class.name.to_s.demodulize))
-        end
-
-        def timeout?(error)
-          error.is_a?(::Timeout::Error) || (defined?(::HTTPX::TimeoutError) && error.is_a?(::HTTPX::TimeoutError))
-        end
-
-        def success_message(models)
-          models.empty? ? t("success_no_models") : t("success", count: models.size)
         end
 
         def filter(message)
@@ -193,9 +199,7 @@ module TestManagement
           key.present? ? message.gsub(key, "[FILTERED]") : message
         end
 
-        def t(key, **)
-          I18n.t("test_management.admin.assistant.test.#{key}", **)
-        end
+        def t(key, **) = I18n.t("test_management.admin.assistant.test.#{key}", **)
       end
     end
   end

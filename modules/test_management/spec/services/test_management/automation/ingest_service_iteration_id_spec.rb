@@ -44,10 +44,20 @@ RSpec.describe TestManagement::Automation::IngestService, "iterationId" do
   let(:starter) { TestManagement::TestRunIterations::Starter.new(run:, user:) }
   let!(:iteration) { starter.start!(name: "Run in CI · E2E", source: "automation") }
 
-  def report = { tests: [{ caseId: case_a.id, status: "passed" }, { caseId: case_b.id, status: "failed" }] }.to_json
+  def report
+    specs = [[case_a, "passed"], [case_b, "failed"]].map do |test_case, status|
+      {
+        title: test_case.title, file: "a.spec.ts",
+        tests: [{ projectName: "chromium", status: status == "failed" ? "unexpected" : "expected",
+                  annotations: [{ type: "tm_case", description: test_case.id.to_s }],
+                  results: [{ status:, duration: 1, retry: 0 }] }]
+      }
+    end
+    { suites: [{ title: "a.spec.ts", file: "a.spec.ts", specs:, suites: [] }] }.to_json
+  end
 
   def ingest(options)
-    described_class.new(user:, project:).call(content: report, options: options.deep_stringify_keys.merge("format" => "native"))
+    described_class.new(user:, project:).call(content: report, options: options.deep_stringify_keys.merge("format" => "playwright_json"))
   end
 
   def error_code

@@ -42,8 +42,8 @@ RSpec.describe "Test management admin: AI providers", :disable_ssrf_filter, :ski
 
   describe "list" do
     it "shows the default provider first and never a key" do
-      other = create(:tm_assistant_provider, name: "Local cluster", preset: "custom",
-                                             base_url: "http://local.test:11434/v1", model: "qwen2.5:7b", api_key: "")
+      other = create(:tm_assistant_provider, name: "Mistral", preset: "mistral",
+                                             base_url: "", model: "mistral-small-latest", api_key: "sk-m")
       default = create(:tm_assistant_provider, :default, name: "Gateway", api_key: "sk-list-secret")
 
       get "/test_management/admin/settings"
@@ -76,13 +76,13 @@ RSpec.describe "Test management admin: AI providers", :disable_ssrf_filter, :ski
     end
 
     it "creates the first provider as the default with the key encrypted" do
-      post base, params: { name: "Anthropic", assistant_provider: "anthropic", assistant_model_choice: "claude-a",
+      post base, params: { name: "Mistral", assistant_provider: "mistral", assistant_model_choice: "mistral-small-latest",
                            assistant_model: "", assistant_api_key: "sk-a-secret", user_models: "claude-b\nclaude-c",
                            verify_model: "0" }
 
       expect(response).to redirect_to(settings_path)
       provider = providers.sole
-      expect(provider).to have_attributes(name: "Anthropic", preset: "anthropic", model: "claude-a",
+      expect(provider).to have_attributes(name: "Mistral", preset: "mistral", model: "mistral-small-latest",
                                           user_models: %w[claude-b claude-c], is_default: true)
       expect(provider.api_key_ciphertext).to be_present
       expect(provider.api_key_ciphertext).not_to include("sk-a-secret")
@@ -90,10 +90,10 @@ RSpec.describe "Test management admin: AI providers", :disable_ssrf_filter, :ski
     end
 
     it "checks the model before saving when asked and keeps everything unsaved on failure" do
-      stub_request(:post, "https://api.openai.com/v1/chat/completions")
+      stub_request(:post, "https://openrouter.ai/api/v1/chat/completions")
         .to_return(status: 404, body: { error: { message: "The model gpt-nope does not exist (sk-verify)" } }.to_json)
 
-      post base, params: { name: "OpenAI", assistant_provider: "openai", assistant_model: "gpt-nope",
+      post base, params: { name: "OpenRouter", assistant_provider: "openrouter", assistant_model: "openai/gpt-nope",
                            assistant_api_key: "sk-verify", verify_model: "1" }
 
       expect(response).to have_http_status(:unprocessable_entity)
@@ -102,10 +102,10 @@ RSpec.describe "Test management admin: AI providers", :disable_ssrf_filter, :ski
     end
 
     it "saves after a successful model check" do
-      stub_request(:post, "https://api.openai.com/v1/chat/completions")
+      stub_request(:post, "https://openrouter.ai/api/v1/chat/completions")
         .to_return(status: 200, body: { choices: [{ message: { role: "assistant", content: "OK" } }] }.to_json)
 
-      post base, params: { name: "OpenAI", assistant_provider: "openai", assistant_model: "gpt-4o-mini",
+      post base, params: { name: "OpenRouter", assistant_provider: "openrouter", assistant_model: "openai/gpt-4o-mini",
                            assistant_api_key: "sk-ok", verify_model: "1" }
 
       expect(providers.map(&:name)).to eq(%w[OpenAI])
@@ -114,11 +114,11 @@ RSpec.describe "Test management admin: AI providers", :disable_ssrf_filter, :ski
     it "refuses a duplicate name (case-insensitive) and an invalid base URL" do
       create(:tm_assistant_provider, name: "Gateway")
 
-      post base, params: { name: "gateway", assistant_provider: "custom", assistant_base_url: "https://x.example.test/v1",
+      post base, params: { name: "gateway", assistant_provider: "openrouter", assistant_base_url: "https://openrouter.ai/api/v1",
                            assistant_model: "m", assistant_auth_style: "none" }
       expect(response).to have_http_status(:unprocessable_entity)
 
-      post base, params: { name: "Other", assistant_provider: "custom", assistant_base_url: "ftp://nope", assistant_model: "m" }
+      post base, params: { name: "Other", assistant_provider: "openrouter", assistant_base_url: "ftp://nope", assistant_model: "m" }
       expect(response).to have_http_status(:unprocessable_entity)
       expect(providers.size).to eq(1)
     end
@@ -132,22 +132,21 @@ RSpec.describe "Test management admin: AI providers", :disable_ssrf_filter, :ski
       get "#{base}/#{second.id}/edit"
       expect(response.body).not_to include("sk-second")
 
-      patch "#{base}/#{second.id}", params: { name: "Second", assistant_provider: "custom",
-                                              assistant_base_url: "https://llm.example.com/v1",
-                                              assistant_model: "test-model-2", assistant_api_key: "", verify_model: "0" }
+      patch "#{base}/#{second.id}", params: { name: "Second", assistant_provider: "openrouter",
+                                              assistant_model: "openai/gpt-4o", assistant_api_key: "", verify_model: "0" }
 
       expect(response).to redirect_to(settings_path)
-      expect(second.reload.model).to eq("test-model-2")
+      expect(second.reload.model).to eq("openai/gpt-4o")
       expect(second.config.api_key).to eq("sk-second")
     end
 
     it "requires a new key when the preset changes" do
-      patch "#{base}/#{second.id}", params: { name: "Second", assistant_provider: "anthropic",
-                                              assistant_model: "claude-sonnet-4-5",
+      patch "#{base}/#{second.id}", params: { name: "Second", assistant_provider: "mistral",
+                                              assistant_model: "mistral-small-latest",
                                               assistant_api_key: "", verify_model: "0" }
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(second.reload.preset).to eq("custom")
+      expect(second.reload.preset).to eq("openrouter")
       expect(second.config.api_key).to eq("sk-second")
     end
 
@@ -169,53 +168,53 @@ RSpec.describe "Test management admin: AI providers", :disable_ssrf_filter, :ski
   describe "provider_form and test_connection" do
     it "provider_form re-renders the fields for the chosen preset without saving" do
       post "#{base}/provider_form",
-           params: { assistant_provider: "anthropic", assistant_provider_was: "openai",
-                     assistant_base_url: "https://api.openai.com/v1", assistant_model: "gpt-4o" }, headers: turbo
+           params: { assistant_provider: "mistral", assistant_provider_was: "openrouter",
+                     assistant_base_url: "https://openrouter.ai/api/v1", assistant_model: "openai/gpt-4o" }, headers: turbo
 
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq("text/vnd.turbo-stream.html")
-      expect(response.body).to include('target="tm-assistant-provider-fields"', "https://api.anthropic.com/v1")
-      expect(response.body).not_to include("gpt-4o")
+      expect(response.body).to include('target="tm-assistant-provider-fields"', "https://api.mistral.ai/v1")
+      expect(response.body).not_to include("openai/gpt-4o")
       expect(providers).to be_empty
     end
 
     it "lists the models as a select and never renders the key" do
-      stub_request(:get, "https://api.openai.com/v1/models")
-        .to_return(status: 200, body: { data: [{ id: "gpt-4o" }, { id: "gpt-4o-mini" },
+      stub_request(:get, "https://openrouter.ai/api/v1/models/user")
+        .to_return(status: 200, body: { data: [{ id: "openai/gpt-4o" }, { id: "openai/gpt-4o-mini" },
                                                { id: "text-embedding-3-small" }] }.to_json)
 
       patch "#{base}/test_connection",
-            params: { assistant_provider: "openai", assistant_api_key: "sk-form-secret", assistant_model: "gpt-4o-mini" },
+            params: { assistant_provider: "openrouter", assistant_api_key: "sk-form-secret", assistant_model: "openai/gpt-4o-mini" },
             headers: turbo
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('target="tm-assistant-model-field"', "assistant_model_choice",
-                                       '<option selected="selected" value="gpt-4o-mini">', "tm-assistant-test-ok",
+                                       '<option selected="selected" value="openai/gpt-4o-mini">', "tm-assistant-test-ok",
                                        "tm-assistant-catalogue-hint")
       expect(response.body).not_to include("text-embedding-3-small", "sk-form-secret")
-      expect(WebMock).to have_requested(:get, "https://api.openai.com/v1/models")
+      expect(WebMock).to have_requested(:get, "https://openrouter.ai/api/v1/models/user")
         .with(headers: { "Authorization" => "Bearer sk-form-secret" })
       expect(providers).to be_empty
     end
 
     it "uses the stored key of the edited provider when the field is blank" do
-      provider = create(:tm_assistant_provider, name: "OpenAI", preset: "openai", base_url: "", model: "gpt-4o",
+      provider = create(:tm_assistant_provider, name: "OpenRouter", preset: "openrouter", base_url: "", model: "openai/gpt-4o",
                                                 api_key: "sk-stored")
-      stub_request(:get, "https://api.openai.com/v1/models").with(headers: { "Authorization" => "Bearer sk-stored" })
-        .to_return(status: 200, body: { data: [{ id: "gpt-4o" }, { id: "gpt-4o-mini" }] }.to_json)
+      stub_request(:get, "https://openrouter.ai/api/v1/models/user").with(headers: { "Authorization" => "Bearer sk-stored" })
+        .to_return(status: 200, body: { data: [{ id: "openai/gpt-4o" }, { id: "openai/gpt-4o-mini" }] }.to_json)
 
-      post "#{base}/test_connection", params: { provider_id: provider.id, assistant_provider: "openai", assistant_api_key: "" },
+      post "#{base}/test_connection", params: { provider_id: provider.id, assistant_provider: "openrouter", assistant_api_key: "" },
                                       headers: turbo
 
-      expect(response.body).to include("gpt-4o-mini")
+      expect(response.body).to include("openai/gpt-4o-mini")
       expect(response.body).not_to include("sk-stored")
     end
 
     it "does not send another provider's stored key to a new preset" do
-      provider = create(:tm_assistant_provider, name: "OpenAI", preset: "openai", base_url: "", model: "gpt-4o",
+      provider = create(:tm_assistant_provider, name: "OpenRouter", preset: "openrouter", base_url: "", model: "openai/gpt-4o",
                                                 api_key: "sk-openai-old")
 
-      post "#{base}/test_connection", params: { provider_id: provider.id, assistant_provider: "anthropic",
+      post "#{base}/test_connection", params: { provider_id: provider.id, assistant_provider: "mistral",
                                                 assistant_api_key: "" }, headers: turbo
 
       expect(response.body).to include("tm-assistant-test-error", 'data-error-kind="invalid"')
@@ -223,19 +222,19 @@ RSpec.describe "Test management admin: AI providers", :disable_ssrf_filter, :ski
     end
 
     it "reports auth errors without echoing the key" do
-      stub_request(:get, "https://api.openai.com/v1/models")
+      stub_request(:get, "https://openrouter.ai/api/v1/models/user")
         .to_return(status: 401, body: { error: { message: "Incorrect API key provided: sk-bad-key" } }.to_json)
 
-      post "#{base}/test_connection", params: { assistant_provider: "openai", assistant_api_key: "sk-bad-key" }, headers: turbo
+      post "#{base}/test_connection", params: { assistant_provider: "openrouter", assistant_api_key: "sk-bad-key" }, headers: turbo
 
       expect(response.body).to include("tm-assistant-test-error", 'data-error-kind="auth"')
       expect(response.body).not_to include("sk-bad-key")
     end
 
     it "without Turbo renders the whole form" do
-      stub_request(:get, "https://api.openai.com/v1/models").to_return(status: 200, body: { data: [{ id: "gpt-4o" }] }.to_json)
+      stub_request(:get, "https://openrouter.ai/api/v1/models/user").to_return(status: 200, body: { data: [{ id: "openai/gpt-4o" }] }.to_json)
 
-      post "#{base}/test_connection", params: { assistant_provider: "openai", assistant_api_key: "k" }
+      post "#{base}/test_connection", params: { assistant_provider: "openrouter", assistant_api_key: "k" }
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("tm-assistant-provider-select", "assistant_model_choice", 'name="name"')
@@ -251,13 +250,13 @@ RSpec.describe "Test management admin: AI providers", :disable_ssrf_filter, :ski
       get "#{base}/new"
       expect(response).to have_http_status(:forbidden)
 
-      post base, params: { name: "X", assistant_provider: "custom", assistant_model: "m" }
+      post base, params: { name: "X", assistant_provider: "openrouter", assistant_model: "m" }
       expect(response).to have_http_status(:forbidden)
 
       post "#{base}/#{provider.id}/make_default"
       expect(response).to have_http_status(:forbidden)
 
-      post "#{base}/test_connection", params: { assistant_provider: "openai", assistant_api_key: "k" }, headers: turbo
+      post "#{base}/test_connection", params: { assistant_provider: "openrouter", assistant_api_key: "k" }, headers: turbo
       expect(response).to have_http_status(:forbidden)
       expect(WebMock).not_to have_requested(:any, /.*/)
       expect(providers.size).to eq(1)

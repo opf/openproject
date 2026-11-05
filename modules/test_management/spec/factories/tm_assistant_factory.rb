@@ -30,9 +30,9 @@
 FactoryBot.define do
   factory :tm_assistant_provider, class: "TestManagement::AssistantProvider" do
     sequence(:name) { |n| "Provider #{n}" }
-    preset { "custom" }
-    base_url { "https://llm.example.com/v1" }
-    model { "test-model" }
+    preset { "openrouter" }
+    base_url { "https://openrouter.ai/api/v1" }
+    model { "openai/gpt-4o-mini" }
     user_models { [] }
     is_default { false }
 
@@ -43,8 +43,7 @@ FactoryBot.define do
     after(:build) do |provider, evaluator|
       merged, errors = TestManagement::Assistant::ProviderConfig.apply(
         {}, "assistant_provider" => provider.preset, "assistant_base_url" => provider.base_url.to_s,
-            "assistant_model" => provider.model.to_s, "assistant_api_key" => evaluator.api_key.to_s,
-            "assistant_auth_style" => provider.auth_style.presence || (provider.preset == "custom" ? "bearer" : nil)
+            "assistant_model" => provider.model.to_s, "assistant_api_key" => evaluator.api_key.to_s
       )
       raise ArgumentError, errors.join(" ") if errors.any?
 

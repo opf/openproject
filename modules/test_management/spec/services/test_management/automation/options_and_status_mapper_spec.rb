@@ -34,7 +34,7 @@ RSpec.describe "TestManagement::Automation options and status mapping" do # rubo
   let(:options_class) { TestManagement::Automation::Options }
 
   describe TestManagement::Automation::StatusMapper do
-    it "maps the usual statuses of Playwright, JUnit and the native format" do
+    it "maps the usual statuses of Playwright and JUnit" do
       mapper = mapper_class.new
 
       expect(%w[passed expected failed timedOut interrupted skipped flaky].map { |s| mapper.call(s) })

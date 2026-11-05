@@ -35,7 +35,7 @@ module TestManagement
   class AutomationImport < ApplicationRecord
     self.table_name = "tm_automation_imports"
 
-    FORMATS = %w[junit playwright_json native].freeze
+    FORMATS = %w[junit playwright_json].freeze
     STATES = %w[queued processing done failed].freeze
 
     belongs_to :project

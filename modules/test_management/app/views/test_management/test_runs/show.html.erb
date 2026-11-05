@@ -222,68 +222,6 @@
   <%= render partial: "test_management/test_runs/iterations" %>
 <% end %>
 
-<% if @imports.present? %>
-  <details class="tm-run-details" open data-test-selector="tm-run-imports">
-    <summary>
-      <%= render(Primer::Beta::Octicon.new(icon: :"chevron-down", classes: "tm-chevron", "aria-hidden": true)) %>
-      <%= t("test_management.runs.automation.uploads") %>
-    </summary>
-    <div class="tm-run-details--body">
-      <ul class="tm-run-imports">
-        <% @imports.each do |import| %>
-          <li data-test-selector="tm-run-import-<%= import.id %>">
-            <%= t(
-                  "test_management.runs.automation.upload_line",
-                  time: format_time(import.created_at),
-                  report_format: t("test_management.runs.automation.formats.#{import.format}"),
-                  parsed: import.parsed_count, matched: import.matched_count,
-                  created: import.created_cases_count, unmatched: import.unmatched_count
-                ) %>
-          </li>
-        <% end %>
-      </ul>
-      <% unmatched = @test_run.unmatched_tests %>
-      <% if unmatched.any? %>
-        <details class="tm-run-unmatched" data-test-selector="tm-run-unmatched">
-          <summary><%= t("test_management.runs.automation.unmatched_title", count: unmatched.size) %></summary>
-          <p class="color-fg-muted"><%= t("test_management.runs.automation.unmatched_hint") %></p>
-          <table class="tm-run-stats">
-            <tbody>
-              <% unmatched.first(200).each do |entry| %>
-                <tr>
-                  <td><code><%= entry["reference"].presence || entry["title"] %></code>
-                    <% if entry["projectName"].present? %><span class="color-fg-muted">[<%= entry["projectName"] %>]</span><% end %></td>
-                  <td><%= entry["status"] %></td>
-                  <td class="color-fg-muted"><%= t("test_management.runs.automation.reasons.#{entry['reason']}", default: entry["reason"].to_s) %></td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </details>
-      <% end %>
-    </div>
-  </details>
-<% end %>
-
-<details class="tm-run-details" open data-test-selector="tm-run-schedule">
-  <summary>
-    <%= render(Primer::Beta::Octicon.new(icon: :"chevron-down", classes: "tm-chevron", "aria-hidden": true)) %>
-    <%= t("test_management.runs.sections.schedule") %>
-  </summary>
-  <div class="tm-run-details--body">
-    <% if @test_run.start_date || @test_run.end_date %>
-      <dl class="tm-run-meta">
-        <dt><%= t("test_management.runs.sections.starts") %></dt>
-        <dd><%= @test_run.start_date ? format_date(@test_run.start_date) : "—" %></dd>
-        <dt><%= t("test_management.runs.sections.ends") %></dt>
-        <dd><%= @test_run.end_date ? format_date(@test_run.end_date) : "—" %></dd>
-      </dl>
-    <% else %>
-      <p class="color-fg-muted"><%= t("test_management.runs.sections.no_schedule") %></p>
-    <% end %>
-  </div>
-</details>
-
 <% if @run_cases.any? %>
   <% nodes, unfiled = tm_run_case_tree(@run_cases, @suites) %>
   <div class="tm-run-cases" data-test-selector="tm-run-cases">

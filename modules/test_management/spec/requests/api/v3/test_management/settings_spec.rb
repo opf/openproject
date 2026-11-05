@@ -67,11 +67,11 @@ RSpec.describe "APIv3 test management project settings" do
     expect(last_response).to have_http_status(200)
   end
 
-  it "updates the toggles, layout and prefix" do
-    patch_json(enableCi: false, folderTreeLayout: "sidebar", displayPrefix: "QA")
+  it "updates the toggles and prefix" do
+    patch_json(enableCi: false, displayPrefix: "QA")
 
     expect(last_response).to have_http_status(200)
-    expect(json).to include("enableCi" => false, "folderTreeLayout" => "sidebar", "displayPrefix" => "QA")
+    expect(json).to include("enableCi" => false, "folderTreeLayout" => "split_pane", "displayPrefix" => "QA")
     expect(TestManagement::ProjectSetting.enabled?(project, :ci)).to be(false)
   end
 

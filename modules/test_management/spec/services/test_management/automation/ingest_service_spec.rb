@@ -59,8 +59,26 @@ RSpec.describe TestManagement::Automation::IngestService do
     e.code
   end
 
-  def native(tests)
-    { tests: }.to_json
+
+  def playwright_for(*pairs)
+    specs = pairs.map do |test_case, status|
+      overall = case status
+                when "failed" then "unexpected"
+                when "skipped" then "skipped"
+                else "expected"
+                end
+      {
+        title: test_case.title,
+        file: "a.spec.ts",
+        tests: [{
+          projectName: "chromium",
+          status: overall,
+          annotations: [{ type: "tm_case", description: test_case.id.to_s }],
+          results: [{ status:, duration: 1, retry: 0 }]
+        }]
+      }
+    end
+    { suites: [{ title: "a.spec.ts", file: "a.spec.ts", specs:, suites: [] }] }.to_json
   end
 
   describe "a first upload" do
@@ -81,7 +99,16 @@ RSpec.describe TestManagement::Automation::IngestService do
     end
 
     it "writes the reference back to a case matched by its ID" do
-      ingest(native([{ caseId: wrong_case.id, reference: "login.spec.ts#wrong password", status: "passed" }]))
+      content = {
+        suites: [{ title: "login.spec.ts", file: "login.spec.ts", specs: [{
+          title: "wrong password", file: "login.spec.ts",
+          tests: [{ projectName: "chromium", status: "expected",
+                    annotations: [{ type: "tm_case", description: wrong_case.id.to_s },
+                                  { type: "tm_ref", description: "login.spec.ts#wrong password" }],
+                    results: [{ status: "passed", duration: 1, retry: 0 }] }]
+        }], suites: [] }]
+      }.to_json
+      ingest(content)
 
       expect(wrong_case.reload.automation_reference).to eq("login.spec.ts#wrong password")
       expect(wrong_case).to be_automated
@@ -99,8 +126,8 @@ RSpec.describe TestManagement::Automation::IngestService do
   end
 
   it "lets shards with the same externalRef report into one run" do
-    shard1 = ingest(native([{ reference: login_case.automation_reference, status: "passed" }]), { "externalRef" => "ci:1" })
-    shard2 = ingest(native([{ caseId: wrong_case.id, status: "failed" }]), { "externalRef" => "ci:1" })
+    shard1 = ingest(playwright_for([login_case, "passed"]), { "externalRef" => "ci:1" })
+    shard2 = ingest(playwright_for([wrong_case, "failed"]), { "externalRef" => "ci:1" })
 
     expect(shard1).to be_created_run
     expect(shard2).not_to be_created_run
@@ -112,9 +139,9 @@ RSpec.describe TestManagement::Automation::IngestService do
     outcome = ingest(report, { "externalRef" => "ci:2", "closeRun" => true })
 
     expect(outcome.run.reload).to have_attributes(state: "completed", completion_source: "automation")
-    expect(error_code { ingest(native([{ caseId: wrong_case.id, status: "passed" }]), { "externalRef" => "ci:2" }) })
+    expect(error_code { ingest(playwright_for([wrong_case, "passed"]), { "externalRef" => "ci:2" }) })
       .to eq(:conflict)
-    expect(error_code { ingest(native([{ caseId: wrong_case.id, status: "passed" }]), { "runId" => outcome.run.id }) })
+    expect(error_code { ingest(playwright_for([wrong_case, "passed"]), { "runId" => outcome.run.id }) })
       .to eq(:conflict)
   end
 
@@ -157,8 +184,7 @@ RSpec.describe TestManagement::Automation::IngestService do
 
   it "maps skipped tests as configured and leaves them out of the pass rate" do
     skipped_case = create(:tm_test_case, project:, automation_reference: "x#skip")
-    outcome = ingest(native([{ caseId: wrong_case.id, status: "passed" },
-                             { reference: "x#skip", status: "skipped" }]))
+    outcome = ingest(playwright_for([wrong_case, "passed"], [skipped_case, "skipped"]))
     counts = outcome.run.status_counts
 
     expect(outcome.run.run_cases.find_by(test_case: skipped_case).status).to eq("skipped")

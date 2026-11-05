@@ -65,9 +65,6 @@ module TestManagement
       @possible_assignees = possible_assignees
       load_iterations
       load_last_results
-      imports = @test_run.automation_imports.newest_first.limit(20)
-      imports = imports.where(iteration_id: @shown_iteration.id) if @shown_iteration
-      @imports = imports.to_a
     end
 
     def new
@@ -118,10 +115,9 @@ module TestManagement
     end
 
     def complete_dialog
-      respond_with_dialog TestManagement::TestRuns::CompleteDialogComponent.new(
-        test_run: @test_run,
-        project: @project
-      )
+      run_confirm_dialog("tm-test-run-complete-dialog", "tm-run-complete-dialog",
+                         "test_management.runs.complete_dialog",
+                         complete_project_test_management_test_run_path(@project, @test_run), :post)
     end
 
     def complete
@@ -129,10 +125,9 @@ module TestManagement
     end
 
     def cancel_dialog
-      respond_with_dialog TestManagement::TestRuns::CancelDialogComponent.new(
-        test_run: @test_run,
-        project: @project
-      )
+      run_confirm_dialog("tm-test-run-cancel-dialog", "tm-run-cancel-dialog",
+                         "test_management.runs.cancel_dialog",
+                         cancel_project_test_management_test_run_path(@project, @test_run), :post)
     end
 
     def cancel
@@ -144,10 +139,9 @@ module TestManagement
     end
 
     def delete_dialog
-      respond_with_dialog TestManagement::TestRuns::DeleteDialogComponent.new(
-        test_run: @test_run,
-        project: @project
-      )
+      run_confirm_dialog("tm-test-run-delete-dialog", "tm-run-delete-dialog",
+                         "test_management.runs.delete_dialog",
+                         project_test_management_test_run_path(@project, @test_run), :delete)
     end
 
     def destroy
@@ -196,6 +190,14 @@ module TestManagement
 
     def find_test_run
       @test_run = @project.tm_test_runs.find(params.expect(:id))
+    end
+
+    def run_confirm_dialog(id, test_selector, i18n_scope, action, method)
+      respond_with_dialog TestManagement::ConfirmDialogComponent.new(
+        id:, test_selector:, i18n_scope:,
+        form_arguments: { action:, method: },
+        label: "#{@test_run.formatted_id} #{@test_run.name}"
+      )
     end
 
     def transition(service_class, notice_key)

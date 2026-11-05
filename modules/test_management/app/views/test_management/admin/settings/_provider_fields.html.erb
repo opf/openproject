@@ -16,23 +16,9 @@
     </div>
   </div>
 
-  <% if preset.custom? %>
-    <div class="form--field">
-      <label class="form--label" for="assistant_auth_style"><%= t("test_management.admin.assistant.auth_style") %></label>
-      <div class="form--field-container">
-        <%= select_tag :assistant_auth_style,
-                       options_for_select(
-                         TestManagement::Assistant::ProviderConfig::AUTH_STYLES.map { |s| [t("test_management.admin.assistant.auth_styles.#{s}"), s] },
-                         settings[:assistant_auth_style].presence || "bearer"
-                       ),
-                       class: "form--select" %>
-      </div>
-    </div>
-  <% else %>
-    <%= hidden_field_tag :assistant_auth_style, settings[:assistant_auth_style].presence || "bearer" %>
-  <% end %>
+  <%= hidden_field_tag :assistant_auth_style, preset.auth_style %>
 
-    <% other_provider_key = provider.api_key_set? && preset.key != provider.provider.key %>
+  <% other_provider_key = provider.api_key_set? && preset.key != provider.provider.key %>
   <div class="form--field">
     <label class="form--label" for="assistant_api_key"><%= t("test_management.admin.assistant.api_key") %></label>
     <div class="form--field-container">
@@ -40,15 +26,10 @@
                                                       placeholder: provider.api_key_set? && !other_provider_key ? t("test_management.admin.assistant.api_key_keep") : "" %>
     </div>
     <div class="form--field-instructions" data-test-selector="tm-assistant-api-key-state">
-      <% unless preset.custom? %>
-        <%= t("test_management.admin.assistant.auth_fixed.#{preset.auth_style}") %>
-      <% end %>
+      <%= t("test_management.admin.assistant.auth_fixed.#{preset.auth_style}") %>
       <% if other_provider_key %>
         <span data-test-selector="tm-assistant-api-key-other-provider">
-          <%= t(
-                preset.key_required == false ? "test_management.admin.assistant.api_key_other_provider_optional" : "test_management.admin.assistant.api_key_other_provider",
-                provider: provider.provider.label
-              ) %>
+          <%= t("test_management.admin.assistant.api_key_other_provider", provider: provider.provider.label) %>
         </span>
       <% elsif provider.api_key_unreadable? %>
         <%= t("test_management.admin.assistant.api_key_unreadable") %>

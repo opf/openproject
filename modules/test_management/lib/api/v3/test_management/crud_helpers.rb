@@ -76,6 +76,20 @@ module API
         def offset_page_params
           { page: params[:offset], per_page: params[:pageSize] }
         end
+
+        def unpaginated_collection(element_decorator, models, **)
+          collection_class(::API::Decorators::UnpaginatedCollection, element_decorator).new(models, current_user:, **)
+        end
+
+        def paginated_collection(element_decorator, models, **)
+          collection_class(::API::Decorators::OffsetPaginatedCollection, element_decorator)
+            .new(models, current_user:, **)
+        end
+
+        def collection_class(base, element_decorator)
+          @tm_collection_classes ||= {}
+          @tm_collection_classes[[base, element_decorator]] ||= Class.new(base) { element_decorator element_decorator }
+        end
       end
     end
   end

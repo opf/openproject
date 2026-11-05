@@ -31,7 +31,7 @@ module TestManagement
   class ProjectSetting < ApplicationRecord
     self.table_name = "tm_project_settings"
 
-    FOLDER_TREE_LAYOUTS = %w[split_pane sidebar].freeze
+    FOLDER_TREE_LAYOUTS = %w[split_pane].freeze
     DEFAULT_FOLDER_TREE_LAYOUT = "split_pane"
     FEATURES = %w[ci milestones test_plans test_assistant].freeze
 
@@ -74,9 +74,6 @@ module TestManagement
       effective_folder_tree_layout == "split_pane"
     end
 
-    def sidebar_layout?
-      effective_folder_tree_layout == "sidebar"
-    end
 
     private
 

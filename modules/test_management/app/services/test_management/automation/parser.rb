@@ -30,7 +30,7 @@
 module TestManagement
   module Automation
     module Parser
-      FORMATS = %w[auto junit playwright_json native].freeze
+      FORMATS = %w[auto junit playwright_json].freeze
 
       module_function
 
@@ -54,14 +54,11 @@ module TestManagement
 
         data = Parsers::Json.load(stripped)
         return "playwright_json" if data.is_a?(Hash) && data["suites"].is_a?(Array)
-        return "native" if data.is_a?(Array) || (data.is_a?(Hash) && data["tests"].is_a?(Array))
-
-        raise Error.new(:unprocessable, "Unknown report format. Send Playwright JSON, JUnit XML or the native format.")
+        raise Error.new(:unprocessable, "Unknown report format. Send Playwright JSON or JUnit XML.")
       end
 
       def parser_for(format)
-        { "playwright_json" => Parsers::PlaywrightJson, "junit" => Parsers::JunitXml,
-          "native" => Parsers::Native }.fetch(format)
+        { "playwright_json" => Parsers::PlaywrightJson, "junit" => Parsers::JunitXml }.fetch(format)
       end
     end
   end

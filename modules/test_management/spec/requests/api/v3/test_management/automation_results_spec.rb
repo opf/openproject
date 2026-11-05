@@ -137,8 +137,19 @@ RSpec.describe "APIv3 test management automation results" do
   end
 
   describe "POST JSON" do
-    it "accepts the native format with options at the top level" do
-      post_json({ externalRef: "native:1", tests: [{ caseId: wrong_case.id, status: "failed", durationMs: 10 }] })
+    it "accepts Playwright JSON with options at the top level" do
+      post_json({
+        externalRef: "pw:1",
+        format: "playwright_json",
+        report: {
+          suites: [{ title: "a.spec.ts", file: "a.spec.ts", specs: [{
+            title: wrong_case.title, file: "a.spec.ts",
+            tests: [{ projectName: "chromium", status: "unexpected",
+                      annotations: [{ type: "tm_case", description: wrong_case.id.to_s }],
+                      results: [{ status: "failed", duration: 10, retry: 0 }] }]
+          }], suites: [] }]
+        }
+      })
 
       expect(last_response).to have_http_status(201)
       expect(json["run"]["statusCounts"]).to include("failed" => 1)

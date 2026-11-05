@@ -33,7 +33,11 @@
             </td>
             <td>
               <%= render(Primer::Beta::Octicon.new(icon: :"mark-github", "aria-hidden": true)) %>
-              <%= link_to connection.repository, connection.repository_url, target: "_blank", rel: "noopener noreferrer" %>
+              <% if (url = tm_safe_url(connection.repository_url)) %>
+                <%= link_to connection.repository, url, target: "_blank", rel: "noopener noreferrer" %>
+              <% else %>
+                <%= connection.repository %>
+              <% end %>
             </td>
             <td data-test-selector="tm-ci-mode-<%= connection.id %>">
               <%= ci_t.("mode_summary.#{connection.ingest_mode}", run: connection.target_run_name) %>

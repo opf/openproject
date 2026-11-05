@@ -39,7 +39,7 @@ RSpec.describe "APIv3 test management assistant providers", :disable_ssrf_filter
   shared_let(:member) { create(:user, member_with_permissions: { project => %i[view_test_cases] }) }
 
   let!(:provider) do
-    create(:tm_assistant_provider, :default, name: "Gateway", base_url: "https://gw.example.test/v1", model: "small",
+    create(:tm_assistant_provider, :default, name: "Gateway", base_url: "https://openrouter.ai/api/v1", model: "small",
                                              user_models: %w[large], api_key: "sk-api-secret")
   end
   let(:collection_path) { api_v3_paths.test_management_assistant_providers }
@@ -58,7 +58,7 @@ RSpec.describe "APIv3 test management assistant providers", :disable_ssrf_filter
 
       expect(last_response).to have_http_status(200)
       element = json.dig("_embedded", "elements").sole
-      expect(element).to include("name" => "Gateway", "preset" => "custom", "baseUrl" => "https://gw.example.test/v1",
+      expect(element).to include("name" => "Gateway", "preset" => "openrouter", "baseUrl" => "https://openrouter.ai/api/v1",
                                  "model" => "small", "userModels" => %w[large], "models" => %w[small large],
                                  "default" => true, "apiKeySet" => true, "configured" => true)
       expect(last_response.body).not_to include("sk-api-secret", "ciphertext")
@@ -72,7 +72,7 @@ RSpec.describe "APIv3 test management assistant providers", :disable_ssrf_filter
 
       get provider_path
       expect(last_response).to have_http_status(403)
-      expect(last_response.body).not_to include("gw.example.test", "sk-api-secret")
+      expect(last_response.body).not_to include("openrouter.ai", "sk-api-secret")
     end
   end
 
@@ -80,12 +80,12 @@ RSpec.describe "APIv3 test management assistant providers", :disable_ssrf_filter
     before { login_as(admin) }
 
     it "creates a provider (201) with a write-only key" do
-      send_json(:post, collection_path, { name: "Local", preset: "custom", baseUrl: "http://local.test:11434/v1",
-                                          model: "llama3.1:8b", authStyle: "none", userModels: %w[qwen2.5:7b] })
+      send_json(:post, collection_path, { name: "Local", preset: "mistral", model: "mistral-small-latest",
+                                          apiKey: "sk-m", userModels: %w[mistral-tiny] })
 
       expect(last_response).to have_http_status(201)
-      expect(json).to include("name" => "Local", "preset" => "custom", "baseUrl" => "http://local.test:11434/v1",
-                              "models" => %w[llama3.1:8b qwen2.5:7b], "default" => false, "apiKeySet" => false)
+      expect(json).to include("name" => "Local", "preset" => "mistral",
+                              "models" => %w[mistral-small-latest mistral-tiny], "default" => false, "apiKeySet" => true)
     end
 
     it "updates only the given fields and keeps the stored key" do
@@ -98,18 +98,18 @@ RSpec.describe "APIv3 test management assistant providers", :disable_ssrf_filter
     end
 
     it "422s on invalid values and on a failed model check" do
-      send_json(:post, collection_path, { name: "gateway", preset: "custom", model: "m" })
+      send_json(:post, collection_path, { name: "gateway", preset: "mistral", model: "m" })
       expect(last_response).to have_http_status(422)
 
-      stub_request(:post, "https://api.openai.com/v1/chat/completions").to_return(status: 404, body: "{}")
-      send_json(:post, collection_path, { name: "OpenAI", preset: "openai", model: "gpt-x", apiKey: "sk-x", verifyModel: true })
+      stub_request(:post, "https://openrouter.ai/api/v1/chat/completions").to_return(status: 404, body: "{}")
+      send_json(:post, collection_path, { name: "OpenRouter", preset: "openrouter", model: "openai/gpt-x", apiKey: "sk-x", verifyModel: true })
       expect(last_response).to have_http_status(422)
       expect(last_response.body).not_to include("sk-x")
       expect(TestManagement::AssistantProvider.count).to eq(1)
     end
 
     it "tests the connection without exposing the key" do
-      stub_request(:get, "https://gw.example.test/v1/models").with(headers: { "Authorization" => "Bearer sk-api-secret" })
+      stub_request(:get, "https://openrouter.ai/api/v1/models/user").with(headers: { "Authorization" => "Bearer sk-api-secret" })
         .to_return(status: 200, headers: { "Content-Type" => "application/json" }, body: { data: [{ id: "small" }] }.to_json)
 
       send_json(:post, api_v3_paths.test_management_assistant_provider_test_connection(provider.id), {})
@@ -120,7 +120,7 @@ RSpec.describe "APIv3 test management assistant providers", :disable_ssrf_filter
     end
 
     it "reports a rejected key as a failed test" do
-      stub_request(:get, "https://gw.example.test/v1/models").to_return(status: 401, body: "{}")
+      stub_request(:get, "https://openrouter.ai/api/v1/models/user").to_return(status: 401, body: "{}")
 
       send_json(:post, api_v3_paths.test_management_assistant_provider_test_connection(provider.id), {})
 
@@ -143,7 +143,7 @@ RSpec.describe "APIv3 test management assistant providers", :disable_ssrf_filter
     it "is for administrators only" do
       login_as(member)
 
-      send_json(:post, collection_path, { name: "X", preset: "custom", model: "m" })
+      send_json(:post, collection_path, { name: "X", preset: "mistral", model: "m" })
       expect(last_response).to have_http_status(403)
       send_json(:patch, provider_path, { model: "x" })
       expect(last_response).to have_http_status(403)

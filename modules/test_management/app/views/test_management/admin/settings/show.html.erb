@@ -30,18 +30,6 @@
     </p>
   </fieldset>
 
-  <fieldset class="form--fieldset">
-    <legend><%= t("test_management.admin.import") %></legend>
-    <p><%= t("test_management.admin.import_hint") %></p>
-    <% %w[xray testrail].each do |source| %>
-      <p data-test-selector="tm-admin-import-<%= source %>">
-        <%= t("test_management.admin.import_sources.#{source}") %>
-        <%= render(Primer::Beta::Label.new(scheme: :secondary)) { t("test_management.admin.import_planned") } %>
-        <%= render(Primer::Beta::Button.new(disabled: true)) { t("test_management.admin.import_start") } %>
-      </p>
-    <% end %>
-  </fieldset>
-
   <%= submit_tag t(:button_save), class: "button -primary" %>
 <% end %>
 
