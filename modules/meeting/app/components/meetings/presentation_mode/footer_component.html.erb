@@ -33,17 +33,12 @@
             ) %>
       <% end %>
     <% end %>
-    <% if previous_slide? %>
+    <% if previous_label_text %>
       <div class="op-meeting-presentation--footer-agenda-item">
-        <%= render(Primer::Beta::Text.new(font_weight: :bold, color: :subtle)) { current_item.display_title } %>:
-        <%= render(Primer::Beta::Text.new(color: :subtle)) { slide_text(@current_slide - 1) } %>
-      </div>
-    <% elsif previous_item %>
-      <div class="op-meeting-presentation--footer-agenda-item">
-        <% if previous_item.meeting_section != current_section %>
-          <%= render(Primer::Beta::Text.new(font_weight: :bold, color: :subtle)) { previous_item.meeting_section.title.presence || t("meeting_section.untitled_title") } %>:
+        <% if section_prefix(previous_item) %>
+          <%= render(Primer::Beta::Text.new(font_weight: :bold, color: :subtle)) { section_prefix(previous_item) } %>:
         <% end %>
-        <%= render(Primer::Beta::Text.new(color: :subtle)) { previous_item.display_title } %>
+        <%= render(Primer::Beta::Text.new(color: :subtle)) { previous_label_text } %>
       </div>
     <% end %>
   </div>
@@ -92,16 +87,13 @@
         <% button.with_trailing_visual_icon(icon: :"chevron-right") %>
       <% end %>
     <% end %>
-    <div class="op-meeting-presentation--footer-agenda-item">
-      <% if next_slide? %>
-        <%= render(Primer::Beta::Text.new(font_weight: :bold, color: :subtle)) { current_item.display_title } %>:
-        <%= render(Primer::Beta::Text.new(color: :subtle)) { slide_text(@current_slide + 1) } %>
-      <% elsif next_item %>
-        <% if next_item.meeting_section != current_section %>
-          <%= render(Primer::Beta::Text.new(font_weight: :bold, color: :subtle)) { next_item.meeting_section.title.presence || t("meeting_section.untitled_title") } %>:
+    <% if next_label_text %>
+      <div class="op-meeting-presentation--footer-agenda-item">
+        <% if section_prefix(next_item) %>
+          <%= render(Primer::Beta::Text.new(font_weight: :bold, color: :subtle)) { section_prefix(next_item) } %>:
         <% end %>
-        <%= render(Primer::Beta::Text.new(color: :subtle)) { next_item.display_title } %>
-      <% end %>
-    </div>
+        <%= render(Primer::Beta::Text.new(color: :subtle)) { next_label_text } %>
+      </div>
+    <% end %>
   </div>
 <% end %>

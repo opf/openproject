@@ -115,18 +115,10 @@ module Meetings
         end
       end
 
-      def next_presenter_changed?
-        next_item&.presenter.present? && next_item.presenter != current_item&.presenter
-      end
-
-      def previous_presenter_changed?
-        previous_item&.presenter.present? && previous_item.presenter != current_item&.presenter
-      end
-
       def next_presenter
         if next_slide?
           current_item.presenter
-        elsif next_presenter_changed?
+        elsif next_item && next_item.presenter != current_item.presenter
           next_item.presenter
         end
       end
@@ -134,9 +126,23 @@ module Meetings
       def previous_presenter
         if previous_slide?
           current_item.presenter
-        elsif previous_presenter_changed?
+        elsif previous_item && previous_item.presenter != current_item.presenter
           previous_item.presenter
         end
+      end
+
+      def next_label_text
+        next_slide? ? slide_label(@current_slide + 1) : next_item&.display_title
+      end
+
+      def previous_label_text
+        previous_slide? ? slide_label(@current_slide - 1) : previous_item&.display_title
+      end
+
+      def section_prefix(item)
+        return if item.nil? || item.meeting_section == current_section
+
+        item.meeting_section.title.presence || t("meeting_section.untitled_title")
       end
 
       def progress_text
@@ -161,6 +167,12 @@ module Meetings
         render(OpPrimer::RelativeTimeComponent.new(datetime: helpers.in_user_zone(@started_at),
                                                    format: :elapsed,
                                                    prefix: nil))
+      end
+
+      private
+
+      def slide_label(number)
+        "#{current_item.display_title}: #{slide_text(number)}"
       end
     end
   end
