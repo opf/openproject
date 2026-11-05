@@ -122,6 +122,21 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
     end
   end
 
+  describe ".static_tokens" do
+    before do
+      allow(described_class).to receive(:static_token_definitions).and_return([])
+
+      formatter = WorkPackageTypes::Patterns::Formatters::DefaultFormatter
+      described_class.add_static_attribute(:shown, :work_package, -> { "Shown" }, ->(wp) { wp.subject }, formatter)
+      described_class.add_static_attribute(:hidden, :work_package, -> { "Hidden" }, ->(wp) { wp.subject }, formatter,
+                                           enabled_fn: -> { false })
+    end
+
+    it "leaves out tokens whose enabled_fn returns false" do
+      expect(described_class.static_tokens.map(&:key)).to eq([:shown])
+    end
+  end
+
   describe "#partitioned_tokens_for_type" do
     subject { described_class.new.partitioned_tokens_for_type(work_package.type_variant) }
 
