@@ -76,7 +76,7 @@ module API
                 options[name.to_s.underscore.to_sym] = value unless value.nil?
               end
 
-              pdf_export_templates.settings_for(template.id).merge(overrides)
+              pdf_export_templates.settings_with_defaults_for(template.id, @work_package).merge(overrides)
             end
 
             def respond_with_pdf(export)

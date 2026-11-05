@@ -167,6 +167,7 @@ RSpec.describe "API v3 work package PDF export" do
 
       before do
         allow(WorkPackage::PDFExport::WorkPackageToPdf).to receive(:new).and_return(exporter)
+        allow(WorkPackage::PDFExport::Artefact).to receive(:new).and_return(exporter)
       end
 
       it "passes the given options to the exporter" do
@@ -180,6 +181,17 @@ RSpec.describe "API v3 work package PDF export" do
                                              hyphenation_language: "de"))
       end
 
+      it "falls back to the same defaults the generate PDF dialog offers" do
+        get path
+
+        expect(WorkPackage::PDFExport::WorkPackageToPdf)
+          .to have_received(:new)
+          .with(work_package, hash_including(footer_text: project.name,
+                                             page_orientation: "portrait",
+                                             hyphenation: false,
+                                             hyphenation_language: "en"))
+      end
+
       it "falls back to the settings stored on the type" do
         type.default_variant.pdf_export_templates.update_settings("attributes", "footer_text" => "Stored footer")
         type.default_variant.save!
@@ -189,6 +201,22 @@ RSpec.describe "API v3 work package PDF export" do
         expect(WorkPackage::PDFExport::WorkPackageToPdf)
           .to have_received(:new)
           .with(work_package, hash_including(footer_text: "Stored footer", page_orientation: "landscape"))
+      end
+
+      it "lets an explicitly blank option override the default" do
+        get "#{path}?footerText="
+
+        expect(WorkPackage::PDFExport::WorkPackageToPdf)
+          .to have_received(:new)
+          .with(work_package, hash_including(footer_text: ""))
+      end
+
+      it "lets an explicitly false option override a default that is true" do
+        get "#{path}?template=artefact&toc=false"
+
+        expect(WorkPackage::PDFExport::Artefact)
+          .to have_received(:new)
+          .with(work_package, hash_including(toc: false))
       end
 
       it "ignores options that do not belong to the selected template" do

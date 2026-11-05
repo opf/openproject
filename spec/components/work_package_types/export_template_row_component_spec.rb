@@ -38,7 +38,7 @@ RSpec.describe WorkPackageTypes::ExportTemplateRowComponent, type: :component do
   let(:variant) { type.default_variant }
   let(:template) do
     Type::PdfExportTemplates::Template.new(id: 1, label: "Full", caption: "A4", enabled: true,
-                                           settings_component: nil, exporter: nil)
+                                           settings_component: nil, exporter: nil, defaults: nil)
   end
 
   context "when readonly" do
