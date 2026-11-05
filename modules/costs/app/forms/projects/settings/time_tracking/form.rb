@@ -30,27 +30,43 @@
 module Projects::Settings::TimeTracking
   class Form < ApplicationForm
     form do |f|
-      f.group(data: { controller: "disable-when-checked", "disable-when-checked-reversed-value": true }) do |group|
-        group.check_box(
-          name: :logged_time_reduces_remaining_work,
-          label: I18n.t("cost_types.settings.time_tracking.logged_time_reduces_remaining_work"),
-          caption: I18n.t("cost_types.settings.time_tracking.logged_time_reduces_remaining_work_caption"),
-          checked: model.logged_time_reduces_remaining_work?,
-          disabled: WorkPackage.status_based_mode?,
-          data: { "disable-when-checked-target": "cause" }
-        )
-
-        group.check_box(
-          name: :remaining_work_read_only,
-          label: I18n.t("cost_types.settings.time_tracking.remaining_work_read_only"),
-          caption: I18n.t("cost_types.settings.time_tracking.remaining_work_read_only_caption"),
-          checked: model.remaining_work_read_only?,
-          disabled: WorkPackage.status_based_mode? || !model.logged_time_reduces_remaining_work?,
-          data: { "disable-when-checked-target": "effect" }
-        )
+      if WorkPackage.status_based_mode?
+        f.group do |group|
+          logged_time_check_box(group, disabled: true)
+          read_only_check_box(group, disabled: true)
+        end
+      else
+        f.group(data: { controller: "disable-when-checked", "disable-when-checked-reversed-value": true }) do |group|
+          logged_time_check_box(group, data: { "disable-when-checked-target": "cause" })
+          read_only_check_box(group,
+                              disabled: !model.logged_time_reduces_remaining_work?,
+                              data: { "disable-when-checked-target": "effect" })
+        end
       end
 
       f.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary, disabled: WorkPackage.status_based_mode?)
+    end
+
+    private
+
+    def logged_time_check_box(group, **)
+      group.check_box(
+        name: :logged_time_reduces_remaining_work,
+        label: I18n.t("cost_types.settings.time_tracking.logged_time_reduces_remaining_work"),
+        caption: I18n.t("cost_types.settings.time_tracking.logged_time_reduces_remaining_work_caption"),
+        checked: model.logged_time_reduces_remaining_work?,
+        **
+      )
+    end
+
+    def read_only_check_box(group, **)
+      group.check_box(
+        name: :remaining_work_read_only,
+        label: I18n.t("cost_types.settings.time_tracking.remaining_work_read_only"),
+        caption: I18n.t("cost_types.settings.time_tracking.remaining_work_read_only_caption"),
+        checked: model.remaining_work_read_only?,
+        **
+      )
     end
   end
 end

@@ -53,6 +53,7 @@ RSpec.describe Projects::Settings::TimeTrackingController, :skip_csrf, type: :ra
         expect(page).to have_field("project[logged_time_reduces_remaining_work]", disabled: true)
         expect(page).to have_field("project[remaining_work_read_only]", disabled: true)
         expect(page).to have_button(I18n.t(:button_save), disabled: true)
+        expect(page).to have_no_css("[data-controller~='disable-when-checked']")
       end
     end
   end

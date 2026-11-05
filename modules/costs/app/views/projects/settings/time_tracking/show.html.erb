@@ -46,7 +46,8 @@ See COPYRIGHT and LICENSE files for more details.
     model: @project,
     url: project_settings_time_tracking_path(@project),
     method: :patch,
-    id: "time-tracking-form"
+    id: "time-tracking-form",
+    html: { autocomplete: "off" }
   ) do |f|
 %>
   <%= render(Projects::Settings::TimeTracking::Form.new(f)) %>
