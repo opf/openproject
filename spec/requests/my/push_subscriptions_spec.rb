@@ -105,7 +105,7 @@ RSpec.describe "My::PushSubscriptionsController",
           expect(dormant.reload).to have_attributes(session: current_session_row, suspended_at: nil)
         end
 
-        it "answers a turbo stream resume with the replaced device list showing this session" do
+        it "responds to a turbo stream resume with the replaced device list showing this session" do
           dormant = create(:push_subscription, user:, endpoint:, session: nil, suspended_at: 2.days.ago)
 
           resume(endpoint, accept: turbo_headers["Accept"])
@@ -116,14 +116,14 @@ RSpec.describe "My::PushSubscriptionsController",
           expect(dormant.reload.session).to eq(current_session_row)
         end
 
-        it "answers gone without a stream to a turbo stream resume for an unknown endpoint" do
+        it "returns 410 without a stream to a turbo stream resume for an unknown endpoint" do
           resume(endpoint, accept: turbo_headers["Accept"])
 
           expect(response).to have_http_status(:gone)
           expect(response.body).to be_empty
         end
 
-        it "answers gone and claims nothing when the user has no subscription for the endpoint" do
+        it "returns 410 and claims nothing when the user has no subscription for the endpoint" do
           other = create(:push_subscription, endpoint:, session: nil)
 
           resume(endpoint)
