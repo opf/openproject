@@ -144,8 +144,8 @@ da:
         blankslate_title: Der er ingen data til burndown-diagrammet
     created_resolved_chart:
       series:
-        created: Oprettede arbejdspakker
-        resolved: Løste arbejdspakker
+        created: Created
+        resolved: Resolved
       show:
         blankslate_description: Angiv start- og slutdato for sprinten for at danne et diagram over oprettede og løste arbejdspakker.
         blankslate_title: Der er ingen data til diagrammet over oprettede og løste arbejdspakker
@@ -276,16 +276,16 @@ da:
               show_all: Vis alle
               show_all_label: 'Vis alle: %{heading}'
           closed_work_packages: Lukkede arbejdspakker
-          completed_estimated_time: Completed estimated time
-          completed_story_points: Completed story points
+          completed_estimated_time: Anslået tid for færdige arbejdspakker
+          completed_story_points: Færdige story points
           resolved_summary:
             story_points:
-              one: "%{percentage} (%{resolved} of %{total} story point)"
-              other: "%{percentage} (%{resolved} of %{total} story points)"
-            time: "%{percentage} (%{resolved} of %{total})"
+              one: "%{percentage} (%{resolved} af %{total} story point)"
+              other: "%{percentage} (%{resolved} af %{total} story points)"
+            time: "%{percentage} (%{resolved} af %{total})"
             work_packages:
-              one: "%{percentage} (%{resolved} of %{total} work package)"
-              other: "%{percentage} (%{resolved} of %{total} work packages)"
+              one: "%{percentage} (%{resolved} af %{total} arbejdspakke)"
+              other: "%{percentage} (%{resolved} af %{total} arbejdspakker)"
           title: Arbejdspakker i sprinten
         work_package_table:
           added:

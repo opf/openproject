@@ -31,7 +31,7 @@ he:
         statuses_considered_closed: Statuses considered closed
       sprint:
         duration: Duration
-        finish_date: Finish date
+        finish_date: תאריך סיום
         goal: Sprint goal
         name: Sprint name
         sharing: Sharing
@@ -148,8 +148,8 @@ he:
         blankslate_title: No burndown data available
     created_resolved_chart:
       series:
-        created: Created work packages
-        resolved: Resolved work packages
+        created: Created
+        resolved: Resolved
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available

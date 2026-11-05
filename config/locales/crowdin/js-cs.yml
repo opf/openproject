@@ -47,6 +47,8 @@ cs:
       draggable_hint: 'Přetáhněte pole editoru na vložený obrázek nebo referenční přílohu. Uzavřená pole editoru budou otevřena během pokračujícího přetahování.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Soubor je karanténí, protože byl nalezen virus. Není k dispozici ke stažení.
     autocomplete_ng_select:
       add_tag: Přidat položku
