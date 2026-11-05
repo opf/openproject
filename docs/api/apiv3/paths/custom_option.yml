@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: The custom option's identifier
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: The custom option's identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -22,7 +22,7 @@ get:
                 _type: CustomOption
                 value: Foo
           schema:
-            "$ref": "../components/schemas/custom_option_model.yml"
+            $ref: "../components/schemas/custom_option_model.yml"
       description: OK
       headers: {}
     '404':
@@ -42,7 +42,7 @@ get:
         **Required permission:** view work package in any project the custom option's custom field is active in.
       headers: {}
   tags:
-  - Custom Options
+    - Custom Options
   description: ''
   operationId: View_Custom_Option
   summary: View Custom Option

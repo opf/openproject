@@ -1,3 +1,4 @@
+---
 description: |-
   An example response for a configuration request.
 value:
@@ -16,13 +17,12 @@ value:
   daysPerMonth: 20
   hostName: openproject.internal
   activeFeatureFlags:
-    - workPackageLabels
     - semanticSearch
   availableFeatures:
     - scim_api
     - calculated_values
     - ldap_groups
-  triallingFeatures: [ ]
+  triallingFeatures: []
   allowedLinkProtocols:
     - http
     - https

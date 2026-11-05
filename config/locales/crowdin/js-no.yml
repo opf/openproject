@@ -47,6 +47,8 @@
       draggable_hint: 'Dra i tekstbehandlerfeltet for å sette inn bilde eller referansevedlegg. Lukket felt i tekstbehandler åpnes mens du fortsetter å dra det.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Filen er satt i karantene fordi et virus ble funnet. Den er ikke tilgjengelig for nedlasting.
     autocomplete_ng_select:
       add_tag: Legg til element
@@ -162,7 +164,7 @@
     button_start_timer: Start timer
     button_stop_timer: Stop timer
     button_uncheck_all: Avmerk alle
-    button_update: Oppdatèr
+    button_update: Oppdater
     button_view_markdown: View Markdown
     caption_rate_history: Satshistorikk
     card:
@@ -1114,10 +1116,6 @@
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabell med rader for arbeidspakke og kolonner for arbeidspakkeegenskaper.
-        text_inline_edit: De fleste celler i denne tabellen er knapper som aktiverer inkorporering av funksjonaliteten til den egenskapen.
-        text_select_hint: Velg bokser skal åpnes med 'ALT' og piltaster.
-        text_sort_hint: Med lenkene i tabelloverskriftene kan du sortere, gruppe, omorganisere og legge til tabellkolonner.
       table_configuration:
         button: Konfigurer tabellen for arbeidspakker
         choose_display_mode: Vis arbeidspakker som

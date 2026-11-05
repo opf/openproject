@@ -137,9 +137,9 @@ patch:
           schema:
             $ref: '../components/schemas/error_response.yml'
           example:
-              _type: Error
-              errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-              message: The specified user does not exist or you do not have permission to view them.
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified user does not exist or you do not have permission to view them.
       description: |-
         Returned if the user does not exist or if the API user does not have the necessary permissions to update it.
 

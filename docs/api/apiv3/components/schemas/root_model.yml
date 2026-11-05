@@ -41,104 +41,104 @@ properties:
           - $ref: './link.yml'
           - description: |-
               This root information object.
-              
+
               **Resource**: Root
       configuration:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The configuration resource.
-              
+
               **Resource**: Configuration
       memberships:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The collection of memberships.
-              
+
               **Resource**: Collection
       priorities:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The collection of priorities.
-              
+
               **Resource**: Collection
       relations:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The collection of relations.
-              
+
               **Resource**: Collection
       statuses:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The collection of statuses.
-              
+
               **Resource**: Collection
       time_entries:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The collection of time entries.
-              
+
               **Resource**: Collection
       types:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The collection of types.
-              
+
               **Resource**: Collection
       user:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The current user resource.
-              
+
               **Resource**: User
       userPreferences:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The current user preferences resource.
-              
+
               **Resource**: UserPreferences
       workPackages:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The work package collection.
-              
+
               **Resource**: Collection
 
-example:
-  _type: Root
-  instanceName: OpenProject
-  coreVersion: 12.1.0
-  _links:
-    self:
-      href: '/api/v3'
-    configuration:
-      href: '/api/v3/configuration'
-    memberships:
-      href: '/api/v3/memberships'
-    priorities:
-      href: '/api/v3/priorities'
-    relations:
-      href: '/api/v3/relations'
-    statuses:
-      href: '/api/v3/statuses'
-    time_entries:
-      href: '/api/v3/time_entries'
-    types:
-      href: '/api/v3/types'
-    user:
-      href: '/api/v3/users/3'
-      title: Anakin Skywalker
-    userPreferences:
-      href: '/api/v3/users/3/preferences'
-    workPackages:
-      href: '/api/v3/work_packages'
+examples:
+  - _type: Root
+    instanceName: OpenProject
+    coreVersion: 12.1.0
+    _links:
+      self:
+        href: '/api/v3'
+      configuration:
+        href: '/api/v3/configuration'
+      memberships:
+        href: '/api/v3/memberships'
+      priorities:
+        href: '/api/v3/priorities'
+      relations:
+        href: '/api/v3/relations'
+      statuses:
+        href: '/api/v3/statuses'
+      time_entries:
+        href: '/api/v3/time_entries'
+      types:
+        href: '/api/v3/types'
+      user:
+        href: '/api/v3/users/3'
+        title: Anakin Skywalker
+      userPreferences:
+        href: '/api/v3/users/3/preferences'
+      workPackages:
+        href: '/api/v3/work_packages'

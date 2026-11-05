@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Post's identifier
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Post's identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -34,7 +34,7 @@ get:
                 id: 1
                 subject: A post with a subject
           schema:
-            "$ref": "../components/schemas/post_model.yml"
+            $ref: "../components/schemas/post_model.yml"
       description: OK
       headers: {}
     '404':
@@ -54,7 +54,7 @@ get:
         **Required permission:** view messages in the post's project
       headers: {}
   tags:
-  - Posts
+    - Posts
   description: Retrieve an individual post as identified by the id parameter
   operationId: View_Post
   summary: View Post

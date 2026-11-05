@@ -26,6 +26,8 @@
 //++
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
+import { ChangeDetectorRef, ElementRef, Injector, runInInjectionContext } from '@angular/core';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { userEvent } from 'vitest/browser';
 import { usePlatform } from 'core-common/testing/platform';
 import { States } from 'core-app/core/states/states.service';
@@ -37,13 +39,32 @@ import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helpe
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
-import { buildQuery, buildTable, TableHarness, TableHarnessOptions } from '../../../testing/table-harness';
-import { buildGroup } from '../../../testing/work-package-fixture';
+import { registerContextMenu } from 'core-app/shared/components/op-context-menu/testing/register-context-menu';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { internalContextMenuColumn, internalSortColumn } from '../../../builders/internal-sort-columns';
+import {
+  buildQuery, buildTable, ConsumerName, consumerConfiguration, TableHarness, TableHarnessOptions,
+} from '../../../testing/table-harness';
+import { buildGroup, buildWorkPackage } from '../../../testing/work-package-fixture';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import {
+  OpEditingPortalChangesetToken,
+  OpEditingPortalHandlerToken,
+  OpEditingPortalSchemaToken,
+} from 'core-app/shared/components/fields/edit/edit-field.component';
+import { DatePickerEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/date-picker-edit-field.component';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { DeviceService } from 'core-app/core/browser/device.service';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import { KeyboardNavigation } from './keyboard-navigation-transformer';
 import { headerRowKey, totalsRowKey } from './navigable-rows';
 import { expansionStateOf } from '../../../helpers/row-expansion';
-import { insideGrid, navigableCells } from './roving-tabindex';
+import { insideGrid, isNavigableColumn, navigableCells } from './roving-tabindex';
+
+class TableDateField extends DatePickerEditFieldComponent {}
 
 class AnchorDisplayField extends TextDisplayField {
   public render(element:HTMLElement, displayText:string):void {
@@ -78,7 +99,7 @@ describe('KeyboardNavigationTransformer', () => {
       workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }],
       productionMarkup: true,
       ...options,
-      configuration: { keyboardNavigationEnabled: true, ...options.configuration },
+      configuration: { inlineCreateEnabled: true, ...options.configuration },
     });
     harnesses.push(table);
     beforeRender?.(table);
@@ -135,7 +156,7 @@ describe('KeyboardNavigationTransformer', () => {
     const table = await mount();
     const late = document.createElement('span');
     late.setAttribute('tabindex', '0');
-    table.row('1').querySelector('td.subject')!.appendChild(late);
+    table.row('1').querySelector(':scope > .wp-table--cell-td.subject')!.appendChild(late);
     table.row('1').focus();
 
     await userEvent.tab();
@@ -144,11 +165,22 @@ describe('KeyboardNavigationTransformer', () => {
     expect(insideGrid(table.table.scrollContainer, document.activeElement)).toBe(false);
   });
 
+  it.each([
+    ['header row', (table:TableHarness) => table.headerRow()],
+    ['header cell', (table:TableHarness) => table.headerCells()[0]],
+  ])('Tab from the %s leaves the table natively', async (_, origin) => {
+    const table = await mount();
+    origin(table).focus();
+
+    expect(pressActive('Tab')).toBe(true);
+    expect(origin(table)).toHaveFocus();
+  });
+
   it('Shift+Tab from a row sweeps late controls too', async () => {
     const table = await mount();
     const late = document.createElement('span');
     late.setAttribute('tabindex', '0');
-    table.row('2').querySelector('td.subject')!.appendChild(late);
+    table.row('2').querySelector(':scope > .wp-table--cell-td.subject')!.appendChild(late);
     table.row('2').focus();
 
     await userEvent.tab({ shift: true });
@@ -168,14 +200,50 @@ describe('KeyboardNavigationTransformer', () => {
     await waitFor(() => expect(button).toHaveFocus());
   });
 
-  it('takes the scroll container and its wrapper out of the Tab order only when enabled', async () => {
-    const enabled = await mount();
-    expect(enabled.table.scrollContainer).toHaveAttribute('tabindex', '-1');
-    expect(enabled.table.tableAndTimelineContainer).toHaveAttribute('tabindex', '-1');
+  it('remembers a created row after render without moving Create focus', async () => {
+    const table = await mount();
+    const create = within(table.container).getByRole('button', { name: 'Create new work package' });
+    create.focus();
+    navigation(table).rememberWorkPackageAfterRender('2');
 
-    const disabled = await mount({ configuration: { keyboardNavigationEnabled: false } });
-    expect(disabled.table.scrollContainer).not.toHaveAttribute('tabindex');
-    expect(disabled.table.tableAndTimelineContainer).not.toHaveAttribute('tabindex');
+    const rendered = table.nextRender();
+    table.table.redrawTable();
+    await rendered;
+
+    expect(create).toHaveFocus();
+    expect(table.row('2')).toHaveAttribute('tabindex', '0');
+    expect(table.row('2')).not.toHaveFocus();
+    expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('2'), cell: null, desiredColumn: null });
+    await userEvent.tab({ shift: true });
+    expect(table.row('2')).toHaveFocus();
+  });
+
+  it('discards a create remembrance after a newer user position', async () => {
+    const table = await mount();
+    const create = within(table.container).getByRole('button', { name: 'Create new work package' });
+    navigation(table).rememberWorkPackageAfterRender('2');
+    navigation(table).recordPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    table.row('1').focus();
+    pressActive('ArrowDown');
+    pressActive('ArrowDown');
+    create.focus();
+
+    const rendered = table.nextRender();
+    table.table.redrawTable();
+    await rendered;
+
+    expect(create).toHaveFocus();
+    expect(table.row('3')).toHaveAttribute('tabindex', '0');
+    expect(table.row('2')).toHaveAttribute('tabindex', '-1');
+    expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('3'), cell: null, desiredColumn: null });
+    await userEvent.tab({ shift: true });
+    expect(table.row('3')).toHaveFocus();
+  });
+
+  it('takes the scroll container and its wrapper out of the Tab order', async () => {
+    const table = await mount();
+    expect(table.table.scrollContainer).toHaveAttribute('tabindex', '-1');
+    expect(table.table.tableAndTimelineContainer).toHaveAttribute('tabindex', '-1');
   });
 
   it('ArrowDown/ArrowUp walk visible rows and reach the header and totals rows', async () => {
@@ -298,8 +366,31 @@ describe('KeyboardNavigationTransformer', () => {
     expect(selectedIds(table)).toEqual([]);
   });
 
-  it('Enter on a header cell clicks its sort link; on the configuration cell clicks the button', async () => {
+  it('F2 on a work package row keeps the selection', async () => {
     const table = await mount();
+    table.click('1');
+    table.click('3', { ctrlKey: true });
+    table.row('2').focus();
+
+    expect(pressActive('F2')).toBe(true);
+
+    expect(selectedIds(table)).toEqual(['1', '3']);
+    expect(table.row('2')).toHaveFocus();
+  });
+
+  it('F2 on a group header leaves it expanded', async () => {
+    const table = await mount(grouped);
+    const collapsedGroups = table.injector.get(WorkPackageViewCollapsedGroupsService);
+    const identifier = table.groupHeader(0).dataset.groupIdentifier!;
+    table.groupHeader(0).focus();
+
+    expect(pressActive('F2')).toBe(true);
+
+    expect(collapsedGroups.config.state[identifier]).toBeFalsy();
+  });
+
+  it('Enter on a header cell clicks its sort link; on the configuration cell clicks the button', async () => {
+    const table = await mount({ configuration: { columnMenuEnabled: true } });
     const [idHeader, , configurationHeader] = table.headerCells();
     const linkClicked = vi.fn((event:Event) => event.preventDefault());
     const buttonClicked = vi.fn();
@@ -331,7 +422,7 @@ describe('KeyboardNavigationTransformer', () => {
 
   it('Enter on an editable cell opens its inline editor', async () => {
     const table = await mount({ editing: {} });
-    const subjectCell = table.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+    const subjectCell = table.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
     subjectCell.focus();
 
     expect(pressActive('Enter')).toBe(false);
@@ -342,7 +433,7 @@ describe('KeyboardNavigationTransformer', () => {
 
   it('Enter on a read-only cell does nothing', async () => {
     const table = await mount({ editing: {} });
-    const idCell = table.row('1').querySelector<HTMLTableCellElement>('td.id')!;
+    const idCell = table.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.id')!;
     idCell.focus();
 
     expect(pressActive('Enter')).toBe(true);
@@ -384,7 +475,7 @@ describe('KeyboardNavigationTransformer', () => {
     const table = await mount({}, (harness) => {
       harness.injector.get(DisplayFieldService).addFieldType(AnchorDisplayField, 'text', ['String']);
     });
-    const subjectCell = table.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+    const subjectCell = table.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
     subjectCell.focus();
     const link = within(subjectCell).getByRole('link');
 
@@ -410,7 +501,7 @@ describe('KeyboardNavigationTransformer', () => {
     expect(navigation(table).position).toEqual({ key: headerRowKey, cell: 1, desiredColumn: 1 });
 
     const toggle = table.row('1').querySelector<HTMLElement>('.wp-table--hierarchy-indicator')!;
-    const toggleCell = toggle.closest('td')!;
+    const toggleCell = toggle.closest<HTMLTableCellElement>('td, th')!;
     focusFromOutside(toggle);
 
     expect(toggleCell).toHaveFocus();
@@ -421,19 +512,31 @@ describe('KeyboardNavigationTransformer', () => {
     });
   });
 
-  it('focus moving onto an inner control from inside the table stays there', async () => {
+  it('focus moving onto an inner control adopts its cell without moving focus', async () => {
     const table = await mount({
       workPackages: [{ id: '1', children: [{ id: '2' }] }, { id: '2', ancestors: [{ id: '1' }] }],
       showHierarchies: true,
     });
     const toggle = table.row('1').querySelector<HTMLElement>('.wp-table--hierarchy-indicator')!;
     cell(table.row('2'), 0).focus();
-    const position = navigation(table).position;
-
     toggle.focus();
 
     expect(toggle).toHaveFocus();
-    expect(navigation(table).position).toEqual(position);
+    expect(navigation(table).position).toEqual(navigation(table).positionOfCell(toggle));
+  });
+
+  it.each(['row', 'cell'])('Tab into a control preserves its %s walk origin', async (entry) => {
+    const table = await mount({ configuration: { actionsColumnEnabled: true } });
+    const link = within(table.row('1')).getByRole('link', { name: 'js.label_open_context_menu' });
+    const originElement = entry === 'row' ? table.row('1') : link.closest<HTMLElement>('td')!;
+    originElement.focus();
+    const origin = navigation(table).position;
+
+    await userEvent.tab();
+
+    expect(link).toHaveFocus();
+    expect(navigation(table).position).toEqual(origin);
+    expect(navigation(table).originForControl(link)).toEqual(origin);
   });
 
   it('focus from a pointer press on an inner control stays there until the press ends', async () => {
@@ -442,7 +545,7 @@ describe('KeyboardNavigationTransformer', () => {
       showHierarchies: true,
     });
     const toggle = table.row('1').querySelector<HTMLElement>('.wp-table--hierarchy-indicator')!;
-    const toggleCell = toggle.closest('td')!;
+    const toggleCell = toggle.closest<HTMLTableCellElement>('td, th')!;
     toggle.addEventListener('click', (event) => event.preventDefault());
 
     expect(fireEvent.mouseDown(toggle, { button: 0 })).toBe(true);
@@ -472,12 +575,12 @@ describe('KeyboardNavigationTransformer', () => {
     fireEvent[end](toggle);
     toggle.focus();
 
-    expect(toggle.closest('td')).toHaveFocus();
+    expect(toggle.closest<HTMLTableCellElement>('td, th')).toHaveFocus();
   });
 
   it('focus inside an open inline editor stays where the editor puts it', async () => {
     const table = await mount({ editing: {} });
-    table.row('1').querySelector<HTMLTableCellElement>('td.subject')!.focus();
+    table.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!.focus();
     pressActive('Enter');
     const input = await waitFor(() => within(table.row('1')).getByRole('textbox'));
     const editorControl = document.createElement('span');
@@ -507,16 +610,6 @@ describe('KeyboardNavigationTransformer', () => {
     expect(selectedIds(table)).toEqual(['2', '3']);
   });
 
-  it('flag off: no keydown handling', async () => {
-    const table = await mount({ configuration: { keyboardNavigationEnabled: false } });
-    table.row('1').focus();
-
-    expect(press(table.row('1'), 'ArrowDown')).toBe(true);
-
-    expect(table.table.keyboardNavigation).toBeNull();
-    expect(table.row('1')).toHaveFocus();
-  });
-
   it('returnFocus ignores a vanished origin and focus that left the table', async () => {
     const table = await mount();
     const origin = { key: wpOccurrenceKey('2'), cell: 1, desiredColumn: 1 };
@@ -540,6 +633,7 @@ describe('KeyboardNavigationTransformer', () => {
       expect(cell(table.row('1'), 0)).toHaveFocus();
       navigation(table).returnFocus(origin);
       expect(cell(table.row('1'), 0)).toHaveFocus();
+      navigation(table).recordPosition(origin);
       cell(table.row('1'), 0).blur();
       navigation(table).returnFocus(origin);
       expect(cell(table.row('2'), 1)).toHaveFocus();
@@ -561,7 +655,7 @@ describe('KeyboardNavigationTransformer', () => {
 
   it('returnFocus leaves focus in another open editor of the table', async () => {
     const table = await mount({ editing: {} });
-    table.row('2').querySelector<HTMLTableCellElement>('td.subject')!.focus();
+    table.row('2').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!.focus();
     pressActive('Enter');
     const input = await waitFor(() => within(table.row('2')).getByRole('textbox'));
     await waitFor(() => expect(input).toHaveFocus());
@@ -581,6 +675,18 @@ describe('KeyboardNavigationTransformer', () => {
       menuItem.focus();
       return menuItem;
     };
+
+    it('leaves focus on the scroll container the pointer moved to while the menu was open', async () => {
+      const table = await mount();
+      const menuItem = visitMenu(table);
+      const container = table.table.scrollContainer;
+      container.focus();
+      menuItem.remove();
+
+      navigation(table).returnFocusFromMenu(origin);
+
+      expect(container).toHaveFocus();
+    });
 
     it('focuses the origin again after focus visited the menu portal', async () => {
       const table = await mount();
@@ -635,6 +741,33 @@ describe('KeyboardNavigationTransformer', () => {
       expect(document.body).toHaveFocus();
     });
 
+    it('does not restore an old menu origin after another cell received focus and blurred', async () => {
+      const table = await mount();
+      const menuItem = visitMenu(table);
+      const newerCell = cell(table.row('3'), 1);
+      newerCell.focus();
+      newerCell.blur();
+      menuItem.remove();
+
+      navigation(table).returnFocusFromMenu(origin);
+
+      expect(document.body).toHaveFocus();
+      expect(navigation(table).position).toEqual(navigation(table).positionOfCell(newerCell));
+    });
+
+    it('returns to the recovered position when a render removed the origin row', async () => {
+      const table = await mount();
+      const menuItem = visitMenu(table);
+      await table.render([{ id: '1' }, { id: '3' }]);
+      menuItem.remove();
+      expect(document.body).toHaveFocus();
+
+      navigation(table).returnFocusFromMenu(origin);
+
+      expect(navigation(table).position).toMatchObject({ key: wpOccurrenceKey('3') });
+      expect(table.row('3')).toHaveFocus();
+    });
+
     it('does nothing after the table is destroyed', async () => {
       const table = await mount();
       const keyboardNavigation = navigation(table);
@@ -676,7 +809,7 @@ describe('KeyboardNavigationTransformer', () => {
 
     it('mousedown on a cell records that row and cell without moving DOM focus', async () => {
       const table = await mount();
-      const subject = table.row('2').querySelector<HTMLTableCellElement>('td.subject')!;
+      const subject = table.row('2').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
 
       fireEvent.mouseDown(subject, { button: 0 });
 
@@ -704,16 +837,16 @@ describe('KeyboardNavigationTransformer', () => {
         relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
         editing: { fields: ['id', 'subject'] },
       }, (harness) => {
-        harness.injector.get(DisplayFieldService).addFieldType(AnchorDisplayField, 'text', ['String']);
+        harness.injector.get(DisplayFieldService).addFieldType(AnchorDisplayField, 'text', ['String', 'Integer']);
       });
       const hierarchies = table.injector.get(WorkPackageViewHierarchiesService);
-      const idCell = table.row('1').querySelector<HTMLTableCellElement>('td.id')!;
+      const idCell = table.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.id')!;
       const link = within(idCell).getByRole('link');
       const toggle = table.row('1').querySelector<HTMLElement>('.wp-table--hierarchy-indicator')!;
       const relation = table.row('1').querySelector<HTMLElement>('td.relationsOfTypeFollows *')!;
 
       expect(fireEvent.mouseDown(link, { button: 0 })).toBe(true);
-      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('1'), cell: cellIndex(table.row('1'), 'td.id'), desiredColumn: cellIndex(table.row('1'), 'td.id') });
+      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('1'), cell: cellIndex(table.row('1'), ':scope > .wp-table--cell-td.id'), desiredColumn: cellIndex(table.row('1'), ':scope > .wp-table--cell-td.id') });
 
       navigation(table).recordPosition({ key: wpOccurrenceKey('2'), cell: null, desiredColumn: null });
       const collapsedBefore = hierarchies.collapsed('1');
@@ -736,7 +869,7 @@ describe('KeyboardNavigationTransformer', () => {
       vi.spyOn(table.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([]);
       let menu:OpContextMenuHandler|undefined;
       vi.spyOn(table.injector.get(OPContextMenuService), 'show').mockImplementation((handler) => { menu = handler; });
-      const subjectCell = table.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+      const subjectCell = table.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
       const field = subjectCell.querySelector<HTMLElement>('.inline-edit--display-field')!;
 
       fireEvent.mouseDown(field, { button: 2 });
@@ -790,6 +923,101 @@ describe('KeyboardNavigationTransformer', () => {
 
       expect(table.row('3')).toHaveFocus();
       expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('3'), cell: null, desiredColumn: null });
+    });
+
+    it('moves an unentered Tab stop off a row hidden by a collapse', async () => {
+      const table = await mount();
+      expect(table.row('1')).toHaveAttribute('tabindex', '0');
+
+      table.table.setHidden(new Map([[wpOccurrenceKey('1'), true]]));
+
+      expect(table.row('1')).toHaveAttribute('tabindex', '-1');
+      expect(table.row('2')).toHaveAttribute('tabindex', '0');
+    });
+
+    it('initializes the Tab stop on the first work package after an empty table fills', async () => {
+      const table = await mount({ workPackages: [] });
+      expect(table.headerRow()).toHaveAttribute('tabindex', '0');
+
+      await table.render([{ id: '1' }, { id: '2' }]);
+
+      expect(table.row('1')).toHaveAttribute('tabindex', '0');
+      expect(table.headerRow()).toHaveAttribute('tabindex', '-1');
+    });
+
+    it('returns to the origin when a full render retires an editor focused in its overlay', async () => {
+      const table = await mount({ editing: {} });
+      cell(table.row('2'), 1).focus();
+      pressActive('Enter');
+      await waitFor(() => expect(table.table.editing.forms['2'].activeFields.subject).toBeDefined());
+      const handler = table.table.editing.forms['2'].activeFields.subject;
+      const overlay = document.body.appendChild(document.createElement('button'));
+      handler.registerOverlay(overlay);
+      handler.onDestroy.subscribe(() => overlay.remove());
+      overlay.focus();
+
+      await table.render();
+
+      expect(overlay).not.toBeInTheDocument();
+      expect(cell(table.row('2'), 1)).toHaveFocus();
+    });
+
+    it('repaints Tab stops only within the rows a keyed mutation names and the stop', async () => {
+      const table = await mount();
+      const stop = table.row('1');
+      expect(stop).toHaveAttribute('tabindex', '0');
+      const observer = new MutationObserver(() => undefined);
+      observer.observe(table.table.scrollContainer, { attributes: true, attributeFilter: ['tabindex'], subtree: true });
+
+      table.table.mutateWorkPackages(['3'], () => undefined);
+
+      const touched = observer.takeRecords().map((record) => record.target as HTMLElement);
+      observer.disconnect();
+      expect(touched.filter((element) => !table.row('3').contains(element) && !stop.contains(element))).toEqual([]);
+      expect(stop).toHaveAttribute('tabindex', '0');
+    });
+
+    it('repaints Tab stops only within the changed rows while focus rests on another row', async () => {
+      const table = await mount();
+      table.row('2').focus();
+      const observer = new MutationObserver(() => undefined);
+      observer.observe(table.table.scrollContainer, { attributes: true, attributeFilter: ['tabindex'], subtree: true });
+
+      table.table.mutateWorkPackages(['3'], () => undefined);
+
+      const touched = observer.takeRecords().map((record) => record.target as HTMLElement);
+      observer.disconnect();
+      expect(touched.filter((element) => !table.row('3').contains(element) && !table.row('2').contains(element))).toEqual([]);
+      expect(table.row('2')).toHaveFocus();
+      expect(table.row('2')).toHaveAttribute('tabindex', '0');
+    });
+
+    it('leaves focus on the scroll container itself when a mutation settles', async () => {
+      const table = await mount();
+      table.row('2').focus();
+      const container = table.table.scrollContainer;
+      container.focus();
+
+      table.table.mutate('all', () => undefined);
+
+      expect(container).toHaveFocus();
+    });
+
+    it('leaves focus on the scroll container when a render pending since a row held focus commits', async () => {
+      const table = await mount();
+      const frames = table.holdFrames();
+      try {
+        table.row('2').focus();
+        table.table.redrawTable();
+        const container = table.table.scrollContainer;
+        container.focus();
+
+        frames.commit();
+
+        expect(container).toHaveFocus();
+      } finally {
+        frames.release();
+      }
     });
 
     it('a re-render while focus is in another table does not steal focus', async () => {
@@ -884,6 +1112,47 @@ describe('KeyboardNavigationTransformer', () => {
       expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
     });
 
+    it('returns a menu to the parent a collapse moved focus to', async () => {
+      const table = await mount({
+        workPackages: [
+          { id: '1', children: [{ id: '2' }, { id: '3' }] },
+          { id: '2', ancestors: [{ id: '1' }] },
+          { id: '3', ancestors: [{ id: '1' }] },
+          { id: '4' },
+        ],
+        showHierarchies: true,
+      });
+      table.row('3').focus();
+      table.injector.get(WorkPackageViewHierarchiesService).collapse('1');
+      await waitFor(() => expect(table.row('1')).toHaveFocus());
+      const menuItem = document.createElement('button');
+      document.body.append(menuItem);
+      menuItem.focus();
+      menuItem.remove();
+      expect(document.body).toHaveFocus();
+
+      navigation(table).returnFocusFromMenu({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+
+      expect(table.row('1')).toHaveFocus();
+    });
+
+    it('focuses a created row after render when focus had returned to the grid', async () => {
+      const table = await mount();
+      table.row('1').focus();
+      const create = within(table.container).getByRole('button', { name: 'Create new work package' });
+      create.focus();
+      navigation(table).rememberWorkPackageAfterRender('2');
+      await userEvent.tab({ shift: true });
+      expect(table.row('1')).toHaveFocus();
+
+      const rendered = table.nextRender();
+      table.table.redrawTable();
+      await rendered;
+
+      expect(table.row('2')).toHaveFocus();
+      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('2'), cell: null, desiredColumn: null });
+    });
+
     it('filtering to zero rows moves focus to the header row', async () => {
       const table = await mount();
       cell(table.row('2'), 1).focus();
@@ -900,11 +1169,11 @@ describe('KeyboardNavigationTransformer', () => {
       document.body.append(outside);
       try {
         table.row('1').focus();
-        navigation(table).captureOwnership();
-        outside.focus();
-        outside.remove();
-
-        table.table.refreshRows(resource(table, '1'));
+        table.table.mutate('positions', () => {
+          outside.focus();
+          outside.remove();
+          table.table.refreshRows(resource(table, '1'));
+        });
 
         expect(document.body).toHaveFocus();
         expect(table.row('1')).toHaveAttribute('tabindex', '0');
@@ -917,7 +1186,7 @@ describe('KeyboardNavigationTransformer', () => {
       const table = await mount({}, (harness) => {
         harness.injector.get(DisplayFieldService).addFieldType(AnchorDisplayField, 'text', ['String']);
       });
-      const subjectCell = table.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+      const subjectCell = table.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
       const link = within(subjectCell).getByRole('link');
       fireEvent.mouseDown(link, { button: 0 });
       link.focus();
@@ -974,8 +1243,7 @@ describe('KeyboardNavigationTransformer', () => {
       await table.render();
       cell(table.row('3'), 0).focus();
 
-      totals.innerHTML = cells;
-      table.table.notifyRowsRefreshed(totalsRowKey);
+      table.table.mutate(new Set([totalsRowKey]), () => { totals.innerHTML = cells; });
 
       expect(navigableCells(totals).every((totalsCell) => totalsCell.getAttribute('tabindex') === '-1')).toBe(true);
       expect(pressActive('ArrowDown')).toBe(false);
@@ -987,9 +1255,9 @@ describe('KeyboardNavigationTransformer', () => {
       const totals = table.totalsRow();
       navigableCells(totals)[1].focus();
 
-      navigation(table).captureOwnership();
-      totals.innerHTML = totals.innerHTML.replaceAll(/ tabindex="[^"]*"/g, '');
-      table.table.notifyRowsRefreshed(totalsRowKey);
+      table.table.mutate(new Set([totalsRowKey]), () => {
+        totals.innerHTML = totals.innerHTML.replaceAll(/ tabindex="[^"]*"/g, '');
+      });
 
       expect(navigableCells(totals)[1]).toHaveFocus();
       expect(navigation(table).position).toEqual({ key: totalsRowKey, cell: 1, desiredColumn: 1 });
@@ -997,30 +1265,25 @@ describe('KeyboardNavigationTransformer', () => {
 
     it('keeps ownership captured during a pending render when a second capture sees body', async () => {
       const table = await mount();
-      const frames:FrameRequestCallback[] = [];
-      const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
-        .mockImplementation((callback) => frames.push(callback));
+      const frames = table.holdFrames();
       try {
         table.row('2').focus();
         table.table.redrawTableAndTimeline();
         await Promise.resolve();
         table.row('2').blur();
-        navigation(table).captureOwnership();
-        await Promise.resolve();
+        table.table.mutate('positions', () => undefined);
 
-        frames.splice(0).forEach((frame) => frame(0));
+        frames.commit();
 
         expect(table.row('2')).toHaveFocus();
       } finally {
-        frameSpy.mockRestore();
+        frames.release();
       }
     });
 
     it('a row refresh between scheduling a full render and its commit leaves focus to the commit', async () => {
       const table = await mount();
-      const frames:FrameRequestCallback[] = [];
-      const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
-        .mockImplementation((callback) => frames.push(callback));
+      const frames = table.holdFrames();
       try {
         table.row('2').focus();
         table.table.redrawTableAndTimeline();
@@ -1028,32 +1291,30 @@ describe('KeyboardNavigationTransformer', () => {
         table.table.refreshRows(resource(table, '2'));
         const refreshed = table.row('2');
 
-        frames.splice(0).forEach((frame) => frame(0));
+        frames.commit();
 
         expect(table.row('2')).not.toBe(refreshed);
         expect(table.row('2')).toHaveFocus();
       } finally {
-        frameSpy.mockRestore();
+        frames.release();
       }
     });
 
     it('a table destroyed before the rAF commit restores nothing and throws nothing', async () => {
       const table = await mount();
-      const frames:FrameRequestCallback[] = [];
-      const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
-        .mockImplementation((callback) => frames.push(callback));
+      const frames = table.holdFrames();
       try {
         table.row('2').focus();
         table.table.redrawTableAndTimeline();
         table.table.destroy();
         table.row('2').blur();
 
-        expect(() => frames.splice(0).forEach((frame) => frame(0))).not.toThrow();
+        expect(() => frames.commit()).not.toThrow();
         table.querySpace.tableRendered.putValue(table.querySpace.tableRendered.value);
 
         expect(document.body).toHaveFocus();
       } finally {
-        frameSpy.mockRestore();
+        frames.release();
       }
     });
   });
@@ -1063,7 +1324,7 @@ describe('KeyboardNavigationTransformer', () => {
       const table = await mount({}, (harness) => {
         harness.injector.get(DisplayFieldService).addFieldType(AnchorDisplayField, 'text', ['String']);
       });
-      const subjectCell = table.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+      const subjectCell = table.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
       subjectCell.focus();
       const link = within(subjectCell).getByRole('link');
 
@@ -1095,7 +1356,7 @@ describe('KeyboardNavigationTransformer', () => {
       expect(selectedIds(table)).toEqual([]);
     });
 
-    it('handle Ctrl+A once on a capability-on table', async () => {
+    it('handle Ctrl+A once', async () => {
       const table = await mount();
       const selectAll = vi.spyOn(table.selection, 'selectAll');
       table.row('1').focus();
@@ -1109,7 +1370,7 @@ describe('KeyboardNavigationTransformer', () => {
     it.each([
       ['Ctrl+D', { code: 'KeyD', ctrlKey: true }],
       ['Meta+D', { code: 'KeyD', metaKey: true }],
-    ])('leave %s to the browser on a capability-on table', async (_chord, init) => {
+    ])('leave %s to the browser', async (_chord, init) => {
       const table = await mount();
       table.row('1').focus();
       expect(pressActive(' ', { shiftKey: true })).toBe(false);
@@ -1120,15 +1381,244 @@ describe('KeyboardNavigationTransformer', () => {
       expect(selectedIds(table)).toEqual(['1']);
       expect(table.row('1')).toHaveFocus();
     });
+  });
 
-    it('still select all through the legacy registration on a capability-off table', async () => {
-      const table = await mount({ configuration: { keyboardNavigationEnabled: false } });
-      const selectAll = vi.spyOn(table.selection, 'selectAll');
+  describe.each<ConsumerName>(['search', 'macro', 'widget', 'queryGroup', 'bcf'])('the %s consumer', (name) => {
+    const mountConsumer = (options:Partial<TableHarnessOptions> = {}) => mount({
+      ...options,
+      configuration: { ...consumerConfiguration(name), ...options.configuration },
+    });
 
-      expect(press(table.row('1'), 'a', { code: 'KeyA', ctrlKey: true })).toBe(false);
+    it('renders as many header cells as data cells', async () => {
+      const table = await mountConsumer();
 
-      expect(selectAll).toHaveBeenCalledTimes(1);
-      expect(selectedIds(table)).toEqual(['1', '2', '3']);
+      expect(table.headerCells()).toHaveLength(table.row('1').cells.length);
+    });
+
+    it('leaves the first row as the only Tab stop', async () => {
+      const table = await mountConsumer();
+
+      expect(Array.from(table.container.querySelectorAll('[tabindex="0"]'))).toEqual([table.row('1')]);
+    });
+
+    it('marks exactly the cells isNavigableColumn names', async () => {
+      const table = await mountConsumer();
+      const configuration = new WorkPackageTableConfiguration(consumerConfiguration(name));
+      const columns = [
+        ...(configuration.dragAndDropEnabled ? [internalSortColumn] : []),
+        { id: 'id' } as QueryColumn,
+        { id: 'subject' } as QueryColumn,
+        internalContextMenuColumn,
+      ];
+
+      expect(navigableCells(table.row('1'))).toHaveLength(columns.filter((column) => isNavigableColumn(column, configuration)).length);
+    });
+
+    it.each([
+      ['Shift+F10', { key: 'F10', shiftKey: true }],
+      ['Menu', { key: 'ContextMenu' }],
+    ])('opens the context menu on %s only for the BCF list', async (_chord, init) => {
+      const table = await mountConsumer();
+      vi.spyOn(table.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([]);
+      const show = vi.spyOn(table.injector.get(OPContextMenuService), 'show').mockImplementation(() => undefined);
+      table.row('1').focus();
+
+      fireEvent.keyDown(table.row('1'), init);
+
+      expect(show).toHaveBeenCalledTimes(name === 'bcf' ? 1 : 0);
+    });
+
+    it('selects the focused row on Shift+Space', async () => {
+      const table = await mountConsumer();
+      table.row('2').focus();
+
+      expect(pressActive(' ', { shiftKey: true })).toBe(false);
+
+      expect(selectedIds(table)).toEqual(['2']);
+    });
+  });
+
+  describe('two consumer tables on one page', () => {
+    const mountPair = async (options:Partial<TableHarnessOptions> = {}) => {
+      const states = new States();
+      const first = await mount({ states, providers: [OPContextMenuService], configuration: consumerConfiguration('bcf'), ...options });
+      const second = await mount({ states, configuration: consumerConfiguration('bcf'), ...options });
+      return [first, second] as const;
+    };
+
+    const tabindexes = (table:TableHarness) => Array.from(table.container.querySelectorAll('[tabindex]'))
+      .map((element) => [element, element.getAttribute('tabindex')]);
+
+    it('a re-render of one leaves the roving tabindex of the other unchanged', async () => {
+      const [first, second] = await mountPair();
+      const before = tabindexes(second);
+      first.row('2').focus();
+
+      await first.render();
+      first.table.refreshRows(resource(first, '1'));
+
+      expect(before.length).toBeGreaterThan(0);
+      expect(tabindexes(second)).toEqual(before);
+    });
+
+    it('a re-render of one leaves an active create input of the other focused', async () => {
+      const [first, second] = await mountPair();
+      first.row('2').focus();
+      expect(navigation(first).position?.key).toBe(wpOccurrenceKey('2'));
+      const input = document.createElement('input');
+      second.addInlineCreateRow().cells[0].append(input);
+      input.focus();
+
+      await first.render();
+
+      expect(input).toHaveFocus();
+      expect(navigation(first).position?.key).toBe(wpOccurrenceKey('2'));
+    });
+
+    it('closing a menu with Escape keeps the other selection until a plain Escape clears both', async () => {
+      const [first, second] = await mountPair();
+      const page = document.createElement('div');
+      page.id = 'wrapper';
+      document.body.append(page);
+      const unregister = registerContextMenu(first.injector.get(OPContextMenuService));
+      vi.spyOn(first.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions')
+        .mockReturnValue([{ key: 'test-action', text: 'Test action', link: '#' }]);
+      try {
+        first.click('1');
+        second.click('2');
+        first.row('1').focus();
+        fireEvent.keyDown(first.row('1'), { key: 'F10', shiftKey: true });
+        await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
+
+        fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+        await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toBeNull());
+
+        expect(selectedIds(first)).toEqual(['1']);
+        expect(selectedIds(second)).toEqual(['2']);
+
+        fireEvent.keyDown(document.body, { key: 'Escape' });
+
+        expect(selectedIds(first)).toEqual([]);
+        expect(selectedIds(second)).toEqual([]);
+      } finally {
+        first.injector.get(OPContextMenuService).close();
+        unregister();
+        page.remove();
+      }
+    });
+
+    it('Ctrl+A with focus in one table selects only that table', async () => {
+      const [first, second] = await mountPair();
+      second.row('1').focus();
+
+      expect(pressActive('a', { code: 'KeyA', ctrlKey: true })).toBe(false);
+
+      expect(selectedIds(second)).toEqual(['1', '2', '3']);
+      expect(selectedIds(first)).toEqual([]);
+    });
+  });
+
+  describe('a query group beside the main list', () => {
+    const mountListAndGroup = async (options:Partial<TableHarnessOptions> = {}) => {
+      const states = new States();
+      const list = await mount({ states, configuration: consumerConfiguration('list') });
+      const group = await mount({
+        states,
+        workPackages: [{ id: '4' }, { id: '5' }],
+        ...options,
+        configuration: consumerConfiguration('queryGroup'),
+      });
+      return [list, group] as const;
+    };
+
+    const openEditor = async (table:TableHarness, id:string, fieldName:string) => {
+      const target = table.row(id).querySelector<HTMLElement>(`:scope > .wp-table--cell-td.${fieldName}`)!;
+      navigation(table).focusPosition(navigation(table).positionOfCell(target)!);
+      fireEvent.keyDown(target, { key: 'Enter' });
+      await waitFor(() => expect(within(target).getByRole('textbox')).toHaveFocus());
+      return { cell: target, handler: table.table.editing.forms[id].activeFields[fieldName] };
+    };
+
+    const openDatePicker = (table:TableHarness, handler:EditFieldHandler) => {
+      const overlay = document.body.appendChild(document.createElement('div'));
+      overlay.className = 'spot-modal-overlay spot-modal-overlay_active';
+      overlay.setAttribute('role', 'dialog');
+      const element = overlay.appendChild(document.createElement('div'));
+      const apply = element.appendChild(document.createElement('button'));
+      apply.textContent = 'Save';
+      const modal = { closingEvent: new Subject<void>(), element, closeMe: vi.fn() };
+      const injector = Injector.create({
+        parent: table.injector,
+        providers: [
+          { provide: OpEditingPortalHandlerToken, useValue: handler },
+          {
+            provide: OpEditingPortalChangesetToken,
+            useValue: {
+              projectedResource: resource(table, '4'),
+              schema: { ofProperty: () => ({}), mappedName: (name:string) => name, isMilestone: false },
+              state: null,
+            },
+          },
+          { provide: OpEditingPortalSchemaToken, useValue: {} },
+          { provide: ElementRef, useValue: new ElementRef(handler.element) },
+          { provide: ChangeDetectorRef, useValue: { markForCheck: () => undefined, detectChanges: () => undefined } },
+          { provide: OpModalService, useValue: { show: () => of(modal), activeModalInstance$: new BehaviorSubject<unknown>(null) } },
+          { provide: TimezoneService, useValue: {} },
+          { provide: DeviceService, useValue: {} },
+        ],
+      });
+      const field = runInInjectionContext(injector, () => new TableDateField());
+      field.showDatePickerModal();
+      apply.focus();
+      return { overlay, apply, close: () => modal.closingEvent.next() };
+    };
+
+    it('keeps a date editor overlay of the group owned by the group while the list re-renders and sees Escape', async () => {
+      const [list, group] = await mountListAndGroup({
+        columns: ['id', 'subject', 'startDate'],
+        editing: { fields: ['startDate', 'combinedDate'] },
+      });
+      const { handler } = await openEditor(group, '4', 'startDate');
+      const { overlay, apply, close } = openDatePicker(group, handler);
+      try {
+        expect(apply).toHaveFocus();
+        expect(group.table.editing.owns(overlay)).toBe(true);
+        expect(list.table.editing.owns(overlay)).toBe(false);
+
+        await list.render();
+        fireEvent.keyDown(apply, { key: 'Escape' });
+
+        expect(apply).toHaveFocus();
+        expect(overlay).toBeInTheDocument();
+        expect(group.table.editing.forms['4'].activeFields.startDate).toBe(handler);
+        expect(group.table.editing.owns(overlay)).toBe(true);
+
+        close();
+
+        expect(group.table.editing.forms['4'].activeFields.startDate).toBeUndefined();
+        expect(group.row('4').querySelector('td.startDate')).toHaveFocus();
+      } finally {
+        overlay.remove();
+      }
+    });
+
+    it('leaves focus in the list when a pending save of the group completes', async () => {
+      let resolveSave!:(value:{ resource:WorkPackageResource; wasNew:boolean }) => void;
+      const [list, group] = await mountListAndGroup({
+        editing: { save: () => new Promise((resolve) => { resolveSave = resolve; }) },
+      });
+      const { cell, handler } = await openEditor(group, '4', 'subject');
+      const submission = handler.handleUserSubmit();
+      await waitFor(() => expect(resolveSave).toBeDefined());
+
+      list.row('2').focus();
+      const saved = buildWorkPackage({ id: '4', subject: 'Changed' });
+      group.injector.get(States).workPackages.get('4').putValue(saved);
+      resolveSave({ resource: saved, wasNew: false });
+      await submission;
+
+      expect(list.row('2')).toHaveFocus();
+      expect(cell).not.toHaveFocus();
     });
   });
 });

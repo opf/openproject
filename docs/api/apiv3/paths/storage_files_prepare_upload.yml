@@ -7,7 +7,7 @@ post:
     - File links
   description: |-
     Executes a request that prepares a link for a direct upload to the storage.
-    
+
     The background here is, that the client needs to make a direct request to the storage instance for file uploading,
     but should not get access to the credentials, which are stored in the backend. The response contains a link object,
     that enables the client to execute a file upload without the real credentials.

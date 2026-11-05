@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: ID of the project whose types will be listed
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: ID of the project whose types will be listed
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -18,30 +18,30 @@ get:
               value:
                 _embedded:
                   elements:
-                  - _links:
-                      self:
-                        href: "/api/v3/types/1"
-                    _type: Type
-                    color: "#ff0000"
-                    createdAt: '2014-05-21T08:51:20.396Z'
-                    id: 1
-                    isDefault: true
-                    isMilestone: false
-                    name: Bug
-                    position: 1
-                    updatedAt: '2014-05-21T08:51:20.396Z'
-                  - _links:
-                      self:
-                        href: "/api/v3/types/2"
-                    _type: Type
-                    color: "#888"
-                    createdAt: '2014-05-21T08:51:20.396Z'
-                    id: 2
-                    isDefault: false
-                    isMilestone: false
-                    name: Feature
-                    position: 2
-                    updatedAt: '2014-05-21T08:51:20.396Z'
+                    - _links:
+                        self:
+                          href: "/api/v3/types/1"
+                      _type: Type
+                      color: "#ff0000"
+                      createdAt: '2014-05-21T08:51:20.396Z'
+                      id: 1
+                      isDefault: true
+                      isMilestone: false
+                      name: Bug
+                      position: 1
+                      updatedAt: '2014-05-21T08:51:20.396Z'
+                    - _links:
+                        self:
+                          href: "/api/v3/types/2"
+                      _type: Type
+                      color: "#888"
+                      createdAt: '2014-05-21T08:51:20.396Z'
+                      id: 2
+                      isDefault: false
+                      isMilestone: false
+                      name: Feature
+                      position: 2
+                      updatedAt: '2014-05-21T08:51:20.396Z'
                 _links:
                   self:
                     href: "/api/v3/projects/11/types"
@@ -49,7 +49,7 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/types_by_workspace_model.yml"
+            $ref: "../components/schemas/types_by_workspace_model.yml"
       description: OK
       headers: {}
     '404':

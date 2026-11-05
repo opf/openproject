@@ -10,8 +10,8 @@ get:
               value:
                 _embedded:
                   elements:
-                  - _type: Project...
-                  - _type: Project...
+                    - _type: Project...
+                    - _type: Project...
                 _links:
                   self:
                     href: "/api/v3/time_entries/available_projects"
@@ -19,7 +19,7 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/available_projects_for_time_entries_model.yml"
+            $ref: "../components/schemas/available_projects_for_time_entries_model.yml"
       description: OK
       headers: {}
     '403':
@@ -39,7 +39,7 @@ get:
         **Required permission:** *log time*, *edit time entries* or *edit own time entries* in any project
       headers: {}
   tags:
-  - Time Entries
+    - Time Entries
   description: Gets a list of projects in which a time entry can be created in or
     be assigned to on update. The list contains all projects in which the user issuing
     the request has the necessary permissions.

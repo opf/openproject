@@ -2,24 +2,24 @@
 ---
 get:
   parameters:
-  - description: ID of the workspace whose labels will be listed
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
-  - name: filters
-    description: |-
-      JSON specifying filter conditions.
-      Currently supported filters are:
+    - description: ID of the workspace whose labels will be listed
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+    - name: filters
+      description: |-
+        JSON specifying filter conditions.
+        Currently supported filters are:
 
-      + name: filters labels by name, with the operators `~` (contains), `!~` (does not contain) and `**` (all)
-    example: '[{ "name": { "operator": "~", "values": ["bug"] } }]'
-    in: query
-    required: false
-    schema:
-      type: string
+        + name: filters labels by name, with the operators `~` (contains), `!~` (does not contain) and `**` (all)
+      example: '[{ "name": { "operator": "~", "values": ["bug"] } }]'
+      in: query
+      required: false
+      schema:
+        type: string
   responses:
     '200':
       content:
@@ -28,7 +28,7 @@ get:
             'simple label collection':
               $ref: "../components/examples/label_collection.yml"
           schema:
-            "$ref": "../components/schemas/label_collection_model.yml"
+            $ref: "../components/schemas/label_collection_model.yml"
       description: OK
       headers: {}
     '400':
@@ -54,7 +54,7 @@ get:
         That's why a 404 is returned here, even if a 403 might be more appropriate.*
       headers: {}
   tags:
-  - Labels
+    - Labels
   description: |-
     Returns a paginated collection of all labels, ordered by relevance for the given workspace:
     labels already used on work packages of the workspace come first, followed by the remaining labels.

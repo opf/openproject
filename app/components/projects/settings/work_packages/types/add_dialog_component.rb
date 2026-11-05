@@ -53,6 +53,7 @@ module Projects
 
           def addable_variants
             @addable_variants ||= ::TypeVariant
+                                    .available_in(project)
                                     .where.not(type_id: project.project_types.select(:type_id))
                                     .includes(:type)
                                     .sort_by { |variant| [variant.type.position, variant.variant_name.to_s] }

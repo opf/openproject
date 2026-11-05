@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Identifier of the schema
-    example: 12-13
-    in: path
-    name: identifier
-    required: true
-    schema:
-      type: string
+    - description: Identifier of the schema
+      example: 12-13
+      in: path
+      name: identifier
+      required: true
+      schema:
+        type: string
   responses:
     '200':
       description: OK
@@ -34,7 +34,7 @@ get:
         That's why a 404 is returned here, even if a 403 might be more appropriate.*
       headers: {}
   tags:
-  - Work Packages
+    - Work Packages
   description: ''
   operationId: View_Work_Package_Schema
   summary: View Work Package Schema

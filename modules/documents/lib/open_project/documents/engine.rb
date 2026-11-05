@@ -33,6 +33,13 @@ module OpenProject::Documents
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    initializer "openproject_documents.feature_decisions" do
+      OpenProject::FeatureDecisions.add :documents_collaboration_token_api,
+                                        description: "Enables the API endpoint for creating real-time collaboration " \
+                                                     "tokens for documents (used by the mobile app). " \
+                                                     "See SE-664 for details."
+    end
+
     register "openproject-documents",
              author_url: "http://www.openproject.org",
              bundled: true do
@@ -110,6 +117,10 @@ module OpenProject::Documents
     patches %i[Project]
 
     add_api_resource_paths :document, only: %i[index show]
+
+    add_api_path :document_collaboration_token do |id|
+      "#{document(id)}/collaboration_token"
+    end
 
     add_api_path :attachments_by_document do |id|
       "#{document(id)}/attachments"
