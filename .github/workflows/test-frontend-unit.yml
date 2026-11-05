@@ -85,7 +85,11 @@ jobs:
 
       - name: Build service worker
         if: ${{ !cancelled() && steps.typecheck-app.outcome != 'skipped' }}
-        run: npm run build:service-worker -- --outdir=$RUNNER_TEMP/sw
+        run: |
+          mkdir -p ../public/assets/frontend
+          npm run build:service-worker
+          ls ../public/assets/frontend | grep -qE '^service-worker-[A-Z0-9]{8}\.js$' \
+            || { echo "No hashed service worker emitted:"; ls ../public/assets/frontend; exit 1; }
 
   unit:
     name: Units (${{ matrix.browser }})
