@@ -352,9 +352,10 @@ RSpec.describe "Admin semantic indexes", :skip_csrf,
       expect(response.body).to include("turbo-stream",
                                        I18n.t("admin.semantic_indexes.indexing.progress", percentage: 25),
                                        "poll-for-changes")
+      expect(response.body).to include('method="morph"', 'data-poll-for-changes-continuous-value="true"')
     end
 
-    it "replaces the box once indexing has finished" do
+    it "morphs the box and drops the poller once indexing has finished" do
       create(:semantic_index, state: "failed", error_message: "Some Error")
 
       get status_semantic_indexes_path, headers: turbo_headers
@@ -362,7 +363,9 @@ RSpec.describe "Admin semantic indexes", :skip_csrf,
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("turbo-stream",
                                        I18n.t("admin.semantic_indexes.states.failed"),
-                                       "Some Error")
+                                       "Some Error",
+                                       'method="morph"')
+      expect(response.body).not_to include("poll-for-changes")
     end
   end
 end

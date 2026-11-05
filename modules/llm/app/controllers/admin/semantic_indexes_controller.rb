@@ -134,7 +134,8 @@ module Admin
 
     def status
       replace_via_turbo_stream(
-        component: LlmConnections::SemanticIndexes::BoxComponent.new(semantic_indexes: SemanticIndex.order(:created_at))
+        component: LlmConnections::SemanticIndexes::BoxComponent.new,
+        method: :morph
       )
       respond_with_turbo_streams
     end

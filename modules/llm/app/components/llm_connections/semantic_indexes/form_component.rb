@@ -50,6 +50,8 @@ module LlmConnections
       end
 
       def model_options
+        return if locked?
+
         LlmConnections::SelectableModelsQuery
           .new(connection, OpenProject::Llm::Features[:semantic_search], bound_model_id: model.model_id_in_database)
           .call

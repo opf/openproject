@@ -41,6 +41,10 @@ module LlmConnections
         "failed" => :danger
       }.freeze
 
+      def row_css_id
+        "llm-semantic-index-row-#{semantic_index.id}"
+      end
+
       def row_data
         { test_selector: "llm-semantic-index--row-#{semantic_index.id}" }
       end
@@ -79,8 +83,10 @@ module LlmConnections
 
       private
 
+      def active? = semantic_index.persisted? && semantic_index.id == table.active_semantic_index_id
+
       def active_label
-        return unless semantic_index.active?
+        return unless active?
 
         render(Primer::Beta::Label.new(scheme: :accent, test_selector: "llm-semantic-index--active-label")) do
           I18n.t("admin.semantic_indexes.active")
@@ -88,7 +94,7 @@ module LlmConnections
       end
 
       def activate_button
-        return if semantic_index.active?
+        return if active?
 
         render(
           Primer::Beta::Button.new(
@@ -187,7 +193,7 @@ module LlmConnections
 
           edit_item(menu)
           menu.with_divider
-          semantic_index.active? ? locked_delete_item(menu) : delete_item(menu)
+          active? ? locked_delete_item(menu) : delete_item(menu)
         end
       end
 
