@@ -27,26 +27,7 @@
 
 module Redmine
   module Ciphering
-    def self.included(base)
-      base.extend ClassMethods
-    end
-
     class << self
-      def encrypt_text(text)
-        if cipher_key.blank?
-          text
-        else
-          c = OpenSSL::Cipher.new("aes-256-cbc")
-          iv = c.random_iv
-          c.encrypt
-          c.key = cipher_key
-          c.iv = iv
-          e = c.update(text.to_s)
-          e << c.final
-          "aes-256-cbc:#{[e, iv].map { |v| Base64.strict_encode64(v) }.join('--')}"
-        end
-      end
-
       def decrypt_text(text)
         if text && match = text.match(/\Aaes-256-cbc:(.+)\z/m)
           text = match[1]
@@ -71,40 +52,6 @@ module Redmine
         # we have to truncate it ourselves.
         key.blank? ? nil : Digest::SHA256.hexdigest(key)[0, 32]
       end
-    end
-
-    module ClassMethods
-      def encrypt_all(attribute)
-        !!transaction do
-          all.each do |object|
-            clear = object.send(attribute)
-            object.send :"#{attribute}=", clear
-            raise(ActiveRecord::Rollback) unless object.save(validate: false)
-          end
-        end
-      end
-
-      def decrypt_all(attribute)
-        !!transaction do
-          all.each do |object|
-            clear = object.send(attribute)
-            object[attribute] = clear
-            raise(ActiveRecord::Rollback) unless object.save(validate: false)
-          end
-        end
-      end
-    end
-
-    private
-
-    # Returns the value of the given ciphered attribute
-    def read_ciphered_attribute(attribute)
-      Redmine::Ciphering.decrypt_text(read_attribute(attribute))
-    end
-
-    # Sets the value of the given ciphered attribute
-    def write_ciphered_attribute(attribute, value)
-      write_attribute(attribute, Redmine::Ciphering.encrypt_text(value))
     end
   end
 end
