@@ -59,7 +59,8 @@ export type PushStateMap = Record<string, StateEntry>;
 export type PlanItem =
   | { kind:'alert'|'refresh'; group:GroupWithFingerprint }
   | { kind:'more'; more:MoreWithFingerprint }
-  | { kind:'fallback' };
+  | { kind:'fallback' }
+  | { kind:'nothingNew' };
 
 export interface PlanResult {
   show:PlanItem[];
@@ -83,9 +84,10 @@ export interface PlanResult {
  * comes back. Groups are shown oldest first so the newest ends on top.
  *
  * A push must end with something visible: if nothing qualifies, the newest group is refreshed when
- * it is open, otherwise the fallback is shown. The refresh is needed even when that notification is
- * already on screen: Safari only counts a push that calls showNotification and drops every
- * subscription of the site after three pushes that did not.
+ * it is open, otherwise a quiet "nothing new" notice shows, which does not bring dismissed groups
+ * back. The refresh is needed even when that notification is already on screen: Safari only counts
+ * a push that calls showNotification and drops every subscription of the site after three pushes
+ * that did not.
  */
 export class NotificationPlan {
   static activityAt(group:SummaryGroup):number {
@@ -103,7 +105,7 @@ export class NotificationPlan {
   }
 
   static needsRefresh({ group, previous, openTags }:{ group:GroupWithFingerprint; previous:StateEntry|undefined; openTags:string[] }):boolean {
-    const onlyPlaceholderOpen = openTags.every((tag) => tag === Tags.placeholder);
+    const onlyPlaceholderOpen = openTags.length > 0 && openTags.every((tag) => tag === Tags.placeholder);
     return (
       onlyPlaceholderOpen || !!previous?.evicted || (openTags.includes(group.tag) && previous?.fingerprint !== group.fingerprint)
     );
@@ -160,7 +162,7 @@ export class NotificationPlan {
     }
 
     if (show.length === 0) {
-      show.push(openTags.includes(groups[0].tag) ? { kind: 'refresh', group: groups[0] } : { kind: 'fallback' });
+      show.push(openTags.includes(groups[0].tag) ? { kind: 'refresh', group: groups[0] } : { kind: 'nothingNew' });
     }
 
     return { show, state: more ? { ...state, ...nextState } : nextState };

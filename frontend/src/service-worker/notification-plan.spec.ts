@@ -118,10 +118,22 @@ describe('NotificationPlan', () => {
       expect(result.show).toEqual([{ kind: 'refresh', group: group(1, 100) }]);
     });
 
-    it('shows the fallback when the newest group is not open', () => {
+    it('shows a nothing-new notice when the newest group is not open', () => {
       const result = plan({ groups: [group(1, 100)], openTags: [tagOf(2)], state });
 
-      expect(result.show).toEqual([{ kind: 'fallback' }]);
+      expect(result.show).toEqual([{ kind: 'nothingNew' }]);
+    });
+
+    it('keeps dismissed groups closed after everything was dismissed', () => {
+      const result = plan({ groups: [group(1, 100), group(2, 50)], openTags: [], state });
+
+      expect(result.show).toEqual([{ kind: 'nothingNew' }]);
+    });
+
+    it('does not refresh any group when only the nothing-new notice is open', () => {
+      const result = plan({ groups: [group(1, 100)], openTags: [Tags.nothingNew], state });
+
+      expect(result.show).toEqual([{ kind: 'nothingNew' }]);
     });
   });
 

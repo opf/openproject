@@ -57,6 +57,8 @@ export class Notifications {
         return Notifications.showGroup(item.group, { silent: true, renotify: false });
       case 'more':
         return Notifications.showMore(item.more);
+      case 'nothingNew':
+        return Notifications.showFallback(Tags.nothingNew);
       default:
         return Notifications.showFallback();
     }
@@ -79,9 +81,9 @@ export class Notifications {
     });
   }
 
-  static showFallback():Promise<void> {
+  static showFallback(tag:string = Tags.placeholder):Promise<void> {
     return Notifications.display(Config.push.fallbackTitle, {
-      tag: Tags.placeholder,
+      tag,
       silent: true,
       renotify: false,
       data: { url: Config.urls.home, revision: 'fallback' },

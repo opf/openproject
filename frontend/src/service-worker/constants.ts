@@ -29,6 +29,7 @@ export const Tags = {
   prefix: 'openproject-',
   workPackage: /^openproject-(\d+)-wp-/,
   placeholder: 'openproject-unread',
+  nothingNew: 'openproject-nothing-new',
   more: 'openproject-more',
 } as const;
 
