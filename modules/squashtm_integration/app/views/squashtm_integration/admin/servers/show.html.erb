@@ -42,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% if @server.persisted? %>
   <%=
     render(Primer::Alpha::Banner.new(scheme: :success, mb: 3, test_selector: "squashtm--linked-server")) do
-      server_link = render(Primer::Beta::Link.new(href: @server.base_url, target: "_blank", rel: "noopener noreferrer")) do |link|
+      server_link = render(Primer::Beta::Link.new(href: @server.base_url, target: "_blank", rel: "noopener noreferrer", data: { allow_external_link: true })) do |link|
         link.with_trailing_visual_icon(icon: :"link-external")
         @server.base_url
       end
