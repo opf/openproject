@@ -342,6 +342,10 @@ da:
         custom_field_section: Afsnit
       project_type:
         variant: Variant
+      push_subscription:
+        created_at: Tilføjet
+        endpoint: Endepunkt
+        session_id: Session
       query:
         child_work_packages: Underordnede arbejdspakker
         column_names: Kolonner
@@ -847,6 +851,10 @@ da:
             variant:
               must_be_owned_by_the_project: må ikke være en variant, som et andet projekt ejer.
               must_belong_to_the_type: skal være en variant af den type, projektet bruger.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Kun %{count} enheder kan få browsernotifikationer på samme tid.
         queries/filters/base:
           attributes:
             values:
@@ -1668,21 +1676,23 @@ da:
           JiraCreateCustomFieldsJob:
             title: Opret brugerdefinerede felter
           JiraCreateLabelsJob:
-            title: Create labels
+            title: Opret mærkater
+          JiraCreateParentChildRelationsFromSubtasksJob:
+            title: Opret overordnet-underordnet-relationer for '%{jira_project_name}'
           JiraCreateProjectJob:
             title: Opret projektet '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Opret projektrollen 'JiraMember'
           JiraCreateProjectTimeEntriesJob:
-            title: Create time entries for '%{jira_project_name}'
+            title: Opret tidsregistreringer for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Opret versioner for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Hent vedhæftede filer til arbejdspakker for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Opret arbejdspakker for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Opret brugere
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Hent brugerdefinerede felter
           JiraFetchIssueTypesJob:
@@ -1833,7 +1843,7 @@ da:
                   subtitle: 'Involveret i importerede projekter '
                 work_packages:
                   label: Arbejdspakker
-                  subtitle: With attachments and logged time
+                  subtitle: Med vedhæftede filer og registreret tid
               title: Resultater af importkørslen
             import_scope:
               button_continue: Fortsæt
@@ -1850,7 +1860,7 @@ da:
                 issue_details: Sagernes beskrivelse, historik, kommentarer og vedhæftede filer
                 issue_ids: Id'er for sager
                 issues: Sager
-                logged_time: Logged time
+                logged_time: Registreret tid
                 permissions: Tilladelser
                 project_ids: Projekt-id'er
                 project_versions: Projektversioner
@@ -1884,8 +1894,11 @@ da:
               rest_line_text: ''
               title: Hent Jira-konfiguration
             '10':
-              rest_line_text: Creating time entries for %{projects_number} more projects
-              title: Create time entries
+              rest_line_text: Opretter tidsregistreringer for %{projects_number} projekter mere
+              title: Opret tidsregistreringer
+            '11':
+              rest_line_text: Henter vedhæftede filer for %{projects_number} projekter mere
+              title: Hent vedhæftede filer
             '2':
               rest_line_text: Henter sager og versioner for %{projects_number} projekter mere
               title: Hent projekternes sager og versioner
@@ -1908,8 +1921,8 @@ da:
               rest_line_text: Opretter arbejdspakker for %{projects_number} projekter mere
               title: Opret arbejdspakker
             '9':
-              rest_line_text: Henter vedhæftede filer for %{projects_number} projekter mere
-              title: Hent vedhæftede filer
+              rest_line_text: Opretter overordnet-underordnet-relationer ud fra underopgaver for %{projects_number} projekter mere
+              title: Opret overordnet-underordnet-relationer ud fra underopgaver
       test:
         api_error: Jiras API returnerede fejlstatus %{status}. Kontrollér URL'en til din Jira-installation og legitimationsoplysningerne.
         basic_auth_password_invalid: Ugyldig adgangskode til basic auth. Kontrollér legitimationsoplysningerne i konfigurationen.
@@ -2089,6 +2102,37 @@ da:
           error: Afsnittets placering kunne ikke ændres.
         move:
           error: Afsnittets placering kunne ikke ændres.
+      push_notifications:
+        checking: Tjekker …
+        description: Brugerne kan vælge at installere OpenProject som en progressiv webapp (PWA) i moderne browsere. Gør de det, kan de også få notifikationer fra styresystemet om aktivitet i OpenProject.
+        hosts_intro: 'OpenProject sender push til den push-tjeneste, som den enkelte brugers browser abonnerer via. Tjekket nedenfor kontakter de store browseres push-tjenester og alle tjenester, som et eksisterende abonnement bruger:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: Push-signeringsnøglen angives med miljøvariablen OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY. Skift variablen for at forny nøglen.
+        key_renewed: Push-signeringsnøglen er fornyet. Alle enheder skal slå browsernotifikationer til igen.
+        key_unreadable: Push-signeringsnøglen kunne ikke læses. Forny den for at få browsernotifikationerne tilbage. Derefter skal alle enheder slå browsernotifikationer til igen.
+        reachable: Kan nås
+        reasons:
+          connection: Forbindelsen mislykkedes
+          filtered: Anmodningen blev blokeret af SSRF-beskyttelsen
+          invalid_host: Værtsnavnet er ugyldigt
+          private_address: Værten peger på en privat adresse
+          sample_unresolved: Eksempelværten kunne ikke slås op; resultatet er ikke entydigt
+          timeout: Intet svar inden for %{seconds} sekunder
+          tls: TLS-handshake mislykkedes
+          unresolved: Værtsnavnet kunne ikke slås op
+        renew_key: Forny nøgler
+        renew_key_dialog:
+          confirm_button: Forny nøglen
+          confirmation: Jeg forstår, at alle enheder skal slå browsernotifikationer til igen.
+          description:
+            one: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: det ene eksisterende abonnement slettes, og alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+            other: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: %{count} abonnementer slettes, og alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+            zero: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: der findes endnu ingen abonnementer, men alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+          heading: Vil du forny push-signeringsnøglen?
+          title: Forny nøgler
+        unreachable: Kan ikke nås
+        verify_reachability: Tjek, om tjenesterne kan nås
+        verify_reachability_description: For at tjekke for notifikationer sender OpenProject en push uden indhold, der vækker appen. Den installerede PWA henter derefter antallet af ulæste over brugerens session. Følgende push-tjenester ser abonnementets endepunkt, denne installations adresse og offentlige nøgle samt tidspunktet for hver push.
       user_custom_field_sections:
         destroy:
           error: Afsnittet kunne ikke slettes.
@@ -2258,7 +2302,9 @@ da:
     text_transform:
       errors:
         connection_failed: AI-tjenesten kunne ikke nås.
+        context_too_long: Teksten er for lang til AI-modellen. Forkort den, og prøv igen.
         not_available: AI-assistenten er ikke tilgængelig.
+        rate_limited: AI-tjenesten er optaget. Prøv igen om et øjeblik.
         timeout: AI-tjenesten svarede ikke i tide.
         upstream_error: AI-tjenesten returnerede en fejl.
       pane:
@@ -2349,12 +2395,12 @@ da:
     resources:
       schema: Skema
     undisclosed:
-      ancestor: Skjult – det overordnede element er ikke synlig på grund af manglende tilladelser.
-      budget: Undisclosed - The budget is invisible because of lacking permissions.
-      definingProject: Skjult – projektet er ikke synlig på grund af manglende tilladelser.
-      definingWorkspace: Skjult – arbejdsområdet er ikke synlig på grund af manglende tilladelser.
-      parent: Skjult – det overordnede element er ikke synlig på grund af manglende tilladelser.
-      project: Skjult – projektet er ikke synlig på grund af manglende tilladelser.
+      ancestor: Skjult – det overordnede element er ikke synligt på grund af manglende tilladelser.
+      budget: Skjult – budgettet er ikke synligt på grund af manglende tilladelser.
+      definingProject: Skjult – projektet er ikke synligt på grund af manglende tilladelser.
+      definingWorkspace: Skjult – arbejdsområdet er ikke synligt på grund af manglende tilladelser.
+      parent: Skjult – det overordnede element er ikke synligt på grund af manglende tilladelser.
+      project: Skjult – projektet er ikke synligt på grund af manglende tilladelser.
       workPackage: Skjult – arbejdspakken er ikke synlig på grund af manglende tilladelser.
   attribute_help_texts:
     add_new: Tilføj hjælpetekst
@@ -3821,6 +3867,9 @@ da:
         header: ændringer af %{author}
         migrated: fra Jira
         set_with_diff: "%{field} angivet (%{link})"
+      label_deleted:
+        one: "%{label_names} was deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(aflyst)"
       meeting_deleted: "(slettet)"
       meeting_series_backlog_html: backlog for mødeserien %{link}
@@ -3845,7 +3894,7 @@ da:
       total_percent_complete_mode_changed_to_work_weighted_average: Underordnede arbejdspakker uden Arbejde ignoreres.
       unaccessable_work_package_changed: på grund af ændringer i en relateret arbejdspakke
       work_package_children_changed_times: på grund af ændringer i den underordnede %{link}
-      work_package_children_changed_values: by changing values within child work package %{link}
+      work_package_children_changed_values: ved ændring af værdier i den underordnede arbejdspakke %{link}
       work_package_duplicate_closed: Status blev opdateret automatisk af den dublerede arbejdspakke %{link}
       work_package_parent_changed_times: på grund af ændringer i den overordnede %{link}
       work_package_parent_deleted: fordi den overordnede arbejdspakke blev slettet
@@ -3861,10 +3910,12 @@ da:
           working: "%{day} er nu en arbejdsdag"
     caused_changes:
       budget_deleted: Budgettet er slettet
+      comment_retracted: Kommentaren er trukket tilbage
       dates_changed: Datoer ændret
       default_attribute_written: Skrivebeskyttede attributter skrevet
       forum_message_html: "<strong>Oprettet ud fra meddelelse i forum</strong> %{message_information}"
       import: Importeret
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Tilføjet til mødet</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Tilføjet til</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Drøftet på mødet</strong> %{meeting_title_information}"
@@ -3878,7 +3929,7 @@ da:
       system_update: 'Systemopdatering af OpenProject:'
       total_percent_complete_mode_changed_to_simple_average: Beregningen af samlet % færdigt bygger nu på et simpelt gennemsnit af værdierne for % færdigt alene.
       total_percent_complete_mode_changed_to_work_weighted_average: Beregningen af samlet % færdigt vægtes nu efter Arbejde.
-      work_package_children_changed_values: Updated automatically
+      work_package_children_changed_values: Opdateret automatisk
       work_package_duplicate_closed: 'Dubleret arbejdspakke opdateret:'
       work_package_parent_deleted: Overordnet fjernet
     changes_retracted: Ændringerne blev trukket tilbage.
@@ -5004,6 +5055,7 @@ da:
       mail_notification: E-mail-notifikationer
       mails_and_notifications: E-mails og notifikationer
       mcp_configurations: Model Context Protocol (MCP)
+      push_notifications: Browsernotifikationer
       text_transform_actions: Handlinger til tekstomskrivning
     quick_add:
       label: Tilføj …
@@ -6463,6 +6515,12 @@ da:
   setting_user_format: Format for brugernavne
   setting_users_deletable_by_admins: Brugerens konti kan slettes af administratorer
   setting_users_deletable_by_self: Brugererne kan selv slette deres konti
+  setting_web_push_enabled: Browsernotifikationer
+  setting_web_push_enabled_caption: Lader brugere, der har installeret OpenProject som en progressiv webapp, få notifikationer fra styresystemet, når de har ulæste notifikationer i OpenProject.
+  setting_web_push_enabled_false: Tillad ikke browsernotifikationer
+  setting_web_push_enabled_false_caption: Brugerne kan ikke slå browsernotifikationer til i deres kontoindstillinger, heller ikke hvis de har installeret PWA'en
+  setting_web_push_enabled_true: Tillad browsernotifikationer
+  setting_web_push_enabled_true_caption: Brugerne kan slå browsernotifikationer til i deres kontoindstillinger, hvis de har installeret PWA'en
   setting_welcome_on_homescreen: Vis velkomstblok på hjemmeskærm
   setting_welcome_text: Velkomstblok-tekst
   setting_welcome_title: Velkomstblok-titel
@@ -6809,6 +6867,10 @@ da:
         Ingen attributter kan ændres undtagen status.
         <br>
         <strong>Bemærk</strong>: Nedarvede værdier (fx fra underordnede eller relationer) gælder fortsat.
+      used_by_workflows:
+        one: Statussen bruges af %{count} arbejdsgang.
+        other: Statussen bruges af %{count} arbejdsgange.
+      view_workflows_button: Vis arbejdsgange
     index:
       could_not_be_moved: Statussen kunne ikke flyttes.
       headers:
@@ -6818,6 +6880,9 @@ da:
       no_results_content_text: Tilføj en ny status
       no_results_title_text: Der er i øjeblikket ingen statusser for arbejdspakker.
       status_actions: Handlinger for status
+      workflows_count:
+        one: "%{count} arbejdsgang"
+        other: "%{count} arbejdsgange"
   support:
     array:
       sentence_connector: og
@@ -7213,6 +7278,7 @@ da:
         invalid_attribute_groups: Formularens data er ugyldige.
         invalid_query: Konfigurationen af den indlejrede forespørgsel er ugyldig.
         label_group: Afsnit
+        move_failed: Flytningen kunne ikke gemmes. Genindlæs siden, og prøv igen.
         no_inactive_attributes: Ingen inaktive attributter
         not_found: Det ønskede formularelement blev ikke fundet.
         query_group_label: Tabel med relaterede arbejdspakker
@@ -7232,6 +7298,7 @@ da:
         reset_title: Nulstil formular
         reset_to_defaults: Nulstil formular
         row_actions: Handlinger for rækken
+        save_failed: Ændringen kunne ikke gemmes. Genindlæs siden, og prøv igen.
         tab: Formular
         untitled_group: Unavngiven gruppe
       overview:

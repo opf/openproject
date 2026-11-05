@@ -30,6 +30,7 @@ import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WidgetChangeset } from 'core-app/shared/components/grids/widgets/widget-changeset';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { generateId } from 'core-app/shared/helpers/dom-helpers';
 
 @Directive()
 export abstract class AbstractWidgetComponent extends UntilDestroyedMixin {
@@ -45,6 +46,12 @@ export abstract class AbstractWidgetComponent extends UntilDestroyedMixin {
   @HostBinding('style.grid-row-end') gridRowEnd:number;
 
   @HostBinding('class.grid--widget-host') gridWidgetHost = true;
+
+  readonly headingId = generateId('widget-heading');
+
+  @HostBinding('attr.role') readonly role:string|null = 'region';
+
+  @HostBinding('attr.aria-labelledby') readonly ariaLabelledBy:string|null = this.headingId;
 
   @Input() resource:GridWidgetResource;
 

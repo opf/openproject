@@ -68,6 +68,7 @@ class User < Principal
            through: :group_users,
            source: :group
 
+  has_many :push_subscriptions, dependent: :delete_all
   has_many :watches, class_name: "Watcher",
                      dependent: :delete_all
   has_many :changesets, dependent: :nullify
@@ -195,6 +196,7 @@ class User < Principal
   validate :password_meets_requirements
 
   after_save :update_password
+  after_commit :drop_push_subscriptions, if: :became_inactive?
 
   scope :admin, -> { where(admin: true) }
 
@@ -735,6 +737,14 @@ class User < Principal
   end
 
   private
+
+  def became_inactive?
+    saved_change_to_status?(from: "active")
+  end
+
+  def drop_push_subscriptions
+    push_subscriptions.delete_all
+  end
 
   def system_non_working_dates_for_year(year)
     NonWorkingDay.for_year(year).pluck(:date).to_set

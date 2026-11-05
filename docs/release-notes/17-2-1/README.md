@@ -61,7 +61,7 @@ For more information, please see the [GitHub advisory #GHSA-p423-72h4-fjvp](http
 - Bugfix: Jira import: error when imported type is the same as on OP (with mandatory custom fields) \[[#72854](https://community.openproject.org/wp/72854)\]
 - Bugfix: Nextcloud: When creating an AMPF folder fails, other folders are also not created \[[#72940](https://community.openproject.org/wp/72940)\]
 - Bugfix: Send test email fails when using SMTP and TLS \[[#73099](https://community.openproject.org/wp/73099)\]
-- Bugfix: curl removed from openproject/openproject:17-slim in 17.2.0 \[[#73142](https://community.openproject.org/wp/73142)\]
+- Bugfix: curl removed from openproject/openproject:18-slim in 17.2.0 \[[#73142](https://community.openproject.org/wp/73142)\]
 
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->

@@ -124,6 +124,23 @@ RSpec.describe "Inline editing work packages", :js do
       expect(work_package.status.id).to eq(status2.id)
     end
 
+    it "closes the status popup before cancelling its editor" do
+      wp_table.focus_cell_by_keyboard(work_package, :status)
+      wp_table.press_keys(:enter)
+      status_field = wp_table.edit_field(work_package, :status)
+      status_field.expect_active!
+      status_field.openSelectField
+      expect(page).to have_css(".ng-dropdown-panel")
+
+      wp_table.press_keys(:escape)
+      expect(page).to have_no_css(".ng-dropdown-panel")
+      status_field.expect_active!
+
+      wp_table.press_keys(:escape)
+      status_field.expect_inactive!
+      wp_table.expect_focus_on_cell(work_package, :status)
+    end
+
     it "provides error handling" do
       subject_field = wp_table.edit_field(work_package, :subject)
       subject_field.expect_text("Foobar")
@@ -135,7 +152,9 @@ RSpec.describe "Inline editing work packages", :js do
 
       subject_field.save!
 
-      wp_table.expect_and_dismiss_toaster(type: :error, message: "Subject can't be blank.")
+      wp_table.expect_toast(type: :error, message: "Subject can't be blank.")
+      expect(subject_field.input_element).to match_selector('[aria-invalid="true"]', focused: true)
+      subject_field.expect_invalid
 
       expect(work_package.reload.subject).to eq "Foobar"
     end

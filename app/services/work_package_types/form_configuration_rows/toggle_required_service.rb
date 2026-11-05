@@ -75,7 +75,7 @@ module WorkPackageTypes
         return @custom_field if defined?(@custom_field)
 
         @custom_field = if CustomField.custom_field_attribute?(@row_key)
-                          WorkPackageCustomField.find_by(id: @row_key.delete_prefix("custom_field_").to_i)
+                          WorkPackageCustomField.find_by(id: CustomField.id_from_attribute_name(@row_key))
                         end
       end
 

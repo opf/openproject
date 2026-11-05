@@ -9,7 +9,6 @@ extend-exclude = [
   "frontend/patches/openapi-explorer+*.patch", # vendored dist bundle
   "vendor/**",
   "vendored-plugins/**",
-  "nix/**",
   "*.min.*",
   "lookbook/previews/open_project/deprecated/forms_preview/multiple_fields_per_row.html.erb", # German month names
   "publiccode.yml", # German description
@@ -127,6 +126,7 @@ extend-ignore-identifiers-re = [
   "^localised_(other_)?name$", # methods in a shipped migration
   "^marshalling_format_version$", # Rails configuration option
   "(?i)^aria_?labelledby$", # aria-labelledby attribute
+  "^labelled[Bb]y$", # mirrors the aria-labelledby attribute
   "^will_remove_all_(group|user)_access_priveleges$", # i18n keys
 ]
 

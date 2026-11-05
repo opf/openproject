@@ -36,6 +36,8 @@ properties:
       - scanned
       - quarantined
       - rescan
+      - import_prepared
+      - import_failed
   contentType:
     type: string
     description: The files MIME-Type as determined by the server

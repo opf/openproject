@@ -342,6 +342,10 @@ pl:
         custom_field_section: Sekcja
       project_type:
         variant: Wariant
+      push_subscription:
+        created_at: Added
+        endpoint: Endpoint
+        session_id: Session
       query:
         child_work_packages: Podrzędne pakiety robocze
         column_names: Kolumny
@@ -849,6 +853,10 @@ pl:
             variant:
               must_be_owned_by_the_project: nie może być wariantem należącym do innego projektu.
               must_belong_to_the_type: musi być wariantem typu używanego w projekcie.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -1889,6 +1897,8 @@ pl:
             title: Create custom fields
           JiraCreateLabelsJob:
             title: Create labels
+          JiraCreateParentChildRelationsFromSubtasksJob:
+            title: Create parent-child relations for '%{jira_project_name}'
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
@@ -1897,12 +1907,12 @@ pl:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -2122,6 +2132,9 @@ pl:
             '10':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
+            '11':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -2144,8 +2157,8 @@ pl:
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
             '9':
-              rest_line_text: Downloading attachments for %{projects_number} more projects
-              title: Download attachments
+              rest_line_text: Creating parent-child relations from subtasks for %{projects_number} more projects
+              title: Create parent-child relations from subtasks
       test:
         api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
         basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
@@ -2329,6 +2342,37 @@ pl:
           error: Nie można zmienić kolejności sekcji.
         move:
           error: Nie można zmienić kolejności sekcji.
+      push_notifications:
+        checking: Checking…
+        description: Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject.
+        hosts_intro: 'OpenProject sends pushes to whichever push service each user''s browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable.
+        key_renewed: The push signing key was renewed. Every device has to turn browser notifications on again.
+        key_unreadable: The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again.
+        reachable: Reachable
+        reasons:
+          connection: The connection failed
+          filtered: The request was blocked by SSRF protection
+          invalid_host: The host name is not valid
+          private_address: The host resolved to a private address
+          sample_unresolved: Sample host could not be resolved; result inconclusive
+          timeout: No response within %{seconds} seconds
+          tls: The TLS handshake failed
+          unresolved: The host name could not be resolved
+        renew_key: Renew keys
+        renew_key_dialog:
+          confirm_button: Renew key
+          confirmation: I understand that every device has to turn browser notifications on again.
+          description:
+            one: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device.'
+            other: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device.'
+            zero: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device.'
+          heading: Renew the push signing key?
+          title: Renew keys
+        unreachable: Unreachable
+        verify_reachability: Verify reachability
+        verify_reachability_description: To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push.
       user_custom_field_sections:
         destroy:
           error: Nie można usunąć sekcji.
@@ -2506,7 +2550,9 @@ pl:
     text_transform:
       errors:
         connection_failed: Nie można osiągnąć usługi AI.
+        context_too_long: The text is too long for the AI model. Shorten it and try again.
         not_available: Asystent AI jest niedostępny.
+        rate_limited: The AI service is busy. Try again in a moment.
         timeout: Usługa AI nie odpowiedziała na czas.
         upstream_error: Usługa AI zwróciła błąd.
       pane:
@@ -4129,6 +4175,11 @@ pl:
         header: zmiany wprowadzone przez %{author}
         migrated: z Jira
         set_with_diff: Ustawiono pole %{field} (%{link})
+      label_deleted:
+        one: "%{label_names} was deleted"
+        few: "%{label_names} were deleted"
+        many: "%{label_names} were deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(anulowano)"
       meeting_deleted: "(usunięto)"
       meeting_series_backlog_html: backlog serii spotkań %{link}
@@ -4169,10 +4220,12 @@ pl:
           working: "%{day} jest teraz dniem roboczym"
     caused_changes:
       budget_deleted: Budżet został usunięty
+      comment_retracted: Comment retracted
       dates_changed: Daty zostały zmienione
       default_attribute_written: Zapisano atrybuty tylko do odczytu
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Zaimportowano
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Dodano do spotkania</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Dodano do</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Omówiono podczas posiedzenia</strong> %{meeting_title_information}"
@@ -5332,6 +5385,7 @@ pl:
       mail_notification: Powiadomienia e-mail
       mails_and_notifications: Wiadomości e-mail i powiadomienia
       mcp_configurations: Model Context Protocol (MCP)
+      push_notifications: Browser notifications
       text_transform_actions: Działania przekształcania tekstu
     quick_add:
       label: Dodaj…
@@ -6819,6 +6873,12 @@ pl:
   setting_user_format: Format nazw użytkowników
   setting_users_deletable_by_admins: Konta użytkowników mogą być usuwane przez administratorów
   setting_users_deletable_by_self: Użytkownicy mogą usuwać swoje konta
+  setting_web_push_enabled: Browser notifications
+  setting_web_push_enabled_caption: Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject.
+  setting_web_push_enabled_false: Do not allow browser notifications
+  setting_web_push_enabled_false_caption: Users are not able to enable browser notifications in their account settings even if they have the PWA installed
+  setting_web_push_enabled_true: Allow browser notifications
+  setting_web_push_enabled_true_caption: Users can enable browser notifications in their account settings if they have the PWA installed
   setting_welcome_on_homescreen: Wyświetl wiadomość powitalną na ekranie głównym
   setting_welcome_text: Tekst bloku powitalnego
   setting_welcome_title: Tytuł bloku powitalnego
@@ -7163,6 +7223,12 @@ pl:
         Nie można zmienić żadnych atrybutów z wyjątkiem stanu.
         <br>
         <strong>Uwaga</strong>: wartości dziedziczone (np. po elementach podrzędnych lub relacjach) będą nadal stosowane.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        few: This status is used by %{count} workflows.
+        many: This status is used by %{count} workflows.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Nie można przenieść statusu.
       headers:
@@ -7172,6 +7238,11 @@ pl:
       no_results_content_text: Dodaj nowy status
       no_results_title_text: Nie ma aktualnie żadnych statusów Zestawu zadań.
       status_actions: Działania statusu
+      workflows_count:
+        one: "%{count} workflow"
+        few: "%{count} workflows"
+        many: "%{count} workflows"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: i
@@ -7571,6 +7642,7 @@ pl:
         invalid_attribute_groups: Ładunek danych formularza jest nieprawidłowy.
         invalid_query: Konfiguracja wbudowanego zapytania jest nieprawidłowa.
         label_group: Sekcja
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: Brak nieaktywnych atrybutów
         not_found: Nie można znaleźć żądanego elementu formularza.
         query_group_label: Tabela powiązanych pakietów roboczych
@@ -7590,6 +7662,7 @@ pl:
         reset_title: Zresetuj formularz
         reset_to_defaults: Zresetuj formularz
         row_actions: Działania wiersza
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Formularz
         untitled_group: Grupa bez nazwy
       overview:

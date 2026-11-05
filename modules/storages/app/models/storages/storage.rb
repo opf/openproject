@@ -87,6 +87,10 @@ module Storages
                   .to_h.with_indifferent_access
       end
 
+      def provider_type_for(class_name)
+        provider_types.values.find { it.name == class_name }
+      end
+
       def short_provider_name = raise SubclassResponsibilityError
 
       def allowed_by_enterprise_token? = true
@@ -95,7 +99,7 @@ module Storages
 
       # TODO: Compatibility Method To be Removed once all references are removed - 2025-07-14 @mereghost
       def shorten_provider_type(provider_type)
-        provider_type.constantize.short_provider_name.to_s
+        provider_type_for(provider_type)&.short_provider_name.to_s
       end
 
       def extract_part_from_piped_string(text, index)

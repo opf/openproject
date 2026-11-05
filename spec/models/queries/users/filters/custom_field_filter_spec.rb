@@ -70,7 +70,7 @@ RSpec.describe Queries::Users::Filters::CustomFieldFilter do
 
   describe ".key" do
     it "matches the cf_<id> accessor pattern" do
-      expect(described_class.key).to eql(/cf_(\d+)/)
+      expect(described_class.key).to eq(CustomField::COLUMN_NAME_PATTERN)
     end
   end
 

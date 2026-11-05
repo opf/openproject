@@ -105,6 +105,44 @@ RSpec.describe Import::JiraClient do
     end
   end
 
+  describe "#issue_watchers", :webmock do
+    include_context "with ssrf stubs"
+
+    let(:issue_key) { "OP-10" }
+    let(:issue_watchers_url) { "#{url}/rest/api/2/issue/#{issue_key}/watchers" }
+    let(:headers) { { "Content-Type" => "application/json" } }
+    let(:body) do
+      {
+        "watchers" => [
+          {
+            "name" => "magdalena",
+            "key" => "JIRAUSER666",
+            "emailAddress" => "maggie@jira.internet",
+            "displayName" => "maggie",
+            "active" => true,
+            "timeZone" => "Etc/UTC"
+          }
+        ],
+        "isWatching" => true,
+        "watchCount" => 1
+      }
+    end
+
+    it "returns the watchers of the given issue" do
+      stub_request(:get, issue_watchers_url).to_return(status: 200, body: body.to_json, headers:)
+      expect(client.issue_watchers(issue_key)).to eq(body)
+    end
+
+    context "when the issue is not found" do
+      let(:body) { { "errorMessages" => ["Issue Does Not Exist"], "errors" => {} } }
+
+      it "raises an error" do
+        stub_request(:get, issue_watchers_url).to_return(status: 404, body: body.to_json, headers:)
+        expect { client.issue_watchers(issue_key) }.to raise_error(Import::JiraClient::ApiError, /status 404/)
+      end
+    end
+  end
+
   describe "#custom_field_options", :webmock do
     include_context "with ssrf stubs"
 
@@ -241,6 +279,55 @@ RSpec.describe Import::JiraClient do
     end
   end
 
+  describe "#download_attachment", :webmock do
+    include_context "with ssrf stubs"
+
+    let(:content_url) { "#{url}/secure/attachment/10100/screenshot.png" }
+
+    before do
+      stub_request(:get, content_url).to_return(status: 200, body: "file content")
+    end
+
+    it "yields the downloaded file and removes it afterwards" do
+      content = nil
+      path = nil
+      client.download_attachment(content_url, "screenshot.png") do |file|
+        content = file.read
+        path = file.path
+      end
+
+      expect(content).to eq("file content")
+      expect(File).not_to exist(path)
+    end
+
+    it "lets errors raised while handling the file through as they are" do
+      expect { client.download_attachment(content_url, "screenshot.png") { raise Timeout::Error } }
+        .to raise_error(Timeout::Error)
+    end
+
+    context "when the download fails" do
+      subject(:download) { client.download_attachment(content_url, "screenshot.png") { nil } }
+
+      it "raises a retryable error if it times out" do
+        stub_request(:get, content_url).to_timeout
+
+        expect { download }.to raise_error(Import::JiraClient::Error) do |error|
+          expect(error).to be_retryable
+        end
+      end
+
+      context "with a URL the SSRF filter rejects" do
+        let(:content_url) { "ftp://jira.example.com/screenshot.png" }
+
+        it "raises a non-retryable error" do
+          expect { download }.to raise_error(Import::JiraClient::Error) do |error|
+            expect(error).not_to be_retryable
+          end
+        end
+      end
+    end
+  end
+
   describe Import::JiraClient::ApiError do
     subject(:error) { described_class.new("Jira error", status: 404, response_body:, response_headers: {}) }
 
@@ -266,6 +353,34 @@ RSpec.describe Import::JiraClient do
 
       it "keeps an empty body" do
         expect(error.response_body).to eq("")
+      end
+    end
+
+    describe "#retryable?" do
+      subject(:error) { described_class.new("Jira error", status:, response_body: nil, response_headers: {}) }
+
+      context "when the token stopped working" do
+        let(:status) { 401 }
+
+        it { is_expected.to be_retryable }
+      end
+
+      context "when Jira rate limits the request" do
+        let(:status) { 429 }
+
+        it { is_expected.to be_retryable }
+      end
+
+      context "when Jira fails to serve the request" do
+        let(:status) { 503 }
+
+        it { is_expected.to be_retryable }
+      end
+
+      context "when Jira no longer has the resource" do
+        let(:status) { 404 }
+
+        it { is_expected.not_to be_retryable }
       end
     end
   end

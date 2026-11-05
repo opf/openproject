@@ -55,7 +55,7 @@ module Import
         WorkPackageCustomField.find(id) if id
       end
 
-      def collect_custom_field_attributes(custom_field_registry, jira_issue)
+      def collect_custom_field_attributes(custom_field_registry, jira_issue, attachment_paths_by_name:)
         custom_field_registry.each_with_object({}) do |entry, attrs|
           field_key = entry[:jira_field].origin_id
           raw_value = jira_issue.payload["fields"][field_key]
@@ -65,7 +65,8 @@ module Import
           next unless context
 
           custom_field = context[:custom_field]
-          attrs[custom_field.attribute_getter] = context[:builder].convert_value(raw_value, custom_field)
+          attrs[custom_field.attribute_getter] =
+            context[:builder].convert_value(raw_value, custom_field, attachment_paths_by_name:)
         end
       end
 

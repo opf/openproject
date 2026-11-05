@@ -31,7 +31,6 @@ import { TableEventComponent } from 'core-app/features/work-packages/components/
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { timelineCellClassName } from '../../builders/timeline/timeline-row-builder';
 import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
-import { keyboardNavigationEnabled } from '../state/keyboard/roving-tabindex';
 import { ContextMenuHandler } from './context-menu-handler';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
@@ -64,7 +63,7 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
 
     const target = evt.target as HTMLElement;
 
-    if (keyboardNavigationEnabled(view.workPackageTable.configuration) && this.isEditing(target)) {
+    if (this.isEditing(target)) {
       return true;
     }
 

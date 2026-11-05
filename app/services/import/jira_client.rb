@@ -29,9 +29,15 @@
 
 module Import
   class JiraClient
-    class Error < StandardError; end
+    class Error < StandardError
+      def retryable? = false
+    end
 
     class ConnectionError < Error; end
+
+    class UnreachableError < ConnectionError
+      def retryable? = true
+    end
 
     class SsrfError < ConnectionError; end
 
@@ -72,11 +78,18 @@ module Import
       def to_s
         "#{super}. STATUS: #{@status} RESPONSE_BODY: #{@response_body} RESPONSE_HEADERS: #{@response_headers}"
       end
+
+      def retryable?
+        status == 401 || status == 429 || status >= 500
+      end
     end
 
     # Raised when this Jira version does not provide the requested REST path at all, so we
     # can fall back to another route instead of failing the import.
     class UnsupportedEndpointError < Error; end
+
+    CONNECTION_ERRORS = [SsrfFilter::Error, SocketError, Errno::ECONNREFUSED, Errno::EHOSTUNREACH,
+                         OpenSSL::SSL::SSLError, Timeout::Error].freeze
 
     HTTP_OPTIONS = {
       open_timeout: 30,
@@ -137,6 +150,10 @@ module Import
 
     def issue(issue_id, fields: "*all", expand: nil)
       get("/rest/api/2/issue/#{issue_id}", params: { fields:, expand: }.compact)
+    end
+
+    def issue_watchers(issue_id_or_key)
+      get("/rest/api/2/issue/#{issue_id_or_key}/watchers")
     end
 
     def issues(jql: nil, start_at: 0, max_results: 100, fields: "*all", expand: "changelog")
@@ -321,16 +338,25 @@ module Import
     # @return [nil]
     # @raise [ConnectionError] If SSRF protection blocks the request or connection fails
     # @raise [ApiError] If the server returns a non-success response
-    def download_attachment(content_url, filename) # rubocop:disable Metrics/AbcSize
-      tempfile = nil
+    def download_attachment(content_url, filename)
+      Tempfile.create(filename, binmode: true) do |tempfile|
+        write_attachment(content_url, tempfile)
+        tempfile.rewind
+        yield tempfile
+      end
+
+      nil
+    end
+
+    private
+
+    def write_attachment(content_url, tempfile)
       OpenProject::SsrfProtection.get(content_url, headers: @headers, http_options: HTTP_OPTIONS, max_redirects: 0) do |response|
         case response
         when Net::HTTPSuccess
-          tempfile = Tempfile.create(filename, binmode: true)
           response.read_body do |chunk|
             tempfile.write chunk
           end
-          yield tempfile
         else
           status = response.code.to_i
           raise ApiError.new(I18n.t("admin.jira.client.api_error", status:),
@@ -339,23 +365,9 @@ module Import
                              response_headers: response.to_hash)
         end
       end
-      nil
-    rescue SsrfFilter::PrivateIPAddress
-      raise SsrfError, I18n.t("admin.jira.client.ssrf_blocked")
-    rescue SsrfFilter::Error => e
-      raise ConnectionError, I18n.t("admin.jira.client.connection_error", message: e.message)
-    rescue OpenSSL::SSL::SSLError => e
-      raise ConnectionError, I18n.t("admin.jira.client.ssl_error", message: e.message)
-    rescue Timeout::Error => e
-      raise ConnectionError, I18n.t("admin.jira.client.connection_timeout", message: e.message)
-    ensure
-      if tempfile
-        File.unlink(tempfile)
-        tempfile.close
-      end
+    rescue *CONNECTION_ERRORS => e
+      raise connection_error(e)
     end
-
-    private
 
     def paged_custom_field_options(custom_field_id, scope, options, total)
       collected = options.index_by { |option| custom_field_option_key(option) }
@@ -409,14 +421,23 @@ module Import
         params:,
         http_options: HTTP_OPTIONS
       )
-    rescue SsrfFilter::PrivateIPAddress
-      raise SsrfError, I18n.t("admin.jira.client.ssrf_blocked")
-    rescue SsrfFilter::Error, SocketError, Errno::ECONNREFUSED, Errno::EHOSTUNREACH => e
-      raise ConnectionError, I18n.t("admin.jira.client.connection_error", message: e.message)
-    rescue OpenSSL::SSL::SSLError => e
-      raise ConnectionError, I18n.t("admin.jira.client.ssl_error", message: e.message)
-    rescue Timeout::Error => e
-      raise ConnectionError, I18n.t("admin.jira.client.connection_timeout", message: e.message)
+    rescue *CONNECTION_ERRORS => e
+      raise connection_error(e)
+    end
+
+    def connection_error(error)
+      case error
+      when SsrfFilter::PrivateIPAddress
+        SsrfError.new(I18n.t("admin.jira.client.ssrf_blocked"))
+      when OpenSSL::SSL::SSLError
+        UnreachableError.new(I18n.t("admin.jira.client.ssl_error", message: error.message))
+      when Timeout::Error
+        UnreachableError.new(I18n.t("admin.jira.client.connection_timeout", message: error.message))
+      when SsrfFilter::UnresolvedHostname, SocketError, Errno::ECONNREFUSED, Errno::EHOSTUNREACH
+        UnreachableError.new(I18n.t("admin.jira.client.connection_error", message: error.message))
+      else
+        ConnectionError.new(I18n.t("admin.jira.client.connection_error", message: error.message))
+      end
     end
 
     def handle_response(response)
