@@ -51,6 +51,12 @@ describe('ToastService', () => {
     toastService = TestBed.inject(ToastService);
   });
 
+  it('preserves the visual-only option when normalizing error toasts', () => {
+    const toast = { message: 'Already announced', type: 'error' as const, announce: false };
+
+    expect(toastService.addError(toast)).toMatchObject(toast);
+  });
+
   it('should be able to create warnings', () => {
     const toaster = toastService.addWarning('warning!');
 

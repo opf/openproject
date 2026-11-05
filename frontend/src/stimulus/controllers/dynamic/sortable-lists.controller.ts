@@ -319,10 +319,9 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     // Announced from canDrag, the earliest point a drag can be stopped, so
     // an oversized batch is told before any preview or drop feedback appears.
     if (session.refused) {
-      void announce(
-        I18n.t(`${this.moveAnnouncementScopeValue}.batch_too_large`, { count: session.size, max: this.maxBatchSizeValue }),
-        { politeness: 'assertive' },
-      );
+      const message = I18n.t(`${this.moveAnnouncementScopeValue}.batch_too_large`, { count: session.size, max: this.maxBatchSizeValue });
+      this.dispatchErrorToast(message, false);
+      void announce(message, { politeness: 'assertive' });
       return session;
     }
 
@@ -973,11 +972,12 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
   }
 
-  private dispatchErrorToast():void {
+  private dispatchErrorToast(message = I18n.t('js.error.internal'), announce = true):void {
     window.dispatchEvent(new CustomEvent(OPToastEvent, {
       detail: {
-        message: I18n.t('js.error.internal'),
+        message,
         type: 'error',
+        announce,
       },
     }));
   }

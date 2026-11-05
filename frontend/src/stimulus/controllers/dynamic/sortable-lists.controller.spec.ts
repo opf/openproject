@@ -3136,6 +3136,68 @@ describe('Sortable lists controller', () => {
   });
 
   describe('batch cap', () => {
+    function renderLargeBatch() {
+      const { root, sourceList, firstSourceItem } = renderSelectableRoot({ collectionMoveUrl: '/collection-move-url' });
+      root.setAttribute('data-sortable-lists-max-batch-size-value', '50');
+      const items = Array.from({ length: 52 }, (_, index) => {
+        const item = firstSourceItem.cloneNode(true) as HTMLElement;
+        item.setAttribute('data-sortable-lists--item-id-value', String(index + 1000));
+        return item;
+      });
+      sourceList.replaceChildren(...items);
+      return { root, sourceList, items };
+    }
+
+    it('permits 50 selected rows without refusal feedback', async () => {
+      const { root, items } = renderLargeBatch();
+      await ctx.nextFrame();
+      click(items[0]); click(items[49], { shiftKey: true });
+      const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+      const onToast = vi.fn();
+      window.addEventListener('op:toasters:add', onToast);
+      announceSpy.mockClear();
+      try {
+        const session = controller.beginDrag(items[0]);
+        expect(session.size).toBe(50);
+        expect(session.refused).toBe(false);
+        expect(onToast).not.toHaveBeenCalled();
+        expect(announceSpy).not.toHaveBeenCalled();
+      } finally {
+        window.removeEventListener('op:toasters:add', onToast);
+      }
+    });
+
+    it('refuses 51 rows once per attempt with visual-only feedback and keeps the original Shift anchor', async () => {
+      const { root, sourceList, items } = renderLargeBatch();
+      await ctx.nextFrame();
+      click(items[0]); click(items[50], { shiftKey: true });
+      const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+      const onToast = vi.fn();
+      window.addEventListener('op:toasters:add', onToast);
+      announceSpy.mockClear();
+      const originalOrder = itemIds(sourceList);
+      try {
+        for (let attempt = 1; attempt <= 2; attempt++) {
+          expect(controller.beginDrag(items[25]).refused).toBe(true);
+          expect(onToast).toHaveBeenCalledTimes(attempt);
+          expect(onToast.mock.lastCall?.[0].detail).toEqual({
+            message: '[batch_too_large:51:50]', type: 'error', announce: false,
+          });
+          expect(announceSpy).toHaveBeenCalledTimes(attempt);
+          expect(announceSpy).toHaveBeenLastCalledWith('[batch_too_large:51:50]', { politeness: 'assertive' });
+          expect(controller.dragSession).toBeNull();
+          expect(root.querySelector('[data-dragging]')).toBeNull();
+          expect(itemIds(sourceList)).toEqual(originalOrder);
+          expect(items.filter(isSelected)).toEqual(items.slice(0, 51));
+          expect(fetchMock).not.toHaveBeenCalled();
+        }
+        click(items[1], { shiftKey: true });
+        expect(items.filter(isSelected)).toEqual(items.slice(0, 2));
+      } finally {
+        window.removeEventListener('op:toasters:add', onToast);
+      }
+    });
+
     it('refuses a drag whose batch exceeds the cap and announces it', async () => {
       const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/collection-move-url' });
       root.setAttribute('data-sortable-lists-max-batch-size-value', '2');

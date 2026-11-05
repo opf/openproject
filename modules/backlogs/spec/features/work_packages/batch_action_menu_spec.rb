@@ -135,12 +135,12 @@ RSpec.describe "Backlogs batch action menus", :js, :selenium, :settings_reset do
       backlogs_page.expect_sprint_items_in_order(sprint, items: moved_order)
     end
 
-    it "keeps destination actions when a sparse selection has no valid position", :aggregate_failures do
-      backlogs_page.select_cards(stories[0], stories[2])
+    it "keeps destination actions when the whole list has no valid position", :aggregate_failures do
+      backlogs_page.select_contiguous_cards(stories.first, stories.last)
 
       menu = backlogs_page.open_card_menu(stories[0], via: :more)
 
-      expect(page).to have_selector(:menu, accessible_name: "Actions for 2 selected work packages")
+      expect(page).to have_selector(:menu, accessible_name: "Actions for 4 selected work packages")
       expect(menu).to have_selector(:menuitem, text: "Move to sprint")
       expect(menu).to have_no_selector(:menuitem, text: "Move to position")
       singular_actions.each { |label| expect(menu).to have_no_selector(:menuitem, text: label) }
@@ -165,7 +165,7 @@ RSpec.describe "Backlogs batch action menus", :js, :selenium, :settings_reset do
     end
 
     it "falls back to the invoker's own actions when the batch cannot move by position", :aggregate_failures do
-      backlogs_page.select_cards(stories[0], stories[2])
+      backlogs_page.select_contiguous_cards(stories.first, stories.last)
 
       menu = backlogs_page.open_card_menu(stories[2], via: :more)
 
@@ -173,11 +173,11 @@ RSpec.describe "Backlogs batch action menus", :js, :selenium, :settings_reset do
       expect(menu).to have_no_selector(:menuitem, text: "Move to position")
       expect(page).to have_selector(:menu, accessible_name: "Work package actions")
       backlogs_page.expect_work_package_menu_button_named(stories[2], "Work package actions")
-      backlogs_page.expect_selected_cards_in_order(stories[0], stories[2])
+      backlogs_page.expect_selected_cards_in_order(*stories)
     end
 
     it "moves keyboard focus through the fallback actions" do
-      backlogs_page.select_cards(stories[0], stories[2])
+      backlogs_page.select_contiguous_cards(stories.first, stories.last)
 
       menu = backlogs_page.open_card_menu(stories[0], via: :shift_f10)
 
@@ -227,6 +227,35 @@ RSpec.describe "Backlogs batch action menus", :js, :selenium, :settings_reset do
       expect(page).to have_no_selector(:menuitem, text: "Move to top", disabled: true)
       backlogs_page.expect_selected_cards_in_order(stories[0], stories[1], stories[2])
       backlogs_page.expect_sprint_items_in_order(sprint, items: stories)
+    end
+  end
+
+  context "with the real batch boundary and no other destination" do
+    let!(:stories) { create_stories(count: 51) }
+
+    it "offers position at 50 and one cap explanation at 51", :aggregate_failures do
+      backlogs_page.visit!
+      backlogs_page.select_contiguous_cards(stories.first, stories[49])
+
+      menu = backlogs_page.open_card_menu(stories[49], via: :more)
+      expect(page).to have_selector(:menu, accessible_name: "Actions for 50 selected work packages")
+      expect(menu).to have_selector(:menuitem, text: "Move to position")
+      expect(menu).to have_no_text("Cannot move")
+      backlogs_page.dismiss_card_menu(stories[49], via: :more)
+
+      backlogs_page.extend_selection_to(stories.last)
+      menu = backlogs_page.open_card_menu(stories.last, via: :more)
+      expect(page).to have_selector(:menu, accessible_name: "Actions for 51 selected work packages")
+      expect(menu).to have_selector(:menuitem,
+                                    text: "Cannot move 51 work packages at once. Select no more than 50.",
+                                    disabled: true,
+                                    count: 1)
+      expect(menu).to have_selector(:menuitem, text: "Move to position", disabled: true)
+      expect(menu).to have_no_selector(:menuitem, text: "Move to sprint", disabled: true)
+      expect(menu).to have_no_selector(:menuitem, text: "Move to backlog bucket", disabled: true)
+      singular_actions.each { |label| expect(menu).to have_no_selector(:menuitem, text: label) }
+      backlogs_page.expect_selected_cards_in_order(*stories)
+      backlogs_page.expect_open_card_menu_axe_clean(stories.last)
     end
   end
 
