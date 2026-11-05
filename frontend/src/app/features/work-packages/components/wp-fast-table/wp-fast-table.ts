@@ -25,8 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { DestroyRef, Injector } from '@angular/core';
-import { Subject } from 'rxjs';
+import { DestroyRef, Injector, signal, type Signal } from '@angular/core';
 import { generateId } from 'core-app/shared/helpers/dom-helpers';
 import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { TableUiWork } from './table-ui-work';
@@ -50,13 +49,19 @@ import { WorkPackageTableEditingContext } from './wp-table-editing';
 import type { WorkPackageTableRow } from './wp-table.interfaces';
 import type { KeyboardNavigation } from './handlers/state/keyboard/keyboard-navigation-transformer';
 import type { TableSelectionFeedback } from './handlers/state/selection-feedback';
-import { TableRowPositions, type CapturedRowPositions } from './semantics/table-row-positions';
-import { paintSectionExposure, TreegridSemantics } from './semantics/treegrid-semantics';
+import type { RowPositionEvidence } from './semantics/table-row-positions';
+import { RowStatePainter, type RowReplacement } from './semantics/row-state-painter';
+import { RowClassifier } from './semantics/row-classifier';
+import { type MutationExit, type PaintScope, RowMutations } from './row-mutations';
+
+export interface CommittedRows extends Pick<MutationExit, 'scope'> {
+  readonly generation:number;
+}
 
 interface PendingRender {
   readonly pass:PrimaryRenderPass;
   readonly timeline:boolean;
-  readonly positions:CapturedRowPositions|null;
+  readonly positions:RowPositionEvidence;
 }
 
 export class WorkPackageTable {
@@ -103,18 +108,28 @@ export class WorkPackageTable {
 
   public selectionFeedback:TableSelectionFeedback|null = null;
 
-  public readonly semantics:TreegridSemantics|null = this.configuration.keyboardNavigationEnabled ? new TreegridSemantics(this) : null;
+  public readonly rows = new RowClassifier(this);
 
-  public readonly rowPositions:TableRowPositions|null = this.configuration.keyboardNavigationEnabled ? new TableRowPositions(this) : null;
+  public readonly painter = new RowStatePainter(this);
 
-  private readonly rowsRefreshedSubject = new Subject<string>();
+  private readonly mutations = new RowMutations({
+    enter: (accumulate) => this.keyboardNavigation?.captureOwnership(accumulate),
+    exit: (exit) => this.settle(exit),
+  }, () => this.hasPendingRender);
 
-  /** Emits a work package id after `refreshRows` replaced at least one of its rendered rows, or an edge row key after that row re-rendered. */
-  public readonly rowsRefreshed$ = this.rowsRefreshedSubject.asObservable();
+  private readonly committedRowsState = signal<CommittedRows>({ generation: 0, scope: 'all' });
+
+  /** Bumped at the end of every outermost mutation; consumers re-read current state, nothing that produces rows reacts to it. */
+  public readonly committedRows:Signal<CommittedRows> = this.committedRowsState.asReadonly();
 
   private readonly requestedRelationTargets = new Set<string>();
 
   private pendingRender:PendingRender|null = null;
+
+  private schedulingRender = false;
+
+  /** Resources refreshed for rows this table shows since the query's rows were set up; every commit reapplies them to its rows, which keep the query's structure, and forgets those it no longer shows. */
+  private readonly refreshed = new Map<string, WorkPackageResource>();
 
   // Work package editing context handler in the table, which handles open forms
   // and their contexts
@@ -135,18 +150,24 @@ export class WorkPackageTable {
     return this.destroyRef.destroyed;
   }
 
-  /** True between scheduling a full render and its frame commit. */
+  /** True while `pass` is the committed render or the one waiting for its frame; a superseded or cancelled pass is not current. */
+  public isCurrentPass(pass:PrimaryRenderPass):boolean {
+    return this.pendingRender?.pass === pass || (this.pendingRender === null && this.lastRenderPass === pass);
+  }
+
+  /** True from the ownership capture that starts a full render until its frame commit. */
   public get hasPendingRender():boolean {
-    return this.pendingRender !== null;
+    return this.schedulingRender || this.pendingRender !== null;
   }
 
   public destroy():void {
     if (this.destroyed) return;
+    this.pendingRender = null;
+    this.refreshed.clear();
     try {
       this.lifetimeInjector.destroy();
     } finally {
       runCleanup(() => this.editing.reset());
-      this.rowsRefreshedSubject.complete();
     }
   }
 
@@ -181,6 +202,7 @@ export class WorkPackageTable {
    */
   public initialSetup(rows:WorkPackageResource[]) {
     if (this.destroyed) return;
+    this.refreshed.clear();
     // Build the row representation
     this.buildIndex(rows);
     this.requestedRelationTargets.clear();
@@ -216,17 +238,44 @@ export class WorkPackageTable {
     this.performRenderPass({ timeline: false });
   }
 
+  /**
+   * The one way to change rows: captures focus ownership, runs `change`, paints `scope`,
+   * notifies keyboard navigation and bumps `committedRows`. Nested calls widen the outermost
+   * mutation's scope and settle once at its exit.
+   */
+  public mutate(scope:PaintScope, change:() => void):void {
+    if (this.destroyed) return;
+    this.mutations.run(scope, change);
+  }
+
+  /** Mutates every rendered occurrence of the work packages; with none rendered, `change` runs with nothing to repaint. */
+  public mutateWorkPackages(ids:Iterable<string>, change:() => void):void {
+    if (this.destroyed) return;
+    const keys = this.ledger.keysOfAll(ids);
+    if (keys.size === 0) {
+      change();
+      return;
+    }
+    this.mutate(keys, change);
+  }
+
+  private settle({ scope, rendered }:MutationExit):void {
+    if (this.destroyed) return;
+    this.painter.paint(scope);
+    this.keyboardNavigation?.rowsChanged({ scope, rendered });
+    this.committedRowsState.update(({ generation }) => ({ generation: generation + 1, scope }));
+  }
+
   public setHidden(updates:ReadonlyMap<OccurrenceKey, boolean>):void {
     if (this.destroyed) return;
-    this.rebuildPendingRenderForSemantics();
+    this.rebuildPendingRender();
     if (updates.size === 0) return;
-    this.keyboardNavigation?.captureOwnership();
-    this.ledger.setHidden(updates);
+    this.mutate('all', () => this.ledger.setHidden(updates));
     this.publishRendered();
   }
 
-  private rebuildPendingRenderForSemantics():void {
-    if (this.semantics && this.pendingRender) {
+  private rebuildPendingRender():void {
+    if (this.pendingRender) {
       this.performRenderPass({ timeline: this.pendingRender.timeline });
     }
   }
@@ -236,40 +285,39 @@ export class WorkPackageTable {
    */
   public refreshRows(workPackage:WorkPackageResource) {
     if (this.destroyed) return;
-    const pass = this.lastRenderPass;
-    if (!pass) {
-      debugLog('Trying to refresh a singular row without a previous render pass.');
-      return;
-    }
+    const id = workPackage.id!;
+    if (this.hasPendingRender || this.ledger.keysOf(id).size > 0) this.refreshed.set(id, workPackage);
+    // While the next query loads its rows, the committed ones are on their way out
+    if (this.querySpace.tableRendered.hasValue()) this.refreshCommitted([[id, workPackage]]);
+  }
 
-    this.keyboardNavigation?.captureOwnership();
-    let replaced = 0;
-    this.ledger.byWorkPackageId(workPackage.id!).forEach((occurrence) => {
-      const previous = occurrence.element;
-      const replacement = pass.refresh(occurrence, workPackage);
-      if (replacement) {
-        this.ledger.replaceElement(occurrence.key, replacement);
-        if (previous) this.rowPositions?.carry(previous, replacement);
-        replaced += 1;
-      }
+  private reapplyRefreshed():void {
+    this.refreshed.forEach((_, id) => {
+      if (this.ledger.keysOf(id).size === 0) this.refreshed.delete(id);
     });
-
-    if (replaced > 0) {
-      this.semantics?.paintWorkPackage(workPackage.id!);
-      this.rowsRefreshedSubject.next(workPackage.id!);
-    }
+    this.refreshCommitted(this.refreshed.entries());
   }
 
-  public notifyRowsRefreshed(key:string):void {
-    this.rowPositions?.paint();
-    this.rowsRefreshedSubject.next(key);
-  }
+  private refreshCommitted(updates:Iterable<[string, WorkPackageResource]>):void {
+    const pass = this.lastRenderPass;
+    if (!pass) return;
+    const shown = Array.from(updates).filter(([id]) => this.ledger.keysOf(id).size > 0);
+    if (shown.length === 0) return;
 
-  /** Re-exposes a structural section whose rows changed outside the render pass. */
-  public reconcileSection(section:HTMLTableSectionElement):void {
-    if (!this.semantics) return;
-    paintSectionExposure(section);
-    this.rowPositions?.paint();
+    this.mutate(this.ledger.keysOfAll(shown.map(([id]) => id)), () => {
+      const replacements:RowReplacement[] = [];
+      shown.forEach(([id, workPackage]) => {
+        this.ledger.byWorkPackageId(id).forEach((occurrence) => {
+          const previous = occurrence.element;
+          const replacement = pass.refresh(occurrence, workPackage);
+          if (replacement) {
+            this.ledger.replaceElement(occurrence.key, replacement);
+            replacements.push({ key: occurrence.key, previous, replacement });
+          }
+        });
+      });
+      this.painter.carryPositions(replacements);
+    });
   }
 
   /**
@@ -282,47 +330,55 @@ export class WorkPackageTable {
   }
 
   private performRenderPass({ timeline }:RenderPassOptions):void {
-    this.keyboardNavigation?.captureOwnership();
-    this.editing.reset();
-    const promoted = timeline || this.pendingRender?.timeline === true;
-    const pass = this.rowBuilder.buildRows({ timeline: promoted });
-    const pending:PendingRender = { pass, timeline: promoted, positions: this.rowPositions?.capture(pass.draft) ?? null };
-    this.pendingRender = pending;
-    this.uiWork.frame(() => this.commitRender(pending));
+    this.keyboardNavigation?.captureOwnership(this.mutations.depth > 0 || this.hasPendingRender);
+    this.schedulingRender = true;
+    try {
+      this.editing.reset();
+      const promoted = timeline || this.pendingRender?.timeline === true;
+      const pass = this.rowBuilder.buildRows({ timeline: promoted });
+      const pending:PendingRender = { pass, timeline: promoted, positions: this.painter.capturePositions(pass.draft) };
+      this.pendingRender = pending;
+      this.uiWork.frame(() => this.commitRender(pending));
+    } finally {
+      this.schedulingRender = false;
+    }
   }
 
   private commitRender(pending:PendingRender):void {
     if (this.destroyed || this.pendingRender !== pending) return;
-    this.pendingRender = null;
-    const { pass } = pending;
-    this.tbody.replaceChildren(pass.tableBody);
-    const timelinePass = pending.timeline ? pass.timeline : null;
-    if (timelinePass) {
-      this.timelineBody.replaceChildren(timelinePass.timelineBody);
+    try {
+      this.mutations.run('all', () => {
+        this.pendingRender = null;
+        const { pass } = pending;
+        this.tbody.replaceChildren(pass.tableBody);
+        const timelinePass = pending.timeline ? pass.timeline : null;
+        if (timelinePass) {
+          this.timelineBody.replaceChildren(timelinePass.timelineBody);
+        }
+        this.ledger.commit(pass.draft);
+        this.painter.commitPositions(pending.positions);
+        this.lastRenderPass = pass;
+        this.reapplyRefreshed();
+      }, { rendered: true });
+    } finally {
+      if (this.lastRenderPass === pending.pass) this.publishRendered();
     }
-    this.ledger.commit(pass.draft);
-    this.rowPositions?.commit(pending.positions);
-    this.lastRenderPass = pass;
-    this.publishRendered();
   }
 
   private publishRendered():void {
-    this.semantics?.paint();
-    this.rowPositions?.paint();
     this.querySpace.tableRendered.putValue(this.ledger.snapshot());
   }
 
   setGroupsCollapseState(newState:Record<string, boolean>) {
     if (this.destroyed) return;
-    this.keyboardNavigation?.captureOwnership();
-    this.querySpace.collapsedGroups.putValue(newState);
-
     const t0 = performance.now();
-    const updates = this.groupedRowsBuilder.refreshExpansionState();
-    this.setHidden(updates);
-    if (updates.size === 0) {
-      this.publishRendered();
-    }
+    this.mutate('all', () => {
+      this.querySpace.collapsedGroups.putValue(newState);
+      const updates = this.groupedRowsBuilder.refreshExpansionState();
+      this.rebuildPendingRender();
+      if (updates.size > 0) this.ledger.setHidden(updates);
+    });
+    if (this.ledger.generation > 0) this.publishRendered();
     const t1 = performance.now();
 
     debugLog(`Group redraw took ${t1 - t0} milliseconds.`);

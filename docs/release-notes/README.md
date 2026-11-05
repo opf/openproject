@@ -13,6 +13,13 @@ Stay up to date and get an overview of the new features included in the releases
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
 
+## 17.9.6
+
+Release date: 2026-10-30
+
+[Release Notes](17-9-6/)
+
+
 ## 17.9.5
 
 Release date: 2026-10-30

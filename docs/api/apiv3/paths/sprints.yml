@@ -35,7 +35,7 @@ get:
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/sprint_collection_model.yml"
+            $ref: "../components/schemas/sprint_collection_model.yml"
           examples:
             response:
               $ref: "../components/examples/sprint_collection.yml"

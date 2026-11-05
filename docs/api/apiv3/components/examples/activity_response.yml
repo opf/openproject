@@ -1,3 +1,4 @@
+---
 description: |-
   A simple response example for an activity comment.
 value:
@@ -7,7 +8,7 @@ value:
     format: markdown
     raw: "I can give you a CR70 corvette, you have to make do, Leia..."
     html: "<p class=\"op-uc-p\">I can give you a CR70 corvette, you have to make do, Leia...</p>"
-  details: [ ]
+  details: []
   version: 4
   internal: false
   createdAt: "2025-04-17T13:54:40.737Z"

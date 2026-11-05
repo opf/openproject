@@ -64,14 +64,14 @@ allOf:
         properties:
           self:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   This time entry
 
                   **Resource**: TimeEntry
           updateImmediately:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   Directly perform edits on this time entry
 
@@ -80,7 +80,7 @@ allOf:
                   **Permission**: 'edit time entries' or 'edit own time entries' if the time entry belongs to the user
           update:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   Form endpoint that aids in preparing and performing edits on a TimeEntry
 
@@ -89,7 +89,7 @@ allOf:
                   **Permission**: 'edit time entries' or 'edit own time entries' if the time entry belongs to the user
           delete:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   Delete this time entry
 
@@ -98,14 +98,14 @@ allOf:
                   **Permission**: 'edit time entries' or 'edit own time entries' if the time entry belongs to the user
           schema:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   The time entry schema
 
                   **Resource**: Schema
           project:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   The project the time entry is bundled in. The project might be different from the work package's project once the workPackage is moved.
 
@@ -113,7 +113,7 @@ allOf:
           workPackage:
             deprecated: true
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   The work package the time entry is created on
 
@@ -127,65 +127,65 @@ allOf:
                   Read and write `entity` instead.
           entity:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   The entity the time entry is created on
 
                   **Resource**: WorkPackage
           user:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   The user the time entry tracks expenditures for
 
                   **Resource**: User
           activity:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   The time entry activity the time entry is categorized as
 
                   **Resource**: TimeEntriesActivity
 
-    example:
-      _type: TimeEntry
-      id: 42
-      comment:
-        format: plain
-        raw: "The force shall set me free."
-        html: "<p>The force shall set me free.</p>"
-      spentOn: "2023-01-11"
-      hours: "PT4H"
-      startTime: "2023-01-11T09:58:00.000Z"
-      endTime: "2023-01-11T13:58:00.000Z"
-      createdAt: "2023-01-11T13:58:24.927Z"
-      updatedAt: "2023-01-11T13:58:24.927Z"
-      _links:
-        self:
-          href: "/api/v3/time_entries/42"
-        updateImmediately:
-          href: "/api/v3/time_entries/42"
-          method: patch
-        update:
-          href: "/api/v3/time_entries/42/form"
-          method: post
-        delete:
-          href: "/api/v3/time_entries/42"
-          method: delete
-        schema:
-          href: "/api/v3/time_entries/schema"
-        project:
-          href: "/api/v3/projects/11"
-          title: DeathStarV2
-        workPackage:
-          href: "/api/v3/work_packages/77"
-          title: Build new hangar
-        entity:
-          href: "/api/v3/work_packages/77"
-          title: Build new hangar
-        user:
-          href: "/api/v3/users/3"
-          title: Darth Vader
-        activity:
-          href: "/api/v3/time_entries/activities/1"
-          title: Management
+    examples:
+      - _type: TimeEntry
+        id: 42
+        comment:
+          format: plain
+          raw: "The force shall set me free."
+          html: "<p>The force shall set me free.</p>"
+        spentOn: "2023-01-11"
+        hours: "PT4H"
+        startTime: "2023-01-11T09:58:00.000Z"
+        endTime: "2023-01-11T13:58:00.000Z"
+        createdAt: "2023-01-11T13:58:24.927Z"
+        updatedAt: "2023-01-11T13:58:24.927Z"
+        _links:
+          self:
+            href: "/api/v3/time_entries/42"
+          updateImmediately:
+            href: "/api/v3/time_entries/42"
+            method: patch
+          update:
+            href: "/api/v3/time_entries/42/form"
+            method: post
+          delete:
+            href: "/api/v3/time_entries/42"
+            method: delete
+          schema:
+            href: "/api/v3/time_entries/schema"
+          project:
+            href: "/api/v3/projects/11"
+            title: DeathStarV2
+          workPackage:
+            href: "/api/v3/work_packages/77"
+            title: Build new hangar
+          entity:
+            href: "/api/v3/work_packages/77"
+            title: Build new hangar
+          user:
+            href: "/api/v3/users/3"
+            title: Darth Vader
+          activity:
+            href: "/api/v3/time_entries/activities/1"
+            title: Management

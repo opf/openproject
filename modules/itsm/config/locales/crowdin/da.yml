@@ -3,59 +3,59 @@ da:
   activerecord:
     attributes:
       itsm/email_message:
-        direction: Direction
-        from_address: From
-        message_id: Message ID
+        direction: Retning
+        from_address: Fra
+        message_id: Besked-id
         status: Status
-        subject: Subject
+        subject: Emne
       itsm/email_thread:
-        recipients: Recipients
-        requester_email: Requester email
-        requester_name: Requester name
-        work_package: Work package
+        recipients: Modtagere
+        requester_email: Anmoderens e-mail
+        requester_name: Anmoderens navn
+        work_package: Arbejdspakke
       itsm/incoming_mailbox:
-        active: Active
-        aliases: Known email addresses
-        email: Email address
-        mail_server: IMAP server
-        password: Password
-        project: Project
-        username: Username
+        active: Aktiv
+        aliases: Kendte e-mailadresser
+        email: E-mailadresse
+        mail_server: IMAP-server
+        password: Adgangskode
+        project: Projekt
+        username: Brugernavn
       itsm/mail_server:
-        encryption: Encryption
-        host: Server name
-        incoming_mailboxes: Incoming mailboxes
-        name: Name
-        outgoing_mailboxes: Outgoing mailboxes
+        encryption: Kryptering
+        host: Servernavn
+        incoming_mailboxes: Indgående postkasser
+        name: Navn
+        outgoing_mailboxes: Udgående postkasser
         port: Port
-        protocol: Protocol
+        protocol: Protokol
       itsm/outgoing_mailbox:
-        mail_server: SMTP server
-        password: Password
-        project: Project
-        sender_email: Sender email
-        sender_name: Sender name
-        username: Username
+        mail_server: SMTP-server
+        password: Adgangskode
+        project: Projekt
+        sender_email: Afsenderens e-mail
+        sender_name: Afsenderens navn
+        username: Brugernavn
     models:
       itsm/email_message:
-        one: Email message
-        other: Email messages
+        one: E-mail
+        other: E-mails
       itsm/email_thread:
-        one: Email thread
-        other: Email threads
+        one: E-mailtråd
+        other: E-mailtråde
       itsm/incoming_mailbox:
-        one: Incoming mailbox
-        other: Incoming mailboxes
+        one: Indgående postkasse
+        other: Indgående postkasser
       itsm/mail_server:
-        one: Mail server
-        other: Mail servers
+        one: Mailserver
+        other: Mailservere
       itsm/outgoing_mailbox:
-        one: Outgoing mailbox
-        other: Outgoing mailboxes
+        one: Udgående postkasse
+        other: Udgående postkasser
   admin:
-    description: Enables the functionality to create work packages by sending emails using an IMAP server and reply to those using an SMTP server.
-    enable_helpdesk: Enable Helpdesk in this instance
-    helpdesk_set_by_environment: The help desk feature is set by an environment variable and not changeable here.
-  label_helpdesk: Help desk
-  permission_manage_helpdesk: Manage help desk
-  project_module_helpdesk: Help desk
+    description: Gør det muligt at oprette arbejdspakker ved at sende e-mails via en IMAP-server og at besvare dem via en SMTP-server.
+    enable_helpdesk: Slå helpdesk til i denne installation
+    helpdesk_set_by_environment: Helpdesk-funktionen er angivet med en miljøvariabel og kan ikke ændres her.
+  label_helpdesk: Helpdesk
+  permission_manage_helpdesk: Administrer helpdesk
+  project_module_helpdesk: Helpdesk

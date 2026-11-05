@@ -814,7 +814,7 @@ da:
           attributes:
             base:
               archive_permission_missing_on_subprojects: Du har ikke de tilladelser, der skal til for at arkivere alle underprojekter. Kontakt en administrator.
-              project_initiation_request_disabled: Anmodning om projektinitiering er deaktiveret. Den skal være aktiveret, før arbejdspakken til anmodningen kan oprettes.
+              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
             enabled_modules:
               dependency_missing: Modulet '%{dependency}' skal også være aktiveret, fordi modulet '%{module}' afhænger af det.
               format: "%{message}"
@@ -828,7 +828,7 @@ da:
               switch_target_blank: Vælg den variant, der skal skiftes til
               switch_target_identical: Måltypen skal være en anden end den type, projektet bruger nu
               switch_target_not_in_family: Der kan kun skiftes til en anden type i samme familie
-          cannot_be_assigned_to_artifact_work_package: Den valgte bruger må ikke få tildelt arbejdspakker.
+          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Arbejdspakker i ikke-efterkommerprojekter refererer til versioner af projektet eller dets efterkommere.
         project/phase:
           attributes:
@@ -1639,6 +1639,10 @@ da:
         button_delete_personal_access_token: Slet PAT
         button_save: Gem konfiguration
         button_test_connection: Test forbindelse
+        credential_requirements:
+          administrator: The user must be a Jira administrator.
+          project_member: The user must be a member of every Jira project you want to migrate.
+          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Er du sikker på, at du vil slette adgangskoden til basic auth? Forbindelsen til Jira bliver slået fra.
         delete_personal_access_token_confirm: Er du sikker på, at du vil slette det personlige adgangstoken (PAT)? Forbindelsen til Jira bliver slået fra.
         exclude_resolution_fields_caption: Du kan udelade felterne for løsning og løsningsdato fra importen for denne konfiguration.
@@ -1650,6 +1654,7 @@ da:
           personal_access_token: Personligt adgangstoken (PAT)
           url: URL til Jira Server/Data Center
         label_testing: Tester konfigurationen …
+        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Det personlige adgangstoken (PAT) er slettet.
       run:
         actions:
@@ -1668,21 +1673,23 @@ da:
           JiraCreateCustomFieldsJob:
             title: Opret brugerdefinerede felter
           JiraCreateLabelsJob:
-            title: Create labels
+            title: Opret mærkater
+          JiraCreateParentChildRelationsFromSubtasksJob:
+            title: Opret overordnet-underordnet-relationer for '%{jira_project_name}'
           JiraCreateProjectJob:
             title: Opret projektet '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Opret projektrollen 'JiraMember'
           JiraCreateProjectTimeEntriesJob:
-            title: Create time entries for '%{jira_project_name}'
+            title: Opret tidsregistreringer for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Opret versioner for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Hent vedhæftede filer til arbejdspakker for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Opret arbejdspakker for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Opret brugere
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Hent brugerdefinerede felter
           JiraFetchIssueTypesJob:
@@ -1705,6 +1712,9 @@ da:
             title: Henter metadata om de valgte projekter
           JiraRevertImportJob:
             title: Tilbagefører denne importkørsel fra Jira
+        not_administrator_error:
+          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
+          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 'Du forsøger at importere et projekt med et id, der allerede er i brug: %{taken_identifier}. Ret projektets id i Jira, og klik så på Prøv igen.'
         remove_error: En importkørsel fra Jira kan ikke fjernes, mens den kører
         side_panel:
@@ -1833,7 +1843,7 @@ da:
                   subtitle: 'Involveret i importerede projekter '
                 work_packages:
                   label: Arbejdspakker
-                  subtitle: With attachments and logged time
+                  subtitle: Med vedhæftede filer og registreret tid
               title: Resultater af importkørslen
             import_scope:
               button_continue: Fortsæt
@@ -1850,7 +1860,7 @@ da:
                 issue_details: Sagernes beskrivelse, historik, kommentarer og vedhæftede filer
                 issue_ids: Id'er for sager
                 issues: Sager
-                logged_time: Logged time
+                logged_time: Registreret tid
                 permissions: Tilladelser
                 project_ids: Projekt-id'er
                 project_versions: Projektversioner
@@ -1884,8 +1894,11 @@ da:
               rest_line_text: ''
               title: Hent Jira-konfiguration
             '10':
-              rest_line_text: Creating time entries for %{projects_number} more projects
-              title: Create time entries
+              rest_line_text: Opretter tidsregistreringer for %{projects_number} projekter mere
+              title: Opret tidsregistreringer
+            '11':
+              rest_line_text: Henter vedhæftede filer for %{projects_number} projekter mere
+              title: Hent vedhæftede filer
             '2':
               rest_line_text: Henter sager og versioner for %{projects_number} projekter mere
               title: Hent projekternes sager og versioner
@@ -1908,8 +1921,8 @@ da:
               rest_line_text: Opretter arbejdspakker for %{projects_number} projekter mere
               title: Opret arbejdspakker
             '9':
-              rest_line_text: Henter vedhæftede filer for %{projects_number} projekter mere
-              title: Hent vedhæftede filer
+              rest_line_text: Opretter overordnet-underordnet-relationer ud fra underopgaver for %{projects_number} projekter mere
+              title: Opret overordnet-underordnet-relationer ud fra underopgaver
       test:
         api_error: Jiras API returnerede fejlstatus %{status}. Kontrollér URL'en til din Jira-installation og legitimationsoplysningerne.
         basic_auth_password_invalid: Ugyldig adgangskode til basic auth. Kontrollér legitimationsoplysningerne i konfigurationen.
@@ -1918,10 +1931,12 @@ da:
         error: Der opstod en uventet fejl under test af forbindelsen
         failed: 'Forbindelsen mislykkedes: Serveroplysningerne kunne ikke hentes'
         invalid_url: Angiv en gyldig URL
+        not_administrator:
+          basic: Basic auth user must be a Jira administrator.
+          bearer: Personal Access Token must be an admin token.
         parse_error: Svaret fra serveren kunne ikke fortolkes. Serveren er måske ikke en gyldig Jira-installation.
         personal_access_token_invalid: Ugyldigt personligt adgangstoken (PAT). Kontrollér legitimationsoplysningerne i konfigurationen.
         success: Forbundet til %{server} (version %{version})
-        user_is_not_admin: Ejeren af legitimationsoplysningerne er ikke administrator i Jira
       title: Jira-migrering
       user:
         unknown_name: Ukendt
@@ -2258,7 +2273,9 @@ da:
     text_transform:
       errors:
         connection_failed: AI-tjenesten kunne ikke nås.
+        context_too_long: Teksten er for lang til AI-modellen. Forkort den, og prøv igen.
         not_available: AI-assistenten er ikke tilgængelig.
+        rate_limited: AI-tjenesten er optaget. Prøv igen om et øjeblik.
         timeout: AI-tjenesten svarede ikke i tide.
         upstream_error: AI-tjenesten returnerede en fejl.
       pane:
@@ -2349,12 +2366,12 @@ da:
     resources:
       schema: Skema
     undisclosed:
-      ancestor: Skjult – det overordnede element er ikke synlig på grund af manglende tilladelser.
-      budget: Undisclosed - The budget is invisible because of lacking permissions.
-      definingProject: Skjult – projektet er ikke synlig på grund af manglende tilladelser.
-      definingWorkspace: Skjult – arbejdsområdet er ikke synlig på grund af manglende tilladelser.
-      parent: Skjult – det overordnede element er ikke synlig på grund af manglende tilladelser.
-      project: Skjult – projektet er ikke synlig på grund af manglende tilladelser.
+      ancestor: Skjult – det overordnede element er ikke synligt på grund af manglende tilladelser.
+      budget: Skjult – budgettet er ikke synligt på grund af manglende tilladelser.
+      definingProject: Skjult – projektet er ikke synligt på grund af manglende tilladelser.
+      definingWorkspace: Skjult – arbejdsområdet er ikke synligt på grund af manglende tilladelser.
+      parent: Skjult – det overordnede element er ikke synligt på grund af manglende tilladelser.
+      project: Skjult – projektet er ikke synligt på grund af manglende tilladelser.
       workPackage: Skjult – arbejdspakken er ikke synlig på grund af manglende tilladelser.
   attribute_help_texts:
     add_new: Tilføj hjælpetekst
@@ -2650,6 +2667,22 @@ da:
       missing_value: Attributten "%{custom_field_name}" er påkrævet af den beregnede værdi, men er tom.
       unknown: Der opstod en ukendt fejl. Gennemse formlen for den beregnede værdi.
   colors:
+    contrast:
+      background: Background
+      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
+      dark: Dark mode
+      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
+      fail: Fail
+      foreground: Foreground
+      light: Light mode
+      pass: Pass
+      ratio: Contrast ratio
+      sample: Sample text
+      text: Text
+      title: Contrast preview
+      used_as_background: Used as background
+      used_as_foreground: Used as foreground
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: Rediger farve
     form:
@@ -3821,6 +3854,9 @@ da:
         header: ændringer af %{author}
         migrated: fra Jira
         set_with_diff: "%{field} angivet (%{link})"
+      label_deleted:
+        one: "%{label_names} was deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(aflyst)"
       meeting_deleted: "(slettet)"
       meeting_series_backlog_html: backlog for mødeserien %{link}
@@ -3845,7 +3881,7 @@ da:
       total_percent_complete_mode_changed_to_work_weighted_average: Underordnede arbejdspakker uden Arbejde ignoreres.
       unaccessable_work_package_changed: på grund af ændringer i en relateret arbejdspakke
       work_package_children_changed_times: på grund af ændringer i den underordnede %{link}
-      work_package_children_changed_values: by changing values within child work package %{link}
+      work_package_children_changed_values: ved ændring af værdier i den underordnede arbejdspakke %{link}
       work_package_duplicate_closed: Status blev opdateret automatisk af den dublerede arbejdspakke %{link}
       work_package_parent_changed_times: på grund af ændringer i den overordnede %{link}
       work_package_parent_deleted: fordi den overordnede arbejdspakke blev slettet
@@ -3861,10 +3897,13 @@ da:
           working: "%{day} er nu en arbejdsdag"
     caused_changes:
       budget_deleted: Budgettet er slettet
+      comment_retracted: Kommentaren er trukket tilbage
       dates_changed: Datoer ændret
       default_attribute_written: Skrivebeskyttede attributter skrevet
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Oprettet ud fra meddelelse i forum</strong> %{message_information}"
       import: Importeret
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Tilføjet til mødet</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Tilføjet til</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Drøftet på mødet</strong> %{meeting_title_information}"
@@ -3878,7 +3917,7 @@ da:
       system_update: 'Systemopdatering af OpenProject:'
       total_percent_complete_mode_changed_to_simple_average: Beregningen af samlet % færdigt bygger nu på et simpelt gennemsnit af værdierne for % færdigt alene.
       total_percent_complete_mode_changed_to_work_weighted_average: Beregningen af samlet % færdigt vægtes nu efter Arbejde.
-      work_package_children_changed_values: Updated automatically
+      work_package_children_changed_values: Opdateret automatisk
       work_package_duplicate_closed: 'Dubleret arbejdspakke opdateret:'
       work_package_parent_deleted: Overordnet fjernet
     changes_retracted: Ændringerne blev trukket tilbage.
@@ -4088,7 +4127,7 @@ da:
   label_duplicate: dublet
   label_duplicated_by: dubleret af
   label_duplicates: dublerer
-  label_edit: Redigér
+  label_edit: Rediger
   label_edit_x: 'Rediger: %{x}'
   label_empty_element: "(tom)"
   label_enable_multi_select: Slå flervalg til/fra
@@ -5564,8 +5603,8 @@ da:
         label: Indholdsfortegnelse
     page_nr_footer: Side %{page} af %{total}
     template_artefact:
-      caption: Arbejdspakkens detaljer vist som et PMflex-artefakt.
-      label: PMflex-artefakt
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: Alle attributter i den aktuelle formular med standardskabelonen.
       label: Attributter og beskrivelse
@@ -5878,11 +5917,11 @@ da:
           no_status_when_submitted: Anmodning om projektinitiering kunne ikke aktiveres, fordi arbejdspakketypen %{type} skal have mindst én tilknyttet status. Aktivér mindst én statusarbejdsgang for arbejdspakketypen.
           no_work_package_type: Anmodning om projektinitiering kunne ikke aktiveres, fordi den kræver mindst én aktiv arbejdspakketype, og projektet har ingen. Føj mindst én arbejdspakketype til projektet.
         export:
-          description_attachment_export: Det dannede artefakt gemmes som en vedhæftet PDF på artefaktets arbejdspakke.
-          description_file_link_export: Artefaktets arbejdspakke får et fil-link til en PDF i et eksternt fillager. Det kræver et fungerende fillager med automatisk administrerede projektmapper til dette projekt. I øjeblikket understøttes kun Nextcloud-fillagre.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Vælg, hvilket af de konfigurerede eksterne fillagre der skal bruges.
           external_file_storage: Eksternt fillager
-          label_artifact_export: Eksport af artefakt
+          label_artefact_export: Artefact export
           label_attachment_export: Gem som vedhæftet fil på arbejdspakken
           label_file_link_export: Overfør filen til eksternt fillager, og tilføj et fil-link til arbejdspakken
           pdf_file_storage: Fillager til PDF
@@ -6021,14 +6060,14 @@ da:
     status:
       button_edit: Rediger status
     wizard:
-      create_artifact_storage_error: Artefaktet kunne ikke gemmes i fillageret
-      create_artifact_work_package_error: Artefaktets arbejdspakke kunne ikke oprettes
+      create_artefact_storage_error: Failed to store artefact in file storage
+      create_artefact_work_package_error: Failed to create artefact work package
       no_custom_fields_html: Projektet har ingen projektattributter aktiveret til guiden. Aktivér mindst én i <a href="%{link}">projektindstillingerne</a>.
       no_help_text: Der er ikke defineret nogen hjælpetekst til attributten.
       progress_label: "%{current} af %{total}"
       sections: Afsnit
       sidebar_content_title: Indhold
-      success: Projektattributterne er gemt, og artefaktets arbejdspakke er oprettet.
+      success: Project attributes saved and artefact work package created successfully.
       title: Anmodning om projektinitiering
   pwa:
     offline:
@@ -6606,12 +6645,12 @@ da:
         confirmation_message: Guiden til anmodning om projektinitiering vil ikke længere være tilgængelig for nye projekter, der bygger på denne skabelon. Projektledere og projektejere skal selv konfigurere og udfylde de relevante oplysninger i projektoversigten.
         heading: Vil du deaktivere denne anmodning om projektinitiering?
         title: Deaktiver anmodning om projektinitiering
-      header_description: 'OpenProject kan danne en trinvis guide, der hjælper projektledere med at udfylde en anmodning om projektinitiering. Du kan vælge, hvilke projektattributter der skal med, og få dannet et PDF-artefakt som resultat.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artefaktets navn
-        artifact_name_caption: Vælg det navn for artefaktet, som jeres projektmodel anbefaler.
+        artefact_name: Artefact name
+        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Guide til oprettelse af projekt
           project_initiation_request: Anmodning om projektinitiering
@@ -6631,8 +6670,8 @@ da:
           Du har indsendt en anmodning om projektinitiering for **%{project_name}**. Den afventer nu gennemsyn.
           Klik på linket nedenfor for at gå til arbejdspakken med din anmodning.
         confirmation_email_text: Tekst i e-mailen med bekræftelse
-        description: Når en bruger indsender en anmodning om projektinitiering, oprettes en ny arbejdspakke med anmodningens artefakt vedhæftet som PDF-fil. Indstillingerne nedenfor bestemmer type, status og tildelt for den nye arbejdspakke.
-        description_template: "**Arbejdspakken blev oprettet automatisk, da arbejdsgangen %{wizard_name} blev fuldført.** Der er dannet et PDF-artefakt med alle indsendte oplysninger, og det er vedhæftet arbejdspakken til reference og revision. Hvis du har brug for at opdatere eller gennemgå initieringstrinene igen, kan du altid åbne guiden igen via linket nedenfor:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Send en e-mail med bekræftelse til den bruger, der indsendte anmodningen om projektinitiering
         status_when_submitted: Status ved indsendelse
         status_when_submitted_caption: Den status, som den dannede arbejdspakke skifter til, når anmodningen er indsendt.
@@ -6640,7 +6679,7 @@ da:
         work_package_comment_caption: Den tildelte, der er valgt ovenfor, bliver automatisk @omtalt i kommentaren.
         work_package_comment_default: En anmodning om projektinitiering for **%{project_name}** er indsendt og afventer gennemsyn.
         work_package_type: Arbejdspakketype
-        work_package_type_caption: Den arbejdspakketype, der skal bruges til at gemme det færdige artefakt.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Åbn guiden til oprettelse af projekt
         project_initiation_request: Åbn anmodning om projektinitiering
@@ -6809,6 +6848,10 @@ da:
         Ingen attributter kan ændres undtagen status.
         <br>
         <strong>Bemærk</strong>: Nedarvede værdier (fx fra underordnede eller relationer) gælder fortsat.
+      used_by_workflows:
+        one: Statussen bruges af %{count} arbejdsgang.
+        other: Statussen bruges af %{count} arbejdsgange.
+      view_workflows_button: Vis arbejdsgange
     index:
       could_not_be_moved: Statussen kunne ikke flyttes.
       headers:
@@ -6818,6 +6861,9 @@ da:
       no_results_content_text: Tilføj en ny status
       no_results_title_text: Der er i øjeblikket ingen statusser for arbejdspakker.
       status_actions: Handlinger for status
+      workflows_count:
+        one: "%{count} arbejdsgang"
+        other: "%{count} arbejdsgange"
   support:
     array:
       sentence_connector: og
@@ -7164,13 +7210,13 @@ da:
           file_link:
             caption: Den dannede PDF overføres til projektets automatisk administrerede Nextcloud-lager og linkes fra arbejdspakken. Arbejdspakker i projekter uden et sådant lager springes over.
             label: Overfør filen til eksternt fillager, og tilføj et fil-link til arbejdspakken
-          intro: Dan automatisk et PDF-artefakt af arbejdspakker af denne type, hver gang deres status ændres.
-          invalid_mode: Ugyldig tilstand for automatisk eksport af artefakter.
-          label: Automatisk eksport af artefakter
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
           off_mode:
             caption: Der dannes ingen PDF automatisk.
             label: Fra
-          section_title: Automatisk eksport af artefakter
+          section_title: Automatic artefact export
           unavailable: ikke tilgængelig, fordi der ikke er konfigureret noget automatisk administreret Nextcloud-lager
         pdf_export_templates:
           actions:
@@ -7213,6 +7259,7 @@ da:
         invalid_attribute_groups: Formularens data er ugyldige.
         invalid_query: Konfigurationen af den indlejrede forespørgsel er ugyldig.
         label_group: Afsnit
+        move_failed: Flytningen kunne ikke gemmes. Genindlæs siden, og prøv igen.
         no_inactive_attributes: Ingen inaktive attributter
         not_found: Det ønskede formularelement blev ikke fundet.
         query_group_label: Tabel med relaterede arbejdspakker
@@ -7232,6 +7279,7 @@ da:
         reset_title: Nulstil formular
         reset_to_defaults: Nulstil formular
         row_actions: Handlinger for rækken
+        save_failed: Ændringen kunne ikke gemmes. Genindlæs siden, og prøv igen.
         tab: Formular
         untitled_group: Unavngiven gruppe
       overview:

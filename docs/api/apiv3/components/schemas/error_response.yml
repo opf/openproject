@@ -14,13 +14,17 @@ properties:
         properties:
           attribute:
             type: string
-            example: project
   _type:
     type: string
-    enum: [ 'Error' ]
+    enum: ['Error']
   errorIdentifier:
     type: string
-    example: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
   message:
     type: string
-    example: Project can't be blank.
+examples:
+  - _type: Error
+    errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+    message: Project can't be blank.
+    _embedded:
+      details:
+        attribute: project

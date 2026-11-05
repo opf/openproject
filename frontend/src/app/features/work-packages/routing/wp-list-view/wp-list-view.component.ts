@@ -121,7 +121,6 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   /** */
   readonly wpTableConfiguration:WorkPackageTableConfigurationObject = {
     dragAndDropEnabled: true,
-    keyboardNavigationEnabled: true,
   };
 
   ngOnInit() {

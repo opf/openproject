@@ -192,7 +192,7 @@ get:
                 timelineVisible: false
                 timelineZoomLevel: days
           schema:
-            "$ref": "../components/schemas/default_query_for_workspace_model.yml"
+            $ref: "../components/schemas/default_query_for_workspace_model.yml"
       description: OK
       headers: {}
     '403':
