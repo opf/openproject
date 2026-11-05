@@ -38,16 +38,6 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
 
   let(:json) { response.parsed_body }
 
-  shared_context "with a relative url root" do
-    around do |example|
-      previous = OpenProject::Configuration["rails_relative_url_root"]
-      OpenProject::Configuration["rails_relative_url_root"] = "/openproject"
-      example.run
-    ensure
-      OpenProject::Configuration["rails_relative_url_root"] = previous
-    end
-  end
-
   def notify(reason: :mentioned, resource: work_package, journal: nil, **)
     create(:notification, recipient: user, resource:, reason:, actor: author, journal:, **)
   end
@@ -463,9 +453,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
         expect(json).to eq("count" => 0)
       end
 
-      context "when served under a path prefix" do
-        include_context "with a relative url root"
-
+      context "when served under a path prefix", with_config: { rails_relative_url_root: "/openproject" } do
         it "prefixes the group and overflow urls" do
           create_list(:work_package, 6, project:).each { notify(resource: it) }
 
