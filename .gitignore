@@ -68,6 +68,7 @@ npm-debug.log*
 /config/additional_environment.rb
 /config/configuration.yml
 /config/database.yml
+/config/database.yml.native
 /config/email.yml
 /config/secret_token.yml
 /config/frontend_assets.manifest.json
