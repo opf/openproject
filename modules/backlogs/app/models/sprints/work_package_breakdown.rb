@@ -57,16 +57,16 @@ module Sprints
 
     def changed_after_start
       @changed_after_start ||= begin
-        added_ids = added_after_start_ids
-        removed_ids = removed_after_start_ids
+        added_story_points, removed_story_points = estimate_change(start_points, finish_points)
+        added_estimated_hours, removed_estimated_hours = estimate_change(start_hours, finish_hours)
 
         ChangeBlock.new(
-          added_count: added_ids.size,
-          removed_count: removed_ids.size,
-          added_story_points: sum_values(added_ids, finish_points),
-          removed_story_points: sum_values(removed_ids, start_points),
-          added_estimated_hours: sum_values(added_ids, finish_hours),
-          removed_estimated_hours: sum_values(removed_ids, start_hours)
+          added_count: added_after_start_ids.size,
+          removed_count: removed_after_start_ids.size,
+          added_story_points:,
+          removed_story_points:,
+          added_estimated_hours:,
+          removed_estimated_hours:
         )
       end
     end
@@ -170,6 +170,19 @@ module Sprints
 
     def sum_values(ids, values_by_id)
       ids.sum { |id| values_by_id[id] || 0 }
+    end
+
+    def estimate_change(start_values, finish_values)
+      increases, decreases = retained_deltas(start_values, finish_values).partition(&:positive?)
+
+      [
+        sum_values(added_after_start_ids, finish_values) + increases.sum,
+        sum_values(removed_after_start_ids, start_values) - decreases.sum
+      ]
+    end
+
+    def retained_deltas(start_values, finish_values)
+      (start_values.keys & finish_values.keys).map { |id| (finish_values[id] || 0) - (start_values[id] || 0) }
     end
 
     def done?(snapshot)
