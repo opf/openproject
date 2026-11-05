@@ -42,6 +42,8 @@ module Pwa
 
     private
 
+    # Notifications arriving in the background neither keep the user signed in nor sign
+    # them out of other devices when this session times out.
     def check_session_lifetime
       return unless current_user.logged? && session_ttl_expired?
 
@@ -50,7 +52,7 @@ module Pwa
     end
 
     # Background wake-ups may only confirm the existing browser session, never start,
-    # switch or end one; an SSO header can only reject a session it doesn't match.
+    # switch or extend one; an SSO header can only reject a session it doesn't match.
     def find_current_user
       user = current_session_user
       user if user && sso_header_accepts?(user)
