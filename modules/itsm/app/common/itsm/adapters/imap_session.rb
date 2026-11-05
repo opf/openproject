@@ -38,8 +38,6 @@ module ITSM
       SESSION_TIMEOUT = 5.minutes
       FOLDER = "INBOX"
 
-      class GreetingTimeout < StandardError; end
-
       def self.open(mail_server:, auth_strategy:)
         session = new(mail_server:, auth_strategy:)
         session.connect.bind { yield session }
@@ -88,11 +86,9 @@ module ITSM
         Success(addresses.first.to_s)
       end
 
-      # Net::IMAP waits for the server greeting without a time limit, and the session timeout
-      # cannot disconnect a connection that is still being opened.
       def open_connection(address)
         imap_request do
-          @imap = Timeout.timeout(OPEN_TIMEOUT, GreetingTimeout) { new_connection(address) }
+          @imap = new_connection(address)
           imap.starttls if mail_server.starttls?
         end
       end
@@ -103,7 +99,7 @@ module ITSM
 
       def imap_request(source: self.class)
         Success(yield)
-      rescue GreetingTimeout
+      rescue IO::TimeoutError
         failure(code: :timeout, source:)
       rescue OpenSSL::SSL::SSLError => e
         failure(code: :tls_failed, payload: e.message, source:)

@@ -41,7 +41,14 @@ module ITSM
 
       # Connects to the address that passed the SSRF check instead of resolving the host again,
       # while TLS still uses the host for SNI and certificate verification.
-      def tcp_socket(_host, port) = super(@address, port)
+      # Net::IMAP waits for the server greeting without a time limit, so the socket has one until it arrives.
+      def tcp_socket(_host, port) = super(@address, port).tap { it.timeout = open_timeout }
+
+      def get_server_greeting
+        super
+      ensure
+        @sock.to_io.timeout = nil
+      end
     end
   end
 end
