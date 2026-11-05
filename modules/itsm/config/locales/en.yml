@@ -64,6 +64,19 @@ en:
         edit: Edit IMAP server configuration
         title: IMAP server configuration
       mail_servers: Mail servers
+      server_configuration_form:
+        encryption: Encryption
+        imap:
+          instruction: >
+            Configure the IMAP server to transform incoming emails to work packages. Note that OpenProject has no
+            mechanism to stop email spoofing, please, ensure that the configured mail server performs SPF, DKIM, and
+            DMARC checks, and quarantines emails that fail those check.
+          title: IMAP server configuration
+        name: Server name
+        port: Server port
+        smtp:
+          instruction: Configure the SMTP server to reply emails directly from the work packages activity.
+          title: SMTP server configuration
       smtp_server_configuration_component:
         description: Configure the SMTP server to reply emails directly from the work packages activity.
         edit: Edit SMTP server configuration
