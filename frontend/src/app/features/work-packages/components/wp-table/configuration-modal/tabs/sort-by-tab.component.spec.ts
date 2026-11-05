@@ -42,7 +42,10 @@ describe('WpTableConfigurationSortByTabComponent', () => {
     } as unknown as QuerySortByResource;
   }
 
-  async function createComponent(current:QuerySortByResource[]) {
+  async function createComponent(
+    current:QuerySortByResource[],
+    available = [sortBy('id'), sortBy('subject'), sortBy('manualSorting')],
+  ) {
     await TestBed.configureTestingModule({
       declarations: [WpTableConfigurationSortByTabComponent],
       imports: [FormsModule],
@@ -52,9 +55,9 @@ describe('WpTableConfigurationSortByTabComponent', () => {
           provide: WorkPackageViewSortByService,
           useValue: {
             onReadyWithAvailable: () => of(null),
-            available: [sortBy('id'), sortBy('subject'), sortBy('manualSorting')],
+            available,
             current,
-          },
+          } satisfies Partial<Record<keyof WorkPackageViewSortByService, unknown>>,
         },
       ],
     }).compileComponents();
@@ -62,21 +65,35 @@ describe('WpTableConfigurationSortByTabComponent', () => {
     const fixture = TestBed.createComponent(WpTableConfigurationSortByTabComponent);
     fixture.detectChanges();
     await fixture.whenStable();
+    fixture.detectChanges();
 
-    return fixture.componentInstance;
+    return { component: fixture.componentInstance, element: fixture.nativeElement as HTMLElement };
+  }
+
+  function manualRadio(element:HTMLElement) {
+    return element.querySelector('input[name="sorting_mode_switch"][value="manual"]');
   }
 
   it('offers ID as the first automatic criterion when the query is sorted manually', async () => {
-    const component = await createComponent([sortBy('manualSorting')]);
+    const { component } = await createComponent([sortBy('manualSorting')]);
 
     expect(component.sortingMode).toBe('manual');
     expect(component.sortationObjects[0].column.href).toBe('/api/v3/queries/columns/id');
   });
 
   it('keeps the saved criteria for an automatically sorted query', async () => {
-    const component = await createComponent([sortBy('subject')]);
+    const { component, element } = await createComponent([sortBy('subject')]);
 
     expect(component.sortingMode).toBe('automatic');
     expect(component.sortationObjects[0].column.href).toBe('/api/v3/queries/columns/subject');
+    expect(manualRadio(element)).not.toBeNull();
+  });
+
+  it('keeps every column and hides the manual mode when the query offers no manual sort option', async () => {
+    const { component, element } = await createComponent([sortBy('subject')], [sortBy('id'), sortBy('subject')]);
+
+    expect(component.allColumns.map((column) => column.name)).toEqual(['id', 'subject']);
+    expect(component.sortingMode).toBe('automatic');
+    expect(manualRadio(element)).toBeNull();
   });
 });

@@ -93,11 +93,11 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
 
   public sortingMode:SortingMode = 'automatic';
 
-  public manualSortColumn:SortColumn;
+  public manualSortColumn?:SortColumn;
 
   public onSave() {
     let sortElements;
-    if (this.sortingMode === 'automatic') {
+    if (this.sortingMode === 'automatic' || !this.manualSortColumn) {
       sortElements = this.sortationObjects.filter((object) => object.column !== null);
     } else {
       sortElements = [new SortModalObject(this.manualSortColumn, QUERY_SORT_BY_ASC)];
@@ -172,7 +172,7 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
   }
 
   private seedDefaultSortation() {
-    const idColumn = this.allColumns.find((column) => column.href!.endsWith('/id'));
+    const idColumn = this.allColumns.find((column) => column.href?.endsWith('/id'));
     if (idColumn) {
       this.sortationObjects.push(new SortModalObject(idColumn, QUERY_SORT_BY_ASC));
     }
@@ -185,7 +185,7 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
   }
 
   private getManualSortingOption() {
-    this.manualSortColumn = this.allColumns.find((e) => e.href!.endsWith('/manualSorting'))!;
-    this.allColumns.splice(this.allColumns.indexOf(this.manualSortColumn), 1);
+    this.manualSortColumn = this.allColumns.find((e) => e.href?.endsWith('/manualSorting'));
+    this.allColumns = this.allColumns.filter((column) => column !== this.manualSortColumn);
   }
 }
