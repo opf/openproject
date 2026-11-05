@@ -115,7 +115,7 @@ en:
         new_title: "New semantic index"
       form:
         context_token_length_caption: "Maximum number of tokens embedded per work package."
-        embedding_vector_dimensions_caption: "How many numbers each vector has."
+        embedding_vector_dimensions_caption: "Must match the selected model."
         immutable: "Model, context length and dimensions can't be changed after creation. Create a new semantic index to use different parameters."
         model_caption: "Only models known to create embeddings are offered."
         option_unqualified: "%{model} (no longer eligible)"
