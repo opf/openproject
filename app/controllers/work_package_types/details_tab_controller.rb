@@ -68,11 +68,11 @@ module WorkPackageTypes
     end
 
     def permitted_details_params
-      params.expect(type: %i[name color_id is_milestone is_in_roadmap allow_project_variants])
+      params.expect(type: %i[name description color_id is_milestone is_in_roadmap allow_project_variants])
     end
 
     def permitted_variant_params
-      params.expect(type_variant: [:variant_name])
+      params.expect(type_variant: %i[variant_name description])
     end
   end
 end
