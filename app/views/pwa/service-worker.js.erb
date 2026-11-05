@@ -29,6 +29,7 @@ const Config = Object.freeze({
     prefix: "openproject-",
     workPackage: /^openproject-(\d+)-wp-/,
     placeholder: "openproject-unread",
+    nothingNew: "openproject-nothing-new",
     more: "openproject-more",
   },
   push: {
@@ -82,9 +83,10 @@ class PushState {
  * comes back. Groups are shown oldest first so the newest ends on top.
  *
  * A push must end with something visible: if nothing qualifies, the newest group is refreshed when
- * it is open, otherwise the fallback is shown. The refresh is needed even when that notification is
- * already on screen: Safari only counts a push that calls showNotification and drops every
- * subscription of the site after three pushes that did not.
+ * it is open, otherwise a quiet "nothing new" notice shows, which does not bring dismissed groups
+ * back. The refresh is needed even when that notification is already on screen: Safari only counts
+ * a push that calls showNotification and drops every subscription of the site after three pushes
+ * that did not.
  */
 class NotificationPlan {
   static activityAt(group) {
@@ -102,7 +104,7 @@ class NotificationPlan {
   }
 
   static needsRefresh({ group, previous, openTags }) {
-    const onlyPlaceholderOpen = openTags.every((tag) => tag === Config.tags.placeholder);
+    const onlyPlaceholderOpen = openTags.length > 0 && openTags.every((tag) => tag === Config.tags.placeholder);
     return (
       onlyPlaceholderOpen || previous.evicted || (openTags.includes(group.tag) && previous.fingerprint !== group.fingerprint)
     );
@@ -150,7 +152,7 @@ class NotificationPlan {
     }
 
     if (show.length === 0) {
-      show.push(openTags.includes(groups[0].tag) ? { kind: "refresh", group: groups[0] } : { kind: "fallback" });
+      show.push(openTags.includes(groups[0].tag) ? { kind: "refresh", group: groups[0] } : { kind: "nothingNew" });
     }
 
     return { show, state: more ? { ...state, ...nextState } : nextState };
@@ -184,6 +186,8 @@ class Notifications {
         return Notifications.showGroup(item.group, { silent: true, renotify: false });
       case "more":
         return Notifications.showMore(item.more);
+      case "nothingNew":
+        return Notifications.showFallback(Config.tags.nothingNew);
       default:
         return Notifications.showFallback();
     }
@@ -206,9 +210,9 @@ class Notifications {
     });
   }
 
-  static showFallback() {
+  static showFallback(tag = Config.tags.placeholder) {
     return Notifications.display(Config.push.fallbackTitle, {
-      tag: Config.tags.placeholder,
+      tag,
       silent: true,
       renotify: false,
       data: { url: Config.urls.home, revision: "fallback" },
