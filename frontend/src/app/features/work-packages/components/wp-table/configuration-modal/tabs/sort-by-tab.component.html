@@ -35,7 +35,7 @@
   </div>
 
   @if (sortingMode === 'automatic') {
-    @for (sort of sortationObjects; track $index; let index = $index) {
+    @for (sort of sortObjects; track $index; let index = $index) {
       <div class="form--row modal-sorting-row-{{index}}"
         >
         <div class="form--field -full-width">

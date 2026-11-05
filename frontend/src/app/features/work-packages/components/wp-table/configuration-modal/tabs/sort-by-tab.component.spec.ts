@@ -78,14 +78,14 @@ describe('WpTableConfigurationSortByTabComponent', () => {
     const { component } = await createComponent([sortBy('manualSorting')]);
 
     expect(component.sortingMode).toBe('manual');
-    expect(component.sortationObjects[0].column.href).toBe('/api/v3/queries/columns/id');
+    expect(component.sortObjects[0].column.href).toBe('/api/v3/queries/columns/id');
   });
 
   it('keeps the saved criteria for an automatically sorted query', async () => {
     const { component, element } = await createComponent([sortBy('subject')]);
 
     expect(component.sortingMode).toBe('automatic');
-    expect(component.sortationObjects[0].column.href).toBe('/api/v3/queries/columns/subject');
+    expect(component.sortObjects[0].column.href).toBe('/api/v3/queries/columns/subject');
     expect(manualRadio(element)).not.toBeNull();
   });
 

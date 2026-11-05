@@ -87,7 +87,7 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
 
   public allColumns:SortColumn[] = [];
 
-  public sortationObjects:SortModalObject[] = [];
+  public sortObjects:SortModalObject[] = [];
 
   public emptyColumn:SortColumn = { name: this.text.placeholder, href: null };
 
@@ -98,7 +98,7 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
   public onSave() {
     let sortElements;
     if (this.sortingMode === 'automatic' || !this.manualSortColumn) {
-      sortElements = this.sortationObjects.filter((object) => object.column !== null);
+      sortElements = this.sortObjects.filter((object) => object.column !== null);
     } else {
       sortElements = [new SortModalObject(this.manualSortColumn, QUERY_SORT_BY_ASC)];
     }
@@ -131,14 +131,14 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
             return;
           }
 
-          this.sortationObjects.push(
+          this.sortObjects.push(
             new SortModalObject({ name: sort.column.name, href: sort.column.href },
               sort.direction.href!),
           );
         });
 
-        if (this.sortingMode === 'manual' && this.sortationObjects.length === 0) {
-          this.seedDefaultSortation();
+        if (this.sortingMode === 'manual' && this.sortObjects.length === 0) {
+          this.seedDefaultSorting();
         }
 
         this.updateUsedColumns();
@@ -153,7 +153,7 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
   }
 
   public updateUsedColumns() {
-    const usedColumns = this.sortationObjects
+    const usedColumns = this.sortObjects
       .filter((o) => o.column !== null)
       .map((object:SortModalObject) => object.column);
 
@@ -171,16 +171,16 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
     return this.wpTableSortBy.available.find((sort) => sort.column.href === column && sort.direction.href === direction);
   }
 
-  private seedDefaultSortation() {
+  private seedDefaultSorting() {
     const idColumn = this.allColumns.find((column) => column.href?.endsWith('/id'));
     if (idColumn) {
-      this.sortationObjects.push(new SortModalObject(idColumn, QUERY_SORT_BY_ASC));
+      this.sortObjects.push(new SortModalObject(idColumn, QUERY_SORT_BY_ASC));
     }
   }
 
   private fillUpSortElements() {
-    while (this.sortationObjects.length < 3) {
-      this.sortationObjects.push(new SortModalObject(this.emptyColumn, QUERY_SORT_BY_ASC));
+    while (this.sortObjects.length < 3) {
+      this.sortObjects.push(new SortModalObject(this.emptyColumn, QUERY_SORT_BY_ASC));
     }
   }
 
