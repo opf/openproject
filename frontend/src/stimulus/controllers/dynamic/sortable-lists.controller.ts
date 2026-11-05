@@ -449,7 +449,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     void this.submitDestinationMove(relativeUrl(new URL(form.action, window.location.href)), new FormData(form));
   }
 
-  moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void {
+  moveInDirection(itemElement:HTMLElement, direction:MoveDirection, scopeOwner:HTMLElement|null = null):void {
     // The menu is rendered server-side from a permission check that does not
     // know about per-work-package movability, so a stale or over-permissive
     // menu must not execute a move the server will refuse.
@@ -458,6 +458,10 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
 
     const { items: scopeItems } = this.actionScopeFor(itemElement);
+    if (!this.menuScopeMatches(scopeOwner, scopeItems)) {
+      void announce(I18n.t(`${this.moveAnnouncementScopeValue}.menu_scope_changed`), { politeness: 'assertive' });
+      return;
+    }
     if (scopeItems.length > 1) {
       this.moveBlockInDirection(itemElement, scopeItems, direction);
       return;
@@ -495,8 +499,25 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     });
   }
 
-  // The action scope at activation, resolved against the live DOM; a morph
-  // that broke the block sends nothing and keeps the selection.
+  private menuScopeMatches(scopeOwner:HTMLElement|null, items:HTMLElement[]):boolean {
+    if (!scopeOwner?.hasAttribute('data-sortable-lists-scope-count')) return true;
+
+    const raw = scopeOwner.getAttribute('data-sortable-lists-scope-ids');
+    if (!raw) return false;
+
+    try {
+      const rendered:unknown = JSON.parse(raw);
+      const live = [...items]
+        .sort((left, right) => (left.compareDocumentPosition(right) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1))
+        .map((item) => resolveItemId(item));
+      return Array.isArray(rendered) && rendered.length > 0 && rendered.length === live.length
+        && new Set(rendered).size === rendered.length
+        && rendered.every((id:unknown, index:number) => typeof id === 'string' && id !== '' && id === live[index]);
+    } catch {
+      return false;
+    }
+  }
+
   private moveBlockInDirection(itemElement:HTMLElement, scopeItems:HTMLElement[], direction:MoveDirection):void {
     const list = this.ownerListOf(itemElement);
     const moveUrl = this.resolveCollectionMoveUrl();
@@ -509,10 +530,11 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    const items = scopeItems
-      .map((element) => itemIdentity(element))
+    const items = resolution.rows
+      .map((row) => resolveItemElement(row, list.rowsContainer))
+      .map((element) => element ? itemIdentity(element) : null)
       .filter((item):item is SelectionItem => item !== null);
-    if (items.length !== scopeItems.length) {
+    if (items.length !== resolution.rows.length) {
       return;
     }
 

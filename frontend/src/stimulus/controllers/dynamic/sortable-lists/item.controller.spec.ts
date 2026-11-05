@@ -1855,12 +1855,33 @@ describe('Sortable lists item controller', () => {
       controller.moveItemTargetConnected();
 
       liFor(el, 'down').click();
-      expect(moveInDirection).toHaveBeenCalledWith(el, 'down');
+      expect(moveInDirection).toHaveBeenCalledWith(el, 'down', null);
 
       liFor(el, 'up').classList.add('ActionListItem--disabled'); // menu.isItemDisabled now returns true for it
       moveInDirection.mockClear();
       liFor(el, 'up').click();
       expect(moveInDirection).not.toHaveBeenCalled();
+    });
+
+    it('passes the primary scope owner when activating a positional submenu item', async () => {
+      const { el } = renderItemWithMenu(2);
+      const menu = el.querySelector('action-menu')!;
+      const scopeOwner = document.createElement('ul');
+      scopeOwner.setAttribute('data-sortable-lists-scope-count', '1');
+      scopeOwner.setAttribute('data-sortable-lists-scope-ids', '["2"]');
+      const submenu = document.createElement('ul');
+      submenu.append(...menu.children);
+      scopeOwner.append(submenu);
+      menu.append(scopeOwner);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const moveInDirection = vi.fn();
+      controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, moveInDirection));
+      controller.moveItemTargetConnected();
+
+      liFor(el, 'down').click();
+
+      expect(moveInDirection).toHaveBeenCalledWith(el, 'down', scopeOwner);
     });
 
     function appendDestinationItem(el:HTMLElement):{ li:HTMLElement; form:HTMLFormElement } {

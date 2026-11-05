@@ -691,7 +691,7 @@ describe('block move helpers', () => {
     expect(resolveBlockMove({ itemElements: [second], direction: 'down', rowsContainer }))
       .toEqual({ available: true, rows: [second], previousItemId: '3' });
     expect(resolveBlockMove({ itemElements: [second], direction: 'bottom', rowsContainer }))
-      .toEqual({ available: true, rows: [second], previousItemId: '4' });
+      .toEqual({ available: true, rows: [second], previousItemId: 'last-hidden' });
   });
 
   it('matches resolveMoveAvailability for a one-card block', () => {
@@ -742,7 +742,7 @@ describe('block move helpers', () => {
     expect(resolveBlockMove({ itemElements: [second, third], direction: 'down', rowsContainer }))
       .toEqual({ available: true, rows: [second, third], previousItemId: '4' });
     expect(resolveBlockMove({ itemElements: [second, third], direction: 'bottom', rowsContainer }))
-      .toEqual({ available: true, rows: [second, third], previousItemId: '4' });
+      .toEqual({ available: true, rows: [second, third], previousItemId: 'last-hidden' });
   });
 
   it('rejects an empty or fixed selection as not orderable', () => {
@@ -750,9 +750,9 @@ describe('block move helpers', () => {
     second.setAttribute(sortableItemMobilityAttribute, 'fixed');
 
     expect(resolveBlockMove({ itemElements: [], direction: 'top', rowsContainer }))
-      .toEqual({ available: false, reason: 'not-orderable' });
+      .toEqual({ available: false });
     expect(resolveBlockMove({ itemElements: [first, second], direction: 'top', rowsContainer }))
-      .toEqual({ available: false, reason: 'not-orderable' });
+      .toEqual({ available: false });
   });
 
   it('rejects selected elements from different containers', () => {
@@ -760,7 +760,7 @@ describe('block move helpers', () => {
     const { items: [foreign] } = fixture();
 
     expect(resolveBlockMove({ itemElements: [first, foreign], direction: 'top', rowsContainer }))
-      .toEqual({ available: false, reason: 'cross-list' });
+      .toEqual({ available: false });
   });
 
   it('rejects an inner-list item that resolves to its outer host row', () => {
@@ -780,18 +780,18 @@ describe('block move helpers', () => {
     rowsContainer.append(outerHost, outerSecond, outerThird);
 
     expect(resolveBlockMove({ itemElements: [inner, outerSecond], direction: 'bottom', rowsContainer }))
-      .toEqual({ available: false, reason: 'cross-list' });
+      .toEqual({ available: false });
   });
 
-  it('rejects sparse, reverse-order, and duplicate input', () => {
+  it('normalizes sparse and reverse-order input, and rejects duplicate members', () => {
     const { rowsContainer, items: [first, second, third] } = fixture();
 
     expect(resolveBlockMove({ itemElements: [first, third], direction: 'top', rowsContainer }))
-      .toEqual({ available: false, reason: 'non-contiguous' });
+      .toEqual({ available: true, rows: [first, third], previousItemId: null });
     expect(resolveBlockMove({ itemElements: [third, second], direction: 'top', rowsContainer }))
-      .toEqual({ available: false, reason: 'non-contiguous' });
+      .toEqual({ available: true, rows: [second, third], previousItemId: null });
     expect(resolveBlockMove({ itemElements: [second, second], direction: 'top', rowsContainer }))
-      .toEqual({ available: false, reason: 'non-contiguous' });
+      .toEqual({ available: false });
   });
 
   it('rejects up and down across an adjacent truncation marker', () => {
@@ -799,9 +799,9 @@ describe('block move helpers', () => {
 
     second.after(marker);
     expect(resolveBlockMove({ itemElements: [second], direction: 'down', rowsContainer }))
-      .toEqual({ available: false, reason: 'truncation-boundary' });
+      .toEqual({ available: false });
     expect(resolveBlockMove({ itemElements: [third], direction: 'up', rowsContainer }))
-      .toEqual({ available: false, reason: 'truncation-boundary' });
+      .toEqual({ available: false });
   });
 
   it('rejects up and down across an unaddressable gap', () => {
@@ -809,9 +809,9 @@ describe('block move helpers', () => {
 
     second.after(divider);
     expect(resolveBlockMove({ itemElements: [second], direction: 'down', rowsContainer }))
-      .toEqual({ available: false, reason: 'unaddressable-gap' });
+      .toEqual({ available: false });
     expect(resolveBlockMove({ itemElements: [third], direction: 'up', rowsContainer }))
-      .toEqual({ available: false, reason: 'unaddressable-gap' });
+      .toEqual({ available: false });
   });
 
   it('keeps fixed rows addressable as up and down neighbors', () => {
@@ -840,20 +840,24 @@ describe('block move helpers', () => {
   });
 
   it('rejects every move that returns the block to its effective placement', () => {
-    const { rowsContainer, items: [first, second, third, fourth] } = fixture();
+    const { rowsContainer, items: [first, second, third, fourth], marker, divider } = fixture();
+    marker.remove();
+    divider.remove();
 
     expect(resolveBlockMove({ itemElements: [first], direction: 'top', rowsContainer }))
-      .toEqual({ available: false, reason: 'no-op' });
+      .toEqual({ available: false });
     expect(resolveBlockMove({ itemElements: [first, second], direction: 'up', rowsContainer }))
-      .toEqual({ available: false, reason: 'no-op' });
+      .toEqual({ available: false });
     expect(resolveBlockMove({ itemElements: [fourth], direction: 'down', rowsContainer }))
-      .toEqual({ available: false, reason: 'no-op' });
+      .toEqual({ available: false });
     expect(resolveBlockMove({ itemElements: [third, fourth], direction: 'bottom', rowsContainer }))
-      .toEqual({ available: false, reason: 'no-op' });
+      .toEqual({ available: false });
   });
 
   it('derives availability by resolving all four directions', () => {
-    const { rowsContainer, items: [first, second, third, fourth] } = fixture();
+    const { rowsContainer, items: [first, second, third, fourth], marker, divider } = fixture();
+    marker.remove();
+    divider.remove();
 
     expect(resolveBlockMoveAvailability({ itemElements: [first, second], rowsContainer }))
       .toEqual({ top: false, up: false, down: true, bottom: true });
