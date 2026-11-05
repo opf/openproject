@@ -204,7 +204,6 @@
     "analyze": "ng build --configuration production --stats-json && npx esbuild-visualizer --metadata ../public/assets/frontend/stats.json",
     "build": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --configuration production --named-chunks --source-map",
     "build:service-worker": "node scripts/build-service-worker.mjs",
-    "postbuild": "npm run build:service-worker",
     "build:watch": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --watch --named-chunks",
     "build:watch:service-worker": "node scripts/build-service-worker.mjs --dev --watch --outdir=../public/assets/frontend",
     "ci:plugins:register_frontend": "node ci-plugins-generator.mjs",
