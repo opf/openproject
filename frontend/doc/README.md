@@ -11,7 +11,7 @@ The OpenProject frontend is located at `frontend/src` and uses the Angular CLI (
 
 ## Angular frontend
 
-When developing, `npm run serve` starts the Angular CLI dev server (Vite) on `http://localhost:4200`, serving frontend assets from memory. It is not a general-purpose proxy: it forwards only `/api` and `/assets/frontend/media` to Rails, as configured in `frontend/src/proxy.conf.mjs`.
+When developing, `npm run serve` starts the Angular CLI dev server (Vite) on `http://localhost:4200`, serving frontend assets from memory. It is not a general-purpose proxy: it forwards only `/api` and `/assets/frontend/media` to Rails, as configured in `frontend/src/proxy.conf.mjs`. The service worker has its own watcher, `npm run serve:service-worker`, which `bin/dev` and docker compose start for you.
 
 Application pages are reached through Rails at `http://localhost:3000`, which forwards frontend asset requests to the dev server unless `OPENPROJECT_CLI_PROXY=''` is passed to it.
 

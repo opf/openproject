@@ -84,8 +84,8 @@ namespace :assets do
 
     unless JSON.parse(OpenProject::Assets.manifest_path.read).key?("service-worker.js")
       raise "The service worker bundle is missing from the assets manifest. " \
-            "Check the service worker build output above and that its hashed filename " \
-            "matches the pattern in OpenProject::Assets."
+            "Check the service worker build output above; " \
+            "the bundle must be named service-worker-<8 characters>.js."
     end
   end
 
