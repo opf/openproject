@@ -51,7 +51,11 @@ RSpec.describe AdminHelper do
     end
 
     context "with the LLM connection active", with_flag: { llm_connection: true } do
-      it { is_expected.to eq(described_class.ai_landing_path) }
+      it { is_expected.to eq("/admin/llm_connection") }
+    end
+
+    context "with only text actions active", with_flag: { llm_connection: false, ai_text_actions: true } do
+      it { is_expected.to eq("/admin/text_actions") }
     end
 
     context "with no flag active", with_flag: { llm_connection: false, ai_text_actions: false } do
