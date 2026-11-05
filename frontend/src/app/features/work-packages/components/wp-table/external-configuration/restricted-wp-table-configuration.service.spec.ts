@@ -61,4 +61,19 @@ describe('RestrictedWpTableConfigurationService', () => {
     expect(ids).not.toContain('timelines');
     expect(ids).toEqual(expect.arrayContaining(['columns', 'filters']));
   });
+
+  it('disables tabs listed without a reason', () => {
+    const tabs = tabsFor({ disabledTabs: ['display-settings'] });
+
+    expect(tabs.find((tab) => tab.id === 'display-settings')?.disable).toBe(true);
+    expect(tabs.find((tab) => tab.id === 'timelines')?.disable).toBeUndefined();
+  });
+
+  it('omits tabs listed without a reason when asked to hide them', () => {
+    const ids = tabsFor({ disabledTabs: ['display-settings', 'timelines'], hideDisabledTabs: true }).map((tab) => tab.id);
+
+    expect(ids).not.toContain('display-settings');
+    expect(ids).not.toContain('timelines');
+    expect(ids).toEqual(expect.arrayContaining(['columns', 'filters']));
+  });
 });

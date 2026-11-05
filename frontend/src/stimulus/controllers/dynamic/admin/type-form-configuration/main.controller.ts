@@ -182,15 +182,11 @@ export default class TypeFormConfigurationController extends Controller {
       if (!this.element.isConnected) return;
 
       const currentQuery = JSON.parse(queryJson) as unknown;
-      const disabledTabs = {
-        'display-settings': I18n.t('js.work_packages.table_configuration.embedded_tab_disabled'),
-        timelines: I18n.t('js.work_packages.table_configuration.embedded_tab_disabled'),
-      };
 
       externalRelationQueryConfiguration.show({
         currentQuery,
         callback,
-        disabledTabs,
+        disabledTabs: ['display-settings', 'timelines'],
         hideDisabledTabs: true,
       });
     } catch (error) {
