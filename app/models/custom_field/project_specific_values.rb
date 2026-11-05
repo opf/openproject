@@ -33,6 +33,8 @@ module CustomField::ProjectSpecificValues
 
   included do
     enum :project_specific_value_restriction, { allow: "allow", block: "block" }, prefix: true, validate: { allow_nil: true }
+    store_attribute :settings, :allow_project_specific_values, :boolean
+    store_attribute :settings, :project_level_value_management, :boolean
     has_many :project_specific_value_restrictions,
              class_name: "CustomField::ProjectSpecificValueRestriction",
              dependent: :delete_all
