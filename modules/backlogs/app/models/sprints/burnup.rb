@@ -65,7 +65,7 @@ module Sprints
 
     attr_reader :sprint, :project, :user
 
-    delegate :charted_until, to: :window, private: true
+    delegate :charted_until, :planned_finish, to: :window, private: true
 
     def window
       @window ||= ChartWindow.new(sprint, zone: user.time_zone)
@@ -80,7 +80,7 @@ module Sprints
     end
 
     def projecting?
-      sprint.started_at? && !sprint.completed_at? && scope.any? && scope.last.at < charted_until
+      sprint.started_at? && !sprint.completed_at? && scope.any? && scope.last.at < planned_finish
     end
   end
 end
