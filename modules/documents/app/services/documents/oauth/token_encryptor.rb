@@ -32,7 +32,6 @@ module Documents
   module OAuth
     ##
     # Shared cipher configuration for the collaboration token sent to the Hocuspocus server.
-    # Including classes define `cipher_operation` ("encrypt" or "decrypt") for error messages.
     #
     # The Hocuspocus server decrypts the token with the same algorithm and the SHA256 digest
     # of the shared secret, so both directions must stay in sync.
@@ -52,7 +51,7 @@ module Documents
       def key
         @key ||= begin
           secret = Setting.collaborative_editing_hocuspocus_secret
-          raise "Collaborative editing secret is not set. Cannot #{cipher_operation} token." if secret.blank?
+          raise "Collaborative editing secret is not set." if secret.blank?
 
           Digest::SHA256.digest(secret)
         end

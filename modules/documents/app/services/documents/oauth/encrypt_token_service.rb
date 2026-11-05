@@ -49,10 +49,6 @@ module Documents
       private
 
       attr_reader :token
-
-      def cipher_operation
-        "encrypt"
-      end
     end
   end
 end

@@ -147,7 +147,7 @@ RSpec.describe Documents::OAuth::TokenWithMetadataService,
       expect(service_call).to be_failure
       expect(Rails.logger).to have_received(:error)
         .with("Failed to encrypt OAuth token payload for document #{document.id}: " \
-              "Collaborative editing secret is not set. Cannot encrypt token.")
+              "Collaborative editing secret is not set.")
     end
   end
 
