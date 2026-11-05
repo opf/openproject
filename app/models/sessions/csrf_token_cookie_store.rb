@@ -44,15 +44,20 @@ module Sessions
         value: { token: csrf_token, session_id: request.session.id }.to_json,
         httponly: true,
         same_site: :lax,
+        secure:,
         path:
       }
     end
 
     def reset(request)
-      request.cookie_jar.delete(self.class.cookie_name, path:)
+      request.cookie_jar.delete(self.class.cookie_name, path:, secure:)
     end
 
     private
+
+    def secure
+      OpenProject::Configuration.https?
+    end
 
     def path
       OpenProject::Configuration["rails_relative_url_root"].presence || "/"
