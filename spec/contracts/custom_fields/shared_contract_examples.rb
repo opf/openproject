@@ -37,7 +37,6 @@ RSpec.shared_examples_for "custom_field contract" do
 
   let(:custom_field_name) { "Project name" }
   let(:custom_field_type) { "ProjectCustomField" }
-  let(:custom_field_editable) { true }
   let(:custom_field_field_format) { "int" }
   let(:custom_field_is_filter) { true }
   let(:custom_field_is_for_all) { true }

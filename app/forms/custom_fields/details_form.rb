@@ -251,11 +251,11 @@ module CustomFields
         )
       end
 
-      if show_editable_field?
+      if show_user_self_editable_field?
         details_form.check_box(
-          name: :editable,
-          label: label(:editable),
-          caption: instructions(:editable)
+          name: :user_self_editable,
+          label: label(:user_self_editable),
+          caption: instructions(:user_self_editable)
         )
       end
 
@@ -400,7 +400,7 @@ module CustomFields
       model.class.customized_class&.admin_only_custom_fields_allowed?
     end
 
-    def show_editable_field?
+    def show_user_self_editable_field?
       model.is_a?(UserCustomField)
     end
 

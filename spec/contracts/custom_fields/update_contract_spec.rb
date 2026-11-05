@@ -37,7 +37,6 @@ RSpec.describe CustomFields::UpdateContract do
                     name: custom_field_name,
                     type: custom_field_type,
                     field_format: custom_field_field_format,
-                    editable: custom_field_editable,
                     is_filter: custom_field_is_filter,
                     is_for_all: custom_field_is_for_all,
                     is_required: custom_field_is_required,

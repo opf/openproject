@@ -40,12 +40,12 @@ class ModelContract < BaseContract
   # attribute as writable and, on first use per store column, declares the
   # column itself as writable iff every dirty key in it is one that has been
   # registered via `stored_attribute`.
-  def self.stored_attribute(name, store:)
+  def self.stored_attribute(name, store:, **options)
     store = store.to_sym
     register_store_column(store) unless stored_keys_per_store.key?(store)
     stored_keys_per_store[store] << name.to_s
 
-    attribute name
+    attribute name, options
   end
 
   def self.register_store_column(store)
