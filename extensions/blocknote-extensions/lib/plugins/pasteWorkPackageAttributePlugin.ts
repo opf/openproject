@@ -63,11 +63,18 @@ function isMacroHost(node:Node):boolean {
   return node.isTextblock && !node.type.spec.code;
 }
 
+// Table cells have no id of their own, so the macros in tables are left alone.
+function blockIdOf(container:Node | null):string | undefined {
+  const id = container?.attrs.id as unknown;
+  return typeof id === 'string' ? id : undefined;
+}
+
 function blocksWithMacros(doc:Node, { from, to }:PastedRange):Set<string> {
   const ids = new Set<string>();
   doc.nodesBetween(from, to, (node, _position, container) => {
     if (!isMacroHost(node)) return true;
-    if (container && findAttributeMacros(node.textContent).length > 0) ids.add(container.attrs.id as string);
+    const id = blockIdOf(container);
+    if (id && findAttributeMacros(node.textContent).length > 0) ids.add(id);
     return false;
   });
   return ids;
@@ -79,7 +86,8 @@ function macrosInBlocks(doc:Node, blockIds:Set<string>):MacroOccurrence[] {
   const occurrences:MacroOccurrence[] = [];
   doc.descendants((node, position, container) => {
     if (!isMacroHost(node)) return true;
-    if (!blockIds.has(container?.attrs.id as string)) return false;
+    const id = blockIdOf(container);
+    if (!id || !blockIds.has(id)) return false;
 
     node.forEach((child, offset) => {
       for (const macro of findAttributeMacros(child.text ?? '')) {
@@ -121,26 +129,28 @@ function replaceWithInline(tr:Transaction, from:number, to:number, choice:Attrib
   if (type) tr.replaceWith(from, to, type.create(choice));
 }
 
-// A long text cannot sit inside a line, so it splits its line around itself.
+// A long text cannot sit inside a line, so the line is split around it.
+// Splitting keeps the positions of the text around it, and with them the caret.
 function replaceWithBlock(tr:Transaction, from:number, to:number, choice:AttributeChoice):void {
   const $from = tr.doc.resolve(from);
   const line = $from.parent;
   const container = $from.node(-1);
-  const before = line.content.cut(0, $from.parentOffset);
-  const after = line.content.cut($from.parentOffset + to - from);
-
-  const contents = [
-    ...(isBlank(before) ? [] : [line.copy(before)]),
-    tr.doc.type.schema.nodes[BLOCK_WP_ATTRIBUTE_TYPE].create(choice),
-    ...(isBlank(after) ? [] : [line.copy(after)]),
+  const typesAfter = [
+    { type: container.type, attrs: { ...container.attrs, id: null } },
+    { type: line.type, attrs: line.attrs },
   ];
-  const nestedBlocks = container.childCount > 1 ? container.lastChild : null;
-  const containers = contents.map((content, index) => container.type.create(
-    index === 0 ? container.attrs : null,
-    index === contents.length - 1 && nestedBlocks ? [content, nestedBlocks] : content,
-  ));
 
-  tr.replaceWith($from.before(-1), $from.after(-1), containers);
+  if (!isBlank(line.content.cut($from.parentOffset + to - from))) tr.split(to, 2, typesAfter);
+
+  let start = from;
+  if (!isBlank(line.content.cut(0, $from.parentOffset))) {
+    const stepsBefore = tr.steps.length;
+    tr.split(from, 2, typesAfter);
+    start = tr.mapping.slice(stepsBefore).map(from);
+  }
+
+  const $start = tr.doc.resolve(start);
+  tr.replaceWith($start.before(), $start.after(), tr.doc.type.schema.nodes[BLOCK_WP_ATTRIBUTE_TYPE].create(choice));
 }
 
 // Inline nodes count as content, through their object replacement character.

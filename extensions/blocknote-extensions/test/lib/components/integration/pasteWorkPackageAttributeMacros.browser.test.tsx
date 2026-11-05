@@ -190,4 +190,49 @@ describe('Pasting work package attribute macros from CKEditor', () => {
 
     await vi.waitFor(() => expect(text(editor())).toBe(`Oh, Hello [${ATTRIBUTE}]`));
   });
+
+  it('keeps the caret in the text around a long text while it loads', async () => {
+    const release = delayWorkPackageLoads();
+    const editor = await renderEmptyEditor();
+
+    pasteFromCKEditor('Before workPackageValue:321:description after');
+    await vi.waitFor(() => expect(text(editor())).toBe('Before workPackageValue:321:description after'));
+    await userEvent.keyboard('{Home}X');
+    release();
+
+    await vi.waitFor(() => expect(blocks(editor())[1]).toBe(`[${ATTRIBUTE_BLOCK}]`));
+    await userEvent.keyboard('Y');
+    expect(blocks(editor()).slice(0, 3)).toEqual(['XYBefore ', `[${ATTRIBUTE_BLOCK}]`, ' after']);
+  });
+
+  it('converts the macros pasted together with a work package link', async () => {
+    const editor = await renderEmptyEditor();
+
+    pasteFromCKEditor('See http://localhost:3000/wp/123 and workPackageValue:321:assignee');
+
+    await vi.waitFor(() => expect(text(editor())).toBe(`See [openProjectWorkPackageInline] and [${ATTRIBUTE}]`));
+  });
+
+  it('leaves the macros in tables alone', async () => {
+    let editor:Editor | undefined;
+    renderEditor({
+      initialContent: [
+        { type: 'table', content: { type: 'tableContent', rows: [{ cells: ['workPackageValue:321:status', ''] }] } },
+        { type: 'paragraph' },
+      ],
+      onEditor: (instance) => { editor = instance; },
+    });
+    const cells = () => [...document.querySelectorAll('td')].map((cell) => cell.textContent);
+
+    await expect.element(page.getByText('workPackageValue:321:status')).toBeVisible();
+    await userEvent.click(document.querySelectorAll('td')[1]);
+    pasteFromCKEditor('workPackageValue:321:assignee');
+    await vi.waitFor(() => expect(cells()).toEqual(['workPackageValue:321:status', 'workPackageValue:321:assignee']));
+
+    await userEvent.click(document.querySelector('.bn-block-outer:last-of-type [data-content-type="paragraph"]')!);
+    pasteFromCKEditor('workPackageValue:321:assignee');
+
+    await vi.waitFor(() => expect(attributes(editor!)).toHaveLength(1));
+    expect(cells()).toEqual(['workPackageValue:321:status', 'workPackageValue:321:assignee']);
+  });
 });
