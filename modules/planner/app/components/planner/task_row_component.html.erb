@@ -1,0 +1,121 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= flex_layout(align_items: :center) do |row| %>
+  <% if view.sortable? %>
+    <% row.with_column(mr: 2, flex_shrink: 0, display: :flex) do %>
+      <%= render(Primer::OpenProject::DragHandle.new(data: { sortable_lists__item_target: "handle" })) %>
+    <% end %>
+  <% end %>
+  <% row.with_column(mr: 1, flex_shrink: 0) do %>
+    <%= form_with(url: planner_task_path(work_package), method: :patch) do %>
+      <%= hidden_field_tag :done, !closed?, id: nil %>
+      <% if view.param %>
+        <%= hidden_field_tag :view, view.param, id: nil %>
+      <% end %>
+      <%= render(Primer::Beta::IconButton.new(**toggle_button_arguments)) %>
+    <% end %>
+  <% end %>
+  <% row.with_column(mr: 2, classes: "min-width-0") do %>
+    <% if planned_work_package %>
+      <%= flex_layout(align_items: :center, bg: :subtle, border: true, border_color: :muted, border_radius: 2, px: 2, py: 1, test_selector: "planner-planned-box") do |box| %>
+        <% box.with_column(mr: 2, classes: "min-width-0") do %>
+          <%= render(Primer::Beta::Truncate.new) do |truncate| %>
+            <% truncate.with_item do %>
+              <%= render(Primer::Beta::Link.new(**subject_link_arguments, test_selector: "planner-planned")) { subject_text(planned_work_package.subject) } %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <% box.with_column(flex_shrink: 0, test_selector: "planner-task-info") do %>
+          <%= render(WorkPackages::InfoLineComponent.new(work_package: planned_work_package, wrap: false)) %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <%= render(Primer::Beta::Truncate.new) do |truncate| %>
+        <% truncate.with_item do %>
+          <% subject_parts.each do |part| %>
+            <% if part.is_a?(WorkPackage) %>
+              <%= render(Primer::Beta::Link.new(href: work_package_path(part), target: "_blank", border: true, border_radius: 2, px: 1, bg: :subtle, test_selector: "planner-reference")) do %>
+                <%= render(Primer::Beta::Text.new(font_family: :mono, font_size: :small)) { part.formatted_id } %>
+                <%= render(Primer::Beta::Text.new(font_size: :small, color: :muted, text_transform: :uppercase)) { part.status.name } %>
+                <%= render(Primer::Beta::Text.new(color: :default)) { part.subject } %>
+              <% end %>
+            <% elsif part.present? %>
+              <%= render(Primer::Beta::Link.new(**subject_link_arguments)) { subject_text(part) } %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% if notes.present? %>
+      <%= render(Primer::Beta::Truncate.new(tag: :div, color: :muted, font_size: :small, mt: 1, test_selector: "planner-task-notes")) { notes } %>
+    <% end %>
+  <% end %>
+  <% row.with_column(flex: 1) %>
+  <% if shown_date %>
+    <% row.with_column(mr: 2, flex_shrink: 0, title: date_title, test_selector: "planner-task-date") do %>
+      <%= render(Primer::Beta::Octicon.new(:calendar, color: date_color, mr: 1)) %><%= render(Primer::Beta::Text.new(color: date_color, font_size: :small)) { helpers.format_date(shown_date) } %>
+    <% end %>
+  <% end %>
+  <% if meeting_command %>
+    <% row.with_column(mr: 2, flex_shrink: 0) do %>
+      <%= render(Primer::Beta::Button.new(tag: :a, href: new_meeting_path, size: :small, data: { controller: "async-dialog" }, test_selector: "planner-create-meeting")) do |button| %>
+        <% button.with_leading_visual_icon(icon: :calendar) %>
+        <%= t("planner.create_meeting") %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% if overdue? %>
+    <% row.with_column(mr: 2, flex_shrink: 0) do %>
+      <%= form_with(url: plan_path(:today), method: :patch) do %>
+        <%= render(Primer::Beta::Button.new(type: :submit, size: :small, test_selector: "planner-plan-today")) do |button| %>
+          <% button.with_leading_visual_icon(icon: :sun) %>
+          <%= t("planner.today") %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% unless completed? %>
+    <% row.with_column(flex_shrink: 0) do %>
+      <%= render(Primer::Alpha::ActionMenu.new(anchor_align: :end, test_selector: "planner-move-menu")) do |menu| %>
+        <% menu.with_show_button(icon: "kebab-horizontal", "aria-label": t("planner.task_actions"), scheme: :invisible, size: :small) %>
+        <% move_targets.each do |to, label| %>
+          <% menu.with_item(label:, href: plan_path(to), form_arguments: plan_form_arguments) %>
+        <% end %>
+        <% menu.with_divider %>
+        <% unless overdue? %>
+          <% menu.with_item(label: t("planner.move_to.remove"), href: plan_path(:remove), form_arguments: plan_form_arguments) %>
+        <% end %>
+        <% menu.with_item(label: delete_label, scheme: :danger, href: planner_task_path(work_package, view: view.param), form_arguments: delete_form_arguments, test_selector: "planner-delete-task") do |item| %>
+          <% item.with_leading_visual_icon(icon: :trash) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -34,10 +34,8 @@ class Queries::Users::Selects::CustomField < Queries::Selects::Base
 
   validates :custom_field, presence: { message: I18n.t(:"activerecord.errors.messages.does_not_exist") }
 
-  KEY = /\Acf_(\d+)\z/
-
   def self.key
-    KEY
+    CustomField::COLUMN_NAME_PATTERN
   end
 
   def self.all_available
@@ -56,7 +54,7 @@ class Queries::Users::Selects::CustomField < Queries::Selects::Base
   def custom_field
     return @custom_field if defined?(@custom_field)
 
-    @custom_field = custom_field_context.find_custom_field(attribute[KEY, 1])
+    @custom_field = custom_field_context.find_custom_field(CustomField.id_from_column_name(attribute))
   end
 
   def available?

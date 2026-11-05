@@ -36,7 +36,7 @@ source "https://rubygems.org", cooldown: 7
 ruby File.read(File.expand_path(".ruby-version", __dir__)).strip
 
 gem "actionpack-xml_parser", "~> 2.0.0"
-gem "activerecord-import", "~> 3.0.0"
+gem "activerecord-import", "~> 3.0.1"
 gem "activerecord-session_store", "~> 2.3.0"
 gem "ox"
 gem "rails", "~> 8.1.3", ">= 8.1.3.1"
@@ -199,6 +199,7 @@ gem "carrierwave", "~> 2.2.7"
 gem "carrierwave_direct", "~> 3.0.0"
 gem "fog-aws"
 gem "ssrf_filter", "~> 1.6"
+gem "web-push", "~> 3.1"
 
 gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
