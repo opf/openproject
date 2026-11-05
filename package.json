@@ -6,7 +6,7 @@
     "postinstall": "npm -C frontend install",
     "test": "npm -C frontend test",
     "serve": "npm -C frontend run serve",
-    "serve:public": "node frontend/scripts/serve.mjs --host 0.0.0.0"
+    "serve:public": "npm -C frontend exec -- ng serve --host 0.0.0.0"
   },
   "private": true,
   "engines": {

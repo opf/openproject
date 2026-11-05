@@ -36,6 +36,16 @@ x-op-frontend-build: &frontend-build
   args:
     DEV_UID: $DEV_UID
     DEV_GID: $DEV_GID
+x-op-frontend: &frontend
+  build:
+    <<: *frontend-build
+  volumes:
+    - ".:/home/dev/openproject"
+    - "${CKEDITOR_BUILD_DIR:-./frontend/src/vendor/ckeditor/}:/home/dev/openproject/frontend/src/vendor/ckeditor/"
+  networks:
+    - network
+  environment:
+    __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS: "openproject-assets.${OPENPROJECT_DOCKER_DEV_TLD:-local}"
 x-op-backend: &backend
   tty: true
   stdin_open: true
@@ -99,18 +109,16 @@ services:
       - cache
 
   frontend:
-    build:
-      <<: *frontend-build
-    command: "node --max_old_space_size=8096 scripts/serve.mjs --host 0.0.0.0"
-    volumes:
-      - ".:/home/dev/openproject"
-      - "${CKEDITOR_BUILD_DIR:-./frontend/src/vendor/ckeditor/}:/home/dev/openproject/frontend/src/vendor/ckeditor/"
-    networks:
-      - network
-    environment:
-      __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS: "openproject-assets.${OPENPROJECT_DOCKER_DEV_TLD:-local}"
+    <<: *frontend
+    command: "node --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0"
+    depends_on:
+      - frontend-service-worker
     ports:
       - "${FE_PORT:-4200}:4200"
+
+  frontend-service-worker:
+    <<: *frontend
+    command: npm run serve:service-worker
 
   db:
     image: postgres:17
