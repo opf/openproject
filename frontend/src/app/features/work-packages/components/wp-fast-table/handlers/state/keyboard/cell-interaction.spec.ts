@@ -27,7 +27,7 @@
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { userEvent } from 'vitest/browser';
-import { buildTable, TableHarness, TableHarnessOptions } from '../../../testing/table-harness';
+import { buildTable, TableHarness, TableHarnessOptions, scopeKeys } from '../../../testing/table-harness';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import { States } from 'core-app/core/states/states.service';
 import { insideGrid, navigableCells } from './roving-tabindex';
@@ -594,6 +594,33 @@ describe('CellInteraction', () => {
     outside.remove();
   });
 
+  it('repaints the edited row and tells navigation before focus returns on cancel', async () => {
+    const table = await mount();
+    const cellA = navigableCells(table.row('1'))[1];
+    table.table.keyboardNavigation!.focusPosition(positionOf(table, cellA));
+    fireEvent.keyDown(cellA, { key: 'Enter' });
+    const inputA = await waitFor(() => within(cellA).getByRole<HTMLInputElement>('textbox'));
+    await waitFor(() => expect(inputA).toHaveFocus());
+    const navigation = table.table.keyboardNavigation!;
+    const events:string[] = [];
+    const rowsChanged = navigation.rowsChanged.bind(navigation);
+    vi.spyOn(navigation, 'rowsChanged').mockImplementation((exit) => {
+      events.push(`rowsChanged:${exit.rendered}:${scopeKeys(exit.scope).join(',')}`);
+      rowsChanged(exit);
+    });
+    const returnFocus = navigation.returnFocus.bind(navigation);
+    vi.spyOn(navigation, 'returnFocus').mockImplementation((origin, closing) => {
+      events.push('returnFocus');
+      return returnFocus(origin, closing);
+    });
+
+    fireEvent.keyDown(inputA, { key: 'Escape' });
+
+    expect(events).toEqual([`rowsChanged:false:${Array.from(table.table.ledger.keysOf('1')).join(',')}`, 'returnFocus']);
+    expect(navigableCells(table.row('1'))[1]).toHaveFocus();
+    expect(within(table.row('1')).queryByRole('textbox')).not.toBeInTheDocument();
+  });
+
   it('returns Escape to the cell of an editor re-engaged after a pointer opened another', async () => {
     const table = await mount();
     const cellA = navigableCells(table.row('1'))[1];
@@ -601,7 +628,6 @@ describe('CellInteraction', () => {
     fireEvent.keyDown(cellA, { key: 'Enter' });
     const inputA = await waitFor(() => within(cellA).getByRole<HTMLInputElement>('textbox'));
     await waitFor(() => expect(inputA).toHaveFocus());
-    const handlerA = table.table.editing.forms['1'].activeFields.subject;
     const cellB = navigableCells(table.row('2'))[1];
     fireEvent.mouseDown(cellB, { button: 0 });
     cellB.focus();
@@ -615,7 +641,7 @@ describe('CellInteraction', () => {
     fireEvent.mouseUp(inputA, { button: 0 });
     expect(inputA).toHaveFocus();
 
-    handlerA.handleUserCancel();
+    fireEvent.keyDown(inputA, { key: 'Escape' });
 
     expect(navigableCells(table.row('1'))[1]).toHaveFocus();
   });
@@ -628,7 +654,7 @@ describe('CellInteraction', () => {
     const inputA = await waitFor(() => within(cellA).getByRole<HTMLInputElement>('textbox'));
     await waitFor(() => expect(inputA).toHaveFocus());
     const form = table.table.editing.forms['1'];
-    const handlerC = (await form.activate('status'))!;
+    await form.activate('status');
     const cellC = navigableCells(table.row('1'))[2];
     const inputC = within(cellC).getByRole<HTMLInputElement>('textbox');
     await userEvent.tab();
@@ -645,7 +671,7 @@ describe('CellInteraction', () => {
     }
     expect(inputC).toHaveFocus();
 
-    handlerC.handleUserCancel();
+    fireEvent.keyDown(inputC, { key: 'Escape' });
 
     expect(navigableCells(table.row('1'))[2]).toHaveFocus();
   });

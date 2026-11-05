@@ -85,9 +85,7 @@ describe('TreegridSemantics', () => {
     harness.querySpace.tableRendered.values$().pipe(skip(1), take(1), map(read)),
   );
 
-  const atNextRefresh = <T>(read:() => T):Promise<T> => firstValueFrom(
-    harness.table.rowsRefreshed$.pipe(take(1), map(read)),
-  );
+  const atNextRefresh = <T>(read:() => T):Promise<T> => harness.nextMutation().then(read);
 
   const expectHidden = (row:HTMLElement) => expect(row).toHaveAttribute('aria-hidden', 'true');
   const expectExposed = (row:HTMLElement) => expect(row).not.toHaveAttribute('aria-hidden');
@@ -224,7 +222,7 @@ describe('TreegridSemantics', () => {
     expect(harness.totalsRow()).not.toHaveAttribute('aria-hidden');
 
     harness.totalsRow().replaceChildren(document.createElement('td'));
-    harness.table.painter.paint(new Set());
+    harness.table.painter.paint('positions');
 
     expect(harness.totalsRow()).toHaveAttribute('aria-hidden', 'true');
   });
@@ -233,7 +231,7 @@ describe('TreegridSemantics', () => {
     mount({ ...groupedFixtures, productionMarkup: true });
     await harness.render();
     harness.table.painter.paint();
-    harness.table.painter.paint(harness.table.painter.keysOf('1'));
+    harness.table.painter.paint(harness.table.ledger.keysOf('1'));
     expect(within(harness.row('1')).getByRole('rowheader', { name: 'Work package 1' })).toHaveClass('subject');
     [groupHeader(0), groupHeader(1), sumsRow(0), sumsRow(1), harness.totalsRow(), harness.headerRow()]
       .forEach((row) => {
@@ -562,7 +560,7 @@ describe('TreegridSemantics', () => {
     harness.table.refreshRows(workPackage);
     const { painter } = harness.table;
     painter.paint();
-    painter.paint(painter.keysOf('1'));
+    painter.paint(harness.table.ledger.keysOf('1'));
 
     expect(row).not.toHaveAttribute('aria-level');
     expect(row).toHaveAttribute('aria-selected', 'false');

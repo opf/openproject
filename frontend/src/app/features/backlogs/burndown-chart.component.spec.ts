@@ -221,6 +221,17 @@ describe('BurndownChartComponent', () => {
     expect(labels.filter((label) => !Number.isInteger(label))).toEqual([]);
   });
 
+  // The lines that carry no background do not fill, and remaining still does.
+  it('fills the remaining area down to the axis and nothing else', () => {
+    renderWith([
+      { id: 'remaining', label: 'Story points', data: [point('2026-10-12T09:00:00.000Z', 8)] },
+      { id: 'guideline', label: 'Guideline', data: [point('2026-10-12T23:59:59.999Z', 6)] },
+    ]);
+
+    expect(fixture.componentInstance.lineChartData().datasets.map((dataset) => dataset.fill))
+      .toEqual([true, false]);
+  });
+
   it('uses a unique description ID for each chart', () => {
     renderWith([{ id: 'remaining', label: 'Story points', data: [point('2026-10-12T23:59:59.999Z', 8)] }]);
 

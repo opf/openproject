@@ -32,7 +32,7 @@ get:
                   hasDefault: false
                   name: sfsdfsdfsdfsdfdsf
                   options:
-                    rtl: 
+                    rtl:
                   required: false
                   type: String
                   writable: true
@@ -95,7 +95,7 @@ get:
                   type: WorkPackage
                   writable: true
           schema:
-            "$ref": "../components/schemas/view_time_entry_schema_model.yml"
+            $ref: "../components/schemas/view_time_entry_schema_model.yml"
       description: OK
       headers: {}
     '403':
@@ -115,7 +115,7 @@ get:
         **Required permission:** *log time* or *view time entries* or *edit time entries* or *edit own time entries* on any project
       headers: {}
   tags:
-  - Time Entries
+    - Time Entries
   description: ''
   operationId: View_time_entry_schema
   summary: View time entry schema

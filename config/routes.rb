@@ -562,7 +562,7 @@ Rails.application.routes.draw do
           post :toggle
           post :update_name_settings
           post :update_submission_settings
-          post :update_artifact_export_settings
+          post :update_artefact_export_settings
           post :refresh_submission_form
           post :toggle_project_custom_field
           put :enable_all_of_section

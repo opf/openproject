@@ -29,6 +29,10 @@
 
 module Import
   module JiraOpenProjectReferenceCreation
+    KEEP_CREATED_BY_IMPORT = Arel.sql(
+      "uses_existing = jira_open_project_references.uses_existing AND EXCLUDED.uses_existing"
+    )
+
     private
 
     def create_reference!(op_leg:, jira_leg:, jira_import:, uses_existing:)
@@ -41,7 +45,8 @@ module Import
             jira_import_id: jira_import.id,
             uses_existing: }
         ],
-        unique_by: %i[jira_import_id op_entity_id op_entity_class]
+        unique_by: %i[jira_import_id op_entity_id op_entity_class],
+        on_duplicate: KEEP_CREATED_BY_IMPORT
       )
     end
   end

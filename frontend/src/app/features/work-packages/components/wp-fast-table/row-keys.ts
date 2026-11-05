@@ -25,42 +25,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Controller } from '@hotwired/stimulus';
+/** An occurrence key from the ledger, or the key of one of the edge rows outside the results body. */
+export type RowKey = string;
 
-export default class ExportArtifactController extends Controller {
-
-  static targets = [
-    'projectStoragesSelectList',
-  ];
-
-  declare readonly projectStoragesSelectListTarget:HTMLSelectElement;
-
-  protected updateForm(evt:InputEvent):void {
-    if (!this.isInputElement(evt.target)) {
-      return;
-    }
-
-    switch (evt.target.value) {
-      case 'file_link':
-        this.showProjectStoragesSelectList();
-        break;
-      case 'attachment':
-        this.hideProjectStoragesSelectList();
-        break;
-      default:
-        throw new Error(`invalid event target: ${evt.target.value}`);
-    }
-  }
-
-  private showProjectStoragesSelectList():void {
-    this.projectStoragesSelectListTarget.classList.remove('d-none');
-  }
-
-  private hideProjectStoragesSelectList():void {
-    this.projectStoragesSelectListTarget.classList.add('d-none');
-  }
-
-  private isInputElement(target:EventTarget|null):target is HTMLInputElement {
-    return target !== null && target instanceof HTMLInputElement;
-  }
-}
+export const headerRowKey = 'header';
+export const totalsRowKey = 'totals';
+export const inlineCreateRowKey = 'inlineCreate';
+export const emptyResultsRowKey = 'emptyResults';

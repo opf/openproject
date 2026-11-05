@@ -15,6 +15,6 @@ properties:
     description: The file name.
   parent:
     type: string
-    description: |- 
+    description: |-
       The directory to which the file is to be uploaded. For root directories, the value `/` must
       be provided.

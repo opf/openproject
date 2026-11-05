@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
+RSpec.describe Projects::CreationWizard::CreateArtefactWorkPackageService do
   shared_let(:status_new) { create(:status, name: "New") }
   shared_let(:type) { create(:type, name: "Project initiation") }
   shared_let(:user_custom_field) { create(:user_project_custom_field, name: "Project Manager") }
@@ -63,7 +63,7 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
     end
   end
 
-  let(:mocked_contract) { instance_double(Projects::CreateArtifactWorkPackageContract, "mocked_contract") }
+  let(:mocked_contract) { instance_double(Projects::CreateArtefactWorkPackageContract, "mocked_contract") }
   let(:instance) do
     described_class.new(user: current_user, model: project).tap do |instance|
       allow(instance).to receive(:instantiate_contract).and_return(mocked_contract)
@@ -79,7 +79,7 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
       allow(mocked_contract).to receive(:validate).and_return(true)
     end
 
-    it "creates an artifact work package (for after submitting a project initiation request)" do
+    it "creates an artefact work package (for after submitting a project initiation request)" do
       result = instance.call
 
       expect(result.errors.full_messages).to be_empty
@@ -90,60 +90,60 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
     it "uses the type and status defined in the project initiation request settings" do
       result = instance.call
       project = result.result
-      artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
-      expect(artifact_work_package.type.id).to eq(project.project_creation_wizard_work_package_type_id)
-      expect(artifact_work_package.status.id).to eq(project.project_creation_wizard_status_when_submitted_id)
+      artefact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
+      expect(artefact_work_package.type.id).to eq(project.project_creation_wizard_work_package_type_id)
+      expect(artefact_work_package.status.id).to eq(project.project_creation_wizard_status_when_submitted_id)
     end
 
-    it "assigns the artifact work package to the user pointed by the 'Assignee when submitted' custom field" do
+    it "assigns the artefact work package to the user pointed by the 'Assignee when submitted' custom field" do
       result = instance.call
       project = result.result
 
-      artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
-      expect(artifact_work_package.assigned_to).to eq(assignee_user)
+      artefact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
+      expect(artefact_work_package.assigned_to).to eq(assignee_user)
     end
 
-    it "sets the subject to the artifact name configured in the project initiation request settings" do
+    it "sets the subject to the artefact name configured in the project initiation request settings" do
       result = instance.call
       project = result.result
 
-      artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
+      artefact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
       expected_name = I18n.t("settings.project_initiation_request.name.options.#{project.project_creation_wizard_artifact_name}")
-      expect(artifact_work_package.subject).to eq(expected_name)
+      expect(artefact_work_package.subject).to eq(expected_name)
     end
 
-    it "if the artifact name is misconfigured (unexisting name key), " \
-         "sets the subject to the 'project_creation_wizard' artifact name" do
+    it "if the artefact name is misconfigured (unexisting name key), " \
+       "sets the subject to the 'project_creation_wizard' artefact name" do
       project.update(project_creation_wizard_artifact_name: "misconfigured")
       result = instance.call
       project = result.result
 
-      artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
+      artefact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
       expected_name = I18n.t("settings.project_initiation_request.name.options.project_creation_wizard")
-      expect(artifact_work_package.subject).to eq(expected_name)
+      expect(artefact_work_package.subject).to eq(expected_name)
     end
 
-    it "if the artifact name is nil, sets the subject to the 'project_creation_wizard' artifact name" do
+    it "if the artefact name is nil, sets the subject to the 'project_creation_wizard' artefact name" do
       project.update(project_creation_wizard_artifact_name: nil)
       result = instance.call
       project = result.result
 
-      artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
+      artefact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
       expected_name = I18n.t("settings.project_initiation_request.name.options.project_creation_wizard")
-      expect(artifact_work_package.subject).to eq(expected_name)
+      expect(artefact_work_package.subject).to eq(expected_name)
     end
 
-    it "adds a comment to the artifact work package " \
-         "using the project_creation_wizard_work_package_comment setting " \
-         "and mentioning the assignee" do
+    it "adds a comment to the artefact work package " \
+       "using the project_creation_wizard_work_package_comment setting " \
+       "and mentioning the assignee" do
       result = instance.call
       project = result.result
 
-      artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
-      expect(artifact_work_package.last_journal.notes).not_to be_empty
-      expect(artifact_work_package.last_journal.notes).to include(project.project_creation_wizard_work_package_comment)
-      expect(artifact_work_package.last_journal.notes).to include(/<mention[^>]+>@#{assignee_user.name}<\/mention>/)
-      expect(artifact_work_package.last_journal.notes).to include(/data-type="user"/)
+      artefact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
+      expect(artefact_work_package.last_journal.notes).not_to be_empty
+      expect(artefact_work_package.last_journal.notes).to include(project.project_creation_wizard_work_package_comment)
+      expect(artefact_work_package.last_journal.notes).to include(/<mention[^>]+>@#{assignee_user.name}<\/mention>/)
+      expect(artefact_work_package.last_journal.notes).to include(/data-type="user"/)
     end
 
     context "when 'Assignee when submitted' is not configured" do
@@ -151,17 +151,17 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
         project.update(project_creation_wizard_assignee_custom_field_id: nil)
       end
 
-      it "creates the artifact work package without an assignee and without a mention in the comment" do
+      it "creates the artefact work package without an assignee and without a mention in the comment" do
         result = instance.call
 
         expect(result.errors.full_messages).to be_empty
         project = result.result
 
-        artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
-        expect(artifact_work_package.assigned_to).to be_nil
-        expect(artifact_work_package.last_journal.notes).not_to include("<mention")
+        artefact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
+        expect(artefact_work_package.assigned_to).to be_nil
+        expect(artefact_work_package.last_journal.notes).not_to include("<mention")
         expected_path = Rails.application.routes.url_helpers.project_creation_wizard_path(project)
-        expect(artifact_work_package.last_journal.notes).to include(expected_path)
+        expect(artefact_work_package.last_journal.notes).to include(expected_path)
       end
     end
 
@@ -169,17 +169,17 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
       let(:group) { create(:group, firstname: "test group") }
 
       it "mentions the group" do
-        project.members << create(:member, principal: group, project: p, roles: [role])
+        project.members << create(:member, principal: group, project:, roles: [role])
         project.send("#{user_custom_field.attribute_name}=", group.id)
 
         result = instance.call
         project = result.result
 
-        artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
-        expect(artifact_work_package.last_journal.notes).not_to be_empty
-        expect(artifact_work_package.last_journal.notes).to include(project.project_creation_wizard_work_package_comment)
-        expect(artifact_work_package.last_journal.notes).to include(/<mention[^>]+>@#{group.name}<\/mention>/)
-        expect(artifact_work_package.last_journal.notes).to include(/data-type="group"/)
+        artefact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
+        expect(artefact_work_package.last_journal.notes).not_to be_empty
+        expect(artefact_work_package.last_journal.notes).to include(project.project_creation_wizard_work_package_comment)
+        expect(artefact_work_package.last_journal.notes).to include(/<mention[^>]+>@#{group.name}<\/mention>/)
+        expect(artefact_work_package.last_journal.notes).to include(/data-type="group"/)
       end
     end
 
@@ -187,15 +187,15 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
       result = instance.call
       project = result.result
 
-      artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
+      artefact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
       expected_path = Rails.application.routes.url_helpers.project_creation_wizard_path(project)
       expected_link_text = I18n.t("settings.project_initiation_request.wizard_status_button.project_mandate")
       expected_link = "[#{expected_link_text}](#{expected_path})"
 
-      expect(artifact_work_package.last_journal.notes).to include(expected_link)
-      expect(artifact_work_package.description)
+      expect(artefact_work_package.last_journal.notes).to include(expected_link)
+      expect(artefact_work_package.description)
         .to include("This work package was automatically created upon completion of the Project mandate workflow.")
-      expect(artifact_work_package.description).to include(expected_link)
+      expect(artefact_work_package.description).to include(expected_link)
     end
 
     it "sends only one notification for the work package comment" do
@@ -203,7 +203,7 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
       result = instance.call
 
       project = result.result
-      artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
+      artefact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
 
       expect(enqueued_jobs).to include(a_hash_including(job: Notifications::WorkflowJob))
       workflow_jobs = enqueued_jobs.select { it[:job] == Notifications::WorkflowJob }
@@ -214,28 +214,28 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
                               .map { |_state_arg, journal_arg, _send_notification| journal_arg["_aj_globalid"] }
                               .map { |journal_gid| GlobalID::Locator.locate(journal_gid) }
       expect(journals.pluck(:journable_type, :journable_id)).to contain_exactly(
-        [WorkPackage.name, artifact_work_package.id],
-        [Attachment.name, artifact_work_package.attachments.first.id]
+        [WorkPackage.name, artefact_work_package.id],
+        [Attachment.name, artefact_work_package.attachments.first.id]
       )
     end
 
-    context "when artifact storage is internal" do
+    context "when artefact storage is internal" do
       it "attaches directly to the work package" do
         project.update(project_creation_wizard_artifact_export_type: "attachment")
         result = instance.call
         project = result.result
 
-        artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
-        expect(artifact_work_package.attachments.count).to eq(1)
-        attachment = artifact_work_package.attachments.first
+        artefact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
+        expect(artefact_work_package.attachments.count).to eq(1)
+        attachment = artefact_work_package.attachments.first
         date = Date.current.iso8601
         expect(attachment.content_type).to eq "application/pdf"
-        regex = /#{project.identifier}_Project_mandate_#{artifact_work_package.status.name}_#{date}_\d+-\d+.pdf/
+        regex = /#{project.identifier}_Project_mandate_#{artefact_work_package.status.name}_#{date}_\d+-\d+.pdf/
         expect(attachment.filename).to match regex
       end
     end
 
-    context "when artifact storage is project storage" do
+    context "when artefact storage is project storage" do
       let(:storage) { create(:nextcloud_storage_with_local_connection) }
       let(:project_storage) { create(:project_storage, project:, storage:, project_folder_id: "/project_folder") }
 
@@ -257,16 +257,16 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
         project = result.result
 
         expect(result).to be_success
-        artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
-        expect(artifact_work_package.attachments.count).to eq(0)
+        artefact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
+        expect(artefact_work_package.attachments.count).to eq(0)
 
         date = Date.current.iso8601
         expect(Storages::UploadFileService)
           .to have_received(:call)
-          .with(container: artifact_work_package,
+          .with(container: artefact_work_package,
                 project_storage:,
                 file_path: "Project mandate",
-                filename: /#{project.identifier}_Project_mandate_#{artifact_work_package.status.name}_#{date}_\d+-\d+.pdf/,
+                filename: /#{project.identifier}_Project_mandate_#{artefact_work_package.status.name}_#{date}_\d+-\d+.pdf/,
                 file_data: instance_of(StringIO))
       end
 
@@ -276,16 +276,17 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
           project = result.result
 
           expect(result).to be_success
-          artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
-          expect(artifact_work_package.attachments.count).to eq(0)
+          artefact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
+          expect(artefact_work_package.attachments.count).to eq(0)
 
           date = Date.current.iso8601
+          filename = /#{project.identifier}_Project_mandate_#{artefact_work_package.status.name}_#{date}_\d+-\d+.pdf/
           expect(Storages::UploadFileService)
             .to have_received(:call)
-                  .with(container: artifact_work_package,
+                  .with(container: artefact_work_package,
                         project_storage:,
                         file_path: "Projektmandat",
-                        filename: /#{project.identifier}_Project_mandate_#{artifact_work_package.status.name}_#{date}_\d+-\d+.pdf/,
+                        filename:,
                         file_data: instance_of(StringIO))
         end
       end
@@ -308,8 +309,8 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
           expect(result).to be_success
           expect(result.errors[:base]).to include "Something happened!"
 
-          artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
-          expect(artifact_work_package.attachments.count).to eq(0)
+          artefact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
+          expect(artefact_work_package.attachments.count).to eq(0)
         end
       end
     end
@@ -323,7 +324,7 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
                types: [type])
       end
 
-      it "bypasses custom field validation and creates the artifact work package" do
+      it "bypasses custom field validation and creates the artefact work package" do
         result = instance.call
 
         expect(result).to be_success
@@ -331,9 +332,9 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
         project = result.result
         expect(project.project_creation_wizard_artifact_work_package_id).to be_present
 
-        artifact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
-        expect(artifact_work_package).to be_persisted
-        expect(artifact_work_package.custom_value_for(required_wp_custom_field)&.value).to be_blank
+        artefact_work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
+        expect(artefact_work_package).to be_persisted
+        expect(artefact_work_package.custom_value_for(required_wp_custom_field)&.value).to be_blank
       end
     end
 
@@ -347,19 +348,19 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
         end
 
         it "sends the creation wizard submitted email" do
-          allow(ProjectArtifactsMailer).to receive(:creation_wizard_submitted).and_call_original
+          allow(ProjectArtefactsMailer).to receive(:creation_wizard_submitted).and_call_original
 
           result = instance.call
 
           expect(result).to be_success
-          expect(ProjectArtifactsMailer).to have_received(:creation_wizard_submitted)
+          expect(ProjectArtefactsMailer).to have_received(:creation_wizard_submitted)
         end
 
         it "sends the email with correct parameters" do
           mailer_double = instance_double(ActionMailer::MessageDelivery)
           allow(mailer_double).to receive(:deliver_later)
 
-          allow(ProjectArtifactsMailer)
+          allow(ProjectArtefactsMailer)
             .to receive(:creation_wizard_submitted)
                   .with(current_user, project, instance_of(WorkPackage))
                   .and_return(mailer_double)
@@ -373,7 +374,7 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
           expect do
             instance.call
           end.to have_enqueued_job(Mails::MailerJob)
-                   .with("ProjectArtifactsMailer", "creation_wizard_submitted", "deliver_now",
+                   .with("ProjectArtefactsMailer", "creation_wizard_submitted", "deliver_now",
                          { args: [current_user, project, instance_of(WorkPackage)] })
         end
       end
@@ -384,19 +385,19 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
         end
 
         it "does not send the creation wizard submitted email" do
-          allow(ProjectArtifactsMailer).to receive(:creation_wizard_submitted)
+          allow(ProjectArtefactsMailer).to receive(:creation_wizard_submitted)
 
           result = instance.call
 
           expect(result).to be_success
-          expect(ProjectArtifactsMailer).not_to have_received(:creation_wizard_submitted)
+          expect(ProjectArtefactsMailer).not_to have_received(:creation_wizard_submitted)
         end
 
         it "does not enqueue any email delivery job" do
           expect do
             instance.call
           end.not_to have_enqueued_job(Mails::MailerJob)
-                       .with("ProjectArtifactsMailer", "creation_wizard_submitted", "deliver_now", anything)
+                       .with("ProjectArtefactsMailer", "creation_wizard_submitted", "deliver_now", anything)
         end
       end
     end
@@ -405,11 +406,11 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
   context "when contract is invalid" do
     before do
       allow(mocked_contract).to receive_messages(
-                                  validate: false,
-                                  errors: ActiveModel::Errors.new(project).tap do |errors|
-                                    errors.add(:base, :error_unauthorized)
-                                  end
-                                )
+        validate: false,
+        errors: ActiveModel::Errors.new(project).tap do |errors|
+          errors.add(:base, :error_unauthorized)
+        end
+      )
     end
 
     it "does not create any work packages" do

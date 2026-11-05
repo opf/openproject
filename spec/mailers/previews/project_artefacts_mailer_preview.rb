@@ -27,8 +27,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectArtifactsMailerPreview < ActionMailer::Preview
-  # Preview emails at http://localhost:3000/rails/mailers/project_artifacts_mailer
+class ProjectArtefactsMailerPreview < ActionMailer::Preview
+  # Preview emails at http://localhost:3000/rails/mailers/project_artefacts_mailer
 
   def creation_wizard_submitted
     project = FactoryBot.build_stubbed(:project)
@@ -42,6 +42,6 @@ class ProjectArtifactsMailerPreview < ActionMailer::Preview
     STR
     user = FactoryBot.build_stubbed(:user)
 
-    ProjectArtifactsMailer.creation_wizard_submitted(user, project, work_package)
+    ProjectArtefactsMailer.creation_wizard_submitted(user, project, work_package)
   end
 end

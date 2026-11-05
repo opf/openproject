@@ -51,6 +51,7 @@ import {
   inlineCreateRowClassName,
 } from './inline-create-row-builder';
 import { WorkPackageCreateService } from '../wp-new/wp-create.service';
+import { inlineCreateRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
 import { onClickOrEnter } from '../wp-fast-table/handlers/click-or-enter-handler';
 import {
@@ -131,8 +132,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
       .subscribe(([canAdd, canReference]) => {
         this.canAdd = canAdd;
         this.canReference = this.hasReferenceClass && canReference;
-        this.cdRef.detectChanges();
-        this.reconcileExposure();
+        this.mutateRow(() => this.cdRef.detectChanges());
         this.showing.emit(this.canAdd || this.canReference);
       });
 
@@ -224,8 +224,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   public handleReferenceClick() {
     this.focusTarget = 'reference';
     this.mode = 'reference';
-    this.cdRef.detectChanges();
-    this.reconcileExposure();
+    this.mutateRow(() => this.cdRef.detectChanges());
     return false;
   }
 
@@ -281,8 +280,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
     const rowElement = this.element.querySelector<HTMLTableRowElement>(`.${inlineCreateRowClassName}`);
 
     if (rowElement && this.currentWorkPackage) {
-      builder.refreshRow(this.currentWorkPackage, rowElement);
-      this.reconcileExposure();
+      this.mutateRow(() => builder.refreshRow(this.currentWorkPackage!, rowElement));
     }
   }
 
@@ -298,8 +296,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
     const form = this.table.editing.startEditing(wp, builder.classIdentifier(wp));
 
     const [row] = builder.buildNew(wp, form);
-    this.element.append(row);
-    this.reconcileExposure();
+    this.mutateRow(() => this.element.append(row));
 
     return form;
   }
@@ -330,8 +327,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   public removeWorkPackageRow() {
     this.wpCreate.cancelCreation();
     this.currentWorkPackage = null;
-    this.element.querySelector('.wp-row-new')?.remove();
-    this.reconcileExposure();
+    this.mutateRow(() => this.element.querySelector('.wp-row-new')?.remove());
     if (this.editingSubscription) {
       this.editingSubscription.unsubscribe();
     }
@@ -339,18 +335,16 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
   public showRow() {
     this.mode = 'inactive';
-    this.cdRef.detectChanges();
+    this.mutateRow(() => this.cdRef.detectChanges());
     this.focus = false;
-    this.reconcileExposure();
   }
 
   public hideRow() {
     this.mode = 'create';
-    this.cdRef.detectChanges();
-    this.reconcileExposure();
+    this.mutateRow(() => this.cdRef.detectChanges());
   }
 
-  private reconcileExposure():void {
-    this.table.reconcileSection();
+  private mutateRow(change:() => void):void {
+    this.table.mutate(new Set([inlineCreateRowKey]), change);
   }
 }

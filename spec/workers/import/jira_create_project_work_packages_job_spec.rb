@@ -273,6 +273,24 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
         end
       end
 
+      context "when another issue of the import shares the type, status and priority" do
+        before do
+          create(:jira_issue,
+                 jira_import:,
+                 origin_id: "10406",
+                 jira_project:,
+                 payload: jira_issue_payload.deep_dup.merge("id" => "10406", "key" => "#{jira_project_key}-1124"))
+        end
+
+        it "keeps them marked as created by the import" do
+          create_work_packages
+
+          references = Import::JiraOpenProjectReference.where(jira_import:, op_entity_class: %w[Type Status IssuePriority])
+          expect(references.pluck(:op_entity_class, :uses_existing))
+            .to contain_exactly(["Type", false], ["Status", false], ["IssuePriority", false])
+        end
+      end
+
       context "when finding or creating a status" do
         it "takes a transaction scoped lock when creating a status" do
           allow(OpenProject::Mutex).to receive(:with_advisory_lock).and_call_original
