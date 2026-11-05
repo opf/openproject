@@ -111,6 +111,12 @@ jobs:
       - name: Register plugins
         run: npm run ci:plugins:register_frontend
 
+      - name: Stub locales
+        # init-locale.ts imports translations from src/locales, which only
+        # Rails fills. Specs stub the loader, but esbuild still warns about
+        # an empty glob without at least one file.
+        run: echo '{}' > src/locales/en.json
+
       - name: Take ownership of HOME
         # Actions points HOME at /github/home, owned by the image's pwuser, and
         # firefox refuses to launch as root under a home it does not own.
