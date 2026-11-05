@@ -115,4 +115,17 @@ jobs:
         run: chown root:root "$HOME"
 
       - name: Test
-        run: npm test -- --browsers ${{ matrix.browser }} --reporters dot --reporters github-actions
+        # WebKit keeps the memory of every spec iframe until it exits, so one
+        # run over the whole suite exhausts the runner. Each shard starts a
+        # fresh browser.
+        env:
+          SHARDS: 3
+          BROWSER: ${{ matrix.browser }}
+        run: |
+          status=0
+          for shard in $(seq 1 "$SHARDS"); do
+            echo "::group::Shard $shard/$SHARDS"
+            VITEST_SHARD="$shard/$SHARDS" npm test -- --browsers "$BROWSER" --reporters dot --reporters github-actions || status=1
+            echo "::endgroup::"
+          done
+          exit "$status"

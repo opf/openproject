@@ -67,6 +67,9 @@ export default defineConfig({
     // the loser sees a real function where it expects a spy.
     isolate: true,
 
+    // `ng test` has no --shard flag. CI sets this to `<index>/<count>`.
+    shard: process.env.VITEST_SHARD,
+
     // jquery-migrate prints this banner to stdout at import time. It is
     // expected, carries no signal, and would otherwise appear once per worker.
     // Filtering here (reporter level) keeps it out of the output without
