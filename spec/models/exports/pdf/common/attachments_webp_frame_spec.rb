@@ -199,6 +199,12 @@ RSpec.describe Exports::PDF::Common::Attachments do
         expect(helper.webp_single_frame_source(overrun)).to be_nil
       end
 
+      # Without a VP8X flag the overrunning ANMF id is the only sign of an animation
+      it "returns nil for an overrunning ANMF chunk in a container with no VP8X header" do
+        headerless_overrun = crafted_webp("WEBP".b + "ANMF".b + [9999].pack("V") + ("\0".b * 8))
+        expect(helper.webp_single_frame_source(headerless_overrun)).to be_nil
+      end
+
       it "returns nil for an alpha subchunk with no bitstream behind it" do
         dangling_alpha = crafted_webp("WEBP".b + vp8x_chunk(0x1e) + anmf_chunk(anmf_payload("ALPH")))
         expect(helper.webp_single_frame_source(dangling_alpha)).to be_nil

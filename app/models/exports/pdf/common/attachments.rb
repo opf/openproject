@@ -166,9 +166,10 @@ module Exports::PDF::Common::Attachments
     pos = 12
     while pos + 8 <= size
       chunk_size = data[pos + 4, 4].unpack1("V")
-      break if pos + 8 + chunk_size > size
-
       yield data[pos, 4], data[pos + 8, chunk_size]
+      # A chunk running past the container ends the walk, but it is still handed over
+      # above so that a truncated animation is recognized as one rather than passed on.
+      break if pos + 8 + chunk_size > size
 
       # RIFF chunks are padded to even byte offsets; use & 1 to get the padding.
       pos += 8 + chunk_size + (chunk_size & 1)
