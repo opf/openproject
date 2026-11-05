@@ -44,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
 
       grid.with_area(:description, classes: "wb-break-word", tag: :div, color: :subtle) do
         if configured?
-          render(Primer::Beta::Text.new(font_size: :small)) { "CONFIG DATA GOES HERE ..." }
+          render(Primer::Beta::Text.new(font_size: :small)) { server_information }
         else
           render(Primer::Beta::Text.new(font_size: :small)) { t(".description") }
         end
@@ -56,7 +56,7 @@ See COPYRIGHT and LICENSE files for more details.
             icon: :pencil,
             scheme: :invisible,
             tag: :a,
-            href: "#",
+            href: edit_server_configuration_itsm_admin_settings_path(server_protocol: :imap),
             aria: { label: t(".edit") },
             data: { turbo_stream: true }
           )
