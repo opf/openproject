@@ -61,16 +61,13 @@ class RemoveAITextActionsEnabledSetting < ActiveRecord::Migration[8.1]
   end
 
   def enabled?
-    override = environment_override
-    override.nil? ? enabled_in_database? : override
+    variable = ENV_VARIABLES.find { |name| ENV.key?(name) }
+    variable ? enabled_by_environment?(ENV.fetch(variable)) : enabled_in_database?
   end
 
-  def environment_override
-    name = ENV_VARIABLES.find { |variable| ENV[variable].present? }
-    return if name.nil?
-
-    ActiveModel::Type::Boolean.new.cast(YAML.safe_load(ENV.fetch(name)))
+  def enabled_by_environment?(value)
+    ActiveModel::Type::Boolean.new.cast(YAML.safe_load(value, permitted_classes: [Symbol, Date])) == true
   rescue Psych::Exception
-    nil
+    false
   end
 end

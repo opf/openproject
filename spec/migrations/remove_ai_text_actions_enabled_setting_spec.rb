@@ -101,6 +101,18 @@ RSpec.describe RemoveAITextActionsEnabledSetting, type: :model do
     end
   end
 
+  context "with the setting stored as true and an empty, null or symbol false environment override" do
+    before { store_setting("1") }
+
+    ["", "null", ":false"].each do |value|
+      it "deactivates all actions for #{value.inspect}" do
+        with_env("OPENPROJECT_AI__TEXT__ACTIONS__ENABLED" => value) { migrate }
+
+        expect(text_action.reload).not_to be_active
+      end
+    end
+  end
+
   context "without a stored setting and with a numeric truthy environment override" do
     it "keeps the actions active" do
       with_env("OPENPROJECT_AI_TEXT_ACTIONS_ENABLED" => "1") { migrate }
