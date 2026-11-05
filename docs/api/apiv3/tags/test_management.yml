@@ -1,0 +1,32 @@
+---
+name: Test Management
+description: 'Test management: project settings, folders, test cases, test runs and iterations, run cases,
+
+  automated result ingest, GitHub CI connections and "Run in CI", and admin AI providers.
+
+  The module guide lives in `modules/test_management/docs`.
+
+
+  Automated results are uploaded with an ingest request (Playwright JSON, JUnit XML or native JSON)
+
+  plus optional CI metadata. Matching order for `caseMatcher: auto` is case id / `@TC-12` tag,
+
+  then `automationReference`, then title is not used unless `caseMatcher: title`.
+
+
+  Choosing the run: `runId`, or `externalRef` (find/create), or `mode: new_iteration` with
+
+  `targetRun`, else the CI connection default / a new automation run. Completed or cancelled runs
+
+  return **409**. Replays of the same digest return the earlier import with `replay: true`.
+
+
+  Permissions are project-scoped (`view_test_cases`, `add_test_cases`, `edit_test_cases`,
+
+  `delete_test_cases`, `manage_test_suites`, `view_test_runs`, `add_test_runs`, `execute_test_runs`,
+
+  `delete_test_runs`, `upload_test_results`, `manage_test_ci`, `trigger_test_automation`,
+
+  `manage_test_management`). Assistant providers require an administrator. When CI is disabled in
+
+  project settings, trigger endpoints return **403**.'

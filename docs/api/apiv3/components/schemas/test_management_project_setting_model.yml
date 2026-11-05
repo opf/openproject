@@ -1,0 +1,50 @@
+# Schema: test_management_project_setting_model.yml
+---
+type: object
+required:
+- _type
+- _links
+- displayPrefix
+- folderTreeLayout
+- enableCi
+properties:
+  _type:
+    type: string
+    enum:
+    - TestManagementProjectSettings
+  displayPrefix:
+    type: string
+    example: DEMO
+  folderTreeLayout:
+    type: string
+    enum:
+    - split_pane
+    - sidebar
+    example: split_pane
+  enableCi:
+    type: boolean
+    example: true
+  enableMilestones:
+    type: boolean
+    example: true
+  enableTestPlans:
+    type: boolean
+    example: true
+  enableTestAssistant:
+    type: boolean
+    example: true
+  _links:
+    type: object
+example:
+  _type: TestManagementProjectSettings
+  displayPrefix: DEMO
+  folderTreeLayout: split_pane
+  enableCi: true
+  enableMilestones: true
+  enableTestPlans: true
+  enableTestAssistant: true
+  _links:
+    self:
+      href: /api/v3/projects/1/test_management/settings
+    project:
+      href: /api/v3/projects/1

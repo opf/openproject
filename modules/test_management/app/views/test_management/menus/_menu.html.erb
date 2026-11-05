@@ -1,0 +1,9 @@
+<%= turbo_frame_tag "test_management_sub_menu",
+                    src: project_test_management_menu_path(
+                      @project,
+                      section: TestManagement::Menu.section_for(controller.controller_path),
+                      suite_id: params[:suite_id].presence
+                    ),
+                    target: "_top",
+                    data: { turbo: false, test_selector: "tm-sub-menu-frame" },
+                    loading: :lazy %>

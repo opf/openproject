@@ -1,0 +1,95 @@
+<% html_title(t("test_management.runs.title")) %>
+<%= render partial: "test_management/test_runs/styles" %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("test_management.runs.title") }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_cases_path(@project), text: t(:project_module_test_management) },
+        t("test_management.menu.runs")
+      ]
+    )
+    if User.current.allowed_in_project?(:add_test_runs, @project)
+      header.with_action_button(
+        tag: :a,
+        href: new_project_test_management_test_run_path(@project),
+        scheme: :primary,
+        mobile_icon: :plus,
+        mobile_label: t("test_management.runs.new"),
+        data: { test_selector: "tm-new-run" }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        t("test_management.runs.new")
+      end
+    end
+  end
+%>
+
+<%= render(
+      Primer::Alpha::UnderlineNav.new(
+        label: t("test_management.runs.title"),
+        classes: "tm-run-filters",
+        data: { test_selector: "tm-run-filters" }
+      )
+    ) do |nav| %>
+  <% TestManagement::TestRunsController::FILTERS.each do |key| %>
+    <% nav.with_tab(
+         href: project_test_management_test_runs_path(@project, filter: (key == "active" ? nil : key)),
+         selected: @filter == key,
+         data: { test_selector: "tm-run-filter-#{key}" }
+       ) do |item| %>
+      <% item.with_text { t("test_management.runs.filters.#{key}") } %>
+      <% item.with_counter(count: @filter_counts[key].to_i) %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if @test_runs.any? %>
+  <%= render(Primer::Beta::BorderBox.new(classes: "tm-run-list", data: { test_selector: "tm-run-list" })) do |box| %>
+    <% @test_runs.each do |run| %>
+      <% counts = @run_status_counts[run.id] %>
+      <% box.with_row(classes: "tm-run-list--row", data: { test_selector: "tm-run-row-#{run.id}" }) do %>
+        <div class="tm-run-list--main">
+          <%= render(Primer::Beta::Octicon.new(icon: :play, classes: "tm-run-list--icon", "aria-hidden": true)) %>
+          <div class="tm-run-list--text">
+            <div>
+              <%= link_to run.name, project_test_management_test_run_path(@project, run),
+                          class: "tm-run-list--name", data: { test_selector: "tm-run-link-#{run.id}" } %>
+              <span class="color-fg-muted tm-run-list--id"><%= run.formatted_id %></span>
+            </div>
+            <div class="color-fg-muted tm-run-list--meta">
+              <%= t("test_management.runs.created_by", user: run.author&.name || "—") %>
+              · <%= format_time(run.created_at) %>
+              <% if run.start_date || run.end_date %>
+                · <%= [run.start_date, run.end_date].map { |d| d ? format_date(d) : "…" }.join(" – ") %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="tm-run-list--progress">
+          <%= tm_run_progress_bar(counts) %>
+          <span class="tm-run-list--percent" data-test-selector="tm-run-passed-<%= run.id %>">
+            <%= tm_pass_rate(counts) %>% <%= t("test_management.runs.passed") %>
+            <% if counts["skipped"].to_i.positive? %>
+              · <%= t("test_management.runs.skipped_count", count: counts["skipped"]) %>
+            <% end %>
+          </span>
+        </div>
+        <div class="tm-run-list--state"><%= tm_run_state_label(run) %> <%= tm_run_source_label(run) %></div>
+      <% end %>
+    <% end %>
+  <% end %>
+  <%= pagination_links_full @test_runs %>
+<% else %>
+  <%= render(Primer::Beta::Blankslate.new(border: true, narrow: true, data: { test_selector: "tm-runs-empty" })) do |slate| %>
+    <% slate.with_visual_icon(icon: :play) %>
+    <% if @filter_counts["all"].to_i.zero? %>
+      <% slate.with_heading(tag: :h3) { t("test_management.runs.empty") } %>
+      <% slate.with_description { t("test_management.runs.empty_hint") } %>
+    <% else %>
+      <% slate.with_heading(tag: :h3) { t("test_management.runs.empty_filtered") } %>
+    <% end %>
+  <% end %>
+<% end %>

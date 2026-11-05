@@ -1,0 +1,34 @@
+modules_permissions:
+  test_management:
+  - role: :default_role_member
+    add:
+    - :view_test_cases
+    - :add_test_cases
+    - :edit_test_cases
+    - :view_test_runs
+    - :add_test_runs
+    - :execute_test_runs
+    - :upload_test_results
+  - role: :default_role_reader
+    add:
+    - :view_test_cases
+    - :view_test_runs
+  - role: :default_role_non_member
+    add:
+    - :view_test_cases
+    - :view_test_runs
+  - role: :default_role_project_admin
+    add:
+    - :view_test_cases
+    - :add_test_cases
+    - :edit_test_cases
+    - :delete_test_cases
+    - :manage_test_suites
+    - :view_test_runs
+    - :add_test_runs
+    - :execute_test_runs
+    - :delete_test_runs
+    - :upload_test_results
+    - :manage_test_ci
+    - :trigger_test_automation
+    - :manage_test_management

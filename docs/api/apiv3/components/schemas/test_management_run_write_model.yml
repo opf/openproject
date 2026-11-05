@@ -1,0 +1,60 @@
+# Schema: test_management_run_write_model.yml
+---
+type: object
+properties:
+  name:
+    type: string
+    example: Smoke
+  description:
+    type:
+    - string
+    - 'null'
+  assigneeId:
+    type:
+    - integer
+    - 'null'
+  startDate:
+    type:
+    - string
+    - 'null'
+    format: date
+  endDate:
+    type:
+    - string
+    - 'null'
+    format: date
+  selectionMode:
+    type: string
+    enum:
+    - specific
+    - all
+    example: specific
+  caseIds:
+    type: array
+    items:
+      type: integer
+    example:
+    - 12
+    - 13
+  folderIds:
+    type: array
+    items:
+      type: integer
+    description: 'For selectionMode all: limit to these folder subtrees.'
+  filterOptions:
+    type: object
+    properties:
+      suiteIds:
+        type: array
+        items:
+          type: integer
+      automation:
+        type: string
+        enum:
+        - automated
+        - manual
+example:
+  name: Smoke
+  selectionMode: specific
+  caseIds:
+  - 12

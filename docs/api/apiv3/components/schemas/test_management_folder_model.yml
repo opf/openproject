@@ -1,0 +1,39 @@
+# Schema: test_management_folder_model.yml
+---
+type: object
+required:
+- _type
+- id
+- name
+properties:
+  _type:
+    type: string
+    enum:
+    - TestManagementFolder
+  id:
+    type: integer
+    example: 7
+  name:
+    type: string
+    example: Accounts
+  position:
+    type: integer
+    example: 0
+  createdAt:
+    type: string
+    format: date-time
+  updatedAt:
+    type: string
+    format: date-time
+  _links:
+    type: object
+example:
+  _type: TestManagementFolder
+  id: 7
+  name: Accounts
+  position: 0
+  _links:
+    self:
+      href: /api/v3/test_management/folders/7
+    project:
+      href: /api/v3/projects/1

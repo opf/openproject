@@ -1,0 +1,126 @@
+<% can_add_cases = User.current.allowed_in_project?(:add_test_cases, @project) %>
+<% can_manage_suites = User.current.allowed_in_project?(:manage_test_suites, @project) %>
+<% filters_active = params[:q].present? || params[:status].present? || params[:priority].present? %>
+
+<% if can_add_cases || (can_manage_suites && @current_suite.present?) %>
+  <div class="tm-top-row" data-test-selector="tm-top-row">
+    <% if can_add_cases %>
+      <%= form_with scope: :test_case,
+                    url: project_test_management_test_cases_path(@project),
+                    method: :post,
+                    local: true,
+                    class: "tm-create-case-bar",
+                    data: { turbo: false, test_selector: "tm-create-case-form" } do |f| %>
+        <% if @current_suite.present? %>
+          <%= f.hidden_field :suite_id, value: @current_suite.id %>
+        <% end %>
+        <div class="tm-create-case-bar--input">
+          <%= render(
+                Primer::Alpha::TextField.new(
+                  name: "test_case[title]",
+                  id: "tm-new-case-title",
+                  label: t("test_management.cases.new_title"),
+                  visually_hide_label: true,
+                  placeholder: t("test_management.cases.new_title"),
+                  full_width: true,
+                  required: true,
+                  autocomplete: "off",
+                  data: { test_selector: "tm-new-case-title" }
+                )
+              ) %>
+        </div>
+        <%=
+          render(
+            Primer::Beta::Button.new(
+              type: :submit,
+              scheme: :primary,
+              size: :medium,
+              data: { test_selector: "tm-new-test-case" }
+            )
+          ) do
+        %>
+          <%= t("test_management.cases.create") %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% if can_manage_suites && @current_suite.present? %>
+      <%= render partial: "test_management/test_cases/folder_dialog",
+                 locals: {
+                   dialog_id: "tm-add-subfolder-dialog",
+                   title: t("test_management.suites.add_subfolder"),
+                   button_label: t("test_management.suites.add_subfolder"),
+                   parent_suite: @current_suite,
+                   button_size: :medium,
+                   button_icon: :"file-directory",
+                   test_selector: "tm-add-subfolder-button"
+                 } %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= form_with url: project_test_management_test_cases_path(@project),
+              method: :get,
+              local: true,
+              class: "tm-cases-filters",
+              data: { test_selector: "tm-cases-filters" } do %>
+  <% if params[:suite_id].present? %>
+    <%= hidden_field_tag :suite_id, params[:suite_id] %>
+  <% end %>
+  <%= search_field_tag :q, params[:q],
+                       placeholder: t("test_management.cases.search_placeholder"),
+                       "aria-label": t("test_management.cases.search_placeholder"),
+                       autocomplete: "off",
+                       class: "FormControl-input FormControl-small tm-cases-filters--search",
+                       data: { test_selector: "tm-cases-search" } %>
+  <%= select_tag :status,
+                 options_for_select([[t("test_management.cases.all_statuses"), ""]] + TestManagement::TestCase::STATUSES.map { |s| [s, s] }, params[:status]),
+                 "aria-label": t("test_management.cases.columns.status"),
+                 class: "FormControl-select FormControl-small" %>
+  <%= select_tag :priority,
+                 options_for_select([[t("test_management.cases.all_priorities"), ""]] + TestManagement::TestCase::PRIORITIES.map { |p| [p, p] }, params[:priority]),
+                 "aria-label": t("test_management.cases.columns.priority"),
+                 class: "FormControl-select FormControl-small" %>
+  <%= render(Primer::Beta::Button.new(type: :submit, scheme: :secondary, size: :small)) do %>
+    <%= t(:button_apply) %>
+  <% end %>
+<% end %>
+
+<% if @test_cases.any? %>
+  <div class="generic-table--container">
+    <table class="generic-table" data-test-selector="tm-cases-table">
+      <thead>
+        <tr>
+          <th><%= t("test_management.cases.columns.id") %></th>
+          <th><%= t("test_management.cases.columns.title") %></th>
+          <th><%= t("test_management.cases.columns.priority") %></th>
+          <th><%= t("test_management.cases.columns.status") %></th>
+          <th><%= t("test_management.cases.columns.automated") %></th>
+          <th><%= t("test_management.cases.columns.suite") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @test_cases.each do |test_case| %>
+          <tr data-test-selector="tm-case-row-<%= test_case.id %>">
+            <td><%= link_to test_case.formatted_id, project_test_management_test_case_path(@project, test_case) %></td>
+            <td><%= link_to test_case.title, project_test_management_test_case_path(@project, test_case) %></td>
+            <td><%= tm_priority_label(test_case.priority) %></td>
+            <td><%= tm_status_label(test_case.status) %></td>
+            <td><%= test_case.automated? ? t(:general_text_Yes) : t(:general_text_No) %></td>
+            <td><%= test_case.suite&.name || t("test_management.suites.unfiled") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <%= pagination_links_full @test_cases %>
+<% else %>
+  <%= render(Primer::Beta::Blankslate.new(border: true, narrow: true, data: { test_selector: "tm-cases-empty" })) do |slate| %>
+    <% slate.with_visual_icon(icon: filters_active ? :search : :checklist) %>
+    <% slate.with_heading(tag: :h3) do %>
+      <%= filters_active ? t("test_management.cases.empty_filtered") : t("test_management.cases.empty") %>
+    <% end %>
+    <% if !filters_active && can_add_cases %>
+      <% slate.with_description { t("test_management.cases.empty_hint") } %>
+    <% end %>
+  <% end %>
+<% end %>

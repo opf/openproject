@@ -1,0 +1,158 @@
+# Schema: TestManagementRunModel
+type: object
+required:
+- _type
+- id
+- name
+- state
+- source
+properties:
+  _type:
+    type: string
+    enum:
+    - TestManagementRun
+  id:
+    type: integer
+    minimum: 1
+  name:
+    type: string
+  state:
+    type: string
+    enum:
+    - new
+    - in_progress
+    - completed
+    - cancelled
+  source:
+    type: string
+    enum:
+    - manual
+    - automation
+  completionSource:
+    type:
+    - string
+    - 'null'
+    enum:
+    - manual
+    - automation
+    - null
+  selectionMode:
+    type: string
+    enum:
+    - all
+    - specific
+    - dynamic
+  externalRef:
+    type:
+    - string
+    - 'null'
+  ci:
+    type: object
+    additionalProperties:
+      type: string
+  statusCounts:
+    type: object
+    description: Number of run cases per status.
+    properties:
+      untested:
+        type: integer
+      passed:
+        type: integer
+      failed:
+        type: integer
+      blocked:
+        type: integer
+      retest:
+        type: integer
+      skipped:
+        type: integer
+  totalCases:
+    type: integer
+  passRate:
+    type: integer
+    description: Passed cases in percent of all cases except skipped ones (untested cases count).
+  currentIteration:
+    type:
+    - integer
+    - 'null'
+    description: Number of the iteration that receives results (null for runs without iterations yet).
+  iterationsCount:
+    type: integer
+  unmatchedTests:
+    type: integer
+  ciTrigger:
+    type:
+    - object
+    - 'null'
+    description: Last "Run in CI" trigger of this run.
+    properties:
+      status:
+        type: string
+        enum:
+        - triggered
+        - failed
+        - manual
+      url:
+        type:
+        - string
+        - 'null'
+      error:
+        type:
+        - string
+        - 'null'
+      triggeredAt:
+        type:
+        - string
+        - 'null'
+        format: date-time
+  runCases:
+    type: array
+    description: Only on `GET /api/v3/test_management/runs/{id}`.
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        testCaseId:
+          type: integer
+        title:
+          type: string
+        status:
+          type: string
+        automationReference:
+          type:
+          - string
+          - 'null'
+        _links:
+          type: object
+  finishedAt:
+    type:
+    - string
+    - 'null'
+    format: date-time
+  createdAt:
+    type: string
+    format: date-time
+  updatedAt:
+    type: string
+    format: date-time
+  _links:
+    type: object
+    required:
+    - self
+    - project
+    properties:
+      self:
+        $ref: ./link.yml
+      project:
+        $ref: ./link.yml
+      imports:
+        $ref: ./link.yml
+      iterations:
+        $ref: ./link.yml
+      connection:
+        $ref: ./link.yml
+      complete:
+        $ref: ./link.yml
+      cancel:
+        $ref: ./link.yml

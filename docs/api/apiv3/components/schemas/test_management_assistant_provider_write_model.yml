@@ -1,0 +1,62 @@
+# Schema: TestManagementAssistantProviderWriteModel
+type: object
+description: 'Creates or changes a saved AI provider. On `PATCH` omitted properties keep their values.
+  The
+
+  rules of the admin form apply: a blank or omitted `apiKey` keeps the stored key only while the
+
+  preset and the base URL host stay the same.'
+properties:
+  name:
+    type: string
+    maxLength: 100
+    description: Required on create; unique (case-insensitive).
+  preset:
+    type: string
+    enum:
+    - openai
+    - anthropic
+    - openrouter
+    - ollama
+    - xai
+    - mistral
+    - azure
+    - custom
+  authStyle:
+    type: string
+    enum:
+    - bearer
+    - api_key
+    - none
+    description: Only used by the `custom` preset.
+  apiKey:
+    type: string
+    writeOnly: true
+    description: Stored encrypted, never returned.
+  removeApiKey:
+    type: boolean
+  model:
+    type: string
+    maxLength: 255
+  userModels:
+    type: array
+    maxItems: 20
+    items:
+      type: string
+      maxLength: 255
+  timeout:
+    type: integer
+    minimum: 10
+    maximum: 300
+  maxTokens:
+    type: integer
+    minimum: 256
+    maximum: 32000
+  default:
+    type: boolean
+    description: Make this the default provider. The first provider always becomes the default.
+  verifyModel:
+    type: boolean
+    description: 'Send one short chat request (at most 16 tokens) to the model before saving. A failure
+
+      answers `422` and saves nothing.'

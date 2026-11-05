@@ -1,0 +1,102 @@
+# /api/v3/projects/{id}/test_management/runs
+---
+get:
+  summary: List test runs of a project
+  operationId: List_test_management_runs
+  tags:
+  - Test Management
+  description: Newest first, at most 500. Use `externalRef` to find the run of a CI build.
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Project id
+    example: 42
+    schema:
+      type: integer
+  - name: externalRef
+    in: query
+    schema:
+      type: string
+  - name: state
+    in: query
+    schema:
+      type: string
+      enum:
+      - new
+      - in_progress
+      - completed
+      - cancelled
+  - name: source
+    in: query
+    schema:
+      type: string
+      enum:
+      - manual
+      - automation
+  - name: name
+    in: query
+    description: Exact run name (case-insensitive).
+    schema:
+      type: string
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_run_collection_model.yml
+    '404':
+      description: 'Returned if the project does not exist or the client may not see it.
+
+
+        **Required permission:** view test runs or upload test results'
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+post:
+  summary: Create test run
+  operationId: Create_test_management_run
+  tags:
+  - Test Management
+  description: '**Required permission:** add test runs'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_run_model.yml
+    '403':
+      description: Forbidden
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '422':
+      description: Invalid
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Project id
+    schema:
+      type: integer
+    example: 1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/test_management_run_write_model.yml

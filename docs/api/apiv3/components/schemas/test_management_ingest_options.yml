@@ -1,0 +1,189 @@
+---
+type: object
+description: 'Options of an automation ingest. In a JSON request they are top-level keys (or sit under
+
+  `metadata`); in a multipart request they are the JSON object in the `metadata` part.
+
+  snake_case variants of the keys are accepted as well.'
+properties:
+  format:
+    type: string
+    enum:
+    - auto
+    - playwright_json
+    - junit
+    - native
+    - allure
+    - cucumber_json
+    - cucumber_messages
+    default: auto
+    description: '`allure`: an array of Allure `*-result.json` objects (or `{ "results": [...] }`);
+
+      `cucumber_json`: the Cucumber JSON formatter output; `cucumber_messages`: Cucumber message NDJSON.
+
+      `auto` detects all of them.'
+  stepsAfterFailure:
+    type: string
+    enum:
+    - untested
+    - blocked
+    default: untested
+    description: 'Status of the case steps after the failed step that the report did not mention (0020):
+
+      `untested` (shown as Not run) or `blocked`.'
+  mode:
+    type: string
+    enum:
+    - new_run
+    - new_iteration
+    description: '`new_run` (default): find the run by `runId`/`externalRef` or create one per CI build.
+
+      `new_iteration`: add the results as a new iteration of an existing run, chosen by `runId` or by
+
+      name (`targetRun`, case-insensitive; the newest active run with that name, created if missing).
+
+      Uploads with the same `externalRef` (shards, retries) go to the same iteration.
+
+      Without `mode`, the matching CI connection''s ingest mode applies. `runMode` is an alias.'
+  targetRun:
+    type: string
+    maxLength: 255
+    description: Run name for `new_iteration`, e.g. `Smoke` or `Regression`. Defaults to the connection's
+      target run.
+    example: Smoke
+  connection:
+    type: string
+    description: 'CI connection (id or name). Without it, the connection is detected from `ci.provider`
+      and
+
+      `ci.repository`. An unknown or inactive connection given here is rejected (422).'
+  iterationName:
+    type: string
+    maxLength: 255
+    description: Name of the iteration started by this upload. Defaults to a name built from the CI metadata.
+  testType:
+    type: string
+    enum:
+    - e2e
+    - unit
+    - integration
+    - component
+    - api
+    - other
+    description: 'Kind of the reported tests (0016). `e2e` makes references written by `updateReferences`
+      and `autoCreateCases` end-to-end qualified (`shop/e2e:…`); any other value makes them plain (`shop:…`).
+      Without it the connection''s `e2eTests` setting decides (auto: Playwright reports, `e2e` path segments
+      and `cypress/`).'
+  runId:
+    type: integer
+    description: Add the results to this existing run.
+  externalRef:
+    type: string
+    maxLength: 255
+    description: Find or create the run with this reference (shards and retries of one CI build).
+    example: github:my-org/shop:9876543210:1
+  runName:
+    type: string
+    description: Name of a run created by this request. Defaults to a name built from the CI metadata.
+  closeRun:
+    type: boolean
+    default: false
+    description: Complete the run after recording the results.
+  caseMatcher:
+    type: string
+    enum:
+    - auto
+    - property
+    - reference
+    - id
+    - title
+    default: auto
+  autoCreateCases:
+    type: boolean
+    default: false
+    description: Create cases for unmatched tests; their reference is repo-qualified like with `updateReferences`.
+  targetSuiteId:
+    type: integer
+    description: Folder that receives created cases (default `Automated`).
+  updateReferences:
+    type: boolean
+    default: true
+    description: Store the reported test reference on cases matched by id or property. With a known repository
+      (connection or `ci.repository`) it is stored repo-qualified, e.g. `shop:tests/cart.spec.ts#cart
+      › adds an item`.
+  addMatchedCasesToRun:
+    type: boolean
+    default: true
+    description: Add matched cases that are not yet in a run with fixed case selection.
+  skippedAs:
+    type: string
+    enum:
+    - skipped
+    - untested
+    - blocked
+    - ignore
+    default: skipped
+  flakyAs:
+    type: string
+    enum:
+    - passed
+    - failed
+    - retest
+    default: passed
+  statusMap:
+    type: object
+    additionalProperties:
+      type: string
+      enum:
+      - passed
+      - failed
+      - blocked
+      - retest
+      - skipped
+      - untested
+    description: Extra mapping from reported statuses to test statuses.
+    example:
+      broken: blocked
+  assignFailedTo:
+    type: integer
+    description: User id to assign failed run cases to.
+  workPackageIds:
+    type: array
+    items:
+      type: integer
+    description: Work packages to link to a run created by this request.
+  ci:
+    type: object
+    description: CI metadata shown on the run. Other keys are dropped.
+    properties:
+      provider:
+        type: string
+        example: github
+      repository:
+        type: string
+        description: '`owner/repo` or GitLab project path; used to detect the CI connection.'
+        example: my-org/shop
+      runUrl:
+        type: string
+        format: uri
+      commitSha:
+        type: string
+      branch:
+        type: string
+      workflow:
+        type: string
+      runNumber:
+        type: string
+      runAttempt:
+        type: string
+      actor:
+        type: string
+      pullRequest:
+        type: string
+      serverUrl:
+        type: string
+        format: uri
+        description: Web URL of the CI / Git server including a sub-path (CI_SERVER_URL, GITHUB_SERVER_URL,
+          JENKINS_URL, CI_SYSTEM_URL). When given, auto-detection only uses a connection on this server
+          (scheme, host, port and path); an explicit `connection` on another server gets the warning `connection_server_mismatch`.
+        example: https://example.com/gitlab

@@ -1,0 +1,37 @@
+---
+get:
+  summary: View test run case
+  operationId: View_test_management_run_case
+  tags:
+  - Test Management
+  description: A case in a run with its results (manual and automated).
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Run case id
+    example: 42
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_run_case_model.yml
+    '404':
+      description: 'Returned if the run case does not exist or the client may not see it.
+
+
+        **Required permission:** view test runs or upload test results'
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.

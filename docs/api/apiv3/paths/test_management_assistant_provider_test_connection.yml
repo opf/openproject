@@ -1,0 +1,45 @@
+# /api/v3/… test_management_assistant_provider_test_connection.yml
+---
+post:
+  summary: Test assistant provider connection
+  operationId: Test_test_management_assistant_provider_connection
+  tags:
+  - Test Management
+  description: Sends a short probe request. **Required permission:** administrator
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            type: object
+            properties:
+              _type:
+                type: string
+              ok:
+                type: boolean
+              message:
+                type: string
+            example:
+              _type: TestManagementAssistantProviderTest
+              ok: true
+              message: OK
+    '403':
+      description: Forbidden
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '422':
+      description: Connection failed
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+  parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+    example: 1

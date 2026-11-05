@@ -1,0 +1,34 @@
+<% html_title(t(:button_edit)) %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { "#{t(:button_edit)} ##{@test_case.id}" }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_case_path(@project, @test_case), text: "##{@test_case.id}" },
+        t(:button_edit)
+      ]
+    )
+  end
+%>
+
+<%= labelled_tabular_form_for [:project, :test_management, @test_case],
+                              as: :test_case,
+                              url: project_test_management_test_case_path(@project, @test_case),
+                              method: :patch do |f| %>
+  <%= render partial: "form", locals: { f: } %>
+  <%= styled_button_tag t(:button_save), class: "-primary", data: { test_selector: "tm-case-save" } %>
+  <%= link_to t(:button_cancel), project_test_management_test_case_path(@project, @test_case), class: "button" %>
+<% end %>
+
+<% if User.current.allowed_in_project?(:delete_test_cases, @project) %>
+  <div class="tm-case-delete" data-test-selector="tm-case-delete">
+    <%= link_to t(:button_delete),
+                delete_dialog_project_test_management_test_case_path(@project, @test_case),
+                class: "button -danger",
+                data: {
+                  controller: "async-dialog",
+                  test_selector: "tm-case-delete-button"
+                } %>
+  </div>
+<% end %>

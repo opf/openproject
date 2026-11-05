@@ -1,0 +1,54 @@
+<% preset = TestManagement::Assistant::AI::Provider.find(settings[:assistant_provider]) %>
+<% current = settings[:assistant_model].to_s.strip %>
+<% models = test_result&.ok? && test_result.listed? && !preset.model_free_text ? test_result.models : [] %>
+<div id="tm-assistant-model-field" data-test-selector="tm-assistant-model-field">
+  <% if test_result %>
+    <%= render(
+          Primer::Beta::Flash.new(
+            scheme: test_result.ok? ? :success : :danger, mb: 3,
+            test_selector: test_result.ok? ? "tm-assistant-test-ok" : "tm-assistant-test-error",
+            data: { error_kind: test_result.error_kind }
+          )
+        ) do %>
+      <%= test_result.message %>
+    <% end %>
+    <% if test_result.ok? && test_result.listed? && test_result.catalogue? %>
+            <p class="form--field-instructions" data-test-selector="tm-assistant-catalogue-hint">
+        <%= t("test_management.admin.assistant.test.catalogue_hint") %>
+      </p>
+    <% end %>
+  <% end %>
+
+  <% if models.any? %>
+    <div class="form--field">
+      <label class="form--label" for="assistant_model_choice"><%= t("test_management.admin.assistant.model") %></label>
+      <div class="form--field-container">
+        <%= select_tag :assistant_model_choice,
+                       options_for_select(
+                         models.map { [it, it] } + [[t("test_management.admin.assistant.model_other"), ""]],
+                         if models.include?(current) then current elsif current.blank? then models.first else "" end
+                       ),
+                       class: "form--select", data: { test_selector: "tm-assistant-model-select" } %>
+      </div>
+    </div>
+    <div class="form--field">
+      <label class="form--label" for="assistant_model"><%= t("test_management.admin.assistant.model_free_text") %></label>
+      <div class="form--field-container">
+        <%= text_field_tag :assistant_model, models.include?(current) ? "" : current, class: "form--text-field", maxlength: 255,
+                                                                                      autocomplete: "off", placeholder: preset.model_placeholder %>
+      </div>
+      <div class="form--field-instructions"><%= t("test_management.admin.assistant.model_free_text_hint") %></div>
+    </div>
+  <% else %>
+    <div class="form--field">
+      <label class="form--label" for="assistant_model"><%= t("test_management.admin.assistant.model") %></label>
+      <div class="form--field-container">
+        <%= text_field_tag :assistant_model, current, class: "form--text-field", maxlength: 255,
+                                                      autocomplete: "off", placeholder: preset.model_placeholder %>
+      </div>
+      <div class="form--field-instructions">
+        <%= t("test_management.admin.assistant.model_hint") %>
+      </div>
+    </div>
+  <% end %>
+</div>

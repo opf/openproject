@@ -1,0 +1,54 @@
+# Schema: TestManagementIngestResultModel
+type: object
+required:
+- _type
+- createdRun
+- replay
+- import
+- run
+properties:
+  _type:
+    type: string
+    enum:
+    - TestManagementIngestResult
+  createdRun:
+    type: boolean
+    description: True when the request created the run (the response status is then 201).
+  createdIteration:
+    type: boolean
+    description: True when the upload started a new iteration of an existing run (mode `new_iteration`).
+  mode:
+    type: string
+    enum:
+    - new_run
+    - new_iteration
+    description: The ingest mode that was applied (from the request, the CI connection, or `new_run`).
+  iteration:
+    type:
+    - object
+    - 'null'
+    properties:
+      id:
+        type: integer
+      number:
+        type: integer
+      name:
+        type: string
+  replay:
+    type: boolean
+    description: True when the same report was already recorded in this run; nothing was changed.
+  import:
+    $ref: ./test_management_import_model.yml
+  run:
+    $ref: ./test_management_run_model.yml
+  _links:
+    type: object
+    properties:
+      self:
+        $ref: ./link.yml
+      run:
+        $ref: ./link.yml
+      iteration:
+        $ref: ./link.yml
+      connection:
+        $ref: ./link.yml

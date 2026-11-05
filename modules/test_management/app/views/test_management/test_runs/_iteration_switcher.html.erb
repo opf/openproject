@@ -1,0 +1,44 @@
+<%# Iteration switcher above the summary (only when the run has more than one iteration). %>
+<% it_t = ->(key, **args) { t("test_management.runs.iterations.#{key}", **args) } %>
+<div class="tm-run-iteration-bar" data-test-selector="tm-run-iteration-bar">
+  <%= render(
+        Primer::Alpha::ActionMenu.new(
+          menu_id: "tm-run-iteration-menu", select_variant: :single,
+          data: { test_selector: "tm-run-iteration-switcher" }
+        )
+      ) do |menu| %>
+    <% menu.with_show_button(size: :small) do |button| %>
+      <% button.with_leading_visual_icon(icon: :history) %>
+      <% button.with_trailing_action_icon(icon: :"triangle-down") %>
+      <%= it_t.("of", number: @shown_iteration.number, count: @iterations.size) %>
+    <% end %>
+    <% @iterations.reverse_each do |iteration| %>
+      <% menu.with_item(
+           label: it_t.("switcher_item", number: iteration.number, name: iteration.display_name),
+           href: project_test_management_test_run_path(
+             @project, @test_run,
+             iteration: iteration == @current_iteration ? nil : iteration.number
+           ),
+           active: iteration == @shown_iteration,
+           data: { test_selector: "tm-run-iteration-item-#{iteration.number}" }
+         ) do |item| %>
+        <% if iteration == @current_iteration %>
+          <% item.with_trailing_visual_text(it_t.("current")) %>
+        <% end %>
+        <% item.with_description { format_time(iteration.created_at) } %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <span class="color-fg-muted" data-test-selector="tm-run-iteration-shown"><%= @shown_iteration.display_name %></span>
+</div>
+
+<% if @viewing_past_iteration %>
+  <%= render(Primer::Alpha::Banner.new(scheme: :warning, icon: :history, mb: 3, data: { test_selector: "tm-run-past-iteration" })) do %>
+    <%= it_t.(
+          "viewing_past", label: @shown_iteration.label, time: format_time(@shown_iteration.created_at),
+                          current: @current_iteration.number
+        ) %>
+    <%= link_to it_t.("back_to_current"), project_test_management_test_run_path(@project, @test_run),
+                data: { test_selector: "tm-run-back-to-current" } %>
+  <% end %>
+<% end %>

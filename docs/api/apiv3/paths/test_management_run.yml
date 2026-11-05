@@ -1,0 +1,153 @@
+# /api/v3/test_management/runs/{id}
+---
+get:
+  summary: View test run
+  operationId: View_test_management_run
+  tags:
+  - Test Management
+  description: The run with status counts, pass rate, CI metadata and its run cases (`runCases`).
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Test run id
+    example: 42
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_run_model.yml
+          examples:
+            response:
+              value:
+                _type: TestManagementRun
+                id: 42
+                name: 'E2E #128 · main@3f9c2d1'
+                state: in_progress
+                source: automation
+                completionSource: null
+                selectionMode: specific
+                externalRef: github:my-org/shop:9876543210:1
+                ci:
+                  provider: github
+                  runUrl: https://github.com/my-org/shop/actions/runs/9876543210
+                  branch: main
+                  commitSha: 3f9c2d1e0a7b
+                  workflow: E2E
+                  runNumber: '128'
+                statusCounts:
+                  untested: 0
+                  passed: 18
+                  failed: 2
+                  blocked: 0
+                  retest: 0
+                  skipped: 3
+                totalCases: 23
+                passRate: 90
+                currentIteration: 1
+                iterationsCount: 1
+                unmatchedTests: 1
+                createdAt: '2026-10-31T08:12:44.000Z'
+                updatedAt: '2026-10-31T08:13:02.000Z'
+                finishedAt: null
+                _links:
+                  self:
+                    href: /api/v3/test_management/runs/42
+                    title: 'E2E #128 · main@3f9c2d1'
+                  project:
+                    href: /api/v3/projects/3
+                  imports:
+                    href: /api/v3/test_management/runs/42/imports
+                  iterations:
+                    href: /api/v3/test_management/runs/42/iterations
+                  complete:
+                    href: /api/v3/test_management/runs/42/complete
+                    method: post
+                  cancel:
+                    href: /api/v3/test_management/runs/42/cancel
+                    method: post
+    '404':
+      description: 'Returned if the run does not exist or the client may not see it.
+
+
+        **Required permission:** view test runs or upload test results'
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+patch:
+  summary: Update test run
+  operationId: Update_test_management_run
+  tags:
+  - Test Management
+  description: '**Required permission:** add test runs'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_run_model.yml
+    '403':
+      description: Forbidden
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '422':
+      description: Invalid
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+  parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+    example: 1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/test_management_run_write_model.yml
+delete:
+  summary: Delete test run
+  operationId: Delete_test_management_run
+  tags:
+  - Test Management
+  description: '**Required permission:** delete test runs'
+  responses:
+    '204':
+      description: Deleted
+    '403':
+      description: Forbidden
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '404':
+      description: Not found
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+  parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+    example: 1

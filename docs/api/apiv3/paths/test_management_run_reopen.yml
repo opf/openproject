@@ -1,0 +1,34 @@
+# /api/v3/… test_management_run_reopen.yml
+---
+post:
+  summary: Reopen test run
+  operationId: Reopen_test_management_run
+  tags:
+  - Test Management
+  description: Reopens a completed or cancelled run. **Required permission:** add test runs
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_run_model.yml
+    '403':
+      description: Forbidden
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '409':
+      description: Invalid transition
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+  parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+    example: 1

@@ -1,0 +1,36 @@
+---
+get:
+  summary: List automation uploads of a test run
+  operationId: List_test_management_run_imports
+  tags:
+  - Test Management
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Test run id
+    example: 42
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_import_collection_model.yml
+    '404':
+      description: 'Returned if the run does not exist or the client may not see it.
+
+
+        **Required permission:** view test runs or upload test results'
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.

@@ -1,0 +1,83 @@
+<% ci_t = ->(key, **args) { t("test_management.project_settings.ci.#{key}", **args) } %>
+<style>
+  .tm-ci-form--grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px 16px; margin: 8px 0; }
+  .tm-ci-actions { display: flex; gap: 8px; justify-content: flex-end; }
+  .tm-ci-edit-row td { border-top: 0; padding-top: 0; }
+  .tm-ci-new { margin-top: 12px; }
+</style>
+<section id="tm-ci-connections" class="form--fieldset" data-test-selector="tm-ci-connections">
+  <h3 class="form--fieldset-legend"><%= ci_t.("title") %></h3>
+  <p class="form--field-instructions"><%= ci_t.("hint") %></p>
+
+  <% if @ci_connections.empty? %>
+    <p class="color-fg-muted" data-test-selector="tm-ci-empty"><%= ci_t.("empty") %></p>
+  <% else %>
+    <table class="generic-table tm-ci-table">
+      <thead>
+        <tr>
+          <th><%= TestManagement::CiConnection.human_attribute_name(:name) %></th>
+          <th><%= TestManagement::CiConnection.human_attribute_name(:repository) %></th>
+          <th><%= TestManagement::CiConnection.human_attribute_name(:ingest_mode) %></th>
+          <th><%= TestManagement::CiConnection.human_attribute_name(:token) %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @ci_connections.each do |connection| %>
+          <tr data-test-selector="tm-ci-row-<%= connection.id %>">
+            <td>
+              <strong><%= connection.name %></strong>
+              <% unless connection.active? %>
+                <%= render(Primer::Beta::Label.new(scheme: :secondary, data: { test_selector: "tm-ci-inactive-#{connection.id}" })) { ci_t.("inactive") } %>
+              <% end %>
+            </td>
+            <td>
+              <%= render(Primer::Beta::Octicon.new(icon: :"mark-github", "aria-hidden": true)) %>
+              <%= link_to connection.repository, connection.repository_url, target: "_blank", rel: "noopener noreferrer" %>
+            </td>
+            <td data-test-selector="tm-ci-mode-<%= connection.id %>">
+              <%= ci_t.("mode_summary.#{connection.ingest_mode}", run: connection.target_run_name) %>
+            </td>
+            <td data-test-selector="tm-ci-token-<%= connection.id %>">
+              <% if connection.token_set? %>
+                <%= render(Primer::Beta::Octicon.new(icon: :lock, "aria-hidden": true)) %>
+                <%= ci_t.("token_set_at", time: format_time(connection.token_updated_at)) %>
+              <% else %>
+                <span class="color-fg-muted"><%= ci_t.("token_none") %></span>
+              <% end %>
+            </td>
+            <td class="tm-ci-actions">
+              <%= button_to ci_t.("delete"), project_test_management_ci_connection_path(@project, connection),
+                            method: :delete, class: "button -small -danger",
+                            form: { data: { turbo_confirm: ci_t.("delete_confirm", name: connection.name) } },
+                            data: { test_selector: "tm-ci-delete-#{connection.id}" } %>
+            </td>
+          </tr>
+          <tr class="tm-ci-edit-row">
+            <td colspan="5">
+              <details data-test-selector="tm-ci-edit-<%= connection.id %>">
+                <summary><%= ci_t.("edit") %></summary>
+                <%= form_with model: connection, scope: :ci_connection,
+                              url: project_test_management_ci_connection_path(@project, connection),
+                              method: :patch, local: true do |f| %>
+                  <%= render partial: "test_management/project_settings/ci_connection_fields", locals: { f:, connection: } %>
+                  <%= f.submit ci_t.("save"), class: "button -primary -small", name: nil %>
+                <% end %>
+              </details>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <details id="tm-ci-new" class="tm-ci-new" data-test-selector="tm-ci-new" <%= "open" if @ci_connections.empty? %>>
+    <summary><%= ci_t.("new") %></summary>
+    <% connection = TestManagement::CiConnection.new(provider: "github", ingest_mode: "new_run", active: true, project: @project) %>
+    <%= form_with model: connection, scope: :ci_connection, url: project_test_management_ci_connections_path(@project),
+                  method: :post, local: true do |f| %>
+      <%= render partial: "test_management/project_settings/ci_connection_fields", locals: { f:, connection: } %>
+      <%= f.submit ci_t.("add"), class: "button -primary -small", name: nil %>
+    <% end %>
+  </details>
+</section>

@@ -1,0 +1,164 @@
+---
+post:
+  summary: Run test automation in CI
+  operationId: Trigger_test_management_ci
+  tags:
+  - Test Management
+  description: '"Run in CI": pre-creates the test run (or a new iteration of an existing run) and triggers
+    the
+
+    CI job of a connection with the run id, the iteration id, the project identifier and a grep
+
+    pattern built from the `automationReference` of the selected test cases.
+
+
+    Exactly one scope is required: `runId` (all cases of the run), `suiteId` (the folder and its
+
+    sub-folders) or `testCaseId`. With `mode: new_iteration` the iteration is added to `runId`.
+
+    Only cases with an automation reference are part of the grep; the pattern is empty (run
+
+    everything) when it would exceed 1000 characters.
+
+
+    The CI job should upload its results with `OP_RUN_ID` and `OP_ITERATION_ID` (see
+
+    `docs/ci/op-tm-upload.sh`); they then land in the pre-created iteration.
+
+
+    Providers: GitHub and Gitea / Forgejo / Codeberg (`workflow_dispatch` of the connection''s
+
+    workflow file; inputs `op_run_id`, `op_iteration_id`, `op_project`, `op_grep`), GitLab
+
+    (pipeline trigger token; variables `OP_RUN_ID`, `OP_ITERATION_ID`, `OP_PROJECT`, `OP_GREP`),
+
+    Jenkins (`buildWithParameters` with the same upper-case parameters plus `OP_REF`) and
+
+    Woodpecker (manual pipeline with the same variables).
+
+
+    The CI provider''s answer is recorded on the run (`ciTrigger`). When the provider refuses, the
+
+    run / iteration remain and the response is `502` with the provider''s error (secrets removed).
+
+
+    Self-hosted servers (also on a sub-path) use the connection''s server URL and CA certificate.
+
+    For an **inbound-only** connection OpenProject sends nothing: the run / iteration are prepared,
+
+    the response is `201` with status `manual`, and `manualStart` holds the CI variables and a
+
+    command to start the pipeline from inside the network.'
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Project id or identifier
+    example: shop
+    schema:
+      type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+          - connection
+          properties:
+            connection:
+              type: string
+              description: Id or name of an active CI connection of the project.
+            mode:
+              type: string
+              enum:
+              - new_run
+              - new_iteration
+              default: new_run
+            runId:
+              type: integer
+              description: Scope (all cases of the run) and, for `new_iteration`, the run that gets the
+                iteration.
+            suiteId:
+              type: integer
+              description: Folder scope (including sub-folders).
+            testCaseId:
+              type: integer
+            ref:
+              type: string
+              maxLength: 255
+              description: Branch, tag or ref. Defaults to the connection's default branch (`main`).
+            name:
+              type: string
+              maxLength: 255
+              description: Name of the new run / iteration.
+        examples:
+          folder:
+            value:
+              connection: E2E
+              suiteId: 12
+              ref: main
+          iteration:
+            value:
+              connection: '3'
+              mode: new_iteration
+              runId: 42
+  responses:
+    '201':
+      description: The run / iteration was prepared and the CI job was triggered (status `triggered`),
+        or, for an inbound-only connection, is waiting to be started by hand (status `manual`).
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_ci_trigger_model.yml
+          examples:
+            response:
+              value:
+                _type: TestManagementCiTrigger
+                status: triggered
+                runId: 42
+                iterationId: 97
+                iterationNumber: 3
+                ref: main
+                grep: checkout adds item|checkout pays
+                url: https://github.com/my-org/shop/actions/runs/9876543212
+                externalId: '9876543212'
+                error: null
+                _links:
+                  run:
+                    href: /api/v3/test_management/runs/42
+                    title: Checkout · E2E
+                  iteration:
+                    href: /api/v3/test_management/runs/42/iterations/3
+                  connection:
+                    href: /api/v3/test_management/ci_connections/3
+    '403':
+      description: '**Required permission:** trigger test automation'
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '404':
+      description: The project, run, folder or test case does not exist or is not visible.
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '422':
+      description: 'Unknown or inactive connection, connection not ready for triggering (workflow, token,
+
+        user name or trigger token missing), missing or ambiguous scope, no automated cases, a
+
+        finished target run or an invalid ref.'
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '502':
+      description: 'The run / iteration was prepared but the CI provider refused the trigger. The body
+        is the
+
+        same model with `status: failed` and `error`.'
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_ci_trigger_model.yml

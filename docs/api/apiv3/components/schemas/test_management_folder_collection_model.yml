@@ -1,0 +1,30 @@
+# Schema: test_management_folder_collection_model.yml
+---
+type: object
+properties:
+  _type:
+    type: string
+    enum:
+    - Collection
+  count:
+    type: integer
+    example: 1
+  total:
+    type: integer
+    example: 1
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: array
+        items:
+          $ref: ./test_management_folder_model.yml
+example:
+  _type: Collection
+  count: 1
+  total: 1
+  _embedded:
+    elements:
+    - _type: TestManagementFolder
+      id: 7
+      name: Accounts

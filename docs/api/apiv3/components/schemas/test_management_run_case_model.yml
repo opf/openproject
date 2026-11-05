@@ -1,0 +1,96 @@
+# Schema: TestManagementRunCaseModel
+type: object
+required:
+- _type
+- id
+- testCaseId
+- status
+properties:
+  _type:
+    type: string
+    enum:
+    - TestManagementRunCase
+  id:
+    type: integer
+  testCaseId:
+    type: integer
+  title:
+    type: string
+  status:
+    type: string
+    enum:
+    - untested
+    - passed
+    - failed
+    - blocked
+    - retest
+    - skipped
+  assigneeId:
+    type:
+    - integer
+    - 'null'
+  results:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+        source:
+          type: string
+          enum:
+          - manual
+          - automation
+        comment:
+          type: string
+        durationMs:
+          type: integer
+        externalId:
+          type: string
+        importId:
+          type: integer
+        details:
+          type: object
+          properties:
+            projectName:
+              type: string
+            retry:
+              type: integer
+            flaky:
+              type: boolean
+            ciRunUrl:
+              type: string
+        errorMessage:
+          type: string
+          description: Error message (0020, plain text).
+        errorTrace:
+          type: string
+          description: Stack trace (0020, plain text).
+        failedStep:
+          type: integer
+          description: Number of the first failed case step.
+        createdAt:
+          type: string
+          format: date-time
+  updatedAt:
+    type: string
+    format: date-time
+  _links:
+    type: object
+    required:
+    - self
+    - run
+    - attachments
+    properties:
+      self:
+        $ref: ./link.yml
+      run:
+        $ref: ./link.yml
+      addAttachment:
+        $ref: ./link.yml
+      addResult:
+        allOf:
+        - $ref: ./link.yml
+        - description: POST a manual result with step results (0020). Only with execute test runs.

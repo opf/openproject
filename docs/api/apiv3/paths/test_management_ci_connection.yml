@@ -1,0 +1,223 @@
+---
+get:
+  summary: View CI connection
+  operationId: View_test_management_ci_connection
+  tags:
+  - Test Management
+  description: The access token is never returned.
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: CI connection id
+    example: 42
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_ci_connection_model.yml
+          examples:
+            response:
+              value:
+                _type: TestManagementCiConnection
+                id: 3
+                name: Shop (GitHub)
+                provider: github
+                repository: my-org/shop
+                ingestMode: new_iteration
+                targetRunName: Smoke
+                active: true
+                tokenSet: true
+                checkStatus: ok
+                serverUrl: https://github.com
+                referenceQualifier: shop
+                checkedAt: '2026-10-31T08:00:00.000Z'
+                createdAt: '2026-10-30T15:20:00.000Z'
+                updatedAt: '2026-10-31T08:00:00.000Z'
+                _links:
+                  self:
+                    href: /api/v3/test_management/ci_connections/3
+                    title: Shop (GitHub)
+                  project:
+                    href: /api/v3/projects/3
+                  repository:
+                    href: https://github.com/my-org/shop
+    '404':
+      description: 'Returned if the connection does not exist or the client may not see it.
+
+
+        **Required permission:** manage CI connections, upload test results or add test runs'
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+patch:
+  summary: Update CI connection
+  operationId: Update_test_management_ci_connection
+  tags:
+  - Test Management
+  description: Only the sent properties change. An empty `token` / `triggerToken` keeps the stored one;
+    `removeToken` / `removeTriggerToken` delete it. Changing `baseUrl`, `provider` or `caCertificate`
+    requires the stored tokens to be sent again (or removed).
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: CI connection id
+    example: 42
+    schema:
+      type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/test_management_ci_connection_write_model.yml
+        examples:
+          self_hosted_gitlab:
+            value:
+              name: Shop (internal GitLab)
+              provider: gitlab
+              repository: qa/web/shop
+              token: glpat-…
+          inbound_only:
+            value:
+              name: Shop (CI → OpenProject only)
+              provider: gitlab
+              repository: qa/web/shop
+          rotate_token:
+            value:
+              token: ghp_new…
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_ci_connection_model.yml
+          examples:
+            response:
+              value:
+                _type: TestManagementCiConnection
+                id: 3
+                name: Shop (GitHub)
+                provider: github
+                repository: my-org/shop
+                ingestMode: new_iteration
+                targetRunName: Smoke
+                active: true
+                tokenSet: true
+                checkStatus: ok
+                serverUrl: https://github.com
+                referenceQualifier: shop
+                checkedAt: '2026-10-31T08:00:00.000Z'
+                createdAt: '2026-10-30T15:20:00.000Z'
+                updatedAt: '2026-10-31T08:00:00.000Z'
+                _links:
+                  self:
+                    href: /api/v3/test_management/ci_connections/3
+                    title: Shop (GitHub)
+                  project:
+                    href: /api/v3/projects/3
+                  repository:
+                    href: https://github.com/my-org/shop
+    '403':
+      description: 'The client may see the connection or project but not manage CI connections.
+
+
+        **Required permission:** manage test CI'
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: 'Returned if the connection does not exist or the client may not see it.
+
+
+        **Required permission:** manage CI connections, upload test results or add test runs'
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+    '422':
+      description: The body is invalid, e.g. a missing name, an http:// base URL, a duplicate repository
+        on the same server or a token that must be entered again.
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: Repository already has a connection of this provider on this server.
+delete:
+  summary: Delete CI connection
+  operationId: Delete_test_management_ci_connection
+  tags:
+  - Test Management
+  description: Runs and iterations of the connection stay (their connection becomes empty).
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: CI connection id
+    example: 42
+    schema:
+      type: integer
+  responses:
+    '204':
+      description: The connection was deleted.
+    '403':
+      description: 'The client may see the connection or project but not manage CI connections.
+
+
+        **Required permission:** manage test CI'
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: 'Returned if the connection does not exist or the client may not see it.
+
+
+        **Required permission:** manage CI connections, upload test results or add test runs'
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.

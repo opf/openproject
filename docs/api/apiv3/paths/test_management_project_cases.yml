@@ -1,0 +1,100 @@
+# /api/v3/… test_management_project_cases.yml
+---
+get:
+  summary: List test cases
+  operationId: List_test_management_cases
+  tags:
+  - Test Management
+  description: 'Filters: folderId, status, priority, automated, search. Pagination: offset, pageSize.
+    **Required permission:** view test cases'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_case_collection_model.yml
+    '403':
+      description: Forbidden
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Project id
+    schema:
+      type: integer
+    example: 1
+  - name: folderId
+    in: query
+    schema:
+      type: string
+    description: Folder id, or `root` for unfiled
+  - name: status
+    in: query
+    schema:
+      type: string
+  - name: priority
+    in: query
+    schema:
+      type: string
+  - name: automated
+    in: query
+    schema:
+      type: boolean
+  - name: search
+    in: query
+    schema:
+      type: string
+  - name: offset
+    in: query
+    schema:
+      type: integer
+      default: 1
+  - name: pageSize
+    in: query
+    schema:
+      type: integer
+      default: 20
+post:
+  summary: Create test case
+  operationId: Create_test_management_case
+  tags:
+  - Test Management
+  description: '**Required permission:** add test cases'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_case_model.yml
+    '403':
+      description: Forbidden
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '422':
+      description: Invalid
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Project id
+    schema:
+      type: integer
+    example: 1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/test_management_case_write_model.yml

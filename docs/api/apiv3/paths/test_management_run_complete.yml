@@ -1,0 +1,75 @@
+---
+post:
+  summary: Complete test run
+  operationId: Complete_test_management_run
+  tags:
+  - Test Management
+  description: 'Completes the run: untested cases stay untested, statuses are frozen and written to the
+    case history. `completionSource` defaults to `automation`; send `manual` to record a manual close.'
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Test run id
+    example: 42
+    schema:
+      type: integer
+  requestBody:
+    required: false
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            completionSource:
+              type: string
+              enum:
+              - automation
+              - manual
+              default: automation
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_run_model.yml
+    '403':
+      description: '**Required permission:** manage test runs, or upload test results'
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+    '404':
+      description: 'Returned if the run does not exist or the client may not see it.
+
+
+        **Required permission:** view test runs or upload test results'
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+    '409':
+      description: The run is completed or cancelled already.
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UpdateConflict
+                message: The run is already completed.

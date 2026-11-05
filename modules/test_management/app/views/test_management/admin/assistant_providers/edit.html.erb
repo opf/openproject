@@ -1,0 +1,4 @@
+<% html_title(t("test_management.admin.assistant.form.edit_title", name: @record.name)) %>
+<%= render partial: "test_management/admin/assistant_providers/form",
+           locals: { title: t("test_management.admin.assistant.form.edit_title", name: @record.name_was.presence || @record.name),
+                     url: test_management_admin_assistant_provider_path(@record), method: :patch } %>

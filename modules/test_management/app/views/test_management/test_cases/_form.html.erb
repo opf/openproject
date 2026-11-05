@@ -1,0 +1,90 @@
+<%= render partial: "test_management/test_cases/styles" %>
+<%= error_messages_for "test_case" %>
+
+<div class="tm-case-form" data-test-selector="tm-case-form">
+  <div class="form--field">
+    <%= f.text_field :title, required: true, container_class: "-wide" %>
+  </div>
+
+  <div class="form--field">
+    <%= f.select :suite_id,
+                 options_from_collection_for_select(@suites, :id, :name, f.object.suite_id),
+                 { include_blank: t("test_management.suites.unfiled") },
+                 container_class: "-middle" %>
+  </div>
+
+  <div class="form--field">
+    <%= f.select :priority, TestManagement::TestCase::PRIORITIES, {}, container_class: "-slim" %>
+  </div>
+
+  <div class="form--field">
+    <%= f.select :status, TestManagement::TestCase::STATUSES, {}, container_class: "-slim" %>
+  </div>
+
+  <div class="form--field">
+    <%= f.check_box :automated %>
+  </div>
+
+  <div class="form--field" data-test-selector="tm-case-automation-reference-field">
+    <%= f.text_field :automation_reference, container_class: "-wide", maxlength: 1024,
+                                            placeholder: "tests/login.spec.ts#Login › rejects a wrong password" %>
+    <div class="form--field-instructions">
+      <%= t("test_management.cases.automation_reference_hint") %>
+    </div>
+  </div>
+
+  <div class="form--field -vertical tm-rich-field" data-test-selector="tm-case-preconditions-field">
+    <%= f.text_area :preconditions,
+                    with_text_formatting: true,
+                    macros: "resource",
+                    container_class: "-wide",
+                    rows: 5 %>
+  </div>
+
+  <div class="form--field -vertical tm-rich-field" data-test-selector="tm-case-description-field">
+    <%= f.text_area :description,
+                    with_text_formatting: true,
+                    macros: "resource",
+                    container_class: "-wide",
+                    rows: 6 %>
+  </div>
+
+  <fieldset class="form--fieldset tm-steps-fieldset" data-test-selector="tm-case-steps-field">
+    <legend class="form--fieldset-legend"><%= t("test_management.cases.steps") %></legend>
+    <div class="tm-step-row tm-step-row--head" aria-hidden="true">
+      <span>#</span>
+      <span><%= t("test_management.cases.step_action") %></span>
+      <span><%= t("test_management.cases.step_expected") %></span>
+      <span><%= t("test_management.cases.step_data") %></span>
+      <span></span>
+    </div>
+    <%= f.fields_for :steps do |sf| %>
+      <div class="tm-step-row" data-test-selector="tm-step-row">
+        <%= sf.hidden_field :position, value: sf.index %>
+        <span class="tm-step-row--index"><%= sf.index + 1 %></span>
+        <% { action: "step_action", expected_result: "step_expected", data: "step_data" }.each do |attr, key| %>
+          <div class="tm-step-row--cell">
+            <%= label_tag sf.field_id(attr),
+                          "#{t("test_management.cases.#{key}")} #{sf.index + 1}",
+                          class: "sr-only" %>
+            <%= text_area_tag sf.field_name(attr),
+                              sf.object.public_send(attr),
+                              id: sf.field_id(attr),
+                              rows: 3,
+                              class: "form--text-area tm-step-row--input",
+                              placeholder: t("test_management.cases.#{key}") %>
+          </div>
+        <% end %>
+        <span class="tm-step-row--remove">
+          <% if sf.object.persisted? %>
+            <label class="tm-step-row--remove-label">
+              <%= check_box_tag sf.field_name(:_destroy), "1", false, id: sf.field_id(:_destroy) %>
+              <%= t("test_management.cases.remove_step") %>
+            </label>
+          <% end %>
+        </span>
+      </div>
+    <% end %>
+    <p class="tm-steps-hint color-fg-muted"><%= t("test_management.cases.steps_hint") %></p>
+  </fieldset>
+</div>

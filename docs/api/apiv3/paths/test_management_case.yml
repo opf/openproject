@@ -1,0 +1,101 @@
+# /api/v3/… test_management_case.yml
+---
+get:
+  summary: View test case
+  operationId: Show_test_management_case
+  tags:
+  - Test Management
+  description: '**Required permission:** view test cases'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_case_model.yml
+    '404':
+      description: Not found
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+  parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+    example: 1
+patch:
+  summary: Update test case
+  operationId: Update_test_management_case
+  tags:
+  - Test Management
+  description: '`lockVersion` required; mismatch → 409. Steps replace all when sent. **Required permission:**
+    edit test cases'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_case_model.yml
+    '403':
+      description: Forbidden
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '409':
+      description: Stale lockVersion
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '422':
+      description: Invalid
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+  parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+    example: 1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/test_management_case_write_model.yml
+delete:
+  summary: Delete test case
+  operationId: Delete_test_management_case
+  tags:
+  - Test Management
+  description: Hard delete. **Required permission:** delete test cases
+  responses:
+    '204':
+      description: Deleted
+    '403':
+      description: Forbidden
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '404':
+      description: Not found
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+  parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+    example: 1

@@ -1,0 +1,18 @@
+# Schema: test_management_folder_write_model.yml
+---
+type: object
+properties:
+  name:
+    type: string
+    example: Accounts
+  parentId:
+    type:
+    - integer
+    - 'null'
+    example: null
+  position:
+    type: integer
+    example: 0
+example:
+  name: Accounts
+  parentId: null

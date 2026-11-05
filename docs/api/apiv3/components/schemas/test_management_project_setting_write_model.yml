@@ -1,0 +1,25 @@
+# Schema: test_management_project_setting_write_model.yml
+---
+type: object
+properties:
+  displayPrefix:
+    type: string
+    maxLength: 32
+    example: DEMO
+  folderTreeLayout:
+    type: string
+    enum:
+    - split_pane
+    - sidebar
+  enableCi:
+    type: boolean
+  enableMilestones:
+    type: boolean
+  enableTestPlans:
+    type: boolean
+  enableTestAssistant:
+    type: boolean
+example:
+  displayPrefix: DEMO
+  folderTreeLayout: split_pane
+  enableCi: true

@@ -1,0 +1,142 @@
+<% run = f.object %>
+<% selected_ids = Array(run.selected_case_ids).map(&:to_i) %>
+<% cases_by_suite = @selectable_cases.group_by(&:suite_id) %>
+<% suites_by_parent = @suites.group_by(&:parent_id) %>
+<% known_suite_ids = @suites.map(&:id) %>
+<% unfiled_cases = @selectable_cases.select { |c| c.suite_id.nil? || known_suite_ids.exclude?(c.suite_id) } %>
+<%= error_messages_for "test_run" %>
+
+<div class="tm-run-form--fields" data-test-selector="tm-run-form">
+  <div class="form--field">
+    <%= f.text_field :name, required: true, container_class: "-wide", list: "tm-run-name-suggestions", autocomplete: "off" %>
+    <datalist id="tm-run-name-suggestions">
+      <% @suites.each do |suite| %>
+        <option value="<%= suite.name %>"></option>
+      <% end %>
+    </datalist>
+    <div class="form--field-instructions"><%= t("test_management.runs.form.name_hint") %></div>
+  </div>
+
+  <div class="form--field">
+    <%= f.select :assigned_to_id,
+                 options_from_collection_for_select(@possible_assignees, :id, :name, run.assigned_to_id),
+                 { include_blank: t("test_management.runs.assigned_to_none") },
+                 container_class: "-middle" %>
+    <div class="form--field-instructions"><%= t("test_management.runs.form.assignee_hint") %></div>
+  </div>
+
+  <div class="form--field -vertical tm-rich-field" data-test-selector="tm-run-description-field">
+    <%= f.text_area :description,
+                    with_text_formatting: true,
+                    macros: "resource",
+                    container_class: "-wide",
+                    rows: 5 %>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_field :start_date, type: "date", container_class: "-slim" %>
+    <div class="form--field-instructions"><%= t("test_management.runs.form.start_date_hint") %></div>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_field :end_date, type: "date", container_class: "-slim" %>
+    <div class="form--field-instructions"><%= t("test_management.runs.form.end_date_hint") %></div>
+  </div>
+
+  <fieldset class="form--fieldset tm-run-selection" data-test-selector="tm-run-selection">
+    <legend class="form--fieldset-legend"><%= t("test_management.runs.form.selection_legend") %></legend>
+    <%= hidden_field_tag "test_run[selection_submitted]", "1", id: nil %>
+
+    <div class="tm-run-option" data-test-selector="tm-run-mode-all">
+      <%= radio_button_tag "test_run[selection_mode]", "all", run.selection_mode == "all", id: "test_run_selection_mode_all" %>
+      <div class="tm-run-option--body">
+        <label for="test_run_selection_mode_all"><strong><%= t("test_management.runs.form.mode_all") %></strong></label>
+        <span class="tm-run-option--hint"><%= t("test_management.runs.form.mode_all_hint") %></span>
+        <div class="tm-run-filter" data-test-selector="tm-run-filter-automation">
+          <span class="tm-run-filter--title"><%= t("test_management.runs.form.filter_automation") %></span>
+          <% TestManagement::TestRun::AUTOMATION_FILTERS.each do |value| %>
+            <label class="tm-run-filter--choice">
+              <%= radio_button_tag "test_run[filter_options][automation]", value, run.filter_automation == value,
+                                   id: "test_run_filter_automation_#{value}" %>
+              <%= t("test_management.runs.form.automation_#{value}") %>
+            </label>
+          <% end %>
+        </div>
+
+        <% if @suites.any? %>
+          <div class="tm-run-filter" data-test-selector="tm-run-filter-folders">
+            <span class="tm-run-filter--title"><%= t("test_management.runs.form.filter_folders") %></span>
+            <% @suites.sort_by(&:path_name).each do |suite| %>
+              <label class="tm-run-filter--choice">
+                <%= check_box_tag "test_run[filter_options][suite_ids][]", suite.id,
+                                  run.filter_suite_ids.include?(suite.id),
+                                  id: "test_run_filter_suite_#{suite.id}" %>
+                <%= suite.path_name %>
+              </label>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="tm-run-option" data-test-selector="tm-run-mode-specific">
+      <%= radio_button_tag "test_run[selection_mode]", "specific", run.selection_mode == "specific", id: "test_run_selection_mode_specific" %>
+      <div class="tm-run-option--body">
+        <label for="test_run_selection_mode_specific"><strong><%= t("test_management.runs.form.mode_specific") %></strong></label>
+        <span class="tm-run-option--hint"><%= t("test_management.runs.form.mode_specific_hint") %></span>
+        <div class="tm-run-option--count" data-test-selector="tm-run-selected-count">
+          <%= t("test_management.runs.form.included", count: selected_ids.size) %>
+          (<%= render(
+                 Primer::Alpha::Dialog.new(
+                   id: "tm-run-case-selection",
+                   title: t("test_management.runs.form.selection_dialog_title"),
+                   subtitle: t("test_management.runs.form.selection_dialog_hint"),
+                   size: :large
+                 )
+               ) do |dialog| %>
+            <% dialog.with_show_button(scheme: :link, data: { test_selector: "tm-run-change-selection" }) do %>
+              <%= t("test_management.runs.form.change_selection") %>
+            <% end %>
+            <% dialog.with_body do %>
+              <ul class="tm-run-tree" data-test-selector="tm-run-selection-tree">
+                <% (suites_by_parent[nil] || []).each do |suite| %>
+                  <%= render partial: "test_management/test_runs/selection_folder",
+                             locals: { suite:, suites_by_parent:, cases_by_suite:, selected_ids: } %>
+                <% end %>
+                <% if unfiled_cases.any? %>
+                  <li class="tm-run-tree--folder">
+                    <span class="tm-run-tree--folder-name">
+                      <%= render(Primer::Beta::Octicon.new(icon: :"file-directory", "aria-hidden": true)) %>
+                      <%= t("test_management.runs.form.unfiled") %>
+                    </span>
+                    <ul>
+                      <% unfiled_cases.each do |test_case| %>
+                        <%= render partial: "test_management/test_runs/selection_case", locals: { test_case:, selected_ids: } %>
+                      <% end %>
+                    </ul>
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
+            <% dialog.with_footer do %>
+              <%= render(Primer::Beta::Button.new(data: { close_dialog_id: "tm-run-case-selection" })) { t(:button_cancel) } %>
+              <%= render(
+                    Primer::Beta::Button.new(
+                      type: :submit,
+                      scheme: :primary,
+                      name: "refresh_selection",
+                      value: "1",
+                      form: "tm-run-form",
+                      data: { test_selector: "tm-run-apply-selection" }
+                    )
+                  ) do %>
+                <%= t("test_management.runs.form.apply_selection") %>
+              <% end %>
+            <% end %>
+          <% end %>)
+        </div>
+      </div>
+    </div>
+
+  </fieldset>
+</div>

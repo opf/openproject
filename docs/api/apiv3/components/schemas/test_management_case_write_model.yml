@@ -1,0 +1,71 @@
+# Schema: test_management_case_write_model.yml
+---
+type: object
+properties:
+  title:
+    type: string
+    example: Reset password
+  description:
+    type:
+    - string
+    - 'null'
+  preconditions:
+    type:
+    - string
+    - 'null'
+  priority:
+    type: string
+    enum:
+    - critical
+    - high
+    - medium
+    - low
+  status:
+    type: string
+    enum:
+    - ready
+    - draft
+    - deprecated
+    - blocked
+  automated:
+    type: boolean
+  automationReference:
+    type:
+    - string
+    - 'null'
+  folderId:
+    type:
+    - integer
+    - 'null'
+    example: 7
+  assigneeId:
+    type:
+    - integer
+    - 'null'
+  lockVersion:
+    type: integer
+    description: Required on PATCH. Mismatch returns 409.
+    example: 1
+  steps:
+    type: array
+    description: Replaces all steps when present.
+    items:
+      type: object
+      properties:
+        action:
+          type: string
+        expectedResult:
+          type: string
+        data:
+          type:
+          - string
+          - 'null'
+example:
+  title: Reset password
+  priority: high
+  status: ready
+  folderId: 7
+  lockVersion: 1
+  steps:
+  - action: Open reset form
+    expectedResult: Form is shown

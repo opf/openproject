@@ -1,0 +1,94 @@
+# /api/v3/… test_management_folder.yml
+---
+get:
+  summary: View folder
+  operationId: Show_test_management_folder
+  tags:
+  - Test Management
+  description: '**Required permission:** view test cases'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_folder_model.yml
+    '404':
+      description: Not found
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+  parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+    example: 1
+patch:
+  summary: Update folder
+  operationId: Update_test_management_folder
+  tags:
+  - Test Management
+  description: '**Required permission:** manage test suites'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_folder_model.yml
+    '403':
+      description: Forbidden
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '422':
+      description: Invalid
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+  parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+    example: 1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/test_management_folder_write_model.yml
+delete:
+  summary: Delete folder
+  operationId: Delete_test_management_folder
+  tags:
+  - Test Management
+  description: '**Required permission:** manage test suites'
+  responses:
+    '204':
+      description: Deleted
+    '403':
+      description: Forbidden
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '404':
+      description: Not found
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+  parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+    example: 1

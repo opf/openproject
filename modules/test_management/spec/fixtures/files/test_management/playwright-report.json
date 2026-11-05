@@ -1,0 +1,94 @@
+{
+  "config": { "version": "1.48.0", "rootDir": "/repo/tests" },
+  "suites": [
+    {
+      "title": "login.spec.ts",
+      "file": "login.spec.ts",
+      "specs": [],
+      "suites": [
+        {
+          "title": "Login",
+          "file": "login.spec.ts",
+          "specs": [
+            {
+              "title": "signs in with valid credentials",
+              "ok": true,
+              "tags": ["@smoke"],
+              "file": "login.spec.ts",
+              "line": 5,
+              "tests": [
+                {
+                  "projectName": "chromium",
+                  "status": "expected",
+                  "annotations": [],
+                  "results": [{ "status": "passed", "duration": 1200, "retry": 0, "attachments": [] }]
+                },
+                {
+                  "projectName": "firefox",
+                  "status": "unexpected",
+                  "annotations": [],
+                  "results": [
+                    {
+                      "status": "failed",
+                      "duration": 2300,
+                      "retry": 0,
+                      "error": { "message": "\u001b[31mExpected: \"Welcome\"\u001b[39m\nReceived: \"Error\"", "stack": "Error: expect(received)\n    at login.spec.ts:12:5" },
+                      "attachments": [
+                        { "name": "screenshot", "contentType": "image/png", "path": "/repo/test-results/login-firefox/test-failed-1.png" }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "rejects a wrong password @TC-WRONG",
+              "ok": true,
+              "tags": [],
+              "file": "login.spec.ts",
+              "line": 20,
+              "tests": [
+                {
+                  "projectName": "chromium",
+                  "status": "flaky",
+                  "annotations": [{ "type": "tm_case", "description": "__CASE_ID__" }],
+                  "results": [
+                    { "status": "failed", "duration": 900, "retry": 0, "error": { "message": "timeout" } },
+                    { "status": "passed", "duration": 800, "retry": 1 }
+                  ]
+                }
+              ]
+            },
+            {
+              "title": "remembers the user",
+              "ok": true,
+              "tags": [],
+              "file": "login.spec.ts",
+              "line": 30,
+              "tests": [
+                { "projectName": "chromium", "status": "skipped", "annotations": [{ "type": "skip" }], "results": [{ "status": "skipped", "duration": 0, "retry": 0 }] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "reports.spec.ts",
+      "file": "reports.spec.ts",
+      "specs": [
+        {
+          "title": "exports a monthly report",
+          "ok": true,
+          "tags": ["@reports"],
+          "file": "reports.spec.ts",
+          "line": 3,
+          "tests": [
+            { "projectName": "chromium", "status": "expected", "annotations": [], "results": [{ "status": "passed", "duration": 3000, "retry": 0 }] }
+          ]
+        }
+      ]
+    }
+  ],
+  "stats": { "expected": 2, "unexpected": 1, "flaky": 1, "skipped": 1 }
+}

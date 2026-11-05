@@ -1,0 +1,68 @@
+# /api/v3/… test_management_project_folders.yml
+---
+get:
+  summary: List folders
+  operationId: List_test_management_folders
+  tags:
+  - Test Management
+  description: '**Required permission:** view test cases'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_folder_collection_model.yml
+    '403':
+      description: Forbidden
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Project id
+    schema:
+      type: integer
+    example: 1
+post:
+  summary: Create folder
+  operationId: Create_test_management_folder
+  tags:
+  - Test Management
+  description: '**Required permission:** manage test suites'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_folder_model.yml
+    '403':
+      description: Forbidden
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '422':
+      description: Invalid
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Project id
+    schema:
+      type: integer
+    example: 1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/test_management_folder_write_model.yml

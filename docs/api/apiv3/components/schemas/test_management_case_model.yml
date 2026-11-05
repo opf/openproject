@@ -1,0 +1,101 @@
+# Schema: test_management_case_model.yml
+---
+type: object
+required:
+- _type
+- id
+- title
+- lockVersion
+properties:
+  _type:
+    type: string
+    enum:
+    - TestManagementCase
+  id:
+    type: integer
+    example: 12
+  formattedId:
+    type: string
+    example: DEMO-12
+  title:
+    type: string
+    example: Reset password
+  description:
+    type:
+    - string
+    - 'null'
+  preconditions:
+    type:
+    - string
+    - 'null'
+  priority:
+    type: string
+    enum:
+    - critical
+    - high
+    - medium
+    - low
+    example: high
+  status:
+    type: string
+    enum:
+    - ready
+    - draft
+    - deprecated
+    - blocked
+    example: ready
+  automated:
+    type: boolean
+    example: false
+  automationReference:
+    type:
+    - string
+    - 'null'
+    example: login.spec.ts#reset
+  lockVersion:
+    type: integer
+    example: 1
+  steps:
+    type: array
+    items:
+      type: object
+      properties:
+        position:
+          type: integer
+        action:
+          type: string
+        expectedResult:
+          type: string
+        data:
+          type:
+          - string
+          - 'null'
+    example:
+    - position: 0
+      action: Open reset form
+      expectedResult: Form is shown
+      data: null
+  createdAt:
+    type: string
+    format: date-time
+  updatedAt:
+    type: string
+    format: date-time
+  _links:
+    type: object
+example:
+  _type: TestManagementCase
+  id: 12
+  formattedId: DEMO-12
+  title: Reset password
+  priority: high
+  status: ready
+  automated: false
+  lockVersion: 1
+  steps:
+  - position: 0
+    action: Open reset form
+    expectedResult: Form is shown
+  _links:
+    self:
+      href: /api/v3/test_management/cases/12

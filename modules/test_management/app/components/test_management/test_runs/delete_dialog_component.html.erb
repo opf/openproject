@@ -1,0 +1,18 @@
+<%=
+  render(
+    Primer::OpenProject::DangerDialog.new(
+      id:,
+      title:,
+      confirm_button_text:,
+      form_arguments:,
+      test_selector: "tm-run-delete-dialog"
+    )
+  ) do |dialog|
+    dialog.with_confirmation_message do |message|
+      message.with_heading(tag: :h2) { heading }
+      message.with_description_content(description)
+    end
+
+    dialog.with_confirmation_check_box_content(confirmation_checkbox_text)
+  end
+%>

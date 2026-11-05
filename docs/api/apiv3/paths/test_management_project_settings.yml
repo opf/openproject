@@ -1,0 +1,74 @@
+# /api/v3/… test_management_project_settings.yml
+---
+get:
+  summary: View project test management settings
+  operationId: Show_test_management_project_settings
+  tags:
+  - Test Management
+  description: Returns the project settings. **Required permission:** view test cases
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_project_setting_model.yml
+    '403':
+      description: Missing permission
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '404':
+      description: Not found
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Project id
+    schema:
+      type: integer
+    example: 1
+patch:
+  summary: Update project test management settings
+  operationId: Update_test_management_project_settings
+  tags:
+  - Test Management
+  description: Updates project settings. **Required permission:** manage test management
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_project_setting_model.yml
+    '403':
+      description: Missing permission
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '422':
+      description: Invalid
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Project id
+    schema:
+      type: integer
+    example: 1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/test_management_project_setting_write_model.yml

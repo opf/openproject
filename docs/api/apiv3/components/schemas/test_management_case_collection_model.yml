@@ -1,0 +1,35 @@
+# Schema: test_management_case_collection_model.yml
+---
+type: object
+properties:
+  _type:
+    type: string
+    enum:
+    - Collection
+  count:
+    type: integer
+  total:
+    type: integer
+  pageSize:
+    type: integer
+  offset:
+    type: integer
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: array
+        items:
+          $ref: ./test_management_case_model.yml
+example:
+  _type: Collection
+  count: 1
+  total: 1
+  pageSize: 20
+  offset: 1
+  _embedded:
+    elements:
+    - _type: TestManagementCase
+      id: 12
+      title: Reset password
+      lockVersion: 1

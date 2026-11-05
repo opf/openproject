@@ -1,0 +1,94 @@
+<% preset = TestManagement::Assistant::AI::Provider.find(settings[:assistant_provider]) %>
+<div id="tm-assistant-provider-fields" data-test-selector="tm-assistant-provider-fields">
+  <%= hidden_field_tag :assistant_provider_was, preset.key, id: "assistant_provider_was" %>
+  <div class="form--field">
+    <label class="form--label" for="assistant_base_url"><%= t("test_management.admin.assistant.base_url") %></label>
+    <div class="form--field-container">
+      <%= text_field_tag :assistant_base_url, settings[:assistant_base_url].presence || preset.base_url,
+                         class: "form--text-field", maxlength: 1024, autocomplete: "off",
+                         placeholder: preset.base_url_placeholder.presence || preset.base_url %>
+    </div>
+    <div class="form--field-instructions" data-test-selector="tm-assistant-base-url-hint">
+      <%= t("test_management.admin.assistant.base_url_hints.#{preset.key}") %>
+      <% if (docs_url = TestManagement::Assistant::AI::Provider.docs_url_for(preset.key)) %>
+        <%= link_to t("test_management.admin.assistant.docs"), docs_url, target: "_blank", rel: "noopener noreferrer" %>
+      <% end %>
+    </div>
+  </div>
+
+  <% if preset.custom? %>
+    <div class="form--field">
+      <label class="form--label" for="assistant_auth_style"><%= t("test_management.admin.assistant.auth_style") %></label>
+      <div class="form--field-container">
+        <%= select_tag :assistant_auth_style,
+                       options_for_select(
+                         TestManagement::Assistant::ProviderConfig::AUTH_STYLES.map { |s| [t("test_management.admin.assistant.auth_styles.#{s}"), s] },
+                         settings[:assistant_auth_style].presence || "bearer"
+                       ),
+                       class: "form--select" %>
+      </div>
+    </div>
+  <% else %>
+    <%= hidden_field_tag :assistant_auth_style, settings[:assistant_auth_style].presence || "bearer" %>
+  <% end %>
+
+    <% other_provider_key = provider.api_key_set? && preset.key != provider.provider.key %>
+  <div class="form--field">
+    <label class="form--label" for="assistant_api_key"><%= t("test_management.admin.assistant.api_key") %></label>
+    <div class="form--field-container">
+      <%= password_field_tag :assistant_api_key, nil, class: "form--text-field", autocomplete: "new-password",
+                                                      placeholder: provider.api_key_set? && !other_provider_key ? t("test_management.admin.assistant.api_key_keep") : "" %>
+    </div>
+    <div class="form--field-instructions" data-test-selector="tm-assistant-api-key-state">
+      <% unless preset.custom? %>
+        <%= t("test_management.admin.assistant.auth_fixed.#{preset.auth_style}") %>
+      <% end %>
+      <% if other_provider_key %>
+        <span data-test-selector="tm-assistant-api-key-other-provider">
+          <%= t(
+                preset.key_required == false ? "test_management.admin.assistant.api_key_other_provider_optional" : "test_management.admin.assistant.api_key_other_provider",
+                provider: provider.provider.label
+              ) %>
+        </span>
+      <% elsif provider.api_key_unreadable? %>
+        <%= t("test_management.admin.assistant.api_key_unreadable") %>
+      <% elsif provider.api_key_set? %>
+        <%= t("test_management.admin.assistant.api_key_set") %>
+      <% else %>
+        <%= t("test_management.admin.assistant.api_key_hint") %>
+      <% end %>
+    </div>
+    <% if provider.api_key_set? %>
+      <label class="form--label-with-check-box">
+        <%= check_box_tag :remove_api_key, "1", false %>
+        <%= t("test_management.admin.assistant.remove_api_key") %>
+      </label>
+    <% end %>
+  </div>
+
+  <div class="form--field">
+    <div class="form--field-container">
+      <%= button_tag t("test_management.admin.assistant.test.button"),
+                     type: "submit", name: nil, class: "button",
+                     formaction: test_url, formmethod: "post",
+                     data: { test_selector: "tm-assistant-test-connection", turbo_submits_with: t("test_management.admin.assistant.test.running") } %>
+    </div>
+    <div class="form--field-instructions">
+      <%= t("test_management.admin.assistant.test.hint") %>
+      <%= t("test_management.admin.assistant.test.scope_hints.#{preset.models_scope}") %>
+    </div>
+  </div>
+
+  <%= render partial: "test_management/admin/settings/model_field", locals: { settings:, test_result: } %>
+
+    <div class="form--field">
+    <label class="form--label-with-check-box">
+      <%= hidden_field_tag :verify_model, "0", id: nil %>
+      <%= check_box_tag :verify_model, "1",
+                        settings.key?(:verify_model) ? ActiveModel::Type::Boolean.new.cast(settings[:verify_model]) == true : !preset.key_scoped_models?,
+                        data: { test_selector: "tm-assistant-verify-model" } %>
+      <%= t("test_management.admin.assistant.verify.label") %>
+    </label>
+    <div class="form--field-instructions"><%= t("test_management.admin.assistant.verify.hint") %></div>
+  </div>
+</div>

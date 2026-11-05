@@ -1,0 +1,50 @@
+# Schema: TestManagementCiConnectionWriteModel
+---
+type: object
+description: Body of create and update requests for GitHub CI connections. `token` is write-only.
+properties:
+  name:
+    type: string
+    maxLength: 255
+    example: Shop
+  provider:
+    type: string
+    enum: [github]
+    example: github
+  repository:
+    type: string
+    maxLength: 255
+    example: my-org/shop
+  ingestMode:
+    type: string
+    enum: [new_run, new_iteration]
+    example: new_run
+  targetRunName:
+    type: [string, "null"]
+    description: Required for `new_iteration`.
+    example: Smoke
+  active:
+    type: boolean
+    example: true
+  token:
+    type: string
+    writeOnly: true
+    example: ghp_example
+  removeToken:
+    type: boolean
+    writeOnly: true
+  workflow:
+    type: [string, "null"]
+    example: e2e.yml
+  ref:
+    type: [string, "null"]
+    description: Default branch for Run in CI.
+    example: main
+example:
+  name: Shop
+  provider: github
+  repository: my-org/shop
+  ingestMode: new_run
+  workflow: e2e.yml
+  ref: main
+  token: ghp_example

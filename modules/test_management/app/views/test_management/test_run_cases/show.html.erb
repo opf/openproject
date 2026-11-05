@@ -1,0 +1,113 @@
+<% html_title("#{@test_case.formatted_id} · #{@test_run.name}") %>
+<%= render partial: "test_management/test_runs/styles" %>
+<% run_path = project_test_management_test_run_path(@project, @test_run, anchor: "run-case-#{@run_case.id}") %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title(data: { test_selector: "tm-run-case-title" }) { @test_case.title }
+    header.with_description do
+      safe_join(
+        [
+          content_tag(:span, @test_case.formatted_id, class: "tm-run-id"),
+          tm_run_status_label(@run_case.effective_status),
+          content_tag(
+            :span,
+            t(
+              "test_management.run_case.assignee",
+              user: @run_case.assigned_to&.name || t("test_management.runs.assigned_to_none")
+            ),
+            class: "color-fg-muted"
+          )
+        ],
+        " "
+      )
+    end
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_runs_path(@project), text: t("test_management.runs.title") },
+        { href: run_path, text: @test_run.name },
+        @test_case.formatted_id
+      ]
+    )
+    header.with_action_button(
+      tag: :a,
+      href: project_test_management_test_case_path(@project, @test_case),
+      mobile_icon: :"link-external",
+      mobile_label: t("test_management.run_case.open_case"),
+      data: { test_selector: "tm-run-case-open-case" }
+    ) do |button|
+      button.with_leading_visual_icon(icon: :"link-external")
+      t("test_management.run_case.open_case")
+    end
+  end
+%>
+
+<% if @latest&.error? %>
+  <section class="tm-run-case--section" data-test-selector="tm-run-case-error">
+    <h3><%= t("test_management.run_case.error") %></h3>
+    <%= tm_error_block(@latest.error_message, @latest.error_trace, selector: "tm-run-case-error-block") %>
+  </section>
+<% end %>
+
+<section class="tm-run-case--section">
+  <h3><%= t("test_management.cases.steps") %></h3>
+  <% if @case_steps.any? %>
+    <table class="generic-table" data-test-selector="tm-case-steps">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th><%= t("test_management.cases.step_action") %></th>
+          <th><%= t("test_management.cases.step_expected") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @case_steps.each_with_index do |step, index| %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><div class="op-uc-container"><%= format_text(step.action.to_s) %></div></td>
+            <td><div class="op-uc-container"><%= format_text(step.expected_result.to_s) %></div></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="color-fg-muted" data-test-selector="tm-run-case-no-steps"><%= t("test_management.cases.no_steps") %></p>
+  <% end %>
+</section>
+
+<% if @can_execute %>
+  <%= form_with url: project_test_management_test_run_run_case_path(@project, @test_run, @run_case), method: :patch,
+                scope: :run_case, id: "tm-run-case-form", data: { test_selector: "tm-run-case-form" } do %>
+    <%= hidden_field_tag :return_to, "run_case" %>
+    <%= render partial: "test_management/test_run_cases/record_fields" %>
+  <% end %>
+<% end %>
+
+<section class="tm-run-case--section" data-test-selector="tm-run-case-history">
+  <h3><%= t("test_management.run_case.history") %></h3>
+  <% if @results.empty? %>
+    <p class="color-fg-muted"><%= t("test_management.run_case.no_results") %></p>
+  <% end %>
+  <% @results.each do |result| %>
+    <div class="tm-run-case--history-item" data-test-selector="tm-run-case-result-<%= result.id %>">
+      <div>
+        <%= tm_run_status_label(result.status) %>
+        <span class="color-fg-muted">
+          <%= format_time(result.created_at) %> · <%= result.user&.name || "—" %>
+          <% if result.iteration %>· <%= t("test_management.run_case.iteration", number: result.iteration.number) %><% end %>
+          <% if result.automation? %>· <%= t("test_management.runs.automation.badge") %><% end %>
+        </span>
+      </div>
+      <% if result.comment.present? && !(result.automation? && result.error?) %><div><%= result.comment %></div><% end %>
+      <% line = tm_error_first_line(result.error_message).presence %>
+      <% if line %><div class="tm-run-table--error"><%= line %></div><% end %>
+      <% if result.error? %>
+        <details>
+          <summary class="color-fg-muted"><%= t("test_management.run_case.show_error") %></summary>
+          <%= tm_error_block(result.error_message, result.error_trace, selector: "tm-history-error-#{result.id}") %>
+        </details>
+      <% end %>
+    </div>
+  <% end %>
+</section>

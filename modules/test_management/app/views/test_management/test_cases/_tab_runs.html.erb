@@ -1,0 +1,39 @@
+<% run_cases = @run_cases || [] %>
+<% if run_cases.any? %>
+  <table class="generic-table tm-case-runs" data-test-selector="tm-case-runs">
+    <thead>
+      <tr>
+        <th><%= t("test_management.runs.columns.run") %></th>
+        <th><%= t("test_management.runs.columns.state") %></th>
+        <th><%= t("test_management.runs.columns.status") %></th>
+        <th><%= t("test_management.runs.columns.assignee") %></th>
+        <th><%= t("test_management.runs.columns.date") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% run_cases.each do |run_case| %>
+        <% run = run_case.test_run %>
+        <tr data-test-selector="tm-case-run-<%= run.id %>">
+          <td>
+            <%= link_to "#{run.formatted_id} #{run.name}", project_test_management_test_run_path(@project, run) %>
+          </td>
+          <td><%= tm_run_state_label(run) %></td>
+          <td>
+            <%= tm_run_status_label(run_case.effective_status) %>
+            <% if run_case.final_status.present? %>
+              <span class="color-fg-muted tm-final-hint"><%= t("test_management.runs.final") %></span>
+            <% end %>
+          </td>
+          <td><%= run_case.assigned_to ? link_to_user(run_case.assigned_to) : tm_unknown %></td>
+          <td><%= format_time(run.finished_at || run_case.updated_at) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <%= render(Primer::Beta::Blankslate.new(border: true, narrow: true, data: { test_selector: "tm-case-runs-empty" })) do |slate| %>
+    <% slate.with_visual_icon(icon: :play) %>
+    <% slate.with_heading(tag: :h3) { t("test_management.cases.runs_empty") } %>
+    <% slate.with_description { t("test_management.cases.runs_empty_hint") } %>
+  <% end %>
+<% end %>

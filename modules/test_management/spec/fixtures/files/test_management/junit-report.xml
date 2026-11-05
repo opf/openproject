@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="api" tests="4" failures="1" errors="0" skipped="1" time="1.75">
+  <testsuite name="UsersApiTest" tests="4" failures="1" skipped="1" time="1.75">
+    <testcase classname="UsersApiTest" name="creates a user" time="0.5">
+      <properties><property name="tm_case" value="__CASE_ID__"/></properties>
+    </testcase>
+    <testcase classname="UsersApiTest" name="rejects duplicate e-mail" time="0.75">
+      <failure message="expected 422, got 500" type="AssertionError">Traceback: users_api_test.rb:42</failure>
+      <system-out>[[ATTACHMENT|/tmp/artifacts/duplicate.log]]</system-out>
+    </testcase>
+    <testcase classname="UsersApiTest" name="paginates users" time="0.5"/>
+    <testcase classname="UsersApiTest" name="deletes a user" time="0">
+      <skipped message="not implemented"/>
+    </testcase>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,53 @@
+---
+post:
+  summary: Record a test result
+  operationId: Create_test_management_run_case_result
+  tags:
+  - Test Management
+  description: 'Records a manual result for a case in a run, optionally with a status, a comment, an error
+
+    message and one result per case step. The run case status is updated.'
+  parameters:
+  - name: id
+    in: path
+    required: true
+    description: Run case id
+    example: 42
+    schema:
+      type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/test_management_result_write_model.yml
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/test_management_result_model.yml
+    '403':
+      description: '**Required permission:** execute test runs or add test runs'
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '404':
+      description: Returned if the run case does not exist or the client may not see it.
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '409':
+      description: The run is completed or cancelled.
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml
+    '422':
+      description: Unknown status, a step of another case, or nothing to record.
+      content:
+        application/hal+json:
+          schema:
+            $ref: ../components/schemas/error_response.yml

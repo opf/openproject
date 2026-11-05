@@ -1,0 +1,60 @@
+<% html_title(t("test_management.ci.title")) %>
+<%= render partial: "test_management/test_runs/styles" %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("test_management.ci.title") }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_cases_path(@project), text: t(:project_module_test_management) },
+        t("test_management.ci.title")
+      ]
+    )
+  end
+%>
+
+<section data-test-selector="tm-ci-connections-summary">
+  <h3><%= t("test_management.project_settings.ci.title") %></h3>
+  <% if @connections.empty? %>
+    <p class="color-fg-muted"><%= t("test_management.project_settings.ci.empty") %></p>
+  <% else %>
+    <ul>
+      <% @connections.each do |connection| %>
+        <li data-test-selector="tm-ci-connection-<%= connection.id %>">
+          <strong><%= connection.name %></strong>
+          <span class="color-fg-muted"><%= connection.repository %></span>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+  <% if User.current.allowed_in_project?(:manage_test_ci, @project) %>
+    <%= link_to t("test_management.ci.manage_connections"),
+                project_test_management_project_settings_path(@project, anchor: "tm-ci-connections") %>
+  <% end %>
+</section>
+
+<section data-test-selector="tm-ci-recent-runs">
+  <h3><%= t("test_management.ci.recent_runs") %></h3>
+  <% if @test_runs.empty? %>
+    <p class="color-fg-muted" data-test-selector="tm-ci-no-runs"><%= t("test_management.ci.no_runs") %></p>
+  <% else %>
+    <table class="generic-table">
+      <tbody>
+        <% @test_runs.each do |run| %>
+          <tr data-test-selector="tm-ci-run-<%= run.id %>">
+            <td><%= link_to "#{run.formatted_id} #{run.name}", project_test_management_test_run_path(@project, run) %></td>
+            <td><%= tm_run_state_label(run) %></td>
+            <td><%= format_time(run.created_at) %></td>
+            <% if User.current.allowed_in_project?(:trigger_test_automation, @project) %>
+              <td>
+                <%= link_to t("test_management.ci_triggers.button"),
+                            new_project_test_management_ci_trigger_path(@project, run_id: run.id),
+                            data: { test_selector: "tm-ci-run-trigger-#{run.id}" } %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</section>

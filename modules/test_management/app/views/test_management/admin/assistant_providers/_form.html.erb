@@ -1,0 +1,96 @@
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { title }
+    header.with_breadcrumbs(
+      [t(:label_administration),
+       { href: test_management_admin_settings_path(anchor: "tm-assistant-providers"), text: t("test_management.admin.heading") },
+       title]
+    )
+  end
+%>
+
+<%= form_with url:, method:, local: true,
+              data: { controller: "refresh-on-form-changes",
+                      "refresh-on-form-changes-target": "form",
+                      "refresh-on-form-changes-turbo-stream-url-value": provider_form_test_management_admin_assistant_providers_path,
+                      test_selector: "tm-assistant-provider-form" } do %>
+    <%= submit_tag t(:button_save),
+                   name: nil,
+                   tabindex: -1,
+                   "aria-hidden": true,
+                   data: { test_selector: "tm-settings-default-submit" },
+                   style: "position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden;" %>
+  <%= hidden_field_tag :provider_id, @record.id, id: "tm_provider_id" if @record.persisted? %>
+
+  <fieldset class="form--fieldset" id="tm-assistant-provider" data-test-selector="tm-assistant-provider">
+    <legend><%= t("test_management.admin.assistant.form.legend") %></legend>
+    <% if @record.persisted? %>
+      <p data-test-selector="tm-assistant-provider-status">
+        <%= t("test_management.admin.assistant.status") %>:
+        <strong><%= @record.configured? ? t("test_management.admin.assistant.configured", label: @record.config.label) : t("test_management.admin.assistant.not_configured") %></strong>
+      </p>
+    <% end %>
+    <div class="form--field -required">
+      <label class="form--label" for="name"><%= t("test_management.admin.assistant.form.name") %></label>
+      <div class="form--field-container">
+        <%= text_field_tag :name, @settings[:name], class: "form--text-field", maxlength: TestManagement::AssistantProvider::NAME_LIMIT,
+                                                    required: true, autocomplete: "off",
+                                                    placeholder: t("test_management.admin.assistant.form.name_placeholder") %>
+      </div>
+      <div class="form--field-instructions"><%= t("test_management.admin.assistant.form.name_hint") %></div>
+    </div>
+    <div class="form--field">
+      <label class="form--label" for="assistant_provider"><%= t("test_management.admin.assistant.provider") %></label>
+      <div class="form--field-container">
+        <%= select_tag :assistant_provider,
+                       options_for_select(
+                         TestManagement::Assistant::AI::Provider.all.map { [it.label, it.key] },
+                         TestManagement::Assistant::AI::Provider.find(@settings[:assistant_provider]).key
+                       ),
+                       class: "form--select",
+                       data: { action: "refresh-on-form-changes#triggerTurboStream", test_selector: "tm-assistant-provider-select" } %>
+      </div>
+      <div class="form--field-instructions"><%= t("test_management.admin.assistant.provider_hint") %></div>
+    </div>
+    <%= render partial: "test_management/admin/settings/provider_fields",
+               locals: { settings: @settings, provider: @record.config, test_result: @test_result,
+                         test_url: test_connection_test_management_admin_assistant_providers_path } %>
+    <div class="form--field">
+      <label class="form--label" for="user_models"><%= t("test_management.admin.assistant.form.user_models") %></label>
+      <div class="form--field-container">
+        <%= text_area_tag :user_models, @settings[:user_models], class: "form--text-area", rows: 3,
+                                                                 data: { test_selector: "tm-assistant-user-models" } %>
+      </div>
+      <div class="form--field-instructions">
+        <%= t("test_management.admin.assistant.form.user_models_hint", max: TestManagement::AssistantProvider::MAX_USER_MODELS) %>
+      </div>
+    </div>
+    <div class="form--field">
+      <label class="form--label" for="assistant_timeout"><%= t("test_management.admin.assistant.timeout") %></label>
+      <div class="form--field-container">
+        <%= number_field_tag :assistant_timeout, @settings[:assistant_timeout].presence || TestManagement::Assistant::ProviderConfig::DEFAULT_TIMEOUT,
+                             class: "form--text-field -xslim", min: 10, max: 300, autocomplete: "off" %>
+      </div>
+    </div>
+    <div class="form--field">
+      <label class="form--label" for="assistant_max_tokens"><%= t("test_management.admin.assistant.max_tokens") %></label>
+      <div class="form--field-container">
+        <%= number_field_tag :assistant_max_tokens, @settings[:assistant_max_tokens].presence || TestManagement::Assistant::ProviderConfig::DEFAULT_MAX_TOKENS,
+                             class: "form--text-field -xslim", min: 256, max: 32000, autocomplete: "off" %>
+      </div>
+    </div>
+    <div class="form--field">
+      <label class="form--label-with-check-box">
+        <%= hidden_field_tag :make_default, "0", id: nil %>
+        <%= check_box_tag :make_default, "1", ActiveModel::Type::Boolean.new.cast(@settings[:make_default]) == true,
+                          disabled: @record.is_default, data: { test_selector: "tm-assistant-make-default" } %>
+        <%= t("test_management.admin.assistant.form.make_default") %>
+      </label>
+      <div class="form--field-instructions"><%= t("test_management.admin.assistant.form.make_default_hint") %></div>
+    </div>
+    <div class="form--field-instructions"><%= t("test_management.admin.assistant.network_hint") %></div>
+  </fieldset>
+
+  <%= submit_tag t(:button_save), class: "button -primary", data: { test_selector: "tm-assistant-provider-save" } %>
+  <%= link_to t(:button_cancel), back_path, class: "button" %>
+<% end %>
