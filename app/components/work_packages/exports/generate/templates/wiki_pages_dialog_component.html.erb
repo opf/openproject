@@ -1,0 +1,31 @@
+<%= render(
+      Primer::Alpha::Dialog.new(
+        id: dialog_id,
+        title: I18n.t("pdf_generator.dialog.wiki_pages.dialog_title"),
+        subtitle: I18n.t("pdf_generator.dialog.wiki_pages.dialog_subtitle"),
+        size: :large,
+        data: {
+          "#{controller_identifier}-target": "dialog",
+          action: "close->#{controller_identifier}#resetTree"
+        }
+      )
+    ) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
+  <% dialog.with_body do %>
+    <div data-<%= controller_identifier %>-target="treeContainer">
+      <%= render(tree_view) %>
+    </div>
+    <template data-<%= controller_identifier %>-target="treeTemplate">
+      <%= render(tree_view) %>
+    </template>
+  <% end %>
+  <% dialog.with_footer do %>
+    <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) { I18n.t(:button_cancel) } %>
+    <%= render(
+          Primer::Beta::Button.new(
+            scheme: :primary,
+            data: { action: "#{controller_identifier}#add" }
+          )
+        ) { I18n.t(:button_add) } %>
+  <% end %>
+<% end %>

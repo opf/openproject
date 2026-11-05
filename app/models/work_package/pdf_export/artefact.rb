@@ -42,6 +42,7 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   include Exports::PDF::Artefact::Toc
   include Exports::PDF::Artefact::Lifecycle
   include Exports::PDF::Artefact::Budgets
+  include Exports::PDF::Artefact::WikiPages
   include WorkPackage::PDFExport::Common::MarkdownField
   include WorkPackage::PDFExport::Wp::Attributes
 
@@ -206,6 +207,7 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
     write_artefact_lifecycle if with_lifecycle?
     write_artefact_budgets if with_budget?
     write_artefact_wp_attributes
+    write_artefact_wiki_pages
   end
 
   def with_toc?
@@ -234,7 +236,8 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
     build_project_attributes_toc_entries +
       build_lifecycle_toc_entries +
       build_budget_toc_entries +
-      build_wp_attribute_group_toc_entries
+      build_wp_attribute_group_toc_entries +
+      build_wiki_page_toc_entries
   end
 
   def build_project_attributes_toc_entries

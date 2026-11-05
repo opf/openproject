@@ -221,6 +221,49 @@ describe('DraggableAutocompleteComponent', () => {
     expect(removeButton.getAttribute('aria-label')).toBe('label');
   });
 
+  describe('driven from outside the component', () => {
+    function dispatchAdd(options:DraggableOption[]):void {
+      (fixture.nativeElement as HTMLElement).dispatchEvent(
+        new CustomEvent<DraggableOption[]>(DraggableAutocompleteComponent.ADD_EVENT, { detail: options }),
+      );
+      fixture.detectChanges();
+    }
+
+    it('hides the autocompleter input but keeps the drag area', () => {
+      component.inputHidden = true;
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.query(By.css('ng-select'))).toBeNull();
+      expect(chipTexts()).toEqual(['Alpha', 'Bravo']);
+    });
+
+    it('appends options received through the add event', () => {
+      fixture.detectChanges();
+
+      dispatchAdd([c]);
+
+      expect(chipTexts()).toEqual(['Alpha', 'Bravo', 'Charlie']);
+    });
+
+    it('ignores options it already holds, keeping their position', () => {
+      fixture.detectChanges();
+
+      dispatchAdd([a, c]);
+
+      expect(chipTexts()).toEqual(['Alpha', 'Bravo', 'Charlie']);
+    });
+
+    it('emits the new selection', () => {
+      const emitted:DraggableOption[][] = [];
+      component.onChange.subscribe((value:DraggableOption[]) => emitted.push(value));
+      fixture.detectChanges();
+
+      dispatchAdd([c]);
+
+      expect(emitted).toEqual([[a, b, c]]);
+    });
+  });
+
   describe('reordering through the sortable-lists drop output', () => {
     beforeEach(() => {
       component.selected = [a, b, c];

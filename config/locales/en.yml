@@ -5745,6 +5745,15 @@ en:
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
+      wiki_pages:
+        add: Add wiki pages
+        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
+        dialog_subtitle: Select the wiki page you would like to add
+        dialog_title: Add existing wiki page
+        manage_label: Manage and reorder wiki pages
+        placeholder: Select a wiki page
+        unavailable: "Unavailable wiki page (%{reference})"
+        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
     page_nr_footer: "Page %{page} of %{total}"
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
