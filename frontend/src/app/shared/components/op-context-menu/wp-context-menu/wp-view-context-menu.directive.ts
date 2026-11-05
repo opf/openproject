@@ -43,8 +43,6 @@ import {
 } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import {
   copyIdActionLabel,
-  copyIdValue,
-  isActionVisibleFor,
   isCopyIdAction,
   PERMITTED_CONTEXT_MENU_ACTIONS,
 } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
@@ -127,7 +125,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     }
 
     if (isCopyIdAction(action.key)) {
-      this.copyToClipboardService.copy(copyIdValue(this.workPackage, action.key));
+      this.copyToClipboardService.copy(this.workPackage.displayId);
       return;
     }
 
@@ -211,12 +209,10 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   protected buildItems():OpContextMenuItem[] {
     const selected = this.getSelectedWorkPackages();
 
-    const visibleActions = this.permittedActions.filter((action) => isActionVisibleFor(this.workPackage, action.key));
-
-    const items = visibleActions.map((action:WorkPackageAction) => ({
+    const items = this.permittedActions.map((action:WorkPackageAction) => ({
       class: undefined as string | undefined,
       disabled: false,
-      linkText: isCopyIdAction(action.key) ? copyIdActionLabel(this.workPackage, action.key) : action.text,
+      linkText: isCopyIdAction(action.key) ? copyIdActionLabel(this.workPackage) : action.text,
       href: action.href,
       icon: action.icon != null ? action.icon : `icon-${action.key}`,
       onClick: (event:MouseEvent) => {

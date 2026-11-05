@@ -37,8 +37,6 @@ import {
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import {
   copyIdActionLabel,
-  copyIdValue,
-  isActionVisibleFor,
   isCopyIdAction,
   PERMITTED_CONTEXT_MENU_ACTIONS,
 } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
@@ -116,7 +114,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     }
 
     if (isCopyIdAction(key)) {
-      this.copyToClipboardService.copy(copyIdValue(this.workPackage, key));
+      this.copyToClipboardService.copy(this.workPackage.displayId);
       return;
     }
 
@@ -178,8 +176,6 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     // Add the available actions on timers
     actions = this.addTimerAction(actions);
 
-    actions = actions.filter((action) => isActionVisibleFor(this.workPackage, action.key));
-
     // Splice plugin actions onto the core actions
     this.getPermittedPluginActions(authorization).forEach((action:WorkPackageAction) => {
       const index = action.indexBy ? action.indexBy(actions) : actions.length;
@@ -215,7 +211,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
       return {
         disabled: false,
         hidden: action.hidden === true,
-        linkText: isCopyIdAction(key) ? copyIdActionLabel(this.workPackage, key) : I18n.t(`js.button_${key}`),
+        linkText: isCopyIdAction(key) ? copyIdActionLabel(this.workPackage) : I18n.t(`js.button_${key}`),
         href,
         icon: action.icon || `icon-${key}`,
         onClick: (event:MouseEvent) => {
