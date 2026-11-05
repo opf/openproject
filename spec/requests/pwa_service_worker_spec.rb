@@ -32,10 +32,24 @@ require "spec_helper"
 RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progressive_web_app: true } do
   include CspHelper
 
+  def worker_config
+    JSON.parse(response.body[/self\.OP_SW = (.+);$/, 1])
+  end
+
   let(:controller_selector) { 'body[data-controller~="pwa-service-worker"]' }
 
   it "does not route a format suffix" do
     expect { get "/service-worker.js" }.to raise_error(ActionController::RoutingError)
+  end
+
+  it "imports the hashed bundle when the manifest has one" do
+    allow(FrontendAssetHelper).to receive(:assets_proxied?).and_return(false)
+    allow(OpenProject::Assets).to receive(:lookup_asset).and_call_original
+    allow(OpenProject::Assets).to receive(:lookup_asset).with("service-worker.js").and_return("service-worker-abc123.js")
+
+    get "/service-worker"
+
+    expect(response.body).to include('importScripts("/assets/frontend/service-worker-abc123.js")')
   end
 
   describe "GET /service-worker", with_settings: { login_required: true } do
@@ -60,66 +74,34 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.headers["Set-Cookie"]).to be_blank
     end
 
-    it "takes control of its clients" do
-      expect(response.body).to include("skipWaiting", "clients.claim")
+    it "imports the worker logic from the frontend bundle" do
+      expect(response.body).to match(%r{importScripts\("[^"]*/assets/frontend/service-worker[^"]*\.js"\)})
     end
 
-    it "wakes on a push, reads the unread summary and handles clicks on its notification" do
-      expect(response.body).to include('addEventListener("push"', 'addEventListener("notificationclick"',
-                                       '"/push-notification"', "New activity in OpenProject")
-    end
+    it "hands the bundle its configuration" do
+      config = worker_config
 
-    it "shows a silent all-read notification and re-alerts on a rising count" do
-      expect(response.body).to include("No unread notifications", "renotify: true", "silent: true")
-    end
-
-    it "alerts only on newer activity and brings back groups pushed out by the overflow silently" do
-      expect(response.body).to include("at > previous.at", "evicted: true", "silent: true, renotify: false",
-                                       "tag === Config.tags.placeholder")
-    end
-
-    it "closes notifications of work packages that are no longer unread" do
-      expect(response.body).to include("getNotifications()", '"openproject-"', '"openproject-more"')
-    end
-
-    it "reconciles its notifications when an open page asks" do
-      expect(response.body).to include('type === "reconcile"', "this.reconcile()")
-    end
-
-    it "closes its notifications when the user signs out" do
-      expect(response.body).to include('signOut: "/logout"', "event.waitUntil(pushHandler.signOut(response))",
-                                       "this.enqueue(() => this.clearForSignOut())",
-                                       "generation !== this.signOutGeneration || this.signOutsInProgress > 0",
-                                       "signOutTimeoutMs: 10000")
-    end
-
-    it "closes the notifications of another user when a page reports a different account" do
-      expect(response.body).to include('addEventListener("message"', "pushHandler.onMessage(event)",
-                                       "closeOtherAccounts")
-    end
-
-    it "clears its notifications when the summary reports push as turned off" do
-      expect(response.body).to include("response.status === 404", 'case "pushOff":')
-    end
-
-    it "stores only fingerprints of what it showed" do
-      expect(response.body).to include("crypto.subtle.digest")
-      expect(response.body).not_to include("JSON.stringify({ title")
-    end
-
-    it "keeps the push state in a cache that survives upgrades" do
-      expect(response.body).to include("push-state", "name !== Config.cache.state")
-    end
-
-    it "precaches the offline page under the configured cache name" do
-      expect(response.body).to include(ApplicationController.helpers.pwa_cache_name, '"/offline"')
+      expect(config.dig("urls", "offline")).to eq("/offline")
+      expect(config.dig("urls", "push")).to eq("/push-notification")
+      expect(config.dig("urls", "signOut")).to eq("/logout")
+      expect(config.dig("urls", "home")).to eq("/")
+      expect(config["cache"]).to include("name" => ApplicationController.helpers.pwa_cache_name,
+                                         "prefix" => ApplicationController.helpers.pwa_cache_prefix,
+                                         "state" => "#{ApplicationController.helpers.pwa_cache_prefix}push-state")
+      expect(config.dig("push", "icon")).to match(%r{/assets/pwa/icon-192.*\.png\z})
+      expect(config.dig("push", "fallbackTitle")).to eq("New activity in OpenProject")
+      expect(config.dig("push", "allReadTitle")).to eq("No unread notifications")
     end
 
     context "when served under a path prefix", with_config: { rails_relative_url_root: "/openproject" } do
-      it "points at the prefixed offline page" do
+      it "prefixes the configured paths and the bundle" do
+        allow(Rails.application.config).to receive(:relative_url_root).and_return("/openproject")
+
         get "/service-worker", env: { "SCRIPT_NAME" => "/openproject" }
 
-        expect(response.body).to include('"/openproject/offline"')
+        expect(worker_config["urls"]).to include("offline" => "/openproject/offline",
+                                                 "push" => "/openproject/push-notification")
+        expect(response.body).to match(%r{importScripts\("[^"]*/openproject/assets/frontend/service-worker})
       end
     end
   end
@@ -167,15 +149,14 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
   end
 
   context "with the feature flag off", with_flag: { progressive_web_app: false } do
-    it "serves a worker that removes the offline caches and unregisters itself" do
+    it "serves a worker that removes the offline caches and unregisters itself, without the bundle" do
       get "/service-worker"
 
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq("text/javascript")
       expect(response.body).to include("openproject-offline-", "unregister")
-      expect(response.body).not_to include('addEventListener("fetch"')
-      expect(response.body).not_to include('addEventListener("push"', 'addEventListener("notificationclick"',
-                                           "/push-notification", "New activity in OpenProject")
+      expect(response.body).to include(%(const CACHE_PREFIX = "#{ApplicationController.helpers.pwa_cache_prefix}";))
+      expect(response.body).not_to include("importScripts", "OP_SW")
     end
 
     it "registers no worker" do

@@ -73,7 +73,20 @@ namespace :assets do
       FileUtils.rm_f(stats_path)
     end
 
+    puts "Building service worker"
+    Dir.chdir Rails.root.join("frontend") do
+      sh("npm run build:service-worker") do |ok, res|
+        raise "Failed to build the service worker: #{res.exitstatus}" if !ok
+      end
+    end
+
     Rake::Task["assets:rebuild_manifest"].invoke
+
+    unless JSON.parse(OpenProject::Assets.manifest_path.read).key?("service-worker.js")
+      raise "The service worker bundle is missing from the assets manifest. " \
+            "Check the service worker build output above; " \
+            "the bundle must be named service-worker-<8 characters>.js."
+    end
   end
 
   desc "Write angular assets manifest"
