@@ -28,7 +28,7 @@ post:
     '415':
       $ref: "../components/responses/unsupported_media_type.yml"
   tags:
-  - Versions
+    - Versions
   description: ''
   operationId: Version_create_form
   summary: Version create form

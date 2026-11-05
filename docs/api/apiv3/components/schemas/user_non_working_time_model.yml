@@ -46,14 +46,14 @@ properties:
               The user this non-working time belongs to.
               **Resource**: User
 
-example:
-  _type: UserNonWorkingTime
-  id: 7
-  startDate: '2025-06-16'
-  endDate: '2025-06-20'
-  _links:
-    self:
-      href: /api/v3/users/42/non_working_times/7
-    user:
-      href: /api/v3/users/42
-      title: Jane Doe
+examples:
+  - _type: UserNonWorkingTime
+    id: 7
+    startDate: '2025-06-16'
+    endDate: '2025-06-20'
+    _links:
+      self:
+        href: /api/v3/users/42/non_working_times/7
+      user:
+        href: /api/v3/users/42
+        title: Jane Doe

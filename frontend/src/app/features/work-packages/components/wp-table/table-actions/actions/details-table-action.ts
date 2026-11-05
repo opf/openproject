@@ -51,7 +51,7 @@ export class OpDetailsTableAction extends OpTableAction {
 
   public buildElement() {
     // Append details button
-    const detailsLink = this.uiStatebuilder.linkToDetails(
+    const { link: detailsLink, element } = this.uiStatebuilder.linkToDetails(
       this.workPackage.id!,
       this.text.button,
       '',
@@ -61,6 +61,6 @@ export class OpDetailsTableAction extends OpTableAction {
     detailsLink.classList.add(detailsLinkClassName, contextColumnIcon, 'hidden-for-mobile');
     detailsLink.appendChild(opIconElement('icon', 'icon-info2'));
 
-    return detailsLink;
+    return element;
   }
 }

@@ -30,6 +30,6 @@ properties:
     type: string
     description: The MIME-Type of the returned resource.
 
-example:
-  href: '/api/v3/work_packages'
-  method: POST
+examples:
+  - href: '/api/v3/work_packages'
+    method: POST

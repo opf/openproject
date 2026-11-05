@@ -2,43 +2,43 @@
 ---
 get:
   parameters:
-  - description: JSON specifying filter conditions.
-    example: '[{ "ancestor": { "operator": "=", "values": ["1"] } }]'
-    in: query
-    name: filters
-    required: false
-    schema:
-      type: string
-  - description: The id or identifier of the project the parent candidate is determined
-      for
-    example: '123'
-    in: query
-    name: of
-    required: false
-    schema:
-      type: string
-  - description: >-
-      The workspace type of the new project the parent candidate is determined for.
-      Ignored when `of` parameter is provided.
+    - description: JSON specifying filter conditions.
+      example: '[{ "ancestor": { "operator": "=", "values": ["1"] } }]'
+      in: query
+      name: filters
+      required: false
+      schema:
+        type: string
+    - description: The id or identifier of the project the parent candidate is determined
+        for
+      example: '123'
+      in: query
+      name: of
+      required: false
+      schema:
+        type: string
+    - description: >-
+        The workspace type of the new project the parent candidate is determined for.
+        Ignored when `of` parameter is provided.
 
-      Note that while 'portfolio' is supported as a type (since it is a type of Workspace), the endpoint will currently
-      always return an empty resultset as portfolios cannot have parents.
-    example: program
-    in: query
-    name: workspace_type
-    required: false
-    schema:
-      type: string
-      enum: [project, program, portfolio]
-  - description: |-
-      JSON specifying sort criteria.
-      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint and allows all the filters and sortBy supported by the project list endpoint.
-    example: '[["id", "asc"]]'
-    in: query
-    name: sortBy
-    required: false
-    schema:
-      type: string
+        Note that while 'portfolio' is supported as a type (since it is a type of Workspace), the endpoint will currently
+        always return an empty resultset as portfolios cannot have parents.
+      example: program
+      in: query
+      name: workspace_type
+      required: false
+      schema:
+        type: string
+        enum: [project, program, portfolio]
+    - description: |-
+        JSON specifying sort criteria.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint and allows all the filters and sortBy supported by the project list endpoint.
+      example: '[["id", "asc"]]'
+      in: query
+      name: sortBy
+      required: false
+      schema:
+        type: string
   responses:
     '200':
       content:
@@ -48,74 +48,74 @@ get:
               value:
                 _embedded:
                   elements:
-                  - _links:
-                      categories:
-                        href: "/api/v3/projects/6/categories"
-                      createWorkPackage:
-                        href: "/api/v3/projects/6/work_packages/form"
-                        method: post
-                      createWorkPackageImmediate:
-                        href: "/api/v3/projects/6/work_packages"
-                        method: post
-                      self:
-                        href: "/api/v3/projects/6"
-                        title: A project
-                      status:
-                        href: "/api/v3/project_statuses/on_track"
-                        title: On track
-                      versions:
-                        href: "/api/v3/projects/6/versions"
-                    _type: Project
-                    active: true
-                    createdAt: '2015-07-06T13:28:14+00:00'
-                    description:
-                      format: markdown
-                      html: "<p>Lorem <strong>ipsum</strong> dolor sit amet</p>"
-                      raw: Lorem **ipsum** dolor sit amet
-                    id: 6
-                    identifier: a_project
-                    name: A project
-                    public: false
-                    statusExplanation:
-                      format: markdown
-                      html: "<p>Everything <strong>fine</strong></p>"
-                      raw: Everything **fine**
-                    type: Customer Project
-                    updatedAt: '2015-10-01T09:55:02+00:00'
-                  - _links:
-                      categories:
-                        href: "/api/v3/projects/14/categories"
-                      createWorkPackage:
-                        href: "/api/v3/projects/14/work_packages/form"
-                        method: post
-                      createWorkPackageImmediate:
-                        href: "/api/v3/projects/14/work_packages"
-                        method: post
-                      self:
-                        href: "/api/v3/projects/14"
-                        title: Another project
-                      status:
-                        href: "/api/v3/project_statuses/on_track"
-                        title: On track
-                      versions:
-                        href: "/api/v3/projects/14/versions"
-                    _type: Project
-                    active: true
-                    createdAt: '2016-02-29T12:50:20+00:00'
-                    description:
-                      format: markdown
-                      html: ''
-                      raw: ''
-                    id: 14
-                    identifier: another_project
-                    name: Another project
-                    public: true
-                    statusExplanation:
-                      format: markdown
-                      html: "<p>Everything super <strong>fine</strong></p>"
-                      raw: Everything super **fine**
-                    type:
-                    updatedAt: '2016-02-29T12:50:20+00:00'
+                    - _links:
+                        categories:
+                          href: "/api/v3/projects/6/categories"
+                        createWorkPackage:
+                          href: "/api/v3/projects/6/work_packages/form"
+                          method: post
+                        createWorkPackageImmediate:
+                          href: "/api/v3/projects/6/work_packages"
+                          method: post
+                        self:
+                          href: "/api/v3/projects/6"
+                          title: A project
+                        status:
+                          href: "/api/v3/project_statuses/on_track"
+                          title: On track
+                        versions:
+                          href: "/api/v3/projects/6/versions"
+                      _type: Project
+                      active: true
+                      createdAt: '2015-07-06T13:28:14+00:00'
+                      description:
+                        format: markdown
+                        html: "<p>Lorem <strong>ipsum</strong> dolor sit amet</p>"
+                        raw: Lorem **ipsum** dolor sit amet
+                      id: 6
+                      identifier: a_project
+                      name: A project
+                      public: false
+                      statusExplanation:
+                        format: markdown
+                        html: "<p>Everything <strong>fine</strong></p>"
+                        raw: Everything **fine**
+                      type: Customer Project
+                      updatedAt: '2015-10-01T09:55:02+00:00'
+                    - _links:
+                        categories:
+                          href: "/api/v3/projects/14/categories"
+                        createWorkPackage:
+                          href: "/api/v3/projects/14/work_packages/form"
+                          method: post
+                        createWorkPackageImmediate:
+                          href: "/api/v3/projects/14/work_packages"
+                          method: post
+                        self:
+                          href: "/api/v3/projects/14"
+                          title: Another project
+                        status:
+                          href: "/api/v3/project_statuses/on_track"
+                          title: On track
+                        versions:
+                          href: "/api/v3/projects/14/versions"
+                      _type: Project
+                      active: true
+                      createdAt: '2016-02-29T12:50:20+00:00'
+                      description:
+                        format: markdown
+                        html: ''
+                        raw: ''
+                      id: 14
+                      identifier: another_project
+                      name: Another project
+                      public: true
+                      statusExplanation:
+                        format: markdown
+                        html: "<p>Everything super <strong>fine</strong></p>"
+                        raw: Everything super **fine**
+                      type:
+                      updatedAt: '2016-02-29T12:50:20+00:00'
                 _links:
                   self:
                     href: "/api/v3/projects/available_parent_projects?of=123"
@@ -123,7 +123,7 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/list_available_parent_project_candidates_model.yml"
+            $ref: "../components/schemas/list_available_parent_project_candidates_model.yml"
       description: OK
       headers: {}
     '403':
@@ -143,7 +143,7 @@ get:
         **Required permission:** edit project in a project or the global add project permission
       headers: {}
   tags:
-  - Projects
+    - Projects
   description: |-
     Lists projects which can become parent to another project. Only sound candidates are returned.
     For instance a project cannot become parent of itself or its children.

@@ -28,15 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# How a sprint's work package count grew and how much of it was finished, as two series of
-# ChartPoints counted from the work package journals at every tick the window samples.
+# How much work the project took on over a sprint's window and how much of it was finished, as
+# two series of ChartPoints counted from the work package journals at every tick the window
+# samples. While the time span is the sprint's, the work packages in scope are those of the whole project.
 #
-# - +created+ -- every work package the sprint held at that tick, whatever its status.
-# - +resolved+ -- those of them in a status the project counts as done.
+# - +created+ -- every work package the project held at that tick, whatever its status.
+# - +resolved+ -- those of them in a status the project counts as closed, according to the project's backlogs settings.
 #
-# Both are counted at the same ticks, so they share every instant and the chart can match them
-# by index. Membership is historic: a work package moved into the sprint joins the count from
-# that moment, and one moved out leaves it.
+# Both series state what happened within the time span (window) rather than the absolute numbers of work packages.
+# A time span that opened with a hundred work packages starts at zero like any other. A time span that
+# loses more work packages than it gains therefore ends below zero, as does one that reopens
+# more than it closes.
+#
+# Both are counted at the same ticks.
 module Sprints
   class CreatedResolved
     def initialize(sprint:, project:, user: User.current)
@@ -46,11 +50,11 @@ module Sprints
     end
 
     def created
-      @created ||= series.counts(sprint_journals)
+      @created ||= rebased(series.counts(project_journals))
     end
 
     def resolved
-      @resolved ||= series.counts(sprint_journals.where(status_id: project.statuses_considered_closed))
+      @resolved ||= rebased(series.counts(project_journals.where(status_id: project.statuses_considered_closed)))
     end
 
     delegate :step, :too_long_to_chart?, :non_working_intervals, :charted_range, to: :window
@@ -67,8 +71,14 @@ module Sprints
       @series ||= ChartSeries.new(window:, user:)
     end
 
-    def sprint_journals
-      Journal::WorkPackageJournal.where(project_id: project.id, sprint_id: sprint.id)
+    def rebased(points)
+      opening = points.first&.value || 0.0
+
+      points.map { ChartPoint.new(at: it.at, value: it.value - opening) }
+    end
+
+    def project_journals
+      Journal::WorkPackageJournal.where(project_id: project.id)
     end
   end
 end

@@ -2,13 +2,13 @@
 ---
 post:
   parameters:
-  - description: Project id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Project id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '302':
       description: Returned if the request is successful. It will redirect to the
@@ -57,7 +57,7 @@ post:
         * a constraint for a property was violated (`PropertyConstraintViolation`)
       headers: {}
   tags:
-  - Projects
+    - Projects
   description: ''
   operationId: Create_project_copy
   summary: Create project copy

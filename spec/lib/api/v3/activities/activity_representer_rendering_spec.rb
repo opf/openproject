@@ -160,6 +160,24 @@ RSpec.describe API::V3::Activities::ActivityRepresenter, "rendering" do
           expect(subject).to have_json_path("details/#{x}/html")
         end
       end
+
+      context "when a label deletion cause already explains the removed label" do
+        let(:label) { build_stubbed(:label) }
+        let(:journal) do
+          build_stubbed(:work_package_journal,
+                        version: 2,
+                        notes: "",
+                        user: other_user,
+                        cause: Journal::CausedByLabelDeletion.new(label_ids: [label.id],
+                                                                  label_names: [label.name]).to_hash).tap do |journal|
+            allow(journal).to receive(:get_changes).and_return("labels" => [label.id.to_s, nil])
+          end
+        end
+
+        it "omits the labels detail" do
+          expect(subject).to have_json_size(0).at_path("details")
+        end
+      end
     end
   end
 

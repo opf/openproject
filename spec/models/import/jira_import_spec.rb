@@ -109,10 +109,12 @@ RSpec.describe Import::JiraImport do
     let!(:jira_priority) { create(:jira_priority, jira_import:) }
     let!(:jira_status) { create(:jira_status, jira_import:) }
     let!(:jira_user) { create(:jira_user, jira_import:) }
+    let!(:jira_attachment) { create(:jira_attachment, jira_import:, jira_project:, jira_issue:) }
 
     it "destroys all associated jira objects" do
       expect { jira_import.destroy_jira_objects }
-        .to change(Import::JiraField, :count).by(-1)
+        .to change(Import::JiraAttachment, :count).by(-1)
+        .and change(Import::JiraField, :count).by(-1)
         .and change(Import::JiraIssue, :count).by(-1)
         .and change(Import::JiraIssueType, :count).by(-1)
         .and change(Import::JiraPriority, :count).by(-1)

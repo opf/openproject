@@ -26,6 +26,7 @@
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { generateId } from 'core-app/shared/helpers/dom-helpers';
 import { Directive, ViewChild, inject } from '@angular/core';
 import { WorkPackageEmbeddedTableComponent } from 'core-app/features/work-packages/components/wp-table/embedded/wp-embedded-table.component';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
@@ -43,6 +44,8 @@ export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin {
 
   /** Query props are derived from the query resource, if any */
   public queryProps:object;
+
+  public readonly groupHeadingId = generateId('wp-query-group-heading');
 
   /** Whether this section should be hidden completely (due to missing permissions e.g.) */
   public hidden = false;

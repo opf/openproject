@@ -4,16 +4,16 @@ post:
   summary: Query Update Form
   operationId: Query_Update_Form
   tags:
-  - Queries
+    - Queries
   description: ''
   parameters:
-  - description: Query id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Query id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   requestBody:
     content:
       application/json:

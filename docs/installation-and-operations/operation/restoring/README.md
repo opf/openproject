@@ -241,7 +241,7 @@ mkdir -p /var/lib/openproject/{pgdata,assets}
 Next we need to initialize the database.
 
 ```shell
-docker run --rm -v /var/lib/openproject/pgdata:/var/openproject/pgdata -it openproject/openproject:17
+docker run --rm -v /var/lib/openproject/pgdata:/var/openproject/pgdata -it openproject/openproject:18
 ```
 
 As soon as you see `Database setup finished.` in the container's output you can kill it by pressing Ctrl + C.
