@@ -98,6 +98,29 @@ RSpec.describe ITSM::OutgoingMailbox do
     end
   end
 
+  describe "#smtp_settings" do
+    it "connects to the given address with the mailbox's account and requires STARTTLS" do
+      expect(mailbox.smtp_settings("203.0.113.10")).to eq(address: "203.0.113.10",
+                                                          tls_hostname: "smtp.example.com",
+                                                          port: 587,
+                                                          user_name: "relay-user",
+                                                          password: "smtp-password",
+                                                          authentication: :plain,
+                                                          open_timeout: 10,
+                                                          read_timeout: 10,
+                                                          enable_starttls: :always)
+    end
+
+    context "with a TLS server" do
+      let(:mail_server) { create(:itsm_mail_server, :smtp, port: 465, encryption: "tls") }
+
+      it "connects with TLS" do
+        expect(mailbox.smtp_settings("203.0.113.10")).to include(port: 465, tls: true)
+        expect(mailbox.smtp_settings("203.0.113.10")).not_to have_key(:enable_starttls)
+      end
+    end
+  end
+
   context "when its project is deleted" do
     before { mailbox.save! }
 

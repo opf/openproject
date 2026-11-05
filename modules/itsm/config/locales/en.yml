@@ -36,6 +36,14 @@ en:
         sender_email: Sender email
         sender_name: Sender name
         username: Username
+    errors:
+      models:
+        itsm/email_message:
+          delivery_failed: The email could not be sent.
+          not_delivered: The email was not sent because all recipients are blocked or the email limit is reached.
+        itsm/email_thread:
+          address_not_allowed: The SMTP server address is not allowed.
+          no_outgoing_mailbox: The project has no outgoing mailbox.
     models:
       itsm/email_message:
         one: Email message
@@ -68,6 +76,11 @@ en:
         description: Configure the SMTP server to reply emails directly from the work packages activity.
         edit: Edit SMTP server configuration
         title: SMTP server configuration
+    helpdesk_mailer:
+      confirmation:
+        greeting: Hello %{name},
+        received: 'we have received your request "%{subject}" and recorded it as %{id}.'
+        reply: To add information to your request, reply to this email.
   label_helpdesk: Help desk
   permission_manage_helpdesk: Manage help desk
   project_module_helpdesk: Help desk
