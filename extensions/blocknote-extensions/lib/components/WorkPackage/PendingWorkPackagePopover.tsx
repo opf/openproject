@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { WorkPackage } from '../../openProjectTypes';
 import { WorkPackageSearchPopover } from '../Search/WorkPackageSearchPopover';
 import { CreateWorkPackageModal } from '../CreateWorkPackage';
@@ -25,6 +25,12 @@ export const PendingWorkPackagePopover = ({
   onCancel,
 }:PendingWorkPackagePopoverProps) => {
   const [subjectToCreate, setSubjectToCreate] = useState(mode === 'create' ? initialSubject : undefined);
+
+  // A reload or a closed tab never blurs the search, and the placeholder would stay in the shared document (BNE-181).
+  useEffect(() => {
+    window.addEventListener('pagehide', onCancel);
+    return () => window.removeEventListener('pagehide', onCancel);
+  }, [onCancel]);
 
   if (subjectToCreate === undefined) {
     return (
