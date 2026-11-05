@@ -240,7 +240,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
         artefact_template = variant.pdf_export_templates.find("artefact")
 
         patch :update_settings,
-          params: { type_id: wp_type.id, id: artefact_template.id, wiki_pages: ["", "1:7", "1:3"] }
+              params: { type_id: wp_type.id, id: artefact_template.id, wiki_pages: ["", "1:7", "1:3"] }
 
         expect(variant.reload.pdf_export_templates.settings_for("artefact")).to eq(wiki_pages: ["1:7", "1:3"])
       end

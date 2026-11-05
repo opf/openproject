@@ -80,7 +80,7 @@ describe('Work package export wiki pages controller', () => {
   }
 
 
-  it('hands the autocompleter every checked page, labelled by its project', async () => {
+  it('hands the autocompleter every checked page, labeled by its project', async () => {
     await mount(checkedInput('page:42', ['Arcanos', 'Legal information']));
 
     document.querySelector<HTMLButtonElement>('dialog button')!.click();
