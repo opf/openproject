@@ -70,7 +70,8 @@ import { UnreadSummary } from './unread-summary';
  *
  * account message ──► user differs from the last one this worker instance saw?
  *                       yes: bump sign-out generation; close and forget every notification
- *                            that is not this user's, including "more" and the placeholder
+ *                            that is not this user's, including "more" and the placeholder;
+ *                            set the badge from this user's summary
  *                       no (or first message since the worker started): close and forget only
  *                            work package notifications of other users
  * ```
@@ -133,7 +134,10 @@ export class PushHandler {
     const changed = this.accountId !== undefined && this.accountId !== userId;
     if (changed) this.signOutGeneration += 1;
     this.accountId = userId;
-    return this.enqueue(() => this.closeOtherAccounts(userId, changed));
+    return this.enqueue(async () => {
+      await this.closeOtherAccounts(userId, changed);
+      if (changed) await this.refreshBadge();
+    });
   }
 
   enqueue(task:() => Promise<void>):Promise<void> {
@@ -191,6 +195,15 @@ export class PushHandler {
         await Badge.set(summary.count);
         return this.closeUnlisted(summary);
     }
+  }
+
+  async refreshBadge():Promise<void> {
+    const generation = this.signOutGeneration;
+    const summary = await UnreadSummary.fetch();
+    if (generation !== this.signOutGeneration || this.signOutsInProgress > 0) return;
+    if (summary.outcome === 'unavailable') return;
+
+    return summary.outcome === 'unread' ? Badge.set(summary.count) : Badge.clear();
   }
 
   async closeStale({ groups, more }:{ groups:SummaryGroup[]; more?:SummaryMore }) {
