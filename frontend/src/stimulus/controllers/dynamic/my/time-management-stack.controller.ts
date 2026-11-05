@@ -57,6 +57,7 @@ const ALLOCATION_CLASS_NAME = 'te-stack--allocation';
 const MIN_HOUR = 1;
 const MAX_HOUR = 12;
 const LABEL_INTERVAL_HOURS = 2;
+const SLOT_MINUTES = 30;
 const MS_PER_HOUR = 60 * 60 * 1000;
 
 // A bar thinner than this leaves no room for a single row of the condensed card, its top
@@ -166,12 +167,9 @@ export default class MyTimeManagementStackController extends Controller {
 
   // The minimum bar height is fixed on screen, so the hours it covers depend on how tall
   // the rendered axis turned out. Below the height that the busiest day needs to fit its
-  // bars into its total, the stack grows and its frame scrolls.
+  // bars into its total, the slots stop shrinking and the grid body scrolls.
   private updateMinBarHours():void {
     const slotsHeight = this.stackTarget.querySelector<HTMLElement>('.fc-timegrid-slots')?.offsetHeight ?? 0;
-    const surroundingHeight = this.stackTarget.offsetHeight - slotsHeight;
-    this.stackTarget.style.minHeight = `${(this.minHourHeight * this.axisHours) + surroundingHeight}px`;
-
     const minBarHours = slotsHeight > 0 ? MIN_BAR_HEIGHT_PX / (slotsHeight / this.axisHours) : 0;
 
     if (minBarHours === this.minBarHours) {
@@ -184,6 +182,9 @@ export default class MyTimeManagementStackController extends Controller {
 
   initializeStack() {
     this.fitAxis();
+    // FullCalendar measures the slots only on its own layout passes, so the minimum
+    // height has to be in place before the first render.
+    this.stackTarget.style.setProperty('--te-stack-min-slot-height', `${this.minHourHeight * (SLOT_MINUTES / 60)}px`);
 
     this.calendar = new Calendar(this.stackTarget, {
       plugins: [timeGridPlugin, interactionPlugin],
@@ -202,6 +203,7 @@ export default class MyTimeManagementStackController extends Controller {
       displayEventTime: false,
       slotEventOverlap: false,
       eventShortHeight: 80,
+      slotDuration: `00:${SLOT_MINUTES}:00`,
       slotMinTime: `${MAX_HOUR - this.axisHours}:00:00`,
       slotMaxTime: `${MAX_HOUR}:00:00`,
       slotLabelInterval: `${LABEL_INTERVAL_HOURS}:00:00`,

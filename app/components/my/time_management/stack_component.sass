@@ -9,7 +9,7 @@
   .my-time-management-stack-view--body
     flex-grow: 1
     min-height: 0
-    overflow: auto
+    overflow-x: auto
 
   .my-time-management-stack-view--entries
     height: 100%
@@ -26,6 +26,10 @@
     margin-right: 8px
     margin-bottom: var(--base-size-4)
     margin-left: 8px
+
+  // Set by the controller; FullCalendar's own 1.5em stays the lower bound.
+  td.fc-timegrid-slot
+    height: max(1.5em, var(--te-stack-min-slot-height, 0px))
 
   .fc-timegrid-slot.fc-timegrid-slot-minor
     border-top: 0
