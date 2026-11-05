@@ -32,6 +32,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { BurnupChartComponent } from 'core-app/features/backlogs/burnup-chart.component';
+import { seriesAtX } from 'core-app/shared/components/charts/interaction.series-at-x';
 
 describe('BurnupChartComponent', () => {
   let fixture:ComponentFixture<BurnupChartComponent>;
@@ -176,6 +177,33 @@ describe('BurnupChartComponent', () => {
       { datasetIndex: 2, parsed: { x: Date.parse('2026-10-15T00:00:00.000Z') } },
       { datasetIndex: 1, parsed: { x: Date.parse('2026-10-14T11:59:59.999Z') } },
     ])).toEqual('10/14/2026 12:00 PM');
+  });
+
+  // The projection has only its two ends, so beyond the measured data its nearest point can lie
+  // days from the cursor. The guideline is sampled daily and names the day being hovered.
+  it('takes the tooltip title from the guideline when hovering between the projection ends', () => {
+    renderWith([completed, scope, projection, {
+      ...guideline,
+      data: [
+        point('2026-10-12T09:00:00.000Z', 0),
+        point('2026-10-14T23:59:59.999Z', 2),
+        point('2026-10-15T23:59:59.999Z', 3),
+        point('2026-10-16T23:59:59.999Z', 4),
+        point('2026-10-23T23:59:59.999Z', 10),
+      ],
+    }]);
+
+    const chart = renderedChart();
+    const hovered = seriesAtX(chart, { x: chart.scales.x.getPixelForValue(Date.parse('2026-10-16T20:00:00.000Z')) })
+      .map(({ datasetIndex, index }) => ({
+        datasetIndex,
+        parsed: { x: Date.parse((chart.data.datasets[datasetIndex].data[index] as { x:string }).x) },
+      }));
+    const { plugins } = fixture.componentInstance.lineChartOptions();
+    const title = plugins?.tooltip?.callbacks?.title as unknown as (items:typeof hovered) => string;
+
+    expect(hovered.map(({ datasetIndex }) => datasetIndex)).toEqual(expect.arrayContaining([2, 3]));
+    expect(title(hovered)).toEqual('10/17/2026 12:00 AM');
   });
 
   it('does not render chart semantics without data', () => {
