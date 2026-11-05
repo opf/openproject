@@ -20,8 +20,7 @@ get:
     Every option left out of the request falls back to the value an administrator stored for that template
     on the type, which is the same value the *Generate PDF* dialog offers in the user interface.
 
-    **Required permission:** view work packages. As in the user interface, no export permission is needed
-    to render a single work package.
+    **Required permission:** export work packages
   parameters:
     - name: id
       in: path
@@ -131,6 +130,21 @@ get:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:BadRequest
             message: "Bad request: The PDF export template 'contract' is not enabled for the type of this work package."
+    '403':
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** export work packages
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
     '404':
       description: |-
         Returned if the work package does not exist or the client does not have sufficient permissions to

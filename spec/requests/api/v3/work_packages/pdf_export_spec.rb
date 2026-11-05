@@ -38,7 +38,7 @@ RSpec.describe "API v3 work package PDF export" do
   shared_let(:type) { create(:type) }
   shared_let(:work_package) { create(:work_package, project:, type:, subject: "A work package") }
 
-  let(:permissions) { %i[view_work_packages] }
+  let(:permissions) { %i[view_work_packages export_work_packages] }
   let(:path) { api_v3_paths.work_package_pdf(work_package.id) }
 
   current_user do
@@ -48,7 +48,7 @@ RSpec.describe "API v3 work package PDF export" do
   subject(:response) { last_response }
 
   describe "GET /api/v3/work_packages/:id/pdf" do
-    context "with the permission to view the work package but not to export work packages" do
+    context "with the permission to export work packages" do
       before { get path }
 
       it "renders the work package as a PDF attachment" do
@@ -57,6 +57,14 @@ RSpec.describe "API v3 work package PDF export" do
         expect(response.body).to start_with "%PDF"
         expect(response.headers["Content-Disposition"]).to match(/\Aattachment; filename=".+\.pdf"/)
       end
+    end
+
+    context "without the permission to export work packages" do
+      let(:permissions) { %i[view_work_packages] }
+
+      before { get path }
+
+      it_behaves_like "unauthorized access"
     end
 
     context "for a work package the user cannot see" do

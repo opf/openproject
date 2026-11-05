@@ -40,9 +40,11 @@ module API
 
         COMMON_PARAMS = %i[hyphenation hyphenationLanguage].freeze
 
-        # Exporting a single work package needs no export permission, only the view permission
-        # already enforced by the parent endpoint, as WorkPackagesController#generate_pdf does.
         resource :pdf do
+          after_validation do
+            authorize_in_work_package(:export_work_packages, work_package: @work_package)
+          end
+
           helpers do
             def pdf_export_templates
               @work_package.type_variant.pdf_export_templates
