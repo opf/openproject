@@ -633,18 +633,18 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
   describe "validations" do
     shared_examples_for "valid formula" do
       it "is valid", :aggregate_failures do
-        subject.formula = formula
         expect(subject).to be_valid
       end
     end
 
     shared_examples_for "invalid formula" do |error_symbol_or_message|
       it "is invalid", :aggregate_failures do
-        subject.formula = formula
         expect(subject).not_to be_valid
         expect(subject.errors).to be_of_kind(:formula, error_symbol_or_message)
       end
     end
+
+    subject { build_stubbed(:calculated_value_project_custom_field, formula:) }
 
     let(:formula) { "" }
 
