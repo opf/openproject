@@ -1,0 +1,14 @@
+---
+users:
+- login: mia.bayer
+  firstname: Mia
+  lastname: Bayer
+  avatar_color: "#3F51B5"
+- login: jonas.weber
+  firstname: Jonas
+  lastname: Weber
+  avatar_color: "#2E7D32"
+- login: amara.okafor
+  firstname: Amara
+  lastname: Okafor
+  avatar_color: "#8E3C8E"

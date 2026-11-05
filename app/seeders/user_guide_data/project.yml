@@ -1,0 +1,21 @@
+---
+project:
+  name: User guide
+  modules:
+  - work_package_tracking
+  - gantt
+  - team_planner_view
+  - board_view
+  - backlogs
+  - news
+  - costs
+  - budgets
+  - forums
+  - meetings
+  members:
+  - login: mia.bayer
+    role: project_admin
+  - login: jonas.weber
+    role: member
+  - login: amara.okafor
+    role: member
