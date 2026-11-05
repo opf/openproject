@@ -434,6 +434,7 @@ describe('Sortable lists controller', () => {
           },
           sortable_lists: {
             announcements: {
+              menu_scope_changed: 'The menu selection has changed. Reopen the menu before moving work packages.',
               batch_too_large: '[batch_too_large:%{count}:%{max}]',
               fallback_item_label: 'Item',
               fallback_list_name: 'another list',
@@ -1443,7 +1444,7 @@ describe('Sortable lists controller', () => {
       expect(options.body.getAll('ids[]')).toEqual([]);
     });
 
-    it('sends nothing and keeps the selection when the block stopped being contiguous', async () => {
+    it('gathers a selection that became sparse after the menu opened', async () => {
       const { root, sourceList, items } = renderBatchMenuFixture();
       await ctx.nextFrame();
       selectItems(items[1], items[2]);
@@ -1454,9 +1455,100 @@ describe('Sortable lists controller', () => {
       await flushPromises();
 
       expect(availability?.down).toBe(true);
-      expect(itemIds(sourceList)).toEqual(['1', '2', '4', '3']);
-      expect(selectedIds(root)).toEqual(['2', '3']);
+      expect(itemIds(sourceList)).toEqual(['1', '4', '2', '3']);
+      expect(fetchMock).toHaveBeenCalledOnce();
+    });
+
+    it('submits canonical IDs and before-move items even when the selection input is reversed', async () => {
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[3]);
+      const controller = controllerFor(root);
+      vi.spyOn(controller, 'actionScopeFor').mockReturnValue({ kind: 'batch', items: [items[3], items[1]] });
+      const beforeMove = vi.fn();
+      root.addEventListener('sortable-lists:before-move', beforeMove);
+
+      controller.moveInDirection(items[1], 'up');
+      await flushPromises();
+
+      expect(itemIds(sourceList)).toEqual(['2', '4', '1', '3']);
+      expect(fetchMock).toHaveBeenCalledOnce();
+      const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
+      expect(options.body.getAll('ids[]')).toEqual(['2', '4']);
+      expect(beforeMove.mock.calls[0][0].detail.items).toEqual([
+        { type: 'work_package', id: '2' }, { type: 'work_package', id: '4' },
+      ]);
+    });
+
+    [
+      { name: 'changed members', rendered: '["2","4"]', live: [1, 2] },
+      { name: 'singular menu and live batch', rendered: '["2"]', live: [1, 2] },
+      { name: 'batch menu and live singleton', rendered: '["2","3"]', live: [1] },
+      { name: 'malformed scope', rendered: '{', live: [1, 2] },
+      { name: 'non-string scope', rendered: '[2,3]', live: [1, 2] },
+      { name: 'duplicate scope', rendered: '["2","2"]', live: [1, 2] },
+      { name: 'missing scope', rendered: null, live: [1, 2] },
+    ].forEach(({ name, rendered, live }) => {
+      it(`refuses ${name} before before-move, collapse, reorder or request`, async () => {
+        const { root, sourceList, items } = renderBatchMenuFixture();
+        await ctx.nextFrame();
+        selectItems(...live.map((index) => items[index]));
+        announceSpy.mockClear();
+        const scopeOwner = document.createElement('ul');
+        scopeOwner.setAttribute('data-sortable-lists-scope-count', '2');
+        if (rendered !== null) scopeOwner.setAttribute('data-sortable-lists-scope-ids', rendered);
+        const beforeMove = vi.fn();
+        root.addEventListener('sortable-lists:before-move', beforeMove);
+
+        controllerFor(root).moveInDirection(items[1], 'up', scopeOwner);
+        await flushPromises();
+
+        expect(itemIds(sourceList)).toEqual(['1', '2', '3', '4']);
+        expect(selectedIds(root)).toEqual(live.map((index) => String(index + 1)));
+        expect(fetchMock).not.toHaveBeenCalled();
+        expect(beforeMove).not.toHaveBeenCalled();
+        expect(announcedMessages()).toEqual([
+          ['The menu selection has changed. Reopen the menu before moving work packages.', { politeness: 'assertive' }],
+        ]);
+      });
+    });
+
+    it('refuses a menu whose rendered selection was pruned by a morph', async () => {
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[2]);
+      const scopeOwner = document.createElement('ul');
+      scopeOwner.setAttribute('data-sortable-lists-scope-count', '2');
+      scopeOwner.setAttribute('data-sortable-lists-scope-ids', '["2","3"]');
+      items[2].remove();
+      root.dispatchEvent(new Event('sortable-lists:reconcile'));
+      await ctx.nextFrame();
+      announceSpy.mockClear();
+      const beforeMove = vi.fn();
+      root.addEventListener('sortable-lists:before-move', beforeMove);
+
+      controllerFor(root).moveInDirection(items[1], 'up', scopeOwner);
+      await flushPromises();
+
+      expect(itemIds(sourceList)).toEqual(['1', '2', '4']);
       expect(fetchMock).not.toHaveBeenCalled();
+      expect(beforeMove).not.toHaveBeenCalled();
+      expect(announcedMessages()).toEqual([
+        ['The menu selection has changed. Reopen the menu before moving work packages.', { politeness: 'assertive' }],
+      ]);
+    });
+
+    it('accepts matching rendered scope', async () => {
+      const { root, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[2]);
+      const scopeOwner = document.createElement('ul');
+      scopeOwner.setAttribute('data-sortable-lists-scope-count', '2');
+      scopeOwner.setAttribute('data-sortable-lists-scope-ids', '["2","3"]');
+
+      controllerFor(root).moveInDirection(items[1], 'up', scopeOwner);
+      await flushPromises();
+      expect(fetchMock).toHaveBeenCalledOnce();
     });
 
     it('sends nothing for a block without collection capability', async () => {
@@ -1499,6 +1591,42 @@ describe('Sortable lists controller', () => {
     const [url, options] = fetchMock.mock.lastCall as [string, { body:FormData }];
     expect(url).toBe('/move/1?optimistic=true');
     expect(options.body.getAll('ids[]')).toEqual([]);
+  });
+
+  ['divider', 'marker'].forEach((kind) => {
+    it(`moves a generic singleton to Top before a leading ${kind} without scope metadata`, async () => {
+      const { root, sourceList, firstSourceItem } = renderFixture({ optimistic: true });
+      const gap = document.createElement('li');
+      if (kind === 'marker') gap.setAttribute('data-sortable-lists-prev-item-id', 'H');
+      sourceList.prepend(gap);
+      await ctx.nextFrame();
+      const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+      expect(controller.moveAvailability(firstSourceItem)?.top).toBe(true);
+
+      controller.moveInDirection(firstSourceItem, 'top');
+      await flushPromises();
+
+      expect(Array.from(sourceList.children).slice(0, 2)).toEqual([firstSourceItem, gap]);
+      expect(fetchMock).toHaveBeenCalledOnce();
+      expect((fetchMock.mock.lastCall?.[1] as { body:FormData }).body.get('prev_id')).toBe('');
+    });
+  });
+
+  it('moves a generic singleton to Bottom after a real trailing marker anchor', async () => {
+    const { root, sourceList, firstSourceItem } = renderFixture({ optimistic: true });
+    const marker = document.createElement('li');
+    marker.setAttribute('data-sortable-lists-prev-item-id', 'H');
+    sourceList.append(marker);
+    await ctx.nextFrame();
+    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+    expect(controller.moveAvailability(firstSourceItem)?.bottom).toBe(true);
+
+    controller.moveInDirection(firstSourceItem, 'bottom');
+    await flushPromises();
+
+    expect(Array.from(sourceList.children).slice(-2)).toEqual([marker, firstSourceItem]);
+    expect(fetchMock).toHaveBeenCalledOnce();
+    expect((fetchMock.mock.lastCall?.[1] as { body:FormData }).body.get('prev_id')).toBe('H');
   });
 
   it('refuses a directional move for a non-movable item', async () => {
@@ -1555,13 +1683,13 @@ describe('Sortable lists controller', () => {
       return ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
     }
 
-    it('hides Move to position for a sparse same-list block', async () => {
+    it('offers gathering a sparse same-list block in every direction', async () => {
       const { root, items } = renderSelectableRoot();
       await ctx.nextFrame();
       const controller = selectedController(root, items[0], items[2]);
 
       expect(controller.moveAvailability(items[0])).toEqual({
-        top: false, up: false, down: false, bottom: false,
+        top: true, up: true, down: true, bottom: true,
       });
     });
 

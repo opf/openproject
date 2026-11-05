@@ -139,7 +139,7 @@ RSpec.describe "Move selected backlog cards to a position via their menu",
     )
   end
 
-  it "omits positional actions for sparse and cross-list selections" do
+  it "gathers a sparse same-list selection but refuses cross-list positioning" do
     sprint = create(:sprint, project:, name: "Sprint")
     other_sprint = create(:sprint, project:, name: "Other sprint")
     stories = create_sprint_stories(sprint, count: 4)
@@ -147,7 +147,10 @@ RSpec.describe "Move selected backlog cards to a position via their menu",
     backlogs_page.visit!
 
     backlogs_page.select_cards(stories[0], stories[2])
-    backlogs_page.expect_move_to_position_unavailable(stories[0])
+    backlogs_page.move_selected_cards(invoker: stories[0], action: "Move to top")
+    backlogs_page.expect_sprint_items_in_order(sprint, items: [stories[0], stories[2], stories[1], stories[3]])
+    wait_for { sprint.work_packages_for(project).pluck(:id) }
+      .to eq [stories[0].id, stories[2].id, stories[1].id, stories[3].id]
     backlogs_page.clear_card_selection(stories[0])
 
     backlogs_page.select_cards(stories[0], other_story)

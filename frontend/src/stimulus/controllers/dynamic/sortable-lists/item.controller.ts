@@ -153,7 +153,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
     const { direction } = event.params;
     if (isMoveDirection(direction)) {
-      this.root?.moveInDirection(this.element, direction);
+      this.root?.moveInDirection(this.element, direction, item.closest<HTMLElement>('[data-sortable-lists-scope-count]'));
     }
   }
 
