@@ -191,7 +191,7 @@ RSpec.describe CustomFields::UpdateService, type: :model do
       end
 
       context "when toggling multi_value" do
-        let(:attributes) { super.merge(multi_value: true) }
+        let(:attributes) { super().merge(multi_value: true) }
 
         it "enqueues recalculation job" do
           expect { subject }
