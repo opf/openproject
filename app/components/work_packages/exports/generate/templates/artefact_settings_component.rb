@@ -40,6 +40,18 @@ module WorkPackages
 
           def self.array_fields = %w[wiki_pages]
 
+          attr_reader :context
+
+          def initialize(context: :configuration, **)
+            super(**)
+
+            @context = context
+          end
+
+          def wiki_page_refs
+            WorkPackage::PDFExport::WikiPageRef.parse_all(settings[:wiki_pages])
+          end
+
           def toc
             boolean_setting(:toc, WorkPackage::PDFExport::Artefact::DEFAULT_TOC)
           end

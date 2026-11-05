@@ -87,6 +87,7 @@ module WorkPackages
                                                        WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_LIFECYCLE),
             include_budget: resolve_boolean_setting(stored, :include_budget,
                                                     WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_BUDGET),
+            wiki_pages: resolve_setting(stored, :wiki_pages, []),
             hyphenation: resolve_boolean_setting(stored, :hyphenation, false),
             hyphenation_language: hyphenation_language_for(stored)
           }
