@@ -4,6 +4,7 @@ import { PENDING_PREFIX } from '../InlineWorkPackage/callbacks';
 import { BLOCK_ATTRIBUTE_TYPE, INLINE_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
 import { selectInlineChipAtDOM } from '../../utils/inlineChipActions';
 import { useColors } from '../../services/colors';
+import { useIsNodeInSelection } from '../../hooks/useIsNodeInSelection';
 import type { AttributeDisplay } from './externalHtml';
 import { useWorkPackageAttribute } from './useWorkPackageAttribute';
 import { getPendingAttribute } from './pending';
@@ -34,6 +35,8 @@ function ResolvedAttributeInline({ content, editor, contentRef, onDisplayChange 
     onActivate: () => selectAttributeNode(),
   });
 
+  const inSelection = useIsNodeInSelection(elementRef, editor);
+
   function selectAttributeNode() {
     if (editor && elementRef.current) selectInlineChipAtDOM(editor, elementRef.current, INLINE_ATTRIBUTE_TYPE);
   }
@@ -48,7 +51,7 @@ function ResolvedAttributeInline({ content, editor, contentRef, onDisplayChange 
       role="button"
       aria-haspopup="menu"
       aria-expanded={menuOpen}
-      $selected={menuOpen}
+      $selected={menuOpen || inSelection}
       data-drag-handle
       {...toggleProps}
     >
