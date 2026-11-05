@@ -44,7 +44,7 @@ module Sprints
       origin_from = origin.at.in_time_zone(zone)
       days = days_until_finish(origin_from)
 
-      return [origin] if days.none?(&:working)
+      return [origin] if days.empty?
 
       capacity = still_ahead(days, days.first, origin_from)
 
