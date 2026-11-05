@@ -1,0 +1,133 @@
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import { page, userEvent } from 'vitest/browser';
+import { http, HttpResponse } from 'msw';
+import { renderEditor } from '../../../helpers/renderEditor';
+import { openEditorAndType } from '../../../helpers/editorHelpers';
+import { worker } from '../../../mocks/browser';
+import { mockAttributeWorkPackage } from '../../../mocks/workPackageAttributes';
+import { mockWorkPackage } from '../../../mocks/handlers';
+import { computeWorkPackageAttributeExternalData } from '../../../../lib/components/WorkPackageAttribute/externalHtml';
+
+interface Node { type:string, text?:string, props?:Record<string, unknown>, content?:Node[] }
+interface Editor { document:Node[] }
+
+const ATTRIBUTE = 'openProjectWorkPackageAttributeInline';
+
+// CKEditor keeps attribute macros as plain text, so that is what it copies.
+function pasteFromCKEditor(text:string) {
+  const editable = document.querySelector('.bn-editor');
+  if (!(editable instanceof HTMLElement)) throw new Error('No [contenteditable] to paste into');
+  const data = new DataTransfer();
+  data.setData('text/html', `<p>${text.replace(/"/g, '&quot;')}</p>`);
+  data.setData('text/plain', text);
+  editable.dispatchEvent(new ClipboardEvent('paste', { clipboardData: data, bubbles: true, cancelable: true }));
+}
+
+async function renderEmptyEditor(text = '') {
+  let editor:Editor | undefined;
+  renderEditor({ onEditor: (instance) => { editor = instance; } });
+  if (text) await openEditorAndType(text);
+  else await userEvent.click(page.getByRole('textbox'));
+  return () => editor!;
+}
+
+function inlineContent(editor:Editor):Node[] {
+  return editor.document.flatMap((block) => block.content ?? []);
+}
+
+function attributes(editor:Editor) {
+  return inlineContent(editor).filter((node) => node.type === ATTRIBUTE).map((node) => node.props);
+}
+
+function text(editor:Editor):string {
+  return inlineContent(editor).map((node) => (node.type === 'text' ? node.text : `[${node.type}]`)).join('');
+}
+
+afterEach(() => {
+  worker.resetHandlers();
+});
+
+describe('Pasting work package attribute macros from CKEditor', () => {
+  it('turns a value macro with an id into an attribute', async () => {
+    const editor = await renderEmptyEditor();
+
+    pasteFromCKEditor('workPackageValue:321:assignee');
+
+    await vi.waitFor(() => expect(attributes(editor())).toEqual([
+      { wpid: '321', displayId: 'PROJ-321', attribute: 'assignee', display: 'value' },
+    ]));
+    await expect.element(page.getByText('Mira Hofmann')).toBeVisible();
+  });
+
+  it('turns a label macro with a semantic identifier into an attribute', async () => {
+    const editor = await renderEmptyEditor();
+
+    pasteFromCKEditor('workPackageLabel:PROJ-321:assignee');
+
+    await vi.waitFor(() => expect(attributes(editor())).toEqual([
+      { wpid: '321', displayId: 'PROJ-321', attribute: 'assignee', display: 'label' },
+    ]));
+    await expect.element(page.getByText('Assignee')).toBeVisible();
+  });
+
+  it.each([
+    ['Value', 'value'],
+    ['Label', 'label'],
+  ])('finds the work package of a subject in a %s macro and copies it back with its id', async (kind, display) => {
+    worker.use(
+      http.get('http://localhost:3000/api/v3/work_packages', ({ request }) => (
+        (new URL(request.url).searchParams.get('filters') ?? '').includes('typeahead')
+          ? HttpResponse.json({ _embedded: { elements: [mockWorkPackage, mockAttributeWorkPackage] } })
+          : undefined
+      )),
+    );
+    const editor = await renderEmptyEditor();
+
+    pasteFromCKEditor(`workPackage${kind}:"Redesign onboarding flow":assignee`);
+
+    await vi.waitFor(() => expect(attributes(editor())).toHaveLength(1));
+    const [attribute] = attributes(editor()) as [Record<string, string>];
+    expect(attribute).toEqual({ wpid: '321', displayId: 'PROJ-321', attribute: 'assignee', display });
+    expect(computeWorkPackageAttributeExternalData(attribute)!.text).toBe(`workPackage${kind}:PROJ-321:"assignee"`);
+  });
+
+  it('turns the label and value of one attribute into a single attribute showing both', async () => {
+    const editor = await renderEmptyEditor();
+
+    pasteFromCKEditor('workPackageLabel:321:"Content owner": workPackageValue:321:"Content owner"');
+
+    await vi.waitFor(() => expect(attributes(editor())).toEqual([
+      { wpid: '321', displayId: 'PROJ-321', attribute: 'Content owner', display: 'both' },
+    ]));
+  });
+
+  it('keeps the surrounding text and the macros it cannot resolve', async () => {
+    const editor = await renderEmptyEditor('Before ');
+
+    pasteFromCKEditor('owner workPackageValue:321:assignee and workPackageValue:321:unknown here');
+
+    await vi.waitFor(() => expect(text(editor())).toBe(
+      `Before owner [${ATTRIBUTE}] and workPackageValue:321:unknown here`
+    ));
+  });
+
+  it('turns a long text macro into a block', async () => {
+    const editor = await renderEmptyEditor();
+
+    pasteFromCKEditor('workPackageValue:321:description');
+
+    await vi.waitFor(() => expect(editor().document.find((block) => block.type === 'openProjectWorkPackageAttributeBlock')?.props)
+      .toEqual({ wpid: '321', displayId: 'PROJ-321', attribute: 'description', display: 'value' }));
+    await expect.element(page.getByText('Kick-off')).toBeVisible();
+  });
+
+  it('leaves a macro without a work package as text', async () => {
+    const editor = await renderEmptyEditor();
+
+    pasteFromCKEditor('workPackageValue:assignee');
+
+    await vi.waitFor(() => expect(text(editor())).toBe('workPackageValue:assignee'));
+    expect(attributes(editor())).toEqual([]);
+  });
+});
+
