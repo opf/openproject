@@ -75,6 +75,20 @@ RSpec.describe "Mail Notifications Settings",
       end
     end
 
+    context "when smtp_authentication is login",
+            with_settings: { email_delivery_method: :smtp, smtp_authentication: "login" } do
+      before do
+        get "/admin/settings/mail_notifications"
+      end
+
+      it "marks login as the selected authentication option" do
+        select = page.find_field(I18n.t(:setting_smtp_authentication), visible: :all, disabled: :all)
+
+        expect(select).to have_css("option[selected][value='login']", visible: :all)
+        expect(select).to have_no_css("option[selected][value='none']", visible: :all)
+      end
+    end
+
     context "when email_delivery_method is not configured", with_settings: { email_delivery_method: nil } do
       before do
         get "/admin/settings/mail_notifications"
