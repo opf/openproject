@@ -224,7 +224,7 @@ RSpec.describe "My::PushSubscriptionsController",
         expect(PushSubscription.exists?(subscription.id)).to be(false)
       end
 
-      it "answers a turbo stream request with the replaced component and a success flash" do
+      it "responds to a turbo stream request with the replaced component and a success flash" do
         delete "/my/push_subscriptions/#{subscription.id}", headers: turbo_headers
 
         expect(response).to have_http_status(:ok)
@@ -233,7 +233,7 @@ RSpec.describe "My::PushSubscriptionsController",
         expect(PushSubscription.exists?(subscription.id)).to be(false)
       end
 
-      it "answers a silent turbo stream request without the flash" do
+      it "responds to a silent turbo stream request without the flash" do
         delete "/my/push_subscriptions/#{subscription.id}", params: { silent: true }, headers: turbo_headers
 
         expect(response).to have_http_status(:ok)
