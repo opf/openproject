@@ -27,14 +27,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Labels
-  module LabelsFeature
-    extend ActiveSupport::Concern
+require "rails_helper"
 
-    private
+RSpec.describe Admin::Import::Jira::ImportRuns::WizardStepConfirmImportComponent, type: :component do
+  subject(:labels) { described_class.new(jira_import).import_selection.pluck(:label) }
 
-    def require_work_package_labels_feature
-      render_404 unless OpenProject::FeatureDecisions.work_package_labels_active?
+  let(:jira_import) do
+    build(:jira_import,
+          jira: build(:jira, exclude_resolution_fields:),
+          projects: [{ "id" => "1" }],
+          selected: { "issues_count" => 0, "status_ids" => %w[1 2 3], "issue_type_ids" => %w[1 2] })
+  end
+  let(:exclude_resolution_fields) { false }
+  let(:users_explanation) { "Users that are involved in selected projects (group memberships included)" }
+  let(:resolution_statuses_explanation) { 'Additional statuses combining status and resolution (e.g. "Done - Fixed")' }
+
+  it "lists all labels" do
+    expect(labels).to eq(["1 project", "0 issues", "3 statuses", "2 types",
+                          users_explanation, resolution_statuses_explanation])
+  end
+
+  context "when resolution fields are excluded" do
+    let(:exclude_resolution_fields) { true }
+
+    it "does not explain the resolution statuses" do
+      expect(labels).not_to include(resolution_statuses_explanation)
     end
   end
 end

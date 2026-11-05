@@ -1800,6 +1800,9 @@ en:
             projects:
               one: "%{count} project"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               other: "%{count} statuses"
@@ -1829,6 +1832,7 @@ en:
               label_available_data: "Data to be imported"
               label_import_data: "Currently importing"
               label_progress: "Import in progress..."
+              label_resolution_statuses_explanation: 'Additional statuses combining status and resolution (e.g. "Done - Fixed")'
               label_users_import_explanation: "Users that are involved in selected projects (group memberships included)"
               title: "Import data"
             fetch_data:
@@ -2354,6 +2358,8 @@ en:
         emoji_reactions_activity_type_not_supported: "This activity type does not support emoji reactions."
         invalid_link: "The link under key '%{key}' is not valid."
         links_not_an_object: "_links must be a JSON object."
+        pdf_export_no_template_enabled: "No PDF export template is enabled for the type of this work package."
+        pdf_export_template_not_enabled: "The PDF export template '%{template}' is not enabled for the type of this work package."
       code_400: "Bad request: %{message}"
       code_401: "You need to be authenticated to access this resource."
       code_401_wrong_credentials: "You did not provide the correct credentials."

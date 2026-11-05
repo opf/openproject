@@ -47,6 +47,8 @@ zh-TW:
       draggable_hint: '將圖片或附件拖曳到編輯區內即可新增。 滑鼠移到關閉的編輯區將會開啟這個編輯區。
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: 該文件由於發現了病毒已被隔離。該文件不可下載。
     autocomplete_ng_select:
       add_tag: 新增項目

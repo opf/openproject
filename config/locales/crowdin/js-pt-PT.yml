@@ -47,6 +47,8 @@ pt-PT:
       draggable_hint: 'Arraste para o campo do editor para inserir uma imagem ou um anexo de referência em linha. Os campos do editor fechados são abertos enquanto continuar a arrastar.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: O ficheiro está em quarentena porque foi encontrado um vírus. Não está disponível para transferência.
     autocomplete_ng_select:
       add_tag: Adicionar item

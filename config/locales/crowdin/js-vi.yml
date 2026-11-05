@@ -47,6 +47,8 @@ vi:
       draggable_hint: 'Kéo trường soạn thảo vào hình ảnh nội tuyến hoặc tệp đính kèm tham chiếu. Các trường soạn thảo đã đóng sẽ được mở trong khi bạn tiếp tục kéo.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Tệp đã được cách ly vì đã tìm thấy vi-rút. Nó không có sẵn để tải về.
     autocomplete_ng_select:
       add_tag: Thêm mục

@@ -48,7 +48,7 @@ class Queries::WorkPackages::Filter::RelatableFilter < Queries::WorkPackages::Fi
   end
 
   def apply_to(query_scope)
-    query_scope.relatable(WorkPackage.visible.find_by(id: values.first), scope_operator)
+    query_scope.relatable(WorkPackage.visible.find_by(id: work_package_ids.first), scope_operator)
   end
 
   private

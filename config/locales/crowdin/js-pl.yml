@@ -47,6 +47,8 @@ pl:
       draggable_hint: 'Przeciągaj w polu edytora, aby wstawić obraz lub załącznik referencyjny. Zamknięte pola edytora zostaną otwarte podczas przeciągania.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Plik został poddany kwarantannie, ponieważ wykryto w nim wirusa. Nie jest dostępny do pobrania.
     autocomplete_ng_select:
       add_tag: Dodaj element

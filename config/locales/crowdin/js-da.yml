@@ -47,6 +47,8 @@ da:
       draggable_hint: 'Træk til et redigeringsfelt for at indsætte et billede i teksten eller henvise til den vedhæftede fil. Lukkede redigeringsfelter åbnes, mens du trækker.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Filen er sat i karantæne, fordi der blev fundet en virus. Den kan ikke hentes.
     autocomplete_ng_select:
       add_tag: Tilføj element

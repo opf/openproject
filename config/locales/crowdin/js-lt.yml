@@ -47,6 +47,8 @@ lt:
       draggable_hint: 'Tempkite į redagavimo lauką, kad įtrauktumėte piešinį ar paminėtumėte priedą. Uždari redaktoriaus laukai bus atidaryti, kol jūs tempsite.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Failas patalpintas į karantiną, nes rastas virusas. Jo atsisiųsti negalima.
     autocomplete_ng_select:
       add_tag: Pridėti elementą

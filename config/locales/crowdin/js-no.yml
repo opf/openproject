@@ -47,6 +47,8 @@
       draggable_hint: 'Dra i tekstbehandlerfeltet for å sette inn bilde eller referansevedlegg. Lukket felt i tekstbehandler åpnes mens du fortsetter å dra det.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Filen er satt i karantene fordi et virus ble funnet. Den er ikke tilgjengelig for nedlasting.
     autocomplete_ng_select:
       add_tag: Legg til element
