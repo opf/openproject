@@ -150,7 +150,6 @@ en:
         allow_non_open_versions: "Allow non-open versions"
         content_right_to_left: "Right-to-Left content"
         default_value: "Default value"
-        editable: "Editable"
         field_format: "Format"
         formula: "Formula"
         has_comment: "Add a comment text field"
@@ -167,6 +166,7 @@ en:
         regexp: "Regular expression"
         searchable: "Searchable"
         semantic_key: "Semantic meaning"
+        user_self_editable: "Editable"
         visible_on_user_card: "Show on user card"
       custom_field/project_specific_value_restriction:
         restriction: "Restriction"
@@ -2918,8 +2918,6 @@ en:
       admin_only:
         all: "Check to make this custom field only visible to administrators. Users without admin rights will not be able to view or edit it."
         project: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
-      editable:
-        all: "Allow the field to be editable by users themselves."
       formula:
         project: "Add numeric values or type / to search for an attribute, operator, function or other token."
       has_comment:
@@ -2949,6 +2947,8 @@ en:
       searchable:
         all: "Include the field values when using the global search functionality."
         project: "Check to make this attribute available as a filter in project lists."
+      user_self_editable:
+        all: "Allow the field to be editable by users themselves."
       visible_on_user_card:
         all: "When checked, this field's value is shown in the user information card when hovering over a user across the application."
     is_enabled_globally: "Is enabled globally"
