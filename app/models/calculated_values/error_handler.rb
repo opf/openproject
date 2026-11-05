@@ -105,7 +105,7 @@ module CalculatedValues
     end
 
     # Returns a list of all custom field ids that could not compute a value.
-    # TODO: Handle lists differently. Right now, they result in an unknown error.
+    # TODO SPPM-337: Handle lists differently. Right now, they result in an unknown error.
     def cf_ids_with_missing_values
       @cf_ids_with_missing_values ||= given_values
         .filter { |_k, v| v.nil? }
