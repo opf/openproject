@@ -132,7 +132,7 @@ module Exports::PDF::Common::Attachments
         # Wrap it in a minimal RIFF/WEBP container to create a single-frame WebP.
         frame_chunk = data[pos + 8 + 16, chunk_size - 16]
         # Reject frames whose payload isn't a recognized WebP bitstream type
-        next unless webp_type.map(&:b).include?(frame_chunk[0, 4])
+        return unless webp_type.map(&:b).include?(frame_chunk[0, 4])
 
         riff_size = 4 + frame_chunk.bytesize # "WEBP" + frame data
         tmp_frame = temp_image_file(".webp")
