@@ -63,6 +63,7 @@ RSpec.describe "Time entry activity", :js do
     visit project_settings_general_path(project)
 
     click_on "Time and costs"
+    within("[data-test-selector='time_and_costs_tabs']") { click_on "Activities" }
 
     within("[data-test-selector='project-time-entry-activity-#{activity.id}']") do
       expect_checked_state

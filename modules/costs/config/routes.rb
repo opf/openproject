@@ -58,6 +58,8 @@ Rails.application.routes.draw do
 
   scope "projects/:project_id", as: "project", module: "projects" do
     namespace "settings" do
+      resource :time_and_costs, only: %i[show]
+      resource :time_tracking, only: %i[show update], controller: :time_tracking
       resource :time_entry_activities, only: %i[show] do
         post "toggle/:activity_id", action: :toggle, as: :toggle
       end

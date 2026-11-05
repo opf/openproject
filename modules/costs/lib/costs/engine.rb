@@ -74,6 +74,7 @@ module Costs
 
         permission :manage_project_activities,
                    {
+                     "projects/settings/time_and_costs": %i[show],
                      "projects/settings/time_entry_activities": %i[show toggle],
                      "projects/settings/cost_types": %i[index toggle]
                    },
@@ -191,6 +192,18 @@ module Costs
       ::Settings::Definition.add "time_entries_limit_to_user_working_hours", default: false, format: :boolean
       ::Settings::Definition.add "time_entries_prohibit_logging_for_past_months", default: false, format: :boolean
       ::Settings::Definition.add "time_entries_past_month_grace_days", default: 0, format: :integer, allowed: (0..)
+    end
+
+    initializer "costs.permissions" do
+      Rails.application.reloader.to_prepare do
+        OpenProject::AccessControl.permission(:edit_project)
+          .controller_actions
+          .push(
+            "projects/settings/time_and_costs/show",
+            "projects/settings/time_tracking/show",
+            "projects/settings/time_tracking/update"
+          )
+      end
     end
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false
