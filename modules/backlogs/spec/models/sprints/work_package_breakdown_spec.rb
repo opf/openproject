@@ -284,7 +284,7 @@ RSpec.describe Sprints::WorkPackageBreakdown do
     context "when work packages staying in the sprint were re-estimated" do
       let!(:increased_work_package) do
         create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 3,
-                              estimated_hours: 4,
+                              estimated_hours: 4.25,
                               created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
       end
 
@@ -297,6 +297,12 @@ RSpec.describe Sprints::WorkPackageBreakdown do
       let!(:newly_estimated_work_package) do
         create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: nil,
                               estimated_hours: nil,
+                              created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+      end
+
+      let!(:unestimated_work_package) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 2,
+                              estimated_hours: 1.5,
                               created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
       end
 
@@ -313,26 +319,28 @@ RSpec.describe Sprints::WorkPackageBreakdown do
       end
 
       before do
-        [increased_work_package, decreased_work_package, newly_estimated_work_package,
+        [increased_work_package, decreased_work_package, newly_estimated_work_package, unestimated_work_package,
          added_work_package, removed_work_package].each { |wp| backdate_creation_journal(wp) }
 
         set_attribute_journalized(increased_work_package, :story_points=, 8, sprint.start_date + 1.day)
-        set_attribute_journalized(increased_work_package, :estimated_hours=, 6, sprint.start_date + 2.days)
+        set_attribute_journalized(increased_work_package, :estimated_hours=, 6.5, sprint.start_date + 2.days)
         set_attribute_journalized(decreased_work_package, :story_points=, 5, sprint.start_date + 1.day)
         set_attribute_journalized(decreased_work_package, :estimated_hours=, 7, sprint.start_date + 2.days)
         set_attribute_journalized(newly_estimated_work_package, :story_points=, 1, sprint.start_date + 1.day)
         set_attribute_journalized(newly_estimated_work_package, :estimated_hours=, 2, sprint.start_date + 2.days)
+        set_attribute_journalized(unestimated_work_package, :story_points=, nil, sprint.start_date + 1.day)
+        set_attribute_journalized(unestimated_work_package, :estimated_hours=, nil, sprint.start_date + 2.days)
         set_attribute_journalized(removed_work_package, :sprint_id=, nil, sprint.start_date + 4.days)
       end
 
-      it "counts increases as added and decreases as removed, without changing the work package counts" do
+      it "counts increases as added and decreases as removed, ignoring the unchanged stable work package" do
         expect(breakdown.changed_after_start).to have_attributes(
           added_count: 1,
           removed_count: 1,
           added_story_points: 2 + (8 - 3) + 1,
-          removed_story_points: 4 + (8 - 5),
-          added_estimated_hours: 3 + (6 - 4) + 2,
-          removed_estimated_hours: 6 + (10 - 7)
+          removed_story_points: 4 + (8 - 5) + 2,
+          added_estimated_hours: be_within(0.001).of(3 + (6.5 - 4.25) + 2),
+          removed_estimated_hours: be_within(0.001).of(6 + (10 - 7) + 1.5)
         )
       end
 
@@ -343,7 +351,7 @@ RSpec.describe Sprints::WorkPackageBreakdown do
         expect(breakdown.initially_planned.story_points + change.added_story_points - change.removed_story_points)
           .to eq(finished.sum(&:story_points))
         expect(breakdown.initially_planned.estimated_hours + change.added_estimated_hours - change.removed_estimated_hours)
-          .to eq(finished.sum(&:estimated_hours))
+          .to be_within(0.001).of(finished.sum(&:estimated_hours))
       end
     end
   end

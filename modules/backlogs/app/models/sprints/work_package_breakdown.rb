@@ -161,15 +161,15 @@ module Sprints
     end
 
     def points_by_id(snapshots)
-      snapshots.to_h { [it.work_package_id, it.story_points] }
+      snapshots.to_h { [it.work_package_id, it.story_points || 0] }
     end
 
     def hours_by_id(snapshots)
-      snapshots.to_h { [it.work_package_id, it.estimated_hours] }
+      snapshots.to_h { [it.work_package_id, it.estimated_hours || 0] }
     end
 
     def sum_values(ids, values_by_id)
-      ids.sum { |id| values_by_id[id] || 0 }
+      values_by_id.values_at(*ids).sum
     end
 
     def estimate_change(start_values, finish_values)
@@ -181,8 +181,12 @@ module Sprints
       ]
     end
 
+    def retained_ids
+      start_points.keys & finish_points.keys
+    end
+
     def retained_deltas(start_values, finish_values)
-      (start_values.keys & finish_values.keys).map { |id| (finish_values[id] || 0) - (start_values[id] || 0) }
+      retained_ids.map { |id| finish_values[id] - start_values[id] }
     end
 
     def done?(snapshot)
