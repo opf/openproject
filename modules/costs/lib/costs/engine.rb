@@ -206,6 +206,7 @@ module Costs
     prepend_module "Costs::ConfiguredCurrency", into: "ActiveSupport::NumberHelper::NumberToCurrencyConverter"
     prepend_module "Members::TableCurrentUser", into: "MembersController"
     prepend_module "Members::CurrentRateColumn", into: "Members::TableComponent"
+    prepend_module "Projects::DefaultRemainingWorkSettings", into: "Projects::SetAttributesService"
     prepend_module "Members::CurrentRateCell", into: "Members::RowComponent"
 
     add_tab_entry :user,

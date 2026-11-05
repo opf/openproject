@@ -119,6 +119,7 @@ class Journal < ApplicationRecord
     forum_message
     import
     label_deleted
+    logged_time_changed
     progress_mode_changed_to_status_based
     status_changed
     system_update

@@ -34,6 +34,9 @@ module Projects::Costs
     has_many :rates, class_name: "HourlyRate" # rubocop:disable Rails/HasManyOrHasOneDependent
     has_many :cost_types_projects, dependent: :delete_all
     has_many :cost_types, through: :cost_types_projects
+
+    store_attribute :settings, :logged_time_reduces_remaining_work, :boolean
+    store_attribute :settings, :remaining_work_read_only, :boolean
   end
 
   def costs_enabled?

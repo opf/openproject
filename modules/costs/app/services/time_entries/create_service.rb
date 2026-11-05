@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -34,6 +36,11 @@ class TimeEntries::CreateService < BaseServices::Create
     fail_service_on_duplicate_ongoing(service_result)
 
     service_result
+  end
+
+  def after_persist(call)
+    call.add_dependent!(TimeEntries::AdjustRemainingWorkService.new(user:, time_entry: call.result).call)
+    call
   end
 
   def after_perform(call)
