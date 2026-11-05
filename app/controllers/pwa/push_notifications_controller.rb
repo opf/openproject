@@ -37,7 +37,7 @@ module Pwa
     no_authorization_required! :show
 
     def show
-      render json: PushSubscriptions::NotificationSummary.new(current_user).as_json
+      render json: PushSubscriptions::NotificationSummary.new(current_user)
     end
 
     private
