@@ -1776,6 +1776,9 @@ pt-PT:
             projects:
               one: "%{count} project"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               other: "%{count} statuses"
@@ -1805,6 +1808,7 @@ pt-PT:
               label_available_data: Dados a importar
               label_import_data: A importar
               label_progress: Importação em curso...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Utilizadores envolvidos em projetos selecionados (incluindo membros de grupos)
               title: Importar dados
             fetch_data:

@@ -1776,6 +1776,9 @@ de:
             projects:
               one: "%{count} Projekt"
               other: "%{count} Projekte"
+            resolutions:
+              one: "%{count} resolution"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               other: "%{count} Statusse"
@@ -1805,6 +1808,7 @@ de:
               label_available_data: Zu importierende Daten
               label_import_data: Wird gerade importiert
               label_progress: Import läuft...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Nutzer, die an ausgewählten Projekten beteiligt sind (einschließlich Gruppenmitgliedschaften)
               title: Daten importieren
             fetch_data:
@@ -3607,7 +3611,7 @@ de:
     tab:
       read_only:
         edit_action: Dieses Formular bearbeiten
-        text_html: 'Ab Version 18.0 sind Formulare wiederverwendbare Objekte, die für mehrere Typen und Varianten genutzt werden können. Sie können nicht mehr direkt innerhalb eines Typs bearbeitet werden. Um Änderungen vorzunehmen, bearbeiten Sie entweder das ursprüngliche Formular oder klicken Sie oben auf <strong>+ %{action}</strong>, um ein neues zu erstellen.
+        text_html: 'Ab Version 18.0 sind Formulare wiederverwendbare Objekte, die für mehrere Typen und Varianten genutzt werden können. Sie können nicht mehr direkt innerhalb eines Typs bearbeitet werden. Um Änderungen vorzunehmen, bearbeiten Sie entweder das ursprüngliche Formular oder klicken Sie oben auf <strong>+ Form</strong>, um ein neues zu erstellen.
 
           '
         title: Wichtige Änderungen

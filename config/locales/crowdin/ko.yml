@@ -1663,6 +1663,8 @@ ko:
               other: "%{count} jobs"
             projects:
               other: "%{count} projects"
+            resolutions:
+              other: "%{count} resolutions"
             statuses:
               other: "%{count} statuses"
             types:
@@ -1688,6 +1690,7 @@ ko:
               label_available_data: 가져올 데이터
               label_import_data: 현재 가져오는 중
               label_progress: 가져오기 진행 중...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: 선택한 프로젝트에 참여하는 사용자(그룹 멤버십 포함됨)
               title: 데이터 가져오기
             fetch_data:

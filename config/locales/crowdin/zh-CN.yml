@@ -1663,6 +1663,8 @@ zh-CN:
               other: "%{count} jobs"
             projects:
               other: "%{count} projects"
+            resolutions:
+              other: "%{count} resolutions"
             statuses:
               other: "%{count} statuses"
             types:
@@ -1688,6 +1690,7 @@ zh-CN:
               label_available_data: 要导入的数据
               label_import_data: 当前正在导入
               label_progress: 正在导入…
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: 参与所选项目的用户（包括群组成员资格）
               title: 导入数据
             fetch_data:
