@@ -130,6 +130,21 @@ describe('Inline work package attribute', () => {
       expect(attributeProps(editor)).toEqual([props]);
     });
   });
+
+  it('is copied on its own as its macro once clicked', async () => {
+    renderAttribute('assignee', 'value');
+    await expect.element(page.getByText('Mira Hofmann')).toBeVisible();
+
+    let copied:string | undefined;
+    const onCopy = (event:ClipboardEvent) => { copied = event.clipboardData?.getData('text/plain'); };
+    window.addEventListener('copy', onCopy);
+
+    await userEvent.click(page.getByText('Mira Hofmann'));
+    await userEvent.keyboard('{Control>}c{/Control}');
+    window.removeEventListener('copy', onCopy);
+
+    expect(copied?.trim()).toBe('workPackageValue:PROJ-321:"assignee"');
+  });
 });
 
 describe('Values of work package attributes', () => {

@@ -14,7 +14,7 @@ import type { InlineWpSize } from '../WorkPackage/types';
 import type { WorkPackage } from '../../openProjectTypes';
 import {
   findInlineChipAtDOM,
-  selectInlineChipAt,
+  selectInlineChipAtDOM,
   removeInlineChipAt,
   promoteInlineChipToBlockAt,
 } from '../../utils/inlineChipActions';
@@ -98,8 +98,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
 
   const selectWorkPackageNode = () => {
     if (!editor || !chipRef.current) return;
-    const chip = findInlineChipAtDOM(editor, chipRef.current);
-    if (chip) selectInlineChipAt(editor, chip.position);
+    selectInlineChipAtDOM(editor, chipRef.current);
     editor.getExtension('formattingToolbar')?.store?.setState(false);
   };
 
