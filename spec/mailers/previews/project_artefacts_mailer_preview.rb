@@ -27,14 +27,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Labels
-  module LabelsFeature
-    extend ActiveSupport::Concern
+class ProjectArtefactsMailerPreview < ActionMailer::Preview
+  # Preview emails at http://localhost:3000/rails/mailers/project_artefacts_mailer
 
-    private
+  def creation_wizard_submitted
+    project = FactoryBot.build_stubbed(:project)
+    work_package = FactoryBot.build_stubbed(:work_package, project: project)
+    project.project_creation_wizard_enabled = true
+    project.project_creation_wizard_notification_text = <<~STR
+      Hello,
 
-    def require_work_package_labels_feature
-      render_404 unless OpenProject::FeatureDecisions.work_package_labels_active?
-    end
+      You submitted a project initiation request for **#{project.name}**. It is now awaiting review.
+      Click the link below to access the work package with your request.
+    STR
+    user = FactoryBot.build_stubbed(:user)
+
+    ProjectArtefactsMailer.creation_wizard_submitted(user, project, work_package)
   end
 end

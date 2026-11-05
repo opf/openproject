@@ -240,6 +240,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       *(project.module_enabled?(:backlogs) ? ["Story Points", "1"] : []),
       "Details",
       "Priority", "Normal",
+      WorkPackage.human_attribute_name(:labels),
       *(if project.module_enabled?(:backlogs)
           [
             *(work_package.sprint.present? ? ["Sprint", work_package.sprint] : ["Sprint"]),
@@ -338,7 +339,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       end
     end
 
-    describe "with the work package labels feature active", with_flag: { work_package_labels: true } do
+    describe "with labels" do
       before do
         create(:labeling, label: create(:label, name: "Urgent"), labelable: work_package)
       end

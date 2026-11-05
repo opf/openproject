@@ -27,21 +27,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectArtifactsMailerPreview < ActionMailer::Preview
-  # Preview emails at http://localhost:3000/rails/mailers/project_artifacts_mailer
+require "rails_helper"
 
-  def creation_wizard_submitted
-    project = FactoryBot.build_stubbed(:project)
-    work_package = FactoryBot.build_stubbed(:work_package, project: project)
-    project.project_creation_wizard_enabled = true
-    project.project_creation_wizard_notification_text = <<~STR
-      Hello,
+RSpec.describe Admin::Import::Jira::ImportRuns::WizardStepConfirmImportComponent, type: :component do
+  subject(:labels) { described_class.new(jira_import).import_selection.pluck(:label) }
 
-      You submitted a project initiation request for **#{project.name}**. It is now awaiting review.
-      Click the link below to access the work package with your request.
-    STR
-    user = FactoryBot.build_stubbed(:user)
+  let(:jira_import) do
+    build(:jira_import,
+          jira: build(:jira, exclude_resolution_fields:),
+          projects: [{ "id" => "1" }],
+          selected: { "issues_count" => 0, "status_ids" => %w[1 2 3], "issue_type_ids" => %w[1 2] })
+  end
+  let(:exclude_resolution_fields) { false }
+  let(:users_explanation) { "Users that are involved in selected projects (group memberships included)" }
+  let(:resolution_statuses_explanation) { 'Additional statuses combining status and resolution (e.g. "Done - Fixed")' }
 
-    ProjectArtifactsMailer.creation_wizard_submitted(user, project, work_package)
+  it "lists all labels" do
+    expect(labels).to eq(["1 project", "0 issues", "3 statuses", "2 types",
+                          users_explanation, resolution_statuses_explanation])
+  end
+
+  context "when resolution fields are excluded" do
+    let(:exclude_resolution_fields) { true }
+
+    it "does not explain the resolution statuses" do
+      expect(labels).not_to include(resolution_statuses_explanation)
+    end
   end
 end

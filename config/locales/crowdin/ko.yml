@@ -817,7 +817,7 @@ ko:
           attributes:
             base:
               archive_permission_missing_on_subprojects: 모든 하위 프로젝트를 보관하는 데 필요한 권한이 없습니다. 관리자에게 문의하세요.
-              project_initiation_request_disabled: 프로젝트 시작 요청이 비활성화되었습니다. 아티팩트 작업 패키지를 생성하려면 이 기능을 활성화해야 합니다.
+              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
             enabled_modules:
               dependency_missing: "'%{module}' 모듈이 '%{dependency}' 모듈에 의존하므로 해당 모듈도 활성화되어 있어야 합니다."
               format: "%{message}"
@@ -831,7 +831,7 @@ ko:
               switch_target_blank: 전환할 변형을 선택하세요
               switch_target_identical: 대상 유형은 프로젝트에서 현재 사용하는 유형과 달라야 합니다
               switch_target_not_in_family: 동일한 패밀리의 다른 유형으로만 전환할 수 있습니다
-          cannot_be_assigned_to_artifact_work_package: 선택한 사용자는 작업 패키지에 할당할 수 없습니다.
+          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: 하위가 아닌 프로젝트의 작업 패키지는 해당 프로젝트 또는 하위 프로젝트의 버전을 참조합니다.
         project/phase:
           attributes:
@@ -1537,6 +1537,10 @@ ko:
         button_delete_personal_access_token: Delete PAT
         button_save: 구성 저장
         button_test_connection: Test Connection
+        credential_requirements:
+          administrator: The user must be a Jira administrator.
+          project_member: The user must be a member of every Jira project you want to migrate.
+          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
@@ -1548,6 +1552,7 @@ ko:
           personal_access_token: Personal access token (PAT)
           url: Jira 서버/데이터 센터 URL
         label_testing: 구성 테스트 중...
+        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
@@ -1605,6 +1610,9 @@ ko:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
+        not_administrator_error:
+          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
+          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: '이미 사용된 식별자가 있는 프로젝트를 가져오려고 합니다: %{taken_identifier}. Jira에서 프로젝트 식별자를 업데이트한 후에 ''다시 시도''를 클릭하세요.'
         remove_error: 실행되는 동안에는 Jira 가져오기 실행을 제거할 수 없습니다
         side_panel:
@@ -1663,6 +1671,8 @@ ko:
               other: "%{count} jobs"
             projects:
               other: "%{count} projects"
+            resolutions:
+              other: "%{count} resolutions"
             statuses:
               other: "%{count} statuses"
             types:
@@ -1688,6 +1698,7 @@ ko:
               label_available_data: 가져올 데이터
               label_import_data: 현재 가져오는 중
               label_progress: 가져오기 진행 중...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: 선택한 프로젝트에 참여하는 사용자(그룹 멤버십 포함됨)
               title: 데이터 가져오기
             fetch_data:
@@ -1813,10 +1824,12 @@ ko:
         error: 연결을 테스트하는 동안 예기치 않은 오류가 발생했습니다
         failed: '연결 실패: 서버 정보를 검색할 수 없습니다'
         invalid_url: 유효한 URL을 제공하세요
+        not_administrator:
+          basic: Basic auth user must be a Jira administrator.
+          bearer: Personal Access Token must be an admin token.
         parse_error: 서버에서 응답을 구문 분석하지 못했습니다. 서버가 유효한 Jira 인스턴스가 아닐 수 있습니다.
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: "%{server}(버전 %{version})에 연결되었습니다"
-        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira Migrator
       user:
         unknown_name: 알 수 없음
@@ -2570,6 +2583,22 @@ ko:
       missing_value: '"%{custom_field_name}" 특성은 이 계산된 값에 필요하지만 비어 있습니다.'
       unknown: 알 수 없는 오류가 발생했습니다. 이 계산된 값의 공식을 검토해 주세요.
   colors:
+    contrast:
+      background: Background
+      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
+      dark: Dark mode
+      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
+      fail: Fail
+      foreground: Foreground
+      light: Light mode
+      pass: Pass
+      ratio: Contrast ratio
+      sample: Sample text
+      text: Text
+      title: Contrast preview
+      used_as_background: Used as background
+      used_as_foreground: Used as foreground
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: 색상 편집
     form:
@@ -3753,6 +3782,7 @@ ko:
       comment_retracted: Comment retracted
       dates_changed: 변경된 날짜
       default_attribute_written: 읽기 전용 특성 작성됨
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: 가져옴
       label_deleted: 'Label removed:'
@@ -5447,8 +5477,8 @@ ko:
         label: 목차
     page_nr_footer: "%{page}/%{total}페이지"
     template_artefact:
-      caption: Work package details rendered as a PMflex Artifact.
-      label: PMflex Artifact
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: 기본 템플릿을 사용하는 현재 양식에 있는 모든 특성입니다.
       label: 특성 및 설명
@@ -5757,11 +5787,11 @@ ko:
           no_status_when_submitted: 작업 패키지 유형 %{type}에는 연결된 상태가 하나 이상 필요하므로 프로젝트 시작 요청을 활성화하지 못했습니다. 이 작업 패키지 유형에 대한 상태 워크플로를 하나 이상 활성화하세요.
           no_work_package_type: 프로젝트 시작 요청을 사용하려면 활성 작업 패키지 유형이 하나 이상 필요하지만 이 프로젝트에는 하나도 없기 때문에 프로젝트 시작 요청을 활성화하지 못했습니다. 이 프로젝트에 작업 패키지 유형을 하나 이상 추가하세요.
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: 구성된 외부 파일 저장소 중 어떤 저장소를 사용할지 선택합니다.
           external_file_storage: 외부 파일 저장소
-          label_artifact_export: Artifact export
+          label_artefact_export: Artefact export
           label_attachment_export: 작업 패키지 첨부 파일로 저장
           label_file_link_export: 외부 파일 저장소에 파일을 업로드하고 작업 패키지에 파일 링크 추가
           pdf_file_storage: PDF 파일 저장소
@@ -5897,14 +5927,14 @@ ko:
     status:
       button_edit: 상태 편집
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artefact_storage_error: Failed to store artefact in file storage
+      create_artefact_work_package_error: Failed to create artefact work package
       no_custom_fields_html: 이 프로젝트에는 마법사에 대해 활성화된 프로젝트 특성이 없습니다. <a href="%{link}">프로젝트 설정</a>에서 하나 이상의 특성을 활성화하세요.
       no_help_text: 이 특성에는 정의된 도움말 텍스트가 없습니다.
       progress_label: "%{current}/%{total}"
       sections: 섹션
       sidebar_content_title: 콘텐츠
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: 프로젝트 시작 요청
   pwa:
     offline:
@@ -6479,12 +6509,12 @@ ko:
         confirmation_message: 이 템플릿을 기반으로 하는 새 프로젝트에는 시작 요청 마법사를 더 이상 사용할 수 없습니다. 프로젝트 관리자와 프로젝트 소유자는 프로젝트 개요에서 관련 정보를 수동으로 구성하고 작성해야 합니다.
         heading: 이 프로젝트 시작 요청을 비활성화하시겠습니까?
         title: 프로젝트 시작 요청 비활성화
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artefact_name: Artefact name
+        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: 프로젝트 생성 마법사
           project_initiation_request: 프로젝트 시작 요청
@@ -6504,8 +6534,8 @@ ko:
           **%{project_name}**에 대한 프로젝트 시작 요청을 제출하셨습니다. 이제 검토를 기다리고 있습니다.
           요청이 포함된 작업 패키지에 액세스하려면 아래 링크를 클릭하세요.
         confirmation_email_text: 확인 이메일 텍스트
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: 프로젝트 시작 요청을 제출한 사용자에게 확인 이메일 보내기
         status_when_submitted: 제출 시 상태
         status_when_submitted_caption: 요청이 제출되면 생성된 작업 패키지가 전환되는 상태입니다.
@@ -6513,7 +6543,7 @@ ko:
         work_package_comment_caption: 위에서 선택한 담당자가 코멘트에서 자동으로 @멘션됩니다.
         work_package_comment_default: "%{project_name}**에 대한 프로젝트 시작 요청이 제출되어 검토를 기다리고 있습니다."
         work_package_type: 작업 패키지 유형
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: 프로젝트 생성 마법사 열기
         project_initiation_request: 프로젝트 시작 요청 열기
@@ -7043,13 +7073,13 @@ ko:
           file_link:
             caption: 생성된 PDF는 프로젝트의 자동 관리 Nextcloud 저장소에 업로드되며, 작업 패키지에서 연결됩니다. 해당 저장소가 없는 프로젝트의 작업 패키지는 건너뜁니다.
             label: 외부 파일 저장소에 파일을 업로드하고 작업 패키지에 파일 링크 추가
-          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artifact export mode.
-          label: Automatic artifact export
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
           off_mode:
             caption: PDF가 자동으로 생성되지 않습니다.
             label: 끄기
-          section_title: Automatic artifact export
+          section_title: Automatic artefact export
           unavailable: 사용할 수 없습니다. 자동 관리되는 Nextcloud 저장소가 구성되어 있지 않습니다
         pdf_export_templates:
           actions:

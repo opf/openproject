@@ -16,7 +16,7 @@ post:
           type: object
         examples:
           "with custom fields":
-            "$ref": "../components/examples/program_body.yml"
+            $ref: "../components/examples/program_body.yml"
           "empty":
             description: Empty request to get the form initially in order to start the guided update of a program
             value: {}

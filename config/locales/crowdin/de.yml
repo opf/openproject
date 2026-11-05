@@ -818,7 +818,7 @@ de:
           attributes:
             base:
               archive_permission_missing_on_subprojects: Sie haben nicht die erforderlichen Berechtigungen, um alle Unterprojekte zu archivieren. Bitte kontaktieren Sie einen Administrator.
-              project_initiation_request_disabled: Die Anfrage zur Projektinitiierung ist deaktiviert. Sie muss aktiviert sein, um das Artefakt-Arbeitspaket zu erstellen.
+              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
             enabled_modules:
               dependency_missing: Das Modul "%{dependency}" muss ebenfalls aktiviert sein, da das Modul "%{module}" dieses benötigt.
               format: "%{message}"
@@ -832,7 +832,7 @@ de:
               switch_target_blank: Wählen Sie die Variante aus, zu der Sie wechseln möchten
               switch_target_identical: Der Zieltyp muss sich von dem Typ unterscheiden, den das Projekt derzeit verwendet
               switch_target_not_in_family: Es ist nur möglich, zu einer anderen Variante desselben Typs zu wechseln
-          cannot_be_assigned_to_artifact_work_package: Der gewählte Nutzer darf im Arbeitspaket nicht zugewiesen werden.
+          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Arbeitspakete in nicht verknüpften Projekten verweisen auf Versionen des Projekts oder seiner verknüpften Projekte.
         project/phase:
           attributes:
@@ -1647,6 +1647,10 @@ de:
         button_delete_personal_access_token: PAT löschen
         button_save: Konfiguration speichern
         button_test_connection: Verbindung testen
+        credential_requirements:
+          administrator: The user must be a Jira administrator.
+          project_member: The user must be a member of every Jira project you want to migrate.
+          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
@@ -1658,6 +1662,7 @@ de:
           personal_access_token: Personal access token (PAT)
           url: Jira Server/Datencenter URL
         label_testing: Teste Konfiguration...
+        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
@@ -1715,6 +1720,9 @@ de:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
+        not_administrator_error:
+          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
+          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 'Sie versuchen ein Projekt mit einem bereits verwendeten Identifikator zu importieren: %{taken_identifier}. Bitte aktualisieren Sie die Projektkennung in Jira und klicken Sie dann auf Wiederholen.'
         remove_error: Ein Jira-Import kann nicht entfernt werden während er läuft
         side_panel:
@@ -1776,6 +1784,9 @@ de:
             projects:
               one: "%{count} Projekt"
               other: "%{count} Projekte"
+            resolutions:
+              one: "%{count} resolution"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               other: "%{count} Statusse"
@@ -1805,6 +1816,7 @@ de:
               label_available_data: Zu importierende Daten
               label_import_data: Wird gerade importiert
               label_progress: Import läuft...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Nutzer, die an ausgewählten Projekten beteiligt sind (einschließlich Gruppenmitgliedschaften)
               title: Daten importieren
             fetch_data:
@@ -1931,10 +1943,12 @@ de:
         error: Beim Testen der Verbindung ist ein unerwarteter Fehler aufgetreten
         failed: 'Verbindung fehlgeschlagen: Serverinformationen können nicht abgerufen werden'
         invalid_url: Bitte eine gültige URL eingeben
+        not_administrator:
+          basic: Basic auth user must be a Jira administrator.
+          bearer: Personal Access Token must be an admin token.
         parse_error: Die Antwort des Servers konnte nicht gelesen werden. Der Server ist möglicherweise keine gültige Jira-Instanz.
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Erfolgreich verbunden mit %{server} (Version %{version})
-        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira Migrator
       user:
         unknown_name: Unbekannt
@@ -2696,6 +2710,22 @@ de:
       missing_value: Das Attribut "%{custom_field_name}" wird für diesen Berechneten Wert benötigt, ist aber leer.
       unknown: Ein unbekannter Fehler ist aufgetreten. Bitte überprüfen Sie die Formel für diesen Berechneten Wert.
   colors:
+    contrast:
+      background: Background
+      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
+      dark: Dark mode
+      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
+      fail: Fail
+      foreground: Foreground
+      light: Light mode
+      pass: Pass
+      ratio: Contrast ratio
+      sample: Sample text
+      text: Text
+      title: Contrast preview
+      used_as_background: Used as background
+      used_as_foreground: Used as foreground
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: Farbe bearbeiten
     form:
@@ -3911,6 +3941,7 @@ de:
       comment_retracted: Comment retracted
       dates_changed: Datum geändert
       default_attribute_written: Nur-Lese-Attribute wurde geschrieben
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Importiert
       label_deleted: 'Label removed:'
@@ -5620,8 +5651,8 @@ de:
         label: Inhaltsverzeichnis
     page_nr_footer: Seite %{page} von %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artifact.
-      label: PMflex Artifact
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: Alle Attribute, die in der aktuellen Formularkonfiguration des Standardtemplates vorhanden sind.
       label: Attribute und Beschreibung
@@ -5934,11 +5965,11 @@ de:
           no_status_when_submitted: Der Antrag auf Projektinitiierung konnte nicht aktiviert werden, da für den Arbeitspaket-Typ %{type} mindestens ein Status erforderlich ist, der mit ihm verknüpft ist. Bitte aktivieren Sie mindestens einen Status-Workflow für diesen Arbeitspaket-Typ.
           no_work_package_type: Die Anfrage zur Projektinitiierung konnte nicht aktiviert werden, da dafür mindestens ein aktiver Arbeitspaket-Typ erforderlich ist und dieses Projekt keinen hat. Bitte fügen Sie diesem Projekt mindestens einen Arbeitspaket-Typ hinzu.
         export:
-          description_attachment_export: Das erzeugte Artefakt wird als PDF-Anhang zum erstellten Arbeitspaket gespeichert.
-          description_file_link_export: Das erstellte Arbeitspaket enthält einen Dateilink zu einer PDF-Datei, die in einem externen Dateispeicher gespeichert ist. Erfordert einen aktiven Dateispeicher mit automatisch verwalteten Projektordnern. Im Moment werden nur Nextcloud-Dateispeicher unterstützt.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Wählen Sie, welcher der konfigurierten externen Dateispeicher verwendet werden soll.
           external_file_storage: Externe Dateispeicher
-          label_artifact_export: Artefakt-Export
+          label_artefact_export: Artefact export
           label_attachment_export: Als Dateianhang des Arbeitspakets speichern
           label_file_link_export: Datei in externen Dateispeicher hochladen und Dateilink zum Arbeitspaket hinzufügen
           pdf_file_storage: PDF-Datei-Speicherort
@@ -6077,14 +6108,14 @@ de:
     status:
       button_edit: Status bearbeiten
     wizard:
-      create_artifact_storage_error: Artefakt konnte nicht im Dateispeicher gespeichert werden
-      create_artifact_work_package_error: Arbeitspaket für das Artefakt der Anfrage konnte nicht erstellt werden
+      create_artefact_storage_error: Failed to store artefact in file storage
+      create_artefact_work_package_error: Failed to create artefact work package
       no_custom_fields_html: Für dieses Projekt sind keine Projektattribute für den Assistenten aktiviert. Bitte aktivieren Sie mindestens eines davon in den <a href="%{link}">Projekteinstellungen</a>.
       no_help_text: Für dieses Feld ist kein Hilfetext definiert.
       progress_label: "%{current} von %{total}"
       sections: Abschnitte
       sidebar_content_title: Inhalt
-      success: Projektattribute gespeichert und Artefakt der Anfrage als Arbeitspaket erstellt.
+      success: Project attributes saved and artefact work package created successfully.
       title: Projektinitiierungsantrag
   pwa:
     offline:
@@ -6672,12 +6703,12 @@ de:
         confirmation_message: Der Projektinitiierungsantrag wird für neue Projekte, die auf dieser Vorlage basieren, nicht mehr verfügbar sein. Projektmanager und Projektverantwortliche müssen die entsprechenden Informationen in der Projektübersicht manuell konfigurieren und ausfüllen.
         heading: Diesen Projektinitiationsantrag deaktivieren?
         title: Projektinitiierungsantrag deaktivieren
-      header_description: 'OpenProject kann einen Schritt-für-Schritt-Assistenten erstellen, der beim Ausfüllen eines Projektinitiierungsantrags unterstützt. Sie können die abgefragten Projektattribute wählen und ein Artefakt als Ergebnis erzeugen lassen.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Name des Artefakts
-        artifact_name_caption: Wählen Sie den Namen für dieses Artefakt, passend zu Ihrer Projektmanagement-Methodik.
+        artefact_name: Artefact name
+        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Projekterstellungs-Assistent
           project_initiation_request: Projektinitiierungsantrag
@@ -6697,8 +6728,8 @@ de:
           Sie haben einen Antrag auf Projektinitiierung für **%{project_name}** eingereicht. Dieser wartet nun auf seine Überprüfung.
           Klicken Sie auf den untenstehenden Link, um das Arbeitspaket mit Ihrem Antrag aufzurufen.
         confirmation_email_text: Text der Bestätigungs-E-Mail
-        description: Wenn ein Benutzer eine Anfrage zur Projektinitiierung einreicht, wird ein neues Arbeitspaket erstellt, an das ein Artefakt der Anfrage als PDF-Datei angehängt wird. Die folgenden Einstellungen definieren den Typ, den Status und den Empfänger für dieses neue Arbeitspaket.
-        description_template: "**Dieses Arbeitspaket wurde automatisch nach Abschluss des %{wizard_name} Workflows erstellt.** Ein PDF-Artefakt mit allen eingereichten Informationen wurde generiert und zu Referenz- und Prüfzwecken an dieses Arbeitspaket angehängt. Wenn Sie die Einleitungsschritte aktualisieren oder erneut ausführen müssen, können Sie den Assistenten jederzeit über den unten stehenden Link erneut öffnen:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Senden Sie eine Bestätigungs-E-Mail an den Benutzer, der den Projektinitiierungsantrag gestellt hat
         status_when_submitted: Status bei Einreichung
         status_when_submitted_caption: Der Status, in den das erstellte Arbeitspaket übergeht, sobald der Antrag eingereicht wird.
@@ -6706,7 +6737,7 @@ de:
         work_package_comment_caption: Der oben ausgewählte Empfänger wird automatisch in dem Kommentar @erwähnt.
         work_package_comment_default: Ein Antrag auf Projektinitiierung für **%{project_name}** wurde eingereicht und wartet auf seine Prüfung.
         work_package_type: Arbeitspaket-Typ
-        work_package_type_caption: Der Arbeitspaket-Typ, der zum Speichern des Artefakts verwendet wird.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Projekterstellungs-Assistent öffnen
         project_initiation_request: Projektinitiierungsantrag öffnen

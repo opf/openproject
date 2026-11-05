@@ -84,23 +84,29 @@ describe('CreatedResolvedComponent', () => {
   };
 
   const bothSeries = () => [
-    { id: 'created', label: 'Created work packages', data: [point('2026-10-12T09:00:00.000Z', 2)] },
-    { id: 'resolved', label: 'Resolved work packages', data: [point('2026-10-12T09:00:00.000Z', 1)] },
+    { id: 'created', label: 'Created', data: [point('2026-10-12T09:00:00.000Z', 2)] },
+    { id: 'resolved', label: 'Resolved', data: [point('2026-10-12T09:00:00.000Z', 1)] },
   ];
+
+  const paleRed = '#fda5a7';
+
+  const paleGreen = '#b1efc8';
 
   const datasets = () => fixture.componentInstance.lineChartData().datasets;
 
   const options = () => fixture.componentInstance.lineChartOptions();
 
-  // What chart.js put on the axis, rather than what it was asked for. ng2-charts builds the chart
-  // on an input change that follows its own ngOnInit, which one round of change detection does not
-  // reach, so it is asked to build it here.
-  const renderedYAxisLabels = () => {
+  // What chart.js made of the configuration, rather than what it was asked for. ng2-charts builds
+  // the chart on an input change that follows its own ngOnInit, which one round of change
+  // detection does not reach, so it is asked to build it here.
+  const renderedChart = () => {
     const directive = fixture.debugElement.query(By.directive(BaseChartDirective))
       .injector.get(BaseChartDirective);
 
-    return directive.render()!.scales.y.ticks.map((tick) => tick.value);
+    return directive.render()!;
   };
+
+  const renderedYAxisLabels = () => renderedChart().scales.y.ticks.map((tick) => tick.value);
 
   it('renders a canvas once a series carries points', () => {
     renderWith(bothSeries());
@@ -121,23 +127,66 @@ describe('CreatedResolvedComponent', () => {
 
     const [resolved] = datasets();
 
-    expect(resolved.label).toEqual('Resolved work packages');
-    // Resolved is drawn on top of created, which it never exceeds.
+    expect(resolved.label).toEqual('Resolved');
     expect(resolved.order).toEqual(0);
   });
 
-  // A count is a step function; interpolating draws totals that never existed.
-  it('steps both counted series rather than interpolating between ticks', () => {
+  // A count holds until something changes it, so both series step rather than slope between ticks.
+  it('holds each series flat until its next tick', () => {
     renderWith(bothSeries());
 
     expect(datasets().map((dataset) => dataset.stepped)).toEqual(['after', 'after']);
+  });
+
+  // Created paints the band and is therefore drawn first, leaving both lines above it.
+  it('draws the banded series underneath the other', () => {
+    renderWith(bothSeries());
+
+    expect(datasets().map((dataset) => dataset.order)).toEqual([1, 0]);
+  });
+
+  it('fills the band between the two series, red where created leads and green where resolved does', () => {
+    renderWith(bothSeries());
+
+    const [created, resolved] = datasets();
+
+    expect(created.fill).toEqual({ target: 1, above: paleRed, below: paleGreen });
+    expect(resolved.fill).toBe(false);
+  });
+
+  it('bands to the resolved dataset even once the non-working stand-in has joined them', () => {
+    renderWith(bothSeries(), [{ from: '2026-10-17', to: '2026-10-18' }]);
+
+    expect(datasets()[0].fill).toEqual({ target: 1, above: paleRed, below: paleGreen });
+  });
+
+  it('bands nothing when the series it would span is absent', () => {
+    renderWith([bothSeries()[0]]);
+
+    expect(datasets()[0].fill).toBe(false);
+  });
+
+  // Chart.js reads a missing fill off the background color, which would fill resolved down to
+  // the axis rather than leaving the band to created.
+  it('keeps a lone series from filling to the origin', () => {
+    renderWith([bothSeries()[1]]);
+
+    expect(datasets()[0].fill).toBe(false);
+  });
+
+  it('keeps each legend swatch in its own color rather than the band\'s', () => {
+    renderWith(bothSeries());
+
+    const generateLabels = options().plugins!.legend!.labels!.generateLabels!;
+
+    expect(generateLabels(renderedChart()).map((label) => label.fillStyle)).toEqual([paleRed, paleGreen]);
   });
 
   // A work package is atomic. A sprint holding one of them used to be drawn against an axis
   // offering 0.2 and 0.4 of it, because chart.js fits its steps to the range it is given.
   it('labels the axis in whole work packages', () => {
     renderWith([
-      { id: 'created', label: 'Created work packages', data: [point('2026-10-12T09:00:00.000Z', 1)] },
+      { id: 'created', label: 'Created', data: [point('2026-10-12T09:00:00.000Z', 1)] },
     ]);
 
     const labels = renderedYAxisLabels();

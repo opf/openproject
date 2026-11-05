@@ -36,7 +36,7 @@ RSpec.describe WorkPackages::WorkflowJob do
   let(:journal) { instance_double(Journal, journable: work_package, user: journal_user) }
 
   let(:reupload_service) do
-    instance_double(Projects::CreationWizard::ReuploadArtifactOnStatusChangesService, call!: nil)
+    instance_double(Projects::CreationWizard::ReuploadArtefactOnStatusChangesService, call!: nil)
   end
   let(:type_export_service) do
     instance_double(WorkPackages::TypeArtefactExport::ExportOnStatusChangeService, call!: nil)
@@ -46,7 +46,7 @@ RSpec.describe WorkPackages::WorkflowJob do
   let(:type_export_applicable) { true }
 
   before do
-    allow(Projects::CreationWizard::ReuploadArtifactOnStatusChangesService)
+    allow(Projects::CreationWizard::ReuploadArtefactOnStatusChangesService)
       .to receive_messages(new: reupload_service, applicable?: reupload_applicable)
     allow(WorkPackages::TypeArtefactExport::ExportOnStatusChangeService)
       .to receive_messages(new: type_export_service, applicable?: type_export_applicable)
@@ -55,14 +55,14 @@ RSpec.describe WorkPackages::WorkflowJob do
   subject(:perform) { described_class.new.perform(journal, changes) }
 
   context "when the status changes from an existing value" do
-    it "invokes both the creation-wizard reupload and the type artifact export" do
+    it "invokes both the creation-wizard reupload and the type artefact export" do
       perform
 
       expect(reupload_service).to have_received(:call!).with(changes:)
       expect(type_export_service).to have_received(:call!).with(changes:)
     end
 
-    it "acts as the journal's user so generated artifacts are attributed to them" do
+    it "acts as the journal's user so generated artefacts are attributed to them" do
       current_user_during_call = nil
       allow(type_export_service).to receive(:call!) { current_user_during_call = User.current }
 
@@ -77,7 +77,7 @@ RSpec.describe WorkPackages::WorkflowJob do
       it "only instantiates and invokes the applicable service" do
         perform
 
-        expect(Projects::CreationWizard::ReuploadArtifactOnStatusChangesService).not_to have_received(:new)
+        expect(Projects::CreationWizard::ReuploadArtefactOnStatusChangesService).not_to have_received(:new)
         expect(type_export_service).to have_received(:call!).with(changes:)
       end
     end
@@ -92,7 +92,7 @@ RSpec.describe WorkPackages::WorkflowJob do
         perform
 
         expect(User).not_to have_received(:execute_as)
-        expect(Projects::CreationWizard::ReuploadArtifactOnStatusChangesService).not_to have_received(:new)
+        expect(Projects::CreationWizard::ReuploadArtefactOnStatusChangesService).not_to have_received(:new)
         expect(WorkPackages::TypeArtefactExport::ExportOnStatusChangeService).not_to have_received(:new)
       end
     end

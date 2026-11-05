@@ -2,13 +2,13 @@
 ---
 post:
   parameters:
-  - description: ID of the grid being modified
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: ID of the grid being modified
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -23,24 +23,24 @@ post:
                     columnCount: 5
                     rowCount: 6
                     widgets:
-                    - _type: GridWidget
-                      endColumn: 3
-                      endRow: 8
-                      identifier: time_entries_current_user
-                      startColumn: 1
-                      startRow: 1
-                    - _type: GridWidget
-                      endColumn: 5
-                      endRow: 8
-                      identifier: news
-                      startColumn: 4
-                      startRow: 3
-                    - _type: GridWidget
-                      endColumn: 6
-                      endRow: 3
-                      identifier: documents
-                      startColumn: 3
-                      startRow: 1
+                      - _type: GridWidget
+                        endColumn: 3
+                        endRow: 8
+                        identifier: time_entries_current_user
+                        startColumn: 1
+                        startRow: 1
+                      - _type: GridWidget
+                        endColumn: 5
+                        endRow: 8
+                        identifier: news
+                        startColumn: 4
+                        startRow: 3
+                      - _type: GridWidget
+                        endColumn: 6
+                        endRow: 3
+                        identifier: documents
+                        startColumn: 3
+                        startRow: 1
                   schema:
                     _links: {}
                     _type: Schema
@@ -92,18 +92,18 @@ post:
                     widgets:
                       _embedded:
                         errors:
-                        - _embedded:
-                            details:
-                              attribute: widgets
-                          _type: Error
-                          errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
-                          message: Widgets is outside of the grid.
-                        - _embedded:
-                            details:
-                              attribute: widgets
-                          _type: Error
-                          errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
-                          message: Widgets is outside of the grid.
+                          - _embedded:
+                              details:
+                                attribute: widgets
+                            _type: Error
+                            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                            message: Widgets is outside of the grid.
+                          - _embedded:
+                              details:
+                                attribute: widgets
+                            _type: Error
+                            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                            message: Widgets is outside of the grid.
                       _type: Error
                       errorIdentifier: urn:openproject-org:api:v3:errors:MultipleErrors
                       message: Multiple field constraints have been violated.
@@ -156,7 +156,7 @@ post:
     '415':
       $ref: "../components/responses/unsupported_media_type.yml"
   tags:
-  - Grids
+    - Grids
   description: ''
   operationId: Grid_Update_Form
   summary: Grid Update Form

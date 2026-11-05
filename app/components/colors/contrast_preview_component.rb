@@ -27,22 +27,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectArtifactsMailer < ApplicationMailer
-  include ProjectsHelper
-  include Exports::PDF::Common::Macro
+module Colors
+  class ContrastPreviewComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
 
-  def creation_wizard_submitted(user, project, artifact_work_package)
-    @project = project
-    @work_package = artifact_work_package
-    @notification_text = apply_markdown_field_macros(project.project_creation_wizard_notification_text, { project:, user: })
+    attr_reader :hexcode_id
 
-    open_project_headers "Project" => project.identifier
-
-    message_id project, user
-
-    send_localized_mail(user) do
-      I18n.t("settings.project_initiation_request.status.submitted",
-             wizard_name: project_creation_wizard_name(project))
+    def initialize(hexcode_id:)
+      super()
+      @hexcode_id = hexcode_id
     end
   end
 end

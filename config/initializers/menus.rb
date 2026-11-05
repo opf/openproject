@@ -579,7 +579,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :labels,
             { controller: "/admin/labels", action: :index },
             after: :custom_fields,
-            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.work_package_labels_active? },
+            if: ->(_) { User.current.admin? },
             caption: :label_label_plural,
             icon: "tag"
 

@@ -30,32 +30,32 @@ allOf:
             items:
               $ref: "./user_non_working_time_model.yml"
 
-example:
-  _type: Collection
-  total: 2
-  count: 2
-  _links:
-    self:
-      href: /api/v3/users/42/non_working_times
-  _embedded:
-    elements:
-      - _type: UserNonWorkingTime
-        id: 7
-        startDate: "2025-06-16"
-        endDate: "2025-06-20"
-        _links:
-          self:
-            href: /api/v3/users/42/non_working_times/7
-          user:
-            href: /api/v3/users/42
-            title: Jane Doe
-      - _type: UserNonWorkingTime
-        id: 8
-        startDate: "2025-12-24"
-        endDate: "2025-12-24"
-        _links:
-          self:
-            href: /api/v3/users/42/non_working_times/8
-          user:
-            href: /api/v3/users/42
-            title: Jane Doe
+examples:
+  - _type: Collection
+    total: 2
+    count: 2
+    _links:
+      self:
+        href: /api/v3/users/42/non_working_times
+    _embedded:
+      elements:
+        - _type: UserNonWorkingTime
+          id: 7
+          startDate: "2025-06-16"
+          endDate: "2025-06-20"
+          _links:
+            self:
+              href: /api/v3/users/42/non_working_times/7
+            user:
+              href: /api/v3/users/42
+              title: Jane Doe
+        - _type: UserNonWorkingTime
+          id: 8
+          startDate: "2025-12-24"
+          endDate: "2025-12-24"
+          _links:
+            self:
+              href: /api/v3/users/42/non_working_times/8
+            user:
+              href: /api/v3/users/42
+              title: Jane Doe

@@ -28,43 +28,44 @@
 #++
 
 module Projects::CreationWizard
-  module ArtifactExporter
+  class ReuploadArtefactOnStatusChangesService
+    prepend Projects::Concerns::UpdateDemoData
+
+    attr_reader :current_user, :artefact_work_package
+
+    delegate :project, to: :artefact_work_package
+
+    def initialize(current_user:, work_package:)
+      @current_user = current_user
+      @artefact_work_package = work_package
+    end
+
+    def self.applicable?(work_package:, changes:)
+      return false if changes["status_id"].blank?
+
+      work_package.project.project_creation_wizard_artifact_work_package_id.to_s == work_package.id.to_s
+    end
+
+    def call!(changes:)
+      return unless self.class.applicable?(work_package: artefact_work_package, changes:)
+
+      User.execute_as_admin(current_user) do
+        update_artefact
+      end
+    end
+
     private
 
-    def store_attachment_locally?
-      project.project_creation_wizard_artifact_export_type == "attachment"
-    end
+    def update_artefact
+      call = UploadArtefactService
+        .new(user: current_user, project:, work_package: artefact_work_package)
+        .call
 
-    def project_storage
-      return @project_storage if defined?(@project_storage)
-
-      @project_storage = project
-        .project_storages
-        .find_by(id: project.project_creation_wizard_artifact_export_storage)
-    end
-
-    def create_pdf_export!
-      Project::PDFExport::ProjectInitiation.new(project).export!
-    end
-
-    def upload_artifact_to_storage
-      export = create_pdf_export!
-
-      Storages::UploadFileService
-        .call(
-          container: artifact_work_package,
-          project_storage:,
-          file_path: artifact_storage_folder_name,
-          file_data: StringIO.new(export.content),
-          filename: export.title
-        )
-    end
-
-    def artifact_storage_folder_name
-      I18n.t(project.project_creation_wizard_artifact_name,
-             locale: Setting.default_language,
-             default: :project_initiation_request,
-             scope: "settings.project_initiation_request.name.options")
+      if call.success?
+        Rails.logger.debug { "Updated artefact for creation wizard in ##{artefact_work_package.id}" }
+      else
+        Rails.logger.error("Failed to process artefact change for ##{artefact_work_package.id}: ##{call.message}")
+      end
     end
   end
 end

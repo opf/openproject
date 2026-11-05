@@ -30,7 +30,7 @@
 require "spec_helper"
 require "contracts/shared/model_contract_shared_context"
 
-RSpec.describe Projects::CreateArtifactWorkPackageContract, :check_errors_i18n do
+RSpec.describe Projects::CreateArtefactWorkPackageContract, :check_errors_i18n do
   include_context "ModelContract shared context"
 
   shared_let(:status_new) { create(:status, name: "New") }
@@ -207,8 +207,8 @@ RSpec.describe Projects::CreateArtifactWorkPackageContract, :check_errors_i18n d
       role_for_assignee.role_permissions.where(permission: "work_package_assigned").delete_all
     end
 
-    it "has invalid contract with :cannot_be_assigned_to_artifact_work_package error for the assignee custom field" do
-      expect_contract_invalid(user_custom_field.attribute_name => :cannot_be_assigned_to_artifact_work_package)
+    it "has invalid contract with :cannot_be_assigned_to_artefact_work_package error for the assignee custom field" do
+      expect_contract_invalid(user_custom_field.attribute_name => :cannot_be_assigned_to_artefact_work_package)
     end
   end
 end

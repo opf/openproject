@@ -15,7 +15,7 @@ get:
         JSON specifying filter conditions.
         Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
         Currently supported filters are:
-        
+
         - type: filters principals by their type (*User*, *Group*, *PlaceholderUser*).
         - member: filters principals by the projects they are members in.
         - name: filters principals by the user or group name.
