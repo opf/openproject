@@ -35,7 +35,9 @@ module LlmConnections
 
       POLL_INTERVAL_MS = 2000
 
-      options :semantic_indexes
+      def semantic_indexes
+        @semantic_indexes ||= options.fetch(:semantic_indexes) { SemanticIndex.order(:created_at) }
+      end
 
       def rows
         active, others = semantic_indexes.partition { it.id == active_semantic_index_id }
@@ -49,7 +51,8 @@ module LlmConnections
         data.merge!(
           controller: "poll-for-changes",
           poll_for_changes_url_value: status_semantic_indexes_path,
-          poll_for_changes_interval_value: POLL_INTERVAL_MS
+          poll_for_changes_interval_value: POLL_INTERVAL_MS,
+          poll_for_changes_continuous_value: true
         )
         { data: }
       end

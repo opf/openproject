@@ -30,6 +30,8 @@
 module LlmConnections
   module SemanticIndexes
     class TableComponent < OpPrimer::BorderBoxTableComponent
+      options :active_semantic_index_id
+
       columns :title, :model_id, :context_token_length, :embedding_vector_dimensions, :status
 
       main_column :title

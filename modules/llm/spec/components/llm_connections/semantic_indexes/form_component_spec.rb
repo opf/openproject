@@ -93,6 +93,14 @@ RSpec.describe LlmConnections::SemanticIndexes::FormComponent, type: :component 
       expect(page).to have_field(SemanticIndex.human_attribute_name(:embedding_vector_dimensions), disabled: true)
       expect(page).to have_no_css("[data-test-selector='llm-semantic-index--model']")
     end
+
+    it "does not query the selectable models" do
+      allow(LlmConnections::SelectableModelsQuery).to receive(:new).and_call_original
+
+      rendered_component
+
+      expect(LlmConnections::SelectableModelsQuery).not_to have_received(:new)
+    end
   end
 
   context "with a validation error on the title" do
