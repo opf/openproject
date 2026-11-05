@@ -116,7 +116,7 @@ en:
       form:
         context_token_length_caption: "Maximum number of tokens embedded per work package."
         embedding_vector_dimensions_caption: "How many numbers each vector has."
-        locked_once_indexed: "This semantic index has been indexed. Model, context length and dimensions can't be changed. Create a new semantic index to use different parameters."
+        immutable: "Model, context length and dimensions can't be changed after creation. Create a new semantic index to use different parameters."
         model_caption: "Only models known to create embeddings are offered."
         option_unqualified: "%{model} (no longer eligible)"
       indexing:

@@ -188,20 +188,28 @@ RSpec.describe "Admin semantic indexes", :skip_csrf,
         .to include(CGI.escapeHTML(I18n.t("admin.semantic_indexes.dialog.edit_title", title: semantic_index.title)))
     end
 
-    it "locks the parameters in the edit dialog once indexed" do
-      semantic_index.update!(state: "failed")
-
+    it "locks the parameters in the edit dialog" do
       get edit_dialog_semantic_index_path(semantic_index), headers: turbo_headers
 
-      expect(response.body).to include(CGI.escapeHTML(I18n.t("admin.semantic_indexes.form.locked_once_indexed")))
+      expect(response.body).to include(CGI.escapeHTML(I18n.t("admin.semantic_indexes.form.immutable")))
     end
 
     it "updates the semantic index" do
       patch semantic_index_path(semantic_index),
-            params: { semantic_index: { title: "Qwen3 production", context_token_length: 4096 } }
+            params: { semantic_index: { title: "Qwen3 production", description: "Production index" } }
 
       expect(response).to redirect_to(llm_feature_bindings_path)
-      expect(semantic_index.reload).to have_attributes(title: "Qwen3 production", context_token_length: 4096)
+      expect(semantic_index.reload).to have_attributes(title: "Qwen3 production", description: "Production index")
+    end
+
+    it "refuses to change the parameters" do
+      patch semantic_index_path(semantic_index),
+            params: { semantic_index: { context_token_length: 4096 } },
+            headers: turbo_headers
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.body).to include(CGI.escapeHTML(I18n.t("admin.semantic_indexes.form.immutable")))
+      expect(semantic_index.reload.context_token_length).to eq(8192)
     end
 
     it "renders the deletion dialog" do
