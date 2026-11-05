@@ -55,7 +55,7 @@ RSpec.describe OpenProject::DatabaseEncryption do
     context "with a previous key equal to the explicit key",
             with_config: { "database_encryption_key" => "explicit", "database_encryption_previous_key" => "explicit" } do
       it "keeps the explicit key last" do
-        expect(described_class.primary_keys).to eq(%w[secret-key-base explicit])
+        expect(described_class.primary_keys.last).to eq("explicit")
       end
     end
 

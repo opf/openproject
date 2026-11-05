@@ -39,15 +39,8 @@ module OpenProject
 
     class << self
       def primary_keys
-        keys = [
-          OpenProject::Configuration["database_encryption_previous_key"],
-          (secret_key_base if explicit_key.present?),
-          current_key
-        ]
-
-        # Rails encrypts with the last key. i
-        # Ensure that even with a duplicate, the current key remains in the last position.
-        keys.compact_blank.reverse.uniq.reverse
+        # Rails encrypts with the last key and decrypts with all keys.
+        [OpenProject::Configuration["database_encryption_previous_key"], secret_key_base, explicit_key].compact_blank
       end
 
       def current_key
