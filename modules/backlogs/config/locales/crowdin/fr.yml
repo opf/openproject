@@ -136,7 +136,7 @@ fr:
       title: Supprimer le bucket de backlog ?
     burndown_chart:
       series:
-        guideline: Guideline
+        guideline: Lignes directrices
         projection: Remaining story points (projection)
         remaining: Remaining story points
       show:

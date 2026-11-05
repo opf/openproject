@@ -708,7 +708,7 @@ fr:
               invalid_tokens: 'Sont uniquement autorisés : les valeurs numériques, les opérateurs, les fonctions, les mots-clés et les attributs de projet de type entier, nombre à virgule flottante, valeur calculée ou liste pondérée.'
               not_allowed_custom_fields_referenced: L'attribut %{custom_fields} ne peut pas être utilisé, car il conduit à une référence circulaire ; un attribut dépend de l'autre.
             project_specific_value_restriction:
-              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
+              not_supported: n'est disponible que pour les champs personnalisés des lots de travail présentant les formats « liste », « hiérarchie » et « liste pondérée ».
             required:
               cannot_be_true: ne peut pas être défini comme vrai.
           previous_custom_field_recalculation_unprocessed: Le recalcul des modifications précédentes de ce champ personnalisé n'a pas encore été appliqué. Veuillez réessayer dans quelques minutes.
@@ -854,7 +854,7 @@ fr:
         push_subscription:
           attributes:
             base:
-              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
+              too_many_push_subscriptions: Seuls %{count} appareils peuvent recevoir simultanément des notifications push via le navigateur.
         queries/filters/base:
           attributes:
             values:
@@ -975,7 +975,7 @@ fr:
               numeric: numérique (e.g. « 1 »)
               requirements_not_met: 'Doit comprendre des caractères des types suivants : %{rules}'
               reused:
-                one: has been used before. Please choose one that is different from your last %{count} password.
+                one: a déjà été utilisé. Veuillez choisir un mot de passe différent des %{count} précédents.
                 other: has been used before. Please choose one that is different from your last %{count}.
               special: spécial (e.g. « % »)
               uppercase: majuscule (e.g. « A »)
@@ -1126,8 +1126,8 @@ fr:
         one: Fournisseur d'authentification
         other: Fournisseurs d'authentification
       automation:
-        one: Automation
-        other: Automations
+        one: Automatisation
+        other: Automatisations
       backup:
         one: Sauvegarde
         other: Sauvegardes
@@ -1216,8 +1216,8 @@ fr:
         one: Priorité
         other: Priorités
       label:
-        one: Label
-        other: Labels
+        one: Étiquette
+        other: Étiquettes
       ldap_auth_source:
         one: Connexion LDAP
         other: Connexions LDAP
@@ -1484,8 +1484,8 @@ fr:
       environment_configured_readonly: Ces valeurs sont configurées par des variables d'environnement et ne peuvent pas être modifiées ici.
     custom_fields:
       delete_dialog_component:
-        heading: Do you want to delete the custom field %{name}?
-        title: Delete custom field %{name}
+        heading: Souhaitez-vous supprimer le champ personnalisé « %{name} » ?
+        title: Supprimer un champ personnalisé « %{name} »
     custom_styles:
       branding:
         desktop:
@@ -2903,7 +2903,7 @@ fr:
         caption: Tous les projets afficheront la même liste de valeurs pour ce champ personnalisé
         label: Toutes les valeurs seront disponibles dans tous les projets
       allow:
-        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        caption_html: Par défaut, aucune valeur ne sera disponible pour aucun projet. Les projets utilisant ce champ personnalisé <strong>n'</strong> afficheront <strong>seulement</strong> les valeurs que vous activerez manuellement pour chacun d'entre eux dans l'onglet Projets.
         label: 'Allow filter: Manually choose which values to activate for each project'
       block:
         caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
