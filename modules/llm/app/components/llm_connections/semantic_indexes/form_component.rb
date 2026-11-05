@@ -39,7 +39,7 @@ module LlmConnections
 
       private
 
-      def locked? = model.parameters_locked?
+      def locked? = model.persisted?
 
       def http_method
         model.persisted? ? :patch : :post

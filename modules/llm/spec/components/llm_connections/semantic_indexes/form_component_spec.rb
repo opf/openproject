@@ -69,21 +69,20 @@ RSpec.describe LlmConnections::SemanticIndexes::FormComponent, type: :component 
       expect(page).to have_css("input[name='_method'][value='patch']", visible: :all)
     end
 
-    it "preselects the index's model" do
+    it "shows the model as a disabled field" do
       rendered_component
 
-      autocompleter = page.find("[data-test-selector='llm-semantic-index--model']")
-      expect(autocompleter[:"data-input-value"]).to include("bge-m3")
+      expect(page).to have_field(SemanticIndex.human_attribute_name(:model_id), disabled: true, with: "bge-m3")
     end
   end
 
   context "when the parameters are locked" do
-    let(:semantic_index) { create(:semantic_index, state: :ready) }
+    let(:semantic_index) { create(:semantic_index) }
 
     it "warns that the parameters cannot be changed" do
       rendered_component
 
-      expect(page).to have_text(I18n.t("admin.semantic_indexes.form.locked_once_indexed"))
+      expect(page).to have_text(I18n.t("admin.semantic_indexes.form.immutable"))
     end
 
     it "renders the parameter fields disabled" do
