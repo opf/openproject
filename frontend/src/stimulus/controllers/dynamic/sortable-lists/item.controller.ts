@@ -121,7 +121,9 @@ export default class ItemController extends Controller<HTMLElement> implements R
     // shifted siblings meanwhile. Read newState by duck typing rather than
     // `instanceof ToggleEvent` so a browser without the ToggleEvent global
     // cannot throw.
-    if ((event as ToggleEvent).newState === 'open') {
+    if ((event as ToggleEvent).newState === 'open'
+      && this.hasMenuElement
+      && event.target === this.menuElement.querySelector(':scope > anchored-position')) {
       this.refreshMoveMenuAvailability();
     }
   };
@@ -150,14 +152,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
   }
 
   move(event:ActionEvent):void {
-    const item = event.currentTarget;
-    if (!isOrderableItem(this.element) || !this.hasMenuElement || !(item instanceof HTMLElement)) {
-      return;
-    }
-
-    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) {
-      return;
-    }
+    const item = this.activatableMenuItem(event);
+    if (!item || !isOrderableItem(this.element)) return;
 
     const { direction } = event.params;
     if (isMoveDirection(direction)) {
@@ -166,19 +162,17 @@ export default class ItemController extends Controller<HTMLElement> implements R
   }
 
   moveToDestination(event:ActionEvent):void {
-    const item = event.currentTarget;
-    if (!this.hasMenuElement || !(item instanceof HTMLElement)) {
-      return;
-    }
-
-    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) {
-      return;
-    }
-
-    const form = item.querySelector('form');
+    const item = this.activatableMenuItem(event);
+    const form = item?.querySelector('form');
     if (form) {
       this.root?.moveToDestination(form);
     }
+  }
+
+  private activatableMenuItem(event:ActionEvent):HTMLElement|null {
+    const item = event.currentTarget;
+    return this.hasMenuElement && item instanceof HTMLElement
+      && !this.menuElement.isItemDisabled(item) && !this.menuElement.isItemHidden(item) ? item : null;
   }
 
   // The focus host is the consumer's business: Backlogs puts the tab stop on
@@ -532,10 +526,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.refreshMoveDivider();
   }
 
-  // A block with no direction at all (sparse, or boxed in by truncated rows)
-  // cannot be helped by trying one, so its submenu goes even where single
-  // items only disable theirs. Any fallback items the server sent along take
-  // its place, so a menu holding nothing else never opens empty.
+
   private refreshMoveMenu(root:SortableListsRoot, available:boolean):void {
     const moveMenu = this.moveMenuTarget;
     if (isLocked(moveMenu)) {
@@ -604,7 +595,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     let sibling = divider.nextElementSibling;
 
     while (sibling) {
-      if (!sibling.hasAttribute('hidden')) {
+      if (sibling.matches('li.ActionListItem:not([hidden])')) {
         divider.removeAttribute('hidden');
         return;
       }

@@ -30,14 +30,17 @@
 module SortableLists
   module MoveMenu
     include OpPrimer::AttributesHelper
+    include ActionView::RecordIdentifier
 
     Direction = Data.define(:label, :direction, :icon) do
-      def item_data
-        {
+      def item_data(disabled: false)
+        data = {
           sortable_lists__item_target: "moveItem",
           sortable_lists__item_direction_param: direction,
           action: "click->sortable-lists--item#move"
         }
+        data[:sortable_lists_locked] = true if disabled
+        data
       end
     end
 
@@ -50,30 +53,29 @@ module SortableLists
 
     private
 
-    def with_move_submenu(menu, **system_arguments)
+    def with_move_submenu(menu, dom_key: nil, disabled: false, **system_arguments)
       system_arguments[:data] = merge_data(
         system_arguments,
-        data: { sortable_lists__item_target: "moveMenu" }
+        data: { sortable_lists__item_target: "moveMenu", sortable_lists_locked: disabled || nil }
       )
 
       menu.with_item(
         component_klass: Primer::Alpha::ActionMenu::SubMenuItem,
         label: I18n.t(:button_move),
         select_variant: :none,
+        disabled:,
         **system_arguments
       ) do |submenu|
         submenu.with_leading_visual_icon(icon: :"op-arrow-in")
 
-        with_move_items(submenu)
+        with_move_items(submenu, dom_key:, disabled:)
       end
     end
 
-    # The `data:` hash must live on the item level so Primer renders it on the ActionList
-    # `<li>`, which is what the item controller targets to compute availability and to
-    # handle the bubbled click.
-    def with_move_items(menu)
+    def with_move_items(menu, dom_key: nil, disabled: false)
       DIRECTIONS.each do |move|
-        menu.with_item(label: I18n.t(move.label), tag: :button, data: move.item_data) do |item|
+        menu.with_item(id: dom_key ? dom_target(dom_key, :menu, move.direction) : nil,
+                       label: I18n.t(move.label), tag: :button, disabled:, data: move.item_data(disabled:)) do |item|
           item.with_leading_visual_icon(icon: move.icon)
         end
       end

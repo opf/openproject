@@ -59,7 +59,8 @@ RSpec.describe SortableLists::MoveMenu, type: :component do
   before { render_inline(harness_class.new) }
 
   describe "#with_move_items" do
-    let(:harness_class) { harness_class_calling(:with_move_items) }
+    let(:system_arguments) { {} }
+    let(:harness_class) { harness_class_calling(:with_move_items, system_arguments:) }
 
     it "renders the four directions in top, up, down, bottom order" do
       expect(page.all(:menuitem).map { it.text.squish })
@@ -80,6 +81,34 @@ RSpec.describe SortableLists::MoveMenu, type: :component do
           expect(item["data-sortable-lists--item-target"]).to eq("moveItem")
           expect(item["data-action"]).to eq("click->sortable-lists--item#move")
           expect(item).to have_selector(:menuitem, label)
+        end
+      end
+    end
+
+    context "with an explicit DOM key" do
+      let(:system_arguments) { { dom_key: :story } }
+
+      it "preserves the member's button IDs and LI-level wiring", :aggregate_failures do
+        directions.each do |direction, (label, icon)|
+          item = page.find(:element, :li, "data-sortable-lists--item-direction-param": direction)
+          expect(item).to have_element(:button, id: "story_menu_#{direction}", text: label)
+          expect(item).to have_octicon(icon)
+          expect(item["data-sortable-lists--item-target"]).to eq("moveItem")
+          expect(item["data-action"]).to eq("click->sortable-lists--item#move")
+        end
+        expect(page).to have_no_css("li[data-sortable-lists-locked], [aria-disabled]")
+      end
+    end
+
+    context "with locked items" do
+      let(:system_arguments) { { dom_key: :story, disabled: true } }
+
+      it "disables every direction and locks it against client gating", :aggregate_failures do
+        %w[top up down bottom].each do |direction|
+          item = page.find(:element, :li, "data-sortable-lists--item-direction-param": direction,
+                                          "data-sortable-lists-locked": true)
+          expect(item).to have_selector(:menuitem, disabled: true)
+          expect(item).to have_element(:button, id: "story_menu_#{direction}")
         end
       end
     end
@@ -108,6 +137,19 @@ RSpec.describe SortableLists::MoveMenu, type: :component do
       expect(page).to have_selector(:menu, id: move_item["aria-controls"]) do |submenu|
         expect(submenu.all(:menuitem).map { it.text.squish })
           .to eq(["Move to top", "Move up", "Move down", "Move to bottom"])
+      end
+    end
+
+    context "with a custom label and disabled state" do
+      let(:system_arguments) { { dom_key: :story, label: "Move to position", disabled: true } }
+
+      it "keeps the custom label and locks both submenu and directions", :aggregate_failures do
+        expect(page).to have_element(:li, "data-sortable-lists--item-target": "moveMenu",
+                                          "data-sortable-lists-locked": true) do |item|
+          expect(item).to have_selector(:menuitem, "Move to position", disabled: true)
+        end
+        expect(page).to have_css("li[data-sortable-lists--item-target=moveItem][data-sortable-lists-locked]", count: 4)
+        expect(page).to have_element(:button, id: "story_menu_top")
       end
     end
 

@@ -446,7 +446,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    void this.submitDestinationMove(relativeUrl(new URL(form.action, window.location.href)), new FormData(form));
+    void this.submitDestinationMove(form);
   }
 
   moveInDirection(itemElement:HTMLElement, direction:MoveDirection, scopeOwner:HTMLElement|null = null):void {
@@ -668,8 +668,8 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     return relativeUrl(url);
   }
 
-  private async submitDestinationMove(moveUrl:string, body:FormData):Promise<void> {
-    const request = new FetchRequest('put', moveUrl, { body, responseKind: 'turbo-stream' });
+  private async submitDestinationMove(form:HTMLFormElement):Promise<void> {
+    const request = new FetchRequest(form.method, form.action, { body: new FormData(form), responseKind: 'turbo-stream' });
 
     this.startMoveRequest();
     try {
