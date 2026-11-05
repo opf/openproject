@@ -27,6 +27,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# @logical_path OpenProject/WorkPackageTypes/FormConfiguration
 class WorkPackageTypes::FormConfiguration::QuerySummaryComponentPreview < ViewComponent::Preview
   def simple
     render_summary { it.column_names = %i[id subject type project status priority assigned_to] }
