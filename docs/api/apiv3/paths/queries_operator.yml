@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: QueryOperator id
-    example: "!"
-    in: path
-    name: id
-    required: true
-    schema:
-      type: string
+    - description: QueryOperator id
+      example: "!"
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
   responses:
     '200':
       content:
@@ -24,7 +24,7 @@ get:
                 id: "!"
                 name: is not
           schema:
-            "$ref": "../components/schemas/query_operator_model.yml"
+            $ref: "../components/schemas/query_operator_model.yml"
       description: OK
       headers: {}
     '403':
@@ -57,7 +57,7 @@ get:
       description: Returned if the QueryOperator does not exist.
       headers: {}
   tags:
-  - Query Operators
+    - Query Operators
   description: Retrieve an individual QueryOperator as identified by the `id` parameter.
   operationId: View_Query_Operator
   summary: View Query Operator

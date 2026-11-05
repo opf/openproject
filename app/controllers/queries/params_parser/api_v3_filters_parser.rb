@@ -33,6 +33,7 @@ module Queries
       class << self
         def parse(filters_string)
           filters = JSON.parse(filters_string)
+          raise MalformedParameterError.new("filters") unless valid_structure?(filters)
 
           filters.map do |filter|
             attribute = filter.keys.first # there should only be one attribute per filter
@@ -42,6 +43,15 @@ module Queries
               values: filter[attribute]["values"]
             }
           end
+        rescue JSON::ParserError, TypeError
+          raise MalformedParameterError.new("filters")
+        end
+
+        private
+
+        def valid_structure?(filters)
+          filters.is_a?(Array) &&
+            filters.all? { |filter| filter.is_a?(Hash) && filter.values.first.is_a?(Hash) }
         end
       end
     end

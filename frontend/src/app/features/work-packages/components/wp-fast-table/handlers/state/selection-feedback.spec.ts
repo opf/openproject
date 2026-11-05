@@ -44,9 +44,9 @@ describe('Table selection feedback', () => {
     return actions;
   };
 
-  const mount = async (keyboardNavigationEnabled:boolean, actionsColumnEnabled = false) => {
+  const mount = async (actionsColumnEnabled = false) => {
     harness = buildTable({
-      configuration: { keyboardNavigationEnabled, contextMenuEnabled: true, actionsColumnEnabled },
+      configuration: { contextMenuEnabled: true, actionsColumnEnabled },
       productionMarkup: true,
       workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }],
       providers: actionsColumnEnabled ? [{ provide: OpTableActionsService, useFactory: detailsActions }] : [],
@@ -89,8 +89,8 @@ describe('Table selection feedback', () => {
     announceSpy.mockRestore();
   });
 
-  describe('on a capability-on table', () => {
-    beforeEach(() => mount(true));
+  describe('selection gestures', () => {
+    beforeEach(() => mount());
 
     it('plain click on an unselected row is silent', () => {
       harness.click('1');
@@ -218,8 +218,8 @@ describe('Table selection feedback', () => {
     });
   });
 
-  describe('split-details link on a capability-on table', () => {
-    beforeEach(() => mount(true, true));
+  describe('split-details link', () => {
+    beforeEach(() => mount(true));
 
     it('collapsing a batch announces the new count once', () => {
       harness.click('1');
@@ -238,39 +238,6 @@ describe('Table selection feedback', () => {
       openDetails('2');
 
       expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
-      expect(announceSpy).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('split-details link on a capability-off table', () => {
-    beforeEach(() => mount(false, true));
-
-    it('announces nothing when collapsing a batch', () => {
-      harness.click('1');
-      harness.click('2', { shiftKey: true });
-
-      openDetails('3');
-
-      expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['3']);
-      expect(announceSpy).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('on a capability-off table', () => {
-    beforeEach(() => mount(false));
-
-    it('announces nothing across the same script', async () => {
-      harness.click('1');
-      harness.click('3', { shiftKey: true });
-      harness.click('2', { ctrlKey: true });
-      harness.click('2');
-      harness.click('1', { shiftKey: true });
-      fireEvent.contextMenu(harness.row('3'));
-      harness.dragStart('2');
-      escape();
-      await harness.render([{ id: '1' }]);
-
-      expect(harness.table.selectionFeedback).toBeNull();
       expect(announceSpy).not.toHaveBeenCalled();
     });
   });

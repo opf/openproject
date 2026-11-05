@@ -65,8 +65,8 @@ de:
           label: Hokuspokus-Server-URL
         page_header:
           description_html: |-
-            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
-            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
+            Wenn die Echtzeit-Kollaboration aktiviert ist, können mehrere Personen ein Dokument zur gleichen Zeit bearbeiten.
+            Sie erfordert einen funktionierenden [Hocuspocus server](hocuspocus_server_link).
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: Ich verstehe, dass ich Daten dauerhaft verlieren könnte
         confirmation_message: |-

@@ -269,15 +269,4 @@ module ReportingHelper
     end
     delimited
   end
-
-  ##
-  # Finds the Filter-Class for as specific filter name while being careful with the filter_name parameter as it is user input.
-  def filter_class(filter_name)
-    klass = CostQuery::Filter.const_get(filter_name.to_s.camelize)
-    return klass if klass.is_a? Class
-
-    nil
-  rescue NameError
-    nil
-  end
 end

@@ -148,7 +148,7 @@ ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
 ENV PGDATA=/var/openproject/pgdata
 ENV NODE_OPTIONS=--use-openssl-ca
 
-COPY --from=openproject/hocuspocus:17.9.5 --chown=$APP_USER:$APP_USER /app /opt/hocuspocus
+COPY --from=openproject/hocuspocus:17.9.6 --chown=$APP_USER:$APP_USER /app /opt/hocuspocus
 # Keep node/npm in all-in-one for bundled hocuspocus even when BIM support is disabled.
 COPY --from=build-base /usr/local/bin/node /usr/local/bin/node
 COPY --from=build-base /usr/local/lib/node_modules /usr/local/lib/node_modules

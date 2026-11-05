@@ -23,6 +23,13 @@
 fa:
   js:
     button_log_costs: ثبت هزینه‌های واحد
+    costs:
+      widgets:
+        actual_costs:
+          chart_label: Actual costs by month chart
+          chart_month: "%{month}: %{values}"
+          chart_summary: 'Actual costs by month: %{months}.'
+          chart_value: "%{label}: %{value}"
     label_hour: ساعت
     label_hours: ساعت
     text_are_you_sure: مطمئنید؟
