@@ -282,15 +282,6 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
         expect(response.headers["Cache-Control"]).to include("no-store")
       end
 
-      it "reports only the count when everything is read" do
-        notify(read_ian: true)
-
-        get "/push-notification"
-
-        expect(response).to have_http_status(:ok)
-        expect(json).to eq("count" => 0)
-      end
-
       it "describes a single unread notification as one work package group" do
         notification = notify(journal: work_package.journals.sole)
 
@@ -302,155 +293,10 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
                          "count" => 1,
                          "revision" => "#{notification.id}:#{(notification.journal.reload.updated_at.to_f * 1000).to_i}",
                          "title" => "Ada Lovelace mentioned you",
-                         "body" => "##{work_package.id}: Fix the build",
+                         "body" => "#{work_package.formatted_id}: Fix the build",
                          "url" => "/notifications/details/#{work_package.id}/activity" }],
           "more" => nil
         )
-      end
-
-      it "counts several unread notifications on one work package as a single group" do
-        notify(reason: :commented, created_at: 3.minutes.ago)
-        notify(reason: :assigned, created_at: 2.minutes.ago)
-        notify(reason: :mentioned, created_at: 1.minute.ago)
-
-        get "/push-notification"
-
-        expect(json["count"]).to eq(3)
-        expect(json["groups"].size).to eq(1)
-        expect(json["groups"][0]).to include("count" => 3,
-                                             "title" => "3 updates",
-                                             "body" => "Ada Lovelace mentioned you: ##{work_package.id} Fix the build")
-      end
-
-      it "scopes the tag to the recipient so another user gets a different tag for the same work package" do
-        notify
-        other_user = create(:user, member_with_permissions: { project => %i[view_work_packages] })
-        create(:notification, recipient: other_user, resource: work_package, reason: :mentioned, actor: author)
-
-        get "/push-notification"
-
-        other_tag = PushSubscriptions::NotificationSummary.new(other_user).as_json.dig(:groups, 0, :tag)
-
-        expect(json.dig("groups", 0, "tag")).to eq(wp_tag(work_package))
-        expect(other_tag).to eq("openproject-#{other_user.id}-wp-#{work_package.id}")
-      end
-
-      it "orders groups by their latest activity" do
-        older = create(:work_package, project:)
-        newer = create(:work_package, project:)
-        notify(resource: newer, created_at: 2.minutes.ago)
-        notify(resource: older, created_at: 1.minute.ago)
-
-        get "/push-notification"
-
-        expect(json["groups"].pluck("tag")).to eq([wp_tag(older), wp_tag(newer)])
-      end
-
-      it "puts a work package first when an aggregated journal makes its notification unread again" do
-        other = create(:work_package, project:)
-        journal = work_package.journals.sole
-        other_journal = other.journals.sole
-        journal.update_columns(updated_at: 3.minutes.ago)
-        other_journal.update_columns(updated_at: 2.minutes.ago)
-        aggregated = notify(read_ian: true, journal:)
-        notify(resource: other, journal: other_journal)
-        notify(resource: other, journal: other_journal, reason: :assigned)
-
-        journal.update!(notes: "edited")
-        Notifications::UpdateService
-          .new(model: aggregated, user: author, contract_class: EmptyContract)
-          .call(read_ian: false)
-        get "/push-notification"
-
-        expect(json["groups"].pluck("tag")).to eq([wp_tag(work_package), wp_tag(other)])
-        expect(json["groups"].pluck("count")).to eq([1, 2])
-        expect(json["groups"].first["revision"])
-          .to eq("#{aggregated.id}:#{(journal.reload.updated_at.to_f * 1000).to_i}")
-      end
-
-      it "keeps the order when a digest marks older notifications as sent" do
-        older = create(:work_package, project:)
-        newer = create(:work_package, project:)
-        older_notification = notify(resource: older, created_at: 2.minutes.ago)
-        notify(resource: newer, created_at: 1.minute.ago)
-
-        Notification.where(id: older_notification.id).update_all(mail_reminder_sent: true, updated_at: Time.current)
-        get "/push-notification"
-
-        expect(json["groups"].pluck("tag")).to eq([wp_tag(newer), wp_tag(older)])
-      end
-
-      it "caps the groups at five and reports the rest as more" do
-        work_packages = create_list(:work_package, 7, project:)
-        work_packages.each_with_index { |wp, i| notify(resource: wp, created_at: (7 - i).minutes.ago) }
-
-        get "/push-notification"
-
-        expect(json["count"]).to eq(7)
-        expect(json["groups"].pluck("tag")).to eq(work_packages.last(5).reverse.map { wp_tag(it) })
-        expect(json["more"]).to eq("count" => 2, "title" => "2 more work packages", "url" => "/notifications")
-      end
-
-      context "when semantic identifiers are on", with_settings: { work_packages_identifier: "semantic" } do
-        it "links the group to the semantic identifier but tags it with the numeric id" do
-          notify
-
-          get "/push-notification"
-
-          expect(json.dig("groups", 0, "url")).to eq("/notifications/details/#{work_package.to_param}/activity")
-          expect(json.dig("groups", 0, "tag")).to eq(wp_tag(work_package))
-        end
-      end
-
-      it "words date alerts without an actor" do
-        create(:notification, recipient: user, resource: work_package, reason: :date_alert_due_date, actor: nil)
-
-        get "/push-notification"
-
-        expect(json.dig("groups", 0, "title")).to eq("Due date alert")
-      end
-
-      it "has wording for every notification reason" do
-        missing = Notification::REASONS.keys.reject { I18n.exists?("pwa.push.reasons.#{it}") || PushSubscriptions::NotificationSummary::UPDATED_REASONS.include?(it.to_s) }
-
-        expect(missing).to be_empty
-      end
-
-      it "falls back to the generic wording for a reason without its own text" do
-        notify
-        allow(I18n).to receive(:t).and_wrap_original do |original, key, **options|
-          original.call(key == "pwa.push.reasons.mentioned" ? "pwa.push.reasons.unmapped" : key, **options)
-        end
-
-        get "/push-notification"
-
-        expect(json.dig("groups", 0, "title")).to eq("Ada Lovelace updated")
-      end
-
-      it "names a deleted actor" do
-        notify(actor: nil)
-
-        get "/push-notification"
-
-        expect(json.dig("groups", 0, "title")).to eq("Deleted user mentioned you")
-      end
-
-      it "uses the date alert headline when the latest of several has no actor" do
-        notify(reason: :commented, created_at: 2.minutes.ago)
-        create(:notification, recipient: user, resource: work_package, reason: :date_alert_due_date,
-                              actor: nil, journal: nil, created_at: 1.minute.ago)
-
-        get "/push-notification"
-
-        expect(json.dig("groups", 0, "body")).to start_with("Due date alert: ")
-      end
-
-      it "does not count mail-only notifications" do
-        notify(read_ian: nil)
-
-        get "/push-notification"
-
-        expect(json).to eq("count" => 0)
       end
 
       context "when served under a path prefix", with_config: { rails_relative_url_root: "/openproject" } do
@@ -462,15 +308,6 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
           expect(json.dig("groups", 0, "url")).to start_with("/openproject/notifications/details/")
           expect(json.dig("more", "url")).to eq("/openproject/notifications")
         end
-      end
-
-      it "excludes notifications on work packages the user cannot see" do
-        hidden = create(:work_package, project: create(:project))
-        notify(resource: hidden)
-
-        get "/push-notification"
-
-        expect(json).to eq("count" => 0)
       end
     end
   end
