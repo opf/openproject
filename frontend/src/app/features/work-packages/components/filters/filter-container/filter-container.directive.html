@@ -10,7 +10,7 @@
 }
 @if (wpTableFilters.semanticSearchAvailable) {
   <segmented-control>
-    <ul class="SegmentedControl SegmentedControl--small mb-3 v-align-middle" role="list" [attr.aria-label]="text.search_mode_label">
+    <ul class="SegmentedControl SegmentedControl mb-3 v-align-middle" role="list" [attr.aria-label]="text.search_mode_label">
       <li
         class="SegmentedControl-item"
         [class.SegmentedControl-item--selected]="!wpTableFilters.semanticSearchEnabled"
