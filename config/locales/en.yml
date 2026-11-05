@@ -2914,7 +2914,8 @@ en:
       editable:
         all: "Allow the field to be editable by users themselves."
       formula:
-        project: "Add numeric values or type / to search for an attribute, operator, function or other token."
+        project: "Add numeric values or type / to search for an attribute, operator, function or other token. See the
+        [formula syntax documentation](docs_url) for reference."
       has_comment:
         project: "Allows the user to add a comment related to the project attribute when selecting the value in the project overview."
       is_filter:
