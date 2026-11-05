@@ -95,8 +95,12 @@ module Exports::PDF::Common::Attachments
     tmp_file
   end
 
-  WEBP_BITSTREAM_IDS = %W[VP8\x20 VP8L VP8X].map(&:b).freeze
+  WEBP_BITSTREAM_IDS = %W[VP8\x20 VP8L].map(&:b).freeze
+  WEBP_CONTAINER_ID = "VP8X".b
+  WEBP_ALPHA_ID = "ALPH".b
   WEBP_ANIMATION_FLAG = 0x02
+  WEBP_ALPHA_FLAG = 0x10
+  WEBP_FRAME_HEADER_SIZE = 16
 
   def convert_webp_to_png(filename)
     source = webp_single_frame_source(filename)
@@ -117,7 +121,7 @@ module Exports::PDF::Common::Attachments
     animated, frame = scan_webp_animation(File.binread(filename))
     return filename unless animated
 
-    unless frame && WEBP_BITSTREAM_IDS.include?(frame[0, 4])
+    unless readable_webp_frame?(frame)
       Rails.logger.error "Skipping animated WebP: frame 0 is not a readable image chunk"
       return
     end
@@ -128,20 +132,31 @@ module Exports::PDF::Common::Attachments
     nil
   end
 
-  # Reports whether the container declares an animation, together with the image
-  # payload of its first ANMF chunk - nil when there is none to read.
+  # Reports whether the container declares an animation, together with the payload of
+  # its first ANMF chunk - nil when there is none to read.
   def scan_webp_animation(data)
     animated = false
 
     each_webp_chunk(data) do |chunk_id, payload|
-      # ANMF payload: 16 bytes of frame metadata (position, size, duration, flags)
-      # followed by the frame image data as a VP8 / VP8L / VP8X chunk.
-      return [true, payload[16..]] if chunk_id == "ANMF".b
+      return [true, payload] if chunk_id == "ANMF".b
 
-      animated ||= chunk_id == "VP8X".b && payload.getbyte(0)&.anybits?(WEBP_ANIMATION_FLAG)
+      animated ||= chunk_id == WEBP_CONTAINER_ID && payload.getbyte(0)&.anybits?(WEBP_ANIMATION_FLAG)
     end
 
     [animated, nil]
+  end
+
+  # A frame opens either with its bitstream or, when it carries transparency, with an
+  # ALPH subchunk holding the alpha plane for the bitstream that follows.
+  def readable_webp_frame?(frame)
+    return false if frame.nil? || frame.bytesize <= WEBP_FRAME_HEADER_SIZE
+
+    image = frame[WEBP_FRAME_HEADER_SIZE..]
+    return true if WEBP_BITSTREAM_IDS.include?(image[0, 4])
+    return false unless image[0, 4] == WEBP_ALPHA_ID && image.bytesize >= 8
+
+    alpha_size = image[4, 4].unpack1("V")
+    WEBP_BITSTREAM_IDS.include?(image[8 + alpha_size + (alpha_size & 1), 4])
   end
 
   def each_webp_chunk(data)
@@ -168,10 +183,21 @@ module Exports::PDF::Common::Attachments
   # references), so the raw frame chunk is a valid standalone WebP image once
   # wrapped in a minimal RIFF/WEBP container.
   def write_single_frame_webp(frame)
-    riff_size = 4 + frame.bytesize # "WEBP" + frame data
+    image = frame[WEBP_FRAME_HEADER_SIZE..]
+    body = "WEBP".b + webp_extended_header(frame) + image
     tmp_frame = temp_image_file(".webp")
-    File.binwrite(tmp_frame, "RIFF".b + [riff_size].pack("V") + "WEBP".b + frame)
+    File.binwrite(tmp_frame, "RIFF".b + [body.bytesize].pack("V") + body)
     tmp_frame
+  end
+
+  # An ALPH subchunk is only legal in the extended format, so such a frame needs a
+  # VP8X header to stand alone. The ANMF frame header stores its width and height in
+  # the same minus-one 24-bit encoding and order as the VP8X canvas, so they copy over.
+  def webp_extended_header(frame)
+    return "".b unless frame[WEBP_FRAME_HEADER_SIZE, 4] == WEBP_ALPHA_ID
+
+    payload = [WEBP_ALPHA_FLAG].pack("C") + ("\0".b * 3) + frame[6, 6]
+    WEBP_CONTAINER_ID + [payload.bytesize].pack("V") + payload
   end
 
   def attachment_by_api_content_src(src)
