@@ -48,12 +48,12 @@ module PushSubscriptions
 
     attr_reader :user
 
-    def unread
+    def unread_visible
       Notification.visible(user).where(read_ian: false)
     end
 
-    def latest_per_work_package
-      unread
+    def latest_unread_per_work_package
+      unread_visible
         .left_joins(:journal)
         .select(<<~SQL.squish)
           DISTINCT ON (notifications.resource_id) notifications.*,
@@ -65,7 +65,7 @@ module PushSubscriptions
 
     def groups
       @groups ||= Notification
-        .from(latest_per_work_package, :notifications)
+        .from(latest_unread_per_work_package, :notifications)
         .select("notifications.*, COUNT(*) OVER () AS work_package_count, (SUM(unread_count) OVER ())::integer AS unread_total")
         .order(activity_at: :desc, id: :desc)
         .limit(LIMIT)
