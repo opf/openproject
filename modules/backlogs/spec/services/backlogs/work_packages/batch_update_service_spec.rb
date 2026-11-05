@@ -470,6 +470,45 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService, type: :model do
   end
 
   describe "target availability" do
+    it "revalidates a reused service after a member becomes read-only", with_ee: %i[readonly_work_packages] do
+      batch = service([bucket_wp1, bucket_wp2])
+      expect(batch.call(list_type: "sprint", list_id: sprint.id.to_s, prev_id: "")).to be_success
+
+      readonly_status = create(:status, :readonly)
+      WorkPackage.where(id: bucket_wp2.id).update_all(status_id: readonly_status.id)
+      allow(Backlogs::WorkPackages::UpdateService).to receive(:new).and_call_original
+      original_order = sprint_order
+
+      result = batch.call(list_type: "backlog_bucket", list_id: bucket.id.to_s, prev_id: "")
+
+      expect(result).to be_failure
+      expect(result.message).to eq I18n.t("backlogs.work_packages.batch_update_service.unavailable_target")
+      expect(Backlogs::WorkPackages::UpdateService).not_to have_received(:new)
+      expect(sprint_order).to eq original_order
+      expect(bucket.work_packages.order(:position).ids).to be_empty
+    end
+
+    it "constructs member availability after locking the destination row" do
+      operations = []
+      allow(Backlogs::WorkPackages::BatchMoveLocks).to receive(:new).and_wrap_original do |method, **arguments|
+        locks = method.call(**arguments)
+        allow(locks).to receive(:lock_destination_row).and_wrap_original do |lock|
+          lock.call
+          operations << :destination_locked
+        end
+        locks
+      end
+      allow(Backlogs::WorkPackages::DestinationAvailability).to receive(:new).and_wrap_original do |method, **arguments|
+        operations << :member_availability if arguments.fetch(:work_packages).any?
+        method.call(**arguments)
+      end
+
+      result = service([bucket_wp1, bucket_wp2]).call(list_type: "sprint", list_id: sprint.id.to_s, prev_id: "")
+
+      expect(result).to be_success
+      expect(operations).to eq %i[destination_locked member_availability]
+    end
+
     it "revalidates a member that became confined after destination projection", with_ee: %i[readonly_work_packages] do
       projected = Backlogs::WorkPackages::DestinationAvailability.new(
         project:,

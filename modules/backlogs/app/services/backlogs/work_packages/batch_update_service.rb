@@ -82,9 +82,6 @@ class Backlogs::WorkPackages::BatchUpdateService
     preflight = Backlogs::WorkPackages::DestinationAvailability.new(project: batch_project, user:, work_packages: [])
     return unavailable_target_failure unless preflight.manage_permission? && preflight.candidate?(target)
 
-    # Each call needs fresh under-lock state, including when this instance is reused.
-    @destination_availability = nil
-
     move_batch_in_transaction(target, prev_id, list_type:, list_id:)
   end
 
@@ -111,8 +108,7 @@ class Backlogs::WorkPackages::BatchUpdateService
     locks = Backlogs::WorkPackages::BatchMoveLocks.new(
       project: batch_project, source_targets: @batch_source_targets.values, target:
     )
-    locks.acquire_lifecycle
-    locks.acquire_placement(target:, prev_id:)
+    locks.acquire_before_placement(prev_id:)
     placement = resolve_placement(target, prev_id)
     return placement if placement.is_a?(ServiceResult)
 
@@ -120,7 +116,7 @@ class Backlogs::WorkPackages::BatchUpdateService
     return stale_batch_failure unless cohort_intact?
 
     locks.lock_destination_row
-    destination_failure = revalidate_destination(target)
+    destination_failure = revalidate_destination(target, fresh_destination_availability)
     return destination_failure if destination_failure
 
     anchor_failure = revalidate_anchor(placement, target)
@@ -206,31 +202,29 @@ class Backlogs::WorkPackages::BatchUpdateService
     placement.mode == :append && last_non_batch_member(target)&.id != placement.anchor&.id
   end
 
-  # The contract only revalidates a sprint or bucket target when the
-  # corresponding column changes, so a same-list reorder never triggers it
-  # and a sprint completed after the page loaded stays an accepted
-  # destination.
-  def revalidate_destination(target)
-    return unavailable_target_failure unless destination_availability.manage_permission? && target_available?(target)
-
-    return if work_packages.one?
-
-    refused = destination_availability.refusing(target)
-    refused_members_failure(refused) if refused.any?
-  end
-
-  def target_available?(target)
-    destination_availability.candidate?(target)
-  end
-
-  # Reloaded under the lock: a member's status, and so its mobility, may
-  # have changed since the controller loaded the batch.
-  def destination_availability
-    @destination_availability ||= Backlogs::WorkPackages::DestinationAvailability.new(
+  def fresh_destination_availability
+    Backlogs::WorkPackages::DestinationAvailability.new(
       project: batch_project,
       user:,
       work_packages: WorkPackage.where(id: work_packages.map(&:id)).includes(:status).to_a
     )
+  end
+
+  # The contract only revalidates a sprint or bucket target when the
+  # corresponding column changes, so a same-list reorder never triggers it
+  # and a sprint completed after the page loaded stays an accepted
+  # destination.
+  def revalidate_destination(target, availability)
+    return unavailable_target_failure unless availability.manage_permission? && target_available?(target, availability)
+
+    return if work_packages.one?
+
+    refused = availability.refusing(target)
+    refused_members_failure(refused) if refused.any?
+  end
+
+  def target_available?(target, availability)
+    availability.candidate?(target)
   end
 
   def last_non_batch_member(target)

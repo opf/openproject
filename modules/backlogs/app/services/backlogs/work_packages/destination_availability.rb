@@ -55,12 +55,22 @@ class Backlogs::WorkPackages::DestinationAvailability
   end
 
   def refusing(target)
-    work_packages.reject { |work_package| accepts?(work_package, target) }
+    readonly_members.reject { |work_package| Backlogs::Target.for_work_package(work_package) == target }
   end
 
-  def sprints = offered(candidate_sprints)
-  def buckets = offered(candidate_buckets)
-  def inbox? = manage_permission? && offers?(Backlogs::Target::InboxId)
+  def sprints
+    @sprints ||= offered(candidate_sprints)
+  end
+
+  def buckets
+    @buckets ||= offered(candidate_buckets)
+  end
+
+  def inbox?
+    return @inbox if defined?(@inbox)
+
+    @inbox = manage_permission? && offers?(Backlogs::Target::InboxId)
+  end
 
   private
 
@@ -71,8 +81,8 @@ class Backlogs::WorkPackages::DestinationAvailability
     )
   end
 
-  def accepts?(work_package, target)
-    !work_package.readonly_status? || Backlogs::Target.for_work_package(work_package) == target
+  def readonly_members
+    @readonly_members ||= work_packages.select(&:readonly_status?)
   end
 
   def offered(containers)

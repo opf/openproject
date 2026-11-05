@@ -31,24 +31,13 @@ class Backlogs::WorkPackages::BatchMoveLocks
   def initialize(project:, source_targets:, target:)
     @project = project
     @source_targets = source_targets
+    @target = target
     @destination = target.lock_record
   end
 
-  # Source locks prevent moving members out after FinishService enumerates them.
-  # Ordering every source and target by [class, id] prevents deadlocks between
-  # batches with inverse source/target pairs.
-  def acquire_lifecycle
-    records = @source_targets.uniq.map(&:lock_record) + [@destination]
-    ordered = records.compact.uniq { |record| lifecycle_identity(record) }.sort_by { |record| lifecycle_identity(record) }
-    acquire_ordered(ordered)
-  end
-
-  def acquire_placement(target:, prev_id:)
-    return if prev_id.present? && target != Backlogs::Target::InboxId
-
-    suffix = ["backlogs_batch_update_destination", target.list_type, target.list_id].compact.join("_")
-    # rubocop:disable-next Lint/EmptyBlock -- transaction-scoped lock outlives this block
-    OpenProject::Mutex.with_advisory_lock_transaction(@project, suffix) {}
+  def acquire_before_placement(prev_id:)
+    acquire_lifecycle
+    acquire_placement(prev_id:)
   end
 
   def acquire_members(work_packages:, anchor:)
@@ -62,6 +51,23 @@ class Backlogs::WorkPackages::BatchMoveLocks
   end
 
   private
+
+  # Source locks prevent moving members out after FinishService enumerates them.
+  # Ordering every source and target by [class, id] prevents deadlocks between
+  # batches with inverse source/target pairs.
+  def acquire_lifecycle
+    records = @source_targets.uniq.map(&:lock_record) + [@destination]
+    ordered = records.compact.uniq { |record| lifecycle_identity(record) }.sort_by { |record| lifecycle_identity(record) }
+    acquire_ordered(ordered)
+  end
+
+  def acquire_placement(prev_id:)
+    return if prev_id.present? && @target != Backlogs::Target::InboxId
+
+    suffix = ["backlogs_batch_update_destination", @target.list_type, @target.list_id].compact.join("_")
+    # rubocop:disable-next Lint/EmptyBlock -- transaction-scoped lock outlives this block
+    OpenProject::Mutex.with_advisory_lock_transaction(@project, suffix) {}
+  end
 
   def lifecycle_identity(record)
     [record.class.name, record.id]
