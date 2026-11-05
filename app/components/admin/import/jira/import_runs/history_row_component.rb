@@ -36,13 +36,13 @@ module Admin::Import::Jira::ImportRuns
     def from_to
       render(Primer::OpenProject::FlexLayout.new) do |c|
         c.with_column do
-          render(StatusBadgeComponent.new(model.from_state))
+          render(StatusLabelComponent.new(model.from_state))
         end
         c.with_column do
           render(Primer::Beta::Octicon.new(:"arrow-right", size: :small))
         end
         c.with_column do
-          render(StatusBadgeComponent.new(model.to_state))
+          render(StatusLabelComponent.new(model.to_state))
         end
       end
     end

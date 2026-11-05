@@ -36,7 +36,10 @@ Rails.root.glob("lookbook/previews/**/*_preview.rb").each { |f| require f.to_s }
 # To mark only a specific preview instead of all previews for that component, add the name separated with a `#`
 # "OpPrimer::StatusButtonComponentPreview#playground" => "Needs design change",
 AXE_KNOWN_VIOLATIONS = {
-  "OpPrimer::StatusButtonComponentPreview" => "Needs design change"
+  "OpPrimer::StatusButtonComponentPreview" => "Needs design change",
+  "OpenProject::Projects::StatusLabelComponentPreview#at_risk" => "Needs design change",
+  "OpenProject::Projects::StatusLabelComponentPreview#off_track" => "Needs design change",
+  "OpenProject::Projects::StatusLabelComponentPreview#not_started" => "Needs design change"
 }.freeze
 
 RSpec.describe "Lookbook previews accessibility", :component_preview, :js, :selenium do

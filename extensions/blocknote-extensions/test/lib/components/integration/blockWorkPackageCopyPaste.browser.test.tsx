@@ -121,7 +121,7 @@ describe('Block card - copy/paste independence', () => {
     pasteBlockCardHtml(123);
     await expect.element(page.getByTestId('block-card').nth(1)).toBeVisible();
 
-    // Resize the original (first card) to Tiny — status badge disappears for it
+    // Resize the original (first card) to Tiny — status label disappears for it
     await userEvent.click(page.getByTestId('op-bn-work-package--type').nth(0));
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
     await userEvent.click(page.getByTitle('Change size'));

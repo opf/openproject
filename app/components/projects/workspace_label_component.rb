@@ -27,20 +27,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::WorkPackages
-  # @logical_path OpenProject/WorkPackages
-  class StatusBadgeComponentPreview < ViewComponent::Preview
-    # @label Playground
-    # @param size [Symbol] select [ medium, large]
-    # @param inline [Boolean]
-    # @param readonly [Boolean]
-    def playground(size: :medium, inline: false, readonly: false)
-      # Colors will be applied in code as well but there are not loaded in the lookbook
-      # The lock is only drawn where the readonly work packages Enterprise feature is available
-      status = FactoryBot.build_stubbed(:status)
-      status.is_readonly = readonly
+module Projects
+  class WorkspaceLabelComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
 
-      render(WorkPackages::StatusBadgeComponent.new(status:, size:, inline:))
+    def initialize(type:, **system_arguments)
+      super
+
+      @type = type
+      @system_arguments = system_arguments
     end
+
+    private
+
+    attr_reader :type
+
+    def label = I18n.t(:"label_#{type}")
+
+    def icon_name = helpers.workspace_icon(type)
   end
 end

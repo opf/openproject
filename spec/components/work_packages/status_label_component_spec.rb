@@ -29,7 +29,7 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackages::StatusBadgeComponent, type: :component do
+RSpec.describe WorkPackages::StatusLabelComponent, type: :component do
   def render_component(...)
     render_inline(described_class.new(...))
   end

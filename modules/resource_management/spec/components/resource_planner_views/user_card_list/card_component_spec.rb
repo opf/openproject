@@ -70,7 +70,7 @@ RSpec.describe ResourcePlannerViews::UserCardList::CardComponent, type: :compone
     end
   end
 
-  describe "the status badge" do
+  describe "the status label" do
     it "renders an active user's status as a success label" do
       expect(rendered).to have_css("span.Label--success", text: I18n.t(:status_active))
     end

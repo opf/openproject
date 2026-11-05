@@ -27,24 +27,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Backlogs
-  class SprintStatusBadgeComponent < ApplicationComponent
+module Projects
+  class HoverCardComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    def initialize(sprint:, **system_arguments)
-      super()
+    def initialize(project:, user:)
+      super
 
-      @sprint = sprint
-      @system_arguments = system_arguments.merge(bg: status_color)
+      @project = project
+      @id = project.id
+      @name = project.name
+      @workspace_type = @project.workspace_type
+      @user = user
     end
 
-    private
+    def render?
+      @project.public? || @user.admin? || @user.access_to?(@project)
+    end
 
-    def status_color
-      case @sprint.status
-      when "active" then :success
-      when "completed" then :done
-      else :default
+    def breadcrumb_items
+      ancestors = @project.ancestors.visible.active.reorder(:lft)
+      return nil if ancestors.empty?
+
+      (ancestors + [@project]).map do |item|
+        { href: project_overview_path(item), text: item.name, selected: item == @project }
       end
     end
   end
