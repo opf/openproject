@@ -254,7 +254,7 @@ describe('Filters form controller', () => {
 
     resolveResponse(streamResponse());
     await waitFor(() => expect(replaceState).toHaveBeenCalledOnce());
-    expect(ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!.hidden).toBe(true);
+    await waitFor(() => expect(ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!.hidden).toBe(true));
   });
 
   it('sends the original value again after a superseding request is discarded', async () => {
