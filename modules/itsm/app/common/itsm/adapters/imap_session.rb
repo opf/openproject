@@ -55,7 +55,7 @@ module ITSM
         start_deadline
 
         verify_host
-          .bind { |address| open_connection(address) }
+          .bind { |addresses| open_connection(addresses) }
           # The strategy returns its own Result, which imap_request wraps once more.
           .bind { imap_request { auth_strategy.call(imap) }.flatten }
           .bind { imap_request { imap.select(FOLDER) } }
@@ -83,18 +83,19 @@ module ITSM
         return failure(code: :unreachable) if addresses.empty?
         return failure(code: :address_not_allowed) unless addresses.all? { OpenProject::SsrfProtection.safe_ip?(it) }
 
-        Success(addresses.first.to_s)
+        Success(addresses.map(&:to_s))
       end
 
-      def open_connection(address)
+      def open_connection(addresses)
         imap_request do
-          @imap = new_connection(address)
+          @imap = new_connection(addresses)
           imap.starttls if mail_server.starttls?
         end
       end
 
-      def new_connection(address)
-        ImapConnection.new(mail_server.host, address:, port: mail_server.port, ssl: mail_server.tls?, open_timeout: OPEN_TIMEOUT)
+      def new_connection(addresses)
+        ImapConnection.new(mail_server.host,
+                           addresses:, port: mail_server.port, ssl: mail_server.tls?, open_timeout: OPEN_TIMEOUT)
       end
 
       def imap_request(source: self.class)

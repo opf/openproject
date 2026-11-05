@@ -63,7 +63,7 @@ RSpec.describe ITSM::Mailboxes::FetchService do
     result
 
     expect(ITSM::Adapters::ImapConnection).to have_received(:new)
-      .with(mailbox.mail_server.host, address: "203.0.113.10", port: 993, ssl: true, open_timeout: 10)
+      .with(mailbox.mail_server.host, addresses: ["203.0.113.10"], port: 993, ssl: true, open_timeout: 10)
     expect(imap).to have_received(:login).with(mailbox.username, "imap-password")
   end
 

@@ -32,17 +32,23 @@ require "net/imap"
 module ITSM
   module Adapters
     class ImapConnection < Net::IMAP
-      def initialize(host, address:, **)
-        @address = address
+      def initialize(host, addresses:, **)
+        @addresses = addresses
         super(host, **)
       end
 
       private
 
-      # Connects to the address that passed the SSRF check instead of resolving the host again,
+      # Connects to the addresses that passed the SSRF check instead of resolving the host again,
       # while TLS still uses the host for SNI and certificate verification.
       # Net::IMAP waits for the server greeting without a time limit, so the socket has one until it arrives.
-      def tcp_socket(_host, port) = super(@address, port).tap { it.timeout = open_timeout }
+      def tcp_socket(_host, port)
+        @addresses.each_with_index do |address, index|
+          return super(address, port).tap { it.timeout = open_timeout }
+        rescue SystemCallError, Net::OpenTimeout
+          raise if index == @addresses.size - 1
+        end
+      end
 
       def get_server_greeting
         super

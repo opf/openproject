@@ -56,7 +56,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
       expect(imap_session.connect).to eq(Dry::Monads::Success(imap_session))
 
       expect(ITSM::Adapters::ImapConnection).to have_received(:new)
-        .with("imap.example.com", address: "203.0.113.10", port: 993, ssl: true, open_timeout: 10)
+        .with("imap.example.com", addresses: ["203.0.113.10"], port: 993, ssl: true, open_timeout: 10)
       expect(imap).not_to have_received(:starttls)
       expect(imap).to have_received(:login).with("support@example.com", "secret")
       expect(imap).to have_received(:select).with("INBOX")
@@ -69,8 +69,23 @@ RSpec.describe ITSM::Adapters::ImapSession do
         imap_session.connect
 
         expect(ITSM::Adapters::ImapConnection).to have_received(:new)
-        .with("imap.example.com", address: "203.0.113.10", port: 993, ssl: false, open_timeout: 10)
+        .with("imap.example.com", addresses: ["203.0.113.10"], port: 993, ssl: false, open_timeout: 10)
         expect(imap).to have_received(:starttls)
+      end
+    end
+
+    context "when the host resolves to several addresses" do
+      before do
+        with_ssrf_ip_allowlist(%w[203.0.113.10 203.0.113.11])
+        allow(OpenProject::SsrfProtection).to receive(:resolver)
+          .and_return(->(_host) { [IPAddr.new("203.0.113.10"), IPAddr.new("203.0.113.11")] })
+      end
+
+      it "passes all of them to the connection" do
+        imap_session.connect
+
+        expect(ITSM::Adapters::ImapConnection).to have_received(:new)
+          .with("imap.example.com", addresses: %w[203.0.113.10 203.0.113.11], port: 993, ssl: true, open_timeout: 10)
       end
     end
 
