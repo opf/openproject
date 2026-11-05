@@ -66,18 +66,18 @@ properties:
           - description: |-
               The WebSocket URL of the real-time collaboration server
             readOnly: true
-example:
-  _type: CollaborationToken
-  token: "Q2lwaGVydGV4dA==--SXZJdlZJdg==--QXV0aFRhZw=="
-  documentName: "https://openproject.example.com/api/v3/documents/1"
-  expiresAt: '2025-01-04T09:05:00Z'
-  expiresInSeconds: 300
-  _links:
-    document:
-      href: "/api/v3/documents/1"
-      title: Some document
-    createCollaborationToken:
-      href: "/api/v3/documents/1/collaboration_token"
-      method: post
-    collaborationServer:
-      href: "wss://hocuspocus.example.com"
+examples:
+  - _type: CollaborationToken
+    token: "Q2lwaGVydGV4dA==--SXZJdlZJdg==--QXV0aFRhZw=="
+    documentName: "https://openproject.example.com/api/v3/documents/1"
+    expiresAt: '2025-01-04T09:05:00Z'
+    expiresInSeconds: 300
+    _links:
+      document:
+        href: "/api/v3/documents/1"
+        title: Some document
+      createCollaborationToken:
+        href: "/api/v3/documents/1/collaboration_token"
+        method: post
+      collaborationServer:
+        href: "wss://hocuspocus.example.com"

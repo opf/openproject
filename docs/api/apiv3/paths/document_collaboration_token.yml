@@ -2,13 +2,13 @@
 ---
 post:
   parameters:
-  - description: Document id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Document id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   requestBody:
     required: false
     content:
@@ -128,7 +128,7 @@ post:
       description: Returned if the token could not be issued. Nothing is revoked in that case.
       headers: {}
   tags:
-  - Documents
+    - Documents
   description: |-
     Creates a short-lived token for the real-time collaboration (Hocuspocus) server for the document.
 
