@@ -47,7 +47,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
   end
 
   context "without a session" do
-    it "answers 401 instead of redirecting" do
+    it "returns 401 instead of redirecting" do
       get "/push-notification"
 
       expect(response).to have_http_status(:unauthorized)
@@ -56,7 +56,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
   end
 
   context "without a session and without required login", with_settings: { login_required: false, web_push_enabled: true } do
-    it "still answers 401" do
+    it "still returns 401" do
       get "/push-notification"
 
       expect(response).to have_http_status(:unauthorized)
@@ -68,7 +68,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
     let(:json_headers) { { "Accept" => "application/json" } }
     let(:password_user) { create(:user, password:, password_confirmation: password) }
 
-    it "answers 401 for a valid API key" do
+    it "returns 401 for a valid API key" do
       token = create(:api_token, user:)
 
       get "/push-notification",
@@ -77,14 +77,14 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
       expect(response).to have_http_status(:unauthorized)
     end
 
-    it "answers 401 for HTTP Basic user credentials" do
+    it "returns 401 for HTTP Basic user credentials" do
       get "/push-notification",
           headers: { "Authorization" => ActionController::HttpAuthentication::Basic.encode_credentials(password_user.login, password) }
 
       expect(response).to have_http_status(:unauthorized)
     end
 
-    it "answers 401 for a valid SSO header without a session" do
+    it "returns 401 for a valid SSO header without a session" do
       allow(OpenProject::Configuration)
         .to receive(:auth_source_sso).and_return(header: "X-Remote-User", optional: true)
       sso_user = create(:user, login: "sso_user", ldap_auth_source: create(:ldap_auth_source))
@@ -95,7 +95,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
       expect(Sessions::UserSession.for_user(sso_user.id)).to be_empty
     end
 
-    it "answers 401 for a valid autologin cookie instead of starting a session",
+    it "returns 401 for a valid autologin cookie instead of starting a session",
        with_settings: { autologin: 1 } do
       token = create(:autologin_token, user:)
       cookies[OpenProject::Configuration["autologin_cookie_name"]] = token.plain_value
@@ -112,7 +112,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
     let(:password) { "Sup3rS3cret!pass" }
     let(:password_user) { create(:user, password:, password_confirmation: password) }
 
-    it "answers 401 and starts no session when the session user is locked" do
+    it "returns 401 and starts no session when the session user is locked" do
       allow(OpenProject::Configuration)
         .to receive(:auth_source_sso).and_return(header: "X-Remote-User", optional: true)
       host! Setting.host_name
@@ -164,7 +164,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
       expect(sessions.sole.updated_at).to eq(touched_at)
     end
 
-    it "answers 401 instead of redirecting once the session has idled past its lifetime" do
+    it "returns 401 instead of redirecting once the session has idled past its lifetime" do
       travel_to(3.hours.from_now) { get "/push-notification", headers: json_headers }
 
       expect(response).to have_http_status(:unauthorized)
@@ -203,7 +203,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
       expect(json).to eq("count" => 0)
     end
 
-    it "answers 401 when the SSO header names another user" do
+    it "returns 401 when the SSO header names another user" do
       other = create(:user)
       session_ids = Sessions::UserSession.for_user(password_user.id).pluck(:session_id)
 
@@ -214,7 +214,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
       expect(Sessions::UserSession.for_user(other.id)).to be_empty
     end
 
-    it "answers 401 when the SSO header is missing and not optional" do
+    it "returns 401 when the SSO header is missing and not optional" do
       get "/push-notification", headers: headers
 
       expect(response).to have_http_status(:unauthorized)
@@ -223,7 +223,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
     context "when the SSO header carries an invalid secret" do
       let(:sso_config) { { header: "X-Remote-User", secret: "s3cr3t" } }
 
-      it "answers 401 when the SSO header carries an invalid secret" do
+      it "returns 401 when the SSO header carries an invalid secret" do
         get "/push-notification", headers: headers.merge("X-Remote-User" => "#{password_user.login}:wrong")
 
         expect(response).to have_http_status(:unauthorized)
@@ -232,7 +232,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
       context "when the SSO header is also optional" do
         let(:sso_config) { { header: "X-Remote-User", secret: "s3cr3t", optional: true } }
 
-        it "still answers 401" do
+        it "still returns 401" do
           get "/push-notification", headers: headers.merge("X-Remote-User" => "#{password_user.login}:wrong")
 
           expect(response).to have_http_status(:unauthorized)
@@ -267,7 +267,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
     end
 
     context "when push notifications are disabled", with_settings: { web_push_enabled: false } do
-      it "answers 404" do
+      it "returns 404" do
         get "/push-notification"
 
         expect(response).to have_http_status(:not_found)
