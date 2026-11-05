@@ -356,7 +356,7 @@ module Settings
         secret: true
       },
       database_encryption_previous_key: {
-        description: "Previous encryption key or SECRET_KEY_BASE, used to decrypt data during key rotation",
+        description: "Old value of SECRET_KEY_BASE or of the database encryption key, used to decrypt data while you rotate that key",
         format: :string,
         default: nil,
         writable: false,
