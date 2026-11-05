@@ -20,10 +20,10 @@
         <% button.with_leading_visual_icon(icon: :"chevron-left") %>
         <%= t("meeting.presentation_mode.previous") %>
       <% end %>
-      <% if previous_presenter_changed? %>
+      <% if previous_presenter %>
         <%= render(
               Users::AvatarComponent.new(
-                user: previous_item.presenter,
+                user: previous_presenter,
                 show_name: false,
                 link: false,
                 size: "mini",
@@ -33,7 +33,12 @@
             ) %>
       <% end %>
     <% end %>
-    <% if previous_item %>
+    <% if previous_slide? %>
+      <div class="op-meeting-presentation--footer-agenda-item">
+        <%= render(Primer::Beta::Text.new(font_weight: :bold, color: :subtle)) { current_item.display_title } %>:
+        <%= render(Primer::Beta::Text.new(color: :subtle)) { slide_text(@current_slide - 1) } %>
+      </div>
+    <% elsif previous_item %>
       <div class="op-meeting-presentation--footer-agenda-item">
         <% if previous_item.meeting_section != current_section %>
           <%= render(Primer::Beta::Text.new(font_weight: :bold, color: :subtle)) { previous_item.meeting_section.title.presence || t("meeting_section.untitled_title") } %>:
@@ -60,10 +65,10 @@
     <%= render(
           Primer::Box.new(display: :flex, align_items: :center, justify_content: :flex_end)
         ) do %>
-      <% if next_presenter_changed? %>
+      <% if next_presenter %>
         <%= render(
               Users::AvatarComponent.new(
-                user: next_item.presenter,
+                user: next_presenter,
                 show_name: false,
                 link: false,
                 size: "mini",
@@ -88,7 +93,10 @@
       <% end %>
     <% end %>
     <div class="op-meeting-presentation--footer-agenda-item">
-      <% if next_item %>
+      <% if next_slide? %>
+        <%= render(Primer::Beta::Text.new(font_weight: :bold, color: :subtle)) { current_item.display_title } %>:
+        <%= render(Primer::Beta::Text.new(color: :subtle)) { slide_text(@current_slide + 1) } %>
+      <% elsif next_item %>
         <% if next_item.meeting_section != current_section %>
           <%= render(Primer::Beta::Text.new(font_weight: :bold, color: :subtle)) { next_item.meeting_section.title.presence || t("meeting_section.untitled_title") } %>:
         <% end %>

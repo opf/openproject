@@ -62,11 +62,19 @@ module Meetings
       end
 
       def has_previous?
-        has_previous_item? || @current_slide > 1
+        has_previous_item? || previous_slide?
       end
 
       def has_next?
-        has_next_item? || @current_slide < total_slides
+        has_next_item? || next_slide?
+      end
+
+      def previous_slide?
+        @current_slide > 1
+      end
+
+      def next_slide?
+        @current_slide < total_slides
       end
 
       def has_previous_item?
@@ -86,7 +94,7 @@ module Meetings
       end
 
       def next_item
-        return nil unless has_next_item?
+        return nil if next_slide? || !has_next_item?
 
         if defined?(@next_item)
           @next_item
@@ -97,7 +105,7 @@ module Meetings
       end
 
       def previous_item
-        return nil unless has_previous_item?
+        return nil if previous_slide? || !has_previous_item?
 
         if defined?(@previous_item)
           @previous_item
@@ -115,6 +123,22 @@ module Meetings
         previous_item&.presenter.present? && previous_item.presenter != current_item&.presenter
       end
 
+      def next_presenter
+        if next_slide?
+          current_item.presenter
+        elsif next_presenter_changed?
+          next_item.presenter
+        end
+      end
+
+      def previous_presenter
+        if previous_slide?
+          current_item.presenter
+        elsif previous_presenter_changed?
+          previous_item.presenter
+        end
+      end
+
       def progress_text
         if total_items.zero?
           t("meeting.presentation_mode.no_items")
@@ -126,7 +150,11 @@ module Meetings
       def slide_progress_text
         return if total_slides <= 1
 
-        t("meeting.presentation_mode.slide_progress", current: @current_slide, total: total_slides)
+        slide_text(@current_slide)
+      end
+
+      def slide_text(number)
+        t("meeting.presentation_mode.slide_progress", current: number, total: total_slides)
       end
 
       def running_time
