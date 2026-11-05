@@ -9,7 +9,7 @@
   .my-time-management-stack-view--body
     flex-grow: 1
     min-height: 0
-    overflow-x: auto
+    overflow: auto
 
   .my-time-management-stack-view--entries
     height: 100%
@@ -50,5 +50,13 @@
 
   .fc-timegrid-event-short
     +te-entry-card-condensed
+
+    .te-entry-card
+      height: auto
+      align-items: flex-start
+      padding-top: 8px
+
+    .te-entry-card--icon
+      align-self: flex-start
 
   +fc-day-total
