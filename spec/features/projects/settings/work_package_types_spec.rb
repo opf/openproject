@@ -190,8 +190,8 @@ because it's still in use by work packages)
       settings_page.choose_switch_target("Epic: Blueprint")
 
       settings_page.expect_switch_impact("1 work package will use the new configuration")
-      settings_page.expect_switch_impact("Fields that will no longer be shown")
-      settings_page.expect_switch_impact("Fields that become available")
+      settings_page.expect_switch_impact("Fields that will be removed")
+      settings_page.expect_switch_impact("Fields that will be added")
     end
 
     # The field sections keep their contents behind a disclosure. A status the target
@@ -205,7 +205,7 @@ because it's still in use by work packages)
       settings_page.open_switch_dialog(design)
       settings_page.choose_switch_target("Epic: Blueprint")
 
-      settings_page.expect_switch_impact("Work packages that get stuck")
+      settings_page.expect_switch_impact("Work packages without transitions")
       expect(settings_page.switch_dialog).to have_text("Blocked")
       expect(settings_page.switch_dialog).to have_no_text("Assignee")
     end

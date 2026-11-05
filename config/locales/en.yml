@@ -6181,10 +6181,12 @@ en:
         switch:
           apply: "Apply"
           impact:
-            hidden_heading: "Fields that will no longer be shown"
-            missing_statuses_description: "The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on."
-            missing_statuses_heading: "Work packages that get stuck"
-            new_heading: "Fields that become available"
+            hidden_description: "The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible."
+            hidden_heading: "Fields that will be removed"
+            missing_statuses_description: "The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status."
+            missing_statuses_heading: "Work packages without transitions"
+            new_description: "The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value."
+            new_heading: "Fields that will be added"
             nothing_affected: "No fields or statuses are affected."
             status_count:
               one: "%{count} work package"
