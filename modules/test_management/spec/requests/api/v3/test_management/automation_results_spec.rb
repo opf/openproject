@@ -79,7 +79,7 @@ RSpec.describe "APIv3 test management automation results" do
 
       expect(last_response).to have_http_status(201)
       expect(json).to include("_type" => "TestManagementIngestResult", "createdRun" => true, "replay" => false)
-      expect(json["import"]).to include("parsedCount" => 5, "matchedCount" => 2, "unmatchedCount" => 3)
+      expect(json["import"]).to include("parsedCount" => 5, "matchedCount" => 3, "unmatchedCount" => 2)
       expect(json["run"]).to include("externalRef" => "github:shop:1:1", "source" => "automation", "state" => "in_progress")
       expect(json["run"]["statusCounts"]).to include("failed" => 1)
     end

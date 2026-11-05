@@ -37,7 +37,7 @@ RSpec.describe TestManagement::ConfirmDialogComponent, type: :component do
   shared_let(:test_case) { create(:tm_test_case, project:, title: "Clear error messages") }
 
   def render_dialog(**kwargs)
-    with_request_url "/projects/#{project.id}/test_management" do
+    with_request_url "/projects/#{project.id}/test_management/test_cases" do
       render_inline(described_class.new(**kwargs))
     end
   end

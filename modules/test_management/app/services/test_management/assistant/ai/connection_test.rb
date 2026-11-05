@@ -74,7 +74,7 @@ module TestManagement
           Result.new(ok: true, models: [], listed: false, scope: provider.models_scope,
                      message: t("verify.ok", model: config.model))
         rescue Failure => e
-          failed(:model, e.message)
+          failed(e.kind, e.message)
         rescue Client::Error => e
           failed(:model, t("verify.failed", model: config.model, detail: e.message))
         rescue StandardError => e

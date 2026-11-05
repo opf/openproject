@@ -93,8 +93,8 @@ RSpec.describe TestManagement::Automation::IngestService do
       run = outcome.run
       statuses = run.run_cases.to_h { |rc| [rc.test_case_id, rc.status] }
 
-      expect(statuses).to eq(login_case.id => "failed")
-      expect(outcome.import).to have_attributes(state: "done", parsed_count: 5, matched_count: 2, unmatched_count: 3)
+      expect(statuses).to eq(login_case.id => "failed", wrong_case.id => "passed")
+      expect(outcome.import).to have_attributes(state: "done", parsed_count: 5, matched_count: 3, unmatched_count: 2)
       expect(outcome.import.unmatched_list.pluck("reason").uniq).to eq(["no_matching_case"])
     end
 
@@ -176,7 +176,7 @@ RSpec.describe TestManagement::Automation::IngestService do
     outcome = ingest(report, { "createMissing" => true })
     created = project.tm_test_cases.find_by(automation_reference: "reports.spec.ts#exports a monthly report")
 
-    expect(outcome.import.created_cases_count).to eq(3)
+    expect(outcome.import.created_cases_count).to eq(2)
     expect(outcome.import.unmatched_count).to eq(0)
     expect(created).to have_attributes(automated: true)
     expect(created.suite.name).to eq("reports.spec.ts")

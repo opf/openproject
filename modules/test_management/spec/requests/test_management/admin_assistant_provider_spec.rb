@@ -108,7 +108,7 @@ RSpec.describe "Test management admin: AI providers", :disable_ssrf_filter, :ski
       post base, params: { name: "OpenRouter", assistant_provider: "openrouter", assistant_model: "openai/gpt-4o-mini",
                            assistant_api_key: "sk-ok", verify_model: "1" }
 
-      expect(providers.map(&:name)).to eq(%w[OpenAI])
+      expect(providers.map(&:name)).to eq(%w[OpenRouter])
     end
 
     it "refuses a duplicate name (case-insensitive) and an invalid base URL" do
@@ -180,8 +180,13 @@ RSpec.describe "Test management admin: AI providers", :disable_ssrf_filter, :ski
 
     it "lists the models as a select and never renders the key" do
       stub_request(:get, "https://openrouter.ai/api/v1/models/user")
-        .to_return(status: 200, body: { data: [{ id: "openai/gpt-4o" }, { id: "openai/gpt-4o-mini" },
-                                               { id: "text-embedding-3-small" }] }.to_json)
+        .to_return(status: 200, body: {
+          data: [
+            { id: "openai/gpt-4o", architecture: { output_modalities: ["text"] } },
+            { id: "openai/gpt-4o-mini", architecture: { output_modalities: ["text"] } },
+            { id: "text-embedding-3-small", architecture: { output_modalities: ["embeddings"] } }
+          ]
+        }.to_json)
 
       patch "#{base}/test_connection",
             params: { assistant_provider: "openrouter", assistant_api_key: "sk-form-secret", assistant_model: "openai/gpt-4o-mini" },
@@ -189,9 +194,8 @@ RSpec.describe "Test management admin: AI providers", :disable_ssrf_filter, :ski
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('target="tm-assistant-model-field"', "assistant_model_choice",
-                                       '<option selected="selected" value="openai/gpt-4o-mini">', "tm-assistant-test-ok",
-                                       "tm-assistant-catalogue-hint")
-      expect(response.body).not_to include("text-embedding-3-small", "sk-form-secret")
+                                       '<option selected="selected" value="openai/gpt-4o-mini">', "tm-assistant-test-ok")
+      expect(response.body).not_to include("text-embedding-3-small", "sk-form-secret", "tm-assistant-catalogue-hint")
       expect(WebMock).to have_requested(:get, "https://openrouter.ai/api/v1/models/user")
         .with(headers: { "Authorization" => "Bearer sk-form-secret" })
       expect(providers).to be_empty

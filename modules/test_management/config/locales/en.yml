@@ -2,14 +2,7 @@
 en:
   activemodel:
     attributes:
-      ci_trigger:
-        connection: CI connection
-        mode: Results go to
-        name: Name
-        ref: Branch or ref
-        run: Target run
-        suite: Folder
-        test_case: Test case
+      ci_trigger: {connection: CI connection, mode: Results go to, name: Name, ref: Branch or ref, run: Target run, suite: Folder, test_case: Test case}
     errors:
       models:
         ci_trigger:
@@ -18,53 +11,65 @@ en:
           not_ready: "is not ready to trigger CI jobs (missing: %{missing})."
           tm_ci_disabled: CI is disabled in this project.
           tm_ci_no_automated_cases: No automated cases in the selection.
-          tm_ci_scope_ambiguous: 'Choose a folder or a case, not both.'
-          tm_ci_scope_missing: 'Choose a run, folder or case.'
+          tm_ci_scope_ambiguous: Choose a folder or a case
+          not both.: None
+          tm_ci_scope_missing: Choose a run
+          folder or case.: None
           tm_run_finished: Run is finished.
     models:
       ci_trigger: Run in CI
   activerecord:
     attributes:
-      test_management/assistant_provider:
-        user_models: Models users may pick
+      test_management/assistant_provider: {name: Name, user_models: Models users may pick}
       test_management/ci_connection:
+        active: Active
         ingest_mode: Uploads create
+        name: Name
+        provider: Provider
+        repository: Repository
         target_run_name: Target run
         token: Access token
         trigger_ref: Default branch
         workflow: Workflow file
-      test_management/project_setting:
-        display_prefix: Display prefix
-        folder_tree_layout: Folder tree layout
+      test_management/project_setting: {display_prefix: Display prefix, folder_tree_layout: Folder tree layout}
+      test_management/suite: {name: Name, parent: Parent folder}
       test_management/test_case:
         assigned_to: Assignee
+        author: Created by
+        automated: Automated
+        automation_reference: Automation reference
+        description: Description
+        preconditions: Preconditions
+        priority: Priority
+        status: Status
+        steps: Steps
         suite: Folder
+        title: Title
+        updated_by: Last edited by
       test_management/test_run:
         assigned_to: Assign to
+        author: Created by
+        completion_source: Completed by
+        description: Description
+        end_date: End date
+        name: Name
         selection_mode: Test cases
+        source: Source
+        start_date: Start date
+        state: State
+      test_management/automation_import:
+        format: Format
     errors:
-      messages:
-        tm_invalid_assignee: The assignee is not a member of this project.
-        tm_invalid_status: is not a valid test run status.
-        tm_invalid_transition: "This action is not possible in the run's current state."
-        tm_run_finished: This test run is completed or cancelled.
+      messages: {tm_invalid_assignee: The assignee is not a member of this project., tm_invalid_status: is not a valid test run status., tm_invalid_transition: "This action is not possible in the run's current state.", tm_run_finished: This test run is completed or cancelled.}
       models:
         test_management/assistant_provider:
           attributes:
-            user_models:
-              invalid: must be model names of at most 255 characters.
-              too_many: "can list at most %{count} models."
+            user_models: {invalid: must be model names of at most 255 characters., too_many: "can list at most %{count} models."}
         test_management/ci_connection:
           attributes:
             repository:
               taken: already has a connection of this provider on this server.
-    models:
-      test_management/assistant_provider: AI provider
-      test_management/ci_connection: CI connection
-      test_management/project_setting: Test management settings
-      test_management/suite: Suite
-      test_management/test_case: Test case
-      test_management/test_run: Test run
+    models: {test_management/assistant_provider: AI provider, test_management/ci_connection: CI connection, test_management/project_setting: Test management settings, test_management/suite: Suite, test_management/test_case: Test case, test_management/test_run: Test run, test_management/automation_import: Automation import}
   permission_add_test_cases: Add test cases
   permission_add_test_runs: Add test runs
   permission_delete_test_cases: Delete test cases
@@ -87,19 +92,10 @@ en:
         api_key_other_provider: "Stored key was for %{provider}; enter a new key."
         api_key_unreadable: Stored API key cannot be decrypted. Enter it again.
         auth_fixed:
-          bearer: 'Sent as Authorization: Bearer <key>.'
+          bearer: "Sent as Authorization: Bearer <key>."
         base_url: Base URL
-        base_url_hints:
-          mistral: 'Default https://api.mistral.ai/v1.'
-          openrouter: 'Default https://openrouter.ai/api/v1.'
-        errors:
-          api_key_reenter: "Enter the API key for %{provider}."
-          auth_style: Unknown authentication style.
-          base_url: The base URL must be an http(s) URL without user name or password.
-          max_tokens: "The maximum number of tokens must be a whole number between %{min} and %{max}."
-          model: The model name is too long.
-          provider: Unknown provider.
-          timeout: "The timeout must be a whole number between %{min} and %{max}."
+        base_url_hints: {mistral: "Default https://api.mistral.ai/v1.", openrouter: "Default https://openrouter.ai/api/v1."}
+        errors: {api_key_reenter: "Enter the API key for %{provider}.", auth_style: Unknown authentication style., base_url: The base URL must be an http(s) URL without user name or password., max_tokens: "The maximum number of tokens must be a whole number between %{min} and %{max}.", model: The model name is too long., provider: Unknown provider., timeout: "The timeout must be a whole number between %{min} and %{max}."}
         form:
           edit_title: "Edit AI provider %{name}"
           legend: AI provider
@@ -107,6 +103,10 @@ en:
           name: Name
           new_title: Add AI provider
           user_models: Models users may pick
+          name_placeholder: e.g. OpenRouter
+          name_hint: Shown in the Test Assistant header.
+          make_default_hint: Used by everyone who has not picked a provider. The first provider is always the default.
+          user_models_hint: "Optional: other models of this provider users may choose instead of the default model, one per line (at most %{max}). Only these models are offered."
         heading: "Test Assistant – AI providers"
         hint: Save OpenRouter or Mistral providers.
         max_tokens: "Maximum tokens per answer (256–32000)"
@@ -114,21 +114,13 @@ en:
         model_other: Other (enter below)
         not_configured: "not configured – the Test Assistant is unavailable"
         provider: Provider
-        providers:
-          mistral: Mistral
-          openrouter: OpenRouter
+        providers: {mistral: Mistral, openrouter: OpenRouter}
         providers_list:
           add: Add provider
-          columns:
-            host: Host
-            model: Default model
-            name: Name
-            preset: Provider
-            status: Status
-            user_models: Models users may pick
+          columns: {host: Host, model: Default model, name: Name, preset: Provider, status: Status, user_models: Models users may pick}
           default: Default
           delete_confirm: "Delete provider “%{name}”?"
-          empty: No AI provider is saved yet. The Test Assistant is unavailable until one is added.
+          empty: No AI provider is saved yet. The Test Assistant is unavailable.
           incomplete: Incomplete
           key_set: key stored
           made_default: "%{name} is now the default provider."
@@ -141,14 +133,14 @@ en:
           button: Test connection
           catalogue_hint: This provider lists all models; some may not be enabled for your key.
           errors:
-            auth: "%{host} refused the API key (HTTP %{status}). Check the key and its permissions."
+            auth: "Unauthorized (%{status}) at %{host}."
             base_url_missing: Enter a valid base URL first.
             http: "%{host} answered HTTP %{status}."
             key_missing: Enter an API key first.
             model_missing: Enter or choose a model first.
-            network: "%{host} could not be reached (%{detail}). Check the base URL and the network."
-            not_found: "%{host} answered HTTP %{status}: check the base URL (it usually ends in /v1)."
-            rate_limited: "%{host} is rate limiting requests (HTTP %{status}). Try again later."
+            network: "Network error contacting %{host} (%{detail})."
+            not_found: "Not found (%{status}) at %{host}."
+            rate_limited: "Rate limited (%{status}) at %{host}."
             ssrf: "%{host} blocked by SSRF (%{env}). Addresses: %{addresses}."
             timeout: "%{host} did not answer within %{seconds} seconds."
             tls: "TLS error for %{host}: %{detail}"
@@ -157,50 +149,33 @@ en:
           hint: Uses the values entered above (before saving).
           scope_hints:
             key: The list shows only the models this key or account can use.
-          success:
-            one: "Connection OK – 1 chat model found."
-            other: "Connection OK – %{count} chat models found."
-          success_no_models: 'Connection OK, but the provider listed no chat models. Enter the model name.'
-          verify:
-            failed: "The model %{model} did not answer: %{detail}"
-            ok: "The model %{model} answered."
+          success: {one: "Connection OK – 1 chat model found.", other: "Connection OK – %{count} chat models found."}
+          success_no_models: Connection OK, but the provider listed no chat models. Enter the.
+          verify: {failed: "The model %{model} did not answer: %{detail}", ok: "The model %{model} answered."}
+          running: "Testing…"
         timeout: "Timeout (seconds, 10–300)"
-        verify:
-          hint: Sends a short request to confirm the model.
-          label: Check the model when saving
+        verify: {hint: Sends a short request to confirm the model., label: Check the model when saving}
         api_key_keep: "Stored – leave empty to keep it"
+        network_hint: SSRF-protected requests; allow private hosts via the SSRF IP.
+        configured: "configured (%{label})"
+        model_hint: Use Test connection or enter a model name.
+        docs: Provider documentation
+        api_key_set: An API key is stored (encrypted). It is never shown again.
+        model_free_text: Other model
+        model_free_text_hint: "Used when “Other” is selected, e.g. for a model the provider does not list."
+        provider_hint: A preset fills in the base URL and the authentication. The base URL stays editable, e.g. for a proxy.
       default_display_prefix: Default display prefix
       general: General
       heading: Test management
       integrations: Integrations
       integrations_hint: Open core GitHub or GitLab integration settings.
-    api:
-      lock_version_required: lockVersion is required.
-      nothing_to_record: Send a status or a comment.
-      stale_case: The test case was changed in the meantime. Reload it and retry.
-      unknown_connection: Unknown CI connection.
     assistant:
-      errors:
-        empty_reply: the model returned an empty answer
-        not_configured: No AI provider is configured.
-        response_too_large: the answer was too large
-        unexpected_response: unexpected answer format (is this an OpenAI-compatible chat completions endpoint?)
+      errors: {empty_reply: the model returned an empty answer, not_configured: No AI provider is configured., response_too_large: the answer was too large, unexpected_response: unexpected answer format (is this an OpenAI-compatible chat.}
     cases:
-      automation_reference_hint: Automation path or @CASE-ID tag.
-      columns:
-        automated: Automated
-        id: ID
-        priority: Priority
-        status: Status
-        suite: Folder
-        title: Title
+      automation_reference_hint: "Automation path or @CASE-ID tag."
+      columns: {automated: Automated, id: ID, priority: Priority, status: Status, suite: Folder, title: Title}
       create: Create case
-      delete_dialog:
-        confirm: I understand that this test case will be permanently deleted.
-        confirm_button: Delete test case
-        description: "Delete “%{name}” permanently?"
-        heading: Delete this test case?
-        title: Delete test case
+      delete_dialog: {confirm: I understand that this test case will be permanently deleted., confirm_button: Delete test case, description: "Delete “%{name}” permanently?", heading: "Delete this test case?", title: Delete test case}
       empty: No test cases in this view yet.
       heading: Test cases
       new: New test case
@@ -210,101 +185,85 @@ en:
       step_data: Test data
       step_expected: Expected result
       steps: Steps
-      tabs:
-        runs: Runs
-        overview: Overview
+      tabs: {runs: Runs, overview: Overview, label: Test case}
       all_priorities: All priorities
       all_statuses: All statuses
-    ci:
-      manage_connections: Manage CI connections
-      no_runs: No automation runs yet.
-      recent_runs: Recent automation runs
-      title: CI
+      new_title: New case title
+      empty_hint: Type a title above and press Create case.
+      runs_empty_hint: Test runs will list their results for this case here.
+      steps_hint: Fill in the empty row to add a step. Save to get another empty row.
+      created_by: Created by
+      last_edited_by: Last edited by
+      empty_description: "—"
+      empty_filtered: No test cases match these filters.
+      empty_preconditions: "—"
+      no_steps: No steps defined.
+      on_time: "on %{time}"
+      remove_step: Remove
+    ci: {manage_connections: Manage CI connections, no_runs: No automation runs yet., recent_runs: Recent automation runs, title: CI}
     ci_triggers:
       button: Run in CI
       case_counts: "%{automated} of %{total} test cases are automated"
       configure_connections: Configure CI connections
       connection: CI connection
       failed: "The run was prepared but the CI job could not be triggered: %{error}"
+      iteration_name: "Run in CI · %{connection}"
       last_trigger: Run in CI
-      manual:
-        command: Command
-        copy_command: Copy command
-        copy_variables: Copy CI variables
-        hint: "Connection “%{connection}”: start the pipeline yourself. The results of iteration %{iteration} are filed here when the job uploads them with these values."
-        secrets_hint: 'Tokens are placeholders ($CI_TOKEN): OpenProject never shows stored tokens.'
-        variables: CI variables
       mode: Results go to
-      modes:
-        new_iteration: A new iteration of an existing run
-        new_run: A new test run
+      modes: {new_iteration: A new iteration of an existing run, new_run: A new test run}
       name: Name
       no_connections: There is no active CI connection in this project.
       not_ready: not ready
       open_in_ci: Open in CI
-      prepared_manual: "Run “%{run}”, iteration %{number} is prepared. OpenProject does not call this CI server: start the pipeline with the values shown on the run."
       ref: Branch or ref
       ref_hint: "Leave empty for the connection's default branch."
+      run_name: "%{target} · %{connection}"
       scope: Runs
-      statuses:
-        failed: Failed
-        manual: "Prepared – start the pipeline by hand"
-        triggered: Triggered
+      statuses: {failed: Failed, manual: "Prepared – start the pipeline by hand", triggered: Triggered}
       submit: Run in CI
       target_run: Existing run
-      target_run_hint: "Only for “A new iteration”. Leave empty to use the run you started from."
+      target_run_hint: "Only for “A new iteration”. Leave empty to use the run you started."
       title: Run in CI
       triggered: "CI job triggered. Results will be filed into “%{run}”, iteration %{number}."
-      iteration_name: "Run in CI · %{connection}"
-      run_name: "%{target} · %{connection}"
-    menu:
-      cases: Cases
-      ci: CI
-      runs: Runs
+    menu: {cases: Cases, ci: CI, runs: Runs}
     project_settings:
       ci:
-        add: Add connection
-        created: CI connection created.
         delete: Delete
         delete_confirm: "Delete \"%{name}\"?"
-        deleted: CI connection deleted.
-        edit: Edit
         empty: No CI connections yet.
-        errors:
-          ssrf: "%{host} blocked by SSRF (%{env}). Addresses: %{addresses}."
-          ssrf_unresolved: could not be resolved from OpenProject
+        errors: {ssrf: "%{host} blocked by SSRF (%{env}). Addresses: %{addresses}.", ssrf_unresolved: could not be resolved from OpenProject}
         hint: GitHub repos that upload automated results here.
         inactive: Inactive
-        ingest_modes:
-          new_iteration: A new iteration of the target run
-          new_run: A new run for every pipeline
-        new: New CI connection
+        ingest_modes: {new_iteration: A new iteration of the target run, new_run: A new run for every pipeline}
         providers:
           github: GitHub
         remove_token: Remove the stored token
         repository_hint: owner/repository
-        save: Save
-        target_run_name_hint: 'Required for iterations, e.g. Smoke.'
+        target_run_name_hint: Required for iterations, e.g. Smoke.
         title: CI connections
         token_hint: GitHub token with Actions read/write. Stored encrypted.
         token_keep_hint: Leave empty to keep the stored token.
+        workflow_hint: Workflow file with workflow_dispatch, e.g. op-tests.yml.
+        mode_summary: {new_iteration: "New iteration of “%{run}”", new_run: New run per pipeline}
+        token_set_at: "Token set %{time}"
         token_none: No token
         token_set: Token set
-        token_set_at: "Token set %{time}"
+        save: Save
+        created: CI connection created.
         updated: CI connection updated.
-        workflow_hint: 'Workflow file with workflow_dispatch, e.g. op-tests.yml.'
-        mode_summary:
-          new_iteration: "New iteration of “%{run}”"
-          new_run: New run per pipeline
-      display_prefix_hint: 'Case ID prefix, e.g. DEMO for DEMO-12.'
-      enable_ci: Enable CI page & tokens
-      enable_milestones: Enable milestones
-      enable_test_assistant: Enable test assistant
-      enable_test_plans: Enable test plans
+        deleted: CI connection deleted.
+        new: New CI connection
+        edit: Edit
+        add: Add connection
+      display_prefix_hint: Case ID prefix, e.g. DEMO for DEMO-12.
       features: Features
       general: General
       heading: Test management
       later_release: Available in a later release.
+      enable_ci: "Enable CI page & tokens"
+      enable_milestones: Enable milestones
+      enable_test_assistant: Enable test assistant
+      enable_test_plans: Enable test plans
     run_case:
       assignee: "Assigned to %{user}"
       comment: Comment
@@ -321,67 +280,41 @@ en:
       status: Status
     runs:
       assigned_to_none: Unassigned
-      automation:
-        ci_run: CI run
-        completed_by_automation: Completed by automation
-        connection: CI connection
-        unmatched_hint: Set automation reference or tag with case ID.
-        unmatched_title: "Unmatched automated tests (%{count})"
-        upload_line: "%{time} · %{report_format} · %{parsed} tests, %{matched} matched, %{created} created, %{unmatched} unmatched"
+      automation: {ci_run: CI run, completed_by_automation: Completed by automation, connection: CI connection, badge: Automation, duration: "%{seconds} s"}
       cancel: Cancel run
-      cancel_dialog:
-        confirm: I confirm that statuses will be frozen.
-        confirm_button: Cancel run
-        description: "Cancel “%{name}”?"
-        heading: Cancel this test run?
-        title: Cancel test run
-      columns:
-        assignee: Assigned to
-        date: Date
-        id: ID
-        run: Run
-        state: State
-        status: Status
-        title: Title
+      cancel_dialog: {confirm: I confirm that statuses will be frozen., confirm_button: Cancel run, description: "Cancel “%{name}”?", heading: "Cancel this test run?", title: Cancel test run}
+      columns: {assignee: Assigned to, date: Date, id: ID, run: Run, state: State, status: Status, title: Title}
       complete: Complete run
-      complete_dialog:
-        confirm: I confirm that statuses will be frozen.
-        confirm_button: Complete run
-        description: "Complete “%{name}”?"
-        heading: Complete this test run?
-        title: Complete test run
+      complete_dialog: {confirm: I confirm that statuses will be frozen., confirm_button: Complete run, description: "Complete “%{name}”?", heading: "Complete this test run?", title: Complete test run}
       completed_notice: Test run completed.
       create: Create run
-      delete_dialog:
-        confirm: I understand that this test run will be permanently deleted.
-        confirm_button: Delete test run
-        description: "Delete “%{name}” permanently?"
-        heading: Delete this test run?
-        title: Delete test run
+      delete_dialog: {confirm: I understand that this test run will be permanently deleted., confirm_button: Delete test run, description: "Delete “%{name}” permanently?", heading: "Delete this test run?", title: Delete test run}
       deleted_notice: Test run deleted.
       edit: Edit run
       empty: No test runs yet.
-      filters:
-        active: Active
-        all: All
-        cancelled: Cancelled
-        completed: Completed
+      filters: {active: Active, all: All, cancelled: Cancelled, completed: Completed}
       form:
         apply_selection: Apply selection
-        automation_any: Any
-        automation_automated: Automated
-        automation_manual: Manual
         change_selection: change selection
         filter_automation: Automation
         filter_folders: Folders (optional)
         included: "%{count} test cases included"
         mode_all: Include all test cases
-        mode_all_hint: All project cases; new ones join while active.
+        mode_all_hint: All test cases of this project. New test cases are added.
         mode_specific: Select specific test cases
-        mode_specific_hint: Only the cases you select.
+        mode_specific_hint: Only the test cases you select. New test cases are not added.
         selection_dialog_title: Select test cases
         selection_legend: Test cases
         unfiled: Unfiled test cases
+        name_hint: Either reuse a folder name or specify a new one.
+        assignee_hint: Initial assignee of every test case in the run.
+        end_date_hint: The expected due or end date of this run.
+        start_date_hint: The expected or scheduled start date of this run.
+        automation_any: Any
+        automation_automated: Automated
+        automation_manual: Manual
+        description_hint: The purpose and scope of this run.
+        selection_dialog_hint: Ticking a folder includes all its test cases, including those in subfolders.
       frozen_hint: "This run is %{state}; reopen to edit."
       iterations:
         back_to_current: Back to the current iteration
@@ -389,7 +322,7 @@ en:
           ci: CI
           failed: Failed
           name: Name
-          number: '#'
+          number: "#"
           pass_rate: Pass rate
           passed: Passed
           source: Source
@@ -397,19 +330,18 @@ en:
           untested: Untested
         current: current
         default_name: "Iteration %{number}"
-        name_placeholder: 'Name (optional), e.g. Retest after fix'
+        name_placeholder: Name (optional), e.g. Retest after fix
         not_found: "This run has no iteration %{number}."
         of: "Iteration %{number} of %{count}"
-        sources:
-          automation: CI
-          manual: Manual
+        sources: {automation: CI, manual: Manual}
         start: Start new iteration
-        start_confirm: Start a new iteration? Cases reset to Untested.
+        start_confirm: "Start a new iteration? Cases reset to Untested."
         started_notice: "Iteration %{number} started."
         switcher_item: "#%{number} · %{name}"
-        switcher_label: Iteration
         title: Iterations
         viewing_past: "Viewing iteration %{label} (read-only)."
+        history_hint: Each iteration is one execution of this run. Counts and pass rate.
+        switcher_label: Iteration
       new: New run
       no_cases: This run has no test cases.
       passed: passed
@@ -417,34 +349,18 @@ en:
       reopen: Reopen run
       reopened_notice: Test run reopened.
       save: Save run
-      sections:
-        description: Description
-        statistics: Run statistics
+      sections: {description: Description, statistics: Run statistics}
       skipped_count: "%{count} skipped"
       skipped_excluded: "%{count} skipped (excluded from the pass rate)"
-      states:
-        cancelled: Cancelled
-        completed: Completed
-        in_progress: In progress
-        new: New
+      states: {cancelled: Cancelled, completed: Completed, in_progress: In progress, new: New}
       status_updated: Status updated.
-      statuses:
-        blocked: Blocked
-        failed: Failed
-        in_progress: In progress
-        passed: Passed
-        retest: Retest
-        skipped: Skipped
-        untested: Untested
+      statuses: {blocked: Blocked, failed: Failed, in_progress: In progress, passed: Passed, retest: Retest, skipped: Skipped, untested: Untested}
       title: Test runs
       untested_of: "%{untested} / %{total} untested (%{percent}%)"
       cancelled_notice: Test run cancelled.
-    suites:
-      folders: Folders
-      new_folder: New folder
-      folder_name: Folder name
-      unfiled: Unfiled
-      all_cases: All cases
-      new_folder_inside: "Inside: %{name}"
-      toggle: Expand / collapse
-      add_subfolder: Add subfolder
+      created_by: "Created by %{user}"
+      empty_hint: Create a run to execute test cases and record results.
+      empty_filtered: No runs in this view.
+      final: final
+    suites: {folders: Folders, new_folder: New folder, folder_name: Folder name, unfiled: Unfiled, all_cases: All cases, new_folder_inside: "Inside: %{name}", toggle: Expand / collapse, add_subfolder: Add subfolder}
+    api: {lock_version_required: lockVersion is required., nothing_to_record: Send a status or a comment., stale_case: The test case was changed in the meantime. Reload it and retry., unknown_connection: Unknown CI connection.}

@@ -33,7 +33,7 @@ module TestManagement
       class Provider
         Preset = Struct.new(:key, :api, :base_url, :auth_style, :key_required, :headers, :models,
                             :token_param, :tool_choice, :model_placeholder, :base_url_placeholder,
-                            :docs_url, :models_scope, keyword_init: true) do
+                            :docs_url, :models_scope, :model_free_text, keyword_init: true) do
           def label = I18n.t("test_management.admin.assistant.providers.#{key}")
           def key_scoped_models? = models_scope == "key"
         end

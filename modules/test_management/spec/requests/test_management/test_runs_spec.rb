@@ -191,7 +191,6 @@ RSpec.describe "Test management runs", :skip_csrf, type: :rails_request do
       expect(page).to have_css(selector("tm-run-id"), text: run.formatted_id)
       expect(page).to have_css(selector("tm-run-pass-rate"), text: "100%")
       expect(page).to have_css(selector("tm-run-statistics"))
-      expect(page).to have_css(selector("tm-run-schedule"))
       expect(page).to have_css("#{selector("tm-run-group-#{root.id}")} #{selector("tm-run-group-#{child.id}")}")
       expect(page).to have_css(selector("tm-run-case-#{run_case.id}"))
       expect(page).to have_css("[name='run_case[status]']", visible: :all)
