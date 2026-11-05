@@ -51,7 +51,8 @@ class Journals::CreateService
             start_date,
             finish_date,
             active,
-            duration
+            duration,
+            status
           )
         SELECT
           #{id_from_inserted_journal_sql},
@@ -59,7 +60,8 @@ class Journals::CreateService
           project_phases.start_date,
           project_phases.finish_date,
           project_phases.active,
-          project_phases.duration
+          project_phases.duration,
+          project_phases.status
         FROM project_phases
         WHERE
           #{only_if_created_sql}
@@ -88,6 +90,7 @@ class Journals::CreateService
           OR phases.finish_date IS DISTINCT FROM project_phase_journals.finish_date
           OR phases.active IS DISTINCT FROM project_phase_journals.active
           OR phases.duration IS DISTINCT FROM project_phase_journals.duration
+          OR phases.status IS DISTINCT FROM project_phase_journals.status
       SQL
     end
   end

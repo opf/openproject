@@ -29,6 +29,8 @@
 
 module ProjectPhases
   class BaseContract < ::ModelContract
+    delegate :project, to: :model
+
     validate :validate_edit_project_phases_permission
 
     def validate_edit_project_phases_permission

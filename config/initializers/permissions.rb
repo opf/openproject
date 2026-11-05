@@ -191,7 +191,7 @@ Rails.application.reloader.to_prepare do
                      dependencies: :view_project
 
       map.permission :edit_project_phases,
-                     {},
+                     { "project_phases/status": :update },
                      permissible_on: :project,
                      require: :member,
                      dependencies: :view_project_phases,
