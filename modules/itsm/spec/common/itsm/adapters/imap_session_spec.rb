@@ -55,7 +55,8 @@ RSpec.describe ITSM::Adapters::ImapSession do
     it "logs in over TLS and opens the inbox" do
       expect(imap_session.connect).to eq(Dry::Monads::Success(imap_session))
 
-      expect(Net::IMAP).to have_received(:new).with("imap.example.com", port: 993, ssl: true, open_timeout: 10)
+      expect(ITSM::Adapters::ImapConnection).to have_received(:new)
+        .with("imap.example.com", address: "203.0.113.10", port: 993, ssl: true, open_timeout: 10)
       expect(imap).not_to have_received(:starttls)
       expect(imap).to have_received(:login).with("support@example.com", "secret")
       expect(imap).to have_received(:select).with("INBOX")
@@ -67,7 +68,8 @@ RSpec.describe ITSM::Adapters::ImapSession do
       it "upgrades the connection before logging in" do
         imap_session.connect
 
-        expect(Net::IMAP).to have_received(:new).with("imap.example.com", port: 993, ssl: false, open_timeout: 10)
+        expect(ITSM::Adapters::ImapConnection).to have_received(:new)
+        .with("imap.example.com", address: "203.0.113.10", port: 993, ssl: false, open_timeout: 10)
         expect(imap).to have_received(:starttls)
       end
     end
@@ -77,7 +79,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
 
       it "refuses to connect" do
         expect(imap_session.connect.failure.code).to eq(:address_not_allowed)
-        expect(Net::IMAP).not_to have_received(:new)
+        expect(ITSM::Adapters::ImapConnection).not_to have_received(:new)
       end
     end
 
@@ -90,7 +92,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
     end
 
     context "when the server cannot be reached" do
-      before { allow(Net::IMAP).to receive(:new).and_raise(Errno::ECONNREFUSED) }
+      before { allow(ITSM::Adapters::ImapConnection).to receive(:new).and_raise(Errno::ECONNREFUSED) }
 
       it "reports the server as unreachable" do
         expect(imap_session.connect.failure.code).to eq(:unreachable)
@@ -107,7 +109,9 @@ RSpec.describe ITSM::Adapters::ImapSession do
 
       before do
         stub_const("#{described_class}::OPEN_TIMEOUT", 1)
-        allow(Net::IMAP).to receive(:new).and_call_original
+        allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(->(_host) { [IPAddr.new("127.0.0.1")] })
+        with_ssrf_ip_allowlist(["127.0.0.1"])
+        allow(ITSM::Adapters::ImapConnection).to receive(:new).and_call_original
         Thread.new { accepted << silent_server.accept }
       end
 
@@ -122,7 +126,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
     end
 
     context "when the certificate is invalid" do
-      before { allow(Net::IMAP).to receive(:new).and_raise(OpenSSL::SSL::SSLError, "certificate verify failed") }
+      before { allow(ITSM::Adapters::ImapConnection).to receive(:new).and_raise(OpenSSL::SSL::SSLError, "certificate verify failed") }
 
       it "reports the TLS failure" do
         expect(imap_session.connect.failure.code).to eq(:tls_failed)
@@ -160,7 +164,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
 
         expect(first_deadline).to have_received(:cancel)
         expect(imap).to have_received(:logout).once
-        expect(Net::IMAP).to have_received(:new).twice
+        expect(ITSM::Adapters::ImapConnection).to have_received(:new).twice
       end
     end
   end
@@ -210,7 +214,9 @@ RSpec.describe ITSM::Adapters::ImapSession do
 
       before do
         stub_const("#{described_class}::SESSION_TIMEOUT", 0.2)
-        allow(Net::IMAP).to receive(:new).and_call_original
+        allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(->(_host) { [IPAddr.new("127.0.0.1")] })
+        with_ssrf_ip_allowlist(["127.0.0.1"])
+        allow(ITSM::Adapters::ImapConnection).to receive(:new).and_call_original
         Thread.new { accepted << silent_server.accept.tap { it.write("* OK ready\r\n") } }
       end
 

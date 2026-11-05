@@ -57,7 +57,7 @@ module ITSM
         start_deadline
 
         verify_host
-          .bind { imap_request { open_connection } }
+          .bind { |address| open_connection(address) }
           # The strategy returns its own Result, which imap_request wraps once more.
           .bind { imap_request { auth_strategy.call(imap) }.flatten }
           .bind { imap_request { imap.select(FOLDER) } }
@@ -85,16 +85,20 @@ module ITSM
         return failure(code: :unreachable) if addresses.empty?
         return failure(code: :address_not_allowed) unless addresses.all? { OpenProject::SsrfProtection.safe_ip?(it) }
 
-        Success()
+        Success(addresses.first.to_s)
       end
 
-      # Net::IMAP.new waits for the server greeting without a time limit, and the session timeout
+      # Net::IMAP waits for the server greeting without a time limit, and the session timeout
       # cannot disconnect a connection that is still being opened.
-      def open_connection
-        @imap = Timeout.timeout(OPEN_TIMEOUT, GreetingTimeout) do
-          Net::IMAP.new(mail_server.host, port: mail_server.port, ssl: mail_server.tls?, open_timeout: OPEN_TIMEOUT)
+      def open_connection(address)
+        imap_request do
+          @imap = Timeout.timeout(OPEN_TIMEOUT, GreetingTimeout) { new_connection(address) }
+          imap.starttls if mail_server.starttls?
         end
-        imap.starttls if mail_server.starttls?
+      end
+
+      def new_connection(address)
+        ImapConnection.new(mail_server.host, address:, port: mail_server.port, ssl: mail_server.tls?, open_timeout: OPEN_TIMEOUT)
       end
 
       def imap_request(source: self.class)

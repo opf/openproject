@@ -86,8 +86,10 @@ module ITSM
         ServiceResult.success(result: mailbox)
       end
 
+      def server_address = "#{mailbox.mail_server.host}:#{mailbox.mail_server.port}"
+
       def fetch_failed(error)
-        Rails.logger.warn { "Fetching failed (#{error.code})" }
+        Rails.logger.warn { ["Fetching from #{server_address} failed (#{error.code})", error.payload].compact.join(": ") }
         mailbox.fetch_failed!(error.code)
         service_failure(error.code)
       end

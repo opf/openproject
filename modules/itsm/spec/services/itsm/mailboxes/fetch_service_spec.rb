@@ -52,7 +52,7 @@ RSpec.describe ITSM::Mailboxes::FetchService do
   before do
     with_ssrf_ip_allowlist(["203.0.113.10"])
     allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(->(_host) { [IPAddr.new("203.0.113.10")] })
-    allow(Net::IMAP).to receive(:new).and_return(imap)
+    allow(ITSM::Adapters::ImapConnection).to receive(:new).and_return(imap)
     allow(imap).to receive(:uid_search).and_return(unseen_uids)
     allow(imap).to receive(:uid_fetch) do |uid, _attr|
       emails[uid] && [Net::IMAP::FetchData.new(uid, { "BODY[]" => emails[uid] })]
@@ -62,7 +62,8 @@ RSpec.describe ITSM::Mailboxes::FetchService do
   it "logs in with the mailbox's IMAP settings" do
     result
 
-    expect(Net::IMAP).to have_received(:new).with(mailbox.mail_server.host, port: 993, ssl: true, open_timeout: 10)
+    expect(ITSM::Adapters::ImapConnection).to have_received(:new)
+      .with(mailbox.mail_server.host, address: "203.0.113.10", port: 993, ssl: true, open_timeout: 10)
     expect(imap).to have_received(:login).with(mailbox.username, "imap-password")
   end
 
@@ -143,7 +144,18 @@ RSpec.describe ITSM::Mailboxes::FetchService do
   end
 
   context "when the server cannot be reached", freeze_time: Time.current.change(usec: 0) do
-    before { allow(Net::IMAP).to receive(:new).and_raise(Errno::ECONNREFUSED) }
+    let(:warnings) { [] }
+
+    before do
+      allow(ITSM::Adapters::ImapConnection).to receive(:new).and_raise(Errno::ECONNREFUSED)
+      allow(Rails.logger).to receive(:warn) { |&message| warnings << message.call }
+    end
+
+    it "logs the server and the error" do
+      result
+
+      expect(warnings).to include("Fetching from #{mailbox.mail_server.host}:993 failed (unreachable): Connection refused")
+    end
 
     it "fails with the reason" do
       expect(result).to be_failure
@@ -176,7 +188,7 @@ RSpec.describe ITSM::Mailboxes::FetchService do
     it "does not connect" do
       expect(result).to be_failure
       expect(result.errors.symbols_for(:base)).to eq([:inactive])
-      expect(Net::IMAP).not_to have_received(:new)
+      expect(ITSM::Adapters::ImapConnection).not_to have_received(:new)
     end
   end
 
@@ -190,7 +202,7 @@ RSpec.describe ITSM::Mailboxes::FetchService do
     it "does not connect" do
       expect(result).to be_failure
       expect(result.errors.symbols_for(:base)).to eq([:fetch_in_progress])
-      expect(Net::IMAP).not_to have_received(:new)
+      expect(ITSM::Adapters::ImapConnection).not_to have_received(:new)
     end
   end
 end
