@@ -116,19 +116,15 @@ module Meetings
       end
 
       def next_presenter
-        if next_slide?
-          current_item.presenter
-        elsif next_item && next_item.presenter != current_item.presenter
-          next_item.presenter
-        end
+        return if next_item.nil? || next_item.presenter == current_item.presenter
+
+        next_item.presenter
       end
 
       def previous_presenter
-        if previous_slide?
-          current_item.presenter
-        elsif previous_item && previous_item.presenter != current_item.presenter
-          previous_item.presenter
-        end
+        return if previous_item.nil? || previous_item.presenter == current_item.presenter
+
+        previous_item.presenter
       end
 
       def next_label_text
