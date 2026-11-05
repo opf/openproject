@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -31,7 +33,8 @@ FactoryBot.define do
     entity factory: :work_package
     spent_on { Time.zone.today }
     activity factory: :time_entry_activity
-    hours { 1.0 }
+    ongoing { false }
+    hours { 1.0 unless ongoing }
     logged_by { user }
 
     after(:build) do |time_entry|
