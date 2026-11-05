@@ -72,6 +72,14 @@ describe('withLoadingIndicator', () => {
     expect(element).not.toBeVisible();
   });
 
+  it('keeps the indicator visible when the caller no longer owns it', async () => {
+    const element = addIndicator();
+
+    await withLoadingIndicator(Promise.resolve(), () => false);
+
+    expect(element).toBeVisible();
+  });
+
   it('throws when the loading indicator is absent', () => {
     expect(() => withLoadingIndicator(Promise.resolve({} as FetchResponse))).toThrow();
   });

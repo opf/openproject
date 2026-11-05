@@ -621,9 +621,9 @@ export default class FiltersFormController extends Controller {
     const url = `${pathName}${search ? `?${search}` : ''}`;
 
     if (this.hasTurboFrameRequestValue) {
-      void withLoadingIndicator(this.visitFrame(url));
+      void this.visitFrame(url);
     } else if (this.turboStreamRequestValue) {
-      void withLoadingIndicator(this.renderStreamResponse(url, newFilters));
+      void this.fetchStream(url, newFilters);
     } else {
       showLoadingIndicator();
       window.location.href = url;
@@ -647,35 +647,38 @@ export default class FiltersFormController extends Controller {
     visit(url, { frame: this.turboFrameRequestValue, action: 'advance' });
 
     const { turboFrame } = this;
-    return turboFrame ? frameResponded(turboFrame) : Promise.resolve();
+    return withLoadingIndicator(turboFrame ? frameResponded(turboFrame) : Promise.resolve());
   }
 
-  private async renderStreamResponse(url:string, newFilters:string) {
+  private fetchStream(url:string, newFilters:string):Promise<void> {
     const { pathname, hash } = window.location;
     const browserUrl = `${pathname}${new URL(url, window.location.href).search}${hash}`;
 
     this.streamAbortController?.abort();
-    this.streamAbortController = new AbortController();
-    const { signal } = this.streamAbortController;
-
+    const request = new AbortController();
+    this.streamAbortController = request;
     this.sentFilters = newFilters;
 
-    try {
-      const response = await fetch(url, { signal, headers: { Accept: 'text/vnd.turbo-stream.html' } });
-      const html = await response.text();
+    const response = fetch(url, { signal: request.signal, headers: { Accept: 'text/vnd.turbo-stream.html' } })
+      .then((fetched) => fetched.text())
+      .then((html) => {
+        if (this.buildFiltersParam(this.currentFilters()) !== newFilters) {
+          this.sentFilters = null;
+          return;
+        }
 
-      if (this.buildFiltersParam(this.currentFilters()) === newFilters) {
         renderStreamMessage(html);
         window.history.replaceState(window.history.state, '', browserUrl);
-        return;
-      }
-    } catch (error) {
-      // Never settle: the newer request owns the indicator.
-      if (signal.aborted) await new Promise<never>(() => {});
-      console.error('Error:', error);
-    }
+      })
+      .catch((error:unknown) => {
+        if (request.signal.aborted) return;
 
-    this.sentFilters = null;
+        console.error('Error:', error);
+        this.sentFilters = null;
+      });
+
+    // A newer request owns the indicator once it has replaced this one.
+    return withLoadingIndicator(response, () => this.streamAbortController === request);
   }
 
   private writeFiltersToHiddenInput() {

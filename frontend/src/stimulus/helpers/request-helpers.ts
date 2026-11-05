@@ -50,11 +50,11 @@ export function hideLoadingIndicator() {
   hideElement(loadingIndicator());
 }
 
-export function withLoadingIndicator<T>(request:Promise<T>) {
+export function withLoadingIndicator<T>(request:Promise<T>, shouldHide:() => boolean = () => true) {
   showLoadingIndicator();
 
   return request.finally(() => {
-    hideLoadingIndicator();
+    if (shouldHide()) hideLoadingIndicator();
   });
 }
 

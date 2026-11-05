@@ -299,15 +299,18 @@ describe('Filters form controller', () => {
     await waitFor(() => expect(replaceState).toHaveBeenCalledOnce());
   });
 
-  it('aborts the request and leaves the URL alone when the form disconnects', async () => {
+  it('aborts the request, hides the indicator and leaves the URL alone when the form disconnects', async () => {
     const controller = await renderForm();
     const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);
+    const indicator = ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!;
 
     controller.sendForm();
     await waitFor(() => expect(fetchSpy).toHaveBeenCalledOnce());
+    expect(indicator.hidden).toBe(false);
 
     ctx.container.querySelector('[data-controller="filter--filters-form"]')!.remove();
     await waitFor(() => expect(requestSignal(0).aborted).toBe(true));
+    await waitFor(() => expect(indicator.hidden).toBe(true));
 
     resolveResponse(streamResponse());
     await ctx.nextFrame();
