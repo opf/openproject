@@ -37,16 +37,14 @@ module Backlogs
 
     before_action :load_work_package, only: %i[move]
 
-    # A member gone since the selection was made leaves the invoker's own
-    # menu: the menu loads on open and must not fail for a stale selection.
     def menu
       contract = Backlogs::WorkPackages::MenuParamsContract.new(@project, current_user, params: menu_params)
       return head(:unprocessable_entity) unless contract.valid?
 
       invoker = @project.work_packages.visible.find(menu_params[:invoker_id])
-      work_packages = find_collection_work_packages(menu_params[:ids]) || [invoker]
+      work_packages = find_collection_work_packages(menu_params[:ids])
 
-      render(card_menu_component(invoker, work_packages), layout: false)
+      render(card_menu_component(invoker, work_packages || [invoker], stale_scope: work_packages.nil?), layout: false)
     end
 
     def add_existing_dialog
@@ -395,11 +393,12 @@ module Backlogs
       end
     end
 
-    def card_menu_component(invoker, work_packages)
+    def card_menu_component(invoker, work_packages, stale_scope:)
       Backlogs::WorkPackageCardMenuComponent.new(
         project: @project,
         invoker:,
         work_packages:,
+        stale_scope:,
         destinations: destination_availability(work_packages),
         current_user:
       )

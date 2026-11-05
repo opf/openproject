@@ -75,14 +75,34 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
            backlog_bucket: bucket)
   end
 
-  def render_component(work_package: self.work_package, work_packages: [work_package])
+  def render_component(work_package: self.work_package, work_packages: [work_package], **arguments)
     render_inline(described_class.new(
                     project:,
                     invoker: work_package,
                     work_packages:,
                     destinations: Backlogs::WorkPackages::DestinationAvailability.new(project:, user:, work_packages:),
-                    current_user: user
+                    current_user: user,
+                    **arguments
                   ))
+  end
+
+  describe "a stale scope" do
+    before { stub_const("Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE", 2) }
+
+    it "renders only invoker navigation, copy actions and the stale explanation", :aggregate_failures do
+      render_component(work_packages: [first_story, work_package, third_story], stale_scope: true)
+
+      expect(page).to have_css("[role='menuitem']", count: 5)
+      expect(page).to have_element(:a, id: "work_package_#{work_package.id}_menu_open_details")
+      expect(page).to have_element(:a, id: "work_package_#{work_package.id}_menu_open_fullscreen")
+      expect(page).to have_css("clipboard-copy", count: 2)
+      expect(page).to have_selector(:menuitem,
+                                    text: "The selection has changed. Refresh it before moving work packages.",
+                                    disabled: true)
+      expect(page).to have_css("[data-sortable-lists-scope-count='1']")
+      expect(page).to have_no_css("form, [data-sortable-lists--item-target]", visible: :all)
+      expect(page).to have_no_css(".ActionList-sectionDivider")
+    end
   end
 
   describe "standard items" do

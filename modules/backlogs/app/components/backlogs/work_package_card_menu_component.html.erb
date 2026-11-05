@@ -72,7 +72,15 @@ See COPYRIGHT and LICENSE files for more details.
       end
     end
 
-    if batch_menu? && moves_locked?
+    if stale_scope
+      list.with_item(
+        id: dom_target(invoker, :menu, :stale_selection),
+        label: t(".action_menu.stale_selection"),
+        disabled: true
+      ) do |item|
+        item.with_leading_visual_icon(icon: :info)
+      end
+    elsif batch_menu? && moves_locked?
       list.with_item(
         id: dom_target(invoker, :menu, :batch_too_large),
         label: batch_too_large_message,

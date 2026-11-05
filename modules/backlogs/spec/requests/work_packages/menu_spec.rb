@@ -248,17 +248,41 @@ RSpec.describe "Backlogs card menu", type: :rails_request do
     end
   end
 
-  context "when a member is gone" do
+  describe "a stale selection" do
     let!(:invoker) { create(:work_package, sprint: sprint_a, type:, project:) }
-    let!(:gone) { create(:work_package, type:, project:) }
+    let!(:unavailable) { create(:work_package, type:, project:) }
+    let!(:last) { create(:work_package, sprint: sprint_a, type:, project:) }
 
-    before { gone.destroy }
+    %i[missing inaccessible].each do |state|
+      it "omits all mutations when the middle member is #{state}", :aggregate_failures do
+        if state == :missing
+          unavailable.destroy!
+        else
+          unavailable.update_columns(project_id: create(:project).id)
+        end
 
-    it "falls back to the invoker when a member is gone", :aggregate_failures do
-      get_menu(ids: [invoker.id, gone.id], invoker_id: invoker.id)
+        get_menu(ids: [invoker.id, unavailable.id, last.id])
+
+        expect(response).to have_http_status(:ok)
+        expect(menu).to singular_actions_for(invoker)
+        expect(menu).to have_css("[role='menuitem']", count: 5)
+        expect(menu).to have_selector(:menuitem,
+                                      text: "The selection has changed. Refresh it before moving work packages.",
+                                      disabled: true,
+                                      count: 1)
+        expect(menu).to have_css("[data-sortable-lists-scope-count='1']")
+        expect(menu).to have_no_css("form, [data-sortable-lists--item-target]", visible: :all)
+        expect(menu).to have_no_element(:button, id: /_menu_move_to_/)
+      end
+    end
+
+    it "keeps a visible member that changed lists in the requested scope" do
+      unavailable.update_columns(sprint_id: sprint_b.id)
+
+      get_menu(ids: [invoker.id, unavailable.id, last.id])
 
       expect(response).to have_http_status(:ok)
-      expect(menu).to have_element(:a, id: menu_item_id(invoker, :open_details))
+      expect(menu).to have_css("[data-sortable-lists-scope-count='3']")
       expect(menu).to have_element(:button, id: menu_item_id(invoker, :move_to_inbox))
     end
   end
@@ -284,6 +308,47 @@ RSpec.describe "Backlogs card menu", type: :rails_request do
     end
     let(:invoker) { work_packages.first }
     let(:explanation) { "Cannot move 51 work packages at once. Select no more than 50." }
+
+    it "keeps movement enabled at the exact batch cap" do
+      get_menu(ids: work_packages.first(50).map(&:id))
+
+      expect(menu).to have_css("[data-sortable-lists-scope-count='50']")
+      expect(menu).to have_selector(:menuitem, text: "Move to position")
+      expect(menu).to have_no_css("[aria-disabled='true']")
+    end
+
+    it "treats a missing member as stale before checking the cap", :aggregate_failures do
+      ids = work_packages.map(&:id)
+      work_packages[1].destroy!
+
+      get_menu(ids:)
+
+      expect(menu).to singular_actions_for(invoker)
+      expect(menu).to have_css("[data-sortable-lists-scope-count='1']")
+      expect(menu).to have_selector(:menuitem,
+                                    text: "The selection has changed. Refresh it before moving work packages.",
+                                    disabled: true)
+      expect(menu).to have_no_text(explanation)
+      expect(menu).to have_no_css("form, [data-sortable-lists--item-target]", visible: :all)
+    end
+
+    it "keeps the cap explanation when no destination accepts the cross-list batch",
+       :aggregate_failures, with_ee: %i[readonly_work_packages] do
+      destination = sprint_a
+      readonly_status = create(:status, :readonly)
+      WorkPackage.where(id: work_packages.map(&:id)).update_all(status_id: readonly_status.id)
+      work_packages.last.reload.update_columns(sprint_id: destination.id)
+      expect(WorkPackage.where(id: work_packages.map(&:id)).distinct.pluck(:sprint_id)).to contain_exactly(nil, destination.id)
+
+      get_menu(ids: work_packages.map(&:id))
+
+      expect(menu).to have_css("[data-sortable-lists-scope-count='51']")
+      expect(menu).to have_selector(:menuitem, text: explanation, disabled: true, count: 1)
+      expect(menu).to no_singular_actions_for(invoker)
+      expect(menu).to have_selector(:menuitem, text: "Move to position", disabled: true)
+      expect(menu).to have_no_css("form", visible: :all)
+      expect(menu).to have_no_element(:button, id: /_menu_move_to_/)
+    end
 
     it "disables batch move actions above the batch cap and explains why", :aggregate_failures do
       get_menu(ids: work_packages.map(&:id))

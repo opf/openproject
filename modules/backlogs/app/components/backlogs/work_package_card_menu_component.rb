@@ -35,7 +35,7 @@ module Backlogs
     include CommonHelper
     include SortableLists::MoveMenu
 
-    attr_reader :invoker, :work_packages, :destinations, :project, :current_user
+    attr_reader :invoker, :work_packages, :destinations, :project, :current_user, :stale_scope
 
     # A scope of several cards gets a batch menu of move actions only. When
     # none applies, the invoker's singular menu renders instead.
@@ -46,7 +46,7 @@ module Backlogs
     #   destination actions apply to, including the invoker.
     # @param destinations [Backlogs::WorkPackages::DestinationAvailability]
     #   the destinations every member of `work_packages` may move to.
-    def initialize(project:, invoker:, work_packages:, destinations:, current_user: User.current)
+    def initialize(project:, invoker:, work_packages:, destinations:, current_user: User.current, stale_scope: false)
       super()
 
       @project = project
@@ -54,6 +54,7 @@ module Backlogs
       @work_packages = work_packages
       @destinations = destinations
       @current_user = current_user
+      @stale_scope = stale_scope
     end
 
     def menu_id
@@ -73,7 +74,7 @@ module Backlogs
     end
 
     def batch_menu?
-      work_packages.many? && any_move_action?
+      !stale_scope && work_packages.many? && (moves_locked? || any_move_action?)
     end
 
     # The client hides Move to position for a block that cannot move in any
@@ -115,7 +116,7 @@ module Backlogs
     # permission and on every member sharing one list, not on whether any
     # cross-container destination is offered.
     def show_move_items?
-      destinations.manage_permission? && one_list?
+      destinations.manage_permission? && (one_list? || moves_locked?)
     end
 
     def one_list?
@@ -139,7 +140,7 @@ module Backlogs
     end
 
     def any_move_action?
-      show_move_items? || any_destination?
+      !stale_scope && (show_move_items? || any_destination?)
     end
 
     def any_destination?

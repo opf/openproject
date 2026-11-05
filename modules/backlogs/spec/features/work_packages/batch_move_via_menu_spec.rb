@@ -201,8 +201,10 @@ RSpec.describe "Move selected backlog cards to a position via their menu",
     backlogs_page.visit!
 
     backlogs_page.select_contiguous_cards(stories[1], stories[2])
-    stories[2].destroy!
-    backlogs_page.move_selected_cards(invoker: stories[1], action: "Move down")
+    backlogs_page.within_work_package_move_submenu(stories[1], activated: true) do |submenu|
+      stories[2].destroy!
+      submenu.find(:menuitem, text: "Move down").click
+    end
 
     backlogs_page.expect_move_error(
       I18n.t("backlogs.work_packages.move_collection.work_packages_not_found")
