@@ -107,7 +107,7 @@ export class BurnupChartComponent extends SeriesChartComponent<SeriesKey> {
 
   protected override tooltipTitle(items:TooltipItem<'line'>[]):string {
     const itemFor = (id:SeriesKey) => items.find((item) => this.seriesId(item.datasetIndex) === id);
-    const dated = itemFor('scope') ?? itemFor('completed') ?? itemFor('projection') ?? items.at(0);
+    const dated = itemFor('scope') ?? itemFor('completed') ?? itemFor('guideline') ?? itemFor('projection') ?? items.at(0);
 
     return dated ? this.formattedTick(dated) : '';
   }
