@@ -134,7 +134,7 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
     end
   end
 
-  context "with labels enabled", with_flag: { work_package_labels: true } do
+  context "with labels" do
     let!(:label) { create(:label, name: "Frontend") }
 
     it "defaults the labels select to '(no change)' and offers the labels" do
@@ -151,12 +151,6 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
       it "preserves the selected value" do
         expect(rendered_component).to have_select("label_ids[]", selected: "Frontend")
       end
-    end
-  end
-
-  context "with labels disabled", with_flag: { work_package_labels: false } do
-    it "does not render the labels select" do
-      expect(rendered_component).to have_no_select("label_ids[]")
     end
   end
 

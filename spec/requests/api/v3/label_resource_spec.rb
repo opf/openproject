@@ -30,7 +30,7 @@
 require "spec_helper"
 require "rack/test"
 
-RSpec.describe "API v3 Label resource", with_flag: { work_package_labels: true } do
+RSpec.describe "API v3 Label resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -161,10 +161,6 @@ RSpec.describe "API v3 Label resource", with_flag: { work_package_labels: true }
         let(:role) { create(:project_role, permissions: [:view_work_packages]) }
 
         it_behaves_like "unauthorized access"
-      end
-
-      context "with the feature flag inactive", with_flag: { work_package_labels: false } do
-        it_behaves_like "not found"
       end
     end
   end
