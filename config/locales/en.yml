@@ -8304,6 +8304,7 @@ en:
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
         status_based_help_text: "% Complete is set by work package status."
         work_based_help_text: "Each field is automatically calculated from the two others when possible."
+      read_only_hint: "Updated by logging time."
     reminders:
       create_success_message_html: "Reminder set successfully. You will receive a notification for this work package %{reminder_time}."
       label_remind_at: "Date"

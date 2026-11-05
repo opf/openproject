@@ -215,6 +215,7 @@ module Costs
     include_module "PermittedParams::Costs", into: "PermittedParams"
     include_module "WorkPackages::Costs", into: "WorkPackage"
     include_module "WorkPackages::SpentTime", into: "WorkPackage"
+    include_module "WorkPackages::RemainingWorkReadOnly", into: "WorkPackages::BaseContract"
 
     prepend_module "Costs::ConfiguredCurrency", into: "ActiveSupport::NumberHelper::NumberToCurrencyConverter"
     prepend_module "Members::TableCurrentUser", into: "MembersController"
