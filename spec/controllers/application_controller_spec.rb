@@ -151,6 +151,25 @@ RSpec.describe ApplicationController do
     end
   end
 
+  describe "CSRF token stored in the session", with_settings: { login_required: false } do
+    around do |example|
+      state = ActionController::Base.allow_forgery_protection
+      ActionController::Base.allow_forgery_protection = true
+      example.run
+    ensure
+      ActionController::Base.allow_forgery_protection = state
+    end
+
+    it "is rejected" do
+      token = SecureRandom.urlsafe_base64(32)
+      session[:_csrf_token] = token
+
+      post :index, params: { authenticity_token: token }
+
+      expect(response).to have_http_status(422)
+    end
+  end
+
   describe "rack timeout duplicate error suppression", with_settings: { login_required: false } do
     controller do
       include OpenProjectErrorHelper
