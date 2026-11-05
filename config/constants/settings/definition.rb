@@ -349,7 +349,7 @@ module Settings
         secret: true
       },
       database_encryption_key: {
-        description: "Key for data that OpenProject encrypts in the database. Defaults to a key derived from SECRET_KEY_BASE",
+        description: "Secret for data that OpenProject encrypts in the database. Defaults to SECRET_KEY_BASE. The encryption key is derived from this value",
         format: :string,
         default: nil,
         writable: false,
