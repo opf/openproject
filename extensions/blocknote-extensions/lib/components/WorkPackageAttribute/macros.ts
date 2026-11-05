@@ -5,10 +5,9 @@ export interface AttributeMacro {
   reference:string;
   attribute:string;
   display:AttributeDisplay;
-  source:string;
+  start:number;
+  end:number;
 }
-
-export type MacroSegment = string | AttributeMacro;
 
 // Mirrors OpenProject::TextFormatting::Matchers::AttributeMacros, but only
 // for macros that name their work package.
@@ -20,52 +19,43 @@ const LAYOUTS = new Set(['multiline', 'singleline']);
 
 const LABEL_VALUE_SEPARATOR = /^:\s*$/;
 
-export function splitAttributeMacros(text:string):MacroSegment[] {
-  const segments:MacroSegment[] = [];
-  let last = 0;
+export function findAttributeMacros(text:string):AttributeMacro[] {
+  const macros:AttributeMacro[] = [];
 
   for (const match of text.matchAll(MACRO)) {
     const [source, kind, id, quotedId, attribute, quotedAttribute] = match;
     if (attribute !== undefined && LAYOUTS.has(attribute)) continue;
 
-    pushText(segments, text.slice(last, match.index));
-    segments.push({
+    macros.push({
       reference: id ?? quotedId,
       attribute: attribute ?? quotedAttribute,
       display: kind === 'Label' ? 'label' : 'value',
-      source,
+      start: match.index,
+      end: match.index + source.length,
     });
-    last = match.index + source.length;
   }
-  pushText(segments, text.slice(last));
 
-  return mergeLabelValuePairs(segments);
-}
-
-function pushText(segments:MacroSegment[], text:string):void {
-  if (text) segments.push(text);
+  return mergeLabelValuePairs(text, macros);
 }
 
 // `label: value` of the same attribute is how a "both" attribute is copied.
-function mergeLabelValuePairs(segments:MacroSegment[]):MacroSegment[] {
-  const merged:MacroSegment[] = [];
+function mergeLabelValuePairs(text:string, macros:AttributeMacro[]):AttributeMacro[] {
+  const merged:AttributeMacro[] = [];
 
-  for (let index = 0; index < segments.length; index++) {
-    const segment = segments[index];
-    const separator = segments[index + 1];
-    const value = segments[index + 2];
+  for (let index = 0; index < macros.length; index++) {
+    const label = macros[index];
+    const value = macros[index + 1] as AttributeMacro | undefined;
 
     if (
-      typeof segment !== 'string' && segment.display === 'label'
-      && typeof separator === 'string' && LABEL_VALUE_SEPARATOR.test(separator)
-      && typeof value !== 'string' && value?.display === 'value'
-      && value.reference === segment.reference && value.attribute === segment.attribute
+      label.display === 'label' && value?.display === 'value'
+      && value.reference === label.reference && value.attribute === label.attribute
+      && LABEL_VALUE_SEPARATOR.test(text.slice(label.end, value.start))
     ) {
-      merged.push({ ...segment, display: 'both', source: segment.source + separator + value.source });
-      index += 2;
+      merged.push({ ...label, display: 'both', end: value.end });
+      index += 1;
     }
     else {
-      merged.push(segment);
+      merged.push(label);
     }
   }
 

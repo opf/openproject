@@ -1,13 +1,15 @@
 import { Plugin, PluginKey } from 'prosemirror-state';
 import type { Fragment, Node } from 'prosemirror-model';
-import { isLinkInlineContent, isStyledTextInlineContent } from '@blocknote/core';
-import type { StyleSchema, StyledText } from '@blocknote/core';
+import { contentNodeToInlineContent, isLinkInlineContent, isStyledTextInlineContent } from '@blocknote/core';
+import type { InlineContent, StyleSchema, StyledText } from '@blocknote/core';
 import type { AnyEditor } from '../editorTypes';
 import type { WorkPackageBlockProps } from '../components/BlockWorkPackage/externalHtml';
 import { fetchWorkPackage, parseWorkPackageUrl } from '../services/openProjectApi';
 import { canBlockWorkPackageReplaceCurrentBlock, isCurrentBlockEmpty } from '../utils/blockContent';
 import { moveCursorAfterBlock } from '../utils/cursor';
-import { isBlankText, pastedInlineContent, singlePastedTextblock, type AnyInline } from '../utils/pastedContent';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyInline = InlineContent<any, StyleSchema>;
 
 interface Reference { wp:string; href:string }
 
@@ -94,11 +96,25 @@ function insertPastedCard(editor:AnyEditor, card:Node, blockId:string):boolean {
 }
 
 /**
- * References are matched by href, so a markdown `[label](url)` keeps only the
- * url and drops the label.
+ * Unwraps BlockNote's single-child paste wrappers (blockGroup/blockContainer)
+ * to the sole pasted textblock; null when the paste spans multiple blocks.
+ */
+function singlePastedTextblock(fragment:Fragment):Node | null {
+  if (fragment.childCount !== 1) return null;
+  const child = fragment.child(0);
+  if (child.isText || child.isTextblock) return child;
+  return singlePastedTextblock(child.content);
+}
+
+/**
+ * Reuses BlockNote's own node conversion so styles and non-work-package links
+ * survive. References are matched by href, so a markdown `[label](url)` keeps
+ * only the url and drops the label.
  */
 function pasteParts(editor:AnyEditor, node:Node):PastePart[] {
-  const inline = pastedInlineContent(editor, node);
+  const inline:AnyInline[] = node.isTextblock
+    ? contentNodeToInlineContent(node, editor.schema.inlineContentSchema, editor.schema.styleSchema)
+    : bareTextInlineContent(node);
 
   const parts:PastePart[] = [];
   for (const item of inline) {
@@ -114,6 +130,15 @@ function pasteParts(editor:AnyEditor, node:Node):PastePart[] {
     }
   }
   return parts;
+}
+
+// Fallback for a lone pasted text node with no wrapping textblock.
+function bareTextInlineContent(node:Node):AnyInline[] {
+  const link = node.marks.find((mark) => mark.type.name === 'link');
+  if (link) {
+    return [{ type: 'link', href: (link.attrs as { href:string }).href, content: [{ type: 'text', text: node.text ?? '', styles: {} }] }];
+  }
+  return [{ type: 'text', text: node.text ?? '', styles: {} }];
 }
 
 // Splits a plain text run around any bare work package URLs, keeping the
@@ -146,7 +171,9 @@ function pushTextParts(parts:PastePart[], item:StyledText<StyleSchema>):void {
  */
 function soleReference(parts:PastePart[]):Reference | null {
   const references = parts.filter(isReference);
-  const hasVisibleKeep = parts.some((part) => 'keep' in part && !isBlankText(part.keep));
+  const hasVisibleKeep = parts.some((part) =>
+    'keep' in part && !(isStyledTextInlineContent(part.keep) && part.keep.text.trim() === '')
+  );
   return references.length === 1 && !hasVisibleKeep ? references[0] : null;
 }
 

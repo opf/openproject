@@ -1,106 +1,149 @@
-import { Plugin, PluginKey } from 'prosemirror-state';
-import type { Node } from 'prosemirror-model';
-import { isStyledTextInlineContent } from '@blocknote/core';
-import type { StyleSchema, StyledText } from '@blocknote/core';
+import { Plugin, PluginKey, type Transaction } from 'prosemirror-state';
+import type { Fragment, Node } from 'prosemirror-model';
 import type { AnyEditor } from '../editorTypes';
-import { splitAttributeMacros, type AttributeMacro } from '../components/WorkPackageAttribute/macros';
-import { resolveAttributeMacro } from '../components/WorkPackageAttribute/resolveMacro';
+import { findAttributeMacros, type AttributeMacro } from '../components/WorkPackageAttribute/macros';
+import { referenceKey, resolveReference, type ResolvedReference } from '../components/WorkPackageAttribute/resolveMacro';
 import type { AttributeChoice } from '../components/WorkPackageAttribute/types';
-import { canBlockWorkPackageReplaceCurrentBlock } from '../utils/blockContent';
-import { moveCursorAfterBlock } from '../utils/cursor';
 import { BLOCK_WP_ATTRIBUTE_TYPE, INLINE_WP_ATTRIBUTE_TYPE } from '../utils/nodeTypes';
-import { isBlankText, pastedInlineContent, singlePastedTextblock, type AnyInline } from '../utils/pastedContent';
 
-interface MacroPart { macro:AttributeMacro; text:StyledText<StyleSchema> }
+export interface PastedRange { from:number; to:number }
 
-type PastePart = MacroPart | { keep:AnyInline };
+interface MacroOccurrence { macro:AttributeMacro; from:number; to:number }
 
-function isMacroPart(part:PastePart):part is MacroPart {
-  return 'macro' in part;
-}
+export const pasteWorkPackageAttributePluginKey = new PluginKey<PastedRange | null>('pasteWorkPackageAttribute');
 
 /**
- * Turns pasted attribute macros (`workPackageValue:58:assignee`), as CKEditor
- * copies them, into work package attributes. Macros that cannot be resolved
- * stay text.
+ * Turns attribute macros pasted from CKEditor (`workPackageValue:58:assignee`)
+ * into work package attributes. The paste lands as text, and its macros turn
+ * into attributes in place once their work packages have loaded. Macros that
+ * cannot be resolved stay text.
  */
-export const pasteWorkPackageAttributePluginKey = new PluginKey('pasteWorkPackageAttribute');
-
-export function pasteWorkPackageAttributePlugin(editor:AnyEditor):Plugin {
-  return new Plugin({
+export function pasteWorkPackageAttributePlugin(editor:AnyEditor):Plugin<PastedRange | null> {
+  return new Plugin<PastedRange | null>({
     key: pasteWorkPackageAttributePluginKey,
 
-    props: {
-      handlePaste(_view, _event, slice) {
-        if (!(INLINE_WP_ATTRIBUTE_TYPE in editor.schema.inlineContentSpecs)) return false;
-
-        const pasted = singlePastedTextblock(slice.content);
-        if (!pasted) return false;
-
-        const parts = pasteParts(editor, pasted);
-        if (!parts.some(isMacroPart)) return false;
-
-        const block = editor.getTextCursorPosition()?.block;
-        if (!block || block.type === 'codeBlock') return false;
-
-        void insertAttributes(editor, parts);
-        return true;
+    state: {
+      init: () => null,
+      apply: (tr, pasted) => {
+        if (tr.getMeta('uiEvent') === 'paste') return changedRange(tr);
+        // Transactions appended to the paste give the pasted blocks their ids.
+        if (pasted && tr.getMeta('appendedTransaction')) {
+          return { from: tr.mapping.map(pasted.from), to: tr.mapping.map(pasted.to) };
+        }
+        return null;
       },
     },
+
+    view: () => ({
+      update(view, previousState) {
+        const pasted = pasteWorkPackageAttributePluginKey.getState(view.state);
+        if (!pasted || pasted === pasteWorkPackageAttributePluginKey.getState(previousState)) return;
+
+        const blockIds = blocksWithMacros(view.state.doc, pasted);
+        if (blockIds.size > 0) void convertMacros(editor, blockIds);
+      },
+    }),
   });
 }
 
-function pasteParts(editor:AnyEditor, node:Node):PastePart[] {
-  return pastedInlineContent(editor, node).flatMap((item):PastePart[] => {
-    if (!isStyledTextInlineContent(item)) return [{ keep: item }];
-
-    return splitAttributeMacros(item.text).map((segment) => (
-      typeof segment === 'string'
-        ? { keep: { ...item, text: segment } }
-        : { macro: segment, text: item }
-    ));
+function changedRange(tr:Transaction):PastedRange | null {
+  let from = Infinity;
+  let to = -Infinity;
+  tr.mapping.maps.forEach((map, index) => {
+    const later = tr.mapping.slice(index + 1);
+    map.forEach((_oldStart, _oldEnd, newStart, newEnd) => {
+      from = Math.min(from, later.map(newStart, -1));
+      to = Math.max(to, later.map(newEnd, 1));
+    });
   });
+  return from <= to ? { from, to } : null;
 }
 
-async function insertAttributes(editor:AnyEditor, parts:PastePart[]):Promise<void> {
-  const resolved = await Promise.all(
-    parts.map((part) => (isMacroPart(part) ? resolveAttributeMacro(part.macro) : Promise.resolve(null)))
-  );
+function isMacroHost(node:Node):boolean {
+  return node.isTextblock && !node.type.spec.code;
+}
 
-  const inline:AnyInline[] = [];
-  const blocks:AttributeChoice[] = [];
-  let endsWithAttribute = false;
+function blocksWithMacros(doc:Node, { from, to }:PastedRange):Set<string> {
+  const ids = new Set<string>();
+  doc.nodesBetween(from, to, (node, _position, container) => {
+    if (!isMacroHost(node)) return true;
+    if (container && findAttributeMacros(node.textContent).length > 0) ids.add(container.attrs.id as string);
+    return false;
+  });
+  return ids;
+}
 
-  parts.forEach((part, index) => {
-    const attribute = resolved[index];
-    if (attribute?.kind === 'block') {
-      blocks.push(attribute.choice);
-      return;
+// Positions do not survive collaboration updates, which replace the whole
+// document, so the pasted blocks are looked up again by their ids.
+function macrosInBlocks(doc:Node, blockIds:Set<string>):MacroOccurrence[] {
+  const occurrences:MacroOccurrence[] = [];
+  doc.descendants((node, position, container) => {
+    if (!isMacroHost(node)) return true;
+    if (!blockIds.has(container?.attrs.id as string)) return false;
+
+    node.forEach((child, offset) => {
+      for (const macro of findAttributeMacros(child.text ?? '')) {
+        const from = position + 1 + offset + macro.start;
+        occurrences.push({ macro, from, to: from + macro.end - macro.start });
+      }
+    });
+    return false;
+  });
+  return occurrences;
+}
+
+async function convertMacros(editor:AnyEditor, blockIds:Set<string>):Promise<void> {
+  const resolving = new Map<string, Promise<ResolvedReference | null>>();
+  for (const { macro } of macrosInBlocks(editor.prosemirrorState.doc, blockIds)) {
+    const key = referenceKey(macro);
+    if (!resolving.has(key)) resolving.set(key, resolveReference(macro));
+  }
+  const resolved = new Map(await Promise.all(
+    [...resolving].map(async ([key, reference]) => [key, await reference] as const)
+  ));
+
+  editor.transact((tr) => {
+    // Backwards, so that each replacement leaves the positions before it intact.
+    for (const { macro, from, to } of macrosInBlocks(tr.doc, blockIds).reverse()) {
+      const reference = resolved.get(referenceKey(macro));
+      if (!reference) continue;
+
+      const { kind, ...props } = reference;
+      const choice:AttributeChoice = { ...props, display: macro.display };
+      if (kind === 'block') replaceWithBlock(tr, from, to, choice);
+      else replaceWithInline(tr, from, to, choice);
     }
-
-    endsWithAttribute = attribute !== null;
-    if (attribute) inline.push({ type: INLINE_WP_ATTRIBUTE_TYPE, props: attribute.choice, content: undefined });
-    else if (isMacroPart(part)) inline.push({ ...part.text, text: part.macro.source });
-    else inline.push(part.keep);
-  });
-
-  const hasVisibleInline = inline.some((item) => !isBlankText(item));
-  if (hasVisibleInline && endsWithAttribute) inline.push({ type: 'text', text: ' ', styles: {} });
-
-  editor.transact(() => {
-    if (hasVisibleInline) editor.insertInlineContent(inline);
-    if (blocks.length > 0) insertAttributeBlocks(editor, blocks);
   });
 }
 
-// A long text takes the place of an empty line, or follows the line it was pasted into.
-function insertAttributeBlocks(editor:AnyEditor, choices:AttributeChoice[]):void {
-  const line = editor.getTextCursorPosition().block;
-  const blocks = choices.map((props) => ({ type: BLOCK_WP_ATTRIBUTE_TYPE, props })) as Parameters<typeof editor.insertBlocks>[0];
+function replaceWithInline(tr:Transaction, from:number, to:number, choice:AttributeChoice):void {
+  const type = tr.doc.type.schema.nodes[INLINE_WP_ATTRIBUTE_TYPE];
+  if (type) tr.replaceWith(from, to, type.create(choice));
+}
 
-  const inserted = canBlockWorkPackageReplaceCurrentBlock(editor)
-    ? editor.replaceBlocks([line], blocks).insertedBlocks
-    : editor.insertBlocks(blocks, line, 'after');
+// A long text cannot sit inside a line, so it splits its line around itself.
+function replaceWithBlock(tr:Transaction, from:number, to:number, choice:AttributeChoice):void {
+  const $from = tr.doc.resolve(from);
+  const line = $from.parent;
+  const container = $from.node(-1);
+  const before = line.content.cut(0, $from.parentOffset);
+  const after = line.content.cut($from.parentOffset + to - from);
 
-  moveCursorAfterBlock(editor, inserted[inserted.length - 1].id);
+  const contents = [
+    ...(isBlank(before) ? [] : [line.copy(before)]),
+    tr.doc.type.schema.nodes[BLOCK_WP_ATTRIBUTE_TYPE].create(choice),
+    ...(isBlank(after) ? [] : [line.copy(after)]),
+  ];
+  const nestedBlocks = container.childCount > 1 ? container.lastChild : null;
+  const containers = contents.map((content, index) => container.type.create(
+    index === 0 ? container.attrs : null,
+    index === contents.length - 1 && nestedBlocks ? [content, nestedBlocks] : content,
+  ));
+
+  tr.replaceWith($from.before(-1), $from.after(-1), containers);
+}
+
+// Inline nodes count as content, through their object replacement character.
+function isBlank(fragment:Fragment):boolean {
+  return fragment.textBetween(0, fragment.size, '', '\ufffc').trim() === '';
 }
