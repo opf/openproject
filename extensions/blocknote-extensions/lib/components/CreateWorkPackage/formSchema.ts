@@ -12,6 +12,7 @@ export type FieldKind =
   | 'number'
   | 'checkbox'
   | 'date'
+  | 'datetime'
   | 'select'
   | 'typeahead'
   | 'multiSelect'
@@ -88,6 +89,7 @@ const KIND_BY_TYPE:Record<string, FieldKind> = {
   'Float': 'number',
   'Boolean': 'checkbox',
   'Date': 'date',
+  'DateTime': 'datetime',
 };
 
 export function readSchemaProperty(

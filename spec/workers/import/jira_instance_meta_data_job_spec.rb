@@ -46,6 +46,7 @@ RSpec.describe Import::JiraInstanceMetaDataJob do
       administrator?: administrator,
       issue_types_count: 3,
       statuses_count: 4,
+      resolutions_count: 6,
       issues_count: 5,
       applicationrole: [{ "userCount" => 2 }],
       projects: [],

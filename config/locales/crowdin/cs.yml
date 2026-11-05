@@ -2004,6 +2004,11 @@ cs:
               few: "%{count} projects"
               many: "%{count} projects"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              few: "%{count} resolutions"
+              many: "%{count} resolutions"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               few: "%{count} statuses"
@@ -2041,6 +2046,7 @@ cs:
               label_available_data: Data k importu
               label_import_data: Momentálně importováno
               label_progress: Probíhá import...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Uživatelé, kteří jsou zapojeni do vybraných projektů (včetně členství ve skupinách)
               title: Import dat
             fetch_data:

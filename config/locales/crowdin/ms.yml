@@ -1667,6 +1667,8 @@ ms:
               other: "%{count} jobs"
             projects:
               other: "%{count} projects"
+            resolutions:
+              other: "%{count} resolutions"
             statuses:
               other: "%{count} statuses"
             types:
@@ -1692,6 +1694,7 @@ ms:
               label_available_data: Data to be imported
               label_import_data: Currently importing
               label_progress: Import in progress...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Users that are involved in selected projects (group memberships included)
               title: Import data
             fetch_data:

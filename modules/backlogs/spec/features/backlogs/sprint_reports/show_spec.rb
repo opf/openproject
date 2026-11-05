@@ -82,6 +82,8 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
              name: "Sprint 41",
              start_date: 20.days.ago,
              finish_date: 10.days.ago,
+             started_at: 20.days.ago,
+             completed_at: 10.days.ago,
              status: :completed)
     end
 

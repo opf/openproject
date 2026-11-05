@@ -1776,6 +1776,9 @@ sv:
             projects:
               one: "%{count} project"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               other: "%{count} statuses"
@@ -1805,6 +1808,7 @@ sv:
               label_available_data: Data som ska importeras
               label_import_data: Importerar för närvarande
               label_progress: Import pågår...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Användare som är involverade i de valda projekten (inklusive gruppmedlemskap)
               title: Importera data
             fetch_data:

@@ -328,4 +328,33 @@ RSpec.describe Sprints::WorkPackageBreakdown do
       expect(breakdown.removed_after_start_ids).to contain_exactly(removed_work_package.id)
     end
   end
+
+  describe "a running sprint while the clock moves on" do
+    let(:sprint) do
+      create(:sprint, project:, status: "active",
+                      start_date: Time.zone.today - 10.days,
+                      finish_date: Time.zone.today + 4.days,
+                      started_at: 10.days.ago)
+    end
+
+    let!(:closed_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_closed, story_points: 3,
+                            created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+        .tap { backdate_creation_journal(it) }
+    end
+
+    before do
+      # Each call to `Time.zone.now` will advance one second on top of the original time => Simulate a timing issue
+      # that happens when start and finish instants are not memoized properly and reference_finish is called
+      # twice in a row.
+      # If that happens close to a full second, the time might have moved on and the two timestamps won't match.
+      # This spec provokes this behavior, so it fails every time if the memoization is removed from the implementation.
+      seconds = 0
+      allow(Time.zone).to(receive(:now).and_wrap_original { |original| original.call + (seconds += 1).seconds })
+    end
+
+    it "samples and reads the finish at the same instant" do
+      expect(breakdown.completed).to have_attributes(work_package_count: 1, story_points: 3)
+    end
+  end
 end

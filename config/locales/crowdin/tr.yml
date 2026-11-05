@@ -1780,6 +1780,9 @@ tr:
             projects:
               one: "%{count} project"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               other: "%{count} statuses"
@@ -1809,6 +1812,7 @@ tr:
               label_available_data: Data to be imported
               label_import_data: Şu anda içe aktarılıyor
               label_progress: İçe aktarma devam ediyor...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Users that are involved in selected projects (group memberships included)
               title: Veriyi içe aktar
             fetch_data:

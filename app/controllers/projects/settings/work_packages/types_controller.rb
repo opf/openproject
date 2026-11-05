@@ -43,7 +43,7 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
   end
 
   def create # rubocop:disable Metrics/AbcSize
-    variant = ::TypeVariant.find_by(id: params[:variant_id])
+    variant = ::TypeVariant.available_in(@project).find_by(id: params[:variant_id])
 
     return render_type_not_found if variant.nil?
 

@@ -120,26 +120,6 @@ RSpec.describe Sprints::Velocity do
       end
     end
 
-    context "with a completed sprint lacking started_at" do
-      let!(:undated_start) do
-        create(:sprint,
-               project:,
-               status: "completed",
-               start_date: (start_of_history + 2.weeks).to_date,
-               finish_date: (start_of_history + 4.weeks).to_date,
-               started_at: nil,
-               completed_at: start_of_history + 4.weeks)
-      end
-      let!(:first) do
-        completed_sprint(started_at: start_of_history, completed_at: start_of_history + 2.weeks)
-      end
-      let(:sprint) { active_sprint(started_at: start_of_history + 4.weeks) }
-
-      it "falls back to the start date for ordering" do
-        expect(velocity.sprints).to eq [first, undated_start, sprint]
-      end
-    end
-
     context "when viewing a sprint that has successors" do
       let!(:first) do
         completed_sprint(started_at: start_of_history, completed_at: start_of_history + 2.weeks)
@@ -169,8 +149,8 @@ RSpec.describe Sprints::Velocity do
       end
       let(:sprint) { active_sprint(started_at: start_of_history + 4.weeks) }
 
-      it "places them by their planned dates" do
-        expect(velocity.sprints).to eq [first, stale, sprint]
+      it "leaves them out when viewing a started sprint" do
+        expect(velocity.sprints).to eq [first, sprint]
       end
     end
 
