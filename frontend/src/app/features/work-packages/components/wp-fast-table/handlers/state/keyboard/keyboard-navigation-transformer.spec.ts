@@ -490,6 +490,29 @@ describe('KeyboardNavigationTransformer', () => {
     expect(table.groupHeader(0)).toHaveFocus();
   });
 
+  it('does not toggle a group header without an identifier', async () => {
+    const table = await mount(grouped);
+    const collapsedGroups = table.injector.get(WorkPackageViewCollapsedGroupsService);
+    const toggleGroupCollapseState = vi.spyOn(collapsedGroups, 'toggleGroupCollapseState');
+    const actions = [
+      { key: 'ArrowLeft', emptyGroupState: false, targetCell: false },
+      { key: 'ArrowRight', emptyGroupState: true, targetCell: false },
+      { key: 'Enter', emptyGroupState: false, targetCell: false },
+      { key: 'Enter', emptyGroupState: true, targetCell: true },
+    ];
+
+    actions.forEach(({ key, emptyGroupState, targetCell }) => {
+      collapsedGroups.update({ ...collapsedGroups.config, state: { '': emptyGroupState } });
+      const header = table.groupHeader(0);
+      Reflect.deleteProperty(table.table.ledger.byElement(header)!, 'groupIdentifier');
+      (targetCell ? cell(header, 0) : header).focus();
+
+      expect(pressActive(key)).toBe(false);
+      expect(toggleGroupCollapseState).not.toHaveBeenCalled();
+      expect(collapsedGroups.config.state['']).toBe(emptyGroupState);
+    });
+  });
+
   it('Enter on a work package row replaces the selection with that row and anchors it', async () => {
     const table = await mount();
     const clicked:string[] = [];
