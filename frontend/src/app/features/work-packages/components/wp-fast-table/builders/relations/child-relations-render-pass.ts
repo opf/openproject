@@ -55,8 +55,8 @@ export class ChildRelationsRenderPass extends RelationsRenderPass {
         return;
       }
 
-      // If the work package has no children, ignore
-      const { workPackage } = row;
+      // Children are column content, so they follow the current work package rather than the query's
+      const workPackage = this.states.workPackages.get(row.workPackage.id!).getValueOr(row.workPackage);
       if (!workPackage.children?.length) {
         return;
       }

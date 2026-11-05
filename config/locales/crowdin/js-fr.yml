@@ -47,6 +47,8 @@ fr:
       draggable_hint: 'Faites glisser le champ de l''éditeur pour incorporer une image ou une pièce jointe de référence. Les champs fermés de l''éditeur seront ouverts tant que vous continuer à faire glisser.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Le fichier est en quarantaine, car un virus a été détecté. Il ne peut pas être téléchargé.
     autocomplete_ng_select:
       add_tag: Ajouter un élément

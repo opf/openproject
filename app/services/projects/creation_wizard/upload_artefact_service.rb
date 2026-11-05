@@ -28,15 +28,15 @@
 #++
 
 module Projects::CreationWizard
-  class UploadArtifactService
-    include ArtifactExporter
+  class UploadArtefactService
+    include ArtefactExporter
 
-    attr_reader :user, :project, :artifact_work_package
+    attr_reader :user, :project, :artefact_work_package
 
     def initialize(user:, project:, work_package:)
       @user = user
       @project = project
-      @artifact_work_package = work_package
+      @artefact_work_package = work_package
     end
 
     def call
@@ -45,10 +45,10 @@ module Projects::CreationWizard
       end
 
       if project_storage.nil?
-        return ServiceResult.failure(message: I18n.t("projects.wizard.create_artifact_storage_error"))
+        return ServiceResult.failure(message: I18n.t("projects.wizard.create_artefact_storage_error"))
       end
 
-      upload_artifact_to_storage
+      upload_artefact_to_storage
     end
 
     private
@@ -62,7 +62,7 @@ module Projects::CreationWizard
         binary: true
       )
 
-      attachment = artifact_work_package.attachments.create(
+      attachment = artefact_work_package.attachments.create(
         author: user,
         file:
       )
@@ -76,12 +76,12 @@ module Projects::CreationWizard
     end
 
     # Creating the attachment does not create a work package
-    # journal on its own, so the artifact would only surface in the Activity tab after
+    # journal on its own, so the artefact would only surface in the Activity tab after
     # the next unrelated change. Create the journal explicitly so it shows up right away.
     def journalize_attachment(author)
-      OpenProject::Mutex.with_advisory_lock_transaction(artifact_work_package) do
-        artifact_work_package.add_journal(user: author)
-        artifact_work_package.touch_and_save_journals
+      OpenProject::Mutex.with_advisory_lock_transaction(artefact_work_package) do
+        artefact_work_package.add_journal(user: author)
+        artefact_work_package.touch_and_save_journals
       end
     end
   end

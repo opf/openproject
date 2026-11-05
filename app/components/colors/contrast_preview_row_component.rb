@@ -27,46 +27,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::CreationWizard
-  class SubmitArtifactService
-    attr_reader :user, :project
+module Colors
+  class ContrastPreviewRowComponent < ApplicationComponent
+    attr_reader :mode, :usage, :hexcode_id
 
-    def initialize(user:, project:)
-      @user = user
-      @project = project
+    def initialize(mode:, usage:, hexcode_id:)
+      super()
+      @mode = mode
+      @usage = usage
+      @hexcode_id = hexcode_id
     end
 
-    def call
-      if artifact_work_package_exists?
-        upload_artifact
-      else
-        create_artifact_work_package
-      end
-    end
-
-    private
-
-    def artifact_work_package_exists?
-      WorkPackage.exists?(project.project_creation_wizard_artifact_work_package_id)
-    end
-
-    def create_artifact_work_package
-      CreateArtifactWorkPackageService
-        .new(user:, model: project)
-        .call
-    end
-
-    def upload_artifact
-      work_package = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
-      upload_call = UploadArtifactService
-        .new(user:, project:, work_package:)
-        .call
-
-      service_call = ServiceResult.success(result: project)
-      upload_call.on_failure do
-        service_call.merge!(upload_call, without_success: true)
-      end
-      service_call
+    def highlighting_class
+      "__hl_#{usage}"
     end
   end
 end

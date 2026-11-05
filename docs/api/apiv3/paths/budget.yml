@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Budget id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Budget id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -24,7 +24,7 @@ get:
                 id: 1
                 subject: Q3 2015
           schema:
-            "$ref": "../components/schemas/budget_model.yml"
+            $ref: "../components/schemas/budget_model.yml"
       description: OK
       headers: {}
     '403':
@@ -44,7 +44,7 @@ get:
         **Required permission:** view work packages **or** view budgets (on the budgets project)
       headers: {}
   tags:
-  - Budgets
+    - Budgets
   description: ''
   operationId: view_Budget
   summary: view Budget

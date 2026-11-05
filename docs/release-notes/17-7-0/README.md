@@ -102,7 +102,7 @@ Project attributes can now be displayed in a dedicated **Project attributes** ta
 
 **PMflex Artifact PDF export**
 
-Work packages can now be [exported using a dedicated **PMflex Artifact** PDF template](../../user-guide/work-packages/exporting/work-package-pdf/#pmflex-artifact). The export combines project attributes, work package attributes, custom fields, and related work packages into a structured document suitable for project documentation and governance.
+Work packages can now be [exported using a dedicated **PMflex Artifact** PDF template](../../user-guide/work-packages/exporting/work-package-pdf/#pmflex-artefact). The export combines project attributes, work package attributes, custom fields, and related work packages into a structured document suitable for project documentation and governance.
 
 Administrators can configure PMflex artifacts to be generated automatically when a work package reaches a defined status. Generated artifacts can either be uploaded to the project's connected Nextcloud folder or added directly as work package attachments.
 

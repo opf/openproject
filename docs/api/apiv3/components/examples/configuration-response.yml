@@ -1,3 +1,4 @@
+---
 description: |-
   An example response for a configuration request.
 value:
@@ -21,7 +22,7 @@ value:
     - scim_api
     - calculated_values
     - ldap_groups
-  triallingFeatures: [ ]
+  triallingFeatures: []
   allowedLinkProtocols:
     - http
     - https

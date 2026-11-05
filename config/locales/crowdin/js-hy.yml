@@ -47,6 +47,8 @@ hy:
       draggable_hint: 'Քարշ տարեք խմբագրման դաշտի վրա՝ պատկերը տեղադրելու կամ կցորդին հղում կատարելու համար։ Փակ խմբագրման դաշտերը կբացվեն, քանի դեռ շարունակում եք քարշ տալ։
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Նիշքը մեկուսացված է, քանի որ վիրուս է հայտնաբերվել։ Այն հասանելի չէ ներբեռնման համար։
     autocomplete_ng_select:
       add_tag: Ավելացնել տարր

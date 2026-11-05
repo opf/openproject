@@ -47,6 +47,8 @@ ja:
       draggable_hint: |
         埋め込み画像または添付ファイルをエディタにドラッグします。
         ドラッグしつづけると閉じているエディタ領域が開きます。
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: ウイルスが発見されたように、ファイルは隔離されています。ダウンロードできません。
     autocomplete_ng_select:
       add_tag: アイテムを追加

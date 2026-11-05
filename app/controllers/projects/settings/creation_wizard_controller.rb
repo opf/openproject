@@ -65,8 +65,8 @@ class Projects::Settings::CreationWizardController < Projects::SettingsControlle
     update_settings_for_tab("submission", submission_settings_params)
   end
 
-  def update_artifact_export_settings
-    update_settings_for_tab("export", artifact_export_settings_params)
+  def update_artefact_export_settings
+    update_settings_for_tab("export", artefact_export_settings_params)
   end
 
   def refresh_submission_form
@@ -202,7 +202,7 @@ class Projects::Settings::CreationWizardController < Projects::SettingsControlle
     )
   end
 
-  def artifact_export_settings_params
+  def artefact_export_settings_params
     params.expect(
       project: %i[project_creation_wizard_artifact_export_type
                   project_creation_wizard_artifact_export_storage]

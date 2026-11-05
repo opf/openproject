@@ -47,6 +47,8 @@ tr:
       draggable_hint: 'Editör alanında, satır içi görüntüye veya referans ekine sürükleyin. Sürüklemeye devam ederken kapalı editör alanları açılacaktır.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Dosya, bir virüs bulunduğu için karantinaya alındı. İndirmek için kullanılamaz.
     autocomplete_ng_select:
       add_tag: Öge ekle

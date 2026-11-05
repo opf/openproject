@@ -47,6 +47,8 @@ de:
       draggable_hint: 'Ziehen Sie diesen Anhang auf ein editierbares Feld, um das Bild oder den Anhang einzubinden. Geöffnete Felder werden automatisch geöffnet während Sie das Attachment mit der Maus ziehen und halten.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Die Datei wurde unter Quarantäne gestellt, da ein Virus gefunden wurde. Sie ist nicht zum Herunterladen verfügbar.
     autocomplete_ng_select:
       add_tag: Eintrag hinzufügen

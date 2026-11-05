@@ -47,6 +47,8 @@ fa:
       draggable_hint: 'برای درج تصویر یا ارجاع پیوست، فایل را روی فیلد ویرایشگر بکشید. تا زمانی که در حال کشیدن هستید، فیلدهای ویرایشگر بسته باز خواهند شد.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: فایل به‌دلیل شناسایی ویروس قرنطینه شده است و برای دانلود در دسترس نیست.
     autocomplete_ng_select:
       add_tag: افزودن مورد

@@ -45,6 +45,8 @@ es:
       draggable_hint: 'Arrastre el campo del editor a una imagen alineada o un archivo adjunto de referencia. Los campos del editor cerrados se abrirán mientras siga arrastrando elementos.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: El archivo está en cuarentena, ya que se ha encontrado un virus. No está disponible para su descarga.
     autocomplete_ng_select:
       add_tag: Añadir elemento
