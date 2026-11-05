@@ -87,6 +87,7 @@ import type { Edge } from 'core-common/drag-and-drop/reorder';
 import { rowGroupClassName } from '../builders/modes/grouped/grouped-classes.constants';
 import { TableHandlerRegistry } from '../handlers/table-handler-registry';
 import { locatePredecessorBySelector } from '../helpers/wp-table-row-helpers';
+import type { MutationExit, PaintScope } from '../row-mutations';
 import { WorkPackageTable } from '../wp-fast-table';
 import {
   buildGroup, buildRelations, buildWorkPackage, GroupFixture, RelationFixture, WorkPackageFixture,
@@ -167,6 +168,20 @@ export interface TableHarnessOptions {
   beforeAttach?:(injector:Injector) => void;
 }
 
+/** The keys of a paint scope for assertions; `'all'` stays a single marker. */
+export function scopeKeys(scope:PaintScope):string[] {
+  return typeof scope === 'string' ? [scope] : Array.from(scope);
+}
+
+/** A `WorkPackageTable.mutate` stand-in for fakes: runs the change, paints nothing. */
+export const runMutation:WorkPackageTable['mutate'] = (_scope, change) => { change(); };
+
+export interface HeldFrames {
+  readonly pending:() => number;
+  readonly commit:() => void;
+  readonly release:() => void;
+}
+
 export interface TableHarness {
   readonly table:WorkPackageTable;
   readonly tbody:HTMLTableSectionElement;
@@ -179,6 +194,10 @@ export interface TableHarness {
   render(workPackages?:WorkPackageFixture[]):Promise<RenderedWorkPackage[]>;
   /** Resolves with the next completed table render. */
   nextRender():Promise<RenderedWorkPackage[]>;
+  /** Intercepts the table's frame scheduling until `release()`; `commit()` runs the held frames in order. */
+  holdFrames():HeldFrames;
+  /** Resolves after the next outermost mutation settled: rows painted and keyboard navigation notified. */
+  nextMutation():Promise<MutationExit>;
   /** Every rendered work-package row, relation rows included. */
   rows():HTMLTableRowElement[];
   /** Asserts the `aria-rowindex` of every table row in document order and the table's `aria-rowcount`; requires `productionMarkup`. */
@@ -372,6 +391,26 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     },
 
     nextRender,
+    nextMutation() {
+      return new Promise<MutationExit>((resolve) => {
+        const navigation = table.keyboardNavigation!;
+        const original = navigation.rowsChanged.bind(navigation);
+        const spy = vi.spyOn(navigation, 'rowsChanged').mockImplementation((exit) => {
+          spy.mockRestore();
+          original(exit);
+          resolve(exit);
+        });
+      });
+    },
+    holdFrames() {
+      const held:(() => void)[] = [];
+      const spy = vi.spyOn(table.uiWork, 'frame').mockImplementation((callback) => { held.push(callback); });
+      return {
+        pending: () => held.length,
+        commit: () => { held.splice(0).forEach((callback) => callback()); },
+        release: () => { spy.mockRestore(); },
+      };
+    },
 
     rows() {
       return Array.from(dom.tbody.querySelectorAll<HTMLTableRowElement>('tr.wp-table--row'));
@@ -541,6 +580,7 @@ class FakeEditingPortalService {
     container.appendChild(wrapper);
     const handler = new HalResourceEditFieldHandler(injector, form, fieldName, schema, container, injector.get(PathHelperService), errors, destroyRef);
     input.id = handler.htmlId;
+    input.addEventListener('keydown', (event) => { void handler.handleUserKeydown(event); });
     label.htmlFor = handler.htmlId;
     const markErrors = () => {
       wrapper.classList.toggle('-error', handler.isErrorenous);

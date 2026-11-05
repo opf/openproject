@@ -47,6 +47,8 @@ ms:
       draggable_hint: 'Tarik ruang pengedit ke imej sebaris atau lampiran rujukan. Ruang pengedit yang ditutup akan dibuka semasa anda menariknya.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Fail ini telah dikuarantin kerana virus telah ditemui. Ia tidak tersedia untuk dimuat turun.
     autocomplete_ng_select:
       add_tag: Tambah item

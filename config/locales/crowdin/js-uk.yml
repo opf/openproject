@@ -47,6 +47,8 @@ uk:
       draggable_hint: 'Перетягніть поле редактора, щоб вбудувати зображення або вкладені посилання. Закриті поля редактора будуть відкриті, коли ви продовжуватимете перетягувати.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Цей файл перенесено в карантин, оскільки в ньому знайдено вірус. Його не можна завантажити.
     autocomplete_ng_select:
       add_tag: Додати елемент

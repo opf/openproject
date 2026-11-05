@@ -25,7 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { within } from '@testing-library/dom';
+import { States } from 'core-app/core/states/states.service';
 import { buildTable, TableHarness } from '../../../testing/table-harness';
+import { buildWorkPackage } from '../../../testing/work-package-fixture';
+import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 
 describe('Hierarchy ordering across query windows', () => {
   let harness:TableHarness;
@@ -45,6 +49,59 @@ describe('Hierarchy ordering across query windows', () => {
     harness = buildTable({ workPackages: [child, other, parent], showHierarchies: true });
     await harness.render();
     expect(harness.rowIds()).toEqual(['3', '1', '2']);
+  });
+
+  describe('when the cache moves a deferred child under a parent outside the results', () => {
+    const moveChild = () => harness.injector.get(States).workPackages.get('2')
+      .putValue(buildWorkPackage({ id: '2', subject: 'Moved', ancestors: [{ id: '9' }], attributes: { parent: { id: '9' } } }));
+
+    it('redraws the child under its query parent with current cells', async () => {
+      harness = buildTable({ workPackages: [child, other, parent], showHierarchies: true });
+      await harness.render();
+      moveChild();
+
+      const rendered = harness.nextRender();
+      expect(() => harness.table.redrawTable()).not.toThrow();
+      await rendered;
+
+      expect(harness.rowIds()).toEqual(['3', '1', '2']);
+      expect(harness.row('2')).toHaveTextContent('Moved');
+    });
+
+    it('rebuilds a pending render for a collapse without losing the child', async () => {
+      harness = buildTable({ workPackages: [child, other, parent], showHierarchies: true });
+      await harness.render();
+      const frames = harness.holdFrames();
+      try {
+        harness.table.redrawTable();
+        moveChild();
+
+        expect(() => harness.table.setHidden(new Map([[wpOccurrenceKey('2'), false]]))).not.toThrow();
+        frames.commit();
+
+        expect(harness.rowIds()).toEqual(['3', '1', '2']);
+        expect(harness.row('2')).toHaveTextContent('Moved');
+      } finally {
+        frames.release();
+      }
+    });
+  });
+
+  it('keeps the query depth when the cache makes a nested child a root', async () => {
+    harness = buildTable({ workPackages: [parent, child, other], showHierarchies: true });
+    await harness.render();
+    const subjectCell = () => within(harness.row('2')).getByRole('rowheader');
+    const indentation = subjectCell().style.minWidth;
+    expect(harness.row('2')).toHaveAttribute('aria-level', '2');
+
+    harness.injector.get(States).workPackages.get('2').putValue(buildWorkPackage({ id: '2', subject: 'Root now' }));
+    const rendered = harness.nextRender();
+    harness.table.redrawTable();
+    await rendered;
+
+    expect(harness.row('2')).toHaveTextContent('Root now');
+    expect(harness.row('2')).toHaveAttribute('aria-level', '2');
+    expect(subjectCell().style.minWidth).toBe(indentation);
   });
 
   it('keeps a child under an earlier parent', async () => {

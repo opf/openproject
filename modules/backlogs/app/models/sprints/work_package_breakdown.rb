@@ -116,19 +116,27 @@ module Sprints
     end
 
     def start_snapshots
-      snapshots_at(reference_start)
+      snapshots_at(start_time)
     end
 
     def finish_snapshots
-      snapshots_at(reference_finish)
+      snapshots_at(finish_time)
     end
 
-    def snapshots_at(timestamp)
-      snapshots_by_tick.fetch(timestamp.to_time.to_i, [])
+    def snapshots_at(time)
+      snapshots_by_tick.fetch(time.to_i, [])
     end
 
     def ticks
-      [reference_start, reference_finish].map(&:to_time).uniq
+      [start_time, finish_time].uniq
+    end
+
+    def start_time
+      @start_time ||= reference_start.to_time
+    end
+
+    def finish_time
+      @finish_time ||= reference_finish.to_time
     end
 
     def snapshots_by_tick

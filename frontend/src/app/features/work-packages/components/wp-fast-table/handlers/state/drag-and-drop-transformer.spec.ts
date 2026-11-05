@@ -143,10 +143,13 @@ describe('DragAndDropTransformer', () => {
     const notification = harness.injector.get(HalResourceNotificationService);
     const handleRawError = vi.spyOn(notification, 'handleRawError');
 
+    const mutate = vi.spyOn(harness.table, 'mutate');
+
     const success = await harness.drop('1', '2', 'bottom');
 
     expect(success).toBe(false);
     expect(rowIds()).toEqual(['1', '2', '3', '4']);
+    expect(mutate.mock.calls.map(([scope]) => scope)).toEqual(['positions', 'positions']);
     expect(snapshot(harness, harness.row('1'))).toEqual({ group: 'New', previous: undefined, next: '2' });
     expect(handleRawError).toHaveBeenCalledExactlyOnceWith(error, harness.injector.get(States).workPackages.get('1').value);
   });

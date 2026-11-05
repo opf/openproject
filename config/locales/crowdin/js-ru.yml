@@ -47,6 +47,8 @@ ru:
       draggable_hint: 'Перенесите в поле редактора для вставки изображения или прикрепления ссылки. Закрытые поля будут открыты в процессе переноса.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Этот файл помещен в карантин, так как в нем обнаружен вирус. Он недоступен для загрузки.
     autocomplete_ng_select:
       add_tag: Добавить элемент

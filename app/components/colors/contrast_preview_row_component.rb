@@ -27,14 +27,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Labels
-  module LabelsFeature
-    extend ActiveSupport::Concern
+module Colors
+  class ContrastPreviewRowComponent < ApplicationComponent
+    attr_reader :mode, :usage, :hexcode_id
 
-    private
+    def initialize(mode:, usage:, hexcode_id:)
+      super()
+      @mode = mode
+      @usage = usage
+      @hexcode_id = hexcode_id
+    end
 
-    def require_work_package_labels_feature
-      render_404 unless OpenProject::FeatureDecisions.work_package_labels_active?
+    def highlighting_class
+      "__hl_#{usage}"
     end
   end
 end

@@ -676,6 +676,18 @@ describe('KeyboardNavigationTransformer', () => {
       return menuItem;
     };
 
+    it('leaves focus on the scroll container the pointer moved to while the menu was open', async () => {
+      const table = await mount();
+      const menuItem = visitMenu(table);
+      const container = table.table.scrollContainer;
+      container.focus();
+      menuItem.remove();
+
+      navigation(table).returnFocusFromMenu(origin);
+
+      expect(container).toHaveFocus();
+    });
+
     it('focuses the origin again after focus visited the menu portal', async () => {
       const table = await mount();
       visitMenu(table).remove();
@@ -913,6 +925,26 @@ describe('KeyboardNavigationTransformer', () => {
       expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('3'), cell: null, desiredColumn: null });
     });
 
+    it('moves an unentered Tab stop off a row hidden by a collapse', async () => {
+      const table = await mount();
+      expect(table.row('1')).toHaveAttribute('tabindex', '0');
+
+      table.table.setHidden(new Map([[wpOccurrenceKey('1'), true]]));
+
+      expect(table.row('1')).toHaveAttribute('tabindex', '-1');
+      expect(table.row('2')).toHaveAttribute('tabindex', '0');
+    });
+
+    it('initializes the Tab stop on the first work package after an empty table fills', async () => {
+      const table = await mount({ workPackages: [] });
+      expect(table.headerRow()).toHaveAttribute('tabindex', '0');
+
+      await table.render([{ id: '1' }, { id: '2' }]);
+
+      expect(table.row('1')).toHaveAttribute('tabindex', '0');
+      expect(table.headerRow()).toHaveAttribute('tabindex', '-1');
+    });
+
     it('returns to the origin when a full render retires an editor focused in its overlay', async () => {
       const table = await mount({ editing: {} });
       cell(table.row('2'), 1).focus();
@@ -928,6 +960,64 @@ describe('KeyboardNavigationTransformer', () => {
 
       expect(overlay).not.toBeInTheDocument();
       expect(cell(table.row('2'), 1)).toHaveFocus();
+    });
+
+    it('repaints Tab stops only within the rows a keyed mutation names and the stop', async () => {
+      const table = await mount();
+      const stop = table.row('1');
+      expect(stop).toHaveAttribute('tabindex', '0');
+      const observer = new MutationObserver(() => undefined);
+      observer.observe(table.table.scrollContainer, { attributes: true, attributeFilter: ['tabindex'], subtree: true });
+
+      table.table.mutateWorkPackages(['3'], () => undefined);
+
+      const touched = observer.takeRecords().map((record) => record.target as HTMLElement);
+      observer.disconnect();
+      expect(touched.filter((element) => !table.row('3').contains(element) && !stop.contains(element))).toEqual([]);
+      expect(stop).toHaveAttribute('tabindex', '0');
+    });
+
+    it('repaints Tab stops only within the changed rows while focus rests on another row', async () => {
+      const table = await mount();
+      table.row('2').focus();
+      const observer = new MutationObserver(() => undefined);
+      observer.observe(table.table.scrollContainer, { attributes: true, attributeFilter: ['tabindex'], subtree: true });
+
+      table.table.mutateWorkPackages(['3'], () => undefined);
+
+      const touched = observer.takeRecords().map((record) => record.target as HTMLElement);
+      observer.disconnect();
+      expect(touched.filter((element) => !table.row('3').contains(element) && !table.row('2').contains(element))).toEqual([]);
+      expect(table.row('2')).toHaveFocus();
+      expect(table.row('2')).toHaveAttribute('tabindex', '0');
+    });
+
+    it('leaves focus on the scroll container itself when a mutation settles', async () => {
+      const table = await mount();
+      table.row('2').focus();
+      const container = table.table.scrollContainer;
+      container.focus();
+
+      table.table.mutate('all', () => undefined);
+
+      expect(container).toHaveFocus();
+    });
+
+    it('leaves focus on the scroll container when a render pending since a row held focus commits', async () => {
+      const table = await mount();
+      const frames = table.holdFrames();
+      try {
+        table.row('2').focus();
+        table.table.redrawTable();
+        const container = table.table.scrollContainer;
+        container.focus();
+
+        frames.commit();
+
+        expect(container).toHaveFocus();
+      } finally {
+        frames.release();
+      }
     });
 
     it('a re-render while focus is in another table does not steal focus', async () => {
@@ -1079,11 +1169,11 @@ describe('KeyboardNavigationTransformer', () => {
       document.body.append(outside);
       try {
         table.row('1').focus();
-        navigation(table).captureOwnership();
-        outside.focus();
-        outside.remove();
-
-        table.table.refreshRows(resource(table, '1'));
+        table.table.mutate('positions', () => {
+          outside.focus();
+          outside.remove();
+          table.table.refreshRows(resource(table, '1'));
+        });
 
         expect(document.body).toHaveFocus();
         expect(table.row('1')).toHaveAttribute('tabindex', '0');
@@ -1153,8 +1243,7 @@ describe('KeyboardNavigationTransformer', () => {
       await table.render();
       cell(table.row('3'), 0).focus();
 
-      totals.innerHTML = cells;
-      table.table.notifyRowsRefreshed(totalsRowKey);
+      table.table.mutate(new Set([totalsRowKey]), () => { totals.innerHTML = cells; });
 
       expect(navigableCells(totals).every((totalsCell) => totalsCell.getAttribute('tabindex') === '-1')).toBe(true);
       expect(pressActive('ArrowDown')).toBe(false);
@@ -1166,9 +1255,9 @@ describe('KeyboardNavigationTransformer', () => {
       const totals = table.totalsRow();
       navigableCells(totals)[1].focus();
 
-      navigation(table).captureOwnership();
-      totals.innerHTML = totals.innerHTML.replaceAll(/ tabindex="[^"]*"/g, '');
-      table.table.notifyRowsRefreshed(totalsRowKey);
+      table.table.mutate(new Set([totalsRowKey]), () => {
+        totals.innerHTML = totals.innerHTML.replaceAll(/ tabindex="[^"]*"/g, '');
+      });
 
       expect(navigableCells(totals)[1]).toHaveFocus();
       expect(navigation(table).position).toEqual({ key: totalsRowKey, cell: 1, desiredColumn: 1 });
@@ -1176,30 +1265,25 @@ describe('KeyboardNavigationTransformer', () => {
 
     it('keeps ownership captured during a pending render when a second capture sees body', async () => {
       const table = await mount();
-      const frames:FrameRequestCallback[] = [];
-      const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
-        .mockImplementation((callback) => frames.push(callback));
+      const frames = table.holdFrames();
       try {
         table.row('2').focus();
         table.table.redrawTableAndTimeline();
         await Promise.resolve();
         table.row('2').blur();
-        navigation(table).captureOwnership();
-        await Promise.resolve();
+        table.table.mutate('positions', () => undefined);
 
-        frames.splice(0).forEach((frame) => frame(0));
+        frames.commit();
 
         expect(table.row('2')).toHaveFocus();
       } finally {
-        frameSpy.mockRestore();
+        frames.release();
       }
     });
 
     it('a row refresh between scheduling a full render and its commit leaves focus to the commit', async () => {
       const table = await mount();
-      const frames:FrameRequestCallback[] = [];
-      const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
-        .mockImplementation((callback) => frames.push(callback));
+      const frames = table.holdFrames();
       try {
         table.row('2').focus();
         table.table.redrawTableAndTimeline();
@@ -1207,32 +1291,30 @@ describe('KeyboardNavigationTransformer', () => {
         table.table.refreshRows(resource(table, '2'));
         const refreshed = table.row('2');
 
-        frames.splice(0).forEach((frame) => frame(0));
+        frames.commit();
 
         expect(table.row('2')).not.toBe(refreshed);
         expect(table.row('2')).toHaveFocus();
       } finally {
-        frameSpy.mockRestore();
+        frames.release();
       }
     });
 
     it('a table destroyed before the rAF commit restores nothing and throws nothing', async () => {
       const table = await mount();
-      const frames:FrameRequestCallback[] = [];
-      const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
-        .mockImplementation((callback) => frames.push(callback));
+      const frames = table.holdFrames();
       try {
         table.row('2').focus();
         table.table.redrawTableAndTimeline();
         table.table.destroy();
         table.row('2').blur();
 
-        expect(() => frames.splice(0).forEach((frame) => frame(0))).not.toThrow();
+        expect(() => frames.commit()).not.toThrow();
         table.querySpace.tableRendered.putValue(table.querySpace.tableRendered.value);
 
         expect(document.body).toHaveFocus();
       } finally {
-        frameSpy.mockRestore();
+        frames.release();
       }
     });
   });
