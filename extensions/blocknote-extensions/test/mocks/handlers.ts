@@ -257,7 +257,28 @@ const availableProjects = [
   { id: 1, lft: 1, name: 'Demo project', _links: { self: { href: '/api/v3/projects/1' } } },
 ];
 
+export const USER_TIME_ZONE = 'Pacific/Kiritimati';
+
+export const configuration = {
+  dateFormat: 'DD.MM.YYYY',
+  timeFormat: 'HH:mm',
+  startOfWeek: 1,
+  _embedded: { userPreferences: { timeZone: USER_TIME_ZONE } },
+};
+
+const weekdays = [1, 2, 3, 4, 5, 6, 7].map((day) => ({ day, working: day < 6 }));
+
 export const handlers = [
+  http.get('http://localhost:3000/api/v3/configuration', () => HttpResponse.json(configuration)),
+
+  http.get('http://localhost:3000/api/v3/days/week', () =>
+    HttpResponse.json({ _embedded: { elements: weekdays } })
+  ),
+
+  http.get('http://localhost:3000/api/v3/days/non_working', () =>
+    HttpResponse.json({ _embedded: { elements: [{ date: '2026-10-26', name: 'National holiday' }] } })
+  ),
+
   http.get('http://localhost:3000/api/v3/work_packages/available_projects', ({ request }) => {
     const onlyFavored = hasFavoredFilter(request);
     const listed = availableProjects.filter((project) => !onlyFavored || project.favorited);
