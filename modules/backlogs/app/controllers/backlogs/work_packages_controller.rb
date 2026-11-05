@@ -124,7 +124,7 @@ module Backlogs
         # lock refresh.
         dispatch_event_via_turbo_stream(
           WORK_PACKAGE_MOVED_EVENT,
-          detail: { work_package_id: call.result.id }
+          detail: { work_package_id: call.result.id, selection_policy: "clear" }
         )
         return respond_with_turbo_streams(status: call)
       end
@@ -156,22 +156,22 @@ module Backlogs
       if optimistic_same_list_batch_move?(call, source_targets)
         dispatch_event_via_turbo_stream(
           WORK_PACKAGE_MOVED_EVENT,
-          detail: { work_package_ids: call.result.map(&:id) }
+          detail: collection_move_event_detail(call.result, source_targets)
         )
         return respond_with_turbo_streams(status: call)
       end
 
-      render_update_collection_turbo_streams(call)
+      render_update_collection_turbo_streams(call, source_targets)
     end
 
     private
 
-    def render_update_collection_turbo_streams(call)
+    def render_update_collection_turbo_streams(call, source_targets)
       if call.success?
         reload_frame_via_turbo_stream("backlogs_container")
         dispatch_event_via_turbo_stream(
           WORK_PACKAGE_MOVED_EVENT,
-          detail: { work_package_ids: call.result.map(&:id) }
+          detail: collection_move_event_detail(call.result, source_targets)
         )
         render_collection_move_feedback(call.result)
       else
@@ -181,6 +181,12 @@ module Backlogs
       end
 
       respond_with_turbo_streams(status: call)
+    end
+
+    def collection_move_event_detail(results, source_targets)
+      destination = Backlogs::Target.for_work_package(results.first)
+      retain = results.many? && results.all? { |wp| source_targets[wp.id] == destination }
+      { work_package_ids: results.map(&:id), selection_policy: retain ? "retain" : "clear" }
     end
 
     def render_collection_move_feedback(results)
@@ -243,7 +249,7 @@ module Backlogs
         # on the next edit. Covers both drag-and-drop and the move-to-sprint/bucket dialogs.
         dispatch_event_via_turbo_stream(
           WORK_PACKAGE_MOVED_EVENT,
-          detail: { work_package_id: call.result.id }
+          detail: { work_package_id: call.result.id, selection_policy: "clear" }
         )
 
         render_invisible_after_move_flash(call.result)

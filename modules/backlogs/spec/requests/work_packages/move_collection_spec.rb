@@ -58,13 +58,25 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
          headers: { "Accept" => "text/vnd.turbo-stream.html" }
   end
 
-  def expect_moved_event(ids)
-    expect(response.body).to have_turbo_stream(action: "dispatchEvent") do |streams|
-      expect(streams.size).to eq(1)
-      expect(streams.first["event-name"])
-        .to eq(Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT)
-      expect(JSON.parse(streams.first["detail"]))
-        .to eq("work_package_ids" => ids)
+  def expect_moved_event(ids, selection_policy: "clear")
+    expect(response.body).to have_turbo_stream(action: "dispatchEvent")
+    stream = Nokogiri::HTML.fragment(response.body).at_css('turbo-stream[action="dispatchEvent"]')
+    expect(stream["event-name"]).to eq(Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT)
+    expect(JSON.parse(stream["detail"]))
+      .to eq("work_package_ids" => ids, "selection_policy" => selection_policy)
+  end
+
+  [true, false].each do |optimistic|
+    it "clears selection for a member move with optimistic=#{optimistic}", :aggregate_failures do
+      put move_project_backlogs_work_package_path(project, sprint_wp1),
+          params: { list_type: "sprint", list_id: sprint.id, prev_id: "", optimistic: },
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to have_turbo_stream(action: "dispatchEvent")
+      stream = Nokogiri::HTML.fragment(response.body).at_css('turbo-stream[action="dispatchEvent"]')
+      expect(JSON.parse(stream["detail"]))
+        .to eq("work_package_id" => sprint_wp1.id, "selection_policy" => "clear")
     end
   end
 
@@ -205,7 +217,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
           )
         )
         expect(sprint.work_packages_for(project).pluck(:id)).to eq [sprint_wp1.id, *frozen_ids]
-        expect_moved_event(frozen_ids)
+        expect_moved_event(frozen_ids, selection_policy: "retain")
       end
     end
 
@@ -218,6 +230,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
         expect(response.body).to include("backlogs:work-package-moved")
         expect(response.body).to include("work_package_ids")
         expect(response.body).not_to include('target="backlogs_container"')
+        expect_moved_event([sprint_wp1.id])
       end
     end
 
@@ -247,6 +260,36 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
         expect(response.body).not_to include('target="backlogs_container"')
         expect(sprint.work_packages_for(project).pluck(:id)).to eq [sprint_wp3.id, sprint_wp1.id, sprint_wp2.id]
         expect(sprint.work_packages_for(project).pluck(:position)).to eq [1, 2, 3]
+        expect_moved_event([sprint_wp1.id, sprint_wp2.id], selection_policy: "retain")
+      end
+    end
+
+    context "with a same-list batch requiring a frame reload" do
+      it "retains membership for dialog submissions and unverifiable optimistic placement", :aggregate_failures do
+        ids = [bucket_wp2.id, bucket_wp1.id]
+        load_move_to_sprint_dialog(ids:)
+        expect(response).to have_http_status(:ok)
+        move_collection(ids:, list_type: "backlog_bucket", list_id: bucket.id)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('target="backlogs_container"')
+        expect_moved_event(ids, selection_policy: "retain")
+
+        move_collection(ids: ids.reverse, list_type: "backlog_bucket", list_id: bucket.id, optimistic: true)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('target="backlogs_container"')
+        expect_moved_event(ids.reverse, selection_policy: "retain")
+      end
+    end
+
+    context "when only one member changes its container" do
+      it "clears the mixed-source selection", :aggregate_failures do
+        ids = [sprint_wp1.id, bucket_wp1.id]
+        move_collection(ids:, list_type: "sprint", list_id: sprint.id, optimistic: true)
+
+        expect(response).to have_http_status(:ok)
+        expect_moved_event(ids)
       end
     end
 

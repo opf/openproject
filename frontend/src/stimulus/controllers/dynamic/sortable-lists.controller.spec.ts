@@ -1326,7 +1326,7 @@ describe('Sortable lists controller', () => {
       await waitFor(() => expect(root).not.toHaveAttribute('data-sortable-lists-busy'));
     });
 
-    it('clears the selection after a successful collection move', async () => {
+    it('retains the selection and anchor across repeated same-list collection moves', async () => {
       const { root, items } = renderBatchMenuFixture();
       await ctx.nextFrame();
       selectItems(items[1], items[2]);
@@ -1334,7 +1334,32 @@ describe('Sortable lists controller', () => {
       controllerFor(root).moveInDirection(items[1], 'down');
 
       await waitFor(() => expect(root).not.toHaveAttribute('data-sortable-lists-busy'));
-      expect(selectedIds(root)).toEqual([]);
+      expect(selectedIds(root)).toEqual(['2', '3']);
+      controllerFor(root).moveInDirection(items[1], 'up');
+      await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
+      await waitFor(() => expect(root).not.toHaveAttribute('data-sortable-lists-busy'));
+      expect(selectedIds(root)).toEqual(['2', '3']);
+      fireEvent.click(items[0], { shiftKey: true });
+      expect(selectedIds(root)).toEqual(['1', '2', '3']);
+    });
+
+    it('preserves a retained batch and its original Shift anchor when before-move is prevented', async () => {
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      fireEvent.click(items[1]);
+      fireEvent.click(items[2], { shiftKey: true });
+      announceSpy.mockClear();
+      root.addEventListener('sortable-lists:before-move', (event) => event.preventDefault());
+
+      controllerFor(root).moveInDirection(items[1], 'down');
+      await flushPromises();
+
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3', '4']);
+      expect(selectedIds(root)).toEqual(['2', '3']);
+      expect(fetchMock).not.toHaveBeenCalled();
+      expect(announcedMessages()).toEqual([]);
+      fireEvent.click(items[0], { shiftKey: true });
+      expect(selectedIds(root)).toEqual(['1', '2']);
     });
 
     it('rolls a rejected collection move back and preserves the selection', async () => {
@@ -1721,6 +1746,200 @@ describe('Sortable lists controller', () => {
       expect(controller.moveAvailability(items[1])).toEqual({
         top: true, up: true, down: true, bottom: true,
       });
+    });
+  });
+
+  describe('authoritative move selection streams', () => {
+    const movedEvent = 'op-dispatched:backlogs:work-package-moved';
+
+    function bind(root:HTMLElement):void {
+      root.setAttribute('data-action', `${movedEvent}@document->sortable-lists#clearSelectionAfterMove`);
+      root.setAttribute('data-sortable-lists-server-selection-policy-value', 'true');
+    }
+
+    function controllerFor(root:HTMLElement):SortableListsControllerType {
+      return ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+    }
+
+    function report(ids:number[], policy?:'retain'|'clear'):void {
+      document.dispatchEvent(new CustomEvent(movedEvent, { detail: { work_package_ids: ids, selection_policy: policy } }));
+    }
+
+    async function respondWithStream(ids:number[], policy:'retain'|'clear', reconcile = false):Promise<void> {
+      const { registerDispatchEventStreamAction } = await import('core-turbo/dispatch-event-stream-action');
+      const { StreamActions } = await import('@hotwired/turbo');
+      registerDispatchEventStreamAction();
+      const stream = document.createElement('turbo-stream');
+      stream.setAttribute('action', 'dispatchEvent');
+      stream.setAttribute('event-name', movedEvent);
+      stream.setAttribute('detail', JSON.stringify({ work_package_ids: ids, selection_policy: policy }));
+      fetchMock.mockResolvedValueOnce(new Response(stream.outerHTML, {
+        headers: { 'Content-Type': 'text/vnd.turbo-stream.html' },
+      }));
+      renderStreamMessageMock.mockImplementationOnce((html:string) => {
+        const template = document.createElement('template');
+        template.innerHTML = html;
+        const eventStream = template.content.querySelector('turbo-stream')!;
+        if (reconcile) {
+          const rows = fixture.querySelector('[data-controller="sortable-lists--list"]')!;
+          rows.replaceChildren(...Array.from(rows.children).map((row) => row.cloneNode(true)));
+          rows.dispatchEvent(new CustomEvent('turbo:morph-element', { bubbles: true }));
+        }
+        StreamActions.dispatchEvent.call(eventStream);
+      });
+    }
+
+    [false, true].forEach((reconcile) => {
+      it(`retains same-list menu membership across ${reconcile ? 'replacement frame' : 'event-only'} success`, async () => {
+        const { root, sourceList, items } = renderSelectableRoot({ optimistic: true, collectionMoveUrl: '/batch/move' });
+        bind(root);
+        await ctx.nextFrame();
+        fireEvent.click(items[0]);
+        fireEvent.click(items[1], { ctrlKey: true });
+        await respondWithStream([1, 2], 'retain', reconcile);
+
+        controllerFor(root).moveInDirection(items[0], 'down');
+        await waitFor(() => expect(root).not.toHaveAttribute('data-sortable-lists-busy'));
+        await ctx.nextFrame();
+
+        expect(itemIds(sourceList)).toEqual(['3', '1', '2']);
+        expect(Array.from(sourceList.querySelectorAll('[data-batch-selected]')).map((item) => item.getAttribute('data-sortable-lists--item-id-value')))
+          .toEqual(['1', '2']);
+        const current = Array.from(sourceList.children) as HTMLElement[];
+        await respondWithStream([1, 2], 'retain');
+        controllerFor(root).moveInDirection(current[1], 'up');
+        await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
+        await waitFor(() => expect(root).not.toHaveAttribute('data-sortable-lists-busy'));
+        fireEvent.click(sourceList.firstElementChild!, { shiftKey: true });
+        expect(sourceList.querySelectorAll('[data-batch-selected]')).toHaveLength(2);
+      });
+    });
+
+    it('applies explicit server clear over the local same-list retain prediction', async () => {
+      const { root, items } = renderSelectableRoot({ optimistic: true, collectionMoveUrl: '/batch/move' });
+      bind(root);
+      await ctx.nextFrame();
+      fireEvent.click(items[0]);
+      fireEvent.click(items[1], { ctrlKey: true });
+      await respondWithStream([1, 2], 'clear');
+
+      controllerFor(root).moveInDirection(items[0], 'down');
+      await waitFor(() => expect(root).not.toHaveAttribute('data-sortable-lists-busy'));
+
+      expect(root.querySelectorAll('[data-batch-selected]')).toHaveLength(0);
+    });
+
+    it('does not preempt late server retain with local singleton cleanup', async () => {
+      const { root, items } = renderSelectableRoot({ optimistic: true });
+      bind(root);
+      await ctx.nextFrame();
+      fireEvent.click(items[0]);
+
+      controllerFor(root).moveInDirection(items[0], 'down');
+      await waitFor(() => expect(root).not.toHaveAttribute('data-sortable-lists-busy'));
+      expect(items[0]).toHaveAttribute('data-batch-selected');
+      report([1], 'retain');
+      expect(items[0]).toHaveAttribute('data-batch-selected');
+    });
+
+    it('ignores another root\'s document event and accepts owned legacy events', async () => {
+      const { root, items } = renderSelectableRoot();
+      bind(root);
+      const secondRoot = root.cloneNode(true) as HTMLElement;
+      secondRoot.id = 'second-root';
+      secondRoot.setAttribute('data-sortable-lists-sortable-lists--list-outlet', '#second-root [data-controller~="sortable-lists--list"]');
+      secondRoot.setAttribute('data-sortable-lists-sortable-lists--item-outlet', '#second-root [data-controller~="sortable-lists--item"]');
+      const otherItems = Array.from(secondRoot.querySelectorAll<HTMLElement>('[data-sortable-lists--item-id-value]'));
+      otherItems.forEach((item, index) => item.setAttribute('data-sortable-lists--item-id-value', String(11 + index)));
+      fixture.append(secondRoot);
+      await ctx.nextFrame();
+      fireEvent.click(items[0]);
+      fireEvent.click(otherItems[0]);
+
+      report([1]);
+
+      expect(items[0]).not.toHaveAttribute('data-batch-selected');
+      expect(otherItems[0]).toHaveAttribute('data-batch-selected');
+      report([11], 'retain');
+      expect(otherItems[0]).toHaveAttribute('data-batch-selected');
+      report([11], 'clear');
+      expect(otherItems[0]).not.toHaveAttribute('data-batch-selected');
+    });
+
+    it('honors retain for a destination form rather than clearing it after the stream', async () => {
+      const { root, items } = renderSelectableRoot();
+      bind(root);
+      await ctx.nextFrame();
+      fireEvent.click(items[0]);
+      fireEvent.click(items[1], { ctrlKey: true });
+      await respondWithStream([1, 2], 'retain');
+      const form = document.createElement('form');
+      form.method = 'post';
+      form.action = '/batch/move';
+      form.innerHTML = '<input name="ids[]" value="1"><input name="ids[]" value="2"><input name="_method" value="put">';
+
+      controllerFor(root).moveToDestination(form);
+      await waitFor(() => expect(root).not.toHaveAttribute('data-sortable-lists-busy'));
+
+      expect(items[0]).toHaveAttribute('data-batch-selected');
+      expect(items[1]).toHaveAttribute('data-batch-selected');
+    });
+
+    it('owns removed just-moved IDs only for the operation lifetime', async () => {
+      const { root, items } = renderSelectableRoot();
+      bind(root);
+      await ctx.nextFrame();
+      fireEvent.click(items[1]);
+      let resolveMove!:(response:Response) => void;
+      fetchMock.mockImplementationOnce(() => new Promise<Response>((resolve) => { resolveMove = resolve; }));
+      const form = document.createElement('form');
+      form.action = '/batch/move';
+      form.method = 'post';
+      form.innerHTML = '<input name="ids[]" value="1">';
+
+      controllerFor(root).moveToDestination(form);
+      items[0].remove();
+      report([1], 'clear');
+      expect(items[1]).not.toHaveAttribute('data-batch-selected');
+      resolveMove(new Response('<turbo-stream></turbo-stream>', {
+        headers: { 'Content-Type': 'text/vnd.turbo-stream.html' },
+      }));
+      await waitFor(() => expect(root).not.toHaveAttribute('data-sortable-lists-busy'));
+      fireEvent.click(items[1]);
+      report([1], 'clear');
+      expect(items[1]).toHaveAttribute('data-batch-selected');
+    });
+
+    it('prunes only disappeared members after a retained frame reconciliation', async () => {
+      const { root, sourceList, items } = renderSelectableRoot({ optimistic: true, collectionMoveUrl: '/batch/move' });
+      bind(root);
+      await ctx.nextFrame();
+      fireEvent.click(items[0]);
+      fireEvent.click(items[1], { shiftKey: true });
+      await respondWithStream([1, 2], 'retain', true);
+      controllerFor(root).moveInDirection(items[0], 'down');
+      await waitFor(() => expect(root).not.toHaveAttribute('data-sortable-lists-busy'));
+      await ctx.nextFrame();
+      sourceList.querySelector('[data-sortable-lists--item-id-value="1"]')!.remove();
+      sourceList.dispatchEvent(new CustomEvent('turbo:morph-element', { bubbles: true }));
+      await ctx.nextFrame();
+
+      expect(Array.from(sourceList.querySelectorAll('[data-batch-selected]')).map((item) => item.getAttribute('data-sortable-lists--item-id-value')))
+        .toEqual(['2']);
+    });
+
+    it('recognizes a selected member removed from the DOM without clearing unrelated events', async () => {
+      const { root, items } = renderSelectableRoot();
+      bind(root);
+      await ctx.nextFrame();
+      fireEvent.click(items[0]);
+      fireEvent.click(items[1], { ctrlKey: true });
+      items[0].remove();
+
+      report([99], 'clear');
+      expect(items[1]).toHaveAttribute('data-batch-selected');
+      report([1], 'clear');
+      expect(items[1]).not.toHaveAttribute('data-batch-selected');
     });
   });
 
@@ -2146,7 +2365,7 @@ describe('Sortable lists controller', () => {
     fireEvent.click(items[1], { ctrlKey: true });
     expect(items[1]).toHaveAttribute('data-batch-selected');
 
-    fireEvent(document, new CustomEvent('sortable-lists:test-move-completed'));
+    fireEvent(document, new CustomEvent('sortable-lists:test-move-completed', { detail: { work_package_ids: [1, 2] } }));
 
     items.forEach((item) => expect(item).not.toHaveAttribute('data-batch-selected'));
   });
@@ -3563,7 +3782,7 @@ describe('Sortable lists controller', () => {
       expect(rowIdsIn(list1)).toEqual(['3', '1', '2']);
     });
 
-    it('clears same-list presentation and the range anchor after optimistic success', async () => {
+    it('retains same-list presentation and the range anchor after optimistic success', async () => {
       root.setAttribute('data-sortable-lists-selection-description-id-value', 'selected-description');
       item1.setAttribute('aria-describedby', 'own-description');
       await ctx.nextFrame();
@@ -3574,11 +3793,11 @@ describe('Sortable lists controller', () => {
       await simulateDrop({ source: item1, targetList: list1, targetItem: item3, edge: 'bottom' });
 
       expect(list1.contains(item1)).toBe(true);
-      expect(selectedRowIds()).toEqual([]);
-      expect(item1.getAttribute('aria-describedby')).toBe('own-description');
-      expect(item2.hasAttribute('aria-describedby')).toBe(false);
+      expect(selectedRowIds()).toEqual(['1', '2']);
+      expect(item1.getAttribute('aria-describedby')).toBe('own-description selected-description');
+      expect(item2.getAttribute('aria-describedby')).toBe('selected-description');
       click(item3, { shiftKey: true });
-      expect(selectedRowIds()).toEqual(['3']);
+      expect(selectedRowIds()).toEqual(['3', '1']);
     });
 
     it('retains a Shift-built range after cancellation and a failed retry', async () => {
@@ -3647,13 +3866,14 @@ describe('Sortable lists controller', () => {
       expect(body.getAll('ids[]')).toEqual(['2']);
     });
 
-    it('clears the selection after a successful move', async () => {
-      // select 1 and 3, successful batch drop:
+    it('retains a sparse selection across two same-list moves', async () => {
       selectItems(item1, item3);
 
       await simulateDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
-
-      expect(selectedRowIds()).toEqual([]);
+      expect(selectedRowIds()).toEqual(['1', '3']);
+      await simulateDrop({ source: item3, targetList: list1, targetItem: item2, edge: 'top' });
+      expect(selectedRowIds()).toEqual(['1', '3']);
+      expect((fetchMock.mock.calls[1][1].body as FormData).getAll('ids[]')).toEqual(['1', '3']);
     });
 
     it('keeps the selection when the move fails', async () => {

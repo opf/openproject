@@ -70,7 +70,7 @@ import {
   type MoveDirection,
 } from './sortable-lists/list-dom';
 import { SelectionOrchestrator, type ActionScope, type SelectionHost } from './sortable-lists/selection-orchestrator';
-import { itemElementsByKey, itemIdentity } from './sortable-lists/selection';
+import { itemElementsByKey, itemIdentity, orderedItemElements } from './sortable-lists/selection';
 import { DragSession, type DragSessionHost } from './sortable-lists/drag-session';
 
 type CleanupFn = () => void;
@@ -79,6 +79,17 @@ type MoveResult = { ok:true }|{ ok:false; showToast:boolean };
 // items is null on the single-item contract, the batch on the collection one.
 interface DropRoute { url:string; items:SelectionItem[]|null }
 interface MoveAnnouncementContext { label:string|null; listName:string|null; crossList:boolean }
+type SelectionPolicy = 'retain'|'clear';
+interface MoveSelectionOperation {
+  ids:ReadonlySet<string>;
+  pending:boolean;
+  policy:SelectionPolicy|null;
+}
+interface MovedEventDetail {
+  work_package_id?:number;
+  work_package_ids?:number[];
+  selection_policy?:SelectionPolicy;
+}
 
 // Reduced to a same-origin relative URL: an absolute or foreign-origin
 // template would otherwise be submitted as given.
@@ -95,6 +106,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     collectionMoveUrl: String,
     optimistic: { type: Boolean, default: false },
     selectionEnabled: { type: Boolean, default: false },
+    serverSelectionPolicy: { type: Boolean, default: false },
     announcementScope: { type: String, default: 'js.sortable_lists.selection' },
     moveAnnouncementScope: { type: String, default: 'js.sortable_lists.announcements' },
     selectionDescriptionId: { type: String, default: '' },
@@ -118,7 +130,10 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   declare readonly selectionDescriptionIdValue:string;
   declare readonly maxBatchSizeValue:number;
 
+  declare readonly serverSelectionPolicyValue:boolean;
+
   private selection?:SelectionOrchestrator;
+  private moveSelection?:MoveSelectionOperation;
 
   private monitorCleanupFn?:CleanupFn;
   private healScheduled = false;
@@ -153,6 +168,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   disconnect():void {
     this.element.removeEventListener('turbo:morph-element', this.scheduleRegistrationHeal);
     this.teardownSelection();
+    this.moveSelection = undefined;
     this.monitorCleanupFn?.();
     this.monitorCleanupFn = undefined;
     // A drag in flight when the controller disconnects would otherwise leave
@@ -258,8 +274,36 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
   // The move dialogs submit outside this root; the server's moved event
   // is the only success signal it gets.
-  clearSelectionAfterMove():void {
-    this.selection?.clearSilently();
+  clearSelectionAfterMove(event:CustomEvent<MovedEventDetail>):void {
+    const detail = event.detail;
+    const ids = new Set((detail?.work_package_ids ?? (detail?.work_package_id === undefined ? [] : [detail.work_package_id])).map(String));
+    const operation = this.moveSelection;
+    const ownsOperation = operation && [...ids].some((id) => operation.ids.has(id));
+    if (!ownsOperation && !this.selection?.containsAnyId(ids)
+      && !orderedItemElements(this.element).some((item) => ids.has(resolveItemId(item) ?? ''))) return;
+
+    const policy = detail.selection_policy === 'retain' ? 'retain' : 'clear';
+    if (ownsOperation) {
+      operation.policy = policy;
+      if (!operation.pending) this.moveSelection = undefined;
+    }
+    if (policy === 'clear') this.selection?.clearSilently();
+  }
+
+  private beginMoveSelection(ids:string[]):MoveSelectionOperation {
+    const operation:MoveSelectionOperation = { ids: new Set(ids), pending: true, policy: null };
+    this.moveSelection = operation;
+    return operation;
+  }
+
+  private finishMoveSelection(operation:MoveSelectionOperation, success:boolean, retain = false):void {
+    operation.pending = false;
+    if (success && !this.serverSelectionPolicyValue && operation.policy === null && !retain) {
+      this.selection?.clearSilently();
+    }
+    if (this.moveSelection === operation && (!success || !this.serverSelectionPolicyValue || operation.policy !== null)) {
+      this.moveSelection = undefined;
+    }
   }
 
   // The drag in flight, or the prospective session of a press that did not
@@ -669,15 +713,16 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   }
 
   private async submitDestinationMove(form:HTMLFormElement):Promise<void> {
-    const request = new FetchRequest(form.method, form.action, { body: new FormData(form), responseKind: 'turbo-stream' });
+    const body = new FormData(form);
+    const request = new FetchRequest(form.method, form.action, { body, responseKind: 'turbo-stream' });
+    const operation = this.beginMoveSelection(body.getAll('ids[]').map(String));
 
     this.startMoveRequest();
     try {
       const response = await withProgressBar(performTurboStreamRequest(request));
-      if (response.ok) {
-        this.selection?.clearSilently();
-      }
+      this.finishMoveSelection(operation, response.ok);
     } catch (error) {
+      this.finishMoveSelection(operation, false);
       // A rejection streams its own flash; only a request that never
       // produced a stream lands here.
       debugLog('Failed to move sortable list items to destination', error);
@@ -768,7 +813,8 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    if (collapseSelectionOnto) {
+    const retain = rows.length > 1 && rows.every((row) => row.parentElement === rowsContainer);
+    if (collapseSelectionOnto && !retain) {
       this.selection?.collapseForAction(collapseSelectionOnto);
     }
 
@@ -795,14 +841,11 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
     const optimisticPlacement = captureRowPositions(rows);
 
+    const operation = this.beginMoveSelection((items ?? this.itemsOfRows(rows)).map((item) => item.id));
     const result = await this.moveItem({ listData, previousItemId, moveUrl, items });
+    this.finishMoveSelection(operation, result.ok, retain);
 
-    if (result.ok) {
-      // Movement clears selection and anchor; failure preserves both for a
-      // retry. performMove is the shared boundary for the menu path too.
-      this.selection?.clearSilently();
-      return;
-    }
+    if (result.ok) return;
 
     let rolledBack = false;
     try {

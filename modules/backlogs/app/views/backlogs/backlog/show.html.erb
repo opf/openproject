@@ -50,6 +50,7 @@ See COPYRIGHT and LICENSE files for more details.
                       data: {
                         controller: "backlogs--list-refresh backlogs--split-view-sync sortable-lists sortable-lists--menu-source",
                         sortable_lists_optimistic_value: true,
+                        sortable_lists_server_selection_policy_value: true,
                         action: [
                           "#{Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT}@document->backlogs--split-view-sync#onWorkPackageMoved",
                           "#{Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT}@document->sortable-lists#clearSelectionAfterMove"
