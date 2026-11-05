@@ -80,7 +80,7 @@ jobs:
         run: npm run typecheck:spec
 
   unit:
-    name: Units (${{ matrix.browser }})
+    name: Units (${{ matrix.browser }}, ${{ matrix.part }})
     needs: playwright-version
     runs-on: ubuntu-latest
     container:
@@ -91,6 +91,16 @@ jobs:
       fail-fast: false
       matrix:
         browser: [chromium, firefox, webkit]
+        part: [features, stimulus, rest]
+        # WebKit keeps the memory of every spec iframe until it exits, so a
+        # single run over the whole suite exhausts the runner.
+        include:
+          - part: features
+            args: --include src/app/features
+          - part: stimulus
+            args: --include src/stimulus
+          - part: rest
+            args: --exclude 'src/app/features/**' --exclude 'src/stimulus/**'
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -115,4 +125,4 @@ jobs:
         run: chown root:root "$HOME"
 
       - name: Test
-        run: npm test -- --browsers ${{ matrix.browser }} --reporters dot --reporters github-actions
+        run: npm test -- --browsers ${{ matrix.browser }} --reporters dot --reporters github-actions ${{ matrix.args }}
