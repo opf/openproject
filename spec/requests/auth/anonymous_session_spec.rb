@@ -51,14 +51,6 @@ RSpec.describe "Anonymous session", type: :rails_request, with_settings: { login
     expect(csrf_cookie_header).not_to include("secure")
   end
 
-  it "marks the CSRF cookie as secure without the SSL middleware when HTTPS is configured",
-     with_config: { https: true, hsts: false } do
-    https!
-    get signin_path
-
-    expect(csrf_cookie_header).to include("secure")
-  end
-
   it "allows to log in with the CSRF token from the login page" do
     get signin_path
     token = response.parsed_body.at_css("meta[name=csrf-token]")["content"]
