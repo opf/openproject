@@ -130,7 +130,8 @@ en:
         progress: "%{percentage}% done"
       menu:
         delete: "Delete"
-        locked_while_active: "Activate another semantic index first"
+        locked_while_active: "Cannot be deleted while it is active."
+        locked_while_indexing: "Cannot be deleted while indexing."
       start_indexing:
         button:
           failed: "Retry indexing"
