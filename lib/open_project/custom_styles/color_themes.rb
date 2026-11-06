@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,12 +31,12 @@ module OpenProject::CustomStyles
   module ColorThemes
     module_function
 
-    OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME = "OpenProject (default)".freeze
+    OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME = "OpenProject (default)"
 
-    DEPRECATED_MAIN_MENU_COLOR = "#333739".freeze
-    PRIMER_PRIMARY_BUTTON_COLOR = "#1F883D".freeze
-    ACCENT_COLOR = "#0F41B5".freeze
-    DEFAULT_HEADER_BG_COLOR = "#0F41B5".freeze
+    DEPRECATED_MAIN_MENU_COLOR = "#333739"
+    PRIMER_PRIMARY_BUTTON_COLOR = "#1F883D"
+    ACCENT_COLOR = "#0F41B5"
+    DEFAULT_HEADER_BG_COLOR = "#0F41B5"
 
     THEMES = [
       {
@@ -44,7 +46,7 @@ module OpenProject::CustomStyles
           "accent-color" => ACCENT_COLOR,
           "header-bg-color" => DEFAULT_HEADER_BG_COLOR,
           "main-menu-bg-color" => "#FFFFFF",
-          "main-menu-bg-selected-background" => "#0F41B5",
+          "main-menu-bg-selected-background" => "#0F41B5"
         }
       },
       {
@@ -54,7 +56,7 @@ module OpenProject::CustomStyles
           "accent-color" => ACCENT_COLOR,
           "header-bg-color" => "#FAFAFA",
           "main-menu-bg-color" => "#ECECEC",
-          "main-menu-bg-selected-background" => "#A9A9A9",
+          "main-menu-bg-selected-background" => "#A9A9A9"
         },
         logo: "logo_openproject.png"
       },
@@ -65,7 +67,7 @@ module OpenProject::CustomStyles
           "accent-color" => ACCENT_COLOR,
           "header-bg-color" => "#05002C",
           "main-menu-bg-color" => "#0E2045",
-          "main-menu-bg-selected-background" => "#3270DB",
+          "main-menu-bg-selected-background" => "#3270DB"
         }
       }
     ].freeze
