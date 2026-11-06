@@ -1140,6 +1140,7 @@ pl:
         default_mode: Płaska lista
         display_settings: Ustawienia wyświetlania
         display_sums_hint: Wyświetlaj sumy wszystkich sumowanych atrybutów w wierszu pod wynikami tabeli.
+        embedded_tab_disabled: Ta karta konfiguracji nie jest dostępna dla widoku osadzonego, który edytujesz.
         hierarchy_hint: Wszystkie przefiltrowane wyniki z tabeli będą poszerzane o ich przodków. Hierarchie można rozwijać i zwijać.
         hierarchy_mode: Hierarchia
         highlighting: Wyróżnianie

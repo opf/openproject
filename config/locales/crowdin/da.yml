@@ -342,6 +342,10 @@ da:
         custom_field_section: Afsnit
       project_type:
         variant: Variant
+      push_subscription:
+        created_at: Tilføjet
+        endpoint: Endepunkt
+        session_id: Session
       query:
         child_work_packages: Underordnede arbejdspakker
         column_names: Kolonner
@@ -828,7 +832,7 @@ da:
               switch_target_blank: Vælg den variant, der skal skiftes til
               switch_target_identical: Måltypen skal være en anden end den type, projektet bruger nu
               switch_target_not_in_family: Der kan kun skiftes til en anden type i samme familie
-          cannot_be_assigned_to_artefact_work_package: Den valgte bruger må ikke få tildelt arbejdspakker.
+          cannot_be_assigned_to_artifact_work_package: Den valgte bruger må ikke få tildelt arbejdspakker.
           foreign_wps_reference_version: Arbejdspakker i ikke-efterkommerprojekter refererer til versioner af projektet eller dets efterkommere.
         project/phase:
           attributes:
@@ -847,6 +851,10 @@ da:
             variant:
               must_be_owned_by_the_project: må ikke være en variant, som et andet projekt ejer.
               must_belong_to_the_type: skal være en variant af den type, projektet bruger.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Kun %{count} enheder kan få browsernotifikationer på samme tid.
         queries/filters/base:
           attributes:
             values:
@@ -1639,10 +1647,6 @@ da:
         button_delete_personal_access_token: Slet PAT
         button_save: Gem konfiguration
         button_test_connection: Test forbindelse
-        credential_requirements:
-          administrator: Brugeren skal være Jira-administrator.
-          project_member: Brugeren skal være medlem af alle de Jira-projekter, du vil migrere.
-          title: Krav til Jira-brugeren bag legitimationsoplysningerne
         delete_basic_auth_password_confirm: Er du sikker på, at du vil slette adgangskoden til basic auth? Forbindelsen til Jira bliver slået fra.
         delete_personal_access_token_confirm: Er du sikker på, at du vil slette det personlige adgangstoken (PAT)? Forbindelsen til Jira bliver slået fra.
         exclude_resolution_fields_caption: Du kan udelade felterne for løsning og løsningsdato fra importen for denne konfiguration.
@@ -1654,7 +1658,6 @@ da:
           personal_access_token: Personligt adgangstoken (PAT)
           url: URL til Jira Server/Data Center
         label_testing: Tester konfigurationen …
-        personal_access_token_caption: Tokenet skal tilhøre en Jira-administrator.
       personal_access_token_deleted: Det personlige adgangstoken (PAT) er slettet.
       run:
         actions:
@@ -1712,9 +1715,6 @@ da:
             title: Henter metadata om de valgte projekter
           JiraRevertImportJob:
             title: Tilbagefører denne importkørsel fra Jira
-        not_administrator_error:
-          basic: Jira-konfigurationen bruger en basic auth-bruger uden administratortilladelser. Migreringen kræver en Jira-administrator for at kunne gennemføres. Rediger konfigurationen med en administrators legitimationsoplysninger, og prøv igen.
-          bearer: Jira-konfigurationen bruger en almindelig brugers personlige adgangstoken. Migreringen kræver et personligt adgangstoken fra en administrator for at kunne gennemføres. Rediger konfigurationen med et administratortoken, og prøv igen.
         project_identifier_taken: 'Du forsøger at importere et projekt med et id, der allerede er i brug: %{taken_identifier}. Ret projektets id i Jira, og klik så på Prøv igen.'
         remove_error: En importkørsel fra Jira kan ikke fjernes, mens den kører
         side_panel:
@@ -1776,9 +1776,6 @@ da:
             projects:
               one: "%{count} projekt"
               other: "%{count} projekter"
-            resolutions:
-              one: "%{count} løsning"
-              other: "%{count} løsninger"
             statuses:
               one: "%{count} status"
               other: "%{count} statusser"
@@ -1808,7 +1805,6 @@ da:
               label_available_data: Data, der importeres
               label_import_data: Importeres nu
               label_progress: Importen er i gang …
-              label_resolution_statuses_explanation: Ekstra statusser, der kombinerer status og løsning (fx "Done - Fixed")
               label_users_import_explanation: Brugere, der er involveret i de valgte projekter (inklusive gruppemedlemskaber)
               title: Importér data
             fetch_data:
@@ -1935,12 +1931,10 @@ da:
         error: Der opstod en uventet fejl under test af forbindelsen
         failed: 'Forbindelsen mislykkedes: Serveroplysningerne kunne ikke hentes'
         invalid_url: Angiv en gyldig URL
-        not_administrator:
-          basic: Basic auth-brugeren skal være Jira-administrator.
-          bearer: Det personlige adgangstoken skal være et administratortoken.
         parse_error: Svaret fra serveren kunne ikke fortolkes. Serveren er måske ikke en gyldig Jira-installation.
         personal_access_token_invalid: Ugyldigt personligt adgangstoken (PAT). Kontrollér legitimationsoplysningerne i konfigurationen.
         success: Forbundet til %{server} (version %{version})
+        user_is_not_admin: Ejeren af legitimationsoplysningerne er ikke administrator i Jira
       title: Jira-migrering
       user:
         unknown_name: Ukendt
@@ -2108,6 +2102,37 @@ da:
           error: Afsnittets placering kunne ikke ændres.
         move:
           error: Afsnittets placering kunne ikke ændres.
+      push_notifications:
+        checking: Tjekker …
+        description: Brugerne kan vælge at installere OpenProject som en progressiv webapp (PWA) i moderne browsere. Gør de det, kan de også få notifikationer fra styresystemet om aktivitet i OpenProject.
+        hosts_intro: 'OpenProject sender push til den push-tjeneste, som den enkelte brugers browser abonnerer via. Tjekket nedenfor kontakter de store browseres push-tjenester og alle tjenester, som et eksisterende abonnement bruger:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: Push-signeringsnøglen angives med miljøvariablen OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY. Skift variablen for at forny nøglen.
+        key_renewed: Push-signeringsnøglen er fornyet. Alle enheder skal slå browsernotifikationer til igen.
+        key_unreadable: Push-signeringsnøglen kunne ikke læses. Forny den for at få browsernotifikationerne tilbage. Derefter skal alle enheder slå browsernotifikationer til igen.
+        reachable: Kan nås
+        reasons:
+          connection: Forbindelsen mislykkedes
+          filtered: Anmodningen blev blokeret af SSRF-beskyttelsen
+          invalid_host: Værtsnavnet er ugyldigt
+          private_address: Værten peger på en privat adresse
+          sample_unresolved: Eksempelværten kunne ikke slås op; resultatet er ikke entydigt
+          timeout: Intet svar inden for %{seconds} sekunder
+          tls: TLS-handshake mislykkedes
+          unresolved: Værtsnavnet kunne ikke slås op
+        renew_key: Forny nøgler
+        renew_key_dialog:
+          confirm_button: Forny nøglen
+          confirmation: Jeg forstår, at alle enheder skal slå browsernotifikationer til igen.
+          description:
+            one: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: det ene eksisterende abonnement slettes, og alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+            other: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: %{count} abonnementer slettes, og alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+            zero: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: der findes endnu ingen abonnementer, men alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+          heading: Vil du forny push-signeringsnøglen?
+          title: Forny nøgler
+        unreachable: Kan ikke nås
+        verify_reachability: Tjek, om tjenesterne kan nås
+        verify_reachability_description: For at tjekke for notifikationer sender OpenProject en push uden indhold, der vækker appen. Den installerede PWA henter derefter antallet af ulæste over brugerens session. Følgende push-tjenester ser abonnementets endepunkt, denne installations adresse og offentlige nøgle samt tidspunktet for hver push.
       user_custom_field_sections:
         destroy:
           error: Afsnittet kunne ikke slettes.
@@ -2322,8 +2347,6 @@ da:
         emoji_reactions_activity_type_not_supported: Denne aktivitetstype understøtter ikke emoji-reaktioner.
         invalid_link: Linket under nøglen '%{key}' er ugyldigt.
         links_not_an_object: _links skal være et JSON-objekt.
-        pdf_export_no_template_enabled: Der er ingen skabelon til PDF-eksport aktiveret for arbejdspakkens type.
-        pdf_export_template_not_enabled: Skabelonen til PDF-eksport '%{template}' er ikke aktiveret for arbejdspakkens type.
       code_400: 'Ugyldig forespørgsel: %{message}'
       code_401: Du skal være logget ind for at få adgang til denne ressource.
       code_401_wrong_credentials: Du har ikke givet korrekte loginoplysninger.
@@ -2673,22 +2696,6 @@ da:
       missing_value: Attributten "%{custom_field_name}" er påkrævet af den beregnede værdi, men er tom.
       unknown: Der opstod en ukendt fejl. Gennemse formlen for den beregnede værdi.
   colors:
-    contrast:
-      background: Baggrund
-      caption: Baseret på WCAG AA's mindstekrav til kontrastforhold på 4,5:1 for normal tekst.
-      dark: Mørk tilstand
-      description: Farverne fremhæver oplysninger som arbejdspakketyper og statusser i tabeller og backlogs. Forhåndsvisningerne viser, hvordan din farve ser ud, når den bruges som tekst eller som baggrund i standardtemaerne lys og mørk.
-      fail: Ikke bestået
-      foreground: Forgrund
-      light: Lys tilstand
-      pass: Bestået
-      ratio: Kontrastforhold
-      sample: Eksempeltekst
-      text: Tekst
-      title: Forhåndsvisning af kontrast
-      used_as_background: Brugt som baggrund
-      used_as_foreground: Brugt som forgrund
-      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: Rediger farve
     form:
@@ -3906,7 +3913,6 @@ da:
       comment_retracted: Kommentaren er trukket tilbage
       dates_changed: Datoer ændret
       default_attribute_written: Skrivebeskyttede attributter skrevet
-      email_html: "<strong>Via e-mail</strong> fra %{sender}"
       forum_message_html: "<strong>Oprettet ud fra meddelelse i forum</strong> %{message_information}"
       import: Importeret
       label_deleted: 'Mærkat fjernet:'
@@ -4133,7 +4139,7 @@ da:
   label_duplicate: dublet
   label_duplicated_by: dubleret af
   label_duplicates: dublerer
-  label_edit: Rediger
+  label_edit: Redigér
   label_edit_x: 'Rediger: %{x}'
   label_empty_element: "(tom)"
   label_enable_multi_select: Slå flervalg til/fra
@@ -5049,6 +5055,7 @@ da:
       mail_notification: E-mail-notifikationer
       mails_and_notifications: E-mails og notifikationer
       mcp_configurations: Model Context Protocol (MCP)
+      push_notifications: Browsernotifikationer
       text_transform_actions: Handlinger til tekstomskrivning
     quick_add:
       label: Tilføj …
@@ -5927,7 +5934,7 @@ da:
           description_file_link_export: Artefaktets arbejdspakke får et fil-link til en PDF i et eksternt fillager. Det kræver et fungerende fillager med automatisk administrerede projektmapper til dette projekt. I øjeblikket understøttes kun Nextcloud-fillagre.
           description_file_storage_selection: Vælg, hvilket af de konfigurerede eksterne fillagre der skal bruges.
           external_file_storage: Eksternt fillager
-          label_artefact_export: Eksport af artefakt
+          label_artifact_export: Eksport af artefakt
           label_attachment_export: Gem som vedhæftet fil på arbejdspakken
           label_file_link_export: Overfør filen til eksternt fillager, og tilføj et fil-link til arbejdspakken
           pdf_file_storage: Fillager til PDF
@@ -6066,8 +6073,8 @@ da:
     status:
       button_edit: Rediger status
     wizard:
-      create_artefact_storage_error: Artefaktet kunne ikke gemmes i fillageret
-      create_artefact_work_package_error: Artefaktets arbejdspakke kunne ikke oprettes
+      create_artifact_storage_error: Artefaktet kunne ikke gemmes i fillageret
+      create_artifact_work_package_error: Artefaktets arbejdspakke kunne ikke oprettes
       no_custom_fields_html: Projektet har ingen projektattributter aktiveret til guiden. Aktivér mindst én i <a href="%{link}">projektindstillingerne</a>.
       no_help_text: Der er ikke defineret nogen hjælpetekst til attributten.
       progress_label: "%{current} af %{total}"
@@ -6099,22 +6106,6 @@ da:
         automatic:
           description: Sortér %{plural} efter et eller flere sorteringskriterier. Den tidligere sortering går tabt.
           heading: Automatisk
-    filter_summary:
-      between: "%{field} %{operator} %{lower} og %{upper}"
-      current_work_package: den aktuelle arbejdspakke
-      from: "%{field} er den %{date} eller senere"
-      relative:
-        ago: "%{field} er %{duration} siden"
-        in: "%{field} er om %{duration}"
-        in_less_than: "%{field} er om mindre end %{duration}"
-        in_more_than: "%{field} er om mere end %{duration}"
-        less_than_ago: "%{field} er mindre end %{duration} siden"
-        more_than_ago: "%{field} er mere end %{duration} siden"
-      unavailable_filter: Utilgængeligt filter
-      unavailable_value: Utilgængelig værdi
-      until: "%{field} er den %{date} eller tidligere"
-      with_values: "%{field} %{operator} %{values}"
-      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6524,6 +6515,12 @@ da:
   setting_user_format: Format for brugernavne
   setting_users_deletable_by_admins: Brugerens konti kan slettes af administratorer
   setting_users_deletable_by_self: Brugererne kan selv slette deres konti
+  setting_web_push_enabled: Browsernotifikationer
+  setting_web_push_enabled_caption: Lader brugere, der har installeret OpenProject som en progressiv webapp, få notifikationer fra styresystemet, når de har ulæste notifikationer i OpenProject.
+  setting_web_push_enabled_false: Tillad ikke browsernotifikationer
+  setting_web_push_enabled_false_caption: Brugerne kan ikke slå browsernotifikationer til i deres kontoindstillinger, heller ikke hvis de har installeret PWA'en
+  setting_web_push_enabled_true: Tillad browsernotifikationer
+  setting_web_push_enabled_true_caption: Brugerne kan slå browsernotifikationer til i deres kontoindstillinger, hvis de har installeret PWA'en
   setting_welcome_on_homescreen: Vis velkomstblok på hjemmeskærm
   setting_welcome_text: Velkomstblok-tekst
   setting_welcome_title: Velkomstblok-titel
@@ -6671,8 +6668,8 @@ da:
 
         '
       name:
-        artefact_name: Artefaktets navn
-        artefact_name_caption: Vælg det navn for artefaktet, som jeres projektmodel anbefaler.
+        artifact_name: Artefaktets navn
+        artifact_name_caption: Vælg det navn for artefaktet, som jeres projektmodel anbefaler.
         options:
           project_creation_wizard: Guide til oprettelse af projekt
           project_initiation_request: Anmodning om projektinitiering
@@ -7057,9 +7054,6 @@ da:
       short: "%e. %b %H:%M"
       time: "%H:%M"
     pm: eftermiddag
-    relative_ago: "%{time} siden"
-    relative_at: "%{relative} kl. %{time}"
-    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: til
     show: Vis tidsramme
@@ -7288,11 +7282,6 @@ da:
         no_inactive_attributes: Ingen inaktive attributter
         not_found: Det ønskede formularelement blev ikke fundet.
         query_group_label: Tabel med relaterede arbejdspakker
-        query_summary:
-          baseline:
-            between: Ændringer mellem %{from} og %{to}
-            since: Ændringer siden %{time}
-          unavailable: Konfigurationen er ikke tilgængelig
         remove_attribute: Fjern fra afsnit
         rename_group: Omdøb afsnit
         required:
@@ -7354,6 +7343,8 @@ da:
           no_results: Ingen projekter matcher.
           title: Bruges endnu ikke i noget projekt
         enable_all: Aktivér for alle projekter
+        select_projects: Vælg projekter
+        select_projects_description: Vælg de projekter, hvor du vil bruge typen.
         switch_dialog:
           description: Følgende projekter bruger allerede andre varianter af %{type}. Er du sikker på, at du vil erstatte dem med "%{variant}"? Det påvirker formularer og arbejdsgange i alle disse projekter.
           title: Erstat varianter?

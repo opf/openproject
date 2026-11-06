@@ -1124,6 +1124,7 @@ el:
         default_mode: Επίπεδη λίστα
         display_settings: Ρυθμίσεις εμφάνισης
         display_sums_hint: Εμφάνιση αθροισμάτων από όλα τα αθροίσιμα χαρακτηριστικά σε μια στήλη κάτω από τα αποτελέσματα του πίνακα.
+        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Όλα τα φιλτραρισμένα αποτελέσματα πίνακα θα επαυξηθούν με τους προγόνους τους. Οι ιεραρχίες μπορούν να επεκταθούν ή να συμπτυχθούν.
         hierarchy_mode: Ιεραρχία
         highlighting: Επισημαίνοντας

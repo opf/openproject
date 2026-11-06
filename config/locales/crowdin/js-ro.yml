@@ -164,7 +164,7 @@ ro:
     button_start_timer: Pornește cronometrul
     button_stop_timer: Oprește cronometrul
     button_uncheck_all: Deselectează tot
-    button_update: Actualizează
+    button_update: Actualizare
     button_view_markdown: View Markdown
     caption_rate_history: Istoric cotă
     card:
@@ -1132,6 +1132,7 @@ ro:
         default_mode: Listă
         display_settings: Setări afișare
         display_sums_hint: Afișarea sumelor tuturor atributelor însumabile pe un rând sub rezultatele tabelului.
+        embedded_tab_disabled: Această filă de configurare nu este disponibilă pentru vizualizarea încorporată pe care o editezi.
         hierarchy_hint: Toate rezultatele tabelelor filtrate vor fi completate cu strămoșii lor. Ierarhiile pot fi extinse și restrânse.
         hierarchy_mode: Ierarhie
         highlighting: Evidențiere

@@ -1162,6 +1162,7 @@ hu:
         display_sums_hint: 'Az összes összegezhető attribútum összegének megjelenítése a táblázat eredményei alatti sorban.
 
           '
+        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: 'Minden szűrt táblázat eredményei kiegészülnek az őseikkel. A hierarchiák kiterjeszthetők és összecsukhatók.
 
           '
