@@ -4,10 +4,10 @@ import { formatWorkPackageId } from '../../utils/id';
 import { useTapActivation } from '../../utils/tapActivation';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
 import { usePressOutside } from '../../hooks/usePressOutside';
-import { PENDING_PREFIX } from '../InlineWorkPackage/callbacks';
+import { isPendingWpid } from '../../utils/pending';
 import { normalizeDisplay, type AttributeDisplay } from './externalHtml';
 import { useWorkPackageAttribute } from './useWorkPackageAttribute';
-import { getPendingAttribute } from './pending';
+import { pendingAttributes } from './pending';
 import { lastChoice, rememberChoice } from './lastChoice';
 import { InsertAttributeModal } from './InsertAttributeModal';
 import { AttributeDisplayMenu } from './AttributeDisplayMenu';
@@ -79,7 +79,7 @@ function ResolvedAttributeInline({ content, editor, contentRef, onDisplayChange 
 
 export function WorkPackageAttributeInline({ content, editor, contentRef, onDisplayChange }:WorkPackageAttributeInlineProps) {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const pending = getPendingAttribute(content.wpid);
+  const pending = pendingAttributes.get(content.wpid);
 
   if (pending) {
     return (
@@ -96,7 +96,7 @@ export function WorkPackageAttributeInline({ content, editor, contentRef, onDisp
             prefill={lastChoice()}
             onInsert={(choice) => {
               rememberChoice(choice);
-              pending.onInsert(choice);
+              pending.onResolve(choice);
             }}
             onCancel={pending.onCancel}
           />
@@ -106,7 +106,7 @@ export function WorkPackageAttributeInline({ content, editor, contentRef, onDisp
   }
 
   // Another collaborator's dialog is still open on it.
-  if (content.wpid.startsWith(PENDING_PREFIX)) return <span ref={contentRef} />;
+  if (isPendingWpid(content.wpid)) return <span ref={contentRef} />;
 
   return <ResolvedAttributeInline content={content} editor={editor} contentRef={contentRef} onDisplayChange={onDisplayChange} />;
 }

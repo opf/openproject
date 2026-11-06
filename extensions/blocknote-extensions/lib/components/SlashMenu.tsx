@@ -2,56 +2,13 @@ import type { BlockNoteEditor } from '@blocknote/core';
 import { LinkIcon, PlusIcon, TagIcon } from '@primer/octicons-react';
 import i18n from '../services/i18n.ts';
 import { getAliases } from '../services/slashMenuAliases';
-import { registerInlineWpCallbacks, clearInlineWpCallbacks, makePendingWpid } from './InlineWorkPackage/callbacks';
-import { findPendingInlineChip, removePendingInlineChip } from '../utils/inlineChipActions';
+import { insertPendingInlineWorkPackage } from './InlineWorkPackage/pending';
+import { insertPendingAttribute } from './WorkPackageAttribute/pending';
 import { pendingBlockRegistry } from './BlockWorkPackage/pendingBlockRegistry';
 import { canBlockWorkPackageReplaceCurrentBlock } from '../utils/blockContent.ts';
 import { canCreateWorkPackages } from '../services/openProjectApi.ts';
 import type { AnyEditor } from '../editorTypes';
 import type { PendingMode } from './WorkPackage/types';
-import type { WorkPackage } from '../openProjectTypes';
-import { insertPendingAttribute } from './WorkPackageAttribute/pending';
-
-function buildOnSelect(
-  editor:AnyEditor,
-  pendingWpid:string
-):(workPackage:WorkPackage) => void {
-  return (workPackage:WorkPackage) => {
-    // Resolve the placeholder chip to its real work package by updating the node's
-    // props in place. We use a ProseMirror `setNodeMarkup` transaction rather than
-    // `editor.updateBlock` because updateBlock rebuilds the block and moves the
-    // cursor to the block end, whereas setNodeMarkup maps the existing selection
-    // through unchanged — leaving the cursor directly after the chip's trailing
-    // space (where the placeholder insertion left it). Crucially we do NOT dispatch a separate
-    // selection transaction to reposition the cursor: under real-time
-    // collaboration (Yjs/Hocuspocus) a selection change issued after the menu
-    // insertion leaves the editor in a state where the next native keyboard input
-    // (e.g. Backspace) is silently dropped. Relying on the preserved selection
-    // avoids that entirely.
-    const found = findPendingInlineChip(editor.prosemirrorState.doc, pendingWpid);
-    if (!found) return;
-
-    editor.focus();
-    editor.transact((tr) => {
-      tr.setNodeMarkup(found.position, undefined, {
-        ...found.node.attrs,
-        wpid: String(workPackage.id),
-        displayId: workPackage.displayId,
-      });
-    });
-  };
-}
-
-function buildOnCancel(
-  editor:AnyEditor,
-  pendingWpid:string
-):() => void {
-  return () => {
-    editor.focus();
-    removePendingInlineChip(editor, pendingWpid, { withSpacer: true });
-    clearInlineWpCallbacks(pendingWpid);
-  };
-}
 
 function insertBlockWorkPackage(editor:AnyEditor, mode:PendingMode):void {
   const blockId = editor.getTextCursorPosition()?.block?.id as string | undefined;
@@ -69,30 +26,11 @@ function insertBlockWorkPackage(editor:AnyEditor, mode:PendingMode):void {
   editor.removeBlocks([blockId]);
 }
 
-function insertInlineWorkPackage(editor:AnyEditor, mode:PendingMode):void {
-  const pendingWpid = makePendingWpid();
-
-  const onSelect = buildOnSelect(editor, pendingWpid);
-  const onCancel = buildOnCancel(editor, pendingWpid);
-
-  registerInlineWpCallbacks(pendingWpid, onSelect, onCancel, { mode });
-
-  try {
-    (editor.insertInlineContent as (content:unknown[]) => void)([
-      { type: 'openProjectWorkPackageInline', props: { wpid: pendingWpid, size: 's' } },
-      { type: 'text', text: ' ', styles: {} },
-    ]);
-  } catch (error) {
-    console.error('[inline-wp] insertInlineContent failed:', error);
-    clearInlineWpCallbacks(pendingWpid);
-  }
-}
-
 function insertPendingWorkPackage(editor:AnyEditor, mode:PendingMode):void {
   if (canBlockWorkPackageReplaceCurrentBlock(editor)) {
     insertBlockWorkPackage(editor, mode);
   } else {
-    insertInlineWorkPackage(editor, mode);
+    insertPendingInlineWorkPackage(editor, mode);
   }
 }
 

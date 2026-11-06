@@ -9,9 +9,8 @@ import { UnavailableChip } from './UnavailableChip';
 import { PendingWorkPackagePopover } from '../WorkPackage/PendingWorkPackagePopover';
 import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
 import { WpPreviewPopover } from '../WorkPackage/PreviewPopover';
-import { getPendingCallbacks, clearInlineWpCallbacks } from './callbacks';
+import { pendingWorkPackages } from './pending';
 import type { InlineWpSize } from '../WorkPackage/types';
-import type { WorkPackage } from '../../openProjectTypes';
 import {
   findInlineChipAtDOM,
   selectInlineChipAt,
@@ -49,8 +48,8 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
   const displayId = inlineContent.props.displayId || rawWpid;
   const size = (inlineContent.props.size ?? 's') as InlineWpSize;
 
-  const pendingCallbacks = getPendingCallbacks(rawWpid);
-  const wpid = pendingCallbacks === undefined && rawWpid ? Number(rawWpid) : undefined;
+  const pending = pendingWorkPackages.get(rawWpid);
+  const wpid = pending === undefined && rawWpid ? Number(rawWpid) : undefined;
 
   useColors();
 
@@ -91,7 +90,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
 
   const setRef = (node:HTMLElement | null) => {
     chipRef.current = node;
-    if (pendingCallbacks || node === null) setChipEl(node);
+    if (pending || node === null) setChipEl(node);
     optionsHostRef(node);
     contentRef(node);
   };
@@ -149,25 +148,16 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     />
   );
 
-  if (pendingCallbacks) {
-    const resolvePending = (resolvedWp:WorkPackage) => {
-      pendingCallbacks.onSelect(resolvedWp);
-      clearInlineWpCallbacks(rawWpid);
-    };
-    const cancelPending = () => {
-      pendingCallbacks.onCancel();
-      clearInlineWpCallbacks(rawWpid);
-    };
-
+  if (pending) {
     return (
       <InlineChip ref={setRef}>
         {chipEl && (
           <PendingWorkPackagePopover
-            mode={pendingCallbacks.mode}
-            initialSubject={pendingCallbacks.initialSubject}
+            mode={pending.mode}
+            initialSubject={pending.initialSubject}
             anchorEl={chipEl}
-            onResolve={resolvePending}
-            onCancel={cancelPending}
+            onResolve={pending.onResolve}
+            onCancel={pending.onCancel}
           />
         )}
       </InlineChip>

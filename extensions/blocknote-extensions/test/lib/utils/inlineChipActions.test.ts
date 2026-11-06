@@ -1,7 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from 'vitest';
 import {
-  findPendingInlineChip,
   removeInlineChipAt,
   promoteInlineChipToBlockAt,
   convertBlockToInlineChip,
@@ -15,30 +14,6 @@ import {
   nthChipPosition,
   textContent,
 } from '../../helpers/headlessEditor';
-
-describe('findPendingInlineChip', () => {
-  it('finds the chip with the given pending wpid', () => {
-    const editor = createHeadlessEditor([textContent('a'), chipContent('pending:x'), textContent('b')]);
-
-    const found = findPendingInlineChip(editor.prosemirrorState.doc, 'pending:x');
-
-    expect(found).not.toBeNull();
-    expect(found?.node.attrs.wpid).toBe('pending:x');
-    expect(found?.position).toBe(nthChipPosition(editor, 0));
-  });
-
-  it('returns null when no chip matches', () => {
-    const editor = createHeadlessEditor([textContent('a'), chipContent('1')]);
-
-    expect(findPendingInlineChip(editor.prosemirrorState.doc, 'pending:x')).toBeNull();
-  });
-
-  it('returns null when the wpid does not carry the pending prefix, even if a matching chip exists', () => {
-    const editor = createHeadlessEditor([chipContent('1')]);
-
-    expect(findPendingInlineChip(editor.prosemirrorState.doc, '1')).toBeNull();
-  });
-});
 
 describe('removeInlineChipAt', () => {
   it('removes exactly the chip at the given position', () => {
