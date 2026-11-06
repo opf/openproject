@@ -711,6 +711,7 @@ en:
               format: "%{message}"
               invalid: "Formula is invalid."
               invalid_tokens: "Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed."
+              multi_value_list_not_aggregated: "Multi-select attributes (%{custom_fields}) can only be used within aggregate functions."
               not_allowed_custom_fields_referenced: "The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other."
             project_specific_value_restriction:
               not_supported: "is only available for work package custom fields of the formats list, hierarchy and weighted item list."

@@ -183,16 +183,20 @@ module CustomField::CalculatedValue
         errors.add(:formula, :invalid)
       else
         validate_referenced_custom_fields
-        # validate_multi_value_list_usage
+        validate_multi_value_list_usage
       end
     end
 
     def valid_formula_syntax?
       # Attempt to parse the formula. If no error is returned, the formula is syntactically valid.
-      CustomField::CalculatedValue.calculator_instance.ast(formula_str_without_patterns)
+      formula_ast
       true
     rescue Dentaku::ParseError, Dentaku::TokenizerError
       false
+    end
+
+    def formula_ast
+      @formula_ast ||= CustomField::CalculatedValue.calculator_instance.ast(formula_str_without_patterns)
     end
 
     def formula_contains_only_allowed_tokens?
@@ -219,6 +223,38 @@ module CustomField::CalculatedValue
         custom_field_names = CustomField.where(id: surplus_cfs).pluck(:name).sort
         errors.add(:formula, :not_allowed_custom_fields_referenced, custom_fields: custom_field_names.join(", "))
       end
+    end
+
+    def validate_multi_value_list_usage
+      misused_lists = multi_value_lists_outside_aggregate_functions
+      return if misused_lists.empty?
+
+      custom_field_names = misused_lists.map(&:name).join(", ")
+      errors.add(:formula, :multi_value_list_not_aggregated, custom_fields: custom_field_names)
+    end
+
+    def multi_value_lists_outside_aggregate_functions
+      multi_value_lists = used_multi_value_lists.index_by(&:column_name)
+      return [] if multi_value_lists.empty?
+
+      ast_nodes_with_parents(formula_ast)
+        .select { |node, _parent| node.is_a?(Dentaku::AST::Identifier) }
+        .reject { |_node, parent| parent&.name.in?(FORMULA_AGGREGATE_FUNCTIONS) }
+        .filter_map { |node, _parent| multi_value_lists[node.identifier] }
+        .uniq
+    end
+
+    def used_multi_value_lists
+      CustomField
+        .select(:id, :name)
+        .where(id: formula_referenced_custom_field_ids, field_format: "weighted_item_list", multi_value: true)
+    end
+
+    def ast_nodes_with_parents(node, parent = nil)
+      children = node.instance_variables
+        .flat_map { Array(node.instance_variable_get(it)) }
+        .grep(Dentaku::AST::Node)
+      [[node, parent], *children.flat_map { ast_nodes_with_parents(it, node) }]
     end
 
     # Returns a list of custom field IDs used in the formula.

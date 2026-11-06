@@ -839,5 +839,53 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
 
       it_behaves_like "valid formula"
     end
+
+    context "when the formula references weighted item lists" do
+      let(:list) { create(:weighted_item_list_project_custom_field, is_for_all: true) }
+      let(:multi_value_list) do
+        create(:weighted_item_list_project_custom_field, name: "MULTI_LIST", multi_value: true, is_for_all: true)
+      end
+
+      current_user { create(:admin) }
+
+      context "with a multi-select weighted item list used within an aggregate function" do
+        let(:formula) { "SUM(#{multi_value_list})" }
+
+        it_behaves_like "valid formula"
+      end
+
+      context "with a weighted item list used within an aggregate function" do
+        let(:formula) { "SUM(#{list}, 2)" }
+
+        it_behaves_like "valid formula"
+      end
+
+      context "with a multi-select weighted item list used outside an aggregate function" do
+        let(:formula) { "#{multi_value_list} + 2" }
+
+        it_behaves_like "invalid formula", :multi_value_list_not_aggregated,
+                        "Multi-select attribute (MULTI_LIST) can only be used within aggregate functions."
+      end
+
+      context "with a multi-select weighted item list used in an non-aggregate function" do
+        let(:formula) { "ROUND(#{multi_value_list}) + 2" }
+
+        it_behaves_like "invalid formula", :multi_value_list_not_aggregated,
+                        "Multi-select attribute (MULTI_LIST) can only be used within aggregate functions."
+      end
+
+      context "with a multi-select weighted item list alone" do
+        let(:formula) { multi_value_list.to_s }
+
+        it_behaves_like "invalid formula", :multi_value_list_not_aggregated,
+                        "Multi-select attribute (MULTI_LIST) can only be used within aggregate functions."
+      end
+
+      context "with a weighted item list used outside an aggregate function" do
+        let(:formula) { "#{list} + 2" }
+
+        it_behaves_like "valid formula"
+      end
+    end
   end
 end
