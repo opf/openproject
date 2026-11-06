@@ -59,7 +59,7 @@ RSpec.shared_context "with a sprint report work package table" do
     end
 
     it "renders it with correct header" do
-      expect(rendered_component).to have_element(:h3, text: widget_name)
+      expect(rendered_component).to have_heading(widget_name, level: 3)
     end
   end
 
@@ -68,9 +68,9 @@ RSpec.shared_context "with a sprint report work package table" do
 
     it "renders a blankslate", :aggregate_failures do
       expect(rendered_component).to have_no_css("opce-embedded-work-package-table")
-      expect(rendered_component).to have_element(:svg, class: "octicon-#{icon}")
-      expect(rendered_component).to have_element(:h3, text: heading)
-      expect(rendered_component).to have_element(:p, text: description)
+      expect(rendered_component).to have_octicon(icon)
+      expect(rendered_component).to have_heading(heading, level: 3)
+      expect(rendered_component).to have_text(description)
     end
   end
 
@@ -149,7 +149,7 @@ RSpec.shared_examples "a pro sprint report work package table" do
 
   context "with all permissions and entitlements" do
     it "renders the widget" do
-      expect(rendered_component).to have_element(:h3, text: widget_name)
+      expect(rendered_component).to have_heading(widget_name, level: 3)
       expect(rendered_component).to have_css("opce-embedded-work-package-table")
     end
   end
