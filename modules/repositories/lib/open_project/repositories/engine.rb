@@ -58,10 +58,17 @@ module OpenProject::Repositories
       menu :admin_menu,
            :repository_providers,
            { controller: "/repositories/admin/repository_providers", action: :index },
-           parent: :admin_integrations,
            if: ->(_) { User.current.admin? },
            caption: :"repositories.admin.menu",
            icon: :repo
+
+      menu :admin_menu,
+           :admin_gitlab_integration,
+           { controller: "/repositories/admin/gitlab_integration", action: :show },
+           parent: :admin_integrations,
+           if: ->(_) { User.current.admin? },
+           caption: :"repositories.provider_types.gitlab.name",
+           icon: :"op-logo-gitlab"
 
       project_module(:repositories, dependencies: :work_package_tracking) do
         permission :show_repository_content, {}, permissible_on: %i[work_package project]

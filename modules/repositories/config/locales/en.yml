@@ -35,6 +35,9 @@ en:
           This includes:
         heading: Permanently delete this repository provider?
         title: Delete repository provider
+      gitlab_integration:
+        go_to_repositories: Go to Repositories
+        moved_notice: GitLab is now configured as a repository provider in the new Repositories section of the administration.
       index_description: >-
         Connect repository providers to show issues, merge requests, branches and commits in the work packages
         they reference.

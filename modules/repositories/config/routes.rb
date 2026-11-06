@@ -39,6 +39,7 @@ Rails.application.routes.draw do
           post :regenerate_webhook_secret
         end
       end
+      resource :gitlab_integration, controller: "/repositories/admin/gitlab_integration", only: :show
     end
   end
 
