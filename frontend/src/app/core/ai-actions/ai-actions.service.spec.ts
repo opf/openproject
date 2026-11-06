@@ -624,6 +624,27 @@ describe('AiActionsService', () => {
 
         expect(markerNames(markers)).toEqual([`ai-text-transform:selection:${requestIdOf(0)}`]);
       });
+
+      it.each([
+        ['is aborted', (settle:() => void, fail:(error:unknown) => void) => fail(new DOMException('Aborted', 'AbortError'))],
+        ['answers last', (settle:() => void) => settle()],
+      ])('unmarks the text of an older start that %s', async (_, finish) => {
+        const { asEditor, markers, select } = fakeEditor();
+        select('Login page dont work.');
+        let resolveFirst:() => void = () => undefined;
+        let rejectFirst:(error:unknown) => void = () => undefined;
+        turboRequests.request.mockImplementationOnce(() => new Promise((resolve, reject) => {
+          resolveFirst = () => resolve({ html: '', headers: new Headers() });
+          rejectFirst = reject;
+        }));
+
+        const firstRun = service.run(fixGrammar, asEditor);
+        await service.run(makeConcise, asEditor);
+        finish(resolveFirst, rejectFirst);
+        await firstRun;
+
+        expect(markerNames(markers)).toEqual([`ai-text-transform:selection:${requestIdOf(1)}`]);
+      });
     });
 
     it('tells the user when the pane could not be requested', async () => {
