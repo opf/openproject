@@ -108,6 +108,22 @@ RSpec.describe SquashTMIntegration::Client, :webmock do
     end
   end
 
+  describe "#version" do
+    let(:version_url) { "https://squashtm.example.com/squash/backend/version" }
+
+    it "returns the version reported by the backend" do
+      stub_request(:get, version_url).to_return(status: 200, body: { version: "15.0.2.RELEASE" }.to_json)
+
+      expect(client.version).to eq("15.0.2.RELEASE")
+    end
+
+    it "raises an InvalidResponseError when the response has no version" do
+      stub_request(:get, version_url).to_return(status: 200, body: "{}")
+
+      expect { client.version }.to raise_error(described_class::InvalidResponseError)
+    end
+  end
+
   describe "ids" do
     it "rejects ids that are not numbers before sending a request" do
       expect { client.project("1/../2") }.to raise_error(ArgumentError)
