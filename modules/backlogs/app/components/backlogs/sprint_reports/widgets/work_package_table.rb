@@ -65,11 +65,14 @@ module Backlogs
 
         def table_configuration
           {
+            labelledBy: "#{wrapper_key}-header",
             projectContext: false, # Project filter is added explicitly
             actionsColumnEnabled: false,
             columnMenuEnabled: false,
             contextMenuEnabled: false,
-            inlineCreateEnabled: false
+            inlineCreateEnabled: false,
+            inlineEditEnabled: false,
+            selectionEnabled: false
           }
         end
 

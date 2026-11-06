@@ -569,6 +569,8 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   private handleSelectionChord(position:FocusPosition, event:KeyboardEvent):boolean {
+    if (!this.table.configuration.selectionEnabled) return false;
+
     const chord = selectionChord(event, isApplePlatform());
     switch (chord) {
       case null:

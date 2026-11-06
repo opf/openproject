@@ -28,7 +28,8 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { createEvent, fireEvent, screen, waitFor } from '@testing-library/dom';
-import { EMPTY, of, Subject } from 'rxjs';
+import { EMPTY, Observable, of, Subject } from 'rxjs';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -51,7 +52,11 @@ import { WorkPackageInlineCreateService } from './wp-inline-create.service';
 class ReferenceStubComponent {}
 
 describe('WorkPackageInlineCreateComponent', () => {
-  const mount = () => {
+  const mount = ({
+    created = EMPTY,
+    focus = {},
+    configuration = {},
+  }:{ created?:Observable<WorkPackageResource>, focus?:object, configuration?:object } = {}) => {
     TestBed.configureTestingModule({
       declarations: [WorkPackageInlineCreateComponent, ReferenceStubComponent, AutofocusDirective],
       schemas: [NO_ERRORS_SCHEMA],
@@ -66,9 +71,9 @@ describe('WorkPackageInlineCreateComponent', () => {
             newInlineWorkPackageCreated: new Subject<string>(),
           },
         },
-        { provide: WorkPackageCreateService, useValue: { onNewWorkPackage: () => EMPTY, cancelCreation: () => undefined } },
+        { provide: WorkPackageCreateService, useValue: { onNewWorkPackage: () => created, cancelCreation: () => undefined } },
         { provide: WorkPackageViewColumnsService, useValue: { updates$: () => EMPTY } },
-        { provide: WorkPackageViewFocusService, useValue: {} },
+        { provide: WorkPackageViewFocusService, useValue: focus },
         { provide: HalResourceEditingService, useValue: {} },
         { provide: AuthorisationService, useValue: {} },
         { provide: SchemaCacheService, useValue: {} },
@@ -78,13 +83,28 @@ describe('WorkPackageInlineCreateComponent', () => {
     });
 
     const fixture = TestBed.createComponent(WorkPackageInlineCreateComponent);
-    fixture.componentInstance.table = { configuration: {}, mutate: runMutation } as unknown as WorkPackageTable;
+    fixture.componentInstance.table = { configuration, mutate: runMutation } as unknown as WorkPackageTable;
     fixture.componentInstance.colspan = 3;
     fixture.detectChanges();
     return fixture;
   };
 
   afterEach(() => TestBed.resetTestingModule());
+
+  it.each([
+    ['selects', 'enabled', true, 1],
+    ['does not select', 'disabled', false, 0],
+  ])('%s a created work package when selection is %s', (_verb, _state, selectionEnabled, calls) => {
+    const created = new Subject<WorkPackageResource>();
+    const focus = { initializeSelectionAndFocus: vi.fn() };
+    const fixture = mount({ created, focus, configuration: { isEmbedded: false, selectionEnabled } });
+    const workPackage = { id: '7', __initialized_at: 1 } as unknown as WorkPackageResource;
+    (fixture.componentInstance as unknown as { currentWorkPackage:WorkPackageResource }).currentWorkPackage = workPackage;
+
+    created.next(workPackage);
+
+    expect(focus.initializeSelectionAndFocus).toHaveBeenCalledTimes(calls);
+  });
 
   it('names the create and reference triggers by their own texts', () => {
     mount();
