@@ -29,6 +29,19 @@
 #++
 
 Rails.application.routes.draw do
+  namespace :admin do
+    namespace :settings do
+      resources :repository_providers, controller: "/repositories/admin/repository_providers", except: [:show] do
+        member do
+          get :confirm_destroy
+          get :confirm_regenerate_webhook_secret
+          get :edit_step
+          post :regenerate_webhook_secret
+        end
+      end
+    end
+  end
+
   resources :projects, only: %i[] do
     resources :work_packages, only: %i[] do
       resources :repositories, controller: "work_package_repositories_tab", only: %i[] do

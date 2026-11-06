@@ -65,4 +65,26 @@ RSpec.describe Repositories::GitlabProvider do
       expect(described_class.for_web_url("https://exa mple.com")).to be_nil
     end
   end
+
+  describe "#webhook_user_configured?" do
+    let(:provider) { create(:repository_provider) }
+
+    it "is false before a webhook user was chosen" do
+      expect(provider).not_to be_webhook_user_configured
+    end
+
+    it "is true after explicitly choosing no webhook user" do
+      provider.update!(gitlab_user_id: "")
+
+      expect(provider.reload).to be_webhook_user_configured
+      expect(provider.gitlab_user_id).to be_nil
+    end
+
+    it "is true after choosing a webhook user" do
+      provider.update!(gitlab_user_id: "42")
+
+      expect(provider.reload).to be_webhook_user_configured
+      expect(provider.gitlab_user_id).to eq(42)
+    end
+  end
 end
