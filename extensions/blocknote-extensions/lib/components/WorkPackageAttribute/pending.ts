@@ -16,7 +16,6 @@ interface PendingAttribute {
   onCancel:() => void;
 }
 
-// Bridges the slash menu to the placeholder chip that hosts the insert dialog.
 const registry = new Map<string, PendingAttribute>();
 
 export function getPendingAttribute(wpid:string):PendingAttribute | undefined {

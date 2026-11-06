@@ -10,11 +10,11 @@ import type { FormField } from './formSchema';
 import { controlIdOf, FormFieldControl, SUBJECT_KEY } from './FormFieldControl';
 import { useCreateWorkPackageForm } from './useCreateWorkPackageForm';
 import { useGrowthTransition } from './useGrowthTransition';
-import { FullPagePortal, keepFocusInside, usePageScrollLock } from '../WorkPackage/modal';
+import { FullPagePortal, keepFocusInside, usePageScrollLock } from '../Shared/modal';
+import { Button } from '../Shared/Button';
 import {
   Body,
   BodyContent,
-  Button,
   Divider,
   Footer,
   FooterStatus,

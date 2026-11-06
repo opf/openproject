@@ -92,7 +92,7 @@ export const AttributeDisplayMenu = ({ anchorEl, active, onPick }:AttributeDispl
       <Menu
         ref={menuRef}
         aria-label={t('workPackageAttribute.dialog.show')}
-        // Kept from the document, where a press closes the menu as outside the chip.
+        // Kept from the document, where a press closes the menu as outside the attribute.
         onMouseDown={(event) => event.stopPropagation()}
         onTouchStart={(event) => event.stopPropagation()}
       >

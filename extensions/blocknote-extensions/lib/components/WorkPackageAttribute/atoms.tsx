@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
 import { defaultWpVariables, nonSelectableStyles } from '../WorkPackage/atoms';
-import { FieldLabel, Panel, PickerControl } from '../CreateWorkPackage/atoms';
+import { FieldLabel, PickerControl } from '../CreateWorkPackage/atoms';
 
 // Drawn inward, so that it adds nothing to the height.
 const ATTRIBUTE_BORDER = 'inset 0 0 0 1px var(--borderColor-default, #d1d9e0)';
@@ -11,7 +11,7 @@ export const MutedText = styled.span`
   color: var(--op-wp-meta-color);
 `;
 
-export const AttributeChipSurface = styled.span.attrs({
+export const AttributeSurface = styled.span.attrs({
   className: 'op-bn-wp-attribute',
 })`
   ${defaultWpVariables}
@@ -33,7 +33,7 @@ export const AttributeChipSurface = styled.span.attrs({
   }
 `;
 
-export const AttributeChip = styled(AttributeChipSurface).attrs({ contentEditable: false })<{ $selected:boolean }>`
+export const AttributeInline = styled(AttributeSurface).attrs({ contentEditable: false })<{ $selected:boolean }>`
   position: relative;
   cursor: pointer;
   box-shadow: ${({ $selected }) => ($selected ? CHIP_STYLES.inlineFocusShadow : ATTRIBUTE_BORDER)};
@@ -59,20 +59,6 @@ export const DisabledControl = styled(PickerControl)`
     color: var(--op-create-wp-muted);
     cursor: not-allowed;
     opacity: 1;
-  }
-`;
-
-// The create form's frame with an accent instead of a success colored action.
-export const AttributePanel = styled(Panel)`
-  --op-create-wp-accent: var(--bgColor-accent-emphasis, #0969da);
-  --op-create-wp-accent-hover: color-mix(in srgb, var(--op-create-wp-accent) 88%, black);
-  --op-create-wp-disabled: var(--bgColor-disabled, #eff2f5);
-  --op-create-wp-disabled-text: var(--fgColor-disabled, #818b98);
-
-  [data-color-scheme="dark"] & {
-    --op-create-wp-accent: var(--bgColor-accent-emphasis, #1f6feb);
-    --op-create-wp-disabled: var(--bgColor-disabled, #212830);
-    --op-create-wp-disabled-text: var(--fgColor-disabled, #656c76);
   }
 `;
 
@@ -153,7 +139,6 @@ export const PreviewPlaceholder = styled.span`
   font-size: 13px;
 `;
 
-// Kept whole: the subject next to it is what gives way.
 export const WorkPackageReference = styled.span`
   display: inline-flex;
   align-items: center;

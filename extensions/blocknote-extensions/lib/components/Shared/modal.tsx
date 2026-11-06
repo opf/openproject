@@ -53,17 +53,14 @@ function variablesOf(anchorEl:HTMLElement | null | undefined, names:string[]):Re
   return carried;
 }
 
-// Only the body has to be held: the modal is portalled out of the editor, so
-// nothing the editor scrolls is an ancestor of it any more.
 export function usePageScrollLock():void {
   useEffect(() => {
     const { style } = document.body;
     const previous = { overflow: style.overflow, paddingRight: style.paddingRight };
-    // Room the scrollbar leaves behind, so the page does not jump sideways.
-    const scrollbar = window.innerWidth - document.documentElement.clientWidth;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 
     style.overflow = 'hidden';
-    if (scrollbar > 0) style.paddingRight = `${scrollbar}px`;
+    if (scrollbarWidth > 0) style.paddingRight = `${scrollbarWidth}px`;
 
     return () => {
       style.overflow = previous.overflow;

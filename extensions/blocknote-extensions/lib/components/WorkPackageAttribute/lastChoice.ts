@@ -1,16 +1,8 @@
 import type { AttributeChoice } from './pending';
-import { documentKey } from '../../utils/documentKey';
+import { createDocumentMemory } from '../../utils/documentMemory';
 
-let remembered:{ document:string, choice:AttributeChoice } | undefined;
+const memory = createDocumentMemory<AttributeChoice>();
 
-export function lastAttributeChoice():AttributeChoice | undefined {
-  return remembered?.document === documentKey() ? remembered.choice : undefined;
-}
-
-export function rememberAttributeChoice(choice:AttributeChoice):void {
-  remembered = { document: documentKey(), choice };
-}
-
-export function forgetAttributeChoice():void {
-  remembered = undefined;
-}
+export const lastChoice = memory.recall;
+export const rememberChoice = memory.remember;
+export const forgetChoice = memory.forget;

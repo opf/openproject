@@ -3,8 +3,8 @@ import { page } from 'vitest/browser';
 import { worker } from './mocks/browser';
 import { initializeOpBlockNoteExtensions } from '../lib';
 import { clearWorkPackageCache } from '../lib/services/workPackageLoader';
-import { forgetLastSelection } from '../lib/components/CreateWorkPackage/lastSelection';
-import { forgetAttributeChoice } from '../lib/components/WorkPackageAttribute/lastChoice';
+import * as createWorkPackageChoice from '../lib/components/CreateWorkPackage/lastChoice';
+import * as attributeChoice from '../lib/components/WorkPackageAttribute/lastChoice';
 import { clearPickerCache } from '../lib/components/CreateWorkPackage/usePickerOptions';
 import { whenCreateWorkPackagePermissionKnown } from '../lib/services/openProjectApi';
 import { DESKTOP } from './helpers/createWorkPackageHelpers';
@@ -12,8 +12,8 @@ import { DESKTOP } from './helpers/createWorkPackageHelpers';
 beforeEach(async () => {
   await page.viewport(DESKTOP.width, DESKTOP.height);
   clearWorkPackageCache();
-  forgetLastSelection();
-  forgetAttributeChoice();
+  createWorkPackageChoice.forgetChoice();
+  attributeChoice.forgetChoice();
   clearPickerCache();
 });
 
