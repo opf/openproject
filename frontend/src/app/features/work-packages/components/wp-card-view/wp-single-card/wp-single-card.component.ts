@@ -121,7 +121,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
 
-  @Output() cardClicked = new EventEmitter<{ workPackageId:string, event:MouseEvent }>();
+  @Output() cardClicked = new EventEmitter<{ workPackageId:string, event:MouseEvent|KeyboardEvent }>();
 
   @Output() cardDblClicked = new EventEmitter<{ workPackageId:string, event:MouseEvent }>();
 
@@ -222,12 +222,12 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     };
   }
 
-  public activateCard(event:Event):void {
-    if (isInsideDisabledControl(event.target as Element)) {
+  public activateCard(event:MouseEvent|KeyboardEvent):void {
+    if (event.target instanceof Element && isInsideDisabledControl(event.target)) {
       return;
     }
 
-    this.cardClicked.emit({ workPackageId: this.workPackage.id!, event: event as MouseEvent });
+    this.cardClicked.emit({ workPackageId: this.workPackage.id!, event });
   }
 
   cardTitle():string {
