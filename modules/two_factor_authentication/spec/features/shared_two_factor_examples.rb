@@ -46,7 +46,7 @@ module SharedTwoFactorExamples
   end
 
   def two_factor_step(token)
-    expect(page).to have_css("input#otp")
+    expect(page).to have_field("otp")
     fill_in "otp", with: token
     click_button I18n.t(:button_login), type: "submit"
     wait_for_network_idle
@@ -98,7 +98,7 @@ RSpec.shared_examples "create enforced sms device" do
 
     # Confirm page
     expect(page).to have_css("h2", text: I18n.t("two_factor_authentication.devices.confirm_device"))
-    expect(page).to have_css("input#otp")
+    expect(page).to have_field("otp")
 
     # Fill in wrong token
     fill_in "otp", with: "whatever"
@@ -113,7 +113,7 @@ RSpec.shared_examples "create enforced sms device" do
     click_button I18n.t(:button_continue)
 
     expect(page).to have_css("h2", text: I18n.t("two_factor_authentication.devices.confirm_device"))
-    expect(page).to have_css("input#otp")
+    expect(page).to have_field("otp")
     expect_flash(type: :error, message: I18n.t("two_factor_authentication.devices.registration_failed_token_invalid"))
 
     SeleniumHubWaiter.wait

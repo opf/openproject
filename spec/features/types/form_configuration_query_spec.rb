@@ -245,8 +245,7 @@ RSpec.describe "form query configuration", :js do
         wp_page.ensure_page_loaded
 
         wp_page.expect_group("Subtasks")
-        table_container = find(".attributes-group[data-group-name='Subtasks']")
-                            .find(".work-packages-embedded-view--container")
+        table_container = find(".attributes-group[data-group-name='Subtasks'] .work-packages-embedded-view--container")
         embedded_table = Pages::EmbeddedWorkPackagesTable.new(table_container)
         embedded_table.expect_work_package_listed related_task, related_task_other_project
         embedded_table.ensure_work_package_not_listed! related_bug
