@@ -33,11 +33,13 @@ module Repositories::Gitlab
     include ParamsHelper
 
     def call(payload, event_payload, provider:, work_packages: [])
-      provider.commits.find_or_create_by!(sha: payload.id) do |commit|
-        assign_commit_attributes(commit, payload)
-        assign_event_attributes(commit, event_payload, provider)
-        commit.work_packages = work_packages
-      end
+      return if provider.commits.exists?(sha: payload.id)
+
+      commit = provider.commits.build(sha: payload.id)
+      assign_commit_attributes(commit, payload)
+      assign_event_attributes(commit, event_payload, provider)
+      commit.work_packages = work_packages
+      commit.save!
     end
 
     private
