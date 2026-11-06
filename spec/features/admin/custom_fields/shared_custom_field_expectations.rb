@@ -157,7 +157,7 @@ RSpec.shared_examples_for "expected fields for the custom field's format", :aggr
   let(:label_content_right_to_left) do # Right-to-Left content
     I18n.t("activerecord.attributes.custom_field.content_right_to_left")
   end
-  let(:label_editable) { I18n.t("activerecord.attributes.custom_field.editable") } # Editable
+  let(:label_editable) { I18n.t("activerecord.attributes.custom_field.user_self_editable") } # Editable
   let(:label_min_length) { I18n.t("activerecord.attributes.custom_field.min_length") } # Minimum length
   let(:label_max_length) { I18n.t("activerecord.attributes.custom_field.max_length") } # Maximum length
   let(:label_min_value) { I18n.t("activerecord.attributes.custom_field.min_value") } # Minimum value

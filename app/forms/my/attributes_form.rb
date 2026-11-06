@@ -74,11 +74,11 @@ class My::AttributesForm < Users::Form::AttributesForm
     @user.uses_external_authentication? || @user.ldap_auth_source_id.present?
   end
 
-  # Custom fields a user may not edit themselves (editable: false) are shown
+  # Custom fields a user may not edit themselves (user_self_editable: false) are shown
   # read-only on their own account; admins manage those on the admin user form.
   def form_arguments(custom_field)
     args = super
-    args[:disabled] = true unless custom_field.editable?
+    args[:disabled] = true unless custom_field.user_self_editable?
     args
   end
 end

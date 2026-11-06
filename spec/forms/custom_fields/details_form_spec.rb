@@ -52,7 +52,7 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
         model.is_a?(WorkPackageCustomField) && %w[list hierarchy weighted_item_list].include?(model.field_format)
       },
       content_right_to_left: ->(model) { model.is_a?(WorkPackageCustomField) && model.field_format == "text" },
-      editable: ->(model) { model.is_a?(UserCustomField) },
+      user_self_editable: ->(model) { model.is_a?(UserCustomField) },
       visible_on_user_card: ->(model) { model.is_a?(UserCustomField) },
       is_for_all: ->(model) { model.is_a?(ProjectCustomField) },
       searchable: lambda { |model|
