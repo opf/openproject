@@ -31,26 +31,27 @@ module TestManagement
   class ProjectSetting < ApplicationRecord
     self.table_name = "tm_project_settings"
 
-    FOLDER_TREE_LAYOUTS = %w[split_pane sidebar].freeze
-    DEFAULT_FOLDER_TREE_LAYOUT = "split_pane"
+    # shortcut: horizontal top bar is stored now, rendered when Cases/Runs/… UI exists
+    NAVIGATION_LAYOUTS = %w[vertical horizontal].freeze
+    DEFAULT_NAVIGATION_LAYOUT = "vertical"
     DISPLAY_PREFIX_MAX_LENGTH = 32
 
     belongs_to :project
 
     validates :project_id, uniqueness: true
     validates :display_prefix, length: { maximum: DISPLAY_PREFIX_MAX_LENGTH }, allow_blank: true
-    validate :validate_folder_tree_layout
+    validate :validate_navigation_layout
 
-    store_accessor :options, :folder_tree_layout
+    store_accessor :options, :navigation_layout
 
-    before_validation :normalize_blank_folder_tree_layout
+    before_validation :normalize_blank_navigation_layout
 
     def self.for_project(project)
       find_or_initialize_by(project:)
     end
 
-    def self.folder_tree_layout_for(project)
-      for_project(project).effective_folder_tree_layout
+    def self.navigation_layout_for(project)
+      for_project(project).effective_navigation_layout
     end
 
     def self.display_prefix_for(project)
@@ -58,25 +59,25 @@ module TestManagement
         Setting.plugin_openproject_test_management["default_display_prefix"]
     end
 
-    def effective_folder_tree_layout
-      layout = folder_tree_layout.presence || DEFAULT_FOLDER_TREE_LAYOUT
-      FOLDER_TREE_LAYOUTS.include?(layout) ? layout : DEFAULT_FOLDER_TREE_LAYOUT
+    def effective_navigation_layout
+      layout = navigation_layout.presence || DEFAULT_NAVIGATION_LAYOUT
+      NAVIGATION_LAYOUTS.include?(layout) ? layout : DEFAULT_NAVIGATION_LAYOUT
     end
 
-    def split_pane_layout?
-      effective_folder_tree_layout == "split_pane"
+    def vertical_navigation?
+      effective_navigation_layout == "vertical"
     end
 
     private
 
-    def normalize_blank_folder_tree_layout
-      self.folder_tree_layout = DEFAULT_FOLDER_TREE_LAYOUT if folder_tree_layout.blank?
+    def normalize_blank_navigation_layout
+      self.navigation_layout = DEFAULT_NAVIGATION_LAYOUT if navigation_layout.blank?
     end
 
-    def validate_folder_tree_layout
-      return if FOLDER_TREE_LAYOUTS.include?(folder_tree_layout.to_s)
+    def validate_navigation_layout
+      return if NAVIGATION_LAYOUTS.include?(navigation_layout.to_s)
 
-      errors.add(:folder_tree_layout, :inclusion)
+      errors.add(:navigation_layout, :inclusion)
     end
   end
 end

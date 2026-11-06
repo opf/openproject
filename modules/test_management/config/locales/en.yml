@@ -2,7 +2,7 @@
 en:
   activerecord:
     attributes:
-      test_management/project_setting: {display_prefix: Display prefix, folder_tree_layout: Folder tree layout}
+      test_management/project_setting: {display_prefix: Display prefix, navigation_layout: Navigation layout}
     models:
       test_management/project_setting: Test management settings
   permission_add_test_cases: Add test cases
@@ -26,9 +26,9 @@ en:
       cases: Cases
     project_settings:
       display_prefix_hint: Used as the visible ID prefix for cases (for example DEMO-12).
-      folder_tree_layout_hint: How the folder tree is shown next to the cases list.
       general: General
       heading: Test management
       layouts:
-        sidebar: Sidebar
-        split_pane: Split pane
+        horizontal: Horizontal (top bar)
+        vertical: Vertical (left panel)
+      navigation_layout_hint: "Vertical keeps Cases, Runs, and other sections in the left panel with folders and cases in the main area. Horizontal puts Cases · Runs · Milestones · … in a top bar above folders and cases."

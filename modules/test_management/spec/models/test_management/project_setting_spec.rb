@@ -32,21 +32,21 @@ require "spec_helper"
 RSpec.describe TestManagement::ProjectSetting do
   let(:project) { create(:project) }
 
-  it "defaults folder tree layout to split_pane and accepts sidebar" do
+  it "defaults navigation layout to vertical and accepts horizontal" do
     setting = described_class.for_project(project)
-    expect(setting.effective_folder_tree_layout).to eq("split_pane")
-    expect(setting.split_pane_layout?).to be(true)
+    expect(setting.effective_navigation_layout).to eq("vertical")
+    expect(setting.vertical_navigation?).to be(true)
 
-    setting.folder_tree_layout = "sidebar"
+    setting.navigation_layout = "horizontal"
     expect(setting).to be_valid
-    expect(setting.effective_folder_tree_layout).to eq("sidebar")
+    expect(setting.effective_navigation_layout).to eq("horizontal")
   end
 
-  it "rejects unknown layouts" do
+  it "rejects unknown navigation layouts" do
     setting = described_class.for_project(project)
-    setting.folder_tree_layout = "grid"
+    setting.navigation_layout = "grid"
     expect(setting).not_to be_valid
-    expect(setting.errors[:folder_tree_layout]).to be_present
+    expect(setting.errors[:navigation_layout]).to be_present
   end
 
   it "rejects a display prefix longer than the column" do

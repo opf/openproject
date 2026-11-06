@@ -43,26 +43,27 @@ RSpec.describe "Test management project settings", :skip_csrf, type: :rails_requ
 
       before { login_as(user) }
 
-      it "updates prefix and layout" do
+      it "updates prefix and navigation layout" do
         patch project_test_management_project_settings_path(project),
               params: {
                 project_setting: {
                   display_prefix: "TC",
-                  folder_tree_layout: "sidebar"
+                  navigation_layout: "horizontal"
                 }
               }
 
         expect(response).to redirect_to(project_test_management_project_settings_path(project))
         setting = TestManagement::ProjectSetting.find_by!(project:)
         expect(setting.display_prefix).to eq("TC")
-        expect(setting.effective_folder_tree_layout).to eq("sidebar")
+        expect(setting.effective_navigation_layout).to eq("horizontal")
       end
 
-      it "shows the settings form without feature toggles" do
+      it "shows the settings form with navigation layout" do
         get project_test_management_project_settings_path(project)
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to include('data-test-selector="tm-project-settings-form"')
+        expect(response.body).to include('data-test-selector="tm-navigation-layout"')
         expect(response.body).not_to include("tm-enable-")
       end
 

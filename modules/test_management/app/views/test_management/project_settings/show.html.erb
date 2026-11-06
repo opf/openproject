@@ -33,18 +33,18 @@
     </div>
 
     <div class="form--field">
-      <%= f.label :folder_tree_layout, t("activerecord.attributes.test_management/project_setting.folder_tree_layout") %>
+      <%= f.label :navigation_layout, t("activerecord.attributes.test_management/project_setting.navigation_layout") %>
       <div class="form--field-container">
-        <%= f.select :folder_tree_layout,
-                     TestManagement::ProjectSetting::FOLDER_TREE_LAYOUTS.map { |layout|
+        <%= f.select :navigation_layout,
+                     TestManagement::ProjectSetting::NAVIGATION_LAYOUTS.map { |layout|
                        [t("test_management.project_settings.layouts.#{layout}"), layout]
                      },
                      {},
                      class: "form--select",
-                     data: { test_selector: "tm-folder-tree-layout" } %>
+                     data: { test_selector: "tm-navigation-layout" } %>
       </div>
       <div class="form--field-instructions">
-        <%= t("test_management.project_settings.folder_tree_layout_hint") %>
+        <%= t("test_management.project_settings.navigation_layout_hint") %>
       </div>
     </div>
   </fieldset>

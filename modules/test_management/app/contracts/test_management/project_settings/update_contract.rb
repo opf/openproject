@@ -34,7 +34,7 @@ module TestManagement
 
       attribute :project
       attribute :display_prefix
-      stored_attribute :folder_tree_layout, store: :options
+      stored_attribute :navigation_layout, store: :options
 
       validate :user_allowed_to_manage
 

@@ -52,7 +52,7 @@ module TestManagement
     end
 
     def setting_params
-      params.fetch(:project_setting, {}).permit(:display_prefix, :folder_tree_layout)
+      params.fetch(:project_setting, {}).permit(:display_prefix, :navigation_layout)
     end
 
     def render_update_error(call)

@@ -31,6 +31,6 @@ FactoryBot.define do
   factory :tm_project_setting, class: "TestManagement::ProjectSetting" do
     project
     display_prefix { "TC" }
-    folder_tree_layout { "split_pane" }
+    navigation_layout { "vertical" }
   end
 end
