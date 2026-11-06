@@ -62,12 +62,14 @@ module OpenProject
           !migration_context.needs_migration?
         end
 
-        def migrations_path
-          Engine.root.join("db/migrate_requires_pgvector").to_s
+        def include_migrations_path_if_installed!
+          include_migrations_path! if extension_installed?
+        rescue ActiveRecord::ConnectionNotEstablished, ActiveRecord::NoDatabaseError
+          # No database yet, e.g. before db:create. db:migrate decides again.
         end
 
-        def enable
-          failure = probe_extension
+        def include_migrations_path_if_installable!
+          failure = check_if_installable
           include_migrations_path! if failure.nil?
           failure
         end
@@ -81,19 +83,13 @@ module OpenProject
           ActiveRecord::Migrator.migrations_paths = app_paths.to_a
         end
 
-        def include_migrations_path_if_installed!
-          include_migrations_path! if extension_installed?
-        rescue ActiveRecord::ConnectionNotEstablished, ActiveRecord::NoDatabaseError
-          # No database yet, e.g. before db:create. db:migrate decides again.
-        end
-
         def warning(failure)
           <<~MESSAGE
             ---------------------------------------------------
             PGVECTOR NOT AVAILABLE
             #{failure_explanation(failure)}
 
-            Features depending on pgvector, such as semantic search, are disabled.
+            Features depending on pgvector are disabled.
             Once the extension can be created, run the migrations again
             (e.g. `openproject configure` or `rake db:migrate`) to set them up.
 
@@ -102,10 +98,14 @@ module OpenProject
           MESSAGE
         end
 
+        def migrations_path
+          Engine.root.join("db/migrate_requires_pgvector").to_s
+        end
+
         private
 
-        # Rolled back on purpose: the EnablePgvector migration installs the extension, not this probe.
-        def probe_extension
+        # Rolled back on purpose: the EnablePgvector migration installs the extension, not this check.
+        def check_if_installable
           return Failure.new(reason: :unavailable, detail: nil) unless extension_available?
 
           begin
@@ -130,8 +130,6 @@ module OpenProject
           when :insufficient_privilege
             <<~TEXT.chomp
               The database user is not allowed to create the pgvector extension.
-              Ask your database administrator to run `CREATE EXTENSION #{EXTENSION} WITH SCHEMA pg_catalog;` in the OpenProject database,
-              or allow the extension in the settings of your PostgreSQL provider.
             TEXT
           else
             "Creating the pgvector extension failed: #{failure.detail}"

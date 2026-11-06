@@ -56,7 +56,7 @@ RSpec.describe OpenProject::Llm::Pgvector do
     end
   end
 
-  describe ".enable" do
+  describe ".include_migrations_path_if_installable!" do
     let(:connection) { ActiveRecord::Base.connection }
 
     def raise_from_postgres(pg_error)
@@ -66,36 +66,28 @@ RSpec.describe OpenProject::Llm::Pgvector do
     end
 
     it "succeeds when the extension is already installed" do
-      expect(described_class.enable).to be_nil
-    end
-
-    it "probes in a rolled-back transaction so the rake task does not install the extension" do
-      probe = nil
-      allow(connection).to receive(:transaction).with(requires_new: true) { |&block| probe = block }
-
-      described_class.enable
-
-      expect { probe.call }.to raise_error(ActiveRecord::Rollback)
+      expect(described_class.include_migrations_path_if_installable!).to be_nil
     end
 
     it "reports if pgvector is unavailable" do
       allow(described_class).to receive(:extension_available?).and_return(false)
 
-      expect(described_class.enable).to have_attributes(reason: :unavailable)
+      expect(described_class.include_migrations_path_if_installable!).to have_attributes(reason: :unavailable)
     end
 
     it "reports a database user that may not create the extension" do
       allow(connection).to receive(:execute).and_call_original
       allow(connection).to receive(:execute).with(/CREATE EXTENSION/) { raise_from_postgres(PG::InsufficientPrivilege) }
 
-      expect(described_class.enable).to have_attributes(reason: :insufficient_privilege, detail: "boom")
+      expect(described_class.include_migrations_path_if_installable!).to have_attributes(reason: :insufficient_privilege,
+                                                                                         detail: "boom")
     end
 
     it "reports any other failure" do
       allow(connection).to receive(:execute).and_call_original
       allow(connection).to receive(:execute).with(/CREATE EXTENSION/) { raise_from_postgres(PG::InternalError) }
 
-      expect(described_class.enable).to have_attributes(reason: :failed)
+      expect(described_class.include_migrations_path_if_installable!).to have_attributes(reason: :failed)
     end
   end
 
