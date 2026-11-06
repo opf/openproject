@@ -173,24 +173,31 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       context "when an API key is stored" do
         let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
 
-        it "says that a key is stored and keeps the field blank" do
+        it "shows no caption and keeps the field blank" do
           get llm_connection_path
 
-          expect(response.body).to include("A key is stored")
+          expect(response.body).not_to include("A key is stored")
+          expect(response.body).not_to include("Leave blank to keep the current key")
           expect(response.body).not_to include("sk-original")
         end
 
-        it "marks the stored key in the field itself" do
+        it "shows a disabled masked field instead of the editable one" do
           get llm_connection_path
 
-          expect(page).to have_css("#{api_key_field}[placeholder='API key stored']", visible: :all)
-          expect(page).to have_no_css("#{api_key_field}[value]", visible: :all)
+          expect(page).to have_no_css(api_key_field, visible: :all)
+          expect(page).to have_no_css("[placeholder='API key stored']", visible: :all)
+          expect(page).to have_css("input[name='saved_api_key'][disabled][value='*********']", visible: :all)
         end
 
-        it "offers to remove the key beside the field" do
+        it "offers a trash icon button that opens the delete dialog" do
           get llm_connection_path
 
-          expect(page).to have_css(remove_api_key, text: "Remove key", visible: :all)
+          expect(page).to have_css(
+            "#{remove_api_key}[href='#{delete_api_key_dialog_llm_connection_path}'][data-controller='async-dialog']",
+            visible: :all
+          )
+          expect(page).to have_css("#{remove_api_key} .octicon-trash", visible: :all)
+          expect(page).to have_css("tool-tip", text: "Remove key", visible: :all)
         end
       end
 
@@ -577,6 +584,21 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
         expect(LlmConnection.where(base_url:)).not_to exist
         expect(response.body).to include("API key could not be verified")
+      end
+    end
+
+    context "when the server rejects the stored key" do
+      let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
+      let(:new_base_url) { "https://other.example.com/v1" }
+      let!(:models_request) { mock_llm_models_response(new_base_url, response_code: 401) }
+
+      it "shows the rejection beside the masked field" do
+        patch llm_connection_path,
+              params: { llm_connection: { base_url: new_base_url, api_key: "" } },
+              headers: { "Accept" => "text/html" }
+
+        expect(page).to have_css("input[name='saved_api_key'][disabled]", visible: :all)
+        expect(response.body).to include("was rejected by the LLM server")
       end
     end
 
