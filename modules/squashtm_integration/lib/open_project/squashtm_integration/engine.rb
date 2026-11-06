@@ -29,6 +29,9 @@
 
 require "open_project/plugins"
 
+require_relative "patches/api/work_package_representer"
+require_relative "patches/cause_formatter_patch"
+
 module OpenProject::SquashTMIntegration
   class Engine < ::Rails::Engine
     engine_name :openproject_squashtm_integration
@@ -48,6 +51,12 @@ module OpenProject::SquashTMIntegration
       end
     end
 
+    config.to_prepare do
+      patch = OpenProject::SquashTMIntegration::Patches::CauseFormatterPatch
+      formatter = OpenProject::JournalFormatter::Cause
+      formatter.prepend(patch) unless formatter.ancestors.include?(patch)
+    end
+
     register "openproject-squashtm_integration",
              author_url: "https://www.openproject.org",
              bundled: true do
@@ -65,12 +74,35 @@ module OpenProject::SquashTMIntegration
            parent: :settings,
            caption: :project_module_squashtm
 
+      menu :work_package_split_view,
+           :squashtm,
+           { tab: :squashtm },
+           skip_permissions_check: true,
+           after: :relations,
+           if: ->(project) {
+             User.current.allowed_in_project?(:view_squashtm, project)
+           }
+
       project_module(:squashtm, dependencies: :work_package_tracking) do
+        permission :view_squashtm,
+                   { work_package_squashtm_tab: %i[index] },
+                   permissible_on: :project,
+                   dependencies: :view_work_packages
+
+        permission :manage_squashtm_requirements,
+                   { "squashtm_integration/work_package_requirement_links": %i[update destroy_dialog destroy] },
+                   permissible_on: :project,
+                   dependencies: :view_squashtm
+
         permission :manage_squashtm_integration,
                    { "squashtm_integration/project_settings/project_links": %i[show update destroy_dialog destroy] },
                    permissible_on: :project,
-                   require: :member
+                   require: :member,
+                   dependencies: :manage_squashtm_requirements
       end
     end
+
+    extend_api_response(:v3, :work_packages, :work_package,
+                        &::OpenProject::SquashTMIntegration::Patches::API::WorkPackageRepresenter.extension)
   end
 end

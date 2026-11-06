@@ -29,15 +29,28 @@ require "spec_helper"
 RSpec.describe OpenProject::AccessControl do
   describe "SquashTM permissions" do
     it "are part of the squashtm project module" do
-      %i[manage_squashtm_integration].each do |name|
+      %i[view_squashtm manage_squashtm_requirements manage_squashtm_integration].each do |name|
         expect(described_class.permission(name).project_module).to be(:squashtm)
       end
     end
 
     it "are only available on projects" do
-      %i[manage_squashtm_integration].each do |name|
+      %i[view_squashtm manage_squashtm_requirements manage_squashtm_integration].each do |name|
         expect(described_class.permission(name).permissible_on).to contain_exactly(:project)
       end
+    end
+
+    it "requires viewing work packages to view test results" do
+      expect(described_class.permission(:view_squashtm).dependencies).to contain_exactly(:view_work_packages)
+    end
+
+    it "requires viewing test results to manage requirement links" do
+      expect(described_class.permission(:manage_squashtm_requirements).dependencies).to contain_exactly(:view_squashtm)
+    end
+
+    it "requires managing requirement links to manage the integration" do
+      expect(described_class.permission(:manage_squashtm_integration).dependencies)
+        .to contain_exactly(:manage_squashtm_requirements)
     end
 
     it "can only be granted to members for managing the integration" do

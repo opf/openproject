@@ -32,10 +32,43 @@ module SquashTMIntegration
     class DeleteProjectLinkDialogComponent < ApplicationComponent
       include OpTurbo::Streamable
 
+      PREVIEW_LIMIT = 3
+
       alias_method :project_link, :model
 
       def form_arguments
-        { action: project_settings_squashtm_path(project_link.project), method: :delete }
+        arguments = { action: project_settings_squashtm_path(project_link.project), method: :delete }
+        arguments[:name] = "unlink_work_packages" if work_packages_linked?
+        arguments
+      end
+
+      def work_packages_linked?
+        linked_work_package_count.positive?
+      end
+
+      def dialog_size
+        work_packages_linked? ? :medium_portrait : :large
+      end
+
+      def linked_work_package_count
+        @linked_work_package_count ||= project_link.work_package_links.count
+      end
+
+      def preview_work_packages
+        @preview_work_packages ||= WorkPackage
+                                     .visible(User.current)
+                                     .where(id: project_link.work_package_links.select(:work_package_id))
+                                     .order(:id)
+                                     .limit(PREVIEW_LIMIT)
+                                     .to_a
+      end
+
+      def linked_work_packages_component
+        LinkedWorkPackagesComponent.new(
+          count: linked_work_package_count,
+          work_packages: preview_work_packages,
+          remaining_count: linked_work_package_count - preview_work_packages.size
+        )
       end
     end
   end

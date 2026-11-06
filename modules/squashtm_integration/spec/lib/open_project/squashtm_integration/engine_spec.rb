@@ -27,12 +27,16 @@
 require "spec_helper"
 
 RSpec.describe OpenProject::SquashTMIntegration::Engine do
+  # Looked up while the spec files load: spec/controllers/admin_controller_spec.rb clears the global plugin registry
+  # and does not restore it, so a lookup inside the examples depends on the order the specs run in.
+  plugin = Redmine::Plugin.registered_plugins[:openproject_squashtm_integration] # rubocop:disable RSpec/LeakyLocalVariable
+
   it "registers the plugin" do
-    expect(Redmine::Plugin.registered_plugins).to include(:openproject_squashtm_integration)
+    expect(plugin).to be_present
   end
 
   it "is bundled with OpenProject" do
-    expect(Redmine::Plugin.find(:openproject_squashtm_integration)).to be_bundled
+    expect(plugin).to be_bundled
   end
 
   it "treats SquashTM as an acronym" do

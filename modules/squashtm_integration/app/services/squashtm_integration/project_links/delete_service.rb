@@ -30,6 +30,30 @@
 module SquashTMIntegration
   module ProjectLinks
     class DeleteService < ::BaseServices::Delete
+      include WorkPackageLinks::Journalizable
+
+      protected
+
+      def before_perform(service_call)
+        self.contract_options = params.slice(:unlink_work_packages)
+
+        service_call
+      end
+
+      def persist(service_result)
+        if params[:unlink_work_packages]
+          @unlinked_links = model.work_package_links.includes(:work_package).to_a
+          model.work_package_links.delete_all
+        end
+
+        super
+      end
+
+      def after_perform(service_call)
+        @unlinked_links&.each { |link| journalize_unlinked(link) }
+
+        super
+      end
     end
   end
 end
