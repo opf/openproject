@@ -78,7 +78,7 @@ RSpec.describe "Programs",
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
       expect(page).to have_current_path /\/projects\/foo-bar\/?/
-      expect(page).to have_content "Foo bar"
+      expect(page).to have_text "Foo bar"
 
       program = Project.last
       expect(program.workspace_type).to eq "program"
@@ -92,7 +92,7 @@ RSpec.describe "Programs",
       it "cannot create the program" do
         visit new_program_path
 
-        expect(page).to have_content "[Error 403] You are not authorized to access this page."
+        expect(page).to have_text "[Error 403] You are not authorized to access this page."
       end
     end
   end

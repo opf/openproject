@@ -37,7 +37,7 @@ RSpec.describe "SAML metadata refresh", :skip_csrf, :webmock,
   let(:metadata_url) { "https://example.com/metadata" }
   let(:metadata) { Rails.root.join("modules/auth_saml/spec/fixtures/idp_metadata.xml").read }
   let(:provider) { create(:saml_provider, :with_encryption, metadata_url:, last_metadata_update: 1.day.ago) }
-  let(:metadata_token) { page.find("input[name='metadata_token']", visible: :all).value }
+  let(:metadata_token) { page.find_field(name: "metadata_token", type: "hidden").value }
 
   before do
     login_as admin

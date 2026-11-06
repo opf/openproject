@@ -45,6 +45,7 @@ import { isInsideCollapsedGroup, locateTableRow } from 'core-app/features/work-p
 import { collapsedGroupClass } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
 import { reorderById, type Edge } from 'core-common/drag-and-drop/reorder';
 import { WorkPackageTable } from '../../wp-fast-table';
+import { selectionGesture } from './selection-feedback';
 import { firstValueFrom } from 'rxjs';
 
 export class DragAndDropTransformer {
@@ -145,7 +146,9 @@ export class DragAndDropTransformer {
     if (this.table.destroyed) return;
     const wpId = row.dataset.workPackageId;
     if (wpId) {
-      this.selectionGestures.collapseTo(wpId, this.table.renderedRows, row.dataset.classIdentifier);
+      selectionGesture(this.table, 'navigation', () => {
+        this.selectionGestures.collapseTo(wpId, this.table.renderedRows, row.dataset.classIdentifier);
+      });
     }
   }
 
@@ -204,7 +207,9 @@ export class DragAndDropTransformer {
           && actionService.canPickup(workPackage!);
         recoverIfCurrent = () => {
           if (!isCurrent() || table.lastRenderPass !== renderPass || source.parentNode !== parentNode) return;
-          parentNode?.insertBefore(source, nextSibling?.parentNode === parentNode ? nextSibling : null);
+          table.mutate('positions', () => {
+            parentNode?.insertBefore(source, nextSibling?.parentNode === parentNode ? nextSibling : null);
+          });
         };
         if (!stillEligible()) {
           complete(false);
@@ -232,8 +237,10 @@ export class DragAndDropTransformer {
           return;
         }
         // Only preparation observes the staged neighbors. Persistence captures no row.
-        if (target) table.tbody.insertBefore(source, edge === 'top' ? target : target.nextSibling);
-        else table.tbody.appendChild(source);
+        table.mutate('positions', () => {
+          if (target) table.tbody.insertBefore(source, edge === 'top' ? target : target.nextSibling);
+          else table.tbody.appendChild(source);
+        });
         const preparedAction = await actionService.prepareDrop(workPackage, source);
         if (!stillEligible()) {
           recoverIfCurrent();

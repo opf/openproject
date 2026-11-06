@@ -262,6 +262,30 @@ RSpec.describe McpTools::SearchWorkPackages do
       end
     end
 
+    describe "filtering by label_id" do
+      let(:label) { create(:label) }
+
+      before { work_package_a.labels << label }
+
+      context "with a label id" do
+        let(:call_args) { { label_id: label.id } }
+
+        it "returns work packages carrying that label" do
+          mcp_request
+          expect(result_items.pluck("id")).to contain_exactly(work_package_a.id)
+        end
+      end
+
+      context "with null" do
+        let(:call_args) { { label_id: nil } }
+
+        it "returns work packages without any label" do
+          mcp_request
+          expect(result_items.pluck("id")).to contain_exactly(work_package_b.id)
+        end
+      end
+    end
+
     describe "filtering by subject" do
       context "with exact subject" do
         let(:call_args) { { subject: "First Work Package" } }

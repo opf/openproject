@@ -28,29 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Reconstructs how a sprint's work package set moved over its lifetime, using
-# WorkPackage.at_timestamp (see Journable::Timestamps) to read historic
+# Reconstructs how a sprint's work package set moved over its lifetime, reading historic
 # sprint_id/status_id/story_points values from work_package_journals.
 module Sprints
   class WorkPackageBreakdown
-    Block = Data.define(:work_package_count, :story_points)
-    ChangeBlock = Data.define(:added_count, :removed_count, :added_story_points, :removed_story_points)
+    Block = Data.define(:work_package_count, :story_points, :estimated_hours)
+    ChangeBlock = Data.define(:added_count, :removed_count, :added_story_points, :removed_story_points,
+                              :added_estimated_hours, :removed_estimated_hours)
+    Snapshot = Data.define(:work_package_id, :story_points, :estimated_hours, :status_id)
 
-    def initialize(sprint:, project:)
+    def initialize(sprint:, project:, user: User.current)
       @sprint = sprint
       @project = project
+      @user = user
     end
 
     def initially_planned
-      @initially_planned ||= snapshot_block(reference_start)
+      @initially_planned ||= block(start_snapshots)
     end
 
     def completed
-      @completed ||= snapshot_block(reference_finish, done: true)
+      @completed ||= block(finish_snapshots.select { done?(it) })
     end
 
     def unfinished
-      @unfinished ||= snapshot_block(reference_finish, done: false)
+      @unfinished ||= block(finish_snapshots.reject { done?(it) })
     end
 
     def changed_after_start
@@ -61,8 +63,10 @@ module Sprints
         ChangeBlock.new(
           added_count: added_ids.size,
           removed_count: removed_ids.size,
-          added_story_points: added_ids.sum { |id| finish_points[id] || 0 },
-          removed_story_points: removed_ids.sum { |id| start_points[id] || 0 }
+          added_story_points: sum_values(added_ids, finish_points),
+          removed_story_points: sum_values(removed_ids, start_points),
+          added_estimated_hours: sum_values(added_ids, finish_hours),
+          removed_estimated_hours: sum_values(removed_ids, start_hours)
         )
       end
     end
@@ -96,33 +100,80 @@ module Sprints
     end
 
     def start_points
-      @start_points ||= sprint_work_packages_at(reference_start).pluck(:id, :story_points).to_h
+      @start_points ||= points_by_id(start_snapshots)
     end
 
     def finish_points
-      @finish_points ||= sprint_work_packages_at(reference_finish).pluck(:id, :story_points).to_h
+      @finish_points ||= points_by_id(finish_snapshots)
     end
 
-    def snapshot_block(timestamp, done: nil)
-      scope = sprint_work_packages_at(timestamp)
-      scope = filter_by_done(scope, done)
-
-      Block.new(work_package_count: scope.count, story_points: scope.sum(:story_points) || 0)
+    def start_hours
+      @start_hours ||= hours_by_id(start_snapshots)
     end
 
-    def sprint_work_packages_at(timestamp)
-      WorkPackage
-        .where(project: @project, sprint: @sprint)
-        .visible
-        .at_timestamp(timestamp)
+    def finish_hours
+      @finish_hours ||= hours_by_id(finish_snapshots)
     end
 
-    def filter_by_done(scope, done)
-      case done
-      when true then scope.where(status_id: done_status_ids)
-      when false then scope.where.not(status_id: done_status_ids)
-      else scope
-      end
+    def start_snapshots
+      snapshots_at(start_time)
+    end
+
+    def finish_snapshots
+      snapshots_at(finish_time)
+    end
+
+    def snapshots_at(time)
+      snapshots_by_tick.fetch(time.to_i, [])
+    end
+
+    def ticks
+      [start_time, finish_time].uniq
+    end
+
+    def start_time
+      @start_time ||= reference_start.to_time
+    end
+
+    def finish_time
+      @finish_time ||= reference_finish.to_time
+    end
+
+    def snapshots_by_tick
+      @snapshots_by_tick ||= ::WorkPackages::JournalTimeline
+                               .new(sprint_journals, ticks:, user: @user)
+                               .relation
+                               .pluck(:tick, :work_package_id, :story_points, :estimated_hours, :status_id)
+                               .group_by { |tick, *| tick.to_i }
+                               .transform_values { |rows| rows.map { |_tick, *attributes| Snapshot.new(*attributes) } }
+    end
+
+    def sprint_journals
+      Journal::WorkPackageJournal.where(project_id: @project.id, sprint_id: @sprint.id)
+    end
+
+    def block(snapshots)
+      Block.new(
+        work_package_count: snapshots.size,
+        story_points: snapshots.sum { it.story_points || 0 },
+        estimated_hours: snapshots.sum { it.estimated_hours || 0 }
+      )
+    end
+
+    def points_by_id(snapshots)
+      snapshots.to_h { [it.work_package_id, it.story_points] }
+    end
+
+    def hours_by_id(snapshots)
+      snapshots.to_h { [it.work_package_id, it.estimated_hours] }
+    end
+
+    def sum_values(ids, values_by_id)
+      ids.sum { |id| values_by_id[id] || 0 }
+    end
+
+    def done?(snapshot)
+      done_status_ids.include?(snapshot.status_id)
     end
   end
 end

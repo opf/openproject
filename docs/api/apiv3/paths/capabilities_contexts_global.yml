@@ -14,7 +14,7 @@ get:
                 _type: CapabilityContext::Global
                 id: global
           schema:
-            "$ref": "../components/schemas/view_global_context_model.yml"
+            $ref: "../components/schemas/view_global_context_model.yml"
       description: OK
       headers: {}
     '404':
@@ -31,7 +31,7 @@ get:
       description: Returned if the action does not exist.
       headers: {}
   tags:
-  - Actions & Capabilities
+    - Actions & Capabilities
   description: Returns the global capability context. This context is necessary to
     consistently link to a context even if the context is not a project.
   operationId: View_global_context

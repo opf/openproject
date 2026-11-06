@@ -302,7 +302,7 @@ JJ Abrams</textarea>
     it_behaves_like "wrapped in field-container by default"
 
     it "outputs element" do
-      expect(output).to have_css "select", count: 3
+      expect(output).to have_select count: 3
       expect(output).to have_css "select:nth-of-type(2) > option", count: 12
       expect(output).to have_css "select:last > option", count: 31
     end
@@ -547,7 +547,7 @@ JJ Abrams</textarea>
     it_behaves_like "not wrapped in container", "submit-container"
 
     it "outputs element" do
-      expect(output).to have_css("input[name=commit]")
+      expect(output).to have_button(name: "commit")
     end
   end
 

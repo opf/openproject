@@ -2,13 +2,13 @@
 ---
 post:
   parameters:
-  - description: Project id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Project id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   requestBody:
     content:
       application/json:
@@ -16,7 +16,7 @@ post:
           type: object
         examples:
           "with custom fields":
-            "$ref": "../components/examples/project_body.yml"
+            $ref: "../components/examples/project_body.yml"
           "empty":
             description: Empty request to get the form initially in order to start the guided update of a project
             value: {}
@@ -47,7 +47,7 @@ post:
     '415':
       $ref: "../components/responses/unsupported_media_type.yml"
   tags:
-  - Projects
+    - Projects
   description: ''
   operationId: Project_update_form
   summary: Project update form

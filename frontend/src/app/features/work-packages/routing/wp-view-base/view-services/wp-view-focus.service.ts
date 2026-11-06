@@ -57,6 +57,11 @@ export class WorkPackageViewFocusService extends WorkPackageViewBaseService<WPFo
     }
   }
 
+  /** The work package focus was set to, without falling back to the first result. */
+  public get explicitlyFocusedWorkPackage():string|null {
+    return this.current?.workPackageId ?? null;
+  }
+
   public get focusedWorkPackage():string|null {
     const value = this.current;
 

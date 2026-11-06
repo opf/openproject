@@ -121,4 +121,58 @@ RSpec.describe Grids::Widgets::Members, type: :component do
       end
     end
   end
+
+  describe "data fetching" do
+    let(:project) { create(:project) }
+    let(:user) do
+      create(:user, lastname: "Bob", member_with_roles: {
+               project => [
+                 create(:project_role, name: "Bob-Role", permissions: [:view_members])
+               ]
+             })
+    end
+    # Alice is also in another project with the same role
+    let(:alice) do
+      role_alice = create(:project_role, name: "Alice-Role")
+
+      create(:user, lastname: "Alice", member_with_roles: {
+               create(:project) => [role_shared],
+               project => [role_shared, role_alice]
+             })
+    end
+    # Peter is in the project, but locked!
+    let(:peter) do
+      role_peter = create(:project_role, name: "Peter-Role")
+
+      create(:user, :locked, lastname: "Peter", member_with_roles: { project => [role_peter] })
+    end
+
+    let(:role_shared) { create(:project_role, name: "Developers") }
+
+    before do
+      # create alice (and her membership) before peter
+      alice
+      peter
+
+      # Create more users, so we exceed Grids::Widgets::Members::MEMBERS_LIMIT
+      # for the shared role.
+      create_list(:user, 3, member_with_roles: { project => [role_shared] })
+    end
+
+    subject(:roles) { described_class.new(project).members_by_role }
+
+    it "fetches data for roles" do
+      # ensure roles are sorted by name
+      expect(roles.pluck(:name)).to eq(["Alice-Role", "Bob-Role", "Developers"])
+
+      roles.each do |role_data|
+        members = role_data[:members]
+
+        expect(members.to_a.size).to be <= 3
+        expect(members.map(&:id)).to eq(members.map(&:id).uniq), "Expected principals to be uniq"
+      end
+
+      expect(roles.find { |r| r[:name] == "Developers" }[:members].count).to eq(3)
+    end
+  end
 end

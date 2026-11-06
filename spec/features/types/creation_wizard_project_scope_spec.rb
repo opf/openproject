@@ -80,7 +80,7 @@ RSpec.describe "Configuring a project's own variant in the creation wizard", :js
       find_test_selector("form_configuration-selector").click
       within_test_selector("form_configuration-panel") { click_link "Bookshop form" }
 
-      expect(page).to have_current_path(/step=form_configuration/)
+      expect(page).to have_current_query_params("step" => "form_configuration")
       expect(page).to have_test_selector("form_configuration-selector", text: "Bookshop form")
       expect(variant.reload.form_configuration).to eq(bookshop_form)
     end
@@ -111,12 +111,12 @@ RSpec.describe "Configuring a project's own variant in the creation wizard", :js
 
       switch_workflow_to "Bookshop flow"
 
-      expect(page).to have_current_path(/step=workflows/)
+      expect(page).to have_current_query_params("step" => "workflows")
       expect(page).to have_test_selector("workflow-selector", text: "Bookshop flow")
 
       click_on I18n.t(:button_continue)
 
-      expect(page).to have_current_path(/step=pdf/)
+      expect(page).to have_current_query_params("step" => "pdf")
       expect(variant.reload.workflow).to eq(bookshop_flow)
     end
   end

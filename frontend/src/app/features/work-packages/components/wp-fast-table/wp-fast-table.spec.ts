@@ -29,6 +29,9 @@ import { within } from '@testing-library/dom';
 import { buildTable, TableHarness } from './testing/table-harness';
 import { buildWorkPackage } from './testing/work-package-fixture';
 import { Highlighting } from './builders/highlighting/highlighting.functions';
+import { effect } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { wpOccurrenceKey } from './rendered-occurrence-ledger';
 
 describe('WorkPackageTable', () => {
   let harness:TableHarness;
@@ -44,13 +47,35 @@ describe('WorkPackageTable', () => {
     expect(rendered.map((row) => row.workPackageId)).toEqual(['3', '1', '2']);
   });
 
+  it('holdFrames keeps a scheduled render out of the table until commit', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }] });
+    await harness.render();
+    const frames = harness.holdFrames();
+
+    harness.table.originalRows.reverse();
+    harness.table.redrawTable();
+
+    expect(frames.pending()).toBe(1);
+    expect(harness.rowIds()).toEqual(['1', '2']);
+    frames.commit();
+    expect(frames.pending()).toBe(0);
+    expect(harness.rowIds()).toEqual(['2', '1']);
+    frames.release();
+  });
+
   it('renders one cell per configured column', async () => {
     harness = buildTable({ workPackages: [{ id: '1' }], columns: ['id', 'subject', 'status'] });
 
     await harness.render();
 
-    const cells = within(harness.row('1')).getAllByRole('cell');
+    const cells = Array.from(harness.row('1').cells);
     expect(cells).toHaveLength(3);
+    expect(cells[0]).toHaveAttribute('role', 'gridcell');
+    expect(within(harness.row('1')).getByRole('rowheader')).toBe(cells[1]);
+    expect(cells[1].tagName).toBe('TH');
+    expect(cells[1]).toHaveAttribute('scope', 'row');
+    expect(cells[1]).not.toHaveAttribute('role');
+    expect(cells[2]).toHaveAttribute('role', 'gridcell');
     expect(cells[0]).not.toHaveClass('subject');
     expect(cells[1]).toHaveClass('subject');
     expect(cells[2]).not.toHaveClass('subject');
@@ -111,6 +136,23 @@ describe('WorkPackageTable', () => {
     expect(relationRow).not.toHaveClass(Highlighting.resourceClass('status', '13'));
   });
 
+  it('repaints the row highlight when a refresh changes the highlighted attribute', async () => {
+    const status = (id:string) => ({ status: { id, href: `/api/v3/statuses/${id}` } });
+    harness = buildTable({ workPackages: [{ id: '1', attributes: status('11') }], highlightingMode: 'status' });
+    await harness.render();
+    expect(harness.row('1')).toHaveClass(...Highlighting.backgroundClass('status', '11').split(' '));
+
+    harness.table.refreshRows(buildWorkPackage({ id: '1', attributes: status('12') }));
+
+    expect(harness.row('1')).toHaveClass(...Highlighting.backgroundClass('status', '12').split(' '));
+    expect(harness.row('1')).not.toHaveClass(Highlighting.resourceClass('status', '11'));
+
+    harness.table.refreshRows(buildWorkPackage({ id: '1', attributes: { status: null } }));
+
+    expect(harness.row('1')).not.toHaveClass('__hl_background');
+    expect(harness.row('1')).not.toHaveClass(Highlighting.resourceClass('status', '12'));
+  });
+
   it('renders the children of a work package once when it is also a relation target', async () => {
     harness = buildTable({
       workPackages: [{ id: '2' }, { id: '1', children: [{ id: '3' }] }, { id: '3' }],
@@ -129,7 +171,7 @@ describe('WorkPackageTable', () => {
 
   describe('refreshing a work package shown in several rows', () => {
     const occurrence = (key:string) => harness.tbody.querySelector<HTMLTableRowElement>(`[data-occurrence-key="${key}"]`)!;
-    const subjectOf = (key:string) => occurrence(key).querySelector('td.subject')!.textContent.trim();
+    const subjectOf = (key:string) => occurrence(key).querySelector(':scope > .wp-table--cell-td.subject')!.textContent.trim();
     const labelOf = (key:string) => occurrence(key).querySelector('.relation-row--type-label')?.textContent;
     const relationKeys = ['relation:ofType:1:2', 'relation:children:1:2'];
 
@@ -162,29 +204,85 @@ describe('WorkPackageTable', () => {
     });
   });
 
-  describe('rowsRefreshed$', () => {
+  describe('mutate', () => {
     beforeEach(async () => {
       harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }] });
       await harness.render();
     });
 
-    it('emits the work package id after replacing its row', () => {
-      const emitted:string[] = [];
-      harness.table.rowsRefreshed$.subscribe((id) => emitted.push(id));
+    it('paints the scope and bumps committedRows once for nested calls', () => {
+      const paint = vi.spyOn(harness.table.painter, 'paint');
+      const before = harness.table.committedRows().generation;
+
+      harness.table.mutate(new Set([wpOccurrenceKey('1')]), () => {
+        harness.table.mutate(new Set([wpOccurrenceKey('2')]), () => undefined);
+      });
+
+      expect(paint).toHaveBeenCalledTimes(1);
+      expect(paint).toHaveBeenCalledWith(new Set([wpOccurrenceKey('1'), wpOccurrenceKey('2')]));
+      expect(harness.table.committedRows()).toEqual({
+        generation: before + 1,
+        scope: new Set([wpOccurrenceKey('1'), wpOccurrenceKey('2')]),
+      });
+    });
+
+    it('lets a committedRows consumer react without mutating', () => {
+      const seen:number[] = [];
+      TestBed.runInInjectionContext(() => effect(() => { seen.push(harness.table.committedRows().generation); }));
+      TestBed.tick();
+      const paint = vi.spyOn(harness.table.painter, 'paint');
+
+      harness.table.mutate('positions', () => undefined);
+      TestBed.tick();
+
+      expect(seen).toHaveLength(2);
+      expect(seen[1]).toBe(seen[0] + 1);
+      expect(paint).toHaveBeenCalledTimes(1);
+    });
+
+    it('captures ownership on every entry so a late focus entry during a nested mutation is kept', () => {
+      expect(document.body).toHaveFocus();
+
+      harness.table.mutate('positions', () => {
+        harness.row('2').focus();
+        harness.table.mutate('positions', () => harness.row('2').blur());
+        expect(document.body).toHaveFocus();
+      });
+
+      expect(harness.row('2')).toHaveFocus();
+    });
+
+    it('keeps ownership when a mutation blurs the focused row and then schedules a render', () => {
+      const frames = harness.holdFrames();
+      try {
+        harness.row('2').focus();
+        harness.table.mutate(new Set([wpOccurrenceKey('2')]), () => {
+          harness.row('2').blur();
+          harness.table.redrawTable();
+        });
+        frames.commit();
+      } finally {
+        frames.release();
+      }
+
+      expect(harness.row('2')).toHaveFocus();
+    });
+
+    it('bumps committedRows with the work package keys after replacing its row', () => {
+      const before = harness.table.committedRows().generation;
 
       harness.table.refreshRows(buildWorkPackage({ id: '1', subject: 'Renamed' }));
 
-      expect(emitted).toEqual(['1']);
+      expect(harness.table.committedRows()).toEqual({ generation: before + 1, scope: new Set([wpOccurrenceKey('1')]) });
       expect(harness.table.ledger.byWorkPackageId('1')[0].element).toBe(harness.row('1'));
     });
 
-    it('emits nothing for an unknown work package', () => {
-      const emitted:string[] = [];
-      harness.table.rowsRefreshed$.subscribe((id) => emitted.push(id));
+    it('leaves committedRows unchanged for an unknown work package', () => {
+      const before = harness.table.committedRows();
 
       harness.table.refreshRows(buildWorkPackage({ id: '99' }));
 
-      expect(emitted).toEqual([]);
+      expect(harness.table.committedRows()).toBe(before);
     });
   });
 });

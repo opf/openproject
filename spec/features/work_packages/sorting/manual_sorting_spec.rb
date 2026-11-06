@@ -376,6 +376,24 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
       wp_table.expect_work_package_order work_package3, work_package1, work_package2, work_package4
     end
 
+    it "exposes row positions again once a drop has reloaded the query" do
+      wp_table.expect_row_positions(rowcount: 6, rows: [1, 2, 3, 4, 5, 6])
+
+      wp_table.drag_and_drop_work_package from: 1, to: 3
+      wp_table.expect_work_package_order work_package1, work_package3, work_package2, work_package4
+      wp_table.expect_and_dismiss_toaster message: "Successful creation."
+      wp_table.expect_row_positions(rowcount: 6, rows: [1, 2, 3, 4, 5, 6])
+
+      query = Query.last
+      wp_table.drag_and_drop_work_package from: 0, to: 2
+      wp_table.expect_work_package_order work_package3, work_package1, work_package2, work_package4
+      expect_query_order(query, [work_package3.id, work_package1.id, work_package2.id])
+
+      wp_table.visit_query query
+      wp_table.expect_work_package_order work_package3, work_package1, work_package2, work_package4
+      wp_table.expect_row_positions(rowcount: 6, rows: [1, 2, 3, 4, 5, 6])
+    end
+
     it "keeps the source row visible as a placeholder and collapses multi-selection" do
       # Multi-select rows 1 and 2 via ctrl-click on the ID cells (established pattern).
       # loading_indicator_saveguard between the two clicks mirrors
@@ -476,6 +494,18 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
 
       # Expect same order
       wp_table.expect_work_package_order work_package4, work_package3, work_package2, work_package1
+    end
+
+    it "offers ID when switching a manually sorted table back to automatic sorting" do
+      sort_by.open_modal
+      sort_by.update_sorting_mode "manual"
+      sort_by.apply_changes
+
+      sort_by.open_modal
+      sort_by.update_sorting_mode "automatic"
+
+      expect(page).to have_select("modal-sorting-attribute-0", selected: "ID")
+      expect(page).to have_no_select("modal-sorting-attribute-0", with_options: ["Manual sort order"])
     end
 
     it "shows a warning when switching from manual to automatic sorting" do

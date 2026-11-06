@@ -176,6 +176,16 @@ RSpec.describe CostReport do
       end
     end
 
+    context "with a dimension naming a constant outside the engine" do
+      it "ignores it" do
+        instance.apply_pivot_configuration(rows: ["::Object"], columns: [:week])
+
+        replayed = instance.group_bys.map { |group_by| [group_by.class.name.demodulize, group_by.type] }
+
+        expect(replayed).to eq([["Week", :column]])
+      end
+    end
+
     context "without any dimension" do
       it "adds no singleton, because there is no pivot to render" do
         instance.apply_pivot_configuration(rows: [], columns: [])

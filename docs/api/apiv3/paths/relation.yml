@@ -104,7 +104,7 @@ patch:
     Note that changing the `type` of a relation invariably also changes the respective `reverseType` as well as the
     "name" of it. The returned Relation object will reflect that change. For instance if you change a Relation's
     `type` to "follows" then the `reverseType` will be changed to `precedes`.
-    
+
     It is not allowed to change a relation's involved work packages.
   parameters:
     - description: Relation ID

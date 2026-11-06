@@ -17,7 +17,7 @@ allOf:
               - $ref: './link.yml'
               - description: |-
                   This relation collection
-                  
+
                   **Resource**: RelationCollectionReadModel
       _embedded:
         type: object

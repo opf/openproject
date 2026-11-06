@@ -89,7 +89,7 @@ RSpec.describe "Upload attachment to documents",
       SeleniumHubWaiter.wait
       click_link "New documentation"
       expect(page).to have_current_path "/documents/#{document.id}", wait: 10
-      expect(page).to have_content("Image uploaded on creation")
+      expect(page).to have_text("Image uploaded on creation")
 
       # Adding a second image
       # We should be using the 'Edit' button at the top but that leads to flickering specs
@@ -116,8 +116,8 @@ RSpec.describe "Upload attachment to documents",
         click_on "Save"
 
         # Expect both images to be present on the show page
-        expect(page).to have_content("Image uploaded on creation")
-        expect(page).to have_content("Image uploaded the second time")
+        expect(page).to have_text("Image uploaded on creation")
+        expect(page).to have_text("Image uploaded the second time")
         attachments_list.expect_attached("image.png", count: 4)
       end
 
@@ -164,8 +164,8 @@ RSpec.describe "Upload attachment to documents",
         editor.open_add_image_dialog
         expect do
           editor.attach_file(image_fixture.path)
-          expect(page).to have_content I18n.t("activerecord.errors.models.attachment.attributes.content_type.not_allowlisted",
-                                              value: "image/png")
+          expect(page).to have_text I18n.t("activerecord.errors.models.attachment.attributes.content_type.not_allowlisted",
+                                           value: "image/png")
           expect(editor.element).to have_no_css("img[alt='image.png']")
         end.not_to change { document.attachments.count }
       end
@@ -174,7 +174,7 @@ RSpec.describe "Upload attachment to documents",
 
   shared_examples "with attachments list in the sidebar" do
     it "is possible to upload attachments from the sidebar" do
-      expect(page).to have_no_content("image.png")
+      expect(page).to have_no_text("image.png")
       expect do
         attachments_list.drag_enter
         attachments_list.drop(image_fixture.path)
@@ -211,7 +211,7 @@ RSpec.describe "Upload attachment to documents",
       DocumentType.destroy_all
       visit document_path(document)
       expect(page).to have_css("op-block-note") # rubocop:disable RSpec/ExpectInHook
-      expect(page).not_to have_element("opce-ckeditor-augmented-textarea") # rubocop:disable RSpec/ExpectInHook
+      expect(page).to have_no_element("opce-ckeditor-augmented-textarea") # rubocop:disable RSpec/ExpectInHook
     end
 
     context "with internal uploads" do

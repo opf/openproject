@@ -70,9 +70,9 @@ get:
             count: 2
             total: 2
           schema:
-            "$ref": "../components/schemas/watchers_model.yml"
+            $ref: "../components/schemas/watchers_model.yml"
       description: OK
-      headers: { }
+      headers: {}
     '403':
       content:
         application/hal+json:
@@ -88,7 +88,7 @@ get:
         **Required permission:** view work package watchers
 
         *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
-      headers: { }
+      headers: {}
     '404':
       content:
         application/hal+json:
@@ -104,7 +104,7 @@ get:
         **Required permission:** view work package
 
         *Note that you will effectively not be able to see the watchers of a work package without being able to see the work package.*
-      headers: { }
+      headers: {}
   tags:
     - Work Packages
   description: ''
@@ -122,10 +122,10 @@ post:
   responses:
     '200':
       description: OK
-      headers: { }
+      headers: {}
     '201':
       description: Created
-      headers: { }
+      headers: {}
     '400':
       content:
         application/hal+json:
@@ -145,7 +145,7 @@ post:
         * The JSON object did not contain the key `user`
 
         * The value of `users` was not a link object
-      headers: { }
+      headers: {}
     '403':
       content:
         application/hal+json:
@@ -165,7 +165,7 @@ post:
         * add work package watchers (for other users)
 
         *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
-      headers: { }
+      headers: {}
     '404':
       content:
         application/hal+json:
@@ -181,7 +181,7 @@ post:
         **Required permission:** view work package
 
         *Note that you will effectively not be able to change the watchers of a work package without being able to see the work package.*
-      headers: { }
+      headers: {}
     '406':
       $ref: "../components/responses/missing_content_type.yml"
     '415':
@@ -195,7 +195,7 @@ post:
         * the user specified is not allowed to watch that work package (`PropertyConstraintViolation`)
 
         * the user specified does not exist (`PropertyConstraintViolation`)
-      headers: { }
+      headers: {}
   tags:
     - Work Packages
   description: |-

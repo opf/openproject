@@ -45,7 +45,8 @@ RSpec.describe "Work package single context menu", :js do
 
     expect(page).to have_css("h2", text: I18n.t(:button_duplicate))
     expect(page).to have_css("a.work_package", text: "##{work_package.id}")
-    expect(page).to have_current_path /work_packages\/move\/new\?copy=true&ids\[\]=#{work_package.id}/
+    expect(page).to have_current_path(%r{/work_packages/move/new\z}, ignore_query: true)
+    expect(page).to have_current_query_params("copy" => "true", "ids" => [work_package.id.to_s])
   end
 
   it "successfully copies the short url of the work package" do

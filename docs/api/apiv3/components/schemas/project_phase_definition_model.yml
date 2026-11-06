@@ -54,16 +54,16 @@ properties:
               This project phase definition.
 
               **Resource**: ProjectPhaseDefinition
-example:
-  _type: 'ProjectPhaseDefinition'
-  id: 1337
-  name: 'Initiating'
-  startGate: true
-  startGateName: "Before Initiating"
-  finishGate: true
-  finishGateName: null
-  createdAt: '2023-01-20T14:30:00.368Z'
-  updatedAt: '2023-05-23T11:57:48.618Z'
-  _links:
-    self:
-      href: '/api/v3/project_phase_definitions/23'
+examples:
+  - _type: 'ProjectPhaseDefinition'
+    id: 1337
+    name: 'Initiating'
+    startGate: true
+    startGateName: "Before Initiating"
+    finishGate: true
+    finishGateName: null
+    createdAt: '2023-01-20T14:30:00.368Z'
+    updatedAt: '2023-05-23T11:57:48.618Z'
+    _links:
+      self:
+        href: '/api/v3/project_phase_definitions/23'

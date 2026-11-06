@@ -72,8 +72,12 @@ RSpec.shared_context "with jira project import data" do
     Import::JiraCreateProjectWorkPackagesJob.perform_now(jira_import.id, jira_project.id)
   end
 
-  def create_work_package_attachments
-    Import::JiraCreateProjectWorkPackageAttachmentsJob.perform_now(jira_import.id, jira_project.id)
+  def download_work_package_attachments
+    Import::JiraDownloadProjectWorkPackageAttachmentsJob.perform_now(jira_import.id, jira_project.id)
+  end
+
+  def create_parent_child_relations
+    Import::JiraCreateParentChildRelationsFromSubtasksJob.perform_now(jira_import.id, jira_project.id)
   end
 
   def create_time_entries
@@ -86,7 +90,8 @@ RSpec.shared_context "with jira project import data" do
     create_labels
     create_project
     create_work_packages
-    create_work_package_attachments
+    create_parent_child_relations
+    download_work_package_attachments
     create_time_entries
   end
 end

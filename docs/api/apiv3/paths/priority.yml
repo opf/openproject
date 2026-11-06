@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Priority id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Priority id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -27,7 +27,7 @@ get:
                 name: Low
                 position: 1
           schema:
-            "$ref": "../components/schemas/priority_model.yml"
+            $ref: "../components/schemas/priority_model.yml"
       description: OK
       headers: {}
     '403':
@@ -47,7 +47,7 @@ get:
         **Required permission:** view work package (on any project)
       headers: {}
   tags:
-  - Priorities
+    - Priorities
   description: ''
   operationId: View_Priority
   summary: View Priority

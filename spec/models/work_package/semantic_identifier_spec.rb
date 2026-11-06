@@ -420,6 +420,29 @@ RSpec.describe WorkPackage::SemanticIdentifier do
     end
   end
 
+  describe "WorkPackage.ids_by_display_id", with_settings: { work_packages_identifier: "semantic" } do
+    let(:work_package2) { create(:work_package, project:) }
+
+    before do
+      work_package2
+      WorkPackageSemanticAlias.create!(identifier: "OLDPROJ-1", work_package:)
+    end
+
+    it "maps numeric ids, current identifiers and former identifiers to primary keys" do
+      expect(WorkPackage.ids_by_display_id([work_package2.id.to_s, "MYPROJ-1", "OLDPROJ-1"]))
+        .to eq(work_package2.id.to_s => work_package2.id, "MYPROJ-1" => work_package.id, "OLDPROJ-1" => work_package.id)
+    end
+
+    it "leaves out values that resolve to nothing" do
+      expect(WorkPackage.ids_by_display_id(["MYPROJ-999", "0", "bogus"])).to eq({})
+    end
+
+    it "only resolves within the scope" do
+      expect(WorkPackage.where.not(id: work_package.id).ids_by_display_id(["MYPROJ-1", "OLDPROJ-1", "MYPROJ-2"]))
+        .to eq("MYPROJ-2" => work_package2.id)
+    end
+  end
+
   describe "WorkPackage.where_display_id_in", with_settings: { work_packages_identifier: "semantic" } do
     let(:work_package2) { create(:work_package, project:) }
     let(:work_package3) { create(:work_package, project:) }
