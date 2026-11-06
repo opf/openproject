@@ -202,6 +202,29 @@ RSpec.describe "API v3 Recurring Meeting resource", content_type: :json do
         expect(response).to have_http_status(:forbidden)
       end
     end
+
+    context "when attempting to change the author via _links.author" do
+      let(:other_user) do
+        create(:user, member_with_permissions: { project => %i[view_meetings] })
+      end
+      let(:body) do
+        {
+          _links: {
+            author: { href: api_v3_paths.user(other_user.id) }
+          }
+        }.to_json
+      end
+
+      it "rejects the change with a readonly error and does not change the author" do
+        expect(recurring_meeting.author).to eq(current_user)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body)
+          .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyIsReadOnly".to_json)
+          .at_path("errorIdentifier")
+        expect(recurring_meeting.reload.author).to eq(current_user)
+      end
+    end
   end
 
   describe "DELETE /api/v3/recurring_meetings/:id" do
