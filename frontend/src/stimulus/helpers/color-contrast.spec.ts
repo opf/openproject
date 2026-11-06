@@ -56,6 +56,20 @@ describe('color contrast', () => {
     expect(computedColor('color(srgb 1 0.5 0 / 0.18)')).toEqual([255, 127.5, 0, 0.18]);
   });
 
+  it.each([
+    ['hsl(none 0% 78%)', [198.9, 198.9, 198.9, 1]],
+    ['hsl(none 0% 110%)', [255, 255, 255, 1]],
+    ['hsl(none 0% -10%)', [0, 0, 0, 1]],
+    ['hsl(none 0% 50% / 0.18)', [127.5, 127.5, 127.5, 0.18]],
+    ['hsl(120 100% 25%)', [0, 127.5, 0, 1]],
+    ['hsl(240 100% 50% / none)', [0, 0, 255, 0]],
+    ['hsl(120 none 50%)', [127.5, 127.5, 127.5, 1]],
+    ['hsl(120 100% none)', [0, 0, 0, 1]],
+  ])('reads computed HSL color %s', (value, expected) => {
+    const color = computedColor(value);
+    expected.forEach((channel, index) => expect(color[index]).toBeCloseTo(channel));
+  });
+
   it('composites highlighting over the actual theme surface', () => {
     expect(toHex(composite([255, 0, 0, 0.18], [255, 255, 255, 1]))).toBe('#FFD1D1');
     expect(toHex(composite([255, 0, 0, 0.18], [0, 0, 0, 1]))).toBe('#2E0000');
