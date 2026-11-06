@@ -3,6 +3,12 @@
   "dockerComposeFile": [
     "docker-compose.yaml"
   ],
+  "containerEnv": {
+    "PROFILES": ""
+  },
+  "runServices": [
+    "openproject", "postgresql", "step", "ca-bundle"
+  ],
   "service": "openproject",
   "workspaceFolder": "/home/dev/openproject",
   "containerUser": "dev",
