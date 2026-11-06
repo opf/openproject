@@ -29,11 +29,11 @@
 
 module CalculatedValues
   class MultiValueListError < TypeError
-    def initialize(custom_field_ids)
-      @custom_field_ids = custom_field_ids
-      super("Multi-value lists #{custom_field_ids} used outside of an aggregate function")
+    def initialize(list_ids)
+      @list_ids = list_ids
+      super("Multi-value lists #{list_ids} used outside of an aggregate function")
     end
 
-    attr_reader :custom_field_ids
+    attr_reader :list_ids
   end
 end
