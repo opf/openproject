@@ -68,7 +68,7 @@ export class OpActionMenuService {
     return this.current?.handler === handler;
   }
 
-  show(handler:OpContextMenuHandler, event:Event):void {
+  show(handler:OpContextMenuHandler, event:Event, anchor?:HTMLElement):void {
     this.close();
 
     const items = handler.locals.items.filter((item) => !item.hidden);
@@ -101,7 +101,7 @@ export class OpActionMenuService {
     ref.instance.activated.subscribe(() => this.close(false, 'action'));
     document.addEventListener('keydown', (keyboardEvent) => this.handleEscape(keyboardEvent, opened), { signal, capture: true });
     document.addEventListener('pointerdown', (pointerEvent) => {
-      if (!menu.contains(pointerEvent.target as Node)) {
+      if (!menu.contains(pointerEvent.target as Node) && !anchor?.contains(pointerEvent.target as Node)) {
         this.close(false, 'outside');
       }
     }, { signal, capture: true });
@@ -111,12 +111,12 @@ export class OpActionMenuService {
       }
     }, { signal });
 
-    const invoker = event.target as HTMLElement;
+    const invoker = anchor ?? event.target as HTMLElement;
     const open = () => {
       if (this.current !== opened) {
         return;
       }
-      if (event instanceof MouseEvent && event.clientX > 0) {
+      if (!anchor && event instanceof MouseEvent && event.clientX > 0) {
         opened.presenter.openAtPoint(event.clientX, event.clientY, invoker);
       } else {
         const rect = invoker.getBoundingClientRect();
