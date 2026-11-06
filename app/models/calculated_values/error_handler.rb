@@ -92,6 +92,10 @@ module CalculatedValues
         ErrorContext.new(custom_field_id:,
                          error_code: "ERROR_DISABLED_VALUE",
                          missing_custom_field_ids: error.unbound_variables.map { to_id(it) })
+      when MultiValueListError
+        ErrorContext.new(custom_field_id:,
+                         error_code: "ERROR_MULTI_VALUE_LIST",
+                         missing_custom_field_ids: error.custom_field_ids)
       else
         ErrorContext.new(custom_field_id:, error_code: "ERROR_UNKNOWN")
       end

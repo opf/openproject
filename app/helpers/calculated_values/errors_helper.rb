@@ -35,7 +35,8 @@ module CalculatedValues::ErrorsHelper
     "ERROR_UNKNOWN" => DEFAULT_TRANSLATION,
     "ERROR_MATHEMATICAL" => "calculated_values.errors.mathematical",
     "ERROR_MISSING_VALUE" => "calculated_values.errors.missing_value",
-    "ERROR_DISABLED_VALUE" => "calculated_values.errors.disabled_value"
+    "ERROR_DISABLED_VALUE" => "calculated_values.errors.disabled_value",
+    "ERROR_MULTI_VALUE_LIST" => "calculated_values.errors.multi_value_list"
   }.freeze
 
   def calculated_value_error_msg(calculated_value_error)
@@ -44,7 +45,7 @@ module CalculatedValues::ErrorsHelper
     error_code = calculated_value_error.error_code
     translation_key = ERROR_TRANSLATIONS.fetch(error_code, DEFAULT_TRANSLATION)
 
-    if %w[ERROR_MISSING_VALUE ERROR_DISABLED_VALUE].include?(error_code)
+    if %w[ERROR_MISSING_VALUE ERROR_DISABLED_VALUE ERROR_MULTI_VALUE_LIST].include?(error_code)
       # To keep the error message short, we only show the first custom field with a missing/disabled value.
       missing_custom_field_id = calculated_value_error.missing_custom_field_ids.first
       # One query per distinct missing field due to AR query cache

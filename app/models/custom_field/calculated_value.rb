@@ -172,6 +172,17 @@ module CustomField::CalculatedValue
       formula_string.gsub(/\{\{(cf_\d+)}}/, '\1')
     end
 
+    def multi_value_lists_outside_aggregate_functions
+      multi_value_lists = used_multi_value_lists.index_by(&:column_name)
+      return [] if multi_value_lists.empty?
+
+      ast_nodes_with_parents(formula_ast)
+        .select { |node, _parent| node.is_a?(Dentaku::AST::Identifier) }
+        .reject { |_node, parent| parent&.name.in?(FORMULA_AGGREGATE_FUNCTIONS) }
+        .filter_map { |node, _parent| multi_value_lists[node.identifier] }
+        .uniq
+    end
+
     private
 
     def validate_formula
@@ -233,21 +244,8 @@ module CustomField::CalculatedValue
       errors.add(:formula, :multi_value_list_not_aggregated, custom_fields: custom_field_names)
     end
 
-    def multi_value_lists_outside_aggregate_functions
-      multi_value_lists = used_multi_value_lists.index_by(&:column_name)
-      return [] if multi_value_lists.empty?
-
-      ast_nodes_with_parents(formula_ast)
-        .select { |node, _parent| node.is_a?(Dentaku::AST::Identifier) }
-        .reject { |_node, parent| parent&.name.in?(FORMULA_AGGREGATE_FUNCTIONS) }
-        .filter_map { |node, _parent| multi_value_lists[node.identifier] }
-        .uniq
-    end
-
     def used_multi_value_lists
-      CustomField
-        .select(:id, :name)
-        .where(id: formula_referenced_custom_field_ids, field_format: "weighted_item_list", multi_value: true)
+      CustomField.where(id: formula_referenced_custom_field_ids, field_format: "weighted_item_list", multi_value: true)
     end
 
     def ast_nodes_with_parents(node, parent = nil)
