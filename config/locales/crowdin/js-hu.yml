@@ -47,6 +47,8 @@ hu:
       draggable_hint: 'Húzza át a szerkesztőmezőt a beillesztett képre vagy hivatkozási mellékletre. Zárt szerkesztőmezők nyílnak meg, amíg húzza.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Add item
@@ -1150,10 +1152,6 @@ hu:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Táblázat melynek sorai munkacsomagok és oszlopai munkacsomag attribútumok.
-        text_inline_edit: A legtöbb mezője ennek a táblázatnak olyan gomb, mely aktiválja a soron belüli szerkesztését az attribútumnak.
-        text_select_hint: Válassza ki a megnyitni kíván mezőket és használja az "ALT" és nyílgombokat.
-        text_sort_hint: A táblázat fejlécében található hivatkozásokkal rendezhet, csoportosíthat, átsorolhat, törölhet és hozzáadhat oszlopokat.
       table_configuration:
         button: Ennek a feladatcsoportnak a beállítása
         choose_display_mode: Feladatcsoportok megjelenése
@@ -1164,7 +1162,6 @@ hu:
         display_sums_hint: 'Az összes összegezhető attribútum összegének megjelenítése a táblázat eredményei alatti sorban.
 
           '
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: 'Minden szűrt táblázat eredményei kiegészülnek az őseikkel. A hierarchiák kiterjeszthetők és összecsukhatók.
 
           '

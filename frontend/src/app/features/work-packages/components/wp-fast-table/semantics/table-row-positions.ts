@@ -35,7 +35,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { groupOccurrenceKey, placeholderOccurrenceKey, wpOccurrenceKey, type RenderDraft } from '../rendered-occurrence-ledger';
 import type { WorkPackageTable } from '../wp-fast-table';
-import { classifyRow } from '../helpers/structural-rows';
+import { classifyRow, isExposedRow } from '../helpers/structural-rows';
 import { setOrRemove } from './treegrid-semantics';
 import { bodyRowPositions, draftAgrees, type BodyRowPositions, type PositionGroup } from './body-row-positions';
 
@@ -44,6 +44,18 @@ export interface CapturedRowPositions {
   readonly kind:'query'|'page';
   readonly source:WorkPackageCollectionResource;
   readonly body:BodyRowPositions;
+}
+
+export interface WithdrawnRowPositions {
+  readonly withdrawn:string;
+}
+
+/** What a render pass learned about row positions; null when there was no collection to check. */
+export type RowPositionEvidence = CapturedRowPositions|WithdrawnRowPositions|null;
+
+interface Projection {
+  readonly count:number|null;
+  readonly indices:Map<HTMLTableRowElement, number>;
 }
 
 // Group counts are computed from the unscoped query results, so grouped positions trust only the query collections:
@@ -67,9 +79,13 @@ export class TableRowPositions {
 
   private foreignRowReported = false;
 
+  private withdrawal:string|null = null;
+
+  private committedWithdrawal:WithdrawnRowPositions|null = null;
+
   constructor(private readonly table:WorkPackageTable) {}
 
-  public capture(draft:RenderDraft):CapturedRowPositions|null {
+  public capture(draft:RenderDraft):RowPositionEvidence {
     const source = this.table.querySpace.results.value;
     if (!source) return null;
     if (this.withdrawnByMode()) return this.notOffered('expanded relation columns');
@@ -104,22 +120,20 @@ export class TableRowPositions {
     return draftAgrees(body, rows, positionGroups) ? { kind: 'query', source, body } : this.withdraw('rows disagree with collection');
   }
 
-  public commit(snapshot:CapturedRowPositions|null):void {
-    this.snapshot = snapshot;
+  public commit(evidence:RowPositionEvidence):void {
+    this.snapshot = evidence && 'kind' in evidence ? evidence : null;
+    this.committedWithdrawal = evidence && 'withdrawn' in evidence ? evidence : null;
+  }
+
+  /** Why the last paint left positions off, or null when it painted them. */
+  public get withdrawn():string|null {
+    return this.withdrawal;
   }
 
   /** Producers call this synchronously after every imperative row move or structural change, so no frame exposes a stale index. */
-  public paint():void {
-    if (this.table.destroyed) return;
-    const element = this.table.tbody.closest('table');
-    if (!element || (!this.currentSnapshot() && !element.hasAttribute('aria-rowcount'))) return;
-    const rows = Array.from(element.rows);
-    const projection = this.project(element, rows);
-    setOrRemove(element, 'aria-rowcount', projection ? String(projection.count ?? -1) : null);
-    rows.forEach((row) => {
-      const position = projection?.indices.get(row);
-      setOrRemove(row, 'aria-rowindex', position === undefined ? null : String(position));
-    });
+  public paint():string|null {
+    this.withdrawal = this.paintPositions();
+    return this.withdrawal;
   }
 
   /** A refreshed row replaces its predecessor in place under the same occurrence key, so it inherits that row's index. */
@@ -133,7 +147,7 @@ export class TableRowPositions {
   }
 
   /** Contextual ancestors make the query-wide total unknowable, so rendered rows count from the page's first rank. */
-  private capturePage(source:WorkPackageCollectionResource, draft:RenderDraft):CapturedRowPositions|null {
+  private capturePage(source:WorkPackageCollectionResource, draft:RenderDraft):CapturedRowPositions|WithdrawnRowPositions {
     const { offset, pageSize } = source;
     const firstRank = (offset - 1) * pageSize;
     if (!Number.isSafeInteger(offset) || offset < 1 || !Number.isSafeInteger(pageSize) || pageSize < 1
@@ -160,30 +174,51 @@ export class TableRowPositions {
       && source.elements.every((wp, index) => wp.id === originalRows[index]);
   }
 
-  private project(element:HTMLTableElement, rows:HTMLTableRowElement[]) {
-    if (!this.snapshot) return null;
+  private paintPositions():string|null {
+    if (this.table.destroyed) return null;
+    const tableElement = this.table.tbody.closest('table');
+    if (!tableElement) return null;
     const snapshot = this.currentSnapshot();
-    if (!snapshot) return this.notOffered('collection changed before render');
-    const { body } = snapshot;
-    const header = element.tHead?.rows;
-    if (header?.length !== 1) return this.withdraw('header rows');
+    if (!snapshot && !tableElement.hasAttribute('aria-rowcount')) return this.unavailable()?.withdrawn ?? null;
 
-    const indices = new Map<HTMLTableRowElement, number>([[header[0], 1]]);
+    const rows = Array.from(tableElement.rows);
+    const result = snapshot ? this.project(snapshot, tableElement, rows) : this.unavailable();
+    const projection = result && 'indices' in result ? result : null;
+    setOrRemove(tableElement, 'aria-rowcount', projection ? String(projection.count ?? -1) : null);
+    rows.forEach((row) => {
+      const position = projection?.indices.get(row);
+      setOrRemove(row, 'aria-rowindex', position === undefined ? null : String(position));
+    });
+    return result && 'withdrawn' in result ? result.withdrawn : null;
+  }
+
+  /** Without a current snapshot, either the collection moved on since the render pass or that pass withheld positions. */
+  private unavailable():WithdrawnRowPositions|null {
+    return this.snapshot ? this.notOffered('collection changed before render') : this.committedWithdrawal;
+  }
+
+  private project(snapshot:CapturedRowPositions, tableElement:HTMLTableElement, rows:HTMLTableRowElement[]):Projection|WithdrawnRowPositions {
+    const { body } = snapshot;
+    const headerRows = tableElement.tHead?.rows;
+    if (headerRows?.length !== 1) return this.withdraw('header rows');
+
+    const indices = new Map<HTMLTableRowElement, number>([[headerRows[0], 1]]);
     const trailers:HTMLTableRowElement[] = [];
-    const seen = new Set<'totals'|'create'>();
+    const seen = new Set<'totals'|'inlineCreate'>();
     let emptySurrogate:HTMLTableRowElement|null = null;
     for (const row of rows) {
-      if (row === header[0]) continue;
+      if (row === headerRows[0]) continue;
       const kind = classifyRow(this.table, row);
       if (kind === 'foreign') {
         this.reportForeignRow();
         return this.withdraw('foreign row');
       }
       if (kind === 'placeholder' || kind === 'unexposed') continue;
-      if (kind === 'empty') {
+      if ((kind === 'emptyResults' || kind === 'totals' || kind === 'inlineCreate') && !isExposedRow(row)) continue;
+      if (kind === 'emptyResults') {
         if (body.count !== 0 || emptySurrogate) return this.withdraw('unexpected empty-results row');
         emptySurrogate = row;
-      } else if (kind === 'totals' || kind === 'create') {
+      } else if (kind === 'totals' || kind === 'inlineCreate') {
         if (row.cells.length === 0) continue;
         if (seen.has(kind)) return this.withdraw(`duplicate ${kind} row`);
         seen.add(kind);
@@ -216,9 +251,9 @@ export class TableRowPositions {
     return this.snapshot?.source === this.table.querySpace.results.value ? this.snapshot : null;
   }
 
-  private withdraw(inconsistency:string):null {
+  private withdraw(inconsistency:string):WithdrawnRowPositions {
     debugLog(`Row positions withdrawn: ${inconsistency}`);
-    return null;
+    return { withdrawn: inconsistency };
   }
 
   private reportForeignRow():void {
@@ -227,8 +262,8 @@ export class TableRowPositions {
     window.ErrorReporter.captureMessage('Row positions withdrawn: foreign row', 'warning');
   }
 
-  private notOffered(mode:string):null {
+  private notOffered(mode:string):WithdrawnRowPositions {
     debugLog(`Row positions not offered: ${mode}`);
-    return null;
+    return { withdrawn: mode };
   }
 }

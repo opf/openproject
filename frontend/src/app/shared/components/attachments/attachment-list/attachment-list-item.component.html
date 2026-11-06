@@ -1,118 +1,133 @@
-<div class="spot-list--item-floating-wrapper op-file-list--item-floating-wrapper">
-  <a
-    class="spot-list--item-action spot-list--item-action_link op-file-list--item-action"
-    [class.spot-list--item-action_disabled]="attachment.status === 'quarantined'"
-    [href]="attachment._links.originOpen?.href || attachment._links.staticDownloadLocation.href"
-    target="_blank"
-    (dragstart)="setDragData($event)"
+<spot-tooltip
+  [disabled]="!hasTooltip"
+  [alignment]="tooltipAlignment"
+  class="spot-list--item-floating-wrapper op-file-list--item-floating-wrapper"
+>
+  <p
+    slot="body"
+    class="spot-body-small"
+  >{{ tooltip }}</p>
+
+  <ng-container
+    slot="trigger"
   >
-    <div
-      [title]="attachment.status === 'quarantined' ? text.quarantinedHint : attachment.fileName"
-      class="spot-list--item-title op-file-list--item-title"
-      data-test-selector="op-files-tab--file-list-item-title"
+    <a
+      class="spot-list--item-action spot-list--item-action_link op-file-list--item-action"
+      [class.spot-list--item-action_disabled]="attachment.status === 'quarantined'"
+      [class.op-file-list--item-action_disabled]="incompleteImport"
+      [class.op-file-list--item-action_faulty-status]="incompleteImport"
+      [href]="attachment._links.originOpen?.href || attachment._links.staticDownloadLocation.href"
+      target="_blank"
+      (dragstart)="setDragData($event)"
     >
-      @if (attachment.status === 'quarantined') {
-        <svg bug-icon size="small" class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"></svg>
-      } @else {
-        @switch (fileIcon.icon) {
-          @case ('file-media') {
-            <svg
-              file-media-icon
-              size="small"
-              class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
-            ></svg>
-          }
-          @case ('op-file-csv') {
-            <svg
-              op-file-csv-icon
-              size="small"
-              class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
-            ></svg>
-          }
-          @case ('op-file-doc') {
-            <svg
-              op-file-doc-icon
-              size="small"
-              class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
-            ></svg>
-          }
-          @case ('op-file-presentation') {
-            <svg
-              op-file-presentation-icon
-              size="small"
-              class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
-            ></svg>
-          }
-          @case ('op-file-sheet') {
-            <svg
-              op-file-sheet-icon
-              size="small"
-              class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
-            ></svg>
-          }
-          @case ('op-file-text') {
-            <svg
-              op-file-text-icon
-              size="small"
-              class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
-            ></svg>
-          }
-          @case ('op-whiteboards') {
-            <svg
-              op-whiteboards-icon
-              size="small"
-              class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
-            ></svg>
-          }
-          @case ('op-pdf') {
-            <svg
-              op-pdf-icon
-              size="small"
-              class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
-            ></svg>
-          }
-          @default {
-            <svg
-              file-icon
-              size="small"
-              class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
-            ></svg>
+      <div
+        [title]="attachment.status === 'quarantined' ? text.quarantinedHint : attachment.fileName"
+        class="spot-list--item-title op-file-list--item-title"
+        data-test-selector="op-files-tab--file-list-item-title"
+      >
+        @if (attachment.status === 'quarantined') {
+          <svg bug-icon size="small" class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"></svg>
+        } @else {
+          @switch (fileIcon.icon) {
+            @case ('file-media') {
+              <svg
+                file-media-icon
+                size="small"
+                class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
+              ></svg>
+            }
+            @case ('op-file-csv') {
+              <svg
+                op-file-csv-icon
+                size="small"
+                class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
+              ></svg>
+            }
+            @case ('op-file-doc') {
+              <svg
+                op-file-doc-icon
+                size="small"
+                class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
+              ></svg>
+            }
+            @case ('op-file-presentation') {
+              <svg
+                op-file-presentation-icon
+                size="small"
+                class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
+              ></svg>
+            }
+            @case ('op-file-sheet') {
+              <svg
+                op-file-sheet-icon
+                size="small"
+                class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
+              ></svg>
+            }
+            @case ('op-file-text') {
+              <svg
+                op-file-text-icon
+                size="small"
+                class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
+              ></svg>
+            }
+            @case ('op-whiteboards') {
+              <svg
+                op-whiteboards-icon
+                size="small"
+                class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
+              ></svg>
+            }
+            @case ('op-pdf') {
+              <svg
+                op-pdf-icon
+                size="small"
+                class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
+              ></svg>
+            }
+            @default {
+              <svg
+                file-icon
+                size="small"
+                class="op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
+              ></svg>
+            }
           }
         }
+
+        <span [textContent]="attachment.fileName"></span>
+      </div>
+
+      @if (showTimestamp) {
+        <span class="op-file-list--item-text hide-when-print" [textContent]="timestampText"></span>
       }
 
-      <span [textContent]="attachment.fileName"></span>
+      <div #avatar class="op-file-list--item-avatar"></div>
+    </a>
+
+    <div class="spot-list--item-floating-actions op-file-list--item-floating-actions hidden-for-mobile">
+      @if (!!attachment._links.originOpen) {
+        <a
+          class="spot-link"
+          [href]="attachment._links.staticDownloadLocation.href"
+          target="_blank"
+        >
+          <svg download-icon size="small" class="octicon"></svg>
+        </a>
+      }
+      @if (showDelete && !!attachment._links.delete) {
+        <button
+          type="button"
+          class="spot-link"
+          [title]="deleteIconTitle"
+          (click)="confirmRemoveAttachment()"
+        >
+          <svg trash-icon size="small" class="octicon"></svg>
+        </button>
+      }
     </div>
-
-    @if (showTimestamp) {
-      <span class="op-file-list--item-text hide-when-print" [textContent]="timestampText"></span>
-    }
-
-    <div #avatar class="op-file-list--item-avatar"></div>
-  </a>
-
-  <div class="spot-list--item-floating-actions op-file-list--item-floating-actions hidden-for-mobile">
-    @if (!!attachment._links.originOpen) {
-      <a
-        class="spot-link"
-        [href]="attachment._links.staticDownloadLocation.href"
-        target="_blank"
-      >
-        <svg download-icon size="small" class="octicon"></svg>
-      </a>
-    }
-    @if (showDelete && !!attachment._links.delete) {
-      <button
-        type="button"
-        class="spot-link"
-        [title]="deleteIconTitle"
-        (click)="confirmRemoveAttachment()"
-      >
-        <svg trash-icon size="small" class="octicon"></svg>
-      </button>
-    }
-  </div>
-</div>
+  </ng-container>
+</spot-tooltip>
 
 <!-- Needed, if attachment-list-item is used within a form, to provide the added attachment to the serializer. -->
 <input type="hidden" name="attachments[{{index}}][id]" value="{{attachment.id}}">

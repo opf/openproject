@@ -122,6 +122,21 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
     end
   end
 
+  describe ".static_tokens" do
+    before do
+      allow(described_class).to receive(:static_token_definitions).and_return([])
+
+      formatter = WorkPackageTypes::Patterns::Formatters::DefaultFormatter
+      described_class.add_static_attribute(:shown, :work_package, -> { "Shown" }, ->(wp) { wp.subject }, formatter)
+      described_class.add_static_attribute(:hidden, :work_package, -> { "Hidden" }, ->(wp) { wp.subject }, formatter,
+                                           enabled_fn: -> { false })
+    end
+
+    it "leaves out tokens whose enabled_fn returns false" do
+      expect(described_class.static_tokens.map(&:key)).to eq([:shown])
+    end
+  end
+
   describe "#partitioned_tokens_for_type" do
     subject { described_class.new.partitioned_tokens_for_type(work_package.type_variant) }
 
@@ -186,7 +201,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
       expect(detect(disabled, :"custom_field_#{cf.id}")&.label).to eq(cf.name)
     end
 
-    context "when the labels feature is enabled", with_flag: { work_package_labels: true } do
+    context "with labels" do
       it "returns the label tokens as enabled" do
         enabled, = subject
 
@@ -199,15 +214,6 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
 
         expect(detect(enabled, :labels).call(work_package, nil)).to eq(work_package.labels.first.name)
         expect(detect(enabled, :parent_labels).call(work_package_parent, nil)).to eq(work_package_parent.labels.first.name)
-      end
-    end
-
-    context "when the labels feature is disabled", with_flag: { work_package_labels: false } do
-      it "does not return the label tokens" do
-        enabled, disabled = subject
-
-        expect(detect(enabled + disabled, :labels)).to be_nil
-        expect(detect(enabled + disabled, :parent_labels)).to be_nil
       end
     end
 

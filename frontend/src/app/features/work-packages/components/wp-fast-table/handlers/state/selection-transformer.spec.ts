@@ -29,7 +29,6 @@ import { createEnvironmentInjector, DestroyRef, EnvironmentInjector, Injector } 
 import { TestBed } from '@angular/core/testing';
 import { Subject } from 'rxjs';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { States } from 'core-app/core/states/states.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -37,14 +36,15 @@ import { WorkPackageViewFocusService } from 'core-app/features/work-packages/rou
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { usePlatform } from 'core-common/testing/platform';
 import { WorkPackageTable } from '../../wp-fast-table';
-import { buildTable, TableHarness } from '../../testing/table-harness';
+import { buildTable, runMutation, TableHarness } from '../../testing/table-harness';
 import { WorkPackageFixture } from '../../testing/work-package-fixture';
 import { SelectionTransformer } from './selection-transformer';
+import { wpOccurrenceKey } from '../../rendered-occurrence-ledger';
 
 describe('SelectionTransformer', () => {
   usePlatform('Linux');
 
-  it('stops reacting and unregisters keyboard selection when its table lifetime is destroyed', () => {
+  it('stops reacting and unregisters Escape clearing when its table lifetime is destroyed', () => {
     const tableRendered = new Subject<RenderedWorkPackage[]>();
     const selectionChanged = new Subject<void>();
     const focusChanged = new Subject<void>();
@@ -61,8 +61,9 @@ describe('SelectionTransformer', () => {
     const selection = {
       live$: () => selectionChanged,
       isSelected: vi.fn(() => false),
-      selectAll: vi.fn(),
+      getSelectedWorkPackageIds: () => [],
       hasSelectionState: true,
+      selectionKeys: new Set(),
       reset: vi.fn(),
       opContextMenu: { close: vi.fn() },
     };
@@ -70,13 +71,13 @@ describe('SelectionTransformer', () => {
       whenChanged: () => focusChanged,
       ifShouldFocus: vi.fn(),
       isFocused: vi.fn(() => false),
+      explicitlyFocusedWorkPackage: null,
     };
     const parent = TestBed.inject(EnvironmentInjector);
     const injector = createEnvironmentInjector([
       { provide: IsolatedQuerySpace, useValue: querySpace },
       { provide: WorkPackageViewSelectionService, useValue: selection },
       { provide: WorkPackageViewFocusService, useValue: focus },
-      { provide: FocusHelperService, useValue: { focus: vi.fn() } },
     ], parent);
     const lifetime = Injector.create({ providers: [], parent: injector });
     const root = document.createElement('div');
@@ -91,25 +92,19 @@ describe('SelectionTransformer', () => {
       destroyRef: lifetime.get(DestroyRef),
       tableAndTimelineContainer: root,
       renderedRows,
-      configuration: { keyboardNavigationEnabled: false },
+      ledger: { generation: 1, size: 1, keysOf: () => new Set(), keysOfAll: () => new Set() }, mutate: runMutation,
     } as unknown as WorkPackageTable;
     new SelectionTransformer(injector, table);
-    const row = root.querySelector<HTMLElement>('.wp-table--row')!;
-
-    fireEvent.keyDown(row, { key: 'a', ctrlKey: true });
-    expect(selection.selectAll).toHaveBeenCalledOnce();
 
     fireEvent.keyDown(document.body, { key: 'Escape' });
     expect(selection.reset).toHaveBeenCalledOnce();
 
-    selection.selectAll.mockClear();
     selection.reset.mockClear();
     selection.isSelected.mockClear();
     focus.ifShouldFocus.mockClear();
     const sharedStop = vi.spyOn(stopAllSubscriptions, 'next');
     lifetime.destroy();
 
-    fireEvent.keyDown(row, { key: 'a', ctrlKey: true });
     selectionChanged.next();
     focusChanged.next();
     tableRendered.next(renderedRows);
@@ -117,7 +112,6 @@ describe('SelectionTransformer', () => {
     fireEvent.keyDown(document.body, { key: 'Escape' });
 
     expect(sharedStop).not.toHaveBeenCalled();
-    expect(selection.selectAll).not.toHaveBeenCalled();
     expect(selection.reset).not.toHaveBeenCalled();
     expect(selection.isSelected).not.toHaveBeenCalled();
     expect(focus.ifShouldFocus).not.toHaveBeenCalled();
@@ -131,14 +125,13 @@ describe('SelectionTransformer', () => {
       const reset = vi.fn();
       const injector = createEnvironmentInjector([
         { provide: IsolatedQuerySpace, useValue: { tableRendered: { values$: () => new Subject() }, stopAllSubscriptions: new Subject<void>() } },
-        { provide: WorkPackageViewSelectionService, useValue: { live$: () => new Subject(), hasSelectionState: true, reset } },
-        { provide: WorkPackageViewFocusService, useValue: { whenChanged: () => new Subject(), ifShouldFocus: vi.fn(), isFocused: vi.fn(() => false) } },
-        { provide: FocusHelperService, useValue: { focus: vi.fn() } },
+        { provide: WorkPackageViewSelectionService, useValue: { live$: () => new Subject(), getSelectedWorkPackageIds: () => [], hasSelectionState: true, selectionKeys: new Set(), reset } },
+        { provide: WorkPackageViewFocusService, useValue: { explicitlyFocusedWorkPackage: null, whenChanged: () => new Subject(), ifShouldFocus: vi.fn(), isFocused: vi.fn(() => false) } },
       ], parent);
       const lifetime = Injector.create({ providers: [], parent: injector });
       const root = document.createElement('div');
       document.body.append(root);
-      new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], configuration: { keyboardNavigationEnabled: false } } as unknown as WorkPackageTable);
+      new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger: { generation: 1, size: 1, keysOf: () => new Set(), keysOfAll: () => new Set() }, mutate: runMutation } as unknown as WorkPackageTable);
       return { injector, lifetime, root, reset };
     };
     const first = build();
@@ -166,15 +159,14 @@ describe('SelectionTransformer', () => {
       IsolatedQuerySpace,
       WorkPackageViewSelectionService,
       { provide: OPContextMenuService, useValue: { close: vi.fn() } },
-      { provide: WorkPackageViewFocusService, useValue: { whenChanged: () => new Subject(), ifShouldFocus: vi.fn(), isFocused: vi.fn(() => false) } },
-      { provide: FocusHelperService, useValue: { focus: vi.fn() } },
+      { provide: WorkPackageViewFocusService, useValue: { explicitlyFocusedWorkPackage: null, whenChanged: () => new Subject(), ifShouldFocus: vi.fn(), isFocused: vi.fn(() => false) } },
     ], parent);
     const selection = injector.get(WorkPackageViewSelectionService);
     const lifetime = Injector.create({ providers: [], parent: injector });
     const root = document.createElement('div');
     root.innerHTML = '<div class="wp-table--row" tabindex="0" data-work-package-id="2" data-class-identifier="wp-row-2">Row</div>';
     document.body.append(root);
-    new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], configuration: { keyboardNavigationEnabled: false } } as unknown as WorkPackageTable);
+    new SelectionTransformer(injector, { injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger: { generation: 1, size: 1, keysOf: () => new Set(), keysOfAll: () => new Set() }, mutate: runMutation } as unknown as WorkPackageTable);
     selection.initializeSelection(['2']);
 
     const allowed = fireEvent.keyDown(root.firstElementChild!, {
@@ -191,19 +183,18 @@ describe('SelectionTransformer', () => {
   it('prunes selection only after its own table has committed', () => {
     const tableRendered = new Subject<RenderedWorkPackage[]>();
     const retainRendered = vi.fn();
-    const ledger = { generation: 0 };
+    const ledger = { generation: 0, size: 0, keysOf: () => new Set(), keysOfAll: () => new Set() };
     const parent = TestBed.inject(EnvironmentInjector);
     const injector = createEnvironmentInjector([
       { provide: IsolatedQuerySpace, useValue: { tableRendered: { values$: () => tableRendered }, stopAllSubscriptions: new Subject<void>() } },
-      { provide: WorkPackageViewSelectionService, useValue: { live$: () => new Subject(), retainRendered, hasSelectionState: false, reset: vi.fn() } },
-      { provide: WorkPackageViewFocusService, useValue: { whenChanged: () => new Subject(), ifShouldFocus: vi.fn(), isFocused: vi.fn(() => false) } },
-      { provide: FocusHelperService, useValue: { focus: vi.fn() } },
+      { provide: WorkPackageViewSelectionService, useValue: { live$: () => new Subject(), getSelectedWorkPackageIds: () => [], retainRendered, hasSelectionState: false, selectionKeys: new Set(), reset: vi.fn() } },
+      { provide: WorkPackageViewFocusService, useValue: { explicitlyFocusedWorkPackage: null, whenChanged: () => new Subject(), ifShouldFocus: vi.fn(), isFocused: vi.fn(() => false) } },
     ], parent);
     const lifetime = Injector.create({ providers: [], parent: injector });
     const root = document.createElement('div');
     document.body.append(root);
     new SelectionTransformer(injector, {
-      injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger, configuration: { keyboardNavigationEnabled: false },
+      injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger, mutate: runMutation,
     } as unknown as WorkPackageTable);
 
     const stale = [{ workPackageId: '2', classIdentifier: 'wp-card-2', hidden: false }];
@@ -221,6 +212,76 @@ describe('SelectionTransformer', () => {
   });
 });
 
+describe('SelectionTransformer scoped repaint', () => {
+  let harness:TableHarness;
+  const ids = Array.from({ length: 20 }, (_, index) => String(index + 1));
+
+  beforeEach(async () => {
+    harness = buildTable({ workPackages: ids.map((id) => ({ id })) });
+    await harness.render();
+  });
+
+  afterEach(() => harness.destroy());
+
+  const scopes = () => {
+    const paint = vi.spyOn(harness.table.painter, 'paint');
+    return () => paint.mock.calls.map(([scope]) => scope);
+  };
+
+  it('repaints only the rows whose selection changed', () => {
+    const painted = scopes();
+
+    harness.selection.ensureSelected('5');
+
+    expect(painted()).toEqual([new Set([wpOccurrenceKey('5')])]);
+    expect(harness.row('5')).toHaveAttribute('aria-selected', 'true');
+    expect(harness.row('5')).toHaveClass('-checked');
+    expect(harness.row('4')).toHaveAttribute('aria-selected', 'false');
+
+    harness.selection.selectAll(harness.querySpace.tableRendered.value!);
+    expect(painted().at(-1)).toBe('all');
+    expect(harness.row('4')).toHaveAttribute('aria-selected', 'true');
+  });
+
+  it('repaints nothing for a selected work package without a rendered row', () => {
+    const painted = scopes();
+
+    harness.selection.replaceSelection('999');
+
+    expect(painted()).toEqual([]);
+    expect(harness.rows().every((row) => row.getAttribute('aria-selected') === 'false')).toBe(true);
+  });
+
+  it('repaints nothing for an unrendered work package even when the table has a single row', async () => {
+    await harness.destroy();
+    harness = buildTable({ workPackages: [{ id: '1' }] });
+    await harness.render();
+    const painted = scopes();
+
+    harness.selection.replaceSelection('999');
+
+    expect(painted()).toEqual([]);
+  });
+
+  it('repaints the previous and current focused rows', () => {
+    harness.focus.updateFocus('3', false, false);
+    const painted = scopes();
+
+    harness.focus.updateFocus('7', false, false);
+
+    expect(painted()).toEqual([new Set([wpOccurrenceKey('3'), wpOccurrenceKey('7')])]);
+    expect(harness.row('3')).not.toHaveAttribute('data-pressed');
+    expect(harness.row('7')).toHaveAttribute('data-pressed');
+  });
+
+  it('presses the first row when activating it publishes selection before focus', () => {
+    harness.selection.ensureSelected('1');
+    harness.focus.updateFocus('1', false, false);
+
+    expect(harness.row('1')).toHaveAttribute('data-pressed');
+  });
+});
+
 describe('SelectionTransformer with two tables showing the same work packages', () => {
   const harnesses:TableHarness[] = [];
   let first:TableHarness;
@@ -234,8 +295,6 @@ describe('SelectionTransformer with two tables showing the same work packages', 
     table.container.style.height = '20px';
     return table;
   };
-
-  const focusSpy = (table:TableHarness) => vi.spyOn(table.injector.get(FocusHelperService), 'focus');
 
   beforeEach(async () => {
     const states = new States();
@@ -251,42 +310,28 @@ describe('SelectionTransformer with two tables showing the same work packages', 
   it('focuses and scrolls to the row in the table that asked for it', async () => {
     const firstScroll = first.container.scrollTop;
     expect(firstScroll).toBeGreaterThan(0);
-    const focusedInFirst = focusSpy(first);
-    const focusedInSecond = focusSpy(second);
 
     second.focus.updateFocus('3', true);
     await second.render();
 
     const row = second.row('3');
-    await waitFor(() => expect(focusedInSecond).toHaveBeenCalledExactlyOnceWith(row));
-    const destination = row.offsetTop + row.offsetHeight - second.container.clientHeight;
+    await waitFor(() => expect(row).toHaveFocus());
+    const { scrollTop, clientHeight } = second.container;
+    const alignedTop = row.offsetTop;
+    const alignedBottom = row.offsetTop + row.offsetHeight - clientHeight;
     // Firefox reports a fractional scrollTop; the offset metrics are rounded to whole pixels.
-    expect(Math.abs(second.container.scrollTop - destination)).toBeLessThan(1);
-    expect(focusedInFirst).not.toHaveBeenCalled();
+    expect(scrollTop).toBeGreaterThan(Math.min(alignedTop, alignedBottom) - 1);
+    expect(scrollTop).toBeLessThan(Math.max(alignedTop, alignedBottom) + 1);
     expect(first.container.scrollTop).toBe(firstScroll);
-  });
-
-  it('flag off: SelectionTransformer still focuses the requested row after render', async () => {
-    expect(second.table.configuration.keyboardNavigationEnabled).toBe(false);
-    const focused = focusSpy(second);
-
-    second.focus.updateFocus('2', true);
-    await second.render();
-
-    await waitFor(() => expect(focused).toHaveBeenCalledExactlyOnceWith(second.row('2')));
-    expect(second.table.keyboardNavigation).toBeNull();
   });
 
   it('leaves both tables alone when its own table does not show the row', async () => {
     const firstScroll = first.container.scrollTop;
-    const focusedInFirst = focusSpy(first);
-    const focusedInSecond = focusSpy(second);
 
     second.focus.updateFocus('3', true);
     await second.render([{ id: '1' }, { id: '2' }, { id: '4' }]);
 
-    expect(focusedInSecond).not.toHaveBeenCalled();
-    expect(focusedInFirst).not.toHaveBeenCalled();
+    expect(document.body).toHaveFocus();
     expect(first.container.scrollTop).toBe(firstScroll);
   });
 });

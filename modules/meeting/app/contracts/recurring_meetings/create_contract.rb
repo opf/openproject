@@ -29,6 +29,7 @@
 
 module RecurringMeetings
   class CreateContract < BaseContract
+    attribute :author_id
     attribute :uid
     attribute :current_schedule_start
 

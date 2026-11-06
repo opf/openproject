@@ -47,6 +47,8 @@ da:
       draggable_hint: 'Træk til et redigeringsfelt for at indsætte et billede i teksten eller henvise til den vedhæftede fil. Lukkede redigeringsfelter åbnes, mens du trækker.
 
         '
+      import_failed_hint: Filen kunne ikke importeres. Den kan ikke hentes.
+      import_prepared_hint: Filen er ved at blive importeret. Den kan ikke hentes endnu.
       quarantined_hint: Filen er sat i karantæne, fordi der blev fundet en virus. Den kan ikke hentes.
     autocomplete_ng_select:
       add_tag: Tilføj element
@@ -1114,10 +1116,6 @@ da:
         sort_criterion_descending: "%{column} faldende"
         sorted_by: Sorteret efter %{criteria}.
         sorted_manually: Sorteret manuelt.
-        summary: Tabel med arbejdspakker som rækker og deres attributter som kolonner.
-        text_inline_edit: De fleste celler i tabellen er knapper, der gør det muligt at redigere attributten direkte i tabellen.
-        text_select_hint: Rullelister åbnes med 'ALT' og piletasterne.
-        text_sort_hint: Med linkene i tabeloverskrifterne kan du sortere, gruppere, flytte, fjerne og tilføje tabelkolonner.
       table_configuration:
         button: Konfigurer denne tabel med arbejdspakker
         choose_display_mode: Vis arbejdspakker som
@@ -1126,7 +1124,6 @@ da:
         default_mode: Flad liste
         display_settings: Visningsindstillinger
         display_sums_hint: Vis summen af alle attributter, der kan summeres, i en række under tabellens resultater.
-        embedded_tab_disabled: Fanen er ikke tilgængelig for den indlejrede visning, som du redigerer.
         hierarchy_hint: Alle filtrerede resultater i tabellen suppleres med deres overordnede. Hierarkier kan foldes ud og sammen.
         hierarchy_mode: Hierarki
         highlighting: Fremhævning

@@ -47,6 +47,8 @@ ms:
       draggable_hint: 'Tarik ruang pengedit ke imej sebaris atau lampiran rujukan. Ruang pengedit yang ditutup akan dibuka semasa anda menariknya.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Fail ini telah dikuarantin kerana virus telah ditemui. Ia tidak tersedia untuk dimuat turun.
     autocomplete_ng_select:
       add_tag: Tambah item
@@ -1106,10 +1108,6 @@ ms:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Jadual dengan baris pakej kerja dan kolum atribut pakej kerja.
-        text_inline_edit: Kebanyakkan sel jadual ini ialah butang yang mengaktifkan kefungsian edit sebaris bagi atribut tersebut.
-        text_select_hint: Pilih kotak yang sepatutnya dibuka dengan 'ALT' dan kekunci anak panah.
-        text_sort_hint: Dengan pautan dalam pengepala jadual anda boleh menyusun, mengumpul, menyusun semula, mengeluarkan dan menambahkan kolum jadual.
       table_configuration:
         button: Konfigurasi jadual pakej kerja ini
         choose_display_mode: Papar pakej kerja sebagai
@@ -1118,7 +1116,6 @@ ms:
         default_mode: Senarai datar
         display_settings: Tetapan paparan
         display_sums_hint: Paparkan jumlah semua atribut yang boleh dijumlahkan dalam baris di bawah hasil jadual.
-        embedded_tab_disabled: Tab konfigurasi ini tidak tersedia untuk paparan tersemat yang anda sedang edit.
         hierarchy_hint: Semua hasil jadual tersaring akan ditambah bersama leluhur mereka. Hierarki boleh dikembang dan ditutup.
         hierarchy_mode: Hierarki
         highlighting: Menyorotkan

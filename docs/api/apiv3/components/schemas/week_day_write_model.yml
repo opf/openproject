@@ -15,6 +15,6 @@ properties:
     type: boolean
     description: |-
       `true` for a working day. `false` for a weekend day.
-example:
-  _type: WeekDay
-  working: false
+examples:
+  - _type: WeekDay
+    working: false

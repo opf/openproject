@@ -10,7 +10,7 @@ properties:
     description: The OpenAPI specification version number.
   info:
     type: object
-    description: Provides metadata about the API. 
+    description: Provides metadata about the API.
   servers:
     type: array
     items:

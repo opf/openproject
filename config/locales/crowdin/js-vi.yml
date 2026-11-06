@@ -47,6 +47,8 @@ vi:
       draggable_hint: 'Kéo trường soạn thảo vào hình ảnh nội tuyến hoặc tệp đính kèm tham chiếu. Các trường soạn thảo đã đóng sẽ được mở trong khi bạn tiếp tục kéo.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Tệp đã được cách ly vì đã tìm thấy vi-rút. Nó không có sẵn để tải về.
     autocomplete_ng_select:
       add_tag: Thêm mục
@@ -162,7 +164,7 @@ vi:
     button_start_timer: Bắt đầu hẹn giờ
     button_stop_timer: Dừng hẹn giờ
     button_uncheck_all: Bỏ chọn tất cả
-    button_update: Cập Nhật
+    button_update: cập nhật
     button_view_markdown: View Markdown
     caption_rate_history: Lịch sử giá
     card:
@@ -1106,10 +1108,6 @@ vi:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Bảng có các hàng gói công việc và các cột thuộc tính gói công việc.
-        text_inline_edit: Hầu hết các ô của bảng này là các nút kích hoạt chức năng chỉnh sửa nội tuyến của thuộc tính đó.
-        text_select_hint: Các hộp chọn phải được mở bằng 'ALT' và phím mũi tên.
-        text_sort_hint: Với các liên kết trong tiêu đề bảng, bạn có thể sắp xếp, nhóm, sắp xếp lại, xóa và thêm các cột trong bảng.
       table_configuration:
         button: Định cấu hình bảng gói công việc này
         choose_display_mode: Hiển thị các gói công việc dưới dạng
@@ -1118,7 +1116,6 @@ vi:
         default_mode: Danh sách phẳng
         display_settings: Cài đặt hiển thị
         display_sums_hint: Hiển thị tổng của tất cả các thuộc tính có thể tính tổng trong một hàng bên dưới kết quả của bảng.
-        embedded_tab_disabled: Tab cấu hình này không có sẵn cho chế độ xem được nhúng mà bạn đang chỉnh sửa.
         hierarchy_hint: Tất cả các kết quả bảng đã lọc sẽ được tăng cường với tổ tiên của chúng. Hệ thống phân cấp có thể được mở rộng và thu gọn.
         hierarchy_mode: Hệ thống phân cấp
         highlighting: Làm nổi bật

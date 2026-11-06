@@ -64,10 +64,6 @@ export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent
 
   public onModalClosed():void {
     super.onModalClosed();
-
-    if (!this.handler.inEditMode) {
-      this.handler.deactivate(false);
-    }
     this.resetDates();
   }
 

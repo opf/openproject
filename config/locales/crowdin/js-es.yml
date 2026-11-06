@@ -45,6 +45,8 @@ es:
       draggable_hint: 'Arrastre el campo del editor a una imagen alineada o un archivo adjunto de referencia. Los campos del editor cerrados se abrirán mientras siga arrastrando elementos.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: El archivo está en cuarentena, ya que se ha encontrado un virus. No está disponible para su descarga.
     autocomplete_ng_select:
       add_tag: Añadir elemento
@@ -1112,10 +1114,6 @@ es:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabla con filas de paquetes de trabajo y columnas con sus atributos.
-        text_inline_edit: La mayoría de las celdas de esta tabla son botones que activan la funcionalidad de edición de dicho atributo.
-        text_select_hint: Los cuadros de selección deben ser abiertos con 'ALT' y las teclas de cursor.
-        text_sort_hint: Con los enlaces en los encabezamientos de las tablas puede ordenar, agrupar, reordenar, quitar y añadir columnas de las tablas.
       table_configuration:
         button: Configurar esta tabla de paquetes de trabajo
         choose_display_mode: Mostrar paquetes de trabajo como
@@ -1124,7 +1122,6 @@ es:
         default_mode: Lista plana
         display_settings: Configuración de visualización
         display_sums_hint: Muestra las sumas de todos los atributos que pueden sumarse en una fila debajo de los resultados de la tabla.
-        embedded_tab_disabled: Esta pestaña de configuración no está disponible para la vista insertada que está editando.
         hierarchy_hint: A todos los resultados de la tabla filtrada se le añadirán sus antecesores. Las jerarquías se pueden expandir y contraer.
         hierarchy_mode: Jerarquía
         highlighting: Resaltado

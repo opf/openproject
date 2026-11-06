@@ -2,13 +2,13 @@
 ---
 delete:
   parameters:
-  - description: Project id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Project id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '204':
       description: |-
@@ -75,7 +75,7 @@ delete:
         that need to be severed at first.
       headers: {}
   tags:
-  - Projects
+    - Projects
   description: |-
     Deletes the project permanently. As this is a lengthy process, the actual deletion is carried out asynchronously.
     So the project might exist well after the request has returned successfully. To prevent unwanted changes to
@@ -84,22 +84,22 @@ delete:
   summary: Delete Project
 get:
   parameters:
-  - description: Project id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Project id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
         application/hal+json:
           examples:
             "with custom fields":
-              "$ref": "../components/examples/project.yml"
+              $ref: "../components/examples/project.yml"
           schema:
-            "$ref": "../components/schemas/project_model.yml"
+            $ref: "../components/schemas/project_model.yml"
       description: OK
       headers: {}
     '404':
@@ -123,19 +123,19 @@ get:
         That's why a 404 is returned here, even if a 403 might be more appropriate.*
       headers: {}
   tags:
-  - Projects
+    - Projects
   description: ''
   operationId: View_project
   summary: View project
 patch:
   parameters:
-  - description: Project id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Project id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   requestBody:
     content:
       application/json:
@@ -143,16 +143,16 @@ patch:
           $ref: '../components/schemas/project_model.yml'
         examples:
           "with custom fields":
-            "$ref": "../components/examples/project_body.yml"
+            $ref: "../components/examples/project_body.yml"
   responses:
     '200':
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/project_model.yml"
+            $ref: "../components/schemas/project_model.yml"
           examples:
             "with custom fields":
-              "$ref": "../components/examples/project.yml"
+              $ref: "../components/examples/project.yml"
       description: OK
       headers: {}
     '400':
@@ -217,7 +217,7 @@ patch:
         * a constraint for a property was violated (`PropertyConstraintViolation`)
       headers: {}
   tags:
-  - Projects
+    - Projects
   description: Updates the given project by applying the attributes provided in the
     body.
   operationId: Update_Project

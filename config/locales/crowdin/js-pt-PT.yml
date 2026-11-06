@@ -47,6 +47,8 @@ pt-PT:
       draggable_hint: 'Arraste para o campo do editor para inserir uma imagem ou um anexo de referência em linha. Os campos do editor fechados são abertos enquanto continuar a arrastar.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: O ficheiro está em quarentena porque foi encontrado um vírus. Não está disponível para transferência.
     autocomplete_ng_select:
       add_tag: Adicionar item
@@ -1114,10 +1116,6 @@ pt-PT:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabela com linhas de pacotes de trabalho e colunas de atributos dos pacotes de trabalho.
-        text_inline_edit: A maioria das células desta tabela são botões que ativam a funcionalidade de edição direta desse atributo.
-        text_select_hint: As caixas de seleção devem ser abertas com a tecla 'ALT' e as teclas de seta.
-        text_sort_hint: Com os links nos cabeçalhos da tabela pode classificar, agrupar, reordenar, remover e adicionar colunas da tabela.
       table_configuration:
         button: Configurar esta tabela de pacote de trabalho
         choose_display_mode: Mostrar pacotes de trabalho como
@@ -1126,7 +1124,6 @@ pt-PT:
         default_mode: Lista plana
         display_settings: Definições do ecrã
         display_sums_hint: Apresentar os totais de todos os atributos que podem ser somados numa linha abaixo dos resultados da tabela.
-        embedded_tab_disabled: Esta aba de configuração não está disponível no modo de visualização incorporado que está a editar.
         hierarchy_hint: Todos os resultados filtrados da tabela serão complementados com os seus antecessores. As hierarquias podem ser expandidas e recolhidas.
         hierarchy_mode: Hierarquia
         highlighting: Destaque

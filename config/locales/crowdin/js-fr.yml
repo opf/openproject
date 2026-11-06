@@ -47,6 +47,8 @@ fr:
       draggable_hint: 'Faites glisser le champ de l''éditeur pour incorporer une image ou une pièce jointe de référence. Les champs fermés de l''éditeur seront ouverts tant que vous continuer à faire glisser.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Le fichier est en quarantaine, car un virus a été détecté. Il ne peut pas être téléchargé.
     autocomplete_ng_select:
       add_tag: Ajouter un élément
@@ -1114,10 +1116,6 @@ fr:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tableau dont les lignes correspondent aux lots de travaux et les colonnes à leurs attributs.
-        text_inline_edit: La plupart des cellules de ce tableau sont des boutons qui permettent de modifier en ligne l'attribut correspondant.
-        text_select_hint: Les listes de sélection doivent être ouvertes avec la touche « ALT » et les flèches directionnelles.
-        text_sort_hint: Les liens dans les en-têtes du tableau permettent de trier, regrouper et réorganiser les colonnes, ainsi que d'en retirer ou d'en ajouter.
       table_configuration:
         button: Configurer ce tableau des lots de travaux
         choose_display_mode: Afficher les lots de travaux sous forme de
@@ -1126,7 +1124,6 @@ fr:
         default_mode: Liste
         display_settings: Paramètres d'affichage
         display_sums_hint: Afficher, sous les résultats du tableau, une ligne contenant les totaux de tous les attributs pouvant être additionnés.
-        embedded_tab_disabled: Cet onglet de configuration n'est pas disponible pour la vue intégrée que vous êtes en train de modifier.
         hierarchy_hint: Tous les résultats filtrés du tableau seront complétés par leurs ancêtres. Les hiérarchies peuvent être dépliées et repliées.
         hierarchy_mode: Hiérarchie
         highlighting: Mise en surbrillance

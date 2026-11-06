@@ -47,6 +47,8 @@ sl:
       draggable_hint: 'Povlecite na urejevalno polje, da vstavite sliko ali referenčno prilogo. Med nadaljevanjem vlečenja se bodo odprla zaprta polja urejevalnika.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Add item
@@ -1142,12 +1144,6 @@ sl:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: 'Tabela z vrsticami delovnega paketa in stolpci atributov delovnega paketa.
-
-          '
-        text_inline_edit: Večina celic te tabele predstavlja gumbe, ki aktivirajo funkcionalnost urejanja v atributu.
-        text_select_hint: Izbrana polja je treba odpreti s tipko ALT in puščicami.
-        text_sort_hint: S povezavami v glavah tabel lahko sortirate, razvrstite, preuredite, odstranite in dodate stolpce tabel.
       table_configuration:
         button: Uredi tabelo delovnega paketa
         choose_display_mode: Prikaži delovni paket kot
@@ -1158,7 +1154,6 @@ sl:
           '
         display_settings: Prikaži nastavitve
         display_sums_hint: Prikažite vsote vseh atributov, ki seštevajo v vrstici pod rezultati tabele.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Vsi rezultati filtrirane tabele bodo dopolnjeni s svojimi predniki. Hierarhijo je mogoče razširiti in strniti.
         hierarchy_mode: Hierarhija
         highlighting: Poudarjanje

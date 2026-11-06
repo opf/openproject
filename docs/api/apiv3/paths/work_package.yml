@@ -129,7 +129,7 @@ patch:
     The value of `lockVersion` is used to implement
     [optimistic locking](https://en.wikipedia.org/wiki/Optimistic_concurrency_control).
 
-    **Custom Field Validation**  
+    **Custom Field Validation**
 
     Required custom fields are only validated when they are explicitly provided in the request body. If a custom field
     is not included in the update request, it will not be validated. This enables clients to update

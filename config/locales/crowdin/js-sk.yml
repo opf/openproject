@@ -47,6 +47,8 @@ sk:
       draggable_hint: 'Pre vloženie obrázka alebo referenčnej prílohy presuňte súbor do editovateľného poľa. Uzavreté pole editora sa bude otvárať počas nepretržitého ťahania.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Add item
@@ -1130,10 +1132,6 @@ sk:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabuľka s riadkami pracovného balíka a so stĺpcami pracovného balíka atribútov.
-        text_inline_edit: Väčšina buniek tabuľky sú tlačidlá, ktoré aktivujú funkcionalitu inline editácie tohto atribútu.
-        text_select_hint: Výber polí by sa mal otvoriť pomocou klávesov "ALT" a šípkami.
-        text_sort_hint: Pomocou odkazov v záhlaví tabuľky môžete zoradiť, zoskupiť, rozmiestniť, odstrániť alebo pridať stĺpce.
       table_configuration:
         button: Konfigurovať tabuľku tohoto pracovného balíčka
         choose_display_mode: Zobraziť pracovné balíčky ako
@@ -1142,7 +1140,6 @@ sk:
         default_mode: Plochý zoznam
         display_settings: Zobraziť nastavenia
         display_sums_hint: Zobraziť súčty všetkých sčitateľných atribútov v riadku pod tabuľkou výsledkov.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Všetky filtrované výsledky z tabuľky budú rozšírené o ich predkov. Hierarchie je možné rozbaliť a zbaliť.
         hierarchy_mode: Hierarchia
         highlighting: Zvýraznenie

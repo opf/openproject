@@ -184,505 +184,509 @@ servers:
 
 paths:
   "/api/v3":
-    "$ref": "./paths/root.yml"
+    $ref: "./paths/root.yml"
   "/api/v3/actions":
-    "$ref": "./paths/actions.yml"
+    $ref: "./paths/actions.yml"
   "/api/v3/actions/{id}":
-    "$ref": "./paths/action.yml"
+    $ref: "./paths/action.yml"
   "/api/v3/activities/{id}":
-    "$ref": "./paths/activity.yml"
+    $ref: "./paths/activity.yml"
   "/api/v3/activities/{id}/attachments":
-    "$ref": "./paths/activity_attachments.yml"
+    $ref: "./paths/activity_attachments.yml"
   "/api/v3/activities/{id}/attachments/prepare":
-    "$ref": "./paths/activity_attachments_prepare.yml"
+    $ref: "./paths/activity_attachments_prepare.yml"
   "/api/v3/activities/{id}/emoji_reactions":
-    "$ref": "./paths/activity_emoji_reactions.yml"
+    $ref: "./paths/activity_emoji_reactions.yml"
   "/api/v3/ai_text_transform_actions":
-    "$ref": "./paths/ai_text_transform_actions.yml"
+    $ref: "./paths/ai_text_transform_actions.yml"
   "/api/v3/ai_text_transform_runs":
-    "$ref": "./paths/ai_text_transform_runs.yml"
+    $ref: "./paths/ai_text_transform_runs.yml"
   "/api/v3/ai_text_transform_runs/{id}":
-    "$ref": "./paths/ai_text_transform_run.yml"
+    $ref: "./paths/ai_text_transform_run.yml"
   "/api/v3/ai_text_transform_runs/{id}/cancel":
-    "$ref": "./paths/ai_text_transform_run_cancel.yml"
+    $ref: "./paths/ai_text_transform_run_cancel.yml"
   "/api/v3/attachments":
-    "$ref": "./paths/attachments.yml"
+    $ref: "./paths/attachments.yml"
   "/api/v3/attachments/prepare":
-    "$ref": "./paths/attachments_prepare.yml"
+    $ref: "./paths/attachments_prepare.yml"
   "/api/v3/attachments/{id}":
-    "$ref": "./paths/attachment.yml"
+    $ref: "./paths/attachment.yml"
   "/api/v3/attachments/{id}/uploaded":
-    "$ref": "./paths/attachment_uploaded.yml"
+    $ref: "./paths/attachment_uploaded.yml"
   "/api/v3/budgets/{id}":
-    "$ref": "./paths/budget.yml"
+    $ref: "./paths/budget.yml"
   "/api/v3/capabilities":
-    "$ref": "./paths/capabilities.yml"
+    $ref: "./paths/capabilities.yml"
   "/api/v3/capabilities/contexts/global":
-    "$ref": "./paths/capabilities_contexts_global.yml"
+    $ref: "./paths/capabilities_contexts_global.yml"
   "/api/v3/capabilities/{id}":
-    "$ref": "./paths/capability.yml"
+    $ref: "./paths/capability.yml"
   "/api/v3/categories/{id}":
-    "$ref": "./paths/category.yml"
+    $ref: "./paths/category.yml"
   "/api/v3/configuration":
-    "$ref": "./paths/configuration.yml"
+    $ref: "./paths/configuration.yml"
   "/api/v3/custom_actions/{id}":
-    "$ref": "./paths/custom_action.yml"
+    $ref: "./paths/custom_action.yml"
   "/api/v3/custom_actions/{id}/execute":
-    "$ref": "./paths/custom_action_execute.yml"
+    $ref: "./paths/custom_action_execute.yml"
   "/api/v3/custom_fields/{id}":
-    "$ref": "./paths/custom_field.yml"
+    $ref: "./paths/custom_field.yml"
   "/api/v3/custom_fields/{id}/items":
-    "$ref": "./paths/custom_field_items.yml"
+    $ref: "./paths/custom_field_items.yml"
   "/api/v3/custom_field_items/{id}":
-    "$ref": "./paths/custom_field_item.yml"
+    $ref: "./paths/custom_field_item.yml"
   "/api/v3/custom_field_items/{id}/branch":
-    "$ref": "./paths/custom_field_item_branch.yml"
+    $ref: "./paths/custom_field_item_branch.yml"
   "/api/v3/custom_options/{id}":
-    "$ref": "./paths/custom_option.yml"
+    $ref: "./paths/custom_option.yml"
   "/api/v3/days/non_working":
-    "$ref": "./paths/days_non_working.yml"
+    $ref: "./paths/days_non_working.yml"
   "/api/v3/days/non_working/{date}":
-    "$ref": "./paths/days_non_working_date.yml"
+    $ref: "./paths/days_non_working_date.yml"
   "/api/v3/days/week":
-    "$ref": "./paths/days_week.yml"
+    $ref: "./paths/days_week.yml"
   "/api/v3/days/week/{day}":
-    "$ref": "./paths/days_week_day.yml"
+    $ref: "./paths/days_week_day.yml"
   "/api/v3/days":
-    "$ref": "./paths/days.yml"
+    $ref: "./paths/days.yml"
   "/api/v3/days/{date}":
-    "$ref": "./paths/days_date.yml"
+    $ref: "./paths/days_date.yml"
   "/api/v3/documents":
-    "$ref": "./paths/documents.yml"
+    $ref: "./paths/documents.yml"
   "/api/v3/documents/{id}":
-    "$ref": "./paths/document.yml"
+    $ref: "./paths/document.yml"
+  "/api/v3/documents/{id}/collaboration_token":
+    "$ref": "./paths/document_collaboration_token.yml"
   "/api/v3/file_links/{id}":
-    "$ref": "./paths/file_link.yml"
+    $ref: "./paths/file_link.yml"
   "/api/v3/file_links/{id}/open":
-    "$ref": "./paths/file_link_open.yml"
+    $ref: "./paths/file_link_open.yml"
   "/api/v3/file_links/{id}/download":
-    "$ref": "./paths/file_link_download.yml"
+    $ref: "./paths/file_link_download.yml"
   "/api/v3/grids":
-    "$ref": "./paths/grids.yml"
+    $ref: "./paths/grids.yml"
   "/api/v3/grids/form":
-    "$ref": "./paths/grids_form.yml"
+    $ref: "./paths/grids_form.yml"
   "/api/v3/grids/{id}":
-    "$ref": "./paths/grid.yml"
+    $ref: "./paths/grid.yml"
   "/api/v3/grids/{id}/form":
-    "$ref": "./paths/grid_form.yml"
+    $ref: "./paths/grid_form.yml"
   "/api/v3/groups":
-    "$ref": "./paths/groups.yml"
+    $ref: "./paths/groups.yml"
   "/api/v3/groups/{id}":
-    "$ref": "./paths/group.yml"
+    $ref: "./paths/group.yml"
   "/api/v3/help_texts":
-    "$ref": "./paths/help_texts.yml"
+    $ref: "./paths/help_texts.yml"
   "/api/v3/help_texts/{id}":
-    "$ref": "./paths/help_text.yml"
+    $ref: "./paths/help_text.yml"
   "/api/v3/labels":
-    "$ref": "./paths/labels.yml"
+    $ref: "./paths/labels.yml"
   "/api/v3/labels/{id}":
-    "$ref": "./paths/label.yml"
+    $ref: "./paths/label.yml"
   "/api/v3/meetings":
-    "$ref": "./paths/meetings.yml"
+    $ref: "./paths/meetings.yml"
   "/api/v3/meetings/{id}":
-    "$ref": "./paths/meeting.yml"
+    $ref: "./paths/meeting.yml"
   "/api/v3/meetings/{id}/agenda_items":
-    "$ref": "./paths/meeting_agenda_items_by_meeting.yml"
+    $ref: "./paths/meeting_agenda_items_by_meeting.yml"
   "/api/v3/meetings/{meeting_id}/agenda_items/{id}":
-    "$ref": "./paths/meeting_agenda_item_by_meeting.yml"
+    $ref: "./paths/meeting_agenda_item_by_meeting.yml"
   "/api/v3/meeting_agenda_items":
-    "$ref": "./paths/meeting_agenda_items.yml"
+    $ref: "./paths/meeting_agenda_items.yml"
   "/api/v3/meeting_agenda_items/{id}":
-    "$ref": "./paths/meeting_agenda_item.yml"
+    $ref: "./paths/meeting_agenda_item.yml"
   "/api/v3/meeting_agenda_items/{id}/move_to_next_meeting":
-    "$ref": "./paths/meeting_agenda_item_move_to_next_meeting.yml"
+    $ref: "./paths/meeting_agenda_item_move_to_next_meeting.yml"
   "/api/v3/meeting_agenda_items/{id}/upvote":
-    "$ref": "./paths/meeting_agenda_item_upvote.yml"
+    $ref: "./paths/meeting_agenda_item_upvote.yml"
   "/api/v3/meeting_agenda_items/{id}/downvote":
-    "$ref": "./paths/meeting_agenda_item_downvote.yml"
+    $ref: "./paths/meeting_agenda_item_downvote.yml"
   "/api/v3/meetings/{meeting_id}/agenda_items/{id}/upvote":
-    "$ref": "./paths/meeting_agenda_item_upvote_by_meeting.yml"
+    $ref: "./paths/meeting_agenda_item_upvote_by_meeting.yml"
   "/api/v3/meetings/{meeting_id}/agenda_items/{id}/downvote":
-    "$ref": "./paths/meeting_agenda_item_downvote_by_meeting.yml"
+    $ref: "./paths/meeting_agenda_item_downvote_by_meeting.yml"
   "/api/v3/meetings/{meeting_id}/agenda_items/{agenda_item_id}/outcomes":
-    "$ref": "./paths/meeting_agenda_item_outcomes.yml"
+    $ref: "./paths/meeting_agenda_item_outcomes.yml"
   "/api/v3/meetings/{meeting_id}/agenda_items/{agenda_item_id}/outcomes/{id}":
-    "$ref": "./paths/meeting_agenda_item_outcome.yml"
+    $ref: "./paths/meeting_agenda_item_outcome.yml"
   "/api/v3/meeting_outcomes":
-    "$ref": "./paths/meeting_outcomes.yml"
+    $ref: "./paths/meeting_outcomes.yml"
   "/api/v3/meeting_outcomes/{id}":
-    "$ref": "./paths/meeting_outcome.yml"
+    $ref: "./paths/meeting_outcome.yml"
   "/api/v3/meetings/{id}/attachments":
-    "$ref": "./paths/meeting_attachments.yml"
+    $ref: "./paths/meeting_attachments.yml"
   "/api/v3/meetings/{id}/attachments/prepare":
-    "$ref": "./paths/meeting_attachments_prepare.yml"
+    $ref: "./paths/meeting_attachments_prepare.yml"
   "/api/v3/meetings/{id}/form":
-    "$ref": "./paths/meeting_form.yml"
+    $ref: "./paths/meeting_form.yml"
   "/api/v3/meetings/{id}/sections":
-    "$ref": "./paths/meeting_sections_by_meeting.yml"
+    $ref: "./paths/meeting_sections_by_meeting.yml"
   "/api/v3/meetings/{meeting_id}/sections/{id}":
-    "$ref": "./paths/meeting_section_by_meeting.yml"
+    $ref: "./paths/meeting_section_by_meeting.yml"
   "/api/v3/meeting_sections":
-    "$ref": "./paths/meeting_sections.yml"
+    $ref: "./paths/meeting_sections.yml"
   "/api/v3/meeting_sections/{id}":
-    "$ref": "./paths/meeting_section.yml"
+    $ref: "./paths/meeting_section.yml"
   "/api/v3/meetings/form":
-    "$ref": "./paths/meetings_form.yml"
+    $ref: "./paths/meetings_form.yml"
   "/api/v3/meetings/schema":
-    "$ref": "./paths/meeting_schema.yml"
+    $ref: "./paths/meeting_schema.yml"
   "/api/v3/memberships":
-    "$ref": "./paths/memberships.yml"
+    $ref: "./paths/memberships.yml"
   "/api/v3/memberships/available_projects":
-    "$ref": "./paths/memberships_available_projects.yml"
+    $ref: "./paths/memberships_available_projects.yml"
   "/api/v3/memberships/form":
-    "$ref": "./paths/memberships_form.yml"
+    $ref: "./paths/memberships_form.yml"
   "/api/v3/memberships/schema":
-    "$ref": "./paths/memberships_schema.yml"
+    $ref: "./paths/memberships_schema.yml"
   "/api/v3/memberships/{id}":
-    "$ref": "./paths/membership.yml"
+    $ref: "./paths/membership.yml"
   "/api/v3/memberships/{id}/form":
-    "$ref": "./paths/membership_form.yml"
+    $ref: "./paths/membership_form.yml"
   "/api/v3/my_preferences":
-    "$ref": "./paths/my_preferences.yml"
+    $ref: "./paths/my_preferences.yml"
   "/api/v3/news":
-    "$ref": "./paths/news.yml"
+    $ref: "./paths/news.yml"
   "/api/v3/news/{id}":
-    "$ref": "./paths/news_item.yml"
+    $ref: "./paths/news_item.yml"
   "/api/v3/notifications":
-    "$ref": "./paths/notifications.yml"
+    $ref: "./paths/notifications.yml"
   "/api/v3/notifications/read_ian":
-    "$ref": "./paths/notifications_read.yml"
+    $ref: "./paths/notifications_read.yml"
   "/api/v3/notifications/unread_ian":
-    "$ref": "./paths/notifications_unread.yml"
+    $ref: "./paths/notifications_unread.yml"
   "/api/v3/notifications/{id}":
-    "$ref": "./paths/notification.yml"
+    $ref: "./paths/notification.yml"
   "/api/v3/notifications/{notification_id}/details/{id}":
-    "$ref": "./paths/notification_details.yml"
+    $ref: "./paths/notification_details.yml"
   "/api/v3/notifications/{id}/read_ian":
-    "$ref": "./paths/notification_read.yml"
+    $ref: "./paths/notification_read.yml"
   "/api/v3/notifications/{id}/unread_ian":
-    "$ref": "./paths/notification_unread.yml"
+    $ref: "./paths/notification_unread.yml"
   "/api/v3/oauth_applications/{id}":
-    "$ref": "./paths/oauth_application.yml"
+    $ref: "./paths/oauth_application.yml"
   "/api/v3/oauth_client_credentials/{id}":
-    "$ref": "./paths/oauth_client_credentials.yml"
+    $ref: "./paths/oauth_client_credentials.yml"
   "/api/v3/openapi.json":
-    "$ref": "./paths/openapi.yml"
+    $ref: "./paths/openapi.yml"
   "/api/v3/placeholder_users":
-    "$ref": "./paths/placeholder_users.yml"
+    $ref: "./paths/placeholder_users.yml"
   "/api/v3/placeholder_users/{id}":
-    "$ref": "./paths/placeholder_user.yml"
+    $ref: "./paths/placeholder_user.yml"
   "/api/v3/portfolios":
-    "$ref": "./paths/portfolios.yml"
+    $ref: "./paths/portfolios.yml"
   "/api/v3/portfolios/{id}":
-    "$ref": "./paths/portfolio.yml"
+    $ref: "./paths/portfolio.yml"
   "/api/v3/portfolios/{id}/form":
-    "$ref": "./paths/portfolio_form.yml"
+    $ref: "./paths/portfolio_form.yml"
   "/api/v3/posts/{id}":
-    "$ref": "./paths/post.yml"
+    $ref: "./paths/post.yml"
   "/api/v3/posts/{id}/attachments":
-    "$ref": "./paths/post_attachments.yml"
+    $ref: "./paths/post_attachments.yml"
   "/api/v3/posts/{id}/attachments/prepare":
-    "$ref": "./paths/post_attachments_prepare.yml"
+    $ref: "./paths/post_attachments_prepare.yml"
   "/api/v3/principals":
-    "$ref": "./paths/principals.yml"
+    $ref: "./paths/principals.yml"
   "/api/v3/principals/{id}/hourly_rates":
-    "$ref": "./paths/principal_hourly_rates.yml"
+    $ref: "./paths/principal_hourly_rates.yml"
   "/api/v3/principals/{id}/hourly_rates/{rate_id}":
-    "$ref": "./paths/principal_hourly_rate.yml"
+    $ref: "./paths/principal_hourly_rate.yml"
   "/api/v3/priorities":
-    "$ref": "./paths/priorities.yml"
+    $ref: "./paths/priorities.yml"
   "/api/v3/priorities/{id}":
-    "$ref": "./paths/priority.yml"
+    $ref: "./paths/priority.yml"
   "/api/v3/programs":
-    "$ref": "./paths/programs.yml"
+    $ref: "./paths/programs.yml"
   "/api/v3/programs/{id}":
-    "$ref": "./paths/program.yml"
+    $ref: "./paths/program.yml"
   "/api/v3/programs/{id}/form":
-    "$ref": "./paths/program_form.yml"
+    $ref: "./paths/program_form.yml"
   "/api/v3/project_phases/{id}":
-    "$ref": "./paths/project_phase.yml"
+    $ref: "./paths/project_phase.yml"
   "/api/v3/project_phase_definitions":
-    "$ref": "./paths/project_phase_definitions.yml"
+    $ref: "./paths/project_phase_definitions.yml"
   "/api/v3/project_phase_definitions/{id}":
-    "$ref": "./paths/project_phase_definition.yml"
+    $ref: "./paths/project_phase_definition.yml"
   "/api/v3/project_storages":
-    "$ref": "./paths/project_storages.yml"
+    $ref: "./paths/project_storages.yml"
   "/api/v3/project_storages/{id}":
-    "$ref": "./paths/project_storage.yml"
+    $ref: "./paths/project_storage.yml"
   "/api/v3/project_storages/{id}/open":
-    "$ref": "./paths/project_storage_open.yml"
+    $ref: "./paths/project_storage_open.yml"
   "/api/v3/projects":
-    "$ref": "./paths/projects.yml"
+    $ref: "./paths/projects.yml"
   "/api/v3/projects/form":
-    "$ref": "./paths/projects_form.yml"
+    $ref: "./paths/projects_form.yml"
   "/api/v3/projects/schema":
-    "$ref": "./paths/projects_schema.yml"
+    $ref: "./paths/projects_schema.yml"
   "/api/v3/projects/{id}":
-    "$ref": "./paths/project.yml"
+    $ref: "./paths/project.yml"
   "/api/v3/projects/{id}/form":
-    "$ref": "./paths/project_form.yml"
+    $ref: "./paths/project_form.yml"
   "/api/v3/projects/{id}/copy":
-    "$ref": "./paths/project_copy.yml"
+    $ref: "./paths/project_copy.yml"
   "/api/v3/projects/{id}/copy/form":
-    "$ref": "./paths/project_copy_form.yml"
+    $ref: "./paths/project_copy_form.yml"
   "/api/v3/project_statuses/{id}":
-    "$ref": "./paths/project_status.yml"
+    $ref: "./paths/project_status.yml"
   "/api/v3/projects/available_parent_projects":
-    "$ref": "./paths/projects_available_parent_projects.yml"
+    $ref: "./paths/projects_available_parent_projects.yml"
   "/api/v3/projects/{id}/budgets":
-    "$ref": "./paths/project_budgets.yml"
+    $ref: "./paths/project_budgets.yml"
   "/api/v3/projects/{id}/queries/default":
-    "$ref": "./paths/project_queries_default.yml"
+    $ref: "./paths/project_queries_default.yml"
   "/api/v3/projects/{id}/queries/filter_instance_schemas":
-    "$ref": "./paths/project_queries_filter_instance_schemas.yml"
+    $ref: "./paths/project_queries_filter_instance_schemas.yml"
   "/api/v3/projects/{id}/queries/schema":
-    "$ref": "./paths/project_queries_schema.yml"
+    $ref: "./paths/project_queries_schema.yml"
   "/api/v3/projects/{id}/work_packages":
-    "$ref": "./paths/project_work_packages.yml"
+    $ref: "./paths/project_work_packages.yml"
   "/api/v3/projects/{id}/work_packages/form":
-    "$ref": "./paths/project_work_packages_form.yml"
+    $ref: "./paths/project_work_packages_form.yml"
   "/api/v3/projects/{id}/available_assignees":
-    "$ref": "./paths/project_available_assignees.yml"
+    $ref: "./paths/project_available_assignees.yml"
   "/api/v3/projects/{id}/categories":
-    "$ref": "./paths/project_categories.yml"
+    $ref: "./paths/project_categories.yml"
   "/api/v3/projects/{id}/sprints":
-    "$ref": "./paths/project_sprints.yml"
+    $ref: "./paths/project_sprints.yml"
   "/api/v3/projects/{id}/types":
-    "$ref": "./paths/project_types.yml"
+    $ref: "./paths/project_types.yml"
   "/api/v3/projects/{id}/versions":
-    "$ref": "./paths/project_versions.yml"
+    $ref: "./paths/project_versions.yml"
   "/api/v3/projects/{id}/favorite":
-    "$ref": "./paths/project_favorite.yml"
+    $ref: "./paths/project_favorite.yml"
   "/api/v3/projects/{id}/configuration":
-    "$ref": "./paths/project_configuration.yml"
+    $ref: "./paths/project_configuration.yml"
   "/api/v3/projects/{id}/ai_text_transform_actions":
-    "$ref": "./paths/ai_text_transform_actions_by_project.yml"
+    $ref: "./paths/ai_text_transform_actions_by_project.yml"
   "/api/v3/queries":
-    "$ref": "./paths/queries.yml"
+    $ref: "./paths/queries.yml"
   "/api/v3/queries/available_projects":
-    "$ref": "./paths/queries_available_projects.yml"
+    $ref: "./paths/queries_available_projects.yml"
   "/api/v3/queries/columns/{id}":
-    "$ref": "./paths/queries_column.yml"
+    $ref: "./paths/queries_column.yml"
   "/api/v3/queries/default":
-    "$ref": "./paths/queries_default.yml"
+    $ref: "./paths/queries_default.yml"
   "/api/v3/queries/filter_instance_schemas":
-    "$ref": "./paths/queries_filter_instance_schemas.yml"
+    $ref: "./paths/queries_filter_instance_schemas.yml"
   "/api/v3/queries/filter_instance_schemas/{id}":
-    "$ref": "./paths/queries_filter_instance_schemas_{id}.yml"
+    $ref: "./paths/queries_filter_instance_schemas_{id}.yml"
   "/api/v3/queries/filters/{id}":
-    "$ref": "./paths/queries_filter.yml"
+    $ref: "./paths/queries_filter.yml"
   "/api/v3/queries/form":
-    "$ref": "./paths/queries_form.yml"
+    $ref: "./paths/queries_form.yml"
   "/api/v3/queries/operators/{id}":
-    "$ref": "./paths/queries_operator.yml"
+    $ref: "./paths/queries_operator.yml"
   "/api/v3/queries/schema":
-    "$ref": "./paths/queries_schema.yml"
+    $ref: "./paths/queries_schema.yml"
   "/api/v3/queries/sort_bys/{id}":
-    "$ref": "./paths/queries_sort_by.yml"
+    $ref: "./paths/queries_sort_by.yml"
   "/api/v3/queries/{id}":
-    "$ref": "./paths/query.yml"
+    $ref: "./paths/query.yml"
   "/api/v3/queries/{id}/form":
-    "$ref": "./paths/query_form.yml"
+    $ref: "./paths/query_form.yml"
   "/api/v3/queries/{id}/star":
-    "$ref": "./paths/query_star.yml"
+    $ref: "./paths/query_star.yml"
   "/api/v3/queries/{id}/unstar":
-    "$ref": "./paths/query_unstar.yml"
+    $ref: "./paths/query_unstar.yml"
   "/api/v3/recurring_meetings":
-    "$ref": "./paths/recurring_meetings.yml"
+    $ref: "./paths/recurring_meetings.yml"
   "/api/v3/recurring_meetings/{id}":
-    "$ref": "./paths/recurring_meeting.yml"
+    $ref: "./paths/recurring_meeting.yml"
   "/api/v3/recurring_meetings/{id}/end":
-    "$ref": "./paths/recurring_meeting_end.yml"
+    $ref: "./paths/recurring_meeting_end.yml"
   "/api/v3/recurring_meetings/{id}/template_completed":
-    "$ref": "./paths/recurring_meeting_template_completed.yml"
+    $ref: "./paths/recurring_meeting_template_completed.yml"
   "/api/v3/recurring_meetings/{id}/occurrences/upcoming":
-    "$ref": "./paths/recurring_meeting_occurrences_upcoming.yml"
+    $ref: "./paths/recurring_meeting_occurrences_upcoming.yml"
   "/api/v3/recurring_meetings/{id}/occurrences/past":
-    "$ref": "./paths/recurring_meeting_occurrences_past.yml"
+    $ref: "./paths/recurring_meeting_occurrences_past.yml"
   "/api/v3/recurring_meetings/{id}/occurrences/cancelled":
-    "$ref": "./paths/recurring_meeting_occurrences_cancelled.yml"
+    $ref: "./paths/recurring_meeting_occurrences_cancelled.yml"
   "/api/v3/recurring_meetings/{id}/occurrences/open":
-    "$ref": "./paths/recurring_meeting_occurrences_open.yml"
+    $ref: "./paths/recurring_meeting_occurrences_open.yml"
   "/api/v3/recurring_meetings/{id}/occurrences/{start_time}":
-    "$ref": "./paths/recurring_meeting_occurrence.yml"
+    $ref: "./paths/recurring_meeting_occurrence.yml"
   "/api/v3/recurring_meetings/{id}/occurrences/{start_time}/init":
-    "$ref": "./paths/recurring_meeting_occurrence_init.yml"
+    $ref: "./paths/recurring_meeting_occurrence_init.yml"
   "/api/v3/relations":
-    "$ref": "./paths/relations.yml"
+    $ref: "./paths/relations.yml"
   "/api/v3/relations/{id}":
-    "$ref": "./paths/relation.yml"
+    $ref: "./paths/relation.yml"
   "/api/v3/revisions/{id}":
-    "$ref": "./paths/revision.yml"
+    $ref: "./paths/revision.yml"
   "/api/v3/reminders":
-    "$ref": "./paths/reminders.yml"
+    $ref: "./paths/reminders.yml"
   "/api/v3/reminders/{id}":
-    "$ref": "./paths/reminder.yml"
+    $ref: "./paths/reminder.yml"
   "/api/v3/roles":
-    "$ref": "./paths/roles.yml"
+    $ref: "./paths/roles.yml"
   "/api/v3/roles/{id}":
-    "$ref": "./paths/role.yml"
+    $ref: "./paths/role.yml"
   "/api/v3/spec.json":
-    "$ref": "./paths/spec-json.yml"
+    $ref: "./paths/spec-json.yml"
   "/api/v3/spec.yml":
-    "$ref": "./paths/spec.yml"
+    $ref: "./paths/spec.yml"
   "/api/v3/sprints":
-    "$ref": "./paths/sprints.yml"
+    $ref: "./paths/sprints.yml"
   "/api/v3/sprints/{id}":
-    "$ref": "./paths/sprint.yml"
+    $ref: "./paths/sprint.yml"
   "/api/v3/statuses":
-    "$ref": "./paths/statuses.yml"
+    $ref: "./paths/statuses.yml"
   "/api/v3/statuses/{id}":
-    "$ref": "./paths/status.yml"
+    $ref: "./paths/status.yml"
   "/api/v3/storages":
-    "$ref": "./paths/storages.yml"
+    $ref: "./paths/storages.yml"
   "/api/v3/storages/{id}":
-    "$ref": "./paths/storage.yml"
+    $ref: "./paths/storage.yml"
   "/api/v3/storages/{id}/files":
-    "$ref": "./paths/storage_files.yml"
+    $ref: "./paths/storage_files.yml"
   "/api/v3/storages/{storage_id}/files/{file_id}":
-    "$ref": "./paths/storage_file.yml"
+    $ref: "./paths/storage_file.yml"
   "/api/v3/storages/{id}/files/prepare_upload":
-    "$ref": "./paths/storage_files_prepare_upload.yml"
+    $ref: "./paths/storage_files_prepare_upload.yml"
   "/api/v3/storages/{id}/folders":
-    "$ref": "./paths/storage_folders.yml"
+    $ref: "./paths/storage_folders.yml"
   "/api/v3/storages/{id}/oauth_client_credentials":
-    "$ref": "./paths/storage_oauth_client_credentials.yml"
+    $ref: "./paths/storage_oauth_client_credentials.yml"
   "/api/v3/storages/{id}/open":
-    "$ref": "./paths/storage_open.yml"
+    $ref: "./paths/storage_open.yml"
   "/api/v3/time_entries":
-    "$ref": "./paths/time_entries.yml"
+    $ref: "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
-    "$ref": "./paths/time_entries_id_form.yml"
+    $ref: "./paths/time_entries_id_form.yml"
   "/api/v3/time_entries/activities/{id}":
-    "$ref": "./paths/time_entry_activities.yml"
+    $ref: "./paths/time_entry_activities.yml"
   "/api/v3/time_entries/available_projects":
-    "$ref": "./paths/time_entries_available_projects.yml"
+    $ref: "./paths/time_entries_available_projects.yml"
   "/api/v3/time_entries/form":
-    "$ref": "./paths/time_entries_form.yml"
+    $ref: "./paths/time_entries_form.yml"
   "/api/v3/time_entries/schema":
-    "$ref": "./paths/time_entries_schema.yml"
+    $ref: "./paths/time_entries_schema.yml"
   "/api/v3/time_entries/{id}":
-    "$ref": "./paths/time_entry.yml"
+    $ref: "./paths/time_entry.yml"
   "/api/v3/types":
-    "$ref": "./paths/types.yml"
+    $ref: "./paths/types.yml"
   "/api/v3/types/{id}":
-    "$ref": "./paths/type.yml"
+    $ref: "./paths/type.yml"
   "/api/v3/users":
-    "$ref": "./paths/users.yml"
+    $ref: "./paths/users.yml"
   "/api/v3/users/schema":
-    "$ref": "./paths/users_schema.yml"
+    $ref: "./paths/users_schema.yml"
   "/api/v3/users/{id}":
-    "$ref": "./paths/user.yml"
+    $ref: "./paths/user.yml"
   "/api/v3/users/{id}/form":
-    "$ref": "./paths/user_form.yml"
+    $ref: "./paths/user_form.yml"
   "/api/v3/users/{id}/lock":
-    "$ref": "./paths/user_lock.yml"
+    $ref: "./paths/user_lock.yml"
   "/api/v3/users/{id}/non_working_times":
-    "$ref": "./paths/user_non_working_times.yml"
+    $ref: "./paths/user_non_working_times.yml"
   "/api/v3/users/{id}/non_working_times/{non_working_time_id}":
-    "$ref": "./paths/user_non_working_times_date.yml"
+    $ref: "./paths/user_non_working_times_date.yml"
   "/api/v3/users/{id}/working_hours":
-    "$ref": "./paths/user_working_hours.yml"
+    $ref: "./paths/user_working_hours.yml"
   "/api/v3/users/{id}/working_hours/{working_hours_id}":
-    "$ref": "./paths/user_working_hours_record.yml"
+    $ref: "./paths/user_working_hours_record.yml"
   "/api/v3/values/schemas/{id}":
-    "$ref": "./paths/values_schema.yml"
+    $ref: "./paths/values_schema.yml"
   "/api/v3/versions":
-    "$ref": "./paths/versions.yml"
+    $ref: "./paths/versions.yml"
   "/api/v3/versions/available_projects":
-    "$ref": "./paths/versions_available_projects.yml"
+    $ref: "./paths/versions_available_projects.yml"
   "/api/v3/versions/form":
-    "$ref": "./paths/versions_form.yml"
+    $ref: "./paths/versions_form.yml"
   "/api/v3/versions/schema":
-    "$ref": "./paths/versions_schema.yml"
+    $ref: "./paths/versions_schema.yml"
   "/api/v3/versions/{id}":
-    "$ref": "./paths/version.yml"
+    $ref: "./paths/version.yml"
   "/api/v3/versions/{id}/form":
-    "$ref": "./paths/version_form.yml"
+    $ref: "./paths/version_form.yml"
   "/api/v3/versions/{id}/projects":
-    "$ref": "./paths/version_projects.yml"
+    $ref: "./paths/version_projects.yml"
   "/api/v3/versions/{id}/workspaces":
-    "$ref": "./paths/version_workspaces.yml"
+    $ref: "./paths/version_workspaces.yml"
   "/api/v3/views":
-    "$ref": "./paths/views.yml"
+    $ref: "./paths/views.yml"
   "/api/v3/views/{id}":
-    "$ref": "./paths/view.yml"
+    $ref: "./paths/view.yml"
   "/api/v3/wiki_pages/{id}":
-    "$ref": "./paths/wiki_page.yml"
+    $ref: "./paths/wiki_page.yml"
   "/api/v3/wiki_pages/{id}/attachments":
-    "$ref": "./paths/wiki_page_attachments.yml"
+    $ref: "./paths/wiki_page_attachments.yml"
   "/api/v3/wiki_pages/{id}/attachments/prepare":
-    "$ref": "./paths/wiki_page_attachments_prepare.yml"
+    $ref: "./paths/wiki_page_attachments_prepare.yml"
   "/api/v3/work_packages":
-    "$ref": "./paths/work_packages.yml"
+    $ref: "./paths/work_packages.yml"
   "/api/v3/work_packages/{id}":
-    "$ref": "./paths/work_package.yml"
+    $ref: "./paths/work_package.yml"
   "/api/v3/work_packages/{id}/activities":
-    "$ref": "./paths/work_package_activities.yml"
+    $ref: "./paths/work_package_activities.yml"
   "/api/v3/work_packages/{id}/activities_emoji_reactions":
-    "$ref": "./paths/work_package_activities_emoji_reactions.yml"
+    $ref: "./paths/work_package_activities_emoji_reactions.yml"
   "/api/v3/work_packages/{id}/ai_text_transform_actions":
-    "$ref": "./paths/ai_text_transform_actions_by_work_package.yml"
+    $ref: "./paths/ai_text_transform_actions_by_work_package.yml"
   "/api/v3/work_packages/{id}/attachments":
-    "$ref": "./paths/work_package_attachments.yml"
+    $ref: "./paths/work_package_attachments.yml"
   "/api/v3/work_packages/{id}/attachments/prepare":
-    "$ref": "./paths/work_package_attachments_prepare.yml"
+    $ref: "./paths/work_package_attachments_prepare.yml"
   "/api/v3/work_packages/{id}/available_assignees":
-    "$ref": "./paths/work_package_available_assignees.yml"
+    $ref: "./paths/work_package_available_assignees.yml"
   "/api/v3/work_packages/{id}/available_projects":
-    "$ref": "./paths/work_package_available_projects.yml"
+    $ref: "./paths/work_package_available_projects.yml"
   "/api/v3/work_packages/{id}/available_relation_candidates":
-    "$ref": "./paths/work_package_available_relation_candidates.yml"
+    $ref: "./paths/work_package_available_relation_candidates.yml"
   "/api/v3/work_packages/{id}/available_watchers":
-    "$ref": "./paths/work_package_available_watchers.yml"
+    $ref: "./paths/work_package_available_watchers.yml"
   "/api/v3/work_packages/{id}/file_links":
-    "$ref": "./paths/work_package_file_links.yml"
+    $ref: "./paths/work_package_file_links.yml"
   "/api/v3/work_packages/{id}/form":
-    "$ref": "./paths/work_package_form.yml"
+    $ref: "./paths/work_package_form.yml"
+  "/api/v3/work_packages/{id}/pdf":
+    $ref: "./paths/work_package_pdf.yml"
   "/api/v3/work_packages/{id}/revisions":
-    "$ref": "./paths/work_package_revisions.yml"
+    $ref: "./paths/work_package_revisions.yml"
   "/api/v3/work_packages/{id}/relations":
-    "$ref": "./paths/work_package_relations.yml"
+    $ref: "./paths/work_package_relations.yml"
   "/api/v3/work_packages/{id}/reminders":
-    "$ref": "./paths/work_package_reminders.yml"
+    $ref: "./paths/work_package_reminders.yml"
   "/api/v3/work_packages/{id}/watchers":
-    "$ref": "./paths/work_package_watchers.yml"
+    $ref: "./paths/work_package_watchers.yml"
   "/api/v3/work_packages/{id}/watchers/{user_id}":
-    "$ref": "./paths/work_package_watcher.yml"
+    $ref: "./paths/work_package_watcher.yml"
   "/api/v3/work_packages/form":
-    "$ref": "./paths/work_packages_form.yml"
+    $ref: "./paths/work_packages_form.yml"
   "/api/v3/work_packages/schemas":
-    "$ref": "./paths/work_packages_schemas.yml"
+    $ref: "./paths/work_packages_schemas.yml"
   "/api/v3/work_packages/schemas/{identifier}":
-    "$ref": "./paths/work_packages_schemas_{identifier}.yml"
+    $ref: "./paths/work_packages_schemas_{identifier}.yml"
   "/api/v3/workspaces":
-    "$ref": "./paths/workspaces.yml"
+    $ref: "./paths/workspaces.yml"
   "/api/v3/workspaces/{id}":
-    "$ref": "./paths/workspace.yml"
+    $ref: "./paths/workspace.yml"
   "/api/v3/workspaces/{id}/available_assignees":
-    "$ref": "./paths/workspace_available_assignees.yml"
+    $ref: "./paths/workspace_available_assignees.yml"
   "/api/v3/workspaces/{id}/categories":
-    "$ref": "./paths/workspace_categories.yml"
+    $ref: "./paths/workspace_categories.yml"
   "/api/v3/workspaces/{id}/favorite":
-    "$ref": "./paths/workspace_favorite.yml"
+    $ref: "./paths/workspace_favorite.yml"
   "/api/v3/workspaces/{id}/queries/default":
-    "$ref": "./paths/workspace_queries_default.yml"
+    $ref: "./paths/workspace_queries_default.yml"
   "/api/v3/workspaces/{id}/queries/filter_instance_schemas":
-    "$ref": "./paths/workspace_queries_filter_instance_schemas.yml"
+    $ref: "./paths/workspace_queries_filter_instance_schemas.yml"
   "/api/v3/workspaces/{id}/queries/schema":
-    "$ref": "./paths/workspace_queries_schema.yml"
+    $ref: "./paths/workspace_queries_schema.yml"
   "/api/v3/workspaces/{id}/types":
-    "$ref": "./paths/workspace_types.yml"
+    $ref: "./paths/workspace_types.yml"
   "/api/v3/workspaces/{id}/work_packages":
-    "$ref": "./paths/workspace_work_packages.yml"
+    $ref: "./paths/workspace_work_packages.yml"
   "/api/v3/workspaces/{id}/work_packages/form":
-    "$ref": "./paths/workspace_work_packages_form.yml"
+    $ref: "./paths/workspace_work_packages_form.yml"
   "/api/v3/workspaces/{id}/versions":
-    "$ref": "./paths/workspace_versions.yml"
+    $ref: "./paths/workspace_versions.yml"
   "/api/v3/workspaces/{id}/labels":
-    "$ref": "./paths/workspace_labels.yml"
+    $ref: "./paths/workspace_labels.yml"
   "/api/v3/workspaces/schema":
-    "$ref": "./paths/workspaces_schema.yml"
+    $ref: "./paths/workspaces_schema.yml"
 
 components:
   examples:
@@ -839,105 +843,107 @@ components:
 
   responses:
     InvalidQuery:
-      "$ref": "./components/responses/invalid_query.yml"
+      $ref: "./components/responses/invalid_query.yml"
     InvalidRequestBody:
-      "$ref": "./components/responses/invalid_request_body.yml"
+      $ref: "./components/responses/invalid_request_body.yml"
     MissingContentType:
-      "$ref": "./components/responses/missing_content_type.yml"
+      $ref: "./components/responses/missing_content_type.yml"
     UnsupportedMediaType:
-      "$ref": "./components/responses/unsupported_media_type.yml"
+      $ref: "./components/responses/unsupported_media_type.yml"
 
   schemas:
     ActivityModel:
-      "$ref": "./components/schemas/activity_model.yml"
+      $ref: "./components/schemas/activity_model.yml"
     ActivityCommentWriteModel:
-      "$ref": "./components/schemas/activity_comment_write_model.yml"
+      $ref: "./components/schemas/activity_comment_write_model.yml"
     AITextTransformActionModel:
-      "$ref": "./components/schemas/ai_text_transform_action_model.yml"
+      $ref: "./components/schemas/ai_text_transform_action_model.yml"
     AITextTransformActionCollectionModel:
-      "$ref": "./components/schemas/ai_text_transform_action_collection_model.yml"
+      $ref: "./components/schemas/ai_text_transform_action_collection_model.yml"
     AITextTransformRunModel:
-      "$ref": "./components/schemas/ai_text_transform_run_model.yml"
+      $ref: "./components/schemas/ai_text_transform_run_model.yml"
     AITextTransformRunWriteModel:
-      "$ref": "./components/schemas/ai_text_transform_run_write_model.yml"
+      $ref: "./components/schemas/ai_text_transform_run_write_model.yml"
     AttachmentModel:
-      "$ref": "./components/schemas/attachment_model.yml"
+      $ref: "./components/schemas/attachment_model.yml"
     AttachmentPrepareUploadWriteModel:
-      "$ref": "./components/schemas/attachment_prepare_upload_write_model.yml"
+      $ref: "./components/schemas/attachment_prepare_upload_write_model.yml"
     AttachmentUploadModel:
-      "$ref": "./components/schemas/attachment_upload_model.yml"
+      $ref: "./components/schemas/attachment_upload_model.yml"
     Attachments_Model:
-      "$ref": "./components/schemas/attachments_model.yml"
+      $ref: "./components/schemas/attachments_model.yml"
     Available_AssigneesModel:
-      "$ref": "./components/schemas/available_assignees_model.yml"
+      $ref: "./components/schemas/available_assignees_model.yml"
     Available_WatchersModel:
-      "$ref": "./components/schemas/available_watchers_model.yml"
+      $ref: "./components/schemas/available_watchers_model.yml"
     Available_projects_for_queryModel:
-      "$ref": "./components/schemas/available_projects_for_query_model.yml"
+      $ref: "./components/schemas/available_projects_for_query_model.yml"
     Available_projects_for_time_entriesModel:
-      "$ref": "./components/schemas/available_projects_for_time_entries_model.yml"
+      $ref: "./components/schemas/available_projects_for_time_entries_model.yml"
     Available_projects_for_versionsModel:
-      "$ref": "./components/schemas/available_projects_for_versions_model.yml"
+      $ref: "./components/schemas/available_projects_for_versions_model.yml"
     Available_projects_for_work_packageModel:
-      "$ref": "./components/schemas/available_projects_for_work_package_model.yml"
+      $ref: "./components/schemas/available_projects_for_work_package_model.yml"
     Available_relation_candidatesModel:
-      "$ref": "./components/schemas/available_relation_candidates_model.yml"
+      $ref: "./components/schemas/available_relation_candidates_model.yml"
     BudgetModel:
-      "$ref": "./components/schemas/budget_model.yml"
+      $ref: "./components/schemas/budget_model.yml"
     Budgets_by_ProjectModel:
-      "$ref": "./components/schemas/budgets_by_project_model.yml"
+      $ref: "./components/schemas/budgets_by_project_model.yml"
     Categories_by_WorkspaceModel:
-      "$ref": "./components/schemas/categories_by_workspace_model.yml"
+      $ref: "./components/schemas/categories_by_workspace_model.yml"
     CategoryModel:
-      "$ref": "./components/schemas/category_model.yml"
+      $ref: "./components/schemas/category_model.yml"
+    CollaborationTokenModel:
+      "$ref": "./components/schemas/collaboration_token_model.yml"
     CollectionLinks:
-      "$ref": "./components/schemas/collection_links.yml"
+      $ref: "./components/schemas/collection_links.yml"
     CollectionModel:
-      "$ref": "./components/schemas/collection_model.yml"
+      $ref: "./components/schemas/collection_model.yml"
     ConfigurationModel:
-      "$ref": "./components/schemas/configuration_model.yml"
+      $ref: "./components/schemas/configuration_model.yml"
     ProjectConfigurationModel:
-      "$ref": "./components/schemas/project_configuration_model.yml"
+      $ref: "./components/schemas/project_configuration_model.yml"
     CustomActionModel:
-      "$ref": "./components/schemas/custom_action_model.yml"
+      $ref: "./components/schemas/custom_action_model.yml"
     CustomCommentProperties:
-      "$ref": "./components/schemas/custom_comment_properties.yml"
+      $ref: "./components/schemas/custom_comment_properties.yml"
     CustomFieldLinkedProperties:
-      "$ref": "./components/schemas/custom_field_linked_properties.yml"
+      $ref: "./components/schemas/custom_field_linked_properties.yml"
     CustomFieldProperties:
-      "$ref": "./components/schemas/custom_field_properties.yml"
+      $ref: "./components/schemas/custom_field_properties.yml"
     CustomFieldModel:
-      "$ref": "./components/schemas/custom_field_model.yml"
+      $ref: "./components/schemas/custom_field_model.yml"
     CustomOptionModel:
-      "$ref": "./components/schemas/custom_option_model.yml"
+      $ref: "./components/schemas/custom_option_model.yml"
     DayCollectionModel:
-      "$ref": "./components/schemas/day_collection_model.yml"
+      $ref: "./components/schemas/day_collection_model.yml"
     DayModel:
-      "$ref": "./components/schemas/day_model.yml"
+      $ref: "./components/schemas/day_model.yml"
     Default_QueryModel:
-      "$ref": "./components/schemas/default_query_model.yml"
+      $ref: "./components/schemas/default_query_model.yml"
     Default_Query_for_WorkspaceModel:
-      "$ref": "./components/schemas/default_query_for_workspace_model.yml"
+      $ref: "./components/schemas/default_query_for_workspace_model.yml"
     DocumentModel:
-      "$ref": "./components/schemas/document_model.yml"
+      $ref: "./components/schemas/document_model.yml"
     DocumentsModel:
-      "$ref": "./components/schemas/documents_model.yml"
+      $ref: "./components/schemas/documents_model.yml"
     EmojiReactionModel:
-      "$ref": "./components/schemas/emoji_reaction_model.yml"
+      $ref: "./components/schemas/emoji_reaction_model.yml"
     EmojiReactions_Model:
-      "$ref": "./components/schemas/emoji_reactions_model.yml"
+      $ref: "./components/schemas/emoji_reactions_model.yml"
     ErrorResponse:
-      "$ref": "./components/schemas/error_response.yml"
+      $ref: "./components/schemas/error_response.yml"
     Example_FormModel:
-      "$ref": "./components/schemas/example_form_model.yml"
+      $ref: "./components/schemas/example_form_model.yml"
     Example_SchemaModel:
-      "$ref": "./components/schemas/example_schema_model.yml"
+      $ref: "./components/schemas/example_schema_model.yml"
     FileLinkCollectionReadModel:
       $ref: "./components/schemas/file_link_collection_read_model.yml"
     FileLinkCollectionWriteModel:
       $ref: "./components/schemas/file_link_collection_write_model.yml"
     FileLinkOriginDataModel:
-      "$ref": "./components/schemas/file_link_origin_data_model.yml"
+      $ref: "./components/schemas/file_link_origin_data_model.yml"
     FileLinkReadModel:
       $ref: "./components/schemas/file_link_read_model.yml"
     FileLinkWriteModel:
@@ -945,388 +951,388 @@ components:
     FileUploadForm:
       $ref: "./components/schemas/file_upload_form.yml"
     Formattable:
-      "$ref": "./components/schemas/formattable.yml"
+      $ref: "./components/schemas/formattable.yml"
     GridCollectionModel:
-      "$ref": "./components/schemas/grid_collection_model.yml"
+      $ref: "./components/schemas/grid_collection_model.yml"
     GridReadModel:
-      "$ref": "./components/schemas/grid_read_model.yml"
+      $ref: "./components/schemas/grid_read_model.yml"
     GridWidgetModel:
-      "$ref": "./components/schemas/grid_widget_model.yml"
+      $ref: "./components/schemas/grid_widget_model.yml"
     GridWriteModel:
-      "$ref": "./components/schemas/grid_write_model.yml"
+      $ref: "./components/schemas/grid_write_model.yml"
     GroupCollectionModel:
-      "$ref": "./components/schemas/group_collection_model.yml"
+      $ref: "./components/schemas/group_collection_model.yml"
     GroupModel:
-      "$ref": "./components/schemas/group_model.yml"
+      $ref: "./components/schemas/group_model.yml"
     GroupWriteModel:
-      "$ref": "./components/schemas/group_write_model.yml"
+      $ref: "./components/schemas/group_write_model.yml"
     HelpTextCollectionModel:
-      "$ref": "./components/schemas/help_text_collection_model.yml"
+      $ref: "./components/schemas/help_text_collection_model.yml"
     HelpTextModel:
-      "$ref": "./components/schemas/help_text_model.yml"
+      $ref: "./components/schemas/help_text_model.yml"
     HierarchyItemCollectionModel:
-      "$ref": "./components/schemas/hierarchy_item_collection_model.yml"
+      $ref: "./components/schemas/hierarchy_item_collection_model.yml"
     HierarchyItemReadModel:
-      "$ref": "./components/schemas/hierarchy_item_read_model.yml"
+      $ref: "./components/schemas/hierarchy_item_read_model.yml"
     HourlyRateCollectionModel:
-      "$ref": "./components/schemas/hourly_rate_collection_model.yml"
+      $ref: "./components/schemas/hourly_rate_collection_model.yml"
     HourlyRateModel:
-      "$ref": "./components/schemas/hourly_rate_model.yml"
+      $ref: "./components/schemas/hourly_rate_model.yml"
     LabelCollectionModel:
-      "$ref": "./components/schemas/label_collection_model.yml"
+      $ref: "./components/schemas/label_collection_model.yml"
     LabelModel:
-      "$ref": "./components/schemas/label_model.yml"
+      $ref: "./components/schemas/label_model.yml"
     LabelWriteModel:
-      "$ref": "./components/schemas/label_write_model.yml"
+      $ref: "./components/schemas/label_write_model.yml"
     Link:
-      "$ref": "./components/schemas/link.yml"
+      $ref: "./components/schemas/link.yml"
     List_actionsModel:
-      "$ref": "./components/schemas/list_actions_model.yml"
+      $ref: "./components/schemas/list_actions_model.yml"
     List_available_parent_project_candidatesModel:
-      "$ref": "./components/schemas/list_available_parent_project_candidates_model.yml"
+      $ref: "./components/schemas/list_available_parent_project_candidates_model.yml"
     List_capabilitiesModel:
-      "$ref": "./components/schemas/list_capabilities_model.yml"
+      $ref: "./components/schemas/list_capabilities_model.yml"
     List_of_NewsModel:
-      "$ref": "./components/schemas/list_of_news_model.yml"
+      $ref: "./components/schemas/list_of_news_model.yml"
     List_workspaces_by_versionModel:
-      "$ref": "./components/schemas/list_workspaces_by_version_model.yml"
+      $ref: "./components/schemas/list_workspaces_by_version_model.yml"
     MeetingAgendaItemModel:
-      "$ref": "./components/schemas/meeting_agenda_item_model.yml"
+      $ref: "./components/schemas/meeting_agenda_item_model.yml"
     MeetingAgendaItemWriteModel:
-      "$ref": "./components/schemas/meeting_agenda_item_write_model.yml"
+      $ref: "./components/schemas/meeting_agenda_item_write_model.yml"
     MeetingAgendaItemCollectionModel:
-      "$ref": "./components/schemas/meeting_agenda_item_collection_model.yml"
+      $ref: "./components/schemas/meeting_agenda_item_collection_model.yml"
     MeetingOutcomeCollectionModel:
-      "$ref": "./components/schemas/meeting_outcome_collection_model.yml"
+      $ref: "./components/schemas/meeting_outcome_collection_model.yml"
     MeetingOutcomeModel:
-      "$ref": "./components/schemas/meeting_outcome_model.yml"
+      $ref: "./components/schemas/meeting_outcome_model.yml"
     MeetingOutcomeWriteModel:
-      "$ref": "./components/schemas/meeting_outcome_write_model.yml"
+      $ref: "./components/schemas/meeting_outcome_write_model.yml"
     MeetingCollectionModel:
-      "$ref": "./components/schemas/meeting_collection_model.yml"
+      $ref: "./components/schemas/meeting_collection_model.yml"
     MeetingModel:
-      "$ref": "./components/schemas/meeting_model.yml"
+      $ref: "./components/schemas/meeting_model.yml"
     MeetingSectionModel:
-      "$ref": "./components/schemas/meeting_section_model.yml"
+      $ref: "./components/schemas/meeting_section_model.yml"
     MeetingSectionWriteModel:
-      "$ref": "./components/schemas/meeting_section_write_model.yml"
+      $ref: "./components/schemas/meeting_section_write_model.yml"
     MeetingSectionCollectionModel:
-      "$ref": "./components/schemas/meeting_section_collection_model.yml"
+      $ref: "./components/schemas/meeting_section_collection_model.yml"
     MeetingWriteModel:
-      "$ref": "./components/schemas/meeting_write_model.yml"
+      $ref: "./components/schemas/meeting_write_model.yml"
     MembershipCollectionModel:
-      "$ref": "./components/schemas/membership_collection_model.yml"
+      $ref: "./components/schemas/membership_collection_model.yml"
     MembershipFormModel:
-      "$ref": "./components/schemas/membership_form_model.yml"
+      $ref: "./components/schemas/membership_form_model.yml"
     MembershipReadModel:
-      "$ref": "./components/schemas/membership_read_model.yml"
+      $ref: "./components/schemas/membership_read_model.yml"
     MembershipSchemaModel:
-      "$ref": "./components/schemas/membership_schema_model.yml"
+      $ref: "./components/schemas/membership_schema_model.yml"
     MembershipWriteModel:
-      "$ref": "./components/schemas/membership_write_model.yml"
+      $ref: "./components/schemas/membership_write_model.yml"
     NewsCreateModel:
-      "$ref": "./components/schemas/news_create_model.yml"
+      $ref: "./components/schemas/news_create_model.yml"
     NewsModel:
-      "$ref": "./components/schemas/news_model.yml"
+      $ref: "./components/schemas/news_model.yml"
     NonWorkingDayCollectionModel:
-      "$ref": "./components/schemas/non_working_day_collection_model.yml"
+      $ref: "./components/schemas/non_working_day_collection_model.yml"
     NonWorkingDayModel:
-      "$ref": "./components/schemas/non_working_day_model.yml"
+      $ref: "./components/schemas/non_working_day_model.yml"
     NotificationCollectionModel:
-      "$ref": "./components/schemas/notification_collection_model.yml"
+      $ref: "./components/schemas/notification_collection_model.yml"
     NotificationModel:
-      "$ref": "./components/schemas/notification_model.yml"
+      $ref: "./components/schemas/notification_model.yml"
     OAuthApplicationReadModel:
-      "$ref": "./components/schemas/oauth_application_read_model.yml"
+      $ref: "./components/schemas/oauth_application_read_model.yml"
     OAuthClientCredentialsReadModel:
-      "$ref": "./components/schemas/oauth_client_credentials_read_model.yml"
+      $ref: "./components/schemas/oauth_client_credentials_read_model.yml"
     OAuthClientCredentialsWriteModel:
-      "$ref": "./components/schemas/oauth_client_credentials_write_model.yml"
+      $ref: "./components/schemas/oauth_client_credentials_write_model.yml"
     OffsetPaginatedCollectionLinks:
-      "$ref": "./components/schemas/offset_paginated_collection_links.yml"
+      $ref: "./components/schemas/offset_paginated_collection_links.yml"
     OffsetPaginatedCollectionModel:
-      "$ref": "./components/schemas/offset_paginated_collection_model.yml"
+      $ref: "./components/schemas/offset_paginated_collection_model.yml"
     PaginatedCollectionModel:
-      "$ref": "./components/schemas/paginated_collection_model.yml"
+      $ref: "./components/schemas/paginated_collection_model.yml"
     PlaceholderUserCollectionModel:
-      "$ref": "./components/schemas/placeholder_user_collection_model.yml"
+      $ref: "./components/schemas/placeholder_user_collection_model.yml"
     PlaceholderUserCreateModel:
-      "$ref": "./components/schemas/placeholder_user_create_model.yml"
+      $ref: "./components/schemas/placeholder_user_create_model.yml"
     PlaceholderUserModel:
-      "$ref": "./components/schemas/placeholder_user_model.yml"
+      $ref: "./components/schemas/placeholder_user_model.yml"
     PortfolioCollectionModel:
-      "$ref": "./components/schemas/portfolio_collection_model.yml"
+      $ref: "./components/schemas/portfolio_collection_model.yml"
     PortfolioModel:
-      "$ref": "./components/schemas/portfolio_model.yml"
+      $ref: "./components/schemas/portfolio_model.yml"
     PostModel:
-      "$ref": "./components/schemas/post_model.yml"
+      $ref: "./components/schemas/post_model.yml"
     PrincipalCollectionModel:
-      "$ref": "./components/schemas/principal_collection_model.yml"
+      $ref: "./components/schemas/principal_collection_model.yml"
     PrincipalModel:
-      "$ref": "./components/schemas/principal_model.yml"
+      $ref: "./components/schemas/principal_model.yml"
     PriorityCollectionModel:
-      "$ref": "./components/schemas/priority_collection_model.yml"
+      $ref: "./components/schemas/priority_collection_model.yml"
     PriorityModel:
-      "$ref": "./components/schemas/priority_model.yml"
+      $ref: "./components/schemas/priority_model.yml"
     ProgramCollectionModel:
-      "$ref": "./components/schemas/program_collection_model.yml"
+      $ref: "./components/schemas/program_collection_model.yml"
     ProgramModel:
-      "$ref": "./components/schemas/program_model.yml"
+      $ref: "./components/schemas/program_model.yml"
     ProjectCollectionModel:
-      "$ref": "./components/schemas/project_collection_model.yml"
+      $ref: "./components/schemas/project_collection_model.yml"
     ProjectModel:
-      "$ref": "./components/schemas/project_model.yml"
+      $ref: "./components/schemas/project_model.yml"
     ProjectPhaseModel:
-      "$ref": "./components/schemas/project_phase_model.yml"
+      $ref: "./components/schemas/project_phase_model.yml"
     ProjectPhaseDefinitionModel:
-      "$ref": "./components/schemas/project_phase_definition_model.yml"
+      $ref: "./components/schemas/project_phase_definition_model.yml"
     ProjectPhaseDefinitionCollectionModel:
-      "$ref": "./components/schemas/project_phase_definition_collection_model.yml"
+      $ref: "./components/schemas/project_phase_definition_collection_model.yml"
     ProjectStorageCollectionModel:
-      "$ref": "./components/schemas/project_storage_collection_model.yml"
+      $ref: "./components/schemas/project_storage_collection_model.yml"
     ProjectStorageModel:
-      "$ref": "./components/schemas/project_storage_model.yml"
+      $ref: "./components/schemas/project_storage_model.yml"
     QueriesModel:
-      "$ref": "./components/schemas/queries_model.yml"
+      $ref: "./components/schemas/queries_model.yml"
     QueryModel:
-      "$ref": "./components/schemas/query_model.yml"
+      $ref: "./components/schemas/query_model.yml"
     Query_ColumnModel:
-      "$ref": "./components/schemas/query_column_model.yml"
+      $ref: "./components/schemas/query_column_model.yml"
     Query_Create_Form:
-      "$ref": "./components/schemas/query_create_form.yml"
+      $ref: "./components/schemas/query_create_form.yml"
     Query_FilterModel:
-      "$ref": "./components/schemas/query_filter_model.yml"
+      $ref: "./components/schemas/query_filter_model.yml"
     Query_Filter_Instance_Model:
-      "$ref": "./components/schemas/query_filter_instance_model.yml"
+      $ref: "./components/schemas/query_filter_instance_model.yml"
     Query_Filter_Instance_SchemaModel:
-      "$ref": "./components/schemas/query_filter_instance_schema_model.yml"
+      $ref: "./components/schemas/query_filter_instance_schema_model.yml"
     Query_Filter_Instance_SchemasModel:
-      "$ref": "./components/schemas/query_filter_instance_schemas_model.yml"
+      $ref: "./components/schemas/query_filter_instance_schemas_model.yml"
     Query_Filter_Instance_Schemas_For_WorkspaceModel:
-      "$ref": "./components/schemas/query_filter_instance_schemas_for_workspace_model.yml"
+      $ref: "./components/schemas/query_filter_instance_schemas_for_workspace_model.yml"
     Query_OperatorModel:
-      "$ref": "./components/schemas/query_operator_model.yml"
+      $ref: "./components/schemas/query_operator_model.yml"
     Query_Sort_ByModel:
-      "$ref": "./components/schemas/query_sort_by_model.yml"
+      $ref: "./components/schemas/query_sort_by_model.yml"
     Query_Update_Form:
-      "$ref": "./components/schemas/query_update_form.yml"
+      $ref: "./components/schemas/query_update_form.yml"
     RecurringMeetingCollectionModel:
-      "$ref": "./components/schemas/recurring_meeting_collection_model.yml"
+      $ref: "./components/schemas/recurring_meeting_collection_model.yml"
     RecurringMeetingModel:
-      "$ref": "./components/schemas/recurring_meeting_model.yml"
+      $ref: "./components/schemas/recurring_meeting_model.yml"
     RecurringMeetingWriteModel:
-      "$ref": "./components/schemas/recurring_meeting_write_model.yml"
+      $ref: "./components/schemas/recurring_meeting_write_model.yml"
     RecurringMeetingOccurrenceCollectionModel:
-      "$ref": "./components/schemas/recurring_meeting_occurrence_collection_model.yml"
+      $ref: "./components/schemas/recurring_meeting_occurrence_collection_model.yml"
     RecurringMeetingOccurrenceModel:
-      "$ref": "./components/schemas/recurring_meeting_occurrence_model.yml"
+      $ref: "./components/schemas/recurring_meeting_occurrence_model.yml"
     RelationCollectionModel:
-      "$ref": "./components/schemas/relation_collection_model.yml"
+      $ref: "./components/schemas/relation_collection_model.yml"
     RelationReadModel:
-      "$ref": "./components/schemas/relation_read_model.yml"
+      $ref: "./components/schemas/relation_read_model.yml"
     RelationWriteModel:
-      "$ref": "./components/schemas/relation_write_model.yml"
+      $ref: "./components/schemas/relation_write_model.yml"
     ReminderModel:
-      "$ref": "./components/schemas/reminder_model.yml"
+      $ref: "./components/schemas/reminder_model.yml"
     RevisionModel:
-      "$ref": "./components/schemas/revision_model.yml"
+      $ref: "./components/schemas/revision_model.yml"
     RevisionsModel:
-      "$ref": "./components/schemas/revisions_model.yml"
+      $ref: "./components/schemas/revisions_model.yml"
     RoleModel:
-      "$ref": "./components/schemas/role_model.yml"
+      $ref: "./components/schemas/role_model.yml"
     RolesModel:
-      "$ref": "./components/schemas/roles_model.yml"
+      $ref: "./components/schemas/roles_model.yml"
     RootModel:
-      "$ref": "./components/schemas/root_model.yml"
+      $ref: "./components/schemas/root_model.yml"
     SchemaModel:
-      "$ref": "./components/schemas/schema_model.yml"
+      $ref: "./components/schemas/schema_model.yml"
     SchemaPropertyModel:
-      "$ref": "./components/schemas/schema_property_model.yml"
+      $ref: "./components/schemas/schema_property_model.yml"
     Schema_For_Global_QueriesModel:
-      "$ref": "./components/schemas/schema_for_global_queries_model.yml"
+      $ref: "./components/schemas/schema_for_global_queries_model.yml"
     Schema_For_Workspace_QueriesModel:
-      "$ref": "./components/schemas/schema_for_workspace_queries_model.yml"
+      $ref: "./components/schemas/schema_for_workspace_queries_model.yml"
     SpecificationModel:
-      "$ref": "./components/schemas/spec_model.yml"
+      $ref: "./components/schemas/spec_model.yml"
     SprintCollectionModel:
-      "$ref": "./components/schemas/sprint_collection_model.yml"
+      $ref: "./components/schemas/sprint_collection_model.yml"
     SprintModel:
-      "$ref": "./components/schemas/sprint_model.yml"
+      $ref: "./components/schemas/sprint_model.yml"
     Star_QueryModel:
-      "$ref": "./components/schemas/star_query_model.yml"
+      $ref: "./components/schemas/star_query_model.yml"
     StatusCollectionModel:
-      "$ref": "./components/schemas/status_collection_model.yml"
+      $ref: "./components/schemas/status_collection_model.yml"
     StatusModel:
-      "$ref": "./components/schemas/status_model.yml"
+      $ref: "./components/schemas/status_model.yml"
     StorageCollectionModel:
-      "$ref": "./components/schemas/storage_collection_model.yml"
+      $ref: "./components/schemas/storage_collection_model.yml"
     StorageFileModel:
-      "$ref": "./components/schemas/storage_file_model.yml"
+      $ref: "./components/schemas/storage_file_model.yml"
     StorageFilesModel:
-      "$ref": "./components/schemas/storage_files_model.yml"
+      $ref: "./components/schemas/storage_files_model.yml"
     StorageFolderWriteModel:
-      "$ref": "./components/schemas/storage_folder_write_model.yml"
+      $ref: "./components/schemas/storage_folder_write_model.yml"
     StorageFileUploadPreparationModel:
-      "$ref": "./components/schemas/storage_file_upload_preparation_model.yml"
+      $ref: "./components/schemas/storage_file_upload_preparation_model.yml"
     StorageFileUploadLinkModel:
-      "$ref": "./components/schemas/storage_file_upload_link_model.yml"
+      $ref: "./components/schemas/storage_file_upload_link_model.yml"
     StorageReadModel:
-      "$ref": "./components/schemas/storage_read_model.yml"
+      $ref: "./components/schemas/storage_read_model.yml"
     StorageWriteModel:
-      "$ref": "./components/schemas/storage_write_model.yml"
+      $ref: "./components/schemas/storage_write_model.yml"
     TimeEntryActivityModel:
-      "$ref": "./components/schemas/time_entry_activity_model.yml"
+      $ref: "./components/schemas/time_entry_activity_model.yml"
     TimeEntryCollectionModel:
-      "$ref": "./components/schemas/time_entry_collection_model.yml"
+      $ref: "./components/schemas/time_entry_collection_model.yml"
     TimeEntryModel:
-      "$ref": "./components/schemas/time_entry_model.yml"
+      $ref: "./components/schemas/time_entry_model.yml"
     TypeModel:
-      "$ref": "./components/schemas/type_model.yml"
+      $ref: "./components/schemas/type_model.yml"
     TypesModel:
-      "$ref": "./components/schemas/types_model.yml"
+      $ref: "./components/schemas/types_model.yml"
     Types_by_WorkspaceModel:
-      "$ref": "./components/schemas/types_by_workspace_model.yml"
+      $ref: "./components/schemas/types_by_workspace_model.yml"
     Unstar_QueryModel:
-      "$ref": "./components/schemas/unstar_query_model.yml"
+      $ref: "./components/schemas/unstar_query_model.yml"
     UserCollectionModel:
-      "$ref": "./components/schemas/user_collection_model.yml"
+      $ref: "./components/schemas/user_collection_model.yml"
     UserCreateModel:
-      "$ref": "./components/schemas/user_create_model.yml"
+      $ref: "./components/schemas/user_create_model.yml"
     UserModel:
-      "$ref": "./components/schemas/user_model.yml"
+      $ref: "./components/schemas/user_model.yml"
     UserNonWorkingTimeCollectionModel:
-      "$ref": "./components/schemas/user_non_working_time_collection_model.yml"
+      $ref: "./components/schemas/user_non_working_time_collection_model.yml"
     UserNonWorkingTimeModel:
-      "$ref": "./components/schemas/user_non_working_time_model.yml"
+      $ref: "./components/schemas/user_non_working_time_model.yml"
     UserPreferencesModel:
-      "$ref": "./components/schemas/user_preferences_model.yml"
+      $ref: "./components/schemas/user_preferences_model.yml"
     UserWorkingHoursCollectionModel:
-      "$ref": "./components/schemas/user_working_hours_collection_model.yml"
+      $ref: "./components/schemas/user_working_hours_collection_model.yml"
     UserWorkingHoursModel:
-      "$ref": "./components/schemas/user_working_hours_model.yml"
+      $ref: "./components/schemas/user_working_hours_model.yml"
     ValuesPropertyModel:
-      "$ref": "./components/schemas/values_property_model.yml"
+      $ref: "./components/schemas/values_property_model.yml"
     VersionCollectionModel:
-      "$ref": "./components/schemas/version_collection_model.yml"
+      $ref: "./components/schemas/version_collection_model.yml"
     VersionReadModel:
-      "$ref": "./components/schemas/version_read_model.yml"
+      $ref: "./components/schemas/version_read_model.yml"
     VersionWriteModel:
-      "$ref": "./components/schemas/version_write_model.yml"
+      $ref: "./components/schemas/version_write_model.yml"
     Version_schemaModel:
-      "$ref": "./components/schemas/version_schema_model.yml"
+      $ref: "./components/schemas/version_schema_model.yml"
     Versions_by_WorkspaceModel:
-      "$ref": "./components/schemas/versions_by_workspace_model.yml"
+      $ref: "./components/schemas/versions_by_workspace_model.yml"
     View_actionModel:
-      "$ref": "./components/schemas/view_action_model.yml"
+      $ref: "./components/schemas/view_action_model.yml"
     View_capabilitiesModel:
-      "$ref": "./components/schemas/view_capabilities_model.yml"
+      $ref: "./components/schemas/view_capabilities_model.yml"
     View_global_contextModel:
-      "$ref": "./components/schemas/view_global_context_model.yml"
+      $ref: "./components/schemas/view_global_context_model.yml"
     View_project_statusModel:
-      "$ref": "./components/schemas/view_project_status_model.yml"
+      $ref: "./components/schemas/view_project_status_model.yml"
     View_time_entry_schemaModel:
-      "$ref": "./components/schemas/view_time_entry_schema_model.yml"
+      $ref: "./components/schemas/view_time_entry_schema_model.yml"
     View_user_schemaModel:
-      "$ref": "./components/schemas/view_user_schema_model.yml"
+      $ref: "./components/schemas/view_user_schema_model.yml"
     WatchersModel:
-      "$ref": "./components/schemas/watchers_model.yml"
+      $ref: "./components/schemas/watchers_model.yml"
     WeekDayCollectionModel:
-      "$ref": "./components/schemas/week_day_collection_model.yml"
+      $ref: "./components/schemas/week_day_collection_model.yml"
     WeekDayCollectionWriteModel:
-      "$ref": "./components/schemas/week_day_collection_write_model.yml"
+      $ref: "./components/schemas/week_day_collection_write_model.yml"
     WeekDayModel:
-      "$ref": "./components/schemas/week_day_model.yml"
+      $ref: "./components/schemas/week_day_model.yml"
     WeekDaySelfLinkModel:
-      "$ref": "./components/schemas/week_day_self_link_model.yml"
+      $ref: "./components/schemas/week_day_self_link_model.yml"
     WeekDayWriteModel:
-      "$ref": "./components/schemas/week_day_write_model.yml"
+      $ref: "./components/schemas/week_day_write_model.yml"
     Wiki_PageModel:
-      "$ref": "./components/schemas/wiki_page_model.yml"
+      $ref: "./components/schemas/wiki_page_model.yml"
     WorkPackageModel:
-      "$ref": "./components/schemas/work_package_model.yml"
+      $ref: "./components/schemas/work_package_model.yml"
     WorkPackageFormModel:
-      "$ref": "./components/schemas/work_package_form_model.yml"
+      $ref: "./components/schemas/work_package_form_model.yml"
     WorkPackagePatchModel:
-      "$ref": "./components/schemas/work_package_patch_model.yml"
+      $ref: "./components/schemas/work_package_patch_model.yml"
     WorkPackageSchemaModel:
-      "$ref": "./components/schemas/work_package_schema_model.yml"
+      $ref: "./components/schemas/work_package_schema_model.yml"
     WorkPackageWriteModel:
-      "$ref": "./components/schemas/work_package_write_model.yml"
+      $ref: "./components/schemas/work_package_write_model.yml"
     Work_Package_activitiesModel:
-      "$ref": "./components/schemas/work_package_activities_model.yml"
+      $ref: "./components/schemas/work_package_activities_model.yml"
     Work_PackagesModel:
-      "$ref": "./components/schemas/work_packages_model.yml"
+      $ref: "./components/schemas/work_packages_model.yml"
     WorkspaceCollectionModel:
-      "$ref": "./components/schemas/workspace_collection_model.yml"
+      $ref: "./components/schemas/workspace_collection_model.yml"
     WorkspacePatchModel:
-      "$ref": "./components/schemas/workspace_patch_model.yml"
+      $ref: "./components/schemas/workspace_patch_model.yml"
     WorkspacesSchemaModel:
-      "$ref": "./components/schemas/workspaces_schema_model.yml"
+      $ref: "./components/schemas/workspaces_schema_model.yml"
   securitySchemes:
     BasicAuth:
       type: http
       scheme: basic
 tags:
-  - "$ref": "./tags/basic_objects.yml"
-  - "$ref": "./tags/collections.yml"
-  - "$ref": "./tags/filters.yml"
-  - "$ref": "./tags/baseline_comparisons.yml"
-  - "$ref": "./tags/forms.yml"
-  - "$ref": "./tags/signaling.yml"
-  - "$ref": "./tags/actions_and_capabilities.yml"
-  - "$ref": "./tags/activities.yml"
-  - "$ref": "./tags/ai.yml"
-  - "$ref": "./tags/attachments.yml"
-  - "$ref": "./tags/budgets.yml"
-  - "$ref": "./tags/categories.yml"
-  - "$ref": "./tags/configuration.yml"
-  - "$ref": "./tags/custom_actions.yml"
-  - "$ref": "./tags/custom_fields.yml"
-  - "$ref": "./tags/custom_options.yml"
-  - "$ref": "./tags/documents.yml"
-  - "$ref": "./tags/file_links.yml"
-  - "$ref": "./tags/grids.yml"
-  - "$ref": "./tags/groups.yml"
-  - "$ref": "./tags/help_texts.yml"
-  - "$ref": "./tags/hourly_rates.yml"
-  - "$ref": "./tags/labels.yml"
-  - "$ref": "./tags/memberships.yml"
-  - "$ref": "./tags/news.yml"
-  - "$ref": "./tags/notifications.yml"
-  - "$ref": "./tags/oauth.yml"
-  - "$ref": "./tags/portfolios.yml"
-  - "$ref": "./tags/posts.yml"
-  - "$ref": "./tags/principals.yml"
-  - "$ref": "./tags/priorities.yml"
-  - "$ref": "./tags/programs.yml"
-  - "$ref": "./tags/project_phases.yml"
-  - "$ref": "./tags/project_phase_definitions.yml"
-  - "$ref": "./tags/projects.yml"
-  - "$ref": "./tags/queries.yml"
-  - "$ref": "./tags/query_columns.yml"
-  - "$ref": "./tags/query_filters.yml"
-  - "$ref": "./tags/query_operators.yml"
-  - "$ref": "./tags/query_sort_bys.yml"
-  - "$ref": "./tags/query_filter_instance_schema.yml"
-  - "$ref": "./tags/relations.yml"
-  - "$ref": "./tags/revisions.yml"
-  - "$ref": "./tags/roles.yml"
-  - "$ref": "./tags/root.yml"
-  - "$ref": "./tags/schemas.yml"
-  - "$ref": "./tags/sprints.yml"
-  - "$ref": "./tags/statuses.yml"
-  - "$ref": "./tags/time_entries.yml"
-  - "$ref": "./tags/time_entry_activities.yml"
-  - "$ref": "./tags/types.yml"
-  - "$ref": "./tags/userpreferences.yml"
-  - "$ref": "./tags/users.yml"
-  - "$ref": "./tags/user_working_times.yml"
-  - "$ref": "./tags/values_property.yml"
-  - "$ref": "./tags/versions.yml"
-  - "$ref": "./tags/views.yml"
-  - "$ref": "./tags/wiki_pages.yml"
-  - "$ref": "./tags/work_packages.yml"
-  - "$ref": "./tags/work_schedule.yml"
-  - "$ref": "./tags/workspaces.yml"
+  - $ref: "./tags/basic_objects.yml"
+  - $ref: "./tags/collections.yml"
+  - $ref: "./tags/filters.yml"
+  - $ref: "./tags/baseline_comparisons.yml"
+  - $ref: "./tags/forms.yml"
+  - $ref: "./tags/signaling.yml"
+  - $ref: "./tags/actions_and_capabilities.yml"
+  - $ref: "./tags/activities.yml"
+  - $ref: "./tags/ai.yml"
+  - $ref: "./tags/attachments.yml"
+  - $ref: "./tags/budgets.yml"
+  - $ref: "./tags/categories.yml"
+  - $ref: "./tags/configuration.yml"
+  - $ref: "./tags/custom_actions.yml"
+  - $ref: "./tags/custom_fields.yml"
+  - $ref: "./tags/custom_options.yml"
+  - $ref: "./tags/documents.yml"
+  - $ref: "./tags/file_links.yml"
+  - $ref: "./tags/grids.yml"
+  - $ref: "./tags/groups.yml"
+  - $ref: "./tags/help_texts.yml"
+  - $ref: "./tags/hourly_rates.yml"
+  - $ref: "./tags/labels.yml"
+  - $ref: "./tags/memberships.yml"
+  - $ref: "./tags/news.yml"
+  - $ref: "./tags/notifications.yml"
+  - $ref: "./tags/oauth.yml"
+  - $ref: "./tags/portfolios.yml"
+  - $ref: "./tags/posts.yml"
+  - $ref: "./tags/principals.yml"
+  - $ref: "./tags/priorities.yml"
+  - $ref: "./tags/programs.yml"
+  - $ref: "./tags/project_phases.yml"
+  - $ref: "./tags/project_phase_definitions.yml"
+  - $ref: "./tags/projects.yml"
+  - $ref: "./tags/queries.yml"
+  - $ref: "./tags/query_columns.yml"
+  - $ref: "./tags/query_filters.yml"
+  - $ref: "./tags/query_operators.yml"
+  - $ref: "./tags/query_sort_bys.yml"
+  - $ref: "./tags/query_filter_instance_schema.yml"
+  - $ref: "./tags/relations.yml"
+  - $ref: "./tags/revisions.yml"
+  - $ref: "./tags/roles.yml"
+  - $ref: "./tags/root.yml"
+  - $ref: "./tags/schemas.yml"
+  - $ref: "./tags/sprints.yml"
+  - $ref: "./tags/statuses.yml"
+  - $ref: "./tags/time_entries.yml"
+  - $ref: "./tags/time_entry_activities.yml"
+  - $ref: "./tags/types.yml"
+  - $ref: "./tags/userpreferences.yml"
+  - $ref: "./tags/users.yml"
+  - $ref: "./tags/user_working_times.yml"
+  - $ref: "./tags/values_property.yml"
+  - $ref: "./tags/versions.yml"
+  - $ref: "./tags/views.yml"
+  - $ref: "./tags/wiki_pages.yml"
+  - $ref: "./tags/work_packages.yml"
+  - $ref: "./tags/work_schedule.yml"
+  - $ref: "./tags/workspaces.yml"
 security:
   - BasicAuth: []

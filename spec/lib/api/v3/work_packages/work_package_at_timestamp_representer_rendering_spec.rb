@@ -327,7 +327,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
     end
   end
 
-  context "with only the labels changed", with_flag: { work_package_labels: true } do
+  context "with only the labels changed" do
     let(:attributes_changed_to_baseline) { %w[labels] }
 
     let(:expected_json) do
@@ -359,7 +359,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
     end
   end
 
-  context "with the labels unchanged", with_flag: { work_package_labels: true } do
+  context "with the labels unchanged" do
     let(:attributes_changed_to_baseline) { %w[subject] }
 
     it "does not render the labels" do
@@ -646,6 +646,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
               "href" => api_v3_paths.version(version.id),
               "title" => version.name
             }
+          ],
+          "labels" => [
+            { "href" => api_v3_paths.label(label_a.id), "title" => label_a.name },
+            { "href" => api_v3_paths.label(label_b.id), "title" => label_b.name }
           ],
           "observedInVersions" => [],
           "parent" => {

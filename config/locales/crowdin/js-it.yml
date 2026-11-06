@@ -47,6 +47,8 @@ it:
       draggable_hint: 'Trascina l''elemento nei campi dell''editor per allineare l''immagine o il riferimento allegato. I campi dell''editor chiusi verranno sbloccati durante il trascinamento.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Il file è in quarantena, poiché è stato trovato un virus. Non è disponibile per il download.
     autocomplete_ng_select:
       add_tag: Aggiungi elemento
@@ -1114,10 +1116,6 @@ it:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabella con righe di macro-attività e colonne dei loro attributi.
-        text_inline_edit: Molte celle di questa tabella sono pulsanti che attivano le funzionalità di modifica in linea di tale attributo.
-        text_select_hint: Le caselle di selezione devono essere aperte con ' ALT ' e i tasti freccia.
-        text_sort_hint: Con i collegamenti nelle intestazioni di tabella puoi ordinare, raggruppare, riordinare, rimuovere e aggiungere le colonne della tabella.
       table_configuration:
         button: Configura questa tabella di macro-attività
         choose_display_mode: Visualizza la macro-attività come
@@ -1126,7 +1124,6 @@ it:
         default_mode: Elenco semplice
         display_settings: Impostazioni di visualizzazione
         display_sums_hint: Visualizza i totali degli attributi sommabili in una riga sotto i risultati della tabella.
-        embedded_tab_disabled: La scheda di configurazione non è disponibile per la visualizzazione incorporata che stai modificando.
         hierarchy_hint: Tutti i risultati della tabella filtrata verranno ampliati con i loro antenati. Le gerarchie possono essere espanse e compresse.
         hierarchy_mode: Gerarchia
         highlighting: Evidenziazione

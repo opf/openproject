@@ -41,7 +41,7 @@ export class RelationsCellHandler extends ClickOrEnterHandler implements TableEv
   @LazyInject() wpTableRelationColumns:WorkPackageViewRelationColumnsService;
 
   public get EVENT():EventType[] {
-    return ['click', 'keydown'];
+    return ['click'];
   }
 
   public get SELECTOR() {
@@ -54,14 +54,6 @@ export class RelationsCellHandler extends ClickOrEnterHandler implements TableEv
 
   constructor(public readonly injector:Injector) {
     super();
-  }
-
-  public handleEvent(view:TableEventComponent, evt:MouseEvent|KeyboardEvent) {
-    if (evt.type === 'keydown' && (evt.target as HTMLElement).tagName === 'BUTTON') {
-      return;
-    }
-
-    super.handleEvent(view, evt);
   }
 
   protected processEvent(table:WorkPackageTable, evt:MouseEvent|KeyboardEvent):void {

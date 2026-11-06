@@ -1,0 +1,71 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module Projects::CreationWizard
+  class ReuploadArtefactOnStatusChangesService
+    prepend Projects::Concerns::UpdateDemoData
+
+    attr_reader :current_user, :artefact_work_package
+
+    delegate :project, to: :artefact_work_package
+
+    def initialize(current_user:, work_package:)
+      @current_user = current_user
+      @artefact_work_package = work_package
+    end
+
+    def self.applicable?(work_package:, changes:)
+      return false if changes["status_id"].blank?
+
+      work_package.project.project_creation_wizard_artifact_work_package_id.to_s == work_package.id.to_s
+    end
+
+    def call!(changes:)
+      return unless self.class.applicable?(work_package: artefact_work_package, changes:)
+
+      User.execute_as_admin(current_user) do
+        update_artefact
+      end
+    end
+
+    private
+
+    def update_artefact
+      call = UploadArtefactService
+        .new(user: current_user, project:, work_package: artefact_work_package)
+        .call
+
+      if call.success?
+        Rails.logger.debug { "Updated artefact for creation wizard in ##{artefact_work_package.id}" }
+      else
+        Rails.logger.error("Failed to process artefact change for ##{artefact_work_package.id}: ##{call.message}")
+      end
+    end
+  end
+end

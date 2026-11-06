@@ -88,7 +88,7 @@ RSpec.describe "Work package with relation query group", :js, :selenium do
       embedded_table.expect_work_package_count 1
 
       # Create new work package within embedded table
-      embedded_table.table_container.find("button", text: I18n.t("js.relation_buttons.add_new_child")).click
+      embedded_table.table_container.click_button(I18n.t("js.relation_buttons.add_new_child"))
       subject_field = embedded_table.edit_field(nil, :subject)
       subject_field.expect_active!
       subject_field.set_value("Fresh WP\n")
@@ -199,7 +199,7 @@ RSpec.describe "Work package with relation query group", :js, :selenium do
     end
 
     it "creates and removes across all tables" do
-      embedded_table.table_container.find("button", text: I18n.t("js.relation_buttons.create_new")).click
+      embedded_table.table_container.click_button(I18n.t("js.relation_buttons.create_new"))
       subject_field = embedded_table.edit_field(nil, :subject)
 
       subject_field.expect_active!
@@ -209,8 +209,16 @@ RSpec.describe "Work package with relation query group", :js, :selenium do
       relations.expect_relation_by_text("Fresh WP")
     end
 
+    it "returns focus to Add existing when reference creation is cancelled" do
+      embedded_table.table_container.click_button("Add existing")
+      embedded_table.table_container.find(".wp-create-relation--cancel").click
+
+      expect(embedded_table.table_container)
+        .to have_button("Add existing", focused: true)
+    end
+
     it "add existing, remove it, add it from relations tab, remove from relations tab" do
-      embedded_table.table_container.find("button", text: I18n.t("js.relation_buttons.add_existing")).click
+      embedded_table.table_container.click_button("Add existing")
       embedded_table.table_container.find(".wp-relations-create--form", wait: 10)
       autocomplete = page.find_test_selector("wp-relations-autocomplete")
       select_autocomplete autocomplete,
@@ -220,6 +228,8 @@ RSpec.describe "Work package with relation query group", :js, :selenium do
 
       embedded_table.expect_work_package_listed(independent_work_package)
       relations.expect_relation(independent_work_package)
+      expect(embedded_table.table_container)
+        .to have_button("Add existing", focused: true)
 
       # removing work package from embedded table will also remove it from relations tab
       row = ".wp-row-#{independent_work_package.id}-table"

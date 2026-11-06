@@ -54,7 +54,7 @@ RSpec.describe "menu permissions", :js do
 
     specify "the parent node directs to the general settings page" do
       # The settings menu item exists
-      expect(page).to have_css("#menu-sidebar .main-item-wrapper", text: "Project settings", visible: false)
+      expect(page).to have_css("#menu-sidebar .main-item-wrapper", text: "Project settings", visible: :all)
 
       # Clicking the menu parent item leads to the version page
       find(".main-menu--parent-node", text: "Project settings").click
@@ -78,7 +78,7 @@ RSpec.describe "menu permissions", :js do
 
     specify "the parent node directs to the only visible children page" do
       # The settings menu item exists
-      expect(page).to have_css("#menu-sidebar .main-item-wrapper", text: "Project settings", visible: false)
+      expect(page).to have_css("#menu-sidebar .main-item-wrapper", text: "Project settings", visible: :all)
 
       # Clicking the menu parent item leads to the version page
       find(".main-menu--parent-node", text: "Project settings").click
