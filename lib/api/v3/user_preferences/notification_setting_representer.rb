@@ -29,7 +29,6 @@ module API
   module V3
     module UserPreferences
       class NotificationSettingRepresenter < ::API::Decorators::Single
-        include API::Decorators::LinkedResource
         include API::Decorators::DateProperty
         include API::V3::Workspaces::LinkedResource
 

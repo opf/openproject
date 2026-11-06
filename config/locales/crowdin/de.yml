@@ -2278,7 +2278,7 @@ de:
       status_button: Status
       statuses_dialog:
         caption: Status hinzufügen oder entfernen, die Sie mit diesem Typ verknüpfen möchten. Das Entfernen eines Status löscht auch den damit verbundenen Workflow.
-        label: Für diesen Typ aktivierte Status
+        label: Für diesen Typ aktivierter Status
         title: Status
       statuses_removal_dialog:
         confirm: Entfernen
