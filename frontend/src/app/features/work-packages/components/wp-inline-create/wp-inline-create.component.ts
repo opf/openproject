@@ -198,7 +198,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
           this.table.keyboardNavigation?.rememberWorkPackageAfterRender(wp.id!);
 
           // Split view on the last inserted id if any
-          if (!this.table.configuration.isEmbedded) {
+          if (!this.table.configuration.isEmbedded && this.table.configuration.selectionEnabled) {
             this.wpTableFocus.initializeSelectionAndFocus(wp.id!);
           }
 

@@ -99,10 +99,12 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     const row = target.closest<HTMLElement>(`.${tableRowClassName}`);
     if (!row) { return true; }
 
-    this.wpTableFocus.updateFocus(workPackageId, false, false);
-    selectionGesture(view.workPackageTable, 'navigation', () => {
-      this.selectionGestures.replace(workPackageId, view.workPackageTable.renderedRows, row.dataset.classIdentifier);
-    });
+    if (view.workPackageTable.configuration.selectionEnabled) {
+      this.wpTableFocus.updateFocus(workPackageId, false, false);
+      selectionGesture(view.workPackageTable, 'navigation', () => {
+        this.selectionGestures.replace(workPackageId, view.workPackageTable.renderedRows, row.dataset.classIdentifier);
+      });
+    }
 
     view.stateLinkClicked.emit({ workPackageId, requestedState: state });
 

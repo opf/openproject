@@ -62,6 +62,10 @@ export class RowDoubleClickHandler implements TableEventHandler {
   public handleEvent(view:TableEventComponent, evt:MouseEvent) {
     const target = evt.target as HTMLElement;
 
+    if (!view.workPackageTable.configuration.selectionEnabled) {
+      return true;
+    }
+
     // Skip clicks with modifiers
     if (isClickedWithModifier(evt)) {
       return true;

@@ -76,9 +76,14 @@ export class RowClickHandler implements TableEventHandler {
 
     // Shortcut to any clicks within a cell
     // We don't want to handle these.
-    if (this.clickActivatesCell(view, target) || target.classList.contains(`${activeFieldClassName}`)) {
+    if (this.clickActivatesCell(view, target) || target.closest(`.${activeFieldClassName}`)) {
       debugLog('Skipping click on inner cell');
       return true;
+    }
+
+    if (!view.workPackageTable.configuration.selectionEnabled) {
+      this.focusClickedCell(view, target);
+      return false;
     }
 
     // Locate the row from event
@@ -92,6 +97,17 @@ export class RowClickHandler implements TableEventHandler {
     activateRow(view, wpId, element, evt);
 
     return false;
+  }
+
+  private focusClickedCell(view:TableEventComponent, target:HTMLElement):void {
+    const navigation = view.workPackageTable.keyboardNavigation;
+    const cell = target.closest<HTMLElement>('td, th') ?? target.closest(this.SELECTOR);
+    if (!navigation || !cell) return;
+
+    const position = navigation.positionOfCell(cell);
+    if (position) {
+      navigation.focusPosition(position);
+    }
   }
 
   private clickActivatesCell(view:TableEventComponent, target:HTMLElement):boolean {
@@ -112,7 +128,8 @@ export function activateRow(
   element:HTMLTableRowElement,
   modifiers:SelectionModifiers = {},
 ):void {
-  const { injector } = view.workPackageTable;
+  const { injector, configuration } = view.workPackageTable;
+  if (!configuration.selectionEnabled) return;
 
   const modified = [modifiers.ctrlKey, modifiers.metaKey, modifiers.shiftKey].some(Boolean);
 
