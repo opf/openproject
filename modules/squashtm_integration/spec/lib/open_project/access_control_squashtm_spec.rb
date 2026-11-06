@@ -48,6 +48,11 @@ RSpec.describe OpenProject::AccessControl do
       expect(described_class.permission(:manage_squashtm_requirements).dependencies).to contain_exactly(:view_squashtm)
     end
 
+    it "requires managing requirement links to manage the integration" do
+      expect(described_class.permission(:manage_squashtm_integration).dependencies)
+        .to contain_exactly(:manage_squashtm_requirements)
+    end
+
     it "can only be granted to members for managing the integration" do
       expect(described_class.permission(:manage_squashtm_integration)).to be_require_member
     end

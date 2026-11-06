@@ -141,26 +141,6 @@ RSpec.describe "SquashTM project settings", :js do
           expect(SquashTMIntegration::WorkPackageLink).not_to exist
         end
       end
-
-      context "without the permission to manage requirement links" do
-        it "explains that the project cannot be unlinked yet" do
-          visit project_settings_squashtm_path(project)
-
-          find_test_selector("squashtm--delete-project-link").click
-          dialog = find_test_selector("squashtm--delete-project-link-dialog")
-          wait_for_size_animation_completion(dialog)
-
-          within(dialog) do
-            expect(page).to have_test_selector("squashtm--unlink-project-blocked")
-            expect(page).to have_link("##{work_package.id} Sign-in page")
-            expect(page).to have_no_button("Unlink")
-            click_button "Close"
-          end
-
-          expect(page).to have_no_test_selector("squashtm--delete-project-link-dialog")
-          expect(SquashTMIntegration::ProjectLink).to exist
-        end
-      end
     end
 
     context "without the permission to manage the integration" do

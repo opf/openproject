@@ -219,20 +219,6 @@ RSpec.describe "SquashTM project settings",
           expect(details).to have_no_text("more work packages")
         end
       end
-
-      context "when the user cannot manage requirement links" do
-        let(:permissions) { %i[manage_squashtm_integration view_work_packages] }
-
-        it "explains why the project cannot be unlinked and offers no way to proceed" do
-          expect(dialog).to have_css(test_selector("squashtm--unlink-project-blocked"),
-                                     text: "requires the \"Manage SquashTM requirements\" permission")
-          expect(dialog).to have_text("5 work packages are still linked to SquashTM requirements:")
-          expect(dialog).to have_link("##{work_packages.first.id} #{work_packages.first.subject}")
-          expect(dialog).to have_no_field("unlink_work_packages")
-          expect(dialog).to have_no_button("Unlink")
-          expect(dialog).to have_button("Close")
-        end
-      end
     end
 
     it "is not found when the project is not linked" do

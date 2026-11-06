@@ -97,7 +97,8 @@ module OpenProject::SquashTMIntegration
         permission :manage_squashtm_integration,
                    { "squashtm_integration/project_settings/project_links": %i[show update destroy_dialog destroy] },
                    permissible_on: :project,
-                   require: :member
+                   require: :member,
+                   dependencies: :manage_squashtm_requirements
       end
     end
 

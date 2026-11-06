@@ -20,7 +20,6 @@ en:
               squashtm_project_not_found: "The SquashTM project %{squashtm_project_id} does not exist or is not visible to the SquashTM account used by OpenProject."
               squashtm_project_unavailable: "The SquashTM project %{squashtm_project_id} could not be verified because the SquashTM server is not reachable. Please try again later."
               squashtm_server_not_configured: "No SquashTM server is configured. Please contact your instance administrator."
-              work_package_links_not_removable: "You are not allowed to remove the SquashTM requirement links of this project's work packages."
               work_packages_linked:
                 one: "1 work package is still linked to a SquashTM requirement. Remove its link to unlink the project."
                 other: "%{count} work packages are still linked to SquashTM requirements. Remove their links to unlink the project."
@@ -97,7 +96,6 @@ en:
       warning: "Warning"
     project_settings:
       delete_project_link_dialog_component:
-        blocked: "This project cannot be unlinked while its work packages are linked to SquashTM requirements. Removing these links requires the \"Manage SquashTM requirements\" permission. Please ask someone who has it."
         confirm: "Unlink"
         description: "Work packages of this project will no longer show SquashTM test results."
         heading: "Unlink the SquashTM project %{name}?"

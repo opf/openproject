@@ -70,15 +70,6 @@ RSpec.describe SquashTMIntegration::ProjectLinks::DeleteService do
       expect(SquashTMIntegration::WorkPackageLink).to exist(other_project_work_package_link.id)
     end
 
-    it "refuses to remove them for a user who cannot manage requirement links" do
-      permissions.delete(:manage_squashtm_requirements)
-
-      expect(result).not_to be_success
-      expect(result.errors.details[:base].pluck(:error)).to eq([:work_package_links_not_removable])
-      expect(SquashTMIntegration::ProjectLink).to exist(project_link.id)
-      expect(SquashTMIntegration::WorkPackageLink).to exist(work_package_link.id)
-    end
-
     it "keeps the work package links when the project link cannot be deleted" do
       allow(project_link).to receive(:destroy).and_return(false)
 

@@ -67,18 +67,7 @@ RSpec.describe SquashTMIntegration::ProjectLinks::DeleteContract do
     context "when the work package links are to be removed as well" do
       subject(:contract) { described_class.new(link, user, options: { unlink_work_packages: true }) }
 
-      context "with the permission to manage requirement links" do
-        let(:permissions) { %i[manage_squashtm_integration manage_squashtm_requirements] }
-
-        it { is_expected.to be_valid }
-      end
-
-      context "without the permission to manage requirement links" do
-        it "is invalid" do
-          expect(contract).not_to be_valid
-          expect(contract.errors.details[:base].pluck(:error)).to eq([:work_package_links_not_removable])
-        end
-      end
+      it { is_expected.to be_valid }
     end
   end
 

@@ -33,7 +33,6 @@ module SquashTMIntegration
       include OpTurbo::Streamable
 
       PREVIEW_LIMIT = 3
-      BLOCKED_DIALOG_ID = "squashtm-project-link-blocked-dialog"
 
       alias_method :project_link, :model
 
@@ -49,10 +48,6 @@ module SquashTMIntegration
 
       def dialog_size
         work_packages_linked? ? :medium_portrait : :large
-      end
-
-      def blocked?
-        work_packages_linked? && !User.current.allowed_in_project?(:manage_squashtm_requirements, project_link.project)
       end
 
       def linked_work_package_count
