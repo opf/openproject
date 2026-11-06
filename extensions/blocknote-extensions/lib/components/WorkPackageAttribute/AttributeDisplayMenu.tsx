@@ -6,11 +6,10 @@ import { defaultWpVariables, menuSurfaceStyles } from '../WorkPackage/atoms';
 import { PopoverPortal, useAnchoredPopover, type PopoverSide } from '../WorkPackage/anchoredPopover';
 import { FLOATING_Z_INDEX } from '../../utils/zIndex';
 import { useTapActivation } from '../../utils/tapActivation';
-import type { AttributeDisplay } from './externalHtml';
+import { ATTRIBUTE_DISPLAYS, type AttributeDisplay } from './display';
 
 const MENU_OFFSET = 4;
 const MAX_MENU_HEIGHT = 200;
-const DISPLAYS:AttributeDisplay[] = ['label', 'value', 'both'];
 
 const Menu = styled.div.attrs({
   className: 'op-bn-wp-attribute-menu',
@@ -99,7 +98,7 @@ export const AttributeDisplayMenu = ({ anchorEl, placement = 'below', active, on
         onTouchStart={(event) => event.stopPropagation()}
       >
         <MenuLabel>{t('workPackageAttribute.dialog.show')}</MenuLabel>
-        {DISPLAYS.map((display) => (
+        {ATTRIBUTE_DISPLAYS.map((display) => (
           <MenuItem
             key={display}
             aria-checked={display === active}

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import type { BlockNoteEditor } from '@blocknote/core';
 import { isPendingWpid } from '../../utils/pending';
-import { BLOCK_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
-import type { AttributeDisplay } from './externalHtml';
+import { BLOCK_WP_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
+import type { AttributeDisplay } from './display';
 import { useWorkPackageAttribute } from './useWorkPackageAttribute';
 import { pendingAttributes } from './pending';
 import { lastChoice, rememberChoice } from './lastChoice';
@@ -65,7 +65,7 @@ export function WorkPackageAttributeInline({ content, editor, contentRef, onDisp
           <InsertAttributeModal
             anchorEl={anchorEl}
             prefill={lastChoice()}
-            offersLongText={BLOCK_ATTRIBUTE_TYPE in ((editor?.schema.blockSchema ?? {}) as Record<string, unknown>)}
+            offersLongText={BLOCK_WP_ATTRIBUTE_TYPE in ((editor?.schema.blockSchema ?? {}) as Record<string, unknown>)}
             onInsert={(choice, kind) => {
               rememberChoice(choice);
               pending.onResolve({ choice, kind });

@@ -3,9 +3,8 @@
 // attributes inserted with CKEditor.
 
 import { isPendingWpid } from '../../utils/pending';
-import { BLOCK_ATTRIBUTE_TYPE, INLINE_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
-
-export type AttributeDisplay = 'label' | 'value' | 'both';
+import { BLOCK_WP_ATTRIBUTE_TYPE, INLINE_WP_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
+import { normalizeDisplay, type AttributeDisplay } from './display';
 
 export interface WorkPackageAttributeProps {
   wpid?:string;
@@ -20,18 +19,14 @@ export interface WorkPackageAttributeProps {
 export type AttributeNodeKind = 'inline' | 'block';
 
 const NODES = {
-  inline: { tag: 'span', marker: 'data-inline-content-type', type: INLINE_ATTRIBUTE_TYPE },
-  block: { tag: 'div', marker: 'data-block-content-type', type: BLOCK_ATTRIBUTE_TYPE },
+  inline: { tag: 'span', marker: 'data-inline-content-type', type: INLINE_WP_ATTRIBUTE_TYPE },
+  block: { tag: 'div', marker: 'data-block-content-type', type: BLOCK_WP_ATTRIBUTE_TYPE },
 } as const;
 
 export interface WorkPackageAttributeExternalData {
   tag:'span' | 'div';
   attrs:Record<string, string>;
   text:string;
-}
-
-export function normalizeDisplay(display:string | undefined):AttributeDisplay {
-  return display === 'label' || display === 'both' ? display : 'value';
 }
 
 // The macro syntax only accepts these characters inside quotes.
@@ -92,7 +87,7 @@ export function buildWorkPackageAttributeExternalDOM(
 export function parseWorkPackageAttributeExternalHTML(
   element:HTMLElement,
   kind:AttributeNodeKind = 'inline',
-):WorkPackageAttributeProps | undefined {
+):(WorkPackageAttributeProps & { display:AttributeDisplay }) | undefined {
   const node = NODES[kind];
   if (element.getAttribute(node.marker) !== node.type) return undefined;
   return {

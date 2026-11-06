@@ -24,7 +24,8 @@ import {
   RequiredMark,
 } from '../CreateWorkPackage/atoms';
 import { findAttribute, formatAttributeValue, listAttributes, type WorkPackageAttribute } from './attributes';
-import type { AttributeDisplay, AttributeNodeKind } from './externalHtml';
+import type { AttributeNodeKind } from './externalHtml';
+import { ATTRIBUTE_DISPLAYS, type AttributeDisplay } from './display';
 import type { AttributeChoice } from './types';
 import { WorkPackageAttributeBlockView, WorkPackageAttributeView } from './WorkPackageAttributeView';
 import { useAttributeFormatOptions, type ReadyAttribute } from './useWorkPackageAttribute';
@@ -52,8 +53,6 @@ const PREVIEW_EDITOR_VARIABLES = [
   '--bn-colors-editor-background',
   '--bn-border-radius',
 ];
-
-const DISPLAYS:AttributeDisplay[] = ['label', 'value', 'both'];
 
 const isOffered = (attribute:WorkPackageAttribute, offersLongText:boolean) => offersLongText || !attribute.block;
 
@@ -244,7 +243,7 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
                   {t('workPackageAttribute.dialog.show')}
                 </FieldLabel>
                 <DisplayOptions aria-labelledby={DISPLAY_LABEL_ID}>
-                  {DISPLAYS.map((option) => (
+                  {ATTRIBUTE_DISPLAYS.map((option) => (
                     <DisplayOption
                       key={option}
                       $active={display === option}

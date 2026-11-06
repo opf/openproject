@@ -1,4 +1,4 @@
-import type { AttributeDisplay } from './externalHtml';
+import type { AttributeDisplay } from './display';
 
 export interface AttributeProps {
   wpid:string;

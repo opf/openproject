@@ -3,7 +3,7 @@ import type { BlockNoteEditor } from '@blocknote/core';
 import { useTapActivation } from '../../utils/tapActivation';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
 import { usePressOutside } from '../../hooks/usePressOutside';
-import { normalizeDisplay, type AttributeDisplay } from './externalHtml';
+import { normalizeDisplay, type AttributeDisplay } from './display';
 
 interface AttributeDisplayMenuOptions {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
