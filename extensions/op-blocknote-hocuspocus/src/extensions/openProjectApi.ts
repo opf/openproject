@@ -27,6 +27,7 @@
 
 import { BlockNoteSchema } from "@blocknote/core";
 import { ServerBlockNoteEditor } from "@blocknote/server-util";
+import { getDocument } from "@blocknote/server-util/dom";
 import type { beforeHandleMessagePayload, onAuthenticatePayload, onLoadDocumentPayload, onStoreDocumentPayload, onTokenSyncPayload } from "@hocuspocus/server";
 import { Extension } from "@hocuspocus/server";
 import {
@@ -48,12 +49,14 @@ export const editorSchema = BlockNoteSchema.create().extend({
   },
 });
 
+const serverDocument = getDocument();
+
 function printLog(message:string) {
   console.log(`[${new Date().toISOString()}] ${message}`);
 }
 
 export function createEditor() {
-  return ServerBlockNoteEditor.create({ schema: editorSchema });
+  return ServerBlockNoteEditor.create({ schema: editorSchema }, serverDocument);
 }
 
 export class OpenProjectApi implements Extension {
