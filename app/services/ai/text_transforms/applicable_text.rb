@@ -38,65 +38,113 @@ module AI
         extension: { table: true, strikethrough: true, tagfilter: false, autolink: false, tasklist: false, shortcodes: false }
       }.freeze
       TAG = %r{<(/?)(macro|img|mention)\b(?:[^>"']|"[^"]*"|'[^']*')*>}i
+      MARKDOWN_SPECIAL = /[\\`*_{}\[\]<>()#+!|~&]/
+      DESTINATION_SPECIAL = /[\s()<>]/
+      LINE_BREAK = /\r\n?|\n/
 
       def self.call(text) = new(text).call
 
       def initialize(text)
         @text = text
+        @edits = []
         @group_mentions = []
+        @macro = nil
       end
 
       def call
-        edits.reverse.reduce(@text.b) { |result, (range, replacement)| result.bytesplice(range, replacement.b) }
-             .force_encoding(@text.encoding)
+        collect_edits
+        @edits.reverse.reduce(@text.b) { |result, (range, replacement)| result.bytesplice(range, replacement.b) }
+              .force_encoding(@text.encoding)
       end
 
       private
 
-      def edits
-        covered_until = 0
-        Commonmarker.parse(@text, options: PARSE_OPTIONS).to_enum(:walk).filter_map do |node|
+      def collect_edits
+        Commonmarker.parse(@text, options: PARSE_OPTIONS).walk do |node|
           range = byte_range(node)
-          next if range.begin < covered_until
-
-          edit = edit_for(node, range)
-          covered_until = range.end if edit
-          edit
+          close_macro(@macro[:closes_at]) if @macro && range.begin >= @macro[:closes_at]
+          rewrite(node, range) unless range.begin < covered_until
         end
+        close_macro(@macro[:closes_at]) if @macro
       end
 
-      def edit_for(node, range)
+      def rewrite(node, range)
         case node.type
-        when :image
-          [range, markdown_image_link(node)]
-        when :html_inline, :html_block
-          source = @text.byteslice(range)
-          rewritten = source.gsub(TAG) { rewrite_tag(Regexp.last_match) }
-          [range, rewritten] if rewritten != source
+        when :image then edit(range, markdown_image_link(node)) unless @macro
+        when :html_inline, :html_block then rewrite_tags(node, range)
         end
       end
 
-      def rewrite_tag(match)
+      def rewrite_tags(node, range)
+        @text.byteslice(range).scan(TAG) do
+          match = Regexp.last_match
+          first, last = match.byteoffset(0)
+          rewrite_tag(match, (range.begin + first)...(range.begin + last), node)
+        end
+      end
+
+      def rewrite_tag(match, range, node)
         closing = match[1].present?
-        case match[2].downcase
-        when "macro" then ""
-        when "img" then closing ? "" : html_image_link(match[0])
-        when "mention" then rewrite_mention(match[0], closing)
+        name = match[2].downcase
+        return rewrite_macro(match[0], range, node, closing) if name == "macro"
+        return if @macro
+
+        case name
+        when "img" then edit(range, closing ? "" : html_image_link(match[0]))
+        when "mention" then edit(range, "") if group_mention?(match[0], closing)
         end
       end
 
-      def rewrite_mention(tag, closing)
-        group = closing ? @group_mentions.pop : @group_mentions.push(attributes(tag)["data-type"] == "group").last
-        group ? "" : tag
+      # Like the preview, a macro disappears with everything inside it. An unclosed one ends where the HTML
+      # parser would close it: with its paragraph, or with the document for a macro in an HTML block.
+      def rewrite_macro(tag, range, node, closing)
+        if closing
+          @macro ? close_nested_macro(range) : edit(range, "")
+        elsif tag.end_with?("/>")
+          edit(range, "") unless @macro
+        elsif @macro
+          @macro[:depth] += 1
+        else
+          closes_at = node.type == :html_inline ? byte_range(node.parent).end : @text.bytesize
+          @macro = { first: range.begin, depth: 1, closes_at: }
+        end
+      end
+
+      def close_nested_macro(range)
+        @macro[:depth] -= 1
+        close_macro(range.end) if @macro[:depth].zero?
+      end
+
+      def close_macro(last)
+        edit(@macro[:first]...last, "")
+        @macro = nil
+      end
+
+      def group_mention?(tag, closing)
+        closing ? @group_mentions.pop : @group_mentions.push(attributes(tag)["data-type"] == "group").last
+      end
+
+      def edit(range, replacement)
+        @edits << [range, replacement]
+      end
+
+      def covered_until
+        @edits.last&.first&.end || 0
       end
 
       def markdown_image_link(node)
         alt = node.to_enum(:walk).select { %i[text code].include?(it.type) }.map(&:string_content).join
         source = node.url.presence
-        text = image_link_text(alt, source).delete("[]")
+        text = image_link_text(alt, source).gsub(MARKDOWN_SPECIAL) { "\\#{it}" }
         return text unless source
 
-        "[#{text}](#{source.match?(/[\s()<>]/) ? "<#{source}>" : source})"
+        "[#{text}](#{link_destination(source)})"
+      end
+
+      def link_destination(source)
+        return source unless source.match?(DESTINATION_SPECIAL)
+
+        "<#{source.gsub(/[<>\\]/) { "\\#{it}" }}>"
       end
 
       def html_image_link(tag)
@@ -121,8 +169,9 @@ module AI
         first...last
       end
 
+      # Commonmarker counts a bare CR as a line break as well.
       def line_offsets
-        @line_offsets ||= @text.each_line.reduce([0]) { |offsets, line| offsets << (offsets.last + line.bytesize) }
+        @line_offsets ||= [0] + @text.b.to_enum(:scan, LINE_BREAK).map { Regexp.last_match.end(0) }
       end
     end
   end

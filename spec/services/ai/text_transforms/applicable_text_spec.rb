@@ -38,11 +38,26 @@ RSpec.describe AI::TextTransforms::ApplicableText do
     expect(applicable(text)).to eq(text)
   end
 
-  it "removes macros in any spelling, closed or not" do
-    text = %(Before\n\n<macro class="toc"></macro>\n\n<MACRO class='embedded-table' data-query-props="{}" />\n\n) +
-           %(x <macro class="create_work_package_link"> y)
+  def nodes_of(markdown)
+    Commonmarker.parse(markdown).to_enum(:walk).map(&:type)
+  end
 
-    expect(applicable(text)).to eq("Before\n\n\n\n\n\nx  y")
+  it "removes macros in any spelling" do
+    text = %(Before\n\n<macro class="toc"></macro>\n\n<MACRO class='embedded-table' data-query-props="{}" />\n\nAfter)
+
+    expect(applicable(text)).to eq("Before\n\n\n\n\n\nAfter")
+  end
+
+  it "removes macros together with their content, like the preview" do
+    text = %(a <macro class="toc">private ![x](y.png)</macro> b\n\n) +
+           %(<macro class="toc">\n<macro>nested</macro>\nsecret\n</macro>\n\nc)
+
+    expect(applicable(text)).to eq("a  b\n\n\n\nc")
+  end
+
+  it "ends an unclosed macro where the preview's HTML parser closes it" do
+    expect(applicable(%(x <macro class="toc"> y\n\nz))).to eq("x \n\nz")
+    expect(applicable(%(x\n\n<macro class="toc">\n\ny\n\nz))).to eq("x\n\n")
   end
 
   it "keeps code spans and blocks untouched" do
@@ -72,7 +87,25 @@ RSpec.describe AI::TextTransforms::ApplicableText do
 
   it "turns reference images and images with brackets in their alt text into links" do
     expect(applicable("![chart][1] ![a [b]](x.png)\n\n[1]: https://example.com/t.png\n"))
-      .to eq("[Image: chart](https://example.com/t.png) [Image: a b](x.png)\n\n[1]: https://example.com/t.png\n")
+      .to eq("[Image: chart](https://example.com/t.png) [Image: a \\[b\\]](x.png)\n\n[1]: https://example.com/t.png\n")
+  end
+
+  it "keeps decoded alt text as text when the link is parsed again" do
+    group = %(&lt;mention data-type="group" data-id="3"&gt;@Devs&lt;/mention&gt;)
+    replaced = applicable(%(![&lt;img src=x&gt;](https://example.com/a.png) ![#{group}](b.png) ![*a* &amp;lt;](<c d.png>)))
+
+    rendered = Nokogiri::HTML5.fragment(Commonmarker.to_html(replaced))
+
+    expect(nodes_of(replaced)).not_to include(:image, :html_inline)
+    expect(rendered.css("img, mention")).to be_empty
+    expect(rendered.css("a").map(&:text))
+      .to eq(["Image: <img src=x>", %(Image: <mention data-type="group" data-id="3">@Devs</mention>), "Image: a &lt;"])
+    expect(rendered.css("a").last["href"]).to eq("c%20d.png")
+  end
+
+  it "finds images after bare CR and CRLF line breaks" do
+    expect(applicable("a\r![alt](url)")).to eq("a\r[Image: alt](url)")
+    expect(applicable("a\r\n\r\n![alt](url)")).to eq("a\r\n\r\n[Image: alt](url)")
   end
 
   it "turns HTML images into links, or into text without a source" do
