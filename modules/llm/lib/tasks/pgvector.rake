@@ -32,9 +32,9 @@ pgvector_failure = nil
 namespace :openproject do
   namespace :llm do
     namespace :pgvector do
-      desc "Check whether the pgvector extension can be created, so its migrations run with db:migrate"
-      task try_enable: :environment do
-        pgvector_failure = OpenProject::Llm::Pgvector.enable
+      desc "Include the pgvector migrations in db:migrate if the extension can be installed on this database"
+      task include_migrations_path_if_installable: :environment do
+        pgvector_failure = OpenProject::Llm::Pgvector.include_migrations_path_if_installable!
       rescue ActiveRecord::NoDatabaseError
         # db:migrate creates the database after this task. The next run installs the extension via its migrations.
       end
@@ -42,6 +42,6 @@ namespace :openproject do
   end
 end
 
-Rake::Task["db:migrate"].enhance ["openproject:llm:pgvector:try_enable"] do
+Rake::Task["db:migrate"].enhance ["openproject:llm:pgvector:include_migrations_path_if_installable"] do
   warn OpenProject::Llm::Pgvector.warning(pgvector_failure) if pgvector_failure
 end
