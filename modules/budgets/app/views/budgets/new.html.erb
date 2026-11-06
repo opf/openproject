@@ -39,12 +39,22 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= labelled_tabular_form_for @budget,
-                              url: projects_budgets_path(@project),
-                              as: :budget,
-                              html: { multipart: true, id: "budget_form" } do |f| %>
-    <%= render partial: "form", locals: { f: f } %>
-    <%= styled_button_tag t(:button_create), class: "-with-icon icon-checkmark", "data-test-selector": "budgets-create-button" %>
-    <%= styled_button_tag t(:button_create_and_continue), name: "continue",
-                                                          class: "button -primary" %>
-<% end %>
+<%= error_messages_for @budget %>
+
+<%=
+  primer_form_with(
+    model: @budget,
+    as: :budget,
+    url: projects_budgets_path(@project),
+    html: { multipart: true, id: "budget_form" }
+  ) do |f|
+    render(
+      Primer::Forms::FormList.new(
+        Budgets::Form.new(f),
+        Budgets::MaterialBudgetItems::SubformComponent.new(form: f, budget: @budget, project: @project),
+        Budgets::LaborBudgetItems::SubformComponent.new(form: f, budget: @budget, project: @project),
+        Budgets::CreateOrContinue.new(f)
+      )
+    )
+  end
+%>

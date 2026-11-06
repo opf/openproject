@@ -98,7 +98,7 @@ class Budget < ApplicationRecord
                      %w(hours user_id comments amount)
                    end
 
-        sink.send(items).build(bi.attributes.slice(*to_slice).merge("budget" => sink))
+        sink.send(items).build(bi.attributes.slice(*to_slice).merge("budget" => sink, "copied_from_id" => bi.id))
       end
     end
   end
@@ -179,11 +179,12 @@ class Budget < ApplicationRecord
   end
 
   def new_material_budget_item_attributes=(material_budget_item_attributes)
-    material_budget_item_attributes.each do |_index, attributes|
+    material_budget_item_attributes.each_value do |attributes|
       correct_material_attributes!(attributes)
+      carry_copied_amount!(attributes, MaterialBudgetItem)
 
       if valid_material_budget_attributes?(attributes)
-        material_budget_items.build(attributes)
+        material_budget_items.build(attributes.merge(budget: self))
       end
     end
   end
@@ -199,8 +200,9 @@ class Budget < ApplicationRecord
   end
 
   def new_labor_budget_item_attributes=(labor_budget_item_attributes)
-    labor_budget_item_attributes.each do |_index, attributes|
+    labor_budget_item_attributes.each_value do |attributes|
       correct_labor_attributes!(attributes)
+      carry_copied_amount!(attributes, LaborBudgetItem) { |source| source.user_id == attributes[:user_id].to_i }
 
       if valid_labor_budget_attributes?(attributes)
         item = labor_budget_items.build(attributes)
@@ -225,14 +227,28 @@ class Budget < ApplicationRecord
     return unless attributes
 
     attributes[:hours] = Rate.parse_hours_string_to_number(attributes[:hours])
-    attributes[:amount] = Rate.parse_number_string(attributes[:amount])
+    # A missing amount leaves an overridden amount untouched, a blank one clears it.
+    attributes[:amount] = Rate.parse_number_string(attributes[:amount]) if attributes.key?(:amount)
   end
 
   def correct_material_attributes!(attributes)
     return unless attributes
 
     attributes[:units] = Rate.parse_number_string_to_number(attributes[:units])
-    attributes[:amount] = Rate.parse_number_string(attributes[:amount])
+    # A missing amount leaves an overridden amount untouched, a blank one clears it.
+    attributes[:amount] = Rate.parse_number_string(attributes[:amount]) if attributes.key?(:amount)
+  end
+
+  # A copied row submits no amount when the user may not see its costs. The override
+  # is then taken from the source item, which has to belong to the same project.
+  def carry_copied_amount!(attributes, item_class)
+    return unless attributes
+
+    source_id = attributes[:copied_from_id]
+    return if source_id.blank? || attributes.key?(:amount) || project.nil?
+
+    source = item_class.joins(:budget).find_by(id: source_id, budgets: { project_id: project.id })
+    attributes[:amount] = source.amount if source && (!block_given? || yield(source))
   end
 
   def update_budget_item_attributes(budget_item_attributes, type:)

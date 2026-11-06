@@ -48,6 +48,23 @@ table.list.members
 #material_budget_items
   table-layout: fixed
 
+  // hours/units, user/cost type, comments (rest), budget, actions
+  col:nth-child(1)
+    width: 15%
+
+  col:nth-child(2)
+    width: 25%
+
+  // Fixed, so that the budget column is equally wide in both tables and at
+  // every viewport width, and always fits the edit button, amount and currency.
+  col:nth-child(4)
+    width: 12.5rem
+
+  // Last, so that it also wins when the budget column is not rendered and the
+  // actions column becomes the fourth one. Just the icon button plus padding.
+  col[data-highlight="false"]
+    width: 3rem
+
   .form--text-field,
   .form--select
     width: 100%

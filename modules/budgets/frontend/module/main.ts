@@ -28,7 +28,6 @@
 import { Injector, NgModule, inject } from '@angular/core';
 import { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 import { multiInput } from '@openproject/reactivestates';
-import { PlannedCostsFormAugment } from 'core-app/features/plugins/linked/budgets/augment/planned-costs-form';
 import { BudgetResource } from './hal/resources/budget-resource';
 
 export function initializeCostsPlugin(injector:Injector) {
@@ -43,8 +42,6 @@ export function initializeCostsPlugin(injector:Injector) {
 
     const { states } = pluginContext.services;
     states.add('budgets', multiInput<BudgetResource>());
-
-    PlannedCostsFormAugment.listen();
   });
 }
 
