@@ -43,8 +43,8 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { attributeTokenList, ensureId, generateId, isTextCutOffOrHidden } from 'core-app/shared/helpers/dom-helpers';
-import { OpTooltipComponent, TooltipType } from './tooltip.component';
-import { TooltipDirection } from './tooltip-direction';
+import { OpTooltipComponent } from './tooltip.component';
+import { TooltipDirection, TooltipType } from './tool-tip-element';
 
 type ReferenceAttribute = 'aria-labelledby' | 'aria-describedby';
 type OwnedAttribute = 'aria-label' | 'aria-description';

@@ -33,7 +33,7 @@ import { IconModule } from '../icon/icon.module';
 import { AbstractBaseButtonDirective } from './abstract-base-button.directive';
 import { PrimerBaseButtonDirective } from './base-button.directive';
 import { DynamicIconDirective } from './dynamic-icon.directive';
-import { TooltipDirection } from './tooltip-direction';
+import { TooltipDirection } from './tool-tip-element';
 import { OpTooltipDirective } from './tooltip.directive';
 
 type Scheme = 'default' | 'primary' | 'secondary' | 'danger' | 'invisible';

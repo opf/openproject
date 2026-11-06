@@ -28,9 +28,7 @@
 /* eslint-disable @angular-eslint/component-selector */
 
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { TooltipDirection } from './tooltip-direction';
-
-export type TooltipType = 'label' | 'description';
+import { TooltipDirection, TooltipType } from './tool-tip-element';
 
 @Component({
   selector: 'tool-tip[op-tooltip]',

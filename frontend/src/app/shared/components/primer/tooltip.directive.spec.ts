@@ -30,8 +30,7 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { fireEvent, screen, waitFor } from '@testing-library/dom';
 import { OpTooltipDirective } from './tooltip.directive';
-
-type ToolTipElement = InstanceType<Window['ToolTipElement']>;
+import { ToolTipElement } from './tool-tip-element';
 
 @Component({
   template: '<button type="button" opTooltip label="Refresh">Refresh</button>',

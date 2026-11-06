@@ -25,4 +25,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export type TooltipDirection = 's' | 'n' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw';
+import type {} from '@openproject/primer-view-components/app/components/primer/alpha/tool_tip';
+
+export type ToolTipElement = InstanceType<Window['ToolTipElement']>;
+export type TooltipDirection = ToolTipElement['direction'];
+export type TooltipType = ToolTipElement['type'];
