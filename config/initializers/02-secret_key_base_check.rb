@@ -31,11 +31,9 @@
 # we have shipped in our Dockerfile or referenced in our documentation.
 # An attacker who knows the secret can forge signed cookies and session data
 # and decrypt anything derived from it.
-insecure_secret_key_bases = [
-  "OVERWRITE_ME", # default value in Dockerfile
-  "secret", # old sample from documentation
-  "<your-secret-key-base>" # new sample from documentation
-].freeze
+require_relative "../../lib_static/open_project/database_encryption"
+
+insecure_secret_key_bases = OpenProject::DatabaseEncryption::INSECURE_SECRETS
 
 no_rake_task = !(Rake.respond_to?(:application) && Rake.application.top_level_tasks.present?)
 no_override = ENV["OPENPROJECT_DISABLE__SECRET_KEY_BASE__CHECK"] != "true"

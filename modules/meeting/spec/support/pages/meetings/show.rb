@@ -579,8 +579,8 @@ module Pages::Meetings
       expect(page).to have_text(participant.name)
 
       if !editable
-        expect(page).to have_no_selector("[data-test-selector='attendance_button_#{participant.id}']", text: "Attended")
-        expect(page).to have_no_selector("[data-test-selector='attendance_button_#{participant.id}']", text: "Mark as attended")
+        expect(page).to have_no_css("[data-test-selector='attendance_button_#{participant.id}']", text: "Attended")
+        expect(page).to have_no_css("[data-test-selector='attendance_button_#{participant.id}']", text: "Mark as attended")
 
         return
       end
@@ -620,7 +620,7 @@ module Pages::Meetings
     end
 
     def uncheck_apply_to_upcoming
-      page.find('input[type="checkbox"][name="meeting_participant[apply_to_upcoming]"]').set(false)
+      page.find_field(type: "checkbox", name: "meeting_participant[apply_to_upcoming]").set(false)
     end
 
     def expect_apply_to_upcoming_checked

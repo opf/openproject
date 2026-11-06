@@ -78,8 +78,8 @@ RSpec.describe "bcf export", :js,
     page.find(".export-bcf-button").click
 
     # Expect to get a response regarding queuing
-    expect(page).to have_content(I18n.t("job_status_dialog.generic_messages.in_queue"),
-                                 wait: 10)
+    expect(page).to have_text(I18n.t("job_status_dialog.generic_messages.in_queue"),
+                              wait: 10)
 
     perform_enqueued_jobs
     expect(page).to have_text(I18n.t("export.succeeded"))

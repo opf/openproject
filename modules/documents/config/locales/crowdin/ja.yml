@@ -81,6 +81,12 @@ ja:
         primary_action: リアルタイムでの共同作業を可能にする
         success: リアルタイムでの共同作業が可能になりました。
     button_add_type: タイプ
+    collaboration_token:
+      errors:
+        collaboration_disabled: Real-time collaboration is not enabled.
+        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
+        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
+        not_collaborative: The document does not support real-time collaboration.
     delete_dialog:
       confirmation_message_html: この操作を行うと、このドキュメントおよびすべての添付ファイルが完全に削除されます。本当に実行しますか？
       heading: このドキュメントを削除しますか？

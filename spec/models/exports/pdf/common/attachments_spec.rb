@@ -178,14 +178,6 @@ RSpec.describe Exports::PDF::Common::Attachments do
       result = helper.convert_webp_to_png(webp_fixture)
       expect(Marcel::MimeType.for(Pathname.new(result))).to eq("image/png")
     end
-
-    it "falls back to the source file when extract_first_webp_frame returns nil" do
-      allow(helper).to receive(:extract_first_webp_frame).and_return(nil)
-      result = helper.convert_webp_to_png(webp_fixture)
-      expect(result).to end_with(".png")
-      expect(File.exist?(result)).to be true
-      expect(Marcel::MimeType.for(Pathname.new(result))).to eq("image/png")
-    end
   end
 
   describe "#attachment_image_local_file" do
@@ -411,70 +403,6 @@ RSpec.describe Exports::PDF::Common::Attachments do
 
       it "returns nil" do
         expect(helper.attachment_image_filepath(src)).to be_nil
-      end
-    end
-  end
-
-  describe "#extract_first_webp_frame" do
-    let(:animated_webp) { Rails.root.join("spec/fixtures/files/animated.webp").to_s }
-    let(:static_webp)   { Rails.root.join("spec/fixtures/files/image.webp").to_s }
-    let(:non_webp)      { Rails.root.join("spec/fixtures/files/image.png").to_s }
-
-    after { helper.delete_all_resized_images }
-
-    context "with an animated WebP" do
-      it "returns a non-nil path" do
-        expect(helper.extract_first_webp_frame(animated_webp)).not_to be_nil
-      end
-
-      it "returns a path to an existing file" do
-        result = helper.extract_first_webp_frame(animated_webp)
-        expect(File.exist?(result)).to be true
-      end
-
-      it "returns a file with image/webp MIME type" do
-        result = helper.extract_first_webp_frame(animated_webp)
-        expect(Marcel::MimeType.for(Pathname.new(result))).to eq("image/webp")
-      end
-
-      it "returns a single-frame WebP" do
-        result = helper.extract_first_webp_frame(animated_webp)
-        expect(MiniMagick::Image.open(result).frames.count).to eq(1)
-      end
-
-      it "returns a file with a valid RIFF/WEBP container header" do
-        result = helper.extract_first_webp_frame(animated_webp)
-        data = File.binread(result)
-        expect(data[0, 4]).to eq("RIFF".b)
-        expect(data[8, 4]).to eq("WEBP".b)
-      end
-    end
-
-    context "with a static (non-animated) WebP" do
-      it "returns nil" do
-        expect(helper.extract_first_webp_frame(static_webp)).to be_nil
-      end
-    end
-
-    context "with a non-WebP file" do
-      it "returns nil" do
-        expect(helper.extract_first_webp_frame(non_webp)).to be_nil
-      end
-    end
-
-    context "when an error is raised while reading the file" do
-      before do
-        allow(File).to receive(:binread).and_raise(StandardError, "read error")
-        allow(Rails.logger).to receive(:error)
-      end
-
-      it "returns nil" do
-        expect(helper.extract_first_webp_frame(animated_webp)).to be_nil
-      end
-
-      it "logs the error" do
-        helper.extract_first_webp_frame(animated_webp)
-        expect(Rails.logger).to have_received(:error).with(/read error/)
       end
     end
   end

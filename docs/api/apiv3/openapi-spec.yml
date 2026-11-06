@@ -255,6 +255,8 @@ paths:
     $ref: "./paths/documents.yml"
   "/api/v3/documents/{id}":
     $ref: "./paths/document.yml"
+  "/api/v3/documents/{id}/collaboration_token":
+    "$ref": "./paths/document_collaboration_token.yml"
   "/api/v3/file_links/{id}":
     $ref: "./paths/file_link.yml"
   "/api/v3/file_links/{id}/open":
@@ -639,6 +641,8 @@ paths:
     $ref: "./paths/work_package_file_links.yml"
   "/api/v3/work_packages/{id}/form":
     $ref: "./paths/work_package_form.yml"
+  "/api/v3/work_packages/{id}/pdf":
+    $ref: "./paths/work_package_pdf.yml"
   "/api/v3/work_packages/{id}/revisions":
     $ref: "./paths/work_package_revisions.yml"
   "/api/v3/work_packages/{id}/relations":
@@ -890,6 +894,8 @@ components:
       $ref: "./components/schemas/categories_by_workspace_model.yml"
     CategoryModel:
       $ref: "./components/schemas/category_model.yml"
+    CollaborationTokenModel:
+      "$ref": "./components/schemas/collaboration_token_model.yml"
     CollectionLinks:
       $ref: "./components/schemas/collection_links.yml"
     CollectionModel:

@@ -1116,7 +1116,6 @@ ja:
         default_mode: フラットリスト
         display_settings: 表示設定
         display_sums_hint: 表の下にすべての集計可能な属性の合計を表示します。
-        embedded_tab_disabled: この設定タブは、編集中の埋め込みビューでは使用できません。
         hierarchy_hint: フィルタリングされたテーブルのすべての結果はその祖先で拡張されます。階層を展開したり折りたたんだりすることができます。
         hierarchy_mode: 階層
         highlighting: ハイライト

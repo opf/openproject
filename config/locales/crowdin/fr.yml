@@ -704,7 +704,7 @@ fr:
               invalid_tokens: 'Sont uniquement autorisés : les valeurs numériques, les opérateurs, les fonctions, les mots-clés et les attributs de projet de type entier, nombre à virgule flottante, valeur calculée ou liste pondérée.'
               not_allowed_custom_fields_referenced: L'attribut %{custom_fields} ne peut pas être utilisé, car il conduit à une référence circulaire ; un attribut dépend de l'autre.
             project_specific_value_restriction:
-              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
+              not_supported: n'est disponible que pour les champs personnalisés des lots de travail présentant les formats « liste », « hiérarchie » et « liste pondérée ».
             required:
               cannot_be_true: ne peut pas être défini comme vrai.
           previous_custom_field_recalculation_unprocessed: Le recalcul des modifications précédentes de ce champ personnalisé n'a pas encore été appliqué. Veuillez réessayer dans quelques minutes.
@@ -967,7 +967,7 @@ fr:
               numeric: numérique (e.g. « 1 »)
               requirements_not_met: 'Doit comprendre des caractères des types suivants : %{rules}'
               reused:
-                one: has been used before. Please choose one that is different from your last %{count} password.
+                one: a déjà été utilisé. Veuillez choisir un mot de passe différent des %{count} précédents.
                 other: has been used before. Please choose one that is different from your last %{count}.
               special: spécial (e.g. « % »)
               uppercase: majuscule (e.g. « A »)
@@ -1118,8 +1118,8 @@ fr:
         one: Fournisseur d'authentification
         other: Fournisseurs d'authentification
       automation:
-        one: Automation
-        other: Automations
+        one: Automatisation
+        other: Automatisations
       backup:
         one: Sauvegarde
         other: Sauvegardes
@@ -1208,8 +1208,8 @@ fr:
         one: Priorité
         other: Priorités
       label:
-        one: Label
-        other: Labels
+        one: Étiquette
+        other: Étiquettes
       ldap_auth_source:
         one: Connexion LDAP
         other: Connexions LDAP
@@ -1476,8 +1476,8 @@ fr:
       environment_configured_readonly: Ces valeurs sont configurées par des variables d'environnement et ne peuvent pas être modifiées ici.
     custom_fields:
       delete_dialog_component:
-        heading: Do you want to delete the custom field %{name}?
-        title: Delete custom field %{name}
+        heading: Souhaitez-vous supprimer le champ personnalisé « %{name} » ?
+        title: Supprimer un champ personnalisé « %{name} »
     custom_styles:
       branding:
         desktop:
@@ -1776,6 +1776,9 @@ fr:
             projects:
               one: "%{count} project"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               other: "%{count} statuses"
@@ -1805,6 +1808,7 @@ fr:
               label_available_data: Données à importer
               label_import_data: Importation en cours
               label_progress: Importation en cours...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Utilisateurs impliqués dans les projets sélectionnés (y compris les membres de groupes)
               title: Importation des données
             fetch_data:
@@ -2318,6 +2322,8 @@ fr:
         emoji_reactions_activity_type_not_supported: Ce type d'activité ne prend pas en charge les réactions via émojis.
         invalid_link: Le lien sous la clé '%{key}' n'est pas valide.
         links_not_an_object: _links doit être un objet JSON.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Mauvaise requête : %{message}'
       code_401: Vous devez être authentifié pour accéder à cette ressource.
       code_401_wrong_credentials: Vous n'avez pas fourni les informations d'identification correctes.
@@ -2890,7 +2896,7 @@ fr:
         caption: Tous les projets afficheront la même liste de valeurs pour ce champ personnalisé
         label: Toutes les valeurs seront disponibles dans tous les projets
       allow:
-        caption_html: By default, no values will be available to any project. Projects using this custom field will <strong>only</strong> show values you manually activate for each in the Projects tab.
+        caption_html: Par défaut, aucune valeur ne sera disponible pour aucun projet. Les projets utilisant ce champ personnalisé <strong>n'</strong> afficheront <strong>seulement</strong> les valeurs que vous activerez manuellement pour chacun d'entre eux dans l'onglet Projets.
         label: 'Allow filter: Manually choose which values to activate for each project'
       block:
         caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
@@ -6094,6 +6100,22 @@ fr:
         automatic:
           description: Classez les %{plural} selon un ou plusieurs critères de tri. Vous perdrez le tri précédent.
           heading: Automatique
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -7037,6 +7059,9 @@ fr:
       short: "%d %b %H:%M:%S"
       time: "%H:%M:%S"
     pm: après-midi
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: pour
     show: Afficher période
@@ -7265,6 +7290,11 @@ fr:
         no_inactive_attributes: Aucun attribut inactif
         not_found: L'élément du formulaire demandé est introuvable.
         query_group_label: Tableau des lots de travaux associés
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Retirer de la section
         rename_group: Renommer la section
         required:
@@ -7326,8 +7356,6 @@ fr:
           no_results: Aucun projet correspondant.
           title: Not used in any project yet
         enable_all: Activer pour tous les projets
-        select_projects: Sélectionner des projets
-        select_projects_description: Sélectionnez les projets dans lesquels vous souhaitez utiliser ce type.
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

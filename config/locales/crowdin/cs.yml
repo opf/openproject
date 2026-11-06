@@ -2004,6 +2004,11 @@ cs:
               few: "%{count} projects"
               many: "%{count} projects"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              few: "%{count} resolutions"
+              many: "%{count} resolutions"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               few: "%{count} statuses"
@@ -2041,6 +2046,7 @@ cs:
               label_available_data: Data k importu
               label_import_data: Momentálně importováno
               label_progress: Probíhá import...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Uživatelé, kteří jsou zapojeni do vybraných projektů (včetně členství ve skupinách)
               title: Import dat
             fetch_data:
@@ -2568,6 +2574,8 @@ cs:
         emoji_reactions_activity_type_not_supported: Tento typ aktivity nepodporuje emoji reakce.
         invalid_link: Odkaz pod klíčem '%{key}' není platný.
         links_not_an_object: _links musí být objekt JSON.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Špatný požadavek: %{message}'
       code_401: Pro přístup k tomuto prostředku musíte být přihlášeni.
       code_401_wrong_credentials: Neposkytli jste správné přihlašovací údaje.
@@ -6450,6 +6458,22 @@ cs:
         automatic:
           description: Order the %{plural} by one or more sorting criteria. You will lose the previous sorting.
           heading: Automaticky
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -7418,6 +7442,9 @@ cs:
       short: "%e. %-m. %H:%M"
       time: "%H:%M"
     pm: pm
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: do
     show: Zobrazit časový rámec
@@ -7648,6 +7675,11 @@ cs:
         no_inactive_attributes: No inactive attributes
         not_found: The requested form item could not be found.
         query_group_label: Related work packages table
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Remove from section
         rename_group: Rename section
         required:
@@ -7709,8 +7741,6 @@ cs:
           no_results: No matching projects.
           title: Not used in any project yet
         enable_all: Povolit pro všechny projekty
-        select_projects: Vybrat projekty
-        select_projects_description: Vyberte projekty, ve kterých chcete tento typ použít.
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

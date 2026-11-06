@@ -43,18 +43,26 @@ module ITSM
       def show
         @helpdesk_enabled = Setting.helpdesk_enabled?
         @helpdesk_feature_writable = Setting.helpdesk_enabled_writable?
+
+        @wizard = wizard
       end
 
       def enable_helpdesk
         enabled = ActiveModel::Type::Boolean.new.cast(params[:value])
         Setting.helpdesk_enabled = enabled
 
-        update_via_turbo_stream(component: ITSM::Admin::HelpdeskSettingsComponent.new(enabled:))
+        update_via_turbo_stream(component: ITSM::Admin::HelpdeskSettingsComponent.new(enabled:, wizard:))
         respond_with_turbo_streams
       end
 
       def require_feature
         render_404 unless OpenProject::FeatureDecisions.helpdesk_active?
+      end
+
+      private
+
+      def wizard
+        ITSM::Wizard.new(model: nil)
       end
     end
   end

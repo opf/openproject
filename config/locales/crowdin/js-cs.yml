@@ -1144,7 +1144,6 @@ cs:
         default_mode: Plochý seznam
         display_settings: Nastavení zobrazení
         display_sums_hint: Zobrazit součty všech sčitatelných atributů v řádku pod tabulkou výsledků.
-        embedded_tab_disabled: Tato karta konfigurace není k dispozici pro embedded zobrazení, které upravujete.
         hierarchy_hint: Všechny filtrované výsledky z tabulky budou rozšířeny o jejich předky. Hierarchii lze rozbalit a sbalit.
         hierarchy_mode: Hierarchie
         highlighting: Zvýraznění
