@@ -64,7 +64,7 @@ module Wikis
         return redirect_to(action: :index) unless @ee_token_allows_wiki_integration
 
         service_result = Wikis::XWikiProviders::CreateService
-          .new(user: current_user, contract_class: current_step_contract)
+          .new(user: current_user, contract_class: current_step_contract(Wikis::XWikiProvider.new))
           .call(wiki_provider_params)
 
         @wiki_provider = service_result.result
@@ -80,7 +80,7 @@ module Wikis
 
       def update
         service_result = Wikis::XWikiProviders::UpdateService
-          .new(user: current_user, model: @wiki_provider, contract_class: current_step_contract)
+          .new(user: current_user, model: @wiki_provider, contract_class: current_step_contract(@wiki_provider))
           .call(wiki_provider_params)
 
         service_result.on_success { update_success }
@@ -108,7 +108,7 @@ module Wikis
       end
 
       def edit_general_info
-        update_via_turbo_stream(component: Wikis::Admin::Forms::GeneralInfoFormComponent.new(@wiki_provider))
+        update_via_turbo_stream(component: @wiki_provider.resolve("components.forms.general_information"))
         respond_with_turbo_streams
       end
 
@@ -117,7 +117,7 @@ module Wikis
 
         if service_result.success?
           @wiki_provider.oauth_application = service_result.result
-          credentials_component = Wikis::Admin::Forms::OAuthApplicationFormComponent.new(@wiki_provider, in_wizard: false)
+          credentials_component = @wiki_provider.resolve("components.forms.oauth_application", in_wizard: false)
           update_via_turbo_stream(component: credentials_component)
           respond_with_turbo_streams
         else
@@ -143,14 +143,13 @@ module Wikis
       def render_step_form(wiki_provider)
         step = current_step_name
         in_wizard = params[:continue_wizard].present?
-        component = Wikis::Adapters::Registry.resolve("#{wiki_provider}.components.forms.#{step}")
-                                             .new(wiki_provider, in_wizard:)
+        component = wiki_provider.resolve("components.forms.#{step}", in_wizard:)
         update_via_turbo_stream(component:)
         respond_with_turbo_streams
       end
 
-      def current_step_contract
-        Wikis::Adapters::Registry.resolve("xwiki.contracts.#{current_step_name}")
+      def current_step_contract(wiki_provider)
+        wiki_provider.registry_entry("contracts.#{current_step_name}")
       end
 
       def current_step_name
