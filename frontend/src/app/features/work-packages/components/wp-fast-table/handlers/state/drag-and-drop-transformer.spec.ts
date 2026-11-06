@@ -277,6 +277,7 @@ describe('DragAndDropTransformer row moves', () => {
   const holdPersist = () => {
     const gate = deferred();
     const persisted = deferred();
+    const started = deferred();
     const service = orderService();
     const original = service.prepareMove.bind(service);
     const prepareMove = vi.spyOn(service, 'prepareMove').mockImplementation(async (...args) => {
@@ -284,13 +285,14 @@ describe('DragAndDropTransformer row moves', () => {
       return {
         ...prepared,
         persist: async () => {
+          started.resolve();
           await gate.promise;
           await prepared.persist();
           persisted.resolve();
         },
       };
     });
-    return { prepareMove, release: () => gate.resolve(), persisted: persisted.promise };
+    return { prepareMove, release: () => gate.resolve(), persisted: persisted.promise, started: started.promise };
   };
 
   /** Feeds the refresh after a save from `refresh`; the first lookup loads the moved work package as usual. */
@@ -346,13 +348,50 @@ describe('DragAndDropTransformer row moves', () => {
     expect(mover.movableDirections('2')).toBeNull();
   });
 
-  it('offers no moves in grouped or hierarchy tables', async () => {
-    const grouped = await renderTable({ workPackages: groupedWorkPackages, groups });
-    expect(grouped.movableDirections('2')).toBeNull();
-    await harness.destroy();
+  it('moves to an edge within the group without preparing an attribute update', async () => {
+    const prepareDrop = vi.fn();
+    const mover = await renderTable({ workPackages: groupedWorkPackages, groups, dragAction: { prepareDrop } });
+    expect(mover.movableDirections('2')).toEqual(new Set(['top', 'up']));
+    expect(mover.movableDirections('3')).toEqual(new Set(['down', 'bottom']));
 
-    const hierarchy = await renderTable({ showHierarchies: true });
-    expect(hierarchy.movableDirections('2')).toBeNull();
+    const rendered = harness.nextRender();
+    mover.move('2', 'top');
+    await rendered;
+
+    expect(harness.rowIds()).toEqual(['2', '1', '3', '4']);
+    expect(prepareDrop).not.toHaveBeenCalled();
+    await vi.waitFor(() => expect(announce).toHaveBeenCalledWith('Work package 2 moved to position 1 of 2', { politeness: 'polite' }));
+  });
+
+  it('reorders sibling roots with their descendants and preserves their parentage', async () => {
+    const prepareDrop = vi.fn();
+    const mover = await renderTable({
+      workPackages: [{ id: '1' }, { id: '2', ancestors: [{ id: '1' }] }, { id: '3' }, { id: '4', ancestors: [{ id: '3' }] }],
+      showHierarchies: true,
+      dragAction: { prepareDrop },
+    });
+    expect(mover.movableDirections('2')).toEqual(new Set());
+    expect(mover.movableDirections('1')).toEqual(new Set(['down', 'bottom']));
+
+    const rendered = harness.nextRender();
+    mover.move('1', 'down');
+    await rendered;
+
+    expect(harness.rowIds()).toEqual(['3', '4', '1', '2']);
+    expect(prepareDrop).not.toHaveBeenCalled();
+  });
+
+  it('applies an accepted move after another render of the same view', async () => {
+    const mover = await renderTable({ workPackages: groupedWorkPackages, groups });
+    const { started, release } = holdPersist();
+    mover.move('1', 'down');
+    await started;
+
+    harness.table.redrawTableAndTimeline();
+    await harness.table.whenRendered();
+    release();
+
+    await vi.waitFor(() => expect(harness.rowIds()).toEqual(['2', '1', '3', '4']));
   });
 
   it('offers no moves when the query cannot be reordered', async () => {
