@@ -38,9 +38,8 @@ import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packag
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
-import { registerContextMenu } from 'core-app/shared/components/op-context-menu/testing/register-context-menu';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { internalContextMenuColumn, internalSortColumn } from '../../../builders/internal-sort-columns';
@@ -1044,7 +1043,7 @@ describe('KeyboardNavigationTransformer', () => {
       const table = await mount({ configuration: { contextMenuEnabled: true } });
       vi.spyOn(table.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([]);
       let menu:OpContextMenuHandler|undefined;
-      vi.spyOn(table.injector.get(OPContextMenuService), 'show').mockImplementation((handler) => { menu = handler; });
+      vi.spyOn(table.injector.get(OpActionMenuService), 'show').mockImplementation((handler) => { menu = handler; });
       const subjectCell = table.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
       const field = subjectCell.querySelector<HTMLElement>('.inline-edit--display-field')!;
 
@@ -1596,7 +1595,7 @@ describe('KeyboardNavigationTransformer', () => {
     ])('opens the context menu on %s only for the BCF list', async (_chord, init) => {
       const table = await mountConsumer();
       vi.spyOn(table.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([]);
-      const show = vi.spyOn(table.injector.get(OPContextMenuService), 'show').mockImplementation(() => undefined);
+      const show = vi.spyOn(table.injector.get(OpActionMenuService), 'show').mockImplementation(() => undefined);
       table.row('1').focus();
 
       fireEvent.keyDown(table.row('1'), init);
@@ -1617,7 +1616,7 @@ describe('KeyboardNavigationTransformer', () => {
   describe('two consumer tables on one page', () => {
     const mountPair = async (options:Partial<TableHarnessOptions> = {}) => {
       const states = new States();
-      const first = await mount({ states, providers: [OPContextMenuService], configuration: consumerConfiguration('bcf'), ...options });
+      const first = await mount({ states, configuration: consumerConfiguration('bcf'), ...options });
       const second = await mount({ states, configuration: consumerConfiguration('bcf'), ...options });
       return [first, second] as const;
     };
@@ -1656,7 +1655,6 @@ describe('KeyboardNavigationTransformer', () => {
       const page = document.createElement('div');
       page.id = 'wrapper';
       document.body.append(page);
-      const unregister = registerContextMenu(first.injector.get(OPContextMenuService));
       vi.spyOn(first.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions')
         .mockReturnValue([{ key: 'test-action', text: 'Test action', link: '#' }]);
       try {
@@ -1664,10 +1662,10 @@ describe('KeyboardNavigationTransformer', () => {
         second.click('2');
         first.row('1').focus();
         fireEvent.keyDown(first.row('1'), { key: 'F10', shiftKey: true });
-        await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
+        await waitFor(() => expect(document.querySelector('op-action-menu [role="menuitem"]')).toHaveFocus());
 
         fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
-        await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toBeNull());
+        await waitFor(() => expect(document.querySelector('op-action-menu [role="menuitem"]')).toBeNull());
 
         expect(selectedIds(first)).toEqual(['1']);
         expect(selectedIds(second)).toEqual(['2']);
@@ -1677,8 +1675,7 @@ describe('KeyboardNavigationTransformer', () => {
         expect(selectedIds(first)).toEqual([]);
         expect(selectedIds(second)).toEqual([]);
       } finally {
-        first.injector.get(OPContextMenuService).close();
-        unregister();
+        first.injector.get(OpActionMenuService).close();
         page.remove();
       }
     });
