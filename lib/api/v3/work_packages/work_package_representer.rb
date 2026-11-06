@@ -525,8 +525,9 @@ module API
                                                                .to_s
                  end
 
-        link :projectPhaseDefinition do
-          if phase_set_and_active? && view_project_phase_allowed?
+        link(:projectPhaseDefinition,
+             cache_if: -> { view_project_phase_allowed? }) do
+          if phase_set_and_active?
             {
               href: api_v3_paths.project_phase_definition(represented.project_phase_definition_id),
               title: project_phase.name
