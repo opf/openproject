@@ -32,6 +32,8 @@ module ITSM
     belongs_to :thread, class_name: "ITSM::EmailThread", inverse_of: :messages, optional: false
     belongs_to :journal, optional: true
 
+    scope :in_project, ->(project) { joins(thread: :work_package).where(work_packages: { project_id: project.id }) }
+
     enum :direction, { inbound: "inbound", outbound: "outbound" }, validate: true
     enum :status,
          {
