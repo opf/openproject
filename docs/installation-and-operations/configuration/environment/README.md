@@ -196,6 +196,8 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_CSP__IMG__SRC` | `["*", "data:", "blob:"]` | Allowed sources for the CSP img-src directive. |
 | `OPENPROJECT_CSV__ESCAPE__FORMULAS` | `true` | Escapes cells with single quote in CSV exports that begin with a spreadsheet formula character (e.g., =,@) |
 | `OPENPROJECT_DATABASE__CIPHER__KEY` | `nil` | Encryption key for repository credentials |
+| `OPENPROJECT_DATABASE__ENCRYPTION__KEY` | `nil` | Secret for data that OpenProject encrypts in the database. Defaults to SECRET_KEY_BASE. The encryption key is derived from this value |
+| `OPENPROJECT_DATABASE__ENCRYPTION__PREVIOUS__KEY` | `nil` | Old value of SECRET_KEY_BASE or of the database encryption key, used to decrypt data while you rotate that key |
 | `OPENPROJECT_DATE__FORMAT` | `nil` | Date |
 | `OPENPROJECT_DAYS__PER__MONTH` | `20` | This will define what is considered a “month” when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months. |
 | `OPENPROJECT_DEFAULT__AUTO__HIDE__POPUPS` | `true` | Whether to automatically hide success notifications by default |

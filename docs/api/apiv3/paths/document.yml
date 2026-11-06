@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Document id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Document id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -34,6 +34,9 @@ get:
                     method: post
                   attachments:
                     href: "/api/v3/documents/1/attachments"
+                  createCollaborationToken:
+                    href: "/api/v3/documents/1/collaboration_token"
+                    method: post
                   project:
                     href: "/api/v3/projects/19"
                     title: Some project
@@ -59,7 +62,7 @@ get:
                 id: 1
                 title: Some other document
           schema:
-            "$ref": "../components/schemas/document_model.yml"
+            $ref: "../components/schemas/document_model.yml"
       description: OK
       headers: {}
     '404':
@@ -79,20 +82,20 @@ get:
         **Required permission** `view documents` in the project the document belongs to
       headers: {}
   tags:
-  - Documents
+    - Documents
   description: ''
   operationId: View_document
   summary: View document
 
 patch:
   parameters:
-  - description: Document id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Document id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   requestBody:
     content:
       application/json:
@@ -108,9 +111,6 @@ patch:
                 raw:
                   type: string
                   description: The raw markdown content
-            # content_binary:
-            #   type: string
-            #   description: The binary content of the document, base64 encoded
         examples:
           request:
             value:
@@ -142,6 +142,9 @@ patch:
                     method: post
                   attachments:
                     href: "/api/v3/documents/1/attachments"
+                  createCollaborationToken:
+                    href: "/api/v3/documents/1/collaboration_token"
+                    method: post
                   project:
                     href: "/api/v3/projects/19"
                     title: Some project
@@ -157,7 +160,7 @@ patch:
                 id: 1
                 title: Updated document title
           schema:
-            "$ref": "../components/schemas/document_model.yml"
+            $ref: "../components/schemas/document_model.yml"
       description: OK
       headers: {}
     '400':
@@ -223,7 +226,7 @@ patch:
         Returned if the request body contains validation errors.
       headers: {}
   tags:
-  - Documents
+    - Documents
   description: Updates a document's attributes.
   operationId: Update_document
   summary: Update document

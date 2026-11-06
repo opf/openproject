@@ -84,6 +84,12 @@ fa:
         primary_action: فعال‌کردن همکاری بلادرنگ
         success: همکاری بلادرنگ فعال شد.
     button_add_type: نوع
+    collaboration_token:
+      errors:
+        collaboration_disabled: Real-time collaboration is not enabled.
+        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
+        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
+        not_collaborative: The document does not support real-time collaboration.
     delete_dialog:
       confirmation_message_html: این کار این سند و همه فایل‌های پیوست آن را برای همیشه حذف می‌کند. آیا مطمئن هستید؟
       heading: این سند حذف شود؟

@@ -27,14 +27,11 @@
 
 import { fireEvent } from '@testing-library/dom';
 import type { Mock, MockInstance } from 'vitest';
-import type { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import AiTextTransformPaneController from './ai-text-transform-pane.controller';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 
 describe('AiTextTransformPaneController', () => {
   let ctx:StimulusTestContext;
-  let originalOpenProject:typeof window.OpenProject;
-  let turboRequests:{ request:Mock<TurboRequestsService['request']> };
 
   const CLOSE_FORM_ID = 'ai-text-transform-pane-close';
   const action = (event:string, name:string) => `data-action="${event}->ai-text-transform-pane#${name}"`;
@@ -77,12 +74,6 @@ describe('AiTextTransformPaneController', () => {
   }
 
   beforeEach(async () => {
-    turboRequests = { request: vi.fn<TurboRequestsService['request']>().mockResolvedValue({ html: '', headers: new Headers() }) };
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({ services: { turboRequests } }),
-    } as unknown as typeof window.OpenProject;
-
     ctx = await setupStimulusTest({ controllers: { 'ai-text-transform-pane': AiTextTransformPaneController } });
     await ctx.mount(HTML);
   });
@@ -90,7 +81,6 @@ describe('AiTextTransformPaneController', () => {
   afterEach(() => {
     vi.useRealTimers();
     vi.restoreAllMocks();
-    window.OpenProject = originalOpenProject;
     // Unpinning before the controller disconnects keeps the remembered geometry from leaking into the next test.
     ctx.container.querySelector('[data-ai-text-transform-pane-target="pane"]')?.removeAttribute('style');
     ctx.dispose();
@@ -359,8 +349,19 @@ describe('AiTextTransformPaneController', () => {
       await ctx.nextFrame();
     }
 
+    let poll:Mock<(url:URL) => Promise<Response>>;
+    let fetchSpy:MockInstance<typeof window.fetch>;
+
+    function answer(html = '', status = 200):Promise<Response> {
+      return Promise.resolve(new Response(html, { status }));
+    }
+
+    function appendStream(id:string):string {
+      return `<turbo-stream action="append" target="stream-target"><template><p id="${id}"></p></template></turbo-stream>`;
+    }
+
     function polledUrls():URL[] {
-      return turboRequests.request.mock.calls.map(([url]) => new URL(url, window.location.origin));
+      return poll.mock.calls.map(([url]) => url);
     }
 
     function submit(eventName:string, formId:string, detail:object = {}):void {
@@ -377,6 +378,12 @@ describe('AiTextTransformPaneController', () => {
 
     beforeEach(() => {
       vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+      poll = vi.fn<(url:URL) => Promise<Response>>(() => answer());
+      fetchSpy = vi.spyOn(window, 'fetch').mockImplementation((input, init) => (
+        init?.method === 'POST'
+          ? Promise.resolve(new Response(null, { status: 204 }))
+          : poll(input as URL)
+      ));
       const element = wrapper()!;
       element.dataset.aiTextTransformPaneEditorGoneValue = 'Editor gone';
       element.dataset.aiTextTransformPaneSelectionGoneValue = 'Selection gone';
@@ -393,34 +400,35 @@ describe('AiTextTransformPaneController', () => {
       it('asks for news after the last event and state it has seen', async () => {
         await mountRun('generating', 3);
         await vi.advanceTimersByTimeAsync(399);
-        expect(turboRequests.request).not.toHaveBeenCalled();
+        expect(poll).not.toHaveBeenCalled();
 
         await vi.advanceTimersByTimeAsync(1);
 
-        const [url, init, suppressErrorToast] = turboRequests.request.mock.calls[0];
-        expect(new URL(url).pathname).toBe(`/ai/text_transform_panes/${RUN}`);
-        expect(Object.fromEntries(new URL(url).searchParams))
+        const [url] = polledUrls();
+        expect(url.pathname).toBe(`/ai/text_transform_panes/${RUN}`);
+        expect(Object.fromEntries(url.searchParams))
           .toEqual({ request_id: REQUEST_ID, scope: 'document', after: '3', state: 'generating' });
-        expect(init).toMatchObject({ method: 'GET', headers: { Accept: 'text/vnd.turbo-stream.html' } });
-        expect(suppressErrorToast).toBe(true);
+        expect(fetchSpy.mock.calls[0][1])
+          .toMatchObject({ headers: { Accept: 'text/vnd.turbo-stream.html' }, credentials: 'same-origin' });
       });
 
       it('backs off while nothing changes, up to one second', async () => {
         await mountRun('generating');
 
         for (const delay of [400, 600, 900, 1000, 1000]) {
-          const calls = turboRequests.request.mock.calls.length;
+          const calls = poll.mock.calls.length;
           await vi.advanceTimersByTimeAsync(delay - 1);
-          expect(turboRequests.request).toHaveBeenCalledTimes(calls);
+          expect(poll).toHaveBeenCalledTimes(calls);
           await vi.advanceTimersByTimeAsync(1);
-          expect(turboRequests.request).toHaveBeenCalledTimes(calls + 1);
+          expect(poll).toHaveBeenCalledTimes(calls + 1);
         }
       });
 
-      it('polls quickly again after news and reads the replaced state element', async () => {
-        turboRequests.request.mockImplementationOnce(() => {
+      it('renders the answer and polls quickly again after news', async () => {
+        document.body.insertAdjacentHTML('beforeend', '<div id="stream-target"></div>');
+        poll.mockImplementationOnce(() => {
           renderFooter('generating', 5);
-          return Promise.resolve({ html: '<turbo-stream></turbo-stream>', headers: new Headers() });
+          return answer(appendStream('news'));
         });
         await mountRun('generating');
 
@@ -428,8 +436,10 @@ describe('AiTextTransformPaneController', () => {
         await settle();
         await vi.advanceTimersByTimeAsync(400);
 
-        expect(turboRequests.request).toHaveBeenCalledTimes(2);
+        expect(document.getElementById('news')).not.toBeNull();
+        expect(poll).toHaveBeenCalledTimes(2);
         expect(polledUrls()[1].searchParams.get('after')).toBe('5');
+        document.getElementById('stream-target')!.remove();
       });
 
       it('polls every five seconds while the page is hidden', async () => {
@@ -437,9 +447,9 @@ describe('AiTextTransformPaneController', () => {
         await mountRun('generating');
 
         await vi.advanceTimersByTimeAsync(4999);
-        expect(turboRequests.request).not.toHaveBeenCalled();
+        expect(poll).not.toHaveBeenCalled();
         await vi.advanceTimersByTimeAsync(1);
-        expect(turboRequests.request).toHaveBeenCalledTimes(1);
+        expect(poll).toHaveBeenCalledTimes(1);
       });
 
       it('never polls a finished pane', async () => {
@@ -447,13 +457,13 @@ describe('AiTextTransformPaneController', () => {
 
         await vi.advanceTimersByTimeAsync(10000);
 
-        expect(turboRequests.request).not.toHaveBeenCalled();
+        expect(poll).not.toHaveBeenCalled();
       });
 
       it('stops once the run is no longer generating', async () => {
-        turboRequests.request.mockImplementationOnce(() => {
+        poll.mockImplementationOnce(() => {
           renderFooter('done', 2);
-          return Promise.resolve({ html: '<turbo-stream></turbo-stream>', headers: new Headers() });
+          return answer('<!-- news -->');
         });
         await mountRun('generating');
 
@@ -461,50 +471,82 @@ describe('AiTextTransformPaneController', () => {
         await settle();
         await vi.advanceTimersByTimeAsync(10000);
 
-        expect(turboRequests.request).toHaveBeenCalledTimes(1);
+        expect(poll).toHaveBeenCalledTimes(1);
       });
 
       it('does not start a second poll while one is in flight', async () => {
-        let answer:(value:{ html:string, headers:Headers }) => void = () => undefined;
-        turboRequests.request.mockImplementationOnce(() => new Promise((resolve) => { answer = resolve; }));
+        let respond:(response:Response) => void = () => undefined;
+        poll.mockImplementationOnce(() => new Promise((resolve) => { respond = resolve; }));
         await mountRun('generating');
 
         await vi.advanceTimersByTimeAsync(400);
         renderFooter('generating', 2);
         await settle();
         await vi.advanceTimersByTimeAsync(2000);
-        expect(turboRequests.request).toHaveBeenCalledTimes(1);
+        expect(poll).toHaveBeenCalledTimes(1);
 
-        answer({ html: '', headers: new Headers() });
+        respond(new Response(''));
+        await settle();
         await vi.advanceTimersByTimeAsync(600);
-        expect(turboRequests.request).toHaveBeenCalledTimes(2);
+        expect(poll).toHaveBeenCalledTimes(2);
       });
 
-      it('stops when the pane disappears while a poll is in flight', async () => {
-        let answer:(value:{ html:string, headers:Headers }) => void = () => undefined;
-        turboRequests.request.mockImplementationOnce(() => new Promise((resolve) => { answer = resolve; }));
-        vi.spyOn(window, 'fetch').mockResolvedValue(new Response(null, { status: 204 }));
+      it('drops a late answer once its pane is gone, so it cannot render into the next pane', async () => {
+        document.body.insertAdjacentHTML('beforeend', '<div id="stream-target"></div>');
+        let respond:(response:Response) => void = () => undefined;
+        poll.mockImplementationOnce(() => new Promise((resolve) => { respond = resolve; }));
         await mountRun('generating');
 
         await vi.advanceTimersByTimeAsync(400);
         wrapper()!.remove();
         await ctx.nextFrame();
-        answer({ html: '', headers: new Headers() });
+        respond(new Response(appendStream('late')));
+        await settle();
         await vi.advanceTimersByTimeAsync(10000);
 
-        expect(turboRequests.request).toHaveBeenCalledTimes(1);
+        expect(document.getElementById('late')).toBeNull();
+        expect(poll).toHaveBeenCalledTimes(1);
+        document.getElementById('stream-target')!.remove();
       });
 
-      it('stops and shows the error banner when a poll fails', async () => {
-        turboRequests.request.mockRejectedValueOnce(new Error('404'));
+      it('retries network errors and server errors with a growing delay', async () => {
+        poll
+          .mockRejectedValueOnce(new TypeError('Failed to fetch'))
+          .mockImplementationOnce(() => answer('', 503));
+        await mountRun('generating');
+
+        await vi.advanceTimersByTimeAsync(400);
+        await vi.advanceTimersByTimeAsync(999);
+        expect(poll).toHaveBeenCalledTimes(1);
+        await vi.advanceTimersByTimeAsync(1);
+        expect(poll).toHaveBeenCalledTimes(2);
+        await vi.advanceTimersByTimeAsync(2000);
+        expect(poll).toHaveBeenCalledTimes(3);
+
+        expect(errorBanner()).not.toBeVisible();
+      });
+
+      it('gives up with the error banner after five failed retries', async () => {
+        poll.mockImplementation(() => answer('', 502));
+        await mountRun('generating');
+
+        await vi.advanceTimersByTimeAsync(400 + 1000 + 2000 + 4000 + 5000 + 5000);
+        await vi.advanceTimersByTimeAsync(20000);
+
+        expect(poll).toHaveBeenCalledTimes(6);
+        expect(errorBanner()).toBeVisible();
+        expect(errorBanner()).toHaveTextContent('Request failed');
+      });
+
+      it('stops at once with the error banner when the run is not found', async () => {
+        poll.mockImplementationOnce(() => answer('', 404));
         await mountRun('generating');
 
         await vi.advanceTimersByTimeAsync(400);
         await vi.advanceTimersByTimeAsync(10000);
 
-        expect(turboRequests.request).toHaveBeenCalledTimes(1);
+        expect(poll).toHaveBeenCalledTimes(1);
         expect(errorBanner()).toBeVisible();
-        expect(errorBanner()).toHaveTextContent('Request failed');
       });
     });
 
@@ -579,12 +621,6 @@ describe('AiTextTransformPaneController', () => {
     });
 
     describe('cancelling an abandoned run', () => {
-      let fetchSpy:MockInstance<typeof window.fetch>;
-
-      beforeEach(() => {
-        fetchSpy = vi.spyOn(window, 'fetch').mockResolvedValue(new Response(null, { status: 204 }));
-      });
-
       function cancelCalls() {
         return fetchSpy.mock.calls.filter(([url]) => url === `/ai/text_transform_panes/${RUN}/cancel`);
       }

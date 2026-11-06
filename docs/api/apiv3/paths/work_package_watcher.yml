@@ -2,20 +2,20 @@
 ---
 delete:
   parameters:
-  - description: Work package id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
-  - description: User id
-    example: 1
-    in: path
-    name: user_id
-    required: true
-    schema:
-      type: integer
+    - description: Work package id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+    - description: User id
+      example: 1
+      in: path
+      name: user_id
+      required: true
+      schema:
+        type: integer
   responses:
     '204':
       description: No Content
@@ -65,7 +65,7 @@ delete:
     '415':
       $ref: "../components/responses/unsupported_media_type.yml"
   tags:
-  - Work Packages
+    - Work Packages
   description: |-
     Removes the specified user from the list of watchers for the given work package.
 

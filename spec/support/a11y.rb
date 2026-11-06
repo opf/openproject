@@ -28,3 +28,21 @@
 #++
 
 require "axe-rspec"
+
+RSpec.shared_context "with axe on Cuprite" do
+  around do |example|
+    configuration = Axe::Configuration.instance
+    previous_legacy_mode = configuration.legacy_mode
+    Capybara::Cuprite::Browser.class_eval do
+      define_method(:execute_async_script) do |script, *args|
+        evaluate_async(script, 120, *args)
+      end
+    end
+    configuration.legacy_mode = true
+    begin
+      example.run
+    ensure
+      configuration.legacy_mode = previous_legacy_mode
+    end
+  end
+end

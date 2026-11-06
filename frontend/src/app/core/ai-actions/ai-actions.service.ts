@@ -56,7 +56,7 @@ interface IEditorContextResource {
   };
 }
 
-export type IAiActionsEditor = Pick<ICKEditorInstance, 'getData'|'data'|'model'|'config'|'state'>;
+export type IAiActionsEditor = Pick<ICKEditorInstance, 'getData'|'data'|'model'|'config'|'state'|'on'|'off'>;
 
 type IScope = 'document'|'selection';
 
@@ -64,6 +64,7 @@ interface IPendingRequest {
   requestId:string;
   editor:IAiActionsEditor;
   scope:IScope;
+  stopWatching:() => void;
 }
 
 interface IRequestInput {
@@ -81,6 +82,7 @@ interface IAcceptedDetail {
 const FEATURE_FLAG = 'aiTextTransformActions';
 const LAST_ACTION_STORAGE_KEY = 'openproject.ai_actions.last_action_id';
 const SELECTION_MARKER_PREFIX = 'ai-text-transform:selection:';
+const START_REQUEST_ID = 'ai-text-transform-pane';
 export const AI_TEXT_TRANSFORM_ACCEPTED_EVENT = 'op-dispatched:ai-text-transform:accepted';
 export const AI_TEXT_TRANSFORM_CLOSED_EVENT = 'op-dispatched:ai-text-transform:closed';
 export const AI_TEXT_TRANSFORM_APPLIED_EVENT = 'op:ai-text-transform:applied';
@@ -105,6 +107,8 @@ export class AiActionsService {
 
   // The page shows one result pane at a time, so only the request behind it can be applied.
   private pending:IPendingRequest|null = null;
+
+  private latestRequestId:string|null = null;
 
   constructor() {
     document.addEventListener(AI_TEXT_TRANSFORM_ACCEPTED_EVENT, (event) => {
@@ -146,6 +150,7 @@ export class AiActionsService {
     this.rememberAction(action);
 
     const requestId = uuidv4();
+    this.latestRequestId = requestId;
     // An action that injects the type template rewrites the whole description.
     const { scope, input } = (action.injectsTypeTemplate ? null : this.markSelection(editor, requestId))
       ?? { scope: 'document', input: editor.getData() };
@@ -160,19 +165,30 @@ export class AiActionsService {
     }).forEach(([name, value]) => body.set(name, value));
 
     try {
+      // Starting another action aborts this request, so an older pane cannot answer last and cover the newer one.
       await this.turboRequests.request(
         this.pathHelper.aiTextTransformPanesPath(),
         { method: 'POST', body, headers: { Accept: 'text/vnd.turbo-stream.html' }, credentials: 'same-origin' },
         true,
+        START_REQUEST_ID,
       );
-      if (this.pending) {
-        this.forget(this.pending.requestId);
-      }
-      this.pending = { requestId, editor, scope };
-    } catch {
+    } catch (error) {
       this.removeMarker(editor, requestId);
-      this.toast.addError(this.I18n.t('js.editor.ai_actions.start_failed'));
+      if (!(error instanceof DOMException && error.name === 'AbortError')) {
+        this.toast.addError(this.I18n.t('js.editor.ai_actions.start_failed'));
+      }
+      return;
     }
+
+    if (this.latestRequestId !== requestId) {
+      this.removeMarker(editor, requestId);
+      return;
+    }
+
+    if (this.pending) {
+      this.forget(this.pending.requestId);
+    }
+    this.pending = { requestId, editor, scope, stopWatching: this.watch(requestId, editor) };
   }
 
   // The accepted event arrives through a turbo stream, so only requests started here may write into an editor.
@@ -184,6 +200,7 @@ export class AiActionsService {
     }
 
     // The marker holds the range to replace, so it is removed only below.
+    request.stopWatching();
     this.pending = null;
     if (request.editor.state === 'destroyed') {
       return;
@@ -210,6 +227,7 @@ export class AiActionsService {
 
   private forget(requestId:string):void {
     if (this.pending?.requestId === requestId) {
+      this.pending.stopWatching();
       if (this.pending.scope === 'selection') {
         this.removeMarker(this.pending.editor, requestId);
       }
@@ -258,6 +276,19 @@ export class AiActionsService {
 
   private markerName(requestId:string):string {
     return `${SELECTION_MARKER_PREFIX}${requestId}`;
+  }
+
+  // Replacing the whole content (a reset comment draft, quoting) or switching to the source mode, whose
+  // CodeMirror value wins over the model, leaves no editor text the result could replace.
+  private watch(requestId:string, editor:IAiActionsEditor):() => void {
+    const forget = () => this.forget(requestId);
+    editor.data.on('set', forget);
+    editor.on('op:source-code-enabled', forget);
+
+    return () => {
+      editor.data.off('set', forget);
+      editor.off('op:source-code-enabled', forget);
+    };
   }
 
   private paneContext(resource:IEditorContextResource|undefined, field:string|undefined):Record<string, string> {

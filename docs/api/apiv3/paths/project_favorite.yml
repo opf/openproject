@@ -2,13 +2,13 @@
 ---
 delete:
   parameters:
-  - description: Project id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Project id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '204':
       description: |-
@@ -45,8 +45,8 @@ delete:
 
         **Required permission:** logged in
   tags:
-  - Projects
-  - Favorites
+    - Projects
+    - Favorites
   description: |-
     Removes the project from the current user's favorites.
 
@@ -56,13 +56,13 @@ delete:
   deprecated: true
 post:
   parameters:
-  - description: Project id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Project id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '204':
       description: |-
@@ -99,8 +99,8 @@ post:
 
         **Required permission:** logged in
   tags:
-  - Projects
-  - Favorites
+    - Projects
+    - Favorites
   description: |-
     Adds the project to the current user's favorites.
 

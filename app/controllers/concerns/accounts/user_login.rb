@@ -57,7 +57,7 @@ module Accounts::UserLogin
   def flash_error_message(log_reason: "", flash_now: true)
     flash_hash = flash_now ? flash.now : flash
 
-    logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip} " \
+    logger.warn "Failed login for #{params[:username].to_s.inspect} from #{request.remote_ip} " \
                 "at #{Time.now.utc}: #{log_reason}"
 
     flash_hash[:error] = yield

@@ -45,14 +45,14 @@ module Components
         retry_block do
           # Run in retry block because filters do nothing if not yet loaded
           filter_button.click
-          find(filters_selector, visible: true)
+          find(filters_selector, visible: :visible)
           # The container can become visible slightly before Angular has finished
           # rendering its actual content (e.g. right after a browser back/forward
           # navigation, while the app is still being rebuilt) - wait for the
           # always-present "add filter" row too, so callers that immediately
           # interact with a specific filter's fields (e.g. expect_filter_by) don't
           # race that render.
-          find(".advanced-filters--add-filter-value", visible: true)
+          find(".advanced-filters--add-filter-value", visible: :visible)
         end
       end
 
@@ -78,7 +78,7 @@ module Components
       end
 
       def expect_closed
-        expect(page).to have_no_selector("#{filters_selector} #query_form_content", visible: :all)
+        expect(page).to have_no_css("#{filters_selector} #query_form_content", visible: :all)
       end
 
       def expect_quick_filter(text)

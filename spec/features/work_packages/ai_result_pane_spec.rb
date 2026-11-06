@@ -139,6 +139,26 @@ RSpec.describe "Editor Assistant result pane",
     description.ckeditor.expect_value("Keep this intro.")
   end
 
+  context "with formatted text" do
+    shared_let(:work_package) { create(:work_package, project:, type:, description: "Login page **dont** work.") }
+
+    it "undoes the replacement in one step and restores the formatting" do
+      description.activate!
+      run_assistant(within: description.field_container)
+
+      finish_run
+      replace
+      description.ckeditor.expect_value("Login page does not work.")
+
+      description.ckeditor.editor_element.click
+      description.ckeditor.editor_element.send_keys([:control, "z"])
+
+      description.ckeditor.expect_value("Login page dont work.")
+      expect(description.field_container).to have_css(".ck-content strong", text: "dont")
+      expect(description.field_container).to have_no_css(".ck-content strong", text: "not")
+    end
+  end
+
   it "replaces the text of a comment" do
     work_package_page.wait_for_activity_tab
     activity_tab.type_comment("Login page dont work.")

@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Label id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Label id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -26,7 +26,7 @@ get:
                 createdAt: '2014-08-29T12:40:53.373Z'
                 updatedAt: '2014-08-29T12:40:53.373Z'
           schema:
-            "$ref": "../components/schemas/label_model.yml"
+            $ref: "../components/schemas/label_model.yml"
       description: OK
       headers: {}
     '403':
@@ -59,7 +59,7 @@ get:
       description: Returned if the label does not exist.
       headers: {}
   tags:
-  - Labels
+    - Labels
   description: ''
   operationId: View_Label
   summary: View Label

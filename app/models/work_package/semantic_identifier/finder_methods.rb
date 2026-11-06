@@ -125,7 +125,29 @@ module WorkPackage::SemanticIdentifier::FinderMethods
     scope
   end
 
+  # Maps each supplied display id to the primary key of the work package it
+  # resolves to, through the primary key, the current identifier or a
+  # historical alias. Values that resolve to nothing are left out.
+  def ids_by_display_id(values)
+    values = values.compact_blank.map(&:to_s)
+    semantic, numeric = values.partition { semantic_id?(it) }
+
+    ids = numeric.empty? ? {} : where(id: numeric).pluck(:id).index_by(&:to_s)
+    semantic.empty? ? ids : ids.merge(ids_by_semantic_identifier(semantic))
+  end
+
   private
+
+  def ids_by_semantic_identifier(identifiers)
+    ids = where(identifier: identifiers).pluck(:identifier, :id).to_h
+    former = identifiers - ids.keys
+    return ids if former.empty?
+
+    ids.merge(WorkPackageSemanticAlias
+                .where(identifier: former, work_package_id: select(:id))
+                .pluck(:identifier, :work_package_id)
+                .to_h)
+  end
 
   def reject_semantic_id_in_find_by!(args)
     return unless args.length == 1 && args.first.is_a?(Hash)

@@ -47,6 +47,8 @@ nl:
       draggable_hint: 'Sleep op het invoerveld naar in line afbeelding of verwijzing bijlage. Gesloten invoervelden wordt geopend terwijl u blijft slepen.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Add item
@@ -1114,10 +1116,6 @@ nl:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabel met rijen van werkpakket en kolommen werk pakket kenmerken.
-        text_inline_edit: De meeste cellen van deze tabel zijn knoppen die de inline-bewerken functionaliteit van dat kenmerk te activeren.
-        text_select_hint: Selecteer vakken die moeten worden geopend met 'ALT' en pijl.
-        text_sort_hint: Met de koppelingen in de tabelkoppen kunt u sorteren, groeperen, rangschikken, verwijderen en tabelkolommen toevoegen.
       table_configuration:
         button: Configureer deze werkpakkettabel
         choose_display_mode: Werkpakketten weergeven als
@@ -1126,7 +1124,6 @@ nl:
         default_mode: Platte lijst
         display_settings: Weergave-instellingen
         display_sums_hint: Waarden van alle optelbare attributen in een rij onder de tabel resultaten weergeven.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Alle gefilterde tabel resultaten zal worden uitgebreid met hun voorouders. Hiërarchieën kunnen worden uitgevouwen en samengevouwen.
         hierarchy_mode: Hiërarchie
         highlighting: Markering

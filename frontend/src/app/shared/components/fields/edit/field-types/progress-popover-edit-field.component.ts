@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ProgressEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/progress-edit-field.component';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
@@ -40,12 +40,16 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponent implements OnInit {
+export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponent implements OnInit, OnDestroy {
   readonly pathHelper = inject(PathHelperService);
   private halEvents = inject(HalEventsService);
   private toastService = inject(ToastService);
   private apiV3Service = inject(ApiV3Service);
   private timezoneService = inject(TimezoneService);
+
+  private unregisterOverlay:() => void = () => undefined;
+
+  private readonly frame = viewChild<string, ElementRef<HTMLElement>>('frame', { read: ElementRef });
 
   text = {
     title: this.I18n.t('js.work_packages.progress.title'),
@@ -66,6 +70,14 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     */
     this.frameSrc = `${this.pathHelper.workPackageProgressModalPath(this.resource.id!)}?field=${this.name}`;
     this.frameId = 'work_package_progress_modal';
+  }
+
+  ngOnDestroy():void {
+    super.ngOnDestroy();
+    if (this.opened) {
+      this.releaseFrame();
+    }
+    this.unregisterOverlay();
   }
 
   public get asHoursOrPercent():string {
@@ -143,20 +155,30 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     this.updateFrameSrc();
     this.opened = true;
     this.cdRef.detectChanges();
+    const overlay = document.querySelector<HTMLElement>('.spot-drop-modal-portal');
+    if (overlay) {
+      this.unregisterOverlay = this.handler.registerOverlay(overlay);
+    }
   }
 
   public onModalClosed():void {
     // The body is teleported into a shared portal. Clear the live element
     // before the portal detaches it so Turbo cancels an in-flight preview and
     // cannot reload the previous URL when the modal is opened again.
-    document.getElementById(this.frameId)?.removeAttribute('src');
+    this.releaseFrame();
+
+    if (!this.handler.inEditMode) {
+      this.handler.deactivate(false, true);
+    }
+    this.unregisterOverlay();
+    this.unregisterOverlay = () => undefined;
+  }
+
+  private releaseFrame():void {
+    this.frame()?.nativeElement.removeAttribute('src');
     this.opened = false;
     this.frameSrc = '';
     document.dispatchEvent(new CustomEvent('work-package-progress-modal-closed'));
-
-    if (!this.handler.inEditMode) {
-      this.handler.deactivate(false);
-    }
   }
 
   public closeMe():void {
@@ -165,7 +187,6 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
 
   public cancel():void {
     if (!this.handler.inEditMode) {
-      this.handler.deactivate(false);
       this.handler.reset();
     }
     this.onModalClosed();

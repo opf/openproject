@@ -47,6 +47,8 @@ cs:
       draggable_hint: 'Přetáhněte pole editoru na vložený obrázek nebo referenční přílohu. Uzavřená pole editoru budou otevřena během pokračujícího přetahování.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Soubor je karanténí, protože byl nalezen virus. Není k dispozici ke stažení.
     autocomplete_ng_select:
       add_tag: Přidat položku
@@ -1134,10 +1136,6 @@ cs:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabulka s řádky pracovního balíčku a atributy sloupců pracovního balíčku.
-        text_inline_edit: Většina buněk v této tabulce jsou tlačítka, která aktivují funkci úpravy inline-editace atributu.
-        text_select_hint: Vyberte pole by mělo být otevřeno pomocí kláves "ALT" a šipkami.
-        text_sort_hint: Pomocí odkazů v záhlaví tabulky můžete seřadit, seřadit, odstranit a přidat sloupce tabulky.
       table_configuration:
         button: Konfigurovat tabulku pracovních balíčků
         choose_display_mode: Zobrazit pracovní balíčky jako
@@ -1146,7 +1144,6 @@ cs:
         default_mode: Plochý seznam
         display_settings: Nastavení zobrazení
         display_sums_hint: Zobrazit součty všech sčitatelných atributů v řádku pod tabulkou výsledků.
-        embedded_tab_disabled: Tato karta konfigurace není k dispozici pro embedded zobrazení, které upravujete.
         hierarchy_hint: Všechny filtrované výsledky z tabulky budou rozšířeny o jejich předky. Hierarchii lze rozbalit a sbalit.
         hierarchy_mode: Hierarchie
         highlighting: Zvýraznění

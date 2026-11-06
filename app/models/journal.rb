@@ -89,9 +89,12 @@ class Journal < ApplicationRecord
                    status_name
                    status_id
                    status_changes
+                   label_ids
+                   label_names
                    meeting_id
                    source_meeting_id
                    message_id
+                   sender_address
                  ],
                  prefix: true
 
@@ -106,8 +109,10 @@ class Journal < ApplicationRecord
   VALID_CAUSE_TYPES = (%w[
     comment_retracted
     default_attribute_written
+    email
     forum_message
     import
+    label_deleted
     progress_mode_changed_to_status_based
     status_changed
     system_update

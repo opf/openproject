@@ -496,6 +496,18 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
       wp_table.expect_work_package_order work_package4, work_package3, work_package2, work_package1
     end
 
+    it "offers ID when switching a manually sorted table back to automatic sorting" do
+      sort_by.open_modal
+      sort_by.update_sorting_mode "manual"
+      sort_by.apply_changes
+
+      sort_by.open_modal
+      sort_by.update_sorting_mode "automatic"
+
+      expect(page).to have_select("modal-sorting-attribute-0", selected: "ID")
+      expect(page).to have_no_select("modal-sorting-attribute-0", with_options: ["Manual sort order"])
+    end
+
     it "shows a warning when switching from manual to automatic sorting" do
       wp_table.drag_and_drop_work_package from: 1, to: 3
 

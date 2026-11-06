@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { vi } from 'vitest';
+import { vi, type Mock } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
@@ -77,6 +77,21 @@ interface IFakeMarker {
   getRange():unknown;
 }
 
+function fakeEmitter() {
+  const listeners = new Map<string, Set<() => void>>();
+
+  return {
+    on: (name:string, callback:() => void) => {
+      listeners.set(name, (listeners.get(name) ?? new Set()).add(callback));
+    },
+    off: (name:string, callback:() => void) => {
+      listeners.get(name)?.delete(callback);
+    },
+    fire: (name:string) => listeners.get(name)?.forEach((callback) => callback()),
+    count: () => [...listeners.values()].reduce((sum, callbacks) => sum + callbacks.size, 0),
+  };
+}
+
 function fakeEditor(field?:string, data = 'Login page dont work.') {
   const root = { name: '$root' };
   const graveyard = { name: '$graveyard' };
@@ -103,12 +118,16 @@ function fakeEditor(field?:string, data = 'Login page dont work.') {
     insertContent: vi.fn(),
     change: vi.fn((callback:(changeWriter:typeof writer) => void) => callback(writer)),
   };
+  const events = fakeEmitter();
+  const dataEvents = fakeEmitter();
   const editor = {
     state: 'ready',
     getData: vi.fn(() => data),
-    data: { parse: vi.fn(() => parsed), stringify: vi.fn(() => '') },
+    data: { parse: vi.fn(() => parsed), stringify: vi.fn(() => ''), on: dataEvents.on, off: dataEvents.off },
     model,
     config: { get: vi.fn((name:string) => (name === 'openProject.context.field' ? field : undefined)) },
+    on: events.on,
+    off: events.off,
   };
 
   const select = (markdown:string) => {
@@ -128,6 +147,9 @@ function fakeEditor(field?:string, data = 'Login page dont work.') {
     selectedContent,
     parsed,
     select,
+    events,
+    dataEvents,
+    listenerCount: () => events.count() + dataEvents.count(),
   };
 }
 
@@ -135,12 +157,12 @@ describe('AiActionsService', () => {
   let service:AiActionsService;
   let httpMock:HttpTestingController;
   let activeFeatureFlags:string[];
-  let turboRequests:{ request:ReturnType<typeof vi.fn> };
+  let turboRequests:{ request:Mock<TurboRequestsService['request']> };
   let toast:{ addError:ReturnType<typeof vi.fn> };
 
   beforeEach(() => {
     activeFeatureFlags = ['aiTextTransformActions'];
-    turboRequests = { request: vi.fn().mockResolvedValue({ html: '', headers: new Headers() }) };
+    turboRequests = { request: vi.fn<TurboRequestsService['request']>().mockResolvedValue({ html: '', headers: new Headers() }) };
     toast = { addError: vi.fn() };
     TestBed.configureTestingModule({
       providers: [
@@ -279,7 +301,7 @@ describe('AiActionsService', () => {
     afterEach(() => vi.restoreAllMocks());
 
     function requestBody(call = 0):Record<string, FormDataEntryValue> {
-      const init = turboRequests.request.mock.calls[call][1] as RequestInit;
+      const init = turboRequests.request.mock.calls[call][1]!;
       return Object.fromEntries((init.body as FormData).entries());
     }
 
@@ -379,6 +401,74 @@ describe('AiActionsService', () => {
       accept(requestIdOf(0));
 
       expect(model.insertContent).toHaveBeenCalledTimes(1);
+    });
+
+    it('aborts the older start when another action starts', async () => {
+      const first = fakeEditor();
+      const second = fakeEditor();
+      let rejectFirst:(error:unknown) => void = () => undefined;
+      turboRequests.request.mockImplementationOnce(() => new Promise((_, reject) => { rejectFirst = reject; }));
+
+      const firstRun = service.run(fixGrammar, first.asEditor);
+      await service.run(makeConcise, second.asEditor);
+      rejectFirst(new DOMException('The operation was aborted.', 'AbortError'));
+      await firstRun;
+
+      const startIds = turboRequests.request.mock.calls.map(([, , , requestId]) => requestId);
+      expect(startIds).toEqual(['ai-text-transform-pane', 'ai-text-transform-pane']);
+      expect(toast.addError).not.toHaveBeenCalled();
+      accept(requestIdOf(0));
+      accept(requestIdOf(1));
+      expect(first.model.insertContent).not.toHaveBeenCalled();
+      expect(second.model.insertContent).toHaveBeenCalledTimes(1);
+    });
+
+    it('keeps the newest request when an older start answers last', async () => {
+      const first = fakeEditor();
+      const second = fakeEditor();
+      let resolveFirst:(value:{ html:string, headers:Headers }) => void = () => undefined;
+      turboRequests.request.mockImplementationOnce(() => new Promise((resolve) => { resolveFirst = resolve; }));
+
+      const firstRun = service.run(fixGrammar, first.asEditor);
+      await service.run(makeConcise, second.asEditor);
+      resolveFirst({ html: '', headers: new Headers() });
+      await firstRun;
+
+      accept(requestIdOf(0));
+      accept(requestIdOf(1));
+      expect(first.model.insertContent).not.toHaveBeenCalled();
+      expect(second.model.insertContent).toHaveBeenCalledTimes(1);
+    });
+
+    it.each([
+      ['its content is set from outside, as when a comment draft is reset', 'data', 'set'],
+      ['the user switches to the source mode', 'editor', 'op:source-code-enabled'],
+    ])('leaves the answer to the pane when %s', async (_, emitter, event) => {
+      const editor = fakeEditor();
+      const applied = vi.fn();
+      window.addEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, applied);
+      await service.run(fixGrammar, editor.asEditor);
+
+      (emitter === 'data' ? editor.dataEvents : editor.events).fire(event);
+      accept(requestIdOf());
+      window.removeEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, applied);
+
+      expect(editor.model.insertContent).not.toHaveBeenCalled();
+      expect(applied).not.toHaveBeenCalled();
+      expect(editor.listenerCount()).toBe(0);
+    });
+
+    it('stops watching the editor once its request is applied or replaced', async () => {
+      const first = fakeEditor();
+      const second = fakeEditor();
+      await service.run(fixGrammar, first.asEditor);
+      expect(first.listenerCount()).toBe(2);
+
+      await service.run(makeConcise, second.asEditor);
+      expect(first.listenerCount()).toBe(0);
+
+      accept(requestIdOf(1));
+      expect(second.listenerCount()).toBe(0);
     });
 
     it('leaves the answer to the pane when the editor was destroyed meanwhile', async () => {

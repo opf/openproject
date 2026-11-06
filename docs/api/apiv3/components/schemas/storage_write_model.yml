@@ -70,11 +70,11 @@ properties:
 
               **Resource**: N/A
 
-example:
-  name: Coruscant
-  applicationPassword: 'qJ_VLNReW@sd-Edz2hyC'
-  _links:
-    origin:
-      href: https://nextcloud.deathstar.rocks
-    type:
-      href: urn:openproject-org:api:v3:storages:Nextcloud
+examples:
+  - name: Coruscant
+    applicationPassword: 'qJ_VLNReW@sd-Edz2hyC'
+    _links:
+      origin:
+        href: https://nextcloud.deathstar.rocks
+      type:
+        href: urn:openproject-org:api:v3:storages:Nextcloud

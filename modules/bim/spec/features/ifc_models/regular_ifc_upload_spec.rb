@@ -40,7 +40,7 @@ RSpec.describe "IFC upload", :js, with_config: { edition: "bim" } do
 
         click_on "Create"
 
-        expect(page).to have_content("IFC file is too large (maximum size is 1024 Bytes).")
+        expect(page).to have_text("IFC file is too large (maximum size is 1024 Bytes).")
       end
     end
   end

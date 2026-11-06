@@ -47,6 +47,8 @@ uk:
       draggable_hint: 'Перетягніть поле редактора, щоб вбудувати зображення або вкладені посилання. Закриті поля редактора будуть відкриті, коли ви продовжуватимете перетягувати.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Цей файл перенесено в карантин, оскільки в ньому знайдено вірус. Його не можна завантажити.
     autocomplete_ng_select:
       add_tag: Додати елемент
@@ -1130,10 +1132,6 @@ uk:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Таблиця з рядками пакетів робіт і стовпцями атрибутів пакетів робіт.
-        text_inline_edit: Більшість секцій цієї таблиці - це кнопки, які активують функціонал інлайн-редагування відповідного атрибуту.
-        text_select_hint: Прапорці можуть бути відкриті використовуючи «ALT» та клавіш зі стрілками.
-        text_sort_hint: За допомогою посилань в заголовках таблиці ви можете сортувати, групувати, перевпорядковувати, видаляти та додавати стовпці таблиці.
       table_configuration:
         button: Налаштуйте цю таблицю робочих пакетів
         choose_display_mode: Display work packages as
@@ -1142,7 +1140,6 @@ uk:
         default_mode: Плоский список
         display_settings: Параметри дисплея
         display_sums_hint: Відображати суми всіх підсумкових атрибутів під таблицею.
-        embedded_tab_disabled: Ця вкладка конфігурації недоступна для вбудованого режиму перегляду, який ви редагуєте.
         hierarchy_hint: Всі відфільтровані результати таблиці будуть доповнені їхніми предками. Ієрархії можуть бути розширені та згорнуті.
         hierarchy_mode: Ієрархія
         highlighting: Підсвічування

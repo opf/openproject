@@ -194,7 +194,7 @@ RSpec.describe "Work package index accessibility" do
 
         new_window = window_opened_by { find("body").send_keys("?") }
         within_window new_window do
-          expect(page.current_url).to start_with "https://www.openproject.org/docs"
+          expect(page).to have_current_path(%r{\Ahttps://www\.openproject\.org/docs}, url: true)
         end
 
         new_window.close
@@ -229,14 +229,14 @@ RSpec.describe "Work package index accessibility" do
     describe "work package context menu", :js do
       it_behaves_like "context menu" do
         let(:target_link) { "#work-package-context-menu a.detailsViewMenuItem" }
-        let(:source_link) { ".work-package-table--container tr.issue td.subject" }
+        let(:source_link) { ".work-package-table--container tr.issue .wp-table--cell-td.subject" }
         let(:keys) { %i[shift alt f10] }
         let(:sets_focus) { true }
       end
 
       it_behaves_like "context menu" do
         let(:target_link) { "#work-package-context-menu a.openFullScreenView" }
-        let(:source_link) { ".work-package-table--container tr.issue td.subject" }
+        let(:source_link) { ".work-package-table--container tr.issue .wp-table--cell-td.subject" }
         let(:keys) { %i[shift alt f10] }
         let(:sets_focus) { false }
       end

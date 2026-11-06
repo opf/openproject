@@ -3,24 +3,24 @@ de:
   activerecord:
     attributes:
       itsm/email_message:
-        direction: Direction
-        from_address: From
+        direction: Richtung
+        from_address: Von
         message_id: Message ID
         status: Status
-        subject: Subject
+        subject: Titel
       itsm/email_thread:
         recipients: Recipients
         requester_email: Requester email
         requester_name: Requester name
-        work_package: Work package
+        work_package: Arbeitspaket
       itsm/incoming_mailbox:
-        active: Active
+        active: Aktiv
         aliases: Known email addresses
-        email: Email address
+        email: E-Mail-Adresse
         mail_server: IMAP server
-        password: Password
-        project: Project
-        username: Username
+        password: Passwort
+        project: Projekt
+        username: Benutzername
       itsm/mail_server:
         encryption: Encryption
         host: Server name
@@ -28,14 +28,14 @@ de:
         name: Name
         outgoing_mailboxes: Outgoing mailboxes
         port: Port
-        protocol: Protocol
+        protocol: Protokoll
       itsm/outgoing_mailbox:
-        mail_server: SMTP server
-        password: Password
-        project: Project
+        mail_server: SMTP-Server
+        password: Passwort
+        project: Projekt
         sender_email: Sender email
         sender_name: Sender name
-        username: Username
+        username: Benutzername
     models:
       itsm/email_message:
         one: Email message
@@ -52,10 +52,20 @@ de:
       itsm/outgoing_mailbox:
         one: Outgoing mailbox
         other: Outgoing mailboxes
-  admin:
-    description: Enables the functionality to create work packages by sending emails using an IMAP server and reply to those using an SMTP server.
-    enable_helpdesk: Enable Helpdesk in this instance
-    helpdesk_set_by_environment: The help desk feature is set by an environment variable and not changeable here.
+  itsm:
+    admin:
+      description: Enables the functionality to create work packages by sending emails using an IMAP server and reply to those using an SMTP server.
+      enable_helpdesk: Enable Helpdesk in this instance
+      helpdesk_set_by_environment: The help desk feature is set by an environment variable and not changeable here.
+      imap_server_configuration_component:
+        description: Configure the IMAP server to transform incoming emails to work packages.
+        edit: Edit IMAP server configuration
+        title: IMAP server configuration
+      mail_servers: Mail servers
+      smtp_server_configuration_component:
+        description: Configure the SMTP server to reply emails directly from the work packages activity.
+        edit: Edit SMTP server configuration
+        title: SMTP server configuration
   label_helpdesk: Help desk
   permission_manage_helpdesk: Manage help desk
   project_module_helpdesk: Help desk

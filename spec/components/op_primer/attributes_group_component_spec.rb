@@ -52,6 +52,24 @@ RSpec.describe OpPrimer::AttributesGroupComponent, type: :component do
     end
   end
 
+  it "groups each term with its description in a definition list" do
+    render_inline(described_class.new) do |component|
+      component.with_header(title: "Details")
+      component.with_attribute(key: "First") { "One" }
+      component.with_attribute(key: "Second") { "Two" }
+    end
+
+    expect(page).to have_css(".AttributesGroup > .Subhead", text: "Details")
+    expect(page).to have_css("dl.AttributesGroupWrap > .AttributesGroupItem", count: 2)
+
+    list = page.find("dl.AttributesGroupWrap")
+    expect(list).to have_no_css("h3")
+    pairs = list.all(".AttributesGroupItem").map do |item|
+      [item.find("dt").text, item.find("dd").text]
+    end
+    expect(pairs).to eq([["First", "One"], ["Second", "Two"]])
+  end
+
   it "renders content when provided" do
     render_inline(described_class.new) do |component|
       component.with_header(title: "A Title")

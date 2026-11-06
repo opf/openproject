@@ -47,6 +47,8 @@ lt:
       draggable_hint: 'Tempkite į redagavimo lauką, kad įtrauktumėte piešinį ar paminėtumėte priedą. Uždari redaktoriaus laukai bus atidaryti, kol jūs tempsite.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Failas patalpintas į karantiną, nes rastas virusas. Jo atsisiųsti negalima.
     autocomplete_ng_select:
       add_tag: Pridėti elementą
@@ -1130,10 +1132,6 @@ lt:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Lentelė su eilutėmis, sudarytomis iš darbų paketų, ir stulpeliais, sudarytais iš darbų paketų atributų.
-        text_inline_edit: Dauguma langelių šioje lentelėje yra mygtukai, kurie aktyvuoja to atributo redagavimą eilutėje.
-        text_select_hint: Pažymėjimo langeliai turi būti atidaryti nuspaudus 'Alt' ir krypčių rodykles.
-        text_sort_hint: Su nuorodomis lentelės antraštėje galima rikiavimo, grupuoti, perdėlioti, šalinti ir pridėti lentelės stulpelius.
       table_configuration:
         button: Konfigūruokite šią darbų paketo lentelę
         choose_display_mode: Parodyti darbų paketą kaip
@@ -1142,7 +1140,6 @@ lt:
         default_mode: Paprastas sąrašas
         display_settings: Rodymo nustatymai
         display_sums_hint: Rodyti visų sumuotinų atributų sumas eilutėje lentelės apačioje po rezultatais.
-        embedded_tab_disabled: Ši konfigūracijos kortelė nerodoma įterpiamam vaizdui, kurį jūs redaguojate.
         hierarchy_hint: Visi filtruoti lentelės rezultatai bus papildyti savo tėvais. Hierarchijas galima išplėsti ir sutraukti.
         hierarchy_mode: Hierarchija
         highlighting: Paryškinimai

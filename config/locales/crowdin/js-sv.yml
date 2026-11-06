@@ -47,6 +47,8 @@ sv:
       draggable_hint: 'Dra på editorfältet för att infoga bild eller referensbilaga. Stängda editorfält kommer att öppnas medan du fortsätter att dra.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Filen är satt i karantän eftersom ett virus hittades. Den är inte tillgänglig för nedladdning.
     autocomplete_ng_select:
       add_tag: Lägg till objekt
@@ -1114,10 +1116,6 @@ sv:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabell med ett arbetspaket för varje rad och kolumner för varje arbetspaketsattribut.
-        text_inline_edit: Du kan klicka på de flesta celler i den här tabellen för att redigera attributens funktion.
-        text_select_hint: Valda celler öppnas med 'ALT' och piltangenterna.
-        text_sort_hint: Med hjälp av länkarna i tabellrubrikerna kan du sortera, gruppera, ändra ordning, radera och lägga till kolumner.
       table_configuration:
         button: Konfigurera den här arbetspaketstabellen
         choose_display_mode: Visa arbetspaket som
@@ -1126,7 +1124,6 @@ sv:
         default_mode: Platt lista
         display_settings: Visningsinställningar
         display_sums_hint: Visa summan av alla summerbara attribut på en rad under tabellresultaten.
-        embedded_tab_disabled: Den här konfigurationsfliken är inte tillgänglig för den inbäddade vy som du redigerar.
         hierarchy_hint: Alla filtrerade tabellresultat kompletteras med sina överordnade. Hierarkier kan fällas ut och fällas ihop.
         hierarchy_mode: Hierarki
         highlighting: Markering

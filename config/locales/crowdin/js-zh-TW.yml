@@ -47,6 +47,8 @@ zh-TW:
       draggable_hint: '將圖片或附件拖曳到編輯區內即可新增。 滑鼠移到關閉的編輯區將會開啟這個編輯區。
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: 該文件由於發現了病毒已被隔離。該文件不可下載。
     autocomplete_ng_select:
       add_tag: 新增項目
@@ -1106,10 +1108,6 @@ zh-TW:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: 由工作套件和工作套件屬性列組成的表格。
-        text_inline_edit: 該表中的大多數單元格都內嵌可以編輯屬性的按鈕。
-        text_select_hint: 請使用Alt+方向鍵打開選擇框。
-        text_sort_hint: 通過表格標題中的鏈接，您可以排序，分組，重新排序，刪除和增加表格列。
       table_configuration:
         button: 設定此工作套件表
         choose_display_mode: 將工作套件顯示為
@@ -1118,7 +1116,6 @@ zh-TW:
         default_mode: 展開清單
         display_settings: 顯示設定
         display_sums_hint: 在表格結果下方的一行中顯示總和。
-        embedded_tab_disabled: 此配置選項卡不適用於您正在編輯的嵌入式視圖。
         hierarchy_hint: 所有已篩選的資料與其來源將一起優化。階層可以展開和收合。
         hierarchy_mode: 階層
         highlighting: 強調
