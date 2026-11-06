@@ -30,7 +30,8 @@
 module McpTools
   class CreateWorkPackage < Base
     default_title "Create work package"
-    default_description "Create a new work package."
+    default_description "Create a new work package. Call get_work_package_schema first to learn which fields, " \
+                        "default values and allowed values apply."
 
     name "create_work_package"
     annotations read_only: false, idempotent: false, destructive: false
