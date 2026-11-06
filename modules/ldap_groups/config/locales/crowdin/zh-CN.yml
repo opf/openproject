@@ -90,5 +90,5 @@ zh-CN:
       upsell:
         description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
-    description: LDAP组成员同步。
+    description: LDAP 组成员同步。
     name: OpenProject LDAP 组

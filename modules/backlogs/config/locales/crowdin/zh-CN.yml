@@ -140,8 +140,8 @@ zh-CN:
         blankslate_title: 没有可用的燃尽数据
     created_resolved_chart:
       series:
-        created: Created
-        resolved: Resolved
+        created: Created work packages
+        resolved: Resolved work packages
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available

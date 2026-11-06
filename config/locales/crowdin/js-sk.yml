@@ -1140,6 +1140,7 @@ sk:
         default_mode: Plochý zoznam
         display_settings: Zobraziť nastavenia
         display_sums_hint: Zobraziť súčty všetkých sčitateľných atribútov v riadku pod tabuľkou výsledkov.
+        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Všetky filtrované výsledky z tabuľky budú rozšírené o ich predkov. Hierarchie je možné rozbaliť a zbaliť.
         hierarchy_mode: Hierarchia
         highlighting: Zvýraznenie
