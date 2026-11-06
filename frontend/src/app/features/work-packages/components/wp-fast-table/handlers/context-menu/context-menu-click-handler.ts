@@ -64,8 +64,9 @@ export class ContextMenuClickHandler extends ContextMenuHandler {
     const element = target.closest<HTMLTableRowElement>(this.rowSelector);
 
     if (element?.dataset.workPackageId && !this.isUnsavedRow(element)) {
-      hideTooltip(target.closest<HTMLElement>(`.${contextMenuLinkClassName}`)!);
-      this.openContextMenu(view.workPackageTable, evt, element);
+      const button = target.closest<HTMLElement>(`.${contextMenuLinkClassName}`)!;
+      hideTooltip(button);
+      this.openContextMenu(view.workPackageTable, evt, element, {}, { anchor: button, align: 'end' });
     }
 
     return false;

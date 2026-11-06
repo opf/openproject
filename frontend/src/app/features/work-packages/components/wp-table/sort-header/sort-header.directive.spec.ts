@@ -26,16 +26,19 @@
 //++
 
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ApplicationRef, ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, createComponent, EnvironmentInjector, Injector, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { fireEvent, screen, waitFor } from '@testing-library/dom';
+import { fireEvent, screen, waitFor, within } from '@testing-library/dom';
 import { of } from 'rxjs';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
 import { WeekdayResourceService } from 'core-app/core/state/days/weekday.service';
 import { QuerySortByResource, QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
+import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
@@ -46,8 +49,12 @@ import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.di
 import { nextTask } from 'core-common/testing/timing';
 import { buildQuery, buildTable, FakeDragAndDropService, harnessProviders, initializeViewServices, TableHarness } from '../../wp-fast-table/testing/table-harness';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
-import { OpColumnsContextMenu } from 'core-app/shared/components/op-context-menu/handlers/op-columns-context-menu.directive';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpActionMenuComponent } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.component';
+import { OpActionMenuTriggerDirective } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-trigger.directive';
+import { DynamicIconDirective } from 'core-app/shared/components/primer/dynamic-icon.directive';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { headerRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
+import { settlePopover } from 'core-common/testing/timing';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { SortHeaderDirective } from './sort-header.directive';
@@ -61,7 +68,7 @@ describe('SortHeaderDirective input readiness', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SortHeaderDirective],
-      imports: [CommonModule],
+      imports: [CommonModule, OpActionMenuComponent, OpActionMenuTriggerDirective, DynamicIconDirective],
       schemas: [NO_ERRORS_SCHEMA],
       providers: harnessProviders(new FakeDragAndDropService(), { workPackages: [] }),
     }).overrideComponent(SortHeaderDirective, {
@@ -70,6 +77,8 @@ describe('SortHeaderDirective input readiness', () => {
           WorkPackageViewBaselineService, ConfigurationService, TimezoneService, WeekdayService,
           { provide: DayResourceService, useValue: { requireNonWorkingYears$: () => of([]) } },
           { provide: WeekdayResourceService, useValue: { requireCollection: () => of([]) } },
+          { provide: OpModalService, useValue: {} },
+          { provide: ConfirmDialogService, useValue: {} },
         ],
       },
     }).compileComponents();
@@ -101,6 +110,23 @@ describe('SortHeaderDirective input readiness', () => {
       { column, direction: { href: QUERY_SORT_BY_ASC } } as QuerySortByResource,
     ]);
   }
+
+  it('shows a passive hierarchy glyph when column menus are disabled', async () => {
+    fixture.componentRef.setInput('headerColumn', {
+      id: 'subject', name: 'Subject', href: '/api/v3/queries/columns/subject', _type: 'QueryColumn',
+    });
+    TestBed.inject(WorkPackageViewHierarchiesService).setEnabled(true);
+    fixture.detectChanges();
+    await nextTask();
+    fixture.detectChanges();
+
+    const element = fixture.nativeElement as HTMLElement;
+    expect(within(element).queryByRole('button')).toBeNull();
+    expect(element.querySelector('svg.octicon-op-hierarchy')).toHaveAttribute('aria-hidden', 'true');
+    const glyph = element.querySelector('svg.octicon-op-hierarchy')!.getBoundingClientRect();
+    const label = element.querySelector('.wp-table--column-menu-name')!.getBoundingClientRect();
+    expect(glyph.top + glyph.height / 2).toBeCloseTo(label.top + label.height / 2, 0);
+  });
 
   it('cancels header setup when the header is destroyed before its task', async () => {
     vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
@@ -266,7 +292,7 @@ describe('SortHeaderDirective relation columns', () => {
   async function render(column:object, columnMenuEnabled = true) {
     await TestBed.configureTestingModule({
       declarations: [SortHeaderDirective],
-      imports: [CommonModule, OpTooltipDirective],
+      imports: [CommonModule, OpTooltipDirective, OpActionMenuComponent, OpActionMenuTriggerDirective, DynamicIconDirective],
       schemas: [NO_ERRORS_SCHEMA],
       providers: harnessProviders(new FakeDragAndDropService(), { workPackages: [] }),
     }).overrideComponent(SortHeaderDirective, {
@@ -275,6 +301,8 @@ describe('SortHeaderDirective relation columns', () => {
           WorkPackageViewBaselineService, ConfigurationService, TimezoneService, WeekdayService,
           { provide: DayResourceService, useValue: { requireNonWorkingYears$: () => of([]) } },
           { provide: WeekdayResourceService, useValue: { requireCollection: () => of([]) } },
+          { provide: OpModalService, useValue: {} },
+          { provide: ConfirmDialogService, useValue: {} },
         ],
       },
     }).compileComponents();
@@ -303,8 +331,9 @@ describe('SortHeaderDirective relation columns', () => {
 
     await waitFor(() => expect(screen.getByRole('button', { name: 'Children' })).toBeInTheDocument());
     expect(screen.getByRole('button', { name: 'Children' })).not.toHaveAccessibleDescription();
-    expect(fixture.nativeElement.querySelector('tool-tip')).toHaveAttribute('data-type', 'label');
-    expect(fixture.nativeElement.querySelector('tool-tip')).toHaveTextContent('Children');
+    const tooltip = () => document.querySelector(`tool-tip[for="${screen.getByRole('button', { name: 'Children' }).id}"]`);
+    await waitFor(() => expect(tooltip()).toHaveAttribute('data-type', 'label'));
+    expect(tooltip()).toHaveTextContent('Children');
   });
 
   it('renders no header button without a column menu', async () => {
@@ -319,11 +348,7 @@ describe('SortHeaderDirective relation columns', () => {
 @Component({
   template: `
     @for (table of tables; track $index) {
-      <sortHeader [headerColumn]="column"
-        [table]="table"
-        opColumnsContextMenu
-        [opColumnsContextMenu-column]="column"
-        [opColumnsContextMenu-table]="table" />
+      <sortHeader [headerColumn]="column" [table]="table" />
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -345,20 +370,16 @@ describe('SortHeaderDirective relation columns in several tables', () => {
   };
   const tables:TableHarness[] = [];
   let fixture:ComponentFixture<TwoTablesHostComponent>;
-  let contextMenu:{ show:ReturnType<typeof vi.fn>, close:ReturnType<typeof vi.fn>, isActive:() => boolean };
-
   beforeEach(async () => {
-    contextMenu = { show: vi.fn(), close: vi.fn(), isActive: () => false };
     await TestBed.configureTestingModule({
-      declarations: [TwoTablesHostComponent, SortHeaderDirective, OpColumnsContextMenu],
-      imports: [CommonModule, OpTooltipDirective],
+      declarations: [TwoTablesHostComponent, SortHeaderDirective],
+      imports: [CommonModule, OpTooltipDirective, OpActionMenuComponent, OpActionMenuTriggerDirective, DynamicIconDirective],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         ...harnessProviders(new FakeDragAndDropService(), { workPackages: [] }),
         WorkPackageViewBaselineService, ConfigurationService, TimezoneService, WeekdayService,
         { provide: DayResourceService, useValue: { requireNonWorkingYears$: () => of([]) } },
         { provide: WeekdayResourceService, useValue: { requireCollection: () => of([]) } },
-        { provide: OPContextMenuService, useValue: contextMenu },
         { provide: OpModalService, useValue: {} },
         { provide: ConfirmDialogService, useValue: {} },
       ],
@@ -391,15 +412,336 @@ describe('SortHeaderDirective relation columns in several tables', () => {
     });
   });
 
+  // These headers render outside a table, so there is no origin cell to return to:
+  // PVC's own focus return to the button is the final state here.
   it('returns focus to the header button whose column menu closed', async () => {
     await waitFor(() => expect(screen.getAllByRole('button', { name: 'Bug' })).toHaveLength(2));
     const second = screen.getAllByRole('button', { name: 'Bug' })[1];
 
     fireEvent.click(second);
-    expect(contextMenu.show).toHaveBeenCalledTimes(1);
-    const [handler] = contextMenu.show.mock.calls[0] as [OpColumnsContextMenu];
-    handler.onClose();
+    await settlePopover();
+    const menu = within(second.closest('op-action-menu')!).getByRole('menu', { name: 'Relations to Bug', hidden: true });
+    expect(menu.closest('anchored-position')!.matches(':popover-open')).toBe(true);
+    expect(menu).toContainElement(document.activeElement as HTMLElement);
+
+    fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+    await settlePopover();
 
     expect(second).toHaveFocus();
+  });
+
+  it('names a relation column menu after the column while its button is named by the tooltip', async () => {
+    await waitFor(() => expect(screen.getAllByRole('button', { name: 'Bug' })).toHaveLength(2));
+
+    expect(screen.getAllByRole('menu', { name: 'Relations to Bug', hidden: true })).toHaveLength(2);
+    expect(screen.queryByRole('menu', { name: 'Bug', hidden: true })).toBeNull();
+  });
+});
+
+describe('SortHeaderDirective column menu', () => {
+  let harness:TableHarness;
+  let refs:ComponentRef<SortHeaderDirective>[];
+  let page:HTMLElement;
+  let confirm:ReturnType<typeof vi.fn<ConfirmDialogService['confirm']>>;
+  let showModal:ReturnType<typeof vi.fn<OpModalService['show']>>;
+  let conditionallyLoadForm:ReturnType<typeof vi.fn<WorkPackagesListService['conditionallyLoadForm']>>;
+  let menuOpenWhenCalled:boolean[];
+
+  const settle = settlePopover;
+  const columns = () => harness.injector.get(WorkPackageViewColumnsService);
+  const header = (index:number) => harness.headerCells()[index];
+  const button = (name:string) => within(harness.headerRow()).getByRole('button', { name });
+  const menu = (name:string) => within(harness.headerRow()).getByRole('menu', { name, hidden: true });
+  const overlay = (name:string) => menu(name).closest<HTMLElement>('anchored-position')!;
+  const indicator = (index:number) => header(index).querySelector<SVGElement>('.wp-table--column-menu-indicator')!;
+  const focusHeader = (index:number) => harness.table.keyboardNavigation.focusPosition({ key: headerRowKey, cell: index, desiredColumn: index });
+  const open = async (name:string) => {
+    fireEvent.click(button(name));
+    await settle();
+    return within(menu(name));
+  };
+
+  function mountHeaders():ComponentRef<SortHeaderDirective>[] {
+    const appRef = harness.injector.get(ApplicationRef);
+    return columns().getColumns().map((column, index) => {
+      const host = document.createElement('sortHeader');
+      header(index).replaceChildren(host);
+      const ref = createComponent(SortHeaderDirective, { environmentInjector: harness.injector.get(EnvironmentInjector), hostElement: host });
+      ref.setInput('headerColumn', column);
+      ref.setInput('table', harness.table);
+      appRef.attachView(ref.hostView);
+      ref.changeDetectorRef.detectChanges();
+      return ref;
+    });
+  }
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [SortHeaderDirective],
+      imports: [CommonModule, OpTooltipDirective, OpActionMenuComponent, OpActionMenuTriggerDirective, DynamicIconDirective],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
+    menuOpenWhenCalled = [];
+    confirm = vi.fn<ConfirmDialogService['confirm']>(() => {
+      menuOpenWhenCalled.push(!!document.querySelector('anchored-position:popover-open'));
+      return Promise.resolve();
+    });
+    conditionallyLoadForm = vi.fn<WorkPackagesListService['conditionallyLoadForm']>(() => new Promise(() => undefined));
+    showModal = vi.fn<OpModalService['show']>(() => {
+      menuOpenWhenCalled.push(!!document.querySelector('anchored-position:popover-open'));
+      return undefined as never;
+    });
+    harness = buildTable({
+      workPackages: [{ id: '1' }, { id: '2' }],
+      columns: ['id', 'subject', 'status'],
+      productionMarkup: true,
+      configuration: { columnMenuEnabled: true },
+      providers: [
+        WorkPackageViewBaselineService, ConfigurationService, TimezoneService, WeekdayService,
+        { provide: DayResourceService, useValue: { requireNonWorkingYears$: () => of([]) } },
+        { provide: WeekdayResourceService, useValue: { requireCollection: () => of([]) } },
+        { provide: I18nService, useValue: { t: (key:string) => key } },
+        { provide: OpModalService, useValue: { show: showModal } },
+        { provide: ConfirmDialogService, useValue: { confirm } },
+        { provide: WorkPackagesListService, useValue: { conditionallyLoadForm } },
+      ],
+    });
+    await harness.render();
+    harness.injector.get(IsolatedQuerySpace).available.sortBy.putValue([]);
+    refs = mountHeaders();
+    await nextTask();
+    refs.forEach((ref) => ref.changeDetectorRef.detectChanges());
+    page = document.createElement('div');
+    page.textContent = 'Blank page';
+    document.body.append(page);
+  });
+
+  afterEach(async () => {
+    page.remove();
+    refs.forEach((ref) => ref.destroy());
+    await harness.destroy();
+  });
+
+  it('renders the header as one menu button with a hidden menu indicator', () => {
+    const subject = button('subject');
+
+    expect(subject).toHaveAttribute('aria-haspopup', 'menu');
+    expect(subject).toHaveAttribute('aria-expanded', 'false');
+    expect(subject).toHaveAttribute('aria-controls', menu('subject').id);
+    expect(within(header(1)).queryByRole('link')).toBeNull();
+    expect(getComputedStyle(indicator(1)).visibility).toBe('hidden');
+  });
+
+  it('shows the menu indicator while the header cell has keyboard focus', () => {
+    focusHeader(1);
+
+    expect(header(1)).toHaveFocus();
+    expect(getComputedStyle(indicator(1)).visibility).toBe('visible');
+  });
+
+  it('opens the menu flush with the header cell\'s bottom and right edges', async () => {
+    const cell = header(2);
+    cell.style.width = '600px';
+
+    await open('status');
+
+    const menuRect = overlay('status').getBoundingClientRect();
+    const cellRect = cell.getBoundingClientRect();
+    expect(Math.round(menuRect.top)).toBe(Math.round(cellRect.bottom));
+    expect(Math.round(menuRect.right)).toBe(Math.round(cellRect.right));
+  });
+
+  it('builds the items when the menu opens and clears them when it closes', async () => {
+    const items = await open('subject');
+
+    expect(items.getByRole('menuitem', { name: 'js.work_packages.query.hide_column' })).toBeInTheDocument();
+    expect(button('subject')).toHaveAttribute('aria-expanded', 'true');
+
+    fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+    await settle();
+
+    expect(refs[1].instance.items()).toEqual([]);
+    expect(button('subject')).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('omits sorting and grouping for an ineligible column', async () => {
+    vi.spyOn(harness.injector.get(WorkPackageViewSortByService), 'isSortable').mockReturnValue(false);
+    vi.spyOn(harness.injector.get(WorkPackageViewGroupByService), 'isGroupable').mockReturnValue(false);
+
+    const items = await open('id');
+
+    expect(items.queryByRole('menuitem', { name: /sort_|query.group/ })).toBeNull();
+    expect(items.getByRole('menuitem', { name: 'js.work_packages.query.hide_column' })).toBeInTheDocument();
+  });
+
+  it('rebuilds the items while the menu is open once a column becomes groupable', async () => {
+    const available = harness.injector.get(IsolatedQuerySpace).available.groupBy;
+    available.putValue([]);
+
+    const items = await open('status');
+    expect(items.queryByRole('menuitemcheckbox', { name: 'js.work_packages.query.group' })).toBeNull();
+
+    available.putValue([{ id: 'status' } as QueryGroupByResource]);
+    await nextTask();
+
+    expect(items.getByRole('menuitemcheckbox', { name: 'js.work_packages.query.group' })).toHaveAttribute('aria-checked', 'false');
+    expect(button('status')).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  it('keeps focus on the same item when sorting arrives while the menu is open', async () => {
+    const isSortable = vi.spyOn(harness.injector.get(WorkPackageViewSortByService), 'isSortable').mockReturnValue(false);
+    const items = await open('status');
+    items.getByRole('menuitem', { name: 'js.work_packages.query.hide_column' }).focus();
+
+    isSortable.mockReturnValue(true);
+    harness.injector.get(IsolatedQuerySpace).available.sortBy.putValue([]);
+    await nextTask();
+
+    expect(document.activeElement).toHaveTextContent('js.work_packages.query.hide_column');
+    expect(items.getAllByRole('menuitem')[0]).toHaveTextContent('js.work_packages.query.sort_descending');
+  });
+
+  it('requests the query form when the menu opens before the form has loaded', async () => {
+    await open('status');
+
+    expect(conditionallyLoadForm).toHaveBeenCalledTimes(1);
+  });
+
+  it('stops refreshing an open menu when the header is destroyed', async () => {
+    const available = harness.injector.get(IsolatedQuerySpace).available.groupBy;
+    available.putValue([]);
+    await open('status');
+    const ref = refs.pop()!;
+    ref.destroy();
+    const items = ref.instance.items();
+
+    available.putValue([{ id: 'status' } as QueryGroupByResource]);
+    await nextTask();
+
+    expect(ref.instance.items()).toBe(items);
+  });
+
+  it('shows the hierarchy checkbox on the subject menu and a passive glyph while enabled', async () => {
+    harness.injector.get(WorkPackageViewHierarchiesService).setEnabled(true);
+    await nextTask();
+    refs[1].changeDetectorRef.detectChanges();
+
+    const glyph = header(1).querySelector('.wp-table--column-menu-glyph');
+    expect(glyph).toHaveAttribute('aria-hidden', 'true');
+    expect(header(2).querySelector('.wp-table--column-menu-glyph')).toBeNull();
+
+    const items = await open('subject');
+    expect(items.getByRole('menuitemcheckbox', { name: 'js.toolbar.settings.display_hierarchy' })).toHaveAttribute('aria-checked', 'true');
+    fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+    await settle();
+
+    const status = await open('status');
+    expect(status.queryByRole('menuitemcheckbox', { name: 'js.toolbar.settings.display_hierarchy' })).toBeNull();
+  });
+
+  it('Escape returns focus to the header cell', async () => {
+    focusHeader(1);
+    fireEvent.keyDown(header(1), { key: 'Enter' });
+    await settle();
+    expect(menu('subject')).toContainElement(document.activeElement as HTMLElement);
+
+    fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+    await settle();
+
+    expect(header(1)).toHaveFocus();
+  });
+
+  it('an action (move column) returns focus to the header cell, not the body', async () => {
+    focusHeader(1);
+    vi.spyOn(columns(), 'shift').mockImplementation(() => undefined);
+    const items = await open('subject');
+
+    fireEvent.click(items.getByRole('menuitem', { name: 'js.work_packages.query.move_column_right' }));
+    await settle();
+
+    expect(header(1)).toHaveFocus();
+  });
+
+  it('a moved column keeps focus on its header in the new position', async () => {
+    focusHeader(1);
+    const subject = header(1);
+    vi.spyOn(columns(), 'shift').mockImplementation(() => header(0).before(subject));
+    const items = await open('subject');
+
+    fireEvent.click(items.getByRole('menuitem', { name: 'js.work_packages.query.move_column_left' }));
+    await settle();
+
+    expect(header(0)).toBe(subject);
+    await waitFor(() => expect(subject).toHaveFocus());
+  });
+
+  it('hiding the last column focuses the previous header and arrow keys continue from it', async () => {
+    focusHeader(2);
+    vi.spyOn(columns(), 'removeColumn').mockImplementation(() => undefined);
+    const items = await open('status');
+
+    fireEvent.click(items.getByRole('menuitem', { name: 'js.work_packages.query.hide_column' }));
+    await settle();
+
+    await waitFor(() => expect(header(1)).toHaveFocus());
+    fireEvent.keyDown(header(1), { key: 'ArrowLeft' });
+    expect(header(0)).toHaveFocus();
+  });
+
+  it('hiding the first column focuses the next header', async () => {
+    focusHeader(0);
+    vi.spyOn(columns(), 'removeColumn').mockImplementation(() => undefined);
+    const items = await open('id');
+
+    fireEvent.click(items.getByRole('menuitem', { name: 'js.work_packages.query.hide_column' }));
+    await settle();
+
+    await waitFor(() => expect(header(1)).toHaveFocus());
+  });
+
+  it('closes before confirming a change from manual sorting', async () => {
+    const sortBy = harness.injector.get(WorkPackageViewSortByService);
+    vi.spyOn(sortBy, 'isManualSortingMode', 'get').mockReturnValue(true);
+    vi.spyOn(sortBy, 'isSortable').mockReturnValue(true);
+    const sort = vi.spyOn(sortBy, 'setAsSingleSortCriteria').mockImplementation(() => undefined);
+    const items = await open('subject');
+
+    fireEvent.click(items.getByRole('menuitem', { name: 'js.work_packages.query.sort_descending' }));
+
+    expect(menuOpenWhenCalled).toEqual([false]);
+    await waitFor(() => expect(sort).toHaveBeenCalledTimes(1));
+  });
+
+  it('closes before opening the columns dialog so the dialog owns focus', async () => {
+    const dialog = document.createElement('button');
+    document.body.append(dialog);
+    showModal.mockImplementation(() => {
+      menuOpenWhenCalled.push(!!document.querySelector('anchored-position:popover-open'));
+      dialog.focus();
+      return undefined as never;
+    });
+    const items = await open('subject');
+
+    fireEvent.click(items.getByRole('menuitem', { name: 'js.work_packages.query.insert_columns' }));
+    await settle();
+
+    expect(menuOpenWhenCalled).toEqual([false]);
+    expect(dialog).toHaveFocus();
+    dialog.remove();
+  });
+
+  it('a click outside closes the menu and leaves focus where the popover restored it', async () => {
+    focusHeader(1);
+    await open('subject');
+
+    fireEvent.pointerDown(page);
+    fireEvent.mouseDown(page);
+    overlay('subject').hidePopover();
+    await settle();
+
+    expect(overlay('subject').matches(':popover-open')).toBe(false);
+    expect(menu('subject')).not.toContainElement(document.activeElement as HTMLElement);
+    expect(button('subject')).not.toHaveFocus();
+    expect(button('subject')).toHaveAttribute('aria-expanded', 'false');
   });
 });

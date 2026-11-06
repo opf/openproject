@@ -61,10 +61,7 @@
                   [attr.aria-sort]="ariaSort(column)">
                   <sortHeader [headerColumn]="column"
                     [locale]="column.custom_field && column.custom_field.name_locale || locale"
-                    [table]="workPackageTable"
-                    opColumnsContextMenu
-                    [opColumnsContextMenu-column]="column"
-                    [opColumnsContextMenu-table]="workPackageTable" />
+                    [table]="workPackageTable" />
                 </th>
               }
               @if (configuration.columnMenuEnabled || configuration.actionsColumnEnabled) {

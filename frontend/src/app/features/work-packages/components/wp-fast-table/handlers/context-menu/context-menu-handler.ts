@@ -28,7 +28,7 @@
 import { Injector } from '@angular/core';
 import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { WorkPackageTableContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-table-context-menu.directive';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
@@ -37,6 +37,7 @@ import { WorkPackageTable } from '../../wp-fast-table';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
 import { selectionGesture } from '../state/selection-feedback';
 import { PositionArgs } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
+import { OpActionMenuOptions } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 
@@ -56,7 +57,7 @@ export function forgetKeyboardMenuOpen(table:WorkPackageTable):void {
 
 export abstract class ContextMenuHandler implements TableEventHandler {
   // Injections
-  @LazyInject() public opContextMenu:OPContextMenuService;
+  @LazyInject() public actionMenu:OpActionMenuService;
 
   @LazyInject() readonly selectionGestures:WorkPackageViewSelectionGesturesService;
 
@@ -112,13 +113,24 @@ export abstract class ContextMenuHandler implements TableEventHandler {
     return !!open && performance.now() - open.at <= menuKeyCompanionWindowMs && open.row.contains(target);
   }
 
-  protected openContextMenu(table:WorkPackageTable, evt:Event, row:HTMLElement, positionArgs:PositionArgs = {}):void {
+  protected openContextMenu(
+    table:WorkPackageTable,
+    evt:Event,
+    row:HTMLElement,
+    positionArgs:PositionArgs = {},
+    options:OpActionMenuOptions = {},
+  ):void {
+    const control = evt.target instanceof Element ? evt.target.closest<HTMLElement>(':not(svg, svg *)') : null;
+    if (!control) {
+      return;
+    }
+
     const workPackageId = row.dataset.workPackageId!;
     selectionGesture(table, 'navigation', () => {
       this.selectionGestures.handleContextMenu(workPackageId, table.renderedRows, row.dataset.classIdentifier);
     });
 
-    const handler = new WorkPackageTableContextMenu(this.injector, workPackageId, evt.target as HTMLElement, positionArgs, table);
-    this.opContextMenu.show(handler, evt);
+    const handler = new WorkPackageTableContextMenu(this.injector, workPackageId, control, positionArgs, table);
+    this.actionMenu.show(handler, evt, options);
   }
 }

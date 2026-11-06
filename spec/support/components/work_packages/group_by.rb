@@ -39,7 +39,7 @@ module Components
         open_table_column_context_menu(name)
 
         within_column_context_menu do
-          click_button("Group by")
+          find(:menuitem, "Group by").click
         end
       end
 

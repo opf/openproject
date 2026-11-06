@@ -88,6 +88,19 @@ RSpec.describe "Work package table keyboard navigation", :js do
     wp_table.expect_focus_outside_table
   end
 
+  it "toggles the column menu from its header and switches to a different header" do
+    subject_header = find(:columnheader, "Subject")
+    subject_header.click
+    expect(page).to have_menu("Subject")
+    subject_header.click
+    expect(page).to have_no_menu
+
+    subject_header.click
+    find(:columnheader, "ID", exact: true).click
+    expect(page).to have_menu("ID", exact: true)
+    expect(page).to have_no_menu("Subject")
+  end
+
   it "closes a column menu with Escape and keeps the header focused" do
     wp_table.tab_into_table
     wp_table.press_keys(:right, :right, :up)

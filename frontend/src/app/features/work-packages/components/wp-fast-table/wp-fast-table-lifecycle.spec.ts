@@ -41,7 +41,7 @@ import { shareModalUpdated } from 'core-app/features/work-packages/components/wp
 import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.actions';
 import { usePlatform } from 'core-common/testing/platform';
 import { States } from 'core-app/core/states/states.service';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { WorkPackageTableConfigurationObject } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { TableUiWork } from './table-ui-work';
 import { navigableCells } from './handlers/state/keyboard/roving-tabindex';
@@ -1042,7 +1042,7 @@ describe('WorkPackageTable lifecycle', () => {
 
     it('opens the table menu with the default configuration', async () => {
       const harness = await mountConfigured();
-      const opened = vi.spyOn(harness.injector.get(OPContextMenuService), 'show');
+      const opened = vi.spyOn(harness.injector.get(OpActionMenuService), 'show').mockImplementation(() => undefined);
 
       expect(fireEvent.contextMenu(harness.row('1'))).toBe(false);
       expect(opened).toHaveBeenCalledTimes(1);
@@ -1055,7 +1055,7 @@ describe('WorkPackageTable lifecycle', () => {
       });
       const macro = runInInjectionContext(host, () => new EmbeddedTablesMacroComponent());
       const harness = await mountConfigured(macro.configuration);
-      const opened = vi.spyOn(harness.injector.get(OPContextMenuService), 'show');
+      const opened = vi.spyOn(harness.injector.get(OpActionMenuService), 'show').mockImplementation(() => undefined);
 
       expect(fireEvent.contextMenu(harness.row('1'))).toBe(true);
       expect(fireEvent.keyDown(harness.row('1'), { key: 'F10', shiftKey: true, altKey: true })).toBe(true);
@@ -1067,7 +1067,7 @@ describe('WorkPackageTable lifecycle', () => {
 
   it('removes context-menu callbacks on direct table disposal', async () => {
     const harness = await mount({ workPackages: [{ id: '1' }], configuration: { contextMenuEnabled: true } });
-    const opened = vi.spyOn(harness.injector.get(OPContextMenuService), 'show');
+    const opened = vi.spyOn(harness.injector.get(OpActionMenuService), 'show').mockImplementation(() => undefined);
     harness.table.destroy();
     expect(fireEvent.contextMenu(harness.row('1'))).toBe(true);
     expect(fireEvent.keyDown(harness.row('1'), { key: 'F10', shiftKey: true, altKey: true })).toBe(true);
@@ -1080,14 +1080,14 @@ describe('WorkPackageTable lifecycle', () => {
     const first = await mount(options);
     const clicked = vi.fn();
     first.outputs.itemClicked.subscribe(clicked);
-    const firstMenu = vi.spyOn(first.injector.get(OPContextMenuService), 'show');
+    const firstMenu = vi.spyOn(first.injector.get(OpActionMenuService), 'show').mockImplementation(() => undefined);
     const firstSelect = vi.spyOn(first.selection, 'selectAll');
     const firstReset = vi.spyOn(first.selection, 'reset');
     first.table.destroy();
     const second = await mount(options);
     const secondClicked = vi.fn();
     second.outputs.itemClicked.subscribe(secondClicked);
-    const secondMenu = vi.spyOn(second.injector.get(OPContextMenuService), 'show');
+    const secondMenu = vi.spyOn(second.injector.get(OpActionMenuService), 'show').mockImplementation(() => undefined);
     try {
       expect(second.injector).not.toBe(first.injector);
       second.click('2');
@@ -1172,7 +1172,7 @@ describe('WorkPackageTable lifecycle', () => {
     await harness.render([{ id: '2' }, { id: '1' }]);
     const clicked:string[] = [];
     harness.outputs.itemClicked.subscribe(({ workPackageId }) => clicked.push(workPackageId));
-    const opened = vi.spyOn(harness.injector.get(OPContextMenuService), 'show');
+    const opened = vi.spyOn(harness.injector.get(OpActionMenuService), 'show').mockImplementation(() => undefined);
 
     harness.click('1');
     fireEvent.contextMenu(harness.row('2'));

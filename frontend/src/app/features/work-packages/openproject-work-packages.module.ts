@@ -49,9 +49,6 @@ import {
   OpTypesContextMenuDirective,
 } from 'core-app/shared/components/op-context-menu/handlers/op-types-context-menu.directive';
 import {
-  OpColumnsContextMenu,
-} from 'core-app/shared/components/op-context-menu/handlers/op-columns-context-menu.directive';
-import {
   OpSettingsMenuDirective,
 } from 'core-app/shared/components/op-context-menu/handlers/op-settings-dropdown-menu.directive';
 import {
@@ -548,7 +545,6 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
 
     // Context menus
     OpTypesContextMenuDirective,
-    OpColumnsContextMenu,
     OpSettingsMenuDirective,
     WorkPackageStatusDropdownDirective,
     WorkPackageCreateSettingsMenuDirective,

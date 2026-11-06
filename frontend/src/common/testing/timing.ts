@@ -38,3 +38,10 @@ export function nextTask():Promise<void> {
     setTimeout(resolve);
   });
 }
+
+/** One task and two frames: a popover `toggle` event plus Primer's frame-queued first-item focus. */
+export async function settlePopover():Promise<void> {
+  await nextTask();
+  await nextFrame();
+  await nextFrame();
+}
