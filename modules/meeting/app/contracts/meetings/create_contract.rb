@@ -29,6 +29,7 @@
 
 module Meetings
   class CreateContract < BaseContract
+    attribute :author_id
     attribute :recurring_meeting_id
     attribute :uid
 
