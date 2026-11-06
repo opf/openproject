@@ -53,8 +53,8 @@ module WorkPackageTypes
       def container_data
         {
           controller: "sortable-lists sortable-lists--list admin--type-projects-selection",
-          admin__type_projects_selection_switch_url_value: new_variant_projects_switch_path(variant),
-          admin__type_projects_selection_remove_url_value: new_variant_projects_link_deletion_path(variant),
+          admin__type_projects_selection_switch_url_value: new_variant_projects_switch_path(variant, **wizard_params),
+          admin__type_projects_selection_remove_url_value: new_variant_projects_link_deletion_path(variant, **wizard_params),
           sortable_lists_selection_enabled_value: true,
           sortable_lists_drag_enabled_value: false,
           sortable_lists_announcement_scope_value: "js.types.projects.selection",
@@ -84,6 +84,8 @@ module WorkPackageTypes
       def mobile_title = I18n.t("types.edit.projects.tab")
 
       def wizard? = @wizard
+
+      def wizard_params = wizard? ? { wizard: true } : {}
 
       def pagination_params
         if wizard?

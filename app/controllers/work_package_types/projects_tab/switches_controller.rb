@@ -55,7 +55,9 @@ module WorkPackageTypes
         )
       end
 
-      def bulk_dialog = BulkSwitchDialogComponent.new(variant: @variant, projects: selected_projects)
+      def bulk_dialog
+        BulkSwitchDialogComponent.new(variant: @variant, projects: selected_projects, wizard: listing_in_wizard?)
+      end
 
       def switch_project(project)
         target = @type.variants.find_by(id: params[:target_id])

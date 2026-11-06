@@ -36,21 +36,28 @@ module WorkPackageTypes
 
       DIALOG_ID = "type-projects-bulk-remove-dialog"
 
-      def initialize(variant:, projects:)
+      def initialize(variant:, projects:, wizard: false)
         super()
 
         @variant = variant
         @projects = projects
+        @wizard = wizard
       end
 
       private
 
       attr_reader :variant, :projects
 
+      def wizard_params = @wizard ? { wizard: true } : {}
+
       def title = t("types.edit.projects.bulk_remove.title", type: variant.type.name)
 
       def form_arguments
-        { action: variant_projects_link_path(variant), method: :delete, data: { turbo: true, turbo_stream: true } }
+        {
+          action: variant_projects_link_path(variant, **wizard_params),
+          method: :delete,
+          data: { turbo: true, turbo_stream: true }
+        }
       end
     end
   end

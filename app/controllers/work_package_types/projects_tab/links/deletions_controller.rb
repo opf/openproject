@@ -33,9 +33,12 @@ module WorkPackageTypes
       class DeletionsController < BaseTabController
         include OpTurbo::ComponentStream
         include SelectedProjects
+        include WizardListing
 
         def new
-          respond_with_dialog BulkRemoveDialogComponent.new(variant: @variant, projects: selected_projects)
+          respond_with_dialog BulkRemoveDialogComponent.new(
+            variant: @variant, projects: selected_projects, wizard: listing_in_wizard?
+          )
         end
       end
     end

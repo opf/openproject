@@ -32,6 +32,7 @@ module WorkPackageTypes
     module TableRefresh
       extend ActiveSupport::Concern
       include PaginationHelper
+      include WizardListing
 
       VARIANT_FILTER_KEY = ::Queries::Projects::Filters::TypeVariantFilter.key.to_s
       NAME_FILTER_KEY = ::Queries::Projects::Filters::NameAndIdentifierFilter.key.to_s
@@ -112,10 +113,6 @@ module WorkPackageTypes
 
       # The wizard's projects step lists the same projects with its own URLs, so a change made from
       # there reloads that step rather than streaming in the tab's table.
-      def listing_in_wizard? = params[:wizard].present?
-
-      def wizard_params = listing_in_wizard? ? { wizard: true } : {}
-
       def reload_wizard_step
         dispatch_event_via_turbo_stream(ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME, detail: { type_id: @type.id })
       end
