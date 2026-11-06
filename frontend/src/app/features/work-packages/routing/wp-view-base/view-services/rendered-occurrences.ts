@@ -49,7 +49,7 @@ export function isSelectableOccurrence<T extends Pick<RenderedWorkPackage, 'work
   return row.workPackageId !== null;
 }
 
-export function selectableOccurrences(rows:readonly RenderedWorkPackage[]):RenderedWorkPackage[] {
+export function selectableOccurrences<T extends RenderedWorkPackage>(rows:readonly T[]):(T & { workPackageId:string })[] {
   return rows.filter(isSelectableOccurrence);
 }
 
@@ -85,7 +85,7 @@ export function occurrenceRangeIds(
   }
 
   return selectableOccurrences(rows.slice(Math.min(start, end), Math.max(start, end) + 1))
-    .map((candidate) => candidate.workPackageId!);
+    .map((candidate) => candidate.workPackageId);
 }
 
 export function selectAllAnchor(

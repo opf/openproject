@@ -85,8 +85,8 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     }
 
     const navigation = view.workPackageTable.keyboardNavigation;
-    const origin = navigation?.originForControl(element) ?? navigation?.positionOfCell(element);
-    if (origin && navigation) {
+    const origin = navigation.originForControl(element);
+    if (origin) {
       navigation.focusPosition(origin);
     } else {
       target.closest('a')?.blur();

@@ -195,7 +195,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
           // Remove row and focus
           this.resetRow();
 
-          this.table.keyboardNavigation?.rememberWorkPackageAfterRender(wp.id!);
+          this.table.keyboardNavigation.rememberWorkPackageAfterRender(wp.id!);
 
           // Split view on the last inserted id if any
           if (!this.table.configuration.isEmbedded) {
