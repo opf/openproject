@@ -29,14 +29,14 @@
 
 import { Directive, effect, ElementRef, inject, input, Renderer2 } from '@angular/core';
 import { closestNaturalHeight, sizeMap, SVGData, SVGSize } from '@openproject/octicons-angular';
-import { ICON_MAP, isDynamicIconName } from './dynamic-icon-map';
+import { DynamicIconName, ICON_MAP, isDynamicIconName } from './dynamic-icon-map';
 
 @Directive({ selector: 'svg[octicon]' })
 export class DynamicIconDirective {
   private el = inject<ElementRef<SVGElement>>(ElementRef);
   private renderer = inject(Renderer2);
 
-  readonly icon = input.required<string>();
+  readonly icon = input.required<DynamicIconName>();
   readonly size = input<SVGSize>('medium');
 
   constructor() {
@@ -60,6 +60,8 @@ export class DynamicIconDirective {
       this.size(),
       this.renderer
     );
+    this.renderer.addClass(this.el.nativeElement, 'octicon');
+    this.renderer.addClass(this.el.nativeElement, `octicon-${name}`);
   }
 }
 

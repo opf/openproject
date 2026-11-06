@@ -157,9 +157,9 @@ RSpec.describe "Work package timeline navigation",
       wp_timeline.ensure_work_package_not_listed! work_package
 
       retry_block do
+        context_menu.close_if_open
         find(".wp-row-#{work_package2.id}-timeline").right_click
-        find(".menu-item", text: "Add predecessor")
-        find(".menu-item", text: "Add successor")
+        context_menu.expect_options "Add predecessor", "Add successor"
       end
     end
   end

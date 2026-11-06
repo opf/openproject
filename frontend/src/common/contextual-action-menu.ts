@@ -28,6 +28,8 @@
 import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
 import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
 
+export type ActionMenuAlign = 'start'|'end';
+
 // A context menu conventionally grows down and to the right of its invocation
 // point. The pair is also what makes the pointer offsets below mean what they
 // say: for exactly this side/align combination `getAnchoredPosition` computes
@@ -146,7 +148,7 @@ export class ContextualActionMenu {
    * the given alignment: a trigger that is a real button, or a focused cell.
    * The anchoring is borrowed like a pointer open and restored on close.
    */
-  openAtAnchor(anchor:HTMLElement, options:{ align:'start'|'end' }, returnFocusTo:HTMLElement = anchor):void {
+  openAtAnchor(anchor:HTMLElement, options:{ align:ActionMenuAlign }, returnFocusTo:HTMLElement = anchor):void {
     const overlay = this.overlay;
     const popover = this.menu.popoverElement;
     if (!overlay || !popover) {

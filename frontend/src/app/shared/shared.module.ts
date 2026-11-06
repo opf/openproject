@@ -84,6 +84,9 @@ import { OpBreadcrumbsComponent } from './components/breadcrumbs/op-breadcrumbs.
 import { PrimerCounterComponent } from './components/primer/counter.component';
 import { PrimerIconButtonComponent } from './components/primer/icon-button.component';
 import { OpTooltipDirective } from './components/primer/tooltip.directive';
+import { OpActionMenuComponent } from './components/op-context-menu/action-menu/op-action-menu.component';
+import { OpActionMenuTriggerDirective } from './components/op-context-menu/action-menu/op-action-menu-trigger.directive';
+import { DynamicIconDirective } from './components/primer/dynamic-icon.directive';
 
 export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
@@ -125,6 +128,9 @@ export function bootstrapModule(injector:Injector):void {
     PrimerCounterComponent,
     PrimerIconButtonComponent,
     OpTooltipDirective,
+    OpActionMenuComponent,
+    OpActionMenuTriggerDirective,
+    DynamicIconDirective,
   ],
   exports: [
     // Re-export all commonly used

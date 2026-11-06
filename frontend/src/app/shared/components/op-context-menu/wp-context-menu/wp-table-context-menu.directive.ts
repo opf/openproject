@@ -32,8 +32,38 @@ import { PositionArgs, WorkPackageViewContextMenu } from 'core-app/shared/compon
 import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
-import { OpContextMenuCloseReason } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { OpContextMenuCloseReason, OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import type { DynamicIconName } from 'core-app/shared/components/primer/dynamic-icon-map';
 import { forgetKeyboardMenuOpen } from 'core-app/features/work-packages/components/wp-fast-table/handlers/context-menu/context-menu-handler';
+
+const tableActionIcons = {
+  'icon-clipboard': 'paste',
+  'icon-code-tag': 'hash',
+  'icon-copy': 'duplicate',
+  'icon-delete': 'trash',
+  'icon-duplicate': 'duplicate',
+  'icon-edit': 'pencil',
+  'icon-export-atom': 'op-file-atom',
+  'icon-export-pdf-with-descriptions': 'op-pdf-description',
+  'icon-file-text': 'markdown',
+  'icon-log_time': 'clock',
+  'icon-move': 'op-move',
+  'icon-paragraph-left': 'op-outdent',
+  'icon-paragraph-right': 'op-indent',
+  'icon-project-types': 'op-copy-to-project',
+  'icon-relation-follows': 'op-relation-follows',
+  'icon-relation-new-child': 'op-relation-new-child',
+  'icon-relations': 'op-relations',
+  'icon-user-plus': 'person-add',
+  'icon-view-fullscreen': 'op-view-fullscreen',
+  'icon-view-split': 'op-view-split',
+} as const satisfies Record<`icon-${string}`, DynamicIconName>;
+
+function octiconFor(icon:string):DynamicIconName|undefined {
+  return Object.hasOwn(tableActionIcons, icon)
+    ? tableActionIcons[icon as keyof typeof tableActionIcons]
+    : undefined;
+}
 
 export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
   @LazyInject() wpViewIndentation:WorkPackageViewHierarchyIdentationService;
@@ -47,6 +77,13 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
     protected table:WorkPackageTable) {
     super(injector, workPackageId, element, additionalPositionArgs, true);
     this.origin = table.keyboardNavigation.originForControl(element);
+  }
+
+  protected override buildItems():OpContextMenuItem[] {
+    return super.buildItems().map((item):OpContextMenuItem => ({
+      ...item,
+      octicon: item.icon ? octiconFor(item.icon) : undefined,
+    }));
   }
 
   public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {

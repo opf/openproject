@@ -42,7 +42,7 @@ module Components
           open_table_column_context_menu(name, selector)
           raise Capybara::ElementNotFound unless page.has_css?("#column-context-menu", wait: 2)
 
-          page.find_by_id("column-context-menu").find_button(text).click
+          page.within(:menu) { click_on text }
         end
         SeleniumHubWaiter.wait unless using_cuprite?
 
