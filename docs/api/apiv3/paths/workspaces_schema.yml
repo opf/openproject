@@ -152,5 +152,5 @@ get:
   tags:
     - Workspaces
   description: ''
-  operationId: View_workspace_schema
+  operationId: get_workspace_schema
   summary: View workspace schema

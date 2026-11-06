@@ -2,7 +2,7 @@
 ---
 get:
   summary: Get a notification detail
-  operationId: view_notification_detail
+  operationId: get_notification_detail
   tags:
     - Notifications
     - Values::Property

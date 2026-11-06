@@ -81,7 +81,7 @@ get:
   tags:
     - Work Packages
   description: ''
-  operationId: List_work_package_activities
+  operationId: list_work_package_activities
   summary: List work package activities
 post:
   parameters:
@@ -148,7 +148,7 @@ post:
   description: |-
     Creates an activity for the selected work package and, on success, returns the
     updated activity.
-  operationId: Comment_work_package
+  operationId: create_work_package_activity
   requestBody:
     content:
       application/json:

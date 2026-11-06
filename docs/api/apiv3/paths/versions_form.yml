@@ -30,5 +30,5 @@ post:
   tags:
     - Versions
   description: ''
-  operationId: Version_create_form
+  operationId: validate_version_create_form
   summary: Version create form

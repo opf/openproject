@@ -2,7 +2,7 @@
 ---
 get:
   summary: View a working hours record
-  operationId: view_user_working_hours_record
+  operationId: get_user_working_hours_record
   tags:
     - User Working Times
   description: |-

@@ -84,7 +84,7 @@ post:
   description: |-
     A POST to this endpoint executes the custom action on the work package provided in the payload. The altered work package will be returned. In order to avoid executing
      the custom action unbeknown to a change that has already taken place, the client has to provide the work package's current lockVersion.
-  operationId: Execute_custom_action
+  operationId: execute_custom_action
   requestBody:
     content:
       application/json:

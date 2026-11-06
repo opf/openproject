@@ -72,5 +72,5 @@ delete:
     If the request succeeds, the specified user is not watching the work package anymore.
 
     *Note: This might also be the case, if the specified user did not watch the work package prior to the request.*
-  operationId: Remove_watcher
+  operationId: remove_watcher
   summary: Remove watcher

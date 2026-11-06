@@ -58,7 +58,7 @@ delete:
 
 get:
   summary: View Work Package
-  operationId: view_work_package
+  operationId: get_work_package
   tags:
     - Work Packages
   description: |-

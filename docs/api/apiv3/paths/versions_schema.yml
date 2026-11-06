@@ -119,5 +119,5 @@ get:
   tags:
     - Versions
   description: ''
-  operationId: View_version_schema
+  operationId: get_version_schema
   summary: View version schema

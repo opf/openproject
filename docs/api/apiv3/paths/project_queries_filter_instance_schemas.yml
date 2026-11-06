@@ -133,6 +133,6 @@ get:
     of the specified project.
 
     This endpoint is deprecated and replaced by [`/api/v3/workspaces/{id}/queries/filter_instance_schemas`](https://www.openproject.org/docs/api/endpoints/query-filter-instance-schema/#list-query-filter-instance-schemas-for-workspace)
-  operationId: List_Query_Filter_Instance_Schemas_for_Project
+  operationId: list_query_filter_instance_schemas_for_project
   summary: List Query Filter Instance Schemas for Project
   deprecated: true

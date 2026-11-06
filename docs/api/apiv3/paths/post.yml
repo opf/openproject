@@ -56,5 +56,5 @@ get:
   tags:
     - Posts
   description: Retrieve an individual post as identified by the id parameter
-  operationId: View_Post
+  operationId: get_post
   summary: View Post

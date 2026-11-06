@@ -2,7 +2,7 @@
 ---
 get:
   summary: Get the notification
-  operationId: view_notification
+  operationId: get_notification
   tags:
     - Notifications
   description: Returns the notification identified by the notification id.

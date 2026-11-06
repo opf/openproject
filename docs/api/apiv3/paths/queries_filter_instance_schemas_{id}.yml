@@ -94,5 +94,5 @@ get:
     - Query Filter Instance Schema
   description: Retrieve an individual QueryFilterInstanceSchema as identified by the
     id parameter.
-  operationId: View_Query_Filter_Instance_Schema
+  operationId: get_query_filter_instance_schema
   summary: View Query Filter Instance Schema

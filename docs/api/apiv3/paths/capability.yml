@@ -50,5 +50,5 @@ get:
   tags:
     - Actions & Capabilities
   description: ''
-  operationId: View_capabilities
+  operationId: get_capabilities
   summary: View capabilities

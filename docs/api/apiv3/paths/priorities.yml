@@ -31,5 +31,5 @@ get:
   tags:
     - Priorities
   description: ''
-  operationId: List_all_Priorities
+  operationId: list_all_priorities
   summary: List all Priorities
