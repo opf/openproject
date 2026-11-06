@@ -17,6 +17,8 @@
       <a
         class="op-ian-item--work-package-id-link spot-link"
         [class.spot-link_inactive]="isMobile()"
+        opTooltip
+        [description]="workPackage.subject"
         [textContent]="workPackage.formattedId"
         [attr.href]="pathHelper.workPackagePath(workPackage.displayId)"
         (click)="onLinkClick($event)"
