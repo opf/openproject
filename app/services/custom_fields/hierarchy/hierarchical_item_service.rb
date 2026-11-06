@@ -257,27 +257,22 @@ module CustomFields
       end
 
       def update_position_cache(root)
-        sql = <<-SQL.squish
+        sql = <<~SQL.squish
           UPDATE hierarchical_items
-          SET position_cache = subquery.position
+          SET position_cache = ranked.position
           FROM (
-            SELECT hi.id
-                  , SUM((1 + COALESCE(anc.sort_order, 0)) *
-                      POWER(count_max.total_descendants, count_max.max_gens - depths.generations)) AS position
-            FROM hierarchical_items hi
-                 INNER JOIN hierarchical_item_hierarchies hih ON hi.id = hih.descendant_id
-                 JOIN hierarchical_item_hierarchies anc_h ON anc_h.descendant_id = hih.descendant_id
-                 JOIN hierarchical_items anc ON anc.id = anc_h.ancestor_id
-                 JOIN hierarchical_item_hierarchies depths ON depths.ancestor_id = #{root.id} AND depths.descendant_id = anc.id
-               , (
-                SELECT COUNT(1) AS total_descendants, MAX(generations) + 1 AS max_gens
-                FROM hierarchical_items hi
-                    INNER JOIN hierarchical_item_hierarchies hih ON hi.id = hih.ancestor_id
-                WHERE ancestor_id = #{root.id}
-                ) count_max
-            WHERE hih.ancestor_id = #{root.id}
-            GROUP BY hi.id) as subquery
-          WHERE hierarchical_items.id = subquery.id;
+            SELECT id, ROW_NUMBER() OVER (ORDER BY path) AS position
+            FROM (
+              SELECT hih.descendant_id AS id
+                   , ARRAY_AGG(COALESCE(anc.sort_order, 0) ORDER BY anc_h.generations DESC) AS path
+              FROM hierarchical_item_hierarchies hih
+                   JOIN hierarchical_item_hierarchies anc_h ON anc_h.descendant_id = hih.descendant_id
+                   JOIN hierarchical_items anc ON anc.id = anc_h.ancestor_id
+              WHERE hih.ancestor_id = #{root.id}
+              GROUP BY hih.descendant_id
+            ) paths
+          ) ranked
+          WHERE hierarchical_items.id = ranked.id;
         SQL
 
         OpenProject::Mutex.with_advisory_lock(CustomField::Hierarchy::Item, "position_update_anc_#{root.id}") do

@@ -31,7 +31,6 @@ module API
   module V3
     module Meetings
       class MeetingRepresenter < ::API::Decorators::Single
-        include API::Decorators::LinkedResource
         include API::V3::Workspaces::LinkedResource
         include API::Caching::CachedRepresenter
         include API::V3::Attachments::AttachableRepresenterMixin
