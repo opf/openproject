@@ -37,12 +37,10 @@ See COPYRIGHT and LICENSE files for more details.
         )
       ) do %>
     <% types.each do |root| %>
-      <%= render(
-            Primer::Alpha::StackItem.new(
-              id: "sortable-type-#{root.id}",
-              role: :listitem,
-              data: item_data(root)
-            )
+      <%= stack_item(
+            id: "sortable-type-#{root.id}",
+            role: :listitem,
+            data: item_data(root)
           ) do %>
         <%= render(
               OpPrimer::BorderBoxListComponent.new(
