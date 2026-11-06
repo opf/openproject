@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe "Text actions drop", :skip_csrf,
-               type: :rails_request, with_flag: { ai_text_actions: true } do
+               type: :rails_request, with_ee: %i[mcp_server], with_flag: { ai_text_actions: true } do
   shared_let(:admin) { create(:admin) }
   shared_let(:action_a) { create(:ai_text_action) }
   shared_let(:action_b) { create(:ai_text_action) }

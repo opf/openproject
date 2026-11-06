@@ -612,6 +612,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: "/admin/text_actions", action: :index },
             if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.ai_text_actions_active? },
             caption: :"menus.admin.text_actions",
+            enterprise_feature: "mcp_server",
             parent: :ai
 
   menu.push :mcp_configurations,
