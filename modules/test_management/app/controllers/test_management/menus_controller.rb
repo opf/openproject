@@ -33,9 +33,9 @@ module TestManagement
     before_action :authorize
 
     def show
-      menu = TestManagement::Menu.new(project: @project, params:)
-      @sidebar_menu_items = menu.menu_items
-      @current_section = menu.current_section
+      @menu = TestManagement::Menu.new(project: @project, params:)
+      @sidebar_menu_items = @menu.menu_items
+      @current_section = @menu.current_section
       render layout: nil
     end
   end

@@ -31,7 +31,6 @@ module TestManagement
   class ProjectSetting < ApplicationRecord
     self.table_name = "tm_project_settings"
 
-    # shortcut: horizontal top bar is stored now, rendered when Cases/Runs/… UI exists
     NAVIGATION_LAYOUTS = %w[vertical horizontal].freeze
     DEFAULT_NAVIGATION_LAYOUT = "vertical"
     DISPLAY_PREFIX_MAX_LENGTH = 32

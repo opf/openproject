@@ -34,9 +34,8 @@ RSpec.describe TestManagement::Menu do
 
   shared_let(:project) { create(:project, enabled_module_names: %i[test_management]) }
   let(:user) { create(:user, member_with_permissions: { project => %i[view_test_cases] }) }
-  let(:params) { {} }
+  let(:params) { { controller: "test_management/test_cases" } }
   let(:menu) { described_class.new(project:, params:, user:) }
-  let(:items) { menu.menu_items.first.children }
 
   describe ".section_for" do
     it "maps the cases controller" do
@@ -45,15 +44,30 @@ RSpec.describe TestManagement::Menu do
     end
   end
 
-  it "lists cases only" do
-    expect(items.map(&:href)).to eq([project_test_management_test_cases_path(project)])
+  context "with vertical navigation" do
+    before { create(:tm_project_setting, project:, navigation_layout: "vertical") }
+
+    it "lists cases in the sidebar menu" do
+      expect(menu.menu_items.first.children.map(&:href))
+        .to eq([project_test_management_test_cases_path(project)])
+    end
+  end
+
+  context "with horizontal navigation" do
+    before { create(:tm_project_setting, project:, navigation_layout: "horizontal") }
+
+    it "hides the sidebar menu items" do
+      expect(menu).to be_horizontal_navigation
+      expect(menu.menu_items).to be_empty
+    end
   end
 
   context "without the module" do
     let(:project) { create(:project, enabled_module_names: []) }
 
-    it "is empty" do
-      expect(items).to be_empty
+    it "has no visible sections" do
+      expect(menu.visible_sections).to be_empty
+      expect(menu.menu_items.first.children).to be_empty
     end
   end
 end

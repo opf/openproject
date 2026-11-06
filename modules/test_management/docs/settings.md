@@ -23,9 +23,10 @@ Requires `manage_test_management`.
 | Display prefix | Case ID prefix (for example `DEMO` → `DEMO-12`) |
 | Navigation layout | `vertical` (default): sections in the left panel, folders and cases in the main area. `horizontal`: Cases · Runs · Milestones · … as a top bar above folders and cases. |
 
-Feature toggles (CI, milestones, plans, assistant, requirements) and the horizontal
-nav UI are added in the stages that ship those features. The layout preference is
-stored now.
+Feature toggles (CI, milestones, plans, assistant, requirements) are added in the
+stages that ship those features. Navigation layout already switches Cases between
+the left submenu (vertical) and a top tab bar (horizontal); later sections reuse
+the same control.
 
 ## Administration
 

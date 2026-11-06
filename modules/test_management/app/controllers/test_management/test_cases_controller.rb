@@ -31,6 +31,8 @@ module TestManagement
   class TestCasesController < ApplicationController
     menu_item :test_management
 
+    helper TestManagement::NavigationHelper
+
     before_action :find_project_by_project_id
     before_action :authorize
 

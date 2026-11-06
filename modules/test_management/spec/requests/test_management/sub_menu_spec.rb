@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Test management sidebar submenu", type: :rails_request do
+RSpec.describe "Test management section navigation", type: :rails_request do
   shared_let(:project) { create(:project, enabled_module_names: %i[test_management]) }
   shared_let(:user) do
     create(:user, member_with_permissions: { project => %i[view_test_cases] })
@@ -37,10 +37,38 @@ RSpec.describe "Test management sidebar submenu", type: :rails_request do
 
   before { login_as(user) }
 
-  it "renders the cases menu item" do
-    get project_test_management_menu_path(project, section: "cases")
+  context "with vertical navigation" do
+    before { create(:tm_project_setting, project:, navigation_layout: "vertical") }
 
-    expect(response).to have_http_status(:ok)
-    expect(response.body).to include(project_test_management_test_cases_path(project))
+    it "renders the cases item in the sidebar submenu" do
+      get project_test_management_menu_path(project, section: "cases")
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(project_test_management_test_cases_path(project))
+    end
+
+    it "does not render the horizontal section nav on cases" do
+      get project_test_management_test_cases_path(project)
+
+      expect(response.body).not_to include('data-test-selector="tm-section-nav"')
+    end
+  end
+
+  context "with horizontal navigation" do
+    before { create(:tm_project_setting, project:, navigation_layout: "horizontal") }
+
+    it "omits sidebar section links" do
+      get project_test_management_menu_path(project, section: "cases")
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include(project_test_management_test_cases_path(project))
+    end
+
+    it "renders the horizontal section nav on cases" do
+      get project_test_management_test_cases_path(project)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('data-test-selector="tm-section-nav"')
+    end
   end
 end

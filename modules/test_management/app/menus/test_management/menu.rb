@@ -47,12 +47,24 @@ module TestManagement
       @user = user
     end
 
+    def vertical_navigation?
+      TestManagement::ProjectSetting.for_project(project).vertical_navigation?
+    end
+
+    def horizontal_navigation?
+      !vertical_navigation?
+    end
+
     def current_section
       section = params[:section].to_s
-      SECTIONS.include?(section) ? section : nil
+      return section if SECTIONS.include?(section)
+
+      self.class.section_for(params[:controller])
     end
 
     def menu_items
+      return [] if horizontal_navigation?
+
       [menu_group(header: nil, children: section_items)]
     end
 
