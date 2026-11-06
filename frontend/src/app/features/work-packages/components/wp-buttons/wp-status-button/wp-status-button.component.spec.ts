@@ -34,6 +34,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
+import { ToolTipElement } from 'core-app/shared/components/primer/tool-tip-element';
 import { WorkPackageStatusButtonComponent } from './wp-status-button.component';
 
 const translations:Record<string, string> = {
@@ -69,13 +70,14 @@ describe('WorkPackageStatusButtonComponent', () => {
 
     fixture = TestBed.createComponent(WorkPackageStatusButtonComponent);
     fixture.componentRef.setInput('workPackage', workPackage);
-    fixture.nativeElement.style.display = 'block';
-    fixture.nativeElement.style.width = width;
+    const host = fixture.nativeElement as HTMLElement;
+    host.style.display = 'block';
+    host.style.width = width;
     fixture.detectChanges();
     await fixture.whenStable();
   }
 
-  const tooltip = () => fixture.nativeElement.querySelector('tool-tip') as HTMLElement;
+  const tooltip = () => (fixture.nativeElement as HTMLElement).querySelector<ToolTipElement>('tool-tip')!;
 
   it('shows the full status in a tooltip while the status is cut off', async () => {
     await render({ width: '60px' });
