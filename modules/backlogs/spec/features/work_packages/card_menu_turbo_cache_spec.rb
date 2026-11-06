@@ -54,6 +54,163 @@ RSpec.describe "Backlog card menus restored or morphed by Turbo",
     backlogs_page.visit!
   end
 
+  def install_menu_request_probe(fail_next: false)
+    page.execute_script(<<~JS, fail_next)
+      window.menuRequests = [];
+      window.menuRequestStacks = [];
+      window.failNextMenuRequest = arguments[0];
+      const originalFetch = window.fetch;
+      window.fetch = function(input, options) {
+        const url = new URL(input instanceof Request ? input.url : input.toString(), window.location.href);
+        if (url.pathname.endsWith('/backlogs/work_packages/menu')) {
+          window.menuRequests.push(url.searchParams.getAll('ids[]'));
+          window.menuRequestStacks.push(new Error().stack);
+          if (window.failNextMenuRequest) {
+            window.failNextMenuRequest = false;
+            return Promise.resolve(new Response('Menu failure', { status: 500 }));
+          }
+        }
+        return originalFetch.call(this, input, options);
+      };
+    JS
+  end
+
+  def expect_menu_requests(*batches)
+    page.evaluate_async_script("const done = arguments[0]; requestAnimationFrame(() => requestAnimationFrame(done));")
+    expect(page.evaluate_script("window.menuRequests"))
+      .to eq(batches.map { |batch| batch.map { |wp| wp.id.to_s } }), page.evaluate_script("window.menuRequestStacks.join('\\n')")
+  end
+
+  def inbox_form_ids(menu)
+    button = menu.find(:menuitem, text: "Move to backlog inbox", exact_text: true)
+    page.evaluate_script("new FormData(arguments[0].form).getAll('ids[]')", button)
+  end
+
+  def submit_inbox(menu)
+    menu.find(:menuitem, text: "Move to backlog inbox", exact_text: true).click
+  end
+
+  it "starts with an empty primary body and an inert server-rendered loader" do
+    menu = backlogs_page.work_package_card(first_story).find("action-menu", visible: :all)
+    markup = page.evaluate_script(<<~JS, menu)
+      (() => {
+        const menu = arguments[0];
+        return {
+          children: menu.querySelector('[data-target="action-menu.overlayBody"]')?.childElementCount,
+          src: menu.querySelector('template[data-target="action-menu.loaderTemplate"]')?.content.firstElementChild?.getAttribute('src')
+        };
+      })()
+    JS
+    expect(markup).to eq("children" => 0, "src" => menu["src"])
+  end
+
+  %i[more right_click].each do |via|
+    it "deduplicates healthy reopens, refreshes changed IDs and submits their order via #{via}" do
+      install_menu_request_probe
+      backlogs_page.open_card_menu(first_story, via:)
+      expect_menu_requests([first_story])
+      backlogs_page.dismiss_card_menu(first_story, via:)
+      backlogs_page.clear_card_selection(first_story)
+      backlogs_page.select_cards(second_story, first_story)
+
+      menu = backlogs_page.open_card_menu(second_story, via:)
+      expect_menu_requests([first_story], [first_story, second_story])
+      expect(inbox_form_ids(menu)).to eq([first_story.id, second_story.id].map(&:to_s))
+      backlogs_page.dismiss_card_menu(second_story, via:)
+      menu = backlogs_page.open_card_menu(second_story, via:)
+      expect_menu_requests([first_story], [first_story, second_story])
+      submit_inbox(menu)
+
+      backlogs_page.expect_inbox_items_in_order(items: [first_story, second_story])
+      expect(first_story.reload.sprint_id).to be_nil
+      expect(second_story.reload.sprint_id).to be_nil
+    end
+
+    it "retries a failed unchanged URL once on reopen via #{via}" do
+      install_menu_request_probe(fail_next: true)
+      if via == :more
+        backlogs_page.within_work_package(first_story) { find(:button, accessible_name: "Work package actions").click }
+      else
+        backlogs_page.right_click_work_package_card(first_story)
+      end
+      aggregate_failures do
+        expect(page).to have_css("action-menu include-fragment.is-error", visible: :all)
+        expect_menu_requests([first_story])
+      end
+      backlogs_page.dismiss_card_menu(first_story, via:)
+
+      menu = backlogs_page.open_card_menu(first_story, via:)
+      expect_menu_requests([first_story], [first_story])
+      submit_inbox(menu)
+      backlogs_page.expect_inbox_items_in_order(items: [first_story])
+      backlogs_page.expect_sprint_items_in_order(sprint, items: [second_story])
+    end
+
+    it "loads and submits only the singleton after restoring a previously loaded batch via #{via}" do
+      backlogs_page.select_cards(first_story, second_story)
+      backlogs_page.open_card_menu(second_story, via:)
+      backlogs_page.leave_for_all_sprints
+      backlogs_page.go_back_to_backlogs
+      backlogs_page.clear_card_selection(first_story)
+      install_menu_request_probe
+
+      menu = backlogs_page.open_card_menu(first_story, via:)
+      expect_menu_requests([first_story])
+      expect(inbox_form_ids(menu)).to eq([first_story.id.to_s])
+      submit_inbox(menu)
+      backlogs_page.expect_inbox_items_in_order(items: [first_story])
+      backlogs_page.expect_sprint_items_in_order(sprint, items: [second_story])
+      expect(second_story.reload.sprint_id).to eq(sprint.id)
+    end
+  end
+
+  it "adopts a shell-first loader from a real Turbo morph and submits the current singleton" do
+    backlogs_page.select_cards(first_story, second_story)
+    install_menu_request_probe
+    backlogs_page.open_card_menu(first_story, via: :more)
+    backlogs_page.dismiss_card_menu(first_story, via: :more)
+    backlogs_page.clear_card_selection(first_story)
+    menu = backlogs_page.work_package_card(first_story).find("action-menu", visible: :all)
+    page.execute_script(<<~JS, menu, first_story.id.to_s)
+      const menu = arguments[0], id = arguments[1];
+      const fragment = menu.querySelector('template[data-target="action-menu.loaderTemplate"]').content.firstElementChild.cloneNode(true);
+      const url = new URL(menu.getAttribute('src'), window.location.href);
+      url.searchParams.delete('ids[]');
+      url.searchParams.append('ids[]', id);
+      fragment.setAttribute('src', url.pathname + url.search);
+      fragment.setAttribute('loading', 'lazy');
+      const body = menu.querySelector('[data-target="action-menu.overlayBody"]');
+      body.id = 'shell-first-menu-body';
+      Turbo.renderStreamMessage(`<turbo-stream action="update" method="morph" target="${body.id}"><template>${fragment.outerHTML}</template></turbo-stream>`);
+    JS
+    expect(page).to have_css("#shell-first-menu-body > include-fragment[loading='lazy']", visible: :all)
+    expect_menu_requests([first_story, second_story])
+
+    loaded_menu = backlogs_page.open_card_menu(first_story, via: :more)
+    expect_menu_requests([first_story, second_story], [first_story])
+    submit_inbox(loaded_menu)
+    backlogs_page.expect_inbox_items_in_order(items: [first_story])
+    backlogs_page.expect_sprint_items_in_order(sprint, items: [second_story])
+  end
+
+  context "with a full inbox selection and no other destination" do
+    let!(:sprint) { nil }
+
+    it "deduplicates a healthy effective-singular fallback on reopen" do
+      backlogs_page.select_cards(first_story, second_story)
+      install_menu_request_probe
+      menu = backlogs_page.open_card_menu(first_story, via: :more)
+      expect(menu).to have_selector(:menuitem, text: "Open details view")
+      expect(page).to have_selector(:menu, accessible_name: "Work package actions")
+      expect_menu_requests([first_story, second_story])
+      backlogs_page.dismiss_card_menu(first_story, via: :more)
+
+      menu = backlogs_page.open_card_menu(first_story, via: :more)
+      expect(menu).to have_selector(:menuitem, text: "Open details view")
+      expect_menu_requests([first_story, second_story])
+    end
+  end
+
   it "loads a menu that was loaded before leaving for the current selection" do
     backlogs_page.expect_work_package_actions(first_story, present: ["Open details view"])
 

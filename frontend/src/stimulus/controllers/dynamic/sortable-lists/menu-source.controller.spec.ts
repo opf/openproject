@@ -791,6 +791,21 @@ describe('Sortable lists menu source controller', () => {
         expect(buttonOf(items[0])).toHaveAccessibleName(singularName);
       });
 
+      it('resets an open menu when there is no lazy fragment to remember', async () => {
+        const { items } = await renderLazyRoot(['1', '2']);
+        const [first, second] = items;
+        bodyOf(first).replaceChildren();
+        click(first, { ctrlKey: true });
+        click(second, { ctrlKey: true });
+        openMenu(first);
+        await loadBatchMenu(first, 2);
+        expect(buttonOf(first)).toHaveAccessibleName('Actions for 2 selected work packages');
+
+        cachePage();
+
+        expect(buttonOf(first)).toHaveAccessibleName(singularName);
+      });
+
       it('closes a menu still open when the page is cached', async () => {
         const { items } = await renderLoadedBatch();
         const overlay = items[0].querySelector<HTMLElement>(':scope action-menu > anchored-position')!;

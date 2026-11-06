@@ -127,14 +127,21 @@ export default class MenuSourceController extends Controller<HTMLElement> {
     }
   };
 
-  // Primer treats a menu as deferred only if it connects with its lazy
-  // fragment in place, so a snapshot of a loaded menu would come back
-  // unable to load for a later selection.
   private readonly onBeforeCache = ():void => {
-    this.element.querySelectorAll<ActionMenuElement>('action-menu').forEach((menu) => {
-      const fragment = this.lazyFragments.get(menu);
+    const menu = this.openMenu;
+    if (menu) {
+      const overlay = this.overlayOf(menu);
+      if (overlay?.matches(':popover-open')) {
+        overlay.hidePopover();
+      }
+      this.openMenu = null;
+      this.rename(menu, SINGULAR_COUNT);
+    }
+
+    this.element.querySelectorAll<ActionMenuElement>('action-menu').forEach((actionMenu) => {
+      const fragment = this.lazyFragments.get(actionMenu);
       if (fragment) {
-        this.restoreLazyFragment(menu, fragment);
+        this.restoreLazyFragment(actionMenu, fragment);
       }
     });
   };
