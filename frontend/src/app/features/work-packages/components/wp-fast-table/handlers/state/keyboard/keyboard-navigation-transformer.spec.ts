@@ -786,6 +786,123 @@ describe('KeyboardNavigationTransformer', () => {
     expect(selectedIds(table)).toEqual(['2', '3']);
   });
 
+  it('PageDown and PageUp move by the rows that fit the viewport', async () => {
+    const table = await mount({ workPackages: ['1', '2', '3', '4', '5', '6'].map((id) => ({ id })) });
+    const rowHeight = vi.spyOn(HTMLTableRowElement.prototype, 'getBoundingClientRect').mockReturnValue({ height: 20 } as DOMRect);
+    Object.defineProperty(table.table.scrollContainer, 'clientHeight', { configurable: true, value: 60 });
+    try {
+      table.row('1').focus();
+
+      expect(pressActive('PageDown')).toBe(false);
+      expect(table.row('4')).toHaveFocus();
+      expect(pressActive('PageUp')).toBe(false);
+      expect(table.row('1')).toHaveFocus();
+    } finally {
+      rowHeight.mockRestore();
+    }
+  });
+
+  it('PageDown with every group collapsed moves one group header', async () => {
+    const table = await mount(grouped);
+    const collapsedGroups = table.injector.get(WorkPackageViewCollapsedGroupsService);
+    [0, 1].forEach((index) => collapsedGroups.toggleGroupCollapseState(table.groupHeader(index).dataset.groupIdentifier!));
+    await waitFor(() => expect(table.row('3')).not.toBeVisible());
+    table.groupHeader(0).focus();
+
+    pressActive('PageDown');
+
+    expect(table.groupHeader(1)).toHaveFocus();
+  });
+
+  it('Enter on a group sums row is not consumed', async () => {
+    const table = await mount({
+      ...grouped,
+      groups: grouped.groups!.map((group) => ({ ...group, sums: { estimatedTime: 'PT1H' } as never })),
+    });
+    const collapsedGroups = table.injector.get(WorkPackageViewCollapsedGroupsService);
+    const sumsRow = table.container.querySelector<HTMLTableRowElement>('tbody.work-package--results-tbody tr.wp-table--sums-row')!;
+    sumsRow.focus();
+
+    expect(press(sumsRow, 'Enter')).toBe(true);
+
+    expect(selectedIds(table)).toEqual([]);
+    expect(Object.values(collapsedGroups.config.state)).not.toContain(true);
+    expect(sumsRow).toHaveFocus();
+  });
+
+  it('adoptOverlay keeps the return path for an overlay that already holds focus', async () => {
+    const table = await mount();
+    const origin = { key: wpOccurrenceKey('1'), cell: null, desiredColumn: null };
+    navigation(table).focusPosition(origin);
+    const overlay = document.createElement('div');
+    const button = document.createElement('button');
+    overlay.append(button);
+    document.body.append(overlay);
+    try {
+      button.focus();
+      navigation(table).adoptOverlay(overlay);
+      overlay.remove();
+
+      expect(navigation(table).returnFocus(origin)).toBe(true);
+      expect(table.row('1')).toHaveFocus();
+    } finally {
+      overlay.remove();
+    }
+  });
+
+  it('returnFocus leaves focus on the scroll container itself', async () => {
+    const table = await mount();
+    const origin = { key: wpOccurrenceKey('2'), cell: null, desiredColumn: null };
+    navigation(table).focusPosition(origin);
+    const container = table.table.scrollContainer;
+    container.focus();
+
+    expect(navigation(table).returnFocus(origin)).toBe(false);
+    expect(container).toHaveFocus();
+  });
+
+  it('returnFocus treats an unlisted grid row as at rest', async () => {
+    const table = await mount();
+    const origin = { key: wpOccurrenceKey('2'), cell: null, desiredColumn: null };
+    navigation(table).focusPosition(origin);
+    const emptyBody = document.createElement('tbody');
+    emptyBody.innerHTML = '<tr tabindex="-1"><td>No results</td></tr>';
+    table.table.tbody.after(emptyBody);
+    try {
+      emptyBody.querySelector<HTMLTableRowElement>('tr')!.focus();
+
+      expect(navigation(table).returnFocus(origin)).toBe(true);
+      expect(table.row('2')).toHaveFocus();
+    } finally {
+      emptyBody.remove();
+    }
+  });
+
+  it('repaintCurrentPosition before any focus keeps the first row as the Tab stop', async () => {
+    const table = await mount();
+
+    navigation(table).repaintCurrentPosition();
+
+    expect(table.row('1')).toHaveAttribute('tabindex', '0');
+    expect(table.row('2')).toHaveAttribute('tabindex', '-1');
+  });
+
+  it('focusPosition on an unrendered cell leaves focus and scroll alone', async () => {
+    const table = await mount();
+    const unrendered = { key: wpOccurrenceKey('1'), cell: 99, desiredColumn: 99 };
+    table.row('1').focus();
+    const scroll = vi.spyOn(Element.prototype, 'scrollIntoView');
+    try {
+      navigation(table).focusPosition(unrendered);
+
+      expect(navigation(table).elementAt(unrendered)).toBeNull();
+      expect(table.row('1')).toHaveFocus();
+      expect(scroll).not.toHaveBeenCalled();
+    } finally {
+      scroll.mockRestore();
+    }
+  });
+
   it('returnFocus ignores a vanished origin and focus that left the table', async () => {
     const table = await mount();
     const origin = { key: wpOccurrenceKey('2'), cell: 1, desiredColumn: 1 };
