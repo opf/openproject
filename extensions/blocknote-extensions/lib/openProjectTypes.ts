@@ -14,6 +14,7 @@ export interface WorkPackage {
     type:{ title:string; href:string } | null;
     parent?:{ title:string; href:string } | null;
     project?:{ title:string; href:string } | null;
+    schema?:{ href:string };
   } | null;
 }
 
