@@ -32,23 +32,45 @@ class UpdateDefaultAccentAndHeaderColors < ActiveRecord::Migration[8.1]
     self.table_name = "design_colors"
   end
 
-  def up
-    MigrationDesignColor
-      .where(variable: "accent-color", hexcode: OpenProject::CustomStyles::ColorThemes::DEPRECATED_ACCENT_COLOR)
-      .update_all(hexcode: OpenProject::CustomStyles::ColorThemes::ACCENT_COLOR)
+  class MigrationCustomStyle < ApplicationRecord
+    self.table_name = "custom_styles"
+  end
 
-    MigrationDesignColor
-      .where(variable: "header-bg-color", hexcode: OpenProject::CustomStyles::ColorThemes::DEPRECATED_HEADER_BG_COLOR)
-      .update_all(hexcode: OpenProject::CustomStyles::ColorThemes::DEFAULT_HEADER_BG_COLOR)
+  OLD_COLORS = {
+    "accent-color" => "#1A67A3",
+    "header-bg-color" => "#1A67A3",
+    "main-menu-bg-selected-background" => "#175A8E"
+  }.freeze
+
+  NEW_COLORS = {
+    "accent-color" => "#0F41B5",
+    "header-bg-color" => "#0F41B5",
+    "main-menu-bg-selected-background" => "#0F41B5"
+  }.freeze
+
+  def up
+    replace_colors(from: OLD_COLORS, to: NEW_COLORS)
   end
 
   def down
-    MigrationDesignColor
-      .where(variable: "accent-color", hexcode: OpenProject::CustomStyles::ColorThemes::ACCENT_COLOR)
-      .update_all(hexcode: OpenProject::CustomStyles::ColorThemes::DEPRECATED_ACCENT_COLOR)
+    replace_colors(from: NEW_COLORS, to: OLD_COLORS)
+  end
 
-    MigrationDesignColor
-      .where(variable: "header-bg-color", hexcode: OpenProject::CustomStyles::ColorThemes::DEFAULT_HEADER_BG_COLOR)
-      .update_all(hexcode: OpenProject::CustomStyles::ColorThemes::DEPRECATED_HEADER_BG_COLOR)
+  private
+
+  def replace_colors(from:, to:)
+    updated = from.sum do |variable, hexcode|
+      MigrationDesignColor
+        .where(variable:, hexcode:)
+        .update_all(hexcode: to.fetch(variable), updated_at: Time.current)
+    end
+
+    touch_current_custom_style if updated.positive?
+  end
+
+  # Cached custom styles are keyed on the current CustomStyle, which
+  # DesignColor's after_commit hook would otherwise touch.
+  def touch_current_custom_style
+    MigrationCustomStyle.order(created_at: :desc).first&.touch
   end
 end
