@@ -1,3 +1,4 @@
+---
 description: |-
   A simple response of an example work package.
 value:
@@ -148,7 +149,13 @@ value:
       title: Time entries
     watchers:
       href: "/api/v3/work_packages/1528/watchers"
+    repositoryIssues:
+      href: "/api/v3/work_packages/1528/repository_issues"
+    repositoryMergeRequests:
+      href: "/api/v3/work_packages/1528/repository_merge_requests"
+    repositoryBranches:
+      href: "/api/v3/work_packages/1528/repository_branches"
+    repositoryCommits:
+      href: "/api/v3/work_packages/1528/repository_commits"
     customField3:
       href: api/v3/users/14
-
-

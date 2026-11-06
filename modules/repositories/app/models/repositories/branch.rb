@@ -36,6 +36,8 @@ module Repositories
     belongs_to :repository_user, class_name: "Repositories::User", optional: true
     belongs_to :work_package
 
+    scope :visible, ->(user = ::User.current) { where(work_package: WorkPackage.allowed_to(user, :show_repository_content)) }
+
     def web_url = provider.branch_url(self)
 
     def new_merge_request_url = provider.new_merge_request_url(self)
