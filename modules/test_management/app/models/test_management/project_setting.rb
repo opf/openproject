@@ -42,9 +42,10 @@ module TestManagement
     validates :display_prefix, length: { maximum: DISPLAY_PREFIX_MAX_LENGTH }, allow_blank: true
     validate :validate_navigation_layout
 
-    store_accessor :options, :navigation_layout
+    store_attribute :options, :navigation_layout, :string
 
     before_validation :normalize_blank_navigation_layout
+    before_validation :prune_unknown_option_keys
 
     def self.for_project(project)
       find_or_initialize_by(project:)
@@ -72,6 +73,13 @@ module TestManagement
 
     def normalize_blank_navigation_layout
       self.navigation_layout = DEFAULT_NAVIGATION_LAYOUT if navigation_layout.blank?
+    end
+
+    # Drop keys left from earlier scaffolds (e.g. enable_*) so saves stay valid.
+    def prune_unknown_option_keys
+      return if options.blank?
+
+      self.options = options.stringify_keys.slice("navigation_layout")
     end
 
     def validate_navigation_layout

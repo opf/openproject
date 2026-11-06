@@ -56,6 +56,32 @@ RSpec.describe "Test management project settings", :skip_csrf, type: :rails_requ
         setting = TestManagement::ProjectSetting.find_by!(project:)
         expect(setting.display_prefix).to eq("TC")
         expect(setting.effective_navigation_layout).to eq("horizontal")
+        expect(setting.options).to include("navigation_layout" => "horizontal")
+      end
+
+      it "updates navigation layout when display prefix is blank" do
+        patch project_test_management_project_settings_path(project),
+              params: {
+                project_setting: {
+                  display_prefix: "",
+                  navigation_layout: "horizontal"
+                }
+              }
+
+        expect(response).to redirect_to(project_test_management_project_settings_path(project))
+        expect(TestManagement::ProjectSetting.find_by!(project:).effective_navigation_layout).to eq("horizontal")
+      end
+
+      it "updates navigation layout even when options still hold removed feature keys" do
+        create(:tm_project_setting, project:, options: { "enable_ci" => true, "folder_tree_layout" => "split_pane" })
+
+        patch project_test_management_project_settings_path(project),
+              params: { project_setting: { navigation_layout: "horizontal" } }
+
+        expect(response).to redirect_to(project_test_management_project_settings_path(project))
+        setting = TestManagement::ProjectSetting.find_by!(project:)
+        expect(setting.effective_navigation_layout).to eq("horizontal")
+        expect(setting.options.keys).to eq(["navigation_layout"])
       end
 
       it "shows the settings form with navigation layout" do

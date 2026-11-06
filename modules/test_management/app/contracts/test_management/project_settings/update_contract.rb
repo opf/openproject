@@ -34,7 +34,9 @@ module TestManagement
 
       attribute :project
       attribute :display_prefix
-      stored_attribute :navigation_layout, store: :options
+      attribute :navigation_layout
+      # store_attribute dirties the JSONB column; allow it so leftover keys can be pruned on save
+      attribute :options
 
       validate :user_allowed_to_manage
 
