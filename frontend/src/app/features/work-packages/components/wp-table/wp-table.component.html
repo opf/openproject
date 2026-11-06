@@ -85,13 +85,10 @@
             <tbody class="work-package--empty-tbody">
               <tr id="empty-row-notification">
                 <td [attr.colspan]="numTableColumns">
-                  <span>
-                    <op-icon icon-classes="icon-info1 icon-context" />
-                    <span>
-                      <strong>{{text.noResults.title}}</strong>
-                      {{text.noResults.description}}
-                    </span>
-                  </span>
+                  <op-no-results
+                    icon="op-work-packages"
+                    [title]="text.noResults.title"
+                    [message]="text.noResults.description" />
                 </td>
               </tr>
             </tbody>

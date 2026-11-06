@@ -1,5 +1,5 @@
 <blankslate>
-  <blankslate-icon icon="graph" />
+  <blankslate-icon [icon]="icon()" />
   <blankslate-heading>{{ title() }}</blankslate-heading>
   @if (message()) {
     <blankslate-description>{{ message() }}</blankslate-description>

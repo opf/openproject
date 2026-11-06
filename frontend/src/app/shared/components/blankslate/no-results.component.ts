@@ -48,6 +48,7 @@ import {
 export class NoResultsComponent {
   private readonly i18n = inject(I18nService);
 
+  readonly icon = input('graph');
   readonly title = input(this.i18n.t('js.label_no_data'));
   readonly message = input<string>();
 }
