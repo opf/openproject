@@ -78,6 +78,8 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
     },
   };
 
+  readonly sortCriteriaLabels = [this.text.sort_criteria_1, this.text.sort_criteria_2, this.text.sort_criteria_3];
+
   readonly availableDirections = [
     { href: QUERY_SORT_BY_ASC, name: this.I18n.t('js.label_ascending') },
     { href: QUERY_SORT_BY_DESC, name: this.I18n.t('js.label_descending') },

@@ -14,10 +14,10 @@
         <label
           tabindex="-1"
           class="spot-list--item-action op-project-include-list--item-action"
-          (keydown.space)="changeSelected(project)"
+          (keydown.space)="$event.preventDefault(); changeSelected(project)"
           [ngClass]="{
             'spot-list--item-action_disabled': project.disabled,
-            'spot-list--item-action_active': (searchableProjectListService.activeItemID$ | async) === project.id
+            'spot-list--item-action_active': (searchableProjectListService.selectedItemID$ | async) === project.id
           }"
           [attr.data-list-selector]="projectListActionIdentifier"
           [attr.data-list-disabled]="project.disabled || undefined"
