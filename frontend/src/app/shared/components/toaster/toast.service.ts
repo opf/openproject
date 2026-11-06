@@ -45,6 +45,7 @@ export type ToastType = 'success'|'error'|'warning'|'info'|'upload'|'loading';
 
 export interface IToast {
   message:string;
+  announce?:boolean;
   icon?:string;
   link?:{ text:string, target:() => void };
   type:ToastType;
@@ -179,6 +180,7 @@ export class ToastService {
       : {
         message: toast.message,
         type,
+        announce: toast.announce,
         link: toast.link,
         icon: toast.icon,
         data: toast.data,

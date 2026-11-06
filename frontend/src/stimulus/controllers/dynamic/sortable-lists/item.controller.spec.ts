@@ -1442,10 +1442,11 @@ describe('Sortable lists item controller', () => {
       // decides whether it still separates anything.
       menuElement.innerHTML = (withDivider ? '<li data-sortable-lists--item-target="moveDivider"></li>' : '')
         + ['top', 'up', 'down', 'bottom'].map((direction) => (
-          `<li data-sortable-lists--item-target="moveItem" data-sortable-lists--item-direction-param="${direction}"`
+          `<li class="ActionListItem" data-sortable-lists--item-target="moveItem" data-sortable-lists--item-direction-param="${direction}"`
           + ' data-action="click->sortable-lists--item#move"><button></button></li>'
         )).join('');
       const parent = document.createElement('li');
+      parent.classList.add('ActionListItem');
       parent.setAttribute('data-sortable-lists--item-target', 'moveMenu');
       menuElement.appendChild(parent);
       el.appendChild(menuElement);
@@ -1557,6 +1558,49 @@ describe('Sortable lists item controller', () => {
       expect(divider.hasAttribute('hidden')).toBe(true);
     });
 
+    it('hides the singular divider with a trailing submenu overlay but no visible ActionList item', async () => {
+      const { el } = renderItemWithMenu(1, true);
+      const menu = el.querySelector('action-menu')!;
+      const list = document.createElement('ul');
+      list.setAttribute('role', 'menu');
+      list.append(...menu.children);
+      list.append(document.createElement('anchored-position'));
+      menu.append(list);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
+      controller.moveItemTargetConnected();
+
+      expect(el.querySelector('[data-sortable-lists--item-target="moveDivider"]')).toHaveAttribute('hidden');
+    });
+
+    it('refreshes only when its primary overlay opens, not for tooltip or submenu toggles', async () => {
+      const { el } = renderItemWithMenu(2);
+      const menu = el.querySelector('action-menu')!;
+      const primary = document.createElement('anchored-position');
+      primary.append(...menu.children);
+      menu.append(primary);
+      const submenu = document.createElement('anchored-position');
+      primary.append(submenu);
+      const tooltip = document.createElement('tool-tip');
+      menu.append(tooltip);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const root = stubRoot(el, { isFirst: false, isLast: false });
+      const availability = vi.spyOn(root, 'moveAvailability');
+      controller.connectRoot(root);
+      availability.mockClear();
+      const open = () => Object.assign(new Event('toggle'), { newState: 'open' });
+
+      tooltip.dispatchEvent(open());
+      submenu.dispatchEvent(open());
+      expect(availability).not.toHaveBeenCalled();
+      primary.dispatchEvent(open());
+      expect(availability).toHaveBeenCalledOnce();
+      primary.dispatchEvent(Object.assign(new Event('toggle'), { newState: 'closed' }));
+      expect(availability).toHaveBeenCalledOnce();
+    });
+
     it('keeps the divider while something below it is still visible', async () => {
       const { el } = renderItemWithMenu(1, true);
       document.body.appendChild(el);
@@ -1604,7 +1648,7 @@ describe('Sortable lists item controller', () => {
         return mountItemController(el);
       }
 
-      it('hides Move to position for a sparse same-list block', async () => {
+      it('hides Move to position for a blocked same-list batch', async () => {
         const { el, menu } = renderItemWithMenu(1, true);
         nestDirectionsInSubmenu(el);
         const controller = await mountDisabling(el);
@@ -1646,6 +1690,186 @@ describe('Sortable lists item controller', () => {
         expect(moveMenuOf(el)).not.toHaveAttribute('hidden');
         expect(dividerOf(el)).not.toHaveAttribute('hidden');
       });
+
+      // A batch menu whose only action is Move to position carries the
+      // singular actions hidden, so it never opens empty.
+      describe('with a singular fallback', () => {
+        const fallbackOf = (el:HTMLElement) => [...el.querySelectorAll<HTMLElement>('li[data-sortable-lists--item-target="moveFallback"]')];
+
+        function renderBatchMenuWithFallback():{ el:HTMLElement } {
+          const { el } = renderItemWithMenu(1);
+          nestDirectionsInSubmenu(el);
+          const menuElement = el.querySelector('action-menu')!;
+          const list = document.createElement('ul');
+          list.setAttribute('role', 'menu');
+          ['Open details view', 'Copy work package ID'].forEach((label) => {
+            const li = document.createElement('li');
+            li.setAttribute('data-sortable-lists--item-target', 'moveFallback');
+            li.setAttribute('hidden', '');
+            li.innerHTML = `<button>${label}</button>`;
+            list.append(li);
+          });
+          menuElement.prepend(list);
+          document.body.appendChild(el);
+          return { el };
+        }
+
+        it('reveals the fallback and hides Move to position for a blocked batch', async () => {
+          const { el } = renderBatchMenuWithFallback();
+          const controller = await mountItemController(el);
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), unavailable, [el, document.createElement('li')]));
+          controller.moveItemTargetConnected();
+
+          expect(moveMenuOf(el)).toHaveAttribute('hidden');
+          fallbackOf(el).forEach((li) => expect(li).not.toHaveAttribute('hidden'));
+          expect(within(el).getByRole('button', { name: 'Open details view' })).toBeVisible();
+        });
+
+        it('moves focus off Move to position onto the first fallback item before hiding it', async () => {
+          const { el } = renderBatchMenuWithFallback();
+          const list = document.createElement('ul');
+          list.setAttribute('role', 'menu');
+          el.querySelector('action-menu')!.prepend(list);
+          fallbackOf(el).forEach((li) => {
+            li.querySelector('button')!.setAttribute('role', 'menuitem');
+            list.append(li);
+          });
+          const moveMenu = moveMenuOf(el);
+          moveMenu.insertAdjacentHTML('afterbegin', '<button role="menuitem">Move to position</button>');
+          list.append(moveMenu);
+          const controller = await mountItemController(el);
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), unavailable, [el, document.createElement('li')]));
+          within(list).getByRole('menuitem', { name: 'Move to position' }).focus();
+
+          controller.moveItemTargetConnected();
+
+          expect(moveMenu).toHaveAttribute('hidden');
+          expect(within(fallbackOf(el)[0]).getByRole('menuitem')).toHaveFocus();
+        });
+
+        it('keeps the fallback hidden once the block can move again', async () => {
+          const { el } = renderBatchMenuWithFallback();
+          const controller = await mountItemController(el);
+          const availability = { ...unavailable };
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), availability, [el, document.createElement('li')]));
+          controller.moveItemTargetConnected();
+
+          Object.assign(availability, { down: true });
+          controller.moveItemTargetConnected();
+
+          expect(moveMenuOf(el)).not.toHaveAttribute('hidden');
+          fallbackOf(el).forEach((li) => expect(li).toHaveAttribute('hidden'));
+        });
+
+        it('keeps the fallback hidden for a contiguous block', async () => {
+          const { el } = renderBatchMenuWithFallback();
+          const controller = await mountItemController(el);
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), undefined, [el, document.createElement('li')]));
+          controller.moveItemTargetConnected();
+
+          expect(moveMenuOf(el)).not.toHaveAttribute('hidden');
+          fallbackOf(el).forEach((li) => expect(li).toHaveAttribute('hidden'));
+        });
+
+        it('marks the menu narrowed and announces it for a blocked batch', async () => {
+          const { el } = renderBatchMenuWithFallback();
+          const controller = await mountItemController(el);
+          const scopeChanged = vi.fn();
+          document.addEventListener('sortable-lists:menu-scope-changed', scopeChanged);
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), unavailable, [el, document.createElement('li')]));
+          controller.moveItemTargetConnected();
+          document.removeEventListener('sortable-lists:menu-scope-changed', scopeChanged);
+
+          expect(within(el).getByRole('menu', { hidden: true })).toHaveAttribute('data-sortable-lists-scope-narrowed');
+          expect(scopeChanged).toHaveBeenCalledTimes(1);
+        });
+
+        it('clears the narrowed mark and announces it once the block can move again', async () => {
+          const { el } = renderBatchMenuWithFallback();
+          const controller = await mountItemController(el);
+          const availability = { ...unavailable };
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), availability, [el, document.createElement('li')]));
+          controller.moveItemTargetConnected();
+          const scopeChanged = vi.fn();
+          document.addEventListener('sortable-lists:menu-scope-changed', scopeChanged);
+
+          Object.assign(availability, { down: true });
+          controller.moveItemTargetConnected();
+          document.removeEventListener('sortable-lists:menu-scope-changed', scopeChanged);
+
+          expect(within(el).getByRole('menu', { hidden: true })).not.toHaveAttribute('data-sortable-lists-scope-narrowed');
+          expect(scopeChanged).toHaveBeenCalledTimes(1);
+        });
+
+        it.each([
+          { state: 'blocked', availability: unavailable, expected: 1 },
+          { state: 'movable', availability: undefined, expected: 0 },
+        ])('announces only a change, not a repeated refresh of a $state block', async ({ availability, expected }) => {
+          const { el } = renderBatchMenuWithFallback();
+          const controller = await mountItemController(el);
+          const scopeChanged = vi.fn();
+          document.addEventListener('sortable-lists:menu-scope-changed', scopeChanged);
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), availability, [el, document.createElement('li')]));
+
+          controller.moveItemTargetConnected();
+          controller.moveItemTargetConnected();
+          controller.moveItemTargetConnected();
+          document.removeEventListener('sortable-lists:menu-scope-changed', scopeChanged);
+
+          expect(scopeChanged).toHaveBeenCalledTimes(expected);
+        });
+
+        it('leaves a list without fallback targets as before', async () => {
+          const { el, menu } = renderItemWithMenu(1);
+          nestDirectionsInSubmenu(el);
+          document.body.appendChild(el);
+          const controller = await mountItemController(el);
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), unavailable, [el, document.createElement('li')]));
+          controller.moveItemTargetConnected();
+
+          expect(moveMenuOf(el)).toHaveAttribute('hidden');
+          expect(menu.showItem).not.toHaveBeenCalled();
+        });
+      });
+
+      // Above the batch cap the server renders every position item disabled
+      // and marks it locked; direction gating must not revive it.
+      describe('above the batch cap', () => {
+        function lockAsServerDisabled(el:HTMLElement):void {
+          [moveMenuOf(el), ...el.querySelectorAll<HTMLElement>('li[data-sortable-lists--item-target="moveItem"]')]
+            .forEach((li) => {
+              li.classList.add('ActionListItem--disabled');
+              li.setAttribute('data-sortable-lists-locked', '');
+            });
+        }
+
+        const someAvailable = {
+          top: false, up: false, down: true, bottom: true,
+        };
+
+        it.each([
+          { mode: 'hiding', hideUnavailable: 'true' },
+          { mode: 'disabling', hideUnavailable: 'false' },
+        ])('keeps server-disabled position items disabled and visible when $mode', async ({ hideUnavailable }) => {
+          const { el } = renderItemWithMenu(1);
+          nestDirectionsInSubmenu(el);
+          lockAsServerDisabled(el);
+          el.setAttribute('data-sortable-lists--item-hide-unavailable-value', hideUnavailable);
+          document.body.appendChild(el);
+          const controller = await mountItemController(el);
+          const moveInDirection = vi.fn();
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, moveInDirection, someAvailable, [el, document.createElement('li')]));
+          controller.moveItemTargetConnected();
+
+          for (const li of [moveMenuOf(el), ...['top', 'up', 'down', 'bottom'].map((direction) => liFor(el, direction))]) {
+            expect(li).toHaveClass('ActionListItem--disabled');
+            expect(li).not.toHaveAttribute('hidden');
+          }
+
+          fireEvent.click(within(liFor(el, 'down')).getByRole('button'));
+          expect(moveInDirection).not.toHaveBeenCalled();
+        });
+      });
     });
 
     // The menu is loaded for the settled scope, so its position items
@@ -1675,12 +1899,33 @@ describe('Sortable lists item controller', () => {
       controller.moveItemTargetConnected();
 
       liFor(el, 'down').click();
-      expect(moveInDirection).toHaveBeenCalledWith(el, 'down');
+      expect(moveInDirection).toHaveBeenCalledWith(el, 'down', null);
 
       liFor(el, 'up').classList.add('ActionListItem--disabled'); // menu.isItemDisabled now returns true for it
       moveInDirection.mockClear();
       liFor(el, 'up').click();
       expect(moveInDirection).not.toHaveBeenCalled();
+    });
+
+    it('passes the primary scope owner when activating a positional submenu item', async () => {
+      const { el } = renderItemWithMenu(2);
+      const menu = el.querySelector('action-menu')!;
+      const scopeOwner = document.createElement('ul');
+      scopeOwner.setAttribute('data-sortable-lists-scope-count', '1');
+      scopeOwner.setAttribute('data-sortable-lists-scope-ids', '["2"]');
+      const submenu = document.createElement('ul');
+      submenu.append(...menu.children);
+      scopeOwner.append(submenu);
+      menu.append(scopeOwner);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const moveInDirection = vi.fn();
+      controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, moveInDirection));
+      controller.moveItemTargetConnected();
+
+      liFor(el, 'down').click();
+
+      expect(moveInDirection).toHaveBeenCalledWith(el, 'down', scopeOwner);
     });
 
     function appendDestinationItem(el:HTMLElement):{ li:HTMLElement; form:HTMLFormElement } {
@@ -1725,6 +1970,34 @@ describe('Sortable lists item controller', () => {
       fireEvent.click(within(li).getByRole('button', { name: 'Move to inbox' }));
 
       expect(moveToDestination).not.toHaveBeenCalled();
+    });
+
+    ['move', 'moveToDestination'].forEach((command) => {
+      ['hidden', 'disabled', 'missing menu', 'non-element target'].forEach((state) => {
+        it(`${command} refuses ${state} activation`, async () => {
+          const { el } = renderItemWithMenu(2);
+          const { li } = appendDestinationItem(el);
+          document.body.appendChild(el);
+          const controller = await mountItemController(el);
+          const moveInDirection = vi.fn();
+          const moveToDestination = vi.fn();
+          controller.connectRoot({ ...stubRoot(el, { isFirst: false, isLast: false }, moveInDirection), moveToDestination });
+          if (state === 'hidden') li.hidden = true;
+          if (state === 'disabled') li.classList.add('ActionListItem--disabled');
+          if (state === 'missing menu') {
+            el.querySelector('action-menu')!.remove();
+            await new Promise<void>((resolve) => setTimeout(resolve));
+          }
+          const event = Object.assign(new Event('click'), { params: { direction: 'down' } });
+          Object.defineProperty(event, 'currentTarget', { value: state === 'non-element target' ? document : li });
+
+          if (command === 'move') controller.move(event);
+          else controller.moveToDestination(event);
+
+          expect(moveInDirection).not.toHaveBeenCalled();
+          expect(moveToDestination).not.toHaveBeenCalled();
+        });
+      });
     });
 
     it('does nothing when there is no action-menu (drag-only consumer)', async () => {

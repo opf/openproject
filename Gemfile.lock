@@ -54,8 +54,8 @@ GIT
 
 GIT
   remote: https://github.com/opf/primer_view_components.git
-  revision: 2bcccc620dfdf5340cec9a341069132d4bdf928e
-  ref: 2bcccc620dfdf5340cec9a341069132d4bdf928e
+  revision: b33531f649ab385f0c68f640729de311044565fe
+  ref: b33531f649ab385f0c68f640729de311044565fe
   specs:
     openproject-primer_view_components (0.95.0)
       actionview (>= 7.2.0)

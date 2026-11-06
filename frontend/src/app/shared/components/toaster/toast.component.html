@@ -1,5 +1,7 @@
 <div class="op-toast -{{ type }} {{ icon }}" tabindex="0">
-  <div class="op-toast--content" role="alert" aria-atomic="true">
+  <div class="op-toast--content"
+    [attr.role]="toast.announce === false ? null : 'alert'"
+    [attr.aria-atomic]="toast.announce === false ? null : 'true'">
     @if (type === 'loading') {
       <p [textContent]="toast.message"></p>
       @if ((loading$ | async)) {

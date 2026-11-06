@@ -163,6 +163,31 @@ describe('Async dialog controller', () => {
     expect(showProgressBar).not.toHaveBeenCalled();
   });
 
+  it('does not request an unresolved URL after a form button loses its associated form', async () => {
+    resolveLikeFetchRequest(turboStreamResponse().response);
+    const { button, form } = await mountPostButton();
+    const controller = ctx.application.getControllerForElementAndIdentifier(button, 'async-dialog') as AsyncDialogControllerType;
+    form.removeAttribute('id');
+    expect(controller.href).toBeUndefined();
+
+    await trigger(controller);
+
+    expect(FetchRequest).not.toHaveBeenCalled();
+    expect(showProgressBar).not.toHaveBeenCalled();
+    expect(button).not.toHaveAttribute('aria-disabled');
+  });
+
+  it('does not request an empty custom URL', async () => {
+    resolveLikeFetchRequest(turboStreamResponse().response);
+    const { button } = await mountPostButton();
+    const controller = ctx.application.getControllerForElementAndIdentifier(button, 'async-dialog') as AsyncDialogControllerType;
+
+    await trigger(controller, '');
+
+    expect(FetchRequest).not.toHaveBeenCalled();
+    expect(showProgressBar).not.toHaveBeenCalled();
+  });
+
   it('keeps existing anchors on GET with their href', async () => {
     const { response } = turboStreamResponse();
     resolveLikeFetchRequest(response);

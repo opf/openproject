@@ -83,6 +83,10 @@ export class SelectionOrchestrator {
     return this.selection.size > 0;
   }
 
+  containsAnyId(ids:ReadonlySet<string>):boolean {
+    return this.selection.items().some((item) => ids.has(item.id));
+  }
+
   // The cards an action invoked from this card applies to, without touching
   // the selection: the batch when the card is a member, the card alone
   // otherwise. Consulted while a drag payload is built, before the batch is
@@ -216,6 +220,12 @@ export class SelectionOrchestrator {
 
     if (!(target instanceof Element)) {
       return candidate;
+    }
+
+    // A menu rendered inside the card belongs to the menu, even where a
+    // disabled item does not count as interactive.
+    if (target.closest('[role="menu"]')) {
+      return null;
     }
 
     const boundary = candidate.focusHost.contains(target) ? candidate.focusHost : candidate.itemElement;

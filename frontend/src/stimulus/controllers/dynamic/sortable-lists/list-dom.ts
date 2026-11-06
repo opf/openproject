@@ -27,6 +27,9 @@
 
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { reindexAriaRowsAfter } from './aria-row-indices';
+import { analyzeMoveRows, analyzedMoveAvailability, resolveAnalyzedMove, type BlockMoveResult } from './move-analysis';
+
+export type { BlockMoveResult } from './move-analysis';
 
 // Sortable lists use a DOM contract shared by the root and item controllers:
 // the root has data-controller~="sortable-lists"; lists are sortable-lists--list
@@ -410,25 +413,6 @@ export function resolveItemExternalUrl(itemElement:Element):string|null {
   return url === '' ? null : url;
 }
 
-// A row a predecessor id can be read from: an item row, or a non-item row
-// annotated with the id of the last hidden item it stands in for (a
-// truncation marker). Unannotated non-item rows (a divider, a heading) give
-// no anchor, so a move over them cannot be expressed.
-function isAddressableRow(row:Element, rowsContainer:Element):boolean {
-  return isItemRow(row, rowsContainer) || row.hasAttribute(sortablePreviousItemIdAttribute);
-}
-
-// The previous item id to insert `itemElement` after for a directional move:
-//   null      -> top of the list
-//   string    -> after that item id
-//   undefined -> the move is unavailable in this direction (caller no-ops)
-//
-// Reasoning happens over rows, not just item elements, so a truncation marker
-// participates. The hidden block a marker represents cannot be addressed one
-// item at a time, so a single-step up/down that would cross it is unavailable;
-// the addressable extremes (top/bottom) and moves that land next to the block
-// via the marker's id stay available. Unannotated non-item rows are hard gaps
-// for one-step moves, while top/bottom anchor on item rows and stay available.
 export function resolveDirectionalPreviousItemId({
   itemElement,
   direction,
@@ -438,33 +422,11 @@ export function resolveDirectionalPreviousItemId({
   direction:MoveDirection;
   rowsContainer:Element;
 }):string|null|undefined {
-  const context = resolveRowContext(itemElement, rowsContainer);
-
-  return context ? directionalPreviousItemIdIn(context, direction, rowsContainer) : undefined;
+  const resolution = resolveBlockMove({ itemElements: [itemElement], direction, rowsContainer });
+  return resolution.available ? resolution.previousItemId : undefined;
 }
 
 export type MoveAvailability = Record<MoveDirection, boolean>;
-
-export interface BlockMoveResolution {
-  available:true;
-  rows:HTMLElement[];
-  previousItemId:string|null;
-}
-
-export type BlockMoveUnavailableReason =
-  | 'not-orderable'
-  | 'cross-list'
-  | 'non-contiguous'
-  | 'truncation-boundary'
-  | 'unaddressable-gap'
-  | 'no-op';
-
-export interface BlockMoveUnavailable {
-  available:false;
-  reason:BlockMoveUnavailableReason;
-}
-
-export type BlockMoveResult = BlockMoveResolution|BlockMoveUnavailable;
 
 export function resolveBlockMove({
   itemElements,
@@ -473,80 +435,30 @@ export function resolveBlockMove({
 }:{
   itemElements:HTMLElement[];
   direction:MoveDirection;
-  rowsContainer:HTMLElement;
+  rowsContainer:Element;
 }):BlockMoveResult {
-  const unavailable = (reason:BlockMoveUnavailableReason):BlockMoveUnavailable => ({ available: false, reason });
-  if (itemElements.length === 0 || itemElements.some((item) => !isOrderableItem(item))) {
-    return unavailable('not-orderable');
-  }
+  const analysis = analyzeBlockRows(itemElements, rowsContainer);
+  return analysis ? resolveAnalyzedMove(analysis, direction) : { available: false };
+}
 
+function analyzeBlockRows(itemElements:HTMLElement[], rowsContainer:Element) {
   const rows = listRows(rowsContainer);
-  const selectedRows = itemElements.map((item) => rowOf(rowsContainer, item));
-  if (selectedRows.some((row, index) => (
-    row === null || resolveItemElement(row, rowsContainer) !== itemElements[index]
-  ))) {
-    return unavailable('cross-list');
+  const selectedRows:HTMLElement[] = [];
+  for (const item of itemElements) {
+    const row = rowOf(rowsContainer, item);
+    if (!row || resolveItemElement(row, rowsContainer) !== item) return null;
+    selectedRows.push(row);
   }
 
-  const block = selectedRows as HTMLElement[];
-  const indexes = block.map((row) => rows.indexOf(row));
-  if (
-    new Set(block).size !== block.length ||
-    indexes.some((index, offset) => offset > 0 && index !== indexes[offset - 1] + 1)
-  ) {
-    return unavailable('non-contiguous');
-  }
-
-  const itemRows = rows.filter((row) => isItemRow(row, rowsContainer));
-  const itemIndexes = block.map((row) => itemRows.indexOf(row));
-  if (itemIndexes.some((index, offset) => index < 0 || (offset > 0 && index !== itemIndexes[offset - 1] + 1))) {
-    return unavailable('non-contiguous');
-  }
-
-  const firstRowIndex = indexes[0];
-  const lastRowIndex = indexes[indexes.length - 1];
-  const firstItemIndex = itemIndexes[0];
-  const lastItemIndex = itemIndexes[itemIndexes.length - 1];
-
-  let previousItemId:string|null|undefined;
-  switch (direction) {
-    case 'top':
-      previousItemId = firstItemIndex === 0 ? undefined : null;
-      break;
-    case 'bottom': {
-      if (lastItemIndex === itemRows.length - 1) return unavailable('no-op');
-      const selected = new Set(block);
-      const anchor = [...itemRows].reverse().find((row) => !selected.has(row as HTMLElement));
-      const anchorId = anchor ? resolvePreviousItemId(anchor, rowsContainer) : null;
-      previousItemId = anchorId ?? undefined;
-      break;
-    }
-    case 'up': {
-      if (firstItemIndex === 0) return unavailable('no-op');
-      const adjacent = rows[firstRowIndex - 1];
-      if (!isItemRow(adjacent, rowsContainer)) {
-        return unavailable(adjacent && rowOmittedCount(adjacent) > 0 ? 'truncation-boundary' : 'unaddressable-gap');
-      }
-      const anchor = rows[firstRowIndex - 2];
-      if (anchor && !isAddressableRow(anchor, rowsContainer)) return unavailable('unaddressable-gap');
-      previousItemId = anchor ? resolvePreviousItemId(anchor, rowsContainer) : null;
-      break;
-    }
-    case 'down': {
-      if (lastItemIndex === itemRows.length - 1) return unavailable('no-op');
-      const adjacent = rows[lastRowIndex + 1];
-      if (!isItemRow(adjacent, rowsContainer)) {
-        return unavailable(adjacent && rowOmittedCount(adjacent) > 0 ? 'truncation-boundary' : 'unaddressable-gap');
-      }
-      const adjacentId = resolvePreviousItemId(adjacent, rowsContainer);
-      previousItemId = adjacentId ?? undefined;
-      break;
-    }
-  }
-
-  return previousItemId === undefined
-    ? unavailable(firstItemIndex === 0 || lastItemIndex === itemRows.length - 1 ? 'no-op' : 'unaddressable-gap')
-    : { available: true, rows: block, previousItemId };
+  return analyzeMoveRows(rows.filter((row):row is HTMLElement => row instanceof HTMLElement).map((row) => {
+    const item = resolveItemElement(row, rowsContainer);
+    return {
+      element: row,
+      isItem: item !== null,
+      orderable: item !== null && isOrderableItem(item),
+      previousItemId: item ? resolveItemId(item) : row.getAttribute(sortablePreviousItemIdAttribute),
+    };
+  }), selectedRows);
 }
 
 export function resolveBlockMoveAvailability({
@@ -554,19 +466,12 @@ export function resolveBlockMoveAvailability({
   rowsContainer,
 }:{
   itemElements:HTMLElement[];
-  rowsContainer:HTMLElement;
+  rowsContainer:Element;
 }):MoveAvailability {
-  return {
-    top: resolveBlockMove({ itemElements, rowsContainer, direction: 'top' }).available,
-    up: resolveBlockMove({ itemElements, rowsContainer, direction: 'up' }).available,
-    down: resolveBlockMove({ itemElements, rowsContainer, direction: 'down' }).available,
-    bottom: resolveBlockMove({ itemElements, rowsContainer, direction: 'bottom' }).available,
-  };
+  const analysis = analyzeBlockRows(itemElements, rowsContainer);
+  return analysis ? analyzedMoveAvailability(analysis) : { top: false, up: false, down: false, bottom: false };
 }
 
-// Availability of all four directional moves for the item, or null when it is
-// not (yet) a row of the container. The row scan happens once; the four
-// per-direction resolutions only index into it.
 export function resolveMoveAvailability({
   itemElement,
   rowsContainer,
@@ -574,77 +479,6 @@ export function resolveMoveAvailability({
   itemElement:HTMLElement;
   rowsContainer:Element;
 }):MoveAvailability|null {
-  const context = resolveRowContext(itemElement, rowsContainer);
-  if (!context) {
-    return null;
-  }
-
-  return {
-    top: directionalPreviousItemIdIn(context, 'top', rowsContainer) !== undefined,
-    up: directionalPreviousItemIdIn(context, 'up', rowsContainer) !== undefined,
-    down: directionalPreviousItemIdIn(context, 'down', rowsContainer) !== undefined,
-    bottom: directionalPreviousItemIdIn(context, 'bottom', rowsContainer) !== undefined,
-  };
-}
-
-// The item's row neighborhood, scanned once and shared by the per-direction
-// resolutions above.
-interface RowContext {
-  rows:Element[];
-  rowIndex:number;
-  itemRows:Element[];
-  itemIndex:number;
-}
-
-function resolveRowContext(itemElement:HTMLElement, rowsContainer:Element):RowContext|null {
-  const rows = listRows(rowsContainer);
-  const sourceRow = rowOf(rowsContainer, itemElement);
-  const rowIndex = sourceRow ? rows.indexOf(sourceRow) : -1;
-
-  if (rowIndex === -1) {
-    return null;
-  }
-
-  const itemRows = rows.filter((row) => resolveItemElement(row, rowsContainer) !== null);
-
-  return { rows, rowIndex, itemRows, itemIndex: itemRows.indexOf(sourceRow!) };
-}
-
-function directionalPreviousItemIdIn(
-  { rows, rowIndex, itemRows, itemIndex }:RowContext,
-  direction:MoveDirection,
-  rowsContainer:Element,
-):string|null|undefined {
-  const isFirstItem = itemIndex === 0;
-  const isLastItem = itemIndex === itemRows.length - 1;
-
-  switch (direction) {
-    case 'top':
-      return isFirstItem ? undefined : null;
-    case 'bottom':
-      // After the last visible item; the server appends past the hidden block.
-      return isLastItem ? undefined : resolvePreviousItemId(itemRows[itemRows.length - 1], rowsContainer);
-    case 'up': {
-      if (isFirstItem) return undefined;
-      // One slot up crosses a hidden block (marker row above) or an
-      // uncrossable gap (unannotated row above) -- unavailable either way.
-      if (!isItemRow(rows[rowIndex - 1], rowsContainer)) return undefined;
-      const anchor = rows[rowIndex - 2];
-      // The row two above becomes the predecessor (its own id, or a marker's
-      // hidden id); an unannotated row there means "before the item above but
-      // after the gap", which cannot be expressed. No row means the top.
-      if (anchor && !isAddressableRow(anchor, rowsContainer)) return undefined;
-      return anchor ? resolvePreviousItemId(anchor, rowsContainer) : null;
-    }
-    case 'down': {
-      if (isLastItem) return undefined;
-      const below = rows[rowIndex + 1];
-      // One slot down needs the row below as predecessor: a marker row would
-      // mean crossing its hidden block, an unannotated row gives no anchor.
-      if (!isItemRow(below, rowsContainer)) return undefined;
-      return resolvePreviousItemId(below, rowsContainer);
-    }
-    default:
-      return undefined;
-  }
+  const analysis = analyzeBlockRows([itemElement], rowsContainer);
+  return analysis ? analyzedMoveAvailability(analysis) : null;
 }

@@ -196,6 +196,7 @@ RSpec.describe Backlogs::WorkPackages::DestinationAvailability, type: :model do
       expect(result.sprints).to be_empty
       expect(result.buckets).to be_empty
       expect(result.manage_permission?).to be false
+      expect(result.candidate?(Backlogs::Target::InboxId)).to be true
     end
   end
 end
