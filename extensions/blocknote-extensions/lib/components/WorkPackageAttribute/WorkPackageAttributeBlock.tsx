@@ -3,7 +3,7 @@ import type { BlockNoteEditor } from '@blocknote/core';
 import { useSelectedBlocks } from '@blocknote/react';
 import { selectBlockNode } from '../../utils/selection';
 import { blockDragProps } from '../../utils/blockDrag';
-import type { AttributeDisplay } from './externalHtml';
+import type { AttributeDisplay } from './display';
 import { useWorkPackageAttribute } from './useWorkPackageAttribute';
 import { useAttributeDisplayMenu } from './useAttributeDisplayMenu';
 import { AttributeDisplayMenu } from './AttributeDisplayMenu';

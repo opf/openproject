@@ -1,6 +1,6 @@
 import type { AnyEditor } from '../../editorTypes';
 import { canBlockWorkPackageReplaceCurrentBlock } from '../../utils/blockContent';
-import { BLOCK_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
+import { BLOCK_WP_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
 import { createPendingRegistry } from '../../utils/pending';
 import { findPendingInline, inPlaceHandlers, insertPendingInline, rangeWithSpacer } from '../../utils/pendingInline';
 import { attributeInlineConfig } from './inlineConfig';
@@ -44,7 +44,7 @@ function replaceWithBlock(editor:AnyEditor, pendingWpid:string, choice:Attribute
       tr.delete(from, to);
     });
     const line = editor.getTextCursorPosition().block;
-    const block = { type: BLOCK_ATTRIBUTE_TYPE, props: choice } as Parameters<typeof editor.insertBlocks>[0][number];
+    const block = { type: BLOCK_WP_ATTRIBUTE_TYPE, props: choice } as Parameters<typeof editor.insertBlocks>[0][number];
     if (canBlockWorkPackageReplaceCurrentBlock(editor)) editor.replaceBlocks([line], [block]);
     else editor.insertBlocks([block], line, 'after');
   });

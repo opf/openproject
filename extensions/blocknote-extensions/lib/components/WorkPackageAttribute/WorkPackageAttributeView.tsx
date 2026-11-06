@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { formatWorkPackageId } from '../../utils/id';
 import { EMPTY_VALUE, formattedHtmlOf } from './attributes';
-import { normalizeDisplay } from './externalHtml';
+import { normalizeDisplay } from './display';
 import type { ResolvedAttribute } from './useWorkPackageAttribute';
 import {
   AttributeBlockBody,
