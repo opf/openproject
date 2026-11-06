@@ -7,15 +7,6 @@ GIT
       capybara (~> 3.36)
 
 GIT
-  remote: https://github.com/opf/dentaku
-  revision: 78eece45bf3f4ed021c05dd2f5411d1c3f9b168a
-  ref: 78eece45bf3f4ed021c05dd2f5411d1c3f9b168a
-  specs:
-    dentaku (3.5.7)
-      bigdecimal
-      concurrent-ruby
-
-GIT
   remote: https://github.com/opf/md-to-pdf
   revision: a0c4345367e4b9fc869e0da191ec56bcc24bd877
   ref: a0c4345367e4b9fc869e0da191ec56bcc24bd877
@@ -70,6 +61,16 @@ GIT
       coderay (~> 1.1)
       method_source (~> 1.0)
       reline (>= 0.6.0)
+
+GIT
+  remote: https://github.com/rubysolo/dentaku
+  revision: a43d9e328b800409a7af8f0c5ef072b9a0ae9fee
+  ref: a43d9e328b800409a7af8f0c5ef072b9a0ae9fee
+  specs:
+    dentaku (4.1.0)
+      bigdecimal (>= 3.1)
+      concurrent-ruby (~> 1.1)
+      tsort (>= 0.1.1)
 
 PATH
   remote: modules/auth_plugins
@@ -1636,7 +1637,7 @@ DEPENDENCIES
   dalli (~> 5.2.2)
   date_validator (~> 0.12.0)
   deckar01-task_list (~> 2.3.1)
-  dentaku (~> 3.5)!
+  dentaku (~> 4.1.0)!
   disposable (~> 0.6.2)
   doorkeeper (~> 5.9.9)
   dotenv-rails
@@ -1916,7 +1917,7 @@ CHECKSUMS
   date_validator (0.12.0) sha256=68c9834da240347b9c17441c553a183572508617ebfbe8c020020f3192ce3058
   deckar01-task_list (2.3.4) sha256=66abdc7e009ea759732bb53867e1ea42de550e2aa03ac30a015cbf42a04c1667
   declarative (0.0.20) sha256=8021dd6cb17ab2b61233c56903d3f5a259c5cf43c80ff332d447d395b17d9ff9
-  dentaku (3.5.7)
+  dentaku (4.1.0)
   diff-lcs (1.6.2) sha256=9ae0d2cba7d4df3075fe8cd8602a8604993efc0dfa934cff568969efb1909962
   disposable (0.6.3) sha256=7f2a3fb251bff6cd83f25b164043d4ec3531209b51b066ed476a9df9c2d384cc
   doorkeeper (5.9.9) sha256=691fc87815c2ea7c075518be26855c2343bb3cf6a41400a92a5782f62786ec86
