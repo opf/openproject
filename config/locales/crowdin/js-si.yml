@@ -47,6 +47,8 @@ si:
       draggable_hint: 'පේළිගත රූපය හෝ යොමු ඇමුණුමක් කර්තෘ ක්ෂේත්රය මත ඇදගෙන යන්න. ඔබ ඇදගෙන යන අතරතුර සංවෘත සංස්කාරක ක්ෂේත්ර විවෘත කරනු ඇත.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Add item
@@ -1114,10 +1116,6 @@ si:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: වැඩ පැකේජයේ පේළි සහ වැඩ පැකේජ ගුණාංගවල තීරු සහිත වගුව.
-        text_inline_edit: මෙම වගුවේ බොහෝ සෛල එම ගුණාංගයේ පේලි-සංස්කරණ ක්රියාකාරිත්වය සක්රිය කරන බොත්තම් වේ.
-        text_select_hint: තෝරන්න පෙට්ටි 'ALT' සහ ඊතල යතුරු සමඟ විවෘත කළ යුතුය.
-        text_sort_hint: වගු ශීර්ෂයන්හි ඇති සබැඳි සමඟ ඔබට වගු තීරු වර්ග කිරීම, කණ්ඩායම් කිරීම, නැවත සකස් කිරීම, ඉවත් කිරීම සහ එකතු කිරීම කළ හැකිය.
       table_configuration:
         button: මෙම වැඩ පැකේජ වගුව සකසන්න
         choose_display_mode: වැඩ පැකේජ ලෙස පෙන්වන්න
@@ -1126,7 +1124,6 @@ si:
         default_mode: පැතලි ලැයිස්තුව
         display_settings: දර්ශන සැකසුම්
         display_sums_hint: වගු ප්රතිඵලවලට පහළින් පේළියක සියලු සාරාංශගත ගුණාංගවල සාරාංශ දර්ශනය කරන්න.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: සියළුම පෙරූ වගු ප්රතිඵල ඔවුන්ගේ මුතුන් මිත්තන් සමඟ වැඩි දියුණු කරනු ඇත. ධූරාවලිය පුළුල් කර බිඳ දැමිය හැකිය.
         hierarchy_mode: ධූරාවලිය
         highlighting: උද්දීපනය

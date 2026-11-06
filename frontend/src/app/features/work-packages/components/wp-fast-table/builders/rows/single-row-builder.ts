@@ -25,14 +25,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { isNavigableColumn, keyboardNavigationEnabled, navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
+import { isNavigableColumn, navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { locateTableRowByIdentifier } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { TableActionRenderer } from 'core-app/features/work-packages/components/wp-fast-table/builders/table-action-renderer';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import {
   internalBaselineColumn,
   internalContextMenuColumn,
@@ -41,8 +40,6 @@ import {
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { paintRowSelection } from './row-selection-painter';
-import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { RelationCellbuilder } from '../relation-cell-builder';
 import {
   CellBuilder,
@@ -65,10 +62,6 @@ export const commonRowClassName = 'wp--row';
 
 export class SingleRowBuilder {
   // Injections
-  @LazyInject() wpTableSelection:WorkPackageViewSelectionService;
-
-  @LazyInject() wpTableFocus:WorkPackageViewFocusService;
-
   @LazyInject() wpTableColumns:WorkPackageViewColumnsService;
 
   @LazyInject() wpTableBaseline:WorkPackageViewBaselineService;
@@ -79,16 +72,16 @@ export class SingleRowBuilder {
   protected cellBuilder = new CellBuilder(this.injector, this.workPackageTable.configuration);
 
   // Relation cell builder instance
-  protected relationCellBuilder = new RelationCellbuilder(this.injector, this.workPackageTable.configuration);
+  protected relationCellBuilder = new RelationCellbuilder(this.injector);
 
   // Share cell builder instance
-  protected shareCellBuilder = new ShareCellbuilder(this.injector, this.workPackageTable.configuration);
+  protected shareCellBuilder = new ShareCellbuilder(this.injector);
 
   // Details Link builder
-  protected contextLinkBuilder = new TableActionRenderer(this.injector, this.workPackageTable.configuration);
+  protected contextLinkBuilder = new TableActionRenderer(this.injector);
 
   // Baseline column builder
-  protected baselineColumnBuilder = new BaselineColumnBuilder(this.injector, this.workPackageTable.configuration);
+  protected baselineColumnBuilder = new BaselineColumnBuilder(this.injector);
 
   // Build the augmented columns set to render with
   protected readonly augmentedColumns:QueryColumn[] = this.buildAugmentedColumns();
@@ -111,31 +104,19 @@ export class SingleRowBuilder {
    * we add for buttons and timeline.
    */
   protected buildAugmentedColumns():QueryColumn[] {
-    const { configuration } = this.workPackageTable;
-    const baselineActive = this.wpTableBaseline.isActive();
+    const rendered = renderedColumns(this.workPackageTable.configuration, this.wpTableBaseline.isActive());
 
-    if (keyboardNavigationEnabled(configuration)) {
-      const rendered = renderedColumns(configuration, baselineActive);
+    return [
+      ...(rendered.drag ? [internalSortColumn] : []),
+      ...(rendered.baseline ? [internalBaselineColumn] : []),
+      ...this.columns,
+      ...(rendered.trailing ? [internalContextMenuColumn] : []),
+    ];
+  }
 
-      return [
-        ...(rendered.drag ? [internalSortColumn] : []),
-        ...(rendered.baseline ? [internalBaselineColumn] : []),
-        ...this.columns,
-        ...(rendered.trailing ? [internalContextMenuColumn] : []),
-      ];
-    }
-
-    const columns = [...this.columns, internalContextMenuColumn];
-
-    if (baselineActive) {
-      columns.unshift(internalBaselineColumn);
-    }
-
-    if (configuration.dragAndDropEnabled) {
-      columns.unshift(internalSortColumn);
-    }
-
-    return columns;
+  protected get rowHeaderColumn():'subject'|'id'|null {
+    if (this.augmentedColumns.some((column) => column.id === 'subject')) return 'subject';
+    return this.augmentedColumns.some((column) => column.id === 'id') ? 'id' : null;
   }
 
   public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLTableCellElement|null {
@@ -157,8 +138,7 @@ export class SingleRowBuilder {
         if (this.workPackageTable.configuration.columnMenuEnabled) {
           const td = document.createElement('td');
           td.classList.add('hide-when-print');
-          if (keyboardNavigationEnabled(this.workPackageTable.configuration)
-            && isNavigableColumn(column, this.workPackageTable.configuration)) {
+          if (isNavigableColumn(column, this.workPackageTable.configuration)) {
             td.classList.add(navigableCellClassName);
           }
           return td;
@@ -169,7 +149,7 @@ export class SingleRowBuilder {
         return this.baselineColumnBuilder.build(workPackage, column);
 
       default:
-        return this.cellBuilder.build(workPackage, column);
+        return this.cellBuilder.build(workPackage, column, column.id === this.rowHeaderColumn);
     }
   }
 
@@ -189,7 +169,7 @@ export class SingleRowBuilder {
   public createEmptyRow(workPackage:WorkPackageResource) {
     const identifier = this.classIdentifier(workPackage);
     const tr = document.createElement('tr');
-    tr.setAttribute('tabindex', keyboardNavigationEnabled(this.workPackageTable.configuration) ? '-1' : '0');
+    tr.setAttribute('tabindex', '-1');
     tr.dataset.workPackageId = workPackage.id!;
     tr.dataset.classIdentifier = identifier;
     tr.classList.add(
@@ -225,51 +205,54 @@ export class SingleRowBuilder {
   /**
    * Refresh a row that is currently being edited, that is, some edit fields may be open
    */
-  public refreshRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):HTMLTableRowElement {
-    // Detach all current edit cells
-    const cells = Array.from(row.querySelectorAll<HTMLTableCellElement>(`.${tdClassName}`))
-      .map((el) => el.parentNode!.removeChild(el));
-
-    // Remember the order of all new edit cells
-    const newCells:HTMLTableCellElement[] = [];
+  /** `_depth` is the row's nesting depth in the rendered query, which hierarchy rows draw; plain rows have none. */
+  public refreshRow(workPackage:WorkPackageResource, row:HTMLTableRowElement, _depth?:number):HTMLTableRowElement {
+    const oldCells = Array.from(row.cells);
+    const retained = new Map<string, HTMLTableCellElement>();
 
     this.augmentedColumns.forEach((column:QueryColumn) => {
-      const oldTd = cells.find((cell) => cell.matches(`td.${column.id}`));
-
-      // Treat internal columns specially
-      // and skip the replacement of the column if this is being edited.
-      // But only do that, if the column existed before. Sometimes, e.g. when lacking permissions
-      // the column was not correctly created (with the intended classes). This code then
-      // increases the robustness.
-      if ((this.retainsOnRefresh(column) || this.isColumnBeingEdited(workPackage, column)) && oldTd) {
-        newCells.push(oldTd);
-        return;
-      }
-
-      // Otherwise, refresh that cell and append it
-      const cell = this.buildCell(workPackage, column);
-
-      if (cell) {
-        newCells.push(cell);
+      const oldTd = oldCells.find((cell) => cell.classList.contains(column.id));
+      if (oldTd && (this.retainsOnRefresh(column) || this.isColumnBeingEdited(workPackage, column, oldTd))) {
+        retained.set(column.id, oldTd);
       }
     });
 
-    row.prepend(...newCells);
+    const retainedCells = new Set(retained.values());
+    oldCells.filter((cell) => !retainedCells.has(cell)).forEach((cell) => cell.remove());
+
+    let anchor:ChildNode|null = null;
+    [...this.augmentedColumns].reverse().forEach((column:QueryColumn) => {
+      const retainedCell = retained.get(column.id);
+      if (retainedCell) {
+        if (retainedCell.nextSibling !== anchor) {
+          row.insertBefore(retainedCell, anchor);
+        }
+        anchor = retainedCell;
+        return;
+      }
+
+      const cell = this.buildCell(workPackage, column);
+      if (cell) {
+        row.insertBefore(cell, anchor);
+        anchor = cell;
+      }
+    });
+
     return row;
   }
 
   private retainsOnRefresh(column:QueryColumn):boolean {
-    if (column.id === internalBaselineColumn.id && keyboardNavigationEnabled(this.workPackageTable.configuration)) {
-      return false;
-    }
-
-    return column.id.startsWith('__internal');
+    return column.id !== internalBaselineColumn.id && column.id.startsWith('__internal');
   }
 
-  protected isColumnBeingEdited(workPackage:WorkPackageResource, column:QueryColumn) {
-    const form = this.workPackageTable.editing.forms[workPackage.id!];
+  protected isColumnBeingEdited(
+    workPackage:WorkPackageResource,
+    column:QueryColumn,
+    cell:HTMLTableCellElement,
+  ):boolean {
+    const field = this.workPackageTable.editing.forms[workPackage.id!]?.activeFields[column.id];
 
-    return form?.activeFields[column.id];
+    return field?.element !== undefined && cell.contains(field.element);
   }
 
   protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):[HTMLTableRowElement, boolean] {
@@ -305,11 +288,6 @@ export class SingleRowBuilder {
           row.appendChild(cell);
         }
       }
-    });
-
-    paintRowSelection(row, {
-      selected: this.wpTableSelection.isSelected(workPackage.id!),
-      pressed: this.wpTableFocus.isFocused(workPackage.id!),
     });
 
     return [row, false];

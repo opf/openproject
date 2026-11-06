@@ -51,7 +51,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
     fill_in Type.human_attribute_name(:name), with: name
     click_on I18n.t(:button_continue)
 
-    expect(page).to have_current_path(/step=defaults/)
+    expect(page).to have_current_query_params("step" => "defaults")
     Type.find_by!(name:)
   end
 
@@ -83,7 +83,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
     type = create_type_through_wizard("Incident")
     click_on I18n.t(:button_continue)
 
-    expect(page).to have_current_path(/step=form_configuration/)
+    expect(page).to have_current_query_params("step" => "form_configuration")
     expect_chosen("existing")
     expect(page).to have_test_selector("form_configuration-selector", text: "Standard form")
     expect(type.default_variant.reload.form_configuration).to eq(existing)
@@ -100,14 +100,21 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
       click_on I18n.t(:button_continue)
     end
 
-    expect(page).to have_current_path(/started_form_configuration_id=#{type.default_variant.reload.form_configuration_id}/)
+    started_id = type.default_variant.reload.form_configuration_id.to_s
+    expect(page).to have_current_query_params(
+      "step" => "form_configuration",
+      "started_form_configuration_id" => started_id
+    )
     expect(type.default_variant.form_configuration).not_to eq(existing)
     expect_chosen("new")
     expect(page).to have_no_test_selector("form_configuration-selector")
 
     switch_to_existing("Standard")
 
-    expect(page).to have_current_path(/step=form_configuration/)
+    expect(page).to have_current_query_params(
+      "step" => "form_configuration",
+      "started_form_configuration_id" => started_id
+    )
     expect(type.default_variant.reload.form_configuration).to eq(existing)
     expect_chosen("existing")
     expect(page).to have_test_selector("form_configuration-selector", text: "Standard form")
@@ -132,7 +139,10 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
       click_on I18n.t(:button_save)
     end
 
-    expect(page).to have_current_path(/step=project_attributes/)
+    expect(page).to have_current_query_params(
+      "step" => "project_attributes",
+      "started_form_configuration_id" => type.default_variant.reload.form_configuration_id.to_s
+    )
     form = type.default_variant.reload.form_configuration
     expect(form).not_to eq(existing)
     expect(form.name).to eq("Incident intake")
@@ -140,7 +150,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
   end
 
   it "keeps asking until the new form has a name" do
-    create_type_through_wizard("Incident")
+    type = create_type_through_wizard("Incident")
     click_on I18n.t(:button_continue)
 
     choose_option("new")
@@ -158,7 +168,10 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
       expect(page).to have_text(I18n.t("activerecord.errors.messages.blank"))
     end
 
-    expect(page).to have_current_path(/step=form_configuration/)
+    expect(page).to have_current_query_params(
+      "step" => "form_configuration",
+      "started_form_configuration_id" => type.default_variant.reload.form_configuration_id.to_s
+    )
   end
 
   it "moves on without asking while reusing an existing form" do
@@ -168,7 +181,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
 
     click_on I18n.t(:button_continue)
 
-    expect(page).to have_current_path(/step=project_attributes/)
+    expect(page).to have_current_query_params("step" => "project_attributes")
     expect(page).to have_no_css("dialog[open]")
     expect(existing.reload.name).to eq("Standard form")
   end
@@ -193,7 +206,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
       type = create_type_through_wizard("Incident")
       click_on I18n.t(:button_continue)
 
-      expect(page).to have_current_path(/step=form_configuration/)
+      expect(page).to have_current_query_params("step" => "form_configuration")
       expect_chosen("existing")
       expect(page).to have_test_selector("form_configuration-selector",
                                          text: "Company form #{I18n.t('form_configurations.selector.default')}")

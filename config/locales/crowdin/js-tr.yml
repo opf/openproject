@@ -47,6 +47,8 @@ tr:
       draggable_hint: 'Editör alanında, satır içi görüntüye veya referans ekine sürükleyin. Sürüklemeye devam ederken kapalı editör alanları açılacaktır.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Dosya, bir virüs bulunduğu için karantinaya alındı. İndirmek için kullanılamaz.
     autocomplete_ng_select:
       add_tag: Öge ekle
@@ -1114,10 +1116,6 @@ tr:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: İş paketi satır tabloları ve iş paketi nitelik sütunları.
-        text_inline_edit: Bu tablodaki çoğu hücre o öznitelikteki satır içi düzenleme işlevselliğini etkinleşirme düğmeleridir.
-        text_select_hint: Seçim kutuları 'ALT' ve ok tuşları ile açılmalıdır.
-        text_sort_hint: Tablo başlığındaki bağlantılardan tablo sütunlarını sırayalabilir, gruplayabilir, yeniden düzenleyebilir, silebilir ya da ekleyebilirsiniz.
       table_configuration:
         button: Bu iş paketi tablosunu yapılandır
         choose_display_mode: İş paketlerini farklı olarak göster
@@ -1126,7 +1124,6 @@ tr:
         default_mode: Düz liste
         display_settings: Görünüm ayarları
         display_sums_hint: Tüm toplanabilir özelliklerin toplamlarını, tablonun sonuçlarının altındaki bir satırda görüntüleyin.
-        embedded_tab_disabled: Bu yapılandırma sekmesi, düzenlemekte olduğunuz gömülü görünüm için kullanılamaz.
         hierarchy_hint: Filtrelenen tüm tablo sonuçları atalarıyla artırılacaktır. Hiyerarşiler genişletilebilir ve daraltılabilir.
         hierarchy_mode: Hiyerarşi
         highlighting: Vurgulama

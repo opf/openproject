@@ -47,6 +47,8 @@ pl:
       draggable_hint: 'Przeciągaj w polu edytora, aby wstawić obraz lub załącznik referencyjny. Zamknięte pola edytora zostaną otwarte podczas przeciągania.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Plik został poddany kwarantannie, ponieważ wykryto w nim wirusa. Nie jest dostępny do pobrania.
     autocomplete_ng_select:
       add_tag: Dodaj element
@@ -1130,10 +1132,6 @@ pl:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabela, której wiersze zawierają pakiety pracy, a kolumny ich atrybuty.
-        text_inline_edit: Większość komórek w tej tabeli to przyciski uruchamiające edycję danego atrybutu.
-        text_select_hint: Zaznacz boxy które powinny zostać otwarte poprzez jednoczesne użycie klawisza 'ALT' oraz strzałek.
-        text_sort_hint: Za pomocą linków w nagłówkach tabeli można sortować, grupować, zmieniać kolejność, usuwać i dodać kolumny.
       table_configuration:
         button: Konfiguruj tę tabelę pakietów roboczych
         choose_display_mode: Wyświetlaj pakiety robocze jako
@@ -1142,7 +1140,6 @@ pl:
         default_mode: Płaska lista
         display_settings: Ustawienia wyświetlania
         display_sums_hint: Wyświetlaj sumy wszystkich sumowanych atrybutów w wierszu pod wynikami tabeli.
-        embedded_tab_disabled: Ta karta konfiguracji nie jest dostępna dla widoku osadzonego, który edytujesz.
         hierarchy_hint: Wszystkie przefiltrowane wyniki z tabeli będą poszerzane o ich przodków. Hierarchie można rozwijać i zwijać.
         hierarchy_mode: Hierarchia
         highlighting: Wyróżnianie

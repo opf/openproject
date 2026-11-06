@@ -49,6 +49,20 @@ RSpec.describe CostQuery, :reporting_query_helper do
       create_work_package_with_entry(:time_entry, work_package_params, entry_params)
     end
 
+    describe ".named" do
+      it "finds a registered filter" do
+        expect(described_class.named("project_id")).to eq(CostQuery::Filter::ProjectId)
+      end
+
+      it "finds a filter that is not selectable" do
+        expect(described_class.named("tweek")).to eq(CostQuery::Filter::Tweek)
+      end
+
+      it "does not resolve constants outside the registered filters" do
+        expect(described_class.named("::Object")).to be_nil
+      end
+    end
+
     it "shows all entries when no filter is applied" do
       expect(query.result.count).to eq(Entry.count)
     end

@@ -215,7 +215,8 @@ RSpec.describe("Activation of storages in projects",
       it "automatic option is not available" do
         visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
 
-        expect(page).to have_no_content("New folder with automatically managed permissions")
+        expect(page).to have_text("Edit the file storage to this project")
+        expect(page).to have_no_text("New folder with automatically managed permissions")
       end
     end
 
@@ -227,7 +228,7 @@ RSpec.describe("Activation of storages in projects",
       it "automatic option is available" do
         visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
 
-        expect(page).to have_content("New folder with automatically managed permissions")
+        expect(page).to have_text("New folder with automatically managed permissions")
       end
     end
   end
@@ -242,7 +243,7 @@ RSpec.describe("Activation of storages in projects",
         it "shows the option for manually managed permissions" do
           visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
 
-          expect(page).to have_content("Existing folder with manually managed permissions")
+          expect(page).to have_text("Existing folder with manually managed permissions")
         end
       end
 
@@ -258,7 +259,8 @@ RSpec.describe("Activation of storages in projects",
         it "shows no option for manually managed permissions" do
           visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
 
-          expect(page).to have_no_content("Existing folder with manually managed permissions")
+          expect(page).to have_text("Edit the file storage to this project")
+          expect(page).to have_no_text("Existing folder with manually managed permissions")
         end
       end
     end

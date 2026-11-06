@@ -47,6 +47,8 @@ hy:
       draggable_hint: 'Քարշ տարեք խմբագրման դաշտի վրա՝ պատկերը տեղադրելու կամ կցորդին հղում կատարելու համար։ Փակ խմբագրման դաշտերը կբացվեն, քանի դեռ շարունակում եք քարշ տալ։
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Նիշքը մեկուսացված է, քանի որ վիրուս է հայտնաբերվել։ Այն հասանելի չէ ներբեռնման համար։
     autocomplete_ng_select:
       add_tag: Ավելացնել տարր
@@ -1114,10 +1116,6 @@ hy:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Աղյուսակ՝ աշխատանքային փաթեթների տողերով և աշխատանքային փաթեթների հատկանիշների սյունակներով։
-        text_inline_edit: Այս աղյուսակի բջիջների մեծ մասը կոճակներ են, որոնք ակտիվացնում են տվյալ հատկանիշի տեղում խմբագրման գործառույթը։
-        text_select_hint: Ընտրության դաշտերը պետք է բացվեն 'ALT' և սլաքների ստեղներով։
-        text_sort_hint: Աղյուսակի սյունակների վերնագրերի հղումների միջոցով Դուք կարող եք դասավորել, խմբավորել, վերադասավորել, հեռացնել և ավելացնել աղյուսակի սյունակներ։
       table_configuration:
         button: Կազմաձևել այս աշխատանքային փաթեթների աղյուսակը
         choose_display_mode: Ցուցադրել աշխատանքային փաթեթները որպես
@@ -1126,7 +1124,6 @@ hy:
         default_mode: Հարթ ցանկ
         display_settings: Ցուցադրման կարգավորումներ
         display_sums_hint: Ցուցադրել բոլոր գումարվող հատկանիշների գումարներն աղյուսակի արդյունքների տակ գտնվող տողում։
-        embedded_tab_disabled: Կազմաձևման այս ներդիրը հասանելի չէ Ձեր խմբագրած ներդրված տեսքի համար։
         hierarchy_hint: Աղյուսակի բոլոր զտված արդյունքները կլրացվեն իրենց նախնիներով։ Հիերարխիաները կարելի է ընդարձակել և ծալել։
         hierarchy_mode: Հիերարխիա
         highlighting: Ընդգծում

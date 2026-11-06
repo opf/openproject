@@ -9,5 +9,5 @@ properties:
     description: Label name. Matched case-insensitively against existing labels.
     minLength: 1
     maxLength: 255
-example:
-  name: Bug
+examples:
+  - name: Bug

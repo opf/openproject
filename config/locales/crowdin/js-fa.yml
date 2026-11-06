@@ -47,6 +47,8 @@ fa:
       draggable_hint: 'برای درج تصویر یا ارجاع پیوست، فایل را روی فیلد ویرایشگر بکشید. تا زمانی که در حال کشیدن هستید، فیلدهای ویرایشگر بسته باز خواهند شد.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: فایل به‌دلیل شناسایی ویروس قرنطینه شده است و برای دانلود در دسترس نیست.
     autocomplete_ng_select:
       add_tag: افزودن مورد
@@ -1114,10 +1116,6 @@ fa:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: جدولی با سطرهای بسته کاری و ستون‌های ویژگی‌های بسته کاری.
-        text_inline_edit: بیشتر سلول‌های این جدول دکمه‌هایی هستند که ویرایش درون‌خطی آن ویژگی را فعال می‌کنند.
-        text_select_hint: کادرهای انتخاب باید با «ALT» و کلیدهای جهت‌نما باز شوند.
-        text_sort_hint: با پیوندهای سربرگ جدول می‌توانید ستون‌ها را مرتب، گروه‌بندی، جابه‌جا، حذف یا اضافه کنید.
       table_configuration:
         button: پیکربندی این جدول بسته کاری
         choose_display_mode: نمایش بسته‌های کاری به‌شکل
@@ -1126,7 +1124,6 @@ fa:
         default_mode: فهرست تخت
         display_settings: تنظیمات نمایش
         display_sums_hint: مجموع همه ویژگی‌های قابل جمع را در سطری زیر نتایج جدول نمایش دهید.
-        embedded_tab_disabled: این زبانه پیکربندی برای نمای جاسازی‌شده‌ای که ویرایش می‌کنید در دسترس نیست.
         hierarchy_hint: همه نتایج فیلترشده جدول همراه با اجدادشان تکمیل می‌شوند. سلسله‌مراتب‌ها قابل باز و جمع‌کردن هستند.
         hierarchy_mode: سلسله‌مراتب
         highlighting: برجسته‌سازی

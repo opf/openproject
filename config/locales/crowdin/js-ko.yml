@@ -47,6 +47,8 @@ ko:
       draggable_hint: '인라인 이미지 또는 참조 첨부 파일로 편집기 필드를 드래그하세요. 드래그하는 동안에는 닫힌 편집기 필드가 열립니다.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: 바이러스가 발견되어 파일이 격리되었습니다. 다운로드할 수 없습니다.
     autocomplete_ng_select:
       add_tag: 항목 추가
@@ -1106,10 +1108,6 @@ ko:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: 작업 패키지의 행 및 작업 패키지 특성의 열이 있는 테이블.
-        text_inline_edit: 이 테이블의 셀 대부분은 해당 특성의 인라인 편집 기능을 활성화하는 버튼입니다.
-        text_select_hint: 선택 상자는 'ALT'와 화살표 키로 열어야 합니다.
-        text_sort_hint: 테이블 헤더의 링크를 사용하여 테이블 열을 정렬, 그룹화, 다시 정렬, 제거, 추가할 수 있습니다.
       table_configuration:
         button: 이 작업 패키지 테이블 구성
         choose_display_mode: 다음으로 작업 패키지 표시
@@ -1118,7 +1116,6 @@ ko:
         default_mode: 플랫 목록
         display_settings: 디스플레이 설정
         display_sums_hint: 테이블 결과 아래 행에 모든 집계 가능한 특성의 합계를 표시합니다.
-        embedded_tab_disabled: 이 구성 탭은 사용자가 편집하고 있는 포함된 보기에서 사용할 수 없습니다.
         hierarchy_hint: 필터링된 테이블의 모든 결과는 해당 상위 항목과 함께 확대됩니다. 계층 구조를 확장하거나 축소 할 수 있습니다.
         hierarchy_mode: 계층 구조
         highlighting: 강조 표시

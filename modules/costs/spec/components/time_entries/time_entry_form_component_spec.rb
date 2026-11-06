@@ -77,4 +77,13 @@ RSpec.describe TimeEntries::TimeEntryFormComponent, type: :component do
       end
     end
   end
+
+  context "when the time entry has no user", with_settings: { allow_tracking_start_and_end_times: true } do
+    let(:time_entry) { build(:time_entry, :with_start_and_end_time, entity: work_package, project:, user: nil) }
+
+    it "shows start and end time in the time zone of the time entry" do
+      expect(rendered_component).to have_field("time_entry[start_time]", with: "06:30")
+      expect(rendered_component).to have_field("time_entry[end_time]", with: "09:00")
+    end
+  end
 end

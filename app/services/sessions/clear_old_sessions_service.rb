@@ -30,11 +30,14 @@
 module Sessions
   class ClearOldSessionsService
     class << self
-      ##
-      # Drop all sessions for the given user
-      def call!(days_ago: 30)
-        # sessions expire after 30 days of inactivity by default
-        ActiveRecord::SessionStore::Session.where("updated_at < ?", days_ago.days.ago).delete_all
+      def call!(days_ago: 30, anonymous_days_ago: 1)
+        sessions = ActiveRecord::SessionStore::Session
+
+        sessions
+          .where(updated_at: ...days_ago.days.ago)
+          .or(sessions.where(user_id: nil, updated_at: ...anonymous_days_ago.days.ago))
+          .in_batches
+          .delete_all
       end
     end
   end

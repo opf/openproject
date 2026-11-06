@@ -84,6 +84,10 @@ get:
         - version
         - watcher
         - work_package
+
+        Filters that take work packages as values (e.g. `id`, `parent`, `ancestor` and the relation filters)
+        accept numeric ids and project-based identifiers (e.g. `PROJ-42`), also mixed.
+        Former identifiers of a work package match as well. Identifiers match exactly.
       example: '[{ "type_id": { "operator": "=", "values": ["1", "2"] }}]'
       in: query
       name: filters

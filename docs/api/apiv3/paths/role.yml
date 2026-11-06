@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Role id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Role id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -24,7 +24,7 @@ get:
                 id: 3
                 name: Manager
           schema:
-            "$ref": "../components/schemas/role_model.yml"
+            $ref: "../components/schemas/role_model.yml"
       description: OK
       headers: {}
     '403':
@@ -57,7 +57,7 @@ get:
       description: Returned if the role does not exist.
       headers: {}
   tags:
-  - Roles
+    - Roles
   description: Fetch an individual role.
   operationId: View_role
   summary: View role

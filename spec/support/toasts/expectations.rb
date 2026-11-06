@@ -65,7 +65,7 @@ module Toasts
 
     def dismiss_specific_toaster!(message:, type: :success)
       page.document.synchronize do
-        page.find(".op-toast.-#{type}", text: message).find(".op-toast--close").click
+        page.find(".op-toast.-#{type}", text: message).click_button(I18n.t("js.close_popup_title"))
       end
     end
 

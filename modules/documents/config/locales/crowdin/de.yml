@@ -65,8 +65,8 @@ de:
           label: Hokuspokus-Server-URL
         page_header:
           description_html: |-
-            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
-            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
+            Wenn die Echtzeit-Kollaboration aktiviert ist, können mehrere Personen ein Dokument zur gleichen Zeit bearbeiten.
+            Sie erfordert einen funktionierenden [Hocuspocus server](hocuspocus_server_link).
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: Ich verstehe, dass ich Daten dauerhaft verlieren könnte
         confirmation_message: |-
@@ -83,6 +83,12 @@ de:
         primary_action: Echtzeit-Kollaboration aktivieren
         success: Echtzeit-Kollaboration wurde aktiviert.
     button_add_type: Typ hinzufügen
+    collaboration_token:
+      errors:
+        collaboration_disabled: Real-time collaboration is not enabled.
+        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
+        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
+        not_collaborative: The document does not support real-time collaboration.
     delete_dialog:
       confirmation_message_html: Dadurch werden dieses Dokument und seine Anhänge endgültig gelöscht. Sind Sie sicher, dass Sie dies tun möchten?
       heading: Dieses Dokument löschen?

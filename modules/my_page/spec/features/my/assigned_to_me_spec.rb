@@ -180,7 +180,7 @@ RSpec.describe "Assigned to me embedded query on my page", :js do
       expect(page)
         .to have_no_css(".subject", text: assigned_work_package_2.subject)
 
-      page.find(".op-pagination--item button", text: "2").click
+      page.find(".op-pagination--pages").click_button("2")
 
       expect(page)
         .to have_no_css(".subject", text: assigned_work_package.subject)

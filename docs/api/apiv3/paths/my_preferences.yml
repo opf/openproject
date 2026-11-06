@@ -45,7 +45,7 @@ get:
                     project:
                       href: null
           schema:
-            "$ref": "../components/schemas/user_preferences_model.yml"
+            $ref: "../components/schemas/user_preferences_model.yml"
       description: OK
       headers: {}
     '401':
@@ -62,7 +62,7 @@ get:
       description: Returned if no user is currently authenticated
       headers: {}
   tags:
-  - UserPreferences
+    - UserPreferences
   description: ''
   operationId: Show_my_preferences
   summary: Show my preferences
@@ -111,7 +111,7 @@ patch:
                     project:
                       href: null
           schema:
-            "$ref": "../components/schemas/user_preferences_model.yml"
+            $ref: "../components/schemas/user_preferences_model.yml"
       description: OK
       headers: {}
     '400':
@@ -153,7 +153,7 @@ patch:
         * Using an unknown time zone
       headers: {}
   tags:
-  - UserPreferences
+    - UserPreferences
   description: When calling this endpoint the client provides a single object, containing
     the properties that it wants to change, in the body.
   operationId: Update_UserPreferences

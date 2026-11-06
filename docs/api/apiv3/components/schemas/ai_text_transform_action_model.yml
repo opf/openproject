@@ -39,13 +39,13 @@ properties:
 
               **Resource**: AITextTransformAction
 
-example:
-  _type: AITextTransformAction
-  id: 1
-  label: Improve writing
-  position: 1
-  injectsTypeTemplate: false
-  _links:
-    self:
-      href: /api/v3/ai_text_transform_actions/1
-      title: Improve writing
+examples:
+  - _type: AITextTransformAction
+    id: 1
+    label: Improve writing
+    position: 1
+    injectsTypeTemplate: false
+    _links:
+      self:
+        href: /api/v3/ai_text_transform_actions/1
+        title: Improve writing

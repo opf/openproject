@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: action id which is the name of the action
-    example: work_packages/create
-    in: path
-    name: id
-    required: true
-    schema:
-      type: string
+    - description: action id which is the name of the action
+      example: work_packages/create
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
   responses:
     '200':
       content:
@@ -26,10 +26,10 @@ get:
                   e.g version which requires a second permission
                 id: work_packages/create
                 modules:
-                - work_packages
+                  - work_packages
                 name: Add work package
           schema:
-            "$ref": "../components/schemas/view_action_model.yml"
+            $ref: "../components/schemas/view_action_model.yml"
       description: OK
       headers: {}
     '404':
@@ -46,7 +46,7 @@ get:
       description: Returned if the action does not exist.
       headers: {}
   tags:
-  - Actions & Capabilities
+    - Actions & Capabilities
   description: Returns an individual action.
   operationId: View_action
   summary: View action

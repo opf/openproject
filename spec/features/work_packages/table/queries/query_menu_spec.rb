@@ -68,13 +68,13 @@ RSpec.describe "Query menu item", :js do
 
       within ".op-submenu" do
         expect(page)
-          .to have_content(global_my_view.query.name, wait: 10)
+          .to have_text(global_my_view.query.name, wait: 10)
         expect(page)
-          .to have_content(global_public_view.query.name, wait: 10)
+          .to have_text(global_public_view.query.name, wait: 10)
         expect(page)
-          .to have_no_content(global_other_view.query.name)
+          .to have_no_text(global_other_view.query.name)
         expect(page)
-          .to have_no_content(project_view.query.name)
+          .to have_no_text(project_view.query.name)
       end
     end
   end
@@ -137,7 +137,7 @@ RSpec.describe "Query menu item", :js do
 
       last_query = Query.last
 
-      expect(URI.parse(page.current_url).query).to include("query_id=#{last_query.id}&query_props=")
+      expect(page).to have_current_query_params("query_id" => last_query.id.to_s, "query_props" => be_present)
 
       # Publish query
       wp_table.click_setting_item I18n.t("js.label_visibility_settings")
@@ -158,10 +158,7 @@ RSpec.describe "Query menu item", :js do
       query_item.click
 
       # Overrides the query_props
-      retry_block do
-        # Run in retry block because page.current_url is not synchronized
-        raise "query_props should not be in URL path" if page.current_url.include?("query_props")
-      end
+      expect(page).to have_current_query_params("query_id" => last_query.id.to_s)
 
       wp_table.expect_work_package_listed work_package_with_version
       wp_table.ensure_work_package_not_listed! work_package_without_version
@@ -173,15 +170,12 @@ RSpec.describe "Query menu item", :js do
       # Removing the filter and returning to query restores it
       filters.remove_filter "targetVersion"
       filters.expect_filter_count 1
-      expect(page.current_url).to include("query_props")
+      expect(page).to have_current_query_params("query_id" => last_query.id.to_s, "query_props" => be_present)
 
       query_item = page.find(".op-submenu--item-action", text: "Some query name")
       query_item.click
 
-      retry_block do
-        # Run in retry block because page.current_url is not synchronized
-        raise "query_props should not be in URL path" if page.current_url.include?("query_props")
-      end
+      expect(page).to have_current_query_params("query_id" => last_query.id.to_s)
 
       filters.expect_filter_count 2
       filters.open

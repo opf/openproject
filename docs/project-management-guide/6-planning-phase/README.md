@@ -8,17 +8,17 @@ keywords: project handbook, project stakeholder matrix, project work plan, outso
 
 # 6 Planning Phase 
 
-The second phase of a PM² project is the Planning Phase. It begins with the Planning Kick-off Meeting and ends once all project plans have been developed and baselined, and an appropriate management and implementation approach has been established. Most of a project's artifacts are created during the Planning Phase.
+The second phase of a PM² project is the Planning Phase. It begins with the Planning Kick-off Meeting and ends once all project plans have been developed and baselined, and an appropriate management and implementation approach has been established. Most of a project's artefacts are created during the Planning Phase.
 
 ![Fig 6.1 Planning Phase activities and main outputs](06.01.png)
 
-| Artifact Type | Description |
+| Artefact Type | Description |
 | :--: | :--: |
 | Management Plans (standard) | These plans define the various processes to be used (e.g. for Risk Management). PM² provides Management Plan templates along with guidelines on how to tailor and customize them to the project's context and needs. |
 | Project Plans (specific) | These plans are specific to the project (e.g. the Project Work Plan) and are built according to the project needs and the team's analysis and experience. PM² provides templates and guidelines for these plans. |
-| Other <br> (domain specific) | These artifacts are specific to the project domain (e.g. system models for IT projects). PM² does not provide templates for these artifacts. |
+| Other <br> (domain specific) | These artefacts are specific to the project domain (e.g. system models for IT projects). PM² does not provide templates for these artefacts. |
 
-![Fig 6.2 Planning Phase artifacts](06.02.png)
+![Fig 6.2 Planning Phase artefacts](06.02.png)
 
 ## 6.1 Planning Kick-off Meeting 
 
@@ -91,7 +91,7 @@ After the Planning Kick-off Meeting:
 
 The Project Handbook summarizes the project objectives and documents the selected approach for achieving the project goals. It documents the Critical Success Factors (CSFs), defines the key controlling processes, the conflict resolution and escalation procedure, policies and rules, and the project mindsets.
 
-The Project Handbook also documents the project governance roles and their responsibilities, and defines the plans necessary for managing the project as well as any methodology-tailoring decisions. The project goals and scope (found in the Initiating Phase documents) are key inputs to this artifact.
+The Project Handbook also documents the project governance roles and their responsibilities, and defines the plans necessary for managing the project as well as any methodology-tailoring decisions. The project goals and scope (found in the Initiating Phase documents) are key inputs to this artefact.
 
 The Project Handbook is an important reference document for all project members and stakeholders, and along with the Project Work Plan, is the basis on which the project is managed and executed.
 
@@ -125,7 +125,7 @@ The Project Handbook is an important reference document for all project members 
 7. Define a conflict resolution and escalation procedure for the project.
 8. Highlight the main project controlling processes, such as change/risk/quality management.
 9. Define the selected progress tracking and reporting approach.
-10. Determine which artifacts (i.e. plans, reports or other documents) are necessary for the project.
+10. Determine which artefacts (i.e. plans, reports or other documents) are necessary for the project.
 11. Document the roles involved in the project along with their respective responsibilities.
 
 | RAM (RASCI) | AGB | PSC | PO | BM | BIG | SP | PM | PCT |
@@ -144,7 +144,7 @@ The main purpose of the Project Roles \& Responsibilities section of the Project
 
 ### 6.2.2 Project Management Plans
 
-PM² suggests several Project Management Plans (artifacts) which outline the various project management processes. These plans identify how an organization manages relatively standard processes. These plans are the:
+PM² suggests several Project Management Plans (artefacts) which outline the various project management processes. These plans identify how an organization manages relatively standard processes. These plans are the:
 
 1. Requirements Management Plan
 2. Project Change Management Plan
@@ -163,11 +163,11 @@ The optimal level of detail included in Project-Specific Plans depends on the ty
 
 All Project-Specific Plans to be used in a project should be listed in the Project Handbook.
 
-### 6.2.4 Domain-Specific Artifacts 
+### 6.2.4 Domain-Specific Artefacts 
 
 These plans are specific to the project domain (i.e. the project type) and are very often an integral part of the project planning and the overall project documentation. No templates are provided by PM².
 
-However, the artifacts should still be identified and listed in the Project Handbook, as they are part of the project's planning-phase outputs. Examples of domain-specific artifacts include system designs (for IT projects), architectural layouts (for renovation/moving projects) and laws/policies (for policy projects).
+However, the artefacts should still be identified and listed in the Project Handbook, as they are part of the project's planning-phase outputs. Examples of domain-specific artefacts include system designs (for IT projects), architectural layouts (for renovation/moving projects) and laws/policies (for policy projects).
 
 6.2.5 Other
 
@@ -217,7 +217,7 @@ Note: Be careful to respect all applicable regulations on privacy and personal d
 
 ![Fig 6.5 Project Stakeholder Matrix inputs and main roles](06.05.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Stakeholder <br> Management | Business Case <br> Project Charter | Project Handbook <br> Outsourcing Plan <br> Communications <br> Management Plan | Project <br> Reports | Project Logs <br> Stakeholders <br> Checklist | Project-End <br> Report |
 
@@ -253,7 +253,7 @@ The Project Work Plan is composed of three parts:
 
 ![Fig 6.6 Project Work Plan inputs and main roles](06.06.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Schedule and Cost <br> Management | Business Case \& <br> Project Charter | Project Work Plan. <br> (Work Breakdown, Effor <br> \& Costs, Schedule) | Project <br> Reports | Project Work Plan <br> Project Logs | Project-End <br> Report |
 
@@ -332,7 +332,7 @@ The Outsourcing Plan defines the what and how for any outsourced products or ser
 
 ![Fig 6.7 Outsourcing Plan inputs and main roles](06.07.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Outsourcing Management | Project <br> Charter | Project Handbook <br> Outsourcing Plan | Project Reports | Project Logs | Project-End <br> Report |
 
@@ -391,7 +391,7 @@ The Deliverables Acceptance Plan documents the agreed criteria and approach for 
 
 ![Fig 6.8: Deliverables Acceptance Plan inputs and main roles](06.08.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Acceptance Management | Project <br> Charter | Deliverables <br> Acceptance Plan | Deliverables <br> Acceptance <br> Note | Deliverables <br> Acceptance Checklist <br> Decision Log | Project- <br> End <br> Report |
 
@@ -439,7 +439,7 @@ A successful transition is an important prerequisite for achieving the planned p
 
 ![Fig 6.9 Transition Plan inputs and main roles](06.09.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Implementation <br> Management | Project <br> Charter | Business Implementation Plan <br> Transition Plan Project Work Plan | Project <br> Reports | Transition Checklist <br> Business Implementation Checklist | Project-End Report |
 
@@ -484,7 +484,7 @@ Depending on the organization, the business implementation activities can be per
 
 ![Fig 6.10 Business Implementation Plan inputs and main roles](06.10.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Implementation <br> Management | Project <br> Charter | Business <br> Implementation Plan <br> Transition Plan <br> Project Work Plan | Project <br> Reports | Transition Checklist <br> Business Implementation <br> Checklist | Project-End Report <br> (Post-Project <br> Recommendations) |
 

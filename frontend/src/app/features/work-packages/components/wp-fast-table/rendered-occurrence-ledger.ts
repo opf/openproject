@@ -33,8 +33,11 @@ declare const ngDevMode:boolean|undefined;
 
 export type OccurrenceKey = string;
 
+export type OccurrenceKind = 'workPackage'|'groupHeader'|'sums'|'placeholder';
+
 export interface RenderedOccurrence {
   readonly key:OccurrenceKey;
+  readonly kind:OccurrenceKind;
   readonly classIdentifier:string;
   readonly workPackageId:string|null;
   readonly renderType:'primary'|'relations'|'child_relations';
@@ -57,6 +60,8 @@ export interface RenderDraft {
   readonly occurrences:readonly DraftOccurrence[];
   readonly withTimeline:boolean;
 }
+
+const noKeys:ReadonlySet<OccurrenceKey> = new Set();
 
 export function wpOccurrenceKey(id:string):OccurrenceKey {
   return `wp:${id}`;
@@ -125,6 +130,8 @@ export class RenderedOccurrenceLedger {
 
   private keyByElement = new Map<HTMLTableRowElement, OccurrenceKey>();
 
+  private keysByWorkPackageId = new Map<string, Set<OccurrenceKey>>();
+
   get generation():number {
     return this.currentGeneration;
   }
@@ -145,9 +152,11 @@ export class RenderedOccurrenceLedger {
     this.records = draft.occurrences.map((occ) => ({ ...occ }));
     this.byKeyIndex = new Map();
     this.keyByElement = new Map();
+    this.keysByWorkPackageId = new Map();
     this.records.forEach((record, index) => {
       this.byKeyIndex.set(record.key, index);
       if (record.element) this.indexElement(record.element, record.key);
+      if (record.workPackageId !== null) this.indexWorkPackage(record.workPackageId, record.key);
     });
     this.currentGeneration += 1;
   }
@@ -170,6 +179,12 @@ export class RenderedOccurrenceLedger {
     }
   }
 
+  private indexWorkPackage(id:string, key:OccurrenceKey):void {
+    const keys = this.keysByWorkPackageId.get(id) ?? new Set<OccurrenceKey>();
+    keys.add(key);
+    this.keysByWorkPackageId.set(id, keys);
+  }
+
   private indexElement(element:HTMLTableRowElement, key:OccurrenceKey):void {
     const owner = this.keyByElement.get(element);
     assertInDevMode(owner === undefined || owner === key, `Element already belongs to occurrence key: ${owner}`);
@@ -182,7 +197,19 @@ export class RenderedOccurrenceLedger {
   }
 
   byWorkPackageId(id:string):RenderedOccurrence[] {
-    return this.records.filter((record) => record.workPackageId === id);
+    return Array.from(this.keysOf(id), (key) => this.byKey(key)!);
+  }
+
+  /** The keys of every rendered occurrence of a work package, in render order; occurrences keep their key and work package id until the next commit. */
+  keysOf(id:string):ReadonlySet<OccurrenceKey> {
+    return this.keysByWorkPackageId.get(id) ?? noKeys;
+  }
+
+  /** The keys of every rendered occurrence of these work packages. */
+  keysOfAll(ids:Iterable<string>):Set<OccurrenceKey> {
+    const keys = new Set<OccurrenceKey>();
+    for (const id of ids) this.keysOf(id).forEach((key) => keys.add(key));
+    return keys;
   }
 
   byElement(element:HTMLTableRowElement):RenderedOccurrence|undefined {

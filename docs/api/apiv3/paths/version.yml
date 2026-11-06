@@ -20,7 +20,7 @@ get:
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/version_read_model.yml"
+            $ref: "../components/schemas/version_read_model.yml"
           examples:
             response:
               $ref: "../components/examples/version_simple_response.yml"
@@ -43,7 +43,7 @@ get:
 
         *Note: A client without sufficient permissions shall not be able to test for the existence of
         a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
-        
+
 delete:
   summary: Delete version
   operationId: delete_Version
@@ -99,7 +99,7 @@ delete:
       $ref: "../components/responses/missing_content_type.yml"
     '415':
       $ref: "../components/responses/unsupported_media_type.yml"
-      
+
 patch:
   summary: Update Version
   operationId: update_Version
@@ -130,7 +130,7 @@ patch:
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/version_read_model.yml"
+            $ref: "../components/schemas/version_read_model.yml"
           examples:
             response:
               $ref: "../components/examples/version_simple_response.yml"
