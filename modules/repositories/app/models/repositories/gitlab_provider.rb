@@ -39,11 +39,8 @@ module Repositories
       def icon = :"op-logo-gitlab"
       def generate_webhook_secret = SecureRandom.hex(32)
 
-      def for_web_url(web_url)
-        resource = URI.parse(web_url.to_s)
-        all.find { it.serves?(resource) }
-      rescue URI::InvalidURIError
-        nil
+      def for_web_url(url)
+        all.find { UrlTools.same_base_path?(base: it.url, url: url) }
       end
     end
 
@@ -59,19 +56,5 @@ module Repositories
     def webhook_user
       ::User.find_by(id: gitlab_user_id) if gitlab_user_id
     end
-
-    def serves?(resource)
-      base = URI.parse(url.to_s)
-
-      base.host.present? &&
-        origin(base) == origin(resource) &&
-        "#{resource.path}/".start_with?("#{base.path.chomp('/')}/")
-    rescue URI::InvalidURIError
-      false
-    end
-
-    private
-
-    def origin(uri) = [uri.scheme, uri.host&.downcase, uri.port]
   end
 end

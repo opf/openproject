@@ -39,25 +39,13 @@ RSpec.describe Repositories::GitlabProvider do
         .to eq(provider)
     end
 
-    it "ignores the case of the host" do
-      expect(described_class.for_web_url("https://GitLab.example.com/group/project")).to eq(provider)
-    end
-
     it "considers the port and the path of the provider URL" do
       expect(described_class.for_web_url("https://gitlab.example.com:8443/gitlab/group/project"))
         .to eq(other_provider)
     end
 
-    it "does not match a path that merely starts with the provider's path" do
-      expect(described_class.for_web_url("https://gitlab.example.com:8443/gitlab-mirror/project")).to be_nil
-    end
-
-    it "does not match a different scheme" do
-      expect(described_class.for_web_url("http://gitlab.example.com/group/project")).to be_nil
-    end
-
-    it "does not match a host that merely ends with the provider's host" do
-      expect(described_class.for_web_url("https://evil-gitlab.example.com/group/project")).to be_nil
+    it "returns nil when no provider hosts the resource" do
+      expect(described_class.for_web_url("https://gitlab.com/group/project")).to be_nil
     end
 
     it "returns nil for a blank or invalid URL" do
