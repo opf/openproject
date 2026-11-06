@@ -43,7 +43,6 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { States } from 'core-app/core/states/states.service';
-import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
@@ -692,7 +691,6 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
     },
     { provide: BannersService, useValue: { eeShowBanners: false } },
     { provide: PathHelperService, useValue: { genericWorkPackagePath: () => '/work_packages/1' } },
-    { provide: CausedUpdatesService, useValue: { add: () => undefined } },
     { provide: UrlParamsService, useValue: { currentDetailsRouteParams: () => null, basePathWithoutDetails: () => '' } },
     { provide: KeepTabService, useValue: { currentDetailsTab: 'overview', currentShowTab: 'activity' } },
     { provide: FocusHelperService, useValue: { focus: () => undefined } },

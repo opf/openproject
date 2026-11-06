@@ -201,6 +201,7 @@ export class WorkPackageCardDragAndDropService {
    * then persists only once the target side has settled (`event.completion`).
    */
   handleRemoved(event:SortableListsRemovedEvent):void {
+    const sourceQuery = this.cardView.query;
     let before:string[];
     let optimistic:string[];
     let revision:number;
@@ -232,7 +233,7 @@ export class WorkPackageCardDragAndDropService {
           // Target succeeded: persist the removal here; a failure here does not
           // undo the target's already-completed insert.
           await this.reorderService
-            .removePersisted(before, event.itemId)
+            .removePersisted(before, event.itemId, sourceQuery)
             .catch((e) => {
               this.notificationService.handleRawError(e);
 
@@ -368,6 +369,7 @@ export class WorkPackageCardDragAndDropService {
    * rendering earlier would show the card in both lists.
    */
   async addWorkPackageToQuery(workPackage:WorkPackageResource, toIndex = -1, optimistic = false):Promise<boolean> {
+    const targetQuery = this.cardView.query;
     const insertionOrder = () => {
       const before = this.currentOrder;
       const others = before.filter((id) => id !== workPackage.id);
@@ -404,7 +406,7 @@ export class WorkPackageCardDragAndDropService {
     }
 
     try {
-      await this.reorderService.add(others, workPackage.id!, insertIndex);
+      await this.reorderService.add(others, workPackage.id!, insertIndex, targetQuery);
       if (!this.destroyed && needsQueryRefresh?.()) {
         this.cardView.queryRefreshRequested.emit();
       } else if (!membershipPersisted) {

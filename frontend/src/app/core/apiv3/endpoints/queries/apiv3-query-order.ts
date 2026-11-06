@@ -25,12 +25,18 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { firstValueFrom } from 'rxjs';
 import { Injector } from '@angular/core';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { HttpClient } from '@angular/common/http';
 import { SimpleResource } from 'core-app/core/apiv3/paths/path-resources';
 
 export type QueryOrder = Record<string, number>;
+
+interface QueryOrderUpdate {
+  t:string;
+  previousUpdatedAt?:string|null;
+}
 
 export class ApiV3QueryOrder extends SimpleResource {
   @LazyInject() http:HttpClient;
@@ -50,21 +56,14 @@ export class ApiV3QueryOrder extends SimpleResource {
       .then((result) => result || {});
   }
 
-  public update(delta:QueryOrder):Promise<string> {
-    return this.http
-      .patch(
-        this.path,
-        { delta },
-        { withCredentials: true },
-      )
-      .toPromise()
-      .then((response:{ t:string }) => response.t);
+  public update(delta:QueryOrder):Promise<QueryOrderUpdate> {
+    return firstValueFrom(this.http.patch<QueryOrderUpdate>(this.path, { delta }, { withCredentials: true }));
   }
 
   public delete(id:string, ...wpIds:string[]) {
     const delta:QueryOrder = {};
     wpIds.forEach((id) => { delta[id] = -1; });
 
-    return this.update(delta);
+    return this.update(delta).then(({ t }) => t);
   }
 }

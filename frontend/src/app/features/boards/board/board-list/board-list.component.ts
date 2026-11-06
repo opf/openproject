@@ -64,7 +64,6 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
 import { BoardActionService } from 'core-app/features/boards/board/board-actions/board-action.service';
 import { ComponentType } from '@angular/cdk/portal';
-import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { BoardListMenuComponent } from 'core-app/features/boards/board/board-list/board-list-menu.component';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { WorkPackageCardDragAndDropService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service';
@@ -155,7 +154,6 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   readonly schemaCache = inject(SchemaCacheService);
   readonly boardService = inject(BoardService);
   readonly boardActionRegistry = inject(BoardActionsRegistryService);
-  readonly causedUpdates = inject(CausedUpdatesService);
   readonly cardDragDrop = inject(WorkPackageCardDragAndDropService);
   readonly keepTab = inject(KeepTabService);
   readonly currentProject = inject(CurrentProjectService);
@@ -422,8 +420,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     return this.board.showStatusButton();
   }
 
-  public refreshQueryUnlessCaused(query:QueryResource, visibly = true) {
-    if (!this.causedUpdates.includes(query)) {
+  public refreshQueryIfOutdated(query:QueryResource, visibly = true) {
+    if (!query.updatedAt || this.query?.updatedAt !== query.updatedAt) {
       debugLog(`Refreshing ${query.name} visibly due to external changes`);
       this.updateQuery(visibly);
     }

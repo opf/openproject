@@ -180,6 +180,7 @@ describe('WorkPackageCardDragAndDropService', () => {
     queryRefreshRequested:{ emit:ReturnType<typeof vi.fn> };
     workPackageAddedHandler:ReturnType<typeof vi.fn>;
     retainsCard?:() => boolean;
+    query:{ id:string };
     orderIsMembership:boolean;
     resolvedListId:string;
   };
@@ -221,6 +222,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       onMoved: { emit: vi.fn() },
       queryRefreshRequested: { emit: vi.fn() },
       workPackageAddedHandler: vi.fn().mockResolvedValue({ membershipPersisted: false }),
+      query: { id: LIST_ID },
       orderIsMembership: false,
       resolvedListId: LIST_ID,
     };
@@ -448,7 +450,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       await flush();
 
       expect(cardView.workPackageAddedHandler).toHaveBeenCalledWith(states.workPackages.get('x').value);
-      expect(reorderServiceStub.add).toHaveBeenCalledWith([], 'x', 0);
+      expect(reorderServiceStub.add).toHaveBeenCalledWith([], 'x', 0, cardView.query);
       expect(complete).toHaveBeenCalledWith(true);
     });
 
@@ -718,7 +720,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       await flush();
 
       expect(idsOf(service.workPackages)).toEqual(['x', 'a']);
-      expect(reorderServiceStub.add).toHaveBeenCalledWith(['a'], 'x', 0);
+      expect(reorderServiceStub.add).toHaveBeenCalledWith(['a'], 'x', 0, cardView.query);
       await expect(result).resolves.toBe(true);
     });
 
@@ -734,7 +736,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       await flush();
 
       expect(idsOf(service.workPackages)).toEqual(['x', 'a', 'b']);
-      expect(reorderServiceStub.add).toHaveBeenCalledWith(['a', 'b'], 'x', 0);
+      expect(reorderServiceStub.add).toHaveBeenCalledWith(['a', 'b'], 'x', 0, cardView.query);
       await expect(result).resolves.toBe(true);
     });
 
@@ -901,6 +903,17 @@ describe('WorkPackageCardDragAndDropService', () => {
       expect(reorderServiceStub.removePersisted).not.toHaveBeenCalled();
     });
 
+    it('persists removal against the original source if the source reloads during the target write', async () => {
+      const source = cardView.query;
+      const completion = deferred<boolean>();
+      service.handleRemoved(buildRemovedEvent({ itemId: 'a', completion: completion.promise }));
+      cardView.query = { ...source };
+      completion.resolve(true);
+      await flush();
+
+      expect(reorderServiceStub.removePersisted.mock.lastCall?.[2]).toBe(source);
+    });
+
     it('persists only after the target completes successfully, then finalizes', async () => {
       const completion = deferred<boolean>();
       const removePersisted = deferred<string[]>();
@@ -912,7 +925,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       completion.resolve(true);
       await flush();
 
-      expect(reorderServiceStub.removePersisted).toHaveBeenCalledWith(['a', 'b'], 'a');
+      expect(reorderServiceStub.removePersisted).toHaveBeenCalledWith(['a', 'b'], 'a', cardView.query);
       expect(finalize).not.toHaveBeenCalled();
 
       removePersisted.resolve(['b']);
@@ -1169,7 +1182,8 @@ describe('WorkPackageCardDragAndDropService — real two-list directive fixture'
       cardView: { updateRenderedCardsValues: vi.fn() },
       onMoved: { emit: vi.fn() },
       queryRefreshRequested: { emit: vi.fn() },
-      workPackageAddedHandler: vi.fn().mockResolvedValue(true),
+      workPackageAddedHandler: vi.fn().mockResolvedValue({ membershipPersisted: false }),
+      query: { id: listHost.listId() },
       resolvedListId: listHost.listId(),
     } as unknown as WorkPackageCardViewComponent);
   }
@@ -1222,8 +1236,8 @@ describe('WorkPackageCardDragAndDropService — real two-list directive fixture'
 
     await flush();
 
-    expect(reorderService.add).toHaveBeenCalledWith(['b1', 'b2'], 'a1', 0);
-    expect(reorderService.removePersisted).toHaveBeenCalledWith(['a1', 'a2'], 'a1');
+    expect(reorderService.add).toHaveBeenCalledWith(['b1', 'b2'], 'a1', 0, { id: listBHost.listId() });
+    expect(reorderService.removePersisted).toHaveBeenCalledWith(['a1', 'a2'], 'a1', { id: listAHost.listId() });
     expect(idsOf(listAHost.dragDrop.workPackages)).toEqual(['a2']);
   });
 });

@@ -41,8 +41,8 @@ import { BoardActionsRegistryService } from 'core-app/features/boards/board/boar
 import { BoardFiltersService } from 'core-app/features/boards/board/board-filter/board-filters.service';
 import { BoardListCrossSelectionService } from 'core-app/features/boards/board/board-list/board-list-cross-selection.service';
 import { BoardService } from 'core-app/features/boards/board/board.service';
-import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalEvent, HalEventsService } from 'core-app/features/hal/services/hal-events.service';
@@ -142,7 +142,6 @@ describe('board list reconciliation after work package saves', () => {
         LoadingIndicatorService,
         SchemaCacheService,
         BoardService,
-        CausedUpdatesService,
         KeepTabService,
         CurrentProjectService,
         PathHelperService,
@@ -180,6 +179,16 @@ describe('board list reconciliation after work package saves', () => {
     Object.assign(results, { count: 500, total: 501 });
     move();
     expect(reload).toHaveBeenCalledOnce();
+  });
+
+  it('reloads only when the poll differs from the revision represented by the cards', async () => {
+    const { component, reload } = await list('status');
+    component.query = { updatedAt: 'known' } as QueryResource;
+    component.refreshQueryIfOutdated({ updatedAt: 'known' } as QueryResource, false);
+    expect(reload).not.toHaveBeenCalled();
+
+    component.refreshQueryIfOutdated({ updatedAt: 'newer' } as QueryResource, false);
+    expect(reload).toHaveBeenCalledExactlyOnceWith(false);
   });
 
   it('refreshes the destination if a list request starts while persisting its order', async () => {
