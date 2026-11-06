@@ -155,7 +155,7 @@ RSpec.describe "Choosing the workflow a type uses", :js do
       open_workflow_create_dialog
       within_change_workflow_confirm_dialog { click_on I18n.t(:button_confirm) }
 
-      within_dialog I18n.t("workflows.form.new_title") do
+      within_dialog I18n.t("workflows.form.save_title") do
         fill_in "Workflow name", with: "Bug specific flow"
         click_on I18n.t(:button_create)
       end
@@ -198,7 +198,7 @@ RSpec.describe "Choosing the workflow a type uses", :js do
 
     open_workflow_create_dialog
 
-    within_dialog I18n.t("workflows.form.new_title") do
+    within_dialog I18n.t("workflows.form.save_title") do
       expect(page).to have_field("Workflow name", with: "Bug workflow (2)")
 
       fill_in "Workflow name", with: "Bug specific flow"

@@ -34,28 +34,29 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(record:, model_class:, copy_from_id: nil, ask_copy_source: true, url: nil)
+      def initialize(record:, model_class:, copy_from_id: nil, ask_copy_source: true, url: nil, creating: false)
         super()
 
         @record = record
         @model_class = model_class
         @copy_from_id = copy_from_id
+        @creating = creating
         @form_arguments = { record:, model_class:, copy_from_id:, ask_copy_source:, url: }
       end
 
       private
 
-      attr_reader :record, :model_class, :copy_from_id, :form_arguments
+      attr_reader :record, :model_class, :copy_from_id, :creating, :form_arguments
 
       def dialog_id = NameFormComponent.dialog_id(model_class)
 
       def form_id = NameFormComponent.form_id(model_class)
 
       def title
-        return reference_translate("form.edit_title") if record.persisted?
         return reference_translate("form.copy_title", name: copy_source.name) if copy_source
+        return reference_translate("form.edit_title") if record.persisted? && !creating
 
-        reference_translate("form.new_title")
+        reference_translate("form.save_title")
       end
 
       def copy_source

@@ -3648,7 +3648,7 @@ en:
       name:
         caption: "Pick a name that will let you identify this form later in other places."
         label: "Form name"
-      new_title: "Create form"
+      save_title: "Save form"
     index:
       actions:
         edit: "Edit form"
@@ -8485,7 +8485,7 @@ en:
       description:
         caption: "Add a short description about where and how will this workflow be used."
         label: "Description"
-      edit_title: "Save workflow"
+      edit_title: "Edit workflow"
       matrix_caption: "Workflow matrix"
       matrix_caption_assignee: "Workflow matrix for assignee"
       matrix_caption_author: "Workflow matrix for author"
@@ -8497,7 +8497,7 @@ en:
       name:
         caption: "Pick a name that will let you identify this workflow later in other places."
         label: "Workflow name"
-      new_title: "Create workflow"
+      save_title: "Save workflow"
     index:
       actions:
         create: "Workflow"

@@ -61,7 +61,7 @@ RSpec.describe "Type creation wizard workflows step", :js do
   def name_workflow_and_continue(name)
     click_on I18n.t(:button_continue)
 
-    within_dialog I18n.t("workflows.form.edit_title") do
+    within_dialog I18n.t("workflows.form.save_title") do
       fill_in "Workflow name", with: name
       click_on I18n.t(:button_save)
     end
@@ -88,7 +88,7 @@ RSpec.describe "Type creation wizard workflows step", :js do
       visit_workflow_wizard(roles: [role])
       click_on I18n.t(:button_continue)
 
-      within_dialog I18n.t("workflows.form.edit_title") do
+      within_dialog I18n.t("workflows.form.save_title") do
         expect(page).to have_field("Workflow name", with: "#{type.name} workflow")
       end
     end

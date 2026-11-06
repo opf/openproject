@@ -132,7 +132,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
     expect_chosen("new")
 
     click_on I18n.t(:button_continue)
-    within_dialog I18n.t("form_configurations.form.edit_title") do
+    within_dialog I18n.t("form_configurations.form.save_title") do
       expect(page).to have_field("Form name", with: "Incident form")
       fill_in "Form name", with: "Incident intake"
       fill_in "Description", with: "Used by the support team"
@@ -161,7 +161,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
     expect_chosen("new")
 
     click_on I18n.t(:button_continue)
-    within_dialog I18n.t("form_configurations.form.edit_title") do
+    within_dialog I18n.t("form_configurations.form.save_title") do
       fill_in "Form name", with: ""
       click_on I18n.t(:button_save)
 
