@@ -230,8 +230,9 @@ en:
       server: "reported by the server"
     features:
       description_assistant:
-        caption: "Rewrites and restructures work package text on request."
-        label: "Description assistant"
+        caption: "Runs the text actions users apply to work package descriptions, such as proofreading, rewriting and structuring."
+        caption_with_link: "Runs the [text actions](text_actions_url) users apply to work package descriptions, such as proofreading, rewriting and structuring."
+        label: "Text assistant"
       semantic_search:
         caption: "Indexes work packages so they can be found by meaning rather than by keyword."
         label: "Semantic search"

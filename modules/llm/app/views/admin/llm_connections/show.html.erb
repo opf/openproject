@@ -34,7 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
     header.with_description { t("admin.llm_connections.header_description") }
     header.with_breadcrumbs(
       [{ href: admin_index_path, text: t(:label_administration) },
-       { href: mcp_configurations_path, text: t("menus.admin.ai") },
+       { href: ai_landing_path, text: t("menus.admin.ai") },
        t("menus.admin.llm_connection")]
     )
     render_tab_header_nav(header, llm_settings_tabs, test_selector: "llm-settings--tabs")
