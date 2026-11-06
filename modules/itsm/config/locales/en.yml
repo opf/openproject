@@ -64,6 +64,7 @@ en:
         edit: Edit IMAP server configuration
         title: IMAP server configuration
       mail_servers: Mail servers
+      port: Port
       server_configuration_form:
         encryption: Encryption
         imap:

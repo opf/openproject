@@ -44,7 +44,7 @@ module ITSM
         return unless configured?
 
         server = MailServer.smtp.first
-        "#{server.host}:#{server.port} - #{server.encryption.upcase}"
+        "#{server.host} #{I18n.t('itsm.admin.port')}: #{server.port} - #{server.encryption.upcase}"
       end
     end
   end

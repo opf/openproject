@@ -89,7 +89,9 @@ module ITSM
       end
 
       def mail_server(protocol)
-        MailServer.find_or_initialize_by(protocol:, name: derive_server_name(protocol))
+        MailServer.find_or_initialize_by(protocol:) do |server|
+          server.name = derive_server_name(protocol)
+        end
       end
 
       def allowed_params
