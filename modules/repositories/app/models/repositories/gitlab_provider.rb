@@ -33,5 +33,17 @@ module Repositories
     store_attribute :options, :url, :string
     store_attribute :options, :gitlab_user_id, :string
     store_attribute :options, :webhook_secret, :string
+
+    # TODO: move into registry-style query methods (like we did for storages and wikis)
+    def branch_url(branch)
+      "#{branch.project_web_url}/-/tree/#{branch.name}"
+    end
+
+    def new_merge_request_url(branch)
+      query = { "merge_request[source_branch]" => branch.name }.to_query
+
+      "#{branch.project_web_url}/-/merge_requests/new?#{query}"
+    end
+    # END: move into registry-style query methods
   end
 end

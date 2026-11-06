@@ -1,0 +1,246 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "spec_helper"
+require_module_spec_helper
+require_relative "../support/pages/work_package_repositories_tab"
+
+RSpec.describe "Open the Repositories tab", :js, driver: :firefox_en do
+  let(:user) do
+    create(
+      :user,
+      member_with_roles: { project => role },
+      preferences: { warn_on_leaving_unsaved: false }
+    )
+  end
+
+  let(:role) do
+    create(:project_role,
+           permissions: %i(view_work_packages
+                           add_work_package_comments
+                           show_repository_content))
+  end
+
+  let(:project) do
+    create(:project,
+           enabled_module_names: %i[work_package_tracking repositories])
+  end
+
+  let(:work_package) { create(:work_package, project:, subject: "A test work_package") }
+
+  let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
+  let(:repositories_tab_element) { find(".op-tab-row--link_selected", text: "REPOSITORIES") }
+  let(:repositories_tab) { Pages::RepositoriesTab.new(work_package.id) }
+
+  let(:provider) { create(:repository_provider) }
+
+  let(:issue) do
+    create(:repository_issue, :open, provider:, work_packages: [work_package], title: "A Test Issue title")
+  end
+  let(:merge_request) do
+    create(:repository_merge_request, :open, provider:, work_packages: [work_package], title: "A Test MR title")
+  end
+  let(:branch) { create(:repository_branch, provider:, work_package:, name: "feature/a-test-branch") }
+  let(:commit) do
+    create(:repository_commit,
+           provider:,
+           work_packages: [work_package],
+           message: "A Test commit message\n\nWith a much longer description")
+  end
+
+  let(:pipeline) { create(:repository_pipeline, provider:, merge_request:) }
+
+  let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
+
+  shared_examples_for "a repositories tab" do
+    before do
+      provider
+      issue
+      pipeline
+      branch
+      commit
+
+      login_as(user)
+    end
+
+    # compares the clipboard content by drafting a new comment, pressing ctrl+v and
+    # comparing the pasted content against the provided text
+    def expect_clipboard_content(text)
+      work_package_page.switch_to_tab(tab: "activity")
+      work_package_page.wait_for_activity_tab
+
+      activity_tab.type_comment(" ") # This will both open the editor and type a space
+      activity_tab.clear_comment # Clear the comment to ensure clean state
+      repositories_tab.paste_clipboard_content
+      activity_tab.expect_unsaved_content(text)
+
+      work_package_page.switch_to_tab(tab: "repositories")
+    end
+
+    context "when the user is allowed to see the repositories tab" do
+      before do
+        work_package_page.visit!
+        work_package_page.switch_to_tab(tab: "repositories")
+        repositories_tab.wait_for_tab_loaded
+      end
+
+      it "shows the issues, merge requests, commits and branches associated with the work package" do
+        tabs.expect_counter(repositories_tab_element, expected_tab_count)
+
+        within("#issues") do
+          expect(page).to have_text("A Test Issue title")
+          expect(page).to have_text("Open")
+        end
+
+        within("#merge_requests") do
+          expect(page).to have_text("A Test MR title")
+          expect(page).to have_text("Open")
+        end
+
+        within("#branches") do
+          expect(page).to have_link("feature/a-test-branch", href: branch.web_url)
+          expect(page).to have_css("clipboard-copy[value='feature/a-test-branch']")
+          expect(page).to have_link("Create merge request", href: branch.new_merge_request_url)
+        end
+
+        within("#commits") do
+          expect(page).to have_text("A Test commit message")
+          expect(page).to have_no_text("With a much longer description")
+        end
+      end
+
+      it "allows the user to copy the branch name to the clipboard" do
+        pending "In headless mode, the clipboard content is not copied to the clipboard, how to fix?"
+
+        page.click_on "Git snippets"
+        repositories_tab.git_actions_copy_branch_name_button.click
+
+        expect(page).to have_text("Copied!")
+        expect_clipboard_content("#{work_package.type.name.downcase}/#{work_package.id}-a-test-work_package")
+      end
+
+      it "shows a commit message with newlines between title and link" do
+        page.click_on "Git snippets"
+
+        within_dialog do
+          commit_message = "OP##{work_package.id} A test work_package\n#{work_package_short_url(work_package)}"
+          expect(page).to have_test_selector("git-snippets-commit-message", text: commit_message)
+        end
+      end
+
+      it "allows the user to copy a commit message with newlines between title and link to the clipboard" do
+        pending "In headless mode, the clipboard content is not copied to the clipboard, how to fix?"
+        page.click_on "Git snippets"
+        repositories_tab.git_actions_copy_commit_message_button.click
+
+        expect(page).to have_text("Copied!")
+        expect_clipboard_content("A test work_package\nhttp://")
+      end
+    end
+
+    context "when there are no related Repository elements" do
+      let(:pipeline) { nil }
+      let(:merge_request) { nil }
+      let(:issue) { nil }
+      let(:branch) { nil }
+      let(:commit) { nil }
+
+      before do
+        work_package_page.visit!
+        work_package_page.switch_to_tab(tab: "repositories")
+        repositories_tab.wait_for_tab_loaded
+      end
+
+      it "shows the repositories tab with an empty message" do
+        tabs.expect_no_counter(repositories_tab_element)
+
+        expect(page).to have_text("No issues")
+        expect(page).to have_css(".octicon-issue-opened")
+        expect(page).to have_text("Link an issue by adding the code OP##{work_package.id} to " \
+                                  "the title or description.")
+
+        expect(page).to have_text("No merge requests")
+        expect(page).to have_css(".octicon-git-pull-request")
+        expect(page).to have_text("Link a merge request by adding the code OP##{work_package.id} to " \
+                                  "the title or description.")
+
+        expect(page).to have_text("No branches")
+        expect(page).to have_css(".octicon-git-branch")
+        expect(page).to have_text("Link a branch by naming the branch, so that it starts with " \
+                                  "#{work_package.type.name.parameterize}/#{work_package.id} or only #{work_package.id}.")
+
+        expect(page).to have_text("No commits")
+        expect(page).to have_css(".octicon-git-commit")
+        expect(page).to have_text("Link a commit by adding the code OP##{work_package.id} or the URL " \
+                                  "#{project_work_package_url(work_package.project, work_package)} to the commit message.")
+      end
+    end
+
+    context "when the user does not have the permissions to see the repositories tab" do
+      let(:role) do
+        create(:project_role,
+               permissions: %i(view_work_packages
+                               add_work_package_comments))
+      end
+
+      it "does not show the repositories tab" do
+        work_package_page.visit!
+
+        repositories_tab.expect_tab_not_present
+      end
+    end
+
+    context "when the repositories module is not enabled for the project" do
+      let(:project) { create(:project, disable_modules: "repositories") }
+
+      it "does not show the repositories tab" do
+        work_package_page.visit!
+
+        repositories_tab.expect_tab_not_present
+      end
+    end
+  end
+
+  describe "work package full view" do
+    let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
+    let(:expected_tab_count) { 4 }
+
+    it_behaves_like "a repositories tab"
+  end
+
+  describe "work package split view" do
+    let(:work_package_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
+    let(:tabs) { Components::WorkPackages::PrimerizedTabs.new }
+    let(:repositories_tab_element) { "repositories" }
+    let(:expected_tab_count) { 4 }
+
+    it_behaves_like "a repositories tab"
+  end
+end

@@ -11,4 +11,74 @@ en:
       repositories/provider:
         one: Repository provider
         other: Repository providers
-  repositories: {}
+  permission_show_repository_content: Show repository content
+  project_module_repositories: Repositories
+
+  repositories:
+    branch_component:
+      copy_name: Copy branch name
+      create_merge_request: Create merge request
+      updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
+    commit_component:
+      authored_at: Authored on %{date_time}.
+      copy_sha: Copy SHA to clipboard
+      created_by: Created by %{name}.
+      empty_message: <empty commit message>
+    git_snippets_dialog_component:
+      branch_name: Branch name
+      commit_message: Commit message
+      copy_branch_name: Copy branch name
+      copy_commit_message: Copy commit message
+      copy_create_branch_command: Copy command to create a branch with empty commit
+      create_branch_with_empty_commit: Create branch with empty commit
+      title: Git quick snippets
+    issue_component:
+      states:
+        closed: Closed
+        opened: Open
+      updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
+    merge_request_component:
+      pipeline_statuses:
+        canceled: Canceled
+        canceling: Canceling
+        created: Created
+        failed: Failed
+        manual: Manual
+        pending: Pending
+        preparing: Preparing
+        running: Running
+        scheduled: Scheduled
+        skipped: Skipped
+        success: Success
+        waiting_for_callback: Waiting for callback
+        waiting_for_resource: Waiting for resource
+      states:
+        closed: Closed
+        locked: Locked
+        merged: Merged
+        opened: Open
+      updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
+    work_package_tab_component:
+      blank_slates:
+        branches:
+          description_html: Link a branch by naming the branch, so that it starts with %{code} or only %{identifier}.
+          title: No branches
+        commits:
+          description_html: Link a commit by adding the code %{code} or the URL %{url} to the commit message.
+          title: No commits
+        issues:
+          description_html: Link an issue by adding the code %{code} to the title or description.
+          title: No issues
+        merge_requests:
+          description_html: Link a merge request by adding the code %{code} to the title or description.
+          title: No merge requests
+      branches: Branches
+      commits: Commits
+      description_html: Link an existing GitLab element by adding the code %{code} to the title or description.
+      git_snippets: Git snippets
+      issues: Issues
+      merge_requests: Merge requests
+      snippets_button_label: Git snippets
